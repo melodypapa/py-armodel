@@ -217,6 +217,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     ARNumerical,
     Limit,
+    PositiveInteger,
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
@@ -7832,7 +7833,16 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCommunicationConnector(self, element: ET.Element, connector: CommunicationConnector):
         self.writeIdentifiable(element, connector)
         self.setChildElementOptionalRefType(element, "COMM-CONTROLLER-REF", connector.getCommControllerRef())
+        self.setChildElementOptionalBooleanValue(element, "CREATE-ECU-WAKEUP-SOURCE", connector.getCreateEcuWakeupSource())
+        self.setChildElementOptionalBooleanValue(element, "DYNAMIC-PNC-TO-CHANNEL-MAPPING-ENABLED", connector.getDynamicPncToChannelMappingEnabled())
         self.writeCommunicationConnectorEcuCommPortInstances(element, connector)
+        masks = connector.getPncFilterArrayMasks()
+        if len(masks) > 0:
+            masks_tag = ET.SubElement(element, "PNC-FILTER-ARRAY-MASKS")
+            for mask in masks:
+                mask_value = PositiveInteger()
+                mask_value.setValue(mask)
+                self.setChildElementOptionalPositiveInteger(masks_tag, "PNC-FILTER-ARRAY-MASK", mask_value)
         self.setChildElementOptionalLiteral(element, "PNC-GATEWAY-TYPE", connector.getPncGatewayType())
 
     def writeCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):

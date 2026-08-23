@@ -2630,6 +2630,28 @@ class TestEcuInstanceHandlers:
         with pytest.raises(Exception):
             parser.readCommunicationConnectorEcuCommPortInstances(element, conn)
 
+    def test_readCommunicationConnector_sets_optional_attributes(self, parser):
+        from armodel.models import CanCommunicationConnector, EcuInstance
+
+        instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
+        conn = CanCommunicationConnector(parent=instance, short_name="conn")
+        element = _snip(
+            "<SHORT-NAME>conn</SHORT-NAME>"
+            "<CREATE-ECU-WAKEUP-SOURCE>true</CREATE-ECU-WAKEUP-SOURCE>"
+            "<DYNAMIC-PNC-TO-CHANNEL-MAPPING-ENABLED>false</DYNAMIC-PNC-TO-CHANNEL-MAPPING-ENABLED>"
+            "<PNC-FILTER-ARRAY-MASKS>"
+            "<PNC-FILTER-ARRAY-MASK>255</PNC-FILTER-ARRAY-MASK>"
+            "<PNC-FILTER-ARRAY-MASK>1</PNC-FILTER-ARRAY-MASK>"
+            "</PNC-FILTER-ARRAY-MASKS>"
+            "<PNC-GATEWAY-TYPE>active</PNC-GATEWAY-TYPE>",
+            root_tag="CAN-COMMUNICATION-CONNECTOR",
+        )
+        parser.readCommunicationConnector(element, conn)
+        assert conn.getCreateEcuWakeupSource().getValue() is True
+        assert conn.getDynamicPncToChannelMappingEnabled().getValue() is False
+        assert conn.getPncFilterArrayMasks() == [255, 1]
+        assert conn.getPncGatewayType().getValue() == "active"
+
     def test_readFramePort_sets_communicationDirection(self, parser):
         from armodel.models import CanCommunicationConnector, EcuInstance, FramePort
 

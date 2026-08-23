@@ -8317,7 +8317,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readCommunicationConnector(self, element: ET.Element, connector: CommunicationConnector):
         self.readIdentifiable(element, connector)
         connector.setCommControllerRef(self.getChildElementOptionalRefType(element, "COMM-CONTROLLER-REF"))
+        connector.setCreateEcuWakeupSource(self.getChildElementOptionalBooleanValue(element, "CREATE-ECU-WAKEUP-SOURCE"))
+        connector.setDynamicPncToChannelMappingEnabled(self.getChildElementOptionalBooleanValue(element, "DYNAMIC-PNC-TO-CHANNEL-MAPPING-ENABLED"))
         self.readCommunicationConnectorEcuCommPortInstances(element, connector)
+        for mask in self.findall(element, "PNC-FILTER-ARRAY-MASKS/PNC-FILTER-ARRAY-MASK"):
+            if mask.text is not None:
+                connector.addPncFilterArrayMask(int(mask.text.strip()))
         connector.setPncGatewayType(self.getChildElementOptionalLiteral(element, "PNC-GATEWAY-TYPE"))
 
     def readCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):

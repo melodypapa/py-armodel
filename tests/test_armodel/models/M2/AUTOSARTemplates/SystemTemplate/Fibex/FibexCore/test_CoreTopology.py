@@ -675,7 +675,7 @@ class Test_FibexCoreTopology:
         assert pdu_triggering in channel.getPduTriggerings()
 
     def test_CommunicationConnector_methods(self):
-        """Test CommunicationConnector concrete implementation methods."""
+        """Test CommunicationConnector concrete implementation methods (Table 3.4)."""
 
         class ConcreteCommunicationConnector(CommunicationConnector):
             def __init__(self, parent, short_name):
@@ -692,38 +692,58 @@ class Test_FibexCoreTopology:
         assert connector.getPncFilterArrayMasks() == []
         assert connector.getPncGatewayType() is None
 
-        # Test setter/getter methods with method chaining
+        # commController (ref, CommunicationController, 0..1)
         ref1 = object()
         connector.setCommControllerRef(ref1)
         assert connector.getCommControllerRef() == ref1
-        assert connector == connector.setCommControllerRef(ref1)  # Test method chaining
+        assert connector == connector.setCommControllerRef(ref1)  # method chaining
+        assert connector == connector.setCommControllerRef(None)  # None no-op
+        assert connector.getCommControllerRef() == ref1  # unchanged
 
+        # createEcuWakeupSource (attr, Boolean, 0..1)
         connector.setCreateEcuWakeupSource(True)
-        assert connector.getCreateEcuWakeupSource() is True
-        assert connector == connector.setCreateEcuWakeupSource(True)  # Test method chaining
+        assert connector.getCreateEcuWakeupSource().getValue() is True
+        assert connector == connector.setCreateEcuWakeupSource(True)  # method chaining
+        assert connector == connector.setCreateEcuWakeupSource(None)  # None no-op
+        assert connector.getCreateEcuWakeupSource().getValue() is True  # unchanged
 
+        # dynamicPncToChannelMappingEnabled (attr, Boolean, 0..1)
         connector.setDynamicPncToChannelMappingEnabled(False)
-        assert connector.getDynamicPncToChannelMappingEnabled() is False
-        assert connector == connector.setDynamicPncToChannelMappingEnabled(False)  # Test method chaining
+        assert connector.getDynamicPncToChannelMappingEnabled().getValue() is False
+        assert connector == connector.setDynamicPncToChannelMappingEnabled(False)  # method chaining
+        assert connector == connector.setDynamicPncToChannelMappingEnabled(None)  # None no-op
+        assert connector.getDynamicPncToChannelMappingEnabled().getValue() is False  # unchanged
 
+        # pncGatewayType (attr, PncGatewayTypeEnum, 0..1)
         connector.setPncGatewayType(PncGatewayTypeEnum.ENUM_ACTIVE)
         assert connector.getPncGatewayType() == PncGatewayTypeEnum.ENUM_ACTIVE
-        assert connector == connector.setPncGatewayType(PncGatewayTypeEnum.ENUM_ACTIVE)  # Test method chaining
+        assert connector == connector.setPncGatewayType(PncGatewayTypeEnum.ENUM_ACTIVE)  # method chaining
+        assert connector == connector.setPncGatewayType(None)  # None no-op
+        assert connector.getPncGatewayType() == PncGatewayTypeEnum.ENUM_ACTIVE  # unchanged
 
-        # Test PNC filter array mask methods
+        # pncFilterArrayMask (ordered, attr, PositiveInteger, *)
         connector.addPncFilterArrayMask(0xFF)
-        assert 0xFF in connector.getPncFilterArrayMasks()
-        assert connector == connector.addPncFilterArrayMask(0xFF)  # Test method chaining
+        connector.addPncFilterArrayMask(0x01)
+        assert connector.getPncFilterArrayMasks() == [0xFF, 0x01]  # ordered
+        assert connector == connector.addPncFilterArrayMask(0x01)  # method chaining
 
-        # Test port creation methods
+        # ecuCommPortInstance (aggr, CommConnectorPort, *) -> dedicated typed list
         frame_port = connector.createFramePort("frame_port")
         assert isinstance(frame_port, FramePort)
-        assert len(connector.getEcuCommPortInstances()) >= 1  # At least one port created
+        assert frame_port in connector.getEcuCommPortInstances()
+        assert len(connector.getEcuCommPortInstances()) == 1  # exactly one port
 
         ipdu_port = connector.createIPduPort("ipdu_port")
         assert isinstance(ipdu_port, IPduPort)
-        assert len(connector.getEcuCommPortInstances()) >= 2  # Another port created
+        assert ipdu_port in connector.getEcuCommPortInstances()
+        assert len(connector.getEcuCommPortInstances()) == 2
 
         isignal_port = connector.createISignalPort("isignal_port")
         assert isinstance(isignal_port, ISignalPort)
-        assert len(connector.getEcuCommPortInstances()) >= 3  # Another port created
+        assert isignal_port in connector.getEcuCommPortInstances()
+        assert len(connector.getEcuCommPortInstances()) == 3
+
+        # createXxx returns the existing element on duplicate short name
+        dup = connector.createFramePort("frame_port")
+        assert dup is frame_port
+        assert len(connector.getEcuCommPortInstances()) == 3  # no duplicate

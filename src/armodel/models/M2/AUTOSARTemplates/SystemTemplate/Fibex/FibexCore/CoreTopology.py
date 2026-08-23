@@ -1016,28 +1016,28 @@ class ISignalPort(CommConnectorPort):
 
 class CommunicationConnector(Identifiable, ABC):
     """
-    Abstract base class for communication connectors,
-    defining common properties for connecting communication
-    controllers to communication channels and managing
-    port instances and gateway types.
+    The connection between the referencing ECU and the referenced channel via the referenced controller. Connectors are used to describe the bus interfaces of the ECUs and to specify the sending/receiving behavior. Each CommunicationConnector has a reference to exactly one communicationController. Note: Several CommunicationConnectors can be assigned to one PhysicalChannel in the scope of one ECU Instance.
     """
 
     # CommunicationConnector method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCommControllerRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] setCommControllerRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] getCreateEcuWakeupSource     [x] impl  [ ] docstring  [ ] test
-    # [ ] setCreateEcuWakeupSource     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDynamicPncToChannelMappingEnabled [x] impl  [ ] docstring  [ ] test
-    # [ ] setDynamicPncToChannelMappingEnabled [x] impl  [ ] docstring  [ ] test
-    # [ ] getEcuCommPortInstances      [x] impl  [ ] docstring  [ ] test
-    # [ ] createFramePort              [x] impl  [ ] docstring  [ ] test
-    # [ ] createIPduPort               [x] impl  [ ] docstring  [ ] test
-    # [ ] createISignalPort            [x] impl  [ ] docstring  [ ] test
-    # [ ] getPncFilterArrayMasks       [x] impl  [ ] docstring  [ ] test
-    # [ ] addPncFilterArrayMask        [x] impl  [ ] docstring  [ ] test
-    # [ ] getPncGatewayType            [x] impl  [ ] docstring  [ ] test
-    # [ ] setPncGatewayType            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.4, p.54
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCommControllerRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCommControllerRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCreateEcuWakeupSource                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCreateEcuWakeupSource                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDynamicPncToChannelMappingEnabled    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDynamicPncToChannelMappingEnabled    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEcuCommPortInstances                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createFramePort                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createIPduPort                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createISignalPort                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPncFilterArrayMasks                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addPncFilterArrayMask                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPncGatewayType                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPncGatewayType                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationConnector:
@@ -1045,68 +1045,139 @@ class CommunicationConnector(Identifiable, ABC):
 
         super().__init__(parent, short_name)
 
-        self.commControllerRef: RefType = None
-        self.createEcuWakeupSource: Boolean = None
-        self.dynamicPncToChannelMappingEnabled: Boolean = None
-        self.ecuCommPortInstances: List[CommConnectorPort] = []
-        self.pncFilterArrayMasks: List[PositiveInteger] = []
-        self.pncGatewayType: PncGatewayTypeEnum = None
+        # Reference to the communication controller. The CommunicationConnector and referenced CommunicationController shall be aggregated by the same ECUInstance. The communicationController can be referenced by several CommunicationConnector elements. This is important for the FlexRay Bus. FlexRay communicates via two physical channels. But only one controller in an ECU is responsible for both channels. Thus, two connectors (for channel A and for channel B) shall reference to the same controller.
+        self.commControllerRef: Optional[RefType] = None
 
-    def getCommControllerRef(self):
+        # If this parameter is available and set to true then a channel wakeup source shall be created for the Physical Channel referencing this CommunicationConnector.
+        self.createEcuWakeupSource: Optional[Boolean] = None
+
+        # Defines if this EcuInstance shall implement the dynamic PNC-to-channel-mapping functionality on this CommunicationConnector and its respective Physical Channel. Tags: atp.Status=draft
+        self.dynamicPncToChannelMappingEnabled: Optional[Boolean] = None
+
+        # An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.ecuCommPortInstances: List[CommConnectorPort] = []
+
+        # Bit mask for NM-Pdu Payload used to configure the NM filter mask for the Network Management.
+        self.pncFilterArrayMasks: List[PositiveInteger] = []
+
+        # Defines if this EcuInstance shall implement the Pnc Gateway functionality on this CommunicationConnector and its respective PhysicalChannel. Several Ecu Instances on the same PhysicalChannel can have the PncGateway functionality enabled, but only one of them shall have the pncGatewayType "active".
+        self.pncGatewayType: Optional[PncGatewayTypeEnum] = None
+
+    def getCommControllerRef(self) -> Optional[RefType]:
+        """
+        Reference to the communication controller. The CommunicationConnector and referenced CommunicationController shall be aggregated by the same ECUInstance. The communicationController can be referenced by several CommunicationConnector elements. This is important for the FlexRay Bus. FlexRay communicates via two physical channels. But only one controller in an ECU is responsible for both channels. Thus, two connectors (for channel A and for channel B) shall reference to the same controller.
+        """
         return self.commControllerRef
 
-    def setCommControllerRef(self, value):
-        self.commControllerRef = value
+    def setCommControllerRef(self, value: Optional[RefType]) -> "CommunicationConnector":
+        """
+        Reference to the communication controller. The CommunicationConnector and referenced CommunicationController shall be aggregated by the same ECUInstance. The communicationController can be referenced by several CommunicationConnector elements. This is important for the FlexRay Bus. FlexRay communicates via two physical channels. But only one controller in an ECU is responsible for both channels. Thus, two connectors (for channel A and for channel B) shall reference to the same controller.
+        A None value is a no-op and does not overwrite an existing commControllerRef.
+        """
+        if value is not None:
+            self.commControllerRef = value
         return self
 
-    def getCreateEcuWakeupSource(self):
+    def getCreateEcuWakeupSource(self) -> Optional[Boolean]:
+        """
+        If this parameter is available and set to true then a channel wakeup source shall be created for the Physical Channel referencing this CommunicationConnector.
+        """
         return self.createEcuWakeupSource
 
-    def setCreateEcuWakeupSource(self, value):
-        self.createEcuWakeupSource = value
+    def setCreateEcuWakeupSource(self, value: Optional[Boolean]) -> "CommunicationConnector":
+        """
+        If this parameter is available and set to true then a channel wakeup source shall be created for the Physical Channel referencing this CommunicationConnector.
+        A None value is a no-op and does not overwrite an existing createEcuWakeupSource.
+        """
+        if value is not None:
+            if not isinstance(value, Boolean):
+                boolean = Boolean()
+                boolean.setValue(value)
+                value = boolean
+            self.createEcuWakeupSource = value
         return self
 
-    def getDynamicPncToChannelMappingEnabled(self):
+    def getDynamicPncToChannelMappingEnabled(self) -> Optional[Boolean]:
+        """
+        Defines if this EcuInstance shall implement the dynamic PNC-to-channel-mapping functionality on this CommunicationConnector and its respective Physical Channel. Tags: atp.Status=draft
+        """
         return self.dynamicPncToChannelMappingEnabled
 
-    def setDynamicPncToChannelMappingEnabled(self, value):
-        self.dynamicPncToChannelMappingEnabled = value
+    def setDynamicPncToChannelMappingEnabled(self, value: Optional[Boolean]) -> "CommunicationConnector":
+        """
+        Defines if this EcuInstance shall implement the dynamic PNC-to-channel-mapping functionality on this CommunicationConnector and its respective Physical Channel. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing dynamicPncToChannelMappingEnabled.
+        """
+        if value is not None:
+            if not isinstance(value, Boolean):
+                boolean = Boolean()
+                boolean.setValue(value)
+                value = boolean
+            self.dynamicPncToChannelMappingEnabled = value
         return self
 
-    def getEcuCommPortInstances(self):
-        return list(sorted(filter(lambda a: isinstance(a, CommConnectorPort), self.elements), key=lambda o: o.getShortName()))
+    def getEcuCommPortInstances(self) -> List[CommConnectorPort]:
+        """
+        An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return list(sorted(self.ecuCommPortInstances, key=lambda o: o.getShortName()))
 
     def createFramePort(self, short_name) -> FramePort:
-        if short_name not in self.elements:
+        """
+        An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if self.getElement(short_name) is None:
             port = FramePort(self, short_name)
             self.addElement(port)
             self.ecuCommPortInstances.append(port)
         return self.getElement(short_name)
 
     def createIPduPort(self, short_name) -> IPduPort:
-        if short_name not in self.elements:
+        """
+        An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if self.getElement(short_name) is None:
             port = IPduPort(self, short_name)
             self.addElement(port)
             self.ecuCommPortInstances.append(port)
         return self.getElement(short_name)
 
     def createISignalPort(self, short_name) -> ISignalPort:
-        if short_name not in self.elements:
+        """
+        An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if self.getElement(short_name) is None:
             port = ISignalPort(self, short_name)
             self.addElement(port)
             self.ecuCommPortInstances.append(port)
         return self.getElement(short_name)
 
-    def getPncFilterArrayMasks(self):
+    def getPncFilterArrayMasks(self) -> List[PositiveInteger]:
+        """
+        Bit mask for NM-Pdu Payload used to configure the NM filter mask for the Network Management.
+        """
         return self.pncFilterArrayMasks
 
-    def addPncFilterArrayMask(self, value):
-        self.pncFilterArrayMasks.append(value)
+    def addPncFilterArrayMask(self, value: Optional[PositiveInteger]) -> "CommunicationConnector":
+        """
+        Bit mask for NM-Pdu Payload used to configure the NM filter mask for the Network Management.
+        A None value is a no-op and does not overwrite an existing pncFilterArrayMasks.
+        """
+        if value is not None:
+            self.pncFilterArrayMasks.append(value)
         return self
 
-    def getPncGatewayType(self):
+    def getPncGatewayType(self) -> Optional[PncGatewayTypeEnum]:
+        """
+        Defines if this EcuInstance shall implement the Pnc Gateway functionality on this CommunicationConnector and its respective PhysicalChannel. Several Ecu Instances on the same PhysicalChannel can have the PncGateway functionality enabled, but only one of them shall have the pncGatewayType "active".
+        """
         return self.pncGatewayType
 
-    def setPncGatewayType(self, value):
-        self.pncGatewayType = value
+    def setPncGatewayType(self, value: Optional[PncGatewayTypeEnum]) -> "CommunicationConnector":
+        """
+        Defines if this EcuInstance shall implement the Pnc Gateway functionality on this CommunicationConnector and its respective PhysicalChannel. Several Ecu Instances on the same PhysicalChannel can have the PncGateway functionality enabled, but only one of them shall have the pncGatewayType "active".
+        A None value is a no-op and does not overwrite an existing pncGatewayType.
+        """
+        if value is not None:
+            self.pncGatewayType = value
         return self
