@@ -137,7 +137,7 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 - [ ] CanTpAddress (member of CanTpConfig.tpAddress · markdown · Table 6.255)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
