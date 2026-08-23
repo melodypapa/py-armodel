@@ -728,33 +728,74 @@ class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
 
 class ConstantSpecificationMapping(ARObject):
     """
-    Represents a mapping between constant specifications.
+    This meta-class is used to create an association of two ConstantSpecifications. One Constant Specification is supposed to be defined in the application domain while the other should be defined in the implementation domain. Hence the ConstantSpecificationMapping needs to be used where a ConstantSpecification defined in one domain needs to be associated to a ConstantSpecification in the other domain. This information is crucial for the RTE generator.
     """
 
     # ConstantSpecificationMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSourceRef                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setSourceRef                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetRef                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetRef                 [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.118, p.443
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getApplConstantRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setApplConstantRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getImplConstantRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setImplConstantRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
-        self.sourceRef: RefType = None
-        self.targetRef: RefType = None
 
-    def getSourceRef(self):
-        return self.sourceRef
+        # A ConstantSpecification defined in the application domain.
+        self.applConstantRef: Optional[RefType] = None
 
-    def setSourceRef(self, value):
-        self.sourceRef = value
+        # A ConstantSpecification defined in the implementation domain.
+        self.implConstantRef: Optional[RefType] = None
+
+    def getApplConstantRef(self) -> Optional[RefType]:
+        """
+        A ConstantSpecification defined in the application domain.
+
+        Returns:
+            Optional[RefType]: A ConstantSpecification defined in the application domain., or None if not set
+        """
+        return self.applConstantRef
+
+    def setApplConstantRef(self, value: Optional[RefType]) -> "ConstantSpecificationMapping":
+        """
+        A ConstantSpecification defined in the application domain.
+        A None value is a no-op and does not overwrite an existing applConstantRef.
+
+        Args:
+            value: A ConstantSpecification defined in the application domain. to set
+
+        Returns:
+            ConstantSpecificationMapping: self for method chaining
+        """
+        if value is not None:
+            self.applConstantRef = value
         return self
 
-    def getTargetRef(self):
-        return self.targetRef
+    def getImplConstantRef(self) -> Optional[RefType]:
+        """
+        A ConstantSpecification defined in the implementation domain.
 
-    def setTargetRef(self, value):
-        self.targetRef = value
+        Returns:
+            Optional[RefType]: A ConstantSpecification defined in the implementation domain., or None if not set
+        """
+        return self.implConstantRef
+
+    def setImplConstantRef(self, value: Optional[RefType]) -> "ConstantSpecificationMapping":
+        """
+        A ConstantSpecification defined in the implementation domain.
+        A None value is a no-op and does not overwrite an existing implConstantRef.
+
+        Args:
+            value: A ConstantSpecification defined in the implementation domain. to set
+
+        Returns:
+            ConstantSpecificationMapping: self for method chaining
+        """
+        if value is not None:
+            self.implConstantRef = value
         return self
 
 

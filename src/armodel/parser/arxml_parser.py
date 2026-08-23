@@ -55,7 +55,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     TextValueSpecification,
     ValueSpecification,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NotAvailableValueSpecification, NumericalOrText
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    ConstantSpecificationMapping,
+    NotAvailableValueSpecification,
+    NumericalOrText,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps
@@ -5421,6 +5425,13 @@ class ARXMLParser(AbstractARXMLParser):
         self.readValueSpecification(element, value_spec)
         value_spec.setDefaultPattern(self.getChildElementOptionalPositiveInteger(element, "DEFAULT-PATTERN"))
         return value_spec
+
+    def getConstantSpecificationMapping(self, element: ET.Element) -> ConstantSpecificationMapping:
+        mapping = ConstantSpecificationMapping()
+        self.readARObjectAttributes(element, mapping)
+        mapping.setApplConstantRef(self.getChildElementOptionalRefType(element, "APPL-CONSTANT-REF"))
+        mapping.setImplConstantRef(self.getChildElementOptionalRefType(element, "IMPL-CONSTANT-REF"))
+        return mapping
 
     def getValueSpecification(self, element: ET.Element, tag_name: str) -> ValueSpecification:
         if tag_name == "APPLICATION-VALUE-SPECIFICATION":

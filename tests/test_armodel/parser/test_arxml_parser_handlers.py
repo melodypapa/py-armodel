@@ -565,6 +565,28 @@ class TestDataTypeAndValueSpecHandlers:
         assert isinstance(spec, NotAvailableValueSpecification)
         assert spec.getDefaultPattern() is None
 
+    def test_getConstantSpecificationMapping_with_refs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ConstantSpecificationMapping
+
+        root = _snip(
+            "<CONSTANT-SPECIFICATION-MAPPING>"
+            "<APPL-CONSTANT-REF DEST='CONSTANT-SPECIFICATION'>/Appl/Const</APPL-CONSTANT-REF>"
+            "<IMPL-CONSTANT-REF DEST='CONSTANT-SPECIFICATION'>/Impl/Const</IMPL-CONSTANT-REF>"
+            "</CONSTANT-SPECIFICATION-MAPPING>",
+            root_tag="PARENT",
+        )
+        mapping = parser.getConstantSpecificationMapping(root[0])
+        assert isinstance(mapping, ConstantSpecificationMapping)
+        assert mapping.getApplConstantRef().getValue() == "/Appl/Const"
+        assert mapping.getImplConstantRef().getValue() == "/Impl/Const"
+
+    def test_getConstantSpecificationMapping_without_refs(self, parser):
+        root = _snip("<CONSTANT-SPECIFICATION-MAPPING/>", root_tag="PARENT")
+        mapping = parser.getConstantSpecificationMapping(root[0])
+        assert mapping is not None
+        assert mapping.getApplConstantRef() is None
+        assert mapping.getImplConstantRef() is None
+
     def test_readApplicationValueSpecification_populates_fields(self, parser):
         from armodel.models import ApplicationValueSpecification
 

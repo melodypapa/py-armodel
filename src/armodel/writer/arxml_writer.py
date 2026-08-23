@@ -55,7 +55,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     TextValueSpecification,
     ValueSpecification,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NotAvailableValueSpecification, NumericalOrText
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    ConstantSpecificationMapping,
+    NotAvailableValueSpecification,
+    NumericalOrText,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Compiler, DependencyOnArtifact, Implementation, ImplementationProps, Linker
@@ -1292,6 +1296,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             value_spec_tag = ET.SubElement(element, "NOT-AVAILABLE-VALUE-SPECIFICATION")
             self.writeValueSpecification(value_spec_tag, value_spec)
             self.setChildElementOptionalPositiveInteger(value_spec_tag, "DEFAULT-PATTERN", value_spec.getDefaultPattern())
+
+    def writeConstantSpecificationMapping(self, element: ET.Element, mapping: ConstantSpecificationMapping):
+        if mapping is not None:
+            mapping_tag = ET.SubElement(element, "CONSTANT-SPECIFICATION-MAPPING")
+            self.writeARObjectAttributes(mapping_tag, mapping)
+            self.setChildElementOptionalRefType(mapping_tag, "APPL-CONSTANT-REF", mapping.getApplConstantRef())
+            self.setChildElementOptionalRefType(mapping_tag, "IMPL-CONSTANT-REF", mapping.getImplConstantRef())
 
     def setChildValueSpecification(self, element: ET.Element, key: str, value_spec: ValueSpecification):
         if value_spec is not None:
