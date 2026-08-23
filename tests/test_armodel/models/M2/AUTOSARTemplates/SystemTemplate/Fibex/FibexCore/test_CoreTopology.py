@@ -118,11 +118,12 @@ class Test_FibexCoreTopology:
             AbstractCanPhysicalChannel(parent, "test_abstract_can_physical_channel")
 
     def test_CanPhysicalChannel(self):
-        """Test CanPhysicalChannel class functionality."""
+        """Test CanPhysicalChannel class functionality (Table 3.21)."""
         parent = MockParent()
         channel = CanPhysicalChannel(parent, "test_can_physical_channel")
 
         assert isinstance(channel, PhysicalChannel)
+        assert isinstance(channel, AbstractCanPhysicalChannel)
 
     def test_LinPhysicalChannel(self):
         """Test LinPhysicalChannel class functionality."""

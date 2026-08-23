@@ -251,13 +251,14 @@ class PhysicalChannel(Identifiable, ABC):
 
 class AbstractCanPhysicalChannel(PhysicalChannel, ABC):
     """
-    Abstract base class for CAN physical channels, defining
-    common properties for CAN-specific physical communication
-    channels in the AUTOSAR system.
+    Abstract class that is used to collect the common TtCAN and CAN PhysicalChannel attributes.
     """
 
     # AbstractCanPhysicalChannel method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.20, p.73
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # (no own attributes; Base = ARObject, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable)
 
     def __init__(self, parent, short_name):
         if type(self) is AbstractCanPhysicalChannel:
@@ -268,13 +269,14 @@ class AbstractCanPhysicalChannel(PhysicalChannel, ABC):
 
 class CanPhysicalChannel(AbstractCanPhysicalChannel):
     """
-    Represents a CAN physical channel in the communication system,
-    implementing specific properties for CAN bus communication
-    including frame triggering and connector management.
+    CAN bus specific physical channel attributes.
     """
 
     # CanPhysicalChannel method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.21, p.73
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # (no own attributes; Base = ARObject, AbstractCanPhysicalChannel, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable)
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)

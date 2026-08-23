@@ -497,6 +497,19 @@ class TestWritePhysicalChannelHelpers:
         writer.writePhysicalChannelCommConnectorRefs(parent, ch)
         assert len(parent) == 0
 
+    def test_roundtrip_can_physical_channel(self, writer):
+        pkg = _pkg()
+        ch = CanPhysicalChannel(pkg, "Ch")
+        ch.addCommConnectorRef(_ref("COMMUNICATION-CONNECTOR", "/cc"))
+        parent = _parent()
+        writer.writeCanPhysicalChannel(parent, ch)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanPhysicalChannel(pkg, "Ch2")
+        parser.readCanPhysicalChannel(parser.find(ET.fromstring(xml_str), "CAN-PHYSICAL-CHANNEL"), reloaded)
+        assert reloaded.getCommConnectorRefs()[0].getValue() == "/cc"
+
     def test_write_pc_comm_connector_refs(self, writer):
         pkg = _pkg()
         ch = CanPhysicalChannel(pkg, "Ch")
