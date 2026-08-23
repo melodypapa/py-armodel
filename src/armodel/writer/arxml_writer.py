@@ -436,7 +436,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
+    CanFrame,
+    CanFrameTriggering,
+    CanXlFrameTriggeringProps,
+    RxIdentifierRange,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
     AbstractCanCommunicationController,
@@ -9215,6 +9220,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalRefType(child_element, "FRAME-REF", frame.getFrameRef())
             self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID", frame.getMessageId())
+
+    def setCanXlFrameTriggeringProps(self, element: ET.Element, key: str, props: CanXlFrameTriggeringProps):
+        if props is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalPositiveInteger(child_element, "ACCEPTANCE-FIELD", props.getAcceptanceField())
+            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY-ID", props.getPriorityId())
+            self.setChildElementOptionalPositiveInteger(child_element, "SDU-TYPE", props.getSduType())
+            self.setChildElementOptionalPositiveInteger(child_element, "VCID", props.getVcid())
 
     def setLinOrderedConfigurableFrame(self, element: ET.Element, key: str, frame: LinOrderedConfigurableFrame):
         if frame is not None:

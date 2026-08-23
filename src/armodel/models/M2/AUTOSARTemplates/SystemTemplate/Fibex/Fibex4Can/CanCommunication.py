@@ -1,9 +1,11 @@
 # This module contains AUTOSAR System Template classes for CAN communication
 # It defines CAN frames, frame triggering, and related communication elements for CAN networks
 
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARPositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARPositiveInteger, PositiveInteger
 
 
 class CanAddressingModeType(AREnum):
@@ -80,6 +82,91 @@ class CanFrameTxBehaviorEnum(AREnum):
                 CanFrameTxBehaviorEnum.ENUM_CAN_FD,
             ]
         )
+
+
+class CanXlFrameTriggeringProps(ARObject):
+    """This element indicates the frame being CAN XL and contains further CAN XL specific attributes."""
+
+    # CanXlFrameTriggeringProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.27, p.2007
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAcceptanceField           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setAcceptanceField           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getPriorityId                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setPriorityId                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getSduType                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setSduType                   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getVcid                      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setVcid                      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Acceptance field of a CAN XL message.
+        self.acceptanceField: Optional[PositiveInteger] = None
+
+        # Priority ID of a CAN XL message.
+        self.priorityId: Optional[PositiveInteger] = None
+
+        # SDU type of a CAN XL message.
+        self.sduType: Optional[PositiveInteger] = None
+        
+        # Virtual CAN network ID of a CAN XL message.
+        self.vcid: Optional[PositiveInteger] = None
+
+    def getAcceptanceField(self) -> Optional[PositiveInteger]:
+        """Acceptance field of a CAN XL message."""
+        return self.acceptanceField
+
+    def setAcceptanceField(self, value: Optional[PositiveInteger]) -> "CanXlFrameTriggeringProps":
+        """
+        Acceptance field of a CAN XL message.
+        A None value is a no-op and does not overwrite an existing acceptanceField.
+        """
+        if value is not None:
+            self.acceptanceField = value
+        return self
+
+    def getPriorityId(self) -> Optional[PositiveInteger]:
+        """Priority ID of a CAN XL message."""
+        return self.priorityId
+
+    def setPriorityId(self, value: Optional[PositiveInteger]) -> "CanXlFrameTriggeringProps":
+        """
+        Priority ID of a CAN XL message.
+        A None value is a no-op and does not overwrite an existing priorityId.
+        """
+        if value is not None:
+            self.priorityId = value
+        return self
+
+    def getSduType(self) -> Optional[PositiveInteger]:
+        """SDU type of a CAN XL message."""
+        return self.sduType
+
+    def setSduType(self, value: Optional[PositiveInteger]) -> "CanXlFrameTriggeringProps":
+        """
+        SDU type of a CAN XL message.
+        A None value is a no-op and does not overwrite an existing sduType.
+        """
+        if value is not None:
+            self.sduType = value
+        return self
+
+    def getVcid(self) -> Optional[PositiveInteger]:
+        """Virtual CAN network ID of a CAN XL message."""
+        return self.vcid
+
+    def setVcid(self, value: Optional[PositiveInteger]) -> "CanXlFrameTriggeringProps":
+        """
+        Virtual CAN network ID of a CAN XL message.
+        A None value is a no-op and does not overwrite an existing vcid.
+        """
+        if value is not None:
+            self.vcid = value
+        return self
 
 
 class RxIdentifierRange(ARObject):

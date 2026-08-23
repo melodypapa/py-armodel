@@ -8,12 +8,14 @@ of the respective classes.
 """
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanAddressingModeType,
     CanFrame,
     CanFrameRxBehaviorEnum,
     CanFrameTriggering,
     CanFrameTxBehaviorEnum,
+    CanXlFrameTriggeringProps,
     RxIdentifierRange,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
@@ -196,3 +198,37 @@ class Test_Fibex4CanCommunication:
         assert CanFrameTxBehaviorEnum.ENUM_CAN_20 in enum.getEnumValues()
         assert CanFrameTxBehaviorEnum.ENUM_CAN_FD in enum.getEnumValues()
         assert len(enum.getEnumValues()) == 2
+
+    def test_CanXlFrameTriggeringProps_initialization(self):
+        """Test CanXlFrameTriggeringProps default state (Table F.27)."""
+        obj = CanXlFrameTriggeringProps()
+
+        assert isinstance(obj, ARObject)
+        assert obj.getAcceptanceField() is None
+        assert obj.getPriorityId() is None
+        assert obj.getSduType() is None
+        assert obj.getVcid() is None
+
+    def test_CanXlFrameTriggeringProps_get_set(self):
+        """Test CanXlFrameTriggeringProps getter/setter with None no-op (Table F.27)."""
+        obj = CanXlFrameTriggeringProps()
+
+        assert obj == obj.setAcceptanceField(PositiveInteger().setValue(1))
+        assert obj.getAcceptanceField().getValue() == 1
+        assert obj == obj.setAcceptanceField(None)
+        assert obj.getAcceptanceField().getValue() == 1
+
+        assert obj == obj.setPriorityId(PositiveInteger().setValue(2))
+        assert obj.getPriorityId().getValue() == 2
+        assert obj == obj.setPriorityId(None)
+        assert obj.getPriorityId().getValue() == 2
+
+        assert obj == obj.setSduType(PositiveInteger().setValue(3))
+        assert obj.getSduType().getValue() == 3
+        assert obj == obj.setSduType(None)
+        assert obj.getSduType().getValue() == 3
+
+        assert obj == obj.setVcid(PositiveInteger().setValue(4))
+        assert obj.getVcid().getValue() == 4
+        assert obj == obj.setVcid(None)
+        assert obj.getVcid().getValue() == 4

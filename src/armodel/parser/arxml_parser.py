@@ -462,7 +462,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
+    CanFrame,
+    CanFrameTriggering,
+    CanXlFrameTriggeringProps,
+    RxIdentifierRange,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
     AbstractCanCommunicationController,
@@ -5852,6 +5857,17 @@ class ARXMLParser(AbstractARXMLParser):
         triggering.setCanFrameTxBehavior(self.getChildElementOptionalLiteral(element, "CAN-FRAME-TX-BEHAVIOR"))
         triggering.setIdentifier(self.getChildElementOptionalNumericalValue(element, "IDENTIFIER"))
         triggering.setRxIdentifierRange(self.getChildElementRxIdentifierRange(element, "RX-IDENTIFIER-RANGE"))
+
+    def getCanXlFrameTriggeringProps(self, element: ET.Element, key: str) -> CanXlFrameTriggeringProps:
+        props = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            props = CanXlFrameTriggeringProps()
+            props.setAcceptanceField(self.getChildElementOptionalPositiveInteger(child_element, "ACCEPTANCE-FIELD"))
+            props.setPriorityId(self.getChildElementOptionalPositiveInteger(child_element, "PRIORITY-ID"))
+            props.setSduType(self.getChildElementOptionalPositiveInteger(child_element, "SDU-TYPE"))
+            props.setVcid(self.getChildElementOptionalPositiveInteger(child_element, "VCID"))
+        return props
 
     def readLinFrameTriggering(self, element: ET.Element, triggering: LinFrameTriggering):
         self.logger.debug("Read LinFrameTriggering %s" % triggering.getShortName())
