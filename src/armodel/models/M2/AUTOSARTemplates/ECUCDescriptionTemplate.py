@@ -7,7 +7,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARBoolean,
-    AREnum,
     ARLiteral,
     ARNumerical,
     PositiveInteger,
@@ -433,13 +432,7 @@ class EcucModuleConfigurationValues(ARElement):
         return self
 
 
-class EcucConfigurationVariantEnum(AREnum):
-    """
-    Enumeration for ECUC configuration variant types.
-    """
-
-    # EcucConfigurationVariantEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-
-    def __init__(self):
-        super().__init__([])
+# EcucConfigurationVariantEnum lives in ECUCParameterDefTemplate.py
+# (canonical, # Spec verified: R23-11 — AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.13, p.53).
+# The duplicate stub that used to sit here was removed; import it from
+# armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate when needed.
