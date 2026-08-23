@@ -491,6 +491,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     ScheduleTableEntry,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
+    LinCluster,
     LinCommunicationConnector,
     LinCommunicationController,
     LinConfigurableFrame,
@@ -550,7 +551,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     FramePort,
     IPduPort,
     ISignalPort,
-    LinCluster,
     LinPhysicalChannel,
     PhysicalChannel,
 )

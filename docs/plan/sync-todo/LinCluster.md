@@ -118,15 +118,15 @@ Known gaps to fix during sync:
 
 ## 7. LinCluster — Table 3.36, p.93
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test (Red)
-- [ ] Step 3 — Implement the model class (Green)
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test (Red)
-- [ ] Step 6 — Update the parser (reader) & writer (Green)
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check (referenced classes, placeholders)
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test (Red)
+- [x] Step 3 — Implement the model class (Green)
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [x] Step 5 — Write the reader/writer round-trip test (Red)  full save→reload round-trip in tests/test_armodel/writer/test_lin_cluster.py
+- [x] Step 6 — Update the parser (reader) & writer (Green)  verify-pass only: readLinCluster/writeLinCluster + dispatch + ARPackage factory already cover LIN-CLUSTER
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check (referenced classes, placeholders)  stale `linClusterVariant` missing row removed from tracker; no placeholders; no missing referenced classes
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp  9b confirmed by user; `# Spec verified: R23-11` written
 
 ## 8. LinMaster — Table 3.38, p.94
 

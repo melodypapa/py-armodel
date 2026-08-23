@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinErrorResponse
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
+    LinCluster,
     LinCommunicationConnector,
     LinCommunicationController,
     LinConfigurableFrame,
@@ -25,7 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinSlaveConfig,
     LinSlaveConfigIdent,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, CommunicationController, FibexElement
 
 
 class MockParent(ARObject):
@@ -478,3 +479,60 @@ class TestLinSlaveConfig:
         assert annotations["protocolVersion"] == "Optional[String]"
         assert annotations["supplierId"] == "Optional[PositiveInteger]"
         assert annotations["variantId"] == "Optional[PositiveInteger]"
+
+
+class TestLinCluster:
+    """
+    LIN specific attributes Tags: atp.recommendedPackage=CommunicationClusters
+    """
+
+    def test_initialization(self):
+        parent = MockParent()
+        cluster = LinCluster(parent, "TestCluster")
+
+        assert cluster.getShortName() == "TestCluster"
+        assert cluster.getParent() is parent
+        assert isinstance(cluster, CommunicationCluster)
+        assert isinstance(cluster, FibexElement)
+        assert isinstance(cluster, ARObject)
+
+        assert cluster.getBaudrate() is None
+        assert cluster.getPhysicalChannels() == []
+        assert cluster.getProtocolName() is None
+        assert cluster.getProtocolVersion() is None
+
+    def test_no_own_attributes(self):
+        import ast
+        import inspect
+
+        src = inspect.getsource(sys.modules[LinCluster.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "LinCluster")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.unparse(node.annotation)
+        assert annotations == {}
+
+    def test_inherited_base_accessors(self):
+        parent = MockParent()
+        cluster = LinCluster(parent, "TestCluster")
+
+        assert cluster == cluster.setBaudrate(19200)
+        assert cluster.getBaudrate() == 19200
+
+        assert cluster == cluster.setProtocolName("LIN")
+        assert cluster.getProtocolName() == "LIN"
+
+        assert cluster == cluster.setProtocolVersion("2.2")
+        assert cluster.getProtocolVersion() == "2.2"
+
+        assert cluster == cluster.setBaudrate(None)
+        assert cluster.getBaudrate() == 19200
+
+        assert cluster == cluster.setProtocolName(None)
+        assert cluster.getProtocolName() == "LIN"
+
+        assert cluster == cluster.setProtocolVersion(None)
+        assert cluster.getProtocolVersion() == "2.2"

@@ -2231,11 +2231,9 @@ Class not in markdown/PDF — skipped per user (enumeration `XmlSpaceEnum` has n
 ## `LinCluster`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 93
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinTopology.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `linClusterVariant` | `LinClusterConditional` | — | missing |
+No deviations — Table 3.36 has no `Attribute` rows (all members inherited from `CommunicationCluster`); the `<<atpVariation>>` wrapper (`LIN-CLUSTER-VARIANTS`/`LIN-CLUSTER-CONDITIONAL`) is read/written transparently into the owning object per the cluster-class precedent, so the earlier `linClusterVariant` missing row is removed. The class now lives in its spec package module (`Fibex4Lin/LinTopology.py`).
 
 ## `LinMaster`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 94
