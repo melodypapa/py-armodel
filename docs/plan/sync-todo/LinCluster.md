@@ -27,7 +27,7 @@ Queue order (dependency-first, deepest ancestors first, inputs last):
 | 5 | LinOrderedConfigurableFrame | member (LinSlaveConfig.linOrderedConfigurableFrame) | Table 3.45, p.99 | [x] done |
 | 6 | LinSlaveConfig | member (LinMaster.linSlave) | Table 3.39, p.95 | [x] done |
 | 7 | LinCluster | input | Table 3.36, p.93 | [x] done (commit 9f33819d) |
-| 8 | LinMaster | input | Table 3.38, p.94 | [ ] pending |
+| 8 | LinMaster | input | Table 3.38, p.94 | [x] done (commit d8139674) |
 
 Known gaps to fix during sync:
 
