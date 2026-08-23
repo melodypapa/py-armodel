@@ -5915,6 +5915,7 @@ class ARXMLParser(AbstractARXMLParser):
         triggering.setIPduRef(self.getChildElementOptionalRefType(element, "I-PDU-REF"))
         for child_element in self.findall(element, "I-SIGNAL-TRIGGERINGS/I-SIGNAL-TRIGGERING-REF-CONDITIONAL"):
             triggering.addISignalTriggeringRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-TRIGGERING-REF"))
+        triggering.setSecOcCryptoMappingRef(self.getChildElementOptionalRefType(element, "SEC-OC-CRYPTO-MAPPING-REF"))
 
     def readPhysicalChannelCommConnectorRefs(self, element: ET.Element, channel: PhysicalChannel):
         for child_element in self.findall(element, "COMM-CONNECTORS/COMMUNICATION-CONNECTOR-REF-CONDITIONAL"):

@@ -1572,67 +1572,112 @@ class ISignal(FibexElement):
 
 class PduTriggering(Identifiable):
     """
-    Defines the triggering mechanism for Protocol Data Units (PDUs),
-    specifying PDU references, port references, and trigger conditions
-    for PDU transmission and reception.
+    The PduTriggering describes on which channel the IPdu is transmitted. The Pdu routing by the PduR is only allowed for subclasses of IPdu. Depending on its relation to entities such channels and clusters it can be unambiguously deduced whether a fan-out is handled by the Pdu router or the Bus Interface. If the fan-out is specified between different clusters it shall be handled by the Pdu Router. If the fan-out is specified between different channels of the same cluster it shall be handled by the Bus Interface.
     """
 
     # PduTriggering method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIPduRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setIPduRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getIPduPortRefs              [x] impl  [ ] docstring  [ ] test
-    # [ ] addIPduPortRef               [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalTriggeringRefs     [x] impl  [ ] docstring  [ ] test
-    # [ ] addISignalTriggeringRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] getSecOcCryptoMappingRef     [x] impl  [ ] docstring  [ ] test
-    # [ ] setSecOcCryptoMappingRef     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTriggerIPduSendConditions [x] impl  [ ] docstring  [ ] test
-    # [ ] addTriggerIPduSendCondition  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.31, p.349
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getIPduRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIPduRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIPduPortRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addIPduPortRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getISignalTriggeringRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addISignalTriggeringRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSecOcCryptoMappingRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSecOcCryptoMappingRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTriggerIPduSendConditions [x] impl  [x] docstring  [x] test  [—] reader  [—]
+    # [x] addTriggerIPduSendCondition  [x] impl  [x] docstring  [x] test  [—]         [—]
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.iPduRef: RefType = None
-        self.iPduPortRefs: List[RefType] = []
-        self.iSignalTriggeringRefs: List[RefType] = []
-        self.secOcCryptoMappingRef: RefType = None
-        self.triggerIPduSendConditions = []  # type: List
+        # Reference to the Pdu for which the PduTriggering is defined. One I-Pdu can be triggered on different channels (PduR fan-out). The Pdu routing by the PduR is only allowed for subclasses of IPdu. Nevertheless is the reference to the Pdu element necessary since the PduTriggering element is also used to specify the sending and receiving connections to Ecu Ports.
+        self.iPduRef: Optional[RefType] = None
 
-    def getIPduRef(self):
+        # References to the IPduPort on every ECU of the system which sends and/or receives the I-PDU. References for both the sender and the receiver side shall be included when the system is completely defined.
+        self.iPduPortRefs: List[RefType] = []
+
+        # This reference provides the relationship to the ISignalTriggerings that are implemented by the PduTriggering. The reference is optional since no ISignalTriggering can be defined for DCM and Multiplexed Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.iSignalTriggering, iSignalTriggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.iSignalTriggeringRefs: List[RefType] = []
+
+        # This reference identifies the crypto profile applicable to the usage (send, receive) of the also referenced Secured IPdu. Obviously, this reference is only applicable if the Pdutriggering also references a SecuredIPdu in the role iPdu.
+        self.secOcCryptoMappingRef: Optional[RefType] = None
+
+        # Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions evaluate to true (AND associated) the Com_TriggerIPDUSend API shall be called.
+        self.triggerIPduSendConditions: List[ARObject] = []
+
+    def getIPduRef(self) -> Optional[RefType]:
+        """
+        Reference to the Pdu for which the PduTriggering is defined. One I-Pdu can be triggered on different channels (PduR fan-out). The Pdu routing by the PduR is only allowed for subclasses of IPdu. Nevertheless is the reference to the Pdu element necessary since the PduTriggering element is also used to specify the sending and receiving connections to Ecu Ports.
+        """
         return self.iPduRef
 
-    def setIPduRef(self, value):
-        self.iPduRef = value
+    def setIPduRef(self, value: Optional[RefType]) -> "PduTriggering":
+        """
+        Reference to the Pdu for which the PduTriggering is defined. One I-Pdu can be triggered on different channels (PduR fan-out). The Pdu routing by the PduR is only allowed for subclasses of IPdu. Nevertheless is the reference to the Pdu element necessary since the PduTriggering element is also used to specify the sending and receiving connections to Ecu Ports.
+        A None value is a no-op and does not overwrite an existing iPduRef.
+        """
+        if value is not None:
+            self.iPduRef = value
         return self
 
-    def getIPduPortRefs(self):
+    def getIPduPortRefs(self) -> List[RefType]:
+        """
+        References to the IPduPort on every ECU of the system which sends and/or receives the I-PDU. References for both the sender and the receiver side shall be included when the system is completely defined.
+        """
         return self.iPduPortRefs
 
-    def addIPduPortRef(self, value):
-        self.iPduPortRefs.append(value)
+    def addIPduPortRef(self, value: Optional[RefType]) -> "PduTriggering":
+        """
+        References to the IPduPort on every ECU of the system which sends and/or receives the I-PDU. References for both the sender and the receiver side shall be included when the system is completely defined.
+        """
+        if value is not None:
+            self.iPduPortRefs.append(value)
         return self
 
-    def getISignalTriggeringRefs(self):
-        # return sorted(self.iSignalTriggeringRefs, key = lambda i: i.getShortValue())
+    def getISignalTriggeringRefs(self) -> List[RefType]:
+        """
+        This reference provides the relationship to the ISignalTriggerings that are implemented by the PduTriggering. The reference is optional since no ISignalTriggering can be defined for DCM and Multiplexed Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.iSignalTriggering, iSignalTriggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.iSignalTriggeringRefs
 
-    def addISignalTriggeringRef(self, value):
-        self.iSignalTriggeringRefs.append(value)
+    def addISignalTriggeringRef(self, value: Optional[RefType]) -> "PduTriggering":
+        """
+        This reference provides the relationship to the ISignalTriggerings that are implemented by the PduTriggering. The reference is optional since no ISignalTriggering can be defined for DCM and Multiplexed Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.iSignalTriggering, iSignalTriggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if value is not None:
+            self.iSignalTriggeringRefs.append(value)
         return self
 
-    def getSecOcCryptoMappingRef(self):
+    def getSecOcCryptoMappingRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the crypto profile applicable to the usage (send, receive) of the also referenced Secured IPdu. Obviously, this reference is only applicable if the Pdutriggering also references a SecuredIPdu in the role iPdu.
+        """
         return self.secOcCryptoMappingRef
 
-    def setSecOcCryptoMappingRef(self, value):
-        self.secOcCryptoMappingRef = value
+    def setSecOcCryptoMappingRef(self, value: Optional[RefType]) -> "PduTriggering":
+        """
+        This reference identifies the crypto profile applicable to the usage (send, receive) of the also referenced Secured IPdu. Obviously, this reference is only applicable if the Pdutriggering also references a SecuredIPdu in the role iPdu.
+        A None value is a no-op and does not overwrite an existing secOcCryptoMappingRef.
+        """
+        if value is not None:
+            self.secOcCryptoMappingRef = value
         return self
 
-    def getTriggerIPduSendConditions(self):
+    def getTriggerIPduSendConditions(self) -> List[ARObject]:
+        """
+        Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions evaluate to true (AND associated) the Com_TriggerIPDUSend API shall be called.
+        """
         return self.triggerIPduSendConditions
 
-    def addTriggerIPduSendCondition(self, value):
-        self.triggerIPduSendConditions.append(value)
+    def addTriggerIPduSendCondition(self, value: Optional[ARObject]) -> "PduTriggering":
+        """
+        Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions evaluate to true (AND associated) the Com_TriggerIPDUSend API shall be called.
+        """
+        if value is not None:
+            self.triggerIPduSendConditions.append(value)
         return self
 
 

@@ -503,6 +503,46 @@ class TestWritePduTriggering:
         assert trigs is not None
         assert len(trigs.findall("I-SIGNAL-TRIGGERING-REF-CONDITIONAL")) == 1
 
+    def test_write_pdu_triggering_sec_oc(self, writer):
+        pkg = _pkg()
+        pt = PduTriggering(pkg, "Pt")
+        pt.setIPduRef(_ref("SECURED-I-PDU", "/sp"))
+        pt.setSecOcCryptoMappingRef(_ref("SEC-OC-CRYPTO-SERVICE-MAPPING", "/map"))
+        parent = _parent()
+        writer.writePduTriggering(parent, pt)
+        ptt = parent.find("PDU-TRIGGERING")
+        assert ptt is not None
+        assert ptt.find("I-PDU-REF").text == "/sp"
+        assert ptt.find("SEC-OC-CRYPTO-MAPPING-REF").text == "/map"
+
+    def test_write_pdu_triggering_roundtrip(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        NS = "http://autosar.org/schema/r4.0"
+        pkg = _pkg()
+        pt = PduTriggering(pkg, "Pt")
+        pt.setIPduRef(_ref("I-PDU", "/ipdu"))
+        pt.addIPduPortRef(_ref("I-PDU-PORT", "/p1"))
+        pt.addIPduPortRef(_ref("I-PDU-PORT", "/p2"))
+        pt.addISignalTriggeringRef(_ref("I-SIGNAL-TRIGGERING", "/ist1"))
+        pt.setSecOcCryptoMappingRef(_ref("SEC-OC-CRYPTO-SERVICE-MAPPING", "/map"))
+
+        parent = _parent()
+        writer.writePduTriggering(parent, pt)
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % NS, 1)
+        namespaced = ET.fromstring(xml_str)
+
+        reparsed = PduTriggering(pkg, "Pt2")
+        parser = ARXMLParser()
+        ARXMLParser().readPduTriggering(parser.find(namespaced, "PDU-TRIGGERING"), reparsed)
+        assert reparsed.getIPduRef().getValue() == "/ipdu"
+        ports = reparsed.getIPduPortRefs()
+        assert len(ports) == 2
+        assert ports[0].getValue() == "/p1"
+        assert ports[1].getValue() == "/p2"
+        assert reparsed.getISignalTriggeringRefs()[0].getValue() == "/ist1"
+        assert reparsed.getSecOcCryptoMappingRef().getValue() == "/map"
+
 
 class TestWritePhysicalChannelHelpers:
     def test_write_pc_comm_connector_refs_empty(self, writer):

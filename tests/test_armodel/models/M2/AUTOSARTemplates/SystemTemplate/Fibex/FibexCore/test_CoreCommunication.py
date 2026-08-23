@@ -725,6 +725,9 @@ class Test_FibexCoreCommunication:
         triggering.setIPduRef(ref1)
         assert triggering.getIPduRef() == ref1
         assert triggering == triggering.setIPduRef(ref1)  # Test method chaining
+        # None is a no-op and does not overwrite an existing iPduRef
+        assert triggering == triggering.setIPduRef(None)
+        assert triggering.getIPduRef() == ref1
 
         ref2 = object()
         triggering.addIPduPortRef(ref2)
@@ -740,6 +743,9 @@ class Test_FibexCoreCommunication:
         triggering.setSecOcCryptoMappingRef(ref4)
         assert triggering.getSecOcCryptoMappingRef() == ref4
         assert triggering == triggering.setSecOcCryptoMappingRef(ref4)  # Test method chaining
+        # None is a no-op and does not overwrite an existing secOcCryptoMappingRef
+        assert triggering == triggering.setSecOcCryptoMappingRef(None)
+        assert triggering.getSecOcCryptoMappingRef() == ref4
 
         ref5 = object()
         triggering.addTriggerIPduSendCondition(ref5)

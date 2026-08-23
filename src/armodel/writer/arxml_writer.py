@@ -6402,17 +6402,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, triggering)
         ref_list = triggering.getIPduPortRefs()
         if len(ref_list) > 0:
-            i_signal_port_refs_tag = ET.SubElement(child_element, "I-PDU-PORT-REFS")
+            i_pdu_port_refs_tag = ET.SubElement(child_element, "I-PDU-PORT-REFS")
             for ref in ref_list:
-                self.setChildElementOptionalRefType(i_signal_port_refs_tag, "I-PDU-PORT-REF", ref)
+                self.setChildElementOptionalRefType(i_pdu_port_refs_tag, "I-PDU-PORT-REF", ref)
         self.setChildElementOptionalRefType(child_element, "I-PDU-REF", triggering.getIPduRef())
 
         refs = triggering.getISignalTriggeringRefs()
         if len(refs) > 0:
             triggerings_tag = ET.SubElement(child_element, "I-SIGNAL-TRIGGERINGS")
             for ref in refs:
-                child_element = ET.SubElement(triggerings_tag, "I-SIGNAL-TRIGGERING-REF-CONDITIONAL")
-                self.setChildElementOptionalRefType(child_element, "I-SIGNAL-TRIGGERING-REF", ref)
+                conditional_tag = ET.SubElement(triggerings_tag, "I-SIGNAL-TRIGGERING-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_tag, "I-SIGNAL-TRIGGERING-REF", ref)
+        self.setChildElementOptionalRefType(child_element, "SEC-OC-CRYPTO-MAPPING-REF", triggering.getSecOcCryptoMappingRef())
 
     def writePhysicalChannelCommConnectorRefs(self, element, channel):
         connectors = channel.getCommConnectorRefs()
