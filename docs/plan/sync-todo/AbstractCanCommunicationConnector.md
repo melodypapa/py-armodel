@@ -78,7 +78,7 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
 
 ### Member types
 
-- [ ] CanTpAddressingFormatType (member of CanTpConnection.addressingFormat · enum · markdown · Table 6.254 · p.610 · ADDED to queue 2026-08-24 per Rule 0016.4/0016.5 — missing member type; NEW class in TransportProtocols.py; Steps 5/6 N/A: standalone enum, round-trip via consuming class; synced, stamp deferred)
+- [x] CanTpAddressingFormatType (member of CanTpConnection.addressingFormat · enum · markdown · Table 6.254 · p.610 · ADDED to queue 2026-08-24 per Rule 0016.4/0016.5 — missing member type; NEW class in TransportProtocols.py; Steps 5/6 N/A: standalone enum, round-trip via consuming class · commit d53cab5d · stamped R23-11 2026-08-24)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -87,7 +87,7 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 6 — Update parser & writer (N/A: standalone enum)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 - [ ] NetworkTargetAddressType (member of CanTpConnection.taType · enum · markdown · Table 6.258 · p.611 · ADDED to queue 2026-08-24 per Rule 0016.4/0016.5 — missing member type; NEW class in TransportProtocols.py; Steps 5/6 N/A: standalone enum; functionalCanFd/physicalCanFd literals EXCLUDED (atp.Status="removed" since 4.3.0, absent from R23-11 PDF); synced, stamp deferred)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -99,7 +99,7 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] TpConnectionIdent (base of TpConnection.ident · markdown · Table 6.273 · p.633 · ADDED to queue 2026-08-24 per Rule 0016.4/0016.5 — unstamped stub discovered as CanTpConnection dependency; MOVED from TransportProtocols.py to DiagnosticConnection.py per spec Package; synced, stamp deferred)
+- [x] TpConnectionIdent (base of TpConnection.ident · markdown · Table 6.273 · p.633 · ADDED to queue 2026-08-24 per Rule 0016.4/0016.5; MOVED from TransportProtocols.py to DiagnosticConnection.py per spec Package · commit 99f16acc · stamped R23-11 2026-08-24)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -108,8 +108,8 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TpConnection (base of CanTpConnection · markdown · Table 6.272 · p.633 · ADDED to queue 2026-08-24 per Rule 0016.4/0016.5 — same reason; MOVED to DiagnosticConnection.py; synced, stamp deferred)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+- [x] TpConnection (base of CanTpConnection · markdown · Table 6.272 · p.633 · ADDED to queue 2026-08-24 per Rule 0016.4/0016.5; MOVED to DiagnosticConnection.py · commit 99f16acc · stamped R23-11 2026-08-24)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -118,7 +118,7 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [x] TtcanAbsolutelyScheduledTiming (member of CanFrameTriggering.absolutelyScheduledTiming · markdown · Table 6.115 · commit eaff8d16 · NEW class created in Fibex4Ttcan/TtcanCommunication.py; TtcanTriggerType enum (Table 6.116) also synced + stamped in the same session per user decision 2026-08-23)
   - [x] Step 1 — Sync members & description from spec
@@ -180,7 +180,7 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CanTpAddress (member of CanTpConfig.tpAddress · markdown · Table 6.255 · p.610 · synced 2026-08-24, stamp deferred to batch confirmation)
+- [x] CanTpAddress (member of CanTpConfig.tpAddress · markdown · Table 6.255 · p.610 · commit 23a670d8 · stamped R23-11 2026-08-24)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -189,8 +189,8 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CanTpChannel (member of CanTpConfig.tpChannel · markdown · Table 6.252 · p.608 · synced 2026-08-24, stamp deferred to batch confirmation; `channelMode` REMOVED — atp.Status="removed" since 4.4.0, absent from R23-11 PDF table per Rule 0015)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+- [x] CanTpChannel (member of CanTpConfig.tpChannel · markdown · Table 6.252 · p.608 · commit 029d2081 · stamped R23-11 2026-08-24; `channelMode` REMOVED — atp.Status="removed" since 4.4.0, absent from R23-11 PDF table per Rule 0015)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -199,7 +199,7 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 - [ ] CanTpConnection (member of CanTpConfig.tpConnection · markdown · Table 6.253 + 6.252 block (spec splits the table across two page-blocks) · p.608-609 · synced 2026-08-24, stamp deferred to batch confirmation)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)

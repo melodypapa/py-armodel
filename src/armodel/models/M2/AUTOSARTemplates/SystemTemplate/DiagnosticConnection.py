@@ -16,6 +16,7 @@ class TpConnectionIdent(Referrable):
 
     # TpConnectionIdent method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.273, p.633
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # (no own attributes; Base = ARObject, Referrable)
@@ -31,6 +32,7 @@ class TpConnection(ARObject, ABC):
 
     # TpConnection method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.272, p.633
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getIdent                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer

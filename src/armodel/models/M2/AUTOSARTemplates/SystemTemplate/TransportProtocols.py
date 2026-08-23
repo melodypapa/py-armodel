@@ -58,6 +58,7 @@ class CanTpAddress(Identifiable):
 
     # CanTpAddress method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.255, p.610
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getTpAddress                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -108,6 +109,7 @@ class CanTpChannel(Identifiable):
 
     # CanTpChannel method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.252, p.608
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getChannelId    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -138,6 +140,7 @@ class CanTpAddressingFormatType(AREnum):
 
     # CanTpAddressingFormatType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.254, p.610
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods)
 
