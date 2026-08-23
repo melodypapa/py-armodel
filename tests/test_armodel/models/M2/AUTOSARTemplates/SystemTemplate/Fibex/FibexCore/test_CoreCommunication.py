@@ -535,19 +535,32 @@ class Test_FibexCoreCommunication:
         pdu.setNmDataInformation(True)
         assert pdu.getNmDataInformation() is True
         assert pdu == pdu.setNmDataInformation(True)  # Test method chaining
+        # None is a no-op and does not overwrite an existing nmDataInformation
+        assert pdu == pdu.setNmDataInformation(None)
+        assert pdu.getNmDataInformation() is True
 
         pdu.setNmVoteInformation(False)
         assert pdu.getNmVoteInformation() is False
         assert pdu == pdu.setNmVoteInformation(False)  # Test method chaining
+        # None is a no-op and does not overwrite an existing nmVoteInformation
+        assert pdu == pdu.setNmVoteInformation(None)
+        assert pdu.getNmVoteInformation() is False
 
         pdu.setUnusedBitPattern(-1)
         assert pdu.getUnusedBitPattern() == -1
         assert pdu == pdu.setUnusedBitPattern(-1)  # Test method chaining
+        # None is a no-op and does not overwrite an existing unusedBitPattern
+        assert pdu == pdu.setUnusedBitPattern(None)
+        assert pdu.getUnusedBitPattern() == -1
 
         # Test ISignalToIPduMapping creation method
         mapping = pdu.createISignalToIPduMapping("test_mapping")
         assert isinstance(mapping, ISignalToIPduMapping)
         assert len(pdu.getISignalToIPduMappings()) == 1
+
+        # Try creating the same mapping again (should return existing)
+        mapping2 = pdu.createISignalToIPduMapping("test_mapping")
+        assert mapping == mapping2  # Should return the same instance
 
     def test_NPdu(self):
         """Test NPdu class functionality."""

@@ -6068,6 +6068,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "NM-PDU")
         self.writePdu(child_element, pdu)
         self.writeNmPduISignalToIPduMappings(child_element, pdu)
+        self.setChildElementOptionalBooleanValue(child_element, "NM-DATA-INFORMATION", pdu.getNmDataInformation())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-VOTE-INFORMATION", pdu.getNmVoteInformation())
         self.setChildElementOptionalIntegerValue(child_element, "UNUSED-BIT-PATTERN", pdu.getUnusedBitPattern())
 
     def writeNPdu(self, element: ET.Element, pdu: NPdu):

@@ -6810,6 +6810,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read NmPdu <%s>" % pdu.getShortName())
         self.readPdu(element, pdu)
         self.readNmPduISignalToIPduMappings(element, pdu)
+        pdu.setNmDataInformation(self.getChildElementOptionalBooleanValue(element, "NM-DATA-INFORMATION"))
+        pdu.setNmVoteInformation(self.getChildElementOptionalBooleanValue(element, "NM-VOTE-INFORMATION"))
         pdu.setUnusedBitPattern(self.getChildElementOptionalIntegerValue(element, "UNUSED-BIT-PATTERN"))
 
     def readContainedIPduProps(self, element: ET.Element) -> ContainedIPduProps:
