@@ -16,7 +16,6 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (  # noqa E501
     AnyInstanceRef,
 )
-from armodel.parser.arxml_parser import ARXMLParser
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARBoolean,
     ARLiteral,
@@ -35,6 +34,7 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwDataDefProps,
 )
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 NS = "http://autosar.org/schema/r4.0"
