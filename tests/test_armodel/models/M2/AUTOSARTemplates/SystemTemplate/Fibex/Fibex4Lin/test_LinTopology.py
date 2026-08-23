@@ -94,7 +94,7 @@ class TestLinCommunicationController:
         annotations = {}
         for node in ast.walk(init):
             if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
-                annotations[node.target.attr] = ast.unparse(node.annotation)
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
         assert annotations["protocolVersion"] == "Optional[String]"
 
 
@@ -183,8 +183,8 @@ class TestLinMaster:
         annotations = {}
         for node in ast.walk(init):
             if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
-                annotations[node.target.attr] = ast.unparse(node.annotation)
-        assert annotations["linSlaves"] == "List['LinSlaveConfig']"
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
+        assert annotations["linSlaves"] == 'List["LinSlaveConfig"]'
         assert annotations["timeBase"] == "Optional[TimeValue]"
         assert annotations["timeBaseJitter"] == "Optional[TimeValue]"
 
@@ -214,7 +214,7 @@ class TestLinSlaveConfigIdent:
         annotations = {}
         for node in ast.walk(init):
             if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
-                annotations[node.target.attr] = ast.unparse(node.annotation)
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
         assert annotations == {}
 
 
@@ -337,7 +337,7 @@ class TestLinConfigurableFrame:
         annotations = {}
         for node in ast.walk(init):
             if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
-                annotations[node.target.attr] = ast.unparse(node.annotation)
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
         assert annotations["frameRef"] == "Optional[RefType]"
         assert annotations["messageId"] == "Optional[PositiveInteger]"
 
@@ -399,7 +399,7 @@ class TestLinOrderedConfigurableFrame:
         annotations = {}
         for node in ast.walk(init):
             if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
-                annotations[node.target.attr] = ast.unparse(node.annotation)
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
         assert annotations["frameRef"] == "Optional[RefType]"
         assert annotations["index"] == "Optional[Integer]"
 
@@ -534,7 +534,7 @@ class TestLinSlaveConfig:
         annotations = {}
         for node in ast.walk(init):
             if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
-                annotations[node.target.attr] = ast.unparse(node.annotation)
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
         assert annotations["configuredNad"] == "Optional[Integer]"
         assert annotations["functionId"] == "Optional[PositiveInteger]"
         assert annotations["ident"] == "Optional[LinSlaveConfigIdent]"
@@ -578,7 +578,7 @@ class TestLinCluster:
         annotations = {}
         for node in ast.walk(init):
             if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
-                annotations[node.target.attr] = ast.unparse(node.annotation)
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
         assert annotations == {}
 
     def test_inherited_base_accessors(self):

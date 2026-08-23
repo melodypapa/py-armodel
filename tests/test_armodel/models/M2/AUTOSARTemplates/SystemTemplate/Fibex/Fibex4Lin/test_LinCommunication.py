@@ -68,7 +68,7 @@ class TestLinErrorResponse:
         annotations = {}
         for node in ast.walk(init):
             if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
-                annotations[node.target.attr] = ast.unparse(node.annotation)
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
         assert annotations["responseErrorRef"] == "Optional[RefType]"
 
 
