@@ -8,7 +8,7 @@
 - Integration tests: round-trip parse → write → re-parse → compare (29 ARXML files)
 - Custom test dirs via `tests/integration_tests/config.yaml`
 
-**Lint:** `npm run flake8` — syntax checks only (E9, F63, F7, F82)
+**Lint:** `npm run lint` — runs flake8 syntax checks (E9, F63, F7, F82) **and** ruff (`ruff check src tests scripts`, E/F/W/I rules per `[tool.ruff]` in pyproject.toml). Always use this; do not run flake8 alone
 - CI also runs: `--max-complexity=10 --max-line-length=127` (warnings, exit-zero)
 - **Exclude `build/`** from lint (generated code)
 - **Black formatter:** `npm run black` — formats code with 200 character line length
