@@ -52,36 +52,49 @@ class TpConfig(FibexElement, ABC):
 
 class CanTpAddress(Identifiable):
     """
-    Represents a CAN transport protocol address in the system,
-    defining the transport address and address extension values
-    for CAN communication endpoints.
+    An ECUs TP address on the referenced channel. This represents the diagnostic Address.
     """
 
     # CanTpAddress method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpAddress                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTpAddress                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpAddressExtensionValue   [x] impl  [ ] docstring  [ ] test
-    # [ ] setTpAddressExtensionValue   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.255, p.610
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getTpAddress                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTpAddress                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTpAddressExtensionValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTpAddressExtensionValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.tpAddress: Integer = None
-        self.tpAddressExtensionValue: Integer = None
+        # An ECUs TP address on the referenced channel. This represents the diagnostic Address.
+        self.tpAddress: Optional[Integer] = None
 
-    def getTpAddress(self):
+        # If the mixed addressing format is used, this parameter contains the transport protocol address extension value.
+        self.tpAddressExtensionValue: Optional[Integer] = None
+
+    def getTpAddress(self) -> Optional[Integer]:
+        """An ECUs TP address on the referenced channel. This represents the diagnostic Address."""
         return self.tpAddress
 
-    def setTpAddress(self, value):
+    def setTpAddress(self, value: Optional[Integer]) -> "CanTpAddress":
+        """
+        An ECUs TP address on the referenced channel. This represents the diagnostic Address.
+        A None value is a no-op and does not overwrite an existing tpAddress.
+        """
         if value is not None:
             self.tpAddress = value
         return self
 
-    def getTpAddressExtensionValue(self):
+    def getTpAddressExtensionValue(self) -> Optional[Integer]:
+        """If the mixed addressing format is used, this parameter contains the transport protocol address extension value."""
         return self.tpAddressExtensionValue
 
-    def setTpAddressExtensionValue(self, value):
+    def setTpAddressExtensionValue(self, value: Optional[Integer]) -> "CanTpAddress":
+        """
+        If the mixed addressing format is used, this parameter contains the transport protocol address extension value.
+        A None value is a no-op and does not overwrite an existing tpAddressExtensionValue.
+        """
         if value is not None:
             self.tpAddressExtensionValue = value
         return self

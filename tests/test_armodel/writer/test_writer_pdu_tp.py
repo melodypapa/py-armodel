@@ -312,6 +312,38 @@ class TestWriteCanTpAddress:
         assert child.find("TP-ADDRESS").text == "1"
         assert child.find("TP-ADDRESS-EXTENSION-VALUE").text == "2"
 
+    def test_roundtrip_can_tp_address_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        addr = CanTpAddress(pkg, "Addr")
+        addr.setTpAddress(_int("2047"))
+        addr.setTpAddressExtensionValue(_int("5"))
+        parent = _parent()
+        writer.writeCanTpAddress(parent, addr)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpAddress(pkg, "Addr2")
+        parser.readCanTpAddress(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getTpAddress().getValue() == 2047
+        assert reloaded.getTpAddressExtensionValue().getValue() == 5
+
+    def test_roundtrip_can_tp_address_empty_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        addr = CanTpAddress(pkg, "Addr")
+        parent = _parent()
+        writer.writeCanTpAddress(parent, addr)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpAddress(pkg, "Addr2")
+        parser.readCanTpAddress(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getTpAddress() is None
+        assert reloaded.getTpAddressExtensionValue() is None
+
 
 class TestWriteCanTpConfigTpAddresses:
     def test_empty(self, writer):

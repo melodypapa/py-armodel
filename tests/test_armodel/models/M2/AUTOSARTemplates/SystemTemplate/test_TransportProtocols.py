@@ -2,6 +2,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIp import AbstractDoIpLogicAddressProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
@@ -38,23 +39,34 @@ class Test_TransportProtocols:
         with pytest.raises(TypeError):
             TpConfig(parent, "test_tp_config")
 
-    def test_CanTpAddress(self):
-        """Test CanTpAddress class functionality."""
+    def test_CanTpAddress_initialization(self):
+        """Test CanTpAddress default state (Table 6.255)."""
         parent = MockParent()
-        address = CanTpAddress(parent, "test_can_tp_address")
+        address = CanTpAddress(parent, "CanTpAddress")
 
         assert isinstance(address, Identifiable)
-
-        # Test default values
         assert address.getTpAddress() is None
         assert address.getTpAddressExtensionValue() is None
 
-        # Test setter/getter methods
-        address.setTpAddress(123)
-        assert address.getTpAddress() == 123
+    def test_CanTpAddress_get_set_tpAddress(self):
+        """Test tpAddress getter/setter with None no-op (Table 6.255)."""
+        parent = MockParent()
+        address = CanTpAddress(parent, "CanTpAddress")
 
-        address.setTpAddressExtensionValue(456)
-        assert address.getTpAddressExtensionValue() == 456
+        assert address == address.setTpAddress(Integer().setValue(0x7FF))
+        assert address.getTpAddress().getValue() == 0x7FF
+        assert address == address.setTpAddress(None)
+        assert address.getTpAddress().getValue() == 0x7FF
+
+    def test_CanTpAddress_get_set_tpAddressExtensionValue(self):
+        """Test tpAddressExtensionValue getter/setter with None no-op (Table 6.255)."""
+        parent = MockParent()
+        address = CanTpAddress(parent, "CanTpAddress")
+
+        assert address == address.setTpAddressExtensionValue(Integer().setValue(6))
+        assert address.getTpAddressExtensionValue().getValue() == 6
+        assert address == address.setTpAddressExtensionValue(None)
+        assert address.getTpAddressExtensionValue().getValue() == 6
 
     def test_CanTpChannel(self):
         """Test CanTpChannel class functionality."""
