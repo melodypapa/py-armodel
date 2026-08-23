@@ -30,6 +30,34 @@ class CanAddressingModeType(AREnum):
         )
 
 
+class CanFrameRxBehaviorEnum(AREnum):
+    """Defines different CAN protocols for frame reception behavior."""
+
+    # CanFrameRxBehaviorEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.113, p.444
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods)
+
+    # This CAN frame may be received as both, CAN 2.0 and CAN FD. Tags: atp.EnumerationLiteralIndex=0
+    ENUM_ANY = "ANY"
+
+    # This CAN frame shall be received as CAN 2.0 only. In case the CAN frame is received as CAN FD it is discarded during reception. Tags: atp.EnumerationLiteralIndex=1
+    ENUM_CAN_20 = "CAN-20"
+
+    # This CAN frame shall be received as CAN FD only. In case the CAN frame is received as CAN 2.0 it is discarded during reception. Tags: atp.EnumerationLiteralIndex=2
+    ENUM_CAN_FD = "CAN-FD"
+
+    def __init__(self):
+        super().__init__(
+            [
+                CanFrameRxBehaviorEnum.ENUM_ANY,
+                CanFrameRxBehaviorEnum.ENUM_CAN_20,
+                CanFrameRxBehaviorEnum.ENUM_CAN_FD,
+            ]
+        )
+
+
 class RxIdentifierRange(ARObject):
     """
     Defines a range of CAN identifiers used for receive filtering in CAN communication.

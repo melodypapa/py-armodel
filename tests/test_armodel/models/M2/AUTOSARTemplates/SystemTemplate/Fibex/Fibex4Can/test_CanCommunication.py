@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanAddressingModeType,
     CanFrame,
+    CanFrameRxBehaviorEnum,
     CanFrameTriggering,
     RxIdentifierRange,
 )
@@ -164,3 +165,19 @@ class Test_Fibex4CanCommunication:
         result = triggering.setTxMask("tx_mask")
         assert triggering.getTxMask() == "tx_mask"
         assert result == triggering  # Test method chaining
+
+    def test_CanFrameRxBehaviorEnum(self):
+        """Test CanFrameRxBehaviorEnum enum (Table 6.113)."""
+        enum = CanFrameRxBehaviorEnum()
+        assert enum is not None
+        enum.setValue(CanFrameRxBehaviorEnum.ENUM_ANY)
+        assert enum.getValue() == "ANY"
+
+        assert CanFrameRxBehaviorEnum.ENUM_ANY == "ANY"
+        assert CanFrameRxBehaviorEnum.ENUM_CAN_20 == "CAN-20"
+        assert CanFrameRxBehaviorEnum.ENUM_CAN_FD == "CAN-FD"
+
+        assert CanFrameRxBehaviorEnum.ENUM_ANY in enum.getEnumValues()
+        assert CanFrameRxBehaviorEnum.ENUM_CAN_20 in enum.getEnumValues()
+        assert CanFrameRxBehaviorEnum.ENUM_CAN_FD in enum.getEnumValues()
+        assert len(enum.getEnumValues()) == 3
