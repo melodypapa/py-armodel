@@ -8299,7 +8299,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setEcucNumericalParamValue(self, element: ET.Element, param_value: EcucNumericalParamValue):
         child_element = ET.SubElement(element, "ECUC-NUMERICAL-PARAM-VALUE")
         self.writeEcucParameterValue(child_element, param_value)
-        self.setChildElementOptionalNumericalValue(child_element, "VALUE", param_value.getValue())
+        self.setChildElementOptionalLiteral(child_element, "VALUE", param_value.getValue())
 
     def writeEcucContainerValueParameterValues(self, element: ET.Element, container_value: EcucContainerValue):
         param_values = container_value.getParameterValues()

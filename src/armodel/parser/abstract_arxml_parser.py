@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Integer,
     IntervalTypeEnum,
     Limit,
+    Numerical,
     PositiveInteger,
     RefType,
     RevisionLabelString,
@@ -127,6 +128,18 @@ class AbstractARXMLParser(ABC):
         literal = None
         if child_element is not None:
             literal = VerbatimString()
+            self.readARObjectAttributes(child_element, literal)
+            if child_element.text is None:
+                literal.setValue("")
+            else:
+                literal.setValue(child_element.text)
+        return literal
+
+    def getChildElementOptionalNumerical(self, element: ET.Element, key: str) -> Numerical:
+        child_element = self.find(element, key)
+        literal = None
+        if child_element is not None:
+            literal = Numerical()
             self.readARObjectAttributes(child_element, literal)
             if child_element.text is None:
                 literal.setValue("")

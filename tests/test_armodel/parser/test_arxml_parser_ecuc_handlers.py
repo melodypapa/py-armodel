@@ -941,6 +941,37 @@ class TestGetEcucTextualParamValue:
         assert param_value.getValue() is None
 
 
+class TestGetEcucNumericalParamValue:
+    """Tests for getEcucNumericalParamValue handler (Table 2.51)."""
+
+    def test_reads_value_as_numerical(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+            EcucNumericalParamValue,
+        )
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <DEFINITION-REF DEST="ECUC-FLOAT-PARAM-DEF">/EcucDefs/Rte/SchedulingPeriod</DEFINITION-REF>
+            <VALUE>74.8</VALUE>
+            """,
+            root_tag="ECUC-NUMERICAL-PARAM-VALUE",
+        )
+        param_value = parser.getEcucNumericalParamValue(element)
+        assert isinstance(param_value, EcucNumericalParamValue)
+        assert param_value.getDefinition() is not None
+        assert param_value.getDefinition().getValue() == "/EcucDefs/Rte/SchedulingPeriod"
+        assert isinstance(param_value.getValue(), Numerical)
+        assert param_value.getValue().getValue() == "74.8"
+
+    def test_empty_element_leaves_value_unset(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip("", root_tag="ECUC-NUMERICAL-PARAM-VALUE")
+        param_value = parser.getEcucNumericalParamValue(element)
+        assert param_value.getValue() is None
+
+
 class TestReadEcucContainerValueReferenceValues:
     """Tests for readEcucContainerValueReferenceValues (L5133-5141)."""
 

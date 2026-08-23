@@ -8434,7 +8434,7 @@ class ARXMLParser(AbstractARXMLParser):
     def getEcucNumericalParamValue(self, element: ET.Element) -> EcucNumericalParamValue:
         param_value = EcucNumericalParamValue()
         self.readEcucParameterValue(element, param_value)
-        param_value.setValue(self.getChildElementOptionalNumericalValue(element, "VALUE"))
+        param_value.setValue(self.getChildElementOptionalNumerical(element, "VALUE"))
         return param_value
 
     def readEcucContainerValueParameterValues(self, element: ET.Element, container_value: EcucContainerValue):

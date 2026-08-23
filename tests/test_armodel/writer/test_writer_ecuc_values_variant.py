@@ -253,6 +253,29 @@ class TestWriterSetEcucTextualParamValue:
         assert child.find("VALUE") is None
 
 
+class TestWriterSetEcucNumericalParamValue:
+    def test_writes_numerical_value(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical
+
+        param = EcucNumericalParamValue()
+        param.setDefinition(_ref("/d", "ECUC-FLOAT-PARAM-DEF"))
+        param.setValue(Numerical().setValue("74.8"))
+        parent = _parent()
+        writer.setEcucNumericalParamValue(parent, param)
+        child = parent.find("ECUC-NUMERICAL-PARAM-VALUE")
+        assert child is not None
+        assert child.find("DEFINITION-REF").text == "/d"
+        assert child.find("VALUE").text == "74.8"
+
+    def test_minimal_writes_no_value(self, writer):
+        param = EcucNumericalParamValue()
+        parent = _parent()
+        writer.setEcucNumericalParamValue(parent, param)
+        child = parent.find("ECUC-NUMERICAL-PARAM-VALUE")
+        assert child is not None
+        assert child.find("VALUE") is None
+
+
 class TestWriterEcucContainerValueParameterValues:
     def test_dispatches_textual_and_numerical(self, writer):
         container = _make_container()

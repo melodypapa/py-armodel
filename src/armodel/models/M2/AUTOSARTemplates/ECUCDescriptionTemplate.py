@@ -7,8 +7,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARBoolean,
-    ARNumerical,
     Boolean,
+    Numerical,
     PositiveInteger,
     RefType,
     RevisionLabelString,
@@ -208,24 +208,32 @@ class EcucTextualParamValue(EcucParameterValue):
 
 class EcucNumericalParamValue(EcucParameterValue):
     """
-    ECUC parameter value for numerical values.
+    Holding the value which is subject to variant handling.
     """
 
     # EcucNumericalParamValue method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getValue                     [x] impl  [ ] docstring  [ ] test
-    # [ ] setValue                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.51, p.128
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValue                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.value = None  # type: ARNumerical
+        # Value which is subject to variant handling. atpVariation: [RS_ECUC_00080] Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
+        self.value: Optional[Numerical] = None
 
-    def getValue(self) -> ARNumerical:
+    def getValue(self) -> Optional[Numerical]:
+        """Value which is subject to variant handling. atpVariation: [RS_ECUC_00080] Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime"""
         return self.value
 
-    def setValue(self, value: ARNumerical):
-        self.value = value
+    def setValue(self, value: Optional[Numerical]) -> "EcucNumericalParamValue":
+        """Value which is subject to variant handling. atpVariation: [RS_ECUC_00080] Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self.value = value
+        return self
 
 
 class EcucAbstractReferenceValue(EcucIndexableValue, ABC):

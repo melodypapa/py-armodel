@@ -18,7 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum, EcucModuleDef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, CIdentifier, Limit, RefType, RevisionLabelString, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, CIdentifier, Limit, Numerical, RefType, RevisionLabelString, VerbatimString
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 
@@ -230,21 +230,69 @@ def test_ecuc_textual_param_value_member_docstrings_verbatim():
 
 def test_ecuc_numerical_param_value():
     """
-    Test EcucNumericalParamValue class.
+    Test EcucNumericalParamValue class - full spec compliance per Table 2.51.
 
     Test Steps:
     1. Create an EcucNumericalParamValue instance
-    2. Test value getter and setter
+    2. Test initial values
+    3. Test value methods (spec type: Numerical)
+    4. Verify method chaining
+    5. Verify class docstring contains the spec Note verbatim
     """
     param_value = EcucNumericalParamValue()
 
-    # Test initial value
+    # Test initial values (inherited from EcucParameterValue + own attribute)
+    assert param_value.annotations == []
+    assert param_value.definition is None
+    assert param_value.isAutoValue is None
     assert param_value.value is None
 
-    # Test value methods
-    num_value = ARNumerical()
-    param_value.setValue(num_value)
+    # Test value methods (spec type: Numerical)
+    num_value = Numerical().setValue("74.8")
+    result = param_value.setValue(num_value)
+    assert result is param_value  # Method chaining
+    assert isinstance(param_value.getValue(), Numerical)
     assert param_value.getValue() == num_value
+
+    # Verify docstrings match spec (Rule 0012)
+    assert EcucNumericalParamValue.__doc__ is not None, "Class docstring must contain spec Note"
+    assert "Holding the value which is subject to variant handling." in EcucNumericalParamValue.__doc__, "Class docstring must contain spec Note verbatim"
+
+
+def test_ecuc_numerical_param_value_none_no_op():
+    """
+    None passed to the 0..1 setter of EcucNumericalParamValue is a no-op.
+
+    Test Steps:
+    1. Create an EcucNumericalParamValue instance
+    2. Set the spec value on the 0..1 attribute
+    3. Call the setter with None and verify the value is preserved
+    """
+    param_value = EcucNumericalParamValue()
+    num_value = Numerical().setValue("0x10")
+
+    assert param_value.setValue(num_value) is param_value
+
+    param_value.setValue(None)
+
+    assert param_value.getValue() == num_value
+
+
+def test_ecuc_numerical_param_value_member_docstrings_verbatim():
+    """
+    Member docstrings must carry the Table 2.51 attribute Notes verbatim (Rule 0001.4/0012).
+
+    Test Steps:
+    1. Assert each getter/setter docstring contains the full spec Note sentence
+       that paraphrases are known to drop.
+    """
+    notes = {
+        "getValue": "Value which is subject to variant handling. atpVariation: [RS_ECUC_00080] Stereotypes: atpVariation",
+        "setValue": "Value which is subject to variant handling. atpVariation: [RS_ECUC_00080] Stereotypes: atpVariation",
+    }
+    for method_name, note in notes.items():
+        method = getattr(EcucNumericalParamValue, method_name)
+        assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
 
 
 def test_ecuc_abstract_reference_value_abstract():
@@ -631,6 +679,8 @@ if __name__ == "__main__":
     test_ecuc_add_info_param_value()
     test_ecuc_textual_param_value()
     test_ecuc_numerical_param_value()
+    test_ecuc_numerical_param_value_none_no_op()
+    test_ecuc_numerical_param_value_member_docstrings_verbatim()
     test_ecuc_abstract_reference_value_abstract()
     test_ecuc_abstract_reference_value_methods()
     test_ecuc_instance_reference_value()
