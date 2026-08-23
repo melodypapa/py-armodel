@@ -230,6 +230,29 @@ class TestWriterEcucParameterValue:
         assert parent.find("IS-AUTO-VALUE") is None
 
 
+class TestWriterSetEcucTextualParamValue:
+    def test_writes_verbatim_string_value(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import VerbatimString
+
+        param = EcucTextualParamValue()
+        param.setDefinition(_ref("/d", "ECUC-STRING-PARAM-DEF"))
+        param.setValue(VerbatimString().setValue("NVM_BLOCK_NATIVE"))
+        parent = _parent()
+        writer.setEcucTextualParamValue(parent, param)
+        child = parent.find("ECUC-TEXTUAL-PARAM-VALUE")
+        assert child is not None
+        assert child.find("DEFINITION-REF").text == "/d"
+        assert child.find("VALUE").text == "NVM_BLOCK_NATIVE"
+
+    def test_minimal_writes_no_value(self, writer):
+        param = EcucTextualParamValue()
+        parent = _parent()
+        writer.setEcucTextualParamValue(parent, param)
+        child = parent.find("ECUC-TEXTUAL-PARAM-VALUE")
+        assert child is not None
+        assert child.find("VALUE") is None
+
+
 class TestWriterEcucContainerValueParameterValues:
     def test_dispatches_textual_and_numerical(self, writer):
         container = _make_container()

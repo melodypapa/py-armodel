@@ -8428,7 +8428,7 @@ class ARXMLParser(AbstractARXMLParser):
     def getEcucTextualParamValue(self, element: ET.Element) -> EcucTextualParamValue:
         param_value = EcucTextualParamValue()
         self.readEcucParameterValue(element, param_value)
-        param_value.setValue(self.getChildElementOptionalLiteral(element, "VALUE"))
+        param_value.setValue(self.getChildElementOptionalVerbatimString(element, "VALUE"))
         return param_value
 
     def getEcucNumericalParamValue(self, element: ET.Element) -> EcucNumericalParamValue:

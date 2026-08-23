@@ -50,15 +50,16 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
   - [x] Step 7 — Update checklist comment (# Spec: line + rows; marker deferred to 9b)
   - [x] Step 8 — Deviations (none expected)
   - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11 (confirmed 2026-08-23 — marker at ECUCDescriptionTemplate.py; commit 221669a)
-- [ ] EcucTextualParamValue
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite verbatim)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec: line + rows; marker deferred to 9b)
-  - [ ] Step 8 — Deviations (none expected)
+- [x] EcucTextualParamValue
+  - [x] Step 1 — Sync members & description from spec (Table 2.50 p.127; Base ARObject/EcucIndexableValue/EcucParameterValue; single attr value: VerbatimString 0..1)
+  - [x] Step 2 — Write model class unit test (Red — chaining/None no-op/VerbatimString + verbatim docstring assertions failed first)
+  - [x] Step 3 — Implement model class (Green — value retyped ARLiteral→VerbatimString per spec, PEP 526 annotation, chaining + None guard)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite verbatim: class Note, inline __init__ comment, getter/setter docstrings)
+  - [x] Step 5 — Write reader/writer round-trip test (Red — parser materialized plain ARLiteral; VerbatimString isinstance failed)
+  - [x] Step 6 — Update parser & writer (Green — reader switched to getChildElementOptionalVerbatimString; writer unchanged)
+  - [x] Step 7 — Update checklist comment (# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.50, p.127; marker deferred to 9b)
+  - [x] Step 8 — Deviations (none — value modeled verbatim per Table 2.50; no flattening; no placeholders)
+  - [x] Step 9 — Verify (9a done: pytest 6922/flake8/ruff/black clean; parity gap pre-existing unrelated) + confirm (9b) (confirmed 2026-08-23 — marker at ECUCDescriptionTemplate.py)
   - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11
 - [ ] EcucNumericalParamValue
   - [ ] Step 1 — Sync members & description from spec

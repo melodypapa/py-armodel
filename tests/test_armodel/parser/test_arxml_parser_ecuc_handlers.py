@@ -910,6 +910,37 @@ class TestReadEcucParameterValue:
         assert param_value.getIsAutoValue() is None
 
 
+class TestGetEcucTextualParamValue:
+    """Tests for getEcucTextualParamValue handler (Table 2.50)."""
+
+    def test_reads_value_as_verbatim_string(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+            EcucTextualParamValue,
+        )
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import VerbatimString
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <DEFINITION-REF DEST="ECUC-STRING-PARAM-DEF">/EcucDefs/Rte/Param</DEFINITION-REF>
+            <VALUE>NVM_BLOCK_NATIVE</VALUE>
+            """,
+            root_tag="ECUC-TEXTUAL-PARAM-VALUE",
+        )
+        param_value = parser.getEcucTextualParamValue(element)
+        assert isinstance(param_value, EcucTextualParamValue)
+        assert param_value.getDefinition() is not None
+        assert param_value.getDefinition().getValue() == "/EcucDefs/Rte/Param"
+        assert isinstance(param_value.getValue(), VerbatimString)
+        assert param_value.getValue().getValue() == "NVM_BLOCK_NATIVE"
+
+    def test_empty_element_leaves_value_unset(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip("", root_tag="ECUC-TEXTUAL-PARAM-VALUE")
+        param_value = parser.getEcucTextualParamValue(element)
+        assert param_value.getValue() is None
+
+
 class TestReadEcucContainerValueReferenceValues:
     """Tests for readEcucContainerValueReferenceValues (L5133-5141)."""
 

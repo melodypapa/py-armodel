@@ -7,12 +7,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARBoolean,
-    ARLiteral,
     ARNumerical,
     Boolean,
     PositiveInteger,
     RefType,
     RevisionLabelString,
+    VerbatimString,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
@@ -178,24 +178,32 @@ class EcucAddInfoParamValue(EcucParameterValue):
 
 class EcucTextualParamValue(EcucParameterValue):
     """
-    ECUC parameter value for textual string values.
+    Holding a value which is not subject to variation.
     """
 
     # EcucTextualParamValue method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getValue                     [x] impl  [ ] docstring  [ ] test
-    # [ ] setValue                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.50, p.127
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValue                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.value = None  # type: ARLiteral
+        # Value of the parameter, not subject to variant handling.
+        self.value: Optional[VerbatimString] = None
 
-    def getValue(self) -> ARLiteral:
+    def getValue(self) -> Optional[VerbatimString]:
+        """Value of the parameter, not subject to variant handling."""
         return self.value
 
-    def setValue(self, value: ARLiteral):
-        self.value = value
+    def setValue(self, value: Optional[VerbatimString]) -> "EcucTextualParamValue":
+        """Value of the parameter, not subject to variant handling. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self.value = value
+        return self
 
 
 class EcucNumericalParamValue(EcucParameterValue):

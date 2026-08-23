@@ -18,7 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum, EcucModuleDef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, CIdentifier, Limit, RefType, RevisionLabelString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, CIdentifier, Limit, RefType, RevisionLabelString, VerbatimString
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 
@@ -163,21 +163,69 @@ def test_ecuc_add_info_param_value():
 
 def test_ecuc_textual_param_value():
     """
-    Test EcucTextualParamValue class.
+    Test EcucTextualParamValue class - full spec compliance per Table 2.50.
 
     Test Steps:
     1. Create an EcucTextualParamValue instance
-    2. Test value getter and setter
+    2. Test initial values
+    3. Test value methods (spec type: VerbatimString)
+    4. Verify method chaining
+    5. Verify class docstring contains the spec Note verbatim
     """
     param_value = EcucTextualParamValue()
 
-    # Test initial value
+    # Test initial values (inherited from EcucParameterValue + own attribute)
+    assert param_value.annotations == []
+    assert param_value.definition is None
+    assert param_value.isAutoValue is None
     assert param_value.value is None
 
-    # Test value methods
-    literal_value = ARLiteral()
-    param_value.setValue(literal_value)
-    assert param_value.getValue() == literal_value
+    # Test value methods (spec type: VerbatimString)
+    text_value = VerbatimString().setValue("NVM_BLOCK_NATIVE")
+    result = param_value.setValue(text_value)
+    assert result is param_value  # Method chaining
+    assert isinstance(param_value.getValue(), VerbatimString)
+    assert param_value.getValue() == text_value
+
+    # Verify docstrings match spec (Rule 0012)
+    assert EcucTextualParamValue.__doc__ is not None, "Class docstring must contain spec Note"
+    assert "Holding a value which is not subject to variation." in EcucTextualParamValue.__doc__, "Class docstring must contain spec Note verbatim"
+
+
+def test_ecuc_textual_param_value_none_no_op():
+    """
+    None passed to the 0..1 setter of EcucTextualParamValue is a no-op.
+
+    Test Steps:
+    1. Create an EcucTextualParamValue instance
+    2. Set the spec value on the 0..1 attribute
+    3. Call the setter with None and verify the value is preserved
+    """
+    param_value = EcucTextualParamValue()
+    text_value = VerbatimString().setValue("NVM_BLOCK_NATIVE")
+
+    assert param_value.setValue(text_value) is param_value
+
+    param_value.setValue(None)
+
+    assert param_value.getValue() == text_value
+
+
+def test_ecuc_textual_param_value_member_docstrings_verbatim():
+    """
+    Member docstrings must carry the Table 2.50 attribute Notes verbatim (Rule 0001.4/0012).
+
+    Test Steps:
+    1. Assert each getter/setter docstring contains the full spec Note sentence
+       that paraphrases are known to drop.
+    """
+    notes = {
+        "getValue": "Value of the parameter, not subject to variant handling.",
+        "setValue": "Value of the parameter, not subject to variant handling.",
+    }
+    for method_name, note in notes.items():
+        method = getattr(EcucTextualParamValue, method_name)
+        assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
 
 
 def test_ecuc_numerical_param_value():
