@@ -8,15 +8,15 @@ Spec source for all rows unless noted: `autosar/markdown/AUTOSAR_CP_TPS_Software
 
 ## Queue (dependency-first)
 
-- [ ] AbstractRuleBasedValueSpecification (base of NumericalRuleBasedValueSpecification · markdown · Table 5.128 · exists, no `# Spec:` line — stub sync; abstract, empty Attribute section)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] AbstractRuleBasedValueSpecification (base of NumericalRuleBasedValueSpecification · markdown · Table 5.128 · exists, no `# Spec:` line — stub sync; abstract, empty Attribute section) · commit a9112840
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: abstract class has no own XML tag
+  - [x] Step 6 — Update parser & writer (Green) — N/A: no own XML tag; serialized via concrete subclasses
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] PositiveInteger (member · markdown Table E.64, FO_TPS_GST · pulled by NotAvailableValueSpecification.defaultPattern · exists unstamped in `PrimitiveTypes.py`; Steps 5/6 likely N/A — primitive has no own XML element, round-trips as attribute value on the consuming class)
   - [ ] Step 1 — Sync members & description from spec
