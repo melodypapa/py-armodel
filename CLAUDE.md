@@ -145,7 +145,9 @@ Or using npm scripts:
 - `npm run pytest-cov` - Run tests with coverage
 
 ### Linting
-- `npm run flake8` - Run syntax checks (E9, F63, F7, F82)
+- `npm run lint` - Run ALL lint checks (flake8 syntax + ruff); use this as the default lint command
+- `npm run flake8` - Run flake8 syntax checks only (E9, F63, F7, F82)
+- `npm run ruff-check` - Run ruff only (E, F, W, I rules from pyproject.toml [tool.ruff])
 - `npm run black-check` - Check code formatting with Black (200 character line length)
 - `npm run black` - Format code with Black (200 character line length)
 - CI also runs complexity checks: `--max-complexity=10 --max-line-length=127`
