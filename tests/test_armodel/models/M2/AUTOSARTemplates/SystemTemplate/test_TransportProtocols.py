@@ -175,9 +175,10 @@ class Test_TransportProtocols:
         """Test CanTpConnection attribute getters/setters with None no-op (Table 6.253)."""
         connection = CanTpConnection()
 
-        fmt = ARLiteral()
+        fmt = CanTpAddressingFormatType()
         fmt.setValue(CanTpAddressingFormatType.ENUM_STANDARD)
         assert connection == connection.setAddressingFormat(fmt)
+        assert isinstance(connection.getAddressingFormat(), CanTpAddressingFormatType)
         assert connection.getAddressingFormat() == fmt
         assert connection == connection.setAddressingFormat(None)
         assert connection.getAddressingFormat() == fmt

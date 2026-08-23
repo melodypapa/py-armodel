@@ -238,7 +238,7 @@ class CanTpConnection(TpConnection):
         super().__init__()
 
         # Declares which communication addressing mode is supported.
-        self.addressingFormat: Optional[ARLiteral] = None
+        self.addressingFormat: Optional[CanTpAddressingFormatType] = None
 
         # With this switch Tx Cancellation can be turned on or off. Please note that the Rx Cancellation is always enabled.
         self.cancellation: Optional[Boolean] = None
@@ -285,11 +285,11 @@ class CanTpConnection(TpConnection):
         # The source of the TP connection.
         self.transmitterRef: Optional[RefType] = None
 
-    def getAddressingFormat(self) -> Optional[ARLiteral]:
+    def getAddressingFormat(self) -> Optional[CanTpAddressingFormatType]:
         """Declares which communication addressing mode is supported."""
         return self.addressingFormat
 
-    def setAddressingFormat(self, value: Optional[ARLiteral]) -> "CanTpConnection":
+    def setAddressingFormat(self, value: Optional[CanTpAddressingFormatType]) -> "CanTpConnection":
         """
         Declares which communication addressing mode is supported.
         A None value is a no-op and does not overwrite an existing addressingFormat.

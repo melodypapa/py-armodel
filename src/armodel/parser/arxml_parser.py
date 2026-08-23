@@ -641,6 +641,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
     CanTpAddress,
+    CanTpAddressingFormatType,
     CanTpChannel,
     CanTpConfig,
     CanTpConnection,
@@ -7140,7 +7141,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCanTpConnection(self, element: ET.Element, connection: CanTpConnection):
         self.readTpConnection(element, connection)
-        connection.setAddressingFormat(self.getChildElementOptionalLiteral(element, "ADDRESSING-FORMAT"))
+        addressing_format_literal = self.getChildElementOptionalLiteral(element, "ADDRESSING-FORMAT")
+        if addressing_format_literal is not None:
+            addressing_format = CanTpAddressingFormatType()
+            addressing_format.setValue(addressing_format_literal.getValue())
+            connection.setAddressingFormat(addressing_format)
         connection.setCanTpChannelRef(self.getChildElementOptionalRefType(element, "CAN-TP-CHANNEL-REF"))
         connection.setCancellation(self.getChildElementOptionalBooleanValue(element, "CANCELLATION"))
         connection.setDataPduRef(self.getChildElementOptionalRefType(element, "DATA-PDU-REF"))

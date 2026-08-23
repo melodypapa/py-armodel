@@ -6173,7 +6173,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         if connection is not None:
             child_element = ET.SubElement(element, "CAN-TP-CONNECTION")
             self.writeTpConnection(child_element, connection)
-            self.setChildElementOptionalLiteral(child_element, "ADDRESSING-FORMAT", connection.getAddressingFormat())
+            addressing_format = connection.getAddressingFormat()
+            if addressing_format is not None:
+                addressing_format_element = ET.SubElement(child_element, "ADDRESSING-FORMAT")
+                addressing_format_element.text = addressing_format.getValue()
             self.setChildElementOptionalRefType(child_element, "CAN-TP-CHANNEL-REF", connection.getCanTpChannelRef())
             self.setChildElementOptionalBooleanValue(child_element, "CANCELLATION", connection.getCancellation())
             self.setChildElementOptionalRefType(child_element, "DATA-PDU-REF", connection.getDataPduRef())

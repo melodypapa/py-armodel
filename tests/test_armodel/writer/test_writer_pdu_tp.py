@@ -566,6 +566,9 @@ class TestWriteCanTpConnection:
         reloaded = CanTpConnection()
         parser.readCanTpConnection(ET.fromstring(xml_str)[0], reloaded)
         assert reloaded.getIdent() is not None
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddressingFormatType
+
+        assert isinstance(reloaded.getAddressingFormat(), CanTpAddressingFormatType)
         assert reloaded.getAddressingFormat().getValue() == "MIXED"
         assert reloaded.getCanTpChannelRef().getValue() == "/ch"
         assert reloaded.getCancellation().getValue() is True
