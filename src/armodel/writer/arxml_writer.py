@@ -55,7 +55,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     TextValueSpecification,
     ValueSpecification,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NotAvailableValueSpecification, NumericalOrText
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Compiler, DependencyOnArtifact, Implementation, ImplementationProps, Linker
@@ -1271,6 +1271,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeRecordValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, ReferenceValueSpecification):
                     self.writeReferenceValueSpecification(elements_tag, sub_element)
+                elif isinstance(sub_element, NotAvailableValueSpecification):
+                    self.writeNotAvailableValueSpecification(elements_tag, sub_element)
                 else:
                     self.notImplemented("Unsupported element type of <%s> of ArrayValueSpecification" % type(sub_element))
 
@@ -1284,6 +1286,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             value_spec_tag = ET.SubElement(element, "REFERENCE-VALUE-SPECIFICATION")
             self.writeValueSpecification(value_spec_tag, value_spec)
             self.setChildElementOptionalRefType(value_spec_tag, "REFERENCE-VALUE-REF", value_spec.getReferenceValueRef())
+
+    def writeNotAvailableValueSpecification(self, element: ET.Element, value_spec: NotAvailableValueSpecification):
+        if value_spec is not None:
+            value_spec_tag = ET.SubElement(element, "NOT-AVAILABLE-VALUE-SPECIFICATION")
+            self.writeValueSpecification(value_spec_tag, value_spec)
+            self.setChildElementOptionalPositiveInteger(value_spec_tag, "DEFAULT-PATTERN", value_spec.getDefaultPattern())
 
     def setChildValueSpecification(self, element: ET.Element, key: str, value_spec: ValueSpecification):
         if value_spec is not None:
@@ -1300,6 +1308,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setConstantReference(child_element, value_spec)
             elif isinstance(value_spec, ReferenceValueSpecification):
                 self.writeReferenceValueSpecification(child_element, value_spec)
+            elif isinstance(value_spec, NotAvailableValueSpecification):
+                self.writeNotAvailableValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, NumericalValueSpecification):
                 self.writeNumericalValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, ArrayValueSpecification):
@@ -2491,6 +2501,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeArrayValueSpecification(fields_tag, field)
                 elif isinstance(field, RecordValueSpecification):
                     self.writeRecordValueSpecification(fields_tag, field)
+                elif isinstance(field, NotAvailableValueSpecification):
+                    self.writeNotAvailableValueSpecification(fields_tag, field)
                 else:
                     self.notImplemented("Unsupported Field <%s>" % type(field))
 

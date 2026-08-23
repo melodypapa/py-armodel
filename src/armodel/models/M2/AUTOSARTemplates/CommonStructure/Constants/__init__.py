@@ -781,23 +781,45 @@ class ConstantSpecificationMappingSet(ARObject):
 
 class NotAvailableValueSpecification(ValueSpecification):
     """
-    Represents a value specification that indicates a value is not available.
+    This meta-class provides the ability to specify a ValueSpecification to state that the respective element is not available. This ability is needed to support the existence of ApplicationRecordElements where attribute isOptional ist set to the value true.
     """
 
     # NotAvailableValueSpecification method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getReason                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setReason                    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.116, p.440
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDefaultPattern         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefaultPattern         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
-        self.reason: str = None
 
-    def getReason(self):
-        return self.reason
+        # The content of this attribute shall be used to initialize gaps in the memory occupied by a structured data type in the case that an NotAvailableValueSpecification is used. Note that this pattern is only applied during initialization!
+        self.defaultPattern: Optional[PositiveInteger] = None
 
-    def setReason(self, value):
-        self.reason = value
+    def getDefaultPattern(self) -> Optional[PositiveInteger]:
+        """
+        The content of this attribute shall be used to initialize gaps in the memory occupied by a structured data type in the case that an NotAvailableValueSpecification is used. Note that this pattern is only applied during initialization!
+
+        Returns:
+            Optional[PositiveInteger]: The content of this attribute shall be used to initialize gaps in the memory occupied by a structured data type in the case that an NotAvailableValueSpecification is used., or None if not set
+        """
+        return self.defaultPattern
+
+    def setDefaultPattern(self, value: Optional[PositiveInteger]) -> "NotAvailableValueSpecification":
+        """
+        The content of this attribute shall be used to initialize gaps in the memory occupied by a structured data type in the case that an NotAvailableValueSpecification is used. Note that this pattern is only applied during initialization!
+        A None value is a no-op and does not overwrite an existing defaultPattern.
+
+        Args:
+            value: The content of this attribute shall be used to initialize gaps in the memory occupied by a structured data type in the case that an NotAvailableValueSpecification is used. to set
+
+        Returns:
+            NotAvailableValueSpecification: self for method chaining
+        """
+        if value is not None:
+            self.defaultPattern = value
         return self
 
 

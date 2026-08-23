@@ -546,6 +546,25 @@ class TestDataTypeAndValueSpecHandlers:
         assert sw_values.getVg() is not None
         assert len(sw_values.getVg().getVgContents().getVs()) == 1
 
+    def test_getNotAvailableValueSpecification_with_default_pattern(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NotAvailableValueSpecification
+
+        root = _snip(
+            "<NOT-AVAILABLE-VALUE-SPECIFICATION>" "<DEFAULT-PATTERN>4</DEFAULT-PATTERN>" "</NOT-AVAILABLE-VALUE-SPECIFICATION>",
+            root_tag="PARENT",
+        )
+        spec = parser.getValueSpecification(root[0], "NOT-AVAILABLE-VALUE-SPECIFICATION")
+        assert isinstance(spec, NotAvailableValueSpecification)
+        assert spec.getDefaultPattern().getValue() == 4
+
+    def test_getNotAvailableValueSpecification_without_default_pattern(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NotAvailableValueSpecification
+
+        root = _snip("<NOT-AVAILABLE-VALUE-SPECIFICATION/>", root_tag="PARENT")
+        spec = parser.getValueSpecification(root[0], "NOT-AVAILABLE-VALUE-SPECIFICATION")
+        assert isinstance(spec, NotAvailableValueSpecification)
+        assert spec.getDefaultPattern() is None
+
     def test_readApplicationValueSpecification_populates_fields(self, parser):
         from armodel.models import ApplicationValueSpecification
 

@@ -55,7 +55,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     TextValueSpecification,
     ValueSpecification,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NotAvailableValueSpecification, NumericalOrText
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps
@@ -5416,6 +5416,12 @@ class ARXMLParser(AbstractARXMLParser):
         value_spec.setReferenceValueRef(self.getChildElementOptionalRefType(element, "REFERENCE-VALUE-REF"))
         return value_spec
 
+    def getNotAvailableValueSpecification(self, element: ET.Element) -> NotAvailableValueSpecification:
+        value_spec = NotAvailableValueSpecification()
+        self.readValueSpecification(element, value_spec)
+        value_spec.setDefaultPattern(self.getChildElementOptionalPositiveInteger(element, "DEFAULT-PATTERN"))
+        return value_spec
+
     def getValueSpecification(self, element: ET.Element, tag_name: str) -> ValueSpecification:
         if tag_name == "APPLICATION-VALUE-SPECIFICATION":
             value_spec = self.getApplicationValueSpecification(element)
@@ -5435,6 +5441,8 @@ class ARXMLParser(AbstractARXMLParser):
             value_spec = self.getConstantReference(element)
         elif tag_name == "REFERENCE-VALUE-SPECIFICATION":
             value_spec = self.getReferenceValueSpecification(element)
+        elif tag_name == "NOT-AVAILABLE-VALUE-SPECIFICATION":
+            value_spec = self.getNotAvailableValueSpecification(element)
         else:
             self.notImplemented("Unsupported RecordValueSpecificationField %s" % tag_name)
         return value_spec
