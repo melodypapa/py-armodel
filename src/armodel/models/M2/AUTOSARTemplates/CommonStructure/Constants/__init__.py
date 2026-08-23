@@ -20,7 +20,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     VerbatimString,
 )
+from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import CalprmAxisCategoryEnum
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
+from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 
 
 class ValueSpecification(ARObject, ABC):
@@ -1146,65 +1148,161 @@ class RuleArguments(ARObject):
 
 class RuleBasedAxisCont(ARObject):
     """
-    Represents the values for the axis of a compound primitive (curve, map).
-
-    For standard and fix axes, SwAxisCont contains the values of the axis directly.
+    This represents the values for the axis of a compound primitive (curve, map). For standard and fix axes, SwAxisCont contains the values of the axis directly. The axis values of SwAxisCont with the category COM_AXIS, RES_AXIS are for display only. For editing and processing, only the values in the related GroupAxis are binding.
     """
 
     # RuleBasedAxisCont method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCategory                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setCategory                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getUnitRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setUnitRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwArraysize               [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwArraysize               [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwAxisIndex               [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwAxisIndex               [x] impl  [ ] docstring  [ ] test
-    # [ ] getRuleBasedValues           [x] impl  [ ] docstring  [ ] test
-    # [ ] setRuleBasedValues           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.130, p.464
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCategory                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] setCategory                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRuleBasedValues           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRuleBasedValues           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwArraysize               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSwArraysize               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwAxisIndex               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] setSwAxisIndex               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUnitRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUnitRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
-        self.category = None  # type: ARLiteral
-        self.unitRef = None  # type: RefType
-        self.swArraysize = None  # type: ValueList
-        self.swAxisIndex = None  # type: ARLiteral
-        self.ruleBasedValues = None  # type: RuleBasedValueSpecification
 
-    def getCategory(self):
+        # This category specifies the particular axis types: • STD_AXIS • COM_AXIS • RES_AXIS (swArraysize necessary)
+        self.category: Optional[CalprmAxisCategoryEnum] = None
+
+        # This represents the rule based value specification for the axis of a compound primitive (curve, map).
+        self.ruleBasedValues: Optional[RuleBasedValueSpecification] = None
+
+        # For multidimensional compound primitives (curve, map ...) it is necessary to know the dimensions.They are specified using swArraySize.
+        self.swArraysize: Optional[ValueList] = None
+
+        # This property allows to explicitly assign the axis contents to a particular axis. It is specified by numbers where 1 corresponds to the x-axis. It is also possible to derive the axis association from the sequence of the parent.
+        self.swAxisIndex: Optional[AxisIndexType] = None
+
+        # This represents the physical unit of the provided values.
+        self.unitRef: Optional[RefType] = None
+
+    def getCategory(self) -> Optional[CalprmAxisCategoryEnum]:
+        """
+        This category specifies the particular axis types: • STD_AXIS • COM_AXIS • RES_AXIS (swArraysize necessary)
+
+        Returns:
+            Optional[CalprmAxisCategoryEnum]: The axis category, or None if not set
+        """
         return self.category
 
-    def setCategory(self, value):
-        self.category = value
+    def setCategory(self, value: Optional[CalprmAxisCategoryEnum]) -> "RuleBasedAxisCont":
+        """
+        This category specifies the particular axis types: • STD_AXIS • COM_AXIS • RES_AXIS (swArraysize necessary)
+        A None value is a no-op and does not overwrite an existing category.
+
+        Args:
+            value: The axis category to set
+
+        Returns:
+            RuleBasedAxisCont: self for method chaining
+        """
+        if value is not None:
+            self.category = value
         return self
 
-    def getUnitRef(self):
-        return self.unitRef
+    def getRuleBasedValues(self) -> Optional[RuleBasedValueSpecification]:
+        """
+        This represents the rule based value specification for the axis of a compound primitive (curve, map).
 
-    def setUnitRef(self, value):
-        self.unitRef = value
-        return self
-
-    def getSwArraysize(self):
-        return self.swArraysize
-
-    def setSwArraysize(self, value):
-        self.swArraysize = value
-        return self
-
-    def getSwAxisIndex(self):
-        return self.swAxisIndex
-
-    def setSwAxisIndex(self, value):
-        self.swAxisIndex = value
-        return self
-
-    def getRuleBasedValues(self):
+        Returns:
+            Optional[RuleBasedValueSpecification]: The value specification, or None if not set
+        """
         return self.ruleBasedValues
 
-    def setRuleBasedValues(self, value):
-        self.ruleBasedValues = value
+    def setRuleBasedValues(self, value: Optional[RuleBasedValueSpecification]) -> "RuleBasedAxisCont":
+        """
+        This represents the rule based value specification for the axis of a compound primitive (curve, map).
+        A None value is a no-op and does not overwrite an existing ruleBasedValues.
+
+        Args:
+            value: The value specification to set
+
+        Returns:
+            RuleBasedAxisCont: self for method chaining
+        """
+        if value is not None:
+            self.ruleBasedValues = value
+        return self
+
+    def getSwArraysize(self) -> Optional[ValueList]:
+        """
+        For multidimensional compound primitives (curve, map ...) it is necessary to know the dimensions.They are specified using swArraySize.
+
+        Returns:
+            Optional[ValueList]: The array size, or None if not set
+        """
+        return self.swArraysize
+
+    def setSwArraysize(self, value: Optional[ValueList]) -> "RuleBasedAxisCont":
+        """
+        For multidimensional compound primitives (curve, map ...) it is necessary to know the dimensions.They are specified using swArraySize.
+        A None value is a no-op and does not overwrite an existing swArraysize.
+
+        Args:
+            value: The array size to set
+
+        Returns:
+            RuleBasedAxisCont: self for method chaining
+        """
+        if value is not None:
+            self.swArraysize = value
+        return self
+
+    def getSwAxisIndex(self) -> Optional[AxisIndexType]:
+        """
+        This property allows to explicitly assign the axis contents to a particular axis. It is specified by numbers where 1 corresponds to the x-axis. It is also possible to derive the axis association from the sequence of the parent.
+
+        Returns:
+            Optional[AxisIndexType]: The axis index, or None if not set
+        """
+        return self.swAxisIndex
+
+    def setSwAxisIndex(self, value: Optional[AxisIndexType]) -> "RuleBasedAxisCont":
+        """
+        This property allows to explicitly assign the axis contents to a particular axis. It is specified by numbers where 1 corresponds to the x-axis. It is also possible to derive the axis association from the sequence of the parent.
+        A None value is a no-op and does not overwrite an existing swAxisIndex.
+
+        Args:
+            value: The axis index to set
+
+        Returns:
+            RuleBasedAxisCont: self for method chaining
+        """
+        if value is not None:
+            self.swAxisIndex = value
+        return self
+
+    def getUnitRef(self) -> Optional[RefType]:
+        """
+        This represents the physical unit of the provided values.
+
+        Returns:
+            Optional[RefType]: The unit reference, or None if not set
+        """
+        return self.unitRef
+
+    def setUnitRef(self, value: Optional[RefType]) -> "RuleBasedAxisCont":
+        """
+        This represents the physical unit of the provided values.
+        A None value is a no-op and does not overwrite an existing unitRef.
+
+        Args:
+            value: The unit reference to set
+
+        Returns:
+            RuleBasedAxisCont: self for method chaining
+        """
+        if value is not None:
+            self.unitRef = value
         return self
 
 
