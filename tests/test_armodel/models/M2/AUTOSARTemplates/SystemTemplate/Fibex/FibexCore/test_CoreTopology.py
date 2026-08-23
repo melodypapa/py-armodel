@@ -29,7 +29,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     IPduPort,
     IPduSignalProcessingEnum,
     ISignalPort,
-    LinCluster,
     LinPhysicalChannel,
     PhysicalChannel,
     PncGatewayTypeEnum,
@@ -329,31 +328,6 @@ class Test_FibexCoreTopology:
         cluster.setCanXlBaudrate(10000000)
         assert cluster.getCanXlBaudrate() == 10000000
         assert cluster == cluster.setCanXlBaudrate(10000000)  # Test method chaining
-
-    def test_LinCluster(self):
-        """Test LinCluster class functionality."""
-        parent = MockParent()
-        cluster = LinCluster(parent, "test_lin_cluster")
-
-        assert isinstance(cluster, CommunicationCluster)
-
-        # Test default values
-        assert cluster.getBaudrate() is None
-        assert cluster.getProtocolName() is None
-        assert cluster.getProtocolVersion() is None
-
-        # Test setter/getter methods with method chaining
-        cluster.setBaudrate(19200)
-        assert cluster.getBaudrate() == 19200
-        assert cluster == cluster.setBaudrate(19200)  # Test method chaining
-
-        cluster.setProtocolName("LIN")
-        assert cluster.getProtocolName() == "LIN"
-        assert cluster == cluster.setProtocolName("LIN")  # Test method chaining
-
-        cluster.setProtocolVersion("2.2")
-        assert cluster.getProtocolVersion() == "2.2"
-        assert cluster == cluster.setProtocolVersion("2.2")  # Test method chaining
 
     def test_CommunicationController(self):
         """Test CommunicationController abstract class instantiation."""

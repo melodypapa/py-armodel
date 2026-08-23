@@ -509,8 +509,24 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.Flexr
     FlexrayFifoConfiguration,
     FlexrayFifoRange,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import ApplicationEntry, LinFrameTriggering, LinScheduleTable, LinUnconditionalFrame, ScheduleTableEntry
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
+    ApplicationEntry,
+    LinErrorResponse,
+    LinFrameTriggering,
+    LinScheduleTable,
+    LinUnconditionalFrame,
+    ScheduleTableEntry,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
+    LinCluster,
+    LinCommunicationConnector,
+    LinCommunicationController,
+    LinConfigurableFrame,
+    LinMaster,
+    LinOrderedConfigurableFrame,
+    LinSlaveConfig,
+    LinSlaveConfigIdent,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     ContainedIPduProps,
@@ -564,7 +580,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     FramePort,
     IPduPort,
     ISignalPort,
-    LinCluster,
     LinPhysicalChannel,
     PhysicalChannel,
 )
@@ -8102,8 +8117,75 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "LIN-MASTER-VARIANTS/LIN-MASTER-CONDITIONAL")
         if child_element is not None:
             self.readLinCommunicationController(child_element, controller)
+            slaves_wrapper = self.find(child_element, "LIN-SLAVES")
+            if slaves_wrapper is not None:
+                for slave_element in self.findall(slaves_wrapper, "LIN-SLAVE-CONFIG"):
+                    controller.addLinSlave(self.readLinSlaveConfig(slave_element))
             controller.setTimeBase(self.getChildElementOptionalTimeValue(child_element, "TIME-BASE"))
             controller.setTimeBaseJitter(self.getChildElementOptionalTimeValue(child_element, "TIME-BASE-JITTER"))
+
+    def getLinErrorResponse(self, element: ET.Element, key: str) -> LinErrorResponse:
+        response = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            response = LinErrorResponse()
+            response.setResponseErrorRef(self.getChildElementOptionalRefType(child_element, "RESPONSE-ERROR-REF"))
+        return response
+
+    def getLinConfigurableFrame(self, element: ET.Element, key: str) -> LinConfigurableFrame:
+        frame = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            frame = LinConfigurableFrame()
+            frame.setFrameRef(self.getChildElementOptionalRefType(child_element, "FRAME-REF"))
+            frame.setMessageId(self.getChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID"))
+        return frame
+
+    def getLinOrderedConfigurableFrame(self, element: ET.Element, key: str) -> LinOrderedConfigurableFrame:
+        frame = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            frame = LinOrderedConfigurableFrame()
+            frame.setFrameRef(self.getChildElementOptionalRefType(child_element, "FRAME-REF"))
+            frame.setIndex(self.getChildElementOptionalIntegerValue(child_element, "INDEX"))
+        return frame
+
+    def getLinSlaveConfig(self, element: ET.Element, key: str) -> LinSlaveConfig:
+        config = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            config = self.readLinSlaveConfig(child_element)
+        return config
+
+    def readLinSlaveConfig(self, child_element: ET.Element) -> LinSlaveConfig:
+        config = LinSlaveConfig()
+        config.setConfiguredNad(self.getChildElementOptionalIntegerValue(child_element, "CONFIGURED-NAD"))
+        config.setFunctionId(self.getChildElementOptionalPositiveInteger(child_element, "FUNCTION-ID"))
+        ident_element = self.find(child_element, "IDENT")
+        if ident_element is not None:
+            ident = LinSlaveConfigIdent(config, self.getShortName(ident_element))
+            self.readReferrable(ident_element, ident)
+            config.setIdent(ident)
+        config.setInitialNad(self.getChildElementOptionalIntegerValue(child_element, "INITIAL-NAD"))
+        frames_wrapper = self.find(child_element, "LIN-CONFIGURABLE-FRAMES")
+        if frames_wrapper is not None:
+            for frame_element in self.findall(frames_wrapper, "LIN-CONFIGURABLE-FRAME"):
+                frame = LinConfigurableFrame()
+                frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
+                frame.setMessageId(self.getChildElementOptionalPositiveInteger(frame_element, "MESSAGE-ID"))
+                config.addLinConfigurableFrame(frame)
+        config.setLinErrorResponse(self.getLinErrorResponse(child_element, "LIN-ERROR-RESPONSE"))
+        ordered_wrapper = self.find(child_element, "LIN-ORDERED-CONFIGURABLE-FRAMES")
+        if ordered_wrapper is not None:
+            for frame_element in self.findall(ordered_wrapper, "LIN-ORDERED-CONFIGURABLE-FRAME"):
+                frame = LinOrderedConfigurableFrame()
+                frame.setFrameRef(self.getChildElementOptionalRefType(frame_element, "FRAME-REF"))
+                frame.setIndex(self.getChildElementOptionalIntegerValue(frame_element, "INDEX"))
+                config.addLinOrderedConfigurableFrame(frame)
+        config.setProtocolVersion(self.getChildElementOptionalLiteral(child_element, "PROTOCOL-VERSION"))
+        config.setSupplierId(self.getChildElementOptionalPositiveInteger(child_element, "SUPPLIER-ID"))
+        config.setVariantId(self.getChildElementOptionalPositiveInteger(child_element, "VARIANT-ID"))
+        return config
 
     def readEcuInstanceCommControllers(self, element: ET.Element, instance: EcuInstance):
         self.logger.debug("readEcuInstanceCommControllers %s" % instance.getShortName())
