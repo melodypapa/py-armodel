@@ -6348,9 +6348,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeTtcanAbsolutelyScheduledTiming(timings_element, timing)
                 else:
                     self.notImplemented("Unsupported AbsolutelyScheduledTiming <%s>" % type(timing))
-        self.setChildElementOptionalLiteral(child_element, "CAN-ADDRESSING-MODE", triggering.getCanAddressingMode())
-        self.setChildElementOptionalLiteral(child_element, "CAN-FRAME-RX-BEHAVIOR", triggering.getCanFrameRxBehavior())
-        self.setChildElementOptionalLiteral(child_element, "CAN-FRAME-TX-BEHAVIOR", triggering.getCanFrameTxBehavior())
+        addressing_mode = triggering.getCanAddressingMode()
+        if addressing_mode is not None:
+            addressing_mode_element = ET.SubElement(child_element, "CAN-ADDRESSING-MODE")
+            addressing_mode_element.text = addressing_mode.getValue()
+        rx_behavior = triggering.getCanFrameRxBehavior()
+        if rx_behavior is not None:
+            rx_behavior_element = ET.SubElement(child_element, "CAN-FRAME-RX-BEHAVIOR")
+            rx_behavior_element.text = rx_behavior.getValue()
+        tx_behavior = triggering.getCanFrameTxBehavior()
+        if tx_behavior is not None:
+            tx_behavior_element = ET.SubElement(child_element, "CAN-FRAME-TX-BEHAVIOR")
+            tx_behavior_element.text = tx_behavior.getValue()
         props = triggering.getCanXlFrameTriggeringProps()
         if props is not None:
             props_element = ET.SubElement(child_element, "CAN-XL-FRAME-TRIGGERING-PROPS")

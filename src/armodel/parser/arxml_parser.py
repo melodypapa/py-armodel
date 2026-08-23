@@ -463,8 +463,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
+    CanAddressingModeType,
     CanFrame,
+    CanFrameRxBehaviorEnum,
     CanFrameTriggering,
+    CanFrameTxBehaviorEnum,
     CanXlFrameTriggeringProps,
     RxIdentifierRange,
 )
@@ -5856,9 +5859,21 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read CanFrameTriggering %s" % triggering.getShortName())
         self.readFrameTriggering(element, triggering)
         self.readCanFrameTriggeringAbsolutelyScheduledTimings(element, triggering)
-        triggering.setCanAddressingMode(self.getChildElementOptionalLiteral(element, "CAN-ADDRESSING-MODE"))
-        triggering.setCanFrameRxBehavior(self.getChildElementOptionalLiteral(element, "CAN-FRAME-RX-BEHAVIOR"))
-        triggering.setCanFrameTxBehavior(self.getChildElementOptionalLiteral(element, "CAN-FRAME-TX-BEHAVIOR"))
+        addressing_mode_literal = self.getChildElementOptionalLiteral(element, "CAN-ADDRESSING-MODE")
+        if addressing_mode_literal is not None:
+            addressing_mode = CanAddressingModeType()
+            addressing_mode.setValue(addressing_mode_literal.getValue())
+            triggering.setCanAddressingMode(addressing_mode)
+        rx_behavior_literal = self.getChildElementOptionalLiteral(element, "CAN-FRAME-RX-BEHAVIOR")
+        if rx_behavior_literal is not None:
+            rx_behavior = CanFrameRxBehaviorEnum()
+            rx_behavior.setValue(rx_behavior_literal.getValue())
+            triggering.setCanFrameRxBehavior(rx_behavior)
+        tx_behavior_literal = self.getChildElementOptionalLiteral(element, "CAN-FRAME-TX-BEHAVIOR")
+        if tx_behavior_literal is not None:
+            tx_behavior = CanFrameTxBehaviorEnum()
+            tx_behavior.setValue(tx_behavior_literal.getValue())
+            triggering.setCanFrameTxBehavior(tx_behavior)
         triggering.setCanXlFrameTriggeringProps(self.getCanXlFrameTriggeringProps(element, "CAN-XL-FRAME-TRIGGERING-PROPS"))
         triggering.setIdentifier(self.getChildElementOptionalNumericalValue(element, "IDENTIFIER"))
         triggering.setJ1939requestable(self.getChildElementOptionalBooleanValue(element, "J-1939-REQUESTABLE"))

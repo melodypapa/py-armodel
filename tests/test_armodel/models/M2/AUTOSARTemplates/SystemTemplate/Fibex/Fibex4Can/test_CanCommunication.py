@@ -8,7 +8,7 @@ of the respective classes.
 """
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Integer, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanAddressingModeType,
     CanFrame,
@@ -110,21 +110,24 @@ class Test_Fibex4CanCommunication:
         parent = MockParent()
         triggering = CanFrameTriggering(parent, "CanFrameTriggering")
 
-        mode = ARLiteral()
-        mode.setValue("STANDARD")
+        mode = CanAddressingModeType()
+        mode.setValue(CanAddressingModeType.ENUM_STANDARD)
         assert triggering == triggering.setCanAddressingMode(mode)
+        assert isinstance(triggering.getCanAddressingMode(), CanAddressingModeType)
         assert triggering.getCanAddressingMode() == mode
         assert triggering == triggering.setCanAddressingMode(None)
         assert triggering.getCanAddressingMode() == mode
 
-        rx = ARLiteral()
+        rx = CanFrameRxBehaviorEnum()
         rx.setValue(CanFrameRxBehaviorEnum.ENUM_CAN_FD)
         assert triggering == triggering.setCanFrameRxBehavior(rx)
+        assert isinstance(triggering.getCanFrameRxBehavior(), CanFrameRxBehaviorEnum)
         assert triggering.getCanFrameRxBehavior() == rx
 
-        tx = ARLiteral()
+        tx = CanFrameTxBehaviorEnum()
         tx.setValue(CanFrameTxBehaviorEnum.ENUM_CAN_20)
         assert triggering == triggering.setCanFrameTxBehavior(tx)
+        assert isinstance(triggering.getCanFrameTxBehavior(), CanFrameTxBehaviorEnum)
         assert triggering.getCanFrameTxBehavior() == tx
 
         assert triggering == triggering.setIdentifier(Integer().setValue(0x100))

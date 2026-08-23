@@ -959,6 +959,7 @@ class CanPhysicalChannel(AbstractCanPhysicalChannel):
 
     # CanPhysicalChannel method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.21, p.73
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
     # (no own attributes; Base = ARObject, AbstractCanPhysicalChannel, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable)
@@ -974,6 +975,7 @@ class AbstractCanCommunicationConnector(CommunicationConnector, ABC):
 
     # AbstractCanCommunicationConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.22, p.73
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # (no own attributes; reader/writer coverage via CAN-COMMUNICATION-CONNECTOR dispatch of subclasses)

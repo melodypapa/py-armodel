@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, Boolean, Integer, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming
@@ -228,6 +228,7 @@ class CanFrame(Frame):
 
     # CanFrame method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.109, p.442
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
     # (no own attributes; Base = ARObject, CollectableElement, FibexElement, Frame, Identifiable, MultilanguageReferrable, PackageableElement, Referrable)
@@ -270,16 +271,16 @@ class CanFrameTriggering(FrameTriggering):
         super().__init__(parent, short_name)
 
         # Each frame in TTCAN is identified by its slot id and communication cycle. A description is provided by the usage of AbsolutelyScheduledTiming.
-        self.absolutelyScheduledTimings: "List[TtcanAbsolutelyScheduledTiming]" = []
+        self.absolutelyScheduledTimings: List[TtcanAbsolutelyScheduledTiming] = []
 
         # The CAN protocol supports two types of frame formats. The standard frame format uses 11-bit identifiers and is defined in the CAN specification 2.0 A. Additionally the extended frame format allows 29-bit identifiers and is defined in the CAN specification 2.0 B.
-        self.canAddressingMode: Optional[ARLiteral] = None
+        self.canAddressingMode: Optional[CanAddressingModeType] = None
 
         # Defines which CAN protocol shall be expected for frame reception.
-        self.canFrameRxBehavior: Optional[ARLiteral] = None
+        self.canFrameRxBehavior: Optional[CanFrameRxBehaviorEnum] = None
 
         # Defines which CAN protocol shall be used for frame transmission.
-        self.canFrameTxBehavior: Optional[ARLiteral] = None
+        self.canFrameTxBehavior: Optional[CanFrameTxBehaviorEnum] = None
 
         # Definition of CAN XL specific attributes in case the frame is a CAN XL frame.
         self.canXlFrameTriggeringProps: Optional[CanXlFrameTriggeringProps] = None
@@ -312,11 +313,11 @@ class CanFrameTriggering(FrameTriggering):
             self.absolutelyScheduledTimings.append(value)
         return self
 
-    def getCanAddressingMode(self) -> Optional[ARLiteral]:
+    def getCanAddressingMode(self) -> Optional[CanAddressingModeType]:
         """The CAN protocol supports two types of frame formats. The standard frame format uses 11-bit identifiers and is defined in the CAN specification 2.0 A. Additionally the extended frame format allows 29-bit identifiers and is defined in the CAN specification 2.0 B."""
         return self.canAddressingMode
 
-    def setCanAddressingMode(self, value: Optional[ARLiteral]) -> "CanFrameTriggering":
+    def setCanAddressingMode(self, value: Optional[CanAddressingModeType]) -> "CanFrameTriggering":
         """
         The CAN protocol supports two types of frame formats. The standard frame format uses 11-bit identifiers and is defined in the CAN specification 2.0 A. Additionally the extended frame format allows 29-bit identifiers and is defined in the CAN specification 2.0 B.
         A None value is a no-op and does not overwrite an existing canAddressingMode.
@@ -325,11 +326,11 @@ class CanFrameTriggering(FrameTriggering):
             self.canAddressingMode = value
         return self
 
-    def getCanFrameRxBehavior(self) -> Optional[ARLiteral]:
+    def getCanFrameRxBehavior(self) -> Optional[CanFrameRxBehaviorEnum]:
         """Defines which CAN protocol shall be expected for frame reception."""
         return self.canFrameRxBehavior
 
-    def setCanFrameRxBehavior(self, value: Optional[ARLiteral]) -> "CanFrameTriggering":
+    def setCanFrameRxBehavior(self, value: Optional[CanFrameRxBehaviorEnum]) -> "CanFrameTriggering":
         """
         Defines which CAN protocol shall be expected for frame reception.
         A None value is a no-op and does not overwrite an existing canFrameRxBehavior.
@@ -338,11 +339,11 @@ class CanFrameTriggering(FrameTriggering):
             self.canFrameRxBehavior = value
         return self
 
-    def getCanFrameTxBehavior(self) -> Optional[ARLiteral]:
+    def getCanFrameTxBehavior(self) -> Optional[CanFrameTxBehaviorEnum]:
         """Defines which CAN protocol shall be used for frame transmission."""
         return self.canFrameTxBehavior
 
-    def setCanFrameTxBehavior(self, value: Optional[ARLiteral]) -> "CanFrameTriggering":
+    def setCanFrameTxBehavior(self, value: Optional[CanFrameTxBehaviorEnum]) -> "CanFrameTriggering":
         """
         Defines which CAN protocol shall be used for frame transmission.
         A None value is a no-op and does not overwrite an existing canFrameTxBehavior.

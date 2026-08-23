@@ -679,6 +679,7 @@ class CanTpConfig(TpConfig):
 
     # CanTpConfig method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.251, p.607
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getTpAddresses          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer

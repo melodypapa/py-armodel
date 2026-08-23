@@ -243,7 +243,7 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CanPhysicalChannel (input · markdown · Table 3.21 · p.73 · MOVED 2026-08-24 together with its abstract base (same spec package; split placement impossible due to import cycle); awaiting stamp confirmation)
+- [x] CanPhysicalChannel (input · markdown · Table 3.21 · p.73 · MOVED to Fibex4Can/CanTopology.py 2026-08-24 · commit this round · stamped R23-11 2026-08-24)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -252,7 +252,7 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 - [x] CanNmEcu (input · markdown · Table 6.312 · p.683 · commit ffa3009b · stamped R23-11 2026-08-24; ADDED missing CAN-NM-ECU dispatch in readBusDependentNmEcus/writeBusDependentNmEcus — only UDP was handled before)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -263,7 +263,27 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CanTpConfig (input · markdown · Table 6.251 · p.607 · synced 2026-08-24, stamp deferred to batch confirmation)
+- [x] CanTpConfig (input · markdown · Table 6.251 · p.607 · commit a517c413 · stamped R23-11 2026-08-24)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+- [x] CanFrame (input · markdown · Table 6.109 · p.442 · commit 5c6ec83e · stamped R23-11 2026-08-24; marker class — frameLength/pduToFrameMappings owned by stamped Frame base, no flattening)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+- [ ] CanFrameTriggering (input · markdown · Table 6.110 · p.443 · commits 5c6ec83e + enum retyping fix 2026-08-24; `canFdFrameSupport` REMOVED (atp.Status="removed", absent from R23-11 PDF per Rule 0015); ADDED reader/writer coverage for absolutelyScheduledTimings, canXlFrameTriggeringProps, j1939requestable, rxMask, txMask; canAddressingMode/canFrameRxBehavior/canFrameTxBehavior retyped to their spec enums per user review; awaiting stamp confirmation)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -273,7 +293,7 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CanFrame (input · markdown · Table 6.109 · p.442 · synced 2026-08-24, stamp deferred to batch confirmation; marker class — frameLength/pduToFrameMappings already owned by stamped Frame base, no flattening)
+- [x] AbstractCanCommunicationConnector (input · markdown · Table 3.22 · p.73 · commit 63393d16 · stamped R23-11 2026-08-24; marker class, reader/writer via CAN-COMMUNICATION-CONNECTOR dispatch)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -282,27 +302,7 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CanFrameTriggering (input · markdown · Table 6.110 · p.443 · synced 2026-08-24, stamp deferred to batch confirmation; `canFdFrameSupport` REMOVED (atp.Status="removed", absent from R23-11 PDF per Rule 0015); ADDED missing reader/writer coverage for absolutelyScheduledTimings, canXlFrameTriggeringProps, j1939requestable, rxMask, txMask; bulk setAbsolutelyScheduledTimings replaced by spec-shaped addAbsolutelyScheduledTiming)
-  - [x] Step 1 — Sync members & description from spec
-  - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green)
-  - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] AbstractCanCommunicationConnector (input · markdown · Table 3.22 · p.73 · synced 2026-08-24, stamp deferred to batch confirmation; marker class, reader/writer via CAN-COMMUNICATION-CONNECTOR dispatch)
-  - [x] Step 1 — Sync members & description from spec
-  - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green)
-  - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 ## Not queued
 
