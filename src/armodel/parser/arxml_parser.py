@@ -8442,10 +8442,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readEcucModuleConfigurationValues(self, element: ET.Element, values: EcucModuleConfigurationValues):
         self.logger.debug("Read EcucModuleConfigurationValues %s" % values.getShortName())
         self.readIdentifiable(element, values)
-        values.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
-        values.setEcucDefEdition(self.getChildElementOptionalLiteral(element, "ECUC-DEF-EDITION"))
+        values.setDefinition(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        values.setEcucDefEdition(self.getChildElementOptionalRevisionLabelString(element, "ECUC-DEF-EDITION"))
         values.setImplementationConfigVariant(self.getChildElementOptionalLiteral(element, "IMPLEMENTATION-CONFIG-VARIANT"))
-        values.setModuleDescriptionRef(self.getChildElementOptionalRefType(element, "MODULE-DESCRIPTION-REF"))
+        values.setModuleDescription(self.getChildElementOptionalRefType(element, "MODULE-DESCRIPTION-REF"))
         values.setPostBuildVariantUsed(self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-USED"))
         self.readEcucModuleConfigurationValuesContainers(element, values)
 

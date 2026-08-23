@@ -18,7 +18,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARBoolean,
     ARLiteral,
     ARNumerical,
+    Boolean,
     RefType,
+    RevisionLabelString,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (  # noqa E501
     SwSystemconstValue,
@@ -345,19 +347,23 @@ class TestWriterEcucModuleConfigurationValuesContainers:
 class TestWriterEcucModuleConfigurationValues:
     def test_full(self, writer):
         mcv = _make_module_config()
-        mcv.setDefinitionRef(_ref("/d", "ECUC-MODULE-DEF"))
-        mcv.setImplementationConfigVariant(_literal("variant"))
-        mcv.setModuleDescriptionRef(_ref("/md", "ECUC-MODULE-DEF"))
+        mcv.setDefinition(_ref("/d", "ECUC-MODULE-DEF"))
+        mcv.setImplementationConfigVariant(_literal("VARIANT-PRE-COMPILE"))
+        mcv.setModuleDescription(_ref("/md", "BSW-IMPLEMENTATION"))
         mcv.createContainer("c1")
         parent = _parent()
         writer.writeEcucModuleConfigurationValues(parent, mcv)
         assert parent[0].tag == "ECUC-MODULE-CONFIGURATION-VALUES"
         assert parent[0].find("SHORT-NAME").text == "mcv"
-        assert parent[0].find("DEFINITION-REF") is not None
+        definition_ref = parent[0].find("DEFINITION-REF")
+        assert definition_ref is not None
+        assert definition_ref.text == "/d"
         impl = parent[0].find("IMPLEMENTATION-CONFIG-VARIANT")
         assert impl is not None
-        assert impl.text == "variant"
-        assert parent[0].find("MODULE-DESCRIPTION-REF") is not None
+        assert impl.text == "VARIANT-PRE-COMPILE"
+        module_description_ref = parent[0].find("MODULE-DESCRIPTION-REF")
+        assert module_description_ref is not None
+        assert module_description_ref.text == "/md"
         assert parent[0].find("CONTAINERS") is not None
 
     def test_minimal(self, writer):
@@ -374,8 +380,8 @@ class TestWriterEcucModuleConfigurationValues:
 
     def test_full_writes_ecuc_def_edition_and_post_build_variant_used(self, writer):
         mcv = _make_module_config()
-        mcv.setEcucDefEdition(_literal("1.0.0"))
-        mcv.setPostBuildVariantUsed(ARBoolean().setValue(True))
+        mcv.setEcucDefEdition(RevisionLabelString().setValue("1.0.0"))
+        mcv.setPostBuildVariantUsed(Boolean().setValue(True))
         parent = _parent()
         writer.writeEcucModuleConfigurationValues(parent, mcv)
         assert parent[0].tag == "ECUC-MODULE-CONFIGURATION-VALUES"

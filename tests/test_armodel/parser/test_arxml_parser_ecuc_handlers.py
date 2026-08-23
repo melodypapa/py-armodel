@@ -7,6 +7,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from armodel.models import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RevisionLabelString
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -1202,9 +1203,11 @@ class TestReadEcucModuleConfigurationValues:
             root_tag="ECUC-MODULE-CONFIGURATION-VALUES",
         )
         parser.readEcucModuleConfigurationValues(element, values)
-        assert values.getDefinitionRef() is not None
-        assert values.getImplementationConfigVariant() is not None
-        assert values.getModuleDescriptionRef() is not None
+        assert values.getDefinition() is not None
+        assert values.getDefinition().getValue() == "/Path/To/ModuleDef"
+        assert values.getImplementationConfigVariant().getValue() == "VARIANT-PRE-COMPILE"
+        assert values.getModuleDescription() is not None
+        assert values.getModuleDescription().getValue() == "/Path/To/ModuleDesc"
         assert len(values.getContainers()) == 1
 
     def test_minimal_handler_only_short_name(self, parser):
@@ -1217,9 +1220,9 @@ class TestReadEcucModuleConfigurationValues:
             root_tag="ECUC-MODULE-CONFIGURATION-VALUES",
         )
         parser.readEcucModuleConfigurationValues(element, values)
-        assert values.getDefinitionRef() is None
+        assert values.getDefinition() is None
         assert values.getImplementationConfigVariant() is None
-        assert values.getModuleDescriptionRef() is None
+        assert values.getModuleDescription() is None
         assert values.getEcucDefEdition() is None
         assert values.getPostBuildVariantUsed() is None
         assert len(values.getContainers()) == 0
@@ -1236,9 +1239,9 @@ class TestReadEcucModuleConfigurationValues:
             root_tag="ECUC-MODULE-CONFIGURATION-VALUES",
         )
         parser.readEcucModuleConfigurationValues(element, values)
-        assert values.getEcucDefEdition() is not None
+        assert isinstance(values.getEcucDefEdition(), RevisionLabelString)
         assert values.getEcucDefEdition().getValue() == "1.0.0"
-        assert values.getPostBuildVariantUsed() is not None
+        assert isinstance(values.getPostBuildVariantUsed(), Boolean)
         assert values.getPostBuildVariantUsed().getValue() is True
 
 

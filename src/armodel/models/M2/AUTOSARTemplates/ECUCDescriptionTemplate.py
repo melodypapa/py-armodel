@@ -9,9 +9,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARBoolean,
     ARLiteral,
     ARNumerical,
+    Boolean,
     PositiveInteger,
     RefType,
+    RevisionLabelString,
 )
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 
 
@@ -355,38 +358,56 @@ class EcucContainerValue(Identifiable, EcucIndexableValue):
 
 class EcucModuleConfigurationValues(ARElement):
     """
-    ECUC module configuration values with containers, definition
-    reference, and variant configuration properties.
+    Head of the configuration of one Module. A Module can be a BSW module as well as the RTE and ECU Infrastructure. As part of the BSW module description, the EcucModuleConfigurationValues element has two different roles: The recommendedConfiguration contains parameter values recommended by the BSW module vendor. The preconfiguredConfiguration contains values for those parameters which are fixed by the implementation and cannot be changed. These two EcucModuleConfigurationValues are used when the base EcucModuleConfigurationValues (as part of the base ECU configuration) is created to fill parameters with initial values. Tags: atp.recommendedPackage=EcucModuleConfigurationValuess
     """
 
     # EcucModuleConfigurationValues method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.47, p.111
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                         [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer
-    # [x] createContainer                  [x] impl  [ ] docstring  [x] test  [—] reader  [x] writer
-    # [x] getContainers                    [x] impl  [ ] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDefinitionRef                 [x] impl  [ ] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDefinitionRef                 [x] impl  [ ] docstring  [x] test  [x] reader  [—] writer
-    # [x] getEcucDefEdition                [x] impl  [ ] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEcucDefEdition                [x] impl  [ ] docstring  [x] test  [x] reader  [—] writer
-    # [x] getImplementationConfigVariant   [x] impl  [ ] docstring  [x] test  [—] reader  [x] writer
-    # [x] setImplementationConfigVariant   [x] impl  [ ] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModuleDescriptionRef          [x] impl  [ ] docstring  [x] test  [—] reader  [x] writer
-    # [x] setModuleDescriptionRef          [x] impl  [ ] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPostBuildVariantUsed          [x] impl  [ ] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPostBuildVariantUsed          [x] impl  [ ] docstring  [x] test  [x] reader  [—] writer
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createContainer                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getContainers                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDefinition                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefinition                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEcucDefEdition                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEcucDefEdition                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getImplementationConfigVariant   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setImplementationConfigVariant   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getModuleDescription             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setModuleDescription             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPostBuildVariantUsed          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPostBuildVariantUsed          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [—] getDefinitionRef (deprecated convenience)      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [—] setDefinitionRef (deprecated convenience)      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [—] getModuleDescriptionRef (deprecated convenience)  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [—] setModuleDescriptionRef (deprecated convenience)  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [—] definitionRef property (deprecated convenience)   [x] impl  [x] docstring  [—] test  [—] reader  [—] writer
+    # [—] moduleDescriptionRef property (deprecated convenience)  [x] impl  [x] docstring  [—] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Aggregates all containers that belong to this module configuration. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=container.shortName, container.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=10
         self.containers: List[EcucContainerValue] = []
-        self.definitionRef: Optional[RefType] = None
-        self.ecucDefEdition: Optional[ARLiteral] = None
-        self.implementationConfigVariant: Optional[ARLiteral] = None
-        self.moduleDescriptionRef: Optional[RefType] = None
-        self.postBuildVariantUsed: Optional[ARBoolean] = None
+
+        # Reference to the definition of this EcucModuleConfigurationValues element. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10
+        self.definition: Optional[RefType] = None
+
+        # This is the version info of the ModuleDef ECUC Parameter definition to which this values conform to / are based on. For the Definition of ModuleDef ECUC Parameters the AdminData shall be used to express the semantic changes. The compatibility rules between the definition and value revision labels is up to the module's vendor.
+        self.ecucDefEdition: Optional[RevisionLabelString] = None
+
+        # Specifies the kind of deliverable this EcucModuleConfigurationValues element provides. If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild.
+        self.implementationConfigVariant: Optional[EcucConfigurationVariantEnum] = None
+
+        # Referencing the BSW module description, which this EcucModuleConfigurationValues element is configuring. This is optional because the EcucModuleConfigurationValues element is also used to configure the ECU infrastructure (memory map) or Application SW-Cs. However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information.
+        self.moduleDescription: Optional[RefType] = None
+
+        # Indicates whether a module implementation has or plans to have (i.e., introduced at link or post-build time) new post-build variation points. TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed.
+        self.postBuildVariantUsed: Optional[Boolean] = None
 
     def createContainer(self, short_name: str) -> EcucContainerValue:
+        """Aggregates all containers that belong to this module configuration. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=container.shortName, container.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=10"""
         if not self.IsElementExists(short_name):
             container = EcucContainerValue(self, short_name)
             self.addElement(container)
@@ -394,42 +415,98 @@ class EcucModuleConfigurationValues(ARElement):
         return self.getElement(short_name, EcucContainerValue)
 
     def getContainers(self) -> List[EcucContainerValue]:
-        return list(sorted(filter(lambda a: isinstance(a, EcucContainerValue), self.elements), key=lambda o: o.short_name))
+        """Aggregates all containers that belong to this module configuration. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=container.shortName, container.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=10"""
+        return list(sorted(self.containers, key=lambda o: o.short_name))
 
-    def getDefinitionRef(self) -> Optional[RefType]:
-        return self.definitionRef
+    def getDefinition(self) -> Optional[RefType]:
+        """Reference to the definition of this EcucModuleConfigurationValues element. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10"""
+        return self.definition
 
-    def setDefinitionRef(self, value: RefType):
-        self.definitionRef = value
+    def setDefinition(self, value: RefType) -> "EcucModuleConfigurationValues":
+        """Reference to the definition of this EcucModuleConfigurationValues element. Typically, this is a vendor specific module configuration. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.definition = value
         return self
 
-    def getEcucDefEdition(self) -> Optional[ARLiteral]:
+    def getEcucDefEdition(self) -> Optional[RevisionLabelString]:
+        """This is the version info of the ModuleDef ECUC Parameter definition to which this values conform to / are based on. For the Definition of ModuleDef ECUC Parameters the AdminData shall be used to express the semantic changes. The compatibility rules between the definition and value revision labels is up to the module's vendor."""
         return self.ecucDefEdition
 
-    def setEcucDefEdition(self, value: ARLiteral):
-        self.ecucDefEdition = value
+    def setEcucDefEdition(self, value: RevisionLabelString) -> "EcucModuleConfigurationValues":
+        """This is the version info of the ModuleDef ECUC Parameter definition to which this values conform to / are based on. For the Definition of ModuleDef ECUC Parameters the AdminData shall be used to express the semantic changes. The compatibility rules between the definition and value revision labels is up to the module's vendor. A None value is a no-op and does not overwrite an existing version info."""
+        if value is not None:
+            self.ecucDefEdition = value
         return self
 
-    def getImplementationConfigVariant(self) -> Optional[ARLiteral]:
+    def getImplementationConfigVariant(self) -> Optional[EcucConfigurationVariantEnum]:
+        """Specifies the kind of deliverable this EcucModuleConfigurationValues element provides. If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild."""
         return self.implementationConfigVariant
 
-    def setImplementationConfigVariant(self, value: ARLiteral):
-        self.implementationConfigVariant = value
+    def setImplementationConfigVariant(self, value: EcucConfigurationVariantEnum) -> "EcucModuleConfigurationValues":
+        """Specifies the kind of deliverable this EcucModuleConfigurationValues element provides. If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild. A None value is a no-op and does not overwrite an existing configuration variant."""
+        if value is not None:
+            self.implementationConfigVariant = value
+        return self
+
+    def getModuleDescription(self) -> Optional[RefType]:
+        """Referencing the BSW module description, which this EcucModuleConfigurationValues element is configuring. This is optional because the EcucModuleConfigurationValues element is also used to configure the ECU infrastructure (memory map) or Application SW-Cs. However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information."""
+        return self.moduleDescription
+
+    def setModuleDescription(self, value: RefType) -> "EcucModuleConfigurationValues":
+        """Referencing the BSW module description, which this EcucModuleConfigurationValues element is configuring. This is optional because the EcucModuleConfigurationValues element is also used to configure the ECU infrastructure (memory map) or Application SW-Cs. However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information. A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.moduleDescription = value
+        return self
+
+    def getPostBuildVariantUsed(self) -> Optional[Boolean]:
+        """Indicates whether a module implementation has or plans to have (i.e., introduced at link or post-build time) new post-build variation points. TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed."""
+        return self.postBuildVariantUsed
+
+    def setPostBuildVariantUsed(self, value: Boolean) -> "EcucModuleConfigurationValues":
+        """Indicates whether a module implementation has or plans to have (i.e., introduced at link or post-build time) new post-build variation points. TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed. A None value is a no-op and does not overwrite an existing flag."""
+        if value is not None:
+            self.postBuildVariantUsed = value
+        return self
+
+    # Backward compatibility aliases (deprecated - use definition/moduleDescription instead)
+    def getDefinitionRef(self) -> Optional[RefType]:
+        """Deprecated: use getDefinition() instead."""
+        return self.definition
+
+    def setDefinitionRef(self, value: RefType):
+        """Deprecated: use setDefinition() instead."""
+        self.definition = value
         return self
 
     def getModuleDescriptionRef(self) -> Optional[RefType]:
-        return self.moduleDescriptionRef
+        """Deprecated: use getModuleDescription() instead."""
+        return self.moduleDescription
 
     def setModuleDescriptionRef(self, value: RefType):
-        self.moduleDescriptionRef = value
+        """Deprecated: use setModuleDescription() instead."""
+        self.moduleDescription = value
         return self
 
-    def getPostBuildVariantUsed(self) -> Optional[ARBoolean]:
-        return self.postBuildVariantUsed
+    # Backward compatibility properties (deprecated)
+    @property
+    def definitionRef(self) -> Optional[RefType]:
+        """Deprecated: use definition instead."""
+        return self.definition
 
-    def setPostBuildVariantUsed(self, value: ARBoolean):
-        self.postBuildVariantUsed = value
-        return self
+    @definitionRef.setter
+    def definitionRef(self, value: Optional[RefType]):
+        """Deprecated: use definition instead."""
+        self.definition = value
+
+    @property
+    def moduleDescriptionRef(self) -> Optional[RefType]:
+        """Deprecated: use moduleDescription instead."""
+        return self.moduleDescription
+
+    @moduleDescriptionRef.setter
+    def moduleDescriptionRef(self, value: Optional[RefType]):
+        """Deprecated: use moduleDescription instead."""
+        self.moduleDescription = value
 
 
 # EcucConfigurationVariantEnum lives in ECUCParameterDefTemplate.py

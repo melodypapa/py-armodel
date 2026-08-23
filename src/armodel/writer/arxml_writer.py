@@ -8361,10 +8361,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("EcucModuleConfigurationValues %s" % values.getShortName())
         child_element = ET.SubElement(element, "ECUC-MODULE-CONFIGURATION-VALUES")
         self.writeIdentifiable(child_element, values)
-        self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", values.getDefinitionRef())
+        self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", values.getDefinition())
         self.setChildElementOptionalLiteral(child_element, "ECUC-DEF-EDITION", values.getEcucDefEdition())
         self.setChildElementOptionalLiteral(child_element, "IMPLEMENTATION-CONFIG-VARIANT", values.getImplementationConfigVariant())
-        self.setChildElementOptionalRefType(child_element, "MODULE-DESCRIPTION-REF", values.getModuleDescriptionRef())
+        self.setChildElementOptionalRefType(child_element, "MODULE-DESCRIPTION-REF", values.getModuleDescription())
         self.setChildElementOptionalBooleanValue(child_element, "POST-BUILD-VARIANT-USED", values.getPostBuildVariantUsed())
         self.writeEcucModuleConfigurationValuesContainers(child_element, values)
 
