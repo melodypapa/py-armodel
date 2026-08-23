@@ -3,6 +3,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection, TpConnectionIdent
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIp import AbstractDoIpLogicAddressProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
@@ -20,8 +21,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     LinTpNode,
     TpAddress,
     TpConfig,
-    TpConnection,
-    TpConnectionIdent,
 )
 
 
@@ -86,17 +85,27 @@ class Test_TransportProtocols:
         assert channel == channel.setChannelId(None)
         assert channel.getChannelId().getValue() == 1
 
-    def test_TpConnectionIdent(self):
-        """Test TpConnectionIdent class functionality."""
+    def test_TpConnectionIdent_initialization(self):
+        """Test TpConnectionIdent default state (Table 6.273)."""
         parent = MockParent()
-        ident = TpConnectionIdent(parent, "test_tp_connection_ident")
+        ident = TpConnectionIdent(parent, "TpConnectionIdent")
 
         assert isinstance(ident, Referrable)
 
-    def test_TpConnection(self):
-        """Test TpConnection abstract class instantiation."""
+    def test_TpConnection_abstract(self):
+        """Test TpConnection abstract class instantiation (Table 6.272)."""
         with pytest.raises(TypeError):
             TpConnection()
+
+    def test_TpConnection_create_ident(self):
+        """Test TpConnection ident creation via concrete subclass (Table 6.272)."""
+        connection = CanTpConnection()
+
+        assert connection.getIdent() is None
+        ident = connection.createTpConnectionIdent("connIdent")
+        assert isinstance(ident, TpConnectionIdent)
+        assert connection.getIdent() == ident
+        assert connection.createTpConnectionIdent("other") == ident
 
     def test_CanTpConnection(self):
         """Test CanTpConnection class functionality."""

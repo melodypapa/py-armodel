@@ -4,8 +4,9 @@
 from abc import ABC
 from typing import List, Optional
 
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIp import AbstractDoIpLogicAddressProps
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -130,49 +131,6 @@ class CanTpChannel(Identifiable):
         if value is not None:
             self.channelId = value
         return self
-
-
-class TpConnectionIdent(Referrable):
-    """
-    Represents a transport protocol connection identifier,
-    providing a referenceable identifier for transport protocol
-    connections in the communication system.
-    """
-
-    # TpConnectionIdent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent, short_name):
-        super().__init__(parent, short_name)
-
-
-class TpConnection(ARObject, ABC):
-    """
-    Abstract base class for transport protocol connections,
-    defining common properties for different types of transport
-    protocol connections including connection identification.
-    """
-
-    # TpConnection method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIdent                     [x] impl  [ ] docstring  [ ] test
-    # [ ] createTpConnectionIdent      [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        if type(self) is TpConnection:
-            raise TypeError("TpConnection is an abstract class.")
-
-        super().__init__()
-
-        self.ident: TpConnectionIdent = None
-
-    def getIdent(self):
-        return self.ident
-
-    def createTpConnectionIdent(self, short_name: str):
-        ident = TpConnectionIdent(self, short_name)
-        self.ident = ident
-        return ident
 
 
 class CanTpConnection(TpConnection):

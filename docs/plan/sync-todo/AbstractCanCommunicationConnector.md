@@ -78,6 +78,27 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
 
 ### Member types
 
+- [ ] TpConnectionIdent (base of TpConnection.ident · markdown · Table 6.273 · p.633 · ADDED to queue 2026-08-24 per Rule 0016.4/0016.5 — unstamped stub discovered as CanTpConnection dependency; MOVED from TransportProtocols.py to DiagnosticConnection.py per spec Package; synced, stamp deferred)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TpConnection (base of CanTpConnection · markdown · Table 6.272 · p.633 · ADDED to queue 2026-08-24 per Rule 0016.4/0016.5 — same reason; MOVED to DiagnosticConnection.py; synced, stamp deferred)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
 - [x] TtcanAbsolutelyScheduledTiming (member of CanFrameTriggering.absolutelyScheduledTiming · markdown · Table 6.115 · commit eaff8d16 · NEW class created in Fibex4Ttcan/TtcanCommunication.py; TtcanTriggerType enum (Table 6.116) also synced + stamped in the same session per user decision 2026-08-23)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)

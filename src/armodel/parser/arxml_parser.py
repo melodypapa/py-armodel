@@ -460,7 +460,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordElementMapping,
     SenderRecRecordTypeMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanFrame,
@@ -653,7 +653,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     LinTpNode,
     TpAddress,
     TpConfig,
-    TpConnection,
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType

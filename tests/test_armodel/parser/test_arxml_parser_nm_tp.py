@@ -495,4 +495,27 @@ class TestCanTpChannelHandler:
         assert len(config.getTpChannels()) == 0
 
 
+# ==================== TpConnection (Table 6.272) / TpConnectionIdent (Table 6.273) ====================
+
+
+class TestTpConnectionHandler:
+    def test_readTpConnection_creates_ident(self, parser):
+        from armodel.models import CanTpConnection
+
+        connection = CanTpConnection()
+        element = _snip("<IDENT><SHORT-NAME>connIdent</SHORT-NAME></IDENT>", root_tag="CAN-TP-CONNECTION")
+        parser.readTpConnection(element, connection)
+        ident = connection.getIdent()
+        assert ident is not None
+        assert ident.getShortName() == "connIdent"
+
+    def test_readTpConnection_without_ident(self, parser):
+        from armodel.models import CanTpConnection
+
+        connection = CanTpConnection()
+        element = _snip("", root_tag="CAN-TP-CONNECTION")
+        parser.readTpConnection(element, connection)
+        assert connection.getIdent() is None
+
+
 # ==================== BufferProperties (L4311-4313) ====================

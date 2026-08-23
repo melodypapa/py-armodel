@@ -1,6 +1,7 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection, TpConnectionIdent
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
     CanTpAddress,
     CanTpChannel,
@@ -16,8 +17,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     LinTpNode,
     TpAddress,
     TpConfig,
-    TpConnection,
-    TpConnectionIdent,
 )
 
 
