@@ -92,18 +92,20 @@ class EcucIndexableValue(ARObject, ABC):
 
 class EcucParameterValue(EcucIndexableValue, ABC):
     """
-    Abstract base class for ECUC parameter values with annotation,
-    definition reference, and auto value flag.
+    Common class to all types of configuration values.
     """
 
     # EcucParameterValue method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAnnotations               [x] impl  [ ] docstring  [ ] test
-    # [ ] addAnnotation                [x] impl  [ ] docstring  [ ] test
-    # [ ] getDefinitionRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefinitionRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] getIsAutoValue               [x] impl  [ ] docstring  [ ] test
-    # [ ] setIsAutoValue               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.49, p.125
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addAnnotation                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAnnotations               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getDefinition                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefinition                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIsAutoValue               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIsAutoValue               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         if type(self) is EcucParameterValue:
@@ -111,29 +113,43 @@ class EcucParameterValue(EcucIndexableValue, ABC):
 
         super().__init__()
 
-        self.annotations = []  # type: List[Annotation]
-        self.definitionRef = None  # type: RefType
-        self.isAutoValue = None  # type: ARBoolean
+        # Possibility to provide additional notes while defining the ECU Configuration Parameter Values. These are not intended as documentation but are mere design notes. Tags: xml.sequenceOffset=10
+        self.annotations: List[Annotation] = []
+
+        # Reference to the definition of this EcucParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10
+        self.definition: Optional[RefType] = None
+
+        # If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false". Tags: xml.sequenceOffset=20
+        self.isAutoValue: Optional[Boolean] = None
+
+    def addAnnotation(self, value: Optional[Annotation]) -> "EcucParameterValue":
+        """Possibility to provide additional notes while defining the ECU Configuration Parameter Values. These are not intended as documentation but are mere design notes. Tags: xml.sequenceOffset=10 A None value is a no-op and does not append to the existing annotations."""
+        if value is not None:
+            self.annotations.append(value)
+        return self
 
     def getAnnotations(self) -> List[Annotation]:
+        """Possibility to provide additional notes while defining the ECU Configuration Parameter Values. These are not intended as documentation but are mere design notes. Tags: xml.sequenceOffset=10"""
         return self.annotations
 
-    def addAnnotation(self, value: Annotation):
-        self.annotations.append(value)
+    def getDefinition(self) -> Optional[RefType]:
+        """Reference to the definition of this EcucParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
+        return self.definition
+
+    def setDefinition(self, value: Optional[RefType]) -> "EcucParameterValue":
+        """Reference to the definition of this EcucParameterValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.definition = value
         return self
 
-    def getDefinitionRef(self) -> RefType:
-        return self.definitionRef
-
-    def setDefinitionRef(self, value: RefType):
-        self.definitionRef = value
-        return self
-
-    def getIsAutoValue(self) -> ARBoolean:
+    def getIsAutoValue(self) -> Optional[Boolean]:
+        """If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false". Tags: xml.sequenceOffset=20"""
         return self.isAutoValue
 
-    def setIsAutoValue(self, value: ARBoolean):
-        self.isAutoValue = value
+    def setIsAutoValue(self, value: Optional[Boolean]) -> "EcucParameterValue":
+        """If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false". Tags: xml.sequenceOffset=20 A None value is a no-op and does not overwrite an existing flag."""
+        if value is not None:
+            self.isAutoValue = value
         return self
 
 

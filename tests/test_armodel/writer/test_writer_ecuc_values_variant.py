@@ -164,14 +164,14 @@ class TestWriterEcucContainerValueSubContainers:
 class TestWriterEcucParameterValue:
     def test_with_textual_param_value(self, writer):
         param = EcucTextualParamValue()
-        param.setDefinitionRef(_ref("/d", "ECUC-PARAMETER-DEF"))
+        param.setDefinition(_ref("/d", "ECUC-PARAMETER-DEF"))
         parent = _parent()
         writer.writeEcucParameterValue(parent, param)
         assert parent.find("DEFINITION-REF") is not None
 
     def test_with_numerical_param_value(self, writer):
         param = EcucNumericalParamValue()
-        param.setDefinitionRef(_ref("/d", "ECUC-PARAMETER-DEF"))
+        param.setDefinition(_ref("/d", "ECUC-PARAMETER-DEF"))
         parent = _parent()
         writer.writeEcucParameterValue(parent, param)
         assert parent.find("DEFINITION-REF") is not None
@@ -191,6 +191,35 @@ class TestWriterEcucParameterValue:
         assert parent.find("INDEX") is not None
         assert parent.find("INDEX").text == "4"
 
+    def test_with_is_auto_value(self, writer):
+        param = EcucNumericalParamValue()
+        param.setIsAutoValue(Boolean().setValue(True))
+        parent = _parent()
+        writer.writeEcucParameterValue(parent, param)
+        is_auto_value = parent.find("IS-AUTO-VALUE")
+        assert is_auto_value is not None
+        assert is_auto_value.text == "true"
+
+    def test_emission_order_and_values(self, writer):
+        from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+
+        param = EcucTextualParamValue()
+        param.setDefinition(_ref("/d", "ECUC-PARAMETER-DEF"))
+        param.setIndex(_numerical(1))
+        param.addAnnotation(Annotation())
+        param.setIsAutoValue(Boolean().setValue(False))
+        parent = _parent()
+        writer.writeEcucParameterValue(parent, param)
+        assert [c.tag for c in parent] == ["DEFINITION-REF", "INDEX", "ANNOTATIONS", "IS-AUTO-VALUE"]
+        definition_ref = parent.find("DEFINITION-REF")
+        assert definition_ref.text == "/d"
+        index = parent.find("INDEX")
+        assert index.text == "1"
+        annotations = parent.find("ANNOTATIONS")
+        assert annotations.findall("ANNOTATION") is not None
+        is_auto_value = parent.find("IS-AUTO-VALUE")
+        assert is_auto_value.text == "false"
+
     def test_minimal(self, writer):
         param = EcucTextualParamValue()
         parent = _parent()
@@ -198,6 +227,7 @@ class TestWriterEcucParameterValue:
         assert parent.find("DEFINITION-REF") is None
         assert parent.find("ANNOTATIONS") is None
         assert parent.find("INDEX") is None
+        assert parent.find("IS-AUTO-VALUE") is None
 
 
 class TestWriterEcucContainerValueParameterValues:
@@ -205,11 +235,11 @@ class TestWriterEcucContainerValueParameterValues:
         container = _make_container()
         textual = EcucTextualParamValue()
         textual.setValue(_literal("txt"))
-        textual.setDefinitionRef(_ref("/d1", "ECUC-PARAMETER-DEF"))
+        textual.setDefinition(_ref("/d1", "ECUC-PARAMETER-DEF"))
         container.addParameterValue(textual)
         numerical = EcucNumericalParamValue()
         numerical.setValue(_numerical(42))
-        numerical.setDefinitionRef(_ref("/d2", "ECUC-PARAMETER-DEF"))
+        numerical.setDefinition(_ref("/d2", "ECUC-PARAMETER-DEF"))
         container.addParameterValue(numerical)
         parent = _parent()
         writer.writeEcucContainerValueParameterValues(parent, container)

@@ -121,7 +121,7 @@ def test_ecuc_parameter_value_methods():
 
     # Test initial values
     assert param_value.annotations == []
-    assert param_value.definitionRef is None
+    assert param_value.definition is None
     assert param_value.isAutoValue is None
 
     # Test annotation methods
@@ -130,13 +130,16 @@ def test_ecuc_parameter_value_methods():
     assert result == param_value  # Method chaining
     assert param_value.getAnnotations() == [annotation]
 
-    # Test definitionRef methods
-    param_value.setDefinitionRef("def_ref")
-    assert param_value.getDefinitionRef() == "def_ref"
+    # Test definition methods
+    definition_ref = RefType().setValue("/EcucDefs/Rte/Param")
+    result = param_value.setDefinition(definition_ref)
+    assert result is param_value  # Method chaining
+    assert param_value.getDefinition() == definition_ref
 
     # Test isAutoValue methods
-    param_value.setIsAutoValue(True)
-    assert param_value.getIsAutoValue() is True
+    auto_value = Boolean().setValue(True)
+    param_value.setIsAutoValue(auto_value)
+    assert param_value.getIsAutoValue() == auto_value
 
 
 def test_ecuc_add_info_param_value():

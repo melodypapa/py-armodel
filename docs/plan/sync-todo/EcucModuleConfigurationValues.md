@@ -39,16 +39,16 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
   - [x] Step 6 — N/A (standalone AREnum)
   - [x] Step 7 — Update checklist comment (pointer comment left at removal site; canonical checklist+stamp unchanged)
   - [x] Step 8 — Deviations (duplicate-resolution recorded here instead of new sync)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11
+  - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11 (resolved by duplicate removal — canonical already stamped R23-11; no new code to stamp)
 - [ ] EcucParameterValue
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite verbatim)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec: line + rows; marker deferred to 9b)
-  - [ ] Step 8 — Deviations (none expected)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite verbatim)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment (# Spec: line + rows; marker deferred to 9b)
+  - [x] Step 8 — Deviations (none expected)
   - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11
 - [ ] EcucTextualParamValue
   - [ ] Step 1 — Sync members & description from spec
@@ -129,7 +129,12 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
   - [x] Step 6 — Update parser & writer (Green — spec-name setters/getters + getChildElementOptionalRevisionLabelString)
   - [x] Step 7 — Update checklist comment (# Spec: line + rows; marker deferred to 9b)
   - [x] Step 8 — Deviations recorded (see below)
-  - [ ] Step 9 — Verify (9a done: pytest 6850/flake8/ruff/black clean) + confirm (9b)
+  - [x] Step 9 — Verify (9a done: pytest 6850/flake8/ruff/black clean) + confirm (9b) (confirmed — marker written ECUCDescriptionTemplate.py:366; commit a7994a6)
+
+### Deviations / decisions (EcucParameterValue)
+1. No deviations. `definition` ref target modeled as `RefType` per project convention (spec type EcucParameterDef); spec-named accessors `getDefinition`/`setDefinition` replace `*DefinitionRef` (no deprecated aliases kept — no external consumers found outside parser/writer/tests).
+2. Reader/writer coverage completed: `IS-AUTO-VALUE` read (`getChildElementOptionalBooleanValue`) / written (`setChildElementOptionalBooleanValue`) newly added; `ANNOTATIONS` wrapper coverage pre-existed. Emission/read order aligned to XSD sequenceOffset: DEFINITION-REF (-10), INDEX (-5), ANNOTATIONS (+10), IS-AUTO-VALUE (+20).
+3. `isAutoValue` typed `Optional[Boolean]` (XSD AR:BOOLEAN) replacing bare `ARBoolean`; all setters/add guard None (Rule 0004).
 
 ### Deviations / decisions (EcucModuleConfigurationValues)
 1. Deprecated backward-compat conveniences kept (NOT in Table 2.47): get/setDefinitionRef, get/setModuleDescriptionRef methods + definitionRef/moduleDescriptionRef properties. Spec-named members are canonical; aliases delegate to them; marked [—] (no XML element).

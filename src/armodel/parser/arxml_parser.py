@@ -8337,10 +8337,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEcucValueCollectionEcucValues(element, collection)
 
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
-        param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        param_value.setDefinition(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        param_value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
         for annotation in self.getAnnotations(element):
             param_value.addAnnotation(annotation)
-        param_value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
+        param_value.setIsAutoValue(self.getChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE"))
 
     def getEcucTextualParamValue(self, element: ET.Element) -> EcucTextualParamValue:
         param_value = EcucTextualParamValue()

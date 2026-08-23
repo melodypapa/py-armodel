@@ -8272,9 +8272,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported Sub Container %s" % type(container))
 
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
-        self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())
-        self.setAnnotations(element, param_value.getAnnotations())
+        self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinition())
         self.setChildElementOptionalPositiveInteger(element, "INDEX", param_value.getIndex())
+        self.setAnnotations(element, param_value.getAnnotations())
+        self.setChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE", param_value.getIsAutoValue())
 
     def setEcucTextualParamValue(self, element: ET.Element, param_value: EcucTextualParamValue):
         child_element = ET.SubElement(element, "ECUC-TEXTUAL-PARAM-VALUE")
