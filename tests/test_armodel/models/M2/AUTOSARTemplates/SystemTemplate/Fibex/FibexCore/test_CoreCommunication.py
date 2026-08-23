@@ -783,6 +783,9 @@ class Test_FibexCoreCommunication:
         triggering.setFrameRef(ref1)
         assert triggering.getFrameRef() == ref1
         assert triggering == triggering.setFrameRef(ref1)  # Test method chaining
+        # None is a no-op and does not overwrite an existing frameRef
+        assert triggering == triggering.setFrameRef(None)
+        assert triggering.getFrameRef() == ref1
 
         ref2 = object()
         triggering.addFramePortRef(ref2)

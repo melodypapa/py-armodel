@@ -175,6 +175,36 @@ class TestWriteFrameTriggering:
         assert trigs is not None
         assert len(trigs.findall("PDU-TRIGGERING-REF-CONDITIONAL")) == 1
 
+    def test_write_frame_triggering_roundtrip(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        NS = "http://autosar.org/schema/r4.0"
+        pkg = _pkg()
+        ft = CanFrameTriggering(pkg, "Ft")
+        ft.setFrameRef(_ref("FRAME", "/frame1"))
+        ft.addFramePortRef(_ref("FRAME-PORT", "/fp1"))
+        ft.addFramePortRef(_ref("FRAME-PORT", "/fp2"))
+        ft.addPduTriggeringRef(_ref("PDU-TRIGGERING", "/pt1"))
+        ft.addPduTriggeringRef(_ref("PDU-TRIGGERING", "/pt2"))
+
+        parent = _parent()
+        writer.writeCanFrameTriggering(parent, ft)
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % NS, 1)
+        namespaced = ET.fromstring(xml_str)
+
+        reparsed = CanFrameTriggering(pkg, "Ft2")
+        parser = ARXMLParser()
+        ARXMLParser().readCanFrameTriggering(parser.find(namespaced, "CAN-FRAME-TRIGGERING"), reparsed)
+        assert reparsed.getFrameRef().getValue() == "/frame1"
+        ports = reparsed.getFramePortRefs()
+        assert len(ports) == 2
+        assert ports[0].getValue() == "/fp1"
+        assert ports[1].getValue() == "/fp2"
+        pts = reparsed.getPduTriggeringRefs()
+        assert len(pts) == 2
+        assert pts[0].getValue() == "/pt1"
+        assert pts[1].getValue() == "/pt2"
+
 
 class TestWriteCanFrameTriggering:
     def test_write_can_frame_triggering_full(self, writer):
