@@ -128,7 +128,7 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [x] RxIdentifierRange (member of CanFrameTriggering.rxIdentifierRange · markdown · Table 6.112)
+- [x] RxIdentifierRange (member of CanFrameTriggering.rxIdentifierRange · markdown · Table 6.112 · commit a46fc48d)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
