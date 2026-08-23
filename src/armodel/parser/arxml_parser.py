@@ -898,6 +898,8 @@ class ARXMLParser(AbstractARXMLParser):
         revision.setDate(self.getChildElementOptionalDataTime(element, "DATE"))
         revision.setIssuedBy(self.getChildElementOptionalLiteral(element, "ISSUED-BY"))
         revision.setRevisionLabel(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL"))
+        revision.setRevisionLabelP1(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL-P-1"))
+        revision.setRevisionLabelP2(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL-P-2"))
         revision.setState(self.getChildElementOptionalLiteral(element, "STATE"))
 
         self.readDocRevisionModifications(element, revision)

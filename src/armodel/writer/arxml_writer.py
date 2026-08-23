@@ -989,6 +989,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             # self.setChildElementOptionalDataTime(child_element, "DATE", revision.getDate())
             # self.setChildElementOptionalLiteral(child_element, "ISSUED-BY", revision.getIssuedBy())
             self.setChildElementOptionalRevisionLabelString(child_element, "REVISION-LABEL", revision.getRevisionLabel())
+            self.setChildElementOptionalRevisionLabelString(child_element, "REVISION-LABEL-P-1", revision.getRevisionLabelP1())
+            self.setChildElementOptionalRevisionLabelString(child_element, "REVISION-LABEL-P-2", revision.getRevisionLabelP2())
             self.setChildElementOptionalLiteral(child_element, "STATE", revision.getState())
             self.setChildElementOptionalLiteral(child_element, "ISSUED-BY", revision.getIssuedBy())
             self.setChildElementOptionalDataTime(child_element, "DATE", revision.getDate())

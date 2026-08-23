@@ -164,36 +164,36 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [ ] 10. AtpFeature — member
+### [x] 10. AtpFeature — member (commit 84fc55f, stamp deferred)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/AbstractStructure.py:157`
 - Spec: `AUTOSAR_FO_TPS_GenericStructureTemplate.md` Table 5.2
 - Role: ref target of AnyInstanceRef.contextElement
 - Steps:
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write the model class unit test (Red)
-  - [ ] Step 3 — Implement the model class (Green)
-  - [ ] Step 4 — Wipe & rewrite docstrings from spec Note
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser (reader) & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec + rows)
-  - [ ] Step 8 — Deviations ⇒ no stamp decision record
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write the model class unit test (Red)
+  - [x] Step 3 — Implement the model class (Green)
+  - [x] Step 4 — Wipe & rewrite docstrings from spec Note
+  - [x] Step 5 — Reader/writer N/A ([—] no own XML element)
+  - [x] Step 6 — Reader/writer N/A
+  - [x] Step 7 — Update checklist comment (# Spec + rows)
+  - [x] Step 8 — Deviations ⇒ no stamp decision record
+  - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [ ] 11. AtpInstanceRef — base
+### [x] 11. AtpInstanceRef — base (commit 84fc55f, stamp deferred)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/AbstractStructure.py:13`
 - Spec: `AUTOSAR_FO_TPS_GenericStructureTemplate.md` Table 5.3
 - Role: base of AnyInstanceRef
-- Tracker deviation (as input elsewhere): missing atpContextElement(ordered) ref
+- Tracker deviation (as input elsewhere): missing atpContextElement(ordered) ref — resolved (atpContextElementRefs typed List present); reader/writer [—] (no own XML element; serialized by concrete subclasses)
 - Steps:
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write the model class unit test (Red)
-  - [ ] Step 3 — Implement the model class (Green)
-  - [ ] Step 4 — Wipe & rewrite docstrings from spec Note
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser (reader) & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec + rows)
-  - [ ] Step 8 — Deviations ⇒ no stamp decision record
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write the model class unit test (Red)
+  - [x] Step 3 — Implement the model class (Green)
+  - [x] Step 4 — Wipe & rewrite docstrings from spec Note
+  - [x] Step 5 — Reader/writer N/A ([—] no own XML element)
+  - [x] Step 6 — Reader/writer N/A
+  - [x] Step 7 — Update checklist comment (# Spec + rows)
+  - [x] Step 8 — Deviations ⇒ no stamp decision record
+  - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
 ### [ ] 12. DocRevision — member
 - Source: `src/armodel/models/M2/MSR/AsamHdo/AdminData.py:45`

@@ -223,6 +223,20 @@ class TestAdminDataAndReferrableHandlers:
         element = _snip("<X/>")
         assert parser.getAdminData(element, "ADMIN-DATA") is None
 
+    def test_readDocRevision_sets_revision_label_predecessors(self, parser):
+        from armodel.models.M2.MSR.AsamHdo.AdminData import DocRevision
+
+        element = _snip(
+            "<DOC-REVISION>" "<REVISION-LABEL>1.0.0</REVISION-LABEL>" "<REVISION-LABEL-P-1>0.9.0</REVISION-LABEL-P-1>" "<REVISION-LABEL-P-2>0.8.0</REVISION-LABEL-P-2>" "</DOC-REVISION>",
+            root_tag="PARENT",
+        )
+        revision = DocRevision()
+        child = parser.find(element, "DOC-REVISION")
+        parser.readDocRevision(child, revision)
+        assert revision.getRevisionLabel().getValue() == "1.0.0"
+        assert revision.getRevisionLabelP1().getValue() == "0.9.0"
+        assert revision.getRevisionLabelP2().getValue() == "0.8.0"
+
     def test_readReferrable_minimal(self, parser):
         from armodel.models import BswVariableAccess
 
