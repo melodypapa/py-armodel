@@ -1,9 +1,10 @@
 from abc import ABC
-from typing import Optional
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, RefType, String, TimeValue
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinErrorResponse
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
 
 
@@ -255,4 +256,197 @@ class LinOrderedConfigurableFrame(ARObject):
         """
         if value is not None:
             self.index = value
+        return self
+
+
+class LinSlaveConfig(ARObject):
+    """Node attributes of LIN slaves that are handled by the LinMaster. In the System Description LIN slaves may be described in the context of the Lin Master. In an ECU Extract of the LinMaster the LinSlave Ecus shall not be available. The information that is described here is necessary in the ECU Extract for the configuration of the Lin Master. The values of attributes of LinSlaveConfig and the corresponding LinSlave shall be identical (if both are defined in a System Description)."""
+
+    # LinSlaveConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.39, p.95
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getConfiguredNad                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setConfiguredNad                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFunctionId                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFunctionId                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIdent                             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIdent                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getInitialNad                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setInitialNad                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getLinConfigurableFrames             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addLinConfigurableFrame              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getLinErrorResponse                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setLinErrorResponse                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getLinOrderedConfigurableFrames      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addLinOrderedConfigurableFrame       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getProtocolVersion                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setProtocolVersion                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSupplierId                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSupplierId                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVariantId                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setVariantId                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # To distinguish LIN slaves that are used twice or more within the same cluster.
+        self.configuredNad: Optional[Integer] = None
+
+        # LIN function ID.
+        self.functionId: Optional[PositiveInteger] = None
+
+        # This adds the ability to become referrable to LinSlaveConfig.
+        self.ident: Optional[LinSlaveConfigIdent] = None
+
+        # Initial NAD of the LIN slave.
+        self.initialNad: Optional[Integer] = None
+
+        # List of all frames that are processed by the slave node
+        self.linConfigurableFrames: List[LinConfigurableFrame] = []
+
+        # Each slave node shall publish one response error in one of its transmitted unconditional frames.
+        self.linErrorResponse: Optional[LinErrorResponse] = None
+
+        # List of all frames (unconditional frames, event-triggered frames and sporadic frames) processed by the slave node. This element is necessary for the LIN 2.1 Assign-Frame-PID-Range command.
+        self.linOrderedConfigurableFrames: List[LinOrderedConfigurableFrame] = []
+
+        # Version specifier for a communication protocol. Protocol version of the LinMaster and the LinSlaves may be different.
+        self.protocolVersion: Optional[String] = None
+
+        # LIN Supplier ID.
+        self.supplierId: Optional[PositiveInteger] = None
+
+        # Specifies the Variant ID.
+        self.variantId: Optional[PositiveInteger] = None
+
+    def getConfiguredNad(self) -> Optional[Integer]:
+        """To distinguish LIN slaves that are used twice or more within the same cluster."""
+        return self.configuredNad
+
+    def setConfiguredNad(self, value: Optional[Integer]) -> "LinSlaveConfig":
+        """
+        To distinguish LIN slaves that are used twice or more within the same cluster.
+        A None value is a no-op and does not overwrite an existing configuredNad.
+        """
+        if value is not None:
+            self.configuredNad = value
+        return self
+
+    def getFunctionId(self) -> Optional[PositiveInteger]:
+        """LIN function ID."""
+        return self.functionId
+
+    def setFunctionId(self, value: Optional[PositiveInteger]) -> "LinSlaveConfig":
+        """
+        LIN function ID.
+        A None value is a no-op and does not overwrite an existing functionId.
+        """
+        if value is not None:
+            self.functionId = value
+        return self
+
+    def getIdent(self) -> Optional[LinSlaveConfigIdent]:
+        """This adds the ability to become referrable to LinSlaveConfig."""
+        return self.ident
+
+    def setIdent(self, value: Optional[LinSlaveConfigIdent]) -> "LinSlaveConfig":
+        """
+        This adds the ability to become referrable to LinSlaveConfig.
+        A None value is a no-op and does not overwrite an existing ident.
+        """
+        if value is not None:
+            self.ident = value
+        return self
+
+    def getInitialNad(self) -> Optional[Integer]:
+        """Initial NAD of the LIN slave."""
+        return self.initialNad
+
+    def setInitialNad(self, value: Optional[Integer]) -> "LinSlaveConfig":
+        """
+        Initial NAD of the LIN slave.
+        A None value is a no-op and does not overwrite an existing initialNad.
+        """
+        if value is not None:
+            self.initialNad = value
+        return self
+
+    def getLinConfigurableFrames(self) -> List[LinConfigurableFrame]:
+        """List of all frames that are processed by the slave node"""
+        return self.linConfigurableFrames
+
+    def addLinConfigurableFrame(self, value: LinConfigurableFrame) -> "LinSlaveConfig":
+        """
+        List of all frames that are processed by the slave node
+        A None value is a no-op and does not extend linConfigurableFrames.
+        """
+        if value is not None:
+            self.linConfigurableFrames.append(value)
+        return self
+
+    def getLinErrorResponse(self) -> Optional[LinErrorResponse]:
+        """Each slave node shall publish one response error in one of its transmitted unconditional frames."""
+        return self.linErrorResponse
+
+    def setLinErrorResponse(self, value: Optional[LinErrorResponse]) -> "LinSlaveConfig":
+        """
+        Each slave node shall publish one response error in one of its transmitted unconditional frames.
+        A None value is a no-op and does not overwrite an existing linErrorResponse.
+        """
+        if value is not None:
+            self.linErrorResponse = value
+        return self
+
+    def getLinOrderedConfigurableFrames(self) -> List[LinOrderedConfigurableFrame]:
+        """List of all frames (unconditional frames, event-triggered frames and sporadic frames) processed by the slave node. This element is necessary for the LIN 2.1 Assign-Frame-PID-Range command."""
+        return self.linOrderedConfigurableFrames
+
+    def addLinOrderedConfigurableFrame(self, value: LinOrderedConfigurableFrame) -> "LinSlaveConfig":
+        """
+        List of all frames (unconditional frames, event-triggered frames and sporadic frames) processed by the slave node. This element is necessary for the LIN 2.1 Assign-Frame-PID-Range command.
+        A None value is a no-op and does not extend linOrderedConfigurableFrames.
+        """
+        if value is not None:
+            self.linOrderedConfigurableFrames.append(value)
+        return self
+
+    def getProtocolVersion(self) -> Optional[String]:
+        """Version specifier for a communication protocol. Protocol version of the LinMaster and the LinSlaves may be different."""
+        return self.protocolVersion
+
+    def setProtocolVersion(self, value: Optional[String]) -> "LinSlaveConfig":
+        """
+        Version specifier for a communication protocol. Protocol version of the LinMaster and the LinSlaves may be different.
+        A None value is a no-op and does not overwrite an existing protocolVersion.
+        """
+        if value is not None:
+            self.protocolVersion = value
+        return self
+
+    def getSupplierId(self) -> Optional[PositiveInteger]:
+        """LIN Supplier ID."""
+        return self.supplierId
+
+    def setSupplierId(self, value: Optional[PositiveInteger]) -> "LinSlaveConfig":
+        """
+        LIN Supplier ID.
+        A None value is a no-op and does not overwrite an existing supplierId.
+        """
+        if value is not None:
+            self.supplierId = value
+        return self
+
+    def getVariantId(self) -> Optional[PositiveInteger]:
+        """Specifies the Variant ID."""
+        return self.variantId
+
+    def setVariantId(self, value: Optional[PositiveInteger]) -> "LinSlaveConfig":
+        """
+        Specifies the Variant ID.
+        A None value is a no-op and does not overwrite an existing variantId.
+        """
+        if value is not None:
+            self.variantId = value
         return self

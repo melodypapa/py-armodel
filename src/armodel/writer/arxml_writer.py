@@ -496,6 +496,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
     LinConfigurableFrame,
     LinMaster,
     LinOrderedConfigurableFrame,
+    LinSlaveConfig,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
@@ -9099,6 +9100,30 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalRefType(child_element, "FRAME-REF", frame.getFrameRef())
             self.setChildElementOptionalIntegerValue(child_element, "INDEX", frame.getIndex())
+
+    def setLinSlaveConfig(self, element: ET.Element, key: str, config: LinSlaveConfig):
+        if config is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalIntegerValue(child_element, "CONFIGURED-NAD", config.getConfiguredNad())
+            self.setChildElementOptionalPositiveInteger(child_element, "FUNCTION-ID", config.getFunctionId())
+            if config.getIdent() is not None:
+                ident_element = ET.SubElement(child_element, "IDENT")
+                self.writeReferrable(ident_element, config.getIdent())
+            self.setChildElementOptionalIntegerValue(child_element, "INITIAL-NAD", config.getInitialNad())
+            frames = config.getLinConfigurableFrames()
+            if len(frames) > 0:
+                frames_wrapper = ET.SubElement(child_element, "LIN-CONFIGURABLE-FRAMES")
+                for frame in frames:
+                    self.setLinConfigurableFrame(frames_wrapper, "LIN-CONFIGURABLE-FRAME", frame)
+            self.setLinErrorResponse(child_element, "LIN-ERROR-RESPONSE", config.getLinErrorResponse())
+            ordered_frames = config.getLinOrderedConfigurableFrames()
+            if len(ordered_frames) > 0:
+                ordered_wrapper = ET.SubElement(child_element, "LIN-ORDERED-CONFIGURABLE-FRAMES")
+                for frame in ordered_frames:
+                    self.setLinOrderedConfigurableFrame(ordered_wrapper, "LIN-ORDERED-CONFIGURABLE-FRAME", frame)
+            self.setChildElementOptionalLiteral(child_element, "PROTOCOL-VERSION", config.getProtocolVersion())
+            self.setChildElementOptionalPositiveInteger(child_element, "SUPPLIER-ID", config.getSupplierId())
+            self.setChildElementOptionalPositiveInteger(child_element, "VARIANT-ID", config.getVariantId())
 
     def writeISignalToPduMappings(self, element: ET.Element, parent: ISignalIPdu):
         mappings = parent.getISignalToPduMappings()

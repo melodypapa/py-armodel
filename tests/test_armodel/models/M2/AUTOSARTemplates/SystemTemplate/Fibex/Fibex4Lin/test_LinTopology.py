@@ -15,12 +15,14 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinErrorResponse
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
     LinCommunicationConnector,
     LinCommunicationController,
     LinConfigurableFrame,
     LinMaster,
     LinOrderedConfigurableFrame,
+    LinSlaveConfig,
     LinSlaveConfigIdent,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
@@ -333,3 +335,146 @@ class TestLinOrderedConfigurableFrame:
                 annotations[node.target.attr] = ast.unparse(node.annotation)
         assert annotations["frameRef"] == "Optional[RefType]"
         assert annotations["index"] == "Optional[Integer]"
+
+
+class TestLinSlaveConfig:
+    """
+    Node attributes of LIN slaves that are handled by the LinMaster. In the System Description LIN slaves may be described in the context of the Lin Master. In an ECU Extract of the LinMaster the LinSlave Ecus shall not be available. The information that is described here is necessary in the ECU Extract for the configuration of the Lin Master. The values of attributes of LinSlaveConfig and the corresponding LinSlave shall be identical (if both are defined in a System Description).
+    """
+
+    def test_initialization(self):
+        obj = LinSlaveConfig()
+
+        assert isinstance(obj, ARObject)
+        assert obj.parent is None
+        assert obj.getConfiguredNad() is None
+        assert obj.getFunctionId() is None
+        assert obj.getIdent() is None
+        assert obj.getInitialNad() is None
+        assert obj.getLinConfigurableFrames() == []
+        assert obj.getLinErrorResponse() is None
+        assert obj.getLinOrderedConfigurableFrames() == []
+        assert obj.getProtocolVersion() is None
+        assert obj.getSupplierId() is None
+        assert obj.getVariantId() is None
+
+    def test_get_set_configured_nad(self):
+        obj = LinSlaveConfig()
+
+        assert obj == obj.setConfiguredNad(3)
+        assert obj.getConfiguredNad() == 3
+
+        assert obj == obj.setConfiguredNad(None)
+        assert obj.getConfiguredNad() == 3
+
+    def test_get_set_function_id(self):
+        obj = LinSlaveConfig()
+
+        assert obj == obj.setFunctionId(24)
+        assert obj.getFunctionId() == 24
+
+        assert obj == obj.setFunctionId(None)
+        assert obj.getFunctionId() == 24
+
+    def test_get_set_ident(self):
+        obj = LinSlaveConfig()
+        ident = LinSlaveConfigIdent(obj, "Ident")
+
+        assert obj == obj.setIdent(ident)
+        assert obj.getIdent() == ident
+
+        assert obj == obj.setIdent(None)
+        assert obj.getIdent() == ident
+
+    def test_get_set_initial_nad(self):
+        obj = LinSlaveConfig()
+
+        assert obj == obj.setInitialNad(1)
+        assert obj.getInitialNad() == 1
+
+        assert obj == obj.setInitialNad(None)
+        assert obj.getInitialNad() == 1
+
+    def test_add_lin_configurable_frame(self):
+        obj = LinSlaveConfig()
+        frame1 = LinConfigurableFrame()
+        frame2 = LinConfigurableFrame()
+
+        assert obj == obj.addLinConfigurableFrame(frame1)
+        assert obj == obj.addLinConfigurableFrame(frame2)
+        assert obj.getLinConfigurableFrames() == [frame1, frame2]
+
+        assert obj == obj.addLinConfigurableFrame(None)
+        assert obj.getLinConfigurableFrames() == [frame1, frame2]
+
+    def test_get_set_lin_error_response(self):
+        obj = LinSlaveConfig()
+        response = LinErrorResponse()
+
+        assert obj == obj.setLinErrorResponse(response)
+        assert obj.getLinErrorResponse() == response
+
+        assert obj == obj.setLinErrorResponse(None)
+        assert obj.getLinErrorResponse() == response
+
+    def test_add_lin_ordered_configurable_frame(self):
+        obj = LinSlaveConfig()
+        frame1 = LinOrderedConfigurableFrame()
+        frame2 = LinOrderedConfigurableFrame()
+
+        assert obj == obj.addLinOrderedConfigurableFrame(frame1)
+        assert obj == obj.addLinOrderedConfigurableFrame(frame2)
+        assert obj.getLinOrderedConfigurableFrames() == [frame1, frame2]
+
+        assert obj == obj.addLinOrderedConfigurableFrame(None)
+        assert obj.getLinOrderedConfigurableFrames() == [frame1, frame2]
+
+    def test_get_set_protocol_version(self):
+        obj = LinSlaveConfig()
+
+        assert obj == obj.setProtocolVersion("2.1")
+        assert obj.getProtocolVersion() == "2.1"
+
+        assert obj == obj.setProtocolVersion(None)
+        assert obj.getProtocolVersion() == "2.1"
+
+    def test_get_set_supplier_id(self):
+        obj = LinSlaveConfig()
+
+        assert obj == obj.setSupplierId(17)
+        assert obj.getSupplierId() == 17
+
+        assert obj == obj.setSupplierId(None)
+        assert obj.getSupplierId() == 17
+
+    def test_get_set_variant_id(self):
+        obj = LinSlaveConfig()
+
+        assert obj == obj.setVariantId(9)
+        assert obj.getVariantId() == 9
+
+        assert obj == obj.setVariantId(None)
+        assert obj.getVariantId() == 9
+
+    def test_type_annotations(self):
+        import ast
+        import inspect
+
+        src = inspect.getsource(sys.modules[LinSlaveConfig.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "LinSlaveConfig")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.unparse(node.annotation)
+        assert annotations["configuredNad"] == "Optional[Integer]"
+        assert annotations["functionId"] == "Optional[PositiveInteger]"
+        assert annotations["ident"] == "Optional[LinSlaveConfigIdent]"
+        assert annotations["initialNad"] == "Optional[Integer]"
+        assert annotations["linConfigurableFrames"] == "List[LinConfigurableFrame]"
+        assert annotations["linErrorResponse"] == "Optional[LinErrorResponse]"
+        assert annotations["linOrderedConfigurableFrames"] == "List[LinOrderedConfigurableFrame]"
+        assert annotations["protocolVersion"] == "Optional[String]"
+        assert annotations["supplierId"] == "Optional[PositiveInteger]"
+        assert annotations["variantId"] == "Optional[PositiveInteger]"

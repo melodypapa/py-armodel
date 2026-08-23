@@ -25,7 +25,7 @@ Queue order (dependency-first, deepest ancestors first, inputs last):
 | 3 | LinErrorResponse | member (LinSlaveConfig.linErrorResponse) | Table 3.42, p.97 | [x] done |
 | 4 | LinConfigurableFrame | member (LinSlaveConfig.linConfigurableFrame) | Table 3.44, p.99 | [x] done |
 | 5 | LinOrderedConfigurableFrame | member (LinSlaveConfig.linOrderedConfigurableFrame) | Table 3.45, p.99 | [x] done |
-| 6 | LinSlaveConfig | member (LinMaster.linSlave) | Table 3.39, p.95 | [ ] pending |
+| 6 | LinSlaveConfig | member (LinMaster.linSlave) | Table 3.39, p.95 | [x] done |
 | 7 | LinCluster | input | Table 3.36, p.93 | [ ] pending |
 | 8 | LinMaster | input | Table 3.38, p.94 | [ ] pending |
 
@@ -106,15 +106,15 @@ Known gaps to fix during sync:
 
 ## 6. LinSlaveConfig — Table 3.39, p.95
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test (Red)
-- [ ] Step 3 — Implement the model class (Green)
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test (Red)
-- [ ] Step 6 — Update the parser (reader) & writer (Green)
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check (referenced classes, placeholders)
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test (Red)
+- [x] Step 3 — Implement the model class (Green)
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [x] Step 5 — Write the reader/writer round-trip test (Red)  standalone getLinSlaveConfig/setLinSlaveConfig; aggregator LinMaster.linSlave (#8) not synced yet
+- [x] Step 6 — Update the parser (reader) & writer (Green)  reuses standalone frame/response helpers; IDENT via readReferrable/writeReferrable
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check (referenced classes, placeholders)
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
 ## 7. LinCluster — Table 3.36, p.93
 
