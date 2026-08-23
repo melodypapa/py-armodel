@@ -325,31 +325,60 @@ class Test_TransportProtocols:
         assert node == node.setTpAddressRef(address_ref)
         assert node.getTpAddressRef() == address_ref
 
-    def test_CanTpConfig(self):
-        """Test CanTpConfig class functionality."""
+    def test_CanTpConfig_initialization(self):
+        """Test CanTpConfig default state (Table 6.251)."""
         parent = MockParent()
-        config = CanTpConfig(parent, "test_can_tp_config")
+        config = CanTpConfig(parent, "CanTpConfig")
 
-        assert isinstance(config, FibexElement)
-
-        # Test default values
+        assert isinstance(config, TpConfig)
         assert config.getTpAddresses() == []
         assert config.getTpChannels() == []
         assert config.getTpConnections() == []
         assert config.getTpEcus() == []
         assert config.getTpNodes() == []
 
-        # Test communicationClusterRef getter and setter to cover lines 28, 31-33
-        assert config.getCommunicationClusterRef() is None
+    def test_CanTpConfig_create_address_duplicate_returns_existing(self):
+        """Test tpAddress aggregation create (Table 6.251)."""
+        parent = MockParent()
+        config = CanTpConfig(parent, "CanTpConfig")
 
-        result = config.setCommunicationClusterRef("cluster_ref")
-        assert config.getCommunicationClusterRef() == "cluster_ref"
-        assert result == config  # Test method chaining
+        addr = config.createCanTpAddress("Addr")
+        assert isinstance(addr, CanTpAddress)
+        assert config.getTpAddresses() == [addr]
+        assert config.createCanTpAddress("Addr") == addr
+        assert len(config.getTpAddresses()) == 1
 
-        # Test setting None (should not change the value due to if value is not None check)
-        result = config.setCommunicationClusterRef(None)
-        assert config.getCommunicationClusterRef() == "cluster_ref"  # Value remains unchanged
-        assert result == config  # Test method chaining
+    def test_CanTpConfig_create_channel_node_duplicate_returns_existing(self):
+        """Test tpChannel/tpNode aggregation creates (Table 6.251)."""
+        parent = MockParent()
+        config = CanTpConfig(parent, "CanTpConfig")
+
+        channel = config.createCanTpChannel("Ch")
+        assert isinstance(channel, CanTpChannel)
+        assert config.getTpChannels() == [channel]
+        assert config.createCanTpChannel("Ch") == channel
+
+        node = config.createCanTpNode("Node")
+        assert isinstance(node, CanTpNode)
+        assert config.getTpNodes() == [node]
+        assert config.createCanTpNode("Node") == node
+
+    def test_CanTpConfig_add_connection_ecu(self):
+        """Test tpConnection/tpEcu aggregation adds with None no-op (Table 6.251)."""
+        parent = MockParent()
+        config = CanTpConfig(parent, "CanTpConfig")
+
+        connection = CanTpConnection()
+        assert config == config.addTpConnection(connection)
+        assert config.getTpConnections() == [connection]
+        assert config == config.addTpConnection(None)
+        assert config.getTpConnections() == [connection]
+
+        ecu = CanTpEcu()
+        assert config == config.addTpEcu(ecu)
+        assert config.getTpEcus() == [ecu]
+        assert config == config.addTpEcu(None)
+        assert config.getTpEcus() == [ecu]
 
     def test_DoIpLogicAddress(self):
         """Test DoIpLogicAddress class functionality."""

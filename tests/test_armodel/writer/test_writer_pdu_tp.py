@@ -620,6 +620,41 @@ class TestWriteCanTpConfigTpConnections:
         assert parent[0].tag == "TP-CONNECTIONS"
         assert len(parent[0]) == 1
 
+    def test_roundtrip_can_tp_config_full(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        cfg = CanTpConfig(pkg, "Cfg")
+        addr = cfg.createCanTpAddress("Addr")
+        addr.setTpAddress(_int("2047"))
+        ch = cfg.createCanTpChannel("Ch")
+        ch.setChannelId(_pos_int("1"))
+        conn = CanTpConnection()
+        conn.setTransmitterRef(_ref("ECU-INSTANCE", "/tx"))
+        cfg.addTpConnection(conn)
+        ecu = CanTpEcu()
+        ecu.setCycleTimeMainFunction(_time("0.01"))
+        cfg.addTpEcu(ecu)
+        node = cfg.createCanTpNode("Node")
+        node.setMaxFcWait(_int("10"))
+        parent = _parent()
+        writer.writeCanTpConfig(parent, cfg)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpConfig(pkg, "Cfg2")
+        parser.readCanTpConfig(parser.find(ET.fromstring(xml_str), "CAN-TP-CONFIG"), reloaded)
+        assert len(reloaded.getTpAddresses()) == 1
+        assert reloaded.getTpAddresses()[0].getTpAddress().getValue() == 2047
+        assert len(reloaded.getTpChannels()) == 1
+        assert reloaded.getTpChannels()[0].getChannelId().getValue() == 1
+        assert len(reloaded.getTpConnections()) == 1
+        assert reloaded.getTpConnections()[0].getTransmitterRef().getValue() == "/tx"
+        assert len(reloaded.getTpEcus()) == 1
+        assert reloaded.getTpEcus()[0].getCycleTimeMainFunction().getValue() == 0.01
+        assert len(reloaded.getTpNodes()) == 1
+        assert reloaded.getTpNodes()[0].getMaxFcWait().getValue() == 10
+
     def test_unsupported_warns(self):
         w = ARXMLWriter(options={"warning": True})
         cfg = MagicMock()

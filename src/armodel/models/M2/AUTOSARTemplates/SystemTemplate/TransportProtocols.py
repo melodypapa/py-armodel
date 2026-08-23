@@ -668,77 +668,102 @@ class CanTpNode(Identifiable):
 
 class CanTpConfig(TpConfig):
     """
-    Represents CAN transport protocol configuration in the system,
-    organizing addresses, channels, connections, ECUs, and nodes
-    for comprehensive CAN TP communication setup.
+    This element defines exactly one CAN TP Configuration. One CanTpConfig element shall be created for each CAN Network in the System.
     """
 
     # CanTpConfig method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpAddresses               [x] impl  [ ] docstring  [ ] test
-    # [ ] createCanTpAddress           [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpChannels                [x] impl  [ ] docstring  [ ] test
-    # [ ] createCanTpChannel           [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpConnections             [x] impl  [ ] docstring  [ ] test
-    # [ ] addTpConnection              [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpEcus                    [x] impl  [ ] docstring  [ ] test
-    # [ ] addTpEcu                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpNodes                   [x] impl  [ ] docstring  [ ] test
-    # [ ] createCanTpNode              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.251, p.607
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getTpAddresses          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createCanTpAddress      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTpChannels           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createCanTpChannel      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTpConnections        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addTpConnection         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTpEcus               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addTpEcu                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTpNodes              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createCanTpNode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Collection of TP Addresses.
         self.tpAddresses: List[CanTpAddress] = []
+
+        # Configuration of CAN TP channels.
         self.tpChannels: List[CanTpChannel] = []
+
+        # Senders and receivers of CAN TP messages.
         self.tpConnections: List[CanTpConnection] = []
+
+        # Collection of TP Ecus
         self.tpEcus: List[CanTpEcu] = []
+
+        # Senders and receivers of Can TP messages.
         self.tpNodes: List[CanTpNode] = []
 
-    def getTpAddresses(self):
+    def getTpAddresses(self) -> List[CanTpAddress]:
+        """Collection of TP Addresses."""
         return self.tpAddresses
 
-    def createCanTpAddress(self, short_name: str):
+    def createCanTpAddress(self, short_name: str) -> CanTpAddress:
+        """Collection of TP Addresses."""
         if not self.IsElementExists(short_name):
             address = CanTpAddress(self, short_name)
             self.addElement(address)
             self.tpAddresses.append(address)
         return self.getElement(short_name)
 
-    def getTpChannels(self):
+    def getTpChannels(self) -> List[CanTpChannel]:
+        """Configuration of CAN TP channels."""
         return self.tpChannels
 
-    def createCanTpChannel(self, short_name: str):
+    def createCanTpChannel(self, short_name: str) -> CanTpChannel:
+        """Configuration of CAN TP channels."""
         if not self.IsElementExists(short_name):
-            address = CanTpChannel(self, short_name)
-            self.addElement(address)
-            self.tpChannels.append(address)
+            channel = CanTpChannel(self, short_name)
+            self.addElement(channel)
+            self.tpChannels.append(channel)
         return self.getElement(short_name)
 
-    def getTpConnections(self):
+    def getTpConnections(self) -> List[CanTpConnection]:
+        """Senders and receivers of CAN TP messages."""
         return self.tpConnections
 
-    def addTpConnection(self, value):
+    def addTpConnection(self, value: Optional[CanTpConnection]) -> "CanTpConfig":
+        """
+        Senders and receivers of CAN TP messages.
+        A None value is a no-op and is not appended to tpConnections.
+        """
         if value is not None:
             self.tpConnections.append(value)
         return self
 
-    def getTpEcus(self):
+    def getTpEcus(self) -> List[CanTpEcu]:
+        """Collection of TP Ecus"""
         return self.tpEcus
 
-    def addTpEcu(self, value):
+    def addTpEcu(self, value: Optional[CanTpEcu]) -> "CanTpConfig":
+        """
+        Collection of TP Ecus
+        A None value is a no-op and is not appended to tpEcus.
+        """
         if value is not None:
             self.tpEcus.append(value)
         return self
 
-    def getTpNodes(self):
+    def getTpNodes(self) -> List[CanTpNode]:
+        """Senders and receivers of Can TP messages."""
         return self.tpNodes
 
-    def createCanTpNode(self, short_name: str):
+    def createCanTpNode(self, short_name: str) -> CanTpNode:
+        """Senders and receivers of Can TP messages."""
         if not self.IsElementExists(short_name):
-            address = CanTpNode(self, short_name)
-            self.addElement(address)
-            self.tpNodes.append(address)
+            node = CanTpNode(self, short_name)
+            self.addElement(node)
+            self.tpNodes.append(node)
         return self.getElement(short_name)
 
 
