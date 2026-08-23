@@ -597,6 +597,26 @@ class TestWriteBusDependentNmEcus:
         deps = parent.find("BUS-DEPENDENT-NM-ECUS")
         assert deps.find("UDP-NM-ECU") is not None
 
+    def test_roundtrip_with_can_nm_ecu(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmEcu
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        nm_ecu = NmEcu(MockParent(), "nm_ecu")
+        nm_ecu.addBusDependentNmEcu(CanNmEcu())
+        parent = _parent()
+        writer.writeBusDependentNmEcus(parent, nm_ecu)
+        deps = parent.find("BUS-DEPENDENT-NM-ECUS")
+        assert deps is not None
+        assert deps.find("CAN-NM-ECU") is not None
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = NmEcu(MockParent(), "nm_ecu2")
+        parser.readBusDependentNmEcus(ET.fromstring(xml_str), reloaded)
+        dependents = reloaded.getBusDependentNmEcus()
+        assert len(dependents) == 1
+        assert isinstance(dependents[0], CanNmEcu)
+
 
 class TestWriteNmEcu:
     def test_full_nm_ecu(self, writer):

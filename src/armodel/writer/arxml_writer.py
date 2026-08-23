@@ -580,6 +580,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing im
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
     CanNmCluster,
+    CanNmEcu,
     CanNmClusterCoupling,
     CanNmNode,
     J1939NmNode,
@@ -6004,6 +6005,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "UDP-NM-ECU")
             self.setChildElementOptionalBooleanValue(child_element, "NM-SYNCHRONIZATION-POINT-ENABLED", ecu.getNmSynchronizationPointEnabled())
 
+    def writeCanNmEcu(self, element: ET.Element, ecu: CanNmEcu):
+        if ecu is not None:
+            ET.SubElement(element, "CAN-NM-ECU")
+
     def writeBusDependentNmEcus(self, element: ET.Element, nm_ecu: NmEcu):
         dependent_nm_ecus = nm_ecu.getBusDependentNmEcus()
         if len(dependent_nm_ecus) > 0:
@@ -6011,6 +6016,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for dependent_nm_ecu in dependent_nm_ecus:
                 if isinstance(dependent_nm_ecu, UdpNmEcu):
                     self.writeUdpNmEcu(child_element, dependent_nm_ecu)
+                elif isinstance(dependent_nm_ecu, CanNmEcu):
+                    self.writeCanNmEcu(child_element, dependent_nm_ecu)
                 else:
                     self.notImplemented("Unsupported BusDependentNmEcu <%s>" % type(dependent_nm_ecu))
 

@@ -164,7 +164,7 @@ class Test_NetworkManagement:
             BusspecificNmEcu()
 
     def test_CanNmEcu(self):
-        """Test CanNmEcu class functionality."""
+        """Test CanNmEcu class functionality (Table 6.312)."""
         ecu = CanNmEcu()
 
         assert isinstance(ecu, BusspecificNmEcu)

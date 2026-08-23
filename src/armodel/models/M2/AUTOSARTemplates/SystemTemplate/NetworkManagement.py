@@ -737,12 +737,14 @@ class BusspecificNmEcu(ARObject, ABC):
 
 class CanNmEcu(BusspecificNmEcu):
     """
-    Defines CAN-specific network management ECU properties,
-    implementing bus-specific NM features for CAN communication.
+    CAN specific attributes.
     """
 
     # CanNmEcu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.312, p.683
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # (no own attributes; reader/writer coverage via BUS-DEPENDENT-NM-ECUS dispatch)
 
     def __init__(self):
         super().__init__()

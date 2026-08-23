@@ -610,6 +610,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     CanNmCluster,
     CanNmClusterCoupling,
     CanNmNode,
+    CanNmEcu,
     J1939NmNode,
     J1939NodeName,
     NmCluster,
@@ -7034,6 +7035,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readUdpNmEcu(self, element: ET.Element, ecu: UdpNmEcu):
         ecu.setNmSynchronizationPointEnabled(self.getChildElementOptionalBooleanValue(element, "NM-SYNCHRONIZATION-POINT-ENABLED"))
 
+    def readCanNmEcu(self, element: ET.Element, ecu: CanNmEcu):
+        pass
+
     def readBusDependentNmEcus(self, element: ET.Element, nm_ecu: NmEcu):
         for child_element in self.findall(element, "BUS-DEPENDENT-NM-ECUS/*"):
             tag_name = self.getTagName(child_element)
@@ -7041,6 +7045,10 @@ class ARXMLParser(AbstractARXMLParser):
                 udp_nm_ecu = UdpNmEcu()
                 self.readUdpNmEcu(child_element, udp_nm_ecu)
                 nm_ecu.addBusDependentNmEcu(udp_nm_ecu)
+            elif tag_name == "CAN-NM-ECU":
+                can_nm_ecu = CanNmEcu()
+                self.readCanNmEcu(child_element, can_nm_ecu)
+                nm_ecu.addBusDependentNmEcu(can_nm_ecu)
             else:
                 self.notImplemented("Unsupported BusDependentNmEcu <%s>" % tag_name)
 

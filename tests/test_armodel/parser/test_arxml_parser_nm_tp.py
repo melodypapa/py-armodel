@@ -57,6 +57,20 @@ class TestBusDependentNmEcusHandler:
         assert dependents[0].getNmSynchronizationPointEnabled() is not None
         assert dependents[0].getNmSynchronizationPointEnabled().getValue() is True
 
+    def test_readBusDependentNmEcus_creates_canNmEcu(self, parser):
+        from armodel.models import CanNmEcu, NmConfig, NmEcu
+
+        config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
+        nm_ecu = NmEcu(parent=config, short_name="ecu")
+        element = _snip(
+            "<BUS-DEPENDENT-NM-ECUS><CAN-NM-ECU/></BUS-DEPENDENT-NM-ECUS>",
+            root_tag="NM-ECU",
+        )
+        parser.readBusDependentNmEcus(element, nm_ecu)
+        dependents = nm_ecu.getBusDependentNmEcus()
+        assert len(dependents) == 1
+        assert isinstance(dependents[0], CanNmEcu)
+
     def test_readBusDependentNmEcus_udp_ecu_is_busspecific_nm_ecu(self, parser):
         from armodel.models import BusspecificNmEcu, NmConfig, NmEcu, UdpNmEcu
 
