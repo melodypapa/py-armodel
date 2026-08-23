@@ -30,7 +30,7 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
 
 ## Queue (dependency-first — one class per fresh session, Rule 0017)
 
-- [ ] EcucConfigurationVariantEnum
+- [x] EcucConfigurationVariantEnum (7913144 — resolved as duplicate stub removal; canonical stays ECUCParameterDefTemplate.py R23-11)
   - [x] Step 1 — Sync members & description from spec (RESOLVED: duplicate stub — canonical class in ECUCParameterDefTemplate.py:397 already stamped R23-11 w/ verbatim literals; user chose removal)
   - [x] Step 2 — Write model class unit test (N/A — no new code; canonical tests cover literals; regression verified)
   - [x] Step 3 — Implement model class (Green — stub deleted from ECUCDescriptionTemplate.py; AREnum import removed; test imports redirected; 130 tests pass)
@@ -120,13 +120,18 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
   - [ ] Step 7 — Update checklist comment (# Spec: line + rows; marker deferred to 9b)
   - [ ] Step 8 — Deviations (none expected)
   - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11
-- [ ] EcucModuleConfigurationValues
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite verbatim)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec: line + rows; marker deferred to 9b)
-  - [ ] Step 8 — Deviations (resolve deprecated aliases decision)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11
+- [x] EcucModuleConfigurationValues (a7994a6)
+  - [x] Step 1 — Sync members & description from spec (Table 2.47 p.111; markdown line-break artifacts repaired in Notes)
+  - [x] Step 2 — Write model class unit test (Red — none_no_op + verbatim docstring tests failed first)
+  - [x] Step 3 — Implement model class (Green — spec types RevisionLabelString/EcucConfigurationVariantEnum/Boolean; None no-op guards)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite verbatim: class Note+Tags, inline __init__ comments, getter/setter docstrings)
+  - [x] Step 5 — Write reader/writer round-trip test (Red — RevisionLabelString isinstance failed against ARLiteral reader)
+  - [x] Step 6 — Update parser & writer (Green — spec-name setters/getters + getChildElementOptionalRevisionLabelString)
+  - [x] Step 7 — Update checklist comment (# Spec: line + rows; marker deferred to 9b)
+  - [x] Step 8 — Deviations recorded (see below)
+  - [ ] Step 9 — Verify (9a done: pytest 6850/flake8/ruff/black clean) + confirm (9b)
+
+### Deviations / decisions (EcucModuleConfigurationValues)
+1. Deprecated backward-compat conveniences kept (NOT in Table 2.47): get/setDefinitionRef, get/setModuleDescriptionRef methods + definitionRef/moduleDescriptionRef properties. Spec-named members are canonical; aliases delegate to them; marked [—] (no XML element).
+2. implementationConfigVariant is read via getChildElementOptionalLiteral (value stored as ARLiteral value-form per project convention for enums on this side); field typed Optional[EcucConfigurationVariantEnum].
+3. getContainers sorts the dedicated typed list by short_name per TPS_ECUC_06067 secondary criterion (primary index criterion lives on EcucIndexableValue rows).
