@@ -8332,7 +8332,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "ECUC-REFERENCE-VALUE")
             self.writeEcucAbstractReferenceValue(child_element, value)
             self.setChildElementOptionalRefType(child_element, "VALUE-REF", value.getValueRef())
-            return value
+            if len(child_element) == 0:
+                element.remove(child_element)
+        return value
 
     def setAnyInstanceRef(self, element: ET.Element, key, instance_ref: AnyInstanceRef):
         if instance_ref is not None:

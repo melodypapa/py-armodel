@@ -90,16 +90,16 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
   - [x] Step 7 — Update checklist comment (# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.53, p.131; 5-column rows; marker deferred to 9b)
   - [x] Step 8 — Deviations recorded (none — tracker type/naming rows fixed & removed; see decisions below)
   - [x] Step 9 — Verify (9a done: pytest 6942/flake8/ruff/black clean; parity no new gaps) + confirm (9b) (confirmed 2026-08-23 — Ref-suffix correction applied in review; marker at ECUCDescriptionTemplate.py:253; commit 0c65ebd)
-- [ ] EcucReferenceValue
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite verbatim)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec: line + rows; marker deferred to 9b)
-  - [ ] Step 8 — Deviations (none expected)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11
+- [x] EcucReferenceValue (f35eb73)
+  - [x] Step 1 — Sync members & description from spec (Table 2.54 p.132; single attr value: Referrable 0..1 ref → valueRef/getValueRef/setValueRef Optional[RefType]; markdown line-break artifact repaired via XSD doc; XSD order confirms VALUE-REF after abstract group)
+  - [x] Step 2 — Write model class unit test (Red — none_no_op + class/member verbatim docstring tests failed first)
+  - [x] Step 3 — Implement model class (Green shape — PEP 526 annotation, Optional[RefType] getter/setter, None guard + chaining; none_no_op passes)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite verbatim: class Note, inline __init__ comment, getter/setter docstrings; 29 model tests green)
+  - [x] Step 5 — Write reader/writer round-trip test (Red — empty ECUC-REFERENCE-VALUE wrapper emitted by writer; parser DEST assertion added; 5 tests Red→Green)
+  - [x] Step 6 — Update parser & writer (Green — setEcucReferenceValue omits empty wrapper to match writeEcucAbstractReferenceValue empty-omit semantics; 5 tests pass)
+  - [x] Step 7 — Update checklist comment (# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.54, p.132; 5-column rows; marker deferred to 9b)
+  - [x] Step 8 — Deviations (none — no placeholders; stamp granted)
+  - [x] Step 9 — Verify (9a done: pytest 3199+185/flake8/ruff/black clean; integration round-trip pass) + confirm (9b) ⇒ # Spec verified: R23-11 (confirmed — marker at ECUCDescriptionTemplate.py; commit f35eb73)
 - [ ] EcucInstanceReferenceValue
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

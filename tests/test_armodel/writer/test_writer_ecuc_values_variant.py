@@ -403,6 +403,45 @@ class TestWriterEcucAbstractReferenceValue:
         assert len(parent) == 0
 
 
+class TestWriterEcucReferenceValue:
+    def test_writes_all_table_2_54_fields_in_spec_order(self, writer):
+        ref_val = EcucReferenceValue()
+        ref_val.setDefinitionRef(_ref("/d", "ECUC-REFERENCE-DEF"))
+        ref_val.setIndex(_numerical(3))
+        ref_val.addAnnotation(Annotation())
+        ref_val.setIsAutoValue(Boolean().setValue(True))
+        ref_val.setValueRef(_ref("/v", "ECUC-CONTAINER-VALUE"))
+        parent = _parent()
+        writer.setEcucReferenceValue(parent, ref_val)
+        el = parent[0]
+        assert el.tag == "ECUC-REFERENCE-VALUE"
+        assert [child.tag for child in el] == [
+            "DEFINITION-REF",
+            "INDEX",
+            "ANNOTATIONS",
+            "IS-AUTO-VALUE",
+            "VALUE-REF",
+        ]
+        assert el.find("DEFINITION-REF").text == "/d"
+        assert el.find("INDEX").text == "3"
+        assert el.find("ANNOTATIONS/ANNOTATION") is not None
+        assert el.find("IS-AUTO-VALUE").text == "true"
+        value_ref = el.find("VALUE-REF")
+        assert value_ref.text == "/v"
+        assert value_ref.attrib["DEST"] == "ECUC-CONTAINER-VALUE"
+
+    def test_omits_all_unset_optional_fields(self, writer):
+        ref_val = EcucReferenceValue()
+        parent = _parent()
+        writer.setEcucReferenceValue(parent, ref_val)
+        assert parent.find("ECUC-REFERENCE-VALUE") is None
+
+    def test_none_emit_nothing(self, writer):
+        parent = _parent()
+        writer.setEcucReferenceValue(parent, None)
+        assert len(parent) == 0
+
+
 class TestWriterEcucContainerValueReferenceValues:
     def test_dispatches_reference_and_instance_reference(self, writer):
         container = _make_container()

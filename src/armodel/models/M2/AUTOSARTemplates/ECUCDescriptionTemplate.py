@@ -331,24 +331,31 @@ class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
 
 class EcucReferenceValue(EcucAbstractReferenceValue):
     """
-    ECUC reference value using a RefType for standard references.
+    Used to represent a configuration value that has a parameter definition of type EcucAbstractReferenceDef (used for all of its specializations excluding EcucInstanceReferenceDef).
     """
 
     # EcucReferenceValue method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getValueRef                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setValueRef                  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.54, p.132
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValueRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValueRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.valueRef = None  # type: RefType
+        # Specifies the destination of the reference.
+        self.valueRef: Optional[RefType] = None
 
-    def getValueRef(self) -> RefType:
+    def getValueRef(self) -> Optional[RefType]:
+        """Specifies the destination of the reference."""
         return self.valueRef
 
-    def setValueRef(self, value: RefType):
-        self.valueRef = value
+    def setValueRef(self, value: Optional[RefType]) -> "EcucReferenceValue":
+        """Specifies the destination of the reference. A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.valueRef = value
         return self
 
 

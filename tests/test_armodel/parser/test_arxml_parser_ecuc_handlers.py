@@ -891,6 +891,7 @@ class TestGetEcucReferenceValue:
         assert value.getIsAutoValue().getValue() is True
         assert value.getValueRef() is not None
         assert value.getValueRef().getValue() == "/Module/Container"
+        assert value.getValueRef().getDest() == "ECUC-CONTAINER-VALUE"
 
     def test_reads_minimal_reference_value(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")

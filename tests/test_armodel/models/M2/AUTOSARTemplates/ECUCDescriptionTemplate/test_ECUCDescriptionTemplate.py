@@ -488,23 +488,66 @@ def test_ecuc_instance_reference_value():
 
 def test_ecuc_reference_value():
     """
-    Test EcucReferenceValue class.
+    Test EcucReferenceValue class - full spec compliance per Table 2.54.
 
     Test Steps:
     1. Create an EcucReferenceValue instance
-    2. Test valueRef getter and setter
-    3. Verify method chaining
+    2. Test initial values
+    3. Test valueRef methods (spec: Referrable 0..1 ref -> RefType, Kind-ref Ref suffix per Rule 0001.5)
+    4. Verify method chaining
+    5. Verify class docstring contains the spec Note verbatim
     """
     ref_value = EcucReferenceValue()
 
-    # Test initial value
+    # Test initial values
     assert ref_value.valueRef is None
 
     # Test valueRef methods
-    ref_type = RefType()
-    result = ref_value.setValueRef(ref_type)
-    assert result == ref_value  # Method chaining
-    assert ref_value.getValueRef() == ref_type
+    value_ref = RefType().setValue("/ECUC/myOs/myOsScheduleTable1")
+    result = ref_value.setValueRef(value_ref)
+    assert result is ref_value  # Method chaining
+    assert ref_value.getValueRef() == value_ref
+
+    # Verify docstrings match spec (Rule 0012)
+    assert EcucReferenceValue.__doc__ is not None, "Class docstring must contain spec Note"
+    assert "Used to represent a configuration value that has a parameter definition of type EcucAbstractReferenceDef" in EcucReferenceValue.__doc__, "Class docstring must contain spec Note verbatim"
+    assert "(used for all of its specializations excluding EcucInstanceReferenceDef)." in EcucReferenceValue.__doc__, "Class docstring must contain spec Note verbatim"
+
+
+def test_ecuc_reference_value_none_no_op():
+    """
+    None passed to a setter of EcucReferenceValue is a no-op.
+
+    Test Steps:
+    1. Create an EcucReferenceValue instance
+    2. Set the spec value on the attribute
+    3. Call setValueRef with None and verify the value is preserved
+    """
+    ref_value = EcucReferenceValue()
+    value_ref = RefType().setValue("/ECUC/myOs/myOsScheduleTable1")
+
+    assert ref_value.setValueRef(value_ref) is ref_value
+
+    ref_value.setValueRef(None)
+
+    assert ref_value.getValueRef() == value_ref
+
+
+def test_ecuc_reference_value_member_docstrings_verbatim():
+    """
+    Member docstrings must carry the Table 2.54 attribute Notes verbatim (Rule 0001.4/0012).
+
+    Test Steps:
+    1. Assert each getter/setter docstring contains the full spec Note sentence
+       that paraphrases are known to drop.
+    """
+    notes = {
+        "getValueRef": "Specifies the destination of the reference.",
+        "setValueRef": "Specifies the destination of the reference.",
+    }
+    for method_name, note in notes.items():
+        method = getattr(EcucReferenceValue, method_name)
+        assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
 
 
 def test_ecuc_container_value():
