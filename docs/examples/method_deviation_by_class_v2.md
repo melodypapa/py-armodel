@@ -3010,7 +3010,7 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 - `CommunicationCluster` (`M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`)
 - `AbstractCanCluster` (`M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`)
 - `CanCluster` (`M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`)
-- `LinCluster` (`M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`)
+- `LinCluster` (`M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology`)
 - `CommunicationController` (`M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`)
 - `PncGatewayTypeEnum` (`M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`)
 - `CommunicationDirectionType` (`M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`)

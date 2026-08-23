@@ -63,6 +63,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     LinFrameTriggering,
     LinScheduleTable,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (  # noqa: E501
     ISignalTriggering,
     PduTriggering,
@@ -74,7 +75,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     CycleRepetition,
     EthernetPhysicalChannel,
     FlexrayPhysicalChannel,
-    LinCluster,
     LinPhysicalChannel,
 )
 from armodel.writer.arxml_writer import ARXMLWriter

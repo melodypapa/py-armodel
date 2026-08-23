@@ -696,20 +696,6 @@ class CanCluster(AbstractCanCluster):
         super().__init__(parent, short_name)
 
 
-class LinCluster(CommunicationCluster):
-    """
-    Represents a LIN cluster in the communication system,
-    implementing specific properties for LIN network
-    communication including scheduling and timing management.
-    """
-
-    # LinCluster method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-
 class CommunicationController(Identifiable, ABC):
     """The communication controller is a dedicated hardware device by means of which hosts are sending frames to and receiving frames from the communication medium. Tags: vh.latestBindingTime=postBuild"""
 
