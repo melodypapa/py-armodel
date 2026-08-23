@@ -742,6 +742,7 @@ class CanNmEcu(BusspecificNmEcu):
 
     # CanNmEcu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.312, p.683
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # (no own attributes; reader/writer coverage via BUS-DEPENDENT-NM-ECUS dispatch)

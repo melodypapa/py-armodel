@@ -1,6 +1,9 @@
 from abc import ABC
 from enum import Enum
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanPhysicalChannel
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
@@ -249,39 +252,6 @@ class PhysicalChannel(Identifiable, ABC):
         return self.getElement(short_name)
 
 
-class AbstractCanPhysicalChannel(PhysicalChannel, ABC):
-    """
-    Abstract class that is used to collect the common TtCAN and CAN PhysicalChannel attributes.
-    """
-
-    # AbstractCanPhysicalChannel method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.20, p.73
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # (no own attributes; Base = ARObject, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable)
-
-    def __init__(self, parent, short_name):
-        if type(self) is AbstractCanPhysicalChannel:
-            raise TypeError("AbstractCanPhysicalChannel is an abstract class.")
-
-        super().__init__(parent, short_name)
-
-
-class CanPhysicalChannel(AbstractCanPhysicalChannel):
-    """
-    CAN bus specific physical channel attributes.
-    """
-
-    # CanPhysicalChannel method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.21, p.73
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # (no own attributes; Base = ARObject, AbstractCanPhysicalChannel, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable)
-
-    def __init__(self, parent, short_name):
-        super().__init__(parent, short_name)
-
-
 class LinPhysicalChannel(PhysicalChannel):
     """
     Represents a LIN physical channel in the communication system,
@@ -503,10 +473,12 @@ class CommunicationCluster(FibexElement, ABC):
         """
         return list(sorted(self.physicalChannel, key=lambda o: o.getShortName()))
 
-    def getCanPhysicalChannels(self) -> List[CanPhysicalChannel]:
+    def getCanPhysicalChannels(self) -> List["CanPhysicalChannel"]:
         """
         This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
         """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanPhysicalChannel
+
         return list(sorted(filter(lambda a: isinstance(a, CanPhysicalChannel), self.physicalChannel), key=lambda o: o.getShortName()))
 
     def getLinPhysicalChannels(self) -> List[LinPhysicalChannel]:
@@ -525,6 +497,8 @@ class CommunicationCluster(FibexElement, ABC):
         """
         This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
         """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanPhysicalChannel
+
         if short_name not in self.elements:
             channel = CanPhysicalChannel(self, short_name)
             self.addElement(channel)

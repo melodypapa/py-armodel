@@ -549,11 +549,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     UserDefinedIPdu,
     UserDefinedPdu,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (  # noqa: F401
+    AbstractCanPhysicalChannel,
+    CanPhysicalChannel,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     AbstractCanCluster,
     CanCluster,
     CanClusterBusOffRecovery,
-    CanPhysicalChannel,
     CommConnectorPort,
     CommunicationCluster,
     CommunicationConnector,

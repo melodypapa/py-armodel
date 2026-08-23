@@ -7,7 +7,7 @@ from typing import Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController, PhysicalChannel
 
 
 class CanControllerFdConfiguration(ARObject):
@@ -929,6 +929,39 @@ class CanCommunicationController(AbstractCanCommunicationController):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class AbstractCanPhysicalChannel(PhysicalChannel, ABC):
+    """
+    Abstract class that is used to collect the common TtCAN and CAN PhysicalChannel attributes.
+    """
+
+    # AbstractCanPhysicalChannel method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.20, p.73
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [-] reader  [-] writer
+    # (no own attributes; Base = ARObject, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is AbstractCanPhysicalChannel:
+            raise TypeError("AbstractCanPhysicalChannel is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+
+class CanPhysicalChannel(AbstractCanPhysicalChannel):
+    """
+    CAN bus specific physical channel attributes.
+    """
+
+    # CanPhysicalChannel method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.21, p.73
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # (no own attributes; Base = ARObject, AbstractCanPhysicalChannel, Identifiable, MultilanguageReferrable, PhysicalChannel, Referrable)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

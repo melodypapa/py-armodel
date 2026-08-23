@@ -202,6 +202,7 @@ class CanTpConnection(TpConnection):
 
     # CanTpConnection method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.253 (with Table 6.252 block), p.608-609
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getAddressingFormat       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -504,6 +505,7 @@ class CanTpEcu(ARObject):
 
     # CanTpEcu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.256, p.610
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getCycleTimeMainFunction    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -554,6 +556,7 @@ class CanTpNode(Identifiable):
 
     # CanTpNode method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.257, p.611
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getConnectorRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer

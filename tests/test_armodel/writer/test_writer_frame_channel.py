@@ -20,6 +20,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommun
     CanXlFrameTriggeringProps,
     RxIdentifierRange,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (  # noqa: E501
+    CanPhysicalChannel,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (  # noqa: E501
     SocketConnection,
     SocketConnectionBundle,
@@ -73,7 +76,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (  # noqa: E501
     CanCluster,
     CanClusterBusOffRecovery,
-    CanPhysicalChannel,
     CycleRepetition,
     EthernetPhysicalChannel,
     FlexrayPhysicalChannel,

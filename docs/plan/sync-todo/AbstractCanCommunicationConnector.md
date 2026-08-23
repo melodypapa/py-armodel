@@ -200,7 +200,7 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CanTpConnection (member of CanTpConfig.tpConnection · markdown · Table 6.253 + 6.252 block (spec splits the table across two page-blocks) · p.608-609 · synced 2026-08-24, stamp deferred to batch confirmation)
+- [x] CanTpConnection (member of CanTpConfig.tpConnection · markdown · Table 6.253 + 6.252 block (spec splits the table across two page-blocks) · p.608-609 · commits 7b17e1d2+afb1eb32 · stamped R23-11 2026-08-24; addressingFormat retyped to CanTpAddressingFormatType per user review, parser/writer updated)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -209,8 +209,8 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CanTpEcu (member of CanTpConfig.tpEcu · markdown · Table 6.256 · p.610 · synced 2026-08-24, stamp deferred to batch confirmation)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+- [x] CanTpEcu (member of CanTpConfig.tpEcu · markdown · Table 6.256 · p.610 · commit 9ead7c58 · stamped R23-11 2026-08-24)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -219,8 +219,8 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CanTpNode (member of CanTpConfig.tpNode · markdown · Table 6.257 · p.611 · synced 2026-08-24, stamp deferred to batch confirmation)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+- [x] CanTpNode (member of CanTpConfig.tpNode · markdown · Table 6.257 · p.611 · commit 4edb4666 · stamped R23-11 2026-08-24)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -229,11 +229,11 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 ### Inputs
 
-- [ ] AbstractCanPhysicalChannel (input · markdown · Table 3.20 · p.73 · synced 2026-08-24, stamp deferred to batch confirmation; DEVIATION: source stays in FibexCore/CoreTopology.py (spec package Fibex4Can/CanTopology) — moving would need circular-import workarounds inside stamped CommunicationCluster factory/getter)
+- [ ] AbstractCanPhysicalChannel (input · markdown · Table 3.20 · p.73 · MOVED 2026-08-24 from FibexCore/CoreTopology.py to Fibex4Can/CanTopology.py per spec Package and user direction; awaiting stamp confirmation)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -243,7 +243,7 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CanPhysicalChannel (input · markdown · Table 3.21 · p.73 · synced 2026-08-24, stamp deferred to batch confirmation; same placement deviation as AbstractCanPhysicalChannel)
+- [ ] CanPhysicalChannel (input · markdown · Table 3.21 · p.73 · MOVED 2026-08-24 together with its abstract base (same spec package; split placement impossible due to import cycle); awaiting stamp confirmation)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -253,7 +253,7 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CanNmEcu (input · markdown · Table 6.312 · p.683 · synced 2026-08-24, stamp deferred to batch confirmation; ADDED missing CAN-NM-ECU dispatch in readBusDependentNmEcus/writeBusDependentNmEcus — only UDP was handled before)
+- [x] CanNmEcu (input · markdown · Table 6.312 · p.683 · commit ffa3009b · stamped R23-11 2026-08-24; ADDED missing CAN-NM-ECU dispatch in readBusDependentNmEcus/writeBusDependentNmEcus — only UDP was handled before)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -262,7 +262,7 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 - [ ] CanTpConfig (input · markdown · Table 6.251 · p.607 · synced 2026-08-24, stamp deferred to batch confirmation)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
