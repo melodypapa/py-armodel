@@ -2,7 +2,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection, TpConnectionIdent
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIp import AbstractDoIpLogicAddressProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
@@ -149,13 +149,11 @@ class Test_TransportProtocols:
         ):
             assert literal in enum.getEnumValues()
 
-    def test_CanTpConnection(self):
-        """Test CanTpConnection class functionality."""
+    def test_CanTpConnection_initialization(self):
+        """Test CanTpConnection default state (Table 6.253)."""
         connection = CanTpConnection()
 
         assert isinstance(connection, TpConnection)
-
-        # Test default values
         assert connection.getAddressingFormat() is None
         assert connection.getCancellation() is None
         assert connection.getCanTpChannelRef() is None
@@ -173,20 +171,90 @@ class Test_TransportProtocols:
         assert connection.getTpSduRef() is None
         assert connection.getTransmitterRef() is None
 
-        # Test setter/getter methods
-        connection.setAddressingFormat("extended")
-        assert connection.getAddressingFormat() == "extended"
+    def test_CanTpConnection_get_set_attributes(self):
+        """Test CanTpConnection attribute getters/setters with None no-op (Table 6.253)."""
+        connection = CanTpConnection()
 
-        connection.setCancellation(True)
-        assert connection.getCancellation() is True
+        fmt = ARLiteral()
+        fmt.setValue(CanTpAddressingFormatType.ENUM_STANDARD)
+        assert connection == connection.setAddressingFormat(fmt)
+        assert connection.getAddressingFormat() == fmt
+        assert connection == connection.setAddressingFormat(None)
+        assert connection.getAddressingFormat() == fmt
 
-        # Test adding receiver refs
-        mock_receiver_ref = "receiver_ref"
-        connection.addReceiverRef(mock_receiver_ref)
-        assert connection.getReceiverRefs() == [mock_receiver_ref]
+        assert connection == connection.setCancellation(Boolean().setValue(True))
+        assert connection.getCancellation().getValue() is True
+        assert connection == connection.setCancellation(None)
+        assert connection.getCancellation().getValue() is True
 
-        connection.setTaType("physical")
-        assert connection.getTaType() == "physical"
+        assert connection == connection.setMaxBlockSize(Integer().setValue(8))
+        assert connection.getMaxBlockSize().getValue() == 8
+        assert connection == connection.setMaxBlockSize(None)
+        assert connection.getMaxBlockSize().getValue() == 8
+
+        assert connection == connection.setPaddingActivation(Boolean().setValue(False))
+        assert connection.getPaddingActivation().getValue() is False
+        assert connection == connection.setPaddingActivation(None)
+        assert connection.getPaddingActivation().getValue() is False
+
+        ta = ARLiteral()
+        ta.setValue(NetworkTargetAddressType.ENUM_PHYSICAL)
+        assert connection == connection.setTaType(ta)
+        assert connection.getTaType() == ta
+        assert connection == connection.setTaType(None)
+        assert connection.getTaType() == ta
+
+    def test_CanTpConnection_get_set_timeouts(self):
+        """Test CanTpConnection timeout getters/setters with None no-op (Table 6.253)."""
+        connection = CanTpConnection()
+
+        for setter, getter in (
+            ("setTimeoutBr", "getTimeoutBr"),
+            ("setTimeoutBs", "getTimeoutBs"),
+            ("setTimeoutCr", "getTimeoutCr"),
+            ("setTimeoutCs", "getTimeoutCs"),
+        ):
+            value = TimeValue().setValue(0.1)
+            assert getattr(connection, setter)(value) == connection
+            assert getattr(connection, getter)().getValue() == 0.1
+            getattr(connection, setter)(None)
+            assert getattr(connection, getter)().getValue() == 0.1
+
+    def test_CanTpConnection_get_set_refs(self):
+        """Test CanTpConnection reference getters/setters with None no-op (Table 6.253)."""
+        connection = CanTpConnection()
+
+        channel_ref = RefType()
+        channel_ref.setValue("/CanTpChannel")
+        assert connection == connection.setCanTpChannelRef(channel_ref)
+        assert connection.getCanTpChannelRef() == channel_ref
+        assert connection == connection.setCanTpChannelRef(None)
+        assert connection.getCanTpChannelRef() == channel_ref
+
+        for setter, getter, path in (
+            ("setDataPduRef", "getDataPduRef", "/DataPdu"),
+            ("setFlowControlPduRef", "getFlowControlPduRef", "/FcPdu"),
+            ("setMulticastRef", "getMulticastRef", "/Multicast"),
+            ("setTpSduRef", "getTpSduRef", "/TpSdu"),
+            ("setTransmitterRef", "getTransmitterRef", "/TxNode"),
+        ):
+            ref = RefType()
+            ref.setValue(path)
+            assert getattr(connection, setter)(ref) == connection
+            assert getattr(connection, getter)() == ref
+            getattr(connection, setter)(None)
+            assert getattr(connection, getter)() == ref
+
+    def test_CanTpConnection_receiver_refs(self):
+        """Test receiverRefs add with None no-op (Table 6.253)."""
+        connection = CanTpConnection()
+
+        ref1 = RefType()
+        ref1.setValue("/r1")
+        assert connection == connection.addReceiverRef(ref1)
+        assert connection.getReceiverRefs() == [ref1]
+        assert connection == connection.addReceiverRef(None)
+        assert connection.getReceiverRefs() == [ref1]
 
     def test_CanTpEcu(self):
         """Test CanTpEcu class functionality."""

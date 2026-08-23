@@ -536,6 +536,71 @@ class TestWriteCanTpConnection:
         assert child.find("TP-SDU-REF").text == "/sdu"
         assert child.find("TRANSMITTER-REF").text == "/tx"
 
+    def test_roundtrip_can_tp_connection_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        conn = CanTpConnection()
+        conn.createTpConnectionIdent("ConnIdent")
+        conn.setAddressingFormat(_literal("MIXED"))
+        conn.setCanTpChannelRef(_ref("CAN-TP-CHANNEL", "/ch"))
+        conn.setCancellation(_bool("true"))
+        conn.setDataPduRef(_ref("I-PDU", "/dp"))
+        conn.setFlowControlPduRef(_ref("I-PDU", "/fc"))
+        conn.setMaxBlockSize(_int("8"))
+        conn.setMulticastRef(_ref("I-PDU", "/mc"))
+        conn.setPaddingActivation(_bool("false"))
+        conn.addReceiverRef(_ref("ECU-INSTANCE", "/r1"))
+        conn.addReceiverRef(_ref("ECU-INSTANCE", "/r2"))
+        conn.setTaType(_literal("PHYSICAL"))
+        conn.setTimeoutBr(_time("0.1"))
+        conn.setTimeoutBs(_time("0.2"))
+        conn.setTimeoutCr(_time("0.3"))
+        conn.setTimeoutCs(_time("0.4"))
+        conn.setTpSduRef(_ref("I-PDU", "/sdu"))
+        conn.setTransmitterRef(_ref("ECU-INSTANCE", "/tx"))
+        parent = _parent()
+        writer.writeCanTpConnection(parent, conn)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpConnection()
+        parser.readCanTpConnection(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getIdent() is not None
+        assert reloaded.getAddressingFormat().getValue() == "MIXED"
+        assert reloaded.getCanTpChannelRef().getValue() == "/ch"
+        assert reloaded.getCancellation().getValue() is True
+        assert reloaded.getDataPduRef().getValue() == "/dp"
+        assert reloaded.getFlowControlPduRef().getValue() == "/fc"
+        assert reloaded.getMaxBlockSize().getValue() == 8
+        assert reloaded.getMulticastRef().getValue() == "/mc"
+        assert reloaded.getPaddingActivation().getValue() is False
+        refs = [r.getValue() for r in reloaded.getReceiverRefs()]
+        assert refs == ["/r1", "/r2"]
+        assert reloaded.getTaType().getValue() == "PHYSICAL"
+        assert reloaded.getTimeoutBr().getValue() == 0.1
+        assert reloaded.getTimeoutBs().getValue() == 0.2
+        assert reloaded.getTimeoutCr().getValue() == 0.3
+        assert reloaded.getTimeoutCs().getValue() == 0.4
+        assert reloaded.getTpSduRef().getValue() == "/sdu"
+        assert reloaded.getTransmitterRef().getValue() == "/tx"
+
+    def test_roundtrip_can_tp_connection_empty(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        conn = CanTpConnection()
+        parent = _parent()
+        writer.writeCanTpConnection(parent, conn)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpConnection()
+        parser.readCanTpConnection(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getIdent() is None
+        assert reloaded.getAddressingFormat() is None
+        assert reloaded.getCancellation() is None
+        assert reloaded.getReceiverRefs() == []
+        assert reloaded.getTransmitterRef() is None
+
 
 class TestWriteCanTpConfigTpConnections:
     def test_empty(self, writer):
