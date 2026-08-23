@@ -21,7 +21,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
 
 ## Queue
 
-### [ ] 1. CommConnectorPort — base
+### [x] 1. CommConnectorPort — base (commit 8e6654e)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py:769`
 - Spec: `AUTOSAR_CP_TPS_SystemTemplate.md` Table 6.1
 - Role: base of IPduPort
@@ -403,4 +403,4 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
 
 | Class | Commit | Date |
 |---|---|---|
-| — | — | — |
+| CommConnectorPort | 8e6654e | 2026-08-23 |
