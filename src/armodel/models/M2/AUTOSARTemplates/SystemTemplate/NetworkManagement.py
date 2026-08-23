@@ -720,13 +720,14 @@ class UdpNmNode(NmNode):
 
 class BusspecificNmEcu(ARObject, ABC):
     """
-    Abstract base class for bus-specific network management ECU
-    configurations, defining common properties for different
-    types of bus-specific NM implementations.
+    Busspecific NmEcu attributes.
     """
 
     # BusspecificNmEcu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.301, p.675
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         if type(self) is BusspecificNmEcu:
