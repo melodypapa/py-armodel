@@ -1160,19 +1160,21 @@ class TestFrameAndPduHandlers:
         assert triggering.getCanAddressingMode() is not None
         assert triggering.getCanAddressingMode().getValue() == "standard"
 
-    def test_readCanFrameTriggering_sets_canFdFrameSupport(self, parser):
+    def test_readCanFrameTriggering_sets_masks_and_j1939(self, parser):
         from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
         triggering = CanFrameTriggering(parent=channel, short_name="ft")
         element = _snip(
-            "<SHORT-NAME>ft</SHORT-NAME>" "<CAN-FD-FRAME-SUPPORT>true</CAN-FD-FRAME-SUPPORT>",
+            "<SHORT-NAME>ft</SHORT-NAME>" "<J-1939-REQUESTABLE>true</J-1939-REQUESTABLE>" "<RX-MASK>511</RX-MASK>" "<TX-MASK>255</TX-MASK>",
             root_tag="CAN-FRAME-TRIGGERING",
         )
         parser.readCanFrameTriggering(element, triggering)
-        assert triggering.getCanFdFrameSupport() is not None
-        assert triggering.getCanFdFrameSupport().getValue()
+        assert triggering.getJ1939requestable() is not None
+        assert triggering.getJ1939requestable().getValue()
+        assert triggering.getRxMask().getValue() == 511
+        assert triggering.getTxMask().getValue() == 255
 
     def test_readCanFrameTriggering_sets_identifier(self, parser):
         from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel

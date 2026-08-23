@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (  # noqa: E501
     CanFrameTriggering,
+    CanXlFrameTriggeringProps,
     RxIdentifierRange,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (  # noqa: E501
@@ -206,7 +207,6 @@ class TestWriteCanFrameTriggering:
         pkg = _pkg()
         ft = CanFrameTriggering(pkg, "CanFt")
         ft.setCanAddressingMode(_literal("STANDARD"))
-        ft.setCanFdFrameSupport(_boolean("true"))
         ft.setCanFrameRxBehavior(_literal("CAN-FD"))
         ft.setCanFrameTxBehavior(_literal("CAN-FD"))
         ft.setIdentifier(_pos_int("100"))
@@ -219,7 +219,7 @@ class TestWriteCanFrameTriggering:
         cft = parent.find("CAN-FRAME-TRIGGERING")
         assert cft is not None
         assert cft.find("CAN-ADDRESSING-MODE").text == "STANDARD"
-        assert cft.find("CAN-FD-FRAME-SUPPORT").text == "true"
+        assert cft.find("CAN-FD-FRAME-SUPPORT") is None
         assert cft.find("CAN-FRAME-RX-BEHAVIOR").text == "CAN-FD"
         assert cft.find("CAN-FRAME-TX-BEHAVIOR").text == "CAN-FD"
         assert cft.find("IDENTIFIER").text == "100"
@@ -266,6 +266,39 @@ class TestWriteCanFrameTriggering:
         assert reloaded_rng is not None
         assert reloaded_rng.getLowerCanId() is None
         assert reloaded_rng.getUpperCanId() is None
+
+    def test_roundtrip_can_frame_triggering_full(self, writer):
+        pkg = _pkg()
+        ft = CanFrameTriggering(pkg, "CanFt")
+        ft.setCanAddressingMode(_literal("STANDARD"))
+        ft.setCanFrameRxBehavior(_literal("CAN-FD"))
+        ft.setCanFrameTxBehavior(_literal("CAN-FD"))
+        ft.setIdentifier(_pos_int("0x200"))
+        ft.setJ1939requestable(_boolean("true"))
+        ft.setRxMask(_pos_int("0x7FF"))
+        ft.setTxMask(_pos_int("0x100"))
+        timing = TtcanAbsolutelyScheduledTiming()
+        ft.addAbsolutelyScheduledTiming(timing)
+        props = CanXlFrameTriggeringProps()
+        props.setPriorityId(_pos_int("5"))
+        ft.setCanXlFrameTriggeringProps(props)
+        parent = _parent()
+        writer.writeCanFrameTriggering(parent, ft)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanFrameTriggering(pkg, "CanFt2")
+        parser.readCanFrameTriggering(parser.find(ET.fromstring(xml_str), "CAN-FRAME-TRIGGERING"), reloaded)
+        assert reloaded.getCanAddressingMode().getValue() == "STANDARD"
+        assert reloaded.getCanFrameRxBehavior().getValue() == "CAN-FD"
+        assert reloaded.getCanFrameTxBehavior().getValue() == "CAN-FD"
+        assert reloaded.getIdentifier().getValue() == 512
+        assert reloaded.getJ1939requestable().getValue() is True
+        assert reloaded.getRxMask().getValue() == 2047
+        assert reloaded.getTxMask().getValue() == 256
+        assert len(reloaded.getAbsolutelyScheduledTimings()) == 1
+        assert reloaded.getCanXlFrameTriggeringProps() is not None
+        assert reloaded.getCanXlFrameTriggeringProps().getPriorityId().getValue() == 5
 
 
 class TestWriteLinFrameTriggering:

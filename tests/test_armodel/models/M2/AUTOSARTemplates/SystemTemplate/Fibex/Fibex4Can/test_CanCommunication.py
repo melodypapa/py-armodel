@@ -8,7 +8,7 @@ of the respective classes.
 """
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanAddressingModeType,
     CanFrame,
@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommun
     CanXlFrameTriggeringProps,
     RxIdentifierRange,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 
 
@@ -80,41 +81,21 @@ class Test_Fibex4CanCommunication:
         assert range_obj.getUpperCanId().getValue() == 0x1FF
 
     def test_CanFrame(self):
-        """
-        Test CanFrame class functionality.
-
-        This test verifies that CanFrame can be instantiated with a parent
-        object and short name, properly inherits from both ARObject and Frame,
-        and that its default properties are correctly initialized.
-        """
+        """Test CanFrame class functionality (Table 6.109)."""
         parent = MockParent()
-        frame = CanFrame(parent, "test_can_frame")
+        frame = CanFrame(parent, "CanFrame")
 
         assert isinstance(frame, ARObject)
         assert isinstance(frame, Frame)
 
-        # Test default values
-        assert frame.getFrameLength() is None
-        assert frame.getPduToFrameMappings() == []
-
-    def test_CanFrameTriggering(self):
-        """
-        Test CanFrameTriggering class functionality.
-
-        This test ensures that CanFrameTriggering is properly instantiated,
-        inherits from FrameTriggering, and all its properties can be set
-        and retrieved correctly. It tests both simple properties and
-        object references.
-        """
+    def test_CanFrameTriggering_initialization(self):
+        """Test CanFrameTriggering default state (Table 6.110)."""
         parent = MockParent()
-        triggering = CanFrameTriggering(parent, "test_can_frame_triggering")
+        triggering = CanFrameTriggering(parent, "CanFrameTriggering")
 
         assert isinstance(triggering, FrameTriggering)
-
-        # Test default values
         assert triggering.getAbsolutelyScheduledTimings() == []
         assert triggering.getCanAddressingMode() is None
-        assert triggering.getCanFdFrameSupport() is None
         assert triggering.getCanFrameRxBehavior() is None
         assert triggering.getCanFrameTxBehavior() is None
         assert triggering.getCanXlFrameTriggeringProps() is None
@@ -124,25 +105,65 @@ class Test_Fibex4CanCommunication:
         assert triggering.getRxMask() is None
         assert triggering.getTxMask() is None
 
-        # Test setter/getter methods
-        triggering.setCanAddressingMode("standard")
-        assert triggering.getCanAddressingMode() == "standard"
+    def test_CanFrameTriggering_get_set_attributes(self):
+        """Test CanFrameTriggering attribute getters/setters with None no-op (Table 6.110)."""
+        parent = MockParent()
+        triggering = CanFrameTriggering(parent, "CanFrameTriggering")
 
-        triggering.setCanFdFrameSupport(True)
-        assert triggering.getCanFdFrameSupport() is True
+        mode = ARLiteral()
+        mode.setValue("STANDARD")
+        assert triggering == triggering.setCanAddressingMode(mode)
+        assert triggering.getCanAddressingMode() == mode
+        assert triggering == triggering.setCanAddressingMode(None)
+        assert triggering.getCanAddressingMode() == mode
 
-        mock_range = RxIdentifierRange()
-        triggering.setRxIdentifierRange(mock_range)
-        assert triggering.getRxIdentifierRange() == mock_range
+        rx = ARLiteral()
+        rx.setValue(CanFrameRxBehaviorEnum.ENUM_CAN_FD)
+        assert triggering == triggering.setCanFrameRxBehavior(rx)
+        assert triggering.getCanFrameRxBehavior() == rx
 
-        # Test additional setter methods and method chaining functionality
-        result = triggering.setAbsolutelyScheduledTimings(["timing1", "timing2"])
-        assert triggering.getAbsolutelyScheduledTimings() == ["timing1", "timing2"]
-        assert result == triggering  # Test method chaining
+        tx = ARLiteral()
+        tx.setValue(CanFrameTxBehaviorEnum.ENUM_CAN_20)
+        assert triggering == triggering.setCanFrameTxBehavior(tx)
+        assert triggering.getCanFrameTxBehavior() == tx
 
-        result = triggering.setCanFrameRxBehavior("rx_behavior")
-        assert triggering.getCanFrameRxBehavior() == "rx_behavior"
-        assert result == triggering  # Test method chaining
+        assert triggering == triggering.setIdentifier(Integer().setValue(0x100))
+        assert triggering.getIdentifier().getValue() == 0x100
+        assert triggering == triggering.setIdentifier(None)
+        assert triggering.getIdentifier().getValue() == 0x100
+
+        assert triggering == triggering.setJ1939requestable(Boolean().setValue(True))
+        assert triggering.getJ1939requestable().getValue() is True
+
+        assert triggering == triggering.setRxMask(PositiveInteger().setValue(0x7FF))
+        assert triggering.getRxMask().getValue() == 0x7FF
+        assert triggering == triggering.setRxMask(None)
+        assert triggering.getRxMask().getValue() == 0x7FF
+
+        assert triggering == triggering.setTxMask(PositiveInteger().setValue(0x100))
+        assert triggering.getTxMask().getValue() == 0x100
+
+    def test_CanFrameTriggering_aggregations(self):
+        """Test CanFrameTriggering aggregation members (Table 6.110)."""
+        parent = MockParent()
+        triggering = CanFrameTriggering(parent, "CanFrameTriggering")
+
+        rng = RxIdentifierRange()
+        rng.setLowerCanId(PositiveInteger().setValue(0x100))
+        assert triggering == triggering.setRxIdentifierRange(rng)
+        assert triggering.getRxIdentifierRange() == rng
+        assert triggering == triggering.setRxIdentifierRange(None)
+        assert triggering.getRxIdentifierRange() == rng
+
+        timing = CanXlFrameTriggeringProps()
+        assert triggering == triggering.setCanXlFrameTriggeringProps(timing)
+        assert triggering.getCanXlFrameTriggeringProps() == timing
+
+        ttcan_timing = TtcanAbsolutelyScheduledTiming()
+        assert triggering == triggering.addAbsolutelyScheduledTiming(ttcan_timing)
+        assert triggering.getAbsolutelyScheduledTimings() == [ttcan_timing]
+        assert triggering == triggering.addAbsolutelyScheduledTiming(None)
+        assert triggering.getAbsolutelyScheduledTimings() == [ttcan_timing]
 
         result = triggering.setCanFrameTxBehavior("tx_behavior")
         assert triggering.getCanFrameTxBehavior() == "tx_behavior"

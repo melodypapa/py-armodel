@@ -6334,12 +6334,29 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("WRite CanFrameTriggering %s" % triggering.getShortName())
         child_element = ET.SubElement(element, "CAN-FRAME-TRIGGERING")
         self.writeFrameTriggering(child_element, triggering)
+        timings = triggering.getAbsolutelyScheduledTimings()
+        if len(timings) > 0:
+            timings_element = ET.SubElement(child_element, "ABSOLUTELY-SCHEDULED-TIMINGS")
+            for timing in timings:
+                if isinstance(timing, TtcanAbsolutelyScheduledTiming):
+                    self.writeTtcanAbsolutelyScheduledTiming(timings_element, timing)
+                else:
+                    self.notImplemented("Unsupported AbsolutelyScheduledTiming <%s>" % type(timing))
         self.setChildElementOptionalLiteral(child_element, "CAN-ADDRESSING-MODE", triggering.getCanAddressingMode())
-        self.setChildElementOptionalBooleanValue(child_element, "CAN-FD-FRAME-SUPPORT", triggering.getCanFdFrameSupport())
         self.setChildElementOptionalLiteral(child_element, "CAN-FRAME-RX-BEHAVIOR", triggering.getCanFrameRxBehavior())
         self.setChildElementOptionalLiteral(child_element, "CAN-FRAME-TX-BEHAVIOR", triggering.getCanFrameTxBehavior())
+        props = triggering.getCanXlFrameTriggeringProps()
+        if props is not None:
+            props_element = ET.SubElement(child_element, "CAN-XL-FRAME-TRIGGERING-PROPS")
+            self.setChildElementOptionalPositiveInteger(props_element, "ACCEPTANCE-FIELD", props.getAcceptanceField())
+            self.setChildElementOptionalPositiveInteger(props_element, "PRIORITY-ID", props.getPriorityId())
+            self.setChildElementOptionalPositiveInteger(props_element, "SDU-TYPE", props.getSduType())
+            self.setChildElementOptionalPositiveInteger(props_element, "VCID", props.getVcid())
         self.setChildElementOptionalNumericalValue(child_element, "IDENTIFIER", triggering.getIdentifier())
+        self.setChildElementOptionalBooleanValue(child_element, "J-1939-REQUESTABLE", triggering.getJ1939requestable())
         self.setChildElementRxIdentifierRange(child_element, "RX-IDENTIFIER-RANGE", triggering.getRxIdentifierRange())
+        self.setChildElementOptionalPositiveInteger(child_element, "RX-MASK", triggering.getRxMask())
+        self.setChildElementOptionalPositiveInteger(child_element, "TX-MASK", triggering.getTxMask())
 
     def writeLinFrameTriggering(self, element: ET.Element, triggering: LinFrameTriggering):
         self.logger.debug("Write LinFrameTriggering %s" % triggering.getShortName())

@@ -5851,12 +5851,26 @@ class ARXMLParser(AbstractARXMLParser):
     def readCanFrameTriggering(self, element: ET.Element, triggering: CanFrameTriggering):
         self.logger.debug("Read CanFrameTriggering %s" % triggering.getShortName())
         self.readFrameTriggering(element, triggering)
+        self.readCanFrameTriggeringAbsolutelyScheduledTimings(element, triggering)
         triggering.setCanAddressingMode(self.getChildElementOptionalLiteral(element, "CAN-ADDRESSING-MODE"))
-        triggering.setCanFdFrameSupport(self.getChildElementOptionalBooleanValue(element, "CAN-FD-FRAME-SUPPORT"))
         triggering.setCanFrameRxBehavior(self.getChildElementOptionalLiteral(element, "CAN-FRAME-RX-BEHAVIOR"))
         triggering.setCanFrameTxBehavior(self.getChildElementOptionalLiteral(element, "CAN-FRAME-TX-BEHAVIOR"))
+        triggering.setCanXlFrameTriggeringProps(self.getCanXlFrameTriggeringProps(element, "CAN-XL-FRAME-TRIGGERING-PROPS"))
         triggering.setIdentifier(self.getChildElementOptionalNumericalValue(element, "IDENTIFIER"))
+        triggering.setJ1939requestable(self.getChildElementOptionalBooleanValue(element, "J-1939-REQUESTABLE"))
         triggering.setRxIdentifierRange(self.getChildElementRxIdentifierRange(element, "RX-IDENTIFIER-RANGE"))
+        triggering.setRxMask(self.getChildElementOptionalPositiveInteger(element, "RX-MASK"))
+        triggering.setTxMask(self.getChildElementOptionalPositiveInteger(element, "TX-MASK"))
+
+    def readCanFrameTriggeringAbsolutelyScheduledTimings(self, element: ET.Element, triggering: CanFrameTriggering):
+        for child_element in self.findall(element, "ABSOLUTELY-SCHEDULED-TIMINGS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TTCAN-ABSOLUTELY-SCHEDULED-TIMING":
+                timing = TtcanAbsolutelyScheduledTiming()
+                self.readTtcanAbsolutelyScheduledTiming(child_element, timing)
+                triggering.addAbsolutelyScheduledTiming(timing)
+            else:
+                self.notImplemented("Unsupported AbsolutelyScheduledTiming <%s>" % tag_name)
 
     def getCanXlFrameTriggeringProps(self, element: ET.Element, key: str) -> CanXlFrameTriggeringProps:
         props = None

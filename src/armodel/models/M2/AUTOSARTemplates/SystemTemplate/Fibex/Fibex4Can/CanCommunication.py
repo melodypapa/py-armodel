@@ -1,11 +1,14 @@
 # This module contains AUTOSAR System Template classes for CAN communication
 # It defines CAN frames, frame triggering, and related communication elements for CAN networks
 
-from typing import Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, Boolean, Integer, PositiveInteger
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming
 
 
 class CanAddressingModeType(AREnum):
@@ -220,13 +223,14 @@ class RxIdentifierRange(ARObject):
 
 class CanFrame(Frame):
     """
-    Represents a CAN frame in the AUTOSAR system, extending the generic Frame class
-    with CAN-specific properties and behavior. This class defines the structure
-    and characteristics of CAN messages in the communication system.
+    CAN specific Frame element. This element shall also be used for TTCan.
     """
 
     # CanFrame method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.109, p.442
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # (no own attributes; Base = ARObject, CollectableElement, FibexElement, Frame, Identifiable, MultilanguageReferrable, PackageableElement, Referrable)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -234,124 +238,193 @@ class CanFrame(Frame):
 
 class CanFrameTriggering(FrameTriggering):
     """
-    Defines the triggering mechanism for CAN frames, specifying how and when
-    CAN frames are transmitted or received on the network, including timing,
-    addressing modes, and frame behavior properties.
+    CAN specific attributes to the FrameTriggering
     """
 
     # CanFrameTriggering method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAbsolutelyScheduledTimings [x] impl  [ ] docstring  [ ] test
-    # [ ] setAbsolutelyScheduledTimings [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanAddressingMode         [x] impl  [ ] docstring  [ ] test
-    # [ ] setCanAddressingMode         [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanFdFrameSupport         [x] impl  [ ] docstring  [ ] test
-    # [ ] setCanFdFrameSupport         [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanFrameRxBehavior        [x] impl  [ ] docstring  [ ] test
-    # [ ] setCanFrameRxBehavior        [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanFrameTxBehavior        [x] impl  [ ] docstring  [ ] test
-    # [ ] setCanFrameTxBehavior        [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanXlFrameTriggeringProps [x] impl  [ ] docstring  [ ] test
-    # [ ] setCanXlFrameTriggeringProps [x] impl  [ ] docstring  [ ] test
-    # [ ] getIdentifier                [x] impl  [ ] docstring  [ ] test
-    # [ ] setIdentifier                [x] impl  [ ] docstring  [ ] test
-    # [ ] getJ1939requestable          [x] impl  [ ] docstring  [ ] test
-    # [ ] setJ1939requestable          [x] impl  [ ] docstring  [ ] test
-    # [ ] getRxIdentifierRange         [x] impl  [ ] docstring  [ ] test
-    # [ ] setRxIdentifierRange         [x] impl  [ ] docstring  [ ] test
-    # [ ] getRxMask                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setRxMask                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getTxMask                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setTxMask                    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.110, p.443
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAbsolutelyScheduledTimings      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addAbsolutelyScheduledTiming       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCanAddressingMode               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCanAddressingMode               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCanFrameRxBehavior              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCanFrameRxBehavior              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCanFrameTxBehavior              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCanFrameTxBehavior              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCanXlFrameTriggeringProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCanXlFrameTriggeringProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIdentifier                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIdentifier                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getJ1939requestable                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setJ1939requestable                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRxIdentifierRange               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRxIdentifierRange               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRxMask                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRxMask                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTxMask                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTxMask                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.absolutelyScheduledTimings = []
-        self.canAddressingMode = None
-        self.canFdFrameSupport = None
-        self.canFrameRxBehavior = None
-        self.canFrameTxBehavior = None
-        self.canXlFrameTriggeringProps = None
-        self.identifier = None
-        self.j1939requestable = None
-        self.rxIdentifierRange: RxIdentifierRange = None
-        self.rxMask = None
-        self.txMask = None
+        # Each frame in TTCAN is identified by its slot id and communication cycle. A description is provided by the usage of AbsolutelyScheduledTiming.
+        self.absolutelyScheduledTimings: "List[TtcanAbsolutelyScheduledTiming]" = []
 
-    def getAbsolutelyScheduledTimings(self):
+        # The CAN protocol supports two types of frame formats. The standard frame format uses 11-bit identifiers and is defined in the CAN specification 2.0 A. Additionally the extended frame format allows 29-bit identifiers and is defined in the CAN specification 2.0 B.
+        self.canAddressingMode: Optional[ARLiteral] = None
+
+        # Defines which CAN protocol shall be expected for frame reception.
+        self.canFrameRxBehavior: Optional[ARLiteral] = None
+
+        # Defines which CAN protocol shall be used for frame transmission.
+        self.canFrameTxBehavior: Optional[ARLiteral] = None
+
+        # Definition of CAN XL specific attributes in case the frame is a CAN XL frame.
+        self.canXlFrameTriggeringProps: Optional[CanXlFrameTriggeringProps] = None
+
+        # This attribute is used to define the identifier this frame shall use on the CAN network.
+        self.identifier: Optional[Integer] = None
+
+        # Frame can be triggered by the J1939 request message.
+        self.j1939requestable: Optional[Boolean] = None
+
+        # Optional definition of a CanId range.
+        self.rxIdentifierRange: Optional[RxIdentifierRange] = None
+
+        # Identifier mask which denotes the relevant bits in the CAN Identifier. Together with the identifier, this parameter defines a CAN identifier range.
+        self.rxMask: Optional[PositiveInteger] = None
+
+        # Identifier mask which denotes static bits in the CAN identifier. The other bits can be set dynamically.
+        self.txMask: Optional[PositiveInteger] = None
+
+    def getAbsolutelyScheduledTimings(self) -> "List[TtcanAbsolutelyScheduledTiming]":
+        """Each frame in TTCAN is identified by its slot id and communication cycle. A description is provided by the usage of AbsolutelyScheduledTiming."""
         return self.absolutelyScheduledTimings
 
-    def setAbsolutelyScheduledTimings(self, value):
-        self.absolutelyScheduledTimings = value
+    def addAbsolutelyScheduledTiming(self, value: "Optional[TtcanAbsolutelyScheduledTiming]") -> "CanFrameTriggering":
+        """
+        Each frame in TTCAN is identified by its slot id and communication cycle. A description is provided by the usage of AbsolutelyScheduledTiming.
+        A None value is a no-op and is not appended to absolutelyScheduledTimings.
+        """
+        if value is not None:
+            self.absolutelyScheduledTimings.append(value)
         return self
 
-    def getCanAddressingMode(self):
+    def getCanAddressingMode(self) -> Optional[ARLiteral]:
+        """The CAN protocol supports two types of frame formats. The standard frame format uses 11-bit identifiers and is defined in the CAN specification 2.0 A. Additionally the extended frame format allows 29-bit identifiers and is defined in the CAN specification 2.0 B."""
         return self.canAddressingMode
 
-    def setCanAddressingMode(self, value):
-        self.canAddressingMode = value
+    def setCanAddressingMode(self, value: Optional[ARLiteral]) -> "CanFrameTriggering":
+        """
+        The CAN protocol supports two types of frame formats. The standard frame format uses 11-bit identifiers and is defined in the CAN specification 2.0 A. Additionally the extended frame format allows 29-bit identifiers and is defined in the CAN specification 2.0 B.
+        A None value is a no-op and does not overwrite an existing canAddressingMode.
+        """
+        if value is not None:
+            self.canAddressingMode = value
         return self
 
-    def getCanFdFrameSupport(self):
-        return self.canFdFrameSupport
-
-    def setCanFdFrameSupport(self, value):
-        self.canFdFrameSupport = value
-        return self
-
-    def getCanFrameRxBehavior(self):
+    def getCanFrameRxBehavior(self) -> Optional[ARLiteral]:
+        """Defines which CAN protocol shall be expected for frame reception."""
         return self.canFrameRxBehavior
 
-    def setCanFrameRxBehavior(self, value):
-        self.canFrameRxBehavior = value
+    def setCanFrameRxBehavior(self, value: Optional[ARLiteral]) -> "CanFrameTriggering":
+        """
+        Defines which CAN protocol shall be expected for frame reception.
+        A None value is a no-op and does not overwrite an existing canFrameRxBehavior.
+        """
+        if value is not None:
+            self.canFrameRxBehavior = value
         return self
 
-    def getCanFrameTxBehavior(self):
+    def getCanFrameTxBehavior(self) -> Optional[ARLiteral]:
+        """Defines which CAN protocol shall be used for frame transmission."""
         return self.canFrameTxBehavior
 
-    def setCanFrameTxBehavior(self, value):
-        self.canFrameTxBehavior = value
+    def setCanFrameTxBehavior(self, value: Optional[ARLiteral]) -> "CanFrameTriggering":
+        """
+        Defines which CAN protocol shall be used for frame transmission.
+        A None value is a no-op and does not overwrite an existing canFrameTxBehavior.
+        """
+        if value is not None:
+            self.canFrameTxBehavior = value
         return self
 
-    def getCanXlFrameTriggeringProps(self):
+    def getCanXlFrameTriggeringProps(self) -> Optional[CanXlFrameTriggeringProps]:
+        """Definition of CAN XL specific attributes in case the frame is a CAN XL frame."""
         return self.canXlFrameTriggeringProps
 
-    def setCanXlFrameTriggeringProps(self, value):
-        self.canXlFrameTriggeringProps = value
+    def setCanXlFrameTriggeringProps(self, value: Optional[CanXlFrameTriggeringProps]) -> "CanFrameTriggering":
+        """
+        Definition of CAN XL specific attributes in case the frame is a CAN XL frame.
+        A None value is a no-op and does not overwrite an existing canXlFrameTriggeringProps.
+        """
+        if value is not None:
+            self.canXlFrameTriggeringProps = value
         return self
 
-    def getIdentifier(self):
+    def getIdentifier(self) -> Optional[Integer]:
+        """This attribute is used to define the identifier this frame shall use on the CAN network."""
         return self.identifier
 
-    def setIdentifier(self, value):
-        self.identifier = value
+    def setIdentifier(self, value: Optional[Integer]) -> "CanFrameTriggering":
+        """
+        This attribute is used to define the identifier this frame shall use on the CAN network.
+        A None value is a no-op and does not overwrite an existing identifier.
+        """
+        if value is not None:
+            self.identifier = value
         return self
 
-    def getJ1939requestable(self):
+    def getJ1939requestable(self) -> Optional[Boolean]:
+        """Frame can be triggered by the J1939 request message."""
         return self.j1939requestable
 
-    def setJ1939requestable(self, value):
-        self.j1939requestable = value
+    def setJ1939requestable(self, value: Optional[Boolean]) -> "CanFrameTriggering":
+        """
+        Frame can be triggered by the J1939 request message.
+        A None value is a no-op and does not overwrite an existing j1939requestable.
+        """
+        if value is not None:
+            self.j1939requestable = value
         return self
 
-    def getRxIdentifierRange(self) -> RxIdentifierRange:
+    def getRxIdentifierRange(self) -> Optional[RxIdentifierRange]:
+        """Optional definition of a CanId range."""
         return self.rxIdentifierRange
 
-    def setRxIdentifierRange(self, value: RxIdentifierRange):
-        self.rxIdentifierRange = value
+    def setRxIdentifierRange(self, value: Optional[RxIdentifierRange]) -> "CanFrameTriggering":
+        """
+        Optional definition of a CanId range.
+        A None value is a no-op and does not overwrite an existing rxIdentifierRange.
+        """
+        if value is not None:
+            self.rxIdentifierRange = value
         return self
 
-    def getRxMask(self):
+    def getRxMask(self) -> Optional[PositiveInteger]:
+        """Identifier mask which denotes the relevant bits in the CAN Identifier. Together with the identifier, this parameter defines a CAN identifier range."""
         return self.rxMask
 
-    def setRxMask(self, value):
-        self.rxMask = value
+    def setRxMask(self, value: Optional[PositiveInteger]) -> "CanFrameTriggering":
+        """
+        Identifier mask which denotes the relevant bits in the CAN Identifier. Together with the identifier, this parameter defines a CAN identifier range.
+        A None value is a no-op and does not overwrite an existing rxMask.
+        """
+        if value is not None:
+            self.rxMask = value
         return self
 
-    def getTxMask(self):
+    def getTxMask(self) -> Optional[PositiveInteger]:
+        """Identifier mask which denotes static bits in the CAN identifier. The other bits can be set dynamically."""
         return self.txMask
 
-    def setTxMask(self, value):
-        self.txMask = value
+    def setTxMask(self, value: Optional[PositiveInteger]) -> "CanFrameTriggering":
+        """
+        Identifier mask which denotes static bits in the CAN identifier. The other bits can be set dynamically.
+        A None value is a no-op and does not overwrite an existing txMask.
+        """
+        if value is not None:
+            self.txMask = value
         return self
