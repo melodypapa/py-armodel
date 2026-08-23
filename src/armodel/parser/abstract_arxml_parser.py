@@ -135,18 +135,6 @@ class AbstractARXMLParser(ABC):
                 literal.setValue(child_element.text)
         return literal
 
-    def getChildElementOptionalNumerical(self, element: ET.Element, key: str) -> Numerical:
-        child_element = self.find(element, key)
-        literal = None
-        if child_element is not None:
-            literal = Numerical()
-            self.readARObjectAttributes(child_element, literal)
-            if child_element.text is None:
-                literal.setValue("")
-            else:
-                literal.setValue(child_element.text)
-        return literal
-
     def getChildElementOptionalIdentifier(self, element: ET.Element, key: str) -> Identifier:
         child_element = self.find(element, key)
         identifier = None
