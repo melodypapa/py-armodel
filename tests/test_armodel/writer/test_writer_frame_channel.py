@@ -77,7 +77,15 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     FlexrayPhysicalChannel,
     LinPhysicalChannel,
 )
+from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
+
+
+_NS = "http://autosar.org/schema/r4.0"
+
+
+def _snip(inner: str, root_tag: str = "ROOT") -> ET.Element:
+    return ET.fromstring("<%s xmlns='%s'>%s</%s>" % (root_tag, _NS, inner, root_tag))
 
 
 @pytest.fixture(autouse=True)
@@ -489,6 +497,84 @@ class TestWriteCanPhysicalChannel:
         writer.writeCanPhysicalChannel(parent, ch)
         cpc = parent.find("CAN-PHYSICAL-CHANNEL")
         assert cpc is not None
+
+
+class TestPhysicalChannelRoundTrip:
+    def test_reader_physical_channel(self):
+        inner = (
+            "<SHORT-NAME>Ch</SHORT-NAME>"
+            "<COMM-CONNECTORS>"
+            "<COMMUNICATION-CONNECTOR-REF-CONDITIONAL>"
+            "<COMMUNICATION-CONNECTOR-REF DEST=\"COMMUNICATION-CONNECTOR\">/cc1</COMMUNICATION-CONNECTOR-REF>"
+            "</COMMUNICATION-CONNECTOR-REF-CONDITIONAL>"
+            "</COMM-CONNECTORS>"
+            "<MANAGED-PHYSICAL-CHANNEL-REFS>"
+            "<MANAGED-PHYSICAL-CHANNEL-REF DEST=\"PHYSICAL-CHANNEL\">/pc2</MANAGED-PHYSICAL-CHANNEL-REF>"
+            "</MANAGED-PHYSICAL-CHANNEL-REFS>"
+            "<FRAME-TRIGGERINGS>"
+            "<CAN-FRAME-TRIGGERING><SHORT-NAME>Cft</SHORT-NAME></CAN-FRAME-TRIGGERING>"
+            "</FRAME-TRIGGERINGS>"
+            "<I-SIGNAL-TRIGGERINGS>"
+            "<I-SIGNAL-TRIGGERING><SHORT-NAME>Ist</SHORT-NAME></I-SIGNAL-TRIGGERING>"
+            "</I-SIGNAL-TRIGGERINGS>"
+            "<PDU-TRIGGERINGS>"
+            "<PDU-TRIGGERING><SHORT-NAME>Pt</SHORT-NAME></PDU-TRIGGERING>"
+            "</PDU-TRIGGERINGS>"
+        )
+        el = _snip(inner, "CAN-PHYSICAL-CHANNEL")
+
+        pkg = _pkg()
+        channel = CanPhysicalChannel(pkg, "Ch2")
+        ARXMLParser().readPhysicalChannel(el, channel)
+
+        cc_refs = [r.getValue() for r in channel.getCommConnectorRefs()]
+        assert "/cc1" in cc_refs
+        mp_refs = [r.getValue() for r in channel.getManagedPhysicalChannelRefs()]
+        assert "/pc2" in mp_refs
+        assert [t.getShortName() for t in channel.getFrameTriggerings()] == ["Cft"]
+        assert [t.getShortName() for t in channel.getISignalTriggerings()] == ["Ist"]
+        assert [t.getShortName() for t in channel.getPduTriggerings()] == ["Pt"]
+
+    def test_writer_physical_channel(self, writer):
+        pkg = _pkg()
+        ch = CanPhysicalChannel(pkg, "Ch")
+        ch.addCommConnectorRef(_ref("COMMUNICATION-CONNECTOR", "/cc1"))
+        ch.addManagedPhysicalChannelRef(_ref("PHYSICAL-CHANNEL", "/pc2"))
+        ch.createCanFrameTriggering("Cft")
+        ch.createISignalTriggering("Ist")
+        ch.createPduTriggering("Pt")
+        parent = _parent()
+        writer.writeCanPhysicalChannel(parent, ch)
+
+        el = parent.find("CAN-PHYSICAL-CHANNEL")
+        assert el is not None
+
+        conns = el.find("COMM-CONNECTORS")
+        assert conns is not None
+        cc_ref = conns.find("COMMUNICATION-CONNECTOR-REF-CONDITIONAL/COMMUNICATION-CONNECTOR-REF")
+        assert cc_ref is not None
+        assert cc_ref.text == "/cc1"
+
+        mp_refs = el.find("MANAGED-PHYSICAL-CHANNEL-REFS")
+        assert mp_refs is not None
+        mp_ref = mp_refs.find("MANAGED-PHYSICAL-CHANNEL-REF")
+        assert mp_ref is not None
+        assert mp_ref.text == "/pc2"
+
+        assert el.find("FRAME-TRIGGERINGS/CAN-FRAME-TRIGGERING/SHORT-NAME").text == "Cft"
+        assert el.find("I-SIGNAL-TRIGGERINGS/I-SIGNAL-TRIGGERING/SHORT-NAME").text == "Ist"
+        assert el.find("PDU-TRIGGERINGS/PDU-TRIGGERING/SHORT-NAME").text == "Pt"
+
+    def test_writer_physical_channel_empty(self, writer):
+        pkg = _pkg()
+        ch = CanPhysicalChannel(pkg, "Ch")
+        parent = _parent()
+        writer.writeCanPhysicalChannel(parent, ch)
+        assert parent.find("COMM-CONNECTORS") is None
+        assert parent.find("MANAGED-PHYSICAL-CHANNEL-REFS") is None
+        assert parent.find("FRAME-TRIGGERINGS") is None
+        assert parent.find("I-SIGNAL-TRIGGERINGS") is None
+        assert parent.find("PDU-TRIGGERINGS") is None
 
 
 class TestWriteScheduleTableEntry:

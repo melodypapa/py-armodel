@@ -108,26 +108,26 @@ class CycleRepetition(CommunicationCycle):
 
 class PhysicalChannel(Identifiable, ABC):
     """
-    Abstract base class for physical communication channels,
-    defining common properties for different types of physical
-    communication media including connector references and
-    frame triggering mechanisms.
+    A physical channel is the transmission medium that is used to send and receive information between communicating ECUs. Each CommunicationCluster has at least one physical channel. Bus systems like CAN and LIN only have exactly one PhysicalChannel. A FlexRay cluster may have more than one PhysicalChannels that may be used in parallel for redundant communication. An ECU is part of a cluster if it contains at least one controller that is connected to at least one channel of the cluster.
     """
 
     # PhysicalChannel method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCommConnectorRefs         [x] impl  [ ] docstring  [ ] test
-    # [ ] addCommConnectorRef          [x] impl  [ ] docstring  [ ] test
-    # [ ] getFrameTriggerings          [x] impl  [ ] docstring  [ ] test
-    # [ ] createCanFrameTriggering     [x] impl  [ ] docstring  [ ] test
-    # [ ] createLinFrameTriggering     [x] impl  [ ] docstring  [ ] test
-    # [ ] createFlexrayFrameTriggering [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalTriggerings        [x] impl  [ ] docstring  [ ] test
-    # [ ] createISignalTriggering      [x] impl  [ ] docstring  [ ] test
-    # [ ] getManagedPhysicalChannelRefs [x] impl  [ ] docstring  [ ] test
-    # [ ] addManagedPhysicalChannelRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getPduTriggerings            [x] impl  [ ] docstring  [ ] test
-    # [ ] createPduTriggering          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.7, p.59
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCommConnectorRefs            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] addCommConnectorRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFrameTriggerings             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createCanFrameTriggering        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createLinFrameTriggering        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createFlexrayFrameTriggering     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getISignalTriggerings           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createISignalTriggering         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getManagedPhysicalChannelRefs   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] addManagedPhysicalChannelRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPduTriggerings               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createPduTriggering             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PhysicalChannel:
@@ -135,21 +135,46 @@ class PhysicalChannel(Identifiable, ABC):
 
         super().__init__(parent, short_name)
 
+        # Reference to the ECUInstance via a Communication Connector to which the channel is connected. atpVariation: Variable assignment of Physical Channels to different CommunicationConnectors is expressed with this variation. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=commConnector.communicationConnector, commConnector.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.commConnectorRefs: List[RefType] = []
+
+        # One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.frameTriggerings: List[FrameTriggering] = []
+
+        # One ISignalTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of ISignaltriggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.shortName, iSignal Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.iSignalTriggerings: List[ISignalTriggering] = []
+
+        # Reference between a channel with role managing channel and a channel with role managed channel.
         self.managedPhysicalChannelRefs: List[RefType] = []
 
-    def getCommConnectorRefs(self):
+        # One PduTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of I-Pdu triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.shortName, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.pduTriggerings: List[PduTriggering] = []
+
+    def getCommConnectorRefs(self) -> List[RefType]:
+        """
+        Reference to the ECUInstance via a Communication Connector to which the channel is connected. atpVariation: Variable assignment of Physical Channels to different CommunicationConnectors is expressed with this variation. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=commConnector.communicationConnector, commConnector.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.commConnectorRefs
 
-    def addCommConnectorRef(self, value):
-        self.commConnectorRefs.append(value)
+    def addCommConnectorRef(self, value: RefType) -> "PhysicalChannel":
+        """
+        Reference to the ECUInstance via a Communication Connector to which the channel is connected. atpVariation: Variable assignment of Physical Channels to different CommunicationConnectors is expressed with this variation. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=commConnector.communicationConnector, commConnector.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and does not overwrite an existing commConnectorRefs.
+        """
+        if value is not None:
+            self.commConnectorRefs.append(value)
         return self
 
     def getFrameTriggerings(self) -> List[FrameTriggering]:
-        return list(sorted(filter(lambda a: isinstance(a, FrameTriggering), self.elements), key=lambda o: o.getShortName()))
+        """
+        One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return list(sorted(self.frameTriggerings, key=lambda o: o.getShortName()))
 
     def createCanFrameTriggering(self, short_name: str) -> CanFrameTriggering:
+        """
+        One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if short_name not in self.elements:
             triggering = CanFrameTriggering(self, short_name)
             self.addElement(triggering)
@@ -157,6 +182,9 @@ class PhysicalChannel(Identifiable, ABC):
         return self.getElement(short_name)
 
     def createLinFrameTriggering(self, short_name: str) -> LinFrameTriggering:
+        """
+        One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if short_name not in self.elements:
             triggering = LinFrameTriggering(self, short_name)
             self.addElement(triggering)
@@ -164,6 +192,9 @@ class PhysicalChannel(Identifiable, ABC):
         return self.getElement(short_name)
 
     def createFlexrayFrameTriggering(self, short_name: str) -> FlexrayFrameTriggering:
+        """
+        One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if short_name not in self.elements:
             triggering = FlexrayFrameTriggering(self, short_name)
             self.addElement(triggering)
@@ -171,28 +202,50 @@ class PhysicalChannel(Identifiable, ABC):
         return self.getElement(short_name)
 
     def getISignalTriggerings(self) -> List[ISignalTriggering]:
-        return list(sorted(filter(lambda a: isinstance(a, ISignalTriggering), self.elements), key=lambda o: o.getShortName()))
+        """
+        One ISignalTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of ISignaltriggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.shortName, iSignal Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return list(sorted(self.iSignalTriggerings, key=lambda o: o.getShortName()))
 
-    def createISignalTriggering(self, short_name: str):
+    def createISignalTriggering(self, short_name: str) -> ISignalTriggering:
+        """
+        One ISignalTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of ISignaltriggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.shortName, iSignal Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if short_name not in self.elements:
             triggering = ISignalTriggering(self, short_name)
             self.addElement(triggering)
+            self.iSignalTriggerings.append(triggering)
         return self.getElement(short_name)
 
-    def getManagedPhysicalChannelRefs(self):
+    def getManagedPhysicalChannelRefs(self) -> List[RefType]:
+        """
+        Reference between a channel with role managing channel and a channel with role managed channel.
+        """
         return self.managedPhysicalChannelRefs
 
-    def addManagedPhysicalChannelRef(self, value):
-        self.managedPhysicalChannelRefs.append(value)
+    def addManagedPhysicalChannelRef(self, value: RefType) -> "PhysicalChannel":
+        """
+        Reference between a channel with role managing channel and a channel with role managed channel.
+        A None value is a no-op and does not overwrite an existing managedPhysicalChannelRefs.
+        """
+        if value is not None:
+            self.managedPhysicalChannelRefs.append(value)
         return self
 
     def getPduTriggerings(self) -> List[PduTriggering]:
-        return list(sorted(filter(lambda a: isinstance(a, PduTriggering), self.elements), key=lambda o: o.getShortName()))
+        """
+        One PduTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of I-Pdu triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.shortName, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return list(sorted(self.pduTriggerings, key=lambda o: o.getShortName()))
 
-    def createPduTriggering(self, short_name: str):
+    def createPduTriggering(self, short_name: str) -> PduTriggering:
+        """
+        One PduTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of I-Pdu triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.shortName, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if short_name not in self.elements:
             triggering = PduTriggering(self, short_name)
             self.addElement(triggering)
+            self.pduTriggerings.append(triggering)
         return self.getElement(short_name)
 
 

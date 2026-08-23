@@ -6453,6 +6453,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported PduTriggering <%s>" % type(triggering))
 
+    def writePhysicalChannelManagedPhysicalChannelRefs(self, element, channel):
+        refs = channel.getManagedPhysicalChannelRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "MANAGED-PHYSICAL-CHANNEL-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "MANAGED-PHYSICAL-CHANNEL-REF", ref)
+
     def writePhysicalChannel(self, element: ET.Element, channel: PhysicalChannel):
         self.writeIdentifiable(element, channel)
 
@@ -6460,6 +6467,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writePhysicalChannelFrameTriggerings(element, channel)
         self.writePhysicalChannelISignalTriggerings(element, channel)
         self.writePhysicalChannelPduTriggerings(element, channel)
+        self.writePhysicalChannelManagedPhysicalChannelRefs(element, channel)
 
     def writeCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
         self.logger.debug("Set CanPhysicalChannel %s" % channel.getShortName())

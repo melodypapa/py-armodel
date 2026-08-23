@@ -5953,6 +5953,10 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Frame Triggering <%s>" % tag_name)
 
+    def readPhysicalChannelManagedPhysicalChannelRefs(self, element: ET.Element, channel: PhysicalChannel):
+        for child_element in self.findall(element, "MANAGED-PHYSICAL-CHANNEL-REFS/MANAGED-PHYSICAL-CHANNEL-REF"):
+            channel.addManagedPhysicalChannelRef(self._getChildElementRefTypeDestAndValue(child_element))
+
     def readPhysicalChannel(self, element: ET.Element, channel: PhysicalChannel):
         self.readIdentifiable(element, channel)
 
@@ -5960,6 +5964,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPhysicalChannelFrameTriggerings(element, channel)
         self.readPhysicalChannelISignalTriggerings(element, channel)
         self.readPhysicalChannelPduTriggerings(element, channel)
+        self.readPhysicalChannelManagedPhysicalChannelRefs(element, channel)
 
     def readCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
         self.readPhysicalChannel(element, channel)

@@ -629,6 +629,51 @@ class Test_FibexCoreTopology:
         assert isinstance(flexray_channel, FlexrayPhysicalChannel)
         assert len(cluster.getPhysicalChannels()) >= 4  # Another channel created
 
+    def test_PhysicalChannel_spec_attributes(self):
+        """Test PhysicalChannel spec attributes (Table 3.7) per Rule 0001."""
+
+        class ConcretePhysicalChannel(PhysicalChannel):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        parent = MockParent()
+        channel = ConcretePhysicalChannel(parent, "test_physical_channel")
+
+        # commConnector (ref, CommunicationConnector, *)
+        assert channel.getCommConnectorRefs() == []
+        ref1 = object()
+        channel.addCommConnectorRef(ref1)
+        assert ref1 in channel.getCommConnectorRefs()
+        assert channel == channel.addCommConnectorRef(ref1)  # chaining
+
+        # managedPhysicalChannel (ref, PhysicalChannel, *)
+        assert channel.getManagedPhysicalChannelRefs() == []
+        ref2 = object()
+        channel.addManagedPhysicalChannelRef(ref2)
+        assert ref2 in channel.getManagedPhysicalChannelRefs()
+        assert channel == channel.addManagedPhysicalChannelRef(ref2)  # chaining
+
+        # frameTriggering (aggr, FrameTriggering, *) -> dedicated list
+        assert channel.getFrameTriggerings() == []
+        can_triggering = channel.createCanFrameTriggering("can_triggering")
+        assert isinstance(can_triggering, CanFrameTriggering)
+        assert can_triggering in channel.getFrameTriggerings()
+        lin_triggering = channel.createLinFrameTriggering("lin_triggering")
+        assert isinstance(lin_triggering, LinFrameTriggering)
+        assert len(channel.getFrameTriggerings()) == 2
+
+        # iSignalTriggering (aggr, ISignalTriggering, *) -> dedicated list
+        assert channel.getISignalTriggerings() == []
+        isignal_triggering = channel.createISignalTriggering("isignal_triggering")
+        assert isinstance(isignal_triggering, ISignalTriggering)
+        assert isignal_triggering in channel.getISignalTriggerings()
+
+        # pduTriggering (aggr, PduTriggering, *) -> dedicated list
+        assert channel.getPduTriggerings() == []
+        pdu_triggering = channel.createPduTriggering("pdu_triggering")
+        assert isinstance(pdu_triggering, PduTriggering)
+        assert pdu_triggering in channel.getPduTriggerings()
+
     def test_CommunicationConnector_methods(self):
         """Test CommunicationConnector concrete implementation methods."""
 
