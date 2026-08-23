@@ -18,13 +18,13 @@ Spec source for all rows unless noted: `autosar/markdown/AUTOSAR_CP_TPS_Software
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] PositiveInteger (member · markdown Table E.64, FO_TPS_GST · pulled by NotAvailableValueSpecification.defaultPattern · exists unstamped in `PrimitiveTypes.py`; Steps 5/6 likely N/A — primitive has no own XML element, round-trips as attribute value on the consuming class)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
+- [x] PositiveInteger (member · markdown Table E.64, FO_TPS_GST · pulled by NotAvailableValueSpecification.defaultPattern · exists unstamped in `PrimitiveTypes.py`; Steps 5/6 likely N/A — primitive has no own XML element, round-trips as attribute value on the consuming class) · commit 51136e44
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: primitive has no own XML element
+  - [x] Step 6 — Update parser & writer (Green) — N/A: serialized as value on consuming classes; covered by their round-trips
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
