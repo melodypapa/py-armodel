@@ -2,6 +2,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ByteOrderEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     ContainedIPduProps,
     DcmIPdu,
@@ -69,23 +70,37 @@ class Test_FibexCoreCommunication:
         assert mapping.getStartPosition() is None
         assert mapping.getUpdateIndicationBitPosition() is None
 
-        # Test setter/getter methods
-        mapping.setPackingByteOrder("MOST_SIGNIFICANT_BYTE_FIRST")
-        assert mapping.getPackingByteOrder() == "MOST_SIGNIFICANT_BYTE_FIRST"
-        assert mapping == mapping.setPackingByteOrder("MOST_SIGNIFICANT_BYTE_FIRST")  # Test method chaining
+        # Test setter/getter methods with method chaining
+        order = ByteOrderEnum()
+        order.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST)
+        mapping.setPackingByteOrder(order)
+        assert mapping.getPackingByteOrder().getValue() == "mostSignificantByteFirst"
+        assert mapping == mapping.setPackingByteOrder(order)  # Test method chaining
+        # None is a no-op and does not overwrite an existing packingByteOrder
+        assert mapping == mapping.setPackingByteOrder(None)
+        assert mapping.getPackingByteOrder() == order
 
         ref = object()
         mapping.setPduRef(ref)
         assert mapping.getPduRef() == ref
         assert mapping == mapping.setPduRef(ref)  # Test method chaining
+        # None is a no-op and does not overwrite an existing pduRef
+        assert mapping == mapping.setPduRef(None)
+        assert mapping.getPduRef() == ref
 
         mapping.setStartPosition(10)
         assert mapping.getStartPosition() == 10
         assert mapping == mapping.setStartPosition(10)  # Test method chaining
+        # None is a no-op and does not overwrite an existing startPosition
+        assert mapping == mapping.setStartPosition(None)
+        assert mapping.getStartPosition() == 10
 
         mapping.setUpdateIndicationBitPosition(5)
         assert mapping.getUpdateIndicationBitPosition() == 5
         assert mapping == mapping.setUpdateIndicationBitPosition(5)  # Test method chaining
+        # None is a no-op and does not overwrite an existing updateIndicationBitPosition
+        assert mapping == mapping.setUpdateIndicationBitPosition(None)
+        assert mapping.getUpdateIndicationBitPosition() == 5
 
     def test_Frame(self):
         """Test Frame abstract class instantiation."""

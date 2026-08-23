@@ -5832,9 +5832,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             for mapping in mappings:
                 child_element = ET.SubElement(mappings_tags, "PDU-TO-FRAME-MAPPING")
                 self.writeIdentifiable(child_element, mapping)
-                self.setChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER", mapping.packingByteOrder)
-                self.setChildElementOptionalRefType(child_element, "PDU-REF", mapping.pduRef)
-                self.setChildElementOptionalNumericalValue(child_element, "START-POSITION", mapping.startPosition)
+                self.setChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER", mapping.getPackingByteOrder())
+                self.setChildElementOptionalRefType(child_element, "PDU-REF", mapping.getPduRef())
+                self.setChildElementOptionalIntegerValue(child_element, "START-POSITION", mapping.getStartPosition())
+                self.setChildElementOptionalIntegerValue(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())
 
     def writeFrame(self, element: ET.Element, frame: Frame):
         self.writeIdentifiable(element, frame)

@@ -65,6 +65,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (  # noqa: E501
+    ByteOrderEnum,
+    Frame,
     ISignalTriggering,
     PduTriggering,
 )
@@ -384,6 +386,69 @@ class TestWriteISignalTriggering:
         assert len(ports) == 2
         assert ports[0].getValue() == "/sp1"
         assert ports[1].getValue() == "/sp2"
+
+
+class TestWritePduToFrameMapping:
+    class ConcreteFrame(Frame):
+        def __init__(self, parent, short_name):
+            super().__init__(parent, short_name)
+
+    def test_write_pdu_to_frame_mappings_empty(self, writer):
+        pkg = _pkg()
+        frame = self.ConcreteFrame(pkg, "F")
+        parent = _parent()
+        writer.writePduToFrameMappings(parent, frame)
+        assert parent.find("PDU-TO-FRAME-MAPPINGS") is None
+
+    def test_write_pdu_to_frame_mappings_full(self, writer):
+        pkg = _pkg()
+        frame = self.ConcreteFrame(pkg, "F")
+        mapping = frame.createPduToFrameMapping("M")
+        order = ByteOrderEnum()
+        order.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST)
+        mapping.setPackingByteOrder(order)
+        mapping.setPduRef(_ref("NM-PDU", "/NmPdu"))
+        mapping.setStartPosition(_integer("8"))
+        mapping.setUpdateIndicationBitPosition(_integer("15"))
+        parent = _parent()
+        writer.writePduToFrameMappings(parent, frame)
+        mappings = parent.find("PDU-TO-FRAME-MAPPINGS")
+        assert mappings is not None
+        el = mappings.find("PDU-TO-FRAME-MAPPING")
+        assert el is not None
+        assert el.find("PACKING-BYTE-ORDER").text == "mostSignificantByteFirst"
+        assert el.find("PDU-REF").text == "/NmPdu"
+        assert el.find("START-POSITION").text == "8"
+        assert el.find("UPDATE-INDICATION-BIT-POSITION").text == "15"
+
+    def test_pdu_to_frame_mappings_roundtrip(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        NS = "http://autosar.org/schema/r4.0"
+        pkg = _pkg()
+        frame = self.ConcreteFrame(pkg, "F")
+        mapping = frame.createPduToFrameMapping("M")
+        order = ByteOrderEnum()
+        order.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST)
+        mapping.setPackingByteOrder(order)
+        mapping.setPduRef(_ref("I-PDU", "/Ipdu"))
+        mapping.setStartPosition(_integer("0"))
+        mapping.setUpdateIndicationBitPosition(_integer("7"))
+
+        parent = _parent()
+        writer.writePduToFrameMappings(parent, frame)
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % NS, 1)
+        namespaced = ET.fromstring(xml_str)
+
+        reparsed = self.ConcreteFrame(pkg, "F2")
+        ARXMLParser().readPduToFrameMappings(namespaced, reparsed)
+        mappings = reparsed.getPduToFrameMappings()
+        assert len(mappings) == 1
+        rt = mappings[0]
+        assert rt.getPackingByteOrder().getValue() == "mostSignificantByteLast"
+        assert rt.getPduRef().getValue() == "/Ipdu"
+        assert rt.getStartPosition().getValue() == 0
+        assert rt.getUpdateIndicationBitPosition().getValue() == 7
 
 
 class TestWritePduTriggering:

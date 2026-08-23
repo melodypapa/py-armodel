@@ -6769,9 +6769,10 @@ class ARXMLParser(AbstractARXMLParser):
             self.logger.debug("readPduToFrameMapping %s" % short_name)
             mapping = parent.createPduToFrameMapping(short_name)
             self.readIdentifiable(child_element, mapping)
-            mapping.packingByteOrder = self.getChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER")
-            mapping.pduRef = self.getChildElementOptionalRefType(child_element, "PDU-REF")
-            mapping.startPosition = self.getChildElementOptionalNumericalValue(child_element, "START-POSITION")
+            mapping.setPackingByteOrder(self.getChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER"))
+            mapping.setPduRef(self.getChildElementOptionalRefType(child_element, "PDU-REF"))
+            mapping.setStartPosition(self.getChildElementOptionalIntegerValue(child_element, "START-POSITION"))
+            mapping.setUpdateIndicationBitPosition(self.getChildElementOptionalIntegerValue(child_element, "UPDATE-INDICATION-BIT-POSITION"))
 
     def readFrame(self, element: ET.Element, frame: Frame):
         self.readIdentifiable(element, frame)

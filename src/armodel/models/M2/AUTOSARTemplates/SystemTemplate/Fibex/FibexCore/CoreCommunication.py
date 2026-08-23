@@ -38,56 +38,95 @@ class FibexElement(PackageableElement, ABC):
 
 class PduToFrameMapping(Identifiable):
     """
-    Defines the mapping between Protocol Data Units (PDUs) and frames,
-    specifying how PDUs are embedded within frames including byte order,
-    start position, and update indication bit position.
+    A PduToFrameMapping defines the composition of Pdus in each frame.
     """
 
     # PduToFrameMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getPackingByteOrder          [x] impl  [ ] docstring  [ ] test
-    # [ ] setPackingByteOrder          [x] impl  [ ] docstring  [ ] test
-    # [ ] getPduRef                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setPduRef                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getStartPosition             [x] impl  [ ] docstring  [ ] test
-    # [ ] setStartPosition             [x] impl  [ ] docstring  [ ] test
-    # [ ] getUpdateIndicationBitPosition [x] impl  [ ] docstring  [ ] test
-    # [ ] setUpdateIndicationBitPosition [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.29, p.347
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getPackingByteOrder             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPackingByteOrder             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPduRef                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPduRef                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getStartPosition                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setStartPosition                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUpdateIndicationBitPosition  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUpdateIndicationBitPosition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.packingByteOrder: ARLiteral = None
-        self.pduRef: RefType = None
-        self.startPosition: ARNumerical = None
-        self.updateIndicationBitPosition: ARNumerical = None
+        # This attribute defines the order of the bytes of the Pdu and the packing into the Frame. Please consider that [constr_3246] and [constr_3222] are restricting the usage of this attribute.
+        self.packingByteOrder: Optional[ByteOrderEnum] = None
 
-    def getPackingByteOrder(self):
+        # Reference to a I-Pdu, N-Pdu or NmPdu that is transmitted in the Frame.
+        self.pduRef: Optional[RefType] = None
+
+        # This attribute describes the bitposition of a Pdu within a Frame. Please note that the absolute position of the Pdu in the Frame is determined by the definition of the packingByteOrder attribute. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the Frame. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the Frame. The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. The Pdus are byte aligned in a Frame and only the values 0, 8, 16, 24,... (for little endian) and 7, 15, 23, ... (for big endian) are allowed.
+        self.startPosition: Optional[Integer] = None
+
+        # Indication to the receivers that the corresponding Pdu was updated by the sender. This attribute describes the position of the update bit in the frame that aggregates this PDUToFrameMapping. Length is always one bit. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing Frame still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian".
+        self.updateIndicationBitPosition: Optional[Integer] = None
+
+    def getPackingByteOrder(self) -> Optional[ByteOrderEnum]:
+        """
+        This attribute defines the order of the bytes of the Pdu and the packing into the Frame. Please consider that [constr_3246] and [constr_3222] are restricting the usage of this attribute.
+        """
         return self.packingByteOrder
 
-    def setPackingByteOrder(self, value):
-        self.packingByteOrder = value
+    def setPackingByteOrder(self, value: Optional[ByteOrderEnum]) -> "PduToFrameMapping":
+        """
+        This attribute defines the order of the bytes of the Pdu and the packing into the Frame. Please consider that [constr_3246] and [constr_3222] are restricting the usage of this attribute.
+        A None value is a no-op and does not overwrite an existing packingByteOrder.
+        """
+        if value is not None:
+            self.packingByteOrder = value
         return self
 
-    def getPduRef(self):
+    def getPduRef(self) -> Optional[RefType]:
+        """
+        Reference to a I-Pdu, N-Pdu or NmPdu that is transmitted in the Frame.
+        """
         return self.pduRef
 
-    def setPduRef(self, value):
-        self.pduRef = value
+    def setPduRef(self, value: Optional[RefType]) -> "PduToFrameMapping":
+        """
+        Reference to a I-Pdu, N-Pdu or NmPdu that is transmitted in the Frame.
+        A None value is a no-op and does not overwrite an existing pduRef.
+        """
+        if value is not None:
+            self.pduRef = value
         return self
 
-    def getStartPosition(self):
+    def getStartPosition(self) -> Optional[Integer]:
+        """
+        This attribute describes the bitposition of a Pdu within a Frame. Please note that the absolute position of the Pdu in the Frame is determined by the definition of the packingByteOrder attribute. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the Frame. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the Frame. The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. The Pdus are byte aligned in a Frame and only the values 0, 8, 16, 24,... (for little endian) and 7, 15, 23, ... (for big endian) are allowed.
+        """
         return self.startPosition
 
-    def setStartPosition(self, value):
-        self.startPosition = value
+    def setStartPosition(self, value: Optional[Integer]) -> "PduToFrameMapping":
+        """
+        This attribute describes the bitposition of a Pdu within a Frame. Please note that the absolute position of the Pdu in the Frame is determined by the definition of the packingByteOrder attribute. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the Frame. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the Frame. The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. The Pdus are byte aligned in a Frame and only the values 0, 8, 16, 24,... (for little endian) and 7, 15, 23, ... (for big endian) are allowed.
+        A None value is a no-op and does not overwrite an existing startPosition.
+        """
+        if value is not None:
+            self.startPosition = value
         return self
 
-    def getUpdateIndicationBitPosition(self):
+    def getUpdateIndicationBitPosition(self) -> Optional[Integer]:
+        """
+        Indication to the receivers that the corresponding Pdu was updated by the sender. This attribute describes the position of the update bit in the frame that aggregates this PDUToFrameMapping. Length is always one bit. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing Frame still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian".
+        """
         return self.updateIndicationBitPosition
 
-    def setUpdateIndicationBitPosition(self, value):
-        self.updateIndicationBitPosition = value
+    def setUpdateIndicationBitPosition(self, value: Optional[Integer]) -> "PduToFrameMapping":
+        """
+        Indication to the receivers that the corresponding Pdu was updated by the sender. This attribute describes the position of the update bit in the frame that aggregates this PDUToFrameMapping. Length is always one bit. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing Frame still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian".
+        A None value is a no-op and does not overwrite an existing updateIndicationBitPosition.
+        """
+        if value is not None:
+            self.updateIndicationBitPosition = value
         return self
 
 
