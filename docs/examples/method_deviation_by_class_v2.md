@@ -7,68 +7,13 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 `Refs`) is appended to the member name and recognised in matching. `variationPoint`/
 `shortLabel` are excluded as framework-level.
 
-- Py classes scanned: **1030**
-- Skipped (spec verified stamp): **295**
-- Classes with deviations: **301**
+- Py classes scanned: **1069**
+- Skipped (spec verified stamp): **410**
+- Classes with deviations: **274**
 - No spec table found (appendix): **133**
-- Missing accessors: **376**
-- Naming deviations: **15**
-- Type deviations (list/single multiplicity): **37**
-
-## `ExclusiveAreaNestingOrder`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 84 | **table:** Table 5.19
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::InternalBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `exclusiveAreaRefs` | `List[RefType]` | `exclusiveArea(ordered)` | ``ExclusiveArea`` | ref | naming (Refs suffix) |
-
-## `AbstractEvent`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 541 | **table:** Table 7.8
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::InternalBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `activationReasonRepresentationRef` | `Optional[RefType]` | `activationReasonRepresentation` | ``ExecutableEntityActivationReason`` | ref | naming (Ref suffix) |
-
-- **Note:** `RTEEvent` now derives from `AbstractEvent` (spec Base includes AbstractEvent); reader/writer coverage for `ACTIVATION-REASON-REPRESENTATION-REF` added for both RTE and BSW event paths (2026-08-20).
-
-## `BswEvent`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 87 | **table:** Table 5.22
-- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `contextLimitationRefs` | `List[RefType]` | `contextLimitation` | ``BswDistinguishedPartition`` | ref | naming (Refs suffix) |
-| `disabledInModeIRefs` | `List[ModeInBswModuleDescriptionInstanceRef]` | `disabledInMode` | ``ModeDeclaration`` | iref | naming (IRefs suffix) |
-| `startsOnEventRef` | `Optional[RefType]` | `startsOnEvent` | ``BswModuleEntity`` | ref | naming (Ref suffix) |
-
-## `BswModeSwitchEvent`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 95  | **table:** Table 5.31
-- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `activation` | `Optional[ModeActivationKind]` | `activation` | ``ModeActivationKind`` | attr | — |
-| `modeIRefs` | `List[ModeInBswModuleDescriptionInstanceRef]` | `mode(ordered)` | ``ModeDeclaration`` | iref | naming (IRefs suffix) |
-
-## `BswImplementation`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 120 | **table:** Table 6.1
-- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswImplementation`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswImplementation.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `arReleaseVersion` | `RevisionLabelString` | `arReleaseVersion` | ``RevisionLabelString`` | attr | — |
-| `behaviorRef` | `RefType` | `behavior` | ``BswInternalBehavior`` | ref | naming (Ref suffix) |
-| `preconfiguredConfigurationRefs` | `List[RefType]` | `preconfiguredConfiguration` | ``EcucModuleConfigurationValues`` | ref | naming (Refs suffix) |
-| `recommendedConfigurationRefs` | `List[RefType]` | `recommendedConfiguration` | ``EcucModuleConfigurationValues`` | ref | naming (Refs suffix) |
-| `vendorApiInfix` | `Identifier` | `vendorApiInfix` | ``Identifier`` | attr | — |
-| `vendorSpecificModuleDefRefs` | `List[RefType]` | `vendorSpecificModuleDef` | ``EcucModuleDef`` | ref | naming (Refs suffix) |
+- Missing accessors: **338**
+- Naming deviations: **40**
+- Type deviations (list/single multiplicity): **72**
 
 ## `Implementation`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 621  | **table:** Table 8.1
@@ -88,15 +33,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | `swcBswMappingRef` | `RefType` | `swcBswMapping` | ``SwcBswMapping`` | ref | naming (Ref suffix) |
 | `getCodeDescriptors` | `List[Code]` | `codeDescriptor` | ``Code`` | aggr | getter filters `self.elements` (isinstance Code) instead of returning dedicated `codeDescriptors` field |
 | `create*` methods | — | `-` | ``-`` | - | guard `if short_name not in self.elements` compares str against ARObject list (always truthy) — duplicate element created on repeated same-name call |
-
-## `AutosarEngineeringObject`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 132  | **table:** Table 7.5
-- **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::EngineeringObject`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/EngineeringObject.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
 ## `ARPackage`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 300
@@ -127,40 +63,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `arTypedPerInstanceMemory` | ``VariableDataPrototype`` | aggr | missing |
-
-## `SwAddrMethod`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
-- **Package:** `M2::MSR::DataDictionary::AuxillaryObjects`
-- **Source:** `src/armodel/models/M2/MSR/DataDictionary/AuxillaryObjects.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `memoryAllocationKeywordPolicy` | `ARLiteral` | `memoryAllocationKeywordPolicy` | ``MemoryAllocation KeywordPolicyType`` | attr | type (PDF MemoryAllocation KeywordPolicyType vs py ARLiteral) |
-
-## `SwServiceArg`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
-- **Package:** `M2::MSR::DataDictionary::ServiceProcessTask`
-- **Source:** `src/armodel/models/M2/MSR/DataDictionary/ServiceProcessTask.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `swArraysize` | `ValueList` | `swArraysize` | ``ValueList`` | aggr | type (spec one vs py list) |
-
-## `EcucModuleConfigurationValues`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 111 | **table:** Table 2.47
-- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `containers` | `List[EcucContainerValue]` | `container` | ``EcucContainerValue`` | aggr | naming |
-| `definitionRef` | `RefType` | `definition` | ``EcucModuleDef`` | ref | type (PDF EcucModuleDef vs py RefType) |
-| `ecucDefEdition` | `ARLiteral` | `ecucDefEdition` | ``RevisionLabelString`` | attr | type (PDF RevisionLabelString vs py ARLiteral) |
-| `implementationConfigVariant` | `ARLiteral` | `implementationConfigVariant` | ``EcucConfiguration VariantEnum`` | attr | type (PDF EcucConfiguration VariantEnum vs py ARLiteral) |
-| `moduleDescriptionRef` | `RefType` | `moduleDescription` | ``BswImplementation`` | ref | type (PDF BswImplementation vs py RefType) |
-| `postBuildVariantUsed` | `ARBoolean` | `postBuildVariantUsed` | ``Boolean`` | attr | type (PDF Boolean vs py ARBoolean) |
-
-- **Note:** reader/writer coverage for `ECUC-DEF-EDITION` and `POST-BUILD-VARIANT-USED` added (2026-08-20); all six XML elements now round-trip.
 
 ## `EcucModuleDef`
 - **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 32 | **table:** Table 2.2
@@ -212,15 +114,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | `providedRequiredInterface` | `TRefType` | `providedRequiredInterface` | ``PortInterface`` | tref | type (PDF PortInterface vs py TRefType) |
-
-## `ServiceSwComponentType`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
 ## `AsynchronousServerCallResultPoint`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
@@ -293,15 +186,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `BswScheduleEvent`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 88 | **table:** Table 5.23
-- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — | — | *(no attributes — Table 5.23 is empty)* | — | — | — |
 
 ## `BswBackgroundEvent`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —  | **table:** Table 5.27
@@ -638,15 +522,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 |---|---|---|---|---|---|
 | `providedInterfaceTRef` | `TRefType` | `providedInterface` | ``PortInterface`` | tref | type (PDF PortInterface vs py TRefType) |
 
-## `ApplicationSwComponentType`
-- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
 ## `AtpInstanceRef`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::GenericStructure::AbstractStructure`
@@ -710,34 +585,6 @@ No deviations — `value` retyped to spec `Numerical` (Table 2.51) with the spec
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
 
 No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, dedicated typed list), `definition` (0..1 ref; ref target `EcucAbstractReferenceDef` modeled as `RefType` per project convention, Kind-`ref` Ref suffix applied per Rule 0001.5 → field `definitionRef`, accessors `getDefinitionRef`/`setDefinitionRef`), `isAutoValue` (0..1 attr retyped `ARBoolean` → `Optional[Boolean]`). Reader/writer coverage completed for all XML elements (`DEFINITION-REF`, `INDEX`, `ANNOTATIONS`, plus newly added `IS-AUTO-VALUE` read/write that was previously dropped); emission/read order aligned to sequenceOffset (-10/-5/+10/+20); earlier type rows removed once fixed.
-
-## `EcucInstanceReferenceValue`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `valueIRef` | `AnyInstanceRef` | `value` | ``AtpFeature`` | iref | type (PDF AtpFeature vs py AnyInstanceRef) |
-
-## `EcucReferenceValue`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `valueRef` | `RefType` | `value` | ``Referrable`` | ref | type (PDF Referrable vs py RefType) |
-
-## `EcucContainerValue`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `definitionRef` | `RefType` | `definition` | ``EcucContainerDef`` | ref | type (PDF EcucContainerDef vs py RefType) |
-| `subContainers` | `List[EcucContainerValue]` | `subContainer` | ``EcucContainerValue`` | aggr | naming |
 
 ## `EcucValueConfigurationClass`
 - **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —  | **table:** Table 2.10
@@ -889,15 +736,6 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `hwAttributeDef` | ``HwAttributeDef`` | aggr | missing |
 
-## `ApplicationArrayDataType`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 252  | **table:** Table 5.9
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Datatype/Datatypes.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `element` | ``ApplicationArray Element`` | aggr | missing |
-
 ## `SwRecordLayoutV`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 421
 - **Package:** `M2::MSR::DataDictionary::RecordLayout`
@@ -960,25 +798,6 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 | — *(missing)* | `—` | `maxSizeToFill` | ``PositiveInteger`` | attr | missing |
 | — *(missing)* | `—` | `rule` | ``Identifier`` | attr | missing |
 
-## `IncludedDataTypeSet`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 600
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::IncludedDataTypes`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior/IncludedDataTypes.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `data_type_refs` | `List[RefType]` | `dataType` | ``AutosarDataType`` | ref | type (PDF AutosarDataType vs py List[RefType]) |
-| `literal_prefix` | `ARLiteral` | `literalPrefix` | ``Identifier`` | attr | type (PDF Identifier vs py ARLiteral) |
-
-## `SensorActuatorSwComponentType`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 646
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `sensorActuator` | ``HwDescriptionEntity`` | ref | missing |
-
 ## `ApplicationCompositeElementInPortInterfaceInstanceRef`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 952
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::InstanceRefs`
@@ -998,42 +817,6 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 | `allowedserviceproviderrefs` | `—` | `allowedServiceProvider` | ``NetworkEndpoint`` | ref | type (spec many vs py single) |
 | — *(missing)* | `—` | `blocklistedVersion` | ``SomeipServiceVersion`` | aggr | missing |
 | — *(missing)* | `—` | `consumedEventGroup` | ``ConsumedEventGroup`` | aggr | missing |
-
-## `ISignalGroup`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 993
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `combasedsignalgrouptransformationref` | `—` | `comBasedSignalGroupTransformation` | ``DataTransformation`` | ref | type (spec one vs py list) |
-| `transformationisignalprops` | `—` | `transformationISignalProps` | ``TransformationISignal Props`` | aggr | type (spec many vs py single) |
-
-## `ProvidedServiceInstance`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 1000
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `allowedServiceConsumer` | ``NetworkEndpoint`` | ref | missing |
-| — *(missing)* | `—` | `autoAvailable` | ``Boolean`` | attr | missing |
-| — *(missing)* | `—` | `eventHandler` | ``EventHandler`` | aggr | missing |
-| — *(missing)* | `—` | `loadBalancingPriority` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `loadBalancingWeight` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `localUnicastAddress` | ``ApplicationEndpoint`` | ref | missing |
-| — *(missing)* | `—` | `minorVersion` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `remoteMulticastSubscriptionAddress` | ``ApplicationEndpoint`` | ref | missing |
-| — *(missing)* | `—` | `remoteUnicastAddress` | ``ApplicationEndpoint`` | ref | missing |
-
-## `RootSwCompositionPrototype`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 1003
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `calibrationparametervaluesetref` | `—` | `calibrationParameterValueSet` | ``CalibrationParameter ValueSet`` | ref | type (spec many vs py single) |
 
 ## `GeneralAnnotation`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 4.57
@@ -1346,24 +1129,6 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 |---|---|---|---|---|---|
 | `_inner_group_iref` | `List[InnerPortGroupInCompositionInstanceRef]` | `innerGroup` | ``PortGroup`` | iref | type (PDF PortGroup vs py List[InnerPortGroupInCompositionInstanceRef]) |
 | `_outer_port_ref` | `List[RefType]` | `outerPort` | ``PortPrototype`` | ref | type (PDF PortPrototype vs py List[RefType]) |
-
-## `NvBlockSwComponentType`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 11.5
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `nvblockdescriptor` | `—` | `nvBlockDescriptor` | ``NvBlockDescriptor`` | aggr | type (spec many vs py single) |
-
-## `ServiceProxySwComponentType`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
 ## `ArVariableInImplementationDataInstanceRef`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
@@ -1679,36 +1444,6 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `CanControllerXlConfiguration`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 70  | **table:** Table 3.18
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `errorSignalingEnabled` | ``Boolean`` | attr | missing |
-| — *(missing)* | `—` | `propSeg` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `pwmL` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `pwmO` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `pwmS` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `sspOffset` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `syncJumpWidth` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `timeSeg1` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `timeSeg2` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `trcvPwmModeEnabled` | ``Boolean`` | attr | missing |
-
-## `CanControllerXlConfigurationRequirements`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 71
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `errorSignalingEnabled` | ``Boolean`` | attr | missing |
-| — *(missing)* | `—` | `maxPwmL` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `maxPwmO` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `maxPwmS` | ``PositiveInteger`` | attr | missing |
 
 ## `CouplingPort`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 109
@@ -2394,9 +2129,11 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Transformer`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer/__init__.py`
 
+- **Note:** Rule 0001.10 placeholder resolved — `dataPrototypeTransformationProps` is now a dedicated typed `List[DataPrototypeTransformationProps]` with `get/set/addDataPrototypeTransformationProps` and full reader/writer coverage (member class synced separately); `# Spec verified` stamp pending re-sync.
+
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `dataPrototypeTransformationProps` | `List` | `dataPrototypeTransformationProps` | ``DataPrototypeTransformationProps`` | aggr | Rule 0001.10 placeholder (class not yet implemented) |
+| `dataPrototypeTransformationProps` | `List[DataPrototypeTransformationProps]` | `dataPrototypeTransformationProps` | ``DataPrototypeTransformationProps`` | aggr | — |
 
 ## `Collection`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
