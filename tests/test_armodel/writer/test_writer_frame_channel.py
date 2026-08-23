@@ -180,6 +180,27 @@ class TestWriteFrameTriggering:
         assert trigs is not None
         assert len(trigs.findall("PDU-TRIGGERING-REF-CONDITIONAL")) == 1
 
+    def test_roundtrip_frame_triggering_refs(self, writer):
+        pkg = _pkg()
+        ft = CanFrameTriggering(pkg, "Ft")
+        ft.setFrameRef(_ref("FRAME", "/frame1"))
+        ft.addFramePortRef(_ref("FRAME-PORT", "/fp1"))
+        ft.addFramePortRef(_ref("FRAME-PORT", "/fp2"))
+        ft.addPduTriggeringRef(_ref("PDU-TRIGGERING", "/pt1"))
+        parent = _parent()
+        writer.writeFrameTriggering(parent, ft)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace(
+            "<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1
+        )
+        reloaded = CanFrameTriggering(pkg, "Ft2")
+        ARXMLParser().readFrameTriggering(ET.fromstring(xml_str), reloaded)
+        assert reloaded.getFrameRef().getValue() == "/frame1"
+        ports = [r.getValue() for r in reloaded.getFramePortRefs()]
+        assert ports == ["/fp1", "/fp2"]
+        pds = [r.getValue() for r in reloaded.getPduTriggeringRefs()]
+        assert pds == ["/pt1"]
+
 
 class TestWriteCanFrameTriggering:
     def test_write_can_frame_triggering_full(self, writer):

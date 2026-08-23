@@ -743,19 +743,25 @@ class Test_FibexCoreCommunication:
         # Test default values
         assert triggering.getFrameRef() is None
         assert triggering.getFramePortRefs() == []
-        assert triggering.getPduTriggeringRefs() == []  # This is the line with potential type annotation issue
+        assert triggering.getPduTriggeringRefs() == []
 
-        # Test setter/getter methods with method chaining
+        # Test frame ref setter/getter with method chaining
         ref1 = object()
         triggering.setFrameRef(ref1)
         assert triggering.getFrameRef() == ref1
         assert triggering == triggering.setFrameRef(ref1)  # Test method chaining
 
+        # Test setFrameRef(None) is a no-op
+        triggering.setFrameRef(None)
+        assert triggering.getFrameRef() == ref1
+
+        # Test frame port refs add/get with method chaining
         ref2 = object()
         triggering.addFramePortRef(ref2)
         assert ref2 in triggering.getFramePortRefs()
         assert triggering == triggering.addFramePortRef(ref2)  # Test method chaining
 
+        # Test pdu triggering refs add/get with method chaining
         ref3 = object()
         triggering.addPduTriggeringRef(ref3)
         assert ref3 in triggering.getPduTriggeringRefs()
