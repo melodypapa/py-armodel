@@ -756,8 +756,8 @@ class ARXMLParser(AbstractARXMLParser):
         range = None
         if child_element is not None:
             range = RxIdentifierRange()
-            range.setLowerCanId(self.getChildElementOptionalNumericalValue(child_element, "LOWER-CAN-ID"))
-            range.setUpperCanId(self.getChildElementOptionalNumericalValue(child_element, "UPPER-CAN-ID"))
+            range.setLowerCanId(self.getChildElementOptionalPositiveInteger(child_element, "LOWER-CAN-ID"))
+            range.setUpperCanId(self.getChildElementOptionalPositiveInteger(child_element, "UPPER-CAN-ID"))
         return range
 
     def getChildElementJ1939NodeName(self, element: ET.Element, key: str) -> J1939NodeName:

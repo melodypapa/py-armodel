@@ -57,28 +57,27 @@ class Test_Fibex4CanCommunication:
         assert CanAddressingModeType.ENUM_STANDARD in enum.getEnumValues()
         assert len(enum.getEnumValues()) == 2
 
-    def test_RxIdentifierRange(self):
-        """
-        Test RxIdentifierRange class functionality.
-
-        This test validates that RxIdentifierRange can be instantiated,
-        properly inherits from ARObject, and that its setter/getter methods
-        work correctly for lower and upper CAN ID values.
-        """
+    def test_RxIdentifierRange_initialization(self):
+        """Test RxIdentifierRange default state (Table 6.112)."""
         range_obj = RxIdentifierRange()
 
         assert isinstance(range_obj, ARObject)
-
-        # Test default values
         assert range_obj.getLowerCanId() is None
         assert range_obj.getUpperCanId() is None
 
-        # Test setter/getter methods
-        range_obj.setLowerCanId(100)
-        assert range_obj.getLowerCanId() == 100
+    def test_RxIdentifierRange_get_set(self):
+        """Test RxIdentifierRange getter/setter with None no-op (Table 6.112)."""
+        range_obj = RxIdentifierRange()
 
-        range_obj.setUpperCanId(200)
-        assert range_obj.getUpperCanId() == 200
+        assert range_obj == range_obj.setLowerCanId(PositiveInteger().setValue(0x100))
+        assert range_obj.getLowerCanId().getValue() == 0x100
+        assert range_obj == range_obj.setLowerCanId(None)
+        assert range_obj.getLowerCanId().getValue() == 0x100
+
+        assert range_obj == range_obj.setUpperCanId(PositiveInteger().setValue(0x1FF))
+        assert range_obj.getUpperCanId().getValue() == 0x1FF
+        assert range_obj == range_obj.setUpperCanId(None)
+        assert range_obj.getUpperCanId().getValue() == 0x1FF
 
     def test_CanFrame(self):
         """

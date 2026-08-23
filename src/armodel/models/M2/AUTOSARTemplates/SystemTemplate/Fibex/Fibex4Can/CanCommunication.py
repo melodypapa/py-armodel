@@ -5,7 +5,7 @@ from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARPositiveInteger, PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger
 
 
 class CanAddressingModeType(AREnum):
@@ -112,7 +112,7 @@ class CanXlFrameTriggeringProps(ARObject):
 
         # SDU type of a CAN XL message.
         self.sduType: Optional[PositiveInteger] = None
-        
+
         # Virtual CAN network ID of a CAN XL message.
         self.vcid: Optional[PositiveInteger] = None
 
@@ -170,37 +170,51 @@ class CanXlFrameTriggeringProps(ARObject):
 
 
 class RxIdentifierRange(ARObject):
-    """
-    Defines a range of CAN identifiers used for receive filtering in CAN communication.
-    This class specifies the lower and upper bounds of CAN message IDs that should
-    be accepted by a CAN controller or communication endpoint.
-    """
+    """Optional definition of a CanId range to reduce the effort of specifying every possible FrameTriggering within the defined Id range during reception. All frames received within a range are mapped to the same Pdu that is passed to a upper layer module (e.g. Nm, CDD, PduR)."""
 
     # RxIdentifierRange method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getLowerCanId                [x] impl  [ ] docstring  [ ] test
-    # [ ] setLowerCanId                [x] impl  [ ] docstring  [ ] test
-    # [ ] getUpperCanId                [x] impl  [ ] docstring  [ ] test
-    # [ ] setUpperCanId                [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.112, p.444
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getLowerCanId                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setLowerCanId                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUpperCanId                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUpperCanId                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.lowerCanId: ARPositiveInteger = None
-        self.upperCanId: ARPositiveInteger = None
+        # This attribute can be used together with the upperCanId attribute to define a range of CanIds.
+        self.lowerCanId: Optional[PositiveInteger] = None
 
-    def getLowerCanId(self) -> ARPositiveInteger:
+        # This attribute can be used together with the lowerCanId attribute to define a range of CanIds.
+        self.upperCanId: Optional[PositiveInteger] = None
+
+    def getLowerCanId(self) -> Optional[PositiveInteger]:
+        """This attribute can be used together with the upperCanId attribute to define a range of CanIds."""
         return self.lowerCanId
 
-    def setLowerCanId(self, value: ARPositiveInteger):
-        self.lowerCanId = value
+    def setLowerCanId(self, value: Optional[PositiveInteger]) -> "RxIdentifierRange":
+        """
+        This attribute can be used together with the upperCanId attribute to define a range of CanIds.
+        A None value is a no-op and does not overwrite an existing lowerCanId.
+        """
+        if value is not None:
+            self.lowerCanId = value
         return self
 
-    def getUpperCanId(self) -> ARPositiveInteger:
+    def getUpperCanId(self) -> Optional[PositiveInteger]:
+        """This attribute can be used together with the lowerCanId attribute to define a range of CanIds."""
         return self.upperCanId
 
-    def setUpperCanId(self, value: ARPositiveInteger):
-        self.upperCanId = value
+    def setUpperCanId(self, value: Optional[PositiveInteger]) -> "RxIdentifierRange":
+        """
+        This attribute can be used together with the lowerCanId attribute to define a range of CanIds.
+        A None value is a no-op and does not overwrite an existing upperCanId.
+        """
+        if value is not None:
+            self.upperCanId = value
         return self
 
 

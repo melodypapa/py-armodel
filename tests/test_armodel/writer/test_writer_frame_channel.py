@@ -191,9 +191,7 @@ class TestWriteFrameTriggering:
         parent = _parent()
         writer.writeFrameTriggering(parent, ft)
 
-        xml_str = ET.tostring(parent, encoding="unicode").replace(
-            "<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1
-        )
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
         reloaded = CanFrameTriggering(pkg, "Ft2")
         ARXMLParser().readFrameTriggering(ET.fromstring(xml_str), reloaded)
         assert reloaded.getFrameRef().getValue() == "/frame1"
@@ -229,6 +227,45 @@ class TestWriteCanFrameTriggering:
         assert rng_tag is not None
         assert rng_tag.find("LOWER-CAN-ID").text == "10"
         assert rng_tag.find("UPPER-CAN-ID").text == "20"
+
+    def test_roundtrip_can_frame_triggering_rx_identifier_range(self, writer):
+        pkg = _pkg()
+        ft = CanFrameTriggering(pkg, "CanFt")
+        rng = RxIdentifierRange()
+        rng.setLowerCanId(_pos_int("0x100"))
+        rng.setUpperCanId(_pos_int("0x1FF"))
+        ft.setRxIdentifierRange(rng)
+        parent = _parent()
+        writer.writeCanFrameTriggering(parent, ft)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanFrameTriggering(pkg, "CanFt2")
+        parser.readCanFrameTriggering(parser.find(ET.fromstring(xml_str), "CAN-FRAME-TRIGGERING"), reloaded)
+        reloaded_rng = reloaded.getRxIdentifierRange()
+        assert reloaded_rng is not None
+        assert reloaded_rng.getLowerCanId().getValue() == 256
+        assert reloaded_rng.getUpperCanId().getValue() == 511
+
+    def test_roundtrip_rx_identifier_range_empty_wrapper(self, writer):
+        pkg = _pkg()
+        ft = CanFrameTriggering(pkg, "CanFt")
+        ft.setRxIdentifierRange(RxIdentifierRange())
+        parent = _parent()
+        writer.writeCanFrameTriggering(parent, ft)
+        cft = parent.find("CAN-FRAME-TRIGGERING")
+        assert cft is not None
+        rng_tag = cft.find("RX-IDENTIFIER-RANGE")
+        assert rng_tag is not None
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanFrameTriggering(pkg, "CanFt2")
+        parser.readCanFrameTriggering(parser.find(ET.fromstring(xml_str), "CAN-FRAME-TRIGGERING"), reloaded)
+        reloaded_rng = reloaded.getRxIdentifierRange()
+        assert reloaded_rng is not None
+        assert reloaded_rng.getLowerCanId() is None
+        assert reloaded_rng.getUpperCanId() is None
 
 
 class TestWriteLinFrameTriggering:
