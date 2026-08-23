@@ -1444,6 +1444,14 @@ class TestValueSpecificationHandlers:
         spec = parser.getConstantReference(element)
         assert spec.getConstantRef().getValue() == "/const"
 
+    def test_getReferenceValueSpecification_full(self, parser):
+        element = _snip(
+            "<SHORT-LABEL>rvs</SHORT-LABEL>" "<REFERENCE-VALUE-REF DEST='DATA-PROTOTYPE'>/dp</REFERENCE-VALUE-REF>",
+            root_tag="REFERENCE-VALUE-SPECIFICATION",
+        )
+        spec = parser.getReferenceValueSpecification(element)
+        assert spec.getReferenceValueRef().getValue() == "/dp"
+
     def test_getRecordValueSpecification_full(self, parser):
         element = _snip(
             "<SHORT-LABEL>rvs</SHORT-LABEL>" "<FIELDS>" "<NUMERICAL-VALUE-SPECIFICATION><SHORT-LABEL>f1</SHORT-LABEL><VALUE>1</VALUE></NUMERICAL-VALUE-SPECIFICATION>" "</FIELDS>",
@@ -3263,6 +3271,12 @@ class TestGetValueSpecification:
         element = _snip("<CONSTANT-REFERENCE>" '<CONSTANT-REF DEST="CONSTANT-SPECIFICATION">/c</CONSTANT-REF>' "</CONSTANT-REFERENCE>")
         result = parser.getValueSpecification(element, "CONSTANT-REFERENCE")
         assert result is not None
+
+    def test_reference_value_specification(self, parser):
+        element = _snip('<REFERENCE-VALUE-REF DEST="DATA-PROTOTYPE">/dp</REFERENCE-VALUE-REF>', root_tag="REFERENCE-VALUE-SPECIFICATION")
+        result = parser.getValueSpecification(element, "REFERENCE-VALUE-SPECIFICATION")
+        assert result is not None
+        assert result.getReferenceValueRef().getValue() == "/dp"
 
     def test_unsupported_warns(self, warning_parser, caplog):
         # L2697: notImplemented logs in warning mode. The subsequent

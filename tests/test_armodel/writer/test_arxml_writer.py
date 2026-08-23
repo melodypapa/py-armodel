@@ -5,7 +5,7 @@ Tests for ARXMLWriter class
 import xml.etree.cElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantReference, NumericalValueSpecification, TextValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantReference, NumericalValueSpecification, ReferenceValueSpecification, TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARFloat,
@@ -756,6 +756,26 @@ class TestARXMLWriterValueSpecMethods:
         ref_element = spec_element.find("CONSTANT-REF")
         assert ref_element is not None
         assert ref_element.text == "/path/to/constant"
+
+    def test_write_reference_value_specification(self):
+        """Test writeReferenceValueSpecification method"""
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+
+        value_spec = ReferenceValueSpecification()
+        ref = RefType()
+        ref.setValue("/Path/To/DataPrototype")
+        ref.setDest("DATA-PROTOTYPE")
+        value_spec.setReferenceValueRef(ref)
+
+        writer.writeReferenceValueSpecification(parent, value_spec)
+
+        assert len(parent) == 1
+        spec_element = parent[0]
+        assert spec_element.tag == "REFERENCE-VALUE-SPECIFICATION"
+        ref_element = spec_element.find("REFERENCE-VALUE-REF")
+        assert ref_element is not None
+        assert ref_element.text == "/Path/To/DataPrototype"
 
 
 class TestARXMLWriterSwSystemconstMethods:

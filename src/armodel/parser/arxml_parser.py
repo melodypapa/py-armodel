@@ -47,6 +47,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     ConstantSpecification,
     NumericalValueSpecification,
     RecordValueSpecification,
+    ReferenceValueSpecification,
     RuleArguments,
     RuleBasedAxisCont,
     RuleBasedValueCont,
@@ -5387,6 +5388,12 @@ class ARXMLParser(AbstractARXMLParser):
         value_spec.setConstantRef(self.getChildElementOptionalRefType(element, "CONSTANT-REF"))
         return value_spec
 
+    def getReferenceValueSpecification(self, element: ET.Element) -> ReferenceValueSpecification:
+        value_spec = ReferenceValueSpecification()
+        self.readValueSpecification(element, value_spec)
+        value_spec.setReferenceValueRef(self.getChildElementOptionalRefType(element, "REFERENCE-VALUE-REF"))
+        return value_spec
+
     def getValueSpecification(self, element: ET.Element, tag_name: str) -> ValueSpecification:
         if tag_name == "APPLICATION-VALUE-SPECIFICATION":
             value_spec = self.getApplicationValueSpecification(element)
@@ -5404,6 +5411,8 @@ class ARXMLParser(AbstractARXMLParser):
             value_spec = self.getTextValueSpecification(element)
         elif tag_name == "CONSTANT-REFERENCE":
             value_spec = self.getConstantReference(element)
+        elif tag_name == "REFERENCE-VALUE-SPECIFICATION":
+            value_spec = self.getReferenceValueSpecification(element)
         else:
             self.notImplemented("Unsupported RecordValueSpecificationField %s" % tag_name)
         return value_spec

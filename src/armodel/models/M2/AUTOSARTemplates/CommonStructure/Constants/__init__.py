@@ -903,23 +903,45 @@ class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
 
 class ReferenceValueSpecification(ValueSpecification):
     """
-    Represents a reference to another value specification.
+    Specifies a reference to a data prototype to be used as an initial value for a pointer in the software.
     """
 
     # ReferenceValueSpecification method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getValueSpecRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] setValueSpecRef              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.115, p.437
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getReferenceValueRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setReferenceValueRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
-        self.valueSpecRef: RefType = None
 
-    def getValueSpecRef(self):
-        return self.valueSpecRef
+        # The referenced data prototype.
+        self.referenceValueRef: Optional[RefType] = None
 
-    def setValueSpecRef(self, value):
-        self.valueSpecRef = value
+    def getReferenceValueRef(self) -> Optional[RefType]:
+        """
+        The referenced data prototype.
+
+        Returns:
+            Optional[RefType]: The referenced data prototype, or None if not set
+        """
+        return self.referenceValueRef
+
+    def setReferenceValueRef(self, value: Optional[RefType]) -> "ReferenceValueSpecification":
+        """
+        The referenced data prototype.
+        A None value is a no-op and does not overwrite an existing referenceValueRef.
+
+        Args:
+            value: The referenced data prototype to set
+
+        Returns:
+            ReferenceValueSpecification: self for method chaining
+        """
+        if value is not None:
+            self.referenceValueRef = value
         return self
 
 

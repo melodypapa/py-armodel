@@ -47,6 +47,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     ConstantSpecification,
     NumericalValueSpecification,
     RecordValueSpecification,
+    ReferenceValueSpecification,
     RuleArguments,
     RuleBasedAxisCont,
     RuleBasedValueCont,
@@ -1253,6 +1254,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeArrayValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, RecordValueSpecification):
                     self.writeRecordValueSpecification(elements_tag, sub_element)
+                elif isinstance(sub_element, ReferenceValueSpecification):
+                    self.writeReferenceValueSpecification(elements_tag, sub_element)
                 else:
                     self.notImplemented("Unsupported element type of <%s> of ArrayValueSpecification" % type(sub_element))
 
@@ -1260,6 +1263,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         value_spec_tag = ET.SubElement(element, "CONSTANT-REFERENCE")
         self.writeValueSpecification(value_spec_tag, value_spec)
         self.setChildElementOptionalRefType(value_spec_tag, "CONSTANT-REF", value_spec.getConstantRef())
+
+    def writeReferenceValueSpecification(self, element: ET.Element, value_spec: ReferenceValueSpecification):
+        if value_spec is not None:
+            value_spec_tag = ET.SubElement(element, "REFERENCE-VALUE-SPECIFICATION")
+            self.writeValueSpecification(value_spec_tag, value_spec)
+            self.setChildElementOptionalRefType(value_spec_tag, "REFERENCE-VALUE-REF", value_spec.getReferenceValueRef())
 
     def setChildValueSpecification(self, element: ET.Element, key: str, value_spec: ValueSpecification):
         if value_spec is not None:
@@ -1274,6 +1283,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeTextValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, ConstantReference):
                 self.setConstantReference(child_element, value_spec)
+            elif isinstance(value_spec, ReferenceValueSpecification):
+                self.writeReferenceValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, NumericalValueSpecification):
                 self.writeNumericalValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, ArrayValueSpecification):
