@@ -450,6 +450,31 @@ class TestWritePduToFrameMapping:
         assert rt.getStartPosition().getValue() == 0
         assert rt.getUpdateIndicationBitPosition().getValue() == 7
 
+    def test_write_frame_roundtrip(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        NS = "http://autosar.org/schema/r4.0"
+        pkg = _pkg()
+        frame = self.ConcreteFrame(pkg, "F")
+        frame.setFrameLength(_integer("64"))
+        mapping = frame.createPduToFrameMapping("M")
+        order = ByteOrderEnum()
+        order.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST)
+        mapping.setPackingByteOrder(order)
+
+        parent = _parent()
+        writer.writeFrame(parent, frame)
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % NS, 1)
+        namespaced = ET.fromstring(xml_str)
+
+        reparsed = self.ConcreteFrame(pkg, "F2")
+        ARXMLParser().readFrame(namespaced, reparsed)
+        assert reparsed.getFrameLength().getValue() == 64
+        mappings = reparsed.getPduToFrameMappings()
+        assert len(mappings) == 1
+        assert mappings[0].getShortName() == "M"
+        assert mappings[0].getPackingByteOrder().getValue() == "mostSignificantByteFirst"
+
 
 class TestWritePduTriggering:
     def test_write_pdu_triggering_empty(self, writer):

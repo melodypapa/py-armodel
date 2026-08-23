@@ -126,11 +126,16 @@ class Test_FibexCoreCommunication:
         frame.setFrameLength(100)
         assert frame.getFrameLength() == 100
         assert frame == frame.setFrameLength(100)  # Test method chaining
+        # None is a no-op and does not overwrite an existing frameLength
+        assert frame == frame.setFrameLength(None)
+        assert frame.getFrameLength() == 100
 
         # Test PduToFrameMapping creation methods
         mapping = frame.createPduToFrameMapping("test_mapping")
         assert isinstance(mapping, PduToFrameMapping)
         assert len(frame.getPduToFrameMappings()) == 1
+        mapping.setPduRef(object())
+        assert frame.getPduToFrameMappings()[0].getPduRef() == mapping.getPduRef()
 
         # Try creating the same mapping again (should return existing)
         mapping2 = frame.createPduToFrameMapping("test_mapping")

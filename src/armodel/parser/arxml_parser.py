@@ -6776,7 +6776,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readFrame(self, element: ET.Element, frame: Frame):
         self.readIdentifiable(element, frame)
-        frame.frameLength = self.getChildElementOptionalNumericalValue(element, "FRAME-LENGTH")
+        frame.setFrameLength(self.getChildElementOptionalIntegerValue(element, "FRAME-LENGTH"))
         self.readPduToFrameMappings(element, frame)
 
     def readLinUnconditionalFrame(self, element: ET.Element, frame: LinUnconditionalFrame):

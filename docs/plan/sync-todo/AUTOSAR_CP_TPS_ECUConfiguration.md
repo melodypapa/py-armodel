@@ -68,20 +68,20 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
-### [ ] 4. PduToFrameMapping — member
-- Source: `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py:38`
+### [x] 4. PduToFrameMapping — member (commit 368d742, stamp deferred)
+- Source: `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py:39`
 - Spec: `AUTOSAR_CP_TPS_SystemTemplate.md` Table 6.29
 - Role: aggr member of Frame.pduToFrameMapping
 - Steps:
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write the model class unit test (Red)
-  - [ ] Step 3 — Implement the model class (Green)
-  - [ ] Step 4 — Wipe & rewrite docstrings from spec Note
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser (reader) & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec + rows)
-  - [ ] Step 8 — Deviations ⇒ no stamp decision record
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write the model class unit test (Red)
+  - [x] Step 3 — Implement the model class (Green)
+  - [x] Step 4 — Wipe & rewrite docstrings from spec Note
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser (reader) & writer (Green)
+  - [x] Step 7 — Update checklist comment (# Spec + rows)
+  - [x] Step 8 — Deviations ⇒ no stamp decision record
+  - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
 ### [ ] 5. Frame — input
 - Source: `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py:93`
