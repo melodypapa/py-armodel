@@ -100,7 +100,7 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
   - [x] Step 7 — Update checklist comment (# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.54, p.132; 5-column rows; marker deferred to 9b)
   - [x] Step 8 — Deviations (none — no placeholders; stamp granted)
   - [x] Step 9 — Verify (9a done: pytest 3199+185/flake8/ruff/black clean; integration round-trip pass) + confirm (9b) ⇒ # Spec verified: R23-11 (confirmed — marker at ECUCDescriptionTemplate.py; commit f35eb73)
-- [ ] EcucInstanceReferenceValue
+- [x] EcucInstanceReferenceValue (93b6df3)
   - [x] Step 1 — Sync members & description from spec (Table 2.55 p.134; Base ARObject/EcucAbstractReferenceValue/EcucIndexableValue; single attr value: AtpFeature 0..1 iref → valueIRef/AnyInstanceRef)
   - [x] Step 2 — Write model class unit test (Red — valueIRef field/docstring/None-no-op/verbatim tests failed first)
   - [x] Step 3 — Implement model class (Green — valueIRef retyped; PEP 526 annotation Optional[AnyInstanceRef]; chaining + None guard; bug fixed: getValueIRef/setValueIRef now use valueIRef not valueRef)
@@ -109,7 +109,7 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
   - [x] Step 6 — Update parser & writer (Green — reader/writer already call getValueIRef/setValueIRef; no source change needed; stale test call sites fixed)
   - [x] Step 7 — Update checklist comment (# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.55, p.134; 5-column rows; marker deferred to 9b)
   - [x] Step 8 — Deviations (none — bug fixed, no placeholders; no deviation rows)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11
+  - [x] Step 9 — Verify (9a done: pytest 6950/flake8/ruff/black clean) + confirm (9b) ⇒ # Spec verified: R23-11 (confirmed — marker at ECUCDescriptionTemplate.py; commit 93b6df3)
 - [ ] EcucContainerValue
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
