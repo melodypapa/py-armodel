@@ -4,9 +4,43 @@ in the AUTOSAR GenericStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable, AtpInstanceRef, AtpStructureElement, AtpType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable, AtpFeature, AtpInstanceRef, AtpStructureElement, AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+
+class TestAtpFeature:
+    """
+    Test class for AtpFeature functionality.
+    """
+
+    def test_abstract_initialization(self):
+        """
+        Test that AtpFeature cannot be instantiated directly (abstract class).
+        """
+        try:
+            parent = AUTOSAR.getInstance()
+            ar_root = parent.createARPackage("AUTOSAR")
+            _obj = AtpFeature(ar_root, "TestAtpFeature")
+            assert False, "AtpFeature should not be instantiable"
+        except TypeError:
+            pass  # Expected behavior
+
+    def test_concrete_subclass_is_identifiable(self):
+        """
+        Test that a concrete subclass of AtpFeature is an Identifiable.
+        """
+
+        class ConcreteAtpFeature(AtpFeature):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        obj = ConcreteAtpFeature(ar_root, "ConcreteAtpFeature")
+        assert isinstance(obj, Identifiable)
+        assert obj.getShortName() == "ConcreteAtpFeature"
 
 
 class TestAtpInstanceRef:
@@ -44,6 +78,22 @@ class TestAtpInstanceRef:
         result = concrete_obj.setAtpBaseRef(ref)
         assert result is concrete_obj  # Verify method chaining
         assert concrete_obj.getAtpBaseRef() == ref
+        # None is a no-op and does not overwrite an existing atpBaseRef
+        assert concrete_obj.setAtpBaseRef(None) is concrete_obj
+        assert concrete_obj.getAtpBaseRef() == ref
+
+    def test_add_atp_context_element_ref_none_noop(self):
+        """
+        Test addAtpContextElementRef with None value is a no-op.
+        """
+
+        class ConcreteAtpInstanceRef(AtpInstanceRef):
+            def __init__(self):
+                super().__init__()
+
+        concrete_obj = ConcreteAtpInstanceRef()
+        assert concrete_obj.addAtpContextElementRef(None) is concrete_obj
+        assert concrete_obj.getAtpContextElementRefs() == []
 
     def test_get_atp_context_element_refs(self):
         """
@@ -106,6 +156,9 @@ class TestAtpInstanceRef:
         ref = RefType().setValue("/Package/Target")
         result = concrete_obj.setAtpTargetRef(ref)
         assert result is concrete_obj  # Verify method chaining
+        assert concrete_obj.getAtpTargetRef() == ref
+        # None is a no-op and does not overwrite an existing atpTargetRef
+        assert concrete_obj.setAtpTargetRef(None) is concrete_obj
         assert concrete_obj.getAtpTargetRef() == ref
 
 
