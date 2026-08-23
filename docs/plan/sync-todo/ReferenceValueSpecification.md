@@ -17,7 +17,7 @@ Spec source for all rows unless noted: `autosar/markdown/AUTOSAR_CP_TPS_Software
   - [x] Step 6 — Update parser & writer (Green) — N/A: no own XML tag; serialized via concrete subclasses
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 - [x] PositiveInteger (member · markdown Table E.64, FO_TPS_GST · pulled by NotAvailableValueSpecification.defaultPattern · exists unstamped in `PrimitiveTypes.py`; Steps 5/6 likely N/A — primitive has no own XML element, round-trips as attribute value on the consuming class) · commit 51136e44
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -25,9 +25,9 @@ Spec source for all rows unless noted: `autosar/markdown/AUTOSAR_CP_TPS_Software
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
   - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: primitive has no own XML element
   - [x] Step 6 — Update parser & writer (Green) — N/A: serialized as value on consuming classes; covered by their round-trips
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 - [x] ValueGroup (member · markdown · Table 5.126 · pulled by SwValues.vg · absent from codebase — create in `MSR/CalibrationData/CalibrationValue.py`) · commit fc3d99da
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -37,17 +37,17 @@ Spec source for all rows unless noted: `autosar/markdown/AUTOSAR_CP_TPS_Software
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 - [x] ValueList (member · markdown · Table 5.127 · pulled by RuleBasedAxisCont.swArraysize · exists unstamped in `MSR/DataDictionary/DataDefProperties.py` — current `getVfs()` sorts but spec marks `vf (ordered)`; verify against spec) · commit c49ebbc2
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 - [x] ReferenceValueSpecification (input · markdown · Table 5.115 · `CommonStructure/Constants/__init__.py`) · commit e97c1b37
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -67,7 +67,7 @@ Spec source for all rows unless noted: `autosar/markdown/AUTOSAR_CP_TPS_Software
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 - [x] ConstantSpecificationMapping (input · markdown · Table 5.118 · `CommonStructure/Constants/__init__.py`) · commit c9cad2c4
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
