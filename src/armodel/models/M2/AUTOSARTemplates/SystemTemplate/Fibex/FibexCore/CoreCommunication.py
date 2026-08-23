@@ -1123,12 +1123,13 @@ class NmPdu(Pdu):
 
 class NPdu(IPdu):
     """
-    Represents a Network Protocol Data Unit (PDU) used for network-level
-    communication in the AUTOSAR communication system.
+    This is a Pdu of the Transport Layer. The main purpose of the TP Layer is to segment and reassemble IPdus. Tags: atp.recommendedPackage=Pdus
     """
 
     # NPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.21, p.343
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
