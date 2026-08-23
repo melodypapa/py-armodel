@@ -135,18 +135,6 @@ class AbstractARXMLParser(ABC):
                 literal.setValue(child_element.text)
         return literal
 
-    def getChildElementOptionalNumerical(self, element: ET.Element, key: str) -> Numerical:
-        child_element = self.find(element, key)
-        literal = None
-        if child_element is not None:
-            literal = Numerical()
-            self.readARObjectAttributes(child_element, literal)
-            if child_element.text is None:
-                literal.setValue("")
-            else:
-                literal.setValue(child_element.text)
-        return literal
-
     def getChildElementOptionalIdentifier(self, element: ET.Element, key: str) -> Identifier:
         child_element = self.find(element, key)
         identifier = None
@@ -203,6 +191,17 @@ class AbstractARXMLParser(ABC):
             results.append(float_value)
         return results
 
+    def getChildElementNumericalList(self, element: ET.Element, key: str) -> List[Numerical]:
+        child_elements = self.findall(element, key)
+        results = []
+        for child_element in child_elements:
+            numerical_value = Numerical()
+            self.readARObjectAttributes(child_element, numerical_value)
+            if child_element.text is not None:
+                numerical_value.setValue(child_element.text)
+            results.append(numerical_value)
+        return results
+
     def getChildElementOptionalTimeValue(self, element: ET.Element, key: str) -> TimeValue:
         child_element = self.find(element, key)
         time_value = None
@@ -247,6 +246,16 @@ class AbstractARXMLParser(ABC):
             numerical.setShortLabel(child_element.attrib["SHORT-LABEL"])
         numerical.setValue(child_element.text)
         return numerical
+
+    def getChildElementOptionalNumerical(self, element: ET.Element, key: str) -> Numerical:
+        child_element = self.find(element, key)
+        numerical_value = None
+        if child_element is not None:
+            numerical_value = Numerical()
+            self.readARObjectAttributes(child_element, numerical_value)
+            if child_element.text is not None:
+                numerical_value.setValue(child_element.text)
+        return numerical_value
 
     def getChildElementOptionalIntegerValue(self, element: ET.Element, key: str) -> Integer:
         child_element = self.find(element, key)

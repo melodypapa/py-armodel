@@ -47,6 +47,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     ConstantSpecification,
     NumericalValueSpecification,
     RecordValueSpecification,
+    ReferenceValueSpecification,
     RuleArguments,
     RuleBasedAxisCont,
     RuleBasedValueCont,
@@ -54,7 +55,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     TextValueSpecification,
     ValueSpecification,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    ConstantSpecificationMapping,
+    NotAvailableValueSpecification,
+    NumericalOrText,
+    NumericalRuleBasedValueSpecification,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps
@@ -663,7 +669,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, DataConstrRule, InternalConstrs, PhysConstrs, ScaleConstr, ScaleConstrValidityEnum
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdf, Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
-from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
+from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import MemoryAllocationKeywordPolicyType, MemorySectionType, SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
@@ -4225,10 +4231,38 @@ class ARXMLParser(AbstractARXMLParser):
             return None
         sw_values = SwValues()
         self.readARObjectAttributes(child_element, sw_values)
-        for v in self.getChildElementFloatValueList(child_element, "V"):
+        for vf in self.getChildElementNumericalList(child_element, "VF"):
+            sw_values.addVf(vf)
+        sw_values.setVt(self.getChildElementOptionalVerbatimString(child_element, "VT"))
+        sw_values.setVg(self.getValueGroup(child_element, "VG"))
+        for v in self.getChildElementNumericalList(child_element, "V"):
             sw_values.addV(v)
-        sw_values.vt = self.getChildElementOptionalLiteral(child_element, "VT")
+        for vtf_element in self.findall(child_element, "VTF"):
+            sw_values.addVtf(self.getNumericalOrText(vtf_element))
         return sw_values
+
+    def getValueGroup(self, element: ET.Element, key: str) -> ValueGroup:
+        value_group = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            value_group = ValueGroup()
+            self.readARObjectAttributes(child_element, value_group)
+            value_group.setLabel(self.getMultilanguageLongName(child_element, "LABEL"))
+            has_v = self.find(child_element, "V") is not None
+            has_vf = self.find(child_element, "VF") is not None
+            has_vt = self.find(child_element, "VT") is not None
+            has_vtf = self.find(child_element, "VTF") is not None
+            if has_v or has_vf or has_vt or has_vtf:
+                contents = SwValues()
+                for vf in self.getChildElementNumericalList(child_element, "VF"):
+                    contents.addVf(vf)
+                for v in self.getChildElementNumericalList(child_element, "V"):
+                    contents.addV(v)
+                contents.setVt(self.getChildElementOptionalVerbatimString(child_element, "VT"))
+                for vtf_element in self.findall(child_element, "VTF"):
+                    contents.addVtf(self.getNumericalOrText(vtf_element))
+                value_group.setVgContents(contents)
+        return value_group
 
     def getValueList(self, element: ET.Element, key: str) -> ValueList:
         value_list = None
@@ -4237,7 +4271,11 @@ class ARXMLParser(AbstractARXMLParser):
             # self.logger.debug("Get ValueList %s" % key)
             value_list = ValueList()
             self.readARObjectAttributes(child_element, value_list)
-            value_list.setV(self.getChildElementOptionalFloatValue(child_element, "V"))
+            value_list.setV(self.getChildElementOptionalNumerical(child_element, "V"))
+            for vf_element in self.findall(child_element, "VF"):
+                vf = self.getChildElementOptionalNumerical(vf_element, "V")
+                if vf is not None:
+                    value_list.addVf(vf)
         return value_list
 
     def getSwValueCont(self, element: ET.Element) -> SwValueCont:
@@ -5387,6 +5425,31 @@ class ARXMLParser(AbstractARXMLParser):
         value_spec.setConstantRef(self.getChildElementOptionalRefType(element, "CONSTANT-REF"))
         return value_spec
 
+    def getReferenceValueSpecification(self, element: ET.Element) -> ReferenceValueSpecification:
+        value_spec = ReferenceValueSpecification()
+        self.readValueSpecification(element, value_spec)
+        value_spec.setReferenceValueRef(self.getChildElementOptionalRefType(element, "REFERENCE-VALUE-REF"))
+        return value_spec
+
+    def getNotAvailableValueSpecification(self, element: ET.Element) -> NotAvailableValueSpecification:
+        value_spec = NotAvailableValueSpecification()
+        self.readValueSpecification(element, value_spec)
+        value_spec.setDefaultPattern(self.getChildElementOptionalPositiveInteger(element, "DEFAULT-PATTERN"))
+        return value_spec
+
+    def getNumericalRuleBasedValueSpecification(self, element: ET.Element) -> NumericalRuleBasedValueSpecification:
+        value_spec = NumericalRuleBasedValueSpecification()
+        self.readValueSpecification(element, value_spec)
+        value_spec.setRuleBasedValues(self.getRuleBasedValueSpecification(self.find(element, "RULE-BASED-VALUES")))
+        return value_spec
+
+    def getConstantSpecificationMapping(self, element: ET.Element) -> ConstantSpecificationMapping:
+        mapping = ConstantSpecificationMapping()
+        self.readARObjectAttributes(element, mapping)
+        mapping.setApplConstantRef(self.getChildElementOptionalRefType(element, "APPL-CONSTANT-REF"))
+        mapping.setImplConstantRef(self.getChildElementOptionalRefType(element, "IMPL-CONSTANT-REF"))
+        return mapping
+
     def getValueSpecification(self, element: ET.Element, tag_name: str) -> ValueSpecification:
         if tag_name == "APPLICATION-VALUE-SPECIFICATION":
             value_spec = self.getApplicationValueSpecification(element)
@@ -5404,6 +5467,12 @@ class ARXMLParser(AbstractARXMLParser):
             value_spec = self.getTextValueSpecification(element)
         elif tag_name == "CONSTANT-REFERENCE":
             value_spec = self.getConstantReference(element)
+        elif tag_name == "REFERENCE-VALUE-SPECIFICATION":
+            value_spec = self.getReferenceValueSpecification(element)
+        elif tag_name == "NOT-AVAILABLE-VALUE-SPECIFICATION":
+            value_spec = self.getNotAvailableValueSpecification(element)
+        elif tag_name == "NUMERICAL-RULE-BASED-VALUE-SPECIFICATION":
+            value_spec = self.getNumericalRuleBasedValueSpecification(element)
         else:
             self.notImplemented("Unsupported RecordValueSpecificationField %s" % tag_name)
         return value_spec

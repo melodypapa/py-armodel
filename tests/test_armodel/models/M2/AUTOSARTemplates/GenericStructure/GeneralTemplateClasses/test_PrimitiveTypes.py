@@ -3,6 +3,8 @@ This module contains comprehensive tests for the PrimitiveTypes.py file
 in the AUTOSAR GenericStructure module.
 """
 
+import pytest
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AlignmentType,
     ARBoolean,
@@ -700,6 +702,36 @@ class TestPositiveInteger:
         assert pos_int.shortLabel is None
         assert pos_int._text is None
         assert pos_int._value is None
+
+    def test_set_value_string(self):
+        """Test setValue with decimal string round-trip and method chaining."""
+        pos_int = PositiveInteger()
+        assert pos_int.setValue("42") is pos_int
+        assert pos_int.getValue() == 42
+        assert str(pos_int) == "42"
+
+    def test_set_value_int(self):
+        """Test setValue with an int round-trip."""
+        pos_int = PositiveInteger()
+        pos_int.setValue(7)
+        assert pos_int.getValue() == 7
+
+    def test_denotations(self):
+        """Test that hexadecimal and binary denotations are supported."""
+        assert PositiveInteger().setValue("255").getValue() == 255
+        assert PositiveInteger().setValue("0xFF").getValue() == 255
+        assert PositiveInteger().setValue("0b101").getValue() == 5
+
+    def test_zero_is_valid(self):
+        """Test that 0 is within the valid range (0..4294967295)."""
+        pos_int = PositiveInteger()
+        pos_int.setValue(0)
+        assert pos_int.getValue() == 0
+
+    def test_negative_raises(self):
+        """Test that a negative value is rejected."""
+        with pytest.raises(ValueError):
+            PositiveInteger().setValue(-1)
 
 
 class TestIntervalTypeEnum:

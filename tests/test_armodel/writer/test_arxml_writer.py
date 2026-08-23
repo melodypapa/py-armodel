@@ -5,7 +5,18 @@ Tests for ARXMLWriter class
 import xml.etree.cElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantReference, NumericalValueSpecification, TextValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
+    ArrayValueSpecification,
+    ConstantReference,
+    NumericalValueSpecification,
+    ReferenceValueSpecification,
+    RuleBasedValueSpecification,
+    TextValueSpecification,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    NumericalRuleBasedValueSpecification,
+    RuleArguments,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARFloat,
@@ -756,6 +767,108 @@ class TestARXMLWriterValueSpecMethods:
         ref_element = spec_element.find("CONSTANT-REF")
         assert ref_element is not None
         assert ref_element.text == "/path/to/constant"
+
+    def test_write_reference_value_specification(self):
+        """Test writeReferenceValueSpecification method"""
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+
+        value_spec = ReferenceValueSpecification()
+        ref = RefType()
+        ref.setValue("/Path/To/DataPrototype")
+        ref.setDest("DATA-PROTOTYPE")
+        value_spec.setReferenceValueRef(ref)
+
+        writer.writeReferenceValueSpecification(parent, value_spec)
+
+        assert len(parent) == 1
+        spec_element = parent[0]
+        assert spec_element.tag == "REFERENCE-VALUE-SPECIFICATION"
+        ref_element = spec_element.find("REFERENCE-VALUE-REF")
+        assert ref_element is not None
+        assert ref_element.text == "/Path/To/DataPrototype"
+
+    def _make_numerical_rule_based_value_specification(self):
+        rule_based = RuleBasedValueSpecification()
+        rule = Identifier()
+        rule.setValue("FILL_UNTIL_END")
+        rule_based.setRule(rule)
+        argument = RuleArguments()
+        v = ARNumerical()
+        v.setValue(1)
+        argument.setV(v)
+        rule_based.addArgument(argument)
+        return rule_based
+
+    def test_write_numerical_rule_based_value_specification(self):
+        """Test writeNumericalRuleBasedValueSpecification method"""
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+
+        value_spec = NumericalRuleBasedValueSpecification()
+        value_spec.setRuleBasedValues(self._make_numerical_rule_based_value_specification())
+
+        writer.writeNumericalRuleBasedValueSpecification(parent, value_spec)
+
+        assert len(parent) == 1
+        spec_element = parent[0]
+        assert spec_element.tag == "NUMERICAL-RULE-BASED-VALUE-SPECIFICATION"
+        rule_based_element = spec_element.find("RULE-BASED-VALUES")
+        assert rule_based_element is not None
+        assert rule_based_element.find("RULE").text == "FILL_UNTIL_END"
+        arguments_element = rule_based_element.find("ARGUMENTSS")
+        assert arguments_element is not None
+        argument_element = arguments_element.find("RULE-ARGUMENTS")
+        assert argument_element is not None
+        assert argument_element.find("V").text == "1"
+
+    def test_write_numerical_rule_based_value_specification_empty(self):
+        """Test writeNumericalRuleBasedValueSpecification without ruleBasedValues"""
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+
+        value_spec = NumericalRuleBasedValueSpecification()
+
+        writer.writeNumericalRuleBasedValueSpecification(parent, value_spec)
+
+        assert len(parent) == 1
+        spec_element = parent[0]
+        assert spec_element.tag == "NUMERICAL-RULE-BASED-VALUE-SPECIFICATION"
+        assert spec_element.find("RULE-BASED-VALUES") is None
+
+    def test_set_child_value_specification_numerical_rule_based_dispatch(self):
+        """Test setChildValueSpecification dispatches NumericalRuleBasedValueSpecification"""
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+
+        value_spec = NumericalRuleBasedValueSpecification()
+        value_spec.setRuleBasedValues(self._make_numerical_rule_based_value_specification())
+
+        writer.setChildValueSpecification(parent, "INIT-VALUE", value_spec)
+
+        child_element = parent.find("INIT-VALUE")
+        assert child_element is not None
+        spec_element = child_element.find("NUMERICAL-RULE-BASED-VALUE-SPECIFICATION")
+        assert spec_element is not None
+        assert spec_element.find("RULE-BASED-VALUES/RULE").text == "FILL_UNTIL_END"
+
+    def test_write_array_value_specification_numerical_rule_based_dispatch(self):
+        """Test writeArrayValueSpecification dispatches NumericalRuleBasedValueSpecification elements"""
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+
+        array_spec = ArrayValueSpecification()
+        element_spec = NumericalRuleBasedValueSpecification()
+        element_spec.setRuleBasedValues(self._make_numerical_rule_based_value_specification())
+        array_spec.addElement(element_spec)
+
+        writer.writeArrayValueSpecification(parent, array_spec)
+
+        elements_element = parent.find("ARRAY-VALUE-SPECIFICATION/ELEMENTS")
+        assert elements_element is not None
+        spec_element = elements_element.find("NUMERICAL-RULE-BASED-VALUE-SPECIFICATION")
+        assert spec_element is not None
+        assert spec_element.find("RULE-BASED-VALUES/RULE").text == "FILL_UNTIL_END"
 
 
 class TestARXMLWriterSwSystemconstMethods:

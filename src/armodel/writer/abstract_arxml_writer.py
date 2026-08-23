@@ -110,9 +110,6 @@ class AbstractARXMLWriter(ABC):
     def setChildElementOptionalDataTime(self, element: ET.Element, key: str, literal: DateTime):
         self.setChildElementOptionalLiteral(element, key, literal)
 
-    def setChildElementOptionalNumerical(self, element: ET.Element, key: str, literal: Numerical):
-        self.setChildElementOptionalLiteral(element, key, literal)
-
     def setChildElementOptionalRefType(self, parent: ET.Element, child_tag_name: str, ref: RefType):
         if ref is not None:
             child_tag = ET.SubElement(parent, child_tag_name)
@@ -142,6 +139,13 @@ class AbstractARXMLWriter(ABC):
         return element
 
     def setChildElementOptionalLiteral(self, element: ET.Element, key: str, value: ARLiteral) -> ET.Element:
+        if value is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObjectAttributes(child_element, value)
+            child_element.text = value.getText()
+        return element
+
+    def setChildElementOptionalNumerical(self, element: ET.Element, key: str, value: Numerical) -> ET.Element:
         if value is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObjectAttributes(child_element, value)

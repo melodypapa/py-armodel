@@ -487,6 +487,19 @@ class TestDataTypeAndValueSpecHandlers:
         element = _snip("<X/>")
         assert parser.getValueList(element, "SW-ARRAYSIZE") is None
 
+    def test_getValueList_with_vf_list(self, parser):
+        element = _snip(
+            "<SW-ARRAYSIZE>" "<VF><V>1.5</V></VF>" "<VF><V>2.5</V></VF>" "<V>4</V>" "</SW-ARRAYSIZE>",
+            root_tag="PARENT",
+        )
+        value_list = parser.getValueList(element, "SW-ARRAYSIZE")
+        assert value_list is not None
+        assert float(value_list.getV().getValue()) == 4.0
+        vfs = value_list.getVfs()
+        assert len(vfs) == 2
+        assert float(vfs[0].getValue()) == 1.5
+        assert float(vfs[1].getValue()) == 2.5
+
     def test_getSwValueCont_full(self, parser):
         element = _snip(
             "<SW-VALUE-CONT>" "<UNIT-REF DEST='UNIT'>/u</UNIT-REF>" "<SW-ARRAYSIZE><V>2</V></SW-ARRAYSIZE>" "<SW-VALUES-PHYS><V>1.0</V></SW-VALUES-PHYS>" "</SW-VALUE-CONT>",
@@ -502,6 +515,104 @@ class TestDataTypeAndValueSpecHandlers:
     def test_getSwValueCont_missing_returns_None(self, parser):
         element = _snip("<X/>")
         assert parser.getSwValueCont(element) is None
+
+    def test_getValueGroup_with_label_and_contents(self, parser):
+        element = _snip(
+            "<VG>" "<LABEL><L-4 L='FOR-ALL'>group label</L-4></LABEL>" "<V>1.5</V>" "<V>2.5</V>" "</VG>",
+            root_tag="PARENT",
+        )
+        vg = parser.getValueGroup(element, "VG")
+        assert vg is not None
+        assert vg.getLabel() is not None
+        l4s = vg.getLabel().getL4s()
+        assert len(l4s) == 1
+        assert l4s[0].getValue() == "group label"
+        contents = vg.getVgContents()
+        assert contents is not None
+        assert len(contents.getVs()) == 2
+
+    def test_getValueGroup_missing_returns_None(self, parser):
+        element = _snip("<X/>")
+        assert parser.getValueGroup(element, "VG") is None
+
+    def test_getSwValues_with_nested_VG(self, parser):
+        element = _snip(
+            "<SW-VALUES-PHYS>" "<V>0.0</V>" "<VG><V>1.5</V></VG>" "</SW-VALUES-PHYS>",
+            root_tag="PARENT",
+        )
+        sw_values = parser.getSwValues(element, "SW-VALUES-PHYS")
+        assert sw_values is not None
+        assert len(sw_values.getVs()) == 1
+        assert sw_values.getVg() is not None
+        assert len(sw_values.getVg().getVgContents().getVs()) == 1
+
+    def test_getSwValues_with_vf_and_verbatim_vt(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import VerbatimString
+
+        element = _snip(
+            "<SW-VALUES-PHYS>" "<VF>0.5</VF>" "<VF>1.5</VF>" "<VT>a|b</VT>" "</SW-VALUES-PHYS>",
+            root_tag="PARENT",
+        )
+        sw_values = parser.getSwValues(element, "SW-VALUES-PHYS")
+        assert sw_values is not None
+        assert len(sw_values.getVfs()) == 2
+        assert float(sw_values.getVfs()[0].getValue()) == 0.5
+        assert float(sw_values.getVfs()[1].getValue()) == 1.5
+        assert isinstance(sw_values.getVt(), VerbatimString)
+        assert sw_values.getVt().getValue() == "a|b"
+
+    def test_getSwValues_with_vtf(self, parser):
+        element = _snip(
+            "<SW-VALUES-PHYS>" "<VTF><VF>7</VF></VTF>" "<VTF><VT>text</VT></VTF>" "</SW-VALUES-PHYS>",
+            root_tag="PARENT",
+        )
+        sw_values = parser.getSwValues(element, "SW-VALUES-PHYS")
+        assert sw_values is not None
+        vtfs = sw_values.getVtfs()
+        assert len(vtfs) == 2
+        assert float(vtfs[0].getVf().getValue()) == 7
+        assert vtfs[1].getVt().getValue() == "text"
+
+    def test_getNotAvailableValueSpecification_with_default_pattern(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NotAvailableValueSpecification
+
+        root = _snip(
+            "<NOT-AVAILABLE-VALUE-SPECIFICATION>" "<DEFAULT-PATTERN>4</DEFAULT-PATTERN>" "</NOT-AVAILABLE-VALUE-SPECIFICATION>",
+            root_tag="PARENT",
+        )
+        spec = parser.getValueSpecification(root[0], "NOT-AVAILABLE-VALUE-SPECIFICATION")
+        assert isinstance(spec, NotAvailableValueSpecification)
+        assert spec.getDefaultPattern().getValue() == 4
+
+    def test_getNotAvailableValueSpecification_without_default_pattern(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NotAvailableValueSpecification
+
+        root = _snip("<NOT-AVAILABLE-VALUE-SPECIFICATION/>", root_tag="PARENT")
+        spec = parser.getValueSpecification(root[0], "NOT-AVAILABLE-VALUE-SPECIFICATION")
+        assert isinstance(spec, NotAvailableValueSpecification)
+        assert spec.getDefaultPattern() is None
+
+    def test_getConstantSpecificationMapping_with_refs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ConstantSpecificationMapping
+
+        root = _snip(
+            "<CONSTANT-SPECIFICATION-MAPPING>"
+            "<APPL-CONSTANT-REF DEST='CONSTANT-SPECIFICATION'>/Appl/Const</APPL-CONSTANT-REF>"
+            "<IMPL-CONSTANT-REF DEST='CONSTANT-SPECIFICATION'>/Impl/Const</IMPL-CONSTANT-REF>"
+            "</CONSTANT-SPECIFICATION-MAPPING>",
+            root_tag="PARENT",
+        )
+        mapping = parser.getConstantSpecificationMapping(root[0])
+        assert isinstance(mapping, ConstantSpecificationMapping)
+        assert mapping.getApplConstantRef().getValue() == "/Appl/Const"
+        assert mapping.getImplConstantRef().getValue() == "/Impl/Const"
+
+    def test_getConstantSpecificationMapping_without_refs(self, parser):
+        root = _snip("<CONSTANT-SPECIFICATION-MAPPING/>", root_tag="PARENT")
+        mapping = parser.getConstantSpecificationMapping(root[0])
+        assert mapping is not None
+        assert mapping.getApplConstantRef() is None
+        assert mapping.getImplConstantRef() is None
 
     def test_readApplicationValueSpecification_populates_fields(self, parser):
         from armodel.models import ApplicationValueSpecification

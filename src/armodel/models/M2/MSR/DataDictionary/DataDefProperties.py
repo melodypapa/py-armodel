@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifier,
     Integer,
     NativeDeclarationString,
+    Numerical,
     PrimitiveIdentifier,
     RefType,
     DisplayFormatString,
@@ -1071,35 +1072,73 @@ class SwPointerTargetProps(ARObject):
 
 class ValueList(ARObject):
     """
-    List of values with single value and multi-value support.
+    This is a generic list of numerical values.
     """
 
     # ValueList method parity checklist:
-    # [ ] __init__                 [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer
-    # [ ] getV                     [x] impl  [ ] docstring  [x] test  [—] reader  [x] writer
-    # [ ] setV                     [x] impl  [ ] docstring  [x] test  [x] reader  [—] writer
-    # [ ] addVf                    [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer
-    # [ ] getVfs                   [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.127, p.459
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getV                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setV                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addVf                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getVfs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self):
         super().__init__()
 
-        self.v: Optional[ARNumerical] = None
-        self._vf: List[ARNumerical] = []
+        # This is a particular numerical value without variation.
+        self.v: Optional[Numerical] = None
 
-    def getV(self) -> Optional[ARNumerical]:
+        # This is one entry in the list of numerical values
+        self._vf: List[Numerical] = []
+
+    def getV(self) -> Optional[Numerical]:
+        """
+        This is a particular numerical value without variation.
+
+        Returns:
+            Optional[Numerical]: This is a particular numerical value without variation., or None if not set
+        """
         return self.v
 
-    def setV(self, value: Optional[ARNumerical]) -> "ValueList":
+    def setV(self, value: Optional[Numerical]) -> "ValueList":
+        """
+        This is a particular numerical value without variation.
+        A None value is a no-op and does not overwrite an existing v.
+
+        Args:
+            value: This is a particular numerical value without variation. to set
+
+        Returns:
+            ValueList: self for method chaining
+        """
         if value is not None:
             self.v = value
         return self
 
-    def addVf(self, vf: ARNumerical):
-        self._vf.append(vf)
+    def addVf(self, vf: Numerical) -> "ValueList":
+        """
+        This is one entry in the list of numerical values
 
-    def getVfs(self) -> List[ARNumerical]:
-        return sorted(self._vf)
+        Args:
+            vf: This is one entry in the list of numerical values to add
+
+        Returns:
+            ValueList: self for method chaining
+        """
+        self._vf.append(vf)
+        return self
+
+    def getVfs(self) -> List[Numerical]:
+        """
+        This is one entry in the list of numerical values
+
+        Returns:
+            List[Numerical]: The list of entries in insertion order (vf is ordered per spec)
+        """
+        return list(self._vf)
 
 
 class SwTextProps(ARObject):

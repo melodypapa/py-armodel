@@ -1202,7 +1202,7 @@ class TestSwServiceArgRoundTrip:
             argument_2 = arguments[0]
             assert argument_2.getShortName() == "arg1"
             assert argument_2.getDirection().getValue() == "in"
-            assert argument_2.getSwArraysize().getV().getValue() == 4
+            assert argument_2.getSwArraysize().getV().getValue() == "4"
             assert argument_2.getSwDataDefProps().getSwImplPolicy().getValue() == "standard"
             return_type_2 = entry_2.getReturnType()
             assert return_type_2 is not None

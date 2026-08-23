@@ -47,6 +47,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     ConstantSpecification,
     NumericalValueSpecification,
     RecordValueSpecification,
+    ReferenceValueSpecification,
     RuleArguments,
     RuleBasedAxisCont,
     RuleBasedValueCont,
@@ -54,7 +55,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     TextValueSpecification,
     ValueSpecification,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
+    ConstantSpecificationMapping,
+    NotAvailableValueSpecification,
+    NumericalOrText,
+    NumericalRuleBasedValueSpecification,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Compiler, DependencyOnArtifact, Implementation, ImplementationProps, Linker
@@ -633,7 +639,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, InternalConstrs, PhysConstrs, ScaleConstr
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
-from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
+from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
@@ -1197,15 +1203,38 @@ class ARXMLWriter(AbstractARXMLWriter):
         if sw_values is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObjectAttributes(child_element, sw_values)
+            for vf in sw_values.getVfs():
+                self.setChildElementOptionalFloatValue(child_element, "VF", vf)
+            self.setChildElementOptionalLiteral(child_element, "VT", sw_values.getVt())
             for v in sw_values.getVs():
                 self.setChildElementOptionalFloatValue(child_element, "V", v)
-            self.setChildElementOptionalLiteral(child_element, "VT", sw_values.vt)
+            self.setValueGroup(child_element, "VG", sw_values.getVg())
+            for vtf in sw_values.getVtfs():
+                self.writeNumericalOrText(child_element, "VTF", vtf)
+
+    def setValueGroup(self, element: ET.Element, key: str, value_group: ValueGroup):
+        if value_group is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObjectAttributes(child_element, value_group)
+            self.setMultiLongName(child_element, "LABEL", value_group.getLabel())
+            contents = value_group.getVgContents()
+            if contents is not None:
+                for vf in contents.getVfs():
+                    self.setChildElementOptionalFloatValue(child_element, "VF", vf)
+                self.setChildElementOptionalLiteral(child_element, "VT", contents.getVt())
+                for v in contents.getVs():
+                    self.setChildElementOptionalFloatValue(child_element, "V", v)
+                for vtf in contents.getVtfs():
+                    self.writeNumericalOrText(child_element, "VTF", vtf)
 
     def setValueList(self, element: ET.Element, key: str, value_list: ValueList):
         if value_list is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObjectAttributes(child_element, value_list)
-            self.setChildElementOptionalFloatValue(child_element, "V", value_list.v)
+            for vf in value_list.getVfs():
+                vf_element = ET.SubElement(child_element, "VF")
+                self.setChildElementOptionalNumerical(vf_element, "V", vf)
+            self.setChildElementOptionalNumerical(child_element, "V", value_list.v)
 
     def writeSwValueCont(self, element: ET.Element, cont: SwValueCont):
         if cont is not None:
@@ -1247,12 +1276,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeApplicationRuleBasedValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, CompositeRuleBasedValueSpecification):
                     self.writeCompositeRuleBasedValueSpecification(elements_tag, sub_element)
+                elif isinstance(sub_element, NumericalRuleBasedValueSpecification):
+                    self.writeNumericalRuleBasedValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, TextValueSpecification):
                     self.writeTextValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, ArrayValueSpecification):
                     self.writeArrayValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, RecordValueSpecification):
                     self.writeRecordValueSpecification(elements_tag, sub_element)
+                elif isinstance(sub_element, ReferenceValueSpecification):
+                    self.writeReferenceValueSpecification(elements_tag, sub_element)
+                elif isinstance(sub_element, NotAvailableValueSpecification):
+                    self.writeNotAvailableValueSpecification(elements_tag, sub_element)
                 else:
                     self.notImplemented("Unsupported element type of <%s> of ArrayValueSpecification" % type(sub_element))
 
@@ -1260,6 +1295,31 @@ class ARXMLWriter(AbstractARXMLWriter):
         value_spec_tag = ET.SubElement(element, "CONSTANT-REFERENCE")
         self.writeValueSpecification(value_spec_tag, value_spec)
         self.setChildElementOptionalRefType(value_spec_tag, "CONSTANT-REF", value_spec.getConstantRef())
+
+    def writeReferenceValueSpecification(self, element: ET.Element, value_spec: ReferenceValueSpecification):
+        if value_spec is not None:
+            value_spec_tag = ET.SubElement(element, "REFERENCE-VALUE-SPECIFICATION")
+            self.writeValueSpecification(value_spec_tag, value_spec)
+            self.setChildElementOptionalRefType(value_spec_tag, "REFERENCE-VALUE-REF", value_spec.getReferenceValueRef())
+
+    def writeNotAvailableValueSpecification(self, element: ET.Element, value_spec: NotAvailableValueSpecification):
+        if value_spec is not None:
+            value_spec_tag = ET.SubElement(element, "NOT-AVAILABLE-VALUE-SPECIFICATION")
+            self.writeValueSpecification(value_spec_tag, value_spec)
+            self.setChildElementOptionalPositiveInteger(value_spec_tag, "DEFAULT-PATTERN", value_spec.getDefaultPattern())
+
+    def writeNumericalRuleBasedValueSpecification(self, element: ET.Element, value_spec: NumericalRuleBasedValueSpecification):
+        if value_spec is not None:
+            value_spec_tag = ET.SubElement(element, "NUMERICAL-RULE-BASED-VALUE-SPECIFICATION")
+            self.writeValueSpecification(value_spec_tag, value_spec)
+            self.writeRuleBasedValueSpecification(value_spec_tag, "RULE-BASED-VALUES", value_spec.getRuleBasedValues())
+
+    def writeConstantSpecificationMapping(self, element: ET.Element, mapping: ConstantSpecificationMapping):
+        if mapping is not None:
+            mapping_tag = ET.SubElement(element, "CONSTANT-SPECIFICATION-MAPPING")
+            self.writeARObjectAttributes(mapping_tag, mapping)
+            self.setChildElementOptionalRefType(mapping_tag, "APPL-CONSTANT-REF", mapping.getApplConstantRef())
+            self.setChildElementOptionalRefType(mapping_tag, "IMPL-CONSTANT-REF", mapping.getImplConstantRef())
 
     def setChildValueSpecification(self, element: ET.Element, key: str, value_spec: ValueSpecification):
         if value_spec is not None:
@@ -1270,10 +1330,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeApplicationRuleBasedValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, CompositeRuleBasedValueSpecification):
                 self.writeCompositeRuleBasedValueSpecification(child_element, value_spec)
+            elif isinstance(value_spec, NumericalRuleBasedValueSpecification):
+                self.writeNumericalRuleBasedValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, TextValueSpecification):
                 self.writeTextValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, ConstantReference):
                 self.setConstantReference(child_element, value_spec)
+            elif isinstance(value_spec, ReferenceValueSpecification):
+                self.writeReferenceValueSpecification(child_element, value_spec)
+            elif isinstance(value_spec, NotAvailableValueSpecification):
+                self.writeNotAvailableValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, NumericalValueSpecification):
                 self.writeNumericalValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, ArrayValueSpecification):
@@ -2465,6 +2531,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeArrayValueSpecification(fields_tag, field)
                 elif isinstance(field, RecordValueSpecification):
                     self.writeRecordValueSpecification(fields_tag, field)
+                elif isinstance(field, NotAvailableValueSpecification):
+                    self.writeNotAvailableValueSpecification(fields_tag, field)
                 else:
                     self.notImplemented("Unsupported Field <%s>" % type(field))
 

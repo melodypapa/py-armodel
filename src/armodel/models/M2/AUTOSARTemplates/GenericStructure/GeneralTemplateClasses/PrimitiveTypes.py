@@ -661,19 +661,20 @@ class NameToken(ARLiteral):
 
 
 class PositiveInteger(ARPositiveInteger):
-    r"""\n
-    This is a positive integer which can be denoted in decimal, binary, octal and hexadecimal. The value is
-    between 0 and 4294967295.
+    """
+    This is a positive integer which can be denoted in decimal, binary, octal and hexadecimal. The value is between 0 and 4294967295.
 
     Tags:
         * xml.xsd.customType=POSITIVE-INTEGER
-        * xml.xsd.pattern=0|[\+]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
+        * xml.xsd.pattern=0|[\\+]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
         * xml.xsd.type=string
-    \n
     """
 
     # PositiveInteger method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.64, p.459
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         super().__init__()
