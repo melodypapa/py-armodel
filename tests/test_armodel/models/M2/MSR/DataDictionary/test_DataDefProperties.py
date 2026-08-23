@@ -12,9 +12,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     DisplayFormatString,
     Identifier,
-    Numerical,
     Integer,
     NativeDeclarationString,
+    Numerical,
     PrimitiveIdentifier,
     RefType,
 )
