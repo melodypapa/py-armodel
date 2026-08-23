@@ -580,7 +580,9 @@ R<YY>-<MM>` stamp is warranted.
   abstract child.
 - **Rule 0001.7 (reader & writer coverage)** — every kept attribute has **both** a
   reader element and a writer element (grep each aggregator; a shared helper's
-  existence is not evidence a given aggregator calls it).
+  existence is not evidence a given aggregator calls it). The names also form the
+  matched pairs of **Rule 0013.2** at every layer — a cross pair (`setX1` ↔ `getX2`)
+  fails this check.
 - **Rule 0011 (member order)** — fields, accessor groups, and checklist rows are in
   displayed PDF row order.
 - **Rule 0012 (docstrings & comments)** — checked **one by one for every member**
@@ -890,6 +892,38 @@ grep -nE 'AUTOSAR\.getInstance\(\)\.' \
 
 After any reader/writer edit, run `npm run ruff-check`, `npm run black-check`, and the
 full suite; the round-trip must remain lossless for every integration fixture.
+
+### 0013.2 Matched reader/writer helper pairs (all types)
+
+Names are paired **1:1 by suffix at every layer** — the two sides of a pair must carry the
+**same name**. A cross pair (`setX1` on one side, `getX2` on the other) is incorrect and is
+fixed by renaming to the common name, never by documenting the mismatch:
+
+| Layer | Reader side | Writer side | Example |
+|---|---|---|---|
+| Model field accessor | `setXxx(value)` | `getXxx()` | `setValue` / `getValue` |
+| Shared base structure | `readXxx(element, obj)` | `writeXxx(element, obj)` | `readEcucParameterValue` / `writeEcucParameterValue` |
+| Concrete ARXML element | `getXxx(element)` — creates + populates | `setXxx(element, obj)` — emits + populates | `getEcucNumericalParamValue` / `setEcucNumericalParamValue` |
+| XML leaf / primitive type | `getChildElementOptional<T>(element, key)` | `setChildElementOptional<T>(element, key, value)` | `<T>` = `Numerical`, `VerbatimString`, `RevisionLabelString`, … |
+
+- This applies to **every** type, not just primitives: when a sync adds, retypes, or renames
+  an attribute, **both sides of every affected layer** take the same suffix name in the same
+  pass (model accessor, leaf helper, and the `readXxx`/`writeXxx` or `getXxx`/`setXxx`
+  call sites that use them).
+- Writer-side leaf helpers for `ARLiteral`-family types are **one-line delegations** to
+  `setChildElementOptionalLiteral` — they exist for naming/type symmetry with the reader,
+  not new serialization (precedent: `RevisionLabelString`, `DateTime`, `Numerical`).
+- Never route a value through a helper typed/named for a **different** model class:
+  - Writing a `Numerical` via `setChildElementOptionalNumericalValue(ARNumerical)`
+    dereferences ARNumerical-only members (`getShortLabel()`, `_text`) → `AttributeError`.
+  - Reading a spec type through the generic literal reader (`getChildElementOptionalLiteral`)
+    materializes plain `ARLiteral`, so the model field no longer holds the spec class and
+    `isinstance(value, <SpecType>)` round-trip assertions fail.
+- Worked examples: `EcucTextualParamValue` (`VerbatimString` pair),
+  `EcucNumericalParamValue` (`Numerical` pair). Anti-pairs found and fixed during sync:
+  `get/setDefinitionRef` aliases renamed to spec-named `get/setDefinition`
+  (EcucParameterValue, EcucModuleConfigurationValues); `setValueIRef`/`getValueIRef`
+  backed by the wrong field `valueRef` (EcucInstanceReferenceValue — queued fix).
 
 ---
 
