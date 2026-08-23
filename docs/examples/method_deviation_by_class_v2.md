@@ -705,14 +705,11 @@ No deviations — `value` retyped to spec `VerbatimString` (Table 2.50) with the
 No deviations — `value` retyped to spec `Numerical` (Table 2.51) with the spec-typed reader/writer pair; earlier `type (PDF Numerical vs py ARNumerical)` row removed once fixed.
 
 ## `EcucAbstractReferenceValue`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 131
 - **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `definitionRef` | `RefType` | `definition` | ``EcucAbstractReference Def`` | ref | type (PDF EcucAbstractReference Def vs py RefType) |
-| `isAutoValue` | `ARBoolean` | `isAutoValue` | ``Boolean`` | attr | type (PDF Boolean vs py ARBoolean) |
+No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, dedicated typed list), `definition` (0..1 ref; ref target `EcucAbstractReferenceDef` modeled as `RefType` per project convention, Kind-`ref` Ref suffix applied per Rule 0001.5 → field `definitionRef`, accessors `getDefinitionRef`/`setDefinitionRef`), `isAutoValue` (0..1 attr retyped `ARBoolean` → `Optional[Boolean]`). Reader/writer coverage completed for all XML elements (`DEFINITION-REF`, `INDEX`, `ANNOTATIONS`, plus newly added `IS-AUTO-VALUE` read/write that was previously dropped); emission/read order aligned to sequenceOffset (-10/-5/+10/+20); earlier type rows removed once fixed.
 
 ## `EcucInstanceReferenceValue`
 - **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —

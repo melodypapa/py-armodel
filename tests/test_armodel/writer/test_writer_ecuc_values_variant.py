@@ -382,6 +382,26 @@ class TestWriterEcucAbstractReferenceValue:
         assert parent.find("DEFINITION-REF") is None
         assert parent.find("ANNOTATIONS") is None
 
+    def test_writes_all_table_2_53_fields_in_spec_order(self, writer):
+        ref_val = EcucReferenceValue()
+        ref_val.setDefinitionRef(_ref("/d", "ECUC-REFERENCE-DEF"))
+        ref_val.setIndex(_numerical(3))
+        ref_val.addAnnotation(Annotation())
+        ref_val.setIsAutoValue(Boolean().setValue(True))
+        parent = _parent()
+        writer.writeEcucAbstractReferenceValue(parent, ref_val)
+        assert [child.tag for child in parent] == ["DEFINITION-REF", "INDEX", "ANNOTATIONS", "IS-AUTO-VALUE"]
+        assert parent.find("DEFINITION-REF").text == "/d"
+        assert parent.find("INDEX").text == "3"
+        assert parent.find("ANNOTATIONS/ANNOTATION") is not None
+        assert parent.find("IS-AUTO-VALUE").text == "true"
+
+    def test_omits_all_unset_optional_fields(self, writer):
+        ref_val = EcucReferenceValue()
+        parent = _parent()
+        writer.writeEcucAbstractReferenceValue(parent, ref_val)
+        assert len(parent) == 0
+
 
 class TestWriterEcucContainerValueReferenceValues:
     def test_dispatches_reference_and_instance_reference(self, writer):

@@ -8323,8 +8323,9 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeEcucAbstractReferenceValue(self, element: ET.Element, value: EcucAbstractReferenceValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", value.getDefinitionRef())
-        self.setAnnotations(element, value.getAnnotations())
         self.setChildElementOptionalPositiveInteger(element, "INDEX", value.getIndex())
+        self.setAnnotations(element, value.getAnnotations())
+        self.setChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE", value.getIsAutoValue())
 
     def setEcucReferenceValue(self, element: ET.Element, value=None):
         if value is not None:

@@ -6,7 +6,6 @@ from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARBoolean,
     Boolean,
     Numerical,
     PositiveInteger,
@@ -245,18 +244,20 @@ class EcucNumericalParamValue(EcucParameterValue):
 
 class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
     """
-    Abstract base class for ECUC reference values with annotation,
-    definition reference, and auto value flag.
+    Abstract class to be used as common parent for all reference values in the ECU Configuration Description.
     """
 
     # EcucAbstractReferenceValue method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAnnotations               [x] impl  [ ] docstring  [ ] test
-    # [ ] addAnnotation                [x] impl  [ ] docstring  [ ] test
-    # [ ] getDefinitionRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefinitionRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] getIsAutoValue               [x] impl  [ ] docstring  [ ] test
-    # [ ] setIsAutoValue               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.53, p.131
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addAnnotation     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAnnotations    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getDefinitionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefinitionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIsAutoValue    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIsAutoValue    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         if type(self) is EcucAbstractReferenceValue:
@@ -264,29 +265,43 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
 
         super().__init__()
 
-        self.annotations = []  # type: List[Annotation]
-        self.definitionRef = None  # type: RefType
-        self.isAutoValue = None  # type: ARBoolean
+        # Possibility to provide additional notes while defining a model element (e.g. the ECU Configuration Parameter Values). These are not intended as documentation but are mere design notes.
+        self.annotations: List[Annotation] = []
+
+        # Reference to the definition of this EcucAbstractReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10
+        self.definitionRef: Optional[RefType] = None
+
+        # If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false".
+        self.isAutoValue: Optional[Boolean] = None
+
+    def addAnnotation(self, value: Optional[Annotation]) -> "EcucAbstractReferenceValue":
+        """Possibility to provide additional notes while defining a model element (e.g. the ECU Configuration Parameter Values). These are not intended as documentation but are mere design notes. A None value is a no-op and does not append to the existing annotations."""
+        if value is not None:
+            self.annotations.append(value)
+        return self
 
     def getAnnotations(self) -> List[Annotation]:
+        """Possibility to provide additional notes while defining a model element (e.g. the ECU Configuration Parameter Values). These are not intended as documentation but are mere design notes."""
         return self.annotations
 
-    def addAnnotation(self, value: Annotation):
-        self.annotations.append(value)
-        return self
-
-    def getDefinitionRef(self) -> RefType:
+    def getDefinitionRef(self) -> Optional[RefType]:
+        """Reference to the definition of this EcucAbstractReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10"""
         return self.definitionRef
 
-    def setDefinitionRef(self, value: RefType):
-        self.definitionRef = value
+    def setDefinitionRef(self, value: Optional[RefType]) -> "EcucAbstractReferenceValue":
+        """Reference to the definition of this EcucAbstractReferenceValue subclasses in the ECU Configuration Parameter Definition. Tags: xml.sequenceOffset=-10 A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.definitionRef = value
         return self
 
-    def getIsAutoValue(self) -> ARBoolean:
+    def getIsAutoValue(self) -> Optional[Boolean]:
+        """If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false"."""
         return self.isAutoValue
 
-    def setIsAutoValue(self, value: ARBoolean):
-        self.isAutoValue = value
+    def setIsAutoValue(self, value: Optional[Boolean]) -> "EcucAbstractReferenceValue":
+        """If withAuto is set to "true" for this parameter definition the isAutoValue can be set to "true". If isAutoValue is set to "true" the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If isAutoValue is not present the default is "false". A None value is a no-op and does not overwrite an existing flag."""
+        if value is not None:
+            self.isAutoValue = value
         return self
 
 

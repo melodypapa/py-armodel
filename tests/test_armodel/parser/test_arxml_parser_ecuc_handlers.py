@@ -859,6 +859,56 @@ class TestGetEcucInstanceReferenceValue:
         assert len(value.getAnnotations()) == 1
 
 
+class TestGetEcucReferenceValue:
+    """Tests for getEcucReferenceValue covering the Table 2.53 fields of EcucAbstractReferenceValue."""
+
+    def test_reads_all_ecuc_abstract_reference_value_fields(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <DEFINITION-REF DEST="ECUC-REFERENCE-DEF">/Path/To/Def</DEFINITION-REF>
+            <INDEX>3</INDEX>
+            <ANNOTATIONS>
+                <ANNOTATION>
+                    <LABEL>
+                        <L-4 L="EN">Design note</L-4>
+                    </LABEL>
+                </ANNOTATION>
+            </ANNOTATIONS>
+            <IS-AUTO-VALUE>true</IS-AUTO-VALUE>
+            <VALUE-REF DEST="ECUC-CONTAINER-VALUE">/Module/Container</VALUE-REF>
+            """,
+            root_tag="ECUC-REFERENCE-VALUE",
+        )
+        value = parser.getEcucReferenceValue(element)
+        assert value is not None
+        assert value.getDefinitionRef() is not None
+        assert value.getDefinitionRef().getValue() == "/Path/To/Def"
+        assert value.getIndex() is not None
+        assert value.getIndex().getValue() == 3
+        assert len(value.getAnnotations()) == 1
+        assert value.getIsAutoValue() is not None
+        assert value.getIsAutoValue().getValue() is True
+        assert value.getValueRef() is not None
+        assert value.getValueRef().getValue() == "/Module/Container"
+
+    def test_reads_minimal_reference_value(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <VALUE-REF DEST="ECUC-CONTAINER-VALUE">/Module/Container</VALUE-REF>
+            """,
+            root_tag="ECUC-REFERENCE-VALUE",
+        )
+        value = parser.getEcucReferenceValue(element)
+        assert value is not None
+        assert value.getDefinitionRef() is None
+        assert value.getIndex() is None
+        assert value.getAnnotations() == []
+        assert value.getIsAutoValue() is None
+        assert value.getValueRef() is not None
+
+
 class TestReadEcucParameterValue:
     """Tests for readEcucParameterValue handler."""
 

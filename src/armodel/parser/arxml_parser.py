@@ -8458,9 +8458,10 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucAbstractReferenceValue(self, element: ET.Element, value: EcucAbstractReferenceValue):
         value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
         for annotation in self.getAnnotations(element):
             value.addAnnotation(annotation)
-        value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
+        value.setIsAutoValue(self.getChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE"))
 
     def getEcucReferenceValue(self, element: ET.Element) -> EcucReferenceValue:
         value = EcucReferenceValue()

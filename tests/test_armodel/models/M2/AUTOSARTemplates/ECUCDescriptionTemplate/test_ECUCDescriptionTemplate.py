@@ -368,14 +368,16 @@ def test_ecuc_abstract_reference_value_abstract():
 
 def test_ecuc_abstract_reference_value_methods():
     """
-    Test EcucAbstractReferenceValue class methods (using a concrete subclass).
+    Test EcucAbstractReferenceValue class methods - full spec compliance per Table 2.53.
 
     Test Steps:
     1. Create an EcucReferenceValue instance (concrete subclass)
-    2. Test annotation methods
-    3. Test definitionRef methods
-    4. Test isAutoValue methods
-    5. Verify method chaining
+    2. Test initial values
+    3. Test annotation methods (spec: Annotation * aggr)
+    4. Test definition methods (spec: ref -> RefType)
+    5. Test isAutoValue methods (spec type: Boolean)
+    6. Verify method chaining
+    7. Verify class docstring contains the spec Note verbatim
     """
     ref_value = EcucReferenceValue()
 
@@ -387,16 +389,72 @@ def test_ecuc_abstract_reference_value_methods():
     # Test annotation methods
     annotation = Annotation()
     result = ref_value.addAnnotation(annotation)
-    assert result == ref_value  # Method chaining
+    assert result is ref_value  # Method chaining
     assert ref_value.getAnnotations() == [annotation]
 
-    # Test definitionRef methods
-    ref_value.setDefinitionRef("def_ref")
-    assert ref_value.getDefinitionRef() == "def_ref"
+    # Test definitionRef methods (Kind ref -> Ref suffix per Rule 0001.5)
+    definition_ref = RefType().setValue("/EcucDefs/Rte/Ref")
+    result = ref_value.setDefinitionRef(definition_ref)
+    assert result is ref_value  # Method chaining
+    assert ref_value.getDefinitionRef() == definition_ref
 
-    # Test isAutoValue methods
-    ref_value.setIsAutoValue(True)
-    assert ref_value.getIsAutoValue() is True
+    # Test isAutoValue methods (spec type: Boolean)
+    auto_value = Boolean().setValue(True)
+    result = ref_value.setIsAutoValue(auto_value)
+    assert result is ref_value  # Method chaining
+    assert ref_value.getIsAutoValue() == auto_value
+
+    # Verify docstrings match spec (Rule 0012)
+    assert EcucAbstractReferenceValue.__doc__ is not None, "Class docstring must contain spec Note"
+    assert (
+        "Abstract class to be used as common parent for all reference values in the ECU Configuration Description." in EcucAbstractReferenceValue.__doc__
+    ), "Class docstring must contain spec Note verbatim"
+
+
+def test_ecuc_abstract_reference_value_none_no_op():
+    """
+    None passed to a setter/adder of EcucAbstractReferenceValue is a no-op.
+
+    Test Steps:
+    1. Create an EcucReferenceValue instance (concrete subclass)
+    2. Set spec values on all attributes
+    3. Call the setters/addAnnotation with None and verify the values are preserved
+    """
+    ref_value = EcucReferenceValue()
+    definition_ref = RefType().setValue("/EcucDefs/Rte/Ref")
+    auto_value = Boolean().setValue(True)
+
+    assert ref_value.setDefinitionRef(definition_ref) is ref_value
+    assert ref_value.setIsAutoValue(auto_value) is ref_value
+
+    ref_value.addAnnotation(None)
+    ref_value.setDefinitionRef(None)
+    ref_value.setIsAutoValue(None)
+
+    assert ref_value.getAnnotations() == []
+    assert ref_value.getDefinitionRef() == definition_ref
+    assert ref_value.getIsAutoValue() == auto_value
+
+
+def test_ecuc_abstract_reference_value_member_docstrings_verbatim():
+    """
+    Member docstrings must carry the Table 2.53 attribute Notes verbatim (Rule 0001.4/0012).
+
+    Test Steps:
+    1. Assert each getter/setter docstring contains the full spec Note sentence
+       that paraphrases are known to drop.
+    """
+    notes = {
+        "addAnnotation": "Possibility to provide additional notes while defining a model element (e.g. the ECU Configuration Parameter Values).",
+        "getAnnotations": "Possibility to provide additional notes while defining a model element (e.g. the ECU Configuration Parameter Values).",
+        "getDefinitionRef": "Reference to the definition of this EcucAbstractReferenceValue subclasses in the ECU Configuration Parameter Definition.",
+        "setDefinitionRef": "Reference to the definition of this EcucAbstractReferenceValue subclasses in the ECU Configuration Parameter Definition.",
+        "getIsAutoValue": 'If isAutoValue is not present the default is "false".',
+        "setIsAutoValue": 'If isAutoValue is not present the default is "false".',
+    }
+    for method_name, note in notes.items():
+        method = getattr(EcucAbstractReferenceValue, method_name)
+        assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
 
 
 def test_ecuc_instance_reference_value():

@@ -81,14 +81,14 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
   - [x] Step 8 — Deviations (none; tracker entry added, stale Textual/Numerical type rows cleared)
   - [x] Step 9 — Verify (9a done: pytest 6936/flake8/ruff/black clean; parity script pass) + confirm (9b) (confirmed 2026-08-23 — marker at ECUCDescriptionTemplate.py; commit e21f504)
 - [ ] EcucAbstractReferenceValue
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite verbatim)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec: line + rows; marker deferred to 9b)
-  - [ ] Step 8 — Deviations (none expected)
+  - [x] Step 1 — Sync members & description from spec (Table 2.53 p.131; markdown line-break artifact repaired in `definition` Note; annotation Note differs from Table 2.49 wording — "a model element (e.g.")
+  - [x] Step 2 — Write model class unit test (Red — setDefinition AttributeError, None no-op + verbatim docstring tests failed first)
+  - [x] Step 3 — Implement model class (Green shape — `definitionRef`/`getDefinitionRef`/`setDefinitionRef` kept with Kind-`ref` Ref suffix per Rule 0001.5, Optional[Boolean] per Table 2.53, PEP 526 annotations, chaining + None guard; none_no_op passes)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite verbatim: class Note, inline __init__ comments incl. Tags tail, getter/setter docstrings; 27 model tests green)
+  - [x] Step 5 — Write reader/writer round-trip test (Red — IS-AUTO-VALUE dropped by reader/writer; renamed accessors AttributeError)
+  - [x] Step 6 — Update parser & writer (Green — readEcucAbstractReferenceValue/writeEcucAbstractReferenceValue: Ref-suffix accessors + IS-AUTO-VALUE read/write added; order aligned DEFINITION-REF, INDEX, ANNOTATIONS, IS-AUTO-VALUE; stale test call sites updated; full suite 6942 green)
+  - [x] Step 7 — Update checklist comment (# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.53, p.131; 5-column rows; marker deferred to 9b)
+  - [x] Step 8 — Deviations recorded (none — tracker type/naming rows fixed & removed; see decisions below)
   - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11
 - [ ] EcucReferenceValue
   - [ ] Step 1 — Sync members & description from spec
@@ -140,6 +140,11 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
 1. Deprecated backward-compat conveniences kept (NOT in Table 2.47): get/setDefinitionRef, get/setModuleDescriptionRef methods + definitionRef/moduleDescriptionRef properties. Spec-named members are canonical; aliases delegate to them; marked [—] (no XML element).
 2. implementationConfigVariant is read via getChildElementOptionalLiteral (value stored as ARLiteral value-form per project convention for enums on this side); field typed Optional[EcucConfigurationVariantEnum].
 3. getContainers sorts the dedicated typed list by short_name per TPS_ECUC_06067 secondary criterion (primary index criterion lives on EcucIndexableValue rows).
+
+### Deviations / decisions (EcucAbstractReferenceValue)
+1. No deviations. Kind-`ref` Ref suffix applied per Rule 0001.5: field `definitionRef`, accessors `getDefinitionRef`/`setDefinitionRef` (an intermediate rename to spec-named `getDefinition`/`setDefinition` was reverted in 9b review — the stamped siblings `EcucParameterValue` and `EcucModuleConfigurationValues` carry that opposite naming convention and are flagged as Rule 0001.5 drift candidates for a future re-sync pass; NOT touched in this session).
+2. `isAutoValue` retyped `ARBoolean` → `Optional[Boolean]` per Table 2.53; None no-op guards on all setters/add.
+3. Reader/writer: `IS-AUTO-VALUE` read/write newly added (present in R23-11 XSD `AUTOSAR_00052.xsd` group ECUC-ABSTRACT-REFERENCE-VALUE; absent from older CP 4.4 XSD); emission/read order aligned DEFINITION-REF (-10), INDEX (-5), ANNOTATIONS (+10), IS-AUTO-VALUE (+20).
 
 ### Deviations / decisions (EcucAddInfoParamValue)
 1. No deviations. Single attr `value` modeled as `Optional[DocumentationBlock]` (Table 2.52: DocumentationBlock 0..1 aggr); setter guards None and chains. Reader/writer reuse the matched `getDocumentationBlock`/`writeDocumentationBlock` pair (Rule 0013.2); `ECUC-ADD-INFO-PARAM-VALUE` dispatch branch added on both sides of `EcucContainerValue.parameterValue`. Tracker: entry added with "No deviations"; stale fixed rows for EcucTextualParamValue/EcucNumericalParamValue removed.
