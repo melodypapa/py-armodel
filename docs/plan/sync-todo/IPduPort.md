@@ -12,17 +12,17 @@ Release: R23-11
 - Boolean / TimeValue — primitive member types, stamped, skipped.
 
 ## Queue (dependency-first)
-1. [ ] IPduPort  (input)
+1. [x] IPduPort  (input) — commit 738043f
 
 ---
 
 ## IPduPort — 9-step sub-checklist
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test (Red)
-- [ ] Step 3 — Implement the model class (Green)
-- [ ] Step 4 — Sync description — wipe & rewrite docstrings verbatim from markdown
-- [ ] Step 5 — Write the reader/writer round-trip test (Red)
-- [ ] Step 6 — Update the parser (reader) & writer
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows; marker deferred)
-- [ ] Step 8 — Deviations ⇒ no `# Spec verified:` stamp
-- [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write `# Spec verified:`
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test (Red)
+- [x] Step 3 — Implement the model class (Green)
+- [x] Step 4 — Sync description — wipe & rewrite docstrings verbatim from markdown
+- [x] Step 5 — Write the reader/writer round-trip test (Red)
+- [x] Step 6 — Update the parser (reader) & writer
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows; marker deferred)
+- [x] Step 8 — Deviations ⇒ no `# Spec verified:` stamp
+- [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write `# Spec verified:`
