@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
-**Goal:** Add full ARXML reader/writer support for the structural `VariationPoint` (package `M2::AUTOSARTemplates::GenericStructure::VariantHandling`), per `docs/requirements/xsd/AUTOSAR_00046.xsd` (authoritative) and `autosar/markdown/AUTOSAR_FO_TPS_GenericStructureTemplate.md` (Tables 7.4–7.6, Section 7.6).
+**Goal:** Add full ARXML reader/writer support for the structural `VariationPoint` (package `M2::AUTOSARTemplates::GenericStructure::VariantHandling`), per `docs/requirements/xsd/AUTOSAR_00046.xsd` (authoritative) and `autosar/R23-11/markdown/AUTOSAR_FO_TPS_GenericStructureTemplate.md` (Tables 7.4–7.6, Section 7.6).
 
 **Architecture:** The `VariationPoint` model class already exists with impl/docstring/test parity, but nothing holds one and neither parser nor writer touches `<VARIATION-POINT>`. We attach an optional `variationPoint` attribute to the `Identifiable` base class (the same central hook that already reads/writes `DESC`, `ADMIN-DATA`, etc. for every Identifiable element), add mixed-content formula support to `ConditionByFormula` (ordered text + inline reference items so round-trips are lossless), then wire reader methods into `readIdentifiable()` and writer methods into `writeIdentifiable()`.
 

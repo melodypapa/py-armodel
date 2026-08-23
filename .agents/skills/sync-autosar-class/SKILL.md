@@ -80,7 +80,7 @@ risks fabricating fields when a referenced class turns out to be missing mid-syn
    This membership gate is distinct from the missing-class resolution gate in
    step 4.
 3. **Locate spec source** for each closure class: markdown first
-   (`grep "Table N.M: K" autosar/markdown/*_TPS_*.md`), then PDF, then mark
+   (`grep "Table N.M: K" autosar/R23-11/markdown/*_TPS_*.md`), then PDF, then mark
    `missing`.
 4. **Resolve missing classes (interactive, batched)**: present one
    `AskUserQuestion` listing every class not in markdown or PDF. Per class, the
@@ -172,9 +172,9 @@ round-trip) certifies a class as reviewed.
 | model test | `tests/test_armodel/models/M2/AUTOSARTemplates/<pkg>/test_<ClassName>.py` → `class Test<ClassName>` — pairs 1:1 with source `<ClassName>.py` (Step 2) |
 | parser test | `tests/test_armodel/parser/test_*.py` → `class Test*` (load with `ARXMLParser`, assert model fields; Step 5) |
 | writer test | `tests/test_armodel/writer/test_*.py` → `class Test*` (set → save → reload round-trip; Step 5) |
-| spec markdown | `grep "Table N.M: <ClassName>" autosar/markdown/AUTOSAR_*_TPS_*.md` — **primary source for all text**: `Note` (→ docstrings), `Attribute`/`Base`, `Table N.M` id, table name (via filename). Covers **both** `CP_TPS` (Classic) and `FO_TPS` (Foundation) |
-| spec PDF | `autosar/pdf/AUTOSAR_*_TPS_*.pdf` — **opened only to read the page number** (`p.NN`); the markdown carries no page numbers |
-| page-number script | `python .codebuddy/skills/sync-autosar-class/pdf_page.py <ClassName> [--pdf PATH] [--table <N.M>]` — finds `Table N.M: <ClassName>` across `autosar/pdf/` and prints `p.NN` (cached per-PDF index; `--refresh` rescans). Use it in Steps 1/4 whenever the `# Spec:` line needs `p.NN` |
+| spec markdown | `grep "Table N.M: <ClassName>" autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` — **primary source for all text**: `Note` (→ docstrings), `Attribute`/`Base`, `Table N.M` id, table name (via filename). Covers **both** `CP_TPS` (Classic) and `FO_TPS` (Foundation) |
+| spec PDF | `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf` — **opened only to read the page number** (`p.NN`); the markdown carries no page numbers |
+| page-number script | `python .codebuddy/skills/sync-autosar-class/pdf_page.py <ClassName> [--pdf PATH] [--table <N.M>]` — finds `Table N.M: <ClassName>` across `autosar/R23-11/pdf/` and prints `p.NN` (cached per-PDF index; `--refresh` rescans). Use it in Steps 1/4 whenever the `# Spec:` line needs `p.NN` |
 | deviation records | the project deviation tracker (format in *Rule 0014*) |
 | XSD ground truth | `docs/requirements/xsd/` |
 
@@ -235,8 +235,8 @@ as each step finishes (*Rule 0018*).
 ```
 
 **Citation source:** the `# Spec:` table name, `Table N.M` id, and `Note` text come from
-the **markdown** (`autosar/markdown/AUTOSAR_*_TPS_*.md` — covers `CP_TPS` and `FO_TPS`);
-only the `p.NN` **page** is read from the **PDF** (`autosar/pdf/...` — look it up with
+the **markdown** (`autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` — covers `CP_TPS` and `FO_TPS`);
+only the `p.NN` **page** is read from the **PDF** (`autosar/R23-11/pdf/...` — look it up with
 `pdf_page.py <ClassName>`) — the markdown carries no page numbers. In the `# Spec:` line,
 `<Platform>` is `CP` (Classic) or `FO` (Foundation), taken from the spec markdown filename.
 
@@ -343,6 +343,6 @@ detail: *Rule 0002*.
 
 - **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0018*.
 - Coding standards: `docs/development/coding_rules.md`.
-- Spec markdown (primary — source of all text: `Note`, `Table N.M` id, table name): `autosar/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`).
-- Spec PDFs (opened only for the `p.NN` page number): `autosar/pdf/AUTOSAR_*_TPS_*.pdf`.
+- Spec markdown (primary — source of all text: `Note`, `Table N.M` id, table name): `autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`).
+- Spec PDFs (opened only for the `p.NN` page number): `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf`.
 - XSD ground truth: `docs/requirements/xsd/`.

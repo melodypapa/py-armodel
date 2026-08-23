@@ -7,8 +7,8 @@ Self-contained rule reference for syncing any AUTOSAR model class in py-armodel.
   (or `<package>/<ClassName>/__init__.py`)
 - mirrored test: `tests/test_armodel/models/M2/AUTOSARTemplates/<package>/test_<ClassName>.py`
 - spec table: the class's attribute table (markdown
-  `autosar/markdown/AUTOSAR_*_TPS_*.md` (covers `CP_TPS` + `FO_TPS`), derived from PDF
-  `autosar/pdf/AUTOSAR_*_TPS_*.pdf`, XSD `docs/requirements/xsd/`). **All text** —
+  `autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (covers `CP_TPS` + `FO_TPS`), derived from PDF
+  `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf`, XSD `docs/requirements/xsd/`). **All text** —
   `Note`, `Attribute`, `Base`, the `Table N.M` id, and the table name (from the markdown
   filename) — **is read from the markdown**; the **PDF is opened only for the page
   number** (`p.NN`), because the markdown carries no page numbers.
@@ -349,9 +349,9 @@ Step 7. The block's final form (marker present only once 9b has passed):
   `[x]` only when all obligations are complete and verified.
 - Rows in **source order** matching the methods (Rule 0011).
 - The `# Spec:` line names the correct PDF/table/page — the table name and the `Table
-  N.M` id are read from the **markdown** (`autosar/markdown/AUTOSAR_*_TPS_*.md`, `CP_TPS` or
+  N.M` id are read from the **markdown** (`autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md`, `CP_TPS` or
   `FO_TPS`); only the **`p.NN` page number** is read from the **PDF**
-  (`autosar/pdf/AUTOSAR_*_TPS_*.pdf`) — the markdown carries no page numbers. In
+  (`autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf`) — the markdown carries no page numbers. In
   `AUTOSAR_<Platform>_TPS_<Template>.pdf`, `<Platform>` is `CP` (Classic) or `FO`
   (Foundation), from the spec markdown filename. Cite the header-row page
   (where `Class <Name>` first appears), in format `Table X.Y, p.NN`. A class rendered in >1 PDF
@@ -745,10 +745,10 @@ string values (`MEMBER = "member_value"`).
 
 The class-level `Note` lives in the **class docstring**; per-attribute `Note`s live in
 inline `__init__` **comments** and getter/setter docstrings — all copied **verbatim from
-the markdown table** (`autosar/markdown/*.md`), never summarized, paraphrased, or
+the markdown table** (`autosar/R23-11/markdown/*.md`), never summarized, paraphrased, or
 rephrased, and staying synced across AUTOSAR upgrades. **`__init__` has no docstring** —
 do not write the class `Note` into an `__init__` docstring (0012.2.4, 0012.2.5.2). The PDF
-(`autosar/pdf/*.pdf`) is opened **only to read the page number** for the `p.NN` citation;
+(`autosar/R23-11/pdf/*.pdf`) is opened **only to read the page number** for the `p.NN` citation;
 all `Note`/`Attribute`/`Base` text (and the `Table N.M` id) comes from the markdown. Sync
 is **wipe-then-rewrite**: every existing docstring in the file (class, method, member)
 is removed *before* the new spec text is written (0012.2.3), so no stale sentence
@@ -784,7 +784,7 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
 0. **Exception gate:** XSD-only class (no own table)? Stop — no `# Spec:`, no marker,
    `[ ]` rows; record in the tracker. Otherwise continue.
 1. Locate the spec table in the **markdown** (`grep "Table N.M: <ClassName>
-   autosar/markdown/*.md`) — its `Note`/`Attribute`/`Base` text and the `Table N.M` id are
+   autosar/R23-11/markdown/*.md`) — its `Note`/`Attribute`/`Base` text and the `Table N.M` id are
    the extraction source; then read **only the page number** from the **PDF** via `pypdf`
    (matching the printed footer) for the `p.NN` citation.
 2. Add the `# Spec:` citation line (the `# Spec verified:` marker is **not** added here —
@@ -1058,10 +1058,10 @@ user adds is ordered as a member type.
 
 For each class K in the closure:
 
-1. `grep "Table N.M: K" autosar/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`).
+1. `grep "Table N.M: K" autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`).
 2. Found → record `source = markdown`, capture `Table N.M` id, table name, `Note`,
    `Attribute` rows, `Base` column.
-3. Not found in markdown → open `autosar/pdf/AUTOSAR_*_TPS_*.pdf` (search via `pypdf`)
+3. Not found in markdown → open `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf` (search via `pypdf`)
    for K's table.
 4. Found in PDF only → record `source = pdf` and re-extract via the same markdown
    convention; if the PDF is the only carrier, mark `source = pdf-only`.

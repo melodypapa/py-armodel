@@ -27,8 +27,8 @@
 - `.claude/skills/sync-autosar-class/evals/evals.json`
 - `src/armodel/models/M2/AUTOSARTemplates/**/*.py` (citation verification)
 - `tests/test_armodel/models/M2/AUTOSARTemplates/**/*.py` (test-mirror citation verification)
-- `autosar/markdown/AUTOSAR_*_TPS_*.md` (spec citation verification)
-- `autosar/pdf/AUTOSAR_*_TPS_*.pdf` (PDF page-citation verification — opened only to confirm the file exists; the skill itself says only the page number is read from PDFs)
+- `autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (spec citation verification)
+- `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf` (PDF page-citation verification — opened only to confirm the file exists; the skill itself says only the page number is read from PDFs)
 
 **Note on the three sibling copies:** the skill is duplicated across `.claude/`, `.codebuddy/`, and `.agents/` directories. Track A Task 2 confirms they are byte-identical; the evaluation treats `.claude/` as canonical and notes any drift in the other two as a finding.
 
@@ -55,7 +55,7 @@ These are verified facts (read during plan authoring, not assumptions) the tasks
 3. `rules.md` defines `Rule 0001` through `Rule 0016` (contiguous 4-digit IDs), plus sub-rules `0001.1`–`0001.11`, `0002` (no sub-rules), `0003`, `0004` + `0004.1`, `0005`, `0006` + `0006.1`, `0007`–`0016` with `0012.1`/`0012.2`/`0012.3` and `0013.1` and `0016.1`–`0016.6`.
 4. `SKILL.md` references 16 rule IDs in its "Phase 1 — The 9-step workflow" table and inline; the cross-reference density is high enough that a mechanical ID-continuity + broken-link check is worth automating.
 5. The skill cites these worked-example classes by name (must be verified to exist in the codebase during Track A): `ClientServerInterface`, `ParameterInterface`, `NvDataInterface`, `LanguageSpecific`, `LLongName`, `MixedContentForLongName`, `ObdInfoServiceNeeds`, `ObdPidServiceNeeds`, `ObdMonitorServiceNeeds`, `DiagnosticCapabilityElement`, `NmCoordinatorRoleEnum`, `NmNode`, `ExecutableEntityActivationReason`, `SymbolicNameProps`, `ImplementationProps`, `CseCodeType`, `PositiveInteger`, `AREnum`, `ARLiteral`, `ARNumerical`.
-6. The skill cites these spec markdown filenames: `AUTOSAR_CP_TPS_SystemTemplate.md`, `AUTOSAR_CP_TPS_SoftwareComponentTemplate.md`, plus the glob `AUTOSAR_*_TPS_*.md` (covering `CP_TPS` + `FO_TPS`). The repo's `autosar/markdown/` contains 15 files (7 `CP_TPS`, 8 `FO_TPS`) — verified during plan authoring via `LS`.
+6. The skill cites these spec markdown filenames: `AUTOSAR_CP_TPS_SystemTemplate.md`, `AUTOSAR_CP_TPS_SoftwareComponentTemplate.md`, plus the glob `AUTOSAR_*_TPS_*.md` (covering `CP_TPS` + `FO_TPS`). The repo's `autosar/R23-11/markdown/` contains 15 files (7 `CP_TPS`, 8 `FO_TPS`) — verified during plan authoring via `LS`.
 7. The skill cites `Table 6.303` (NmNode) and `Table 6.304` (NmCoordinatorRoleEnum) in eval cases 4 and 5, and `Table 4.7` / `Table 4.9` (LLongName / MixedContentForLongName) in rules.md Rule 0001.3.
 8. `evals/evals.json` contains exactly 5 eval cases with `id` 1–5; each has `prompt`, `expected_output`, and an `expectations` array (5–8 items per case). All five prompts include the sentence "Do NOT modify any source files."
 9. The skill's "stamp is the review gate" section (SKILL.md lines ~91–109) makes a strong claim that **only** the `# Spec verified: R<YY>-<MM>` marker certifies a class — Track A must verify this claim is internally consistent with Rule 0012.1.
@@ -468,7 +468,7 @@ git commit -m "chore(eval): record codebase-citation verification (A-006..A-008)
 
 Run:
 ```
-LS path="/Users/ray/Workspace/py-armodel/autosar/markdown"
+LS path="/Users/ray/Workspace/py-armodel/autosar/R23-11/markdown"
 ```
 Expected: 15 files (7 `CP_TPS`, 8 `FO_TPS`). The skill claims the glob `AUTOSAR_*_TPS_*.md` "covers `CP_TPS` + `FO_TPS`" — confirm both prefixes are present.
 
@@ -476,7 +476,7 @@ Expected: 15 files (7 `CP_TPS`, 8 `FO_TPS`). The skill claims the glob `AUTOSAR_
 
 Run:
 ```
-LS path="/Users/ray/Workspace/py-armodel/autosar/pdf"
+LS path="/Users/ray/Workspace/py-armodel/autosar/R23-11/pdf"
 ```
 Expected: PDF files mirroring the markdown set. The skill says PDFs are "opened only to read the page number" — confirm at least the PDFs referenced by the evals (`AUTOSAR_CP_TPS_SystemTemplate.pdf` for NmNode Table 6.303 and NmCoordinatorRoleEnum Table 6.304) exist.
 
@@ -493,10 +493,10 @@ Expected: at least one `.xsd` file. The skill references `docs/requirements/xsd/
 Run (one `Grep` per cited table):
 
 ```
-Grep pattern="Table 6.303: NmNode" path="autosar/markdown/AUTOSAR_CP_TPS_SystemTemplate.md"
-Grep pattern="Table 6.304: NmCoordinatorRoleEnum" path="autosar/markdown/AUTOSAR_CP_TPS_SystemTemplate.md"
-Grep pattern="Table 4.7: LLongName" path="autosar/markdown"
-Grep pattern="Table 4.9: MixedContentForLongName" path="autosar/markdown"
+Grep pattern="Table 6.303: NmNode" path="autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md"
+Grep pattern="Table 6.304: NmCoordinatorRoleEnum" path="autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md"
+Grep pattern="Table 4.7: LLongName" path="autosar/R23-11/markdown"
+Grep pattern="Table 4.9: MixedContentForLongName" path="autosar/R23-11/markdown"
 ```
 Expected: each returns one matching line. If a cited table cannot be found by that exact header text, the skill's citation is inaccurate — record as finding `A-011`.
 
@@ -527,7 +527,7 @@ Append to `reports/skill-eval/track-a-static.md`:
 
 | Check | Result |
 |---|---|
-| `autosar/markdown/` file count | <N> |
+| `autosar/R23-11/markdown/` file count | <N> |
 | `CP_TPS` files present | <list or NONE> |
 | `FO_TPS` files present | <list or NONE> |
 
@@ -896,7 +896,7 @@ confirmation. Repo root: /Users/ray/Workspace/py-armodel.
 CONSTRAINTS:
 - Do NOT modify, create, or delete any file under src/armodel/ or tests/.
 - You MAY read any file in the repo (including the current NmCoordinatorRoleEnum source
-  and the spec markdown at autosar/markdown/AUTOSAR_CP_TPS_SystemTemplate.md).
+  and the spec markdown at autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md).
 - Follow Rule 0006.1 precisely. The confirmation must cover every automation-blind item
   for an enum (Rule 0011 member sync, Rule 0012 docstring verbatim from markdown, member
   order, stamp decision). End by asking the user to confirm before stamping.
@@ -973,7 +973,7 @@ py-armodel: Steps 1 through 9a are complete and all automated checks (pytest, fl
 ruff, black-check, set-based checklist script, round-trip) pass. Now perform Step 9b:
 present the post-sync rule-compliance confirmation for NmNode against its spec table.
 The current source is src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py
-and the spec markdown is autosar/markdown/AUTOSAR_CP_TPS_SystemTemplate.md (Table 6.303).
+and the spec markdown is autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md (Table 6.303).
 Do NOT modify any source files; just produce the confirmation.
 Repo root: /Users/ray/Workspace/py-armodel.
 

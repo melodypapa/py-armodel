@@ -11,7 +11,7 @@ Throughout this document, `ClassName` denotes the class under check, with:
   (or `<package>/<ClassName>/__init__.py` for package-style modules)
 - mirrored test file: `tests/test_armodel/models/M2/AUTOSARTemplates/<package>/test_<ClassName>.py`
 - spec table: the class's attribute table in the corresponding AUTOSAR PDF
-  (markdown sources under `autosar/markdown/`, XSD under
+  (markdown sources under `autosar/R23-11/markdown/`, XSD under
   `autosar-pdf/examples/xsd/`)
 
 The rules are grouped into themed sections. Each rule keeps its original
@@ -1329,11 +1329,11 @@ class MyEnum(AREnum):
     WRITES = "writes"
 ```
 
-Verification: search the AUTOSAR markdown (`autosar/markdown/*.md`) for the
+Verification: search the AUTOSAR markdown (`autosar/R23-11/markdown/*.md`) for the
 enum's spec table. Compare the literal rows (Literal column) 1:1 with the enum
 members defined in Python code:
 ```bash
-grep -A 10 "^Table.*: <EnumName>" autosar/markdown/AUTOSAR*.md
+grep -A 10 "^Table.*: <EnumName>" autosar/R23-11/markdown/AUTOSAR*.md
 ```
 
 If there is a mismatch (extra members, missing members, wrong values, or
@@ -2387,7 +2387,7 @@ vs. getter vs. setter) and a fix to one does not propagate to the others.
       table; attributes from XSD group `…`" in the deviation tracker instead.
       Otherwise, continue.
 - [ ] **Step 1 — Locate the spec table and its page number.**
-      Search `autosar/markdown/AUTOSAR_CP_TPS_*.md` for `Table <N>.<M>:
+      Search `autosar/R23-11/markdown/AUTOSAR_CP_TPS_*.md` for `Table <N>.<M>:
       <ClassName>` (markdown extracted from the PDF — this is the reference
       source, never a loose paraphrase). Get the **exact page number** for
       the `# Spec:` marker: either reuse the page cited by a sibling class in
@@ -2549,7 +2549,7 @@ against the new PDF revision instead of an assumed-blank starting point:
          Spec table notes:
          - Class note: "..."
          - attribute1: "..."
-         Verified against autosar/markdown/AUTOSAR_CP_TPS_*.md
+         Verified against autosar/R23-11/markdown/AUTOSAR_CP_TPS_*.md
          ```
 
 ### 13.4 Rationale
@@ -2675,7 +2675,7 @@ Verification:
 
 ## Reference
 
-- Spec sources: `autosar/markdown/*.md` (PDF-derived class tables)
+- Spec sources: `autosar/R23-11/markdown/*.md` (PDF-derived class tables)
 - XSD ground truth: `autosar-pdf/examples/xsd/AUTOSAR_00052.xsd`
 - Deviation tracker: `docs/method_deviation_by_class.md`
 - General coding standards: `docs/development/coding_rules.md`

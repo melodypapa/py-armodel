@@ -1,7 +1,7 @@
 # Method/Attribute Deviations by Class (v2)
 
 Regenerated from the markdown class attribute tables of all 15 AUTOSAR spec
-pairs (`autosar/markdown/*.md`, mirroring the R23-11 PDF attribute tables) against
+pairs (`autosar/R23-11/markdown/*.md`, mirroring the R23-11 PDF attribute tables) against
 the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>`
 are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IRef`/
 `Refs`) is appended to the member name and recognised in matching. `variationPoint`/
