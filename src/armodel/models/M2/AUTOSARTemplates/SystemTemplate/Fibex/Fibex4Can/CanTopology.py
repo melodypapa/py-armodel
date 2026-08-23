@@ -936,13 +936,14 @@ class CanCommunicationController(AbstractCanCommunicationController):
 
 class AbstractCanCommunicationConnector(CommunicationConnector, ABC):
     """
-    Abstract base class for CAN communication connectors, providing
-    the foundation for connecting CAN controllers to communication
-    channels and network segments.
+    Abstract class that is used to collect the common TtCAN and CAN CommunicationConnector attributes.
     """
 
     # AbstractCanCommunicationConnector method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.22, p.73
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # (no own attributes; reader/writer coverage via CAN-COMMUNICATION-CONNECTOR dispatch of subclasses)
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractCanCommunicationConnector:
