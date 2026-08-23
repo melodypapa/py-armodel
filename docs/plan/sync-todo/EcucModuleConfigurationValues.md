@@ -80,7 +80,7 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
   - [x] Step 7 — Update checklist comment (# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.52, p.129; marker deferred to 9b)
   - [x] Step 8 — Deviations (none; tracker entry added, stale Textual/Numerical type rows cleared)
   - [x] Step 9 — Verify (9a done: pytest 6936/flake8/ruff/black clean; parity script pass) + confirm (9b) (confirmed 2026-08-23 — marker at ECUCDescriptionTemplate.py; commit e21f504)
-- [ ] EcucAbstractReferenceValue
+- [x] EcucAbstractReferenceValue (0c65ebd)
   - [x] Step 1 — Sync members & description from spec (Table 2.53 p.131; markdown line-break artifact repaired in `definition` Note; annotation Note differs from Table 2.49 wording — "a model element (e.g.")
   - [x] Step 2 — Write model class unit test (Red — setDefinition AttributeError, None no-op + verbatim docstring tests failed first)
   - [x] Step 3 — Implement model class (Green shape — `definitionRef`/`getDefinitionRef`/`setDefinitionRef` kept with Kind-`ref` Ref suffix per Rule 0001.5, Optional[Boolean] per Table 2.53, PEP 526 annotations, chaining + None guard; none_no_op passes)
@@ -89,7 +89,7 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
   - [x] Step 6 — Update parser & writer (Green — readEcucAbstractReferenceValue/writeEcucAbstractReferenceValue: Ref-suffix accessors + IS-AUTO-VALUE read/write added; order aligned DEFINITION-REF, INDEX, ANNOTATIONS, IS-AUTO-VALUE; stale test call sites updated; full suite 6942 green)
   - [x] Step 7 — Update checklist comment (# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.53, p.131; 5-column rows; marker deferred to 9b)
   - [x] Step 8 — Deviations recorded (none — tracker type/naming rows fixed & removed; see decisions below)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11
+  - [x] Step 9 — Verify (9a done: pytest 6942/flake8/ruff/black clean; parity no new gaps) + confirm (9b) (confirmed 2026-08-23 — Ref-suffix correction applied in review; marker at ECUCDescriptionTemplate.py:253; commit 0c65ebd)
 - [ ] EcucReferenceValue
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
