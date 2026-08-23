@@ -383,7 +383,6 @@ class TestWriteCanTpChannel:
         pkg = _pkg()
         ch = CanTpChannel(pkg, "Ch")
         ch.setChannelId(_pos_int("1"))
-        ch.setChannelMode(_literal("FULL-DUPLEX"))
         parent = _parent()
         writer.writeCanTpChannel(parent, ch)
         assert len(parent) == 1
@@ -391,7 +390,36 @@ class TestWriteCanTpChannel:
         assert child.tag == "CAN-TP-CHANNEL"
         assert child.find("SHORT-NAME").text == "Ch"
         assert child.find("CHANNEL-ID").text == "1"
-        assert child.find("CHANNEL-MODE").text == "FULL-DUPLEX"
+        assert child.find("CHANNEL-MODE") is None
+
+    def test_roundtrip_can_tp_channel_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        ch = CanTpChannel(pkg, "Ch")
+        ch.setChannelId(_pos_int("7"))
+        parent = _parent()
+        writer.writeCanTpChannel(parent, ch)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpChannel(pkg, "Ch2")
+        parser.readCanTpChannel(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getChannelId().getValue() == 7
+
+    def test_roundtrip_can_tp_channel_empty_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        ch = CanTpChannel(pkg, "Ch")
+        parent = _parent()
+        writer.writeCanTpChannel(parent, ch)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpChannel(pkg, "Ch2")
+        parser.readCanTpChannel(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getChannelId() is None
 
 
 class TestWriteCanTpConfigTpChannels:

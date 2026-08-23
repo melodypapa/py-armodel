@@ -7096,7 +7096,6 @@ class ARXMLParser(AbstractARXMLParser):
     def readCanTpChannel(self, element: ET.Element, channel: CanTpChannel):
         self.readIdentifiable(element, channel)
         channel.setChannelId(self.getChildElementOptionalPositiveInteger(element, "CHANNEL-ID"))
-        channel.setChannelMode(self.getChildElementOptionalLiteral(element, "CHANNEL-MODE"))
 
     def readCanTpConfigTpChannels(self, element: ET.Element, config: CanTpConfig):
         for child_element in self.findall(element, "TP-CHANNELS/*"):

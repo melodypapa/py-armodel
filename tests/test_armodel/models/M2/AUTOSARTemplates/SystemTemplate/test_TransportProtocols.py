@@ -2,7 +2,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIp import AbstractDoIpLogicAddressProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
@@ -68,23 +68,23 @@ class Test_TransportProtocols:
         assert address == address.setTpAddressExtensionValue(None)
         assert address.getTpAddressExtensionValue().getValue() == 6
 
-    def test_CanTpChannel(self):
-        """Test CanTpChannel class functionality."""
+    def test_CanTpChannel_initialization(self):
+        """Test CanTpChannel default state (Table 6.252)."""
         parent = MockParent()
-        channel = CanTpChannel(parent, "test_can_tp_channel")
+        channel = CanTpChannel(parent, "CanTpChannel")
 
         assert isinstance(channel, Identifiable)
-
-        # Test default values
         assert channel.getChannelId() is None
-        assert channel.getChannelMode() is None
 
-        # Test setter/getter methods
-        channel.setChannelId(1)
-        assert channel.getChannelId() == 1
+    def test_CanTpChannel_get_set_channelId(self):
+        """Test channelId getter/setter with None no-op (Table 6.252)."""
+        parent = MockParent()
+        channel = CanTpChannel(parent, "CanTpChannel")
 
-        channel.setChannelMode("normal")
-        assert channel.getChannelMode() == "normal"
+        assert channel == channel.setChannelId(PositiveInteger().setValue(1))
+        assert channel.getChannelId().getValue() == 1
+        assert channel == channel.setChannelId(None)
+        assert channel.getChannelId().getValue() == 1
 
     def test_TpConnectionIdent(self):
         """Test TpConnectionIdent class functionality."""

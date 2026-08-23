@@ -459,4 +459,40 @@ class TestCanTpAddressHandler:
         assert len(config.getTpAddresses()) == 0
 
 
+# ==================== CanTpChannel (Table 6.252) ====================
+
+
+class TestCanTpChannelHandler:
+    def test_readCanTpConfigTpChannels_creates_channel(self, parser):
+        from armodel.models import CanTpConfig
+
+        config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
+        element = _snip(
+            "<TP-CHANNELS>" "<CAN-TP-CHANNEL>" "<SHORT-NAME>channel</SHORT-NAME>" "<CHANNEL-ID>1</CHANNEL-ID>" "</CAN-TP-CHANNEL>" "</TP-CHANNELS>",
+        )
+        parser.readCanTpConfigTpChannels(element, config)
+        channels = config.getTpChannels()
+        assert len(channels) == 1
+        assert channels[0].getShortName() == "channel"
+        assert channels[0].getChannelId().getValue() == 1
+
+    def test_readCanTpChannel_without_optional_fields(self, parser):
+        from armodel.models import CanTpChannel, CanTpConfig
+
+        config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
+        channel = CanTpChannel(parent=config, short_name="channel")
+        element = _snip("<SHORT-NAME>channel</SHORT-NAME>", root_tag="CAN-TP-CHANNEL")
+        parser.readCanTpChannel(element, channel)
+        assert channel.getShortName() == "channel"
+        assert channel.getChannelId() is None
+
+    def test_readCanTpConfigTpChannels_empty(self, parser):
+        from armodel.models import CanTpConfig
+
+        config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
+        element = _snip("<TP-CHANNELS></TP-CHANNELS>")
+        parser.readCanTpConfigTpChannels(element, config)
+        assert len(config.getTpChannels()) == 0
+
+
 # ==================== BufferProperties (L4311-4313) ====================

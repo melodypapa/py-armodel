@@ -102,37 +102,33 @@ class CanTpAddress(Identifiable):
 
 class CanTpChannel(Identifiable):
     """
-    Represents a CAN transport protocol channel in the system,
-    defining the channel ID and channel mode for CAN TP communication.
+    Configuration parameters of the CanTp channel.
     """
 
     # CanTpChannel method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getChannelId                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setChannelId                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getChannelMode               [x] impl  [ ] docstring  [ ] test
-    # [ ] setChannelMode               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.252, p.608
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getChannelId    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setChannelId    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.channelId: PositiveInteger = None
-        self.channelMode = None
+        # The id of the channel. The value shall be unique for each channel.
+        self.channelId: Optional[PositiveInteger] = None
 
-    def getChannelId(self):
+    def getChannelId(self) -> Optional[PositiveInteger]:
+        """The id of the channel. The value shall be unique for each channel."""
         return self.channelId
 
-    def setChannelId(self, value):
+    def setChannelId(self, value: Optional[PositiveInteger]) -> "CanTpChannel":
+        """
+        The id of the channel. The value shall be unique for each channel.
+        A None value is a no-op and does not overwrite an existing channelId.
+        """
         if value is not None:
             self.channelId = value
-        return self
-
-    def getChannelMode(self):
-        return self.channelMode
-
-    def setChannelMode(self, value):
-        if value is not None:
-            self.channelMode = value
         return self
 
 

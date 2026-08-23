@@ -104,23 +104,15 @@ class TestTransportProtocols:
 
         # Test default values
         assert channel.getChannelId() is None
-        assert channel.getChannelMode() is None
 
         # Test setter/getter methods with method chaining - with None values
         assert channel == channel.setChannelId(None)
         assert channel.getChannelId() is None
 
-        assert channel == channel.setChannelMode(None)
-        assert channel.getChannelMode() is None
-
         # Test setter/getter methods with method chaining - with actual values
         channel.setChannelId(1)
         assert channel.getChannelId() == 1
         assert channel == channel.setChannelId(1)
-
-        channel.setChannelMode("normal")
-        assert channel.getChannelMode() == "normal"
-        assert channel == channel.setChannelMode("normal")
 
     def test_tp_connection_ident(self):
         """

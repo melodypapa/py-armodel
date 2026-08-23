@@ -6138,7 +6138,6 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "CAN-TP-CHANNEL")
             self.writeIdentifiable(child_element, channel)
             self.setChildElementOptionalPositiveInteger(child_element, "CHANNEL-ID", channel.getChannelId())
-            self.setChildElementOptionalLiteral(child_element, "CHANNEL-MODE", channel.getChannelMode())
 
     def writeCanTpConfigTpChannels(self, element: ET.Element, config: CanTpConfig):
         channels = config.getTpChannels()
