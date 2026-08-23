@@ -176,6 +176,7 @@ class NetworkTargetAddressType(AREnum):
 
     # NetworkTargetAddressType method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.258, p.611
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods)
 
