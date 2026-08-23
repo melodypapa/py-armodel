@@ -28,15 +28,15 @@ Spec source for all rows unless noted: `autosar/markdown/AUTOSAR_CP_TPS_Software
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] ValueGroup (member · markdown · Table 5.126 · pulled by SwValues.vg · absent from codebase — create in `MSR/CalibrationData/CalibrationValue.py`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] ValueGroup (member · markdown · Table 5.126 · pulled by SwValues.vg · absent from codebase — create in `MSR/CalibrationData/CalibrationValue.py`) · commit fc3d99da
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] ValueList (member · markdown · Table 5.127 · pulled by RuleBasedAxisCont.swArraysize · exists unstamped in `MSR/DataDictionary/DataDefProperties.py` — current `getVfs()` sorts but spec marks `vf (ordered)`; verify against spec)
   - [ ] Step 1 — Sync members & description from spec
