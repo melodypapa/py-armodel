@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import (
     BindingTimeEnum,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARNumerical,
     Identifier,
@@ -62,6 +63,8 @@ def test_sw_systemconstant_value_set_add_and_get_values():
 
     assert result is value_set
     assert value_set.getSwSystemconstantValues() == [value]
+    # Spec Table 7.25: Base is ARElement (most-derived)
+    assert isinstance(value_set, ARElement)
 
 
 def test_predefined_variant_initial_state_and_adders():
@@ -82,6 +85,8 @@ def test_predefined_variant_initial_state_and_adders():
     assert result_included is variant
     assert result_post_build is variant
     assert result_systemconstant is variant
+    # Spec Table 7.24: Base is ARElement (most-derived)
+    assert isinstance(variant, ARElement)
 
 
 def test_predefined_variant_adders_ignore_none():

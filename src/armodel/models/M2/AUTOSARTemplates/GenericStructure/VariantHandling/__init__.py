@@ -1,5 +1,5 @@
 from typing import List, Optional
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, ARElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, ARNumerical, Identifier, Integer
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
@@ -150,57 +150,72 @@ class PostBuildVariantCriterionValue(ARObject):
         return self
 
 
-class PredefinedVariant(Identifiable):
+class PredefinedVariant(ARElement):
     """
-    This specifies one predefined variant.
-
-    It is characterized by the union of all system constant values and
-    post-build variant criterion values aggregated within all referenced
-    system constant value sets and post-build variant criterion value sets,
-    plus the value sets of the included variants.
-
-    Package: M2::AUTOSARTemplates::GenericStructure::VariantHandling
-    Base: ARElement, ARObject, CollectableElement, Identifiable,
-        MultilanguageReferrable, PackageableElement, Referrable
-    Tags: atp.recommendedPackage=PredefinedVariants
+    This specifies one predefined variant. It is characterized by the union of all system constant values and post-build variant criterion values aggregated within all referenced system constant value sets and post build variant criterion value sets plus the value sets of the included variants. Tags: atp.recommendedPackage=PredefinedVariants
     """
 
     # PredefinedVariant method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIncludedVariantRefs       [x] impl  [ ] docstring  [ ] test
-    # [ ] addIncludedVariantRef        [x] impl  [ ] docstring  [ ] test
-    # [ ] getPostBuildVariantCriterionValueSetRefs [x] impl  [ ] docstring  [ ] test
-    # [ ] addPostBuildVariantCriterionValueSetRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwSystemconstantValueSetRefs [x] impl  [ ] docstring  [ ] test
-    # [ ] addSwSystemconstantValueSetRef [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.24, p.258
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getIncludedVariantRefs                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addIncludedVariantRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPostBuildVariantCriterionValueSetRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addPostBuildVariantCriterionValueSetRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwSystemconstantValueSetRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addSwSystemconstantValueSetRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
+        # The associated variants are considered part of this PredefinedVariant. This means the settings of the included variants are included in the settings of the referencing PredefinedVariant. Nevertheless the included variants might be included in several predefined variants.
         self.includedVariantRefs: List[RefType] = []
+
+        # This is the postBuildVariantCriterionValueSet contributing to the predefinded variant.
         self.postBuildVariantCriterionValueSetRefs: List[RefType] = []
+
+        # This ist the set of Systemconstant Values contributing to the predefined variant.
         self.swSystemconstantValueSetRefs: List[RefType] = []
 
     def getIncludedVariantRefs(self) -> List[RefType]:
+        """
+        The associated variants are considered part of this PredefinedVariant. This means the settings of the included variants are included in the settings of the referencing PredefinedVariant. Nevertheless the included variants might be included in several predefined variants.
+        """
         return self.includedVariantRefs
 
-    def addIncludedVariantRef(self, value: RefType):
+    def addIncludedVariantRef(self, value: Optional[RefType]) -> "PredefinedVariant":
+        """
+        The associated variants are considered part of this PredefinedVariant. This means the settings of the included variants are included in the settings of the referencing PredefinedVariant. Nevertheless the included variants might be included in several predefined variants.
+        """
         if value is not None:
             self.includedVariantRefs.append(value)
         return self
 
     def getPostBuildVariantCriterionValueSetRefs(self) -> List[RefType]:
+        """
+        This is the postBuildVariantCriterionValueSet contributing to the predefinded variant.
+        """
         return self.postBuildVariantCriterionValueSetRefs
 
-    def addPostBuildVariantCriterionValueSetRef(self, value: RefType):
+    def addPostBuildVariantCriterionValueSetRef(self, value: Optional[RefType]) -> "PredefinedVariant":
+        """
+        This is the postBuildVariantCriterionValueSet contributing to the predefinded variant.
+        """
         if value is not None:
             self.postBuildVariantCriterionValueSetRefs.append(value)
         return self
 
     def getSwSystemconstantValueSetRefs(self) -> List[RefType]:
+        """
+        This ist the set of Systemconstant Values contributing to the predefined variant.
+        """
         return self.swSystemconstantValueSetRefs
 
-    def addSwSystemconstantValueSetRef(self, value: RefType):
+    def addSwSystemconstantValueSetRef(self, value: Optional[RefType]) -> "PredefinedVariant":
+        """
+        This ist the set of Systemconstant Values contributing to the predefined variant.
+        """
         if value is not None:
             self.swSystemconstantValueSetRefs.append(value)
         return self
@@ -272,28 +287,27 @@ class SwSystemconstValue(ARObject):
         return self
 
 
-class SwSystemconstantValueSet(Identifiable):
+class SwSystemconstantValueSet(ARElement):
     """
-    This meta-class represents the ability to specify a set of system constant values.
-    Tags: atp.recommendedPackage=SwSystemconstantValueSets
+    This meta-class represents the ability to specify a set of system constant values. Tags: atp.recommendedPackage=SwSystemconstantValueSets
     """
 
     # SwSystemconstantValueSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addSwSystemconstantValue     [x] impl  [x] docstring  [ ] test
-    # [ ] getSwSystemconstantValues    [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 7.25, p.258
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addSwSystemconstantValue    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSwSystemconstantValues   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
+        # This is one particular value of a system constant.
         self.swSystemconstantValues: List[SwSystemconstValue] = []
 
-    def addSwSystemconstantValue(self, value: SwSystemconstValue):
+    def addSwSystemconstantValue(self, value: Optional[SwSystemconstValue]) -> "SwSystemconstantValueSet":
         """
-        Adds a system constant value to the set.
-
-        Args:
-            value (SwSystemconstValue): The system constant value to add.
+        This is one particular value of a system constant.
         """
         if value is not None:
             self.swSystemconstantValues.append(value)
@@ -301,10 +315,7 @@ class SwSystemconstantValueSet(Identifiable):
 
     def getSwSystemconstantValues(self) -> List[SwSystemconstValue]:
         """
-        Returns the list of system constant values in the set.
-
-        Returns:
-            List[SwSystemconstValue]: The list of system constant values.
+        This is one particular value of a system constant.
         """
         return self.swSystemconstantValues
 
