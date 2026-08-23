@@ -78,7 +78,7 @@ Spec source for all rows unless noted: `autosar/markdown/AUTOSAR_CP_TPS_Software
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [x] SwValues (input · markdown · Table 5.125 · `MSR/CalibrationData/CalibrationValue.py`)
+- [x] SwValues (input · markdown · Table 5.125 · `MSR/CalibrationData/CalibrationValue.py`) · commit b179b617
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
