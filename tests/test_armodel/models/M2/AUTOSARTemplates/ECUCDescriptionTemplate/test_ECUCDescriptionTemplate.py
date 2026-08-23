@@ -20,6 +20,9 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConf
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, CIdentifier, Limit, Numerical, RefType, RevisionLabelString, VerbatimString
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
 
 
 def test_ecuc_value_collection():
@@ -144,21 +147,75 @@ def test_ecuc_parameter_value_methods():
 
 def test_ecuc_add_info_param_value():
     """
-    Test EcucAddInfoParamValue class.
+    Test EcucAddInfoParamValue class - full spec compliance per Table 2.52.
 
     Test Steps:
     1. Create an EcucAddInfoParamValue instance
-    2. Test value getter and setter
+    2. Test initial values
+    3. Test value methods (spec type: DocumentationBlock)
+    4. Verify method chaining
+    5. Verify class docstring contains the spec Note verbatim
     """
     param_value = EcucAddInfoParamValue()
 
-    # Test initial value
+    # Test initial values (inherited from EcucParameterValue + own attribute)
+    assert param_value.annotations == []
+    assert param_value.definition is None
+    assert param_value.isAutoValue is None
     assert param_value.value is None
 
-    # Test value methods
-    doc_block = "test_doc_block"
-    param_value.setValue(doc_block)
+    # Test value methods (spec type: DocumentationBlock)
+    doc_block = DocumentationBlock()
+    para = MultiLanguageParagraph()
+    l1 = LLongName()
+    l1.l = "en"
+    l1.value = "Description of the Dtc 0815."
+    para.addL1(l1)
+    doc_block.addP(para)
+    result = param_value.setValue(doc_block)
+    assert result is param_value  # Method chaining
+    assert isinstance(param_value.getValue(), DocumentationBlock)
     assert param_value.getValue() == doc_block
+
+    # Verify docstrings match spec (Rule 0012)
+    assert EcucAddInfoParamValue.__doc__ is not None, "Class docstring must contain spec Note"
+    assert "This parameter corresponds to EcucAddInfoParamDef." in EcucAddInfoParamValue.__doc__, "Class docstring must contain spec Note verbatim"
+
+
+def test_ecuc_add_info_param_value_none_no_op():
+    """
+    None passed to the 0..1 setter of EcucAddInfoParamValue is a no-op.
+
+    Test Steps:
+    1. Create an EcucAddInfoParamValue instance
+    2. Set the spec value on the 0..1 attribute
+    3. Call the setter with None and verify the value is preserved
+    """
+    param_value = EcucAddInfoParamValue()
+    doc_block = DocumentationBlock()
+
+    assert param_value.setValue(doc_block) is param_value
+
+    param_value.setValue(None)
+
+    assert param_value.getValue() == doc_block
+
+
+def test_ecuc_add_info_param_value_member_docstrings_verbatim():
+    """
+    Member docstrings must carry the Table 2.52 attribute Notes verbatim (Rule 0001.4/0012).
+
+    Test Steps:
+    1. Assert each getter/setter docstring contains the full spec Note sentence
+       that paraphrases are known to drop.
+    """
+    notes = {
+        "getValue": "Holds the content of the formated text.",
+        "setValue": "Holds the content of the formated text.",
+    }
+    for method_name, note in notes.items():
+        method = getattr(EcucAddInfoParamValue, method_name)
+        assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
 
 
 def test_ecuc_textual_param_value():
@@ -677,6 +734,8 @@ if __name__ == "__main__":
     test_ecuc_parameter_value_abstract()
     test_ecuc_parameter_value_methods()
     test_ecuc_add_info_param_value()
+    test_ecuc_add_info_param_value_none_no_op()
+    test_ecuc_add_info_param_value_member_docstrings_verbatim()
     test_ecuc_textual_param_value()
     test_ecuc_numerical_param_value()
     test_ecuc_numerical_param_value_none_no_op()

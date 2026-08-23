@@ -972,6 +972,82 @@ class TestGetEcucNumericalParamValue:
         assert param_value.getValue() is None
 
 
+class TestGetEcucAddInfoParamValue:
+    """Tests for getEcucAddInfoParamValue handler (Table 2.52)."""
+
+    def test_reads_value_as_documentation_block(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+            EcucAddInfoParamValue,
+        )
+        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <DEFINITION-REF DEST="ECUC-ADD-INFO-PARAM-DEF">/EcucDefs/Dcm/Dtc</DEFINITION-REF>
+            <VALUE>
+                <P>
+                    <L-1 L="EN">Description of the Dtc 0815.</L-1>
+                </P>
+            </VALUE>
+            """,
+            root_tag="ECUC-ADD-INFO-PARAM-VALUE",
+        )
+        param_value = parser.getEcucAddInfoParamValue(element)
+        assert isinstance(param_value, EcucAddInfoParamValue)
+        assert param_value.getDefinition() is not None
+        assert param_value.getDefinition().getValue() == "/EcucDefs/Dcm/Dtc"
+        assert isinstance(param_value.getValue(), DocumentationBlock)
+        ps = param_value.getValue().getPs()
+        assert len(ps) == 1
+        l1s = ps[0].getL1s()
+        assert len(l1s) == 1
+        assert l1s[0].getValue() == "Description of the Dtc 0815."
+
+    def test_empty_element_leaves_value_unset(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip("", root_tag="ECUC-ADD-INFO-PARAM-VALUE")
+        param_value = parser.getEcucAddInfoParamValue(element)
+        assert param_value.getValue() is None
+
+
+class TestReadEcucContainerValueParameterValues:
+    """Tests for readEcucContainerValueParameterValues dispatch (Table 2.48 parameterValue)."""
+
+    def test_dispatches_add_info_param_value(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+            EcucAddInfoParamValue,
+        )
+        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = _make_container_value("MyContainer")
+        element = _snip(
+            """
+            <PARAMETER-VALUES>
+                <ECUC-ADD-INFO-PARAM-VALUE>
+                    <DEFINITION-REF DEST="ECUC-ADD-INFO-PARAM-DEF">/Path/ToAddInfoDef</DEFINITION-REF>
+                    <VALUE>
+                        <P>
+                            <L-1 L="EN">Formatted text content.</L-1>
+                        </P>
+                    </VALUE>
+                </ECUC-ADD-INFO-PARAM-VALUE>
+            </PARAMETER-VALUES>
+            """,
+            root_tag="ECUC-CONTAINER-VALUE",
+        )
+        parser.readEcucContainerValueParameterValues(element, container)
+        params = container.getParameterValues()
+        assert len(params) == 1
+        assert isinstance(params[0], EcucAddInfoParamValue)
+        assert params[0].getDefinition().getValue() == "/Path/ToAddInfoDef"
+        assert isinstance(params[0].getValue(), DocumentationBlock)
+        ps = params[0].getValue().getPs()
+        assert len(ps) == 1
+        assert ps[0].getL1s()[0].getValue() == "Formatted text content."
+
+
 class TestReadEcucContainerValueReferenceValues:
     """Tests for readEcucContainerValueReferenceValues (L5133-5141)."""
 

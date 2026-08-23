@@ -148,6 +148,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucAbstractReferenceValue,
+    EcucAddInfoParamValue,
     EcucContainerValue,
     EcucInstanceReferenceValue,
     EcucModuleConfigurationValues,
@@ -8301,6 +8302,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeEcucParameterValue(child_element, param_value)
         self.setChildElementOptionalNumerical(child_element, "VALUE", param_value.getValue())
 
+    def setEcucAddInfoParamValue(self, element: ET.Element, param_value: EcucAddInfoParamValue):
+        child_element = ET.SubElement(element, "ECUC-ADD-INFO-PARAM-VALUE")
+        self.writeEcucParameterValue(child_element, param_value)
+        self.writeDocumentationBlock(child_element, "VALUE", param_value.getValue())
+
     def writeEcucContainerValueParameterValues(self, element: ET.Element, container_value: EcucContainerValue):
         param_values = container_value.getParameterValues()
         if len(param_values) > 0:
@@ -8310,6 +8316,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setEcucTextualParamValue(child_element, param_value)
                 elif isinstance(param_value, EcucNumericalParamValue):
                     self.setEcucNumericalParamValue(child_element, param_value)
+                elif isinstance(param_value, EcucAddInfoParamValue):
+                    self.setEcucAddInfoParamValue(child_element, param_value)
                 else:
                     self.notImplemented("Unsupported EcucParameterValue <%s>" % type(param_value))
 

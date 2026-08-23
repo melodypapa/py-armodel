@@ -683,23 +683,26 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `docRevision(ordered)` | ``DocRevision`` | aggr | missing |
 
-## `EcucTextualParamValue`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
+## `EcucAddInfoParamValue`
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 129
 - **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `value` | `ARLiteral` | `value` | ``VerbatimString`` | attr | type (PDF VerbatimString vs py ARLiteral) |
+No deviations — Table 2.52 single attribute (`value`, DocumentationBlock, 0..1, aggr) is modeled as `Optional[DocumentationBlock]` with a guarded chaining setter; parser (`getEcucAddInfoParamValue` via `getDocumentationBlock`) and writer (`setEcucAddInfoParamValue` via `writeDocumentationBlock`) coverage complete, including the `ECUC-ADD-INFO-PARAM-VALUE` branch in the `EcucContainerValue.parameterValue` dispatch.
+
+## `EcucTextualParamValue`
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 127
+- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
+
+No deviations — `value` retyped to spec `VerbatimString` (Table 2.50) with the spec-typed reader/writer pair; earlier `type (PDF VerbatimString vs py ARLiteral)` row removed once fixed.
 
 ## `EcucNumericalParamValue`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 128
 - **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `value` | `ARNumerical` | `value` | ``Numerical`` | attr | type (PDF Numerical vs py ARNumerical) |
+No deviations — `value` retyped to spec `Numerical` (Table 2.51) with the spec-typed reader/writer pair; earlier `type (PDF Numerical vs py ARNumerical)` row removed once fixed.
 
 ## `EcucAbstractReferenceValue`
 - **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —

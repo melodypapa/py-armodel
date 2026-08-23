@@ -155,25 +155,32 @@ class EcucParameterValue(EcucIndexableValue, ABC):
 
 class EcucAddInfoParamValue(EcucParameterValue):
     """
-    ECUC parameter value for additional info with documentation block
-    content.
+    This parameter corresponds to EcucAddInfoParamDef.
     """
 
     # EcucAddInfoParamValue method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getValue                     [x] impl  [ ] docstring  [ ] test
-    # [ ] setValue                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.52, p.129
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValue                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValue                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.value = None  # type: DocumentationBlock
+        # Holds the content of the formated text.
+        self.value: Optional[DocumentationBlock] = None
 
-    def getValue(self) -> DocumentationBlock:
+    def getValue(self) -> Optional[DocumentationBlock]:
+        """Holds the content of the formated text."""
         return self.value
 
-    def setValue(self, value: DocumentationBlock):
-        self.value = value
+    def setValue(self, value: Optional[DocumentationBlock]) -> "EcucAddInfoParamValue":
+        """Holds the content of the formated text. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self.value = value
+        return self
 
 
 class EcucTextualParamValue(EcucParameterValue):

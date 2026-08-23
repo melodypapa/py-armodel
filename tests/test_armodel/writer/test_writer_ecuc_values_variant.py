@@ -6,6 +6,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    EcucAddInfoParamValue,
     EcucInstanceReferenceValue,
     EcucNumericalParamValue,
     EcucReferenceValue,
@@ -276,6 +277,43 @@ class TestWriterSetEcucNumericalParamValue:
         assert child.find("VALUE") is None
 
 
+class TestWriterSetEcucAddInfoParamValue:
+    def test_writes_documentation_block_value(self, writer):
+        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+        from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
+        from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
+
+        block = DocumentationBlock()
+        para = MultiLanguageParagraph()
+        l1 = LLongName()
+        l1.l = "en"
+        l1.value = "Description of the Dtc 0815."
+        para.addL1(l1)
+        block.addP(para)
+        param = EcucAddInfoParamValue()
+        param.setDefinition(_ref("/d", "ECUC-ADD-INFO-PARAM-DEF"))
+        param.setValue(block)
+        parent = _parent()
+        writer.setEcucAddInfoParamValue(parent, param)
+        child = parent.find("ECUC-ADD-INFO-PARAM-VALUE")
+        assert child is not None
+        assert child.find("DEFINITION-REF").text == "/d"
+        p = child.find("VALUE/P")
+        assert p is not None
+        l_1 = p.find("L-1")
+        assert l_1 is not None
+        assert l_1.attrib["L"] == "en"
+        assert l_1.text == "Description of the Dtc 0815."
+
+    def test_minimal_writes_no_value(self, writer):
+        param = EcucAddInfoParamValue()
+        parent = _parent()
+        writer.setEcucAddInfoParamValue(parent, param)
+        child = parent.find("ECUC-ADD-INFO-PARAM-VALUE")
+        assert child is not None
+        assert child.find("VALUE") is None
+
+
 class TestWriterEcucContainerValueParameterValues:
     def test_dispatches_textual_and_numerical(self, writer):
         container = _make_container()
@@ -293,6 +331,20 @@ class TestWriterEcucContainerValueParameterValues:
         tags = {c.tag for c in parent[0]}
         assert "ECUC-TEXTUAL-PARAM-VALUE" in tags
         assert "ECUC-NUMERICAL-PARAM-VALUE" in tags
+
+    def test_dispatches_add_info_param_value(self, writer):
+        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+
+        container = _make_container()
+        add_info = EcucAddInfoParamValue()
+        add_info.setValue(DocumentationBlock())
+        add_info.setDefinition(_ref("/d3", "ECUC-PARAMETER-DEF"))
+        container.addParameterValue(add_info)
+        parent = _parent()
+        writer.writeEcucContainerValueParameterValues(parent, container)
+        assert parent[0].tag == "PARAMETER-VALUES"
+        tags = {c.tag for c in parent[0]}
+        assert "ECUC-ADD-INFO-PARAM-VALUE" in tags
 
     def test_empty(self, writer):
         container = _make_container()
