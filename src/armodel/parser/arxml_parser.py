@@ -4256,7 +4256,11 @@ class ARXMLParser(AbstractARXMLParser):
             # self.logger.debug("Get ValueList %s" % key)
             value_list = ValueList()
             self.readARObjectAttributes(child_element, value_list)
-            value_list.setV(self.getChildElementOptionalFloatValue(child_element, "V"))
+            value_list.setV(self.getChildElementOptionalNumerical(child_element, "V"))
+            for vf_element in self.findall(child_element, "VF"):
+                vf = self.getChildElementOptionalNumerical(vf_element, "V")
+                if vf is not None:
+                    value_list.addVf(vf)
         return value_list
 
     def getSwValueCont(self, element: ET.Element) -> SwValueCont:

@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     DisplayFormatString,
     Identifier,
+    Numerical,
     Integer,
     NativeDeclarationString,
     PrimitiveIdentifier,
@@ -543,18 +544,41 @@ class TestValueList:
 
     def test_value_list_v_methods(self):
         value_list = ValueList()
-        value = ARNumerical().setValue("1.5")
+        value = Numerical().setValue("1.5")
         result = value_list.setV(value)
         assert value_list.getV() == value
         assert result == value_list
 
     def test_value_list_vf_methods(self):
         value_list = ValueList()
-        vf = ARNumerical().setValue("1.5")
+        vf = Numerical().setValue("1.5")
         value_list.addVf(vf)
         vfs = value_list.getVfs()
         assert vf in vfs
         assert len(vfs) == 1
+
+    def test_value_list_vf_preserves_order(self):
+        """vf is (ordered) per spec Table 5.127: insertion order must be preserved."""
+        value_list = ValueList()
+        first = Numerical().setValue("3.5")
+        second = Numerical().setValue("1.5")
+        third = Numerical().setValue("2.5")
+        value_list.addVf(first)
+        value_list.addVf(second)
+        value_list.addVf(third)
+        assert value_list.getVfs() == [first, second, third]
+
+    def test_value_list_set_v_none_noop(self):
+        value_list = ValueList()
+        value = Numerical().setValue("1.5")
+        value_list.setV(value)
+        result = value_list.setV(None)
+        assert result == value_list
+        assert value_list.getV() == value
+
+    def test_value_list_set_v_chaining(self):
+        value_list = ValueList()
+        assert value_list.setV(None) is value_list
 
 
 class TestSwTextProps:

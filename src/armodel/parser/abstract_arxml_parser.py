@@ -248,6 +248,16 @@ class AbstractARXMLParser(ABC):
         numerical.setValue(child_element.text)
         return numerical
 
+    def getChildElementOptionalNumerical(self, element: ET.Element, key: str) -> Numerical:
+        child_element = self.find(element, key)
+        numerical_value = None
+        if child_element is not None:
+            numerical_value = Numerical()
+            self.readARObjectAttributes(child_element, numerical_value)
+            if child_element.text is not None:
+                numerical_value.setValue(child_element.text)
+        return numerical_value
+
     def getChildElementOptionalIntegerValue(self, element: ET.Element, key: str) -> Integer:
         child_element = self.find(element, key)
         if child_element is None:

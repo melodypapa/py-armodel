@@ -487,6 +487,19 @@ class TestDataTypeAndValueSpecHandlers:
         element = _snip("<X/>")
         assert parser.getValueList(element, "SW-ARRAYSIZE") is None
 
+    def test_getValueList_with_vf_list(self, parser):
+        element = _snip(
+            "<SW-ARRAYSIZE>" "<VF><V>1.5</V></VF>" "<VF><V>2.5</V></VF>" "<V>4</V>" "</SW-ARRAYSIZE>",
+            root_tag="PARENT",
+        )
+        value_list = parser.getValueList(element, "SW-ARRAYSIZE")
+        assert value_list is not None
+        assert float(value_list.getV().getValue()) == 4.0
+        vfs = value_list.getVfs()
+        assert len(vfs) == 2
+        assert float(vfs[0].getValue()) == 1.5
+        assert float(vfs[1].getValue()) == 2.5
+
     def test_getSwValueCont_full(self, parser):
         element = _snip(
             "<SW-VALUE-CONT>" "<UNIT-REF DEST='UNIT'>/u</UNIT-REF>" "<SW-ARRAYSIZE><V>2</V></SW-ARRAYSIZE>" "<SW-VALUES-PHYS><V>1.0</V></SW-VALUES-PHYS>" "</SW-VALUE-CONT>",
