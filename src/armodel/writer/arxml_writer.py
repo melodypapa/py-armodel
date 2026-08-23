@@ -634,7 +634,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, InternalConstrs, PhysConstrs, ScaleConstr
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
-from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
+from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
@@ -1201,6 +1201,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             for v in sw_values.getVs():
                 self.setChildElementOptionalFloatValue(child_element, "V", v)
             self.setChildElementOptionalLiteral(child_element, "VT", sw_values.vt)
+            self.setValueGroup(child_element, "VG", sw_values.getVg())
+
+    def setValueGroup(self, element: ET.Element, key: str, value_group: ValueGroup):
+        if value_group is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObjectAttributes(child_element, value_group)
+            self.setMultiLongName(child_element, "LABEL", value_group.getLabel())
+            contents = value_group.getVgContents()
+            if contents is not None:
+                for v in contents.getVs():
+                    self.setChildElementOptionalFloatValue(child_element, "V", v)
+                self.setChildElementOptionalLiteral(child_element, "VT", contents.vt)
 
     def setValueList(self, element: ET.Element, key: str, value_list: ValueList):
         if value_list is not None:

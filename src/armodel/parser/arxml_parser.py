@@ -664,7 +664,7 @@ from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr, DataConstrRule, InternalConstrs, PhysConstrs, ScaleConstr, ScaleConstrValidityEnum
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdf, Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
-from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
+from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import MemoryAllocationKeywordPolicyType, MemorySectionType, SwAddrMethod
 from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
@@ -4229,7 +4229,25 @@ class ARXMLParser(AbstractARXMLParser):
         for v in self.getChildElementFloatValueList(child_element, "V"):
             sw_values.addV(v)
         sw_values.vt = self.getChildElementOptionalLiteral(child_element, "VT")
+        sw_values.setVg(self.getValueGroup(child_element, "VG"))
         return sw_values
+
+    def getValueGroup(self, element: ET.Element, key: str) -> ValueGroup:
+        value_group = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            value_group = ValueGroup()
+            self.readARObjectAttributes(child_element, value_group)
+            value_group.setLabel(self.getMultilanguageLongName(child_element, "LABEL"))
+            has_v = self.find(child_element, "V") is not None
+            has_vt = self.find(child_element, "VT") is not None
+            if has_v or has_vt:
+                contents = SwValues()
+                for v in self.getChildElementFloatValueList(child_element, "V"):
+                    contents.addV(v)
+                contents.vt = self.getChildElementOptionalLiteral(child_element, "VT")
+                value_group.setVgContents(contents)
+        return value_group
 
     def getValueList(self, element: ET.Element, key: str) -> ValueList:
         value_list = None

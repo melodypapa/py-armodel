@@ -503,6 +503,36 @@ class TestDataTypeAndValueSpecHandlers:
         element = _snip("<X/>")
         assert parser.getSwValueCont(element) is None
 
+    def test_getValueGroup_with_label_and_contents(self, parser):
+        element = _snip(
+            "<VG>" "<LABEL><L-4 L='FOR-ALL'>group label</L-4></LABEL>" "<V>1.5</V>" "<V>2.5</V>" "</VG>",
+            root_tag="PARENT",
+        )
+        vg = parser.getValueGroup(element, "VG")
+        assert vg is not None
+        assert vg.getLabel() is not None
+        l4s = vg.getLabel().getL4s()
+        assert len(l4s) == 1
+        assert l4s[0].getValue() == "group label"
+        contents = vg.getVgContents()
+        assert contents is not None
+        assert len(contents.getVs()) == 2
+
+    def test_getValueGroup_missing_returns_None(self, parser):
+        element = _snip("<X/>")
+        assert parser.getValueGroup(element, "VG") is None
+
+    def test_getSwValues_with_nested_VG(self, parser):
+        element = _snip(
+            "<SW-VALUES-PHYS>" "<V>0.0</V>" "<VG><V>1.5</V></VG>" "</SW-VALUES-PHYS>",
+            root_tag="PARENT",
+        )
+        sw_values = parser.getSwValues(element, "SW-VALUES-PHYS")
+        assert sw_values is not None
+        assert len(sw_values.getVs()) == 1
+        assert sw_values.getVg() is not None
+        assert len(sw_values.getVg().getVgContents().getVs()) == 1
+
     def test_readApplicationValueSpecification_populates_fields(self, parser):
         from armodel.models import ApplicationValueSpecification
 

@@ -2,10 +2,12 @@
 This module contains tests for the CalibrationValue module in MSR.CalibrationData.
 """
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
 from armodel.models.M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
-from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues
+from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
 
 class TestSwValues:
@@ -74,3 +76,34 @@ class TestSwValueCont:
         result = sw_value_cont.setUnitDisplayName(unit_display_name)
         assert sw_value_cont.getUnitDisplayName() == unit_display_name
         assert result == sw_value_cont
+
+
+class TestValueGroup:
+    """Test class for ValueGroup class."""
+
+    def test_initialization(self):
+        """Test ValueGroup initialization defaults and inheritance."""
+        vg = ValueGroup()
+        assert isinstance(vg, ARObject)
+        assert vg.getLabel() is None
+        assert vg.getVgContents() is None
+
+    def test_get_set_label(self):
+        """Test getLabel/setLabel round-trip, chaining and None no-op."""
+        vg = ValueGroup()
+        label = MultilanguageLongName()
+        assert vg.setLabel(label) is vg
+        assert vg.getLabel() is label
+
+        vg.setLabel(None)
+        assert vg.getLabel() is label
+
+    def test_get_set_vg_contents(self):
+        """Test getVgContents/setVgContents round-trip, chaining and None no-op."""
+        vg = ValueGroup()
+        contents = SwValues()
+        assert vg.setVgContents(contents) is vg
+        assert vg.getVgContents() is contents
+
+        vg.setVgContents(None)
+        assert vg.getVgContents() is contents
