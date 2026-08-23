@@ -70,7 +70,7 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
   - [x] Step 7 — Update checklist comment (# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.51, p.128; marker deferred to 9b)
   - [x] Step 8 — Deviations (none)
   - [x] Step 9 — Verify (9a done: pytest 6928/flake8/ruff/black clean) + confirm (9b) (confirmed 2026-08-23 — marker at ECUCDescriptionTemplate.py; commit 7064a79)
-- [ ] EcucAddInfoParamValue
+- [x] EcucAddInfoParamValue (e21f504)
   - [x] Step 1 — Sync members & description from spec (Table 2.52 p.129; single attr value: DocumentationBlock 0..1 aggr)
   - [x] Step 2 — Write model class unit test (Red — chaining/None no-op/verbatim docstring tests failed first)
   - [x] Step 3 — Implement model class (Green — value typed Optional[DocumentationBlock] per Table 2.52, PEP 526 annotation, chaining + None guard)
@@ -79,7 +79,7 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
   - [x] Step 6 — Update parser & writer (Green — getEcucAddInfoParamValue via getDocumentationBlock; setEcucAddInfoParamValue via writeDocumentationBlock; dispatch branches added)
   - [x] Step 7 — Update checklist comment (# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.52, p.129; marker deferred to 9b)
   - [x] Step 8 — Deviations (none; tracker entry added, stale Textual/Numerical type rows cleared)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11
+  - [x] Step 9 — Verify (9a done: pytest 6936/flake8/ruff/black clean; parity script pass) + confirm (9b) (confirmed 2026-08-23 — marker at ECUCDescriptionTemplate.py; commit e21f504)
 - [ ] EcucAbstractReferenceValue
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
