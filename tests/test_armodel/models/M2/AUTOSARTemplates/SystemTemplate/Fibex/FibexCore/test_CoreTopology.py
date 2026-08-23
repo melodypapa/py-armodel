@@ -1,3 +1,5 @@
+import typing
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -356,6 +358,32 @@ class Test_FibexCoreTopology:
         with pytest.raises(TypeError):
             CommConnectorPort(parent, "test_comm_connector_port")
 
+    def test_CommConnectorPort_base_properties(self):
+        parent = MockParent()
+        port = FramePort(parent, "test_frame_port")
+
+        assert isinstance(port, CommConnectorPort)
+
+        # Test default values
+        assert port.getCommunicationDirection() is None
+
+        # Test setter/getter methods with method chaining - with actual value
+        direction = CommunicationDirectionType()
+        direction.setValue(CommunicationDirectionType.ENUM_IN)
+        assert port == port.setCommunicationDirection(direction)
+        assert port.getCommunicationDirection() == direction
+
+        # Test None no-op (guarded setter must not overwrite an existing value)
+        assert port == port.setCommunicationDirection(None)
+        assert port.getCommunicationDirection() == direction
+
+        # Test 0..1 Optional typing contract (getter/setter agree on Optional[T])
+        hints = typing.get_type_hints(FramePort.getCommunicationDirection)
+        assert hints["return"] == typing.Optional[CommunicationDirectionType]
+        hints = typing.get_type_hints(FramePort.setCommunicationDirection)
+        assert hints["value"] == typing.Optional[CommunicationDirectionType]
+        assert hints["return"] == CommConnectorPort
+
     def test_FramePort(self):
         """Test FramePort class functionality."""
         parent = MockParent()
@@ -371,9 +399,11 @@ class Test_FibexCoreTopology:
         assert port.getCommunicationDirection() is None  # Should remain None
 
         # Test setter/getter methods with method chaining - with actual value
-        port.setCommunicationDirection(CommunicationDirectionType.ENUM_IN)
-        assert port.getCommunicationDirection() == CommunicationDirectionType.ENUM_IN
-        assert port == port.setCommunicationDirection(CommunicationDirectionType.ENUM_IN)  # Test method chaining
+        direction = CommunicationDirectionType()
+        direction.setValue(CommunicationDirectionType.ENUM_IN)
+        port.setCommunicationDirection(direction)
+        assert port.getCommunicationDirection() == direction
+        assert port == port.setCommunicationDirection(direction)  # Test method chaining
 
     def test_IPduSignalProcessingEnum(self):
         """Test IPduSignalProcessingEnum enum functionality."""

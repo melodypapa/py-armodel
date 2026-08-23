@@ -768,15 +768,18 @@ class CommunicationDirectionType(AREnum):
 
 class CommConnectorPort(Identifiable, ABC):
     """
-    Abstract base class for communication connector ports,
-    defining common properties for different types of
-    communication ports including direction and processing.
+    The Ecu communication relationship defines which signals, Pdus and frames are actually received and transmitted by this ECU. For each signal, Pdu or Frame that is transmitted or received and used by the Ecu an association between an ISignalPort, IPduPort or FramePort with the corresponding Triggering shall be created. An ISignalPort shall be created only if the corresponding signal is handled by COM (RTE or Signal Gateway). If a Pdu Gateway ECU only routes the Pdu without being interested in the content only a FramePort and an IPduPort needs to be created.
+
+    [constr_9103] Existence of communicationDirection: For each CommConnectorPort, the attribute communicationDirection shall exist at the time when the System Description is complete.
     """
 
     # CommConnectorPort method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCommunicationDirection    [x] impl  [ ] docstring  [ ] test
-    # [ ] setCommunicationDirection    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.1, p.303
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCommunicationDirection    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCommunicationDirection    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommConnectorPort:
@@ -784,12 +787,20 @@ class CommConnectorPort(Identifiable, ABC):
 
         super().__init__(parent, short_name)
 
-        self.communicationDirection: CommunicationDirectionType = None
+        # Communication Direction of the Connector Port (input or output Port).
+        self.communicationDirection: Optional[CommunicationDirectionType] = None
 
-    def getCommunicationDirection(self):
+    def getCommunicationDirection(self) -> Optional[CommunicationDirectionType]:
+        """
+        Communication Direction of the Connector Port (input or output Port).
+        """
         return self.communicationDirection
 
-    def setCommunicationDirection(self, value):
+    def setCommunicationDirection(self, value: Optional[CommunicationDirectionType]) -> "CommConnectorPort":
+        """
+        Communication Direction of the Connector Port (input or output Port).
+        A None value is a no-op and does not overwrite an existing communicationDirection.
+        """
         if value is not None:
             self.communicationDirection = value
         return self

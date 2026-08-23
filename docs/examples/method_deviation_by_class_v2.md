@@ -1951,6 +1951,13 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
+## `CommConnectorPort`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 303  | **table:** Table 6.1
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py`
+
+No deviations — Table 6.1's single attribute (`communicationDirection`, `CommunicationDirectionType`, 0..1, attr) is modeled verbatim with `Optional`-typed accessors; reader/writer cover `COMMUNICATION-DIRECTION`. Referenced member type `CommunicationDirectionType` matches its Enumeration table (Table 6.33, literals `in`/`out`) but carries no own stamp yet (not in the confirmed sync queue).
+
 ## `FramePort`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.3
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
