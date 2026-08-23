@@ -84,12 +84,14 @@ class CompositeValueSpecification(ValueSpecification, ABC):
 
 class AbstractRuleBasedValueSpecification(ValueSpecification, ABC):
     """
-    Abstract base class for rule-based value specifications.
-    This class serves as the base for specifications that use rules to determine values.
+    This represents an abstract base class for all rule-based value specifications.
     """
 
     # AbstractRuleBasedValueSpecification method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.128, p.462
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
         if type(self) is AbstractRuleBasedValueSpecification:
