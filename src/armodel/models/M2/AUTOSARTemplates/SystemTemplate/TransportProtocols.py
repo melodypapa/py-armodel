@@ -546,80 +546,121 @@ class CanTpEcu(ARObject):
 
 class CanTpNode(Identifiable):
     """
-    Represents a CAN transport protocol node in the system,
-    defining connector references, timing parameters, and
-    address references for CAN TP node configuration.
+    TP Node (Sender or Receiver) provides the TP Address and the connection to the Topology description.
     """
 
     # CanTpNode method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getConnectorRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] setConnectorRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxFcWait                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxFcWait                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getStMin                     [x] impl  [ ] docstring  [ ] test
-    # [ ] setStMin                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeoutAr                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeoutAr                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeoutAs                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeoutAs                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpAddressRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] setTpAddressRef              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.257, p.611
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getConnectorRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setConnectorRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaxFcWait       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxFcWait       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getStMin           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setStMin           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeoutAr       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimeoutAr       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeoutAs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimeoutAs       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTpAddressRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTpAddressRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.connectorRef: RefType = None
-        self.maxFcWait: Integer = None
-        self.stMin: TimeValue = None
-        self.timeoutAr: TimeValue = None
-        self.timeoutAs: TimeValue = None
-        self.tpAddressRef: RefType = None
+        # Association to a CommunicationConnector in the topology description. In a System Description this reference is mandatory. In an ECU Extract this reference is optional (references to ECUs that are not part of the ECU Extract shall be avoided).
+        self.connectorRef: Optional[RefType] = None
 
-    def getConnectorRef(self):
+        # This attribute defines the maximum number of flow control PDUs that can be consecutively be transmitted by a receiver.
+        self.maxFcWait: Optional[Integer] = None
+
+        # Sets the duration of the minimum time the CanTp sender shall wait between the transmissions of two CF N-PDUs.
+        self.stMin: Optional[TimeValue] = None
+
+        # This attribute states the timeout between the PDU transmit request of the Transport Layer to the Can Interface and the corresponding confirmation of the Can Interface on the receiver side (for FC or AF). Specified in seconds.
+        self.timeoutAr: Optional[TimeValue] = None
+
+        # This attribute states the timeout between the PDU transmit request for the first PDU of the group used in the current connection of the Transport Layer to the Can Interface and the corresponding confirmation of the Can Interface (when having sent the last PDU of the group used in this connection) on the sender side (SF-x, FF-x, CF or FC (in case of Transmit Cancellation)). Specified in seconds.
+        self.timeoutAs: Optional[TimeValue] = None
+
+        # Reference to the TP Address that is used by the TpNode. This reference is optional in case that the multicast TP Address is used (reference from TpConnection).
+        self.tpAddressRef: Optional[RefType] = None
+
+    def getConnectorRef(self) -> Optional[RefType]:
+        """Association to a CommunicationConnector in the topology description. In a System Description this reference is mandatory. In an ECU Extract this reference is optional (references to ECUs that are not part of the ECU Extract shall be avoided)."""
         return self.connectorRef
 
-    def setConnectorRef(self, value):
+    def setConnectorRef(self, value: Optional[RefType]) -> "CanTpNode":
+        """
+        Association to a CommunicationConnector in the topology description. In a System Description this reference is mandatory. In an ECU Extract this reference is optional (references to ECUs that are not part of the ECU Extract shall be avoided).
+        A None value is a no-op and does not overwrite an existing connectorRef.
+        """
         if value is not None:
             self.connectorRef = value
         return self
 
-    def getMaxFcWait(self):
+    def getMaxFcWait(self) -> Optional[Integer]:
+        """This attribute defines the maximum number of flow control PDUs that can be consecutively be transmitted by a receiver."""
         return self.maxFcWait
 
-    def setMaxFcWait(self, value):
+    def setMaxFcWait(self, value: Optional[Integer]) -> "CanTpNode":
+        """
+        This attribute defines the maximum number of flow control PDUs that can be consecutively be transmitted by a receiver.
+        A None value is a no-op and does not overwrite an existing maxFcWait.
+        """
         if value is not None:
             self.maxFcWait = value
         return self
 
-    def getStMin(self):
+    def getStMin(self) -> Optional[TimeValue]:
+        """Sets the duration of the minimum time the CanTp sender shall wait between the transmissions of two CF N-PDUs."""
         return self.stMin
 
-    def setStMin(self, value):
+    def setStMin(self, value: Optional[TimeValue]) -> "CanTpNode":
+        """
+        Sets the duration of the minimum time the CanTp sender shall wait between the transmissions of two CF N-PDUs.
+        A None value is a no-op and does not overwrite an existing stMin.
+        """
         if value is not None:
             self.stMin = value
         return self
 
-    def getTimeoutAr(self):
+    def getTimeoutAr(self) -> Optional[TimeValue]:
+        """This attribute states the timeout between the PDU transmit request of the Transport Layer to the Can Interface and the corresponding confirmation of the Can Interface on the receiver side (for FC or AF). Specified in seconds."""
         return self.timeoutAr
 
-    def setTimeoutAr(self, value):
+    def setTimeoutAr(self, value: Optional[TimeValue]) -> "CanTpNode":
+        """
+        This attribute states the timeout between the PDU transmit request of the Transport Layer to the Can Interface and the corresponding confirmation of the Can Interface on the receiver side (for FC or AF). Specified in seconds.
+        A None value is a no-op and does not overwrite an existing timeoutAr.
+        """
         if value is not None:
             self.timeoutAr = value
         return self
 
-    def getTimeoutAs(self):
+    def getTimeoutAs(self) -> Optional[TimeValue]:
+        """This attribute states the timeout between the PDU transmit request for the first PDU of the group used in the current connection of the Transport Layer to the Can Interface and the corresponding confirmation of the Can Interface (when having sent the last PDU of the group used in this connection) on the sender side (SF-x, FF-x, CF or FC (in case of Transmit Cancellation)). Specified in seconds."""
         return self.timeoutAs
 
-    def setTimeoutAs(self, value):
+    def setTimeoutAs(self, value: Optional[TimeValue]) -> "CanTpNode":
+        """
+        This attribute states the timeout between the PDU transmit request for the first PDU of the group used in the current connection of the Transport Layer to the Can Interface and the corresponding confirmation of the Can Interface (when having sent the last PDU of the group used in this connection) on the sender side (SF-x, FF-x, CF or FC (in case of Transmit Cancellation)). Specified in seconds.
+        A None value is a no-op and does not overwrite an existing timeoutAs.
+        """
         if value is not None:
             self.timeoutAs = value
         return self
 
-    def getTpAddressRef(self):
+    def getTpAddressRef(self) -> Optional[RefType]:
+        """Reference to the TP Address that is used by the TpNode. This reference is optional in case that the multicast TP Address is used (reference from TpConnection)."""
         return self.tpAddressRef
 
-    def setTpAddressRef(self, value):
+    def setTpAddressRef(self, value: Optional[RefType]) -> "CanTpNode":
+        """
+        Reference to the TP Address that is used by the TpNode. This reference is optional in case that the multicast TP Address is used (reference from TpConnection).
+        A None value is a no-op and does not overwrite an existing tpAddressRef.
+        """
         if value is not None:
             self.tpAddressRef = value
         return self

@@ -280,14 +280,12 @@ class Test_TransportProtocols:
         assert ecu == ecu.setEcuInstanceRef(None)
         assert ecu.getEcuInstanceRef() == ref
 
-    def test_CanTpNode(self):
-        """Test CanTpNode class functionality."""
+    def test_CanTpNode_initialization(self):
+        """Test CanTpNode default state (Table 6.257)."""
         parent = MockParent()
-        node = CanTpNode(parent, "test_can_tp_node")
+        node = CanTpNode(parent, "CanTpNode")
 
         assert isinstance(node, Identifiable)
-
-        # Test default values
         assert node.getConnectorRef() is None
         assert node.getMaxFcWait() is None
         assert node.getStMin() is None
@@ -295,15 +293,37 @@ class Test_TransportProtocols:
         assert node.getTimeoutAs() is None
         assert node.getTpAddressRef() is None
 
-        # Test setter/getter methods
-        node.setConnectorRef("connector_ref")
-        assert node.getConnectorRef() == "connector_ref"
+    def test_CanTpNode_get_set(self):
+        """Test CanTpNode getters/setters with None no-op (Table 6.257)."""
+        parent = MockParent()
+        node = CanTpNode(parent, "CanTpNode")
 
-        node.setMaxFcWait(10)
-        assert node.getMaxFcWait() == 10
+        connector_ref = RefType()
+        connector_ref.setValue("/Connector")
+        assert node == node.setConnectorRef(connector_ref)
+        assert node.getConnectorRef() == connector_ref
+        assert node == node.setConnectorRef(None)
+        assert node.getConnectorRef() == connector_ref
 
-        node.setStMin("5ms")
-        assert node.getStMin() == "5ms"
+        assert node == node.setMaxFcWait(Integer().setValue(10))
+        assert node.getMaxFcWait().getValue() == 10
+        assert node == node.setMaxFcWait(None)
+        assert node.getMaxFcWait().getValue() == 10
+
+        assert node == node.setStMin(TimeValue().setValue(0.005))
+        assert node.getStMin().getValue() == 0.005
+
+        for setter, getter in (("setTimeoutAr", "getTimeoutAr"), ("setTimeoutAs", "getTimeoutAs")):
+            value = TimeValue().setValue(0.075)
+            getattr(node, setter)(value)
+            assert getattr(node, getter)().getValue() == 0.075
+            getattr(node, setter)(None)
+            assert getattr(node, getter)().getValue() == 0.075
+
+        address_ref = RefType()
+        address_ref.setValue("/TpAddress")
+        assert node == node.setTpAddressRef(address_ref)
+        assert node.getTpAddressRef() == address_ref
 
     def test_CanTpConfig(self):
         """Test CanTpConfig class functionality."""

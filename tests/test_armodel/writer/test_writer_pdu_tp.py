@@ -735,6 +735,50 @@ class TestWriteCanTpNode:
         assert child.find("TIMEOUT-AS").text == "0.06"
         assert child.find("TP-ADDRESS-REF").text == "/ta"
 
+    def test_roundtrip_can_tp_node_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        node = CanTpNode(pkg, "Node")
+        node.setConnectorRef(_ref("COMMUNICATION-CONNECTOR", "/conn"))
+        node.setMaxFcWait(_int("10"))
+        node.setStMin(_time("0.005"))
+        node.setTimeoutAr(_time("0.05"))
+        node.setTimeoutAs(_time("0.06"))
+        node.setTpAddressRef(_ref("CAN-TP-ADDRESS", "/ta"))
+        parent = _parent()
+        writer.writeCanTpNode(parent, node)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpNode(pkg, "Node2")
+        parser.readCanTpNode(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getConnectorRef().getValue() == "/conn"
+        assert reloaded.getMaxFcWait().getValue() == 10
+        assert reloaded.getStMin().getValue() == 0.005
+        assert reloaded.getTimeoutAr().getValue() == 0.05
+        assert reloaded.getTimeoutAs().getValue() == 0.06
+        assert reloaded.getTpAddressRef().getValue() == "/ta"
+
+    def test_roundtrip_can_tp_node_empty_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        node = CanTpNode(pkg, "Node")
+        parent = _parent()
+        writer.writeCanTpNode(parent, node)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpNode(pkg, "Node2")
+        parser.readCanTpNode(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getConnectorRef() is None
+        assert reloaded.getMaxFcWait() is None
+        assert reloaded.getStMin() is None
+        assert reloaded.getTimeoutAr() is None
+        assert reloaded.getTimeoutAs() is None
+        assert reloaded.getTpAddressRef() is None
+
 
 class TestWriteCanTpConfigTpNodes:
     def test_empty(self, writer):
