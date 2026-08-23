@@ -130,12 +130,12 @@ Known gaps to fix during sync:
 
 ## 8. LinMaster — Table 3.38, p.94
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test (Red)
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test (Red)
 - [ ] Step 3 — Implement the model class (Green)
 - [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test (Red)
+- [x] Step 5 — Write the reader/writer round-trip test (Red)  full save→reload round-trip in tests/test_armodel/writer/test_lin_master.py
 - [ ] Step 6 — Update the parser (reader) & writer (Green)
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check (referenced classes, placeholders)
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check (referenced classes, placeholders)  no tracker rows; addLinSlaves→addLinSlave naming gap fixed; referenced classes all stamped
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp  9b confirmed by user; `# Spec verified: R23-11` written

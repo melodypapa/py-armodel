@@ -8,13 +8,13 @@ of the respective classes.
 """
 
 import sys
-from typing import Optional, get_type_hints
+from typing import List, Optional, get_type_hints
 
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinErrorResponse
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
     LinCluster,
@@ -98,6 +98,97 @@ class TestLinCommunicationController:
         assert annotations["protocolVersion"] == "Optional[String]"
 
 
+class TestLinMaster:
+    """
+    Describing the properties of the refering ecu as a LIN master.
+    """
+
+    def test_initialization(self):
+        parent = MockParent()
+        master = LinMaster(parent, "TestMaster")
+
+        assert master.getShortName() == "TestMaster"
+        assert master.getParent() is parent
+        assert isinstance(master, LinCommunicationController)
+        assert isinstance(master, CommunicationController)
+        assert isinstance(master, ARObject)
+
+        assert master.getProtocolVersion() is None
+        assert master.getLinSlaves() == []
+        assert master.getTimeBase() is None
+        assert master.getTimeBaseJitter() is None
+
+    def test_add_lin_slave(self):
+        parent = MockParent()
+        master = LinMaster(parent, "TestMaster")
+        slave1 = LinSlaveConfig()
+        slave2 = LinSlaveConfig()
+
+        assert master == master.addLinSlave(slave1)
+        assert master == master.addLinSlave(slave2)
+        assert master.getLinSlaves() == [slave1, slave2]
+
+        assert master == master.addLinSlave(None)
+        assert master.getLinSlaves() == [slave1, slave2]
+
+    def test_get_set_time_base(self):
+        parent = MockParent()
+        master = LinMaster(parent, "TestMaster")
+
+        assert master == master.setTimeBase(0.01)
+        assert master.getTimeBase() == 0.01
+
+        assert master == master.setTimeBase(None)
+        assert master.getTimeBase() == 0.01
+
+    def test_get_set_time_base_jitter(self):
+        parent = MockParent()
+        master = LinMaster(parent, "TestMaster")
+
+        assert master == master.setTimeBaseJitter(0.001)
+        assert master.getTimeBaseJitter() == 0.001
+
+        assert master == master.setTimeBaseJitter(None)
+        assert master.getTimeBaseJitter() == 0.001
+
+    def test_type_annotations(self):
+        import ast
+        import inspect
+
+        getter_hints = get_type_hints(LinMaster.getLinSlaves)
+        assert getter_hints["return"] == List[LinSlaveConfig]
+
+        add_hints = get_type_hints(LinMaster.addLinSlave)
+        assert add_hints["value"] == LinSlaveConfig
+        assert add_hints["return"] == LinMaster
+
+        getter_hints = get_type_hints(LinMaster.getTimeBase)
+        assert getter_hints["return"] == Optional[TimeValue]
+
+        setter_hints = get_type_hints(LinMaster.setTimeBase)
+        assert setter_hints["value"] == Optional[TimeValue]
+        assert setter_hints["return"] == LinMaster
+
+        getter_hints = get_type_hints(LinMaster.getTimeBaseJitter)
+        assert getter_hints["return"] == Optional[TimeValue]
+
+        setter_hints = get_type_hints(LinMaster.setTimeBaseJitter)
+        assert setter_hints["value"] == Optional[TimeValue]
+        assert setter_hints["return"] == LinMaster
+
+        src = inspect.getsource(sys.modules[LinMaster.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "LinMaster")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.unparse(node.annotation)
+        assert annotations["linSlaves"] == "List['LinSlaveConfig']"
+        assert annotations["timeBase"] == "Optional[TimeValue]"
+        assert annotations["timeBaseJitter"] == "Optional[TimeValue]"
+
+
 class TestLinSlaveConfigIdent:
     """
     This meta-class is created to add the ability to become the target of a reference to the non-Referrable Lin SlaveConfig.
@@ -156,31 +247,6 @@ class TestLinTopology:
         # Test setting protocol version
         controller.setProtocolVersion("2.1")
         assert controller.getProtocolVersion() == "2.1"
-
-    def test_lin_master(self):
-        """
-        Test the LinMaster class initialization and methods.
-        """
-        parent = MockParent()
-        master = LinMaster(parent, "TestMaster")
-
-        assert master.getShortName() == "TestMaster"
-        assert isinstance(master, LinCommunicationController)
-        assert master.getLinSlaves() == []
-        assert master.getTimeBase() is None
-        assert master.getTimeBaseJitter() is None
-
-        # Test setting values
-        master.setTimeBase("10ms")
-        master.setTimeBaseJitter("0.1ms")
-
-        assert master.getTimeBase() == "10ms"
-        assert master.getTimeBaseJitter() == "0.1ms"
-
-        # Test adding LIN slaves
-        master.addLinSlaves("slave1")
-        master.addLinSlaves("slave2")
-        assert master.getLinSlaves() == ["slave1", "slave2"]
 
     def test_lin_communication_connector(self):
         """

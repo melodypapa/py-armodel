@@ -9081,6 +9081,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         variants_tag = ET.SubElement(child_element, "LIN-MASTER-VARIANTS")
         cond_tag = ET.SubElement(variants_tag, "LIN-MASTER-CONDITIONAL")
         self.writeLinCommunicationController(cond_tag, controller)
+        slaves = controller.getLinSlaves()
+        if len(slaves) > 0:
+            slaves_tag = ET.SubElement(cond_tag, "LIN-SLAVES")
+            for slave in slaves:
+                self.setLinSlaveConfig(slaves_tag, "LIN-SLAVE-CONFIG", slave)
         self.setChildElementOptionalTimeValue(cond_tag, "TIME-BASE", controller.getTimeBase())
         self.setChildElementOptionalTimeValue(cond_tag, "TIME-BASE-JITTER", controller.getTimeBaseJitter())
 

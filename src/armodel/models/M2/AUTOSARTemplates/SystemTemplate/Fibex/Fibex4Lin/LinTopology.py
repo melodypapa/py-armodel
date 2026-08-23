@@ -56,47 +56,68 @@ class LinCommunicationController(CommunicationController, ABC):
 
 class LinMaster(LinCommunicationController):
     """
-    Defines a LIN master node in the network topology, specifying
-    slave configurations, time base settings, and timing jitter
-    properties for LIN master communication management.
+    Describing the properties of the refering ecu as a LIN master.
     """
 
     # LinMaster method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getLinSlaves                 [x] impl  [ ] docstring  [ ] test
-    # [ ] addLinSlaves                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeBase                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeBase                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeBaseJitter            [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeBaseJitter            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.38, p.94
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getLinSlaves        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addLinSlave         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeBase         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimeBase         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeBaseJitter   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimeBaseJitter   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.linSlaves = []
-        self.timeBase: TimeValue = None
-        self.timeBaseJitter: TimeValue = None
+        # LinSlaves that are handled by the LinMaster.
+        self.linSlaves: List[LinSlaveConfig] = []
 
-    def getLinSlaves(self):
+        # Time base is mandatory for the master. It is not used for slaves. LIN 2.0 Spec states: "The time_base value specifies the used time base in the master node to generate the maximum allowed frame transfer time." The time base shall be specified AUTOSAR conform in seconds.
+        self.timeBase: Optional[TimeValue] = None
+
+        # The attribute timeBaseJitter is a mandatory attribute for the master and not used for slaves. LIN 2.0 Spec states: "The jitter value specifies the differences between the maximum and minimum delay from time base start point to the frame header sending start point (falling edge of BREAK signal)." The jitter shall be specified AUTOSAR conform in seconds.
+        self.timeBaseJitter: Optional[TimeValue] = None
+
+    def getLinSlaves(self) -> List[LinSlaveConfig]:
+        """LinSlaves that are handled by the LinMaster."""
         return self.linSlaves
 
-    def addLinSlaves(self, value):
+    def addLinSlave(self, value: LinSlaveConfig) -> "LinMaster":
+        """
+        LinSlaves that are handled by the LinMaster.
+        A None value is a no-op and does not extend linSlaves.
+        """
         if value is not None:
             self.linSlaves.append(value)
         return self
 
-    def getTimeBase(self):
+    def getTimeBase(self) -> Optional[TimeValue]:
+        """Time base is mandatory for the master. It is not used for slaves. LIN 2.0 Spec states: "The time_base value specifies the used time base in the master node to generate the maximum allowed frame transfer time." The time base shall be specified AUTOSAR conform in seconds."""
         return self.timeBase
 
-    def setTimeBase(self, value):
+    def setTimeBase(self, value: Optional[TimeValue]) -> "LinMaster":
+        """
+        Time base is mandatory for the master. It is not used for slaves. LIN 2.0 Spec states: "The time_base value specifies the used time base in the master node to generate the maximum allowed frame transfer time." The time base shall be specified AUTOSAR conform in seconds.
+        A None value is a no-op and does not overwrite an existing timeBase.
+        """
         if value is not None:
             self.timeBase = value
         return self
 
-    def getTimeBaseJitter(self):
+    def getTimeBaseJitter(self) -> Optional[TimeValue]:
+        """The attribute timeBaseJitter is a mandatory attribute for the master and not used for slaves. LIN 2.0 Spec states: "The jitter value specifies the differences between the maximum and minimum delay from time base start point to the frame header sending start point (falling edge of BREAK signal)." The jitter shall be specified AUTOSAR conform in seconds."""
         return self.timeBaseJitter
 
-    def setTimeBaseJitter(self, value):
+    def setTimeBaseJitter(self, value: Optional[TimeValue]) -> "LinMaster":
+        """
+        The attribute timeBaseJitter is a mandatory attribute for the master and not used for slaves. LIN 2.0 Spec states: "The jitter value specifies the differences between the maximum and minimum delay from time base start point to the frame header sending start point (falling edge of BREAK signal)." The jitter shall be specified AUTOSAR conform in seconds.
+        A None value is a no-op and does not overwrite an existing timeBaseJitter.
+        """
         if value is not None:
             self.timeBaseJitter = value
         return self

@@ -18,7 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     ResumePosition,
     ScheduleTableEntry,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster, LinSlaveConfig
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
 
@@ -322,8 +322,8 @@ class Test_Fibex4LinTopology:
         assert result == master  # Test method chaining
 
         # Test adding LIN slaves with method chaining
-        result = master.addLinSlaves("slave_ref")
-        assert master.getLinSlaves() == ["slave_ref"]
+        result = master.addLinSlave(LinSlaveConfig())
+        assert len(master.getLinSlaves()) == 1
         assert result == master  # Test method chaining
 
     def test_LinCommunicationConnector(self):
