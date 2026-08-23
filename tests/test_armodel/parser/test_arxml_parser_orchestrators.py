@@ -1666,7 +1666,7 @@ class TestEcucDefAndValueHandlers:
             root_tag="ECUC-NUMERICAL-PARAM-VALUE",
         )
         param = parser.getEcucNumericalParamValue(element)
-        assert param.getValue().getValue() == 100
+        assert param.getValue().getValue() == "100"
 
     def test_getEcucTextualParamValue_full(self, parser):
         element = _snip(

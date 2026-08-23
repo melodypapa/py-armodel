@@ -7,6 +7,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from armodel.models import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RevisionLabelString
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -819,7 +820,7 @@ class TestGetEcucInstanceReferenceValue:
         assert value.getDefinitionRef() is not None
         assert value.getIndex() is not None
         assert value.getIndex().getValue() == 9
-        iref = value.valueRef
+        iref = value.getValueIRef()
         assert iref is not None
         assert iref.getBaseRef() is not None
         assert iref.getTargetRef() is not None
@@ -836,7 +837,7 @@ class TestGetEcucInstanceReferenceValue:
         value = parser.getEcucInstanceReferenceValue(element)
         assert value is not None
         assert value.getDefinitionRef() is not None
-        assert value.valueRef is None
+        assert value.getValueIRef() is None
 
     def test_with_annotations(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -856,6 +857,246 @@ class TestGetEcucInstanceReferenceValue:
         value = parser.getEcucInstanceReferenceValue(element)
         assert value is not None
         assert len(value.getAnnotations()) == 1
+
+
+class TestGetEcucReferenceValue:
+    """Tests for getEcucReferenceValue covering the Table 2.53 fields of EcucAbstractReferenceValue."""
+
+    def test_reads_all_ecuc_abstract_reference_value_fields(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <DEFINITION-REF DEST="ECUC-REFERENCE-DEF">/Path/To/Def</DEFINITION-REF>
+            <INDEX>3</INDEX>
+            <ANNOTATIONS>
+                <ANNOTATION>
+                    <LABEL>
+                        <L-4 L="EN">Design note</L-4>
+                    </LABEL>
+                </ANNOTATION>
+            </ANNOTATIONS>
+            <IS-AUTO-VALUE>true</IS-AUTO-VALUE>
+            <VALUE-REF DEST="ECUC-CONTAINER-VALUE">/Module/Container</VALUE-REF>
+            """,
+            root_tag="ECUC-REFERENCE-VALUE",
+        )
+        value = parser.getEcucReferenceValue(element)
+        assert value is not None
+        assert value.getDefinitionRef() is not None
+        assert value.getDefinitionRef().getValue() == "/Path/To/Def"
+        assert value.getIndex() is not None
+        assert value.getIndex().getValue() == 3
+        assert len(value.getAnnotations()) == 1
+        assert value.getIsAutoValue() is not None
+        assert value.getIsAutoValue().getValue() is True
+        assert value.getValueRef() is not None
+        assert value.getValueRef().getValue() == "/Module/Container"
+        assert value.getValueRef().getDest() == "ECUC-CONTAINER-VALUE"
+
+    def test_reads_minimal_reference_value(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <VALUE-REF DEST="ECUC-CONTAINER-VALUE">/Module/Container</VALUE-REF>
+            """,
+            root_tag="ECUC-REFERENCE-VALUE",
+        )
+        value = parser.getEcucReferenceValue(element)
+        assert value is not None
+        assert value.getDefinitionRef() is None
+        assert value.getIndex() is None
+        assert value.getAnnotations() == []
+        assert value.getIsAutoValue() is None
+        assert value.getValueRef() is not None
+
+
+class TestReadEcucParameterValue:
+    """Tests for readEcucParameterValue handler."""
+
+    def test_reads_definition_index_annotations_and_is_auto_value(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+            EcucTextualParamValue,
+        )
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        param_value = EcucTextualParamValue()
+        element = _snip(
+            """
+            <DEFINITION-REF DEST="ECUC-STRING-PARAM-DEF">/EcucDefs/Rte/Param</DEFINITION-REF>
+            <INDEX>2</INDEX>
+            <ANNOTATIONS>
+                <ANNOTATION>
+                    <LABEL>
+                        <L-4 L="EN">Design note</L-4>
+                    </LABEL>
+                </ANNOTATION>
+            </ANNOTATIONS>
+            <IS-AUTO-VALUE>true</IS-AUTO-VALUE>
+            """,
+            root_tag="ECUC-TEXTUAL-PARAM-VALUE",
+        )
+        parser.readEcucParameterValue(element, param_value)
+        assert param_value.getDefinition() is not None
+        assert param_value.getDefinition().getValue() == "/EcucDefs/Rte/Param"
+        assert param_value.getIndex().getValue() == 2
+        annotations = param_value.getAnnotations()
+        assert len(annotations) == 1
+        l4s = annotations[0].getLabel().getL4s()
+        assert len(l4s) == 1
+        assert l4s[0].getValue() == "Design note"
+        assert param_value.getIsAutoValue() is not None
+        assert param_value.getIsAutoValue().getValue() is True
+
+    def test_minimal_element_leaves_optional_fields_unset(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+            EcucTextualParamValue,
+        )
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        param_value = EcucTextualParamValue()
+        element = _snip("", root_tag="ECUC-TEXTUAL-PARAM-VALUE")
+        parser.readEcucParameterValue(element, param_value)
+        assert param_value.getDefinition() is None
+        assert param_value.getAnnotations() == []
+        assert param_value.getIsAutoValue() is None
+
+
+class TestGetEcucTextualParamValue:
+    """Tests for getEcucTextualParamValue handler (Table 2.50)."""
+
+    def test_reads_value_as_verbatim_string(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+            EcucTextualParamValue,
+        )
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import VerbatimString
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <DEFINITION-REF DEST="ECUC-STRING-PARAM-DEF">/EcucDefs/Rte/Param</DEFINITION-REF>
+            <VALUE>NVM_BLOCK_NATIVE</VALUE>
+            """,
+            root_tag="ECUC-TEXTUAL-PARAM-VALUE",
+        )
+        param_value = parser.getEcucTextualParamValue(element)
+        assert isinstance(param_value, EcucTextualParamValue)
+        assert param_value.getDefinition() is not None
+        assert param_value.getDefinition().getValue() == "/EcucDefs/Rte/Param"
+        assert isinstance(param_value.getValue(), VerbatimString)
+        assert param_value.getValue().getValue() == "NVM_BLOCK_NATIVE"
+
+    def test_empty_element_leaves_value_unset(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip("", root_tag="ECUC-TEXTUAL-PARAM-VALUE")
+        param_value = parser.getEcucTextualParamValue(element)
+        assert param_value.getValue() is None
+
+
+class TestGetEcucNumericalParamValue:
+    """Tests for getEcucNumericalParamValue handler (Table 2.51)."""
+
+    def test_reads_value_as_numerical(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+            EcucNumericalParamValue,
+        )
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <DEFINITION-REF DEST="ECUC-FLOAT-PARAM-DEF">/EcucDefs/Rte/SchedulingPeriod</DEFINITION-REF>
+            <VALUE>74.8</VALUE>
+            """,
+            root_tag="ECUC-NUMERICAL-PARAM-VALUE",
+        )
+        param_value = parser.getEcucNumericalParamValue(element)
+        assert isinstance(param_value, EcucNumericalParamValue)
+        assert param_value.getDefinition() is not None
+        assert param_value.getDefinition().getValue() == "/EcucDefs/Rte/SchedulingPeriod"
+        assert isinstance(param_value.getValue(), Numerical)
+        assert param_value.getValue().getValue() == "74.8"
+
+    def test_empty_element_leaves_value_unset(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip("", root_tag="ECUC-NUMERICAL-PARAM-VALUE")
+        param_value = parser.getEcucNumericalParamValue(element)
+        assert param_value.getValue() is None
+
+
+class TestGetEcucAddInfoParamValue:
+    """Tests for getEcucAddInfoParamValue handler (Table 2.52)."""
+
+    def test_reads_value_as_documentation_block(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+            EcucAddInfoParamValue,
+        )
+        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip(
+            """
+            <DEFINITION-REF DEST="ECUC-ADD-INFO-PARAM-DEF">/EcucDefs/Dcm/Dtc</DEFINITION-REF>
+            <VALUE>
+                <P>
+                    <L-1 L="EN">Description of the Dtc 0815.</L-1>
+                </P>
+            </VALUE>
+            """,
+            root_tag="ECUC-ADD-INFO-PARAM-VALUE",
+        )
+        param_value = parser.getEcucAddInfoParamValue(element)
+        assert isinstance(param_value, EcucAddInfoParamValue)
+        assert param_value.getDefinition() is not None
+        assert param_value.getDefinition().getValue() == "/EcucDefs/Dcm/Dtc"
+        assert isinstance(param_value.getValue(), DocumentationBlock)
+        ps = param_value.getValue().getPs()
+        assert len(ps) == 1
+        l1s = ps[0].getL1s()
+        assert len(l1s) == 1
+        assert l1s[0].getValue() == "Description of the Dtc 0815."
+
+    def test_empty_element_leaves_value_unset(self, parser):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        element = _snip("", root_tag="ECUC-ADD-INFO-PARAM-VALUE")
+        param_value = parser.getEcucAddInfoParamValue(element)
+        assert param_value.getValue() is None
+
+
+class TestReadEcucContainerValueParameterValues:
+    """Tests for readEcucContainerValueParameterValues dispatch (Table 2.48 parameterValue)."""
+
+    def test_dispatches_add_info_param_value(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+            EcucAddInfoParamValue,
+        )
+        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = _make_container_value("MyContainer")
+        element = _snip(
+            """
+            <PARAMETER-VALUES>
+                <ECUC-ADD-INFO-PARAM-VALUE>
+                    <DEFINITION-REF DEST="ECUC-ADD-INFO-PARAM-DEF">/Path/ToAddInfoDef</DEFINITION-REF>
+                    <VALUE>
+                        <P>
+                            <L-1 L="EN">Formatted text content.</L-1>
+                        </P>
+                    </VALUE>
+                </ECUC-ADD-INFO-PARAM-VALUE>
+            </PARAMETER-VALUES>
+            """,
+            root_tag="ECUC-CONTAINER-VALUE",
+        )
+        parser.readEcucContainerValueParameterValues(element, container)
+        params = container.getParameterValues()
+        assert len(params) == 1
+        assert isinstance(params[0], EcucAddInfoParamValue)
+        assert params[0].getDefinition().getValue() == "/Path/ToAddInfoDef"
+        assert isinstance(params[0].getValue(), DocumentationBlock)
+        ps = params[0].getValue().getPs()
+        assert len(ps) == 1
+        assert ps[0].getL1s()[0].getValue() == "Formatted text content."
 
 
 class TestReadEcucContainerValueReferenceValues:
@@ -1202,9 +1443,11 @@ class TestReadEcucModuleConfigurationValues:
             root_tag="ECUC-MODULE-CONFIGURATION-VALUES",
         )
         parser.readEcucModuleConfigurationValues(element, values)
-        assert values.getDefinitionRef() is not None
-        assert values.getImplementationConfigVariant() is not None
-        assert values.getModuleDescriptionRef() is not None
+        assert values.getDefinition() is not None
+        assert values.getDefinition().getValue() == "/Path/To/ModuleDef"
+        assert values.getImplementationConfigVariant().getValue() == "VARIANT-PRE-COMPILE"
+        assert values.getModuleDescription() is not None
+        assert values.getModuleDescription().getValue() == "/Path/To/ModuleDesc"
         assert len(values.getContainers()) == 1
 
     def test_minimal_handler_only_short_name(self, parser):
@@ -1217,9 +1460,9 @@ class TestReadEcucModuleConfigurationValues:
             root_tag="ECUC-MODULE-CONFIGURATION-VALUES",
         )
         parser.readEcucModuleConfigurationValues(element, values)
-        assert values.getDefinitionRef() is None
+        assert values.getDefinition() is None
         assert values.getImplementationConfigVariant() is None
-        assert values.getModuleDescriptionRef() is None
+        assert values.getModuleDescription() is None
         assert values.getEcucDefEdition() is None
         assert values.getPostBuildVariantUsed() is None
         assert len(values.getContainers()) == 0
@@ -1236,9 +1479,9 @@ class TestReadEcucModuleConfigurationValues:
             root_tag="ECUC-MODULE-CONFIGURATION-VALUES",
         )
         parser.readEcucModuleConfigurationValues(element, values)
-        assert values.getEcucDefEdition() is not None
+        assert isinstance(values.getEcucDefEdition(), RevisionLabelString)
         assert values.getEcucDefEdition().getValue() == "1.0.0"
-        assert values.getPostBuildVariantUsed() is not None
+        assert isinstance(values.getPostBuildVariantUsed(), Boolean)
         assert values.getPostBuildVariantUsed().getValue() is True
 
 
@@ -1409,7 +1652,7 @@ class TestEcucParameterValue:
         param_value = EcucTextualParamValue()
         element = _snip('<DEFINITION-REF DEST="ECUC-STRING-PARAM-DEF">/d</DEFINITION-REF>' "<ANNOTATIONS>" "<ANNOTATION>" "<SHORT-NAME>a</SHORT-NAME>" "</ANNOTATION>" "</ANNOTATIONS>")
         parser.readEcucParameterValue(element, param_value)
-        assert param_value.getDefinitionRef() is not None
+        assert param_value.getDefinition() is not None
         assert len(param_value.getAnnotations()) == 1
 
     def test_readEcucParameterValue_reads_index(self, parser):

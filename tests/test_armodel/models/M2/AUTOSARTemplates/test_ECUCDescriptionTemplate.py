@@ -9,7 +9,6 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucAbstractReferenceValue,
     EcucAddInfoParamValue,
-    EcucConfigurationVariantEnum,
     EcucContainerValue,
     EcucIndexableValue,
     EcucInstanceReferenceValue,
@@ -20,7 +19,9 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucTextualParamValue,
     EcucValueCollection,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType, RevisionLabelString
+from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, Boolean, RefType, RevisionLabelString
+from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 
 def _instantiate(cls, name):
@@ -190,6 +191,40 @@ class TestEcucParameterValue:
 
     def test_inheritance(self):
         assert issubclass(EcucAddInfoParamValue, EcucParameterValue)
+
+    def test_initialization_defaults(self):
+        obj = EcucTextualParamValue()
+        assert obj.getAnnotations() == []
+        assert obj.getDefinition() is None
+        assert obj.getIsAutoValue() is None
+
+    def test_get_set_definition(self):
+        obj = EcucTextualParamValue()
+        ref = RefType().setValue("/EcucDefs/Rte/Param")
+        result = obj.setDefinition(ref)
+        assert result is obj
+        assert obj.getDefinition() == ref
+        obj.setDefinition(None)
+        assert obj.getDefinition() == ref
+
+    def test_get_set_is_auto_value(self):
+        obj = EcucTextualParamValue()
+        value = Boolean().setValue(True)
+        result = obj.setIsAutoValue(value)
+        assert result is obj
+        assert obj.getIsAutoValue() == value
+        assert obj.getIsAutoValue().getValue() is True
+        obj.setIsAutoValue(None)
+        assert obj.getIsAutoValue() == value
+
+    def test_add_annotation(self):
+        obj = EcucTextualParamValue()
+        annotation = Annotation()
+        result = obj.addAnnotation(annotation)
+        assert result is obj
+        assert obj.getAnnotations() == [annotation]
+        obj.addAnnotation(None)
+        assert obj.getAnnotations() == [annotation]
 
 
 class TestEcucAbstractReferenceValue:

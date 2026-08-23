@@ -148,6 +148,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucAbstractReferenceValue,
+    EcucAddInfoParamValue,
     EcucContainerValue,
     EcucInstanceReferenceValue,
     EcucModuleConfigurationValues,
@@ -8286,9 +8287,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported Sub Container %s" % type(container))
 
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
-        self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())
-        self.setAnnotations(element, param_value.getAnnotations())
+        self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinition())
         self.setChildElementOptionalPositiveInteger(element, "INDEX", param_value.getIndex())
+        self.setAnnotations(element, param_value.getAnnotations())
+        self.setChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE", param_value.getIsAutoValue())
 
     def setEcucTextualParamValue(self, element: ET.Element, param_value: EcucTextualParamValue):
         child_element = ET.SubElement(element, "ECUC-TEXTUAL-PARAM-VALUE")
@@ -8298,7 +8300,12 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setEcucNumericalParamValue(self, element: ET.Element, param_value: EcucNumericalParamValue):
         child_element = ET.SubElement(element, "ECUC-NUMERICAL-PARAM-VALUE")
         self.writeEcucParameterValue(child_element, param_value)
-        self.setChildElementOptionalNumericalValue(child_element, "VALUE", param_value.getValue())
+        self.setChildElementOptionalNumerical(child_element, "VALUE", param_value.getValue())
+
+    def setEcucAddInfoParamValue(self, element: ET.Element, param_value: EcucAddInfoParamValue):
+        child_element = ET.SubElement(element, "ECUC-ADD-INFO-PARAM-VALUE")
+        self.writeEcucParameterValue(child_element, param_value)
+        self.writeDocumentationBlock(child_element, "VALUE", param_value.getValue())
 
     def writeEcucContainerValueParameterValues(self, element: ET.Element, container_value: EcucContainerValue):
         param_values = container_value.getParameterValues()
@@ -8309,20 +8316,25 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.setEcucTextualParamValue(child_element, param_value)
                 elif isinstance(param_value, EcucNumericalParamValue):
                     self.setEcucNumericalParamValue(child_element, param_value)
+                elif isinstance(param_value, EcucAddInfoParamValue):
+                    self.setEcucAddInfoParamValue(child_element, param_value)
                 else:
                     self.notImplemented("Unsupported EcucParameterValue <%s>" % type(param_value))
 
     def writeEcucAbstractReferenceValue(self, element: ET.Element, value: EcucAbstractReferenceValue):
         self.setChildElementOptionalRefType(element, "DEFINITION-REF", value.getDefinitionRef())
-        self.setAnnotations(element, value.getAnnotations())
         self.setChildElementOptionalPositiveInteger(element, "INDEX", value.getIndex())
+        self.setAnnotations(element, value.getAnnotations())
+        self.setChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE", value.getIsAutoValue())
 
     def setEcucReferenceValue(self, element: ET.Element, value=None):
         if value is not None:
             child_element = ET.SubElement(element, "ECUC-REFERENCE-VALUE")
             self.writeEcucAbstractReferenceValue(child_element, value)
             self.setChildElementOptionalRefType(child_element, "VALUE-REF", value.getValueRef())
-            return value
+            if len(child_element) == 0:
+                element.remove(child_element)
+        return value
 
     def setAnyInstanceRef(self, element: ET.Element, key, instance_ref: AnyInstanceRef):
         if instance_ref is not None:
@@ -8375,10 +8387,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("EcucModuleConfigurationValues %s" % values.getShortName())
         child_element = ET.SubElement(element, "ECUC-MODULE-CONFIGURATION-VALUES")
         self.writeIdentifiable(child_element, values)
-        self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", values.getDefinitionRef())
+        self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", values.getDefinition())
         self.setChildElementOptionalLiteral(child_element, "ECUC-DEF-EDITION", values.getEcucDefEdition())
         self.setChildElementOptionalLiteral(child_element, "IMPLEMENTATION-CONFIG-VARIANT", values.getImplementationConfigVariant())
-        self.setChildElementOptionalRefType(child_element, "MODULE-DESCRIPTION-REF", values.getModuleDescriptionRef())
+        self.setChildElementOptionalRefType(child_element, "MODULE-DESCRIPTION-REF", values.getModuleDescription())
         self.setChildElementOptionalBooleanValue(child_element, "POST-BUILD-VARIANT-USED", values.getPostBuildVariantUsed())
         self.writeEcucModuleConfigurationValuesContainers(child_element, values)
 

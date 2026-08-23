@@ -164,6 +164,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucAbstractReferenceValue,
+    EcucAddInfoParamValue,
     EcucContainerValue,
     EcucInstanceReferenceValue,
     EcucModuleConfigurationValues,
@@ -8419,21 +8420,28 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEcucValueCollectionEcucValues(element, collection)
 
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
-        param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        param_value.setDefinition(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        param_value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
         for annotation in self.getAnnotations(element):
             param_value.addAnnotation(annotation)
-        param_value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
+        param_value.setIsAutoValue(self.getChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE"))
 
     def getEcucTextualParamValue(self, element: ET.Element) -> EcucTextualParamValue:
         param_value = EcucTextualParamValue()
         self.readEcucParameterValue(element, param_value)
-        param_value.setValue(self.getChildElementOptionalLiteral(element, "VALUE"))
+        param_value.setValue(self.getChildElementOptionalVerbatimString(element, "VALUE"))
         return param_value
 
     def getEcucNumericalParamValue(self, element: ET.Element) -> EcucNumericalParamValue:
         param_value = EcucNumericalParamValue()
         self.readEcucParameterValue(element, param_value)
-        param_value.setValue(self.getChildElementOptionalNumericalValue(element, "VALUE"))
+        param_value.setValue(self.getChildElementOptionalNumerical(element, "VALUE"))
+        return param_value
+
+    def getEcucAddInfoParamValue(self, element: ET.Element) -> EcucAddInfoParamValue:
+        param_value = EcucAddInfoParamValue()
+        self.readEcucParameterValue(element, param_value)
+        param_value.setValue(self.getDocumentationBlock(element, "VALUE"))
         return param_value
 
     def readEcucContainerValueParameterValues(self, element: ET.Element, container_value: EcucContainerValue):
@@ -8443,14 +8451,17 @@ class ARXMLParser(AbstractARXMLParser):
                 container_value.addParameterValue(self.getEcucTextualParamValue(child_element))
             elif tag_name == "ECUC-NUMERICAL-PARAM-VALUE":
                 container_value.addParameterValue(self.getEcucNumericalParamValue(child_element))
+            elif tag_name == "ECUC-ADD-INFO-PARAM-VALUE":
+                container_value.addParameterValue(self.getEcucAddInfoParamValue(child_element))
             else:
                 self.notImplemented("Unsupported EcucParameterValue <%s>" % tag_name)
 
     def readEcucAbstractReferenceValue(self, element: ET.Element, value: EcucAbstractReferenceValue):
         value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
         for annotation in self.getAnnotations(element):
             value.addAnnotation(annotation)
-        value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
+        value.setIsAutoValue(self.getChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE"))
 
     def getEcucReferenceValue(self, element: ET.Element) -> EcucReferenceValue:
         value = EcucReferenceValue()
@@ -8524,10 +8535,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readEcucModuleConfigurationValues(self, element: ET.Element, values: EcucModuleConfigurationValues):
         self.logger.debug("Read EcucModuleConfigurationValues %s" % values.getShortName())
         self.readIdentifiable(element, values)
-        values.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
-        values.setEcucDefEdition(self.getChildElementOptionalLiteral(element, "ECUC-DEF-EDITION"))
+        values.setDefinition(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        values.setEcucDefEdition(self.getChildElementOptionalRevisionLabelString(element, "ECUC-DEF-EDITION"))
         values.setImplementationConfigVariant(self.getChildElementOptionalLiteral(element, "IMPLEMENTATION-CONFIG-VARIANT"))
-        values.setModuleDescriptionRef(self.getChildElementOptionalRefType(element, "MODULE-DESCRIPTION-REF"))
+        values.setModuleDescription(self.getChildElementOptionalRefType(element, "MODULE-DESCRIPTION-REF"))
         values.setPostBuildVariantUsed(self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-USED"))
         self.readEcucModuleConfigurationValuesContainers(element, values)
 

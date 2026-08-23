@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     Identifier,
     Integer,
+    Numerical,
     RefType,
     RevisionLabelString,
     TimeValue,
@@ -107,6 +108,9 @@ class AbstractARXMLWriter(ABC):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalDataTime(self, element: ET.Element, key: str, literal: DateTime):
+        self.setChildElementOptionalLiteral(element, key, literal)
+
+    def setChildElementOptionalNumerical(self, element: ET.Element, key: str, literal: Numerical):
         self.setChildElementOptionalLiteral(element, key, literal)
 
     def setChildElementOptionalRefType(self, parent: ET.Element, child_tag_name: str, ref: RefType):

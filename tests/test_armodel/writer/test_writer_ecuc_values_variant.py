@@ -6,6 +6,8 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+    EcucAddInfoParamValue,
+    EcucContainerValue,
     EcucInstanceReferenceValue,
     EcucNumericalParamValue,
     EcucReferenceValue,
@@ -18,7 +20,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARBoolean,
     ARLiteral,
     ARNumerical,
+    Boolean,
     RefType,
+    RevisionLabelString,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (  # noqa E501
     SwSystemconstValue,
@@ -30,7 +34,10 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwDataDefProps,
 )
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
+
+NS = "http://autosar.org/schema/r4.0"
 
 
 @pytest.fixture(autouse=True)
@@ -162,14 +169,14 @@ class TestWriterEcucContainerValueSubContainers:
 class TestWriterEcucParameterValue:
     def test_with_textual_param_value(self, writer):
         param = EcucTextualParamValue()
-        param.setDefinitionRef(_ref("/d", "ECUC-PARAMETER-DEF"))
+        param.setDefinition(_ref("/d", "ECUC-PARAMETER-DEF"))
         parent = _parent()
         writer.writeEcucParameterValue(parent, param)
         assert parent.find("DEFINITION-REF") is not None
 
     def test_with_numerical_param_value(self, writer):
         param = EcucNumericalParamValue()
-        param.setDefinitionRef(_ref("/d", "ECUC-PARAMETER-DEF"))
+        param.setDefinition(_ref("/d", "ECUC-PARAMETER-DEF"))
         parent = _parent()
         writer.writeEcucParameterValue(parent, param)
         assert parent.find("DEFINITION-REF") is not None
@@ -189,6 +196,35 @@ class TestWriterEcucParameterValue:
         assert parent.find("INDEX") is not None
         assert parent.find("INDEX").text == "4"
 
+    def test_with_is_auto_value(self, writer):
+        param = EcucNumericalParamValue()
+        param.setIsAutoValue(Boolean().setValue(True))
+        parent = _parent()
+        writer.writeEcucParameterValue(parent, param)
+        is_auto_value = parent.find("IS-AUTO-VALUE")
+        assert is_auto_value is not None
+        assert is_auto_value.text == "true"
+
+    def test_emission_order_and_values(self, writer):
+        from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+
+        param = EcucTextualParamValue()
+        param.setDefinition(_ref("/d", "ECUC-PARAMETER-DEF"))
+        param.setIndex(_numerical(1))
+        param.addAnnotation(Annotation())
+        param.setIsAutoValue(Boolean().setValue(False))
+        parent = _parent()
+        writer.writeEcucParameterValue(parent, param)
+        assert [c.tag for c in parent] == ["DEFINITION-REF", "INDEX", "ANNOTATIONS", "IS-AUTO-VALUE"]
+        definition_ref = parent.find("DEFINITION-REF")
+        assert definition_ref.text == "/d"
+        index = parent.find("INDEX")
+        assert index.text == "1"
+        annotations = parent.find("ANNOTATIONS")
+        assert annotations.findall("ANNOTATION") is not None
+        is_auto_value = parent.find("IS-AUTO-VALUE")
+        assert is_auto_value.text == "false"
+
     def test_minimal(self, writer):
         param = EcucTextualParamValue()
         parent = _parent()
@@ -196,6 +232,90 @@ class TestWriterEcucParameterValue:
         assert parent.find("DEFINITION-REF") is None
         assert parent.find("ANNOTATIONS") is None
         assert parent.find("INDEX") is None
+        assert parent.find("IS-AUTO-VALUE") is None
+
+
+class TestWriterSetEcucTextualParamValue:
+    def test_writes_verbatim_string_value(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import VerbatimString
+
+        param = EcucTextualParamValue()
+        param.setDefinition(_ref("/d", "ECUC-STRING-PARAM-DEF"))
+        param.setValue(VerbatimString().setValue("NVM_BLOCK_NATIVE"))
+        parent = _parent()
+        writer.setEcucTextualParamValue(parent, param)
+        child = parent.find("ECUC-TEXTUAL-PARAM-VALUE")
+        assert child is not None
+        assert child.find("DEFINITION-REF").text == "/d"
+        assert child.find("VALUE").text == "NVM_BLOCK_NATIVE"
+
+    def test_minimal_writes_no_value(self, writer):
+        param = EcucTextualParamValue()
+        parent = _parent()
+        writer.setEcucTextualParamValue(parent, param)
+        child = parent.find("ECUC-TEXTUAL-PARAM-VALUE")
+        assert child is not None
+        assert child.find("VALUE") is None
+
+
+class TestWriterSetEcucNumericalParamValue:
+    def test_writes_numerical_value(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical
+
+        param = EcucNumericalParamValue()
+        param.setDefinition(_ref("/d", "ECUC-FLOAT-PARAM-DEF"))
+        param.setValue(Numerical().setValue("74.8"))
+        parent = _parent()
+        writer.setEcucNumericalParamValue(parent, param)
+        child = parent.find("ECUC-NUMERICAL-PARAM-VALUE")
+        assert child is not None
+        assert child.find("DEFINITION-REF").text == "/d"
+        assert child.find("VALUE").text == "74.8"
+
+    def test_minimal_writes_no_value(self, writer):
+        param = EcucNumericalParamValue()
+        parent = _parent()
+        writer.setEcucNumericalParamValue(parent, param)
+        child = parent.find("ECUC-NUMERICAL-PARAM-VALUE")
+        assert child is not None
+        assert child.find("VALUE") is None
+
+
+class TestWriterSetEcucAddInfoParamValue:
+    def test_writes_documentation_block_value(self, writer):
+        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+        from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
+        from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
+
+        block = DocumentationBlock()
+        para = MultiLanguageParagraph()
+        l1 = LLongName()
+        l1.l = "en"
+        l1.value = "Description of the Dtc 0815."
+        para.addL1(l1)
+        block.addP(para)
+        param = EcucAddInfoParamValue()
+        param.setDefinition(_ref("/d", "ECUC-ADD-INFO-PARAM-DEF"))
+        param.setValue(block)
+        parent = _parent()
+        writer.setEcucAddInfoParamValue(parent, param)
+        child = parent.find("ECUC-ADD-INFO-PARAM-VALUE")
+        assert child is not None
+        assert child.find("DEFINITION-REF").text == "/d"
+        p = child.find("VALUE/P")
+        assert p is not None
+        l_1 = p.find("L-1")
+        assert l_1 is not None
+        assert l_1.attrib["L"] == "en"
+        assert l_1.text == "Description of the Dtc 0815."
+
+    def test_minimal_writes_no_value(self, writer):
+        param = EcucAddInfoParamValue()
+        parent = _parent()
+        writer.setEcucAddInfoParamValue(parent, param)
+        child = parent.find("ECUC-ADD-INFO-PARAM-VALUE")
+        assert child is not None
+        assert child.find("VALUE") is None
 
 
 class TestWriterEcucContainerValueParameterValues:
@@ -203,11 +323,11 @@ class TestWriterEcucContainerValueParameterValues:
         container = _make_container()
         textual = EcucTextualParamValue()
         textual.setValue(_literal("txt"))
-        textual.setDefinitionRef(_ref("/d1", "ECUC-PARAMETER-DEF"))
+        textual.setDefinition(_ref("/d1", "ECUC-PARAMETER-DEF"))
         container.addParameterValue(textual)
         numerical = EcucNumericalParamValue()
         numerical.setValue(_numerical(42))
-        numerical.setDefinitionRef(_ref("/d2", "ECUC-PARAMETER-DEF"))
+        numerical.setDefinition(_ref("/d2", "ECUC-PARAMETER-DEF"))
         container.addParameterValue(numerical)
         parent = _parent()
         writer.writeEcucContainerValueParameterValues(parent, container)
@@ -215,6 +335,20 @@ class TestWriterEcucContainerValueParameterValues:
         tags = {c.tag for c in parent[0]}
         assert "ECUC-TEXTUAL-PARAM-VALUE" in tags
         assert "ECUC-NUMERICAL-PARAM-VALUE" in tags
+
+    def test_dispatches_add_info_param_value(self, writer):
+        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+
+        container = _make_container()
+        add_info = EcucAddInfoParamValue()
+        add_info.setValue(DocumentationBlock())
+        add_info.setDefinition(_ref("/d3", "ECUC-PARAMETER-DEF"))
+        container.addParameterValue(add_info)
+        parent = _parent()
+        writer.writeEcucContainerValueParameterValues(parent, container)
+        assert parent[0].tag == "PARAMETER-VALUES"
+        tags = {c.tag for c in parent[0]}
+        assert "ECUC-ADD-INFO-PARAM-VALUE" in tags
 
     def test_empty(self, writer):
         container = _make_container()
@@ -252,6 +386,65 @@ class TestWriterEcucAbstractReferenceValue:
         assert parent.find("DEFINITION-REF") is None
         assert parent.find("ANNOTATIONS") is None
 
+    def test_writes_all_table_2_53_fields_in_spec_order(self, writer):
+        ref_val = EcucReferenceValue()
+        ref_val.setDefinitionRef(_ref("/d", "ECUC-REFERENCE-DEF"))
+        ref_val.setIndex(_numerical(3))
+        ref_val.addAnnotation(Annotation())
+        ref_val.setIsAutoValue(Boolean().setValue(True))
+        parent = _parent()
+        writer.writeEcucAbstractReferenceValue(parent, ref_val)
+        assert [child.tag for child in parent] == ["DEFINITION-REF", "INDEX", "ANNOTATIONS", "IS-AUTO-VALUE"]
+        assert parent.find("DEFINITION-REF").text == "/d"
+        assert parent.find("INDEX").text == "3"
+        assert parent.find("ANNOTATIONS/ANNOTATION") is not None
+        assert parent.find("IS-AUTO-VALUE").text == "true"
+
+    def test_omits_all_unset_optional_fields(self, writer):
+        ref_val = EcucReferenceValue()
+        parent = _parent()
+        writer.writeEcucAbstractReferenceValue(parent, ref_val)
+        assert len(parent) == 0
+
+
+class TestWriterEcucReferenceValue:
+    def test_writes_all_table_2_54_fields_in_spec_order(self, writer):
+        ref_val = EcucReferenceValue()
+        ref_val.setDefinitionRef(_ref("/d", "ECUC-REFERENCE-DEF"))
+        ref_val.setIndex(_numerical(3))
+        ref_val.addAnnotation(Annotation())
+        ref_val.setIsAutoValue(Boolean().setValue(True))
+        ref_val.setValueRef(_ref("/v", "ECUC-CONTAINER-VALUE"))
+        parent = _parent()
+        writer.setEcucReferenceValue(parent, ref_val)
+        el = parent[0]
+        assert el.tag == "ECUC-REFERENCE-VALUE"
+        assert [child.tag for child in el] == [
+            "DEFINITION-REF",
+            "INDEX",
+            "ANNOTATIONS",
+            "IS-AUTO-VALUE",
+            "VALUE-REF",
+        ]
+        assert el.find("DEFINITION-REF").text == "/d"
+        assert el.find("INDEX").text == "3"
+        assert el.find("ANNOTATIONS/ANNOTATION") is not None
+        assert el.find("IS-AUTO-VALUE").text == "true"
+        value_ref = el.find("VALUE-REF")
+        assert value_ref.text == "/v"
+        assert value_ref.attrib["DEST"] == "ECUC-CONTAINER-VALUE"
+
+    def test_omits_all_unset_optional_fields(self, writer):
+        ref_val = EcucReferenceValue()
+        parent = _parent()
+        writer.setEcucReferenceValue(parent, ref_val)
+        assert parent.find("ECUC-REFERENCE-VALUE") is None
+
+    def test_none_emit_nothing(self, writer):
+        parent = _parent()
+        writer.setEcucReferenceValue(parent, None)
+        assert len(parent) == 0
+
 
 class TestWriterEcucContainerValueReferenceValues:
     def test_dispatches_reference_and_instance_reference(self, writer):
@@ -287,6 +480,31 @@ class TestWriterEcucContainerValueReferenceValues:
         parent = _parent()
         writer.writeEcucContainerValueReferenceValues(parent, container)
         assert len(parent) == 0
+
+    def test_write_read_roundtrip(self, writer):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        container = _make_container()
+        iref_val = EcucInstanceReferenceValue()
+        iref_val.setDefinitionRef(_ref("/d2", "ECUC-REFERENCE-DEF"))
+        iref = AnyInstanceRef()
+        iref.setBaseRef(_ref("/b", "ECUC-CONTAINER-VALUE"))
+        iref.setTargetRef(_ref("/t", "ECUC-CONTAINER-VALUE"))
+        iref_val.setValueIRef(iref)
+        container.addReferenceValue(iref_val)
+
+        parent = _parent()
+        writer.writeEcucContainerValueReferenceValues(parent, container)
+
+        written = parent.find("REFERENCE-VALUES/ECUC-INSTANCE-REFERENCE-VALUE")
+        wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(written, encoding="unicode"))
+        parser = ARXMLParser()
+        read_val = parser.getEcucInstanceReferenceValue(wrapped[0])
+        assert read_val.getValueIRef() is not None
+        assert read_val.getValueIRef().getBaseRef().getValue() == "/b"
+        assert read_val.getValueIRef().getTargetRef().getValue() == "/t"
+        assert read_val.getDefinitionRef().getValue() == "/d2"
 
 
 class TestWriterEcucContainValue:
@@ -324,6 +542,46 @@ class TestWriterEcucContainValue:
         assert parent[0].find("SUB-CONTAINERS") is None
 
 
+class TestWriterEcucContainerValueRoundTrip:
+    """Write EcucContainerValue then re-parse the output and assert all four
+    Table 2.48 attributes survive the round-trip (Rule 0006)."""
+
+    def test_write_then_read_preserves_all_fields(self, writer):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = _make_container()
+        container.setDefinitionRef(_ref("/cdef", "ECUC-PARAM-CONF-CONTAINER-DEF"))
+        textual = EcucTextualParamValue()
+        textual.setValue(_literal("txt"))
+        container.addParameterValue(textual)
+        ref_val = EcucReferenceValue()
+        ref_val.setValueRef(_ref("/v", "ECUC-CONTAINER-VALUE"))
+        container.addReferenceValue(ref_val)
+        container.createSubContainer("sub")
+
+        parent = _parent()
+        writer.writeEcucContainValue(parent, container)
+        written = parent[0]
+        assert written.tag == "ECUC-CONTAINER-VALUE"
+
+        raw = ET.tostring(written, encoding="unicode")
+        wrapped = ET.fromstring('<WRAP xmlns="%s">%s</WRAP>' % (NS, raw))
+        reparsed = EcucContainerValue(AUTOSAR.getInstance().createARPackage("R"), "cv")
+        ARXMLParser().readEcucContainerValue(wrapped[0], reparsed)
+
+        assert reparsed.getDefinitionRef() is not None
+        assert reparsed.getDefinitionRef().getValue() == "/cdef"
+        params = reparsed.getParameterValues()
+        assert len(params) == 1
+        assert isinstance(params[0], EcucTextualParamValue)
+        assert params[0].getValue().getValue() == "txt"
+        refs = reparsed.getReferenceValues()
+        assert len(refs) == 1
+        assert refs[0].getValueRef().getValue() == "/v"
+        subs = reparsed.getSubContainers()
+        assert len(subs) == 1
+        assert subs[0].getShortName() == "sub"
+
+
 class TestWriterEcucModuleConfigurationValuesContainers:
     def test_with_containers(self, writer):
         mcv = _make_module_config()
@@ -345,19 +603,23 @@ class TestWriterEcucModuleConfigurationValuesContainers:
 class TestWriterEcucModuleConfigurationValues:
     def test_full(self, writer):
         mcv = _make_module_config()
-        mcv.setDefinitionRef(_ref("/d", "ECUC-MODULE-DEF"))
-        mcv.setImplementationConfigVariant(_literal("variant"))
-        mcv.setModuleDescriptionRef(_ref("/md", "ECUC-MODULE-DEF"))
+        mcv.setDefinition(_ref("/d", "ECUC-MODULE-DEF"))
+        mcv.setImplementationConfigVariant(_literal("VARIANT-PRE-COMPILE"))
+        mcv.setModuleDescription(_ref("/md", "BSW-IMPLEMENTATION"))
         mcv.createContainer("c1")
         parent = _parent()
         writer.writeEcucModuleConfigurationValues(parent, mcv)
         assert parent[0].tag == "ECUC-MODULE-CONFIGURATION-VALUES"
         assert parent[0].find("SHORT-NAME").text == "mcv"
-        assert parent[0].find("DEFINITION-REF") is not None
+        definition_ref = parent[0].find("DEFINITION-REF")
+        assert definition_ref is not None
+        assert definition_ref.text == "/d"
         impl = parent[0].find("IMPLEMENTATION-CONFIG-VARIANT")
         assert impl is not None
-        assert impl.text == "variant"
-        assert parent[0].find("MODULE-DESCRIPTION-REF") is not None
+        assert impl.text == "VARIANT-PRE-COMPILE"
+        module_description_ref = parent[0].find("MODULE-DESCRIPTION-REF")
+        assert module_description_ref is not None
+        assert module_description_ref.text == "/md"
         assert parent[0].find("CONTAINERS") is not None
 
     def test_minimal(self, writer):
@@ -374,8 +636,8 @@ class TestWriterEcucModuleConfigurationValues:
 
     def test_full_writes_ecuc_def_edition_and_post_build_variant_used(self, writer):
         mcv = _make_module_config()
-        mcv.setEcucDefEdition(_literal("1.0.0"))
-        mcv.setPostBuildVariantUsed(ARBoolean().setValue(True))
+        mcv.setEcucDefEdition(RevisionLabelString().setValue("1.0.0"))
+        mcv.setPostBuildVariantUsed(Boolean().setValue(True))
         parent = _parent()
         writer.writeEcucModuleConfigurationValues(parent, mcv)
         assert parent[0].tag == "ECUC-MODULE-CONFIGURATION-VALUES"
