@@ -583,48 +583,128 @@ def test_ecuc_reference_value_member_docstrings_verbatim():
         assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
 
 
-def test_ecuc_container_value():
+def test_ecuc_container_value_initialization_defaults():
     """
-    Test EcucContainerValue class.
+    EcucContainerValue (Table 2.48) defaults: all four spec attributes empty.
 
     Test Steps:
     1. Create an EcucContainerValue instance with parent and short_name
-    2. Test initial values
-    3. Test definitionRef methods
-    4. Test parameterValues methods
-    5. Test referenceValues methods
-    6. Test subContainers methods including createSubContainer
+    2. Assert definitionRef is None and the three aggr lists are empty
     """
-    parent = Limit()  # Using Limit as a concrete ARObject subclass
+    parent = Limit()
     container = EcucContainerValue(parent, "test_container")
 
-    # Test initial values
     assert container.parent == parent
     assert container.short_name == "test_container"
-    assert container.definitionRef is None
-    assert container.parameterValues == []
-    assert container.referenceValues == []
-    assert container.subContainers == []
+    assert container.getDefinitionRef() is None
+    assert container.getParameterValues() == []
+    assert container.getReferenceValues() == []
+    assert container.getSubContainers() == []
 
-    # Test definitionRef methods
-    container.setDefinitionRef("def_ref")
-    assert container.getDefinitionRef() == "def_ref"
 
-    # Test parameterValues methods
+def test_ecuc_container_value_get_set_definition_ref():
+    """
+    setDefinitionRef returns self (chaining) and a None value is a no-op.
+
+    Test Steps:
+    1. Set a RefType value via setDefinitionRef
+    2. Assert chaining returns self and the value round-trips
+    3. Call setDefinitionRef(None) and assert the previous value is preserved
+    """
+    parent = Limit()
+    container = EcucContainerValue(parent, "test_container")
+    ref = RefType().setValue("/EcucDefs/Rte/Container")
+
+    result = container.setDefinitionRef(ref)
+    assert result is container
+    assert container.getDefinitionRef() == ref
+
+    container.setDefinitionRef(None)
+    assert container.getDefinitionRef() == ref
+
+
+def test_ecuc_container_value_add_parameter_value():
+    """
+    addParameterValue appends and chains.
+
+    Test Steps:
+    1. Add an EcucParameterValue via addParameterValue
+    2. Assert chaining and the value is in the typed list
+    """
+    parent = Limit()
+    container = EcucContainerValue(parent, "test_container")
     param_val = EcucAddInfoParamValue()
-    container.addParameterValue(param_val)
+
+    result = container.addParameterValue(param_val)
+    assert result is container
     assert container.getParameterValues() == [param_val]
 
-    # Test referenceValues methods
-    ref_val = EcucReferenceValue()
-    container.addReferenceValue(ref_val)
-    assert container.getReferenceValues() == [ref_val]
 
-    # Test subContainers methods
-    sub_container = container.createSubContainer("sub_container")
-    assert sub_container is not None
-    assert len(container.subContainers) == 1
-    assert container.getSubContainers() == [sub_container]
+def test_ecuc_container_value_reference_values_returns_list():
+    """
+    getReferenceValues returns the typed list (not a single type), per Table 2.48.
+
+    Test Steps:
+    1. Add an EcucReferenceValue via addReferenceValue
+    2. Assert getReferenceValues returns a list containing the value
+    """
+    parent = Limit()
+    container = EcucContainerValue(parent, "test_container")
+    ref_val = EcucReferenceValue()
+
+    result = container.addReferenceValue(ref_val)
+    assert result is container
+    values = container.getReferenceValues()
+    assert isinstance(values, list)
+    assert values == [ref_val]
+
+
+def test_ecuc_container_value_create_sub_container():
+    """
+    createSubContainer creates a Referrable child and a duplicate returns existing.
+
+    Test Steps:
+    1. Create a sub-container and assert its short_name
+    2. Create a duplicate short_name and assert the same instance is returned
+    """
+    parent = Limit()
+    container = EcucContainerValue(parent, "test_container")
+
+    sub = container.createSubContainer("sub_container")
+    assert sub is not None
+    assert sub.short_name == "sub_container"
+    assert container.getSubContainers() == [sub]
+
+    duplicate = container.createSubContainer("sub_container")
+    assert duplicate is sub
+    assert len(container.getSubContainers()) == 1
+
+
+def test_ecuc_container_value_member_docstrings_verbatim():
+    """
+    Member docstrings must carry the Table 2.48 attribute Notes verbatim (Rule 0001.4/0012).
+
+    Test Steps:
+    1. Assert the class docstring contains the spec class Note verbatim
+    2. Assert each getter/setter/docstring carries the full spec Note sentence
+    """
+    assert EcucContainerValue.__doc__ is not None
+    assert "Represents a Container definition in the ECU Configuration Description." in EcucContainerValue.__doc__
+
+    notes = {
+        "getDefinitionRef": "Reference to the definition of this Container in the ECU Configuration Parameter Definition.",
+        "setDefinitionRef": "Reference to the definition of this Container in the ECU Configuration Parameter Definition.",
+        "getParameterValues": "Aggregates all ECU Configuration Values within this Container.",
+        "addParameterValue": "Aggregates all ECU Configuration Values within this Container.",
+        "getReferenceValues": "Aggregates all References with this container.",
+        "addReferenceValue": "Aggregates all References with this container.",
+        "getSubContainers": "Aggregates all sub-containers within this container.",
+        "createSubContainer": "Aggregates all sub-containers within this container.",
+    }
+    for method_name, note in notes.items():
+        method = getattr(EcucContainerValue, method_name)
+        assert method.__doc__ is not None, "%s must have a docstring" % method_name
+        assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
 
 
 def test_ecuc_module_configuration_values():
@@ -878,7 +958,12 @@ if __name__ == "__main__":
     test_ecuc_abstract_reference_value_methods()
     test_ecuc_instance_reference_value()
     test_ecuc_reference_value()
-    test_ecuc_container_value()
+    test_ecuc_container_value_initialization_defaults()
+    test_ecuc_container_value_get_set_definition_ref()
+    test_ecuc_container_value_add_parameter_value()
+    test_ecuc_container_value_reference_values_returns_list()
+    test_ecuc_container_value_create_sub_container()
+    test_ecuc_container_value_member_docstrings_verbatim()
     test_ecuc_module_configuration_values()
     test_ecuc_configuration_variant_enum()
     test_ecuc_module_def()

@@ -7,6 +7,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucAddInfoParamValue,
+    EcucContainerValue,
     EcucInstanceReferenceValue,
     EcucNumericalParamValue,
     EcucReferenceValue,
@@ -15,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (  # noqa E501
     AnyInstanceRef,
 )
+from armodel.parser.arxml_parser import ARXMLParser
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARBoolean,
     ARLiteral,
@@ -34,6 +36,8 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
 )
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.writer.arxml_writer import ARXMLWriter
+
+NS = "http://autosar.org/schema/r4.0"
 
 
 @pytest.fixture(autouse=True)
@@ -536,6 +540,46 @@ class TestWriterEcucContainValue:
         assert parent[0].find("PARAMETER-VALUES") is None
         assert parent[0].find("REFERENCE-VALUES") is None
         assert parent[0].find("SUB-CONTAINERS") is None
+
+
+class TestWriterEcucContainerValueRoundTrip:
+    """Write EcucContainerValue then re-parse the output and assert all four
+    Table 2.48 attributes survive the round-trip (Rule 0006)."""
+
+    def test_write_then_read_preserves_all_fields(self, writer):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        container = _make_container()
+        container.setDefinitionRef(_ref("/cdef", "ECUC-PARAM-CONF-CONTAINER-DEF"))
+        textual = EcucTextualParamValue()
+        textual.setValue(_literal("txt"))
+        container.addParameterValue(textual)
+        ref_val = EcucReferenceValue()
+        ref_val.setValueRef(_ref("/v", "ECUC-CONTAINER-VALUE"))
+        container.addReferenceValue(ref_val)
+        container.createSubContainer("sub")
+
+        parent = _parent()
+        writer.writeEcucContainValue(parent, container)
+        written = parent[0]
+        assert written.tag == "ECUC-CONTAINER-VALUE"
+
+        raw = ET.tostring(written, encoding="unicode")
+        wrapped = ET.fromstring('<WRAP xmlns="%s">%s</WRAP>' % (NS, raw))
+        reparsed = EcucContainerValue(AUTOSAR.getInstance().createARPackage("R"), "cv")
+        ARXMLParser().readEcucContainerValue(wrapped[0], reparsed)
+
+        assert reparsed.getDefinitionRef() is not None
+        assert reparsed.getDefinitionRef().getValue() == "/cdef"
+        params = reparsed.getParameterValues()
+        assert len(params) == 1
+        assert isinstance(params[0], EcucTextualParamValue)
+        assert params[0].getValue().getValue() == "txt"
+        refs = reparsed.getReferenceValues()
+        assert len(refs) == 1
+        assert refs[0].getValueRef().getValue() == "/v"
+        subs = reparsed.getSubContainers()
+        assert len(subs) == 1
+        assert subs[0].getShortName() == "sub"
 
 
 class TestWriterEcucModuleConfigurationValuesContainers:
