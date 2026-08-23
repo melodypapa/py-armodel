@@ -527,6 +527,28 @@ class TestFlexrayClusterHandlers:
         parser.readFlexrayFrameTriggeringAbsolutelyScheduledTimings(element, triggering)
         assert len(triggering.getAbsolutelyScheduledTimings()) == 1
 
+    def test_readTtcanAbsolutelyScheduledTiming_sets_fields(self, parser):
+        from armodel.models import TtcanAbsolutelyScheduledTiming
+
+        timing = TtcanAbsolutelyScheduledTiming()
+        element = _snip(
+            "<COMMUNICATION-CYCLE>"
+            "<CYCLE-REPETITION>"
+            "<BASE-CYCLE>1</BASE-CYCLE>"
+            "<CYCLE-REPETITION>cyclic</CYCLE-REPETITION>"
+            "</CYCLE-REPETITION>"
+            "</COMMUNICATION-CYCLE>"
+            "<TIME-MARK>16</TIME-MARK>"
+            "<TRIGGER>RX-TRIGGER</TRIGGER>",
+            root_tag="TTCAN-ABSOLUTELY-SCHEDULED-TIMING",
+        )
+        parser.readTtcanAbsolutelyScheduledTiming(element, timing)
+        assert timing.getCommunicationCycle() is not None
+        assert timing.getCommunicationCycle().getBaseCycle().getValue() == 1
+        assert timing.getCommunicationCycle().getCycleRepetition().getValue() == "cyclic"
+        assert timing.getTimeMark().getValue() == 16
+        assert timing.getTrigger().getValue() == "RX-TRIGGER"
+
 
 class TestEthernetClusterHandlers:
     def test_readEthernetCluster_sets_short_name(self, parser):

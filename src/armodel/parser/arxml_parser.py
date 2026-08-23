@@ -463,6 +463,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
     AbstractCanCommunicationController,
     AbstractCanCommunicationControllerAttributes,
@@ -5890,6 +5891,22 @@ class ARXMLParser(AbstractARXMLParser):
                 triggering.addAbsolutelyScheduledTiming(timing)
             else:
                 self.notImplemented("Unsupported AbsolutelyScheduledTiming <%s>" % tag_name)
+
+    def readTtcanAbsolutelyScheduledTimingCommunicationCycle(self, element: ET.Element, timing: TtcanAbsolutelyScheduledTiming):
+        for child_element in self.findall(element, "COMMUNICATION-CYCLE/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "CYCLE-REPETITION":
+                repetition = CycleRepetition()
+                self.readCycleRepetition(child_element, repetition)
+                timing.setCommunicationCycle(repetition)
+            else:
+                self.notImplemented("Unsupported CommunicationCycle <%s>" % tag_name)
+
+    def readTtcanAbsolutelyScheduledTiming(self, element: ET.Element, timing: TtcanAbsolutelyScheduledTiming):
+        self.readARObjectAttributes(element, timing)
+        self.readTtcanAbsolutelyScheduledTimingCommunicationCycle(element, timing)
+        timing.setTimeMark(self.getChildElementOptionalIntegerValue(element, "TIME-MARK"))
+        timing.setTrigger(self.getChildElementOptionalLiteral(element, "TRIGGER"))
 
     def readFlexrayFrameTriggering(self, element: ET.Element, triggering: FlexrayFrameTriggering):
         self.logger.debug("Read FlexrayFrameTriggering %s" % triggering.getShortName())

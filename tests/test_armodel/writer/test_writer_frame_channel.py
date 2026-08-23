@@ -64,6 +64,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     LinScheduleTable,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCluster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (  # noqa: E501
     ISignalTriggering,
     PduTriggering,
@@ -311,6 +312,45 @@ class TestWriteFlexrayAbsolutelyScheduledTiming:
         assert tag is not None
         assert tag.find("COMMUNICATION-CYCLE") is not None
         assert tag.find("SLOT-ID").text == "7"
+
+
+class TestWriteTtcanAbsolutelyScheduledTiming:
+    def test_write_none(self, writer):
+        parent = _parent()
+        writer.writeTtcanAbsolutelyScheduledTiming(parent, None)
+        assert len(parent) == 0
+
+    def test_write_full(self, writer):
+        from armodel.models import TtcanTriggerType
+
+        timing = TtcanAbsolutelyScheduledTiming()
+        cycle = CycleRepetition()
+        cycle.setBaseCycle(_integer("2"))
+        timing.setCommunicationCycle(cycle)
+        timing.setTimeMark(_integer("16"))
+        trigger = TtcanTriggerType()
+        trigger.setValue(TtcanTriggerType.ENUM_RX_TRIGGER)
+        timing.setTrigger(trigger)
+        parent = _parent()
+        writer.writeTtcanAbsolutelyScheduledTiming(parent, timing)
+        tag = parent.find("TTCAN-ABSOLUTELY-SCHEDULED-TIMING")
+        assert tag is not None
+        cc = tag.find("COMMUNICATION-CYCLE")
+        assert cc is not None
+        assert cc.find("CYCLE-REPETITION") is not None
+        assert cc.find("CYCLE-REPETITION/BASE-CYCLE").text == "2"
+        assert tag.find("TIME-MARK").text == "16"
+        assert tag.find("TRIGGER").text == "RX-TRIGGER"
+
+    def test_write_empty(self, writer):
+        timing = TtcanAbsolutelyScheduledTiming()
+        parent = _parent()
+        writer.writeTtcanAbsolutelyScheduledTiming(parent, timing)
+        tag = parent.find("TTCAN-ABSOLUTELY-SCHEDULED-TIMING")
+        assert tag is not None
+        assert tag.find("COMMUNICATION-CYCLE") is None
+        assert tag.find("TIME-MARK") is None
+        assert tag.find("TRIGGER") is None
 
 
 class TestWriteFlexrayFrameTriggering:

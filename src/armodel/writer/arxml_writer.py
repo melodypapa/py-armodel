@@ -437,6 +437,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
     AbstractCanCommunicationController,
     AbstractCanCommunicationControllerAttributes,
@@ -6372,6 +6373,23 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeFlexrayAbsolutelyScheduledTiming(child_element, timing)
                 else:
                     self.notImplemented("Unsupported AbsolutelyScheduledTiming <%s>" % type(timing))
+
+    def writeTtcanAbsolutelyScheduledTimingCommunicationCycle(self, element: ET.Element, timing: TtcanAbsolutelyScheduledTiming):
+        cycle = timing.getCommunicationCycle()
+        if cycle is not None:
+            child_element = ET.SubElement(element, "COMMUNICATION-CYCLE")
+            if isinstance(cycle, CycleRepetition):
+                self.writeCycleRepetition(child_element, cycle)
+            else:
+                self.notImplemented("Unsupported CommunicationCycle <%s>" % type(cycle))
+
+    def writeTtcanAbsolutelyScheduledTiming(self, element: ET.Element, timing: TtcanAbsolutelyScheduledTiming):
+        if timing is not None:
+            child_element = ET.SubElement(element, "TTCAN-ABSOLUTELY-SCHEDULED-TIMING")
+            self.writeARObjectAttributes(child_element, timing)
+            self.writeTtcanAbsolutelyScheduledTimingCommunicationCycle(child_element, timing)
+            self.setChildElementOptionalIntegerValue(child_element, "TIME-MARK", timing.getTimeMark())
+            self.setChildElementOptionalLiteral(child_element, "TRIGGER", timing.getTrigger())
 
     def writeFlexrayFrameTriggering(self, element: ET.Element, triggering: FlexrayFrameTriggering):
         self.logger.debug("Write FlexrayFrameTriggering %s" % triggering.getShortName())
