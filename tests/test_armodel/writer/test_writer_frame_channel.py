@@ -80,7 +80,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
-
 _NS = "http://autosar.org/schema/r4.0"
 
 
@@ -505,11 +504,11 @@ class TestPhysicalChannelRoundTrip:
             "<SHORT-NAME>Ch</SHORT-NAME>"
             "<COMM-CONNECTORS>"
             "<COMMUNICATION-CONNECTOR-REF-CONDITIONAL>"
-            "<COMMUNICATION-CONNECTOR-REF DEST=\"COMMUNICATION-CONNECTOR\">/cc1</COMMUNICATION-CONNECTOR-REF>"
+            '<COMMUNICATION-CONNECTOR-REF DEST="COMMUNICATION-CONNECTOR">/cc1</COMMUNICATION-CONNECTOR-REF>'
             "</COMMUNICATION-CONNECTOR-REF-CONDITIONAL>"
             "</COMM-CONNECTORS>"
             "<MANAGED-PHYSICAL-CHANNEL-REFS>"
-            "<MANAGED-PHYSICAL-CHANNEL-REF DEST=\"PHYSICAL-CHANNEL\">/pc2</MANAGED-PHYSICAL-CHANNEL-REF>"
+            '<MANAGED-PHYSICAL-CHANNEL-REF DEST="PHYSICAL-CHANNEL">/pc2</MANAGED-PHYSICAL-CHANNEL-REF>'
             "</MANAGED-PHYSICAL-CHANNEL-REFS>"
             "<FRAME-TRIGGERINGS>"
             "<CAN-FRAME-TRIGGERING><SHORT-NAME>Cft</SHORT-NAME></CAN-FRAME-TRIGGERING>"

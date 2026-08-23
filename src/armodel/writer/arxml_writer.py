@@ -5838,7 +5838,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeFrame(self, element: ET.Element, frame: Frame):
         self.writeIdentifiable(element, frame)
-        self.setChildElementOptionalNumericalValue(element, "FRAME-LENGTH", frame.frameLength)
+        self.setChildElementOptionalIntegerValue(element, "FRAME-LENGTH", frame.frameLength)
         self.writePduToFrameMappings(element, frame)
 
     def writeLinUnconditionalFrame(self, element: ET.Element, frame: LinUnconditionalFrame):

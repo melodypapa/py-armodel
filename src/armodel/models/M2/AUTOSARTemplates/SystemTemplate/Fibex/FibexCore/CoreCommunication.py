@@ -92,17 +92,18 @@ class PduToFrameMapping(Identifiable):
 
 class Frame(FibexElement, ABC):
     """
-    Abstract base class for communication frames in the AUTOSAR system,
-    defining common properties for different types of communication
-    frames including frame length and PDU to frame mappings.
+    Data frame which is sent over a communication medium. This element describes the pure Layout of a frame sent on a channel.
     """
 
     # Frame method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getFrameLength               [x] impl  [ ] docstring  [ ] test
-    # [ ] setFrameLength               [x] impl  [ ] docstring  [ ] test
-    # [ ] createPduToFrameMapping      [x] impl  [ ] docstring  [ ] test
-    # [ ] getPduToFrameMappings        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.78, p.418
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getFrameLength               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFrameLength               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createPduToFrameMapping      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPduToFrameMappings        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Frame:
@@ -110,17 +111,31 @@ class Frame(FibexElement, ABC):
 
         super().__init__(parent, short_name)
 
-        self.frameLength = None
+        # The used length (in bytes) of the referencing frame. Should not be confused with a static byte length reserved for each frame by some platforms (e.g. FlexRay). The frameLength of zero bytes is allowed. Please consider also TPS_SYST_02255.
+        self.frameLength: Optional[Integer] = None
+
+        # A frames layout as a sequence of Pdus. atpVariation: The content of a frame can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduToFrameMapping.shortName, pduTo FrameMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.pduToFrameMappings: List[PduToFrameMapping] = []
 
-    def getFrameLength(self):
+    def getFrameLength(self) -> Optional[Integer]:
+        """
+        The used length (in bytes) of the referencing frame. Should not be confused with a static byte length reserved for each frame by some platforms (e.g. FlexRay). The frameLength of zero bytes is allowed. Please consider also TPS_SYST_02255.
+        """
         return self.frameLength
 
-    def setFrameLength(self, value):
-        self.frameLength = value
+    def setFrameLength(self, value: Optional[Integer]) -> "Frame":
+        """
+        The used length (in bytes) of the referencing frame. Should not be confused with a static byte length reserved for each frame by some platforms (e.g. FlexRay). The frameLength of zero bytes is allowed. Please consider also TPS_SYST_02255.
+        A None value is a no-op and does not overwrite an existing frameLength.
+        """
+        if value is not None:
+            self.frameLength = value
         return self
 
     def createPduToFrameMapping(self, short_name: str) -> PduToFrameMapping:
+        """
+        A frames layout as a sequence of Pdus. atpVariation: The content of a frame can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduToFrameMapping.shortName, pduTo FrameMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsElementExists(short_name):
             mapping = PduToFrameMapping(self, short_name)
             self.addElement(mapping)
@@ -128,7 +143,10 @@ class Frame(FibexElement, ABC):
         return self.getElement(short_name, PduToFrameMapping)
 
     def getPduToFrameMappings(self) -> List[PduToFrameMapping]:
-        return list(sorted(filter(lambda a: isinstance(a, PduToFrameMapping), self.elements), key=lambda o: o.short_name))
+        """
+        A frames layout as a sequence of Pdus. atpVariation: The content of a frame can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduToFrameMapping.shortName, pduTo FrameMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.pduToFrameMappings
 
 
 class ContainedIPduProps(ARObject):
