@@ -307,25 +307,31 @@ class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
 
 class EcucInstanceReferenceValue(EcucAbstractReferenceValue):
     """
-    ECUC reference value using an AnyInstanceRef for instance-based
-    references.
+    InstanceReference representation in the ECU Configuration.
     """
 
     # EcucInstanceReferenceValue method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getValueIRef                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setValueIRef                 [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.55, p.134
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getValueIRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setValueIRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.valueIRef = None  # type: AnyInstanceRef
+        # InstanceReference representation in the ECU Configuration. InstanceRef implemented by: AnyInstanceRef
+        self.valueIRef: Optional[AnyInstanceRef] = None
 
-    def getValueIRef(self) -> AnyInstanceRef:
-        return self.valueRef
+    def getValueIRef(self) -> Optional[AnyInstanceRef]:
+        """InstanceReference representation in the ECU Configuration. InstanceRef implemented by: AnyInstanceRef"""
+        return self.valueIRef
 
-    def setValueIRef(self, value: AnyInstanceRef):
-        self.valueRef = value
+    def setValueIRef(self, value: Optional[AnyInstanceRef]) -> "EcucInstanceReferenceValue":
+        """InstanceReference representation in the ECU Configuration. InstanceRef implemented by: AnyInstanceRef A None value is a no-op and does not overwrite an existing reference."""
+        if value is not None:
+            self.valueIRef = value
         return self
 
 

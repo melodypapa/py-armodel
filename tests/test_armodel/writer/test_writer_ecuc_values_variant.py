@@ -477,6 +477,31 @@ class TestWriterEcucContainerValueReferenceValues:
         writer.writeEcucContainerValueReferenceValues(parent, container)
         assert len(parent) == 0
 
+    def test_write_read_roundtrip(self, writer):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        container = _make_container()
+        iref_val = EcucInstanceReferenceValue()
+        iref_val.setDefinitionRef(_ref("/d2", "ECUC-REFERENCE-DEF"))
+        iref = AnyInstanceRef()
+        iref.setBaseRef(_ref("/b", "ECUC-CONTAINER-VALUE"))
+        iref.setTargetRef(_ref("/t", "ECUC-CONTAINER-VALUE"))
+        iref_val.setValueIRef(iref)
+        container.addReferenceValue(iref_val)
+
+        parent = _parent()
+        writer.writeEcucContainerValueReferenceValues(parent, container)
+
+        written = parent.find("REFERENCE-VALUES/ECUC-INSTANCE-REFERENCE-VALUE")
+        wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(written, encoding="unicode"))
+        parser = ARXMLParser()
+        read_val = parser.getEcucInstanceReferenceValue(wrapped[0])
+        assert read_val.getValueIRef() is not None
+        assert read_val.getValueIRef().getBaseRef().getValue() == "/b"
+        assert read_val.getValueIRef().getTargetRef().getValue() == "/t"
+        assert read_val.getDefinitionRef().getValue() == "/d2"
+
 
 class TestWriterEcucContainValue:
     def test_full(self, writer):

@@ -101,14 +101,14 @@ Source file for all queued classes: `src/armodel/models/M2/AUTOSARTemplates/ECUC
   - [x] Step 8 — Deviations (none — no placeholders; stamp granted)
   - [x] Step 9 — Verify (9a done: pytest 3199+185/flake8/ruff/black clean; integration round-trip pass) + confirm (9b) ⇒ # Spec verified: R23-11 (confirmed — marker at ECUCDescriptionTemplate.py; commit f35eb73)
 - [ ] EcucInstanceReferenceValue
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite verbatim)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec: line + rows; marker deferred to 9b)
-  - [ ] Step 8 — Deviations (fix getValueIRef returning self.valueRef)
+  - [x] Step 1 — Sync members & description from spec (Table 2.55 p.134; Base ARObject/EcucAbstractReferenceValue/EcucIndexableValue; single attr value: AtpFeature 0..1 iref → valueIRef/AnyInstanceRef)
+  - [x] Step 2 — Write model class unit test (Red — valueIRef field/docstring/None-no-op/verbatim tests failed first)
+  - [x] Step 3 — Implement model class (Green — valueIRef retyped; PEP 526 annotation Optional[AnyInstanceRef]; chaining + None guard; bug fixed: getValueIRef/setValueIRef now use valueIRef not valueRef)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite verbatim: class Note, inline __init__ comment, getter/setter docstrings)
+  - [x] Step 5 — Write reader/writer round-trip test (Red → Green — parser tests value.valueRef updated to getValueIRef; new write→read round-trip asserts base/target/definition refs)
+  - [x] Step 6 — Update parser & writer (Green — reader/writer already call getValueIRef/setValueIRef; no source change needed; stale test call sites fixed)
+  - [x] Step 7 — Update checklist comment (# Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.55, p.134; 5-column rows; marker deferred to 9b)
+  - [x] Step 8 — Deviations (none — bug fixed, no placeholders; no deviation rows)
   - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write # Spec verified: R23-11
 - [ ] EcucContainerValue
   - [ ] Step 1 — Sync members & description from spec

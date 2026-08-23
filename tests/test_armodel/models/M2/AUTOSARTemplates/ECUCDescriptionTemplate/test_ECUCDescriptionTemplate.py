@@ -459,31 +459,64 @@ def test_ecuc_abstract_reference_value_member_docstrings_verbatim():
 
 def test_ecuc_instance_reference_value():
     """
-    Test EcucInstanceReferenceValue class.
+    Test EcucInstanceReferenceValue class per Table 2.55 (R23-11).
 
     Test Steps:
     1. Create an EcucInstanceReferenceValue instance
-    2. Test valueIRef getter and setter
-    3. Note: there's a bug in the source code where setValueIRef/getValueIRef incorrectly use valueRef instead of valueIRef
+    2. Test initial valueIRef is None
+    3. Test getValueIRef/setValueIRef round-trip (iref -> IRef suffix, AnyInstanceRef)
+    4. Verify method chaining
     """
     ref_value = EcucInstanceReferenceValue()
 
     # Test initial values
     assert ref_value.valueIRef is None
-    assert not hasattr(ref_value, "valueRef")  # valueRef doesn't exist initially
+    assert not hasattr(ref_value, "valueRef")
 
-    # Test valueIRef methods (testing the buggy behavior to ensure coverage)
+    # Test valueIRef methods (Table 2.55: value AtpFeature 0..1 iref -> AnyInstanceRef)
     instance_ref = AnyInstanceRef()
     result = ref_value.setValueIRef(instance_ref)
-    assert result == ref_value  # Method chaining works
+    assert result is ref_value  # Method chaining
+    assert ref_value.getValueIRef() is instance_ref
+    assert ref_value.valueIRef is instance_ref
 
-    # Due to the bug in source code:
-    # - setValueIRef sets self.valueRef instead of self.valueIRef
-    # - getValueIRef returns self.valueRef instead of self.valueIRef
-    # So the "get" method will return the value set by the "set" method despite the bug
-    assert ref_value.getValueIRef() == instance_ref  # This works due to the symmetric bug
-    assert ref_value.valueRef == instance_ref  # The buggy attribute that was set
-    assert ref_value.valueIRef is None  # The correct attribute is still None
+
+def test_ecuc_instance_reference_value_none_no_op():
+    """
+    None passed to setValueIRef of EcucInstanceReferenceValue is a no-op.
+
+    Test Steps:
+    1. Create an EcucInstanceReferenceValue instance
+    2. Set the spec value on the attribute
+    3. Call setValueIRef with None and verify the value is preserved
+    """
+    ref_value = EcucInstanceReferenceValue()
+    instance_ref = AnyInstanceRef()
+
+    assert ref_value.setValueIRef(instance_ref) is ref_value
+
+    ref_value.setValueIRef(None)
+
+    assert ref_value.getValueIRef() is instance_ref
+
+
+def test_ecuc_instance_reference_value_class_docstring_verbatim():
+    """
+    The class docstring must carry the Table 2.55 class Note verbatim (Rule 0012).
+    """
+    note = "InstanceReference representation in the ECU Configuration."
+    assert EcucInstanceReferenceValue.__doc__ is not None, "Class docstring must contain spec Note"
+    assert note in EcucInstanceReferenceValue.__doc__, "Class docstring must contain spec Note verbatim"
+
+
+def test_ecuc_instance_reference_value_member_docstrings_verbatim():
+    """
+    Member docstrings must carry the Table 2.55 attribute Notes verbatim (Rule 0001.4/0012).
+    """
+    note = "InstanceReference representation in the ECU Configuration. InstanceRef implemented by: AnyInstanceRef"
+    for method_name in ("getValueIRef", "setValueIRef"):
+        method = getattr(EcucInstanceReferenceValue, method_name)
+        assert note in method.__doc__, "%s docstring must contain the spec Note verbatim" % method_name
 
 
 def test_ecuc_reference_value():

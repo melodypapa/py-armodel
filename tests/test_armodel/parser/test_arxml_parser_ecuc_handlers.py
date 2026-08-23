@@ -820,7 +820,7 @@ class TestGetEcucInstanceReferenceValue:
         assert value.getDefinitionRef() is not None
         assert value.getIndex() is not None
         assert value.getIndex().getValue() == 9
-        iref = value.valueRef
+        iref = value.getValueIRef()
         assert iref is not None
         assert iref.getBaseRef() is not None
         assert iref.getTargetRef() is not None
@@ -837,7 +837,7 @@ class TestGetEcucInstanceReferenceValue:
         value = parser.getEcucInstanceReferenceValue(element)
         assert value is not None
         assert value.getDefinitionRef() is not None
-        assert value.valueRef is None
+        assert value.getValueIRef() is None
 
     def test_with_annotations(self, parser):
         AUTOSAR.getInstance().setARRelease("R23-11")
