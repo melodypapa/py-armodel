@@ -59,6 +59,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     ConstantSpecificationMapping,
     NotAvailableValueSpecification,
     NumericalOrText,
+    NumericalRuleBasedValueSpecification,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
@@ -1275,6 +1276,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeApplicationRuleBasedValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, CompositeRuleBasedValueSpecification):
                     self.writeCompositeRuleBasedValueSpecification(elements_tag, sub_element)
+                elif isinstance(sub_element, NumericalRuleBasedValueSpecification):
+                    self.writeNumericalRuleBasedValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, TextValueSpecification):
                     self.writeTextValueSpecification(elements_tag, sub_element)
                 elif isinstance(sub_element, ArrayValueSpecification):
@@ -1305,6 +1308,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeValueSpecification(value_spec_tag, value_spec)
             self.setChildElementOptionalPositiveInteger(value_spec_tag, "DEFAULT-PATTERN", value_spec.getDefaultPattern())
 
+    def writeNumericalRuleBasedValueSpecification(self, element: ET.Element, value_spec: NumericalRuleBasedValueSpecification):
+        if value_spec is not None:
+            value_spec_tag = ET.SubElement(element, "NUMERICAL-RULE-BASED-VALUE-SPECIFICATION")
+            self.writeValueSpecification(value_spec_tag, value_spec)
+            self.writeRuleBasedValueSpecification(value_spec_tag, "RULE-BASED-VALUES", value_spec.getRuleBasedValues())
+
     def writeConstantSpecificationMapping(self, element: ET.Element, mapping: ConstantSpecificationMapping):
         if mapping is not None:
             mapping_tag = ET.SubElement(element, "CONSTANT-SPECIFICATION-MAPPING")
@@ -1321,6 +1330,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeApplicationRuleBasedValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, CompositeRuleBasedValueSpecification):
                 self.writeCompositeRuleBasedValueSpecification(child_element, value_spec)
+            elif isinstance(value_spec, NumericalRuleBasedValueSpecification):
+                self.writeNumericalRuleBasedValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, TextValueSpecification):
                 self.writeTextValueSpecification(child_element, value_spec)
             elif isinstance(value_spec, ConstantReference):

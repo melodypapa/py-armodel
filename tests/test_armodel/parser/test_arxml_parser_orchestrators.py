@@ -1460,6 +1460,30 @@ class TestValueSpecificationHandlers:
         spec = parser.getRecordValueSpecification(element)
         assert len(spec.getFields()) == 1
 
+    def test_getNumericalRuleBasedValueSpecification_full(self, parser):
+        element = _snip(
+            "<SHORT-LABEL>rb</SHORT-LABEL>"
+            "<RULE-BASED-VALUES>"
+            "<RULE>FILL_UNTIL_END</RULE>"
+            "<ARGUMENTSS><RULE-ARGUMENTS><V>1</V></RULE-ARGUMENTS></ARGUMENTSS>"
+            "<MAX-SIZE-TO-FILL>10</MAX-SIZE-TO-FILL>"
+            "</RULE-BASED-VALUES>",
+            root_tag="NUMERICAL-RULE-BASED-VALUE-SPECIFICATION",
+        )
+        spec = parser.getNumericalRuleBasedValueSpecification(element)
+        assert spec.getShortLabel().getValue() == "rb"
+        rule_based = spec.getRuleBasedValues()
+        assert rule_based is not None
+        assert rule_based.getRule().getValue() == "FILL_UNTIL_END"
+        assert len(rule_based.getArguments()) == 1
+        assert rule_based.getArguments()[0].getV().getValue() == 1
+        assert rule_based.getMaxSizeToFill().getValue() == 10
+
+    def test_getNumericalRuleBasedValueSpecification_empty(self, parser):
+        element = _snip("", root_tag="NUMERICAL-RULE-BASED-VALUE-SPECIFICATION")
+        spec = parser.getNumericalRuleBasedValueSpecification(element)
+        assert spec.getRuleBasedValues() is None
+
 
 # ==================== System and Mapping Handlers ====================
 
@@ -3277,6 +3301,12 @@ class TestGetValueSpecification:
         result = parser.getValueSpecification(element, "REFERENCE-VALUE-SPECIFICATION")
         assert result is not None
         assert result.getReferenceValueRef().getValue() == "/dp"
+
+    def test_numerical_rule_based_value_specification(self, parser):
+        element = _snip("<RULE-BASED-VALUES><RULE>FILL_UNTIL_MAX_SIZE</RULE></RULE-BASED-VALUES>", root_tag="NUMERICAL-RULE-BASED-VALUE-SPECIFICATION")
+        result = parser.getValueSpecification(element, "NUMERICAL-RULE-BASED-VALUE-SPECIFICATION")
+        assert result is not None
+        assert result.getRuleBasedValues().getRule().getValue() == "FILL_UNTIL_MAX_SIZE"
 
     def test_unsupported_warns(self, warning_parser, caplog):
         # L2697: notImplemented logs in warning mode. The subsequent

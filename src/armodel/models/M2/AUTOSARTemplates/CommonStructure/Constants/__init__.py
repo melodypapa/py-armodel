@@ -952,19 +952,41 @@ class NumericalRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
     """
 
     # NumericalRuleBasedValueSpecification method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getRuleBasedValues           [x] impl  [ ] docstring  [ ] test
-    # [ ] setRuleBasedValues           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.132, p.467
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getRuleBasedValues  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRuleBasedValues  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
-        self.ruleBasedValues = None  # type: RuleBasedValueSpecification
 
-    def getRuleBasedValues(self):
+        # This represents the rule based value specification for the array.
+        self.ruleBasedValues: Optional[RuleBasedValueSpecification] = None
+
+    def getRuleBasedValues(self) -> Optional[RuleBasedValueSpecification]:
+        """
+        This represents the rule based value specification for the array.
+
+        Returns:
+            Optional[RuleBasedValueSpecification]: The rule based value specification, or None if not set
+        """
         return self.ruleBasedValues
 
-    def setRuleBasedValues(self, value: RuleBasedValueSpecification):
-        self.ruleBasedValues = value
+    def setRuleBasedValues(self, value: Optional[RuleBasedValueSpecification]) -> "NumericalRuleBasedValueSpecification":
+        """
+        This represents the rule based value specification for the array.
+        A None value is a no-op and does not overwrite an existing ruleBasedValues.
+
+        Args:
+            value: The rule based value specification to set
+
+        Returns:
+            NumericalRuleBasedValueSpecification: self for method chaining
+        """
+        if value is not None:
+            self.ruleBasedValues = value
         return self
 
 

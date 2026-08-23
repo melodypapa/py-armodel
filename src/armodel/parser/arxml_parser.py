@@ -59,6 +59,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     ConstantSpecificationMapping,
     NotAvailableValueSpecification,
     NumericalOrText,
+    NumericalRuleBasedValueSpecification,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
@@ -5436,6 +5437,12 @@ class ARXMLParser(AbstractARXMLParser):
         value_spec.setDefaultPattern(self.getChildElementOptionalPositiveInteger(element, "DEFAULT-PATTERN"))
         return value_spec
 
+    def getNumericalRuleBasedValueSpecification(self, element: ET.Element) -> NumericalRuleBasedValueSpecification:
+        value_spec = NumericalRuleBasedValueSpecification()
+        self.readValueSpecification(element, value_spec)
+        value_spec.setRuleBasedValues(self.getRuleBasedValueSpecification(self.find(element, "RULE-BASED-VALUES")))
+        return value_spec
+
     def getConstantSpecificationMapping(self, element: ET.Element) -> ConstantSpecificationMapping:
         mapping = ConstantSpecificationMapping()
         self.readARObjectAttributes(element, mapping)
@@ -5464,6 +5471,8 @@ class ARXMLParser(AbstractARXMLParser):
             value_spec = self.getReferenceValueSpecification(element)
         elif tag_name == "NOT-AVAILABLE-VALUE-SPECIFICATION":
             value_spec = self.getNotAvailableValueSpecification(element)
+        elif tag_name == "NUMERICAL-RULE-BASED-VALUE-SPECIFICATION":
+            value_spec = self.getNumericalRuleBasedValueSpecification(element)
         else:
             self.notImplemented("Unsupported RecordValueSpecificationField %s" % tag_name)
         return value_spec
