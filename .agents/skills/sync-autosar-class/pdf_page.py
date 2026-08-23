@@ -6,7 +6,7 @@ read the `p.NN` page used in the `# Spec:` checklist line. This script locates t
 spec table header (`Table N.M: ClassName`) in the PDF(s) and prints the page number.
 
 Usage:
-  python pdf_page.py <ClassName>                 # search all autosar/pdf/*.pdf
+  python pdf_page.py <ClassName>                 # search all autosar/R23-11/pdf/*.pdf
   python pdf_page.py <ClassName> --pdf PATH      # search a single PDF
   python pdf_page.py --table 13.24 [--pdf PATH]  # search by table id instead
   python pdf_page.py <ClassName> --refresh       # ignore the cached index
@@ -27,7 +27,7 @@ import re
 import sys
 
 CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".pdf_table_cache.json")
-DEFAULT_PDF_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "autosar", "pdf")
+DEFAULT_PDF_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "autosar", "R23-11", "pdf")
 
 
 def _pypdf_text(reader, page_index):

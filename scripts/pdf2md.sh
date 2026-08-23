@@ -1,1 +1,1 @@
-docling autosar/pdf/AUTOSAR_CP_TPS_ECUResourceTemplate.pdf --to md --output autosar/markdown/
+docling autosar/R23-11/pdf/AUTOSAR_CP_TPS_ECUResourceTemplate.pdf --to md --output autosar/R23-11/markdown/
