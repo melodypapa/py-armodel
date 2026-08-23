@@ -256,22 +256,29 @@ class Test_TransportProtocols:
         assert connection == connection.addReceiverRef(None)
         assert connection.getReceiverRefs() == [ref1]
 
-    def test_CanTpEcu(self):
-        """Test CanTpEcu class functionality."""
+    def test_CanTpEcu_initialization(self):
+        """Test CanTpEcu default state (Table 6.256)."""
         ecu = CanTpEcu()
 
         assert isinstance(ecu, ARObject)
-
-        # Test default values
         assert ecu.getCycleTimeMainFunction() is None
         assert ecu.getEcuInstanceRef() is None
 
-        # Test setter/getter methods
-        ecu.setCycleTimeMainFunction("10ms")
-        assert ecu.getCycleTimeMainFunction() == "10ms"
+    def test_CanTpEcu_get_set(self):
+        """Test CanTpEcu getters/setters with None no-op (Table 6.256)."""
+        ecu = CanTpEcu()
 
-        ecu.setEcuInstanceRef("ecu_ref")
-        assert ecu.getEcuInstanceRef() == "ecu_ref"
+        assert ecu == ecu.setCycleTimeMainFunction(TimeValue().setValue(0.01))
+        assert ecu.getCycleTimeMainFunction().getValue() == 0.01
+        assert ecu == ecu.setCycleTimeMainFunction(None)
+        assert ecu.getCycleTimeMainFunction().getValue() == 0.01
+
+        ref = RefType()
+        ref.setValue("/EcuInstance")
+        assert ecu == ecu.setEcuInstanceRef(ref)
+        assert ecu.getEcuInstanceRef() == ref
+        assert ecu == ecu.setEcuInstanceRef(None)
+        assert ecu.getEcuInstanceRef() == ref
 
     def test_CanTpNode(self):
         """Test CanTpNode class functionality."""

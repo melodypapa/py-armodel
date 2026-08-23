@@ -496,36 +496,49 @@ class CanTpConnection(TpConnection):
 
 class CanTpEcu(ARObject):
     """
-    Represents a CAN transport protocol ECU configuration,
-    defining cycle time for the main function and ECU instance
-    references for CAN TP communication management.
+    ECU specific TP configuration parameters. Each TpEcu element has a reference to exactly one ECUInstance in the topology.
     """
 
     # CanTpEcu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCycleTimeMainFunction     [x] impl  [ ] docstring  [ ] test
-    # [ ] setCycleTimeMainFunction     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEcuInstanceRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setEcuInstanceRef            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.256, p.610
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCycleTimeMainFunction    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCycleTimeMainFunction    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEcuInstanceRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEcuInstanceRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.cycleTimeMainFunction: TimeValue = None
-        self.ecuInstanceRef: RefType = None
+        # The period between successive calls to the Main Function of the AUTOSAR TP. Specified in seconds.
+        self.cycleTimeMainFunction: Optional[TimeValue] = None
 
-    def getCycleTimeMainFunction(self):
+        # Connection to the ECUInstance in the Topology
+        self.ecuInstanceRef: Optional[RefType] = None
+
+    def getCycleTimeMainFunction(self) -> Optional[TimeValue]:
+        """The period between successive calls to the Main Function of the AUTOSAR TP. Specified in seconds."""
         return self.cycleTimeMainFunction
 
-    def setCycleTimeMainFunction(self, value):
+    def setCycleTimeMainFunction(self, value: Optional[TimeValue]) -> "CanTpEcu":
+        """
+        The period between successive calls to the Main Function of the AUTOSAR TP. Specified in seconds.
+        A None value is a no-op and does not overwrite an existing cycleTimeMainFunction.
+        """
         if value is not None:
             self.cycleTimeMainFunction = value
         return self
 
-    def getEcuInstanceRef(self):
+    def getEcuInstanceRef(self) -> Optional[RefType]:
+        """Connection to the ECUInstance in the Topology"""
         return self.ecuInstanceRef
 
-    def setEcuInstanceRef(self, value):
+    def setEcuInstanceRef(self, value: Optional[RefType]) -> "CanTpEcu":
+        """
+        Connection to the ECUInstance in the Topology
+        A None value is a no-op and does not overwrite an existing ecuInstanceRef.
+        """
         if value is not None:
             self.ecuInstanceRef = value
         return self

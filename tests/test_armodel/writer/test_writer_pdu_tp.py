@@ -648,6 +648,36 @@ class TestWriteCanTpEcu:
         assert child.find("CYCLE-TIME-MAIN-FUNCTION").text == "0.01"
         assert child.find("ECU-INSTANCE-REF").text == "/ecu"
 
+    def test_roundtrip_can_tp_ecu_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        ecu = CanTpEcu()
+        ecu.setCycleTimeMainFunction(_time("0.01"))
+        ecu.setEcuInstanceRef(_ref("ECU-INSTANCE", "/ecu"))
+        parent = _parent()
+        writer.writeCanTpEcu(parent, ecu)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpEcu()
+        parser.readCanTpEcu(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getCycleTimeMainFunction().getValue() == 0.01
+        assert reloaded.getEcuInstanceRef().getValue() == "/ecu"
+
+    def test_roundtrip_can_tp_ecu_empty_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        ecu = CanTpEcu()
+        parent = _parent()
+        writer.writeCanTpEcu(parent, ecu)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpEcu()
+        parser.readCanTpEcu(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getCycleTimeMainFunction() is None
+        assert reloaded.getEcuInstanceRef() is None
+
 
 class TestWriteCanTpConfigTpEcus:
     def test_empty(self, writer):
