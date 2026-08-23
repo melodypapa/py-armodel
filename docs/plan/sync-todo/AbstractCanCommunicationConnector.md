@@ -78,6 +78,27 @@ Spec markdown: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
 
 ### Member types
 
+- [ ] CanTpAddressingFormatType (member of CanTpConnection.addressingFormat · enum · markdown · Table 6.254 · p.610 · ADDED to queue 2026-08-24 per Rule 0016.4/0016.5 — missing member type; NEW class in TransportProtocols.py; Steps 5/6 N/A: standalone enum, round-trip via consuming class; synced, stamp deferred)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] NetworkTargetAddressType (member of CanTpConnection.taType · enum · markdown · Table 6.258 · p.611 · ADDED to queue 2026-08-24 per Rule 0016.4/0016.5 — missing member type; NEW class in TransportProtocols.py; Steps 5/6 N/A: standalone enum; functionalCanFd/physicalCanFd literals EXCLUDED (atp.Status="removed" since 4.3.0, absent from R23-11 PDF); synced, stamp deferred)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (N/A: standalone enum)
+  - [x] Step 6 — Update parser & writer (N/A: standalone enum)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
 - [ ] TpConnectionIdent (base of TpConnection.ident · markdown · Table 6.273 · p.633 · ADDED to queue 2026-08-24 per Rule 0016.4/0016.5 — unstamped stub discovered as CanTpConnection dependency; MOVED from TransportProtocols.py to DiagnosticConnection.py per spec Package; synced, stamp deferred)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)

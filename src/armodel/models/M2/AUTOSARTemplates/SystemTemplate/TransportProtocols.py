@@ -7,7 +7,7 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIp import AbstractDoIpLogicAddressProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
@@ -131,6 +131,64 @@ class CanTpChannel(Identifiable):
         if value is not None:
             self.channelId = value
         return self
+
+
+class CanTpAddressingFormatType(AREnum):
+    """Declares which communication addressing mode is supported."""
+
+    # CanTpAddressingFormatType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.254, p.610
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods)
+
+    # To use extended addressing format. Tags: atp.EnumerationLiteralIndex=0
+    ENUM_EXTENDED = "EXTENDED"
+
+    # To use mixed 11bit addressing format. Tags: atp.EnumerationLiteralIndex=1
+    ENUM_MIXED = "MIXED"
+
+    # To use mixed 29bit addressing format Tags: atp.EnumerationLiteralIndex=2
+    ENUM_MIXED_29BIT = "MIXED-29-BIT"
+
+    # To use normal fixed addressing format Tags: atp.EnumerationLiteralIndex=3
+    ENUM_NORMALFIXED = "NORMALFIXED"
+
+    # To use normal addressing format. Tags: atp.EnumerationLiteralIndex=4
+    ENUM_STANDARD = "STANDARD"
+
+    def __init__(self):
+        super().__init__(
+            [
+                CanTpAddressingFormatType.ENUM_EXTENDED,
+                CanTpAddressingFormatType.ENUM_MIXED,
+                CanTpAddressingFormatType.ENUM_MIXED_29BIT,
+                CanTpAddressingFormatType.ENUM_NORMALFIXED,
+                CanTpAddressingFormatType.ENUM_STANDARD,
+            ]
+        )
+
+
+class NetworkTargetAddressType(AREnum):
+    """Network Target Address type (see ISO 15765-2)."""
+
+    # NetworkTargetAddressType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.258, p.611
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods)
+
+    # Functional request type Tags: atp.EnumerationLiteralIndex=0
+    ENUM_FUNCTIONAL = "FUNCTIONAL"
+
+    # Physical request type Tags: atp.EnumerationLiteralIndex=2
+    ENUM_PHYSICAL = "PHYSICAL"
+
+    def __init__(self):
+        super().__init__(
+            [
+                NetworkTargetAddressType.ENUM_FUNCTIONAL,
+                NetworkTargetAddressType.ENUM_PHYSICAL,
+            ]
+        )
 
 
 class CanTpConnection(TpConnection):

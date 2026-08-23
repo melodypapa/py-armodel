@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIp import AbstractDoIpL
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
     CanTpAddress,
+    CanTpAddressingFormatType,
     CanTpChannel,
     CanTpConfig,
     CanTpConnection,
@@ -19,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
+    NetworkTargetAddressType,
     TpAddress,
     TpConfig,
 )
@@ -106,6 +108,46 @@ class Test_TransportProtocols:
         assert isinstance(ident, TpConnectionIdent)
         assert connection.getIdent() == ident
         assert connection.createTpConnectionIdent("other") == ident
+
+    def test_CanTpAddressingFormatType(self):
+        """Test CanTpAddressingFormatType enum (Table 6.254)."""
+        enum = CanTpAddressingFormatType()
+        assert enum is not None
+        enum.setValue(CanTpAddressingFormatType.ENUM_STANDARD)
+        assert enum.getValue() == "STANDARD"
+
+        assert CanTpAddressingFormatType.ENUM_EXTENDED == "EXTENDED"
+        assert CanTpAddressingFormatType.ENUM_MIXED == "MIXED"
+        assert CanTpAddressingFormatType.ENUM_MIXED_29BIT == "MIXED-29-BIT"
+        assert CanTpAddressingFormatType.ENUM_NORMALFIXED == "NORMALFIXED"
+        assert CanTpAddressingFormatType.ENUM_STANDARD == "STANDARD"
+
+        assert len(enum.getEnumValues()) == 5
+        for literal in (
+            CanTpAddressingFormatType.ENUM_EXTENDED,
+            CanTpAddressingFormatType.ENUM_MIXED,
+            CanTpAddressingFormatType.ENUM_MIXED_29BIT,
+            CanTpAddressingFormatType.ENUM_NORMALFIXED,
+            CanTpAddressingFormatType.ENUM_STANDARD,
+        ):
+            assert literal in enum.getEnumValues()
+
+    def test_NetworkTargetAddressType(self):
+        """Test NetworkTargetAddressType enum (Table 6.258)."""
+        enum = NetworkTargetAddressType()
+        assert enum is not None
+        enum.setValue(NetworkTargetAddressType.ENUM_PHYSICAL)
+        assert enum.getValue() == "PHYSICAL"
+
+        assert NetworkTargetAddressType.ENUM_FUNCTIONAL == "FUNCTIONAL"
+        assert NetworkTargetAddressType.ENUM_PHYSICAL == "PHYSICAL"
+
+        assert len(enum.getEnumValues()) == 2
+        for literal in (
+            NetworkTargetAddressType.ENUM_FUNCTIONAL,
+            NetworkTargetAddressType.ENUM_PHYSICAL,
+        ):
+            assert literal in enum.getEnumValues()
 
     def test_CanTpConnection(self):
         """Test CanTpConnection class functionality."""
