@@ -527,6 +527,28 @@ class TestFlexrayClusterHandlers:
         parser.readFlexrayFrameTriggeringAbsolutelyScheduledTimings(element, triggering)
         assert len(triggering.getAbsolutelyScheduledTimings()) == 1
 
+    def test_readTtcanAbsolutelyScheduledTiming_sets_fields(self, parser):
+        from armodel.models import TtcanAbsolutelyScheduledTiming
+
+        timing = TtcanAbsolutelyScheduledTiming()
+        element = _snip(
+            "<COMMUNICATION-CYCLE>"
+            "<CYCLE-REPETITION>"
+            "<BASE-CYCLE>1</BASE-CYCLE>"
+            "<CYCLE-REPETITION>cyclic</CYCLE-REPETITION>"
+            "</CYCLE-REPETITION>"
+            "</COMMUNICATION-CYCLE>"
+            "<TIME-MARK>16</TIME-MARK>"
+            "<TRIGGER>RX-TRIGGER</TRIGGER>",
+            root_tag="TTCAN-ABSOLUTELY-SCHEDULED-TIMING",
+        )
+        parser.readTtcanAbsolutelyScheduledTiming(element, timing)
+        assert timing.getCommunicationCycle() is not None
+        assert timing.getCommunicationCycle().getBaseCycle().getValue() == 1
+        assert timing.getCommunicationCycle().getCycleRepetition().getValue() == "cyclic"
+        assert timing.getTimeMark().getValue() == 16
+        assert timing.getTrigger().getValue() == "RX-TRIGGER"
+
 
 class TestEthernetClusterHandlers:
     def test_readEthernetCluster_sets_short_name(self, parser):
@@ -1138,19 +1160,21 @@ class TestFrameAndPduHandlers:
         assert triggering.getCanAddressingMode() is not None
         assert triggering.getCanAddressingMode().getValue() == "standard"
 
-    def test_readCanFrameTriggering_sets_canFdFrameSupport(self, parser):
+    def test_readCanFrameTriggering_sets_masks_and_j1939(self, parser):
         from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
 
         cluster = CanCluster(parent=_autosar_root(), short_name="c")
         channel = CanPhysicalChannel(parent=cluster, short_name="ch")
         triggering = CanFrameTriggering(parent=channel, short_name="ft")
         element = _snip(
-            "<SHORT-NAME>ft</SHORT-NAME>" "<CAN-FD-FRAME-SUPPORT>true</CAN-FD-FRAME-SUPPORT>",
+            "<SHORT-NAME>ft</SHORT-NAME>" "<J-1939-REQUESTABLE>true</J-1939-REQUESTABLE>" "<RX-MASK>511</RX-MASK>" "<TX-MASK>255</TX-MASK>",
             root_tag="CAN-FRAME-TRIGGERING",
         )
         parser.readCanFrameTriggering(element, triggering)
-        assert triggering.getCanFdFrameSupport() is not None
-        assert triggering.getCanFdFrameSupport().getValue()
+        assert triggering.getJ1939requestable() is not None
+        assert triggering.getJ1939requestable().getValue()
+        assert triggering.getRxMask().getValue() == 511
+        assert triggering.getTxMask().getValue() == 255
 
     def test_readCanFrameTriggering_sets_identifier(self, parser):
         from armodel.models import CanCluster, CanFrameTriggering, CanPhysicalChannel
@@ -2629,6 +2653,28 @@ class TestEcuInstanceHandlers:
         )
         with pytest.raises(Exception):
             parser.readCommunicationConnectorEcuCommPortInstances(element, conn)
+
+    def test_readCommunicationConnector_sets_optional_attributes(self, parser):
+        from armodel.models import CanCommunicationConnector, EcuInstance
+
+        instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
+        conn = CanCommunicationConnector(parent=instance, short_name="conn")
+        element = _snip(
+            "<SHORT-NAME>conn</SHORT-NAME>"
+            "<CREATE-ECU-WAKEUP-SOURCE>true</CREATE-ECU-WAKEUP-SOURCE>"
+            "<DYNAMIC-PNC-TO-CHANNEL-MAPPING-ENABLED>false</DYNAMIC-PNC-TO-CHANNEL-MAPPING-ENABLED>"
+            "<PNC-FILTER-ARRAY-MASKS>"
+            "<PNC-FILTER-ARRAY-MASK>255</PNC-FILTER-ARRAY-MASK>"
+            "<PNC-FILTER-ARRAY-MASK>1</PNC-FILTER-ARRAY-MASK>"
+            "</PNC-FILTER-ARRAY-MASKS>"
+            "<PNC-GATEWAY-TYPE>active</PNC-GATEWAY-TYPE>",
+            root_tag="CAN-COMMUNICATION-CONNECTOR",
+        )
+        parser.readCommunicationConnector(element, conn)
+        assert conn.getCreateEcuWakeupSource().getValue() is True
+        assert conn.getDynamicPncToChannelMappingEnabled().getValue() is False
+        assert conn.getPncFilterArrayMasks() == [255, 1]
+        assert conn.getPncGatewayType().getValue() == "active"
 
     def test_readFramePort_sets_communicationDirection(self, parser):
         from armodel.models import CanCommunicationConnector, EcuInstance, FramePort

@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     LinUnconditionalFrame,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (  # noqa: E501
+    BusspecificNmEcu,
     CanNmCluster,
     CanNmClusterCoupling,
     CanNmNode,
@@ -38,6 +39,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
     UdpNmEcu,
     UdpNmNode,
 )
+from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -52,6 +54,22 @@ def reset_autosar():
 def writer():
     AUTOSAR.getInstance().new()
     return ARXMLWriter()
+
+
+@pytest.fixture
+def parser():
+    AUTOSAR.getInstance().new()
+    document = AUTOSAR.getInstance()
+    document.setARRelease("R23-11")
+    return ARXMLParser(options={"warning": True})
+
+
+def _reload(parser, path):
+    AUTOSAR.getInstance().new()
+    document = AUTOSAR.getInstance()
+    document.setARRelease("R23-11")
+    parser.load(path, document)
+    return document
 
 
 def _parent():
@@ -579,6 +597,26 @@ class TestWriteBusDependentNmEcus:
         deps = parent.find("BUS-DEPENDENT-NM-ECUS")
         assert deps.find("UDP-NM-ECU") is not None
 
+    def test_roundtrip_with_can_nm_ecu(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import CanNmEcu
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        nm_ecu = NmEcu(MockParent(), "nm_ecu")
+        nm_ecu.addBusDependentNmEcu(CanNmEcu())
+        parent = _parent()
+        writer.writeBusDependentNmEcus(parent, nm_ecu)
+        deps = parent.find("BUS-DEPENDENT-NM-ECUS")
+        assert deps is not None
+        assert deps.find("CAN-NM-ECU") is not None
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = NmEcu(MockParent(), "nm_ecu2")
+        parser.readBusDependentNmEcus(ET.fromstring(xml_str), reloaded)
+        dependents = reloaded.getBusDependentNmEcus()
+        assert len(dependents) == 1
+        assert isinstance(dependents[0], CanNmEcu)
+
 
 class TestWriteNmEcu:
     def test_full_nm_ecu(self, writer):
@@ -652,3 +690,51 @@ class TestWriteNmConfig:
         assert cfg.find("NM-CLUSTERS") is not None
         assert cfg.find("NM-CLUSTER-COUPLINGS") is not None
         assert cfg.find("NM-IF-ECUS") is not None
+
+
+class TestBusspecificNmEcuRoundTrip:
+    """Full set -> save -> reload round-trip through NmEcu.busDependentNmEcus."""
+
+    def test_udp_nm_ecu_round_trip(self, writer, parser, tmp_path):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        config = pkg.createNmConfig("NmConfig")
+        nm_ecu = config.createNmEcu("nm_ecu")
+        udp = UdpNmEcu()
+        udp.setNmSynchronizationPointEnabled(_bool(True))
+        nm_ecu.addBusDependentNmEcu(udp)
+
+        out_file = str(tmp_path / "bus_dependent_nm_ecus.arxml")
+        writer.save(out_file, AUTOSAR.getInstance())
+
+        document = _reload(parser, out_file)
+        re_pkg = document.find("Pkg")
+        re_config = re_pkg.getElement("NmConfig", NmConfig)
+        assert re_config is not None
+        re_ecu = re_config.getElement("nm_ecu", NmEcu)
+        assert re_ecu is not None
+
+        dependents = re_ecu.getBusDependentNmEcus()
+        assert len(dependents) == 1
+        assert isinstance(dependents[0], UdpNmEcu)
+        assert isinstance(dependents[0], BusspecificNmEcu)
+        value = dependents[0].getNmSynchronizationPointEnabled()
+        assert value is not None
+        assert value.getValue() is True
+
+    def test_empty_bus_dependent_nm_ecus_round_trip(self, writer, parser, tmp_path):
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        config = pkg.createNmConfig("NmConfig")
+        config.createNmEcu("bare_ecu")
+
+        out_file = str(tmp_path / "empty_bus_dependent_nm_ecus.arxml")
+        writer.save(out_file, AUTOSAR.getInstance())
+
+        with open(out_file, "r", encoding="utf-8") as f:
+            content = f.read()
+        assert "BUS-DEPENDENT-NM-ECUS" not in content
+
+        document = _reload(parser, out_file)
+        re_config = document.find("Pkg").getElement("NmConfig", NmConfig)
+        re_ecu = re_config.getElement("bare_ecu", NmEcu)
+        assert re_ecu is not None
+        assert re_ecu.getBusDependentNmEcus() == []

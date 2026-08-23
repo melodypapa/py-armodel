@@ -1794,13 +1794,13 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
 ## `BusspecificNmEcu`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.301
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 675  | **table:** Table 6.301
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::NetworkManagement`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+No deviations — abstract base (`Base: ARObject`) with an empty attribute table; the
+class docstring is the verbatim spec Note, serialization covered polymorphically via
+the concrete subclasses in `read/writeBusDependentNmEcus`.
 
 ## `J1939NmEcu`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —

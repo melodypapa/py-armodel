@@ -2,10 +2,13 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Integer, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection, TpConnectionIdent
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIp import AbstractDoIpLogicAddressProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
     CanTpAddress,
+    CanTpAddressingFormatType,
     CanTpChannel,
     CanTpConfig,
     CanTpConnection,
@@ -17,10 +20,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     LinTpConfig,
     LinTpConnection,
     LinTpNode,
+    NetworkTargetAddressType,
     TpAddress,
     TpConfig,
-    TpConnection,
-    TpConnectionIdent,
 )
 
 
@@ -38,61 +40,120 @@ class Test_TransportProtocols:
         with pytest.raises(TypeError):
             TpConfig(parent, "test_tp_config")
 
-    def test_CanTpAddress(self):
-        """Test CanTpAddress class functionality."""
+    def test_CanTpAddress_initialization(self):
+        """Test CanTpAddress default state (Table 6.255)."""
         parent = MockParent()
-        address = CanTpAddress(parent, "test_can_tp_address")
+        address = CanTpAddress(parent, "CanTpAddress")
 
         assert isinstance(address, Identifiable)
-
-        # Test default values
         assert address.getTpAddress() is None
         assert address.getTpAddressExtensionValue() is None
 
-        # Test setter/getter methods
-        address.setTpAddress(123)
-        assert address.getTpAddress() == 123
-
-        address.setTpAddressExtensionValue(456)
-        assert address.getTpAddressExtensionValue() == 456
-
-    def test_CanTpChannel(self):
-        """Test CanTpChannel class functionality."""
+    def test_CanTpAddress_get_set_tpAddress(self):
+        """Test tpAddress getter/setter with None no-op (Table 6.255)."""
         parent = MockParent()
-        channel = CanTpChannel(parent, "test_can_tp_channel")
+        address = CanTpAddress(parent, "CanTpAddress")
+
+        assert address == address.setTpAddress(Integer().setValue(0x7FF))
+        assert address.getTpAddress().getValue() == 0x7FF
+        assert address == address.setTpAddress(None)
+        assert address.getTpAddress().getValue() == 0x7FF
+
+    def test_CanTpAddress_get_set_tpAddressExtensionValue(self):
+        """Test tpAddressExtensionValue getter/setter with None no-op (Table 6.255)."""
+        parent = MockParent()
+        address = CanTpAddress(parent, "CanTpAddress")
+
+        assert address == address.setTpAddressExtensionValue(Integer().setValue(6))
+        assert address.getTpAddressExtensionValue().getValue() == 6
+        assert address == address.setTpAddressExtensionValue(None)
+        assert address.getTpAddressExtensionValue().getValue() == 6
+
+    def test_CanTpChannel_initialization(self):
+        """Test CanTpChannel default state (Table 6.252)."""
+        parent = MockParent()
+        channel = CanTpChannel(parent, "CanTpChannel")
 
         assert isinstance(channel, Identifiable)
-
-        # Test default values
         assert channel.getChannelId() is None
-        assert channel.getChannelMode() is None
 
-        # Test setter/getter methods
-        channel.setChannelId(1)
-        assert channel.getChannelId() == 1
-
-        channel.setChannelMode("normal")
-        assert channel.getChannelMode() == "normal"
-
-    def test_TpConnectionIdent(self):
-        """Test TpConnectionIdent class functionality."""
+    def test_CanTpChannel_get_set_channelId(self):
+        """Test channelId getter/setter with None no-op (Table 6.252)."""
         parent = MockParent()
-        ident = TpConnectionIdent(parent, "test_tp_connection_ident")
+        channel = CanTpChannel(parent, "CanTpChannel")
+
+        assert channel == channel.setChannelId(PositiveInteger().setValue(1))
+        assert channel.getChannelId().getValue() == 1
+        assert channel == channel.setChannelId(None)
+        assert channel.getChannelId().getValue() == 1
+
+    def test_TpConnectionIdent_initialization(self):
+        """Test TpConnectionIdent default state (Table 6.273)."""
+        parent = MockParent()
+        ident = TpConnectionIdent(parent, "TpConnectionIdent")
 
         assert isinstance(ident, Referrable)
 
-    def test_TpConnection(self):
-        """Test TpConnection abstract class instantiation."""
+    def test_TpConnection_abstract(self):
+        """Test TpConnection abstract class instantiation (Table 6.272)."""
         with pytest.raises(TypeError):
             TpConnection()
 
-    def test_CanTpConnection(self):
-        """Test CanTpConnection class functionality."""
+    def test_TpConnection_create_ident(self):
+        """Test TpConnection ident creation via concrete subclass (Table 6.272)."""
+        connection = CanTpConnection()
+
+        assert connection.getIdent() is None
+        ident = connection.createTpConnectionIdent("connIdent")
+        assert isinstance(ident, TpConnectionIdent)
+        assert connection.getIdent() == ident
+        assert connection.createTpConnectionIdent("other") == ident
+
+    def test_CanTpAddressingFormatType(self):
+        """Test CanTpAddressingFormatType enum (Table 6.254)."""
+        enum = CanTpAddressingFormatType()
+        assert enum is not None
+        enum.setValue(CanTpAddressingFormatType.ENUM_STANDARD)
+        assert enum.getValue() == "STANDARD"
+
+        assert CanTpAddressingFormatType.ENUM_EXTENDED == "EXTENDED"
+        assert CanTpAddressingFormatType.ENUM_MIXED == "MIXED"
+        assert CanTpAddressingFormatType.ENUM_MIXED_29BIT == "MIXED-29-BIT"
+        assert CanTpAddressingFormatType.ENUM_NORMALFIXED == "NORMALFIXED"
+        assert CanTpAddressingFormatType.ENUM_STANDARD == "STANDARD"
+
+        assert len(enum.getEnumValues()) == 5
+        for literal in (
+            CanTpAddressingFormatType.ENUM_EXTENDED,
+            CanTpAddressingFormatType.ENUM_MIXED,
+            CanTpAddressingFormatType.ENUM_MIXED_29BIT,
+            CanTpAddressingFormatType.ENUM_NORMALFIXED,
+            CanTpAddressingFormatType.ENUM_STANDARD,
+        ):
+            assert literal in enum.getEnumValues()
+
+    def test_NetworkTargetAddressType(self):
+        """Test NetworkTargetAddressType enum (Table 6.258)."""
+        enum = NetworkTargetAddressType()
+        assert enum is not None
+        enum.setValue(NetworkTargetAddressType.ENUM_PHYSICAL)
+        assert enum.getValue() == "PHYSICAL"
+
+        assert NetworkTargetAddressType.ENUM_FUNCTIONAL == "FUNCTIONAL"
+        assert NetworkTargetAddressType.ENUM_PHYSICAL == "PHYSICAL"
+
+        assert len(enum.getEnumValues()) == 2
+        for literal in (
+            NetworkTargetAddressType.ENUM_FUNCTIONAL,
+            NetworkTargetAddressType.ENUM_PHYSICAL,
+        ):
+            assert literal in enum.getEnumValues()
+
+    def test_CanTpConnection_initialization(self):
+        """Test CanTpConnection default state (Table 6.253)."""
         connection = CanTpConnection()
 
         assert isinstance(connection, TpConnection)
-
-        # Test default values
         assert connection.getAddressingFormat() is None
         assert connection.getCancellation() is None
         assert connection.getCanTpChannelRef() is None
@@ -110,46 +171,122 @@ class Test_TransportProtocols:
         assert connection.getTpSduRef() is None
         assert connection.getTransmitterRef() is None
 
-        # Test setter/getter methods
-        connection.setAddressingFormat("extended")
-        assert connection.getAddressingFormat() == "extended"
+    def test_CanTpConnection_get_set_attributes(self):
+        """Test CanTpConnection attribute getters/setters with None no-op (Table 6.253)."""
+        connection = CanTpConnection()
 
-        connection.setCancellation(True)
-        assert connection.getCancellation() is True
+        fmt = CanTpAddressingFormatType()
+        fmt.setValue(CanTpAddressingFormatType.ENUM_STANDARD)
+        assert connection == connection.setAddressingFormat(fmt)
+        assert isinstance(connection.getAddressingFormat(), CanTpAddressingFormatType)
+        assert connection.getAddressingFormat() == fmt
+        assert connection == connection.setAddressingFormat(None)
+        assert connection.getAddressingFormat() == fmt
 
-        # Test adding receiver refs
-        mock_receiver_ref = "receiver_ref"
-        connection.addReceiverRef(mock_receiver_ref)
-        assert connection.getReceiverRefs() == [mock_receiver_ref]
+        assert connection == connection.setCancellation(Boolean().setValue(True))
+        assert connection.getCancellation().getValue() is True
+        assert connection == connection.setCancellation(None)
+        assert connection.getCancellation().getValue() is True
 
-        connection.setTaType("physical")
-        assert connection.getTaType() == "physical"
+        assert connection == connection.setMaxBlockSize(Integer().setValue(8))
+        assert connection.getMaxBlockSize().getValue() == 8
+        assert connection == connection.setMaxBlockSize(None)
+        assert connection.getMaxBlockSize().getValue() == 8
 
-    def test_CanTpEcu(self):
-        """Test CanTpEcu class functionality."""
+        assert connection == connection.setPaddingActivation(Boolean().setValue(False))
+        assert connection.getPaddingActivation().getValue() is False
+        assert connection == connection.setPaddingActivation(None)
+        assert connection.getPaddingActivation().getValue() is False
+
+        ta = ARLiteral()
+        ta.setValue(NetworkTargetAddressType.ENUM_PHYSICAL)
+        assert connection == connection.setTaType(ta)
+        assert connection.getTaType() == ta
+        assert connection == connection.setTaType(None)
+        assert connection.getTaType() == ta
+
+    def test_CanTpConnection_get_set_timeouts(self):
+        """Test CanTpConnection timeout getters/setters with None no-op (Table 6.253)."""
+        connection = CanTpConnection()
+
+        for setter, getter in (
+            ("setTimeoutBr", "getTimeoutBr"),
+            ("setTimeoutBs", "getTimeoutBs"),
+            ("setTimeoutCr", "getTimeoutCr"),
+            ("setTimeoutCs", "getTimeoutCs"),
+        ):
+            value = TimeValue().setValue(0.1)
+            assert getattr(connection, setter)(value) == connection
+            assert getattr(connection, getter)().getValue() == 0.1
+            getattr(connection, setter)(None)
+            assert getattr(connection, getter)().getValue() == 0.1
+
+    def test_CanTpConnection_get_set_refs(self):
+        """Test CanTpConnection reference getters/setters with None no-op (Table 6.253)."""
+        connection = CanTpConnection()
+
+        channel_ref = RefType()
+        channel_ref.setValue("/CanTpChannel")
+        assert connection == connection.setCanTpChannelRef(channel_ref)
+        assert connection.getCanTpChannelRef() == channel_ref
+        assert connection == connection.setCanTpChannelRef(None)
+        assert connection.getCanTpChannelRef() == channel_ref
+
+        for setter, getter, path in (
+            ("setDataPduRef", "getDataPduRef", "/DataPdu"),
+            ("setFlowControlPduRef", "getFlowControlPduRef", "/FcPdu"),
+            ("setMulticastRef", "getMulticastRef", "/Multicast"),
+            ("setTpSduRef", "getTpSduRef", "/TpSdu"),
+            ("setTransmitterRef", "getTransmitterRef", "/TxNode"),
+        ):
+            ref = RefType()
+            ref.setValue(path)
+            assert getattr(connection, setter)(ref) == connection
+            assert getattr(connection, getter)() == ref
+            getattr(connection, setter)(None)
+            assert getattr(connection, getter)() == ref
+
+    def test_CanTpConnection_receiver_refs(self):
+        """Test receiverRefs add with None no-op (Table 6.253)."""
+        connection = CanTpConnection()
+
+        ref1 = RefType()
+        ref1.setValue("/r1")
+        assert connection == connection.addReceiverRef(ref1)
+        assert connection.getReceiverRefs() == [ref1]
+        assert connection == connection.addReceiverRef(None)
+        assert connection.getReceiverRefs() == [ref1]
+
+    def test_CanTpEcu_initialization(self):
+        """Test CanTpEcu default state (Table 6.256)."""
         ecu = CanTpEcu()
 
         assert isinstance(ecu, ARObject)
-
-        # Test default values
         assert ecu.getCycleTimeMainFunction() is None
         assert ecu.getEcuInstanceRef() is None
 
-        # Test setter/getter methods
-        ecu.setCycleTimeMainFunction("10ms")
-        assert ecu.getCycleTimeMainFunction() == "10ms"
+    def test_CanTpEcu_get_set(self):
+        """Test CanTpEcu getters/setters with None no-op (Table 6.256)."""
+        ecu = CanTpEcu()
 
-        ecu.setEcuInstanceRef("ecu_ref")
-        assert ecu.getEcuInstanceRef() == "ecu_ref"
+        assert ecu == ecu.setCycleTimeMainFunction(TimeValue().setValue(0.01))
+        assert ecu.getCycleTimeMainFunction().getValue() == 0.01
+        assert ecu == ecu.setCycleTimeMainFunction(None)
+        assert ecu.getCycleTimeMainFunction().getValue() == 0.01
 
-    def test_CanTpNode(self):
-        """Test CanTpNode class functionality."""
+        ref = RefType()
+        ref.setValue("/EcuInstance")
+        assert ecu == ecu.setEcuInstanceRef(ref)
+        assert ecu.getEcuInstanceRef() == ref
+        assert ecu == ecu.setEcuInstanceRef(None)
+        assert ecu.getEcuInstanceRef() == ref
+
+    def test_CanTpNode_initialization(self):
+        """Test CanTpNode default state (Table 6.257)."""
         parent = MockParent()
-        node = CanTpNode(parent, "test_can_tp_node")
+        node = CanTpNode(parent, "CanTpNode")
 
         assert isinstance(node, Identifiable)
-
-        # Test default values
         assert node.getConnectorRef() is None
         assert node.getMaxFcWait() is None
         assert node.getStMin() is None
@@ -157,41 +294,92 @@ class Test_TransportProtocols:
         assert node.getTimeoutAs() is None
         assert node.getTpAddressRef() is None
 
-        # Test setter/getter methods
-        node.setConnectorRef("connector_ref")
-        assert node.getConnectorRef() == "connector_ref"
-
-        node.setMaxFcWait(10)
-        assert node.getMaxFcWait() == 10
-
-        node.setStMin("5ms")
-        assert node.getStMin() == "5ms"
-
-    def test_CanTpConfig(self):
-        """Test CanTpConfig class functionality."""
+    def test_CanTpNode_get_set(self):
+        """Test CanTpNode getters/setters with None no-op (Table 6.257)."""
         parent = MockParent()
-        config = CanTpConfig(parent, "test_can_tp_config")
+        node = CanTpNode(parent, "CanTpNode")
 
-        assert isinstance(config, FibexElement)
+        connector_ref = RefType()
+        connector_ref.setValue("/Connector")
+        assert node == node.setConnectorRef(connector_ref)
+        assert node.getConnectorRef() == connector_ref
+        assert node == node.setConnectorRef(None)
+        assert node.getConnectorRef() == connector_ref
 
-        # Test default values
+        assert node == node.setMaxFcWait(Integer().setValue(10))
+        assert node.getMaxFcWait().getValue() == 10
+        assert node == node.setMaxFcWait(None)
+        assert node.getMaxFcWait().getValue() == 10
+
+        assert node == node.setStMin(TimeValue().setValue(0.005))
+        assert node.getStMin().getValue() == 0.005
+
+        for setter, getter in (("setTimeoutAr", "getTimeoutAr"), ("setTimeoutAs", "getTimeoutAs")):
+            value = TimeValue().setValue(0.075)
+            getattr(node, setter)(value)
+            assert getattr(node, getter)().getValue() == 0.075
+            getattr(node, setter)(None)
+            assert getattr(node, getter)().getValue() == 0.075
+
+        address_ref = RefType()
+        address_ref.setValue("/TpAddress")
+        assert node == node.setTpAddressRef(address_ref)
+        assert node.getTpAddressRef() == address_ref
+
+    def test_CanTpConfig_initialization(self):
+        """Test CanTpConfig default state (Table 6.251)."""
+        parent = MockParent()
+        config = CanTpConfig(parent, "CanTpConfig")
+
+        assert isinstance(config, TpConfig)
         assert config.getTpAddresses() == []
         assert config.getTpChannels() == []
         assert config.getTpConnections() == []
         assert config.getTpEcus() == []
         assert config.getTpNodes() == []
 
-        # Test communicationClusterRef getter and setter to cover lines 28, 31-33
-        assert config.getCommunicationClusterRef() is None
+    def test_CanTpConfig_create_address_duplicate_returns_existing(self):
+        """Test tpAddress aggregation create (Table 6.251)."""
+        parent = MockParent()
+        config = CanTpConfig(parent, "CanTpConfig")
 
-        result = config.setCommunicationClusterRef("cluster_ref")
-        assert config.getCommunicationClusterRef() == "cluster_ref"
-        assert result == config  # Test method chaining
+        addr = config.createCanTpAddress("Addr")
+        assert isinstance(addr, CanTpAddress)
+        assert config.getTpAddresses() == [addr]
+        assert config.createCanTpAddress("Addr") == addr
+        assert len(config.getTpAddresses()) == 1
 
-        # Test setting None (should not change the value due to if value is not None check)
-        result = config.setCommunicationClusterRef(None)
-        assert config.getCommunicationClusterRef() == "cluster_ref"  # Value remains unchanged
-        assert result == config  # Test method chaining
+    def test_CanTpConfig_create_channel_node_duplicate_returns_existing(self):
+        """Test tpChannel/tpNode aggregation creates (Table 6.251)."""
+        parent = MockParent()
+        config = CanTpConfig(parent, "CanTpConfig")
+
+        channel = config.createCanTpChannel("Ch")
+        assert isinstance(channel, CanTpChannel)
+        assert config.getTpChannels() == [channel]
+        assert config.createCanTpChannel("Ch") == channel
+
+        node = config.createCanTpNode("Node")
+        assert isinstance(node, CanTpNode)
+        assert config.getTpNodes() == [node]
+        assert config.createCanTpNode("Node") == node
+
+    def test_CanTpConfig_add_connection_ecu(self):
+        """Test tpConnection/tpEcu aggregation adds with None no-op (Table 6.251)."""
+        parent = MockParent()
+        config = CanTpConfig(parent, "CanTpConfig")
+
+        connection = CanTpConnection()
+        assert config == config.addTpConnection(connection)
+        assert config.getTpConnections() == [connection]
+        assert config == config.addTpConnection(None)
+        assert config.getTpConnections() == [connection]
+
+        ecu = CanTpEcu()
+        assert config == config.addTpEcu(ecu)
+        assert config.getTpEcus() == [ecu]
+        assert config == config.addTpEcu(None)
+        assert config.getTpEcus() == [ecu]
 
     def test_DoIpLogicAddress(self):
         """Test DoIpLogicAddress class functionality."""

@@ -217,6 +217,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     ARNumerical,
     Limit,
+    PositiveInteger,
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
@@ -433,9 +434,15 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordElementMapping,
     SenderRecRecordTypeMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
+    CanFrame,
+    CanFrameTriggering,
+    CanXlFrameTriggeringProps,
+    RxIdentifierRange,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
     AbstractCanCommunicationController,
     AbstractCanCommunicationControllerAttributes,
@@ -542,11 +549,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     UserDefinedIPdu,
     UserDefinedPdu,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (  # noqa: F401
+    AbstractCanPhysicalChannel,
+    CanPhysicalChannel,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     AbstractCanCluster,
     CanCluster,
     CanClusterBusOffRecovery,
-    CanPhysicalChannel,
     CommConnectorPort,
     CommunicationCluster,
     CommunicationConnector,
@@ -573,6 +583,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing im
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
     CanNmCluster,
+    CanNmEcu,
     CanNmClusterCoupling,
     CanNmNode,
     J1939NmNode,
@@ -618,7 +629,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     LinTpNode,
     TpAddress,
     TpConfig,
-    TpConnection,
 )
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData, DocRevision, Modification
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import BaseTypeDirectDefinition, SwBaseType
@@ -5838,7 +5848,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeFrame(self, element: ET.Element, frame: Frame):
         self.writeIdentifiable(element, frame)
-        self.setChildElementOptionalNumericalValue(element, "FRAME-LENGTH", frame.frameLength)
+        self.setChildElementOptionalIntegerValue(element, "FRAME-LENGTH", frame.frameLength)
         self.writePduToFrameMappings(element, frame)
 
     def writeLinUnconditionalFrame(self, element: ET.Element, frame: LinUnconditionalFrame):
@@ -5998,6 +6008,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "UDP-NM-ECU")
             self.setChildElementOptionalBooleanValue(child_element, "NM-SYNCHRONIZATION-POINT-ENABLED", ecu.getNmSynchronizationPointEnabled())
 
+    def writeCanNmEcu(self, element: ET.Element, ecu: CanNmEcu):
+        if ecu is not None:
+            ET.SubElement(element, "CAN-NM-ECU")
+
     def writeBusDependentNmEcus(self, element: ET.Element, nm_ecu: NmEcu):
         dependent_nm_ecus = nm_ecu.getBusDependentNmEcus()
         if len(dependent_nm_ecus) > 0:
@@ -6005,6 +6019,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for dependent_nm_ecu in dependent_nm_ecus:
                 if isinstance(dependent_nm_ecu, UdpNmEcu):
                     self.writeUdpNmEcu(child_element, dependent_nm_ecu)
+                elif isinstance(dependent_nm_ecu, CanNmEcu):
+                    self.writeCanNmEcu(child_element, dependent_nm_ecu)
                 else:
                     self.notImplemented("Unsupported BusDependentNmEcu <%s>" % type(dependent_nm_ecu))
 
@@ -6131,7 +6147,6 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "CAN-TP-CHANNEL")
             self.writeIdentifiable(child_element, channel)
             self.setChildElementOptionalPositiveInteger(child_element, "CHANNEL-ID", channel.getChannelId())
-            self.setChildElementOptionalLiteral(child_element, "CHANNEL-MODE", channel.getChannelMode())
 
     def writeCanTpConfigTpChannels(self, element: ET.Element, config: CanTpConfig):
         channels = config.getTpChannels()
@@ -6161,7 +6176,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         if connection is not None:
             child_element = ET.SubElement(element, "CAN-TP-CONNECTION")
             self.writeTpConnection(child_element, connection)
-            self.setChildElementOptionalLiteral(child_element, "ADDRESSING-FORMAT", connection.getAddressingFormat())
+            addressing_format = connection.getAddressingFormat()
+            if addressing_format is not None:
+                addressing_format_element = ET.SubElement(child_element, "ADDRESSING-FORMAT")
+                addressing_format_element.text = addressing_format.getValue()
             self.setChildElementOptionalRefType(child_element, "CAN-TP-CHANNEL-REF", connection.getCanTpChannelRef())
             self.setChildElementOptionalBooleanValue(child_element, "CANCELLATION", connection.getCancellation())
             self.setChildElementOptionalRefType(child_element, "DATA-PDU-REF", connection.getDataPduRef())
@@ -6322,12 +6340,38 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("WRite CanFrameTriggering %s" % triggering.getShortName())
         child_element = ET.SubElement(element, "CAN-FRAME-TRIGGERING")
         self.writeFrameTriggering(child_element, triggering)
-        self.setChildElementOptionalLiteral(child_element, "CAN-ADDRESSING-MODE", triggering.getCanAddressingMode())
-        self.setChildElementOptionalBooleanValue(child_element, "CAN-FD-FRAME-SUPPORT", triggering.getCanFdFrameSupport())
-        self.setChildElementOptionalLiteral(child_element, "CAN-FRAME-RX-BEHAVIOR", triggering.getCanFrameRxBehavior())
-        self.setChildElementOptionalLiteral(child_element, "CAN-FRAME-TX-BEHAVIOR", triggering.getCanFrameTxBehavior())
+        timings = triggering.getAbsolutelyScheduledTimings()
+        if len(timings) > 0:
+            timings_element = ET.SubElement(child_element, "ABSOLUTELY-SCHEDULED-TIMINGS")
+            for timing in timings:
+                if isinstance(timing, TtcanAbsolutelyScheduledTiming):
+                    self.writeTtcanAbsolutelyScheduledTiming(timings_element, timing)
+                else:
+                    self.notImplemented("Unsupported AbsolutelyScheduledTiming <%s>" % type(timing))
+        addressing_mode = triggering.getCanAddressingMode()
+        if addressing_mode is not None:
+            addressing_mode_element = ET.SubElement(child_element, "CAN-ADDRESSING-MODE")
+            addressing_mode_element.text = addressing_mode.getValue()
+        rx_behavior = triggering.getCanFrameRxBehavior()
+        if rx_behavior is not None:
+            rx_behavior_element = ET.SubElement(child_element, "CAN-FRAME-RX-BEHAVIOR")
+            rx_behavior_element.text = rx_behavior.getValue()
+        tx_behavior = triggering.getCanFrameTxBehavior()
+        if tx_behavior is not None:
+            tx_behavior_element = ET.SubElement(child_element, "CAN-FRAME-TX-BEHAVIOR")
+            tx_behavior_element.text = tx_behavior.getValue()
+        props = triggering.getCanXlFrameTriggeringProps()
+        if props is not None:
+            props_element = ET.SubElement(child_element, "CAN-XL-FRAME-TRIGGERING-PROPS")
+            self.setChildElementOptionalPositiveInteger(props_element, "ACCEPTANCE-FIELD", props.getAcceptanceField())
+            self.setChildElementOptionalPositiveInteger(props_element, "PRIORITY-ID", props.getPriorityId())
+            self.setChildElementOptionalPositiveInteger(props_element, "SDU-TYPE", props.getSduType())
+            self.setChildElementOptionalPositiveInteger(props_element, "VCID", props.getVcid())
         self.setChildElementOptionalNumericalValue(child_element, "IDENTIFIER", triggering.getIdentifier())
+        self.setChildElementOptionalBooleanValue(child_element, "J-1939-REQUESTABLE", triggering.getJ1939requestable())
         self.setChildElementRxIdentifierRange(child_element, "RX-IDENTIFIER-RANGE", triggering.getRxIdentifierRange())
+        self.setChildElementOptionalPositiveInteger(child_element, "RX-MASK", triggering.getRxMask())
+        self.setChildElementOptionalPositiveInteger(child_element, "TX-MASK", triggering.getTxMask())
 
     def writeLinFrameTriggering(self, element: ET.Element, triggering: LinFrameTriggering):
         self.logger.debug("Write LinFrameTriggering %s" % triggering.getShortName())
@@ -6371,6 +6415,23 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeFlexrayAbsolutelyScheduledTiming(child_element, timing)
                 else:
                     self.notImplemented("Unsupported AbsolutelyScheduledTiming <%s>" % type(timing))
+
+    def writeTtcanAbsolutelyScheduledTimingCommunicationCycle(self, element: ET.Element, timing: TtcanAbsolutelyScheduledTiming):
+        cycle = timing.getCommunicationCycle()
+        if cycle is not None:
+            child_element = ET.SubElement(element, "COMMUNICATION-CYCLE")
+            if isinstance(cycle, CycleRepetition):
+                self.writeCycleRepetition(child_element, cycle)
+            else:
+                self.notImplemented("Unsupported CommunicationCycle <%s>" % type(cycle))
+
+    def writeTtcanAbsolutelyScheduledTiming(self, element: ET.Element, timing: TtcanAbsolutelyScheduledTiming):
+        if timing is not None:
+            child_element = ET.SubElement(element, "TTCAN-ABSOLUTELY-SCHEDULED-TIMING")
+            self.writeARObjectAttributes(child_element, timing)
+            self.writeTtcanAbsolutelyScheduledTimingCommunicationCycle(child_element, timing)
+            self.setChildElementOptionalIntegerValue(child_element, "TIME-MARK", timing.getTimeMark())
+            self.setChildElementOptionalLiteral(child_element, "TRIGGER", timing.getTrigger())
 
     def writeFlexrayFrameTriggering(self, element: ET.Element, triggering: FlexrayFrameTriggering):
         self.logger.debug("Write FlexrayFrameTriggering %s" % triggering.getShortName())
@@ -6453,6 +6514,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported PduTriggering <%s>" % type(triggering))
 
+    def writePhysicalChannelManagedPhysicalChannelRefs(self, element, channel):
+        refs = channel.getManagedPhysicalChannelRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "MANAGED-PHYSICAL-CHANNEL-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "MANAGED-PHYSICAL-CHANNEL-REF", ref)
+
     def writePhysicalChannel(self, element: ET.Element, channel: PhysicalChannel):
         self.writeIdentifiable(element, channel)
 
@@ -6460,6 +6528,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writePhysicalChannelFrameTriggerings(element, channel)
         self.writePhysicalChannelISignalTriggerings(element, channel)
         self.writePhysicalChannelPduTriggerings(element, channel)
+        self.writePhysicalChannelManagedPhysicalChannelRefs(element, channel)
 
     def writeCanPhysicalChannel(self, element: ET.Element, channel: CanPhysicalChannel):
         self.logger.debug("Set CanPhysicalChannel %s" % channel.getShortName())
@@ -7824,7 +7893,16 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCommunicationConnector(self, element: ET.Element, connector: CommunicationConnector):
         self.writeIdentifiable(element, connector)
         self.setChildElementOptionalRefType(element, "COMM-CONTROLLER-REF", connector.getCommControllerRef())
+        self.setChildElementOptionalBooleanValue(element, "CREATE-ECU-WAKEUP-SOURCE", connector.getCreateEcuWakeupSource())
+        self.setChildElementOptionalBooleanValue(element, "DYNAMIC-PNC-TO-CHANNEL-MAPPING-ENABLED", connector.getDynamicPncToChannelMappingEnabled())
         self.writeCommunicationConnectorEcuCommPortInstances(element, connector)
+        masks = connector.getPncFilterArrayMasks()
+        if len(masks) > 0:
+            masks_tag = ET.SubElement(element, "PNC-FILTER-ARRAY-MASKS")
+            for mask in masks:
+                mask_value = PositiveInteger()
+                mask_value.setValue(mask)
+                self.setChildElementOptionalPositiveInteger(masks_tag, "PNC-FILTER-ARRAY-MASK", mask_value)
         self.setChildElementOptionalLiteral(element, "PNC-GATEWAY-TYPE", connector.getPncGatewayType())
 
     def writeCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):
@@ -9179,6 +9257,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalRefType(child_element, "FRAME-REF", frame.getFrameRef())
             self.setChildElementOptionalPositiveInteger(child_element, "MESSAGE-ID", frame.getMessageId())
+
+    def setCanXlFrameTriggeringProps(self, element: ET.Element, key: str, props: CanXlFrameTriggeringProps):
+        if props is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalPositiveInteger(child_element, "ACCEPTANCE-FIELD", props.getAcceptanceField())
+            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY-ID", props.getPriorityId())
+            self.setChildElementOptionalPositiveInteger(child_element, "SDU-TYPE", props.getSduType())
+            self.setChildElementOptionalPositiveInteger(child_element, "VCID", props.getVcid())
 
     def setLinOrderedConfigurableFrame(self, element: ET.Element, key: str, frame: LinOrderedConfigurableFrame):
         if frame is not None:

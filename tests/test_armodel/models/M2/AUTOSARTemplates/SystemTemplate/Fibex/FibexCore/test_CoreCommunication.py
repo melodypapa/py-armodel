@@ -2,6 +2,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     ContainedIPduProps,
     DcmIPdu,
@@ -107,10 +108,15 @@ class Test_FibexCoreCommunication:
         assert frame.getFrameLength() is None
         assert frame.getPduToFrameMappings() == []
 
-        # Test setter/getter methods with method chaining
-        frame.setFrameLength(100)
-        assert frame.getFrameLength() == 100
-        assert frame == frame.setFrameLength(100)  # Test method chaining
+        # Test setter/getter methods with method chaining - with actual Integer value
+        value = Integer().setValue("100")
+        frame.setFrameLength(value)
+        assert frame.getFrameLength().getValue() == 100
+        assert frame == frame.setFrameLength(value)  # Test method chaining
+
+        # Test setter/getter methods with method chaining - with None (no-op)
+        assert frame == frame.setFrameLength(None)  # Test method chaining with None
+        assert frame.getFrameLength().getValue() == 100  # Should remain unchanged
 
         # Test PduToFrameMapping creation methods
         mapping = frame.createPduToFrameMapping("test_mapping")
@@ -737,19 +743,25 @@ class Test_FibexCoreCommunication:
         # Test default values
         assert triggering.getFrameRef() is None
         assert triggering.getFramePortRefs() == []
-        assert triggering.getPduTriggeringRefs() == []  # This is the line with potential type annotation issue
+        assert triggering.getPduTriggeringRefs() == []
 
-        # Test setter/getter methods with method chaining
+        # Test frame ref setter/getter with method chaining
         ref1 = object()
         triggering.setFrameRef(ref1)
         assert triggering.getFrameRef() == ref1
         assert triggering == triggering.setFrameRef(ref1)  # Test method chaining
 
+        # Test setFrameRef(None) is a no-op
+        triggering.setFrameRef(None)
+        assert triggering.getFrameRef() == ref1
+
+        # Test frame port refs add/get with method chaining
         ref2 = object()
         triggering.addFramePortRef(ref2)
         assert ref2 in triggering.getFramePortRefs()
         assert triggering == triggering.addFramePortRef(ref2)  # Test method chaining
 
+        # Test pdu triggering refs add/get with method chaining
         ref3 = object()
         triggering.addPduTriggeringRef(ref3)
         assert ref3 in triggering.getPduTriggeringRefs()

@@ -1,6 +1,7 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection, TpConnectionIdent
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
     CanTpAddress,
     CanTpChannel,
@@ -16,8 +17,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import
     LinTpNode,
     TpAddress,
     TpConfig,
-    TpConnection,
-    TpConnectionIdent,
 )
 
 
@@ -40,6 +39,27 @@ class TestTransportProtocols:
         """
         with pytest.raises(TypeError):
             TpConfig(MockParent(), "test_tp_config")
+
+    def test_tp_config_methods(self):
+        """Test TpConfig concrete implementation methods (Table 6.237)."""
+
+        class ConcreteTpConfig(TpConfig):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        parent = MockParent()
+        config = ConcreteTpConfig(parent, "test_tp_config")
+
+        # Test default values
+        assert config.getCommunicationClusterRef() is None
+
+        # communicationCluster (ref, CommunicationCluster, 0..1)
+        ref1 = object()
+        config.setCommunicationClusterRef(ref1)
+        assert config.getCommunicationClusterRef() == ref1
+        assert config == config.setCommunicationClusterRef(ref1)  # method chaining
+        assert config == config.setCommunicationClusterRef(None)  # None no-op
+        assert config.getCommunicationClusterRef() == ref1  # unchanged
 
     def test_can_tp_address(self):
         """
@@ -83,23 +103,15 @@ class TestTransportProtocols:
 
         # Test default values
         assert channel.getChannelId() is None
-        assert channel.getChannelMode() is None
 
         # Test setter/getter methods with method chaining - with None values
         assert channel == channel.setChannelId(None)
         assert channel.getChannelId() is None
 
-        assert channel == channel.setChannelMode(None)
-        assert channel.getChannelMode() is None
-
         # Test setter/getter methods with method chaining - with actual values
         channel.setChannelId(1)
         assert channel.getChannelId() == 1
         assert channel == channel.setChannelId(1)
-
-        channel.setChannelMode("normal")
-        assert channel.getChannelMode() == "normal"
-        assert channel == channel.setChannelMode("normal")
 
     def test_tp_connection_ident(self):
         """

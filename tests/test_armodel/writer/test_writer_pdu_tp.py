@@ -312,6 +312,38 @@ class TestWriteCanTpAddress:
         assert child.find("TP-ADDRESS").text == "1"
         assert child.find("TP-ADDRESS-EXTENSION-VALUE").text == "2"
 
+    def test_roundtrip_can_tp_address_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        addr = CanTpAddress(pkg, "Addr")
+        addr.setTpAddress(_int("2047"))
+        addr.setTpAddressExtensionValue(_int("5"))
+        parent = _parent()
+        writer.writeCanTpAddress(parent, addr)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpAddress(pkg, "Addr2")
+        parser.readCanTpAddress(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getTpAddress().getValue() == 2047
+        assert reloaded.getTpAddressExtensionValue().getValue() == 5
+
+    def test_roundtrip_can_tp_address_empty_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        addr = CanTpAddress(pkg, "Addr")
+        parent = _parent()
+        writer.writeCanTpAddress(parent, addr)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpAddress(pkg, "Addr2")
+        parser.readCanTpAddress(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getTpAddress() is None
+        assert reloaded.getTpAddressExtensionValue() is None
+
 
 class TestWriteCanTpConfigTpAddresses:
     def test_empty(self, writer):
@@ -351,7 +383,6 @@ class TestWriteCanTpChannel:
         pkg = _pkg()
         ch = CanTpChannel(pkg, "Ch")
         ch.setChannelId(_pos_int("1"))
-        ch.setChannelMode(_literal("FULL-DUPLEX"))
         parent = _parent()
         writer.writeCanTpChannel(parent, ch)
         assert len(parent) == 1
@@ -359,7 +390,36 @@ class TestWriteCanTpChannel:
         assert child.tag == "CAN-TP-CHANNEL"
         assert child.find("SHORT-NAME").text == "Ch"
         assert child.find("CHANNEL-ID").text == "1"
-        assert child.find("CHANNEL-MODE").text == "FULL-DUPLEX"
+        assert child.find("CHANNEL-MODE") is None
+
+    def test_roundtrip_can_tp_channel_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        ch = CanTpChannel(pkg, "Ch")
+        ch.setChannelId(_pos_int("7"))
+        parent = _parent()
+        writer.writeCanTpChannel(parent, ch)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpChannel(pkg, "Ch2")
+        parser.readCanTpChannel(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getChannelId().getValue() == 7
+
+    def test_roundtrip_can_tp_channel_empty_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        ch = CanTpChannel(pkg, "Ch")
+        parent = _parent()
+        writer.writeCanTpChannel(parent, ch)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpChannel(pkg, "Ch2")
+        parser.readCanTpChannel(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getChannelId() is None
 
 
 class TestWriteCanTpConfigTpChannels:
@@ -476,6 +536,74 @@ class TestWriteCanTpConnection:
         assert child.find("TP-SDU-REF").text == "/sdu"
         assert child.find("TRANSMITTER-REF").text == "/tx"
 
+    def test_roundtrip_can_tp_connection_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        conn = CanTpConnection()
+        conn.createTpConnectionIdent("ConnIdent")
+        conn.setAddressingFormat(_literal("MIXED"))
+        conn.setCanTpChannelRef(_ref("CAN-TP-CHANNEL", "/ch"))
+        conn.setCancellation(_bool("true"))
+        conn.setDataPduRef(_ref("I-PDU", "/dp"))
+        conn.setFlowControlPduRef(_ref("I-PDU", "/fc"))
+        conn.setMaxBlockSize(_int("8"))
+        conn.setMulticastRef(_ref("I-PDU", "/mc"))
+        conn.setPaddingActivation(_bool("false"))
+        conn.addReceiverRef(_ref("ECU-INSTANCE", "/r1"))
+        conn.addReceiverRef(_ref("ECU-INSTANCE", "/r2"))
+        conn.setTaType(_literal("PHYSICAL"))
+        conn.setTimeoutBr(_time("0.1"))
+        conn.setTimeoutBs(_time("0.2"))
+        conn.setTimeoutCr(_time("0.3"))
+        conn.setTimeoutCs(_time("0.4"))
+        conn.setTpSduRef(_ref("I-PDU", "/sdu"))
+        conn.setTransmitterRef(_ref("ECU-INSTANCE", "/tx"))
+        parent = _parent()
+        writer.writeCanTpConnection(parent, conn)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpConnection()
+        parser.readCanTpConnection(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getIdent() is not None
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpAddressingFormatType
+
+        assert isinstance(reloaded.getAddressingFormat(), CanTpAddressingFormatType)
+        assert reloaded.getAddressingFormat().getValue() == "MIXED"
+        assert reloaded.getCanTpChannelRef().getValue() == "/ch"
+        assert reloaded.getCancellation().getValue() is True
+        assert reloaded.getDataPduRef().getValue() == "/dp"
+        assert reloaded.getFlowControlPduRef().getValue() == "/fc"
+        assert reloaded.getMaxBlockSize().getValue() == 8
+        assert reloaded.getMulticastRef().getValue() == "/mc"
+        assert reloaded.getPaddingActivation().getValue() is False
+        refs = [r.getValue() for r in reloaded.getReceiverRefs()]
+        assert refs == ["/r1", "/r2"]
+        assert reloaded.getTaType().getValue() == "PHYSICAL"
+        assert reloaded.getTimeoutBr().getValue() == 0.1
+        assert reloaded.getTimeoutBs().getValue() == 0.2
+        assert reloaded.getTimeoutCr().getValue() == 0.3
+        assert reloaded.getTimeoutCs().getValue() == 0.4
+        assert reloaded.getTpSduRef().getValue() == "/sdu"
+        assert reloaded.getTransmitterRef().getValue() == "/tx"
+
+    def test_roundtrip_can_tp_connection_empty(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        conn = CanTpConnection()
+        parent = _parent()
+        writer.writeCanTpConnection(parent, conn)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpConnection()
+        parser.readCanTpConnection(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getIdent() is None
+        assert reloaded.getAddressingFormat() is None
+        assert reloaded.getCancellation() is None
+        assert reloaded.getReceiverRefs() == []
+        assert reloaded.getTransmitterRef() is None
+
 
 class TestWriteCanTpConfigTpConnections:
     def test_empty(self, writer):
@@ -494,6 +622,41 @@ class TestWriteCanTpConfigTpConnections:
         assert len(parent) == 1
         assert parent[0].tag == "TP-CONNECTIONS"
         assert len(parent[0]) == 1
+
+    def test_roundtrip_can_tp_config_full(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        cfg = CanTpConfig(pkg, "Cfg")
+        addr = cfg.createCanTpAddress("Addr")
+        addr.setTpAddress(_int("2047"))
+        ch = cfg.createCanTpChannel("Ch")
+        ch.setChannelId(_pos_int("1"))
+        conn = CanTpConnection()
+        conn.setTransmitterRef(_ref("ECU-INSTANCE", "/tx"))
+        cfg.addTpConnection(conn)
+        ecu = CanTpEcu()
+        ecu.setCycleTimeMainFunction(_time("0.01"))
+        cfg.addTpEcu(ecu)
+        node = cfg.createCanTpNode("Node")
+        node.setMaxFcWait(_int("10"))
+        parent = _parent()
+        writer.writeCanTpConfig(parent, cfg)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpConfig(pkg, "Cfg2")
+        parser.readCanTpConfig(parser.find(ET.fromstring(xml_str), "CAN-TP-CONFIG"), reloaded)
+        assert len(reloaded.getTpAddresses()) == 1
+        assert reloaded.getTpAddresses()[0].getTpAddress().getValue() == 2047
+        assert len(reloaded.getTpChannels()) == 1
+        assert reloaded.getTpChannels()[0].getChannelId().getValue() == 1
+        assert len(reloaded.getTpConnections()) == 1
+        assert reloaded.getTpConnections()[0].getTransmitterRef().getValue() == "/tx"
+        assert len(reloaded.getTpEcus()) == 1
+        assert reloaded.getTpEcus()[0].getCycleTimeMainFunction().getValue() == 0.01
+        assert len(reloaded.getTpNodes()) == 1
+        assert reloaded.getTpNodes()[0].getMaxFcWait().getValue() == 10
 
     def test_unsupported_warns(self):
         w = ARXMLWriter(options={"warning": True})
@@ -522,6 +685,36 @@ class TestWriteCanTpEcu:
         assert child.tag == "CAN-TP-ECU"
         assert child.find("CYCLE-TIME-MAIN-FUNCTION").text == "0.01"
         assert child.find("ECU-INSTANCE-REF").text == "/ecu"
+
+    def test_roundtrip_can_tp_ecu_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        ecu = CanTpEcu()
+        ecu.setCycleTimeMainFunction(_time("0.01"))
+        ecu.setEcuInstanceRef(_ref("ECU-INSTANCE", "/ecu"))
+        parent = _parent()
+        writer.writeCanTpEcu(parent, ecu)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpEcu()
+        parser.readCanTpEcu(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getCycleTimeMainFunction().getValue() == 0.01
+        assert reloaded.getEcuInstanceRef().getValue() == "/ecu"
+
+    def test_roundtrip_can_tp_ecu_empty_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        ecu = CanTpEcu()
+        parent = _parent()
+        writer.writeCanTpEcu(parent, ecu)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpEcu()
+        parser.readCanTpEcu(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getCycleTimeMainFunction() is None
+        assert reloaded.getEcuInstanceRef() is None
 
 
 class TestWriteCanTpConfigTpEcus:
@@ -579,6 +772,50 @@ class TestWriteCanTpNode:
         assert child.find("TIMEOUT-AR").text == "0.05"
         assert child.find("TIMEOUT-AS").text == "0.06"
         assert child.find("TP-ADDRESS-REF").text == "/ta"
+
+    def test_roundtrip_can_tp_node_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        node = CanTpNode(pkg, "Node")
+        node.setConnectorRef(_ref("COMMUNICATION-CONNECTOR", "/conn"))
+        node.setMaxFcWait(_int("10"))
+        node.setStMin(_time("0.005"))
+        node.setTimeoutAr(_time("0.05"))
+        node.setTimeoutAs(_time("0.06"))
+        node.setTpAddressRef(_ref("CAN-TP-ADDRESS", "/ta"))
+        parent = _parent()
+        writer.writeCanTpNode(parent, node)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpNode(pkg, "Node2")
+        parser.readCanTpNode(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getConnectorRef().getValue() == "/conn"
+        assert reloaded.getMaxFcWait().getValue() == 10
+        assert reloaded.getStMin().getValue() == 0.005
+        assert reloaded.getTimeoutAr().getValue() == 0.05
+        assert reloaded.getTimeoutAs().getValue() == 0.06
+        assert reloaded.getTpAddressRef().getValue() == "/ta"
+
+    def test_roundtrip_can_tp_node_empty_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        node = CanTpNode(pkg, "Node")
+        parent = _parent()
+        writer.writeCanTpNode(parent, node)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanTpNode(pkg, "Node2")
+        parser.readCanTpNode(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getConnectorRef() is None
+        assert reloaded.getMaxFcWait() is None
+        assert reloaded.getStMin() is None
+        assert reloaded.getTimeoutAr() is None
+        assert reloaded.getTimeoutAs() is None
+        assert reloaded.getTpAddressRef() is None
 
 
 class TestWriteCanTpConfigTpNodes:

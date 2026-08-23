@@ -92,17 +92,18 @@ class PduToFrameMapping(Identifiable):
 
 class Frame(FibexElement, ABC):
     """
-    Abstract base class for communication frames in the AUTOSAR system,
-    defining common properties for different types of communication
-    frames including frame length and PDU to frame mappings.
+    Data frame which is sent over a communication medium. This element describes the pure Layout of a frame sent on a channel.
     """
 
     # Frame method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getFrameLength               [x] impl  [ ] docstring  [ ] test
-    # [ ] setFrameLength               [x] impl  [ ] docstring  [ ] test
-    # [ ] createPduToFrameMapping      [x] impl  [ ] docstring  [ ] test
-    # [ ] getPduToFrameMappings        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.78, p.418
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getFrameLength               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFrameLength               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createPduToFrameMapping      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPduToFrameMappings        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Frame:
@@ -110,17 +111,31 @@ class Frame(FibexElement, ABC):
 
         super().__init__(parent, short_name)
 
-        self.frameLength = None
+        # The used length (in bytes) of the referencing frame. Should not be confused with a static byte length reserved for each frame by some platforms (e.g. FlexRay). The frameLength of zero bytes is allowed. Please consider also TPS_SYST_02255.
+        self.frameLength: Optional[Integer] = None
+
+        # A frames layout as a sequence of Pdus. atpVariation: The content of a frame can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduToFrameMapping.shortName, pduTo FrameMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.pduToFrameMappings: List[PduToFrameMapping] = []
 
-    def getFrameLength(self):
+    def getFrameLength(self) -> Optional[Integer]:
+        """
+        The used length (in bytes) of the referencing frame. Should not be confused with a static byte length reserved for each frame by some platforms (e.g. FlexRay). The frameLength of zero bytes is allowed. Please consider also TPS_SYST_02255.
+        """
         return self.frameLength
 
-    def setFrameLength(self, value):
-        self.frameLength = value
+    def setFrameLength(self, value: Optional[Integer]) -> "Frame":
+        """
+        The used length (in bytes) of the referencing frame. Should not be confused with a static byte length reserved for each frame by some platforms (e.g. FlexRay). The frameLength of zero bytes is allowed. Please consider also TPS_SYST_02255.
+        A None value is a no-op and does not overwrite an existing frameLength.
+        """
+        if value is not None:
+            self.frameLength = value
         return self
 
     def createPduToFrameMapping(self, short_name: str) -> PduToFrameMapping:
+        """
+        A frames layout as a sequence of Pdus. atpVariation: The content of a frame can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduToFrameMapping.shortName, pduTo FrameMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if not self.IsElementExists(short_name):
             mapping = PduToFrameMapping(self, short_name)
             self.addElement(mapping)
@@ -128,7 +143,10 @@ class Frame(FibexElement, ABC):
         return self.getElement(short_name, PduToFrameMapping)
 
     def getPduToFrameMappings(self) -> List[PduToFrameMapping]:
-        return list(sorted(filter(lambda a: isinstance(a, PduToFrameMapping), self.elements), key=lambda o: o.short_name))
+        """
+        A frames layout as a sequence of Pdus. atpVariation: The content of a frame can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduToFrameMapping.shortName, pduTo FrameMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return self.pduToFrameMappings
 
 
 class ContainedIPduProps(ARObject):
@@ -1546,19 +1564,20 @@ class PduTriggering(Identifiable):
 
 class FrameTriggering(Identifiable, ABC):
     """
-    Abstract base class for frame triggering mechanisms, defining
-    common properties for triggering frame transmission and reception
-    including frame references and port references.
+    The FrameTriggering describes the instance of a frame sent on a channel and defines the manner of triggering (timing information) and identification of a frame on the channel, on which it is sent. For the same frame, if FrameTriggerings exist on more than one channel of the same cluster the fan-out/ in is handled by the Bus interface.
     """
 
     # FrameTriggering method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getFrameRef                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setFrameRef                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getFramePortRefs             [x] impl  [ ] docstring  [ ] test
-    # [ ] addFramePortRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] getPduTriggeringRefs         [x] impl  [ ] docstring  [ ] test
-    # [ ] addPduTriggeringRef          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.79, p.418
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getFrameRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] setFrameRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFramePortRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addFramePortRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPduTriggeringRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addPduTriggeringRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent, short_name):
         if type(self) is FrameTriggering:
@@ -1566,28 +1585,40 @@ class FrameTriggering(Identifiable, ABC):
 
         super().__init__(parent, short_name)
 
-        self.frameRef: RefType = None
+        # One frame can be triggered several times, e.g. on different channels. If a frame has no frame triggering, it won't be sent at all. A frame triggering has assigned exactly one frame, which it triggers.
+        self.frameRef: Optional[RefType] = None
+
+        # References to the FramePort on every ECU of the system which sends and/or receives the frame. References for both the sender and the receiver side shall be included when the system is completely defined.
         self.framePortRefs: List[RefType] = []
+
+        # This reference provides the relationship to the Pdu Triggerings that are implemented by the FrameTriggering. The reference is optional since no PduTriggering can be defined for NmPdus and XCP Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.pduTriggering, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.pduTriggeringRefs: List[RefType] = []
 
-    def getFrameRef(self) -> RefType:
+    def getFrameRef(self) -> Optional[RefType]:
+        # One frame can be triggered several times, e.g. on different channels. If a frame has no frame triggering, it won't be sent at all. A frame triggering has assigned exactly one frame, which it triggers.
         return self.frameRef
 
-    def setFrameRef(self, value: RefType):
-        self.frameRef = value
+    def setFrameRef(self, value: Optional[RefType]) -> "FrameTriggering":
+        # One frame can be triggered several times, e.g. on different channels. If a frame has no frame triggering, it won't be sent at all. A frame triggering has assigned exactly one frame, which it triggers.
+        if value is not None:
+            self.frameRef = value
         return self
 
     def getFramePortRefs(self) -> List[RefType]:
+        # References to the FramePort on every ECU of the system which sends and/or receives the frame. References for both the sender and the receiver side shall be included when the system is completely defined.
         return self.framePortRefs
 
-    def addFramePortRef(self, value: RefType):
+    def addFramePortRef(self, value: RefType) -> "FrameTriggering":
+        # References to the FramePort on every ECU of the system which sends and/or receives the frame. References for both the sender and the receiver side shall be included when the system is completely defined.
         self.framePortRefs.append(value)
         return self
 
-    def getPduTriggeringRefs(self) -> RefType:
+    def getPduTriggeringRefs(self) -> List[RefType]:
+        # This reference provides the relationship to the Pdu Triggerings that are implemented by the FrameTriggering. The reference is optional since no PduTriggering can be defined for NmPdus and XCP Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.pduTriggering, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         return self.pduTriggeringRefs
 
-    def addPduTriggeringRef(self, value: RefType):
+    def addPduTriggeringRef(self, value: RefType) -> "FrameTriggering":
+        # This reference provides the relationship to the Pdu Triggerings that are implemented by the FrameTriggering. The reference is optional since no PduTriggering can be defined for NmPdus and XCP Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.pduTriggering, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.pduTriggeringRefs.append(value)
         return self
 
