@@ -1880,13 +1880,15 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 | — *(missing)* | `—` | `defaultValueElement` | ``DefaultValueElement`` | aggr | missing |
 
 ## `ISignalTriggering`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 330  | **table:** Table 6.16
+- **Package (spec):** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex\FibexCore\CoreCommunication.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `isignalportrefs` | `—` | `iSignalPort` | ``ISignalPort`` | ref | type (spec many vs py single) |
+| — *(removed)* | `—` | `isignalportrefs` | ``ISignalPort`` | ref | stale: model uses `List[RefType]` for the spec `*` multiplicity; no deviation |
+
+All three Table 6.16 attributes are modeled verbatim (`Optional[RefType]` for `iSignal`/`iSignalGroup` 0..1 refs, `List[RefType]` for `iSignalPort` * refs); reader/writer cover all of them.
 
 ## `StaticPart`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.74

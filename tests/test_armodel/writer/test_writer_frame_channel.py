@@ -355,6 +355,36 @@ class TestWriteISignalTriggering:
         assert len(refs.findall("I-SIGNAL-PORT-REF")) == 1
         assert ist.find("I-SIGNAL-REF") is not None
 
+    def test_write_isignal_triggering_roundtrip(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        NS = "http://autosar.org/schema/r4.0"
+        pkg = _pkg()
+        ch = CanPhysicalChannel(pkg, "Ch")
+        st = ch.createISignalTriggering("St")
+        st.setISignalRef(_ref("I-SIGNAL", "/sig"))
+        st.setISignalGroupRef(_ref("I-SIGNAL-GROUP", "/sg"))
+        st.addISignalPortRef(_ref("I-SIGNAL-PORT", "/sp1"))
+        st.addISignalPortRef(_ref("I-SIGNAL-PORT", "/sp2"))
+
+        parent = _parent()
+        writer.writePhysicalChannelISignalTriggerings(parent, ch)
+        assert parent.find("I-SIGNAL-TRIGGERINGS") is not None
+
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % NS, 1)
+        namespaced = ET.fromstring(xml_str)
+        reparsed = CanPhysicalChannel(pkg, "Ch2")
+        ARXMLParser().readPhysicalChannelISignalTriggerings(namespaced, reparsed)
+        trigs = reparsed.getISignalTriggerings()
+        assert len(trigs) == 1
+        rt = trigs[0]
+        assert rt.getISignalRef().getValue() == "/sig"
+        assert rt.getISignalGroupRef().getValue() == "/sg"
+        ports = rt.getISignalPortRefs()
+        assert len(ports) == 2
+        assert ports[0].getValue() == "/sp1"
+        assert ports[1].getValue() == "/sp2"
+
 
 class TestWritePduTriggering:
     def test_write_pdu_triggering_empty(self, writer):

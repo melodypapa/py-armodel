@@ -1683,47 +1683,76 @@ class SystemSignalGroup(ARElement):
 
 class ISignalTriggering(Identifiable):
     """
-    Defines triggering properties for interaction signals, specifying
-    signal references, group references, and port references for
-    signal-based communication triggering.
+    A ISignalTriggering allows an assignment of ISignals to physical channels.
     """
 
     # ISignalTriggering method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] setISignalRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalGroupRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setISignalGroupRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalPortRefs           [x] impl  [ ] docstring  [ ] test
-    # [ ] addISignalPortRef            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.16, p.330
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getISignalRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setISignalRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getISignalGroupRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setISignalGroupRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addISignalPortRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getISignalPortRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.iSignalRef: RefType = None
-        self.iSignalGroupRef: RefType = None
+        # This reference shall be used if an ISignal is transported on the PhysicalChannel. This reference forms an XOR relationship with the ISignalTriggering-ISignalGroup reference.
+        self.iSignalRef: Optional[RefType] = None
+
+        # This reference shall be used if an ISignalGroup is transported on the PhysicalChannel. This reference forms an XOR relationship with the ISignal Triggering-ISignal reference.
+        self.iSignalGroupRef: Optional[RefType] = None
+
+        # References to the ISignalPort on every ECU of the system which sends and/or receives the ISignal. References for both the sender and the receiver side shall be included when the system is completely defined.
         self.iSignalPortRefs: List[RefType] = []
 
-    def getISignalRef(self):
+    def getISignalRef(self) -> Optional[RefType]:
+        """
+        This reference shall be used if an ISignal is transported on the PhysicalChannel. This reference forms an XOR relationship with the ISignalTriggering-ISignalGroup reference.
+        """
         return self.iSignalRef
 
-    def setISignalRef(self, value):
-        self.iSignalRef = value
+    def setISignalRef(self, value: Optional[RefType]) -> "ISignalTriggering":
+        """
+        This reference shall be used if an ISignal is transported on the PhysicalChannel. This reference forms an XOR relationship with the ISignalTriggering-ISignalGroup reference.
+        A None value is a no-op and does not overwrite an existing iSignalRef.
+        """
+        if value is not None:
+            self.iSignalRef = value
         return self
 
-    def getISignalGroupRef(self):
+    def getISignalGroupRef(self) -> Optional[RefType]:
+        """
+        This reference shall be used if an ISignalGroup is transported on the PhysicalChannel. This reference forms an XOR relationship with the ISignal Triggering-ISignal reference.
+        """
         return self.iSignalGroupRef
 
-    def setISignalGroupRef(self, value):
-        self.iSignalGroupRef = value
+    def setISignalGroupRef(self, value: Optional[RefType]) -> "ISignalTriggering":
+        """
+        This reference shall be used if an ISignalGroup is transported on the PhysicalChannel. This reference forms an XOR relationship with the ISignal Triggering-ISignal reference.
+        A None value is a no-op and does not overwrite an existing iSignalGroupRef.
+        """
+        if value is not None:
+            self.iSignalGroupRef = value
         return self
 
-    def getISignalPortRefs(self):
+    def addISignalPortRef(self, value: Optional[RefType]) -> "ISignalTriggering":
+        """
+        References to the ISignalPort on every ECU of the system which sends and/or receives the ISignal. References for both the sender and the receiver side shall be included when the system is completely defined.
+        """
+        if value is not None:
+            self.iSignalPortRefs.append(value)
+        return self
+
+    def getISignalPortRefs(self) -> List[RefType]:
+        """
+        References to the ISignalPort on every ECU of the system which sends and/or receives the ISignal. References for both the sender and the receiver side shall be included when the system is completely defined.
+        """
         return self.iSignalPortRefs
-
-    def addISignalPortRef(self, value):
-        self.iSignalPortRefs.append(value)
-        return self
 
 
 class SegmentPosition(ARObject):

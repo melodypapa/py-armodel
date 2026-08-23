@@ -817,11 +817,17 @@ class Test_FibexCoreCommunication:
         triggering.setISignalRef(ref1)
         assert triggering.getISignalRef() == ref1
         assert triggering == triggering.setISignalRef(ref1)  # Test method chaining
+        # None is a no-op and does not overwrite an existing iSignalRef
+        assert triggering == triggering.setISignalRef(None)
+        assert triggering.getISignalRef() == ref1
 
         ref2 = object()
         triggering.setISignalGroupRef(ref2)
         assert triggering.getISignalGroupRef() == ref2
         assert triggering == triggering.setISignalGroupRef(ref2)  # Test method chaining
+        # None is a no-op and does not overwrite an existing iSignalGroupRef
+        assert triggering == triggering.setISignalGroupRef(None)
+        assert triggering.getISignalGroupRef() == ref2
 
         ref3 = object()
         triggering.addISignalPortRef(ref3)
