@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommun
     CanFrame,
     CanFrameRxBehaviorEnum,
     CanFrameTriggering,
+    CanFrameTxBehaviorEnum,
     RxIdentifierRange,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
@@ -181,3 +182,17 @@ class Test_Fibex4CanCommunication:
         assert CanFrameRxBehaviorEnum.ENUM_CAN_20 in enum.getEnumValues()
         assert CanFrameRxBehaviorEnum.ENUM_CAN_FD in enum.getEnumValues()
         assert len(enum.getEnumValues()) == 3
+
+    def test_CanFrameTxBehaviorEnum(self):
+        """Test CanFrameTxBehaviorEnum enum (Table 6.114)."""
+        enum = CanFrameTxBehaviorEnum()
+        assert enum is not None
+        enum.setValue(CanFrameTxBehaviorEnum.ENUM_CAN_20)
+        assert enum.getValue() == "CAN-20"
+
+        assert CanFrameTxBehaviorEnum.ENUM_CAN_20 == "CAN-20"
+        assert CanFrameTxBehaviorEnum.ENUM_CAN_FD == "CAN-FD"
+
+        assert CanFrameTxBehaviorEnum.ENUM_CAN_20 in enum.getEnumValues()
+        assert CanFrameTxBehaviorEnum.ENUM_CAN_FD in enum.getEnumValues()
+        assert len(enum.getEnumValues()) == 2
