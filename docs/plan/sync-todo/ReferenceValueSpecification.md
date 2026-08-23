@@ -48,7 +48,7 @@ Spec source for all rows unless noted: `autosar/markdown/AUTOSAR_CP_TPS_Software
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] ReferenceValueSpecification (input · markdown · Table 5.115 · `CommonStructure/Constants/__init__.py`)
+- [x] ReferenceValueSpecification (input · markdown · Table 5.115 · `CommonStructure/Constants/__init__.py`) · commit e97c1b37
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
