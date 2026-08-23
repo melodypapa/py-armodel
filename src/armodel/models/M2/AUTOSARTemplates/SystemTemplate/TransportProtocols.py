@@ -2,7 +2,7 @@
 # It defines CAN, DoIP, and LIN transport protocol configurations and connections
 
 from abc import ABC
-from typing import List
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIp import AbstractDoIpLogicAddressProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
@@ -13,15 +13,17 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class TpConfig(FibexElement, ABC):
     """
-    Abstract base class for transport protocol configurations,
-    defining common properties for different types of transport
-    protocol implementations including communication cluster references.
+    Contains all configuration elements for AUTOSAR TP.
     """
 
     # TpConfig method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCommunicationClusterRef   [x] impl  [ ] docstring  [ ] test
-    # [ ] setCommunicationClusterRef   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.237, p.588
+    # Spec verified: R23-11
+    # Note: class Note taken from XSD TP-CONFIG group documentation (PDF table has no Note row)
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCommunicationClusterRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCommunicationClusterRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is TpConfig:
@@ -29,12 +31,20 @@ class TpConfig(FibexElement, ABC):
 
         super().__init__(parent, short_name)
 
-        self.communicationClusterRef: RefType = None
+        # A TpConfig is existing always in the context of exactly one CommunicationCluster.
+        self.communicationClusterRef: Optional[RefType] = None
 
-    def getCommunicationClusterRef(self):
+    def getCommunicationClusterRef(self) -> Optional[RefType]:
+        """
+        A TpConfig is existing always in the context of exactly one CommunicationCluster.
+        """
         return self.communicationClusterRef
 
-    def setCommunicationClusterRef(self, value):
+    def setCommunicationClusterRef(self, value: Optional[RefType]) -> "TpConfig":
+        """
+        A TpConfig is existing always in the context of exactly one CommunicationCluster.
+        A None value is a no-op and does not overwrite an existing communicationClusterRef.
+        """
         if value is not None:
             self.communicationClusterRef = value
         return self

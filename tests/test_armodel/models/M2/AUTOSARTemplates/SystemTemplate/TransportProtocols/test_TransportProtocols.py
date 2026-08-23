@@ -41,6 +41,27 @@ class TestTransportProtocols:
         with pytest.raises(TypeError):
             TpConfig(MockParent(), "test_tp_config")
 
+    def test_tp_config_methods(self):
+        """Test TpConfig concrete implementation methods (Table 6.237)."""
+
+        class ConcreteTpConfig(TpConfig):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        parent = MockParent()
+        config = ConcreteTpConfig(parent, "test_tp_config")
+
+        # Test default values
+        assert config.getCommunicationClusterRef() is None
+
+        # communicationCluster (ref, CommunicationCluster, 0..1)
+        ref1 = object()
+        config.setCommunicationClusterRef(ref1)
+        assert config.getCommunicationClusterRef() == ref1
+        assert config == config.setCommunicationClusterRef(ref1)  # method chaining
+        assert config == config.setCommunicationClusterRef(None)  # None no-op
+        assert config.getCommunicationClusterRef() == ref1  # unchanged
+
     def test_can_tp_address(self):
         """
         Test CanTpAddress class functionality with method chaining and None handling.
