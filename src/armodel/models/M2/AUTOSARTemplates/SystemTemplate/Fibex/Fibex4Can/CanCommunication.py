@@ -3,7 +3,31 @@
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARPositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARPositiveInteger
+
+
+class CanAddressingModeType(AREnum):
+    """Indicates whether standard or extended CAN identifiers are used"""
+
+    # CanAddressingModeType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.111, p.443
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods)
+
+    # Extended 29-bit-identifiers are used (CAN 2.0B) Tags: atp.EnumerationLiteralIndex=0
+    ENUM_EXTENDED = "EXTENDED"
+
+    # Standard 11-bit-identifiers are used (CAN 2.0A) Tags: atp.EnumerationLiteralIndex=1
+    ENUM_STANDARD = "STANDARD"
+
+    def __init__(self):
+        super().__init__(
+            [
+                CanAddressingModeType.ENUM_EXTENDED,
+                CanAddressingModeType.ENUM_STANDARD,
+            ]
+        )
 
 
 class RxIdentifierRange(ARObject):

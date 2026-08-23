@@ -8,7 +8,12 @@ of the respective classes.
 """
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame, CanFrameTriggering, RxIdentifierRange
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
+    CanAddressingModeType,
+    CanFrame,
+    CanFrameTriggering,
+    RxIdentifierRange,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 
 
@@ -33,6 +38,20 @@ class Test_Fibex4CanCommunication:
     CAN communication classes, including their initialization,
     inheritance relationships, and property accessors.
     """
+
+    def test_CanAddressingModeType(self):
+        """Test CanAddressingModeType enum (Table 6.111)."""
+        enum = CanAddressingModeType()
+        assert enum is not None
+        enum.setValue(CanAddressingModeType.ENUM_EXTENDED)
+        assert enum.getValue() == "EXTENDED"
+
+        assert CanAddressingModeType.ENUM_EXTENDED == "EXTENDED"
+        assert CanAddressingModeType.ENUM_STANDARD == "STANDARD"
+
+        assert CanAddressingModeType.ENUM_EXTENDED in enum.getEnumValues()
+        assert CanAddressingModeType.ENUM_STANDARD in enum.getEnumValues()
+        assert len(enum.getEnumValues()) == 2
 
     def test_RxIdentifierRange(self):
         """
