@@ -2,7 +2,6 @@ from abc import ABC
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger
@@ -10,7 +9,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinScheduleTable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    CommConnectorPort,
+    FibexElement,
+    FramePort,
+    FrameTriggering,
+    IPduPort,
+    ISignalPort,
+    ISignalTriggering,
+    PduTriggering,
+)
 
 
 class CommunicationCycle(ARObject, ABC):
@@ -747,265 +755,6 @@ class PncGatewayTypeEnum(AREnum):
 
     def __init__(self):
         super().__init__([PncGatewayTypeEnum.ENUM_ACTIVE, PncGatewayTypeEnum.ENUM_NONE, PncGatewayTypeEnum.ENUM_PASSIVE])
-
-
-class CommunicationDirectionType(AREnum):
-    """
-    Enumeration defining communication direction types,
-    specifying whether communication is inbound or outbound.
-    """
-
-    # CommunicationDirectionType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    ENUM_IN = "in"
-    ENUM_OUT = "out"
-
-    def __init__(self):
-        super().__init__([CommunicationDirectionType.ENUM_IN, CommunicationDirectionType.ENUM_OUT])
-
-
-class CommConnectorPort(Identifiable, ABC):
-    """
-    The Ecu communication relationship defines which signals, Pdus and frames are actually received and transmitted by this ECU. For each signal, Pdu or Frame that is transmitted or received and used by the Ecu an association between an ISignalPort, IPduPort or FramePort with the corresponding Triggering shall be created. An ISignalPort shall be created only if the corresponding signal is handled by COM (RTE or Signal Gateway). If a Pdu Gateway ECU only routes the Pdu without being interested in the content only a FramePort and an IPduPort needs to be created.
-
-    [constr_9103] Existence of communicationDirection: For each CommConnectorPort, the attribute communicationDirection shall exist at the time when the System Description is complete.
-    """
-
-    # CommConnectorPort method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.1, p.303
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCommunicationDirection    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCommunicationDirection    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-
-    def __init__(self, parent: ARObject, short_name: str):
-        if type(self) is CommConnectorPort:
-            raise TypeError("CommConnectorPort is an abstract class.")
-
-        super().__init__(parent, short_name)
-
-        # Communication Direction of the Connector Port (input or output Port).
-        self.communicationDirection: Optional[CommunicationDirectionType] = None
-
-    def getCommunicationDirection(self) -> Optional[CommunicationDirectionType]:
-        """
-        Communication Direction of the Connector Port (input or output Port).
-        """
-        return self.communicationDirection
-
-    def setCommunicationDirection(self, value: Optional[CommunicationDirectionType]) -> "CommConnectorPort":
-        """
-        Communication Direction of the Connector Port (input or output Port).
-        A None value is a no-op and does not overwrite an existing communicationDirection.
-        """
-        if value is not None:
-            self.communicationDirection = value
-        return self
-
-
-class FramePort(CommConnectorPort):
-    """
-    Represents a frame port for communication connectors,
-    handling frame-based communication at the connector level.
-    """
-
-    # FramePort method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-
-class IPduSignalProcessingEnum(AREnum):
-    """
-    Definition of signal processing modes.
-    """
-
-    # IPduSignalProcessingEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.4, p.305
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # (no methods) — enum value form serialized on IPduPort.iPduSignalProcessing
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-
-    # The signal indications / confirmations are deferred. Tags: atp.EnumerationLiteralIndex=0
-    ENUM_DEFERRED = "deferred"
-
-    # The signal indications / confirmations are performed. Tags: atp.EnumerationLiteralIndex=1
-    ENUM_IMMEDIATE = "immediate"
-
-    def __init__(self):
-        super().__init__([IPduSignalProcessingEnum.ENUM_DEFERRED, IPduSignalProcessingEnum.ENUM_IMMEDIATE])
-
-
-class IPduPort(CommConnectorPort):
-    """
-    Connectors reception or send port on the referenced channel referenced by a PduTriggering.
-
-    [constr_3137] IPduPort.rxSecurityVerification is configurable on the receiver side: The IPduPort.rxSecurityVerification attribute shall only be used in IPduPorts with the communicationDirection = in.
-    [constr_3138] IPduPort.rxSecurityVerification validness: The IPduPort.rxSecurityVerification information is only valid for SecuredIPdus.
-    [constr_3337] IPduPort.useAuthDataFreshness is configurable on the receiver side: The IPduPort.useAuthDataFreshness attribute shall only be used in IPduPorts with the communicationDirection = in.
-    [constr_3338] IPduPort.useAuthDataFreshness validness: The IPduPort.useAuthDataFreshness information is only valid for SecuredIPdus.
-    """
-
-    # IPduPort method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.3, p.304
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getIPduSignalProcessing      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIPduSignalProcessing      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRxSecurityVerification    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRxSecurityVerification    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimestampRxAcceptanceWindow [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTimestampRxAcceptanceWindow [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUseAuthDataFreshness      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUseAuthDataFreshness      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        # Definition of the two signal processing modes Immediate and Deferred for both Tx and Rx IPdus.
-        self.iPduSignalProcessing: Optional[IPduSignalProcessingEnum] = None
-
-        # This attribute defines the bypassing of signature authentication or MAC verification in the receiving ECU. If not defined or set to true the signature authentication or MAC verification shall be performed for the SecuredIPdu. If set to false the signature authentication or MAC verification shall not be performed for the SecuredIPdu.
-        self.rxSecurityVerification: Optional[Boolean] = None
-
-        # This attribute is used to define the maximum allowed deviation in seconds from the expected timestamp for which a SecuredIPdu is still deemed authentic. Please note that this attribute is for documentation only to allow the configuration of required freshness value manager and no upstream mapping is defined for it.
-        self.timestampRxAcceptanceWindow: Optional[TimeValue] = None
-
-        # This attribute describes whether a part of AuthenticPdu contained in a SecuredIPdu shall be passed on to the SWC that verifies and generates the Freshness. The part of the Authentic-PDU is defined by the authData FreshnessStartPosition and authDataFreshnessLength.
-        self.useAuthDataFreshness: Optional[Boolean] = None
-
-    def getIPduSignalProcessing(self) -> Optional[IPduSignalProcessingEnum]:
-        """
-        Definition of the two signal processing modes Immediate and Deferred for both Tx and Rx IPdus.
-        """
-        return self.iPduSignalProcessing
-
-    def setIPduSignalProcessing(self, value: Optional[IPduSignalProcessingEnum]) -> "IPduPort":
-        """
-        Definition of the two signal processing modes Immediate and Deferred for both Tx and Rx IPdus.
-        A None value is a no-op and does not overwrite an existing iPduSignalProcessing.
-        """
-        if value is not None:
-            self.iPduSignalProcessing = value
-        return self
-
-    def getRxSecurityVerification(self) -> Optional[Boolean]:
-        """
-        This attribute defines the bypassing of signature authentication or MAC verification in the receiving ECU. If not defined or set to true the signature authentication or MAC verification shall be performed for the SecuredIPdu. If set to false the signature authentication or MAC verification shall not be performed for the SecuredIPdu.
-        """
-        return self.rxSecurityVerification
-
-    def setRxSecurityVerification(self, value: Optional[Boolean]) -> "IPduPort":
-        """
-        This attribute defines the bypassing of signature authentication or MAC verification in the receiving ECU. If not defined or set to true the signature authentication or MAC verification shall be performed for the SecuredIPdu. If set to false the signature authentication or MAC verification shall not be performed for the SecuredIPdu.
-        A None value is a no-op and does not overwrite an existing rxSecurityVerification.
-        """
-        if value is not None:
-            self.rxSecurityVerification = value
-        return self
-
-    def getTimestampRxAcceptanceWindow(self) -> Optional[TimeValue]:
-        """
-        This attribute is used to define the maximum allowed deviation in seconds from the expected timestamp for which a SecuredIPdu is still deemed authentic. Please note that this attribute is for documentation only to allow the configuration of required freshness value manager and no upstream mapping is defined for it.
-        """
-        return self.timestampRxAcceptanceWindow
-
-    def setTimestampRxAcceptanceWindow(self, value: Optional[TimeValue]) -> "IPduPort":
-        """
-        This attribute is used to define the maximum allowed deviation in seconds from the expected timestamp for which a SecuredIPdu is still deemed authentic. Please note that this attribute is for documentation only to allow the configuration of required freshness value manager and no upstream mapping is defined for it.
-        A None value is a no-op and does not overwrite an existing timestampRxAcceptanceWindow.
-        """
-        if value is not None:
-            self.timestampRxAcceptanceWindow = value
-        return self
-
-    def getUseAuthDataFreshness(self) -> Optional[Boolean]:
-        """
-        This attribute describes whether a part of AuthenticPdu contained in a SecuredIPdu shall be passed on to the SWC that verifies and generates the Freshness. The part of the Authentic-PDU is defined by the authData FreshnessStartPosition and authDataFreshnessLength.
-        """
-        return self.useAuthDataFreshness
-
-    def setUseAuthDataFreshness(self, value: Optional[Boolean]) -> "IPduPort":
-        """
-        This attribute describes whether a part of AuthenticPdu contained in a SecuredIPdu shall be passed on to the SWC that verifies and generates the Freshness. The part of the Authentic-PDU is defined by the authData FreshnessStartPosition and authDataFreshnessLength.
-        A None value is a no-op and does not overwrite an existing useAuthDataFreshness.
-        """
-        if value is not None:
-            self.useAuthDataFreshness = value
-        return self
-
-
-class ISignalPort(CommConnectorPort):
-    """
-    Represents an interaction signal port for communication connectors,
-    handling interaction signal communication with filtering,
-    timeout, and validity handling properties.
-    """
-
-    # ISignalPort method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataFilter                [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataFilter                [x] impl  [ ] docstring  [ ] test
-    # [ ] getDdsQosProfileRef          [x] impl  [ ] docstring  [ ] test
-    # [ ] setDdsQosProfileRef          [x] impl  [ ] docstring  [ ] test
-    # [ ] getFirstTimeout              [x] impl  [ ] docstring  [ ] test
-    # [ ] setFirstTimeout              [x] impl  [ ] docstring  [ ] test
-    # [ ] getHandleInvalid             [x] impl  [ ] docstring  [ ] test
-    # [ ] setHandleInvalid             [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeout                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeout                   [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.dataFilter: DataFilter = None
-        self.ddsQosProfileRef: RefType = None
-        self.firstTimeout: TimeValue = None
-        self.handleInvalid = None
-        self.timeout: TimeValue = None
-
-    def getDataFilter(self):
-        return self.dataFilter
-
-    def setDataFilter(self, value):
-        if value is not None:
-            self.dataFilter = value
-        return self
-
-    def getDdsQosProfileRef(self):
-        return self.ddsQosProfileRef
-
-    def setDdsQosProfileRef(self, value):
-        if value is not None:
-            self.ddsQosProfileRef = value
-        return self
-
-    def getFirstTimeout(self):
-        return self.firstTimeout
-
-    def setFirstTimeout(self, value):
-        if value is not None:
-            self.firstTimeout = value
-        return self
-
-    def getHandleInvalid(self):
-        return self.handleInvalid
-
-    def setHandleInvalid(self, value):
-        if value is not None:
-            self.handleInvalid = value
-        return self
-
-    def getTimeout(self):
-        return self.timeout
-
-    def setTimeout(self, value):
-        if value is not None:
-            self.timeout = value
-        return self
 
 
 class CommunicationConnector(Identifiable, ABC):

@@ -1951,24 +1951,27 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
-## `CommConnectorPort`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 303  | **table:** Table 6.1
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py`
-
-No deviations — Table 6.1's single attribute (`communicationDirection`, `CommunicationDirectionType`, 0..1, attr) is modeled verbatim with `Optional`-typed accessors; reader/writer cover `COMMUNICATION-DIRECTION`. Referenced member type `CommunicationDirectionType` matches its Enumeration table (Table 6.33, literals `in`/`out`) but carries no own stamp yet (not in the confirmed sync queue).
-
 ## `IPduPort`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 304  | **table:** Table 6.3
 - **Package (spec):** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(removed)* | `—` | `keyId` | `PositiveInteger` | attr | deprecated (atp.Status=removed), not implemented |
-| location | `CoreTopology.py` | — | — | — | spec package CoreCommunication vs py CoreTopology; kept with the connector-port family (base CommConnectorPort is CoreTopology per its own Table 6.1; moving breaks the existing CoreTopology→CoreCommunication runtime imports with a cyclic import) |
 
-All four Table 6.3 attributes are modeled verbatim (`Optional`-typed); reader/writer now cover all of them, including the previously dropped `I-PDU-SIGNAL-PROCESSING` and `TIMESTAMP-RX-ACCEPTANCE-WINDOW`. `IPduSignalProcessingEnum` converted to `AREnum` per Table 6.4 (literals `deferred`/`immediate`).
+Relocated from `CoreTopology.py` to `CoreCommunication.py` per the spec Package row (Table 6.3 + XSD group comment). All four Table 6.3 attributes are modeled verbatim (`Optional`-typed); reader/writer now cover all of them, including the previously dropped `I-PDU-SIGNAL-PROCESSING` and `TIMESTAMP-RX-ACCEPTANCE-WINDOW`. `IPduSignalProcessingEnum` converted to `AREnum` per Table 6.4 (literals `deferred`/`immediate`) and relocated likewise.
+
+## `CommConnectorPort`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 303  | **table:** Table 6.1
+- **Package (spec):** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| location | `CoreCommunication.py` | — | — | — | spec package CoreTopology vs py CoreCommunication; structurally forced: its CoreCommunication subclasses (FramePort/IPduPort/ISignalPort per Tables 6.2/6.3/6.5) inherit it at class-definition time, and a CoreCommunication→CoreTopology edge would cycle with CoreTopology's required CommunicationCluster→FibexElement / triggering dependencies |
+
+Relocated together with its subclass family to keep the dependency graph acyclic; fields/docstrings/coverage unchanged since the R23-11 stamp.
 
 ## `FramePort`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.3

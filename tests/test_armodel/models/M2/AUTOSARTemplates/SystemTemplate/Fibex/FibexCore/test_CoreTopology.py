@@ -9,29 +9,32 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommun
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinScheduleTable
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalTriggering, PduTriggering
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    CommConnectorPort,
+    CommunicationDirectionType,
+    FramePort,
+    IPduPort,
+    IPduSignalProcessingEnum,
+    ISignalPort,
+    ISignalTriggering,
+    PduTriggering,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     AbstractCanCluster,
     AbstractCanPhysicalChannel,
     CanCluster,
     CanClusterBusOffRecovery,
     CanPhysicalChannel,
-    CommConnectorPort,
     CommunicationCluster,
     CommunicationConnector,
     CommunicationController,
     CommunicationCycle,
-    CommunicationDirectionType,
     CycleCounter,
     CycleRepetition,
     CycleRepetitionType,
     EthernetPhysicalChannel,
     FlexrayChannelName,
     FlexrayPhysicalChannel,
-    FramePort,
-    IPduPort,
-    IPduSignalProcessingEnum,
-    ISignalPort,
     LinPhysicalChannel,
     PhysicalChannel,
     PncGatewayTypeEnum,
