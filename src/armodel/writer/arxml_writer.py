@@ -1202,10 +1202,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         if sw_values is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObjectAttributes(child_element, sw_values)
+            for vf in sw_values.getVfs():
+                self.setChildElementOptionalFloatValue(child_element, "VF", vf)
+            self.setChildElementOptionalLiteral(child_element, "VT", sw_values.getVt())
             for v in sw_values.getVs():
                 self.setChildElementOptionalFloatValue(child_element, "V", v)
-            self.setChildElementOptionalLiteral(child_element, "VT", sw_values.vt)
             self.setValueGroup(child_element, "VG", sw_values.getVg())
+            for vtf in sw_values.getVtfs():
+                self.writeNumericalOrText(child_element, "VTF", vtf)
 
     def setValueGroup(self, element: ET.Element, key: str, value_group: ValueGroup):
         if value_group is not None:
@@ -1214,9 +1218,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setMultiLongName(child_element, "LABEL", value_group.getLabel())
             contents = value_group.getVgContents()
             if contents is not None:
+                for vf in contents.getVfs():
+                    self.setChildElementOptionalFloatValue(child_element, "VF", vf)
+                self.setChildElementOptionalLiteral(child_element, "VT", contents.getVt())
                 for v in contents.getVs():
                     self.setChildElementOptionalFloatValue(child_element, "V", v)
-                self.setChildElementOptionalLiteral(child_element, "VT", contents.vt)
+                for vtf in contents.getVtfs():
+                    self.writeNumericalOrText(child_element, "VTF", vtf)
 
     def setValueList(self, element: ET.Element, key: str, value_list: ValueList):
         if value_list is not None:

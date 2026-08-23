@@ -1910,9 +1910,12 @@ Class not in markdown/PDF — skipped per user (enumeration `XmlSpaceEnum` has n
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | `_v` | `List[ARNumerical]` | `v` | `NumericalValue` | — | type (spec one vs py list) |
-| — *(missing)* | `—` | `vf` | `NumericalValueVariationPoint` | — | missing |
-| — *(missing)* | `—` | `vg` | `ValueGroup` | — | missing |
-| — *(missing)* | `—` | `vtf` | `NumericalOrText` | — | missing |
+| `_vf` | `List[ARNumerical]` | `vf` | `NumericalValueVariationPoint` | — | type (spec one vs py list) |
+| `_vg` | `Optional[ValueGroup]` | `vg` | `ValueGroup` | — | — |
+| `_vt` | `Optional[VerbatimString]` | `vt` | `VerbatimString` | — | — |
+| `_vtf` | `List[NumericalOrText]` | `vtf` | `NumericalOrText` | — | type (spec one vs py list) |
+
+- **Note:** `v`, `vf`, and `vtf` are modelled as Python lists (`List[...]`) instead of the PDF's single-valued (`0..1`) attributes. This is an accepted deviation (Rule 0001.3 XML-forces carve-out): `SwValues` is an `<<atpMixed>>` choice group where the `V`/`VF`/`VTF` elements may repeat in the XSD (the XSD documentation raises their upper multiplicity to `*`, and multi-value curves/value-sets require many `V` elements); a single-valued field cannot hold them. `vg` and `vt` match the PDF `0..1` multiplicity exactly. Reader (`getSwValues`) and writer (`setSwValues`/`setValueGroup`) coverage added for all five members (2026-08-23).
 
 ## `RuleBasedAxisCont`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 464

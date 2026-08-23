@@ -203,6 +203,17 @@ class AbstractARXMLParser(ABC):
             results.append(float_value)
         return results
 
+    def getChildElementNumericalList(self, element: ET.Element, key: str) -> List[Numerical]:
+        child_elements = self.findall(element, key)
+        results = []
+        for child_element in child_elements:
+            numerical_value = Numerical()
+            self.readARObjectAttributes(child_element, numerical_value)
+            if child_element.text is not None:
+                numerical_value.setValue(child_element.text)
+            results.append(numerical_value)
+        return results
+
     def getChildElementOptionalTimeValue(self, element: ET.Element, key: str) -> TimeValue:
         child_element = self.find(element, key)
         time_value = None

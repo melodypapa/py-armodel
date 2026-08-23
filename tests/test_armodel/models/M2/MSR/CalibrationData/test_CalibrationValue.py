@@ -2,8 +2,9 @@
 This module contains tests for the CalibrationValue module in MSR.CalibrationData.
 """
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NumericalOrText
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType, VerbatimString
 from armodel.models.M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
@@ -13,21 +14,76 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import Mult
 class TestSwValues:
     """Test class for SwValues class."""
 
-    def test_sw_values_initialization(self):
-        """Test that a SwValues object can be initialized with default values."""
+    def test_initialization(self):
+        """Test SwValues initialization defaults and inheritance."""
         sw_values = SwValues()
-        assert sw_values._v == []
-        assert sw_values.vt is None
+        assert isinstance(sw_values, ARObject)
+        assert sw_values.getVs() == []
+        assert sw_values.getVfs() == []
+        assert sw_values.getVg() is None
+        assert sw_values.getVt() is None
+        assert sw_values.getVtfs() == []
 
-    def test_sw_values_v_methods(self):
-        """Test adding and getting values."""
+    def test_add_get_vs(self):
+        """Test addV/getVs append order, chaining and None no-op."""
         sw_values = SwValues()
-        value = ARNumerical()
+        v1 = ARNumerical().setValue("1.5")
+        v2 = ARNumerical().setValue("2.5")
 
-        sw_values.addV(value)
-        vs = sw_values.getVs()
-        assert value in vs
-        assert len(vs) == 1
+        assert sw_values.addV(v1) is sw_values
+        sw_values.addV(v2)
+        assert sw_values.getVs() == [v1, v2]
+
+        sw_values.addV(None)
+        assert sw_values.getVs() == [v1, v2]
+
+    def test_add_get_vfs(self):
+        """Test addVf/getVfs append order, chaining and None no-op."""
+        sw_values = SwValues()
+        vf1 = ARNumerical().setValue("0.5")
+        vf2 = ARNumerical().setValue("1.5")
+
+        assert sw_values.addVf(vf1) is sw_values
+        sw_values.addVf(vf2)
+        assert sw_values.getVfs() == [vf1, vf2]
+
+        sw_values.addVf(None)
+        assert sw_values.getVfs() == [vf1, vf2]
+
+    def test_get_set_vg(self):
+        """Test getVg/setVg round-trip, chaining and None no-op."""
+        sw_values = SwValues()
+        vg = ValueGroup()
+
+        assert sw_values.setVg(vg) is sw_values
+        assert sw_values.getVg() is vg
+
+        sw_values.setVg(None)
+        assert sw_values.getVg() is vg
+
+    def test_get_set_vt(self):
+        """Test getVt/setVt round-trip, chaining and None no-op."""
+        sw_values = SwValues()
+        vt = VerbatimString().setValue("a|b")
+
+        assert sw_values.setVt(vt) is sw_values
+        assert sw_values.getVt() is vt
+
+        sw_values.setVt(None)
+        assert sw_values.getVt() is vt
+
+    def test_add_get_vtfs(self):
+        """Test addVtf/getVtfs append order, chaining and None no-op."""
+        sw_values = SwValues()
+        vtf1 = NumericalOrText()
+        vtf2 = NumericalOrText()
+
+        assert sw_values.addVtf(vtf1) is sw_values
+        sw_values.addVtf(vtf2)
+        assert sw_values.getVtfs() == [vtf1, vtf2]
+
+        sw_values.addVtf(None)
+        assert sw_values.getVtfs() == [vtf1, vtf2]
 
 
 class TestSwValueCont:

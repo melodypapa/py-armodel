@@ -4230,10 +4230,14 @@ class ARXMLParser(AbstractARXMLParser):
             return None
         sw_values = SwValues()
         self.readARObjectAttributes(child_element, sw_values)
-        for v in self.getChildElementFloatValueList(child_element, "V"):
-            sw_values.addV(v)
-        sw_values.vt = self.getChildElementOptionalLiteral(child_element, "VT")
+        for vf in self.getChildElementNumericalList(child_element, "VF"):
+            sw_values.addVf(vf)
+        sw_values.setVt(self.getChildElementOptionalVerbatimString(child_element, "VT"))
         sw_values.setVg(self.getValueGroup(child_element, "VG"))
+        for v in self.getChildElementNumericalList(child_element, "V"):
+            sw_values.addV(v)
+        for vtf_element in self.findall(child_element, "VTF"):
+            sw_values.addVtf(self.getNumericalOrText(vtf_element))
         return sw_values
 
     def getValueGroup(self, element: ET.Element, key: str) -> ValueGroup:
@@ -4244,12 +4248,18 @@ class ARXMLParser(AbstractARXMLParser):
             self.readARObjectAttributes(child_element, value_group)
             value_group.setLabel(self.getMultilanguageLongName(child_element, "LABEL"))
             has_v = self.find(child_element, "V") is not None
+            has_vf = self.find(child_element, "VF") is not None
             has_vt = self.find(child_element, "VT") is not None
-            if has_v or has_vt:
+            has_vtf = self.find(child_element, "VTF") is not None
+            if has_v or has_vf or has_vt or has_vtf:
                 contents = SwValues()
-                for v in self.getChildElementFloatValueList(child_element, "V"):
+                for vf in self.getChildElementNumericalList(child_element, "VF"):
+                    contents.addVf(vf)
+                for v in self.getChildElementNumericalList(child_element, "V"):
                     contents.addV(v)
-                contents.vt = self.getChildElementOptionalLiteral(child_element, "VT")
+                contents.setVt(self.getChildElementOptionalVerbatimString(child_element, "VT"))
+                for vtf_element in self.findall(child_element, "VTF"):
+                    contents.addVtf(self.getNumericalOrText(vtf_element))
                 value_group.setVgContents(contents)
         return value_group
 

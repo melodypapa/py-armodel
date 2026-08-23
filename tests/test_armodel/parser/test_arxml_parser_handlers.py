@@ -546,6 +546,33 @@ class TestDataTypeAndValueSpecHandlers:
         assert sw_values.getVg() is not None
         assert len(sw_values.getVg().getVgContents().getVs()) == 1
 
+    def test_getSwValues_with_vf_and_verbatim_vt(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import VerbatimString
+
+        element = _snip(
+            "<SW-VALUES-PHYS>" "<VF>0.5</VF>" "<VF>1.5</VF>" "<VT>a|b</VT>" "</SW-VALUES-PHYS>",
+            root_tag="PARENT",
+        )
+        sw_values = parser.getSwValues(element, "SW-VALUES-PHYS")
+        assert sw_values is not None
+        assert len(sw_values.getVfs()) == 2
+        assert float(sw_values.getVfs()[0].getValue()) == 0.5
+        assert float(sw_values.getVfs()[1].getValue()) == 1.5
+        assert isinstance(sw_values.getVt(), VerbatimString)
+        assert sw_values.getVt().getValue() == "a|b"
+
+    def test_getSwValues_with_vtf(self, parser):
+        element = _snip(
+            "<SW-VALUES-PHYS>" "<VTF><VF>7</VF></VTF>" "<VTF><VT>text</VT></VTF>" "</SW-VALUES-PHYS>",
+            root_tag="PARENT",
+        )
+        sw_values = parser.getSwValues(element, "SW-VALUES-PHYS")
+        assert sw_values is not None
+        vtfs = sw_values.getVtfs()
+        assert len(vtfs) == 2
+        assert float(vtfs[0].getVf().getValue()) == 7
+        assert vtfs[1].getVt().getValue() == "text"
+
     def test_getNotAvailableValueSpecification_with_default_pattern(self, parser):
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import NotAvailableValueSpecification
 
