@@ -7571,8 +7571,9 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeIPduPort(self, element: ET.Element, port: IPduPort):
         child_element = ET.SubElement(element, "I-PDU-PORT")
         self.writeCommConnectorPort(child_element, port)
-        self.setChildElementOptionalPositiveInteger(child_element, "KEY-ID", port.getKeyId())
+        self.setChildElementOptionalLiteral(child_element, "I-PDU-SIGNAL-PROCESSING", port.getIPduSignalProcessing())
         self.setChildElementOptionalBooleanValue(child_element, "RX-SECURITY-VERIFICATION", port.getRxSecurityVerification())
+        self.setChildElementOptionalTimeValue(child_element, "TIMESTAMP-RX-ACCEPTANCE-WINDOW", port.getTimestampRxAcceptanceWindow())
         self.setChildElementOptionalBooleanValue(child_element, "USE-AUTH-DATA-FRESHNESS", port.getUseAuthDataFreshness())
 
     def writeISignalPort(self, element: ET.Element, port: ISignalPort):

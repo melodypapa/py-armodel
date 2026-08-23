@@ -1,5 +1,4 @@
 from abc import ABC
-from enum import Enum
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
@@ -819,84 +818,121 @@ class FramePort(CommConnectorPort):
         super().__init__(parent, short_name)
 
 
-class IPduSignalProcessingEnum(Enum):
+class IPduSignalProcessingEnum(AREnum):
     """
-    Enumeration defining types of IPDU signal processing,
-    specifying whether signal processing is deferred or immediate.
+    Definition of signal processing modes.
     """
 
     # IPduSignalProcessingEnum method parity checklist:
-    # (no methods)
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.4, p.305
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on IPduPort.iPduSignalProcessing
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
+    # The signal indications / confirmations are deferred. Tags: atp.EnumerationLiteralIndex=0
     ENUM_DEFERRED = "deferred"
+
+    # The signal indications / confirmations are performed. Tags: atp.EnumerationLiteralIndex=1
     ENUM_IMMEDIATE = "immediate"
+
+    def __init__(self):
+        super().__init__([IPduSignalProcessingEnum.ENUM_DEFERRED, IPduSignalProcessingEnum.ENUM_IMMEDIATE])
 
 
 class IPduPort(CommConnectorPort):
     """
-    Represents an IPDU port for communication connectors,
-    handling Interaction Protocol Data Unit communication
-    with specific processing and security properties.
+    Connectors reception or send port on the referenced channel referenced by a PduTriggering.
+
+    [constr_3137] IPduPort.rxSecurityVerification is configurable on the receiver side: The IPduPort.rxSecurityVerification attribute shall only be used in IPduPorts with the communicationDirection = in.
+    [constr_3138] IPduPort.rxSecurityVerification validness: The IPduPort.rxSecurityVerification information is only valid for SecuredIPdus.
+    [constr_3337] IPduPort.useAuthDataFreshness is configurable on the receiver side: The IPduPort.useAuthDataFreshness attribute shall only be used in IPduPorts with the communicationDirection = in.
+    [constr_3338] IPduPort.useAuthDataFreshness validness: The IPduPort.useAuthDataFreshness information is only valid for SecuredIPdus.
     """
 
     # IPduPort method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIPduSignalProcessing      [x] impl  [ ] docstring  [ ] test
-    # [ ] setIPduSignalProcessing      [x] impl  [ ] docstring  [ ] test
-    # [ ] getKeyId                     [x] impl  [ ] docstring  [ ] test
-    # [ ] setKeyId                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getRxSecurityVerification    [x] impl  [ ] docstring  [ ] test
-    # [ ] setRxSecurityVerification    [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimestampRxAcceptanceWindow [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimestampRxAcceptanceWindow [x] impl  [ ] docstring  [ ] test
-    # [ ] getUseAuthDataFreshness      [x] impl  [ ] docstring  [ ] test
-    # [ ] setUseAuthDataFreshness      [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.3, p.304
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getIPduSignalProcessing      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIPduSignalProcessing      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRxSecurityVerification    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRxSecurityVerification    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimestampRxAcceptanceWindow [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimestampRxAcceptanceWindow [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUseAuthDataFreshness      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUseAuthDataFreshness      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.iPduSignalProcessing: IPduSignalProcessingEnum = None
-        self.keyId: PositiveInteger = None
-        self.rxSecurityVerification: Boolean = None
-        self.timestampRxAcceptanceWindow: TimeValue = None
-        self.useAuthDataFreshness: Boolean = None
+        # Definition of the two signal processing modes Immediate and Deferred for both Tx and Rx IPdus.
+        self.iPduSignalProcessing: Optional[IPduSignalProcessingEnum] = None
 
-    def getIPduSignalProcessing(self):
+        # This attribute defines the bypassing of signature authentication or MAC verification in the receiving ECU. If not defined or set to true the signature authentication or MAC verification shall be performed for the SecuredIPdu. If set to false the signature authentication or MAC verification shall not be performed for the SecuredIPdu.
+        self.rxSecurityVerification: Optional[Boolean] = None
+
+        # This attribute is used to define the maximum allowed deviation in seconds from the expected timestamp for which a SecuredIPdu is still deemed authentic. Please note that this attribute is for documentation only to allow the configuration of required freshness value manager and no upstream mapping is defined for it.
+        self.timestampRxAcceptanceWindow: Optional[TimeValue] = None
+
+        # This attribute describes whether a part of AuthenticPdu contained in a SecuredIPdu shall be passed on to the SWC that verifies and generates the Freshness. The part of the Authentic-PDU is defined by the authData FreshnessStartPosition and authDataFreshnessLength.
+        self.useAuthDataFreshness: Optional[Boolean] = None
+
+    def getIPduSignalProcessing(self) -> Optional[IPduSignalProcessingEnum]:
+        """
+        Definition of the two signal processing modes Immediate and Deferred for both Tx and Rx IPdus.
+        """
         return self.iPduSignalProcessing
 
-    def setIPduSignalProcessing(self, value):
+    def setIPduSignalProcessing(self, value: Optional[IPduSignalProcessingEnum]) -> "IPduPort":
+        """
+        Definition of the two signal processing modes Immediate and Deferred for both Tx and Rx IPdus.
+        A None value is a no-op and does not overwrite an existing iPduSignalProcessing.
+        """
         if value is not None:
             self.iPduSignalProcessing = value
         return self
 
-    def getKeyId(self):
-        return self.keyId
-
-    def setKeyId(self, value):
-        if value is not None:
-            self.keyId = value
-        return self
-
-    def getRxSecurityVerification(self):
+    def getRxSecurityVerification(self) -> Optional[Boolean]:
+        """
+        This attribute defines the bypassing of signature authentication or MAC verification in the receiving ECU. If not defined or set to true the signature authentication or MAC verification shall be performed for the SecuredIPdu. If set to false the signature authentication or MAC verification shall not be performed for the SecuredIPdu.
+        """
         return self.rxSecurityVerification
 
-    def setRxSecurityVerification(self, value):
+    def setRxSecurityVerification(self, value: Optional[Boolean]) -> "IPduPort":
+        """
+        This attribute defines the bypassing of signature authentication or MAC verification in the receiving ECU. If not defined or set to true the signature authentication or MAC verification shall be performed for the SecuredIPdu. If set to false the signature authentication or MAC verification shall not be performed for the SecuredIPdu.
+        A None value is a no-op and does not overwrite an existing rxSecurityVerification.
+        """
         if value is not None:
             self.rxSecurityVerification = value
         return self
 
-    def getTimestampRxAcceptanceWindow(self):
+    def getTimestampRxAcceptanceWindow(self) -> Optional[TimeValue]:
+        """
+        This attribute is used to define the maximum allowed deviation in seconds from the expected timestamp for which a SecuredIPdu is still deemed authentic. Please note that this attribute is for documentation only to allow the configuration of required freshness value manager and no upstream mapping is defined for it.
+        """
         return self.timestampRxAcceptanceWindow
 
-    def setTimestampRxAcceptanceWindow(self, value):
+    def setTimestampRxAcceptanceWindow(self, value: Optional[TimeValue]) -> "IPduPort":
+        """
+        This attribute is used to define the maximum allowed deviation in seconds from the expected timestamp for which a SecuredIPdu is still deemed authentic. Please note that this attribute is for documentation only to allow the configuration of required freshness value manager and no upstream mapping is defined for it.
+        A None value is a no-op and does not overwrite an existing timestampRxAcceptanceWindow.
+        """
         if value is not None:
             self.timestampRxAcceptanceWindow = value
         return self
 
-    def getUseAuthDataFreshness(self):
+    def getUseAuthDataFreshness(self) -> Optional[Boolean]:
+        """
+        This attribute describes whether a part of AuthenticPdu contained in a SecuredIPdu shall be passed on to the SWC that verifies and generates the Freshness. The part of the Authentic-PDU is defined by the authData FreshnessStartPosition and authDataFreshnessLength.
+        """
         return self.useAuthDataFreshness
 
-    def setUseAuthDataFreshness(self, value):
+    def setUseAuthDataFreshness(self, value: Optional[Boolean]) -> "IPduPort":
+        """
+        This attribute describes whether a part of AuthenticPdu contained in a SecuredIPdu shall be passed on to the SWC that verifies and generates the Freshness. The part of the Authentic-PDU is defined by the authData FreshnessStartPosition and authDataFreshnessLength.
+        A None value is a no-op and does not overwrite an existing useAuthDataFreshness.
+        """
         if value is not None:
             self.useAuthDataFreshness = value
         return self

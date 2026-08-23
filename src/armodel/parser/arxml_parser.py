@@ -8285,8 +8285,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readIPduPort(self, element: ET.Element, port: IPduPort):
         self.readCommConnectorPort(element, port)
-        port.setKeyId(self.getChildElementOptionalPositiveInteger(element, "KEY-ID"))
+        port.setIPduSignalProcessing(self.getChildElementOptionalLiteral(element, "I-PDU-SIGNAL-PROCESSING"))
         port.setRxSecurityVerification(self.getChildElementOptionalBooleanValue(element, "RX-SECURITY-VERIFICATION"))
+        port.setTimestampRxAcceptanceWindow(self.getChildElementOptionalTimeValue(element, "TIMESTAMP-RX-ACCEPTANCE-WINDOW"))
         port.setUseAuthDataFreshness(self.getChildElementOptionalBooleanValue(element, "USE-AUTH-DATA-FRESHNESS"))
 
     def readISignalPort(self, element: ET.Element, port: ISignalPort):

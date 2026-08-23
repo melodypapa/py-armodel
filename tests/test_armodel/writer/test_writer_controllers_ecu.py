@@ -202,14 +202,14 @@ class TestWriterIPduPort:
         connector = _make_can_communication_connector()
         port = connector.createIPduPort("ipp")
         port.setCommunicationDirection(_literal("in"))
-        port.setKeyId(_posint(5))
         port.setRxSecurityVerification(_bool(True))
+        port.setTimestampRxAcceptanceWindow(_time(0.05))
         port.setUseAuthDataFreshness(_bool(False))
         parent = _parent()
         writer.writeIPduPort(parent, port)
         assert parent[0].tag == "I-PDU-PORT"
-        assert parent[0].find("KEY-ID") is not None
         assert parent[0].find("RX-SECURITY-VERIFICATION") is not None
+        assert parent[0].find("TIMESTAMP-RX-ACCEPTANCE-WINDOW") is not None
         assert parent[0].find("USE-AUTH-DATA-FRESHNESS") is not None
 
 

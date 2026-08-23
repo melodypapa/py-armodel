@@ -4,6 +4,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
@@ -407,11 +408,12 @@ class Test_FibexCoreTopology:
 
     def test_IPduSignalProcessingEnum(self):
         """Test IPduSignalProcessingEnum enum functionality."""
-        # Check that both enum values exist
-        assert hasattr(IPduSignalProcessingEnum, "ENUM_DEFERRED")
-        assert hasattr(IPduSignalProcessingEnum, "ENUM_IMMEDIATE")
-        assert IPduSignalProcessingEnum.ENUM_DEFERRED.value == "deferred"
-        assert IPduSignalProcessingEnum.ENUM_IMMEDIATE.value == "immediate"
+        enum = IPduSignalProcessingEnum()
+        assert enum is not None
+        assert IPduSignalProcessingEnum.ENUM_DEFERRED in enum.getEnumValues()
+        assert IPduSignalProcessingEnum.ENUM_IMMEDIATE in enum.getEnumValues()
+        assert IPduSignalProcessingEnum.ENUM_DEFERRED == "deferred"
+        assert IPduSignalProcessingEnum.ENUM_IMMEDIATE == "immediate"
 
     def test_CommunicationController_methods(self):
         """Test CommunicationController concrete implementation methods."""
@@ -450,47 +452,63 @@ class Test_FibexCoreTopology:
 
         # Test default values
         assert port.getIPduSignalProcessing() is None
-        assert port.getKeyId() is None
         assert port.getRxSecurityVerification() is None
         assert port.getTimestampRxAcceptanceWindow() is None
         assert port.getUseAuthDataFreshness() is None
 
-        # Test setter/getter methods with method chaining - with None
-        assert port == port.setIPduSignalProcessing(None)  # Test method chaining with None
-        assert port.getIPduSignalProcessing() is None  # Should remain None
-
-        assert port == port.setKeyId(None)  # Test method chaining with None
-        assert port.getKeyId() is None  # Should remain None
-
-        assert port == port.setRxSecurityVerification(None)  # Test method chaining with None
-        assert port.getRxSecurityVerification() is None  # Should remain None
-
-        assert port == port.setTimestampRxAcceptanceWindow(None)  # Test method chaining with None
-        assert port.getTimestampRxAcceptanceWindow() is None  # Should remain None
-
-        assert port == port.setUseAuthDataFreshness(None)  # Test method chaining with None
-        assert port.getUseAuthDataFreshness() is None  # Should remain None
+        # keyId is removed upstream (atp.Status="removed") and must not be modeled
+        assert not hasattr(port, "keyId")
+        assert not hasattr(port, "getKeyId")
+        assert not hasattr(port, "setKeyId")
 
         # Test setter/getter methods with method chaining - with actual values
-        port.setIPduSignalProcessing(IPduSignalProcessingEnum.ENUM_IMMEDIATE)
-        assert port.getIPduSignalProcessing() == IPduSignalProcessingEnum.ENUM_IMMEDIATE
-        assert port == port.setIPduSignalProcessing(IPduSignalProcessingEnum.ENUM_IMMEDIATE)  # Test method chaining
+        processing = IPduSignalProcessingEnum()
+        processing.setValue(IPduSignalProcessingEnum.ENUM_IMMEDIATE)
+        assert port == port.setIPduSignalProcessing(processing)
+        assert port.getIPduSignalProcessing() == processing
 
-        port.setKeyId(1)
-        assert port.getKeyId() == 1
-        assert port == port.setKeyId(1)  # Test method chaining
+        rx_security = Boolean()
+        rx_security.setValue(True)
+        assert port == port.setRxSecurityVerification(rx_security)
+        assert port.getRxSecurityVerification().getValue() is True
 
-        port.setRxSecurityVerification(True)
-        assert port.getRxSecurityVerification() is True
-        assert port == port.setRxSecurityVerification(True)  # Test method chaining
+        window = TimeValue()
+        window.setValue("0.05")
+        assert port == port.setTimestampRxAcceptanceWindow(window)
+        assert float(port.getTimestampRxAcceptanceWindow().getValue()) == 0.05
 
-        port.setTimestampRxAcceptanceWindow(1000)
-        assert port.getTimestampRxAcceptanceWindow() == 1000
-        assert port == port.setTimestampRxAcceptanceWindow(1000)  # Test method chaining
+        use_auth = Boolean()
+        use_auth.setValue(False)
+        assert port == port.setUseAuthDataFreshness(use_auth)
+        assert port.getUseAuthDataFreshness().getValue() is False
 
-        port.setUseAuthDataFreshness(False)
-        assert port.getUseAuthDataFreshness() is False
-        assert port == port.setUseAuthDataFreshness(False)  # Test method chaining
+        # Test None no-op (guarded setters must not overwrite existing values)
+        assert port == port.setIPduSignalProcessing(None)
+        assert port.getIPduSignalProcessing() == processing
+        assert port == port.setRxSecurityVerification(None)
+        assert port.getRxSecurityVerification().getValue() is True
+        assert port == port.setTimestampRxAcceptanceWindow(None)
+        assert float(port.getTimestampRxAcceptanceWindow().getValue()) == 0.05
+        assert port == port.setUseAuthDataFreshness(None)
+        assert port.getUseAuthDataFreshness().getValue() is False
+
+        # Test 0..1 Optional typing contract (getter/setter agree on Optional[T])
+        hints = typing.get_type_hints(IPduPort.getIPduSignalProcessing)
+        assert hints["return"] == typing.Optional[IPduSignalProcessingEnum]
+        hints = typing.get_type_hints(IPduPort.setIPduSignalProcessing)
+        assert hints["value"] == typing.Optional[IPduSignalProcessingEnum]
+        assert hints["return"] == IPduPort
+
+        for getter, setter, value_type in [
+            ("getRxSecurityVerification", "setRxSecurityVerification", Boolean),
+            ("getTimestampRxAcceptanceWindow", "setTimestampRxAcceptanceWindow", TimeValue),
+            ("getUseAuthDataFreshness", "setUseAuthDataFreshness", Boolean),
+        ]:
+            hints = typing.get_type_hints(getattr(IPduPort, getter))
+            assert hints["return"] == typing.Optional[value_type]
+            hints = typing.get_type_hints(getattr(IPduPort, setter))
+            assert hints["value"] == typing.Optional[value_type]
+            assert hints["return"] == IPduPort
 
     def test_ISignalPort(self):
         """Test ISignalPort class functionality."""
