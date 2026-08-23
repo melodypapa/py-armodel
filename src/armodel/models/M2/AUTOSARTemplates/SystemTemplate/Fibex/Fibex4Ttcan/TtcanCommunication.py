@@ -19,12 +19,25 @@ class TtcanTriggerType(AREnum):
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods)
 
+    # Check for message reception Tags: atp.EnumerationLiteralIndex=0
     ENUM_RX_TRIGGER = "RX-TRIGGER"
+
+    # Send reference message in periodic case Tags: atp.EnumerationLiteralIndex=1
     ENUM_TX_REF_TRIGGER = "TX-REF-TRIGGER"
+
+    # Send reference message in event-synchronised case Tags: atp.EnumerationLiteralIndex=2
     ENUM_TX_REF_TRIGGER_GAP = "TX-REF-TRIGGER-GAP"
+
+    # Send message in a merged arbitration window Tags: atp.EnumerationLiteralIndex=3
     ENUM_TX_TRIGGER_MERGED = "TX-TRIGGER-MERGED"
+
+    # Send message in an exclusive time window Tags: atp.EnumerationLiteralIndex=4
     ENUM_TX_TRIGGER_SINGLE = "TX-TRIGGER-SINGLE"
+
+    # Check for missing reference message in periodic case Tags: atp.EnumerationLiteralIndex=5
     ENUM_WATCH_TRIGGER = "WATCH-TRIGGER"
+
+    # Check for missing reference message in event-synchronised case Tags: atp.EnumerationLiteralIndex=6
     ENUM_WATCH_TRIGGER_GAP = "WATCH-TRIGGER-GAP"
 
     def __init__(self):
