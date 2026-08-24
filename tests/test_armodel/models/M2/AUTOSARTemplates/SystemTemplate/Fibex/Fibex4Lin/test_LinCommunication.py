@@ -278,6 +278,22 @@ class Test_Fibex4LinCommunication:
         assert result == table  # Test method chaining
 
 
+class TestLinFrame:
+    """
+    Lin specific Frame element.
+    """
+
+    def test_abstract_instantiation(self):
+        with pytest.raises(TypeError):
+            LinFrame(MockParent(), "test_lin_frame")
+
+    def test_concrete_subclass(self):
+        frame = LinUnconditionalFrame(MockParent(), "test_lin_unconditional_frame")
+
+        assert isinstance(frame, Frame)
+        assert isinstance(frame, LinFrame)
+
+
 class ConcreteLinConfigurationEntry(LinConfigurationEntry):
     pass
 

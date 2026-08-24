@@ -39,7 +39,7 @@ Queue order (dependency-first, inputs last):
 | # | Class | Role | Spec | Status |
 |---|-------|------|------|--------|
 | 1 | ScheduleTableEntry | base (of FreeFormatEntry + LinConfigurationEntry) | Table 6.96, p.433 | [x] done — commit `938590e` |
-| 2 | LinFrame | base (of LinUnconditionalFrame) | Table 6.87, p.428 | [ ] pending |
+| 2 | LinFrame | base (of LinUnconditionalFrame) | Table 6.87, p.428 | [x] done — commit `ea92595` |
 | 3 | LinUnconditionalFrame | input | Table 6.90, p.429 | [ ] pending |
 | 4 | FreeFormatEntry | input | Table 6.98, p.434 | [ ] pending |
 | 5 | LinConfigurationEntry | input | Table 6.99, p.434 | [ ] pending |
@@ -99,15 +99,15 @@ re-synced classes.
 
 ## 2. LinFrame — Table 6.87, p.428
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test
-- [ ] Step 3 — Implement the model class
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test
-- [ ] Step 6 — Update the parser (reader) & writer
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test
+- [x] Step 3 — Implement the model class (verified: no own attributes, guard present)
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown; already verbatim Note)
+- [x] Step 5 — Reader/writer round-trip test (N/A: abstract, no own XML tag)
+- [x] Step 6 — Parser/writer (N/A: same reason)
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
 ## 3. LinUnconditionalFrame — Table 6.90, p.429
 
