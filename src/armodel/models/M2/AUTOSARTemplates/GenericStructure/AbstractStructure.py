@@ -17,6 +17,7 @@ class AtpInstanceRef(ARObject, ABC):
 
     # AtpInstanceRef method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 5.3, p.174
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getAtpBaseRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -145,6 +146,7 @@ class AtpFeature(Identifiable, ABC):
 
     # AtpFeature method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 5.2, p.174
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 

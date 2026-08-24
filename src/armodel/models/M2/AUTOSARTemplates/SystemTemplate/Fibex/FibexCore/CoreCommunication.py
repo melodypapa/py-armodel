@@ -43,6 +43,7 @@ class PduToFrameMapping(Identifiable):
 
     # PduToFrameMapping method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.29, p.347
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getPackingByteOrder             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -137,6 +138,7 @@ class Frame(FibexElement, ABC):
 
     # Frame method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.78, p.418
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getFrameLength            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -1033,6 +1035,7 @@ class NmPdu(Pdu):
 
     # NmPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.20, p.343
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getISignalToIPduMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -1128,6 +1131,7 @@ class NPdu(IPdu):
 
     # NPdu method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.21, p.343
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
 
@@ -1688,6 +1692,7 @@ class FrameTriggering(Identifiable, ABC):
 
     # FrameTriggering method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.79, p.418
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getFrameRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
