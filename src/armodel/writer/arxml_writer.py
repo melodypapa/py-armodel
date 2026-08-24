@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
     BswDistinguishedPartition,
+    BswOsTaskExecutionEvent,
     BswSchedulerNamePrefix,
     BswEvent,
     BswExternalTriggerOccurredEvent,
@@ -37,6 +38,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswVariableAccess,
     RoleBasedBswModuleEntryAssignment,
 )
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswInterruptEvent import BswInterruptEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleDependency, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
@@ -5028,6 +5030,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "BSW-BACKGROUND-EVENT")
         self.writeBswScheduleEvent(child_element, event)
 
+    def writeBswInterruptEvent(self, element: ET.Element, event):
+        self.logger.debug("Write BswInterruptEvent <%s>" % event.getShortName())
+        child_element = ET.SubElement(element, "BSW-INTERRUPT-EVENT")
+        self.writeBswEvent(child_element, event)
+
+    def writeBswOsTaskExecutionEvent(self, element: ET.Element, event: BswOsTaskExecutionEvent):
+        self.logger.debug("Write BswOsTaskExecutionEvent <%s>" % event.getShortName())
+        child_element = ET.SubElement(element, "BSW-OS-TASK-EXECUTION-EVENT")
+        self.writeBswScheduleEvent(child_element, event)
+
     def writeBswInternalTriggerOccurredEvent(self, element: ET.Element, event: BswInternalTriggerOccurredEvent):
         self.logger.debug("Write BswInternalTriggerOccurredEvent <%s>" % event.getShortName())
         child_element = ET.SubElement(element, "BSW-INTERNAL-TRIGGER-OCCURRED-EVENT")
@@ -5092,6 +5104,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeBswTimingEvent(child_element, event)
                 elif isinstance(event, BswBackgroundEvent):
                     self.writeBswBackgroundEvent(child_element, event)
+                elif isinstance(event, BswOsTaskExecutionEvent):
+                    self.writeBswOsTaskExecutionEvent(child_element, event)
+                elif isinstance(event, BswInterruptEvent):
+                    self.writeBswInterruptEvent(child_element, event)
                 elif isinstance(event, BswInternalTriggerOccurredEvent):
                     self.writeBswInternalTriggerOccurredEvent(child_element, event)
                 elif isinstance(event, BswExternalTriggerOccurredEvent):

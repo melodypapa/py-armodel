@@ -1105,6 +1105,9 @@ class TestBswBackgroundEvent:
         event = BswBackgroundEvent(ar_root, "test_background_event")
 
         assert event.short_name == "test_background_event"
+        assert event.getShortName() == "test_background_event"
+        assert isinstance(event, BswScheduleEvent)
+        assert event.getParent() is ar_root
 
 
 class TestBswOsTaskExecutionEvent:
@@ -1116,6 +1119,9 @@ class TestBswOsTaskExecutionEvent:
         event = BswOsTaskExecutionEvent(ar_root, "test_os_task_event")
 
         assert event.short_name == "test_os_task_event"
+        assert event.getShortName() == "test_os_task_event"
+        assert isinstance(event, BswScheduleEvent)
+        assert event.getParent() is ar_root
 
 
 class TestBswExternalTriggerOccurredEvent:

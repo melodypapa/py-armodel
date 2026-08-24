@@ -140,32 +140,32 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 8 — Deviations (none; no own attributes, I/O via BswInternalBehavior entity dispatch already covered)
   - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
 - [ ] BswInterruptEvent (markdown · Table 5.24 · p.88 · source BswModuleTemplate/BswBehavior/BswInterruptEvent.py · base chain out of scope)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none; ctor fixed to (parent, short_name); BSW-INTERRUPT-EVENT reader/writer dispatch + factory added)
+  - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
 - [ ] BswBackgroundEvent (markdown · Table 5.26 · p.89 · source BswModuleTemplate/BswBehavior/__init__.py · base chain out of scope)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none; I/O dispatch already existed)
+  - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
 - [ ] BswOsTaskExecutionEvent (markdown · Table 5.27 · p.89 · source BswModuleTemplate/BswBehavior/__init__.py · base chain out of scope)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none; BSW-OS-TASK-EXECUTION-EVENT reader/writer dispatch + factory added)
+  - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation

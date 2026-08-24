@@ -1005,6 +1005,32 @@ class TestBswEntityDispatch:
         parser.readBswInternalBehavior(element, behavior)
         assert behavior.getDistinguishedPartitions() == []
 
+    def test_readBswInternalBehaviorEvents_interrupt_event(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<EVENTS>" "<BSW-INTERRUPT-EVENT><SHORT-NAME>ie1</SHORT-NAME></BSW-INTERRUPT-EVENT>" "</EVENTS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorEvents(element, behavior)
+        events = behavior.getBswEvents()
+        assert len(events) == 1
+        assert events[0].getShortName() == "ie1"
+
+    def test_readBswInternalBehaviorEvents_os_task_execution_event(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<EVENTS>" "<BSW-OS-TASK-EXECUTION-EVENT><SHORT-NAME>ote1</SHORT-NAME></BSW-OS-TASK-EXECUTION-EVENT>" "</EVENTS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorEvents(element, behavior)
+        events = behavior.getBswEvents()
+        assert len(events) == 1
+        assert events[0].getShortName() == "ote1"
+
 
 # ==================== BSW Events ====================
 

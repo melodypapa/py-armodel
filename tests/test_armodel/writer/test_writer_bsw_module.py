@@ -415,6 +415,26 @@ class TestWriterBswInternalBehaviorSchedulerNamePrefixes:
         writer.writeBswInternalBehaviorDistinguishedPartitions(parent, behavior)
         assert parent.find("DISTINGUISHED-PARTITIONS") is None
 
+    def test_interrupt_event(self, writer):
+        behavior = _make_behavior()
+        behavior.createBswInterruptEvent("ie1")
+        parent = _parent()
+        writer.writeBswInternalBehaviorEvents(parent, behavior)
+        wrapper = parent.find("EVENTS")
+        assert wrapper is not None
+        assert wrapper[0].tag == "BSW-INTERRUPT-EVENT"
+        assert wrapper[0].find("SHORT-NAME").text == "ie1"
+
+    def test_os_task_execution_event(self, writer):
+        behavior = _make_behavior()
+        behavior.createBswOsTaskExecutionEvent("ote1")
+        parent = _parent()
+        writer.writeBswInternalBehaviorEvents(parent, behavior)
+        wrapper = parent.find("EVENTS")
+        assert wrapper is not None
+        assert wrapper[0].tag == "BSW-OS-TASK-EXECUTION-EVENT"
+        assert wrapper[0].find("SHORT-NAME").text == "ote1"
+
 
 class TestWriterBswInternalBehaviorEntities:
     def test_called_entity(self, writer):

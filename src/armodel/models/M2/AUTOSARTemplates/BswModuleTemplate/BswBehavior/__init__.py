@@ -1720,41 +1720,36 @@ class BswModeReceiverPolicy(ARObject):
 
 class BswBackgroundEvent(BswScheduleEvent):
     """
-    Represents a background event in a BSW module.
-    This event runs in the background, typically with lower priority.
+    A recurring BswEvent which is used to perform background activities. It is
+    similar to a BswTimingEvent but has no fixed time period and is activated
+    only with low priority.
     """
 
     # BswBackgroundEvent method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.26, p.89
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent, short_name):
-        """
-        Initializes the BswBackgroundEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
 
 class BswOsTaskExecutionEvent(BswScheduleEvent):
     """
-    Represents an OS task execution event in a BSW module.
-    This event is triggered when an OS task is executed.
+    This BswEvent is supposed to execute BswSchedulableEntitys which have to
+    react on the execution of specific OsTasks. Therefore, this event is
+    unconditionally raised whenever the OsTask on which it is mapped is
+    executed. The main use case for this event is scheduling of Runnables of
+    Complex Drivers which have to react on task executions.
+    Tags: atp.Status=draft
     """
 
     # BswOsTaskExecutionEvent method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.27, p.89
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent, short_name):
-        """
-        Initializes the BswOsTaskExecutionEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
         super().__init__(parent, short_name)
 
 
@@ -3202,6 +3197,40 @@ class BswInternalBehavior(InternalBehavior):
         """
         if not self.IsElementExists(short_name):
             event = BswBackgroundEvent(self, short_name)
+            self.addElement(event)
+            self.events.append(event)
+        return self.getElement(short_name)
+
+    def createBswInterruptEvent(self, short_name: str) -> BswEvent:
+        """
+        Creates and adds a BswInterruptEvent to this internal behavior.
+
+        Args:
+            short_name: The short name for the new interrupt event
+
+        Returns:
+            The created BswInterruptEvent instance
+        """
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswInterruptEvent import BswInterruptEvent
+
+        if not self.IsElementExists(short_name):
+            event = BswInterruptEvent(self, short_name)
+            self.addElement(event)
+            self.events.append(event)
+        return self.getElement(short_name)
+
+    def createBswOsTaskExecutionEvent(self, short_name: str) -> BswOsTaskExecutionEvent:
+        """
+        Creates and adds a BswOsTaskExecutionEvent to this internal behavior.
+
+        Args:
+            short_name: The short name for the new OS task execution event
+
+        Returns:
+            The created BswOsTaskExecutionEvent instance
+        """
+        if not self.IsElementExists(short_name):
+            event = BswOsTaskExecutionEvent(self, short_name)
             self.addElement(event)
             self.events.append(event)
         return self.getElement(short_name)

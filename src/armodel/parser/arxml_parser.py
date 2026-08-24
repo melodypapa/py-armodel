@@ -2315,6 +2315,12 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT":
                 event = behavior.createBswAsynchronousServerCallReturnsEvent(self.getShortName(child_element))
                 self.readBswAsynchronousServerCallReturnsEvent(child_element, event)
+            elif tag_name == "BSW-INTERRUPT-EVENT":
+                event = behavior.createBswInterruptEvent(self.getShortName(child_element))
+                self.readBswEvent(child_element, event)
+            elif tag_name == "BSW-OS-TASK-EXECUTION-EVENT":
+                event = behavior.createBswOsTaskExecutionEvent(self.getShortName(child_element))
+                self.readBswEvent(child_element, event)
             else:
                 self.notImplemented("Unsupported BswModuleEntity <%s>" % tag_name)
 
