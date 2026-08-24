@@ -275,7 +275,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [x] 17. EcucParameterDef — base/member (commit 8e1edfd, stamp deferred)
+### [x] 17. EcucParameterDef — base/member (re-sync commit 6c2b9b5, stamped)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:856`
 - Spec: `AUTOSAR_CP_TPS_ECUConfiguration.md` Table 2.14
 - Role: base of EcucEnumerationParamDef/EcucAddInfoParamDef; aggr member of EcucParamConfContainerDef.parameter
@@ -290,7 +290,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
-### [x] 18. EcucEnumerationLiteralDef — member (commit 8e1edfd, stamp deferred)
+### [x] 18. EcucEnumerationLiteralDef — member (re-sync commit 944fdd3, stamped; Table 2.24 page verified p.67)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:1421`
 - Spec: `AUTOSAR_CP_TPS_ECUConfiguration.md` Table 2.24
 - Role: aggr member of EcucEnumerationParamDef.literal
@@ -305,7 +305,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
-### [x] 19. EcucParamConfContainerDef — input (commit 8e1edfd, stamp deferred)
+### [x] 19. EcucParamConfContainerDef — input (re-sync commit 6602bef, stamped)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:1596`
 - Spec: `AUTOSAR_CP_TPS_ECUConfiguration.md` Table 2.4
 - Depends on: EcucParameterDef (row 17); bases EcucContainerDef stamped ✓
@@ -321,7 +321,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
-### [x] 20. EcucChoiceContainerDef — input (commit 8e1edfd, stamp deferred)
+### [x] 20. EcucChoiceContainerDef — input (re-sync commit 97bed2c, stamped)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:1569`
 - Spec: `AUTOSAR_CP_TPS_ECUConfiguration.md` Table 2.5
 - Depends on: EcucParamConfContainerDef (row 19); base EcucContainerDef stamped ✓
@@ -337,7 +337,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
-### [x] 21. EcucEnumerationParamDef — input (commit 8e1edfd, stamp deferred)
+### [x] 21. EcucEnumerationParamDef — input (re-sync commit b686b28, stamped; page corrected to p.66 per PDF)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:1471`
 - Spec: `AUTOSAR_CP_TPS_ECUConfiguration.md` Table 2.23
 - Depends on: EcucParameterDef (row 17), EcucEnumerationLiteralDef (row 18)
@@ -353,7 +353,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
-### [x] 22. EcucAddInfoParamDef — input (commit 8e1edfd, stamp deferred)
+### [x] 22. EcucAddInfoParamDef — input (re-sync commit 187c017, stamped; added createEcucAddInfoParamDef + reader/writer dispatch)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:1878`
 - Spec: `AUTOSAR_CP_TPS_ECUConfiguration.md` Table 2.25
 - Depends on: EcucParameterDef (row 17)
@@ -369,7 +369,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
-### [x] 23. EcucValueConfigurationClass — input (commit 8e1edfd, stamp deferred)
+### [x] 23. EcucValueConfigurationClass — input (re-sync commit 55fb5fb, stamped)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:616`
 - Spec: `AUTOSAR_CP_TPS_ECUConfiguration.md` Table 2.10
 - Base: EcucAbstractConfigurationClass (stamped ✓)
@@ -385,7 +385,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
-### [x] 24. EcucModuleDef — input (last; commit 8e1edfd, stamp deferred)
+### [x] 24. EcucModuleDef — input (last; re-sync commit 0fd05c4, stamped)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:2349`
 - Spec: `AUTOSAR_CP_TPS_ECUConfiguration.md` Table 2.2, p.32
 - Bases/members: EcucDefinitionElement, EcucContainerDef, EcucConfigurationVariantEnum all stamped ✓
