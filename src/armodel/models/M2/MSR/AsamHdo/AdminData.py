@@ -51,6 +51,7 @@ class DocRevision(ARObject):
 
     # DocRevision method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.17, p.86
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getDate               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -204,6 +205,7 @@ class AdminData(ARObject):
 
     # AdminData method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.16, p.85
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getDocRevisions       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer

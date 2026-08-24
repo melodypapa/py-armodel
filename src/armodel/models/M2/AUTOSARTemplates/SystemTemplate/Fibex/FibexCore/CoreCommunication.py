@@ -1581,6 +1581,7 @@ class PduTriggering(Identifiable):
 
     # PduTriggering method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.31, p.349
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getIPduRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer

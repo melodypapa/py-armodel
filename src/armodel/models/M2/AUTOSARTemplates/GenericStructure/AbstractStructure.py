@@ -113,32 +113,6 @@ class AtpBlueprintable(PackageableElement, ABC):
         super().__init__(parent, short_name)
 
 
-class AtpClassifier(PackageableElement, ABC):
-    """
-    Abstract base class for AUTOSAR Template (ATP) classifier elements.
-
-    AtpClassifier represents elements that classify or categorize other elements
-    in the AUTOSAR system. It serves as a base for type definitions and classifiers
-    that provide structural organization to AUTOSAR models.
-
-    This class extends Identifiable with classifier-specific functionality.
-
-    Note:
-        This is an abstract class and cannot be instantiated directly.
-        AtpClassifier is the parent of AtpType, which in turn is the parent
-        of various AUTOSAR type definitions like AutosarDataType, PortInterface,
-        and SwComponentType.
-    """
-
-    # AtpClassifier method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        if type(self) is AtpClassifier:
-            raise TypeError("AtpClassifier is an abstract class.")
-        super().__init__(parent, short_name)
-
-
 class AtpFeature(Identifiable, ABC):
     """
     Features are properties via which a classifier classifies instances. Or: a classifier has features and every M0 instance of it will have those features.
@@ -154,6 +128,43 @@ class AtpFeature(Identifiable, ABC):
         if type(self) is AtpFeature:
             raise TypeError("AtpFeature is an abstract class.")
         super().__init__(parent, short_name)
+
+
+class AtpClassifier(Identifiable, ABC):
+    """
+    A classifier classifies M0 instances according to their features. Or: a classifier is something that has instances - an M1 classifier has M0 instances.
+    """
+
+    # AtpClassifier method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 5.1, p.173
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAtpFeatures               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addAtpFeature                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is AtpClassifier:
+            raise TypeError("AtpClassifier is an abstract class.")
+        super().__init__(parent, short_name)
+
+        # This is a feature of the classifier. Stereotypes: atpDerived
+        self.atpFeatures: List[AtpFeature] = []
+
+    def getAtpFeatures(self) -> List[AtpFeature]:
+        """
+        This is a feature of the classifier. Stereotypes: atpDerived
+        """
+        return self.atpFeatures
+
+    def addAtpFeature(self, value: Optional[AtpFeature]) -> "AtpClassifier":
+        """
+        This is a feature of the classifier. Stereotypes: atpDerived
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.atpFeatures.append(value)
+        return self
 
 
 class AtpType(AtpClassifier, ABC):

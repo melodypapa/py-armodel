@@ -4,7 +4,7 @@ in the AUTOSAR GenericStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable, AtpFeature, AtpInstanceRef, AtpStructureElement, AtpType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable, AtpClassifier, AtpFeature, AtpInstanceRef, AtpStructureElement, AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -338,3 +338,31 @@ class TestAtpType:
         assert obj is not None
         assert obj.getShortName() == "ConcreteAtpType"
         assert obj.getParent() == ar_root
+
+
+class TestAtpClassifier:
+    """Test class for AtpClassifier functionality."""
+
+    def test_abstract_initialization(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        try:
+            _obj = AtpClassifier(ar_root, "TestAtpClassifier")
+            assert False, "AtpClassifier should not be instantiable"
+        except TypeError:
+            pass
+
+    def test_concrete_subclass_base_and_atp_features(self):
+        class ConcreteAtpClassifier(AtpClassifier):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        obj = ConcreteAtpClassifier(ar_root, "ConcreteAtpClassifier")
+        # Spec Table 5.1: Base is Identifiable (most-derived)
+        assert isinstance(obj, Identifiable)
+        # Spec Table 5.1: atpFeature * aggr (atpDerived, no XML element)
+        assert obj.getAtpFeatures() == []
+        assert obj.addAtpFeature(None) is obj
+        assert obj.getAtpFeatures() == []
