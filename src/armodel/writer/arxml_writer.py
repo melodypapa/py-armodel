@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswCalledEntity,
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
+    BswDistinguishedPartition,
     BswSchedulerNamePrefix,
     BswEvent,
     BswExternalTriggerOccurredEvent,
@@ -5186,6 +5187,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswInternalBehaviorIncludedModeDeclarationGroupSets(child_element, behavior)
         self.writeBswInternalBehaviorReceptionPolicies(child_element, behavior)
         self.writeBswInternalBehaviorSchedulerNamePrefixes(child_element, behavior)
+        self.writeBswInternalBehaviorDistinguishedPartitions(child_element, behavior)
         self.writeBswInternalBehaviorServiceDependencies(child_element, behavior)
 
     def writeBswInternalBehaviorSchedulerNamePrefixes(self, element: ET.Element, behavior: BswInternalBehavior):
@@ -5198,6 +5200,17 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeImplementationProps(child, prefix)
                 else:
                     self.notImplemented("Unsupported Scheduler Name Prefix <%s>" % type(prefix))
+
+    def writeBswInternalBehaviorDistinguishedPartitions(self, element: ET.Element, behavior: BswInternalBehavior):
+        partitions = behavior.getDistinguishedPartitions()
+        if len(partitions) > 0:
+            partitions_tag = ET.SubElement(element, "DISTINGUISHED-PARTITIONS")
+            for partition in partitions:
+                if isinstance(partition, BswDistinguishedPartition):
+                    child = ET.SubElement(partitions_tag, "BSW-DISTINGUISHED-PARTITION")
+                    self.writeReferrable(child, partition)
+                else:
+                    self.notImplemented("Unsupported Distinguished Partition <%s>" % type(partition))
 
     def writeBswModuleDescriptionInternalBehaviors(self, element: ET.Element, desc: BswModuleDescription):
         behaviors = desc.getInternalBehaviors()

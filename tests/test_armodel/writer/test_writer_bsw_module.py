@@ -397,6 +397,24 @@ class TestWriterBswInternalBehaviorSchedulerNamePrefixes:
         writer.writeBswInternalBehaviorSchedulerNamePrefixes(parent, behavior)
         assert parent.find("SCHEDULER-NAME-PREFIXS") is None
 
+    def test_distinguished_partitions(self, writer):
+        behavior = _make_behavior()
+        behavior.createDistinguishedPartition("master")
+        behavior.createDistinguishedPartition("satellite")
+        parent = _parent()
+        writer.writeBswInternalBehaviorDistinguishedPartitions(parent, behavior)
+        wrapper = parent.find("DISTINGUISHED-PARTITIONS")
+        assert wrapper is not None
+        partitions = wrapper.findall("BSW-DISTINGUISHED-PARTITION")
+        names = [p.find("SHORT-NAME").text for p in partitions]
+        assert names == ["master", "satellite"]
+
+    def test_distinguished_partitions_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeBswInternalBehaviorDistinguishedPartitions(parent, behavior)
+        assert parent.find("DISTINGUISHED-PARTITIONS") is None
+
 
 class TestWriterBswInternalBehaviorEntities:
     def test_called_entity(self, writer):

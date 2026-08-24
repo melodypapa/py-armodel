@@ -976,6 +976,35 @@ class TestBswEntityDispatch:
         parser.readBswInternalBehavior(element, behavior)
         assert behavior.getSchedulerNamePrefixes() == []
 
+    def test_readBswInternalBehavior_distinguished_partitions(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<DISTINGUISHED-PARTITIONS>"
+            "<BSW-DISTINGUISHED-PARTITION><SHORT-NAME>master</SHORT-NAME></BSW-DISTINGUISHED-PARTITION>"
+            "<BSW-DISTINGUISHED-PARTITION><SHORT-NAME>satellite</SHORT-NAME></BSW-DISTINGUISHED-PARTITION>"
+            "</DISTINGUISHED-PARTITIONS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehavior(element, behavior)
+        partitions = behavior.getDistinguishedPartitions()
+        assert len(partitions) == 2
+        assert partitions[0].getShortName() == "master"
+        assert partitions[1].getShortName() == "satellite"
+        assert partitions[0].getParent() is behavior
+
+    def test_readBswInternalBehavior_distinguished_partitions_empty_wrapper(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<DISTINGUISHED-PARTITIONS>" "</DISTINGUISHED-PARTITIONS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehavior(element, behavior)
+        assert behavior.getDistinguishedPartitions() == []
+
 
 # ==================== BSW Events ====================
 

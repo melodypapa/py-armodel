@@ -49,6 +49,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRe
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds, RoleBasedDataAssignment, RoleBasedDataTypeAssignment, SymbolicNameProps
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, Identifier, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 
@@ -1839,6 +1840,23 @@ class TestBswDistinguishedPartition:
         partition = BswDistinguishedPartition(ar_root, "test_partition")
 
         assert partition.short_name == "test_partition"
+        assert partition.getShortName() == "test_partition"
+        assert partition.getParent() is ar_root
+
+    def test_no_own_attributes_beyond_referrable(self):
+        """BswDistinguishedPartition has no spec attributes of its own (Table 5.50)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+
+        class ReferrableProbe(Referrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        probe = ReferrableProbe(ar_root, "probe")
+        partition = BswDistinguishedPartition(ar_root, "test_partition")
+
+        own = set(vars(partition)) - set(vars(probe))
+        assert own == set()
 
 
 class TestBswServiceDependencyIdent:

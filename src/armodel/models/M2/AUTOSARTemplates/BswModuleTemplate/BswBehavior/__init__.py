@@ -402,16 +402,11 @@ class BswDistinguishedPartition(Referrable):
     """
 
     # BswDistinguishedPartition method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.50, p.118
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswDistinguishedPartition with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this distinguished partition
-            short_name: The unique short name of this distinguished partition
-        """
         super().__init__(parent, short_name)
 
 
@@ -2575,6 +2570,24 @@ class BswInternalBehavior(InternalBehavior):
             List of BswDistinguishedPartition instances
         """
         return self.distinguishedPartitions
+
+    def createDistinguishedPartition(self, short_name: str) -> BswDistinguishedPartition:
+        """
+        Creates and adds a BswDistinguishedPartition to this behavior's
+        distinguished partitions. Returns the existing partition if the short
+        name is already present.
+
+        Args:
+            short_name: The short name for the new distinguished partition
+
+        Returns:
+            The created BswDistinguishedPartition instance
+        """
+        if not self.IsElementExists(short_name):
+            partition = BswDistinguishedPartition(self, short_name)
+            self.addElement(partition)
+            self.distinguishedPartitions.append(partition)
+        return self.getElement(short_name)
 
     def setDistinguishedPartitions(self, value):
         """
