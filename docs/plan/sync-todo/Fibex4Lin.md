@@ -39,7 +39,7 @@ Queue order (dependency-first, inputs last):
 | # | Class | Role | Spec | Status |
 |---|-------|------|------|--------|
 | 1 | ScheduleTableEntry | base (of FreeFormatEntry + LinConfigurationEntry) | Table 6.96, p.433 | [x] done — commit `938590e` |
-| 2 | LinFrame | base (of LinUnconditionalFrame) | Table 6.87, p.428 | [x] done — commit `ea92595` |
+| 2 | LinFrame | base (of LinUnconditionalFrame) | Table 6.87, p.428 | [x] done — commit `f69950a` |
 | 3 | LinUnconditionalFrame | input | Table 6.90, p.429 | [ ] pending |
 | 4 | FreeFormatEntry | input | Table 6.98, p.434 | [ ] pending |
 | 5 | LinConfigurationEntry | input | Table 6.99, p.434 | [ ] pending |
