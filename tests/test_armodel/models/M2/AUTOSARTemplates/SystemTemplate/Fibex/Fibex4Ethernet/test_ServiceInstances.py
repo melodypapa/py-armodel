@@ -12,9 +12,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     GenericTp,
     InitialSdDelayConfig,
     ProvidedServiceInstance,
+    RequestResponseDelay,
     SdServerConfig,
     SoAdConfig,
     SocketAddress,
+    SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     TcpTp,
     TcpUdpConfig,
@@ -951,3 +953,66 @@ class TestSomeipSdClientServiceInstanceConfig:
         config.setServiceFindTimeToLive(60)
         assert config.getServiceFindTimeToLive() == 60
         assert config == config.setServiceFindTimeToLive(60)
+
+
+class TestSomeipSdClientEventGroupTimingConfig:
+    """Test cases for SomeipSdClientEventGroupTimingConfig class."""
+
+    def test_initialization(self):
+        """Test SomeipSdClientEventGroupTimingConfig defaults."""
+        parent = MockParent()
+        config = SomeipSdClientEventGroupTimingConfig(parent, "test_config")
+
+        assert config.getRequestResponseDelay() is None
+        assert config.getSubscribeEventgroupRetryDelay() is None
+        assert config.getSubscribeEventgroupRetryMax() is None
+        assert config.getTimeToLive() is None
+
+    def test_get_set_requestResponseDelay(self):
+        """Test get/set requestResponseDelay with None no-op and chaining."""
+        parent = MockParent()
+        config = SomeipSdClientEventGroupTimingConfig(parent, "test_config")
+
+        assert config == config.setRequestResponseDelay(None)
+        assert config.getRequestResponseDelay() is None
+
+        delay = RequestResponseDelay()
+        config.setRequestResponseDelay(delay)
+        assert config.getRequestResponseDelay() == delay
+        assert config == config.setRequestResponseDelay(delay)
+
+    def test_get_set_subscribeEventgroupRetryDelay(self):
+        """Test get/set subscribeEventgroupRetryDelay with None no-op and chaining."""
+        parent = MockParent()
+        config = SomeipSdClientEventGroupTimingConfig(parent, "test_config")
+
+        assert config == config.setSubscribeEventgroupRetryDelay(None)
+        assert config.getSubscribeEventgroupRetryDelay() is None
+
+        config.setSubscribeEventgroupRetryDelay(5)
+        assert config.getSubscribeEventgroupRetryDelay() == 5
+        assert config == config.setSubscribeEventgroupRetryDelay(5)
+
+    def test_get_set_subscribeEventgroupRetryMax(self):
+        """Test get/set subscribeEventgroupRetryMax with None no-op and chaining."""
+        parent = MockParent()
+        config = SomeipSdClientEventGroupTimingConfig(parent, "test_config")
+
+        assert config == config.setSubscribeEventgroupRetryMax(None)
+        assert config.getSubscribeEventgroupRetryMax() is None
+
+        config.setSubscribeEventgroupRetryMax(60)
+        assert config.getSubscribeEventgroupRetryMax() == 60
+        assert config == config.setSubscribeEventgroupRetryMax(60)
+
+    def test_get_set_timeToLive(self):
+        """Test get/set timeToLive with None no-op and chaining."""
+        parent = MockParent()
+        config = SomeipSdClientEventGroupTimingConfig(parent, "test_config")
+
+        assert config == config.setTimeToLive(None)
+        assert config.getTimeToLive() is None
+
+        config.setTimeToLive(255)
+        assert config.getTimeToLive() == 255
+        assert config == config.setTimeToLive(255)

@@ -512,6 +512,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SdServerConfig,
     SoAdConfig,
     SocketAddress,
+    SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     TcpTp,
     TpPort,
@@ -6297,6 +6298,14 @@ class ARXMLParser(AbstractARXMLParser):
         config.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
         config.setServiceFindTimeToLive(self.getChildElementOptionalPositiveInteger(element, "SERVICE-FIND-TIME-TO-LIVE"))
 
+    def readSomeipSdClientEventGroupTimingConfig(self, element: ET.Element, config: SomeipSdClientEventGroupTimingConfig):
+        self.logger.debug("Read SomeipSdClientEventGroupTimingConfig <%s>" % config.getShortName())
+        self.readIdentifiable(element, config)
+        config.setRequestResponseDelay(self.getRequestResponseDelay(element, "REQUEST-RESPONSE-DELAY"))
+        config.setSubscribeEventgroupRetryDelay(self.getChildElementOptionalTimeValue(element, "SUBSCRIBE-EVENTGROUP-RETRY-DELAY"))
+        config.setSubscribeEventgroupRetryMax(self.getChildElementOptionalPositiveInteger(element, "SUBSCRIBE-EVENTGROUP-RETRY-MAX"))
+        config.setTimeToLive(self.getChildElementOptionalPositiveInteger(element, "TIME-TO-LIVE"))
+
     def getSdServerConfig(self, element: ET.Element, key: str) -> SdServerConfig:
         config = None
         child_element = self.find(element, key)
@@ -9507,6 +9516,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG":
                 config = parent.createSomeipSdClientServiceInstanceConfig(self.getShortName(child_element))
                 self.readSomeipSdClientServiceInstanceConfig(child_element, config)
+            elif tag_name == "SOME-IP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG":
+                config = parent.createSomeipSdClientEventGroupTimingConfig(self.getShortName(child_element))
+                self.readSomeipSdClientEventGroupTimingConfig(child_element, config)
             elif tag_name == "DO-IP-TP-CONFIG":
                 config = parent.createDoIpTpConfig(self.getShortName(child_element))
                 self.readDoIpTpConfig(child_element, config)

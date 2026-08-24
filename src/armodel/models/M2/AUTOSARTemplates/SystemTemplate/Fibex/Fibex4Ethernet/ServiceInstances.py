@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import RequestResponseDelay
 
 
 class TransportProtocolConfiguration(ARObject, ABC):
@@ -705,6 +706,90 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
         """
         if value is not None:
             self.serviceFindTimeToLive = value
+        return self
+
+
+class SomeipSdClientEventGroupTimingConfig(ARElement):
+    """This meta-class is used to specify configuration related to service discovery in the context of an event group on SOME/IP. Tags: atp.recommendedPackage=SomeipSdTimingConfigs"""
+
+    # SomeipSdClientEventGroupTimingConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.173, p.521
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getRequestResponseDelay               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRequestResponseDelay               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSubscribeEventgroupRetryDelay      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSubscribeEventgroupRetryDelay      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSubscribeEventgroupRetryMax        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSubscribeEventgroupRetryMax        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeToLive                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimeToLive                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The Service Discovery shall delay answers to unicast messages triggered by multicast messages (e.g. Subscribe Eventgroup after Offer Service).
+        self.requestResponseDelay: Optional[RequestResponseDelay] = None
+
+        # This attribute defines the interval in seconds to re-trigger a subscription to a Eventgroup, if a retry to subscribe to a Eventgroup is configured (subscribeEventgroupRetryMax > 0).
+        self.subscribeEventgroupRetryDelay: Optional[TimeValue] = None
+
+        # This attribute define the maximum counts of retries to subscribe to an Eventgroup. If the value is set to 0 no retry shall be done. If the value is set to 255 the retry shall be done as along as the Eventgroup is requested and no SubscribeEventGroupAck was received.
+        self.subscribeEventgroupRetryMax: Optional[PositiveInteger] = None
+
+        # Defines the time in seconds the subscription of this event is expected by the client. this value is sent from the client to the server in the SD-subscribeEvent message.
+        self.timeToLive: Optional[PositiveInteger] = None
+
+    def getRequestResponseDelay(self) -> Optional[RequestResponseDelay]:
+        """The Service Discovery shall delay answers to unicast messages triggered by multicast messages (e.g. Subscribe Eventgroup after Offer Service)."""
+        return self.requestResponseDelay
+
+    def setRequestResponseDelay(self, value: Optional[RequestResponseDelay]) -> "SomeipSdClientEventGroupTimingConfig":
+        """
+        The Service Discovery shall delay answers to unicast messages triggered by multicast messages (e.g. Subscribe Eventgroup after Offer Service).
+        A None value is a no-op and does not overwrite an existing requestResponseDelay.
+        """
+        if value is not None:
+            self.requestResponseDelay = value
+        return self
+
+    def getSubscribeEventgroupRetryDelay(self) -> Optional[TimeValue]:
+        """This attribute defines the interval in seconds to re-trigger a subscription to a Eventgroup, if a retry to subscribe to a Eventgroup is configured (subscribeEventgroupRetryMax > 0)."""
+        return self.subscribeEventgroupRetryDelay
+
+    def setSubscribeEventgroupRetryDelay(self, value: Optional[TimeValue]) -> "SomeipSdClientEventGroupTimingConfig":
+        """
+        This attribute defines the interval in seconds to re-trigger a subscription to a Eventgroup, if a retry to subscribe to a Eventgroup is configured (subscribeEventgroupRetryMax > 0).
+        A None value is a no-op and does not overwrite an existing subscribeEventgroupRetryDelay.
+        """
+        if value is not None:
+            self.subscribeEventgroupRetryDelay = value
+        return self
+
+    def getSubscribeEventgroupRetryMax(self) -> Optional[PositiveInteger]:
+        """This attribute define the maximum counts of retries to subscribe to an Eventgroup. If the value is set to 0 no retry shall be done. If the value is set to 255 the retry shall be done as along as the Eventgroup is requested and no SubscribeEventGroupAck was received."""
+        return self.subscribeEventgroupRetryMax
+
+    def setSubscribeEventgroupRetryMax(self, value: Optional[PositiveInteger]) -> "SomeipSdClientEventGroupTimingConfig":
+        """
+        This attribute define the maximum counts of retries to subscribe to an Eventgroup. If the value is set to 0 no retry shall be done. If the value is set to 255 the retry shall be done as along as the Eventgroup is requested and no SubscribeEventGroupAck was received.
+        A None value is a no-op and does not overwrite an existing subscribeEventgroupRetryMax.
+        """
+        if value is not None:
+            self.subscribeEventgroupRetryMax = value
+        return self
+
+    def getTimeToLive(self) -> Optional[PositiveInteger]:
+        """Defines the time in seconds the subscription of this event is expected by the client. this value is sent from the client to the server in the SD-subscribeEvent message."""
+        return self.timeToLive
+
+    def setTimeToLive(self, value: Optional[PositiveInteger]) -> "SomeipSdClientEventGroupTimingConfig":
+        """
+        Defines the time in seconds the subscription of this event is expected by the client. this value is sent from the client to the server in the SD-subscribeEvent message.
+        A None value is a no-op and does not overwrite an existing timeToLive.
+        """
+        if value is not None:
+            self.timeToLive = value
         return self
 
 

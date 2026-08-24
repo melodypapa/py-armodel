@@ -483,6 +483,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SdServerConfig,
     SoAdConfig,
     SocketAddress,
+    SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     TcpTp,
     TpPort,
@@ -6805,6 +6806,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", config.getPriority())
         self.setChildElementOptionalPositiveInteger(child_element, "SERVICE-FIND-TIME-TO-LIVE", config.getServiceFindTimeToLive())
 
+    def writeSomeipSdClientEventGroupTimingConfig(self, element: ET.Element, config: SomeipSdClientEventGroupTimingConfig):
+        self.logger.debug("Write SomeipSdClientEventGroupTimingConfig <%s>" % config.getShortName())
+        child_element = ET.SubElement(element, "SOME-IP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG")
+        self.writeIdentifiable(child_element, config)
+        self.setRequestResponseDelay(child_element, "REQUEST-RESPONSE-DELAY", config.getRequestResponseDelay())
+        self.setChildElementOptionalTimeValue(child_element, "SUBSCRIBE-EVENTGROUP-RETRY-DELAY", config.getSubscribeEventgroupRetryDelay())
+        self.setChildElementOptionalPositiveInteger(child_element, "SUBSCRIBE-EVENTGROUP-RETRY-MAX", config.getSubscribeEventgroupRetryMax())
+        self.setChildElementOptionalPositiveInteger(child_element, "TIME-TO-LIVE", config.getTimeToLive())
+
     def writeEventHandler(self, element: ET.Element, handler: EventHandler):
         if handler is not None:
             child_element = ET.SubElement(element, "EVENT-HANDLER")
@@ -9685,6 +9695,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSoAdRoutingGroup(element, ar_element)
         elif isinstance(ar_element, SomeipSdClientServiceInstanceConfig):
             self.writeSomeipSdClientServiceInstanceConfig(element, ar_element)
+        elif isinstance(ar_element, SomeipSdClientEventGroupTimingConfig):
+            self.writeSomeipSdClientEventGroupTimingConfig(element, ar_element)
         elif isinstance(ar_element, DoIpTpConfig):
             self.writeDoIpTpConfig(element, ar_element)
         elif isinstance(ar_element, HwElement):
