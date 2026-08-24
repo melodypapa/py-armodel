@@ -555,7 +555,12 @@ class TestRoleBasedDataTypeAssignment:
 
         assert assignment.getRole() is None
 
-        assignment.setRole("TestRole")
+        result = assignment.setRole("TestRole")
+        assert result is assignment  # Method chaining
+        assert assignment.getRole() == "TestRole"
+
+        # None is a no-op
+        assignment.setRole(None)
         assert assignment.getRole() == "TestRole"
 
     def test_get_set_used_implementation_data_type_ref(self):
@@ -564,11 +569,13 @@ class TestRoleBasedDataTypeAssignment:
 
         assert assignment.getUsedImplementationDataTypeRef() is None
 
-        class MockRefType:
-            pass
+        ref_type = RefType().setValue("/AutosarTypes/ImplDataType")
+        result = assignment.setUsedImplementationDataTypeRef(ref_type)
+        assert result is assignment  # Method chaining
+        assert assignment.getUsedImplementationDataTypeRef() == ref_type
 
-        ref_type = MockRefType()
-        assignment.setUsedImplementationDataTypeRef(ref_type)
+        # None is a no-op
+        assignment.setUsedImplementationDataTypeRef(None)
         assert assignment.getUsedImplementationDataTypeRef() == ref_type
 
 

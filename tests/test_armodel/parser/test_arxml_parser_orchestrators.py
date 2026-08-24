@@ -3100,11 +3100,20 @@ class TestRoleBasedDataTypeAssignment:
 
         dep = SwcServiceDependency(parent=_autosar_root(), short_name="Dep")
         element = _snip(
-            "<ASSIGNED-DATA-TYPES>" "<ROLE-BASED-DATA-TYPE-ASSIGNMENT>" "<ROLE>r</ROLE>" "</ROLE-BASED-DATA-TYPE-ASSIGNMENT>" "</ASSIGNED-DATA-TYPES>",
+            "<ASSIGNED-DATA-TYPES>"
+            "<ROLE-BASED-DATA-TYPE-ASSIGNMENT>"
+            "<ROLE>r</ROLE>"
+            "<USED-IMPLEMENTATION-DATA-TYPE-REF DEST='IMPLEMENTATION-DATA-TYPE'>/dt/Impl</USED-IMPLEMENTATION-DATA-TYPE-REF>"
+            "</ROLE-BASED-DATA-TYPE-ASSIGNMENT>"
+            "</ASSIGNED-DATA-TYPES>",
             root_tag="SERVICE-DEPENDENCY",
         )
         parser.readServiceDependency(element, dep)
-        assert len(dep.getAssignedDataTypes()) == 1
+        assigned = dep.getAssignedDataTypes()
+        assert len(assigned) == 1
+        assert assigned[0].getRole().getValue() == "r"
+        assert assigned[0].getUsedImplementationDataTypeRef().getValue() == "/dt/Impl"
+        assert assigned[0].getUsedImplementationDataTypeRef().getDest() == "IMPLEMENTATION-DATA-TYPE"
 
     def test_readServiceDependency_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import SwcServiceDependency

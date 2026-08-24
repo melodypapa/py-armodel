@@ -3430,8 +3430,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeRoleBasedDataTypeAssignment(self, element: ET.Element, assignment: RoleBasedDataTypeAssignment):
         child_element = ET.SubElement(element, "ROLE-BASED-DATA-TYPE-ASSIGNMENT")
-        self.setChildElementOptionalLiteral(child_element, "ROLE", assignment.role)
-        self.setChildElementOptionalRefType(child_element, "USED-IMPLEMENTATION-DATA-TYPE-REF", assignment.usedImplementationDataTypeRef)
+        self.setChildElementOptionalLiteral(child_element, "ROLE", assignment.getRole())
+        self.setChildElementOptionalRefType(child_element, "USED-IMPLEMENTATION-DATA-TYPE-REF", assignment.getUsedImplementationDataTypeRef())
 
     def writeServiceDependencyAssignedDataType(self, element: ET.Element, dependency: ServiceDependency):
         assigned_data = dependency.getAssignedDataTypes()

@@ -1074,7 +1074,10 @@ class TestWriterServiceDependency:
         elem = parent.find("ROLE-BASED-DATA-TYPE-ASSIGNMENT")
         assert elem is not None
         assert elem.find("ROLE").text == "role1"
-        assert elem.find("USED-IMPLEMENTATION-DATA-TYPE-REF") is not None
+        ref_elem = elem.find("USED-IMPLEMENTATION-DATA-TYPE-REF")
+        assert ref_elem is not None
+        assert ref_elem.text == "/idt"
+        assert ref_elem.get("DEST") == "IMPLEMENTATION-DATA-TYPE"
 
     def test_writeServiceDependencyAssignedDataType(self, writer):
         behavior = _make_behavior()

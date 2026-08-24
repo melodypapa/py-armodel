@@ -518,72 +518,71 @@ class NvBlockNeeds(ServiceNeeds):
 
 class RoleBasedDataTypeAssignment(ARObject):
     """
-    Represents a role-based data type assignment in AUTOSAR models.
-    This class defines how implementation data types are assigned based on their role in service interactions.
+    This class specifies an assignment of a role to a particular data type of
+    a software component (or in the BswModuleBehavior of a module or cluster)
+    in the context of an AUTOSAR Service. With this assignment, the role of
+    the data type can be mapped to a specific ServiceNeeds element, so that a
+    tool is able to create the correct access.
     """
 
     # RoleBasedDataTypeAssignment method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getRole                      [x] impl  [x] docstring  [ ] test
-    # [ ] setRole                      [x] impl  [x] docstring  [ ] test
-    # [ ] getUsedImplementationDataTypeRef [x] impl  [x] docstring  [ ] test
-    # [ ] setUsedImplementationDataTypeRef [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.5, p.227
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getRole                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRole                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUsedImplementationDataTypeRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUsedImplementationDataTypeRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
-        """
-        Initializes the RoleBasedDataTypeAssignment with default values.
-        """
         super().__init__()
 
-        # Role identifier for this data type assignment
-        self.role: Identifier = None
-        # Reference to the used implementation data type
-        self.usedImplementationDataTypeRef: RefType = None
+        # This is the role of the associated data type in the given context.
+        self.role: Optional[Identifier] = None
 
-    def getRole(self):
+        # This represents the associated ImplementationDataType.
+        self.usedImplementationDataTypeRef: Optional[RefType] = None
+
+    def getRole(self) -> Optional[Identifier]:
         """
-        Gets the role identifier for this data type assignment.
-
-        Returns:
-            Identifier: The role identifier
+        This is the role of the associated data type in the given context.
         """
         return self.role
 
-    def setRole(self, value):
+    def setRole(self, value: Optional[Identifier]) -> "RoleBasedDataTypeAssignment":
         """
-        Sets the role identifier for this data type assignment.
+        This is the role of the associated data type in the given context.
         Only sets the value if it is not None.
 
         Args:
-            value: The role identifier to set
+            value: The role of the associated data type
 
         Returns:
             self for method chaining
         """
-        self.role = value
+        if value is not None:
+            self.role = value
         return self
 
-    def getUsedImplementationDataTypeRef(self):
+    def getUsedImplementationDataTypeRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the used implementation data type.
-
-        Returns:
-            RefType: The implementation data type reference
+        This represents the associated ImplementationDataType.
         """
         return self.usedImplementationDataTypeRef
 
-    def setUsedImplementationDataTypeRef(self, value):
+    def setUsedImplementationDataTypeRef(self, value: Optional[RefType]) -> "RoleBasedDataTypeAssignment":
         """
-        Sets the reference to the used implementation data type.
+        This represents the associated ImplementationDataType.
         Only sets the value if it is not None.
 
         Args:
-            value: The implementation data type reference to set
+            value: The reference to the associated ImplementationDataType
 
         Returns:
             self for method chaining
         """
-        self.usedImplementationDataTypeRef = value
+        if value is not None:
+            self.usedImplementationDataTypeRef = value
         return self
 
 
