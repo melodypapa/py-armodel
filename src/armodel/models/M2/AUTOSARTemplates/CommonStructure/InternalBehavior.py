@@ -316,62 +316,51 @@ class ExecutableEntity(Identifiable, ABC):
 
 class InternalBehavior(AtpStructureElement, ABC):
     """
-    Abstract base class for internal behavior in AUTOSAR models.
-    Internal behavior defines the internal structure of software components or BSW modules,
-    including executable entities, memory areas, and data type mappings.
+    Common base class (abstract) for the internal behavior of both software
+    components and basic software modules/clusters.
     """
 
     # InternalBehavior method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.1, p.518
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.1, p.65
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] createConstantMemory         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConstantMemories          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addDataTypeMappingRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDataTypeMappingRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createExclusiveArea          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getExclusiveAreas            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createConstantMemory            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getConstantMemories             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addConstantValueMappingRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getConstantValueMappingRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addDataTypeMappingRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDataTypeMappingRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createExclusiveArea             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getExclusiveAreas               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createExclusiveAreaNestingOrder [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getExclusiveAreaNestingOrders [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getStaticMemories            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createStaticMemory           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getExclusiveAreaNestingOrders   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createStaticMemory              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getStaticMemories               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the InternalBehavior with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this internal behavior
-            short_name: The unique short name of this internal behavior
-        """
         if type(self) is InternalBehavior:
             raise TypeError("InternalBehavior is an abstract class.")
         super().__init__(parent, short_name)
 
-        # List of constant memories (parameter data prototypes) in this internal behavior
+        # Describes a read only memory object containing characteristic value(s) implemented by this InternalBehavior. The shortName of ParameterDataPrototype has to be equal to the 'C' identifier of the described constant. The characteristic value(s) might be shared between SwComponentPrototypes of the same SwComponentType. The aggregation of constantMemory is subject to variability with the purpose to support variability in the software component or module implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=constantMemory.shortName, constantMemory.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.constantMemories: List[ParameterDataPrototype] = []
-        # List of constant value mapping references for this internal behavior
+
+        # Reference to the ConstantSpecificationMapping to be applied for the particular InternalBehavior Stereotypes: atpSplitable Tags: atp.Splitkey=constantValueMapping
         self.constantValueMappingRefs: List[RefType] = []
-        # List of data type mapping references for this internal behavior
+
+        # Reference to the DataTypeMapping to be applied for the particular InternalBehavior Stereotypes: atpSplitable Tags: atp.Splitkey=dataTypeMapping
         self.dataTypeMappingRefs: List[RefType] = []
-        # List of exclusive areas defined in this internal behavior
+
+        # This specifies an ExclusiveArea for this InternalBehavior. The exclusiveArea is local to the component resp. module. The aggregation of ExclusiveAreas is subject to variability. Note: the number of ExclusiveAreas might vary due to the conditional existence of RunnableEntities or BswModuleEntities. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=exclusiveArea.shortName, exclusiveArea.variationPoint.shortLabel
         self.exclusiveAreas: List["ExclusiveArea"] = []
-        # List of exclusive area nesting orders for this internal behavior
-        self.exclusiveAreaNestingOrders: List = []
-        # List of static memories (variable data prototypes) in this internal behavior
+
+        # This represents the set of ExclusiveAreaNestingOrder owned by the InternalBehavior. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=exclusiveAreaNestingOrder.shortName, exclusiveAreaNestingOrder.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        self.exclusiveAreaNestingOrders: List["ExclusiveAreaNestingOrder"] = []
+
+        # Describes a read and writeable static memory object representing measurerment variables implemented by this software component. The term "static" is used in the meaning of "non-temporary" and does not necessarily specify a linker encapsulation. This kind of memory is only supported if supportsMultipleInstantiation is FALSE. The shortName of the VariableDataPrototype has to be equal with the 'C' identifier of the described variable. The aggregation of staticMemory is subject to variability with the purpose to support variability in the software component's implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticMemory.shortName, staticMemory.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.staticMemories: List[VariableDataPrototype] = []
 
     def createConstantMemory(self, short_name: str) -> ParameterDataPrototype:
-        """
-        Creates and adds a ParameterDataPrototype to this internal behavior's constant memories.
-
-        Args:
-            short_name: The short name for the new parameter data prototype
-
-        Returns:
-            The created ParameterDataPrototype instance
-        """
         if short_name not in self.elements:
             prototype = ParameterDataPrototype(self, short_name)
             self.addElement(prototype)
@@ -380,40 +369,70 @@ class InternalBehavior(AtpStructureElement, ABC):
 
     def getConstantMemories(self) -> List[ParameterDataPrototype]:
         """
-        Gets the list of constant memories (parameter data prototypes) in this internal behavior.
+        Describes a read only memory object containing characteristic value(s) implemented by this InternalBehavior. The shortName of ParameterDataPrototype has to be equal to the 'C' identifier of the described constant. The characteristic value(s) might be shared between SwComponentPrototypes of the same SwComponentType. The aggregation of constantMemory is subject to variability with the purpose to support variability in the software component or module implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=constantMemory.shortName, constantMemory.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
 
         Returns:
             List of ParameterDataPrototype instances
         """
         return self.constantMemories
 
-    def addDataTypeMappingRef(self, ref: RefType):
+    def addConstantValueMappingRef(self, value: RefType) -> "InternalBehavior":
         """
-        Adds a data type mapping reference to this internal behavior.
+        Reference to the ConstantSpecificationMapping to be applied for the particular InternalBehavior Stereotypes: atpSplitable Tags: atp.Splitkey=constantValueMapping
+        Only adds the value if it is not None.
 
         Args:
-            ref: The data type mapping reference to add
+            value: The ConstantSpecificationMappingSet reference to add
+
+        Returns:
+            self for method chaining
         """
-        self.dataTypeMappingRefs.append(ref)
+        if value is not None:
+            self.constantValueMappingRefs.append(value)
+        return self
+
+    def getConstantValueMappingRefs(self) -> List[RefType]:
+        """
+        Reference to the ConstantSpecificationMapping to be applied for the particular InternalBehavior Stereotypes: atpSplitable Tags: atp.Splitkey=constantValueMapping
+
+        Returns:
+            List of RefType instances
+        """
+        return self.constantValueMappingRefs
+
+    def addDataTypeMappingRef(self, value: RefType) -> "InternalBehavior":
+        """
+        Reference to the DataTypeMapping to be applied for the particular InternalBehavior Stereotypes: atpSplitable Tags: atp.Splitkey=dataTypeMapping
+        Only adds the value if it is not None.
+
+        Args:
+            value: The DataTypeMappingSet reference to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.dataTypeMappingRefs.append(value)
+        return self
 
     def getDataTypeMappingRefs(self) -> List[RefType]:
         """
-        Gets the list of data type mapping references for this internal behavior.
+        Reference to the DataTypeMapping to be applied for the particular InternalBehavior Stereotypes: atpSplitable Tags: atp.Splitkey=dataTypeMapping
 
         Returns:
             List of RefType instances
         """
         return self.dataTypeMappingRefs
 
-    def createExclusiveArea(self, short_name: str) -> ExclusiveArea:
+    def createExclusiveArea(self, short_name: str) -> "ExclusiveArea":
         """
-        Creates and adds an ExclusiveArea to this internal behavior's exclusive areas.
+        This specifies an ExclusiveArea for this InternalBehavior. The exclusiveArea is local to the component resp. module. The aggregation of ExclusiveAreas is subject to variability. Note: the number of ExclusiveAreas might vary due to the conditional existence of RunnableEntities or BswModuleEntities. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=exclusiveArea.shortName, exclusiveArea.variationPoint.shortLabel
 
         Args:
-            short_name: The short name for the new exclusive area
+            short_name: The short name of the exclusive area
 
         Returns:
-            The created ExclusiveArea instance
+            The created (or existing) ExclusiveArea instance
         """
         if short_name not in self.elements:
             area = ExclusiveArea(self, short_name)
@@ -421,9 +440,9 @@ class InternalBehavior(AtpStructureElement, ABC):
             self.exclusiveAreas.append(area)
         return self.getElement(short_name)
 
-    def getExclusiveAreas(self) -> List[ExclusiveArea]:
+    def getExclusiveAreas(self) -> List["ExclusiveArea"]:
         """
-        Gets the list of exclusive areas defined in this internal behavior.
+        This specifies an ExclusiveArea for this InternalBehavior. The exclusiveArea is local to the component resp. module. The aggregation of ExclusiveAreas is subject to variability. Note: the number of ExclusiveAreas might vary due to the conditional existence of RunnableEntities or BswModuleEntities. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=exclusiveArea.shortName, exclusiveArea.variationPoint.shortLabel
 
         Returns:
             List of ExclusiveArea instances
@@ -432,14 +451,13 @@ class InternalBehavior(AtpStructureElement, ABC):
 
     def createExclusiveAreaNestingOrder(self, short_name: str) -> "ExclusiveAreaNestingOrder":
         """
-        Creates and adds an ExclusiveAreaNestingOrder to this internal behavior's
-        exclusive area nesting orders.
+        This represents the set of ExclusiveAreaNestingOrder owned by the InternalBehavior. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=exclusiveAreaNestingOrder.shortName, exclusiveAreaNestingOrder.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
 
         Args:
-            short_name: The short name for the new exclusive area nesting order
+            short_name: The short name of the exclusive area nesting order
 
         Returns:
-            The created ExclusiveAreaNestingOrder instance
+            The created (or existing) ExclusiveAreaNestingOrder instance
         """
         if short_name not in self.elements:
             nesting_order = ExclusiveAreaNestingOrder(self, short_name)
@@ -449,37 +467,37 @@ class InternalBehavior(AtpStructureElement, ABC):
 
     def getExclusiveAreaNestingOrders(self) -> List["ExclusiveAreaNestingOrder"]:
         """
-        Gets the list of exclusive area nesting orders defined in this internal behavior.
+        This represents the set of ExclusiveAreaNestingOrder owned by the InternalBehavior. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=exclusiveAreaNestingOrder.shortName, exclusiveAreaNestingOrder.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
 
         Returns:
             List of ExclusiveAreaNestingOrder instances
         """
         return list(filter(lambda c: isinstance(c, ExclusiveAreaNestingOrder), self.elements))
 
-    def getStaticMemories(self):
-        """
-        Gets the list of static memories (variable data prototypes) in this internal behavior.
-
-        Returns:
-            List of VariableDataPrototype instances
-        """
-        return self.staticMemories
-
     def createStaticMemory(self, short_name: str) -> VariableDataPrototype:
         """
-        Creates and adds a VariableDataPrototype to this internal behavior's static memories.
+        Describes a read and writeable static memory object representing measurerment variables implemented by this software component. The term "static" is used in the meaning of "non-temporary" and does not necessarily specify a linker encapsulation. This kind of memory is only supported if supportsMultipleInstantiation is FALSE. The shortName of the VariableDataPrototype has to be equal with the 'C' identifier of the described variable. The aggregation of staticMemory is subject to variability with the purpose to support variability in the software component's implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticMemory.shortName, staticMemory.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
 
         Args:
-            short_name: The short name for the new variable data prototype
+            short_name: The short name of the static memory
 
         Returns:
-            The created VariableDataPrototype instance
+            The created (or existing) VariableDataPrototype instance
         """
         if short_name not in self.elements:
             prototype = VariableDataPrototype(self, short_name)
             self.addElement(prototype)
             self.staticMemories.append(prototype)
         return self.getElement(short_name)
+
+    def getStaticMemories(self) -> List[VariableDataPrototype]:
+        """
+        Describes a read and writeable static memory object representing measurerment variables implemented by this software component. The term "static" is used in the meaning of "non-temporary" and does not necessarily specify a linker encapsulation. This kind of memory is only supported if supportsMultipleInstantiation is FALSE. The shortName of the VariableDataPrototype has to be equal with the 'C' identifier of the described variable. The aggregation of staticMemory is subject to variability with the purpose to support variability in the software component's implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=staticMemory.shortName, staticMemory.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+
+        Returns:
+            List of VariableDataPrototype instances
+        """
+        return self.staticMemories
 
 
 class AbstractEvent(Identifiable, ABC):

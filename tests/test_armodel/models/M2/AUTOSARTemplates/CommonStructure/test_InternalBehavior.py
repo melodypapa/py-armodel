@@ -509,6 +509,45 @@ class TestInternalBehavior:
         assert memories[0] == constant_memory1
         assert memories[1] == constant_memory2
 
+    def test_add_constant_value_mapping_ref(self):
+        """Test addConstantValueMappingRef appends refs, returns self, None is a no-op."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteInternalBehavior(InternalBehavior):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
+
+        ref1 = RefType().setValue("ConstantMapping1")
+        ref2 = RefType().setValue("ConstantMapping2")
+
+        result = internal_behavior.addConstantValueMappingRef(ref1)
+        assert result is internal_behavior  # Method chaining
+        internal_behavior.addConstantValueMappingRef(ref2)
+
+        refs = internal_behavior.getConstantValueMappingRefs()
+        assert len(refs) == 2
+        assert refs[0] == ref1
+        assert refs[1] == ref2
+
+        # None is a no-op
+        internal_behavior.addConstantValueMappingRef(None)
+        assert len(internal_behavior.getConstantValueMappingRefs()) == 2
+
+    def test_get_constant_value_mapping_refs(self):
+        """Test getConstantValueMappingRefs returns an empty list initially."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteInternalBehavior(InternalBehavior):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
+        assert internal_behavior.getConstantValueMappingRefs() == []
+
     def test_add_data_type_mapping_ref(self):
         """Test addDataTypeMappingRef method"""
         parent = AUTOSAR.getInstance()

@@ -1397,12 +1397,19 @@ class ARXMLParser(AbstractARXMLParser):
     def readInternalBehavior(self, element: ET.Element, behavior: InternalBehavior):
         self.readIdentifiable(element, behavior)
         self.readInternalBehaviorConstantMemories(element, behavior)
+        self.readInternalBehaviorConstantValueMappingRefs(element, behavior)
         for child_element in self.findall(element, "EXCLUSIVE-AREAS/EXCLUSIVE-AREA"):
             short_name = self.getShortName(child_element)
             behavior.createExclusiveArea(short_name)
         self.readExclusiveAreaNestingOrders(element, behavior)
         self.readDataTypeMappingRefs(element, behavior)
         self.readInternalBehaviorStaticMemories(element, behavior)
+
+    def readInternalBehaviorConstantValueMappingRefs(self, element: ET.Element, behavior: InternalBehavior):
+        child_element = self.find(element, "CONSTANT-VALUE-MAPPING-REFS")
+        if child_element is not None:
+            for ref in self.getChildElementRefTypeList(child_element, "CONSTANT-VALUE-MAPPING-REF"):
+                behavior.addConstantValueMappingRef(ref)
 
     def readExclusiveAreaNestingOrders(self, element: ET.Element, behavior: InternalBehavior):
         for child_element in self.findall(element, "EXCLUSIVE-AREA-NESTING-ORDERS/EXCLUSIVE-AREA-NESTING-ORDER"):

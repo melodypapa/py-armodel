@@ -395,6 +395,26 @@ class TestWriterInternalBehavior:
         writer.writeExclusiveAreas(parent, behavior)
         assert parent.find("EXCLUSIVE-AREAS") is None
 
+    def test_writeConstantValueMappingRefs(self, writer):
+        behavior = _make_behavior()
+        behavior.addConstantValueMappingRef(_ref("/cvm1", "CONSTANT-SPECIFICATION-MAPPING-SET"))
+        behavior.addConstantValueMappingRef(_ref("/cvm2", "CONSTANT-SPECIFICATION-MAPPING-SET"))
+        parent = _parent()
+        writer.writeInternalBehaviorConstantValueMappingRefs(parent, behavior)
+        refs_tag = parent.find("CONSTANT-VALUE-MAPPING-REFS")
+        assert refs_tag is not None
+        refs = refs_tag.findall("CONSTANT-VALUE-MAPPING-REF")
+        assert len(refs) == 2
+        assert refs[0].text == "/cvm1"
+        assert refs[0].get("DEST") == "CONSTANT-SPECIFICATION-MAPPING-SET"
+        assert refs[1].text == "/cvm2"
+
+    def test_writeConstantValueMappingRefs_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeInternalBehaviorConstantValueMappingRefs(parent, behavior)
+        assert parent.find("CONSTANT-VALUE-MAPPING-REFS") is None
+
     def test_writeExclusiveAreaNestingOrders(self, writer):
         behavior = _make_behavior()
         nesting_order = behavior.createExclusiveAreaNestingOrder("o1")

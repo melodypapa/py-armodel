@@ -582,6 +582,9 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
             "<EXCLUSIVE-AREAS>"
             "<EXCLUSIVE-AREA><SHORT-NAME>ea1</SHORT-NAME></EXCLUSIVE-AREA>"
             "</EXCLUSIVE-AREAS>"
+            "<CONSTANT-VALUE-MAPPING-REFS>"
+            "<CONSTANT-VALUE-MAPPING-REF DEST='CONSTANT-SPECIFICATION-MAPPING-SET'>/cvm</CONSTANT-VALUE-MAPPING-REF>"
+            "</CONSTANT-VALUE-MAPPING-REFS>"
             "<DATA-TYPE-MAPPING-REFS>"
             "<DATA-TYPE-MAPPING-REF DEST='DATA-TYPE-MAPPING-SET'>/m</DATA-TYPE-MAPPING-REF>"
             "</DATA-TYPE-MAPPING-REFS>",
@@ -592,7 +595,13 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
         assert len(areas) == 1
         assert areas[0].getShortName() == "ea1"
         assert areas[0].getParent() is behavior
-        assert len(behavior.getDataTypeMappingRefs()) == 1
+        cvm_refs = behavior.getConstantValueMappingRefs()
+        assert len(cvm_refs) == 1
+        assert cvm_refs[0].getValue() == "/cvm"
+        assert cvm_refs[0].getDest() == "CONSTANT-SPECIFICATION-MAPPING-SET"
+        dtm_refs = behavior.getDataTypeMappingRefs()
+        assert len(dtm_refs) == 1
+        assert dtm_refs[0].getValue() == "/m"
 
     def test_readInternalBehavior_exclusive_areas_empty_wrapper(self, parser):
         from armodel.models import BswInternalBehavior
@@ -604,6 +613,17 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
         )
         parser.readInternalBehavior(element, behavior)
         assert behavior.getExclusiveAreas() == []
+
+    def test_readInternalBehavior_constant_value_mapping_refs_empty_wrapper(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<SHORT-NAME>bh</SHORT-NAME>" "<CONSTANT-VALUE-MAPPING-REFS>" "</CONSTANT-VALUE-MAPPING-REFS>",
+            root_tag="BH",
+        )
+        parser.readInternalBehavior(element, behavior)
+        assert behavior.getConstantValueMappingRefs() == []
 
     def test_readInternalBehavior_exclusive_area_nesting_orders(self, parser):
         from armodel.models import BswInternalBehavior

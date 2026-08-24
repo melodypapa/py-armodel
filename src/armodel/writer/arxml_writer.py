@@ -2777,6 +2777,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                     for ref in refs:
                         self.setChildElementOptionalRefType(refs_tag, "EXCLUSIVE-AREA-REF", ref)
 
+    def writeInternalBehaviorConstantValueMappingRefs(self, element: ET.Element, behavior: InternalBehavior):
+        refs = behavior.getConstantValueMappingRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "CONSTANT-VALUE-MAPPING-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "CONSTANT-VALUE-MAPPING-REF", ref)
+
     def writeDataTypeMappingRefs(self, element: ET.Element, behavior: InternalBehavior):
         refs = behavior.getDataTypeMappingRefs()
         if len(refs) > 0:
@@ -2795,6 +2802,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeInternalBehavior(self, element: ET.Element, behavior: InternalBehavior):
         self.writeIdentifiable(element, behavior)
         self.writeSwcInternalBehaviorParameterDataPrototypes(element, "CONSTANT-MEMORYS", behavior.getConstantMemories())
+        self.writeInternalBehaviorConstantValueMappingRefs(element, behavior)
         self.writeDataTypeMappingRefs(element, behavior)
         self.writeExclusiveAreas(element, behavior)
         self.writeExclusiveAreaNestingOrders(element, behavior)

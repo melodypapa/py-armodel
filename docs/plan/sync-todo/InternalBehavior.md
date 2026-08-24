@@ -44,15 +44,15 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 8 — Deviations (none)
   - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
 - [ ] InternalBehavior (markdown · Table 5.1 · p.65 · source CommonStructure/InternalBehavior.py · depends on ExclusiveArea above; adds missing constantMemory / constantValueMapping / exclusiveArea / exclusiveAreaNestingOrder members; member classes all exist)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none; constantValueMapping reader/writer gap closed)
+  - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
 - [ ] RoleBasedDataTypeAssignment (markdown · Table 12.5 · p.227 · source CommonStructure/ServiceNeeds.py · member type of ServiceDependency.assignedDataType — synced first per Rule 0016.5)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
