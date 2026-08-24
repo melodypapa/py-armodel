@@ -166,6 +166,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
@@ -2101,6 +2102,18 @@ class ARXMLParser(AbstractARXMLParser):
         if element.text is not None and element.text.strip() != "":
             avp.setText(element.text)
         return avp
+
+    def readTimingConditionFormula(self, parent, element: ET.Element) -> TimingConditionFormula:
+        tcf = TimingConditionFormula(parent, self.getShortName(element))
+        self.readReferrable(element, tcf)
+        tcf.setTimingArgumentRef(self.getChildElementOptionalRefType(element, "TIMING-ARGUMENT-REF"))
+        tcf.setTimingConditionRef(self.getChildElementOptionalRefType(element, "TIMING-CONDITION-REF"))
+        tcf.setTimingEventRef(self.getChildElementOptionalRefType(element, "TIMING-EVENT-REF"))
+        tcf.setTimingModeRef(self.getChildElementOptionalRefType(element, "TIMING-MODE-REF"))
+        tcf.setTimingVariableRef(self.getChildElementOptionalRefType(element, "TIMING-VARIABLE-REF"))
+        if element.text is not None and element.text.strip() != "":
+            tcf.setText(element.text)
+        return tcf
 
     def readSwcInternalBehaviorVariationPointProxies(self, element: ET.Element, behavior: SwcInternalBehavior):
         for child_element in self.findall(element, "VARIATION-POINT-PROXYS/VARIATION-POINT-PROXY"):

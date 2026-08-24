@@ -242,6 +242,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.Attribu
     TimeValueValueVariationPoint,
     UnlimitedIntegerValueVariationPoint,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
 
 VALUE_ACCESS_CLASS_TO_TAG = {
     LimitValueVariationPoint: "LIMIT",
@@ -3409,6 +3410,17 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     element.attrib["INTERVAL-TYPE"] = token
         text = avp.getText()
+        if text is not None:
+            element.text = text
+
+    def writeTimingConditionFormula(self, element: ET.Element, tcf: TimingConditionFormula):
+        self.writeReferrable(element, tcf)
+        self.setChildElementOptionalRefType(element, "TIMING-ARGUMENT-REF", tcf.getTimingArgumentRef())
+        self.setChildElementOptionalRefType(element, "TIMING-CONDITION-REF", tcf.getTimingConditionRef())
+        self.setChildElementOptionalRefType(element, "TIMING-EVENT-REF", tcf.getTimingEventRef())
+        self.setChildElementOptionalRefType(element, "TIMING-MODE-REF", tcf.getTimingModeRef())
+        self.setChildElementOptionalRefType(element, "TIMING-VARIABLE-REF", tcf.getTimingVariableRef())
+        text = tcf.getText()
         if text is not None:
             element.text = text
 
