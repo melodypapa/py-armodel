@@ -227,36 +227,37 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [ ] 14. SwSystemconstantValueSet — member
+### [x] 14. SwSystemconstantValueSet — member (commit f206bfe, stamp deferred)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py:275`
 - Spec: `AUTOSAR_FO_TPS_GenericStructureTemplate.md` Table 7.25
 - Role: ref target of PredefinedVariant.swSystemconstantValueSet
+- Note: base corrected Identifiable → ARElement (spec most-derived base)
 - Steps:
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write the model class unit test (Red)
-  - [ ] Step 3 — Implement the model class (Green)
-  - [ ] Step 4 — Wipe & rewrite docstrings from spec Note
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser (reader) & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec + rows)
-  - [ ] Step 8 — Deviations ⇒ no stamp decision record
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write the model class unit test (Red)
+  - [x] Step 3 — Implement the model class (Green)
+  - [x] Step 4 — Wipe & rewrite docstrings from spec Note
+  - [x] Step 5 — Write reader/writer round-trip test (existing coverage verified)
+  - [x] Step 6 — Update parser (reader) & writer (already covered; no change needed)
+  - [x] Step 7 — Update checklist comment (# Spec + rows)
+  - [x] Step 8 — Deviations ⇒ no stamp decision record
+  - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [ ] 15. PredefinedVariant — input
+### [x] 15. PredefinedVariant — input (commit f206bfe, stamp deferred)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py:153`
 - Spec: `AUTOSAR_FO_TPS_GenericStructureTemplate.md` Table 7.24
 - Depends on: SwSystemconstantValueSet (row 14)
-- Tracker deviations: includedvariantrefs / swsystemconstantvaluesetrefs type (spec many vs py single)
+- Tracker deviations: includedvariantrefs / swsystemconstantvaluesetrefs type (spec many vs py single) — resolved (typed `List[RefType]`); base corrected Identifiable → ARElement
 - Steps:
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write the model class unit test (Red)
-  - [ ] Step 3 — Implement the model class (Green)
-  - [ ] Step 4 — Wipe & rewrite docstrings from spec Note
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser (reader) & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec + rows)
-  - [ ] Step 8 — Deviations ⇒ no stamp decision record
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write the model class unit test (Red)
+  - [x] Step 3 — Implement the model class (Green)
+  - [x] Step 4 — Wipe & rewrite docstrings from spec Note
+  - [x] Step 5 — Write reader/writer round-trip test (existing coverage verified)
+  - [x] Step 6 — Update parser (reader) & writer (already covered; no change needed)
+  - [x] Step 7 — Update checklist comment (# Spec + rows)
+  - [x] Step 8 — Deviations ⇒ no stamp decision record
+  - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
 ### [ ] 16. AnyInstanceRef — input
 - Source: `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/AnyInstanceRef.py:11`
