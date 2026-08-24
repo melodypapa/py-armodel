@@ -237,6 +237,25 @@ class TestAdminDataAndReferrableHandlers:
         assert revision.getRevisionLabelP1().getValue() == "0.9.0"
         assert revision.getRevisionLabelP2().getValue() == "0.8.0"
 
+    def test_readEcucEnumerationLiteral_sets_ecucCond(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucEnumerationLiteralDef
+
+        element = _snip(
+            "<ECUC-ENUMERATION-LITERAL-DEF>"
+            "<SHORT-NAME>Lit</SHORT-NAME>"
+            "<ECUC-COND><INFORMAL-FORMULA><L-1>cond</L-1></INFORMAL-FORMULA></ECUC-COND>"
+            "<ORIGIN>AUTOSAR_ECUC</ORIGIN>"
+            "</ECUC-ENUMERATION-LITERAL-DEF>",
+            root_tag="PARENT",
+        )
+        literal = EcucEnumerationLiteralDef(parent=None, short_name="Lit")
+        child = parser.find(element, "ECUC-ENUMERATION-LITERAL-DEF")
+        parser.readEcucEnumerationLiteral(child, literal)
+        assert literal.getOrigin().getValue() == "AUTOSAR_ECUC"
+        # Spec Table 2.24: ecucCond aggr must be read from ECUC-COND
+        assert literal.getEcucCond() is not None
+        assert literal.getEcucCond().getInformalFormula() is not None
+
     def test_readReferrable_minimal(self, parser):
         from armodel.models import BswVariableAccess
 

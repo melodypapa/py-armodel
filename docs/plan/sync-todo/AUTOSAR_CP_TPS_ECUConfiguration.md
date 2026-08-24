@@ -259,21 +259,21 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [ ] 16. AnyInstanceRef — input
+### [x] 16. AnyInstanceRef — input (commit 9210018, stamp deferred)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/AnyInstanceRef.py:11`
 - Spec: `AUTOSAR_FO_TPS_GenericStructureTemplate.md` Table 9.57
 - Depends on: AtpFeature (row 10), AtpInstanceRef (row 11)
-- Tracker deviation: missing contextElement(ordered) ref
+- Tracker deviation: missing contextElement(ordered) ref — resolved (contextElementRefs typed List present); reader/writer coverage via getAnyInstanceRef/setAnyInstanceRef
 - Steps:
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write the model class unit test (Red)
-  - [ ] Step 3 — Implement the model class (Green)
-  - [ ] Step 4 — Wipe & rewrite docstrings from spec Note
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser (reader) & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec + rows)
-  - [ ] Step 8 — Deviations ⇒ no stamp decision record
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write the model class unit test (Red)
+  - [x] Step 3 — Implement the model class (Green)
+  - [x] Step 4 — Wipe & rewrite docstrings from spec Note
+  - [x] Step 5 — Write reader/writer round-trip test (existing coverage verified)
+  - [x] Step 6 — Update parser (reader) & writer (already covered; no change needed)
+  - [x] Step 7 — Update checklist comment (# Spec + rows)
+  - [x] Step 8 — Deviations ⇒ no stamp decision record
+  - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
 ### [ ] 17. EcucParameterDef — base/member
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:856`

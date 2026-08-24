@@ -7246,6 +7246,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if literal is not None:
             child_element = ET.SubElement(element, "ECUC-ENUMERATION-LITERAL-DEF")
             self.writeIdentifiable(child_element, literal)
+            self.writeEcucConditionSpecification(child_element, literal.getEcucCond())
             self.setChildElementOptionalLiteral(child_element, "ORIGIN", literal.getOrigin())
 
     def writeEcucEnumerationParamDefLiterals(self, element: ET.Element, param_def: EcucEnumerationParamDef):

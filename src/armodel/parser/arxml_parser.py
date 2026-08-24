@@ -7748,6 +7748,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucEnumerationLiteral(self, element: ET.Element, literal: EcucEnumerationLiteralDef):
         self.readIdentifiable(element, literal)
+        literal.setEcucCond(self.readEcucConditionSpecification(element))
         literal.setOrigin(self.getChildElementOptionalLiteral(element, "ORIGIN"))
 
     def readEcucEnumerationParamDefLiterals(self, element: ET.Element, literal_def: EcucEnumerationParamDef):
