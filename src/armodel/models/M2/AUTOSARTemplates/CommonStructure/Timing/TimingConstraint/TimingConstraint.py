@@ -17,7 +17,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
 )
 from abc import ABC
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import Traceable
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import (
+    Traceable,
+)
 
 
 class TimingConstraint(Traceable, ABC):

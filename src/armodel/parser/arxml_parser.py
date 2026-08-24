@@ -736,7 +736,11 @@ from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import Document
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import Note, NoteTypeEnum
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import StructuredReq, TraceableText
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import (
+    StructuredReq,
+    Traceable,
+    TraceableText,
+)
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
@@ -3736,6 +3740,10 @@ class ARXMLParser(AbstractARXMLParser):
                 note.setNoteType(NoteTypeEnum().setValue(child_element.attrib["NOTETYPE"]))
         return note
 
+    def readTraceable(self, element: ET.Element, traceable: Traceable):
+        for trace_ref in self.findall(element, "TRACE-REFS/TRACE-REF"):
+            traceable.addTraceRef(RefType().setValue(trace_ref.text))
+
     def getTraceableText(self, element: ET.Element, key: str) -> TraceableText:
         traceable_text = None
         child_element = self.find(element, key)
@@ -3743,8 +3751,7 @@ class ARXMLParser(AbstractARXMLParser):
             traceable_text = TraceableText()
             self.readARObjectAttributes(child_element, traceable_text)
             traceable_text.setText(self.getDocumentationBlock(child_element, "TEXT"))
-            for trace_ref in self.findall(child_element, "TRACE-REFS/TRACE-REF"):
-                traceable_text.addTraceRef(RefType().setDest(trace_ref.text))
+            self.readTraceable(child_element, traceable_text)
         return traceable_text
 
     def getStructuredReq(self, element: ET.Element, key: str) -> StructuredReq:

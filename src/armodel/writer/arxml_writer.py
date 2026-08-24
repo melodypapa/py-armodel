@@ -696,7 +696,11 @@ from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import Document
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import Note
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import StructuredReq, TraceableText
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import (
+    StructuredReq,
+    Traceable,
+    TraceableText,
+)
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Tt
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
@@ -882,6 +886,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setShortName(element, referrable.getShortName())
         if isinstance(referrable, Referrable):
             self.setShortNameFragments(element, referrable.getShortNameFragments())
+
+    def writeTraceable(self, element: ET.Element, traceable: Traceable):
+        trace_refs = traceable.getTraceRefs()
+        if trace_refs is not None and len(trace_refs) > 0:
+            refs_tag = ET.SubElement(element, "TRACE-REFS")
+            for trace_ref in trace_refs:
+                ref_tag = ET.SubElement(refs_tag, "TRACE-REF")
+                ref_tag.text = trace_ref.getValue()
 
     def setShortNameFragment(self, element: ET.Element, fragment: ShortNameFragment):
         if fragment is not None:
@@ -2041,12 +2053,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.writeARObjectAttributes(child_element, traceable_text)
             self.writeDocumentationBlock(child_element, "TEXT", traceable_text.getText())
-            trace_refs = traceable_text.getTraceRefs()
-            if len(trace_refs) > 0:
-                refs_tag = ET.SubElement(child_element, "TRACE-REFS")
-                for trace_ref in trace_refs:
-                    ref_tag = ET.SubElement(refs_tag, "TRACE-REF")
-                    ref_tag.text = trace_ref.getValue()
+            self.writeTraceable(child_element, traceable_text)
 
     def setStructuredReq(self, element: ET.Element, structured_req: StructuredReq):
         if structured_req is not None:
