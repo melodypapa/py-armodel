@@ -24,6 +24,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     SaveConfigurationEntry,
     UnassignFrameId,
 )
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -73,6 +76,17 @@ def _ref(dest, value):
     ref.setDest(dest)
     ref.setValue(value)
     return ref
+
+
+def _doc_block(text):
+    block = DocumentationBlock()
+    paragraph = MultiLanguageParagraph()
+    l1 = LOverviewParagraph()
+    l1.setL("EN")
+    l1.setValue(text)
+    paragraph.addL1(l1)
+    block.addP(paragraph)
+    return block
 
 
 def _build_table(pkg) -> LinScheduleTable:
@@ -231,3 +245,63 @@ class TestLinScheduleTableEntriesRoundTrip:
         assert assign_frame_id_element.find("ASSIGNED-CONTROLLER-REF").text == "/slave"
         assert assign_frame_id_element.find("ASSIGNED-LIN-SLAVE-CONFIG-REF").text == "/ident"
         assert assign_frame_id_element.find("ASSIGNED-FRAME-TRIGGERING-REF").text == "/ft1"
+
+    def test_roundtrip_introduction_before_delay(self, writer):
+        pkg = _pkg()
+        table = LinScheduleTable(pkg, "Table")
+
+        entry = FreeFormat()
+        entry.setDelay(_time("0.05"))
+        entry.setIntroduction(_doc_block("entry introduction"))
+        entry.setPositionInTable(_int(7))
+        table.addTableEntry(entry)
+
+        parent = _parent()
+        writer.writeLinScheduleTable(parent, table)
+
+        entry_element = parent.find("LIN-SCHEDULE-TABLE/TABLE-ENTRYS/FREE-FORMAT")
+        assert entry_element is not None
+        tags = [e.tag for e in entry_element]
+        assert tags.index("INTRODUCTION") < tags.index("DELAY")
+        assert tags.index("DELAY") < tags.index("POSITION-IN-TABLE")
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = LinScheduleTable(pkg, "Table2")
+        parser.readLinScheduleTable(ET.fromstring(xml_str)[0], reloaded)
+
+        loaded = reloaded.getTableEntries()[0]
+        assert isinstance(loaded, FreeFormat)
+        assert loaded.getIntroduction() is not None
+        assert loaded.getIntroduction().getPs()[0].getL1s()[0].getValue() == "entry introduction"
+        assert loaded.getDelay().getValue() == 0.05
+        assert loaded.getPositionInTable().getValue() == 7
+
+    def test_roundtrip_empty_base_fields(self, writer):
+        pkg = _pkg()
+        table = LinScheduleTable(pkg, "Table")
+
+        entry = AssignNad()
+        entry.setNewNad(_int(0x7F))
+        table.addTableEntry(entry)
+
+        parent = _parent()
+        writer.writeLinScheduleTable(parent, table)
+
+        entry_element = parent.find("LIN-SCHEDULE-TABLE/TABLE-ENTRYS/ASSIGN-NAD")
+        assert entry_element is not None
+        assert entry_element.find("DELAY") is None
+        assert entry_element.find("INTRODUCTION") is None
+        assert entry_element.find("POSITION-IN-TABLE") is None
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = LinScheduleTable(pkg, "Table2")
+        parser.readLinScheduleTable(ET.fromstring(xml_str)[0], reloaded)
+
+        loaded = reloaded.getTableEntries()[0]
+        assert isinstance(loaded, AssignNad)
+        assert loaded.getDelay() is None
+        assert loaded.getIntroduction() is None
+        assert loaded.getPositionInTable() is None
+        assert loaded.getNewNad().getValue() == 0x7F

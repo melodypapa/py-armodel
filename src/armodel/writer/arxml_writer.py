@@ -6571,6 +6571,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writePhysicalChannel(child_element, channel)
 
     def writeScheduleTableEntry(self, element: ET.Element, entry: ScheduleTableEntry):
+        self.writeDocumentationBlock(element, "INTRODUCTION", entry.getIntroduction())
         self.setChildElementOptionalTimeValue(element, "DELAY", entry.getDelay())
         self.setChildElementOptionalIntegerValue(element, "POSITION-IN-TABLE", entry.getPositionInTable())
 

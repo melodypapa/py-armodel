@@ -6059,6 +6059,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPhysicalChannel(element, channel)
 
     def readScheduleTableEntry(self, element: ET.Element, entry: ScheduleTableEntry):
+        entry.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
         entry.setDelay(self.getChildElementOptionalTimeValue(element, "DELAY"))
         entry.setPositionInTable(self.getChildElementOptionalIntegerValue(element, "POSITION-IN-TABLE"))
 

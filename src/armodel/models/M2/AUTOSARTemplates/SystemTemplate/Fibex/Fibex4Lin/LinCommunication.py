@@ -6,6 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARNumerical, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
 class LinErrorResponse(ARObject):
@@ -126,20 +127,19 @@ class ResumePosition(AREnum):
 
 
 class ScheduleTableEntry(ARObject, ABC):
-    """
-    Abstract base class for schedule table entries, defining common
-    properties for different types of entries in LIN schedule tables
-    including timing, position, and documentation properties.
-    """
+    """Table entry in a LinScheduleTable. Specifies what will be done in the frame slot."""
 
     # ScheduleTableEntry method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDelay                     [x] impl  [ ] docstring  [ ] test
-    # [ ] setDelay                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIntroduction              [x] impl  [ ] docstring  [ ] test
-    # [ ] setIntroduction              [x] impl  [ ] docstring  [ ] test
-    # [ ] getPositionInTable           [x] impl  [ ] docstring  [ ] test
-    # [ ] setPositionInTable           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.96, p.433
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDelay            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDelay            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIntroduction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIntroduction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPositionInTable  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPositionInTable  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
 
@@ -148,30 +148,50 @@ class ScheduleTableEntry(ARObject, ABC):
 
         super().__init__()
 
-        self.delay: TimeValue = None
-        self.introduction = None  # type: DocumentationBlock
-        self.positionInTable: Integer = None
+        # Relative delay between this tableEntry and the start of the successor in the schedule table in seconds.
+        self.delay: Optional[TimeValue] = None
 
-    def getDelay(self):
+        # This represents introductory documentation about the schedule table entry.
+        self.introduction: Optional[DocumentationBlock] = None
+
+        # Relative position in the schedule table. The first entry index in the schedule table is 0.
+        self.positionInTable: Optional[Integer] = None
+
+    def getDelay(self) -> Optional[TimeValue]:
+        """Relative delay between this tableEntry and the start of the successor in the schedule table in seconds."""
         return self.delay
 
-    def setDelay(self, value):
+    def setDelay(self, value: Optional[TimeValue]) -> "ScheduleTableEntry":
+        """
+        Relative delay between this tableEntry and the start of the successor in the schedule table in seconds.
+        A None value is a no-op and does not overwrite an existing delay.
+        """
         if value is not None:
             self.delay = value
         return self
 
-    def getIntroduction(self):
+    def getIntroduction(self) -> Optional[DocumentationBlock]:
+        """This represents introductory documentation about the schedule table entry."""
         return self.introduction
 
-    def setIntroduction(self, value):
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> "ScheduleTableEntry":
+        """
+        This represents introductory documentation about the schedule table entry.
+        A None value is a no-op and does not overwrite an existing introduction.
+        """
         if value is not None:
             self.introduction = value
         return self
 
-    def getPositionInTable(self):
+    def getPositionInTable(self) -> Optional[Integer]:
+        """Relative position in the schedule table. The first entry index in the schedule table is 0."""
         return self.positionInTable
 
-    def setPositionInTable(self, value):
+    def setPositionInTable(self, value: Optional[Integer]) -> "ScheduleTableEntry":
+        """
+        Relative position in the schedule table. The first entry index in the schedule table is 0.
+        A None value is a no-op and does not overwrite an existing positionInTable.
+        """
         if value is not None:
             self.positionInTable = value
         return self

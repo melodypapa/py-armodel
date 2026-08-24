@@ -5,7 +5,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
     ApplicationEntry,
     AssignFrameId,
@@ -30,6 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinCommunicationController, LinMaster, LinSlaveConfig
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationConnector, CommunicationController
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
 class MockParent(ARObject):
@@ -279,6 +280,78 @@ class Test_Fibex4LinCommunication:
 
 class ConcreteLinConfigurationEntry(LinConfigurationEntry):
     pass
+
+
+class TestScheduleTableEntry:
+    """
+    Table entry in a LinScheduleTable. Specifies what will be done in the frame slot.
+    """
+
+    def test_abstract_instantiation(self):
+        with pytest.raises(TypeError):
+            ScheduleTableEntry()
+
+    def test_initialization(self):
+        entry = ApplicationEntry()
+
+        assert isinstance(entry, ARObject)
+        assert isinstance(entry, ScheduleTableEntry)
+        assert entry.getDelay() is None
+        assert entry.getIntroduction() is None
+        assert entry.getPositionInTable() is None
+
+    def test_get_set_delay(self):
+        entry = ApplicationEntry()
+        delay = TimeValue().setValue(0.01)
+
+        assert entry == entry.setDelay(delay)
+        assert entry.getDelay() == delay
+
+        entry.setDelay(None)
+        assert entry.getDelay() == delay
+
+    def test_get_set_introduction(self):
+        entry = ApplicationEntry()
+        block = DocumentationBlock()
+
+        assert entry == entry.setIntroduction(block)
+        assert entry.getIntroduction() == block
+
+        entry.setIntroduction(None)
+        assert entry.getIntroduction() == block
+
+    def test_get_set_position_in_table(self):
+        entry = ApplicationEntry()
+        position = Integer().setValue(2)
+
+        assert entry == entry.setPositionInTable(position)
+        assert entry.getPositionInTable() == position
+
+        entry.setPositionInTable(None)
+        assert entry.getPositionInTable() == position
+
+    def test_type_annotations(self):
+        import ast
+        import inspect
+
+        getter_hints = get_type_hints(ScheduleTableEntry.getDelay)
+        assert getter_hints["return"] == Optional[TimeValue]
+
+        setter_hints = get_type_hints(ScheduleTableEntry.setDelay)
+        assert setter_hints["value"] == Optional[TimeValue]
+        assert setter_hints["return"] == ScheduleTableEntry
+
+        src = inspect.getsource(sys.modules[ScheduleTableEntry.__module__])
+        tree = ast.parse(src)
+        cls = next(n for n in tree.body if isinstance(n, ast.ClassDef) and n.name == "ScheduleTableEntry")
+        init = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "__init__")
+        annotations = {}
+        for node in ast.walk(init):
+            if isinstance(node, ast.AnnAssign) and isinstance(node.target, ast.Attribute):
+                annotations[node.target.attr] = ast.get_source_segment(src, node.annotation)
+        assert annotations["delay"] == "Optional[TimeValue]"
+        assert annotations["introduction"] == "Optional[DocumentationBlock]"
+        assert annotations["positionInTable"] == "Optional[Integer]"
 
 
 class TestLinConfigurationEntry:
