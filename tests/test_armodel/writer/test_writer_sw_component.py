@@ -53,7 +53,10 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (  # noqa: E501
     InnerPortGroupInCompositionInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import InstantiationTimingEventProps
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+    InstantiationTimingEventProps,
+    SwComponentPrototype,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (  # noqa: E501
     InstanceEventInCompositionInstanceRef,
     PortInCompositionTypeInstanceRef,
@@ -1104,6 +1107,50 @@ class TestWriteSwComponentPrototype:
         assert parent[0].tag == "SW-COMPONENT-PROTOTYPE"
         assert parent[0].find("SHORT-NAME") is not None
         assert parent[0].find("TYPE-TREF") is not None
+
+    def test_sw_component_prototype_type_tref_roundtrip(self, writer):
+        """Write then re-parse: TYPE-TREF value survives a round-trip."""
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        comp = pkg.createCompositionSwComponentType("Comp")
+        proto = comp.createSwComponentPrototype("Cmp")
+        type_ref = RefType()
+        type_ref.setValue("/Types/CmpType")
+        type_ref.setDest("SW-COMPONENT-TYPE")
+        proto.setTypeTRef(type_ref)
+        parent = _parent()
+        writer.writeSwComponentPrototype(parent, proto)
+
+        proto_el = parent.find("SW-COMPONENT-PROTOTYPE")
+        assert proto_el.find("TYPE-TREF").text == "/Types/CmpType"
+        assert proto_el.find("TYPE-TREF").get("DEST") == "SW-COMPONENT-TYPE"
+
+        wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(proto_el, encoding="unicode"))
+        parser = ARXMLParser()
+        reparsed = SwComponentPrototype(comp, "Cmp")
+        parser.readSwComponentPrototype(wrapped[0], reparsed)
+        assert reparsed.getShortName() == "Cmp"
+        assert reparsed.getTypeTRef() is not None
+        assert reparsed.getTypeTRef().getValue() == "/Types/CmpType"
+        assert reparsed.getTypeTRef().getDest() == "SW-COMPONENT-TYPE"
+
+    def test_sw_component_prototype_no_type_tref_roundtrip(self, writer):
+        """A SwComponentPrototype without a TYPE-TREF round-trips without one."""
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        comp = pkg.createCompositionSwComponentType("Comp")
+        proto = comp.createSwComponentPrototype("CmpNoType")
+        parent = _parent()
+        writer.writeSwComponentPrototype(parent, proto)
+
+        proto_el = parent.find("SW-COMPONENT-PROTOTYPE")
+        assert proto_el.find("TYPE-TREF") is None
+
+        wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(proto_el, encoding="unicode"))
+        parser = ARXMLParser()
+        reparsed = SwComponentPrototype(comp, "CmpNoType")
+        parser.readSwComponentPrototype(wrapped[0], reparsed)
+        assert reparsed.getTypeTRef() is None
 
 
 class TestWriteCompositionSwComponentType:
