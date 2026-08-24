@@ -227,7 +227,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [x] 14. SwSystemconstantValueSet — member (commit f206bfe, stamp deferred)
+### [x] 14. SwSystemconstantValueSet — member (commit f206bfe, stamped)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py:275`
 - Spec: `AUTOSAR_FO_TPS_GenericStructureTemplate.md` Table 7.25
 - Role: ref target of PredefinedVariant.swSystemconstantValueSet
@@ -243,7 +243,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [x] 15. PredefinedVariant — input (commit f206bfe, stamp deferred)
+### [x] 15. PredefinedVariant — input (commit f206bfe, stamped)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py:153`
 - Spec: `AUTOSAR_FO_TPS_GenericStructureTemplate.md` Table 7.24
 - Depends on: SwSystemconstantValueSet (row 14)
@@ -259,7 +259,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [x] 16. AnyInstanceRef — input (commit 9210018, stamp deferred)
+### [x] 16. AnyInstanceRef — input (commit 9210018, stamped)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/AnyInstanceRef.py:11`
 - Spec: `AUTOSAR_FO_TPS_GenericStructureTemplate.md` Table 9.57
 - Depends on: AtpFeature (row 10), AtpInstanceRef (row 11)
