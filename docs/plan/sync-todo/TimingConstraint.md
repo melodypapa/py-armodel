@@ -22,7 +22,7 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 7 — Checklist comment updated + `# Spec verified: R23-11` stamp added (reader/writer columns now `[x]`)
   - [x] Step 8 — No deviation: `trace` reader/writer implemented at base level (per codebase convention for abstract bases, e.g. writeReferrable/writeIdentifiable). Also relocated the canonical abstract `Traceable` from the misplaced `CommonStructure/Timing/Traceable.py` into `M2/MSR/Documentation/TextModel/BlockElements/RequirementsTracing.py` (its spec package, alongside `TraceableText`/`StructuredReq`); deleted the old file and repointed imports in TimingConstraint.py, arxml_writer.py, arxml_parser.py, models/__init__.py, test_Traceable.py.
   - [x] Step 9 — Verify (9a) + confirm (9b): `pytest test_Traceable.py` 5 passed; lint clean; 230 Timing+MSR/Documentation tests pass
-- [x] SwComponentPrototype (member · markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate.md, Table 3.11 · unstamped, added to queue per user decision · iref target of EOCEventRef.component / EOCExecutableEntityRef.component / ExecutionTimeConstraint.component)
+- [x] SwComponentPrototype (member · markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate.md, Table 3.11 · unstamped, added to queue per user decision · iref target of EOCEventRef.component / EOCExecutableEntityRef.component / ExecutionTimeConstraint.component) · commit 63b253e
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
