@@ -1416,7 +1416,8 @@ class SomeipSdClientEventGroupTimingConfigRefConditional(ARObject):
 
     # SomeipSdClientEventGroupTimingConfigRefConditional method parity checklist:
     # Spec: XSD-only (AUTOSAR_00052.xsd, SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG-REF-CONDITIONAL),
-    #       atpVariation-generated wrapper - no markdown/PDF table (Rule 0002, no '# Spec verified' stamp)
+    #       atpVariation-generated wrapper - no markdown/PDF table (Rule 0002)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getSomeipSdClientEventGroupTimingConfigRef  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
