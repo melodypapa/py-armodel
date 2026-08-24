@@ -588,56 +588,68 @@ class RoleBasedDataTypeAssignment(ARObject):
 
 class ServiceDiagnosticRelevanceEnum(AREnum):
     """
-    Enumeration for service diagnostic relevance in AUTOSAR models.
-    Defines the diagnostic relevance of services (currently empty as per specification).
+    This enumeration provides values to describe the diagnostic relevance of a
+    SwcServiceDependency (specifically if the aggregated ServiceNeeds itself
+    does not indicate a relevance for diagnostics).
     """
 
     # ServiceDiagnosticRelevanceEnum method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.58, p.655
+    # (no methods)
+
+    # This value indicates that a relevance for diagnostics does not exist. Tags: atp.EnumerationLiteralIndex=0
+    IS_NOT_RELEVANT = "isNotRelevant"
+
+    # This value indicates a relevance for diagnostics. Tags: atp.EnumerationLiteralIndex=1
+    IS_RELEVANT = "isRelevant"
 
     def __init__(self):
-        """
-        Initializes the ServiceDiagnosticRelevanceEnum with empty values list.
-        """
-        super().__init__([])
+        super().__init__(
+            (
+                ServiceDiagnosticRelevanceEnum.IS_NOT_RELEVANT,
+                ServiceDiagnosticRelevanceEnum.IS_RELEVANT,
+            )
+        )
 
 
 class ServiceDependency(ARObject, ABC):
     """
-    Represents a service dependency in AUTOSAR models.
-    This class defines dependencies on services along with their data type assignments and diagnostic relevance.
+    Collects all dependencies of a software module or component on an AUTOSAR
+    Service related to a specific item (e.g. an NVRAM Block, a diagnostic event
+    etc.). It defines the quality of service (Service Needs) of this item as
+    well as (optionally) references to additional elements. This information is
+    required for tools in order to generate the related basic software
+    configuration and ServiceSwComponentTypes.
     """
 
     # ServiceDependency method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [ ] test
-    # [x] getAssignedDataTypes         [x] impl  [x] docstring  [x] test
-    # [x] addAssignedDataType          [x] impl  [x] docstring  [x] test
-    # [ ] getDiagnosticRelevance       [x] impl  [x] docstring  [ ] test
-    # [ ] setDiagnosticRelevance       [x] impl  [x] docstring  [ ] test
-    # [ ] getSymbolicNameProps         [x] impl  [x] docstring  [ ] test
-    # [ ] setSymbolicNameProps         [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.1, p.225
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addAssignedDataType          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAssignedDataTypes         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getDiagnosticRelevance       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDiagnosticRelevance       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSymbolicNameProps         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSymbolicNameProps         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
-        """
-        Initializes the ServiceDependency with default values.
-        Raises TypeError if this abstract class is instantiated directly.
-        """
         if type(self) is ServiceDependency:
             raise TypeError("ServiceDependency is an abstract class.")
         super().__init__()
 
-        # List of role-based data type assignments for this service dependency
+        # This is the role of the assignment data type in the given context. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=assignedDataType, assignedDataType.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.assignedDataTypes: List[RoleBasedDataTypeAssignment] = []
 
-        # Diagnostic relevance of this service dependency
+        # If this attribute indicates a relevance for diagnostics then the integrator has a much easier time identifying the candidates for the configuration of the diagnostic stack. Example: identification of mode conditions (e.g. communication between application and BswM) relevant for the Dcm.
         self.diagnosticRelevance: Optional[ServiceDiagnosticRelevanceEnum] = None
 
-        # Symbolic name properties for this service dependency
+        # This attribute can be taken to contribute to the creation of symbolic name values.
         self.symbolicNameProps: Optional["SymbolicNameProps"] = None
 
     def getAssignedDataTypes(self) -> List[RoleBasedDataTypeAssignment]:
         """
-        Gets the list of role-based data type assignments for this service dependency.
+        This is the role of the assignment data type in the given context. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=assignedDataType, assignedDataType.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
 
         Returns:
             List of RoleBasedDataTypeAssignment instances
@@ -646,11 +658,11 @@ class ServiceDependency(ARObject, ABC):
 
     def addAssignedDataType(self, value: Optional[RoleBasedDataTypeAssignment]) -> "ServiceDependency":
         """
-        Adds a role-based data type assignment to this service dependency.
-        A None value is a no-op and is not appended to the list.
+        This is the role of the assignment data type in the given context. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=assignedDataType, assignedDataType.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        Only adds the value if it is not None.
 
         Args:
-            value: The data type assignment to add
+            value: The role-based data type assignment to add
 
         Returns:
             self for method chaining
@@ -661,16 +673,13 @@ class ServiceDependency(ARObject, ABC):
 
     def getDiagnosticRelevance(self) -> Optional[ServiceDiagnosticRelevanceEnum]:
         """
-        Gets the diagnostic relevance of this service dependency.
-
-        Returns:
-            ServiceDiagnosticRelevanceEnum: The diagnostic relevance
+        If this attribute indicates a relevance for diagnostics then the integrator has a much easier time identifying the candidates for the configuration of the diagnostic stack. Example: identification of mode conditions (e.g. communication between application and BswM) relevant for the Dcm.
         """
         return self.diagnosticRelevance
 
     def setDiagnosticRelevance(self, value: Optional[ServiceDiagnosticRelevanceEnum]) -> "ServiceDependency":
         """
-        Sets the diagnostic relevance of this service dependency.
+        If this attribute indicates a relevance for diagnostics then the integrator has a much easier time identifying the candidates for the configuration of the diagnostic stack. Example: identification of mode conditions (e.g. communication between application and BswM) relevant for the Dcm.
         Only sets the value if it is not None.
 
         Args:
@@ -685,16 +694,13 @@ class ServiceDependency(ARObject, ABC):
 
     def getSymbolicNameProps(self) -> Optional["SymbolicNameProps"]:
         """
-        Gets the symbolic name properties for this service dependency.
-
-        Returns:
-            SymbolicNameProps: The symbolic name properties
+        This attribute can be taken to contribute to the creation of symbolic name values.
         """
         return self.symbolicNameProps
 
     def setSymbolicNameProps(self, value: Optional["SymbolicNameProps"]) -> "ServiceDependency":
         """
-        Sets the symbolic name properties for this service dependency.
+        This attribute can be taken to contribute to the creation of symbolic name values.
         Only sets the value if it is not None.
 
         Args:

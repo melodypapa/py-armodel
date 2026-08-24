@@ -1104,10 +1104,20 @@ class TestWriterServiceDependency:
         a = RoleBasedDataTypeAssignment()
         a.setRole(_literal("r1"))
         dep.addAssignedDataType(a)
+        dep.setDiagnosticRelevance(_literal("isRelevant"))
         parent = _parent()
         writer.writeServiceDependency(parent, dep)
         assert parent.find("SHORT-NAME").text == "dep1"
         assert parent.find("ASSIGNED-DATA-TYPES") is not None
+        assert parent.find("DIAGNOSTIC-RELEVANCE").text == "isRelevant"
+        assert parent.find("SYMBOLIC-NAME-PROPS") is None
+
+    def test_writeServiceDependency_no_diagnostic_relevance(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        parent = _parent()
+        writer.writeServiceDependency(parent, dep)
+        assert parent.find("DIAGNOSTIC-RELEVANCE") is None
 
     def test_writeRoleBasedDataAssignment(self, writer):
         a = RoleBasedDataAssignment()

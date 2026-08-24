@@ -3446,6 +3446,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeServiceDependency(self, element: ET.Element, dependency: ServiceDependency):
         self.writeIdentifiable(element, dependency)
         self.writeServiceDependencyAssignedDataType(element, dependency)
+        self.setChildElementOptionalLiteral(element, "DIAGNOSTIC-RELEVANCE", dependency.getDiagnosticRelevance())
         self.writeSymbolicNameProps(element, dependency)
 
     def writeSymbolicNameProps(self, element: ET.Element, dependency: ServiceDependency):

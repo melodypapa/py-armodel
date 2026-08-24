@@ -1453,6 +1453,7 @@ class ARXMLParser(AbstractARXMLParser):
                 dependency.addAssignedDataType(self.getRoleBasedDataTypeAssignment(child_element))
             else:
                 self.notImplemented("Unsupported assigned data type <%s>" % tag_name)
+        dependency.setDiagnosticRelevance(self.getChildElementOptionalLiteral(element, "DIAGNOSTIC-RELEVANCE"))
         self.readSymbolicNameProps(element, dependency)
 
     def getBswServiceDependencyIdent(self, element: ET.Element, dependency: BswServiceDependency) -> BswServiceDependencyIdent:

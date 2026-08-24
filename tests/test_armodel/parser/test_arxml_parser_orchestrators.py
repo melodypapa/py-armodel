@@ -3115,6 +3115,18 @@ class TestRoleBasedDataTypeAssignment:
         assert assigned[0].getUsedImplementationDataTypeRef().getValue() == "/dt/Impl"
         assert assigned[0].getUsedImplementationDataTypeRef().getDest() == "IMPLEMENTATION-DATA-TYPE"
 
+    def test_readServiceDependency_with_diagnostic_relevance(self, parser):
+        from armodel.models import SwcServiceDependency
+
+        dep = SwcServiceDependency(parent=_autosar_root(), short_name="Dep")
+        element = _snip(
+            "<DIAGNOSTIC-RELEVANCE>isRelevant</DIAGNOSTIC-RELEVANCE>",
+            root_tag="SERVICE-DEPENDENCY",
+        )
+        parser.readServiceDependency(element, dep)
+        assert dep.getDiagnosticRelevance() is not None
+        assert dep.getDiagnosticRelevance().getValue() == "isRelevant"
+
     def test_readServiceDependency_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import SwcServiceDependency
 

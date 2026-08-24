@@ -583,8 +583,15 @@ class TestServiceDiagnosticRelevanceEnum:
     def test_initialization(self):
         """Test ServiceDiagnosticRelevanceEnum initialization"""
         enum = ServiceDiagnosticRelevanceEnum()
+        assert enum.IS_NOT_RELEVANT == "isNotRelevant"
+        assert enum.IS_RELEVANT == "isRelevant"
+        assert "isNotRelevant" in enum.getEnumValues()
+        assert "isRelevant" in enum.getEnumValues()
 
-        assert enum.enumValues == []
+    def test_enum_values(self):
+        """Test ServiceDiagnosticRelevanceEnum literal values"""
+        assert ServiceDiagnosticRelevanceEnum.IS_NOT_RELEVANT == "isNotRelevant"
+        assert ServiceDiagnosticRelevanceEnum.IS_RELEVANT == "isRelevant"
 
 
 class TestServiceDependency:
@@ -644,9 +651,13 @@ class TestServiceDependency:
 
         assert service_dep.getDiagnosticRelevance() is None
 
-        enum_val = ServiceDiagnosticRelevanceEnum()
+        enum_val = ServiceDiagnosticRelevanceEnum.IS_RELEVANT
         result = service_dep.setDiagnosticRelevance(enum_val)
         assert result is service_dep
+        assert service_dep.getDiagnosticRelevance() == enum_val
+
+        # None is a no-op
+        service_dep.setDiagnosticRelevance(None)
         assert service_dep.getDiagnosticRelevance() == enum_val
 
     def test_get_set_symbolic_name_props(self):
