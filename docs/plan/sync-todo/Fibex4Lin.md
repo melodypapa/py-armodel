@@ -111,171 +111,171 @@ re-synced classes.
 
 ## 3. LinUnconditionalFrame — Table 6.90, p.429
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test
-- [ ] Step 3 — Implement the model class
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test
-- [ ] Step 6 — Update the parser (reader) & writer
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test
+- [x] Step 3 — Implement the model class
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown; already verbatim Note, no own attributes)
+- [x] Step 5 — Write the reader/writer round-trip test (dispatch tests exist in parser/writer folders)
+- [x] Step 6 — Update the parser (reader) & writer (read/writeLinUnconditionalFrame → read/writeFrame)
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check (none)
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp (stamp DEFERRED to batch gate)
 
 ## 4. FreeFormatEntry — Table 6.98, p.434
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test
-- [ ] Step 3 — Implement the model class
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test
-- [ ] Step 6 — Update the parser (reader) & writer
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec (no own attrs; Note = XSD group doc verbatim)
+- [x] Step 2 — Write the model class unit test
+- [x] Step 3 — Implement the model class
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [x] Step 5 — Write the reader/writer round-trip test (N/A: abstract, no own XML tag; round-trips via FreeFormat)
+- [x] Step 6 — Parser/writer (N/A: same reason)
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check (none)
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp (stamp DEFERRED to batch gate)
 
 ## 5. LinConfigurationEntry — Table 6.99, p.434
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test
-- [ ] Step 3 — Implement the model class
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test
-- [ ] Step 6 — Update the parser (reader) & writer
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test
+- [x] Step 3 — Implement the model class
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [x] Step 5 — Write the reader/writer round-trip test (refs serialize via concrete subclass dispatch, rows 9-15)
+- [x] Step 6 — Parser/writer (same as Step 5)
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check (none; ref targets stay RefType per Phase 0 decision)
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp (stamp DEFERRED to batch gate)
 
 ## 6. LinTpNode — Table 6.260, p.615
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test
-- [ ] Step 3 — Implement the model class
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test
-- [ ] Step 6 — Update the parser (reader) & writer
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test
+- [x] Step 3 — Implement the model class
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [x] Step 5 — Write the reader/writer round-trip test
+- [x] Step 6 — Update the parser (reader) & writer
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check (none)
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp (stamp DEFERRED to batch gate)
 
 ## 7. LinTpConfig — Table 6.259, p.614
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test
-- [ ] Step 3 — Implement the model class
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test
-- [ ] Step 6 — Update the parser (reader) & writer
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test
+- [x] Step 3 — Implement the model class
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [x] Step 5 — Write the reader/writer round-trip test (incl. empty-wrapper cases)
+- [x] Step 6 — Update the parser (reader) & writer
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check (none; addTpConnection shape correct — TpConnection non-Referrable)
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp (stamp DEFERRED to batch gate)
 
 ## 8. FramePid — Table 6.103, p.437
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test
-- [ ] Step 3 — Implement the model class
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test
-- [ ] Step 6 — Update the parser (reader) & writer
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test
+- [x] Step 3 — Implement the model class
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [x] Step 5 — Write the reader/writer round-trip test
+- [x] Step 6 — Update the parser (reader) & writer
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
 ## 9. AssignFrameId — Table 6.100, p.436
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test
-- [ ] Step 3 — Implement the model class
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test
-- [ ] Step 6 — Update the parser (reader) & writer
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test
+- [x] Step 3 — Implement the model class
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [x] Step 5 — Write the reader/writer round-trip test
+- [x] Step 6 — Update the parser (reader) & writer
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
 ## 10. UnassignFrameId — Table 6.101, p.436
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test
-- [ ] Step 3 — Implement the model class
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test
-- [ ] Step 6 — Update the parser (reader) & writer
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test
+- [x] Step 3 — Implement the model class
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [x] Step 5 — Write the reader/writer round-trip test
+- [x] Step 6 — Update the parser (reader) & writer
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
 ## 11. AssignFrameIdRange — Table 6.102, p.437
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test
-- [ ] Step 3 — Implement the model class
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test
-- [ ] Step 6 — Update the parser (reader) & writer
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test
+- [x] Step 3 — Implement the model class
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [x] Step 5 — Write the reader/writer round-trip test
+- [x] Step 6 — Update the parser (reader) & writer
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
 ## 12. AssignNad — Table 6.104, p.438
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test
-- [ ] Step 3 — Implement the model class
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test
-- [ ] Step 6 — Update the parser (reader) & writer
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test
+- [x] Step 3 — Implement the model class
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [x] Step 5 — Write the reader/writer round-trip test
+- [x] Step 6 — Update the parser (reader) & writer
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
 ## 13. ConditionalChangeNad — Table 6.105, p.438
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test
-- [ ] Step 3 — Implement the model class
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test
-- [ ] Step 6 — Update the parser (reader) & writer
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test
+- [x] Step 3 — Implement the model class
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [x] Step 5 — Write the reader/writer round-trip test
+- [x] Step 6 — Update the parser (reader) & writer
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
 ## 14. SaveConfigurationEntry — Table 6.106, p.439
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test
-- [ ] Step 3 — Implement the model class
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test
-- [ ] Step 6 — Update the parser (reader) & writer
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test
+- [x] Step 3 — Implement the model class
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [x] Step 5 — Write the reader/writer round-trip test
+- [x] Step 6 — Update the parser (reader) & writer
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
 ## 15. DataDumpEntry — Table 6.107, p.439
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test
-- [ ] Step 3 — Implement the model class
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test
-- [ ] Step 6 — Update the parser (reader) & writer
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test
+- [x] Step 3 — Implement the model class
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [x] Step 5 — Write the reader/writer round-trip test
+- [x] Step 6 — Update the parser (reader) & writer
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
 ## 16. FreeFormat — Table 6.108, p.439
 
-- [ ] Step 1 — Sync members & description from spec
-- [ ] Step 2 — Write the model class unit test
-- [ ] Step 3 — Implement the model class
-- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [ ] Step 5 — Write the reader/writer round-trip test
-- [ ] Step 6 — Update the parser (reader) & writer
-- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [ ] Step 8 — Deviations check
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+- [x] Step 1 — Sync members & description from spec
+- [x] Step 2 — Write the model class unit test
+- [x] Step 3 — Implement the model class
+- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [x] Step 5 — Write the reader/writer round-trip test
+- [x] Step 6 — Update the parser (reader) & writer
+- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [x] Step 8 — Deviations check
+- [x] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
 ## Future queue (out of this batch)
 

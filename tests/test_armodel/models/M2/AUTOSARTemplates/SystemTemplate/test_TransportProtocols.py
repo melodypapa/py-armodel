@@ -502,6 +502,33 @@ class Test_TransportProtocols:
         node.setMaxNumberOfRespPendingFrames(5)
         assert node.getMaxNumberOfRespPendingFrames() == 5
 
+        # Test remaining setters with chaining and round-trip
+        assert node == node.setP2Max(TimeValue().setValue("0.05"))
+        assert node.getP2Max().getValue() == 0.05
+
+        assert node == node.setP2Timing(TimeValue().setValue("0.02"))
+        assert node.getP2Timing().getValue() == 0.02
+
+        ref = RefType()
+        ref.setDest("COMMUNICATION-CONNECTOR")
+        ref.setValue("/Cluster/Connector")
+        assert node == node.setTpAddressRef(ref)
+        assert node.getTpAddressRef().getValue() == "/Cluster/Connector"
+
+        # Test None no-op behavior
+        node.setP2Max(None)
+        assert node.getP2Max().getValue() == 0.05
+        node.setP2Timing(None)
+        assert node.getP2Timing().getValue() == 0.02
+        node.setTpAddressRef(None)
+        assert node.getTpAddressRef().getValue() == "/Cluster/Connector"
+        node.setConnectorRef(None)
+        assert node.getConnectorRef() == "connector_ref"
+        node.setDropNotRequestedNad(None)
+        assert node.getDropNotRequestedNad() is True
+        node.setMaxNumberOfRespPendingFrames(None)
+        assert node.getMaxNumberOfRespPendingFrames() == 5
+
     def test_LinTpConfig(self):
         """Test LinTpConfig class functionality."""
         parent = MockParent()
@@ -513,3 +540,24 @@ class Test_TransportProtocols:
         assert config.getTpAddresses() == []
         assert config.getTpConnections() == []
         assert config.getTpNodes() == []
+
+        # Test createTpAddress: appends and duplicate returns existing
+        address = config.createTpAddress("tpAddr1")
+        assert len(config.getTpAddresses()) == 1
+        assert config.createTpAddress("tpAddr1") is address
+        assert len(config.getTpAddresses()) == 1
+        assert isinstance(config.getTpAddresses()[0], TpAddress)
+
+        # Test addTpConnection: appends, None no-op, chaining
+        connection = LinTpConnection()
+        assert config == config.addTpConnection(connection)
+        assert config.getTpConnections() == [connection]
+        assert config == config.addTpConnection(None)
+        assert config.getTpConnections() == [connection]
+
+        # Test createLinTpNode: appends and duplicate returns existing
+        tp_node = config.createLinTpNode("tpNode1")
+        assert len(config.getTpNodes()) == 1
+        assert config.createLinTpNode("tpNode1") is tp_node
+        assert len(config.getTpNodes()) == 1
+        assert isinstance(config.getTpNodes()[0], LinTpNode)
