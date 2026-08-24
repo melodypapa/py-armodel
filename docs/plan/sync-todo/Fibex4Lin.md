@@ -40,20 +40,20 @@ Queue order (dependency-first, inputs last):
 |---|-------|------|------|--------|
 | 1 | ScheduleTableEntry | base (of FreeFormatEntry + LinConfigurationEntry) | Table 6.96, p.433 | [x] done — commit `938590e` |
 | 2 | LinFrame | base (of LinUnconditionalFrame) | Table 6.87, p.428 | [x] done — commit `f69950a` |
-| 3 | LinUnconditionalFrame | input | Table 6.90, p.429 | [ ] pending |
-| 4 | FreeFormatEntry | input | Table 6.98, p.434 | [ ] pending |
-| 5 | LinConfigurationEntry | input | Table 6.99, p.434 | [ ] pending |
-| 6 | LinTpNode | member (LinTpConfig.tpNode) | Table 6.260, p.615 | [ ] pending |
-| 7 | LinTpConfig | input | Table 6.259, p.614 | [ ] pending |
-| 8 | FramePid | member (AssignFrameIdRange.framePid) | Table 6.103, p.437 | [ ] pending |
-| 9 | AssignFrameId | concrete subclass (unlocks refs serialization) | Table 6.100, p.436 | [ ] pending |
-| 10 | UnassignFrameId | concrete subclass | Table 6.101, p.436 | [ ] pending |
-| 11 | AssignFrameIdRange | concrete subclass | Table 6.102, p.437 | [ ] pending |
-| 12 | AssignNad | concrete subclass | Table 6.104, p.438 | [ ] pending |
-| 13 | ConditionalChangeNad | concrete subclass | Table 6.105, p.438 | [ ] pending |
-| 14 | SaveConfigurationEntry | concrete subclass | Table 6.106, p.439 | [ ] pending |
-| 15 | DataDumpEntry | concrete subclass | Table 6.107, p.439 | [ ] pending |
-| 16 | FreeFormat | concrete subclass (of FreeFormatEntry) | Table 6.108, p.439 | [ ] pending |
+| 3 | LinUnconditionalFrame | input | Table 6.90, p.429 | [x] done — re-synced, commit `05b97c7`; stamped R23-11 in batch review |
+| 4 | FreeFormatEntry | input | Table 6.98, p.434 | [x] done — re-synced, commit `05b97c7`; stamped R23-11 in batch review |
+| 5 | LinConfigurationEntry | input | Table 6.99, p.434 | [x] done — re-synced, commit `05b97c7`; stamped R23-11 in batch review |
+| 6 | LinTpNode | member (LinTpConfig.tpNode) | Table 6.260, p.615 | [x] done — re-synced, commit `05b97c7`; stamped R23-11 in batch review |
+| 7 | LinTpConfig | input | Table 6.259, p.614 | [x] done — re-synced, commit `05b97c7`; stamped R23-11 in batch review |
+| 8 | FramePid | member (AssignFrameIdRange.framePid) | Table 6.103, p.437 | [x] done — re-synced, commit `05b97c7`; stamped R23-11 in batch review |
+| 9 | AssignFrameId | concrete subclass (unlocks refs serialization) | Table 6.100, p.436 | [x] done — re-synced, commit `05b97c7`; stamped R23-11 in batch review |
+| 10 | UnassignFrameId | concrete subclass | Table 6.101, p.436 | [x] done — re-synced, commit `05b97c7`; stamped R23-11 in batch review |
+| 11 | AssignFrameIdRange | concrete subclass | Table 6.102, p.437 | [x] done — re-synced, commit `05b97c7`; stamped R23-11 in batch review |
+| 12 | AssignNad | concrete subclass | Table 6.104, p.438 | [x] done — re-synced, commit `05b97c7`; stamped R23-11 in batch review |
+| 13 | ConditionalChangeNad | concrete subclass | Table 6.105, p.438 | [x] done — re-synced, commit `05b97c7`; stamped R23-11 in batch review |
+| 14 | SaveConfigurationEntry | concrete subclass | Table 6.106, p.439 | [x] done — re-synced, commit `05b97c7`; stamped R23-11 in batch review |
+| 15 | DataDumpEntry | concrete subclass | Table 6.107, p.439 | [x] done — re-synced, commit `05b97c7`; stamped R23-11 in batch review |
+| 16 | FreeFormat | concrete subclass (of FreeFormatEntry) | Table 6.108, p.439 | [x] done — re-synced, commit `05b97c7`; stamped R23-11 in batch review |
 
 History: rows 9-16 (former 8-15) added mid-sync of a previous pass: at the
 then-row-4 9b gate the user ruled **"reader/writer shall be fixed first"** for

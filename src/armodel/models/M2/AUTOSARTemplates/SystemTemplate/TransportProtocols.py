@@ -1045,6 +1045,7 @@ class LinTpNode(Identifiable):
 
     # LinTpNode method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.260, p.615
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getConnectorRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -1180,6 +1181,7 @@ class LinTpConfig(TpConfig):
 
     # LinTpConfig method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.259, p.614
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getTpAddresses               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer

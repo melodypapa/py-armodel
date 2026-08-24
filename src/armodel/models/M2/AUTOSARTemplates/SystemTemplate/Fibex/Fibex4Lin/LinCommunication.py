@@ -66,6 +66,7 @@ class LinUnconditionalFrame(LinFrame):
 
     # LinUnconditionalFrame method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.90, p.429
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
     # (no own attributes; Base = ARObject, CollectableElement, FibexElement, Frame, Identifiable, LinFrame, MultilanguageReferrable, PackageableElement, Referrable)
@@ -231,6 +232,7 @@ class FreeFormatEntry(ScheduleTableEntry, ABC):
 
     # FreeFormatEntry method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.98, p.434
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # (no own attributes; Base = ARObject, ScheduleTableEntry; serialized through concrete subclass FreeFormat)
@@ -248,6 +250,7 @@ class FreeFormat(FreeFormatEntry):
 
     # FreeFormat method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.108, p.439
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getByteValues    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -283,6 +286,7 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
 
     # LinConfigurationEntry method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.99, p.434
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getAssignedControllerRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -342,6 +346,7 @@ class FramePid(ARObject):
 
     # FramePid method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.103, p.437
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getIndex      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -355,6 +360,7 @@ class FramePid(ARObject):
 
         # This attribute is used to order the frame_PIDs. The values of index shall be unique within one AssignFrameIdRange.
         self.index: Optional[Integer] = None
+
         # Frame_PID value.
         self.pid: Optional[PositiveInteger] = None
 
@@ -396,6 +402,7 @@ class AssignFrameId(LinConfigurationEntry):
 
     # AssignFrameId method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.100, p.436
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getAssignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -431,6 +438,7 @@ class UnassignFrameId(LinConfigurationEntry):
 
     # UnassignFrameId method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.101, p.436
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getUnassignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -466,6 +474,7 @@ class AssignFrameIdRange(LinConfigurationEntry):
 
     # AssignFrameIdRange method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.102, p.437
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getFramePids           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -479,6 +488,7 @@ class AssignFrameIdRange(LinConfigurationEntry):
 
         # Optional assignment of frame_PID values that are included in the request. The frame_PIDs are ordered.
         self.framePids: List[FramePid] = []
+
         # The startIndex sets the index to the first frame to assign a PID.
         self.startIndex: Optional[Integer] = None
 
@@ -520,6 +530,7 @@ class AssignNad(LinConfigurationEntry):
 
     # AssignNad method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.104, p.438
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getNewNad       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -555,6 +566,7 @@ class ConditionalChangeNad(LinConfigurationEntry):
 
     # ConditionalChangeNad method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.105, p.438
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getByte         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -574,12 +586,16 @@ class ConditionalChangeNad(LinConfigurationEntry):
 
         # Byte Position of Data Byte that should be used for the bitwise XOR with Invert and the bitwise AND with Mask.
         self.byte: Optional[Integer] = None
+
         # Byte Position of Id.
         self.id: Optional[PositiveInteger] = None
+
         # Byte Position of Invert.
         self.invert: Optional[Integer] = None
+
         # Byte Position of Mask.
         self.mask: Optional[Integer] = None
+
         # The newly assigned NAD value (Byte Position).
         self.newNad: Optional[Integer] = None
 
@@ -666,6 +682,7 @@ class SaveConfigurationEntry(LinConfigurationEntry):
 
     # SaveConfigurationEntry method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.106, p.439
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
     # (no own attributes; Base = ARObject, LinConfigurationEntry, ScheduleTableEntry)
@@ -681,6 +698,7 @@ class DataDumpEntry(LinConfigurationEntry):
 
     # DataDumpEntry method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.107, p.439
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getByteValues    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
