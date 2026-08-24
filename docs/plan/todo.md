@@ -1,1 +1,1 @@
-sync autosar class the unchecked classes one by one and commit the modfication first without spec verified, then list the modified class list and ask for confirmation the spec verified stamp together.
+sync autosar class the unchecked classes one by one and commit the modification first without spec verified, then list the modified class list and ask for confirmation the spec verified stamp together.

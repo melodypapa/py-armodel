@@ -528,11 +528,21 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.Flexr
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
     ApplicationEntry,
+    AssignFrameId,
+    AssignFrameIdRange,
+    AssignNad,
+    ConditionalChangeNad,
+    DataDumpEntry,
+    FreeFormat,
+    LinConfigurationEntry,
     LinErrorResponse,
     LinFrameTriggering,
     LinScheduleTable,
     LinUnconditionalFrame,
+    SaveConfigurationEntry,
     ScheduleTableEntry,
+    UnassignFrameId,
+    FramePid,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
     LinCluster,
@@ -6049,6 +6059,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPhysicalChannel(element, channel)
 
     def readScheduleTableEntry(self, element: ET.Element, entry: ScheduleTableEntry):
+        entry.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
         entry.setDelay(self.getChildElementOptionalTimeValue(element, "DELAY"))
         entry.setPositionInTable(self.getChildElementOptionalIntegerValue(element, "POSITION-IN-TABLE"))
 
@@ -6060,11 +6071,114 @@ class ARXMLParser(AbstractARXMLParser):
             entry.setFrameTriggeringRef(self.getChildElementOptionalRefType(element, "FRAME-TRIGGERING-REF"))
         return entry
 
+    def readLinConfigurationEntry(self, element: ET.Element, entry: LinConfigurationEntry):
+        entry.setAssignedControllerRef(self.getChildElementOptionalRefType(element, "ASSIGNED-CONTROLLER-REF"))
+        entry.setAssignedLinSlaveConfigRef(self.getChildElementOptionalRefType(element, "ASSIGNED-LIN-SLAVE-CONFIG-REF"))
+
+    def readByteValues(self, element: ET.Element, entry):
+        for child_element in self.findall(element, "BYTE-VALUES/BYTE-VALUE"):
+            entry.addByteValue(self.getChildElementOptionalIntegerValue(child_element, "."))
+
+    def getFreeFormat(self, element: ET.Element) -> FreeFormat:
+        entry = None
+        if element is not None:
+            entry = FreeFormat()
+            self.readScheduleTableEntry(element, entry)
+            self.readByteValues(element, entry)
+        return entry
+
+    def getAssignFrameId(self, element: ET.Element) -> AssignFrameId:
+        entry = None
+        if element is not None:
+            entry = AssignFrameId()
+            self.readScheduleTableEntry(element, entry)
+            self.readLinConfigurationEntry(element, entry)
+            entry.setAssignedFrameTriggeringRef(self.getChildElementOptionalRefType(element, "ASSIGNED-FRAME-TRIGGERING-REF"))
+        return entry
+
+    def getUnassignFrameId(self, element: ET.Element) -> UnassignFrameId:
+        entry = None
+        if element is not None:
+            entry = UnassignFrameId()
+            self.readScheduleTableEntry(element, entry)
+            self.readLinConfigurationEntry(element, entry)
+            entry.setUnassignedFrameTriggeringRef(self.getChildElementOptionalRefType(element, "UNASSIGNED-FRAME-TRIGGERING-REF"))
+        return entry
+
+    def getAssignFrameIdRange(self, element: ET.Element) -> AssignFrameIdRange:
+        entry = None
+        if element is not None:
+            entry = AssignFrameIdRange()
+            self.readScheduleTableEntry(element, entry)
+            self.readLinConfigurationEntry(element, entry)
+            for child_element in self.findall(element, "FRAME-PIDS/FRAME-PID"):
+                frame_pid = FramePid()
+                frame_pid.setIndex(self.getChildElementOptionalIntegerValue(child_element, "INDEX"))
+                frame_pid.setPid(self.getChildElementOptionalPositiveInteger(child_element, "PID"))
+                entry.addFramePid(frame_pid)
+            entry.setStartIndex(self.getChildElementOptionalIntegerValue(element, "START-INDEX"))
+        return entry
+
+    def getAssignNad(self, element: ET.Element) -> AssignNad:
+        entry = None
+        if element is not None:
+            entry = AssignNad()
+            self.readScheduleTableEntry(element, entry)
+            self.readLinConfigurationEntry(element, entry)
+            entry.setNewNad(self.getChildElementOptionalIntegerValue(element, "NEW-NAD"))
+        return entry
+
+    def getConditionalChangeNad(self, element: ET.Element) -> ConditionalChangeNad:
+        entry = None
+        if element is not None:
+            entry = ConditionalChangeNad()
+            self.readScheduleTableEntry(element, entry)
+            self.readLinConfigurationEntry(element, entry)
+            entry.setByte(self.getChildElementOptionalIntegerValue(element, "BYTE"))
+            entry.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+            entry.setInvert(self.getChildElementOptionalIntegerValue(element, "INVERT"))
+            entry.setMask(self.getChildElementOptionalIntegerValue(element, "MASK"))
+            entry.setNewNad(self.getChildElementOptionalIntegerValue(element, "NEW-NAD"))
+        return entry
+
+    def getSaveConfigurationEntry(self, element: ET.Element) -> SaveConfigurationEntry:
+        entry = None
+        if element is not None:
+            entry = SaveConfigurationEntry()
+            self.readScheduleTableEntry(element, entry)
+            self.readLinConfigurationEntry(element, entry)
+        return entry
+
+    def getDataDumpEntry(self, element: ET.Element) -> DataDumpEntry:
+        entry = None
+        if element is not None:
+            entry = DataDumpEntry()
+            self.readScheduleTableEntry(element, entry)
+            self.readLinConfigurationEntry(element, entry)
+            self.readByteValues(element, entry)
+        return entry
+
     def readLinScheduleTableTableEntries(self, element: ET.Element, table: LinScheduleTable):
         for child_element in self.findall(element, "TABLE-ENTRYS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "APPLICATION-ENTRY":
                 table = table.addTableEntry(self.getApplicationEntry(child_element, "APPLICATION-ENTRY"))
+            elif tag_name == "FREE-FORMAT":
+                table = table.addTableEntry(self.getFreeFormat(child_element))
+            elif tag_name == "ASSIGN-FRAME-ID":
+                table = table.addTableEntry(self.getAssignFrameId(child_element))
+            elif tag_name == "ASSIGN-FRAME-ID-RANGE":
+                table = table.addTableEntry(self.getAssignFrameIdRange(child_element))
+            elif tag_name == "UNASSIGN-FRAME-ID":
+                table = table.addTableEntry(self.getUnassignFrameId(child_element))
+            elif tag_name == "ASSIGN-NAD":
+                table = table.addTableEntry(self.getAssignNad(child_element))
+            elif tag_name == "CONDITIONAL-CHANGE-NAD":
+                table = table.addTableEntry(self.getConditionalChangeNad(child_element))
+            elif tag_name == "SAVE-CONFIGURATION-ENTRY":
+                table = table.addTableEntry(self.getSaveConfigurationEntry(child_element))
+            elif tag_name == "DATA-DUMP-ENTRY":
+                table = table.addTableEntry(self.getDataDumpEntry(child_element))
             else:
                 self.notImplemented("Unsupported Schedule Table <%s>" % tag_name)
 
@@ -7285,6 +7399,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, tp_node)
         tp_node.setConnectorRef(self.getChildElementOptionalRefType(element, "CONNECTOR-REF"))
         tp_node.setDropNotRequestedNad(self.getChildElementOptionalBooleanValue(element, "DROP-NOT-REQUESTED-NAD"))
+        tp_node.setMaxNumberOfRespPendingFrames(self.getChildElementOptionalIntegerValue(element, "MAX-NUMBER-OF-RESP-PENDING-FRAMES"))
         tp_node.setP2Max(self.getChildElementOptionalTimeValue(element, "P-2-MAX"))
         tp_node.setP2Timing(self.getChildElementOptionalTimeValue(element, "P-2-TIMING"))
         tp_node.setTpAddressRef(self.getChildElementOptionalRefType(element, "TP-ADDRESS-REF"))

@@ -1526,14 +1526,11 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 | `modedeclarationref` | `—` | `modeDeclaration` | ``ModeDeclaration`` | ref | type (spec many vs py single) |
 
 ## `LinConfigurationEntry`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 434
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 434  | **table:** Table 6.99
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `assignedController` | ``LinSlave`` | ref | missing |
-| — *(missing)* | `—` | `assignedLinSlaveConfig` | ``LinSlaveConfigIdent`` | ref | missing |
+No deviations — both Table 6.99 attributes are modeled: `assignedController` → field `assignedControllerRef` (`Optional[RefType]`, 0..1 ref; Kind-`ref` Ref suffix per Rule 0001.5) and `assignedLinSlaveConfig` → `assignedLinSlaveConfigRef`, each with guarded chaining setter, verbatim spec Notes and model tests. Reader/writer coverage is complete: the class is abstract with no own XML tag, so the refs round-trip through the concrete subclass dispatch (`readLinConfigurationEntry`/`writeLinConfigurationEntry` called from the `TABLE-ENTRYS` handlers for `AssignFrameId`, `UnassignFrameId`, `AssignFrameIdRange`, `AssignNad`, `ConditionalChangeNad`, `SaveConfigurationEntry`, `DataDumpEntry` — all implemented in this pass with their own spec tables 6.100-6.107, incl. member class `FramePid`; `messageId` on AssignFrameId/UnassignFrameId carries `atp.Status="removed"` in the XSD and is deliberately not modeled). Round-trip proven in `tests/test_armodel/writer/test_writer_lin_schedule_entries.py`.
 
 ## `SoAdConfig`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 451
@@ -1852,14 +1849,11 @@ the concrete subclasses in `read/writeBusDependentNmEcus`.
 | — *(missing)* | `—` | `doIpLogicAddress` | ``DoIpLogicAddress`` | aggr | missing |
 
 ## `LinTpConfig`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 614  | **table:** Table 6.259
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::TransportProtocols`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `tpAddress` | ``TpAddress`` | aggr | missing |
-| — *(missing)* | `—` | `tpNode` | ``LinTpNode`` | aggr | missing |
+No deviations — the earlier `tpAddress`/`tpNode` missing rows were stale: all three Table 6.259 aggregations (`tpAddress` → `List[TpAddress]`, `tpConnection` → `List[LinTpConnection]`, `tpNode` → `List[LinTpNode]`) are dedicated typed lists with `create/add/get` accessors and full reader/writer coverage (`read/writeLinTpConfigTpAddresses/Connections/Nodes`). During re-sync two drift items in the member serialization were fixed: the writer emitted `DROP-NOT-REQUESTED-NAD` on the wrong parent element, and `LIN-TP-NODE`'s `MAX-NUMBER-OF-RESP-PENDING-FRAMES` (Table 6.260 Integer attr) was never read/written — both now round-trip with tests (incl. empty-wrapper case). Docstrings synced verbatim to the Table 6.259/6.260 Notes; member class `LinTpNode` synced and stamped in the same pass.
 
 ## `J1939SharedAddressCluster`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
@@ -2112,31 +2106,25 @@ Relocated together with its subclass family to keep the dependency graph acyclic
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
 ## `LinFrame`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.87
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 428  | **table:** Table 6.87
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+No deviations — Table 6.87 contributes no own attributes (all members inherited via the `Frame` base chain); the abstract class carries the verbatim Note docstring, a fully-`[x]` checklist of its self-defined methods (`__init__`) and the R23-11 stamp. No own XML tag → reader/writer `[—]`; concrete frames (`LinUnconditionalFrame`) serialize through their own dispatch.
 
 ## `LinUnconditionalFrame`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 429  | **table:** Table 6.90
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+No deviations — Table 6.90 contributes no own attributes; verbatim Note docstring, `[x]` checklist, R23-11 stamp. Reader/writer dispatch existed already (`readLinUnconditionalFrame`/`writeLinUnconditionalFrame` + ARPackage factory).
 
 ## `FreeFormatEntry`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.99
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 434  | **table:** Table 6.98
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+No deviations — Table 6.98 contributes no own attributes (earlier tracker row cited table id 6.99, which is `LinConfigurationEntry`; corrected). Verbatim Note docstring, `[x]` checklist of self-defined methods. Abstract with no own XML tag → reader/writer `[—]`; serialization goes through the concrete `FreeFormat` subclass (Table 6.108), which is now implemented together with the full `TABLE-ENTRYS` dispatch (see `LinConfigurationEntry` row).
 
 ## `DataTransformationSet`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 7.2

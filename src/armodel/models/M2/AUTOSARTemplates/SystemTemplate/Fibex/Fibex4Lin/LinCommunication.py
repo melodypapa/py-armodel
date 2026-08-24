@@ -3,9 +3,10 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARNumerical, Integer, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARNumerical, Integer, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import Frame, FrameTriggering
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
 class LinErrorResponse(ARObject):
@@ -41,13 +42,15 @@ class LinErrorResponse(ARObject):
 
 class LinFrame(Frame, ABC):
     """
-    Abstract base class for LIN frames, extending the generic Frame class
-    with LIN-specific properties and behavior. This class serves as the
-    foundation for concrete LIN frame implementations.
+    Lin specific Frame element.
     """
 
     # LinFrame method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.87, p.428
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # (no own attributes; Base = ARObject, CollectableElement, FibexElement, Frame, Identifiable, MultilanguageReferrable, PackageableElement, Referrable)
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is LinFrame:
@@ -58,13 +61,15 @@ class LinFrame(Frame, ABC):
 
 class LinUnconditionalFrame(LinFrame):
     """
-    Represents an unconditional LIN frame in the AUTOSAR system,
-    defining the structure and properties for LIN messages that
-    are transmitted without conditional logic.
+    Unconditional frames carry signals. The master sends a frame header in a scheduled frame slot and the designated slave node fills the frame with data. Tags: atp.recommendedPackage=Frames
     """
 
     # LinUnconditionalFrame method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.90, p.429
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # (no own attributes; Base = ARObject, CollectableElement, FibexElement, Frame, Identifiable, LinFrame, MultilanguageReferrable, PackageableElement, Referrable)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -124,20 +129,19 @@ class ResumePosition(AREnum):
 
 
 class ScheduleTableEntry(ARObject, ABC):
-    """
-    Abstract base class for schedule table entries, defining common
-    properties for different types of entries in LIN schedule tables
-    including timing, position, and documentation properties.
-    """
+    """Table entry in a LinScheduleTable. Specifies what will be done in the frame slot."""
 
     # ScheduleTableEntry method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDelay                     [x] impl  [ ] docstring  [ ] test
-    # [ ] setDelay                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIntroduction              [x] impl  [ ] docstring  [ ] test
-    # [ ] setIntroduction              [x] impl  [ ] docstring  [ ] test
-    # [ ] getPositionInTable           [x] impl  [ ] docstring  [ ] test
-    # [ ] setPositionInTable           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.96, p.433
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDelay            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDelay            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIntroduction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIntroduction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPositionInTable  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPositionInTable  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
 
@@ -146,30 +150,50 @@ class ScheduleTableEntry(ARObject, ABC):
 
         super().__init__()
 
-        self.delay: TimeValue = None
-        self.introduction = None  # type: DocumentationBlock
-        self.positionInTable: Integer = None
+        # Relative delay between this tableEntry and the start of the successor in the schedule table in seconds.
+        self.delay: Optional[TimeValue] = None
 
-    def getDelay(self):
+        # This represents introductory documentation about the schedule table entry.
+        self.introduction: Optional[DocumentationBlock] = None
+
+        # Relative position in the schedule table. The first entry index in the schedule table is 0.
+        self.positionInTable: Optional[Integer] = None
+
+    def getDelay(self) -> Optional[TimeValue]:
+        """Relative delay between this tableEntry and the start of the successor in the schedule table in seconds."""
         return self.delay
 
-    def setDelay(self, value):
+    def setDelay(self, value: Optional[TimeValue]) -> "ScheduleTableEntry":
+        """
+        Relative delay between this tableEntry and the start of the successor in the schedule table in seconds.
+        A None value is a no-op and does not overwrite an existing delay.
+        """
         if value is not None:
             self.delay = value
         return self
 
-    def getIntroduction(self):
+    def getIntroduction(self) -> Optional[DocumentationBlock]:
+        """This represents introductory documentation about the schedule table entry."""
         return self.introduction
 
-    def setIntroduction(self, value):
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> "ScheduleTableEntry":
+        """
+        This represents introductory documentation about the schedule table entry.
+        A None value is a no-op and does not overwrite an existing introduction.
+        """
         if value is not None:
             self.introduction = value
         return self
 
-    def getPositionInTable(self):
+    def getPositionInTable(self) -> Optional[Integer]:
+        """Relative position in the schedule table. The first entry index in the schedule table is 0."""
         return self.positionInTable
 
-    def setPositionInTable(self, value):
+    def setPositionInTable(self, value: Optional[Integer]) -> "ScheduleTableEntry":
+        """
+        Relative position in the schedule table. The first entry index in the schedule table is 0.
+        A None value is a no-op and does not overwrite an existing positionInTable.
+        """
         if value is not None:
             self.positionInTable = value
         return self
@@ -203,13 +227,15 @@ class ApplicationEntry(ScheduleTableEntry):
 
 class FreeFormatEntry(ScheduleTableEntry, ABC):
     """
-    Defines a free format entry in a LIN schedule table,
-    allowing for flexible schedule entries without specific
-    frame triggering references.
+    FreeFormat transmits a fixed master request frame with the eight data bytes provided. This may for instance be used to issue user specific fixed frames.
     """
 
     # FreeFormatEntry method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.98, p.434
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # (no own attributes; Base = ARObject, ScheduleTableEntry; serialized through concrete subclass FreeFormat)
 
     def __init__(self):
         if type(self) is FreeFormatEntry:
@@ -217,14 +243,57 @@ class FreeFormatEntry(ScheduleTableEntry, ABC):
         super().__init__()
 
 
+class FreeFormat(FreeFormatEntry):
+    """
+    Representing freely defined data.
+    """
+
+    # FreeFormat method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.108, p.439
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getByteValues    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addByteValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # (Base = ARObject, FreeFormatEntry, ScheduleTableEntry)
+
+    def __init__(self):
+        super().__init__()
+
+        # The integer Value of a freely defined data byte.
+        self.byteValues: List[Integer] = []
+
+    def getByteValues(self) -> List[Integer]:
+        """
+        The integer Value of a freely defined data byte.
+        """
+        return self.byteValues
+
+    def addByteValue(self, value: Optional[Integer]) -> "FreeFormat":
+        """
+        The integer Value of a freely defined data byte.
+        A None value is a no-op.
+        """
+        if value is not None:
+            self.byteValues.append(value)
+        return self
+
+
 class LinConfigurationEntry(ScheduleTableEntry, ABC):
     """
-    Abstract base class for LIN configuration entries in schedule tables,
-    defining common properties for configuration-related schedule entries.
+    A ScheduleTableEntry which contains LIN specific assignments.
     """
 
     # LinConfigurationEntry method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.99, p.434
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAssignedControllerRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAssignedControllerRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAssignedLinSlaveConfigRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAssignedLinSlaveConfigRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # (Base = ARObject, ScheduleTableEntry; abstract — no own XML tag; ASSIGNED-CONTROLLER-REF/ASSIGNED-LIN-SLAVE-CONFIG-REF round-trip via the concrete subclass dispatch in readLinScheduleTableTableEntries/writeLinScheduleTableTableEntries)
 
     def __init__(self):
 
@@ -232,6 +301,430 @@ class LinConfigurationEntry(ScheduleTableEntry, ABC):
             raise TypeError("LinConfigurationEntry is an abstract class.")
 
         super().__init__()
+
+        # The LIN slaves controller who is target of this assignment. Optional in case LinConfigurationEntry.assignedLinSlaveConfig exists.
+        self.assignedControllerRef: Optional[RefType] = None
+
+        # The LIN slave that is target of this assignment. Please note that this reference is redundant to the assignedController reference. In an Ecu Extract of the LinMaster the LinSlave Ecus shall not be available. The information that is described here is necessary in the ECU Extract for the configuration of the LinMaster.
+        self.assignedLinSlaveConfigRef: Optional[RefType] = None
+
+    def getAssignedControllerRef(self) -> Optional[RefType]:
+        """
+        The LIN slaves controller who is target of this assignment. Optional in case LinConfigurationEntry.assignedLinSlaveConfig exists.
+        """
+        return self.assignedControllerRef
+
+    def setAssignedControllerRef(self, value: Optional[RefType]) -> "LinConfigurationEntry":
+        """
+        The LIN slaves controller who is target of this assignment. Optional in case LinConfigurationEntry.assignedLinSlaveConfig exists.
+        A None value is a no-op and does not overwrite an existing assignedControllerRef.
+        """
+        if value is not None:
+            self.assignedControllerRef = value
+        return self
+
+    def getAssignedLinSlaveConfigRef(self) -> Optional[RefType]:
+        """
+        The LIN slave that is target of this assignment. Please note that this reference is redundant to the assignedController reference. In an Ecu Extract of the LinMaster the LinSlave Ecus shall not be available. The information that is described here is necessary in the ECU Extract for the configuration of the LinMaster.
+        """
+        return self.assignedLinSlaveConfigRef
+
+    def setAssignedLinSlaveConfigRef(self, value: Optional[RefType]) -> "LinConfigurationEntry":
+        """
+        The LIN slave that is target of this assignment. Please note that this reference is redundant to the assignedController reference. In an Ecu Extract of the LinMaster the LinSlave Ecus shall not be available. The information that is described here is necessary in the ECU Extract for the configuration of the LinMaster.
+        A None value is a no-op and does not overwrite an existing assignedLinSlaveConfigRef.
+        """
+        if value is not None:
+            self.assignedLinSlaveConfigRef = value
+        return self
+
+
+class FramePid(ARObject):
+    """
+    Frame_PIDs that are included in the request. The "pid" attribute describes the value and the "index" attribute the position of the frame_PID in the request.
+    """
+
+    # FramePid method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.103, p.437
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getIndex      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIndex      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPid        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPid        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # (Base = ARObject; aggregated by AssignFrameIdRange.framePid)
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute is used to order the frame_PIDs. The values of index shall be unique within one AssignFrameIdRange.
+        self.index: Optional[Integer] = None
+
+        # Frame_PID value.
+        self.pid: Optional[PositiveInteger] = None
+
+    def getIndex(self) -> Optional[Integer]:
+        """
+        This attribute is used to order the frame_PIDs. The values of index shall be unique within one AssignFrameIdRange.
+        """
+        return self.index
+
+    def setIndex(self, value: Optional[Integer]) -> "FramePid":
+        """
+        This attribute is used to order the frame_PIDs. The values of index shall be unique within one AssignFrameIdRange.
+        A None value is a no-op and does not overwrite an existing index.
+        """
+        if value is not None:
+            self.index = value
+        return self
+
+    def getPid(self) -> Optional[PositiveInteger]:
+        """
+        Frame_PID value.
+        """
+        return self.pid
+
+    def setPid(self, value: Optional[PositiveInteger]) -> "FramePid":
+        """
+        Frame_PID value.
+        A None value is a no-op and does not overwrite an existing pid.
+        """
+        if value is not None:
+            self.pid = value
+        return self
+
+
+class AssignFrameId(LinConfigurationEntry):
+    """
+    Schedule entry for an Assign Frame Id master request.
+    """
+
+    # AssignFrameId method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.100, p.436
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAssignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAssignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # (Base = ARObject, LinConfigurationEntry, ScheduleTableEntry; messageId present in XSD with atp.Status="removed" — not modeled)
+
+    def __init__(self):
+        super().__init__()
+
+        # The frame whose identifier is set by this assignment.
+        self.assignedFrameTriggeringRef: Optional[RefType] = None
+
+    def getAssignedFrameTriggeringRef(self) -> Optional[RefType]:
+        """
+        The frame whose identifier is set by this assignment.
+        """
+        return self.assignedFrameTriggeringRef
+
+    def setAssignedFrameTriggeringRef(self, value: Optional[RefType]) -> "AssignFrameId":
+        """
+        The frame whose identifier is set by this assignment.
+        A None value is a no-op and does not overwrite an existing assignedFrameTriggeringRef.
+        """
+        if value is not None:
+            self.assignedFrameTriggeringRef = value
+        return self
+
+
+class UnassignFrameId(LinConfigurationEntry):
+    """
+    Schedule entry for an Unassign Frame Id master request where the protected identifier is assigned the value 0x40. This will disable reception/transmission of a previously dynamically assigned frame identifier.
+    """
+
+    # UnassignFrameId method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.101, p.436
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getUnassignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUnassignedFrameTriggeringRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # (Base = ARObject, LinConfigurationEntry, ScheduleTableEntry; messageId present in XSD with atp.Status="removed" — not modeled)
+
+    def __init__(self):
+        super().__init__()
+
+        # The frame whose identifier is reset by this assignment.
+        self.unassignedFrameTriggeringRef: Optional[RefType] = None
+
+    def getUnassignedFrameTriggeringRef(self) -> Optional[RefType]:
+        """
+        The frame whose identifier is reset by this assignment.
+        """
+        return self.unassignedFrameTriggeringRef
+
+    def setUnassignedFrameTriggeringRef(self, value: Optional[RefType]) -> "UnassignFrameId":
+        """
+        The frame whose identifier is reset by this assignment.
+        A None value is a no-op and does not overwrite an existing unassignedFrameTriggeringRef.
+        """
+        if value is not None:
+            self.unassignedFrameTriggeringRef = value
+        return self
+
+
+class AssignFrameIdRange(LinConfigurationEntry):
+    """
+    AssignFrameIdRange generates an assign frame PID range request.
+    """
+
+    # AssignFrameIdRange method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.102, p.437
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getFramePids           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addFramePid            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getStartIndex          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setStartIndex          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # (Base = ARObject, LinConfigurationEntry, ScheduleTableEntry)
+
+    def __init__(self):
+        super().__init__()
+
+        # Optional assignment of frame_PID values that are included in the request. The frame_PIDs are ordered.
+        self.framePids: List[FramePid] = []
+
+        # The startIndex sets the index to the first frame to assign a PID.
+        self.startIndex: Optional[Integer] = None
+
+    def getFramePids(self) -> List[FramePid]:
+        """
+        Optional assignment of frame_PID values that are included in the request. The frame_PIDs are ordered.
+        """
+        return self.framePids
+
+    def addFramePid(self, value: Optional[FramePid]) -> "AssignFrameIdRange":
+        """
+        Optional assignment of frame_PID values that are included in the request. The frame_PIDs are ordered.
+        A None value is a no-op.
+        """
+        if value is not None:
+            self.framePids.append(value)
+        return self
+
+    def getStartIndex(self) -> Optional[Integer]:
+        """
+        The startIndex sets the index to the first frame to assign a PID.
+        """
+        return self.startIndex
+
+    def setStartIndex(self, value: Optional[Integer]) -> "AssignFrameIdRange":
+        """
+        The startIndex sets the index to the first frame to assign a PID.
+        A None value is a no-op and does not overwrite an existing startIndex.
+        """
+        if value is not None:
+            self.startIndex = value
+        return self
+
+
+class AssignNad(LinConfigurationEntry):
+    """
+    Schedule entry for an Assign NAD master request.
+    """
+
+    # AssignNad method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.104, p.438
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getNewNad       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNewNad       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # (Base = ARObject, LinConfigurationEntry, ScheduleTableEntry)
+
+    def __init__(self):
+        super().__init__()
+
+        # The newly assigned NAD value.
+        self.newNad: Optional[Integer] = None
+
+    def getNewNad(self) -> Optional[Integer]:
+        """
+        The newly assigned NAD value.
+        """
+        return self.newNad
+
+    def setNewNad(self, value: Optional[Integer]) -> "AssignNad":
+        """
+        The newly assigned NAD value.
+        A None value is a no-op and does not overwrite an existing newNad.
+        """
+        if value is not None:
+            self.newNad = value
+        return self
+
+
+class ConditionalChangeNad(LinConfigurationEntry):
+    """
+    Generates an conditional change NAD request. See ISO 17987 protocol specification for more information.
+    """
+
+    # ConditionalChangeNad method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.105, p.438
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getByte         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setByte         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getId           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setId           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getInvert       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setInvert       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMask         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMask         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNewNad       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNewNad       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # (Base = ARObject, LinConfigurationEntry, ScheduleTableEntry)
+
+    def __init__(self):
+        super().__init__()
+
+        # Byte Position of Data Byte that should be used for the bitwise XOR with Invert and the bitwise AND with Mask.
+        self.byte: Optional[Integer] = None
+
+        # Byte Position of Id.
+        self.id: Optional[PositiveInteger] = None
+
+        # Byte Position of Invert.
+        self.invert: Optional[Integer] = None
+
+        # Byte Position of Mask.
+        self.mask: Optional[Integer] = None
+
+        # The newly assigned NAD value (Byte Position).
+        self.newNad: Optional[Integer] = None
+
+    def getByte(self) -> Optional[Integer]:
+        """
+        Byte Position of Data Byte that should be used for the bitwise XOR with Invert and the bitwise AND with Mask.
+        """
+        return self.byte
+
+    def setByte(self, value: Optional[Integer]) -> "ConditionalChangeNad":
+        """
+        Byte Position of Data Byte that should be used for the bitwise XOR with Invert and the bitwise AND with Mask.
+        A None value is a no-op and does not overwrite an existing byte.
+        """
+        if value is not None:
+            self.byte = value
+        return self
+
+    def getId(self) -> Optional[PositiveInteger]:
+        """
+        Byte Position of Id.
+        """
+        return self.id
+
+    def setId(self, value: Optional[PositiveInteger]) -> "ConditionalChangeNad":
+        """
+        Byte Position of Id.
+        A None value is a no-op and does not overwrite an existing id.
+        """
+        if value is not None:
+            self.id = value
+        return self
+
+    def getInvert(self) -> Optional[Integer]:
+        """
+        Byte Position of Invert.
+        """
+        return self.invert
+
+    def setInvert(self, value: Optional[Integer]) -> "ConditionalChangeNad":
+        """
+        Byte Position of Invert.
+        A None value is a no-op and does not overwrite an existing invert.
+        """
+        if value is not None:
+            self.invert = value
+        return self
+
+    def getMask(self) -> Optional[Integer]:
+        """
+        Byte Position of Mask.
+        """
+        return self.mask
+
+    def setMask(self, value: Optional[Integer]) -> "ConditionalChangeNad":
+        """
+        Byte Position of Mask.
+        A None value is a no-op and does not overwrite an existing mask.
+        """
+        if value is not None:
+            self.mask = value
+        return self
+
+    def getNewNad(self) -> Optional[Integer]:
+        """
+        The newly assigned NAD value (Byte Position).
+        """
+        return self.newNad
+
+    def setNewNad(self, value: Optional[Integer]) -> "ConditionalChangeNad":
+        """
+        The newly assigned NAD value (Byte Position).
+        A None value is a no-op and does not overwrite an existing newNad.
+        """
+        if value is not None:
+            self.newNad = value
+        return self
+
+
+class SaveConfigurationEntry(LinConfigurationEntry):
+    """
+    This service is used to notify a slave node to store its configuration.
+    """
+
+    # SaveConfigurationEntry method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.106, p.439
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # (no own attributes; Base = ARObject, LinConfigurationEntry, ScheduleTableEntry)
+
+    def __init__(self):
+        super().__init__()
+
+
+class DataDumpEntry(LinConfigurationEntry):
+    """
+    This service is reserved for initial configuration of a slave node by the slave node supplier and the format of this message is supplier specific.
+    """
+
+    # DataDumpEntry method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.107, p.439
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getByteValues    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addByteValue     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # (Base = ARObject, LinConfigurationEntry, ScheduleTableEntry)
+
+    def __init__(self):
+        super().__init__()
+
+        # Supplier specific format.
+        self.byteValues: List[Integer] = []
+
+    def getByteValues(self) -> List[Integer]:
+        """
+        Supplier specific format.
+        """
+        return self.byteValues
+
+    def addByteValue(self, value: Optional[Integer]) -> "DataDumpEntry":
+        """
+        Supplier specific format.
+        A None value is a no-op.
+        """
+        if value is not None:
+            self.byteValues.append(value)
+        return self
 
 
 class LinScheduleTable(Identifiable):

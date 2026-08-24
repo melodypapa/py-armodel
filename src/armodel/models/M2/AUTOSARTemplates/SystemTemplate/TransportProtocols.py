@@ -1040,80 +1040,135 @@ class LinTpConnection(TpConnection):
 
 class LinTpNode(Identifiable):
     """
-    Represents a LIN transport protocol node in the system,
-    defining connector references, response pending settings,
-    and timing parameters for LIN TP node configuration.
+    TP Node (Sender or Receiver) provides the TP Address and the connection to the Topology description.
     """
 
     # LinTpNode method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getConnectorRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] setConnectorRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] getDropNotRequestedNad       [x] impl  [ ] docstring  [ ] test
-    # [ ] setDropNotRequestedNad       [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxNumberOfRespPendingFrames [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxNumberOfRespPendingFrames [x] impl  [ ] docstring  [ ] test
-    # [ ] getP2Max                     [x] impl  [ ] docstring  [ ] test
-    # [ ] setP2Max                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getP2Timing                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setP2Timing                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpAddressRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] setTpAddressRef              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.260, p.615
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getConnectorRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setConnectorRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDropNotRequestedNad           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDropNotRequestedNad           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaxNumberOfRespPendingFrames [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxNumberOfRespPendingFrames [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getP2Max                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setP2Max                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getP2Timing                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setP2Timing                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTpAddressRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTpAddressRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # (Base = ARObject, Identifiable, MultilanguageReferrable, Referrable; aggregated by LinTpConfig.tpNode)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.connectorRef: RefType = None
-        self.dropNotRequestedNad: Boolean = None
-        self.maxNumberOfRespPendingFrames: Integer = None
-        self.p2Max: TimeValue = None
-        self.p2Timing: TimeValue = None
-        self.tpAddressRef: RefType = None
+        # Association to a CommunicationConnector in the topology description. In a System Description this reference is mandatory. In an ECU Extract this reference is optional (references to ECUs that are not part of the ECU Extract shall be avoided).
+        self.connectorRef: Optional[RefType] = None
 
-    def getConnectorRef(self):
+        # Configures if TP Frames of not requested LIN-Slaves are dropped or not.
+        self.dropNotRequestedNad: Optional[Boolean] = None
+
+        # Configures the maximum number of allowed response pending frames.
+        self.maxNumberOfRespPendingFrames: Optional[Integer] = None
+
+        # After reception of a response pending frame the P2 timeout counter is reloaded with the timeout time P2max.
+        self.p2Max: Optional[TimeValue] = None
+
+        # P2 timeout observation parameter.
+        self.p2Timing: Optional[TimeValue] = None
+
+        # Reference to the TP Address that is used by the TpNode. This reference is optional in case that the multicast TP Address is used (reference from TpConnection).
+        self.tpAddressRef: Optional[RefType] = None
+
+    def getConnectorRef(self) -> Optional[RefType]:
+        """
+        Association to a CommunicationConnector in the topology description. In a System Description this reference is mandatory. In an ECU Extract this reference is optional (references to ECUs that are not part of the ECU Extract shall be avoided).
+        """
         return self.connectorRef
 
-    def setConnectorRef(self, value):
+    def setConnectorRef(self, value: Optional[RefType]) -> "LinTpNode":
+        """
+        Association to a CommunicationConnector in the topology description. In a System Description this reference is mandatory. In an ECU Extract this reference is optional (references to ECUs that are not part of the ECU Extract shall be avoided).
+        A None value is a no-op and does not overwrite an existing connectorRef.
+        """
         if value is not None:
             self.connectorRef = value
         return self
 
-    def getDropNotRequestedNad(self):
+    def getDropNotRequestedNad(self) -> Optional[Boolean]:
+        """
+        Configures if TP Frames of not requested LIN-Slaves are dropped or not.
+        """
         return self.dropNotRequestedNad
 
-    def setDropNotRequestedNad(self, value):
+    def setDropNotRequestedNad(self, value: Optional[Boolean]) -> "LinTpNode":
+        """
+        Configures if TP Frames of not requested LIN-Slaves are dropped or not.
+        A None value is a no-op and does not overwrite an existing dropNotRequestedNad.
+        """
         if value is not None:
             self.dropNotRequestedNad = value
         return self
 
-    def getMaxNumberOfRespPendingFrames(self):
+    def getMaxNumberOfRespPendingFrames(self) -> Optional[Integer]:
+        """
+        Configures the maximum number of allowed response pending frames.
+        """
         return self.maxNumberOfRespPendingFrames
 
-    def setMaxNumberOfRespPendingFrames(self, value):
+    def setMaxNumberOfRespPendingFrames(self, value: Optional[Integer]) -> "LinTpNode":
+        """
+        Configures the maximum number of allowed response pending frames.
+        A None value is a no-op and does not overwrite an existing maxNumberOfRespPendingFrames.
+        """
         if value is not None:
             self.maxNumberOfRespPendingFrames = value
         return self
 
-    def getP2Max(self):
+    def getP2Max(self) -> Optional[TimeValue]:
+        """
+        After reception of a response pending frame the P2 timeout counter is reloaded with the timeout time P2max.
+        """
         return self.p2Max
 
-    def setP2Max(self, value):
+    def setP2Max(self, value: Optional[TimeValue]) -> "LinTpNode":
+        """
+        After reception of a response pending frame the P2 timeout counter is reloaded with the timeout time P2max.
+        A None value is a no-op and does not overwrite an existing p2Max.
+        """
         if value is not None:
             self.p2Max = value
         return self
 
-    def getP2Timing(self):
+    def getP2Timing(self) -> Optional[TimeValue]:
+        """
+        P2 timeout observation parameter.
+        """
         return self.p2Timing
 
-    def setP2Timing(self, value):
+    def setP2Timing(self, value: Optional[TimeValue]) -> "LinTpNode":
+        """
+        P2 timeout observation parameter.
+        A None value is a no-op and does not overwrite an existing p2Timing.
+        """
         if value is not None:
             self.p2Timing = value
         return self
 
-    def getTpAddressRef(self):
+    def getTpAddressRef(self) -> Optional[RefType]:
+        """
+        Reference to the TP Address that is used by the TpNode. This reference is optional in case that the multicast TP Address is used (reference from TpConnection).
+        """
         return self.tpAddressRef
 
-    def setTpAddressRef(self, value):
+    def setTpAddressRef(self, value: Optional[RefType]) -> "LinTpNode":
+        """
+        Reference to the TP Address that is used by the TpNode. This reference is optional in case that the multicast TP Address is used (reference from TpConnection).
+        A None value is a no-op and does not overwrite an existing tpAddressRef.
+        """
         if value is not None:
             self.tpAddressRef = value
         return self
@@ -1121,25 +1176,32 @@ class LinTpNode(Identifiable):
 
 class LinTpConfig(TpConfig):
     """
-    Represents LIN transport protocol configuration in the system,
-    organizing addresses, connections, and nodes for comprehensive
-    LIN TP communication setup.
+    This element defines exactly one Lin TP Configuration. One LinTpConfig element shall be created for each Lin Network in the System. Tags: atp.recommendedPackage=TpConfigs
     """
 
     # LinTpConfig method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpAddresses               [x] impl  [ ] docstring  [ ] test
-    # [ ] createTpAddress              [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpConnections             [x] impl  [ ] docstring  [ ] test
-    # [ ] addTpConnection              [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpNodes                   [x] impl  [ ] docstring  [ ] test
-    # [ ] createLinTpNode              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.259, p.614
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getTpAddresses               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createTpAddress              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTpConnections             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addTpConnection              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTpNodes                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createLinTpNode              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # (Base = ARObject, CollectableElement, FibexElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable, TpConfig)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Collection of TpAddresses. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpAddress.shortName, tpAddress.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.tpAddresses: List[TpAddress] = []
+
+        # Configuration of LIN TP channels. atpVariation: Derived, because TpNode can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpConnection, tpConnection.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.tpConnections: List[LinTpConnection] = []
+
+        # Senders and receivers of LIN TP messages. atpVariation: Derived, because EcuInstance can vary. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=tpNode.shortName, tpNode.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.tpNodes: List[LinTpNode] = []
 
     def getTpAddresses(self):
