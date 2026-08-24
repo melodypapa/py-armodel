@@ -5,6 +5,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswApiOptions,
     BswAsynchronousServerCallPoint,
+    BswAsynchronousServerCallResultPoint,
     BswAsynchronousServerCallReturnsEvent,
     BswBackgroundEvent,
     BswCalledEntity,
@@ -4929,6 +4930,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswModuleCallPoint(child_element, point)
         self.setChildElementOptionalRefType(child_element, "CALLED-ENTRY-REF", point.getCalledEntryRef())
 
+    def writeBswAsynchronousServerCallResultPoint(self, element: ET.Element, point: BswAsynchronousServerCallResultPoint):
+        child_element = ET.SubElement(element, "BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT")
+        self.writeBswModuleCallPoint(child_element, point)
+        self.setChildElementOptionalRefType(child_element, "ASYNCHRONOUS-SERVER-CALL-POINT-REF", point.getAsynchronousServerCallPointRef())
+
     def writeBswSynchronousServerCallPoint(self, element: ET.Element, point: BswSynchronousServerCallPoint):
         child_element = ET.SubElement(element, "BSW-SYNCHRONOUS-SERVER-CALL-POINT")
         self.writeBswModuleCallPoint(child_element, point)
@@ -4939,9 +4945,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(points) > 0:
             child_element = ET.SubElement(element, "CALL-POINTS")
             for point in points:
-                if isinstance(point, BswAsynchronousServerCallPoint):
+                if isinstance(point, BswAsynchronousServerCallResultPoint):
+                    self.writeBswAsynchronousServerCallResultPoint(child_element, point)
+                elif isinstance(point, BswAsynchronousServerCallPoint):
                     self.writeBswAsynchronousServerCallPoint(child_element, point)
-                elif isinstance(point, BswModuleCallPoint):
+                elif isinstance(point, BswSynchronousServerCallPoint):
                     self.writeBswSynchronousServerCallPoint(child_element, point)
                 else:
                     self.notImplemented("Unsupported Call Point <%s>" % type(point))

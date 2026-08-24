@@ -85,44 +85,35 @@ class BswModuleCallPoint(Referrable, ABC):
 
 class BswAsynchronousServerCallPoint(BswModuleCallPoint):
     """
-    Represents an asynchronous server call point in a BSW module.
-    This call point is used when the server operation is executed asynchronously.
+    Represents an asynchronous procedure call point via the BSW Scheduler.
     """
 
     # BswAsynchronousServerCallPoint method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getCalledEntryRef            [x] impl  [x] docstring  [ ] test
-    # [x] setCalledEntryRef            [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.13, p.80
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCalledEntryRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCalledEntryRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswAsynchronousServerCallPoint with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this call point
-            short_name: The unique short name of this call point
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the entry that is called by this asynchronous call point
-        self.calledEntryRef: RefType = None
+        # The entry to be called.
+        self.calledEntryRef: Optional[RefType] = None
 
-    def getCalledEntryRef(self):
+    def getCalledEntryRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the entry that is called by this call point.
-
-        Returns:
-            Reference to the called entry
+        The entry to be called.
         """
         return self.calledEntryRef
 
-    def setCalledEntryRef(self, value):
+    def setCalledEntryRef(self, value: Optional[RefType]) -> "BswAsynchronousServerCallPoint":
         """
-        Sets the reference to the entry that is called by this call point.
+        The entry to be called.
         Only sets the value if it is not None.
 
         Args:
-            value: The entry reference to set
+            value: The reference to the entry to be called
 
         Returns:
             self for method chaining
@@ -288,25 +279,43 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
 
 class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
     """
-    Represents a result point for an asynchronous server call in a BSW module.
-    This defines where the result of the asynchronous call is handled.
+    The callback point for an BswAsynchronousServerCallPoint i.e. the point at
+    which the result can be retrieved from the BSW Scheduler.
     """
 
     # BswAsynchronousServerCallResultPoint method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.14, p.80
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAsynchronousServerCallPointRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAsynchronousServerCallPointRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswAsynchronousServerCallResultPoint with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this call point
-            short_name: The unique short name of this call point
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the asynchronous server call point
-        self.asynchronousServerCallPointRef: RefType = None
+        # The call point invoking the call to which the result belongs.
+        self.asynchronousServerCallPointRef: Optional[RefType] = None
+
+    def getAsynchronousServerCallPointRef(self) -> Optional[RefType]:
+        """
+        The call point invoking the call to which the result belongs.
+        """
+        return self.asynchronousServerCallPointRef
+
+    def setAsynchronousServerCallPointRef(self, value: Optional[RefType]) -> "BswAsynchronousServerCallResultPoint":
+        """
+        The call point invoking the call to which the result belongs.
+        Only sets the value if it is not None.
+
+        Args:
+            value: The reference to the call point invoking the call
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.asynchronousServerCallPointRef = value
+        return self
 
 
 class BswVariableAccess(Referrable):
@@ -541,6 +550,24 @@ class BswModuleEntity(ExecutableEntity, ABC):
             self.addElement(access)
             self.callPoints.append(access)
         return self.getElement(short_name, BswAsynchronousServerCallPoint)
+
+    def createBswAsynchronousServerCallResultPoint(self, short_name: str) -> "BswAsynchronousServerCallResultPoint":
+        """
+        Creates and adds a BswAsynchronousServerCallResultPoint to the call
+        points used in the code of this entity. Returns the existing call point
+        if the short name is already present.
+
+        Args:
+            short_name: The short name for the new result point
+
+        Returns:
+            The created BswAsynchronousServerCallResultPoint instance
+        """
+        if not self.IsElementExists(short_name):
+            access = BswAsynchronousServerCallResultPoint(self, short_name)
+            self.addElement(access)
+            self.callPoints.append(access)
+        return self.getElement(short_name)
 
     def createBswSynchronousServerCallPoint(self, short_name: str) -> BswSynchronousServerCallPoint:
         """

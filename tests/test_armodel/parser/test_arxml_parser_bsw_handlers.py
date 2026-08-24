@@ -775,6 +775,38 @@ class TestBswModuleEntityHandlers:
         parser.readBswModuleEntityCallPoints(element, entity)
         assert len(entity.getCallPoints()) == 1
 
+    def test_readBswAsynchronousServerCallResultPoint_sets_ref(self, parser):
+        from armodel.models import BswAsynchronousServerCallResultPoint
+
+        point = BswAsynchronousServerCallResultPoint(parent=_autosar_root(), short_name="rp")
+        element = _snip(
+            "<SHORT-NAME>rp</SHORT-NAME>" "<ASYNCHRONOUS-SERVER-CALL-POINT-REF DEST='BSW-ASYNCHRONOUS-SERVER-CALL-POINT'>/acp</ASYNCHRONOUS-SERVER-CALL-POINT-REF>",
+            root_tag="BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT",
+        )
+        parser.readBswAsynchronousServerCallResultPoint(element, point)
+        assert point.getAsynchronousServerCallPointRef().getValue() == "/acp"
+        assert point.getAsynchronousServerCallPointRef().getDest() == "BSW-ASYNCHRONOUS-SERVER-CALL-POINT"
+
+    def test_readBswModuleEntityCallPoints_result_point(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        entity = behavior.createBswSchedulableEntity("e")
+        element = _snip(
+            "<CALL-POINTS>"
+            "<BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT>"
+            "<SHORT-NAME>rp</SHORT-NAME>"
+            "<ASYNCHRONOUS-SERVER-CALL-POINT-REF DEST='BSW-ASYNCHRONOUS-SERVER-CALL-POINT'>/acp</ASYNCHRONOUS-SERVER-CALL-POINT-REF>"
+            "</BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT>"
+            "</CALL-POINTS>",
+            root_tag="ENTITY",
+        )
+        parser.readBswModuleEntityCallPoints(element, entity)
+        points = entity.getCallPoints()
+        assert len(points) == 1
+        assert points[0].getShortName() == "rp"
+        assert points[0].getAsynchronousServerCallPointRef().getValue() == "/acp"
+
     def test_readBswModuleEntityCallPoints_sync(self, parser):
         from armodel.models import BswInternalBehavior
 

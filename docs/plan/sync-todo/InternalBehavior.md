@@ -77,25 +77,25 @@ stamps written in batch after user confirmation rounds.
 ### BswBehavior leaves
 
 - [ ] BswAsynchronousServerCallPoint (markdown · Table 5.13 · p.80 · source BswModuleTemplate/BswBehavior/__init__.py · ref target of BswAsynchronousServerCallResultPoint — synced first per Rule 0016.5)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] BswAsynchronousServerCallResultPoint (markdown · Table 5.14 · p.80 · source BswModuleTemplate/BswBehavior/__init__.py · depends on BswAsynchronousServerCallPoint above; adds missing asynchronousServerCallPoint ref member)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none)
+  - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
+- [ ] BswAsynchronousServerCallResultPoint (markdown · Table 5.14 · p.80 · source BswModuleTemplate/BswBehavior/__init__.py · depends on BswAsynchronousServerCallPoint above; adds missing asynchronousServerCallPointRef accessors; reader/writer dispatch for BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT added)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations (none)
+  - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
 - [ ] BswSchedulerNamePrefix (markdown · Table 5.20 · p.86 · source BswModuleTemplate/BswBehavior/BswSchedulerNamePrefix.py · leaf)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

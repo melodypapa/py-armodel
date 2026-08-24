@@ -220,6 +220,25 @@ class TestBswAsynchronousServerCallResultPoint:
         async_result_point = BswAsynchronousServerCallResultPoint(ar_root, "test_async_result")
 
         assert async_result_point.short_name == "test_async_result"
+        assert async_result_point.getAsynchronousServerCallPointRef() is None
+
+    def test_get_set_asynchronous_server_call_point_ref(self):
+        """get/set round-trip, chaining, None is a no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        result_point = BswAsynchronousServerCallResultPoint(ar_root, "test_async_result")
+
+        ref = RefType().setValue("/CP/async_call_point")
+        ref.setDest("BSW-ASYNCHRONOUS-SERVER-CALL-POINT")
+        result = result_point.setAsynchronousServerCallPointRef(ref)
+
+        assert result is result_point
+        assert result_point.getAsynchronousServerCallPointRef() == ref
+
+        # None is a no-op
+        result = result_point.setAsynchronousServerCallPointRef(None)
+        assert result is result_point
+        assert result_point.getAsynchronousServerCallPointRef() == ref
 
 
 class TestBswVariableAccess:

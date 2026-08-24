@@ -343,6 +343,29 @@ class TestWriterBswModuleCallPoints:
         assert "BSW-ASYNCHRONOUS-SERVER-CALL-POINT" in tags
         assert "BSW-SYNCHRONOUS-SERVER-CALL-POINT" in tags
 
+    def test_result_point(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("ent")
+        point = entity.createBswAsynchronousServerCallResultPoint("rp")
+        point.setAsynchronousServerCallPointRef(_ref("/acp", "BSW-ASYNCHRONOUS-SERVER-CALL-POINT"))
+        parent = _parent()
+        writer.writeBswAsynchronousServerCallResultPoint(parent, point)
+        assert parent[0].tag == "BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT"
+        ref_elem = parent[0].find("ASYNCHRONOUS-SERVER-CALL-POINT-REF")
+        assert ref_elem is not None
+        assert ref_elem.text == "/acp"
+        assert ref_elem.get("DEST") == "BSW-ASYNCHRONOUS-SERVER-CALL-POINT"
+
+    def test_entity_call_points_result_point_dispatch(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createBswSchedulableEntity("ent")
+        rp = entity.createBswAsynchronousServerCallResultPoint("rp")
+        rp.setAsynchronousServerCallPointRef(_ref("/acp", "BSW-ASYNCHRONOUS-SERVER-CALL-POINT"))
+        parent = _parent()
+        writer.writeBswModuleEntityCallPoints(parent, entity)
+        child_tags = [c.tag for c in parent[0]]
+        assert child_tags == ["BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT"]
+
     def test_entity_call_points_empty(self, writer):
         behavior = _make_behavior()
         entity = behavior.createBswSchedulableEntity("ent")

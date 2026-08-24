@@ -6,6 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswApiOptions,
     BswAsynchronousServerCallPoint,
+    BswAsynchronousServerCallResultPoint,
     BswAsynchronousServerCallReturnsEvent,
     BswBackgroundEvent,
     BswCalledEntity,
@@ -2206,6 +2207,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswModuleCallPoint(element, point)
         point.setCalledEntryRef(self.getChildElementOptionalRefType(element, "CALLED-ENTRY-REF"))
 
+    def readBswAsynchronousServerCallResultPoint(self, element: ET.Element, point: BswAsynchronousServerCallResultPoint):
+        self.readBswModuleCallPoint(element, point)
+        point.setAsynchronousServerCallPointRef(self.getChildElementOptionalRefType(element, "ASYNCHRONOUS-SERVER-CALL-POINT-REF"))
+
     def readBswSynchronousServerCallPoint(self, element: ET.Element, point: BswSynchronousServerCallPoint):
         self.readBswModuleCallPoint(element, point)
         point.setCalledEntryRef(self.getChildElementOptionalRefType(element, "CALLED-ENTRY-REF"))
@@ -2216,6 +2221,9 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "BSW-ASYNCHRONOUS-SERVER-CALL-POINT":
                 point = entity.createBswAsynchronousServerCallPoint(self.getShortName(child_element))
                 self.readBswAsynchronousServerCallPoint(child_element, point)
+            elif tag_name == "BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT":
+                point = entity.createBswAsynchronousServerCallResultPoint(self.getShortName(child_element))
+                self.readBswAsynchronousServerCallResultPoint(child_element, point)
             elif tag_name == "BSW-SYNCHRONOUS-SERVER-CALL-POINT":
                 point = entity.createBswSynchronousServerCallPoint(self.getShortName(child_element))
                 self.readBswSynchronousServerCallPoint(child_element, point)
