@@ -1,9 +1,63 @@
 # This module contains AUTOSAR System Template classes for diagnostic connections
 # It defines connections for diagnostic services and communication between diagnostic entities
 
-from typing import List
+from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+
+class TpConnectionIdent(Referrable):
+    """
+    This meta-class is created to add the ability to become the target of a reference to the non-Referrable Tp Connection.
+    """
+
+    # TpConnectionIdent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.273, p.633
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # (no own attributes; Base = ARObject, Referrable)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class TpConnection(ARObject, ABC):
+    """
+    TpConnection Base Class.
+    """
+
+    # TpConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.272, p.633
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getIdent                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createTpConnectionIdent   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+
+    def __init__(self):
+        if type(self) is TpConnection:
+            raise TypeError("TpConnection is an abstract class.")
+
+        super().__init__()
+
+        # This adds the ability to become referrable to Tp Connection.
+        self.ident: Optional[TpConnectionIdent] = None
+
+    def getIdent(self) -> Optional[TpConnectionIdent]:
+        """This adds the ability to become referrable to Tp Connection."""
+        return self.ident
+
+    def createTpConnectionIdent(self, short_name: str) -> TpConnectionIdent:
+        """This adds the ability to become referrable to Tp Connection."""
+        if self.getIdent() is not None:
+            return self.getIdent()
+        ident = TpConnectionIdent(self, short_name)
+        self.ident = ident
+        return ident
 
 
 class DiagnosticConnection(ARElement):

@@ -1,5 +1,9 @@
 from abc import ABC
-from typing import List, Optional
+from enum import Enum
+from typing import TYPE_CHECKING, List, Optional
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanPhysicalChannel
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -115,26 +119,26 @@ class CycleRepetition(CommunicationCycle):
 
 class PhysicalChannel(Identifiable, ABC):
     """
-    Abstract base class for physical communication channels,
-    defining common properties for different types of physical
-    communication media including connector references and
-    frame triggering mechanisms.
+    A physical channel is the transmission medium that is used to send and receive information between communicating ECUs. Each CommunicationCluster has at least one physical channel. Bus systems like CAN and LIN only have exactly one PhysicalChannel. A FlexRay cluster may have more than one PhysicalChannels that may be used in parallel for redundant communication. An ECU is part of a cluster if it contains at least one controller that is connected to at least one channel of the cluster.
     """
 
     # PhysicalChannel method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCommConnectorRefs         [x] impl  [ ] docstring  [ ] test
-    # [ ] addCommConnectorRef          [x] impl  [ ] docstring  [ ] test
-    # [ ] getFrameTriggerings          [x] impl  [ ] docstring  [ ] test
-    # [ ] createCanFrameTriggering     [x] impl  [ ] docstring  [ ] test
-    # [ ] createLinFrameTriggering     [x] impl  [ ] docstring  [ ] test
-    # [ ] createFlexrayFrameTriggering [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalTriggerings        [x] impl  [ ] docstring  [ ] test
-    # [ ] createISignalTriggering      [x] impl  [ ] docstring  [ ] test
-    # [ ] getManagedPhysicalChannelRefs [x] impl  [ ] docstring  [ ] test
-    # [ ] addManagedPhysicalChannelRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getPduTriggerings            [x] impl  [ ] docstring  [ ] test
-    # [ ] createPduTriggering          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.7, p.59
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCommConnectorRefs            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] addCommConnectorRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFrameTriggerings             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createCanFrameTriggering        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createLinFrameTriggering        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createFlexrayFrameTriggering     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getISignalTriggerings           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createISignalTriggering         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getManagedPhysicalChannelRefs   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] addManagedPhysicalChannelRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPduTriggerings               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createPduTriggering             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PhysicalChannel:
@@ -142,21 +146,46 @@ class PhysicalChannel(Identifiable, ABC):
 
         super().__init__(parent, short_name)
 
+        # Reference to the ECUInstance via a Communication Connector to which the channel is connected. atpVariation: Variable assignment of Physical Channels to different CommunicationConnectors is expressed with this variation. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=commConnector.communicationConnector, commConnector.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.commConnectorRefs: List[RefType] = []
+
+        # One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.frameTriggerings: List[FrameTriggering] = []
+
+        # One ISignalTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of ISignaltriggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.shortName, iSignal Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.iSignalTriggerings: List[ISignalTriggering] = []
+
+        # Reference between a channel with role managing channel and a channel with role managed channel.
         self.managedPhysicalChannelRefs: List[RefType] = []
 
-    def getCommConnectorRefs(self):
+        # One PduTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of I-Pdu triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.shortName, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.pduTriggerings: List[PduTriggering] = []
+
+    def getCommConnectorRefs(self) -> List[RefType]:
+        """
+        Reference to the ECUInstance via a Communication Connector to which the channel is connected. atpVariation: Variable assignment of Physical Channels to different CommunicationConnectors is expressed with this variation. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=commConnector.communicationConnector, commConnector.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.commConnectorRefs
 
-    def addCommConnectorRef(self, value):
-        self.commConnectorRefs.append(value)
+    def addCommConnectorRef(self, value: RefType) -> "PhysicalChannel":
+        """
+        Reference to the ECUInstance via a Communication Connector to which the channel is connected. atpVariation: Variable assignment of Physical Channels to different CommunicationConnectors is expressed with this variation. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=commConnector.communicationConnector, commConnector.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and does not overwrite an existing commConnectorRefs.
+        """
+        if value is not None:
+            self.commConnectorRefs.append(value)
         return self
 
     def getFrameTriggerings(self) -> List[FrameTriggering]:
-        return list(sorted(filter(lambda a: isinstance(a, FrameTriggering), self.elements), key=lambda o: o.getShortName()))
+        """
+        One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return list(sorted(self.frameTriggerings, key=lambda o: o.getShortName()))
 
     def createCanFrameTriggering(self, short_name: str) -> CanFrameTriggering:
+        """
+        One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if short_name not in self.elements:
             triggering = CanFrameTriggering(self, short_name)
             self.addElement(triggering)
@@ -164,6 +193,9 @@ class PhysicalChannel(Identifiable, ABC):
         return self.getElement(short_name)
 
     def createLinFrameTriggering(self, short_name: str) -> LinFrameTriggering:
+        """
+        One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if short_name not in self.elements:
             triggering = LinFrameTriggering(self, short_name)
             self.addElement(triggering)
@@ -171,6 +203,9 @@ class PhysicalChannel(Identifiable, ABC):
         return self.getElement(short_name)
 
     def createFlexrayFrameTriggering(self, short_name: str) -> FlexrayFrameTriggering:
+        """
+        One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if short_name not in self.elements:
             triggering = FlexrayFrameTriggering(self, short_name)
             self.addElement(triggering)
@@ -178,60 +213,51 @@ class PhysicalChannel(Identifiable, ABC):
         return self.getElement(short_name)
 
     def getISignalTriggerings(self) -> List[ISignalTriggering]:
-        return list(sorted(filter(lambda a: isinstance(a, ISignalTriggering), self.elements), key=lambda o: o.getShortName()))
+        """
+        One ISignalTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of ISignaltriggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.shortName, iSignal Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return list(sorted(self.iSignalTriggerings, key=lambda o: o.getShortName()))
 
-    def createISignalTriggering(self, short_name: str):
+    def createISignalTriggering(self, short_name: str) -> ISignalTriggering:
+        """
+        One ISignalTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of ISignaltriggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.shortName, iSignal Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if short_name not in self.elements:
             triggering = ISignalTriggering(self, short_name)
             self.addElement(triggering)
+            self.iSignalTriggerings.append(triggering)
         return self.getElement(short_name)
 
-    def getManagedPhysicalChannelRefs(self):
+    def getManagedPhysicalChannelRefs(self) -> List[RefType]:
+        """
+        Reference between a channel with role managing channel and a channel with role managed channel.
+        """
         return self.managedPhysicalChannelRefs
 
-    def addManagedPhysicalChannelRef(self, value):
-        self.managedPhysicalChannelRefs.append(value)
+    def addManagedPhysicalChannelRef(self, value: RefType) -> "PhysicalChannel":
+        """
+        Reference between a channel with role managing channel and a channel with role managed channel.
+        A None value is a no-op and does not overwrite an existing managedPhysicalChannelRefs.
+        """
+        if value is not None:
+            self.managedPhysicalChannelRefs.append(value)
         return self
 
     def getPduTriggerings(self) -> List[PduTriggering]:
-        return list(sorted(filter(lambda a: isinstance(a, PduTriggering), self.elements), key=lambda o: o.getShortName()))
+        """
+        One PduTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of I-Pdu triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.shortName, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return list(sorted(self.pduTriggerings, key=lambda o: o.getShortName()))
 
-    def createPduTriggering(self, short_name: str):
+    def createPduTriggering(self, short_name: str) -> PduTriggering:
+        """
+        One PduTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of I-Pdu triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.shortName, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         if short_name not in self.elements:
             triggering = PduTriggering(self, short_name)
             self.addElement(triggering)
+            self.pduTriggerings.append(triggering)
         return self.getElement(short_name)
-
-
-class AbstractCanPhysicalChannel(PhysicalChannel, ABC):
-    """
-    Abstract base class for CAN physical channels, defining
-    common properties for CAN-specific physical communication
-    channels in the AUTOSAR system.
-    """
-
-    # AbstractCanPhysicalChannel method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent, short_name):
-        if type(self) is AbstractCanPhysicalChannel:
-            raise TypeError("AbstractCanPhysicalChannel is an abstract class.")
-
-        super().__init__(parent, short_name)
-
-
-class CanPhysicalChannel(AbstractCanPhysicalChannel):
-    """
-    Represents a CAN physical channel in the communication system,
-    implementing specific properties for CAN bus communication
-    including frame triggering and connector management.
-    """
-
-    # CanPhysicalChannel method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent, short_name):
-        super().__init__(parent, short_name)
 
 
 class LinPhysicalChannel(PhysicalChannel):
@@ -455,10 +481,12 @@ class CommunicationCluster(FibexElement, ABC):
         """
         return list(sorted(self.physicalChannel, key=lambda o: o.getShortName()))
 
-    def getCanPhysicalChannels(self) -> List[CanPhysicalChannel]:
+    def getCanPhysicalChannels(self) -> List["CanPhysicalChannel"]:
         """
         This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
         """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanPhysicalChannel
+
         return list(sorted(filter(lambda a: isinstance(a, CanPhysicalChannel), self.physicalChannel), key=lambda o: o.getShortName()))
 
     def getLinPhysicalChannels(self) -> List[LinPhysicalChannel]:
@@ -477,6 +505,8 @@ class CommunicationCluster(FibexElement, ABC):
         """
         This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
         """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanPhysicalChannel
+
         if short_name not in self.elements:
             channel = CanPhysicalChannel(self, short_name)
             self.addElement(channel)
@@ -759,28 +789,28 @@ class PncGatewayTypeEnum(AREnum):
 
 class CommunicationConnector(Identifiable, ABC):
     """
-    Abstract base class for communication connectors,
-    defining common properties for connecting communication
-    controllers to communication channels and managing
-    port instances and gateway types.
+    The connection between the referencing ECU and the referenced channel via the referenced controller. Connectors are used to describe the bus interfaces of the ECUs and to specify the sending/receiving behavior. Each CommunicationConnector has a reference to exactly one communicationController. Note: Several CommunicationConnectors can be assigned to one PhysicalChannel in the scope of one ECU Instance.
     """
 
     # CommunicationConnector method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCommControllerRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] setCommControllerRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] getCreateEcuWakeupSource     [x] impl  [ ] docstring  [ ] test
-    # [ ] setCreateEcuWakeupSource     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDynamicPncToChannelMappingEnabled [x] impl  [ ] docstring  [ ] test
-    # [ ] setDynamicPncToChannelMappingEnabled [x] impl  [ ] docstring  [ ] test
-    # [ ] getEcuCommPortInstances      [x] impl  [ ] docstring  [ ] test
-    # [ ] createFramePort              [x] impl  [ ] docstring  [ ] test
-    # [ ] createIPduPort               [x] impl  [ ] docstring  [ ] test
-    # [ ] createISignalPort            [x] impl  [ ] docstring  [ ] test
-    # [ ] getPncFilterArrayMasks       [x] impl  [ ] docstring  [ ] test
-    # [ ] addPncFilterArrayMask        [x] impl  [ ] docstring  [ ] test
-    # [ ] getPncGatewayType            [x] impl  [ ] docstring  [ ] test
-    # [ ] setPncGatewayType            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.4, p.54
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCommControllerRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCommControllerRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCreateEcuWakeupSource                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCreateEcuWakeupSource                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDynamicPncToChannelMappingEnabled    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDynamicPncToChannelMappingEnabled    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEcuCommPortInstances                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createFramePort                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createIPduPort                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createISignalPort                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPncFilterArrayMasks                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addPncFilterArrayMask                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPncGatewayType                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPncGatewayType                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CommunicationConnector:
@@ -788,68 +818,139 @@ class CommunicationConnector(Identifiable, ABC):
 
         super().__init__(parent, short_name)
 
-        self.commControllerRef: RefType = None
-        self.createEcuWakeupSource: Boolean = None
-        self.dynamicPncToChannelMappingEnabled: Boolean = None
-        self.ecuCommPortInstances: List[CommConnectorPort] = []
-        self.pncFilterArrayMasks: List[PositiveInteger] = []
-        self.pncGatewayType: PncGatewayTypeEnum = None
+        # Reference to the communication controller. The CommunicationConnector and referenced CommunicationController shall be aggregated by the same ECUInstance. The communicationController can be referenced by several CommunicationConnector elements. This is important for the FlexRay Bus. FlexRay communicates via two physical channels. But only one controller in an ECU is responsible for both channels. Thus, two connectors (for channel A and for channel B) shall reference to the same controller.
+        self.commControllerRef: Optional[RefType] = None
 
-    def getCommControllerRef(self):
+        # If this parameter is available and set to true then a channel wakeup source shall be created for the Physical Channel referencing this CommunicationConnector.
+        self.createEcuWakeupSource: Optional[Boolean] = None
+
+        # Defines if this EcuInstance shall implement the dynamic PNC-to-channel-mapping functionality on this CommunicationConnector and its respective Physical Channel. Tags: atp.Status=draft
+        self.dynamicPncToChannelMappingEnabled: Optional[Boolean] = None
+
+        # An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.ecuCommPortInstances: List[CommConnectorPort] = []
+
+        # Bit mask for NM-Pdu Payload used to configure the NM filter mask for the Network Management.
+        self.pncFilterArrayMasks: List[PositiveInteger] = []
+
+        # Defines if this EcuInstance shall implement the Pnc Gateway functionality on this CommunicationConnector and its respective PhysicalChannel. Several Ecu Instances on the same PhysicalChannel can have the PncGateway functionality enabled, but only one of them shall have the pncGatewayType "active".
+        self.pncGatewayType: Optional[PncGatewayTypeEnum] = None
+
+    def getCommControllerRef(self) -> Optional[RefType]:
+        """
+        Reference to the communication controller. The CommunicationConnector and referenced CommunicationController shall be aggregated by the same ECUInstance. The communicationController can be referenced by several CommunicationConnector elements. This is important for the FlexRay Bus. FlexRay communicates via two physical channels. But only one controller in an ECU is responsible for both channels. Thus, two connectors (for channel A and for channel B) shall reference to the same controller.
+        """
         return self.commControllerRef
 
-    def setCommControllerRef(self, value):
-        self.commControllerRef = value
+    def setCommControllerRef(self, value: Optional[RefType]) -> "CommunicationConnector":
+        """
+        Reference to the communication controller. The CommunicationConnector and referenced CommunicationController shall be aggregated by the same ECUInstance. The communicationController can be referenced by several CommunicationConnector elements. This is important for the FlexRay Bus. FlexRay communicates via two physical channels. But only one controller in an ECU is responsible for both channels. Thus, two connectors (for channel A and for channel B) shall reference to the same controller.
+        A None value is a no-op and does not overwrite an existing commControllerRef.
+        """
+        if value is not None:
+            self.commControllerRef = value
         return self
 
-    def getCreateEcuWakeupSource(self):
+    def getCreateEcuWakeupSource(self) -> Optional[Boolean]:
+        """
+        If this parameter is available and set to true then a channel wakeup source shall be created for the Physical Channel referencing this CommunicationConnector.
+        """
         return self.createEcuWakeupSource
 
-    def setCreateEcuWakeupSource(self, value):
-        self.createEcuWakeupSource = value
+    def setCreateEcuWakeupSource(self, value: Optional[Boolean]) -> "CommunicationConnector":
+        """
+        If this parameter is available and set to true then a channel wakeup source shall be created for the Physical Channel referencing this CommunicationConnector.
+        A None value is a no-op and does not overwrite an existing createEcuWakeupSource.
+        """
+        if value is not None:
+            if not isinstance(value, Boolean):
+                boolean = Boolean()
+                boolean.setValue(value)
+                value = boolean
+            self.createEcuWakeupSource = value
         return self
 
-    def getDynamicPncToChannelMappingEnabled(self):
+    def getDynamicPncToChannelMappingEnabled(self) -> Optional[Boolean]:
+        """
+        Defines if this EcuInstance shall implement the dynamic PNC-to-channel-mapping functionality on this CommunicationConnector and its respective Physical Channel. Tags: atp.Status=draft
+        """
         return self.dynamicPncToChannelMappingEnabled
 
-    def setDynamicPncToChannelMappingEnabled(self, value):
-        self.dynamicPncToChannelMappingEnabled = value
+    def setDynamicPncToChannelMappingEnabled(self, value: Optional[Boolean]) -> "CommunicationConnector":
+        """
+        Defines if this EcuInstance shall implement the dynamic PNC-to-channel-mapping functionality on this CommunicationConnector and its respective Physical Channel. Tags: atp.Status=draft
+        A None value is a no-op and does not overwrite an existing dynamicPncToChannelMappingEnabled.
+        """
+        if value is not None:
+            if not isinstance(value, Boolean):
+                boolean = Boolean()
+                boolean.setValue(value)
+                value = boolean
+            self.dynamicPncToChannelMappingEnabled = value
         return self
 
-    def getEcuCommPortInstances(self):
-        return list(sorted(filter(lambda a: isinstance(a, CommConnectorPort), self.elements), key=lambda o: o.getShortName()))
+    def getEcuCommPortInstances(self) -> List[CommConnectorPort]:
+        """
+        An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        return list(sorted(self.ecuCommPortInstances, key=lambda o: o.getShortName()))
 
     def createFramePort(self, short_name) -> FramePort:
-        if short_name not in self.elements:
+        """
+        An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if self.getElement(short_name) is None:
             port = FramePort(self, short_name)
             self.addElement(port)
             self.ecuCommPortInstances.append(port)
         return self.getElement(short_name)
 
     def createIPduPort(self, short_name) -> IPduPort:
-        if short_name not in self.elements:
+        """
+        An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if self.getElement(short_name) is None:
             port = IPduPort(self, short_name)
             self.addElement(port)
             self.ecuCommPortInstances.append(port)
         return self.getElement(short_name)
 
     def createISignalPort(self, short_name) -> ISignalPort:
-        if short_name not in self.elements:
+        """
+        An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if self.getElement(short_name) is None:
             port = ISignalPort(self, short_name)
             self.addElement(port)
             self.ecuCommPortInstances.append(port)
         return self.getElement(short_name)
 
-    def getPncFilterArrayMasks(self):
+    def getPncFilterArrayMasks(self) -> List[PositiveInteger]:
+        """
+        Bit mask for NM-Pdu Payload used to configure the NM filter mask for the Network Management.
+        """
         return self.pncFilterArrayMasks
 
-    def addPncFilterArrayMask(self, value):
-        self.pncFilterArrayMasks.append(value)
+    def addPncFilterArrayMask(self, value: Optional[PositiveInteger]) -> "CommunicationConnector":
+        """
+        Bit mask for NM-Pdu Payload used to configure the NM filter mask for the Network Management.
+        A None value is a no-op and does not overwrite an existing pncFilterArrayMasks.
+        """
+        if value is not None:
+            self.pncFilterArrayMasks.append(value)
         return self
 
-    def getPncGatewayType(self):
+    def getPncGatewayType(self) -> Optional[PncGatewayTypeEnum]:
+        """
+        Defines if this EcuInstance shall implement the Pnc Gateway functionality on this CommunicationConnector and its respective PhysicalChannel. Several Ecu Instances on the same PhysicalChannel can have the PncGateway functionality enabled, but only one of them shall have the pncGatewayType "active".
+        """
         return self.pncGatewayType
 
-    def setPncGatewayType(self, value):
-        self.pncGatewayType = value
+    def setPncGatewayType(self, value: Optional[PncGatewayTypeEnum]) -> "CommunicationConnector":
+        """
+        Defines if this EcuInstance shall implement the Pnc Gateway functionality on this CommunicationConnector and its respective PhysicalChannel. Several Ecu Instances on the same PhysicalChannel can have the PncGateway functionality enabled, but only one of them shall have the pncGatewayType "active".
+        A None value is a no-op and does not overwrite an existing pncGatewayType.
+        """
+        if value is not None:
+            self.pncGatewayType = value
         return self

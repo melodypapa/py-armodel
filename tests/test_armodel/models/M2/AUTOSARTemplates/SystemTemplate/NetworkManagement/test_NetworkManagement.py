@@ -278,6 +278,22 @@ class TestNetworkManagement:
         with pytest.raises(TypeError):
             BusspecificNmEcu()
 
+
+class TestBusspecificNmEcu:
+    """Spec-driven tests for the abstract BusspecificNmEcu (Table 6.301)."""
+
+    def test_abstract(self):
+        """BusspecificNmEcu is abstract and cannot be instantiated directly."""
+        with pytest.raises(TypeError):
+            BusspecificNmEcu()
+
+    def test_subclasses_inherit_base(self):
+        """Every spec subclass instantiates and is a BusspecificNmEcu."""
+        for subclass in (CanNmEcu, FlexrayNmEcu, J1939NmEcu, UdpNmEcu):
+            ecu = subclass()
+            assert isinstance(ecu, BusspecificNmEcu)
+            assert isinstance(ecu, ARObject)
+
     def test_can_nm_ecu(self):
         """
         Test CanNmEcu class functionality.

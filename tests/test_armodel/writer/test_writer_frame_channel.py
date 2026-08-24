@@ -17,7 +17,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (  # noqa: E501
     CanFrameTriggering,
+    CanXlFrameTriggeringProps,
     RxIdentifierRange,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (  # noqa: E501
+    CanPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (  # noqa: E501
     SocketConnection,
@@ -64,6 +68,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
     LinScheduleTable,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCluster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (  # noqa: E501
     ByteOrderEnum,
     Frame,
@@ -73,13 +78,19 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (  # noqa: E501
     CanCluster,
     CanClusterBusOffRecovery,
-    CanPhysicalChannel,
     CycleRepetition,
     EthernetPhysicalChannel,
     FlexrayPhysicalChannel,
     LinPhysicalChannel,
 )
+from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
+
+_NS = "http://autosar.org/schema/r4.0"
+
+
+def _snip(inner: str, root_tag: str = "ROOT") -> ET.Element:
+    return ET.fromstring("<%s xmlns='%s'>%s</%s>" % (root_tag, _NS, inner, root_tag))
 
 
 @pytest.fixture(autouse=True)
@@ -211,7 +222,6 @@ class TestWriteCanFrameTriggering:
         pkg = _pkg()
         ft = CanFrameTriggering(pkg, "CanFt")
         ft.setCanAddressingMode(_literal("STANDARD"))
-        ft.setCanFdFrameSupport(_boolean("true"))
         ft.setCanFrameRxBehavior(_literal("CAN-FD"))
         ft.setCanFrameTxBehavior(_literal("CAN-FD"))
         ft.setIdentifier(_pos_int("100"))
@@ -224,7 +234,7 @@ class TestWriteCanFrameTriggering:
         cft = parent.find("CAN-FRAME-TRIGGERING")
         assert cft is not None
         assert cft.find("CAN-ADDRESSING-MODE").text == "STANDARD"
-        assert cft.find("CAN-FD-FRAME-SUPPORT").text == "true"
+        assert cft.find("CAN-FD-FRAME-SUPPORT") is None
         assert cft.find("CAN-FRAME-RX-BEHAVIOR").text == "CAN-FD"
         assert cft.find("CAN-FRAME-TX-BEHAVIOR").text == "CAN-FD"
         assert cft.find("IDENTIFIER").text == "100"
@@ -232,6 +242,78 @@ class TestWriteCanFrameTriggering:
         assert rng_tag is not None
         assert rng_tag.find("LOWER-CAN-ID").text == "10"
         assert rng_tag.find("UPPER-CAN-ID").text == "20"
+
+    def test_roundtrip_can_frame_triggering_rx_identifier_range(self, writer):
+        pkg = _pkg()
+        ft = CanFrameTriggering(pkg, "CanFt")
+        rng = RxIdentifierRange()
+        rng.setLowerCanId(_pos_int("0x100"))
+        rng.setUpperCanId(_pos_int("0x1FF"))
+        ft.setRxIdentifierRange(rng)
+        parent = _parent()
+        writer.writeCanFrameTriggering(parent, ft)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanFrameTriggering(pkg, "CanFt2")
+        parser.readCanFrameTriggering(parser.find(ET.fromstring(xml_str), "CAN-FRAME-TRIGGERING"), reloaded)
+        reloaded_rng = reloaded.getRxIdentifierRange()
+        assert reloaded_rng is not None
+        assert reloaded_rng.getLowerCanId().getValue() == 256
+        assert reloaded_rng.getUpperCanId().getValue() == 511
+
+    def test_roundtrip_rx_identifier_range_empty_wrapper(self, writer):
+        pkg = _pkg()
+        ft = CanFrameTriggering(pkg, "CanFt")
+        ft.setRxIdentifierRange(RxIdentifierRange())
+        parent = _parent()
+        writer.writeCanFrameTriggering(parent, ft)
+        cft = parent.find("CAN-FRAME-TRIGGERING")
+        assert cft is not None
+        rng_tag = cft.find("RX-IDENTIFIER-RANGE")
+        assert rng_tag is not None
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanFrameTriggering(pkg, "CanFt2")
+        parser.readCanFrameTriggering(parser.find(ET.fromstring(xml_str), "CAN-FRAME-TRIGGERING"), reloaded)
+        reloaded_rng = reloaded.getRxIdentifierRange()
+        assert reloaded_rng is not None
+        assert reloaded_rng.getLowerCanId() is None
+        assert reloaded_rng.getUpperCanId() is None
+
+    def test_roundtrip_can_frame_triggering_full(self, writer):
+        pkg = _pkg()
+        ft = CanFrameTriggering(pkg, "CanFt")
+        ft.setCanAddressingMode(_literal("STANDARD"))
+        ft.setCanFrameRxBehavior(_literal("CAN-FD"))
+        ft.setCanFrameTxBehavior(_literal("CAN-FD"))
+        ft.setIdentifier(_pos_int("0x200"))
+        ft.setJ1939requestable(_boolean("true"))
+        ft.setRxMask(_pos_int("0x7FF"))
+        ft.setTxMask(_pos_int("0x100"))
+        timing = TtcanAbsolutelyScheduledTiming()
+        ft.addAbsolutelyScheduledTiming(timing)
+        props = CanXlFrameTriggeringProps()
+        props.setPriorityId(_pos_int("5"))
+        ft.setCanXlFrameTriggeringProps(props)
+        parent = _parent()
+        writer.writeCanFrameTriggering(parent, ft)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanFrameTriggering(pkg, "CanFt2")
+        parser.readCanFrameTriggering(parser.find(ET.fromstring(xml_str), "CAN-FRAME-TRIGGERING"), reloaded)
+        assert reloaded.getCanAddressingMode().getValue() == "STANDARD"
+        assert reloaded.getCanFrameRxBehavior().getValue() == "CAN-FD"
+        assert reloaded.getCanFrameTxBehavior().getValue() == "CAN-FD"
+        assert reloaded.getIdentifier().getValue() == 512
+        assert reloaded.getJ1939requestable().getValue() is True
+        assert reloaded.getRxMask().getValue() == 2047
+        assert reloaded.getTxMask().getValue() == 256
+        assert len(reloaded.getAbsolutelyScheduledTimings()) == 1
+        assert reloaded.getCanXlFrameTriggeringProps() is not None
+        assert reloaded.getCanXlFrameTriggeringProps().getPriorityId().getValue() == 5
 
 
 class TestWriteLinFrameTriggering:
@@ -315,6 +397,45 @@ class TestWriteFlexrayAbsolutelyScheduledTiming:
         assert tag is not None
         assert tag.find("COMMUNICATION-CYCLE") is not None
         assert tag.find("SLOT-ID").text == "7"
+
+
+class TestWriteTtcanAbsolutelyScheduledTiming:
+    def test_write_none(self, writer):
+        parent = _parent()
+        writer.writeTtcanAbsolutelyScheduledTiming(parent, None)
+        assert len(parent) == 0
+
+    def test_write_full(self, writer):
+        from armodel.models import TtcanTriggerType
+
+        timing = TtcanAbsolutelyScheduledTiming()
+        cycle = CycleRepetition()
+        cycle.setBaseCycle(_integer("2"))
+        timing.setCommunicationCycle(cycle)
+        timing.setTimeMark(_integer("16"))
+        trigger = TtcanTriggerType()
+        trigger.setValue(TtcanTriggerType.ENUM_RX_TRIGGER)
+        timing.setTrigger(trigger)
+        parent = _parent()
+        writer.writeTtcanAbsolutelyScheduledTiming(parent, timing)
+        tag = parent.find("TTCAN-ABSOLUTELY-SCHEDULED-TIMING")
+        assert tag is not None
+        cc = tag.find("COMMUNICATION-CYCLE")
+        assert cc is not None
+        assert cc.find("CYCLE-REPETITION") is not None
+        assert cc.find("CYCLE-REPETITION/BASE-CYCLE").text == "2"
+        assert tag.find("TIME-MARK").text == "16"
+        assert tag.find("TRIGGER").text == "RX-TRIGGER"
+
+    def test_write_empty(self, writer):
+        timing = TtcanAbsolutelyScheduledTiming()
+        parent = _parent()
+        writer.writeTtcanAbsolutelyScheduledTiming(parent, timing)
+        tag = parent.find("TTCAN-ABSOLUTELY-SCHEDULED-TIMING")
+        assert tag is not None
+        assert tag.find("COMMUNICATION-CYCLE") is None
+        assert tag.find("TIME-MARK") is None
+        assert tag.find("TRIGGER") is None
 
 
 class TestWriteFlexrayFrameTriggering:
@@ -593,6 +714,19 @@ class TestWritePhysicalChannelHelpers:
         writer.writePhysicalChannelCommConnectorRefs(parent, ch)
         assert len(parent) == 0
 
+    def test_roundtrip_can_physical_channel(self, writer):
+        pkg = _pkg()
+        ch = CanPhysicalChannel(pkg, "Ch")
+        ch.addCommConnectorRef(_ref("COMMUNICATION-CONNECTOR", "/cc"))
+        parent = _parent()
+        writer.writeCanPhysicalChannel(parent, ch)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = CanPhysicalChannel(pkg, "Ch2")
+        parser.readCanPhysicalChannel(parser.find(ET.fromstring(xml_str), "CAN-PHYSICAL-CHANNEL"), reloaded)
+        assert reloaded.getCommConnectorRefs()[0].getValue() == "/cc"
+
     def test_write_pc_comm_connector_refs(self, writer):
         pkg = _pkg()
         ch = CanPhysicalChannel(pkg, "Ch")
@@ -690,6 +824,84 @@ class TestWriteCanPhysicalChannel:
         writer.writeCanPhysicalChannel(parent, ch)
         cpc = parent.find("CAN-PHYSICAL-CHANNEL")
         assert cpc is not None
+
+
+class TestPhysicalChannelRoundTrip:
+    def test_reader_physical_channel(self):
+        inner = (
+            "<SHORT-NAME>Ch</SHORT-NAME>"
+            "<COMM-CONNECTORS>"
+            "<COMMUNICATION-CONNECTOR-REF-CONDITIONAL>"
+            '<COMMUNICATION-CONNECTOR-REF DEST="COMMUNICATION-CONNECTOR">/cc1</COMMUNICATION-CONNECTOR-REF>'
+            "</COMMUNICATION-CONNECTOR-REF-CONDITIONAL>"
+            "</COMM-CONNECTORS>"
+            "<MANAGED-PHYSICAL-CHANNEL-REFS>"
+            '<MANAGED-PHYSICAL-CHANNEL-REF DEST="PHYSICAL-CHANNEL">/pc2</MANAGED-PHYSICAL-CHANNEL-REF>'
+            "</MANAGED-PHYSICAL-CHANNEL-REFS>"
+            "<FRAME-TRIGGERINGS>"
+            "<CAN-FRAME-TRIGGERING><SHORT-NAME>Cft</SHORT-NAME></CAN-FRAME-TRIGGERING>"
+            "</FRAME-TRIGGERINGS>"
+            "<I-SIGNAL-TRIGGERINGS>"
+            "<I-SIGNAL-TRIGGERING><SHORT-NAME>Ist</SHORT-NAME></I-SIGNAL-TRIGGERING>"
+            "</I-SIGNAL-TRIGGERINGS>"
+            "<PDU-TRIGGERINGS>"
+            "<PDU-TRIGGERING><SHORT-NAME>Pt</SHORT-NAME></PDU-TRIGGERING>"
+            "</PDU-TRIGGERINGS>"
+        )
+        el = _snip(inner, "CAN-PHYSICAL-CHANNEL")
+
+        pkg = _pkg()
+        channel = CanPhysicalChannel(pkg, "Ch2")
+        ARXMLParser().readPhysicalChannel(el, channel)
+
+        cc_refs = [r.getValue() for r in channel.getCommConnectorRefs()]
+        assert "/cc1" in cc_refs
+        mp_refs = [r.getValue() for r in channel.getManagedPhysicalChannelRefs()]
+        assert "/pc2" in mp_refs
+        assert [t.getShortName() for t in channel.getFrameTriggerings()] == ["Cft"]
+        assert [t.getShortName() for t in channel.getISignalTriggerings()] == ["Ist"]
+        assert [t.getShortName() for t in channel.getPduTriggerings()] == ["Pt"]
+
+    def test_writer_physical_channel(self, writer):
+        pkg = _pkg()
+        ch = CanPhysicalChannel(pkg, "Ch")
+        ch.addCommConnectorRef(_ref("COMMUNICATION-CONNECTOR", "/cc1"))
+        ch.addManagedPhysicalChannelRef(_ref("PHYSICAL-CHANNEL", "/pc2"))
+        ch.createCanFrameTriggering("Cft")
+        ch.createISignalTriggering("Ist")
+        ch.createPduTriggering("Pt")
+        parent = _parent()
+        writer.writeCanPhysicalChannel(parent, ch)
+
+        el = parent.find("CAN-PHYSICAL-CHANNEL")
+        assert el is not None
+
+        conns = el.find("COMM-CONNECTORS")
+        assert conns is not None
+        cc_ref = conns.find("COMMUNICATION-CONNECTOR-REF-CONDITIONAL/COMMUNICATION-CONNECTOR-REF")
+        assert cc_ref is not None
+        assert cc_ref.text == "/cc1"
+
+        mp_refs = el.find("MANAGED-PHYSICAL-CHANNEL-REFS")
+        assert mp_refs is not None
+        mp_ref = mp_refs.find("MANAGED-PHYSICAL-CHANNEL-REF")
+        assert mp_ref is not None
+        assert mp_ref.text == "/pc2"
+
+        assert el.find("FRAME-TRIGGERINGS/CAN-FRAME-TRIGGERING/SHORT-NAME").text == "Cft"
+        assert el.find("I-SIGNAL-TRIGGERINGS/I-SIGNAL-TRIGGERING/SHORT-NAME").text == "Ist"
+        assert el.find("PDU-TRIGGERINGS/PDU-TRIGGERING/SHORT-NAME").text == "Pt"
+
+    def test_writer_physical_channel_empty(self, writer):
+        pkg = _pkg()
+        ch = CanPhysicalChannel(pkg, "Ch")
+        parent = _parent()
+        writer.writeCanPhysicalChannel(parent, ch)
+        assert parent.find("COMM-CONNECTORS") is None
+        assert parent.find("MANAGED-PHYSICAL-CHANNEL-REFS") is None
+        assert parent.find("FRAME-TRIGGERINGS") is None
+        assert parent.find("I-SIGNAL-TRIGGERINGS") is None
+        assert parent.find("PDU-TRIGGERINGS") is None
 
 
 class TestWriteScheduleTableEntry:

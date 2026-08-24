@@ -465,7 +465,7 @@ class Test_Fibex4CanTopology:
         assert controller == controller.setCanControllerAttributes(attrs)  # Test method chaining
 
     def test_AbstractCanCommunicationConnector(self):
-        """Test AbstractCanCommunicationConnector abstract class instantiation."""
+        """Test AbstractCanCommunicationConnector abstract class instantiation (Table 3.22)."""
         parent = MockParent()
         with pytest.raises(TypeError):
             AbstractCanCommunicationConnector(parent, "test_abstract_connector")
@@ -476,6 +476,7 @@ class Test_Fibex4CanTopology:
         connector = CanCommunicationConnector(parent, "test_can_comm_connector")
 
         assert isinstance(connector, CommunicationConnector)
+        assert isinstance(connector, AbstractCanCommunicationConnector)
 
         # Test default values
         assert connector.getPncWakeupCanId() is None

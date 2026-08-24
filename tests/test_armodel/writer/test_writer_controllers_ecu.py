@@ -743,6 +743,21 @@ class TestWriterCommunicationConnector:
         assert parent.find("ECU-COMM-PORT-INSTANCES") is not None
         assert parent.find("PNC-GATEWAY-TYPE").text == "active"
 
+    def test_optional_attributes(self, writer):
+        instance = _make_ecu_instance()
+        connector = instance.createCanCommunicationConnector("cc")
+        connector.setCreateEcuWakeupSource(True)
+        connector.setDynamicPncToChannelMappingEnabled(False)
+        connector.addPncFilterArrayMask(255)
+        connector.addPncFilterArrayMask(1)
+        parent = _parent()
+        writer.writeCommunicationConnector(parent, connector)
+        assert parent.find("CREATE-ECU-WAKEUP-SOURCE").text == "true"
+        assert parent.find("DYNAMIC-PNC-TO-CHANNEL-MAPPING-ENABLED").text == "false"
+        masks = parent.find("PNC-FILTER-ARRAY-MASKS")
+        assert masks is not None
+        assert [m.text for m in masks.findall("PNC-FILTER-ARRAY-MASK")] == ["255", "1"]
+
 
 class TestWriterCanCommunicationConnector:
     def test_can_connector(self, writer):

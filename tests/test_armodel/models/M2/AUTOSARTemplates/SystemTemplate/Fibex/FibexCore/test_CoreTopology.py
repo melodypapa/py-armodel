@@ -6,6 +6,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
+    AbstractCanPhysicalChannel,
+    CanPhysicalChannel,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinScheduleTable
@@ -21,10 +25,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     AbstractCanCluster,
-    AbstractCanPhysicalChannel,
     CanCluster,
     CanClusterBusOffRecovery,
-    CanPhysicalChannel,
     CommunicationCluster,
     CommunicationConnector,
     CommunicationController,
@@ -124,11 +126,12 @@ class Test_FibexCoreTopology:
             AbstractCanPhysicalChannel(parent, "test_abstract_can_physical_channel")
 
     def test_CanPhysicalChannel(self):
-        """Test CanPhysicalChannel class functionality."""
+        """Test CanPhysicalChannel class functionality (Table 3.21)."""
         parent = MockParent()
         channel = CanPhysicalChannel(parent, "test_can_physical_channel")
 
         assert isinstance(channel, PhysicalChannel)
+        assert isinstance(channel, AbstractCanPhysicalChannel)
 
     def test_LinPhysicalChannel(self):
         """Test LinPhysicalChannel class functionality."""
@@ -680,8 +683,53 @@ class Test_FibexCoreTopology:
         assert isinstance(flexray_channel, FlexrayPhysicalChannel)
         assert len(cluster.getPhysicalChannels()) >= 4  # Another channel created
 
+    def test_PhysicalChannel_spec_attributes(self):
+        """Test PhysicalChannel spec attributes (Table 3.7) per Rule 0001."""
+
+        class ConcretePhysicalChannel(PhysicalChannel):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        parent = MockParent()
+        channel = ConcretePhysicalChannel(parent, "test_physical_channel")
+
+        # commConnector (ref, CommunicationConnector, *)
+        assert channel.getCommConnectorRefs() == []
+        ref1 = object()
+        channel.addCommConnectorRef(ref1)
+        assert ref1 in channel.getCommConnectorRefs()
+        assert channel == channel.addCommConnectorRef(ref1)  # chaining
+
+        # managedPhysicalChannel (ref, PhysicalChannel, *)
+        assert channel.getManagedPhysicalChannelRefs() == []
+        ref2 = object()
+        channel.addManagedPhysicalChannelRef(ref2)
+        assert ref2 in channel.getManagedPhysicalChannelRefs()
+        assert channel == channel.addManagedPhysicalChannelRef(ref2)  # chaining
+
+        # frameTriggering (aggr, FrameTriggering, *) -> dedicated list
+        assert channel.getFrameTriggerings() == []
+        can_triggering = channel.createCanFrameTriggering("can_triggering")
+        assert isinstance(can_triggering, CanFrameTriggering)
+        assert can_triggering in channel.getFrameTriggerings()
+        lin_triggering = channel.createLinFrameTriggering("lin_triggering")
+        assert isinstance(lin_triggering, LinFrameTriggering)
+        assert len(channel.getFrameTriggerings()) == 2
+
+        # iSignalTriggering (aggr, ISignalTriggering, *) -> dedicated list
+        assert channel.getISignalTriggerings() == []
+        isignal_triggering = channel.createISignalTriggering("isignal_triggering")
+        assert isinstance(isignal_triggering, ISignalTriggering)
+        assert isignal_triggering in channel.getISignalTriggerings()
+
+        # pduTriggering (aggr, PduTriggering, *) -> dedicated list
+        assert channel.getPduTriggerings() == []
+        pdu_triggering = channel.createPduTriggering("pdu_triggering")
+        assert isinstance(pdu_triggering, PduTriggering)
+        assert pdu_triggering in channel.getPduTriggerings()
+
     def test_CommunicationConnector_methods(self):
-        """Test CommunicationConnector concrete implementation methods."""
+        """Test CommunicationConnector concrete implementation methods (Table 3.4)."""
 
         class ConcreteCommunicationConnector(CommunicationConnector):
             def __init__(self, parent, short_name):
@@ -698,38 +746,58 @@ class Test_FibexCoreTopology:
         assert connector.getPncFilterArrayMasks() == []
         assert connector.getPncGatewayType() is None
 
-        # Test setter/getter methods with method chaining
+        # commController (ref, CommunicationController, 0..1)
         ref1 = object()
         connector.setCommControllerRef(ref1)
         assert connector.getCommControllerRef() == ref1
-        assert connector == connector.setCommControllerRef(ref1)  # Test method chaining
+        assert connector == connector.setCommControllerRef(ref1)  # method chaining
+        assert connector == connector.setCommControllerRef(None)  # None no-op
+        assert connector.getCommControllerRef() == ref1  # unchanged
 
+        # createEcuWakeupSource (attr, Boolean, 0..1)
         connector.setCreateEcuWakeupSource(True)
-        assert connector.getCreateEcuWakeupSource() is True
-        assert connector == connector.setCreateEcuWakeupSource(True)  # Test method chaining
+        assert connector.getCreateEcuWakeupSource().getValue() is True
+        assert connector == connector.setCreateEcuWakeupSource(True)  # method chaining
+        assert connector == connector.setCreateEcuWakeupSource(None)  # None no-op
+        assert connector.getCreateEcuWakeupSource().getValue() is True  # unchanged
 
+        # dynamicPncToChannelMappingEnabled (attr, Boolean, 0..1)
         connector.setDynamicPncToChannelMappingEnabled(False)
-        assert connector.getDynamicPncToChannelMappingEnabled() is False
-        assert connector == connector.setDynamicPncToChannelMappingEnabled(False)  # Test method chaining
+        assert connector.getDynamicPncToChannelMappingEnabled().getValue() is False
+        assert connector == connector.setDynamicPncToChannelMappingEnabled(False)  # method chaining
+        assert connector == connector.setDynamicPncToChannelMappingEnabled(None)  # None no-op
+        assert connector.getDynamicPncToChannelMappingEnabled().getValue() is False  # unchanged
 
+        # pncGatewayType (attr, PncGatewayTypeEnum, 0..1)
         connector.setPncGatewayType(PncGatewayTypeEnum.ENUM_ACTIVE)
         assert connector.getPncGatewayType() == PncGatewayTypeEnum.ENUM_ACTIVE
-        assert connector == connector.setPncGatewayType(PncGatewayTypeEnum.ENUM_ACTIVE)  # Test method chaining
+        assert connector == connector.setPncGatewayType(PncGatewayTypeEnum.ENUM_ACTIVE)  # method chaining
+        assert connector == connector.setPncGatewayType(None)  # None no-op
+        assert connector.getPncGatewayType() == PncGatewayTypeEnum.ENUM_ACTIVE  # unchanged
 
-        # Test PNC filter array mask methods
+        # pncFilterArrayMask (ordered, attr, PositiveInteger, *)
         connector.addPncFilterArrayMask(0xFF)
-        assert 0xFF in connector.getPncFilterArrayMasks()
-        assert connector == connector.addPncFilterArrayMask(0xFF)  # Test method chaining
+        connector.addPncFilterArrayMask(0x01)
+        assert connector.getPncFilterArrayMasks() == [0xFF, 0x01]  # ordered
+        assert connector == connector.addPncFilterArrayMask(0x01)  # method chaining
 
-        # Test port creation methods
+        # ecuCommPortInstance (aggr, CommConnectorPort, *) -> dedicated typed list
         frame_port = connector.createFramePort("frame_port")
         assert isinstance(frame_port, FramePort)
-        assert len(connector.getEcuCommPortInstances()) >= 1  # At least one port created
+        assert frame_port in connector.getEcuCommPortInstances()
+        assert len(connector.getEcuCommPortInstances()) == 1  # exactly one port
 
         ipdu_port = connector.createIPduPort("ipdu_port")
         assert isinstance(ipdu_port, IPduPort)
-        assert len(connector.getEcuCommPortInstances()) >= 2  # Another port created
+        assert ipdu_port in connector.getEcuCommPortInstances()
+        assert len(connector.getEcuCommPortInstances()) == 2
 
         isignal_port = connector.createISignalPort("isignal_port")
         assert isinstance(isignal_port, ISignalPort)
-        assert len(connector.getEcuCommPortInstances()) >= 3  # Another port created
+        assert isignal_port in connector.getEcuCommPortInstances()
+        assert len(connector.getEcuCommPortInstances()) == 3
+
+        # createXxx returns the existing element on duplicate short name
+        dup = connector.createFramePort("frame_port")
+        assert dup is frame_port
+        assert len(connector.getEcuCommPortInstances()) == 3  # no duplicate

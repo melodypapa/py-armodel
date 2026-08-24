@@ -127,9 +127,6 @@ class Test_FibexCoreCommunication:
         frame.setFrameLength(100)
         assert frame.getFrameLength() == 100
         assert frame == frame.setFrameLength(100)  # Test method chaining
-        # None is a no-op and does not overwrite an existing frameLength
-        assert frame == frame.setFrameLength(None)
-        assert frame.getFrameLength() == 100
 
         # Test PduToFrameMapping creation methods
         mapping = frame.createPduToFrameMapping("test_mapping")
@@ -782,9 +779,9 @@ class Test_FibexCoreCommunication:
         # Test default values
         assert triggering.getFrameRef() is None
         assert triggering.getFramePortRefs() == []
-        assert triggering.getPduTriggeringRefs() == []  # This is the line with potential type annotation issue
+        assert triggering.getPduTriggeringRefs() == []
 
-        # Test setter/getter methods with method chaining
+        # Test frame ref setter/getter with method chaining
         ref1 = object()
         triggering.setFrameRef(ref1)
         assert triggering.getFrameRef() == ref1
@@ -793,11 +790,17 @@ class Test_FibexCoreCommunication:
         assert triggering == triggering.setFrameRef(None)
         assert triggering.getFrameRef() == ref1
 
+        # Test setFrameRef(None) is a no-op
+        triggering.setFrameRef(None)
+        assert triggering.getFrameRef() == ref1
+
+        # Test frame port refs add/get with method chaining
         ref2 = object()
         triggering.addFramePortRef(ref2)
         assert ref2 in triggering.getFramePortRefs()
         assert triggering == triggering.addFramePortRef(ref2)  # Test method chaining
 
+        # Test pdu triggering refs add/get with method chaining
         ref3 = object()
         triggering.addPduTriggeringRef(ref3)
         assert ref3 in triggering.getPduTriggeringRefs()

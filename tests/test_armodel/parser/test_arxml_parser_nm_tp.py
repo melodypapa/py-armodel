@@ -57,6 +57,35 @@ class TestBusDependentNmEcusHandler:
         assert dependents[0].getNmSynchronizationPointEnabled() is not None
         assert dependents[0].getNmSynchronizationPointEnabled().getValue() is True
 
+    def test_readBusDependentNmEcus_creates_canNmEcu(self, parser):
+        from armodel.models import CanNmEcu, NmConfig, NmEcu
+
+        config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
+        nm_ecu = NmEcu(parent=config, short_name="ecu")
+        element = _snip(
+            "<BUS-DEPENDENT-NM-ECUS><CAN-NM-ECU/></BUS-DEPENDENT-NM-ECUS>",
+            root_tag="NM-ECU",
+        )
+        parser.readBusDependentNmEcus(element, nm_ecu)
+        dependents = nm_ecu.getBusDependentNmEcus()
+        assert len(dependents) == 1
+        assert isinstance(dependents[0], CanNmEcu)
+
+    def test_readBusDependentNmEcus_udp_ecu_is_busspecific_nm_ecu(self, parser):
+        from armodel.models import BusspecificNmEcu, NmConfig, NmEcu, UdpNmEcu
+
+        config = NmConfig(parent=_autosar_root(), short_name="nmConfig")
+        nm_ecu = NmEcu(parent=config, short_name="ecu")
+        element = _snip(
+            "<BUS-DEPENDENT-NM-ECUS>" "<UDP-NM-ECU>" "<NM-SYNCHRONIZATION-POINT-ENABLED>true</NM-SYNCHRONIZATION-POINT-ENABLED>" "</UDP-NM-ECU>" "</BUS-DEPENDENT-NM-ECUS>",
+            root_tag="NM-ECU",
+        )
+        parser.readBusDependentNmEcus(element, nm_ecu)
+        dependents = nm_ecu.getBusDependentNmEcus()
+        assert len(dependents) == 1
+        assert isinstance(dependents[0], UdpNmEcu)
+        assert isinstance(dependents[0], BusspecificNmEcu)
+
     def test_readBusDependentNmEcus_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import NmConfig, NmEcu
 
@@ -398,6 +427,109 @@ class TestTpConfigGaps:
         with caplog.at_level(logging.ERROR):
             warning_parser.readLinTpConfigTpAddresses(element, config)
         assert any("Unsupported TpAddress" in r.getMessage() for r in caplog.records)
+
+
+# ==================== CanTpAddress (Table 6.255) ====================
+
+
+class TestCanTpAddressHandler:
+    def test_readCanTpConfigTpAddresses_creates_address(self, parser):
+        from armodel.models import CanTpConfig
+
+        config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
+        element = _snip(
+            "<TP-ADDRESSS>"
+            "<CAN-TP-ADDRESS>"
+            "<SHORT-NAME>addr</SHORT-NAME>"
+            "<TP-ADDRESS>2047</TP-ADDRESS>"
+            "<TP-ADDRESS-EXTENSION-VALUE>5</TP-ADDRESS-EXTENSION-VALUE>"
+            "</CAN-TP-ADDRESS>"
+            "</TP-ADDRESSS>",
+        )
+        parser.readCanTpConfigTpAddresses(element, config)
+        addresses = config.getTpAddresses()
+        assert len(addresses) == 1
+        assert addresses[0].getShortName() == "addr"
+        assert addresses[0].getTpAddress().getValue() == 2047
+        assert addresses[0].getTpAddressExtensionValue().getValue() == 5
+
+    def test_readCanTpAddress_without_optional_fields(self, parser):
+        from armodel.models import CanTpAddress, CanTpConfig
+
+        config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
+        address = CanTpAddress(parent=config, short_name="addr")
+        element = _snip("<SHORT-NAME>addr</SHORT-NAME>", root_tag="CAN-TP-ADDRESS")
+        parser.readCanTpAddress(element, address)
+        assert address.getShortName() == "addr"
+        assert address.getTpAddress() is None
+        assert address.getTpAddressExtensionValue() is None
+
+    def test_readCanTpConfigTpAddresses_empty(self, parser):
+        from armodel.models import CanTpConfig
+
+        config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
+        element = _snip("<TP-ADDRESSS></TP-ADDRESSS>")
+        parser.readCanTpConfigTpAddresses(element, config)
+        assert len(config.getTpAddresses()) == 0
+
+
+# ==================== CanTpChannel (Table 6.252) ====================
+
+
+class TestCanTpChannelHandler:
+    def test_readCanTpConfigTpChannels_creates_channel(self, parser):
+        from armodel.models import CanTpConfig
+
+        config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
+        element = _snip(
+            "<TP-CHANNELS>" "<CAN-TP-CHANNEL>" "<SHORT-NAME>channel</SHORT-NAME>" "<CHANNEL-ID>1</CHANNEL-ID>" "</CAN-TP-CHANNEL>" "</TP-CHANNELS>",
+        )
+        parser.readCanTpConfigTpChannels(element, config)
+        channels = config.getTpChannels()
+        assert len(channels) == 1
+        assert channels[0].getShortName() == "channel"
+        assert channels[0].getChannelId().getValue() == 1
+
+    def test_readCanTpChannel_without_optional_fields(self, parser):
+        from armodel.models import CanTpChannel, CanTpConfig
+
+        config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
+        channel = CanTpChannel(parent=config, short_name="channel")
+        element = _snip("<SHORT-NAME>channel</SHORT-NAME>", root_tag="CAN-TP-CHANNEL")
+        parser.readCanTpChannel(element, channel)
+        assert channel.getShortName() == "channel"
+        assert channel.getChannelId() is None
+
+    def test_readCanTpConfigTpChannels_empty(self, parser):
+        from armodel.models import CanTpConfig
+
+        config = CanTpConfig(parent=_autosar_root(), short_name="Ctp")
+        element = _snip("<TP-CHANNELS></TP-CHANNELS>")
+        parser.readCanTpConfigTpChannels(element, config)
+        assert len(config.getTpChannels()) == 0
+
+
+# ==================== TpConnection (Table 6.272) / TpConnectionIdent (Table 6.273) ====================
+
+
+class TestTpConnectionHandler:
+    def test_readTpConnection_creates_ident(self, parser):
+        from armodel.models import CanTpConnection
+
+        connection = CanTpConnection()
+        element = _snip("<IDENT><SHORT-NAME>connIdent</SHORT-NAME></IDENT>", root_tag="CAN-TP-CONNECTION")
+        parser.readTpConnection(element, connection)
+        ident = connection.getIdent()
+        assert ident is not None
+        assert ident.getShortName() == "connIdent"
+
+    def test_readTpConnection_without_ident(self, parser):
+        from armodel.models import CanTpConnection
+
+        connection = CanTpConnection()
+        element = _snip("", root_tag="CAN-TP-CONNECTION")
+        parser.readTpConnection(element, connection)
+        assert connection.getIdent() is None
 
 
 # ==================== BufferProperties (L4311-4313) ====================
