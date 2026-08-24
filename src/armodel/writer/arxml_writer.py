@@ -569,6 +569,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing im
     TransmissionModeCondition,
     TransmissionModeDeclaration,
     TransmissionModeTiming,
+    TriggerIPduSendCondition,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
@@ -6416,6 +6417,23 @@ class ARXMLWriter(AbstractARXMLWriter):
                 conditional_tag = ET.SubElement(triggerings_tag, "I-SIGNAL-TRIGGERING-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(conditional_tag, "I-SIGNAL-TRIGGERING-REF", ref)
         self.setChildElementOptionalRefType(child_element, "SEC-OC-CRYPTO-MAPPING-REF", triggering.getSecOcCryptoMappingRef())
+
+        conditions = triggering.getTriggerIPduSendConditions()
+        if len(conditions) > 0:
+            conditions_tag = ET.SubElement(child_element, "TRIGGER-I-PDU-SEND-CONDITIONS")
+            for condition in conditions:
+                if isinstance(condition, TriggerIPduSendCondition):
+                    self.writeTriggerIPduSendCondition(conditions_tag, condition)
+                else:
+                    self.notImplemented("Unsupported TriggerIPduSendCondition <%s>" % type(condition))
+
+    def writeTriggerIPduSendCondition(self, element: ET.Element, condition: TriggerIPduSendCondition):
+        child_element = ET.SubElement(element, "TRIGGER-I-PDU-SEND-CONDITION")
+        refs = condition.getModeDeclarationRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "MODE-DECLARATION-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "MODE-DECLARATION-REF", ref)
 
     def writePhysicalChannelCommConnectorRefs(self, element, channel):
         connectors = channel.getCommConnectorRefs()

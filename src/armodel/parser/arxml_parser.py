@@ -598,6 +598,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing im
     TransmissionModeCondition,
     TransmissionModeDeclaration,
     TransmissionModeTiming,
+    TriggerIPduSendCondition,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
@@ -5918,6 +5919,14 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "I-SIGNAL-TRIGGERINGS/I-SIGNAL-TRIGGERING-REF-CONDITIONAL"):
             triggering.addISignalTriggeringRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-TRIGGERING-REF"))
         triggering.setSecOcCryptoMappingRef(self.getChildElementOptionalRefType(element, "SEC-OC-CRYPTO-MAPPING-REF"))
+        for child_element in self.findall(element, "TRIGGER-I-PDU-SEND-CONDITIONS/TRIGGER-I-PDU-SEND-CONDITION"):
+            condition = TriggerIPduSendCondition()
+            self.readTriggerIPduSendCondition(child_element, condition)
+            triggering.addTriggerIPduSendCondition(condition)
+
+    def readTriggerIPduSendCondition(self, element: ET.Element, condition: TriggerIPduSendCondition):
+        for ref in self.getChildElementRefTypeList(element, "MODE-DECLARATION-REFS/MODE-DECLARATION-REF"):
+            condition.addModeDeclarationRef(ref)
 
     def readPhysicalChannelCommConnectorRefs(self, element: ET.Element, channel: PhysicalChannel):
         for child_element in self.findall(element, "COMM-CONNECTORS/COMMUNICATION-CONNECTOR-REF-CONDITIONAL"):

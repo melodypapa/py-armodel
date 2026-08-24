@@ -41,6 +41,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     UserDefinedIPdu,
     UserDefinedPdu,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TriggerIPduSendCondition
 
 
 class MockParent(ARObject):
@@ -751,6 +752,11 @@ class Test_FibexCoreCommunication:
         triggering.addTriggerIPduSendCondition(ref5)
         assert ref5 in triggering.getTriggerIPduSendConditions()
         assert triggering == triggering.addTriggerIPduSendCondition(ref5)  # Test method chaining
+
+        # Spec Table 6.31: triggerIPduSendCondition is a typed TriggerIPduSendCondition aggregation
+        condition = TriggerIPduSendCondition()
+        triggering.addTriggerIPduSendCondition(condition)
+        assert triggering.getTriggerIPduSendConditions()[-1] is condition
 
         # Test getISignalTriggeringRefs which has commented code that should be covered
         # The method returns the list directly (unlike the commented sorted version)

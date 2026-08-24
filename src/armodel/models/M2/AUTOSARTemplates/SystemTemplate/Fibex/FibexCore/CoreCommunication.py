@@ -9,7 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, UnlimitedInteger
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeDeclaration
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeDeclaration, TriggerIPduSendCondition
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
@@ -1587,8 +1587,8 @@ class PduTriggering(Identifiable):
     # [x] addISignalTriggeringRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getSecOcCryptoMappingRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setSecOcCryptoMappingRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTriggerIPduSendConditions [x] impl  [x] docstring  [x] test  [—] reader  [—]
-    # [x] addTriggerIPduSendCondition  [x] impl  [x] docstring  [x] test  [—]         [—]
+    # [x] getTriggerIPduSendConditions [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addTriggerIPduSendCondition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1606,7 +1606,7 @@ class PduTriggering(Identifiable):
         self.secOcCryptoMappingRef: Optional[RefType] = None
 
         # Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions evaluate to true (AND associated) the Com_TriggerIPDUSend API shall be called.
-        self.triggerIPduSendConditions: List[ARObject] = []
+        self.triggerIPduSendConditions: List[TriggerIPduSendCondition] = []
 
     def getIPduRef(self) -> Optional[RefType]:
         """
@@ -1666,13 +1666,13 @@ class PduTriggering(Identifiable):
             self.secOcCryptoMappingRef = value
         return self
 
-    def getTriggerIPduSendConditions(self) -> List[ARObject]:
+    def getTriggerIPduSendConditions(self) -> List[TriggerIPduSendCondition]:
         """
         Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions evaluate to true (AND associated) the Com_TriggerIPDUSend API shall be called.
         """
         return self.triggerIPduSendConditions
 
-    def addTriggerIPduSendCondition(self, value: Optional[ARObject]) -> "PduTriggering":
+    def addTriggerIPduSendCondition(self, value: Optional[TriggerIPduSendCondition]) -> "PduTriggering":
         """
         Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions evaluate to true (AND associated) the Com_TriggerIPDUSend API shall be called.
         """

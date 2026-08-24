@@ -546,6 +546,7 @@ class TestWritePduTriggering:
         assert ptt.find("SEC-OC-CRYPTO-MAPPING-REF").text == "/map"
 
     def test_write_pdu_triggering_roundtrip(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TriggerIPduSendCondition
         from armodel.parser.arxml_parser import ARXMLParser
 
         NS = "http://autosar.org/schema/r4.0"
@@ -556,6 +557,10 @@ class TestWritePduTriggering:
         pt.addIPduPortRef(_ref("I-PDU-PORT", "/p2"))
         pt.addISignalTriggeringRef(_ref("I-SIGNAL-TRIGGERING", "/ist1"))
         pt.setSecOcCryptoMappingRef(_ref("SEC-OC-CRYPTO-SERVICE-MAPPING", "/map"))
+        condition = TriggerIPduSendCondition()
+        condition.addModeDeclarationRef(_ref("MODE-DECLARATION", "/md1"))
+        condition.addModeDeclarationRef(_ref("MODE-DECLARATION", "/md2"))
+        pt.addTriggerIPduSendCondition(condition)
 
         parent = _parent()
         writer.writePduTriggering(parent, pt)
@@ -572,6 +577,12 @@ class TestWritePduTriggering:
         assert ports[1].getValue() == "/p2"
         assert reparsed.getISignalTriggeringRefs()[0].getValue() == "/ist1"
         assert reparsed.getSecOcCryptoMappingRef().getValue() == "/map"
+        conditions = reparsed.getTriggerIPduSendConditions()
+        assert len(conditions) == 1
+        md_refs = conditions[0].getModeDeclarationRefs()
+        assert len(md_refs) == 2
+        assert md_refs[0].getValue() == "/md1"
+        assert md_refs[1].getValue() == "/md2"
 
 
 class TestWritePhysicalChannelHelpers:
