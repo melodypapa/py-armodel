@@ -709,6 +709,54 @@ class SomeipSdClientServiceInstanceConfig(ARElement):
         return self
 
 
+class SomeipServiceVersion(ARObject):
+    """This meta-class represents the ability to describe a version of a SOME/IP Service."""
+
+    # SomeipServiceVersion method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.118, p.2059
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getMajorVersion        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMajorVersion        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinorVersion        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinorVersion        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Major Version of the ServiceInterface. Tags: xml.sequenceOffset=10
+        self.majorVersion: Optional[PositiveInteger] = None
+
+        # Minor Version of the ServiceInterface. Tags: xml.sequenceOffset=20
+        self.minorVersion: Optional[PositiveInteger] = None
+
+    def getMajorVersion(self) -> Optional[PositiveInteger]:
+        """Major Version of the ServiceInterface. Tags: xml.sequenceOffset=10"""
+        return self.majorVersion
+
+    def setMajorVersion(self, value: Optional[PositiveInteger]) -> "SomeipServiceVersion":
+        """
+        Major Version of the ServiceInterface. Tags: xml.sequenceOffset=10
+        A None value is a no-op and does not overwrite an existing majorVersion.
+        """
+        if value is not None:
+            self.majorVersion = value
+        return self
+
+    def getMinorVersion(self) -> Optional[PositiveInteger]:
+        """Minor Version of the ServiceInterface. Tags: xml.sequenceOffset=20"""
+        return self.minorVersion
+
+    def setMinorVersion(self, value: Optional[PositiveInteger]) -> "SomeipServiceVersion":
+        """
+        Minor Version of the ServiceInterface. Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing minorVersion.
+        """
+        if value is not None:
+            self.minorVersion = value
+        return self
+
+
 class SomeipSdClientEventGroupTimingConfig(ARElement):
     """This meta-class is used to specify configuration related to service discovery in the context of an event group on SOME/IP. Tags: atp.recommendedPackage=SomeipSdTimingConfigs"""
 

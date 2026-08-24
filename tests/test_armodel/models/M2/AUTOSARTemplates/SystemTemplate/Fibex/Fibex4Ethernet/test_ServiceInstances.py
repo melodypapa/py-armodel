@@ -2,6 +2,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     AbstractServiceInstance,
@@ -19,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
+    SomeipServiceVersion,
     TcpTp,
     TcpUdpConfig,
     TpPort,
@@ -1041,3 +1043,37 @@ class TestSomeipSdServerEventGroupTimingConfig:
         config.setRequestResponseDelay(delay)
         assert config.getRequestResponseDelay() == delay
         assert config == config.setRequestResponseDelay(delay)
+
+
+class TestSomeipServiceVersion:
+    """Test cases for SomeipServiceVersion class (Table F.118, p.2059)."""
+
+    def test_initialization(self):
+        """Test SomeipServiceVersion defaults."""
+        version = SomeipServiceVersion()
+
+        assert isinstance(version, ARObject)
+        assert version.getMajorVersion() is None
+        assert version.getMinorVersion() is None
+
+    def test_get_set_majorVersion(self):
+        """Test get/set majorVersion with None no-op and chaining."""
+        version = SomeipServiceVersion()
+
+        assert version == version.setMajorVersion(None)
+        assert version.getMajorVersion() is None
+
+        version.setMajorVersion(PositiveInteger().setValue("4"))
+        assert version.getMajorVersion().getValue() == 4
+        assert version == version.setMajorVersion(PositiveInteger().setValue("4"))
+
+    def test_get_set_minorVersion(self):
+        """Test get/set minorVersion with None no-op and chaining."""
+        version = SomeipServiceVersion()
+
+        assert version == version.setMinorVersion(None)
+        assert version.getMinorVersion() is None
+
+        version.setMinorVersion(PositiveInteger().setValue("2"))
+        assert version.getMinorVersion().getValue() == 2
+        assert version == version.setMinorVersion(PositiveInteger().setValue("2"))

@@ -515,6 +515,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
+    SomeipServiceVersion,
     TcpTp,
     TpPort,
     TransportProtocolConfiguration,
@@ -6266,9 +6267,21 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported ConsumedEventGroups <%s>" % tag_name)
 
+    def getSomeipServiceVersions(self, element: ET.Element, key: str) -> List[SomeipServiceVersion]:
+        versions = []
+        wrapper = self.find(element, key)
+        if wrapper is not None:
+            for child_element in self.findall(wrapper, "SOMEIP-SERVICE-VERSION"):
+                version = SomeipServiceVersion()
+                version.setMajorVersion(self.getChildElementOptionalPositiveInteger(child_element, "MAJOR-VERSION"))
+                version.setMinorVersion(self.getChildElementOptionalPositiveInteger(child_element, "MINOR-VERSION"))
+                versions.append(version)
+        return versions
+
     def readConsumedServiceInstance(self, element: ET.Element, instance: ConsumedServiceInstance):
         self.readIdentifiable(element, instance)
         self.readConsumedServiceInstanceConsumedEventGroups(element, instance)
+        instance.setBlocklistedVersions(self.getSomeipServiceVersions(element, "BLOCKLISTED-VERSIONS"))
         instance.setProvidedServiceInstanceRef(self.getChildElementOptionalRefType(element, "PROVIDED-SERVICE-INSTANCE-REF"))
         instance.setSdClientConfig(self.getSdClientConfig(element, "SD-CLIENT-CONFIG"))
 

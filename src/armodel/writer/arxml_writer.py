@@ -486,6 +486,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
+    SomeipServiceVersion,
     TcpTp,
     TpPort,
     TransportProtocolConfiguration,
@@ -6763,11 +6764,20 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported ConsumedEventGroups <%s>" % type(group))
 
+    def setSomeipServiceVersions(self, element: ET.Element, key: str, versions: List[SomeipServiceVersion]):
+        if versions:
+            wrapper = ET.SubElement(element, key)
+            for version in versions:
+                child_element = ET.SubElement(wrapper, "SOMEIP-SERVICE-VERSION")
+                self.setChildElementOptionalPositiveInteger(child_element, "MAJOR-VERSION", version.getMajorVersion())
+                self.setChildElementOptionalPositiveInteger(child_element, "MINOR-VERSION", version.getMinorVersion())
+
     def writeConsumedServiceInstance(self, element: ET.Element, instance: ConsumedServiceInstance):
         if instance is not None:
             child_element = ET.SubElement(element, "CONSUMED-SERVICE-INSTANCE")
             self.writeIdentifiable(child_element, instance)
             self.writeConsumedServiceInstanceConsumedEventGroups(child_element, instance)
+            self.setSomeipServiceVersions(child_element, "BLOCKLISTED-VERSIONS", instance.getBlocklistedVersions())
             self.setChildElementOptionalRefType(child_element, "PROVIDED-SERVICE-INSTANCE-REF", instance.getProvidedServiceInstanceRef())
             self.setSdClientConfig(child_element, "SD-CLIENT-CONFIG", instance.getSdClientConfig())
 
