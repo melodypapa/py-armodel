@@ -736,41 +736,31 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
 class BswCalledEntity(BswModuleEntity):
     """
-    Represents a BSW module entity that can be called by other entities.
-    This is typically used for BSW service functions that can be invoked.
+    BSW module entity which is designed to be called from another BSW module
+    or cluster.
     """
 
     # BswCalledEntity method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.6, p.74
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswCalledEntity with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this entity
-            short_name: The unique short name of this entity
-        """
         super().__init__(parent, short_name)
 
 
 class BswSchedulableEntity(BswModuleEntity):
     """
-    Represents a BSW module entity that can be scheduled for execution.
-    This is typically used for BSW functions that can be scheduled by the OS.
+    BSW module entity, which is designed for control by the BSW Scheduler. It
+    may for example implement a so-called "main" function.
     """
 
     # BswSchedulableEntity method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.7, p.75
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswSchedulableEntity with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this entity
-            short_name: The unique short name of this entity
-        """
         super().__init__(parent, short_name)
 
 

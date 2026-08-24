@@ -494,6 +494,9 @@ class TestBswCalledEntity:
         entity = BswCalledEntity(ar_root, "test_called_entity")
 
         assert entity.short_name == "test_called_entity"
+        assert entity.getShortName() == "test_called_entity"
+        assert isinstance(entity, BswModuleEntity)
+        assert entity.getParent() is ar_root
 
 
 class TestBswSchedulableEntity:
@@ -505,6 +508,9 @@ class TestBswSchedulableEntity:
         entity = BswSchedulableEntity(ar_root, "test_schedulable_entity")
 
         assert entity.short_name == "test_schedulable_entity"
+        assert entity.getShortName() == "test_schedulable_entity"
+        assert isinstance(entity, BswModuleEntity)
+        assert entity.getParent() is ar_root
 
 
 class TestBswInterruptCategory:
