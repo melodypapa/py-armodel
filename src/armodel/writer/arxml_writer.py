@@ -483,6 +483,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SdServerConfig,
     SoAdConfig,
     SocketAddress,
+    SomeipSdClientServiceInstanceConfig,
     TcpTp,
     TpPort,
     TransportProtocolConfiguration,
@@ -6796,6 +6797,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "SERVER-SERVICE-MINOR-VERSION", config.getServerServiceMinorVersion())
             self.setChildElementOptionalPositiveInteger(child_element, "TTL", config.getTtl())
 
+    def writeSomeipSdClientServiceInstanceConfig(self, element: ET.Element, config: SomeipSdClientServiceInstanceConfig):
+        self.logger.debug("Write SomeipSdClientServiceInstanceConfig <%s>" % config.getShortName())
+        child_element = ET.SubElement(element, "SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG")
+        self.writeIdentifiable(child_element, config)
+        self.setInitialSdDelayConfig(child_element, "INITIAL-FIND-BEHAVIOR", config.getInitialFindBehavior())
+        self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", config.getPriority())
+        self.setChildElementOptionalPositiveInteger(child_element, "SERVICE-FIND-TIME-TO-LIVE", config.getServiceFindTimeToLive())
+
     def writeEventHandler(self, element: ET.Element, handler: EventHandler):
         if handler is not None:
             child_element = ET.SubElement(element, "EVENT-HANDLER")
@@ -9674,6 +9683,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSecureCommunicationPropsSet(element, ar_element)
         elif isinstance(ar_element, SoAdRoutingGroup):
             self.writeSoAdRoutingGroup(element, ar_element)
+        elif isinstance(ar_element, SomeipSdClientServiceInstanceConfig):
+            self.writeSomeipSdClientServiceInstanceConfig(element, ar_element)
         elif isinstance(ar_element, DoIpTpConfig):
             self.writeDoIpTpConfig(element, ar_element)
         elif isinstance(ar_element, HwElement):

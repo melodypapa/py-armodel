@@ -116,6 +116,7 @@ ELEMENT_TYPES_AND_TAGS = [
     ("GeneralPurposePdu", "GENERAL-PURPOSE-PDU"),
     ("GeneralPurposeIPdu", "GENERAL-PURPOSE-I-PDU"),
     ("SoAdRoutingGroup", "SO-AD-ROUTING-GROUP"),
+    ("SomeipSdClientServiceInstanceConfig", "SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG"),
     ("DoIpTpConfig", "DO-IP-TP-CONFIG"),
     ("HwElement", "HW-ELEMENT"),
     ("HwCategory", "HW-CATEGORY"),

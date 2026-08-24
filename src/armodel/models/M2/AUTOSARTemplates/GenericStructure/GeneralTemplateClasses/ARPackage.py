@@ -89,6 +89,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SomeipSdClientServiceInstanceConfig
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig
@@ -1387,6 +1388,12 @@ class ARPackage(CollectableElement):
             group = SoAdRoutingGroup(self, short_name)
             self.addElement(group)
         return self.getElement(short_name, SoAdRoutingGroup)
+
+    def createSomeipSdClientServiceInstanceConfig(self, short_name: str) -> SomeipSdClientServiceInstanceConfig:
+        if not self.IsElementExists(short_name, SomeipSdClientServiceInstanceConfig):
+            config = SomeipSdClientServiceInstanceConfig(self, short_name)
+            self.addElement(config)
+        return self.getElement(short_name, SomeipSdClientServiceInstanceConfig)
 
     def createDoIpTpConfig(self, short_name: str) -> DoIpTpConfig:
         if not self.IsElementExists(short_name, DoIpTpConfig):

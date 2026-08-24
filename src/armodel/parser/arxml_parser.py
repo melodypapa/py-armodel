@@ -512,6 +512,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SdServerConfig,
     SoAdConfig,
     SocketAddress,
+    SomeipSdClientServiceInstanceConfig,
     TcpTp,
     TpPort,
     TransportProtocolConfiguration,
@@ -6289,6 +6290,13 @@ class ARXMLParser(AbstractARXMLParser):
             config.setInitialRepetitionsMax(self.getChildElementOptionalPositiveInteger(child_element, "INITIAL-REPETITIONS-MAX"))
         return config
 
+    def readSomeipSdClientServiceInstanceConfig(self, element: ET.Element, config: SomeipSdClientServiceInstanceConfig):
+        self.logger.debug("Read SomeipSdClientServiceInstanceConfig <%s>" % config.getShortName())
+        self.readIdentifiable(element, config)
+        config.setInitialFindBehavior(self.getInitialSdDelayConfig(element, "INITIAL-FIND-BEHAVIOR"))
+        config.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
+        config.setServiceFindTimeToLive(self.getChildElementOptionalPositiveInteger(element, "SERVICE-FIND-TIME-TO-LIVE"))
+
     def getSdServerConfig(self, element: ET.Element, key: str) -> SdServerConfig:
         config = None
         child_element = self.find(element, key)
@@ -9496,6 +9504,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SO-AD-ROUTING-GROUP":
                 group = parent.createSoAdRoutingGroup(self.getShortName(child_element))
                 self.readSoAdRoutingGroup(child_element, group)
+            elif tag_name == "SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG":
+                config = parent.createSomeipSdClientServiceInstanceConfig(self.getShortName(child_element))
+                self.readSomeipSdClientServiceInstanceConfig(child_element, config)
             elif tag_name == "DO-IP-TP-CONFIG":
                 config = parent.createDoIpTpConfig(self.getShortName(child_element))
                 self.readDoIpTpConfig(child_element, config)

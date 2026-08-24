@@ -5,7 +5,7 @@ from abc import ABC
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, String, TimeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
 
@@ -638,6 +638,73 @@ class InitialSdDelayConfig(ARObject):
     def setInitialRepetitionsMax(self, value):
         if value is not None:
             self.initialRepetitionsMax = value
+        return self
+
+
+class SomeipSdClientServiceInstanceConfig(ARElement):
+    """Client specific settings that are relevant for the configuration of SOME/IP Service-Discovery. Tags: atp.recommendedPackage=SomeipSdTimingConfigs"""
+
+    # Spec verified: R23-11
+    # SomeipSdClientServiceInstanceConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.117, p.2059
+    # Columns: impl / docstring / test / reader / writer
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getInitialFindBehavior       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setInitialFindBehavior       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getPriority                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setPriority                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getServiceFindTimeToLive     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setServiceFindTimeToLive     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Controls initial find behavior of clients.
+        self.initialFindBehavior: Optional[InitialSdDelayConfig] = None
+
+        # This attribute defines the VLAN frame priority for Service Discovery messages that result from RequiredSomeipServiceInstances that are referncing this SomeipSdClientServiceInstanceConfig (Find, SubscribeEventGroup, Stop SubscribeEventgroup). Values from 0 (best effort) to 7 (highest) are allowed.
+        self.priority: Optional[PositiveInteger] = None
+
+        # This attribute represents the ability to define the time in seconds the service find is valid. Note! The TTL value for FindService entries is not used and shall be ignored by the server service. This configuration is only kept for backward compatibility. Default value if not specified shall be 0xFFFFFF.
+        self.serviceFindTimeToLive: Optional[PositiveInteger] = None
+
+    def getInitialFindBehavior(self) -> Optional[InitialSdDelayConfig]:
+        """Controls initial find behavior of clients."""
+        return self.initialFindBehavior
+
+    def setInitialFindBehavior(self, value: Optional[InitialSdDelayConfig]) -> "SomeipSdClientServiceInstanceConfig":
+        """
+        Controls initial find behavior of clients.
+        A None value is a no-op and does not overwrite an existing initialFindBehavior.
+        """
+        if value is not None:
+            self.initialFindBehavior = value
+        return self
+
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """This attribute defines the VLAN frame priority for Service Discovery messages that result from RequiredSomeipServiceInstances that are referncing this SomeipSdClientServiceInstanceConfig (Find, SubscribeEventGroup, Stop SubscribeEventgroup). Values from 0 (best effort) to 7 (highest) are allowed."""
+        return self.priority
+
+    def setPriority(self, value: Optional[PositiveInteger]) -> "SomeipSdClientServiceInstanceConfig":
+        """
+        This attribute defines the VLAN frame priority for Service Discovery messages that result from RequiredSomeipServiceInstances that are referncing this SomeipSdClientServiceInstanceConfig (Find, SubscribeEventGroup, Stop SubscribeEventgroup). Values from 0 (best effort) to 7 (highest) are allowed.
+        A None value is a no-op and does not overwrite an existing priority.
+        """
+        if value is not None:
+            self.priority = value
+        return self
+
+    def getServiceFindTimeToLive(self) -> Optional[PositiveInteger]:
+        """This attribute represents the ability to define the time in seconds the service find is valid. Note! The TTL value for FindService entries is not used and shall be ignored by the server service. This configuration is only kept for backward compatibility. Default value if not specified shall be 0xFFFFFF."""
+        return self.serviceFindTimeToLive
+
+    def setServiceFindTimeToLive(self, value: Optional[PositiveInteger]) -> "SomeipSdClientServiceInstanceConfig":
+        """
+        This attribute represents the ability to define the time in seconds the service find is valid. Note! The TTL value for FindService entries is not used and shall be ignored by the server service. This configuration is only kept for backward compatibility. Default value if not specified shall be 0xFFFFFF.
+        A None value is a no-op and does not overwrite an existing serviceFindTimeToLive.
+        """
+        if value is not None:
+            self.serviceFindTimeToLive = value
         return self
 
 

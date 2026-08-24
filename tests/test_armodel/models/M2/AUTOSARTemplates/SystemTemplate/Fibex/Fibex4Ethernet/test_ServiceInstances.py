@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SdServerConfig,
     SoAdConfig,
     SocketAddress,
+    SomeipSdClientServiceInstanceConfig,
     TcpTp,
     TcpUdpConfig,
     TpPort,
@@ -900,3 +901,53 @@ class Test_Fibex4EthernetServiceInstances:
         socket_addr = config3.createSocketAddress("test_socket_addr")
         assert isinstance(socket_addr, SocketAddress)
         assert len(config3.getSocketAddresses()) == 1
+
+
+class TestSomeipSdClientServiceInstanceConfig:
+    """Test cases for SomeipSdClientServiceInstanceConfig class."""
+
+    def test_initialization(self):
+        """Test SomeipSdClientServiceInstanceConfig defaults."""
+        parent = MockParent()
+        config = SomeipSdClientServiceInstanceConfig(parent, "test_config")
+
+        assert config.getInitialFindBehavior() is None
+        assert config.getPriority() is None
+        assert config.getServiceFindTimeToLive() is None
+
+    def test_get_set_initialFindBehavior(self):
+        """Test get/set initialFindBehavior with None no-op and chaining."""
+        parent = MockParent()
+        config = SomeipSdClientServiceInstanceConfig(parent, "test_config")
+
+        assert config == config.setInitialFindBehavior(None)
+        assert config.getInitialFindBehavior() is None
+
+        behavior = InitialSdDelayConfig()
+        config.setInitialFindBehavior(behavior)
+        assert config.getInitialFindBehavior() == behavior
+        assert config == config.setInitialFindBehavior(behavior)
+
+    def test_get_set_priority(self):
+        """Test get/set priority with None no-op and chaining."""
+        parent = MockParent()
+        config = SomeipSdClientServiceInstanceConfig(parent, "test_config")
+
+        assert config == config.setPriority(None)
+        assert config.getPriority() is None
+
+        config.setPriority(5)
+        assert config.getPriority() == 5
+        assert config == config.setPriority(5)
+
+    def test_get_set_serviceFindTimeToLive(self):
+        """Test get/set serviceFindTimeToLive with None no-op and chaining."""
+        parent = MockParent()
+        config = SomeipSdClientServiceInstanceConfig(parent, "test_config")
+
+        assert config == config.setServiceFindTimeToLive(None)
+        assert config.getServiceFindTimeToLive() is None
+
+        config.setServiceFindTimeToLive(60)
+        assert config.getServiceFindTimeToLive() == 60
+        assert config == config.setServiceFindTimeToLive(60)
