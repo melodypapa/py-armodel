@@ -588,8 +588,22 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
             root_tag="BH",
         )
         parser.readInternalBehavior(element, behavior)
-        assert len(behavior.getExclusiveAreas()) == 1
+        areas = behavior.getExclusiveAreas()
+        assert len(areas) == 1
+        assert areas[0].getShortName() == "ea1"
+        assert areas[0].getParent() is behavior
         assert len(behavior.getDataTypeMappingRefs()) == 1
+
+    def test_readInternalBehavior_exclusive_areas_empty_wrapper(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<SHORT-NAME>bh</SHORT-NAME>" "<EXCLUSIVE-AREAS>" "</EXCLUSIVE-AREAS>",
+            root_tag="BH",
+        )
+        parser.readInternalBehavior(element, behavior)
+        assert behavior.getExclusiveAreas() == []
 
     def test_readInternalBehavior_exclusive_area_nesting_orders(self, parser):
         from armodel.models import BswInternalBehavior

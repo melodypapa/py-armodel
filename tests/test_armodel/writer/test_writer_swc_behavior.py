@@ -377,6 +377,17 @@ class TestWriterInternalBehavior:
         areas = parent.find("EXCLUSIVE-AREAS")
         assert areas is not None
         assert areas[0].tag == "EXCLUSIVE-AREA"
+        assert areas[0].find("SHORT-NAME").text == "ea1"
+
+    def test_writeExclusiveAreas_multiple(self, writer):
+        behavior = _make_behavior()
+        behavior.createExclusiveArea("ea1")
+        behavior.createExclusiveArea("ea2")
+        parent = _parent()
+        writer.writeExclusiveAreas(parent, behavior)
+        areas = parent.find("EXCLUSIVE-AREAS")
+        names = [a.find("SHORT-NAME").text for a in areas.findall("EXCLUSIVE-AREA")]
+        assert names == ["ea1", "ea2"]
 
     def test_writeExclusiveAreas_empty(self, writer):
         behavior = _make_behavior()

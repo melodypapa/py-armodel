@@ -51,22 +51,15 @@ class ReentrancyLevelEnum(AREnum):
 
 class ExclusiveArea(Identifiable):
     """
-    Represents an exclusive area in AUTOSAR models.
-    Exclusive areas define critical sections that must not be executed concurrently,
-    typically used for protecting shared resources in multithreaded environments.
+    Prevents an executable entity running in the area from being preempted.
     """
 
     # ExclusiveArea method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.16, p.82
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ExclusiveArea with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this exclusive area
-            short_name: The unique short name of this exclusive area
-        """
         super().__init__(parent, short_name)
 
 

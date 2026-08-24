@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import 
     InternalBehavior,
     ReentrancyLevelEnum,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
 
 
@@ -59,13 +60,30 @@ class TestApiPrincipleEnum:
 
 class TestExclusiveArea:
     def test_initialization(self):
-        """Test ExclusiveArea initialization"""
+        """Test ExclusiveArea initialization with Identifiable base and no own attributes."""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         exclusive_area = ExclusiveArea(ar_root, "TestExclusiveArea")
 
         assert exclusive_area is not None
+        assert isinstance(exclusive_area, Identifiable)
         assert exclusive_area.getShortName() == "TestExclusiveArea"
+        assert exclusive_area.getParent() is ar_root
+
+    def test_no_own_attributes_beyond_identifiable(self):
+        """ExclusiveArea has no spec attributes of its own (Table 5.16)."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class IdentifiableProbe(Identifiable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        probe = IdentifiableProbe(ar_root, "Probe")
+        exclusive_area = ExclusiveArea(ar_root, "TestExclusiveArea")
+
+        own = set(vars(exclusive_area)) - set(vars(probe))
+        assert own == set()
 
 
 class TestExecutableEntity:
