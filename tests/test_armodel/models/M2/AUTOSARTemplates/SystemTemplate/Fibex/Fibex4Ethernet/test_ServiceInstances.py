@@ -2,6 +2,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     AbstractServiceInstance,
@@ -15,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SdServerConfig,
     SoAdConfig,
     SocketAddress,
+    SomeipSdClientEventGroupTimingConfigRefConditional,
     TcpTp,
     TcpUdpConfig,
     TpPort,
@@ -900,3 +902,20 @@ class Test_Fibex4EthernetServiceInstances:
         socket_addr = config3.createSocketAddress("test_socket_addr")
         assert isinstance(socket_addr, SocketAddress)
         assert len(config3.getSocketAddresses()) == 1
+
+    def test_SomeipSdClientEventGroupTimingConfigRefConditional_initialization(self):
+        """Test SomeipSdClientEventGroupTimingConfigRefConditional default state (XSD-only)."""
+        obj = SomeipSdClientEventGroupTimingConfigRefConditional()
+
+        assert isinstance(obj, ARObject)
+        assert obj.getSomeipSdClientEventGroupTimingConfigRef() is None
+
+    def test_SomeipSdClientEventGroupTimingConfigRefConditional_get_set(self):
+        """Test SomeipSdClientEventGroupTimingConfigRefConditional getter/setter with None no-op."""
+        obj = SomeipSdClientEventGroupTimingConfigRefConditional()
+        ref = RefType().setValue("/Example/SdClientTiming").setDest("SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG")
+
+        assert obj == obj.setSomeipSdClientEventGroupTimingConfigRef(ref)
+        assert obj.getSomeipSdClientEventGroupTimingConfigRef() == ref
+        assert obj == obj.setSomeipSdClientEventGroupTimingConfigRef(None)  # None no-op
+        assert obj.getSomeipSdClientEventGroupTimingConfigRef() == ref

@@ -483,6 +483,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SdServerConfig,
     SoAdConfig,
     SocketAddress,
+    SomeipSdClientEventGroupTimingConfigRefConditional,
     TcpTp,
     TpPort,
     TransportProtocolConfiguration,
@@ -9265,6 +9266,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY-ID", props.getPriorityId())
             self.setChildElementOptionalPositiveInteger(child_element, "SDU-TYPE", props.getSduType())
             self.setChildElementOptionalPositiveInteger(child_element, "VCID", props.getVcid())
+
+    def setSomeipSdClientEventGroupTimingConfigRefConditional(self, element: ET.Element, key: str, ref_conditional: SomeipSdClientEventGroupTimingConfigRefConditional):
+        if ref_conditional is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalRefType(child_element, "SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG-REF", ref_conditional.getSomeipSdClientEventGroupTimingConfigRef())
 
     def setLinOrderedConfigurableFrame(self, element: ET.Element, key: str, frame: LinOrderedConfigurableFrame):
         if frame is not None:

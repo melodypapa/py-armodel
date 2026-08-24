@@ -512,6 +512,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SdServerConfig,
     SoAdConfig,
     SocketAddress,
+    SomeipSdClientEventGroupTimingConfigRefConditional,
     TcpTp,
     TpPort,
     TransportProtocolConfiguration,
@@ -6391,6 +6392,14 @@ class ARXMLParser(AbstractARXMLParser):
             self.readSoAdConfigConnectionBundles(child_element, config)
             self.readSoAdConfigSocketAddresses(child_element, config)
         return config
+
+    def getSomeipSdClientEventGroupTimingConfigRefConditional(self, element: ET.Element, key: str) -> SomeipSdClientEventGroupTimingConfigRefConditional:
+        ref_conditional = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            ref_conditional = SomeipSdClientEventGroupTimingConfigRefConditional()
+            ref_conditional.setSomeipSdClientEventGroupTimingConfigRef(self.getChildElementOptionalRefType(child_element, "SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG-REF"))
+        return ref_conditional
 
     def readEthernetPhysicalChannelVlan(self, element: ET.Element, channel: EthernetPhysicalChannel):
         child_element = self.find(element, "VLAN")

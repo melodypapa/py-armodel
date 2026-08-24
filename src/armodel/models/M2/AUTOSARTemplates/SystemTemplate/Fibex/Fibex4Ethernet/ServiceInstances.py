@@ -1409,3 +1409,38 @@ class SoAdConfig(ARObject):
         address = SocketAddress(self, short_name)
         self.socketAddresses.append(address)
         return address
+
+
+class SomeipSdClientEventGroupTimingConfigRefConditional(ARObject):
+    """This element was generated/modified due to an atpVariation stereotype."""
+
+    # SomeipSdClientEventGroupTimingConfigRefConditional method parity checklist:
+    # Spec: XSD-only (AUTOSAR_00052.xsd, SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG-REF-CONDITIONAL),
+    #       atpVariation-generated wrapper - no markdown/PDF table (Rule 0002, no '# Spec verified' stamp)
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getSomeipSdClientEventGroupTimingConfigRef  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setSomeipSdClientEventGroupTimingConfigRef  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # variationPoint: VARIATION-POINT not yet implemented (Rule 0001.10 placeholder) - reader/writer pending
+
+    def __init__(self):
+        super().__init__()
+
+        # References a SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG.
+        self.someipSdClientEventGroupTimingConfigRef: Optional[RefType] = None
+
+        # (VARIATION-POINT type not yet implemented - Rule 0001.10 placeholder)
+        self.variationPoint: Optional[ARObject] = None
+
+    def getSomeipSdClientEventGroupTimingConfigRef(self) -> Optional[RefType]:
+        """References a SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG."""
+        return self.someipSdClientEventGroupTimingConfigRef
+
+    def setSomeipSdClientEventGroupTimingConfigRef(self, value: Optional[RefType]) -> "SomeipSdClientEventGroupTimingConfigRefConditional":
+        """
+        References a SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG.
+        A None value is a no-op and does not overwrite an existing someipSdClientEventGroupTimingConfigRef.
+        """
+        if value is not None:
+            self.someipSdClientEventGroupTimingConfigRef = value
+        return self
