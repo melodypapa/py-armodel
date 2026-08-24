@@ -1505,6 +1505,7 @@ class EcucEnumerationParamDef(EcucParameterDef):
 
     # EcucEnumerationParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.23, p.66
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getDefaultValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setDefaultValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
