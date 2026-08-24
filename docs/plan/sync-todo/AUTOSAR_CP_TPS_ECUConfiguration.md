@@ -131,7 +131,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [x] 8. PduTriggering — input (commit df03c70, stamp deferred)
+### [x] 8. PduTriggering — input (commit df03c70; triggerIPduSendConditions fixed 67742d9; stamped 1273ab7)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py:1482`
 - Spec: `AUTOSAR_CP_TPS_SystemTemplate.md` Table 6.31
 - Depends on: IPduPort (row 2), ISignalTriggering (row 3)
@@ -195,7 +195,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [x] 12. DocRevision — member (commit a808be0, stamp deferred)
+### [x] 12. DocRevision — member (commit a808be0, stamped 1273ab7)
 - Source: `src/armodel/models/M2/MSR/AsamHdo/AdminData.py:46`
 - Spec: `AUTOSAR_FO_TPS_GenericStructureTemplate.md` Table 4.17
 - Role: aggr member of AdminData.docRevision
@@ -211,7 +211,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [x] 13. AdminData — input (commit a808be0, stamp deferred)
+### [x] 13. AdminData — input (commit a808be0, stamped 1273ab7)
 - Source: `src/armodel/models/M2/MSR/AsamHdo/AdminData.py:241`
 - Spec: `AUTOSAR_FO_TPS_GenericStructureTemplate.md` Table 4.16
 - Depends on: DocRevision (row 12)
