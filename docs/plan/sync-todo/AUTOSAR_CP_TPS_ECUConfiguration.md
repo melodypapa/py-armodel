@@ -275,131 +275,131 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [ ] 17. EcucParameterDef — base/member
+### [x] 17. EcucParameterDef — base/member (commit 8e1edfd, stamp deferred)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:856`
 - Spec: `AUTOSAR_CP_TPS_ECUConfiguration.md` Table 2.14
 - Role: base of EcucEnumerationParamDef/EcucAddInfoParamDef; aggr member of EcucParamConfContainerDef.parameter
 - Steps:
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write the model class unit test (Red)
-  - [ ] Step 3 — Implement the model class (Green)
-  - [ ] Step 4 — Wipe & rewrite docstrings from spec Note
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser (reader) & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec + rows)
-  - [ ] Step 8 — Deviations ⇒ no stamp decision record
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write the model class unit test (Red)
+  - [x] Step 3 — Implement the model class (Green)
+  - [x] Step 4 — Wipe & rewrite docstrings from spec Note
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser (reader) & writer (Green)
+  - [x] Step 7 — Update checklist comment (# Spec + rows)
+  - [x] Step 8 — Deviations ⇒ no stamp decision record
+  - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
-### [ ] 18. EcucEnumerationLiteralDef — member
+### [x] 18. EcucEnumerationLiteralDef — member (commit 8e1edfd, stamp deferred)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:1421`
 - Spec: `AUTOSAR_CP_TPS_ECUConfiguration.md` Table 2.24
 - Role: aggr member of EcucEnumerationParamDef.literal
 - Steps:
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write the model class unit test (Red)
-  - [ ] Step 3 — Implement the model class (Green)
-  - [ ] Step 4 — Wipe & rewrite docstrings from spec Note
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser (reader) & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec + rows)
-  - [ ] Step 8 — Deviations ⇒ no stamp decision record
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write the model class unit test (Red)
+  - [x] Step 3 — Implement the model class (Green)
+  - [x] Step 4 — Wipe & rewrite docstrings from spec Note
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser (reader) & writer (Green)
+  - [x] Step 7 — Update checklist comment (# Spec + rows)
+  - [x] Step 8 — Deviations ⇒ no stamp decision record
+  - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
-### [ ] 19. EcucParamConfContainerDef — input
+### [x] 19. EcucParamConfContainerDef — input (commit 8e1edfd, stamp deferred)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:1596`
 - Spec: `AUTOSAR_CP_TPS_ECUConfiguration.md` Table 2.4
 - Depends on: EcucParameterDef (row 17); bases EcucContainerDef stamped ✓
-- Tracker deviations: missing parameter/reference/subContainer aggrs
+- Tracker deviations: missing parameter/reference/subContainer aggrs — resolved (all three typed Lists present); docstrings rewritten to verbatim spec Notes
 - Steps:
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write the model class unit test (Red)
-  - [ ] Step 3 — Implement the model class (Green)
-  - [ ] Step 4 — Wipe & rewrite docstrings from spec Note
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser (reader) & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec + rows)
-  - [ ] Step 8 — Deviations ⇒ no stamp decision record
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write the model class unit test (Red)
+  - [x] Step 3 — Implement the model class (Green)
+  - [x] Step 4 — Wipe & rewrite docstrings from spec Note
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser (reader) & writer (Green)
+  - [x] Step 7 — Update checklist comment (# Spec + rows)
+  - [x] Step 8 — Deviations ⇒ no stamp decision record
+  - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
-### [ ] 20. EcucChoiceContainerDef — input
+### [x] 20. EcucChoiceContainerDef — input (commit 8e1edfd, stamp deferred)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:1569`
 - Spec: `AUTOSAR_CP_TPS_ECUConfiguration.md` Table 2.5
 - Depends on: EcucParamConfContainerDef (row 19); base EcucContainerDef stamped ✓
-- Tracker deviation: missing choice aggr
+- Tracker deviation: missing choice aggr — resolved (choices typed List present)
 - Steps:
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write the model class unit test (Red)
-  - [ ] Step 3 — Implement the model class (Green)
-  - [ ] Step 4 — Wipe & rewrite docstrings from spec Note
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser (reader) & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec + rows)
-  - [ ] Step 8 — Deviations ⇒ no stamp decision record
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write the model class unit test (Red)
+  - [x] Step 3 — Implement the model class (Green)
+  - [x] Step 4 — Wipe & rewrite docstrings from spec Note
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser (reader) & writer (Green)
+  - [x] Step 7 — Update checklist comment (# Spec + rows)
+  - [x] Step 8 — Deviations ⇒ no stamp decision record
+  - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
-### [ ] 21. EcucEnumerationParamDef — input
+### [x] 21. EcucEnumerationParamDef — input (commit 8e1edfd, stamp deferred)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:1471`
 - Spec: `AUTOSAR_CP_TPS_ECUConfiguration.md` Table 2.23
 - Depends on: EcucParameterDef (row 17), EcucEnumerationLiteralDef (row 18)
-- Tracker deviation: missing literal aggr
+- Tracker deviation: missing literal aggr — resolved (literals typed List present)
 - Steps:
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write the model class unit test (Red)
-  - [ ] Step 3 — Implement the model class (Green)
-  - [ ] Step 4 — Wipe & rewrite docstrings from spec Note
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser (reader) & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec + rows)
-  - [ ] Step 8 — Deviations ⇒ no stamp decision record
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write the model class unit test (Red)
+  - [x] Step 3 — Implement the model class (Green)
+  - [x] Step 4 — Wipe & rewrite docstrings from spec Note
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser (reader) & writer (Green)
+  - [x] Step 7 — Update checklist comment (# Spec + rows)
+  - [x] Step 8 — Deviations ⇒ no stamp decision record
+  - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
-### [ ] 22. EcucAddInfoParamDef — input
+### [x] 22. EcucAddInfoParamDef — input (commit 8e1edfd, stamp deferred)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:1878`
 - Spec: `AUTOSAR_CP_TPS_ECUConfiguration.md` Table 2.25
 - Depends on: EcucParameterDef (row 17)
 - Tracker deviation: "-" (no own attrs beyond framework)
 - Steps:
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write the model class unit test (Red)
-  - [ ] Step 3 — Implement the model class (Green)
-  - [ ] Step 4 — Wipe & rewrite docstrings from spec Note
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser (reader) & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec + rows)
-  - [ ] Step 8 — Deviations ⇒ no stamp decision record
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write the model class unit test (Red)
+  - [x] Step 3 — Implement the model class (Green)
+  - [x] Step 4 — Wipe & rewrite docstrings from spec Note
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser (reader) & writer (Green)
+  - [x] Step 7 — Update checklist comment (# Spec + rows)
+  - [x] Step 8 — Deviations ⇒ no stamp decision record
+  - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
-### [ ] 23. EcucValueConfigurationClass — input
+### [x] 23. EcucValueConfigurationClass — input (commit 8e1edfd, stamp deferred)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:616`
 - Spec: `AUTOSAR_CP_TPS_ECUConfiguration.md` Table 2.10
 - Base: EcucAbstractConfigurationClass (stamped ✓)
 - Tracker deviation: "-" (no own attrs beyond framework)
 - Steps:
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write the model class unit test (Red)
-  - [ ] Step 3 — Implement the model class (Green)
-  - [ ] Step 4 — Wipe & rewrite docstrings from spec Note
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser (reader) & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec + rows)
-  - [ ] Step 8 — Deviations ⇒ no stamp decision record
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write the model class unit test (Red)
+  - [x] Step 3 — Implement the model class (Green)
+  - [x] Step 4 — Wipe & rewrite docstrings from spec Note
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser (reader) & writer (Green)
+  - [x] Step 7 — Update checklist comment (# Spec + rows)
+  - [x] Step 8 — Deviations ⇒ no stamp decision record
+  - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
-### [ ] 24. EcucModuleDef — input (last)
+### [x] 24. EcucModuleDef — input (last; commit 8e1edfd, stamp deferred)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py:2349`
 - Spec: `AUTOSAR_CP_TPS_ECUConfiguration.md` Table 2.2, p.32
 - Bases/members: EcucDefinitionElement, EcucContainerDef, EcucConfigurationVariantEnum all stamped ✓
-- Tracker deviations: naming (containers, refinedModuleDefRef, supportedConfigVariants)
+- Tracker deviations: naming (containers, refinedModuleDefRef, supportedConfigVariants) — resolved (all match spec Kind-suffix rules); docstrings rewritten to verbatim spec Notes
 - Steps:
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write the model class unit test (Red)
-  - [ ] Step 3 — Implement the model class (Green)
-  - [ ] Step 4 — Wipe & rewrite docstrings from spec Note
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser (reader) & writer (Green)
-  - [ ] Step 7 — Update checklist comment (# Spec + rows)
-  - [ ] Step 8 — Deviations ⇒ no stamp decision record
-  - [ ] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write the model class unit test (Red)
+  - [x] Step 3 — Implement the model class (Green)
+  - [x] Step 4 — Wipe & rewrite docstrings from spec Note
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser (reader) & writer (Green)
+  - [x] Step 7 — Update checklist comment (# Spec + rows)
+  - [x] Step 8 — Deviations ⇒ no stamp decision record
+  - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
 ---
 
