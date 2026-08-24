@@ -70,6 +70,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (  # noqa: E501
+    ByteOrderEnum,
+    Frame,
     ISignalTriggering,
     PduTriggering,
 )
@@ -184,24 +186,35 @@ class TestWriteFrameTriggering:
         assert trigs is not None
         assert len(trigs.findall("PDU-TRIGGERING-REF-CONDITIONAL")) == 1
 
-    def test_roundtrip_frame_triggering_refs(self, writer):
+    def test_write_frame_triggering_roundtrip(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        NS = "http://autosar.org/schema/r4.0"
         pkg = _pkg()
         ft = CanFrameTriggering(pkg, "Ft")
         ft.setFrameRef(_ref("FRAME", "/frame1"))
         ft.addFramePortRef(_ref("FRAME-PORT", "/fp1"))
         ft.addFramePortRef(_ref("FRAME-PORT", "/fp2"))
         ft.addPduTriggeringRef(_ref("PDU-TRIGGERING", "/pt1"))
-        parent = _parent()
-        writer.writeFrameTriggering(parent, ft)
+        ft.addPduTriggeringRef(_ref("PDU-TRIGGERING", "/pt2"))
 
-        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
-        reloaded = CanFrameTriggering(pkg, "Ft2")
-        ARXMLParser().readFrameTriggering(ET.fromstring(xml_str), reloaded)
-        assert reloaded.getFrameRef().getValue() == "/frame1"
-        ports = [r.getValue() for r in reloaded.getFramePortRefs()]
-        assert ports == ["/fp1", "/fp2"]
-        pds = [r.getValue() for r in reloaded.getPduTriggeringRefs()]
-        assert pds == ["/pt1"]
+        parent = _parent()
+        writer.writeCanFrameTriggering(parent, ft)
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % NS, 1)
+        namespaced = ET.fromstring(xml_str)
+
+        reparsed = CanFrameTriggering(pkg, "Ft2")
+        parser = ARXMLParser()
+        ARXMLParser().readCanFrameTriggering(parser.find(namespaced, "CAN-FRAME-TRIGGERING"), reparsed)
+        assert reparsed.getFrameRef().getValue() == "/frame1"
+        ports = reparsed.getFramePortRefs()
+        assert len(ports) == 2
+        assert ports[0].getValue() == "/fp1"
+        assert ports[1].getValue() == "/fp2"
+        pts = reparsed.getPduTriggeringRefs()
+        assert len(pts) == 2
+        assert pts[0].getValue() == "/pt1"
+        assert pts[1].getValue() == "/pt2"
 
 
 class TestWriteCanFrameTriggering:
@@ -495,6 +508,124 @@ class TestWriteISignalTriggering:
         assert len(refs.findall("I-SIGNAL-PORT-REF")) == 1
         assert ist.find("I-SIGNAL-REF") is not None
 
+    def test_write_isignal_triggering_roundtrip(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        NS = "http://autosar.org/schema/r4.0"
+        pkg = _pkg()
+        ch = CanPhysicalChannel(pkg, "Ch")
+        st = ch.createISignalTriggering("St")
+        st.setISignalRef(_ref("I-SIGNAL", "/sig"))
+        st.setISignalGroupRef(_ref("I-SIGNAL-GROUP", "/sg"))
+        st.addISignalPortRef(_ref("I-SIGNAL-PORT", "/sp1"))
+        st.addISignalPortRef(_ref("I-SIGNAL-PORT", "/sp2"))
+
+        parent = _parent()
+        writer.writePhysicalChannelISignalTriggerings(parent, ch)
+        assert parent.find("I-SIGNAL-TRIGGERINGS") is not None
+
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % NS, 1)
+        namespaced = ET.fromstring(xml_str)
+        reparsed = CanPhysicalChannel(pkg, "Ch2")
+        ARXMLParser().readPhysicalChannelISignalTriggerings(namespaced, reparsed)
+        trigs = reparsed.getISignalTriggerings()
+        assert len(trigs) == 1
+        rt = trigs[0]
+        assert rt.getISignalRef().getValue() == "/sig"
+        assert rt.getISignalGroupRef().getValue() == "/sg"
+        ports = rt.getISignalPortRefs()
+        assert len(ports) == 2
+        assert ports[0].getValue() == "/sp1"
+        assert ports[1].getValue() == "/sp2"
+
+
+class TestWritePduToFrameMapping:
+    class ConcreteFrame(Frame):
+        def __init__(self, parent, short_name):
+            super().__init__(parent, short_name)
+
+    def test_write_pdu_to_frame_mappings_empty(self, writer):
+        pkg = _pkg()
+        frame = self.ConcreteFrame(pkg, "F")
+        parent = _parent()
+        writer.writePduToFrameMappings(parent, frame)
+        assert parent.find("PDU-TO-FRAME-MAPPINGS") is None
+
+    def test_write_pdu_to_frame_mappings_full(self, writer):
+        pkg = _pkg()
+        frame = self.ConcreteFrame(pkg, "F")
+        mapping = frame.createPduToFrameMapping("M")
+        order = ByteOrderEnum()
+        order.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST)
+        mapping.setPackingByteOrder(order)
+        mapping.setPduRef(_ref("NM-PDU", "/NmPdu"))
+        mapping.setStartPosition(_integer("8"))
+        mapping.setUpdateIndicationBitPosition(_integer("15"))
+        parent = _parent()
+        writer.writePduToFrameMappings(parent, frame)
+        mappings = parent.find("PDU-TO-FRAME-MAPPINGS")
+        assert mappings is not None
+        el = mappings.find("PDU-TO-FRAME-MAPPING")
+        assert el is not None
+        assert el.find("PACKING-BYTE-ORDER").text == "mostSignificantByteFirst"
+        assert el.find("PDU-REF").text == "/NmPdu"
+        assert el.find("START-POSITION").text == "8"
+        assert el.find("UPDATE-INDICATION-BIT-POSITION").text == "15"
+
+    def test_pdu_to_frame_mappings_roundtrip(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        NS = "http://autosar.org/schema/r4.0"
+        pkg = _pkg()
+        frame = self.ConcreteFrame(pkg, "F")
+        mapping = frame.createPduToFrameMapping("M")
+        order = ByteOrderEnum()
+        order.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST)
+        mapping.setPackingByteOrder(order)
+        mapping.setPduRef(_ref("I-PDU", "/Ipdu"))
+        mapping.setStartPosition(_integer("0"))
+        mapping.setUpdateIndicationBitPosition(_integer("7"))
+
+        parent = _parent()
+        writer.writePduToFrameMappings(parent, frame)
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % NS, 1)
+        namespaced = ET.fromstring(xml_str)
+
+        reparsed = self.ConcreteFrame(pkg, "F2")
+        ARXMLParser().readPduToFrameMappings(namespaced, reparsed)
+        mappings = reparsed.getPduToFrameMappings()
+        assert len(mappings) == 1
+        rt = mappings[0]
+        assert rt.getPackingByteOrder().getValue() == "mostSignificantByteLast"
+        assert rt.getPduRef().getValue() == "/Ipdu"
+        assert rt.getStartPosition().getValue() == 0
+        assert rt.getUpdateIndicationBitPosition().getValue() == 7
+
+    def test_write_frame_roundtrip(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        NS = "http://autosar.org/schema/r4.0"
+        pkg = _pkg()
+        frame = self.ConcreteFrame(pkg, "F")
+        frame.setFrameLength(_integer("64"))
+        mapping = frame.createPduToFrameMapping("M")
+        order = ByteOrderEnum()
+        order.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST)
+        mapping.setPackingByteOrder(order)
+
+        parent = _parent()
+        writer.writeFrame(parent, frame)
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % NS, 1)
+        namespaced = ET.fromstring(xml_str)
+
+        reparsed = self.ConcreteFrame(pkg, "F2")
+        ARXMLParser().readFrame(namespaced, reparsed)
+        assert reparsed.getFrameLength().getValue() == 64
+        mappings = reparsed.getPduToFrameMappings()
+        assert len(mappings) == 1
+        assert mappings[0].getShortName() == "M"
+        assert mappings[0].getPackingByteOrder().getValue() == "mostSignificantByteFirst"
+
 
 class TestWritePduTriggering:
     def test_write_pdu_triggering_empty(self, writer):
@@ -522,6 +653,57 @@ class TestWritePduTriggering:
         trigs = ptt.find("I-SIGNAL-TRIGGERINGS")
         assert trigs is not None
         assert len(trigs.findall("I-SIGNAL-TRIGGERING-REF-CONDITIONAL")) == 1
+
+    def test_write_pdu_triggering_sec_oc(self, writer):
+        pkg = _pkg()
+        pt = PduTriggering(pkg, "Pt")
+        pt.setIPduRef(_ref("SECURED-I-PDU", "/sp"))
+        pt.setSecOcCryptoMappingRef(_ref("SEC-OC-CRYPTO-SERVICE-MAPPING", "/map"))
+        parent = _parent()
+        writer.writePduTriggering(parent, pt)
+        ptt = parent.find("PDU-TRIGGERING")
+        assert ptt is not None
+        assert ptt.find("I-PDU-REF").text == "/sp"
+        assert ptt.find("SEC-OC-CRYPTO-MAPPING-REF").text == "/map"
+
+    def test_write_pdu_triggering_roundtrip(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TriggerIPduSendCondition
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        NS = "http://autosar.org/schema/r4.0"
+        pkg = _pkg()
+        pt = PduTriggering(pkg, "Pt")
+        pt.setIPduRef(_ref("I-PDU", "/ipdu"))
+        pt.addIPduPortRef(_ref("I-PDU-PORT", "/p1"))
+        pt.addIPduPortRef(_ref("I-PDU-PORT", "/p2"))
+        pt.addISignalTriggeringRef(_ref("I-SIGNAL-TRIGGERING", "/ist1"))
+        pt.setSecOcCryptoMappingRef(_ref("SEC-OC-CRYPTO-SERVICE-MAPPING", "/map"))
+        condition = TriggerIPduSendCondition()
+        condition.addModeDeclarationRef(_ref("MODE-DECLARATION", "/md1"))
+        condition.addModeDeclarationRef(_ref("MODE-DECLARATION", "/md2"))
+        pt.addTriggerIPduSendCondition(condition)
+
+        parent = _parent()
+        writer.writePduTriggering(parent, pt)
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % NS, 1)
+        namespaced = ET.fromstring(xml_str)
+
+        reparsed = PduTriggering(pkg, "Pt2")
+        parser = ARXMLParser()
+        ARXMLParser().readPduTriggering(parser.find(namespaced, "PDU-TRIGGERING"), reparsed)
+        assert reparsed.getIPduRef().getValue() == "/ipdu"
+        ports = reparsed.getIPduPortRefs()
+        assert len(ports) == 2
+        assert ports[0].getValue() == "/p1"
+        assert ports[1].getValue() == "/p2"
+        assert reparsed.getISignalTriggeringRefs()[0].getValue() == "/ist1"
+        assert reparsed.getSecOcCryptoMappingRef().getValue() == "/map"
+        conditions = reparsed.getTriggerIPduSendConditions()
+        assert len(conditions) == 1
+        md_refs = conditions[0].getModeDeclarationRefs()
+        assert len(md_refs) == 2
+        assert md_refs[0].getValue() == "/md1"
+        assert md_refs[1].getValue() == "/md2"
 
 
 class TestWritePhysicalChannelHelpers:

@@ -1,12 +1,10 @@
 from abc import ABC
-from enum import Enum
 from typing import TYPE_CHECKING, List, Optional
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanPhysicalChannel
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger
@@ -14,7 +12,16 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinScheduleTable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import NetworkEndpoint
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement, FrameTriggering, ISignalTriggering, PduTriggering
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    CommConnectorPort,
+    FibexElement,
+    FramePort,
+    FrameTriggering,
+    IPduPort,
+    ISignalPort,
+    ISignalTriggering,
+    PduTriggering,
+)
 
 
 class CommunicationCycle(ARObject, ABC):
@@ -777,217 +784,6 @@ class PncGatewayTypeEnum(AREnum):
 
     def __init__(self):
         super().__init__([PncGatewayTypeEnum.ENUM_ACTIVE, PncGatewayTypeEnum.ENUM_NONE, PncGatewayTypeEnum.ENUM_PASSIVE])
-
-
-class CommunicationDirectionType(AREnum):
-    """
-    Enumeration defining communication direction types,
-    specifying whether communication is inbound or outbound.
-    """
-
-    # CommunicationDirectionType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    ENUM_IN = "in"
-    ENUM_OUT = "out"
-
-    def __init__(self):
-        super().__init__([CommunicationDirectionType.ENUM_IN, CommunicationDirectionType.ENUM_OUT])
-
-
-class CommConnectorPort(Identifiable, ABC):
-    """
-    Abstract base class for communication connector ports,
-    defining common properties for different types of
-    communication ports including direction and processing.
-    """
-
-    # CommConnectorPort method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCommunicationDirection    [x] impl  [ ] docstring  [ ] test
-    # [ ] setCommunicationDirection    [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        if type(self) is CommConnectorPort:
-            raise TypeError("CommConnectorPort is an abstract class.")
-
-        super().__init__(parent, short_name)
-
-        self.communicationDirection: CommunicationDirectionType = None
-
-    def getCommunicationDirection(self):
-        return self.communicationDirection
-
-    def setCommunicationDirection(self, value):
-        if value is not None:
-            self.communicationDirection = value
-        return self
-
-
-class FramePort(CommConnectorPort):
-    """
-    Represents a frame port for communication connectors,
-    handling frame-based communication at the connector level.
-    """
-
-    # FramePort method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-
-class IPduSignalProcessingEnum(Enum):
-    """
-    Enumeration defining types of IPDU signal processing,
-    specifying whether signal processing is deferred or immediate.
-    """
-
-    # IPduSignalProcessingEnum method parity checklist:
-    # (no methods)
-
-    ENUM_DEFERRED = "deferred"
-    ENUM_IMMEDIATE = "immediate"
-
-
-class IPduPort(CommConnectorPort):
-    """
-    Represents an IPDU port for communication connectors,
-    handling Interaction Protocol Data Unit communication
-    with specific processing and security properties.
-    """
-
-    # IPduPort method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIPduSignalProcessing      [x] impl  [ ] docstring  [ ] test
-    # [ ] setIPduSignalProcessing      [x] impl  [ ] docstring  [ ] test
-    # [ ] getKeyId                     [x] impl  [ ] docstring  [ ] test
-    # [ ] setKeyId                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getRxSecurityVerification    [x] impl  [ ] docstring  [ ] test
-    # [ ] setRxSecurityVerification    [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimestampRxAcceptanceWindow [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimestampRxAcceptanceWindow [x] impl  [ ] docstring  [ ] test
-    # [ ] getUseAuthDataFreshness      [x] impl  [ ] docstring  [ ] test
-    # [ ] setUseAuthDataFreshness      [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.iPduSignalProcessing: IPduSignalProcessingEnum = None
-        self.keyId: PositiveInteger = None
-        self.rxSecurityVerification: Boolean = None
-        self.timestampRxAcceptanceWindow: TimeValue = None
-        self.useAuthDataFreshness: Boolean = None
-
-    def getIPduSignalProcessing(self):
-        return self.iPduSignalProcessing
-
-    def setIPduSignalProcessing(self, value):
-        if value is not None:
-            self.iPduSignalProcessing = value
-        return self
-
-    def getKeyId(self):
-        return self.keyId
-
-    def setKeyId(self, value):
-        if value is not None:
-            self.keyId = value
-        return self
-
-    def getRxSecurityVerification(self):
-        return self.rxSecurityVerification
-
-    def setRxSecurityVerification(self, value):
-        if value is not None:
-            self.rxSecurityVerification = value
-        return self
-
-    def getTimestampRxAcceptanceWindow(self):
-        return self.timestampRxAcceptanceWindow
-
-    def setTimestampRxAcceptanceWindow(self, value):
-        if value is not None:
-            self.timestampRxAcceptanceWindow = value
-        return self
-
-    def getUseAuthDataFreshness(self):
-        return self.useAuthDataFreshness
-
-    def setUseAuthDataFreshness(self, value):
-        if value is not None:
-            self.useAuthDataFreshness = value
-        return self
-
-
-class ISignalPort(CommConnectorPort):
-    """
-    Represents an interaction signal port for communication connectors,
-    handling interaction signal communication with filtering,
-    timeout, and validity handling properties.
-    """
-
-    # ISignalPort method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataFilter                [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataFilter                [x] impl  [ ] docstring  [ ] test
-    # [ ] getDdsQosProfileRef          [x] impl  [ ] docstring  [ ] test
-    # [ ] setDdsQosProfileRef          [x] impl  [ ] docstring  [ ] test
-    # [ ] getFirstTimeout              [x] impl  [ ] docstring  [ ] test
-    # [ ] setFirstTimeout              [x] impl  [ ] docstring  [ ] test
-    # [ ] getHandleInvalid             [x] impl  [ ] docstring  [ ] test
-    # [ ] setHandleInvalid             [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeout                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeout                   [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.dataFilter: DataFilter = None
-        self.ddsQosProfileRef: RefType = None
-        self.firstTimeout: TimeValue = None
-        self.handleInvalid = None
-        self.timeout: TimeValue = None
-
-    def getDataFilter(self):
-        return self.dataFilter
-
-    def setDataFilter(self, value):
-        if value is not None:
-            self.dataFilter = value
-        return self
-
-    def getDdsQosProfileRef(self):
-        return self.ddsQosProfileRef
-
-    def setDdsQosProfileRef(self, value):
-        if value is not None:
-            self.ddsQosProfileRef = value
-        return self
-
-    def getFirstTimeout(self):
-        return self.firstTimeout
-
-    def setFirstTimeout(self, value):
-        if value is not None:
-            self.firstTimeout = value
-        return self
-
-    def getHandleInvalid(self):
-        return self.handleInvalid
-
-    def setHandleInvalid(self, value):
-        if value is not None:
-            self.handleInvalid = value
-        return self
-
-    def getTimeout(self):
-        return self.timeout
-
-    def setTimeout(self, value):
-        if value is not None:
-            self.timeout = value
-        return self
 
 
 class CommunicationConnector(Identifiable, ABC):

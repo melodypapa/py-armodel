@@ -10,88 +10,73 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 
 class AnyInstanceRef(AtpInstanceRef):
     """
-    Represents a generic instance reference in AUTOSAR models.
-    This class defines the structure for referencing any type of instance.
+    Describes a reference to any instance in an AUTOSAR model. This is the most generic form of an instance ref. Refer to the superclass notes for more details.
     """
 
     # AnyInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] getBaseRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] setBaseRef                   [x] impl  [x] docstring  [ ] test
-    # [x] getContextElementRefs        [x] impl  [x] docstring  [x] test
-    # [x] addContextElementRef         [x] impl  [x] docstring  [x] test
-    # [ ] getTargetRef                 [x] impl  [x] docstring  [ ] test
-    # [ ] setTargetRef                 [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.57, p.328
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBaseRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setBaseRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getContextElementRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addContextElementRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTargetRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTargetRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
+        # This is the base from which navigation path begins. Stereotypes: atpDerived
         self.baseRef: Optional[RefType] = None
+
+        # This is one step in the navigation path specified by the instance ref.
         self.contextElementRefs: List[RefType] = []
+
+        # This is the target of the instance ref.
         self.targetRef: Optional[RefType] = None
 
     def getBaseRef(self) -> Optional[RefType]:
         """
-        Gets the base reference.
-
-        Returns:
-            RefType representing the base reference, or None if not set
+        This is the base from which navigation path begins. Stereotypes: atpDerived
         """
         return self.baseRef
 
-    def setBaseRef(self, value: RefType):
+    def setBaseRef(self, value: Optional[RefType]) -> "AnyInstanceRef":
         """
-        Sets the base reference.
-
-        Args:
-            value: The base reference to set
-
-        Returns:
-            self for method chaining
+        This is the base from which navigation path begins. Stereotypes: atpDerived
+        A None value is a no-op and does not overwrite an existing baseRef.
         """
-        self.baseRef = value
+        if value is not None:
+            self.baseRef = value
         return self
 
     def getContextElementRefs(self) -> List[RefType]:
         """
-        Gets the list of context element references.
-
-        Returns:
-            List of RefType instances representing context element references
+        This is one step in the navigation path specified by the instance ref.
         """
         return self.contextElementRefs
 
-    def addContextElementRef(self, value: RefType):
+    def addContextElementRef(self, value: Optional[RefType]) -> "AnyInstanceRef":
         """
-        Adds a context element reference.
-
-        Args:
-            value: The context element reference to add
-
-        Returns:
-            self for method chaining
+        This is one step in the navigation path specified by the instance ref.
         """
-        self.contextElementRefs.append(value)
+        if value is not None:
+            self.contextElementRefs.append(value)
         return self
 
     def getTargetRef(self) -> Optional[RefType]:
         """
-        Gets the target reference.
-
-        Returns:
-            RefType representing the target reference, or None if not set
+        This is the target of the instance ref.
         """
         return self.targetRef
 
-    def setTargetRef(self, value: RefType):
+    def setTargetRef(self, value: Optional[RefType]) -> "AnyInstanceRef":
         """
-        Sets the target reference.
-
-        Args:
-            value: The target reference to set
-
-        Returns:
-            self for method chaining
+        This is the target of the instance ref.
+        A None value is a no-op and does not overwrite an existing targetRef.
         """
-        self.targetRef = value
+        if value is not None:
+            self.targetRef = value
         return self

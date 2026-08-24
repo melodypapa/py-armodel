@@ -262,3 +262,37 @@ class TransmissionModeDeclaration(ARObject):
     def setTransmissionModeTrueTiming(self, value):
         self.transmissionModeTrueTiming = value
         return self
+
+
+class TriggerIPduSendCondition(ARObject):
+    """
+    The condition defined by this class evaluates to true if one of the referenced modeDeclarations (OR associated) is active. The condition is used to define when the Pdu is triggered with the Com_TriggerIPDUSend API call.
+    """
+
+    # TriggerIPduSendCondition method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.70, p.399
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getModeDeclarationRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addModeDeclarationRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to one modeDeclaration which is OR associated in the context of the TriggerIPduSendCondition.
+        self.modeDeclarationRefs: List[RefType] = []
+
+    def getModeDeclarationRefs(self) -> List[RefType]:
+        """
+        Reference to one modeDeclaration which is OR associated in the context of the TriggerIPduSendCondition.
+        """
+        return self.modeDeclarationRefs
+
+    def addModeDeclarationRef(self, value) -> "TriggerIPduSendCondition":
+        """
+        Reference to one modeDeclaration which is OR associated in the context of the TriggerIPduSendCondition.
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.modeDeclarationRefs.append(value)
+        return self

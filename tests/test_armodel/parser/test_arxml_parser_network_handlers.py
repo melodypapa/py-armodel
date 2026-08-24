@@ -2689,18 +2689,33 @@ class TestEcuInstanceHandlers:
         parser.readFramePort(element, port)
         assert port.getCommunicationDirection().getValue() == "in"
 
-    def test_readIPduPort_sets_keyId(self, parser):
+    def test_readIPduPort_sets_timestampRxAcceptanceWindow(self, parser):
         from armodel.models import EcuInstance, EthernetCommunicationConnector, IPduPort
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         conn = EthernetCommunicationConnector(parent=instance, short_name="conn")
         port = IPduPort(parent=conn, short_name="ip")
         element = _snip(
-            "<SHORT-NAME>ip</SHORT-NAME>" "<KEY-ID>1</KEY-ID>" "<RX-SECURITY-VERIFICATION>true</RX-SECURITY-VERIFICATION>",
+            "<SHORT-NAME>ip</SHORT-NAME>" "<TIMESTAMP-RX-ACCEPTANCE-WINDOW>0.05</TIMESTAMP-RX-ACCEPTANCE-WINDOW>" "<RX-SECURITY-VERIFICATION>true</RX-SECURITY-VERIFICATION>",
             root_tag="I-PDU-PORT",
         )
         parser.readIPduPort(element, port)
-        assert port.getKeyId().getValue() == 1
+        assert float(port.getTimestampRxAcceptanceWindow().getValue()) == 0.05
+        assert port.getRxSecurityVerification().getValue() is True
+
+    def test_readIPduPort_keyId_removed_upstream(self, parser):
+        from armodel.models import EcuInstance, EthernetCommunicationConnector, IPduPort
+
+        instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
+        conn = EthernetCommunicationConnector(parent=instance, short_name="conn")
+        port = IPduPort(parent=conn, short_name="ip")
+        element = _snip(
+            "<SHORT-NAME>ip</SHORT-NAME>" "<KEY-ID>1</KEY-ID>",
+            root_tag="I-PDU-PORT",
+        )
+        parser.readIPduPort(element, port)
+        assert not hasattr(port, "keyId")
+        assert not hasattr(port, "getKeyId")
 
     def test_readISignalPort_sets_timeout(self, parser):
         from armodel.models import CanCommunicationConnector, EcuInstance, ISignalPort

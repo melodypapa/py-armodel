@@ -12,18 +12,20 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class AtpInstanceRef(ARObject, ABC):
     """
-    Abstract class for AUTOSAR Template Parameter (ATP) instance references.
-    This class defines the structure for referencing ATP instances.
+    An M0 instance of a classifier may be represented as a tree rooted at that instance, where under each node come the sub-trees representing the instances which act as features under that node. An instance ref specifies a navigation path from any M0 tree-instance of the base (which is a classifier) to a leaf (which is an instance of the target).
     """
 
     # AtpInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAtpBaseRef                [x] impl  [x] docstring  [ ] test
-    # [ ] setAtpBaseRef                [x] impl  [x] docstring  [ ] test
-    # [x] getAtpContextElementRefs     [x] impl  [x] docstring  [x] test
-    # [x] addAtpContextElementRef      [x] impl  [x] docstring  [x] test
-    # [ ] getAtpTargetRef              [x] impl  [x] docstring  [ ] test
-    # [ ] setAtpTargetRef              [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 5.3, p.174
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAtpBaseRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAtpBaseRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAtpContextElementRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addAtpContextElementRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAtpTargetRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAtpTargetRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         if type(self) is AtpInstanceRef:
@@ -31,74 +33,57 @@ class AtpInstanceRef(ARObject, ABC):
 
         super().__init__()
 
+        # This is the base from which the navigaion path starts. Stereotypes: atpAbstract; atpDerived
         self.atpBaseRef: Optional[RefType] = None
+
+        # This is one particular step in the navigation path. Stereotypes: atpAbstract
         self.atpContextElementRefs: List[RefType] = []
+
+        # This is the target of the instance ref. In other words it is the terminal of the navigation path. Stereotypes: atpAbstract
         self.atpTargetRef: Optional[RefType] = None
 
     def getAtpBaseRef(self) -> Optional[RefType]:
         """
-        Gets the ATP base reference.
-
-        Returns:
-            RefType representing the base reference, or None if not set
+        This is the base from which the navigaion path starts. Stereotypes: atpAbstract; atpDerived
         """
         return self.atpBaseRef
 
-    def setAtpBaseRef(self, value: RefType):
+    def setAtpBaseRef(self, value: Optional[RefType]) -> "AtpInstanceRef":
         """
-        Sets the ATP base reference.
-
-        Args:
-            value: The base reference to set
-
-        Returns:
-            self for method chaining
+        This is the base from which the navigaion path starts. Stereotypes: atpAbstract; atpDerived
+        A None value is a no-op and does not overwrite an existing atpBaseRef.
         """
-        self.atpBaseRef = value
+        if value is not None:
+            self.atpBaseRef = value
         return self
 
     def getAtpContextElementRefs(self) -> List[RefType]:
         """
-        Gets the list of ATP context element references.
-
-        Returns:
-            List of RefType instances representing context element references
+        This is one particular step in the navigation path. Stereotypes: atpAbstract
         """
         return self.atpContextElementRefs
 
-    def addAtpContextElementRef(self, value: RefType):
+    def addAtpContextElementRef(self, value: Optional[RefType]) -> "AtpInstanceRef":
         """
-        Adds an ATP context element reference.
-
-        Args:
-            value: The context element reference to add
-
-        Returns:
-            self for method chaining
+        This is one particular step in the navigation path. Stereotypes: atpAbstract
         """
-        self.atpContextElementRefs.append(value)
+        if value is not None:
+            self.atpContextElementRefs.append(value)
         return self
 
     def getAtpTargetRef(self) -> Optional[RefType]:
         """
-        Gets the ATP target reference.
-
-        Returns:
-            RefType representing the target reference, or None if not set
+        This is the target of the instance ref. In other words it is the terminal of the navigation path. Stereotypes: atpAbstract
         """
         return self.atpTargetRef
 
-    def setAtpTargetRef(self, value: RefType):
+    def setAtpTargetRef(self, value: Optional[RefType]) -> "AtpInstanceRef":
         """
-        Sets the ATP target reference.
-
-        Args:
-            value: The target reference to set
-
-        Returns:
-            self for method chaining
+        This is the target of the instance ref. In other words it is the terminal of the navigation path. Stereotypes: atpAbstract
+        A None value is a no-op and does not overwrite an existing atpTargetRef.
         """
-        self.atpTargetRef = value
+        if value is not None:
+            self.atpTargetRef = value
         return self
 
 
@@ -128,62 +113,58 @@ class AtpBlueprintable(PackageableElement, ABC):
         super().__init__(parent, short_name)
 
 
-class AtpClassifier(PackageableElement, ABC):
+class AtpFeature(Identifiable, ABC):
     """
-    Abstract base class for AUTOSAR Template (ATP) classifier elements.
+    Features are properties via which a classifier classifies instances. Or: a classifier has features and every M0 instance of it will have those features.
+    """
 
-    AtpClassifier represents elements that classify or categorize other elements
-    in the AUTOSAR system. It serves as a base for type definitions and classifiers
-    that provide structural organization to AUTOSAR models.
+    # AtpFeature method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 5.2, p.174
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
-    This class extends Identifiable with classifier-specific functionality.
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is AtpFeature:
+            raise TypeError("AtpFeature is an abstract class.")
+        super().__init__(parent, short_name)
 
-    Note:
-        This is an abstract class and cannot be instantiated directly.
-        AtpClassifier is the parent of AtpType, which in turn is the parent
-        of various AUTOSAR type definitions like AutosarDataType, PortInterface,
-        and SwComponentType.
+
+class AtpClassifier(Identifiable, ABC):
+    """
+    A classifier classifies M0 instances according to their features. Or: a classifier is something that has instances - an M1 classifier has M0 instances.
     """
 
     # AtpClassifier method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 5.1, p.173
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAtpFeatures               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addAtpFeature                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpClassifier:
             raise TypeError("AtpClassifier is an abstract class.")
         super().__init__(parent, short_name)
 
+        # This is a feature of the classifier. Stereotypes: atpDerived
+        self.atpFeatures: List[AtpFeature] = []
 
-class AtpFeature(Identifiable, ABC):
-    """
-    Abstract base class for AUTOSAR Template (ATP) feature elements.
+    def getAtpFeatures(self) -> List[AtpFeature]:
+        """
+        This is a feature of the classifier. Stereotypes: atpDerived
+        """
+        return self.atpFeatures
 
-    AtpFeature represents feature elements in the AUTOSAR system. Features
-    are abstract capabilities or characteristics that can be associated with
-    AUTOSAR elements to describe their functionality or properties.
-
-    This class extends Identifiable with feature-specific functionality for
-    managing feature-based elements.
-
-    Note:
-        This is an abstract class and cannot be instantiated directly.
-        AtpFeature is the parent of various AUTOSAR feature elements:
-        - AtpPrototype (including AbstractProvidedPortPrototype, AbstractRequiredPortPrototype,
-          DataPrototype, ModeDeclarationGroupPrototype, PortPrototype, etc.)
-        - AtpStructureElement (including AbstractAccessPoint, BswModuleDescription,
-          ClientServerOperation, InternalBehavior, RTEEvent, SwConnector, etc.)
-
-    Attributes:
-        Inherits all attributes from Identifiable including shortName and adminData.
-    """
-
-    # AtpFeature method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        if type(self) is AtpFeature:
-            raise TypeError("AtpFeature is an abstract class.")
-        super().__init__(parent, short_name)
+    def addAtpFeature(self, value: Optional[AtpFeature]) -> "AtpClassifier":
+        """
+        This is a feature of the classifier. Stereotypes: atpDerived
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.atpFeatures.append(value)
+        return self
 
 
 class AtpType(AtpClassifier, ABC):

@@ -171,6 +171,48 @@ class TestWriteNmPdu:
         assert child.find("UNUSED-BIT-PATTERN").text == "0"
         assert child.find("I-SIGNAL-TO-I-PDU-MAPPINGS") is not None
 
+    def test_nm_information_attrs(self, writer):
+        pkg = _pkg()
+        pdu = NmPdu(pkg, "Nm")
+        pdu.setNmDataInformation(_bool(True))
+        pdu.setNmVoteInformation(_bool(False))
+        parent = _parent()
+        writer.writeNmPdu(parent, pdu)
+        child = parent[0]
+        assert child.tag == "NM-PDU"
+        assert child.find("NM-DATA-INFORMATION").text == "true"
+        assert child.find("NM-VOTE-INFORMATION").text == "false"
+
+    def test_nm_pdu_roundtrip(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        NS = "http://autosar.org/schema/r4.0"
+        pkg = _pkg()
+        pdu = NmPdu(pkg, "Nm")
+        pdu.setNmDataInformation(_bool(True))
+        pdu.setNmVoteInformation(_bool(False))
+        pdu.setUnusedBitPattern(_int("255"))
+        mapping = pdu.createISignalToIPduMapping("M1")
+        mapping.setISignalRef(_ref("I-SIGNAL", "/sigs/s"))
+        mapping.setStartPosition(_int("8"))
+
+        parent = _parent()
+        writer.writeNmPdu(parent, pdu)
+        xml_str = ET.tostring(parent).decode().replace("<PARENT>", '<PARENT xmlns="%s">' % NS, 1)
+        namespaced = ET.fromstring(xml_str)
+
+        reparsed = NmPdu(pkg, "Nm2")
+        parser = ARXMLParser()
+        ARXMLParser().readNmPdu(parser.find(namespaced, "NM-PDU"), reparsed)
+        assert reparsed.getNmDataInformation().getValue() is True
+        assert reparsed.getNmVoteInformation().getValue() is False
+        assert reparsed.getUnusedBitPattern().getValue() == 255
+        mappings = reparsed.getISignalToIPduMappings()
+        assert len(mappings) == 1
+        assert mappings[0].getShortName() == "M1"
+        assert mappings[0].getISignalRef().getValue() == "/sigs/s"
+        assert mappings[0].getStartPosition().getValue() == 8
+
 
 class TestWriteNPdu:
     def test_basic(self, writer):

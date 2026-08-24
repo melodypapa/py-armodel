@@ -1880,13 +1880,15 @@ the concrete subclasses in `read/writeBusDependentNmEcus`.
 | — *(missing)* | `—` | `defaultValueElement` | ``DefaultValueElement`` | aggr | missing |
 
 ## `ISignalTriggering`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 330  | **table:** Table 6.16
+- **Package (spec):** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex\FibexCore\CoreCommunication.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `isignalportrefs` | `—` | `iSignalPort` | ``ISignalPort`` | ref | type (spec many vs py single) |
+| — *(removed)* | `—` | `isignalportrefs` | ``ISignalPort`` | ref | stale: model uses `List[RefType]` for the spec `*` multiplicity; no deviation |
+
+All three Table 6.16 attributes are modeled verbatim (`Optional[RefType]` for `iSignal`/`iSignalGroup` 0..1 refs, `List[RefType]` for `iSignalPort` * refs); reader/writer cover all of them.
 
 ## `StaticPart`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.74
@@ -1950,6 +1952,28 @@ the concrete subclasses in `read/writeBusDependentNmEcus`.
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
+
+## `IPduPort`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 304  | **table:** Table 6.3
+- **Package (spec):** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(removed)* | `—` | `keyId` | `PositiveInteger` | attr | deprecated (atp.Status=removed), not implemented |
+
+Relocated from `CoreTopology.py` to `CoreCommunication.py` per the spec Package row (Table 6.3 + XSD group comment). All four Table 6.3 attributes are modeled verbatim (`Optional`-typed); reader/writer now cover all of them, including the previously dropped `I-PDU-SIGNAL-PROCESSING` and `TIMESTAMP-RX-ACCEPTANCE-WINDOW`. `IPduSignalProcessingEnum` converted to `AREnum` per Table 6.4 (literals `deferred`/`immediate`) and relocated likewise.
+
+## `CommConnectorPort`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 303  | **table:** Table 6.1
+- **Package (spec):** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| location | `CoreCommunication.py` | — | — | — | spec package CoreTopology vs py CoreCommunication; structurally forced: its CoreCommunication subclasses (FramePort/IPduPort/ISignalPort per Tables 6.2/6.3/6.5) inherit it at class-definition time, and a CoreCommunication→CoreTopology edge would cycle with CoreTopology's required CommunicationCluster→FibexElement / triggering dependencies |
+
+Relocated together with its subclass family to keep the dependency graph acyclic; fields/docstrings/coverage unchanged since the R23-11 stamp.
 
 ## `FramePort`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.3

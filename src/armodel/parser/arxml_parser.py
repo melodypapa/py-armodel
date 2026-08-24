@@ -186,6 +186,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucAbstractInternalReferenceDef,
     EcucAbstractReferenceDef,
     EcucAbstractStringParamDef,
+    EcucAddInfoParamDef,
     EcucBooleanParamDef,
     EcucChoiceContainerDef,
     EcucChoiceReferenceDef,
@@ -545,20 +546,24 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    CommConnectorPort,
     ContainedIPduProps,
     DcmIPdu,
     DynamicPart,
     DynamicPartAlternative,
     Frame,
+    FramePort,
     FrameTriggering,
     GeneralPurposeIPdu,
     GeneralPurposePdu,
     IPdu,
+    IPduPort,
     IPduTiming,
     ISignal,
     ISignalGroup,
     ISignalIPdu,
     ISignalIPduGroup,
+    ISignalPort,
     ISignalProps,
     ISignalToIPduMapping,
     ISignalTriggering,
@@ -588,7 +593,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     AbstractCanCluster,
     CanCluster,
     CanClusterBusOffRecovery,
-    CommConnectorPort,
     CommunicationCluster,
     CommunicationConnector,
     CommunicationController,
@@ -596,9 +600,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     CycleRepetition,
     EthernetPhysicalChannel,
     FlexrayPhysicalChannel,
-    FramePort,
-    IPduPort,
-    ISignalPort,
     LinPhysicalChannel,
     PhysicalChannel,
 )
@@ -610,6 +611,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing im
     TransmissionModeCondition,
     TransmissionModeDeclaration,
     TransmissionModeTiming,
+    TriggerIPduSendCondition,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
@@ -911,6 +913,8 @@ class ARXMLParser(AbstractARXMLParser):
         revision.setDate(self.getChildElementOptionalDataTime(element, "DATE"))
         revision.setIssuedBy(self.getChildElementOptionalLiteral(element, "ISSUED-BY"))
         revision.setRevisionLabel(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL"))
+        revision.setRevisionLabelP1(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL-P-1"))
+        revision.setRevisionLabelP2(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL-P-2"))
         revision.setState(self.getChildElementOptionalLiteral(element, "STATE"))
 
         self.readDocRevisionModifications(element, revision)
@@ -5981,6 +5985,15 @@ class ARXMLParser(AbstractARXMLParser):
         triggering.setIPduRef(self.getChildElementOptionalRefType(element, "I-PDU-REF"))
         for child_element in self.findall(element, "I-SIGNAL-TRIGGERINGS/I-SIGNAL-TRIGGERING-REF-CONDITIONAL"):
             triggering.addISignalTriggeringRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-TRIGGERING-REF"))
+        triggering.setSecOcCryptoMappingRef(self.getChildElementOptionalRefType(element, "SEC-OC-CRYPTO-MAPPING-REF"))
+        for child_element in self.findall(element, "TRIGGER-I-PDU-SEND-CONDITIONS/TRIGGER-I-PDU-SEND-CONDITION"):
+            condition = TriggerIPduSendCondition()
+            self.readTriggerIPduSendCondition(child_element, condition)
+            triggering.addTriggerIPduSendCondition(condition)
+
+    def readTriggerIPduSendCondition(self, element: ET.Element, condition: TriggerIPduSendCondition):
+        for ref in self.getChildElementRefTypeList(element, "MODE-DECLARATION-REFS/MODE-DECLARATION-REF"):
+            condition.addModeDeclarationRef(ref)
 
     def readPhysicalChannelCommConnectorRefs(self, element: ET.Element, channel: PhysicalChannel):
         for child_element in self.findall(element, "COMM-CONNECTORS/COMMUNICATION-CONNECTOR-REF-CONDITIONAL"):
@@ -6840,9 +6853,10 @@ class ARXMLParser(AbstractARXMLParser):
             self.logger.debug("readPduToFrameMapping %s" % short_name)
             mapping = parent.createPduToFrameMapping(short_name)
             self.readIdentifiable(child_element, mapping)
-            mapping.packingByteOrder = self.getChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER")
-            mapping.pduRef = self.getChildElementOptionalRefType(child_element, "PDU-REF")
-            mapping.startPosition = self.getChildElementOptionalNumericalValue(child_element, "START-POSITION")
+            mapping.setPackingByteOrder(self.getChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER"))
+            mapping.setPduRef(self.getChildElementOptionalRefType(child_element, "PDU-REF"))
+            mapping.setStartPosition(self.getChildElementOptionalIntegerValue(child_element, "START-POSITION"))
+            mapping.setUpdateIndicationBitPosition(self.getChildElementOptionalIntegerValue(child_element, "UPDATE-INDICATION-BIT-POSITION"))
 
     def readFrame(self, element: ET.Element, frame: Frame):
         self.readIdentifiable(element, frame)
@@ -6880,6 +6894,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read NmPdu <%s>" % pdu.getShortName())
         self.readPdu(element, pdu)
         self.readNmPduISignalToIPduMappings(element, pdu)
+        pdu.setNmDataInformation(self.getChildElementOptionalBooleanValue(element, "NM-DATA-INFORMATION"))
+        pdu.setNmVoteInformation(self.getChildElementOptionalBooleanValue(element, "NM-VOTE-INFORMATION"))
         pdu.setUnusedBitPattern(self.getChildElementOptionalIntegerValue(element, "UNUSED-BIT-PATTERN"))
 
     def readContainedIPduProps(self, element: ET.Element) -> ContainedIPduProps:
@@ -7634,6 +7650,10 @@ class ARXMLParser(AbstractARXMLParser):
                 param_def = EcucBooleanParamDef(policy, self.getShortName(child_element))
                 self.readEcucBooleanParamDef(child_element, param_def)
                 policy.addParameter(param_def)
+            elif tag_name == "ECUC-ADD-INFO-PARAM-DEF":
+                param_def = EcucAddInfoParamDef(policy, self.getShortName(child_element))
+                self.readEcucAddInfoParamDef(child_element, param_def)
+                policy.addParameter(param_def)
             elif tag_name == "ECUC-STRING-PARAM-DEF":
                 param_def = EcucStringParamDef(policy, self.getShortName(child_element))
                 self.readEcucStringParamDef(child_element, param_def)
@@ -7780,6 +7800,9 @@ class ARXMLParser(AbstractARXMLParser):
             expr.setConfigElementDefLocalRef(self.getChildElementOptionalRefType(expr_element, "CONFIG-ELEMENT-DEF-LOCAL-REF"))
             query.setEcucQueryExpression(expr)
 
+    def readEcucAddInfoParamDef(self, element: ET.Element, param_def: EcucAddInfoParamDef):
+        self.readEcucParameterDef(element, param_def)
+
     def readEcucBooleanParamDef(self, element: ET.Element, param_def: EcucBooleanParamDef):
         self.readEcucParameterDef(element, param_def)
         param_def.setDefaultValue(self.getChildElementOptionalBooleanValue(element, "DEFAULT-VALUE"))
@@ -7823,6 +7846,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucEnumerationLiteral(self, element: ET.Element, literal: EcucEnumerationLiteralDef):
         self.readIdentifiable(element, literal)
+        literal.setEcucCond(self.readEcucConditionSpecification(element))
         literal.setOrigin(self.getChildElementOptionalLiteral(element, "ORIGIN"))
 
     def readEcucEnumerationParamDefLiterals(self, element: ET.Element, literal_def: EcucEnumerationParamDef):
@@ -7854,6 +7878,9 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "ECUC-BOOLEAN-PARAM-DEF":
                 param_def = container_def.createEcucBooleanParamDef(self.getShortName(child_element))
                 self.readEcucBooleanParamDef(child_element, param_def)
+            elif tag_name == "ECUC-ADD-INFO-PARAM-DEF":
+                param_def = container_def.createEcucAddInfoParamDef(self.getShortName(child_element))
+                self.readEcucAddInfoParamDef(child_element, param_def)
             elif tag_name == "ECUC-STRING-PARAM-DEF":
                 param_def = container_def.createEcucStringParamDef(self.getShortName(child_element))
                 self.readEcucStringParamDef(child_element, param_def)
@@ -8366,8 +8393,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readIPduPort(self, element: ET.Element, port: IPduPort):
         self.readCommConnectorPort(element, port)
-        port.setKeyId(self.getChildElementOptionalPositiveInteger(element, "KEY-ID"))
+        port.setIPduSignalProcessing(self.getChildElementOptionalLiteral(element, "I-PDU-SIGNAL-PROCESSING"))
         port.setRxSecurityVerification(self.getChildElementOptionalBooleanValue(element, "RX-SECURITY-VERIFICATION"))
+        port.setTimestampRxAcceptanceWindow(self.getChildElementOptionalTimeValue(element, "TIMESTAMP-RX-ACCEPTANCE-WINDOW"))
         port.setUseAuthDataFreshness(self.getChildElementOptionalBooleanValue(element, "USE-AUTH-DATA-FRESHNESS"))
 
     def readISignalPort(self, element: ET.Element, port: ISignalPort):

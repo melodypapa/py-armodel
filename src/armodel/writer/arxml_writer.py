@@ -170,6 +170,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucAbstractInternalReferenceDef,
     EcucAbstractReferenceDef,
     EcucAbstractStringParamDef,
+    EcucAddInfoParamDef,
     EcucBooleanParamDef,
     EcucChoiceContainerDef,
     EcucChoiceReferenceDef,
@@ -515,20 +516,24 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    CommConnectorPort,
     ContainedIPduProps,
     DcmIPdu,
     DynamicPart,
     DynamicPartAlternative,
     Frame,
+    FramePort,
     FrameTriggering,
     GeneralPurposeIPdu,
     GeneralPurposePdu,
     IPdu,
+    IPduPort,
     IPduTiming,
     ISignal,
     ISignalGroup,
     ISignalIPdu,
     ISignalIPduGroup,
+    ISignalPort,
     ISignalToIPduMapping,
     ISignalTriggering,
     MultiplexedIPdu,
@@ -557,7 +562,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     AbstractCanCluster,
     CanCluster,
     CanClusterBusOffRecovery,
-    CommConnectorPort,
     CommunicationCluster,
     CommunicationConnector,
     CommunicationController,
@@ -565,9 +569,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     CycleRepetition,
     EthernetPhysicalChannel,
     FlexrayPhysicalChannel,
-    FramePort,
-    IPduPort,
-    ISignalPort,
     LinPhysicalChannel,
     PhysicalChannel,
 )
@@ -579,6 +580,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing im
     TransmissionModeCondition,
     TransmissionModeDeclaration,
     TransmissionModeTiming,
+    TriggerIPduSendCondition,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
@@ -999,6 +1001,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             # self.setChildElementOptionalDataTime(child_element, "DATE", revision.getDate())
             # self.setChildElementOptionalLiteral(child_element, "ISSUED-BY", revision.getIssuedBy())
             self.setChildElementOptionalRevisionLabelString(child_element, "REVISION-LABEL", revision.getRevisionLabel())
+            self.setChildElementOptionalRevisionLabelString(child_element, "REVISION-LABEL-P-1", revision.getRevisionLabelP1())
+            self.setChildElementOptionalRevisionLabelString(child_element, "REVISION-LABEL-P-2", revision.getRevisionLabelP2())
             self.setChildElementOptionalLiteral(child_element, "STATE", revision.getState())
             self.setChildElementOptionalLiteral(child_element, "ISSUED-BY", revision.getIssuedBy())
             self.setChildElementOptionalDataTime(child_element, "DATE", revision.getDate())
@@ -5842,13 +5846,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             for mapping in mappings:
                 child_element = ET.SubElement(mappings_tags, "PDU-TO-FRAME-MAPPING")
                 self.writeIdentifiable(child_element, mapping)
-                self.setChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER", mapping.packingByteOrder)
-                self.setChildElementOptionalRefType(child_element, "PDU-REF", mapping.pduRef)
-                self.setChildElementOptionalNumericalValue(child_element, "START-POSITION", mapping.startPosition)
+                self.setChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER", mapping.getPackingByteOrder())
+                self.setChildElementOptionalRefType(child_element, "PDU-REF", mapping.getPduRef())
+                self.setChildElementOptionalIntegerValue(child_element, "START-POSITION", mapping.getStartPosition())
+                self.setChildElementOptionalIntegerValue(child_element, "UPDATE-INDICATION-BIT-POSITION", mapping.getUpdateIndicationBitPosition())
 
     def writeFrame(self, element: ET.Element, frame: Frame):
         self.writeIdentifiable(element, frame)
-        self.setChildElementOptionalIntegerValue(element, "FRAME-LENGTH", frame.frameLength)
+        self.setChildElementOptionalNumericalValue(element, "FRAME-LENGTH", frame.frameLength)
         self.writePduToFrameMappings(element, frame)
 
     def writeLinUnconditionalFrame(self, element: ET.Element, frame: LinUnconditionalFrame):
@@ -6083,6 +6088,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "NM-PDU")
         self.writePdu(child_element, pdu)
         self.writeNmPduISignalToIPduMappings(child_element, pdu)
+        self.setChildElementOptionalBooleanValue(child_element, "NM-DATA-INFORMATION", pdu.getNmDataInformation())
+        self.setChildElementOptionalBooleanValue(child_element, "NM-VOTE-INFORMATION", pdu.getNmVoteInformation())
         self.setChildElementOptionalIntegerValue(child_element, "UNUSED-BIT-PATTERN", pdu.getUnusedBitPattern())
 
     def writeNPdu(self, element: ET.Element, pdu: NPdu):
@@ -6460,17 +6467,35 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, triggering)
         ref_list = triggering.getIPduPortRefs()
         if len(ref_list) > 0:
-            i_signal_port_refs_tag = ET.SubElement(child_element, "I-PDU-PORT-REFS")
+            i_pdu_port_refs_tag = ET.SubElement(child_element, "I-PDU-PORT-REFS")
             for ref in ref_list:
-                self.setChildElementOptionalRefType(i_signal_port_refs_tag, "I-PDU-PORT-REF", ref)
+                self.setChildElementOptionalRefType(i_pdu_port_refs_tag, "I-PDU-PORT-REF", ref)
         self.setChildElementOptionalRefType(child_element, "I-PDU-REF", triggering.getIPduRef())
 
         refs = triggering.getISignalTriggeringRefs()
         if len(refs) > 0:
             triggerings_tag = ET.SubElement(child_element, "I-SIGNAL-TRIGGERINGS")
             for ref in refs:
-                child_element = ET.SubElement(triggerings_tag, "I-SIGNAL-TRIGGERING-REF-CONDITIONAL")
-                self.setChildElementOptionalRefType(child_element, "I-SIGNAL-TRIGGERING-REF", ref)
+                conditional_tag = ET.SubElement(triggerings_tag, "I-SIGNAL-TRIGGERING-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_tag, "I-SIGNAL-TRIGGERING-REF", ref)
+        self.setChildElementOptionalRefType(child_element, "SEC-OC-CRYPTO-MAPPING-REF", triggering.getSecOcCryptoMappingRef())
+
+        conditions = triggering.getTriggerIPduSendConditions()
+        if len(conditions) > 0:
+            conditions_tag = ET.SubElement(child_element, "TRIGGER-I-PDU-SEND-CONDITIONS")
+            for condition in conditions:
+                if isinstance(condition, TriggerIPduSendCondition):
+                    self.writeTriggerIPduSendCondition(conditions_tag, condition)
+                else:
+                    self.notImplemented("Unsupported TriggerIPduSendCondition <%s>" % type(condition))
+
+    def writeTriggerIPduSendCondition(self, element: ET.Element, condition: TriggerIPduSendCondition):
+        child_element = ET.SubElement(element, "TRIGGER-I-PDU-SEND-CONDITION")
+        refs = condition.getModeDeclarationRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "MODE-DECLARATION-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "MODE-DECLARATION-REF", ref)
 
     def writePhysicalChannelCommConnectorRefs(self, element, channel):
         connectors = channel.getCommConnectorRefs()
@@ -7201,6 +7226,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(element, "SYMBOLIC-NAME-VALUE", param_def.getSymbolicNameValue())
         self.setChildElementOptionalBooleanValue(element, "WITH-AUTO", param_def.getWithAuto())
 
+    def writeEcucAddInfoParamDef(self, element: ET.Element, param_def: EcucAddInfoParamDef):
+        if param_def is not None:
+            child_element = ET.SubElement(element, "ECUC-ADD-INFO-PARAM-DEF")
+            self.writeEcucParameterDef(child_element, param_def)
+
     def writeEcucDerivationSpecification(self, element: ET.Element, derivation: Optional[EcucDerivationSpecification]):
         if derivation is None:
             return
@@ -7309,6 +7339,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if literal is not None:
             child_element = ET.SubElement(element, "ECUC-ENUMERATION-LITERAL-DEF")
             self.writeIdentifiable(child_element, literal)
+            self.writeEcucConditionSpecification(child_element, literal.getEcucCond())
             self.setChildElementOptionalLiteral(child_element, "ORIGIN", literal.getOrigin())
 
     def writeEcucEnumerationParamDefLiterals(self, element: ET.Element, param_def: EcucEnumerationParamDef):
@@ -7351,6 +7382,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for parameter in parameters:
                 if isinstance(parameter, EcucBooleanParamDef):
                     self.writeEcucBooleanParamDef(child_element, parameter)
+                elif isinstance(parameter, EcucAddInfoParamDef):
+                    self.writeEcucAddInfoParamDef(child_element, parameter)
                 elif isinstance(parameter, EcucStringParamDef):
                     self.writeEcucStringParamDef(child_element, parameter)
                 elif isinstance(parameter, EcucIntegerParamDef):
@@ -7640,8 +7673,9 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeIPduPort(self, element: ET.Element, port: IPduPort):
         child_element = ET.SubElement(element, "I-PDU-PORT")
         self.writeCommConnectorPort(child_element, port)
-        self.setChildElementOptionalPositiveInteger(child_element, "KEY-ID", port.getKeyId())
+        self.setChildElementOptionalLiteral(child_element, "I-PDU-SIGNAL-PROCESSING", port.getIPduSignalProcessing())
         self.setChildElementOptionalBooleanValue(child_element, "RX-SECURITY-VERIFICATION", port.getRxSecurityVerification())
+        self.setChildElementOptionalTimeValue(child_element, "TIMESTAMP-RX-ACCEPTANCE-WINDOW", port.getTimestampRxAcceptanceWindow())
         self.setChildElementOptionalBooleanValue(child_element, "USE-AUTH-DATA-FRESHNESS", port.getUseAuthDataFreshness())
 
     def writeISignalPort(self, element: ET.Element, port: ISignalPort):
