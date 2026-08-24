@@ -1,13 +1,35 @@
 # Sync queue: Fibex4Lin Lin-related classes (deviation doc batch)
 
+> RESET (2026-08-24): all classes unchecked by user request — the whole queue is
+> re-synced from scratch. Prior step-completion annotations were dropped with the
+> reset; findings survive in the notes below. During the review the queue was
+> re-analyzed dependency-first and extended with the previously missing
+> dependent base **ScheduleTableEntry** (now #1).
+
 Input classes (user request): all Lin-related entries in
 `docs/examples/method_deviation_by_class_v2.md`.
-Closure gate: user confirmed **all 5 classes + drift fix on LinTpConfig**.
-Member/base classes (`ScheduleTableEntry`, `TpConfig`, `TpAddress`, `LinTpConnection`,
-`LinTpNode`) exist — not queued except `LinTpNode` (touched for writer drift fix +
-docstring sync, stamped like any touched member type). Ref targets `LinSlave`
-(missing from codebase) / `LinSlaveConfigIdent` stay plain `RefType` fields per
-project convention — **no new classes needed**.
+Closure gate: user confirmed **all 5 classes + drift fix on LinTpConfig**;
+extended in review with **ScheduleTableEntry** — direct `Base` of BOTH
+`FreeFormatEntry` and `LinConfigurationEntry`, previously misclassified as
+"exists, skip": it carries no `# Spec verified:` marker, a stale checklist,
+trailing `# type:` comments, and the known INTRODUCTION reader/writer gap
+(Rule 0016.5 — "exists" is not a stamp). Member/base classes (`TpConfig`,
+`TpAddress`, `LinTpConnection`, `LinTpNode`) exist — not queued except
+`LinTpNode` (touched for writer drift fix + docstring sync, stamped like any
+touched member type). Ref targets `LinSlave` (missing from codebase) /
+`LinSlaveConfigIdent` stay plain `RefType` fields per project convention —
+**no new classes needed**.
+
+Dependency analysis (code:
+`src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py`,
+`.../SystemTemplate/TransportProtocols.py`; spec markdown Base rows):
+
+- `ScheduleTableEntry` ← `FreeFormatEntry` ← `FreeFormat`
+- `ScheduleTableEntry` ← `LinConfigurationEntry` ← {`AssignFrameId`,
+  `UnassignFrameId`, `AssignFrameIdRange` (+ `FramePid` member), `AssignNad`,
+  `ConditionalChangeNad`, `SaveConfigurationEntry`, `DataDumpEntry`}
+- `LinFrame` ← `LinUnconditionalFrame`
+- `LinTpNode` = member of `LinTpConfig.tpNode`
 
 Spec source: `autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md`
 (+ PDF for page numbers only).
@@ -16,123 +38,249 @@ Queue order (dependency-first, inputs last):
 
 | # | Class | Role | Spec | Status |
 |---|-------|------|------|--------|
-| 1 | LinFrame | base (of LinUnconditionalFrame) | Table 6.87, p.428 | [ ] pending stamp |
-| 2 | LinUnconditionalFrame | input | Table 6.90, p.429 | [ ] pending stamp |
-| 3 | FreeFormatEntry | input | Table 6.98, p.434 | [ ] pending stamp |
-| 4 | LinConfigurationEntry | input | Table 6.99, p.434 | [ ] pending 9b re-gate (reader/writer now implemented) |
-| 5 | LinTpNode | member (LinTpConfig.tpNode; writer drift fix) | Table 6.260, p.615 | [ ] pending stamp |
-| 6 | LinTpConfig | input | Table 6.259, p.614 | [ ] pending stamp |
-| 7 | FramePid | member (AssignFrameIdRange.framePid) | Table 6.103, p.437 | [ ] pending 9b |
-| 8 | AssignFrameId | concrete subclass (unlocks refs serialization) | Table 6.100, p.436 | [ ] pending 9b |
-| 9 | UnassignFrameId | concrete subclass | Table 6.101, p.436 | [ ] pending 9b |
-| 10 | AssignFrameIdRange | concrete subclass | Table 6.102, p.437 | [ ] pending 9b |
-| 11 | AssignNad | concrete subclass | Table 6.104, p.438 | [ ] pending 9b |
-| 12 | ConditionalChangeNad | concrete subclass | Table 6.105, p.438 | [ ] pending 9b |
-| 13 | SaveConfigurationEntry | concrete subclass | Table 6.106, p.439 | [ ] pending 9b |
-| 14 | DataDumpEntry | concrete subclass | Table 6.107, p.439 | [ ] pending 9b |
-| 15 | FreeFormat | concrete subclass (of FreeFormatEntry) | Table 6.108, p.439 | [ ] pending 9b |
+| 1 | ScheduleTableEntry | base (of FreeFormatEntry + LinConfigurationEntry) | Table 6.96, p.433 | [ ] pending |
+| 2 | LinFrame | base (of LinUnconditionalFrame) | Table 6.87, p.428 | [ ] pending |
+| 3 | LinUnconditionalFrame | input | Table 6.90, p.429 | [ ] pending |
+| 4 | FreeFormatEntry | input | Table 6.98, p.434 | [ ] pending |
+| 5 | LinConfigurationEntry | input | Table 6.99, p.434 | [ ] pending |
+| 6 | LinTpNode | member (LinTpConfig.tpNode) | Table 6.260, p.615 | [ ] pending |
+| 7 | LinTpConfig | input | Table 6.259, p.614 | [ ] pending |
+| 8 | FramePid | member (AssignFrameIdRange.framePid) | Table 6.103, p.437 | [ ] pending |
+| 9 | AssignFrameId | concrete subclass (unlocks refs serialization) | Table 6.100, p.436 | [ ] pending |
+| 10 | UnassignFrameId | concrete subclass | Table 6.101, p.436 | [ ] pending |
+| 11 | AssignFrameIdRange | concrete subclass | Table 6.102, p.437 | [ ] pending |
+| 12 | AssignNad | concrete subclass | Table 6.104, p.438 | [ ] pending |
+| 13 | ConditionalChangeNad | concrete subclass | Table 6.105, p.438 | [ ] pending |
+| 14 | SaveConfigurationEntry | concrete subclass | Table 6.106, p.439 | [ ] pending |
+| 15 | DataDumpEntry | concrete subclass | Table 6.107, p.439 | [ ] pending |
+| 16 | FreeFormat | concrete subclass (of FreeFormatEntry) | Table 6.108, p.439 | [ ] pending |
 
-Rows 7-15 added mid-sync: at the row-4 9b gate the user ruled **"reader/writer shall
-be fixed first"** for LinConfigurationEntry — per Rule 0001.10 that requires its
-concrete subclasses (the XSD serializes ASSIGNED-CONTROLLER-REF /
-ASSIGNED-LIN-SLAVE-CONFIG-REF only inside concrete entry elements), so the whole
-Table 6.100-6.108 family was implemented in this session. `messageId` on
-AssignFrameId/UnassignFrameId carries `atp.Status="removed"` in the XSD → not
-modeled (Rule 1.3).
+History: rows 9-16 (former 8-15) added mid-sync of a previous pass: at the
+then-row-4 9b gate the user ruled **"reader/writer shall be fixed first"** for
+LinConfigurationEntry — per Rule 0001.10 that requires its concrete subclasses
+(the XSD serializes ASSIGNED-CONTROLLER-REF / ASSIGNED-LIN-SLAVE-CONFIG-REF only
+inside concrete entry elements), so the whole Table 6.100-6.108 family was
+implemented. `messageId` on AssignFrameId/UnassignFrameId carries
+`atp.Status="removed"` in the XSD → not modeled (Rule 1.3).
 
-Known gaps resolved / remaining:
+Known gaps carried into the reset (code state persists even though progress
+is unchecked):
 
-- RESOLVED LinFrame/LinUnconditionalFrame/FreeFormatEntry: no own attributes
-  (`-` rows); verbatim Note docstrings; checklists = self-defined methods only
+- ScheduleTableEntry: model has `introduction` (DocumentationBlock) but parser/
+  writer do not serialize it yet — main reason row 1 is queued.
+- LinConfigurationEntry refs implemented (`assignedControllerRef`,
+  `assignedLinSlaveConfigRef`) with verbatim Notes + model tests; their
+  reader/writer serialization lives in concrete subclass elements → covered by
+  rows 9-15; stamp gates on that family landing.
+- LinFrame/LinUnconditionalFrame/FreeFormatEntry: no own attributes (`-` rows);
+  verbatim Note docstrings; checklists = self-defined methods only
   (`CanFrame` precedent).
-- RESOLVED LinUnconditionalFrame reader/writer dispatch verified.
-- LinConfigurationEntry: refs implemented (`assignedControllerRef`,
-  `assignedLinSlaveConfigRef`) with verbatim Notes + model tests. Reader/writer
-  deferred — XSD group `LIN-CONFIGURATION-ENTRY` serializes inside concrete
-  subclass elements only → stamp withheld until that family lands.
-- RESOLVED LinTpNode writer parent-element bug (DROP-NOT-REQUESTED-NAD) +
-  missing MAX-NUMBER-OF-RESP-PENDING-FRAMES round-trip; docstrings verbatim.
-- RESOLVED LinTpConfig stale tracker rows removed; docstrings verbatim;
-  empty-wrapper round-trip test added.
+- LinTpNode writer parent-element bug (DROP-NOT-REQUESTED-NAD) +
+  missing MAX-NUMBER-OF-RESP-PENDING-FRAMES round-trip fixed in previous pass —
+  re-verify during re-sync.
+- LinTpConfig empty-wrapper round-trip test added in previous pass — re-verify.
 
-Deviation tracker updates applied:
-`docs/examples/method_deviation_by_class_v2.md` — LinConfigurationEntry,
-LinTpConfig, LinFrame, LinUnconditionalFrame, FreeFormatEntry rows rewritten.
+Deviation tracker: `docs/examples/method_deviation_by_class_v2.md` rows for
+LinConfigurationEntry, LinTpConfig, LinFrame, LinUnconditionalFrame,
+FreeFormatEntry were rewritten in the previous pass — re-check against the
+re-synced classes.
 
-## 1. LinFrame — Table 6.87, p.428
+## 1. ScheduleTableEntry — Table 6.96, p.433
 
-- [x] Step 1 — Sync members & description from spec
-- [x] Step 2 — Write the model class unit test (existing tests cover abstract guard + concrete subclass)
-- [x] Step 3 — Implement the model class (verified against spec)
-- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [x] Step 5 — Reader/writer round-trip test (N/A: abstract, no own XML tag)
-- [x] Step 6 — Parser/writer (N/A: same reason)
-- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [x] Step 8 — Deviations check (tracker row rewritten)
+- [ ] Step 1 — Sync members & description from spec
+- [ ] Step 2 — Write the model class unit test
+- [ ] Step 3 — Implement the model class
+- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [ ] Step 5 — Write the reader/writer round-trip test
+- [ ] Step 6 — Update the parser (reader) & writer
+- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [ ] Step 8 — Deviations check
 - [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
-## 2. LinUnconditionalFrame — Table 6.90, p.429
+## 2. LinFrame — Table 6.87, p.428
 
-- [x] Step 1 — Sync members & description from spec
-- [x] Step 2 — Write the model class unit test (existing)
-- [x] Step 3 — Implement the model class (verified)
-- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [x] Step 5 — Reader/writer round-trip test (existing dispatch verified by suite)
-- [x] Step 6 — Parser/writer (existing dispatch verified)
-- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [x] Step 8 — Deviations check
+- [ ] Step 1 — Sync members & description from spec
+- [ ] Step 2 — Write the model class unit test
+- [ ] Step 3 — Implement the model class
+- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [ ] Step 5 — Write the reader/writer round-trip test
+- [ ] Step 6 — Update the parser (reader) & writer
+- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [ ] Step 8 — Deviations check
 - [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
-## 3. FreeFormatEntry — Table 6.98, p.434
+## 3. LinUnconditionalFrame — Table 6.90, p.429
 
-- [x] Step 1 — Sync members & description from spec
-- [x] Step 2 — Write the model class unit test (existing)
-- [x] Step 3 — Implement the model class (verified)
-- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [x] Step 5 — Reader/writer round-trip test (N/A: abstract, no own XML tag)
-- [x] Step 6 — Parser/writer (N/A: same reason)
-- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [x] Step 8 — Deviations check (concrete FreeFormat subclass deferred; table id corrected 6.99→6.98)
+- [ ] Step 1 — Sync members & description from spec
+- [ ] Step 2 — Write the model class unit test
+- [ ] Step 3 — Implement the model class
+- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [ ] Step 5 — Write the reader/writer round-trip test
+- [ ] Step 6 — Update the parser (reader) & writer
+- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [ ] Step 8 — Deviations check
 - [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
-## 4. LinConfigurationEntry — Table 6.99, p.434
+## 4. FreeFormatEntry — Table 6.98, p.434
 
-- [x] Step 1 — Sync members & description from spec
-- [x] Step 2 — Write the model class unit test (TestLinConfigurationEntry: defaults/chaining/None-no-op/type annotations)
-- [x] Step 3 — Implement the model class (assignedControllerRef/assignedLinSlaveConfigRef)
-- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [x] Step 5 — Reader/writer round-trip test (deferred: needs concrete subclasses)
-- [x] Step 6 — Parser/writer (deferred, same reason)
-- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [x] Step 8 — Deviations check (recorded deferred reader/writer; stamp withheld)
-- [ ] Step 9 — Verify (9a automated) + confirm (9b gate)
-
-## 5. LinTpNode — Table 6.260, p.615
-
-- [x] Step 1 — Sync members & description from spec
-- [x] Step 2 — Write the model class unit test (existing + round-trip field asserts)
-- [x] Step 3 — Implement the model class (Optional-typed fields, verbatim notes)
-- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [x] Step 5 — Write the reader/writer round-trip test (MAX-NUMBER-OF-RESP-PENDING-FRAMES + DROP-NOT-REQUESTED-NAD parent fix; empty-fields case)
-- [x] Step 6 — Update the parser (reader) & writer
-- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [x] Step 8 — Deviations check
+- [ ] Step 1 — Sync members & description from spec
+- [ ] Step 2 — Write the model class unit test
+- [ ] Step 3 — Implement the model class
+- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [ ] Step 5 — Write the reader/writer round-trip test
+- [ ] Step 6 — Update the parser (reader) & writer
+- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [ ] Step 8 — Deviations check
 - [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
-## 6. LinTpConfig — Table 6.259, p.614
+## 5. LinConfigurationEntry — Table 6.99, p.434
 
-- [x] Step 1 — Sync members & description from spec
-- [x] Step 2 — Write the model class unit test (existing)
-- [x] Step 3 — Implement the model class (verified: dedicated typed lists)
-- [x] Step 4 — Sync docstrings (wipe & rewrite from markdown)
-- [x] Step 5 — Write the reader/writer round-trip test (+ empty-wrapper case)
-- [x] Step 6 — Update the parser (reader) & writer (verified existing)
-- [x] Step 7 — Update checklist comment (`# Spec:` + rows)
-- [x] Step 8 — Deviations check (stale tpAddress/tpNode tracker rows removed)
+- [ ] Step 1 — Sync members & description from spec
+- [ ] Step 2 — Write the model class unit test
+- [ ] Step 3 — Implement the model class
+- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [ ] Step 5 — Write the reader/writer round-trip test
+- [ ] Step 6 — Update the parser (reader) & writer
+- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [ ] Step 8 — Deviations check
+- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+
+## 6. LinTpNode — Table 6.260, p.615
+
+- [ ] Step 1 — Sync members & description from spec
+- [ ] Step 2 — Write the model class unit test
+- [ ] Step 3 — Implement the model class
+- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [ ] Step 5 — Write the reader/writer round-trip test
+- [ ] Step 6 — Update the parser (reader) & writer
+- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [ ] Step 8 — Deviations check
+- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+
+## 7. LinTpConfig — Table 6.259, p.614
+
+- [ ] Step 1 — Sync members & description from spec
+- [ ] Step 2 — Write the model class unit test
+- [ ] Step 3 — Implement the model class
+- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [ ] Step 5 — Write the reader/writer round-trip test
+- [ ] Step 6 — Update the parser (reader) & writer
+- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [ ] Step 8 — Deviations check
+- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+
+## 8. FramePid — Table 6.103, p.437
+
+- [ ] Step 1 — Sync members & description from spec
+- [ ] Step 2 — Write the model class unit test
+- [ ] Step 3 — Implement the model class
+- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [ ] Step 5 — Write the reader/writer round-trip test
+- [ ] Step 6 — Update the parser (reader) & writer
+- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [ ] Step 8 — Deviations check
+- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+
+## 9. AssignFrameId — Table 6.100, p.436
+
+- [ ] Step 1 — Sync members & description from spec
+- [ ] Step 2 — Write the model class unit test
+- [ ] Step 3 — Implement the model class
+- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [ ] Step 5 — Write the reader/writer round-trip test
+- [ ] Step 6 — Update the parser (reader) & writer
+- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [ ] Step 8 — Deviations check
+- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+
+## 10. UnassignFrameId — Table 6.101, p.436
+
+- [ ] Step 1 — Sync members & description from spec
+- [ ] Step 2 — Write the model class unit test
+- [ ] Step 3 — Implement the model class
+- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [ ] Step 5 — Write the reader/writer round-trip test
+- [ ] Step 6 — Update the parser (reader) & writer
+- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [ ] Step 8 — Deviations check
+- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+
+## 11. AssignFrameIdRange — Table 6.102, p.437
+
+- [ ] Step 1 — Sync members & description from spec
+- [ ] Step 2 — Write the model class unit test
+- [ ] Step 3 — Implement the model class
+- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [ ] Step 5 — Write the reader/writer round-trip test
+- [ ] Step 6 — Update the parser (reader) & writer
+- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [ ] Step 8 — Deviations check
+- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+
+## 12. AssignNad — Table 6.104, p.438
+
+- [ ] Step 1 — Sync members & description from spec
+- [ ] Step 2 — Write the model class unit test
+- [ ] Step 3 — Implement the model class
+- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [ ] Step 5 — Write the reader/writer round-trip test
+- [ ] Step 6 — Update the parser (reader) & writer
+- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [ ] Step 8 — Deviations check
+- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+
+## 13. ConditionalChangeNad — Table 6.105, p.438
+
+- [ ] Step 1 — Sync members & description from spec
+- [ ] Step 2 — Write the model class unit test
+- [ ] Step 3 — Implement the model class
+- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [ ] Step 5 — Write the reader/writer round-trip test
+- [ ] Step 6 — Update the parser (reader) & writer
+- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [ ] Step 8 — Deviations check
+- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+
+## 14. SaveConfigurationEntry — Table 6.106, p.439
+
+- [ ] Step 1 — Sync members & description from spec
+- [ ] Step 2 — Write the model class unit test
+- [ ] Step 3 — Implement the model class
+- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [ ] Step 5 — Write the reader/writer round-trip test
+- [ ] Step 6 — Update the parser (reader) & writer
+- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [ ] Step 8 — Deviations check
+- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+
+## 15. DataDumpEntry — Table 6.107, p.439
+
+- [ ] Step 1 — Sync members & description from spec
+- [ ] Step 2 — Write the model class unit test
+- [ ] Step 3 — Implement the model class
+- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [ ] Step 5 — Write the reader/writer round-trip test
+- [ ] Step 6 — Update the parser (reader) & writer
+- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [ ] Step 8 — Deviations check
+- [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
+
+## 16. FreeFormat — Table 6.108, p.439
+
+- [ ] Step 1 — Sync members & description from spec
+- [ ] Step 2 — Write the model class unit test
+- [ ] Step 3 — Implement the model class
+- [ ] Step 4 — Sync docstrings (wipe & rewrite from markdown)
+- [ ] Step 5 — Write the reader/writer round-trip test
+- [ ] Step 6 — Update the parser (reader) & writer
+- [ ] Step 7 — Update checklist comment (`# Spec:` + rows)
+- [ ] Step 8 — Deviations check
 - [ ] Step 9 — Verify (9a automated) + confirm (9b gate) & stamp
 
 ## Future queue (out of this batch)
 
-- `ScheduleTableEntry` (Table 6.96): XSD group also carries `INTRODUCTION` before
-  `DELAY`; model has the field but parser/writer do not serialize it yet
-  (pre-existing gap, outside this batch's confirmed scope).
+- `ApplicationEntry` (concrete subclass of ScheduleTableEntry, sibling of the
+  queued entries): once row 1 lands DELAY/INTRODUCTION/POSITION-IN-TABLE
+  reader/writer coverage, APPLICATION-ENTRY serializes the same XSD
+  SCHEDULE-TABLE-ENTRY group → expect drift fix there. Not in this batch's
+  confirmed closure — queue separately if the user confirms.
