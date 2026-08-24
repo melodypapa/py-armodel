@@ -1,5 +1,4 @@
 from abc import ABC
-from enum import Enum
 from typing import TYPE_CHECKING, List, Optional
 
 if TYPE_CHECKING:

@@ -1710,11 +1710,14 @@ class FrameTriggering(Identifiable, ABC):
         self.framePortRefs: List[RefType] = []
         self.pduTriggeringRefs: List[RefType] = []
 
-    def getFrameRef(self) -> RefType:
+    def getFrameRef(self) -> Optional[RefType]:
         return self.frameRef
 
-    def setFrameRef(self, value: RefType):
-        self.frameRef = value
+    def setFrameRef(self, value: Optional[RefType]) -> "FrameTriggering":
+        # One frame can be triggered several times, e.g. on different channels. If a frame has no frame triggering, it won't be sent at all. A frame triggering has assigned exactly one frame, which it triggers.
+        # A None value is a no-op and does not overwrite an existing frameRef.
+        if value is not None:
+            self.frameRef = value
         return self
 
     def getFramePortRefs(self) -> List[RefType]:
