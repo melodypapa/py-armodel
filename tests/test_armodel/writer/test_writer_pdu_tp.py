@@ -1031,6 +1031,7 @@ class TestWriteLinTpNode:
         node = LinTpNode(pkg, "LinNode")
         node.setConnectorRef(_ref("ECU-INSTANCE", "/conn"))
         node.setDropNotRequestedNad(_bool("true"))
+        node.setMaxNumberOfRespPendingFrames(_int("3"))
         node.setP2Max(_time("0.05"))
         node.setP2Timing(_time("0.025"))
         node.setTpAddressRef(_ref("TP-ADDRESS", "/ta"))
@@ -1040,12 +1041,56 @@ class TestWriteLinTpNode:
         assert child is not None
         assert child.find("SHORT-NAME").text == "LinNode"
         assert child.find("CONNECTOR-REF").text == "/conn"
+        assert child.find("DROP-NOT-REQUESTED-NAD") is not None
+        assert child.find("DROP-NOT-REQUESTED-NAD").text == "true"
+        assert child.find("MAX-NUMBER-OF-RESP-PENDING-FRAMES").text == "3"
         assert child.find("P-2-MAX").text == "0.05"
         assert child.find("P-2-TIMING").text == "0.025"
         assert child.find("TP-ADDRESS-REF").text == "/ta"
-        drop = parent.find("DROP-NOT-REQUESTED-NAD")
-        assert drop is not None
-        assert drop.text == "true"
+
+    def test_roundtrip_lin_tp_node_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        node = LinTpNode(pkg, "LinNode")
+        node.setConnectorRef(_ref("COMMUNICATION-CONNECTOR", "/conn"))
+        node.setDropNotRequestedNad(_bool("true"))
+        node.setMaxNumberOfRespPendingFrames(_int("3"))
+        node.setP2Max(_time("0.05"))
+        node.setP2Timing(_time("0.025"))
+        node.setTpAddressRef(_ref("TP-ADDRESS", "/ta"))
+        parent = _parent()
+        writer.writeLinTpNode(parent, node)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = LinTpNode(pkg, "LinNode2")
+        parser.readLinTpNode(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getConnectorRef().getValue() == "/conn"
+        assert reloaded.getDropNotRequestedNad().getValue() is True
+        assert reloaded.getMaxNumberOfRespPendingFrames().getValue() == 3
+        assert reloaded.getP2Max().getValue() == 0.05
+        assert reloaded.getP2Timing().getValue() == 0.025
+        assert reloaded.getTpAddressRef().getValue() == "/ta"
+
+    def test_roundtrip_lin_tp_node_empty_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        node = LinTpNode(pkg, "LinNode")
+        parent = _parent()
+        writer.writeLinTpNode(parent, node)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = LinTpNode(pkg, "LinNode2")
+        parser.readLinTpNode(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getConnectorRef() is None
+        assert reloaded.getDropNotRequestedNad() is None
+        assert reloaded.getMaxNumberOfRespPendingFrames() is None
+        assert reloaded.getP2Max() is None
+        assert reloaded.getP2Timing() is None
+        assert reloaded.getTpAddressRef() is None
 
 
 class TestWriteLinTpConfigTpNodes:
@@ -1094,3 +1139,45 @@ class TestWriteLinTpConfig:
         assert child.find("TP-ADDRESSS") is not None
         assert child.find("TP-CONNECTIONS") is not None
         assert child.find("TP-NODES") is not None
+
+    def test_empty_wrappers_not_written(self, writer):
+        pkg = _pkg()
+        cfg = LinTpConfig(pkg, "LinTp")
+        parent = _parent()
+        writer.writeLinTpConfig(parent, cfg)
+        assert len(parent) == 1
+        child = parent[0]
+        assert child.tag == "LIN-TP-CONFIG"
+        assert child.find("TP-ADDRESSS") is None
+        assert child.find("TP-CONNECTIONS") is None
+        assert child.find("TP-NODES") is None
+
+    def test_roundtrip_lin_tp_config_fields(self, writer):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        pkg = _pkg()
+        cfg = LinTpConfig(pkg, "LinTp")
+        cfg.setCommunicationClusterRef(_ref("LIN-CLUSTER", "/c"))
+        address = cfg.createTpAddress("A1")
+        address.setTpAddress(_int("1234"))
+        connection = LinTpConnection()
+        connection.setTimeoutAs(_time("0.06"))
+        cfg.addTpConnection(connection)
+        node = cfg.createLinTpNode("N1")
+        node.setDropNotRequestedNad(_bool("true"))
+        node.setMaxNumberOfRespPendingFrames(_int("3"))
+        parent = _parent()
+        writer.writeLinTpConfig(parent, cfg)
+
+        xml_str = ET.tostring(parent, encoding="unicode").replace("<PARENT>", "<PARENT xmlns='http://autosar.org/schema/r4.0'>", 1)
+        parser = ARXMLParser()
+        reloaded = LinTpConfig(pkg, "LinTp2")
+        parser.readLinTpConfig(ET.fromstring(xml_str)[0], reloaded)
+        assert reloaded.getCommunicationClusterRef().getValue() == "/c"
+        assert len(reloaded.getTpAddresses()) == 1
+        assert reloaded.getTpAddresses()[0].getTpAddress().getValue() == 1234
+        assert len(reloaded.getTpConnections()) == 1
+        assert reloaded.getTpConnections()[0].getTimeoutAs().getValue() == 0.06
+        assert len(reloaded.getTpNodes()) == 1
+        assert reloaded.getTpNodes()[0].getDropNotRequestedNad().getValue() is True
+        assert reloaded.getTpNodes()[0].getMaxNumberOfRespPendingFrames().getValue() == 3
