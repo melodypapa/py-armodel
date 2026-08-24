@@ -31,7 +31,7 @@ row below and must sync BEFORE the class that references it. No spec table → X
 
 ### Member types — sync FIRST (Rule 0016.5)
 
-- [x] SomeipSdClientEventGroupTimingConfigRefConditional (ref-conditional · used by ConsumedEventGroup.sdClientTimerConfig · source ServiceInstances.py area) <!-- commit: -->
+- [x] SomeipSdClientEventGroupTimingConfigRefConditional (ref-conditional · used by ConsumedEventGroup.sdClientTimerConfig · source ServiceInstances.py area) <!-- commit: 2ddb2ef8 -->
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
