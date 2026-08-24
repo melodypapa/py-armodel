@@ -947,6 +947,35 @@ class TestBswEntityDispatch:
             warning_parser.readBswInternalBehaviorEntities(element, behavior)
         assert any("Unsupported BswModuleEntity" in r.getMessage() for r in caplog.records)
 
+    def test_readBswInternalBehavior_scheduler_name_prefixes(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<SCHEDULER-NAME-PREFIXS>"
+            "<BSW-SCHEDULER-NAME-PREFIX><SHORT-NAME>p1</SHORT-NAME><SYMBOL>SchM_pre_</SYMBOL></BSW-SCHEDULER-NAME-PREFIX>"
+            "<BSW-SCHEDULER-NAME-PREFIX><SHORT-NAME>p2</SHORT-NAME></BSW-SCHEDULER-NAME-PREFIX>"
+            "</SCHEDULER-NAME-PREFIXS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehavior(element, behavior)
+        prefixes = behavior.getSchedulerNamePrefixes()
+        assert len(prefixes) == 2
+        assert prefixes[0].getShortName() == "p1"
+        assert prefixes[0].getSymbol().getValue() == "SchM_pre_"
+        assert prefixes[1].getSymbol() is None
+
+    def test_readBswInternalBehavior_scheduler_name_prefixes_empty_wrapper(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<SCHEDULER-NAME-PREFIXS>" "</SCHEDULER-NAME-PREFIXS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehavior(element, behavior)
+        assert behavior.getSchedulerNamePrefixes() == []
+
 
 # ==================== BSW Events ====================
 

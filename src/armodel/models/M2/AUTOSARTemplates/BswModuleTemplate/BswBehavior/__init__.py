@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswSchedulerNamePrefix import BswSchedulerNamePrefix
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import IdentCaption
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
@@ -2783,7 +2784,7 @@ class BswInternalBehavior(InternalBehavior):
             self.releasedTriggerPolicies = value
         return self
 
-    def getSchedulerNamePrefixes(self):
+    def getSchedulerNamePrefixes(self) -> List["BswSchedulerNamePrefix"]:
         """
         Gets the list of BSW scheduler name prefixes.
 
@@ -2791,6 +2792,24 @@ class BswInternalBehavior(InternalBehavior):
             List of BswSchedulerNamePrefix instances
         """
         return self.schedulerNamePrefixes
+
+    def createSchedulerNamePrefix(self, short_name: str) -> "BswSchedulerNamePrefix":
+        """
+        Creates and adds a BswSchedulerNamePrefix to this behavior's scheduler
+        name prefixes. Returns the existing prefix if the short name is already
+        present.
+
+        Args:
+            short_name: The short name for the new scheduler name prefix
+
+        Returns:
+            The created BswSchedulerNamePrefix instance
+        """
+        if not self.IsElementExists(short_name):
+            prefix = BswSchedulerNamePrefix(self, short_name)
+            self.addElement(prefix)
+            self.schedulerNamePrefixes.append(prefix)
+        return self.getElement(short_name)
 
     def setSchedulerNamePrefixes(self, value):
         """

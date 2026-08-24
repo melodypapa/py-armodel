@@ -2374,7 +2374,13 @@ class ARXMLParser(AbstractARXMLParser):
         for group_set in self.getIncludedModeDeclarationGroupSets(element):
             behavior.addIncludedModeDeclarationGroupSet(group_set)
         self.readBswInternalBehaviorReceptionPolicies(element, behavior)
+        self.readBswInternalBehaviorSchedulerNamePrefixes(element, behavior)
         self.readBswInternalBehaviorServiceDependencies(element, behavior)
+
+    def readBswInternalBehaviorSchedulerNamePrefixes(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "SCHEDULER-NAME-PREFIXS/BSW-SCHEDULER-NAME-PREFIX"):
+            prefix = behavior.createSchedulerNamePrefix(self.getShortName(child_element))
+            self.readImplementationProps(child_element, prefix)
 
     def readBswModuleDescriptionBswInternalBehaviors(self, element: ET.Element, desc: BswModuleDescription):
         for child_element in self.findall(element, "INTERNAL-BEHAVIORS/*"):

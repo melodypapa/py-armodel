@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswCalledEntity,
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
+    BswSchedulerNamePrefix,
     BswEvent,
     BswExternalTriggerOccurredEvent,
     BswInternalBehavior,
@@ -5184,7 +5185,19 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswInternalBehaviorModeSenderPolicy(child_element, behavior)
         self.writeBswInternalBehaviorIncludedModeDeclarationGroupSets(child_element, behavior)
         self.writeBswInternalBehaviorReceptionPolicies(child_element, behavior)
+        self.writeBswInternalBehaviorSchedulerNamePrefixes(child_element, behavior)
         self.writeBswInternalBehaviorServiceDependencies(child_element, behavior)
+
+    def writeBswInternalBehaviorSchedulerNamePrefixes(self, element: ET.Element, behavior: BswInternalBehavior):
+        prefixes = behavior.getSchedulerNamePrefixes()
+        if len(prefixes) > 0:
+            prefixes_tag = ET.SubElement(element, "SCHEDULER-NAME-PREFIXS")
+            for prefix in prefixes:
+                if isinstance(prefix, BswSchedulerNamePrefix):
+                    child = ET.SubElement(prefixes_tag, "BSW-SCHEDULER-NAME-PREFIX")
+                    self.writeImplementationProps(child, prefix)
+                else:
+                    self.notImplemented("Unsupported Scheduler Name Prefix <%s>" % type(prefix))
 
     def writeBswModuleDescriptionInternalBehaviors(self, element: ET.Element, desc: BswModuleDescription):
         behaviors = desc.getInternalBehaviors()

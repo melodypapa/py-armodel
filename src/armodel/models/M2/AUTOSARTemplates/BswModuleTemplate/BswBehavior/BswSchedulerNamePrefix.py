@@ -2,30 +2,20 @@
 This module defines BSW scheduler name prefix in AUTOSAR.
 """
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
-class BswSchedulerNamePrefix(ARObject):
+class BswSchedulerNamePrefix(ImplementationProps):
     """
-    Represents a BSW scheduler name prefix in AUTOSAR.
-    This class defines the prefix used for scheduler names.
+    A prefix to be used in names of generated code artifacts which make up the
+    interface of a BSW module to the BswScheduler.
     """
 
     # BswSchedulerNamePrefix method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getPrefix                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setPrefix                    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.20, p.86
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
-    def __init__(self):
-        """
-        Initializes the BswSchedulerNamePrefix with default values.
-        """
-        super().__init__()
-        self.prefix: str = None
-
-    def getPrefix(self):
-        return self.prefix
-
-    def setPrefix(self, value):
-        self.prefix = value
-        return self
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)

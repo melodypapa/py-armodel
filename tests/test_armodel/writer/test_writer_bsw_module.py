@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARBoolean,
     ARLiteral,
     ARNumerical,
+    CIdentifier,
     PositiveInteger,
     RefType,
     TimeValue,
@@ -372,6 +373,29 @@ class TestWriterBswModuleCallPoints:
         parent = _parent()
         writer.writeBswModuleEntityCallPoints(parent, entity)
         assert len(parent) == 0
+
+
+class TestWriterBswInternalBehaviorSchedulerNamePrefixes:
+    def test_scheduler_name_prefixes(self, writer):
+        behavior = _make_behavior()
+        prefix = behavior.createSchedulerNamePrefix("p1")
+        symbol = CIdentifier()
+        symbol.setValue("SchM_pre_")
+        prefix.setSymbol(symbol)
+        parent = _parent()
+        writer.writeBswInternalBehaviorSchedulerNamePrefixes(parent, behavior)
+        wrapper = parent.find("SCHEDULER-NAME-PREFIXS")
+        assert wrapper is not None
+        prefixes = wrapper.findall("BSW-SCHEDULER-NAME-PREFIX")
+        assert len(prefixes) == 1
+        assert prefixes[0].find("SHORT-NAME").text == "p1"
+        assert prefixes[0].find("SYMBOL").text == "SchM_pre_"
+
+    def test_scheduler_name_prefixes_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeBswInternalBehaviorSchedulerNamePrefixes(parent, behavior)
+        assert parent.find("SCHEDULER-NAME-PREFIXS") is None
 
 
 class TestWriterBswInternalBehaviorEntities:
