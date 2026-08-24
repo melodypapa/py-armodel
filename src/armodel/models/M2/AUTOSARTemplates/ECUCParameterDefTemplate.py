@@ -2326,6 +2326,7 @@ class EcucModuleDef(EcucDefinitionElement):
 
     # EcucModuleDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.2, p.32
+    # Spec verified: R23-11
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getApiServicePrefix            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setApiServicePrefix            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
