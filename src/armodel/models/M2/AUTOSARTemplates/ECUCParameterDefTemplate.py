@@ -1640,6 +1640,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
     # EcucParamConfContainerDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.4, p.39
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getParameters                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createEcucAddInfoParamDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
