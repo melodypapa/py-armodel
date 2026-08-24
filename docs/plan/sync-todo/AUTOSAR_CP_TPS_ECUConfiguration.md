@@ -68,7 +68,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a) + confirm (9b) ⇒ write stamp
 
-### [x] 4. PduToFrameMapping — member (commit 368d742, stamp deferred)
+### [x] 4. PduToFrameMapping — member (commit 368d742, stamped 6deafb2)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py:39`
 - Spec: `AUTOSAR_CP_TPS_SystemTemplate.md` Table 6.29
 - Role: aggr member of Frame.pduToFrameMapping
@@ -83,7 +83,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [x] 5. Frame — input (commit 44410c4, stamp deferred)
+### [x] 5. Frame — input (commit 44410c4, stamped 6deafb2)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py:94`
 - Spec: `AUTOSAR_CP_TPS_SystemTemplate.md` Table 6.78
 - Base: FibexElement (stamped ✓); depends on PduToFrameMapping (row 4)
@@ -99,7 +99,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [x] 6. NmPdu — input (commit 381903a, stamp deferred)
+### [x] 6. NmPdu — input (commit 381903a, stamped 6deafb2)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py:973`
 - Spec: `AUTOSAR_CP_TPS_SystemTemplate.md` Table 6.20
 - Base: Pdu (stamped ✓)
@@ -115,7 +115,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [x] 7. NPdu — input (commit f3532e0, stamp deferred)
+### [x] 7. NPdu — input (commit f3532e0, stamped 6deafb2)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py:1034`
 - Spec: `AUTOSAR_CP_TPS_SystemTemplate.md` Table 6.21
 - Base: IPdu (stamped ✓)
@@ -148,7 +148,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [x] 9. FrameTriggering — input (commit bfa9018, stamp deferred)
+### [x] 9. FrameTriggering — input (commit bfa9018, stamped 6deafb2)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py:1548`
 - Spec: `AUTOSAR_CP_TPS_SystemTemplate.md` Table 6.79
 - Depends on: PduTriggering (row 8)
@@ -164,7 +164,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [x] 10. AtpFeature — member (commit 84fc55f, stamp deferred)
+### [x] 10. AtpFeature — member (commit 84fc55f, stamped 6deafb2)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/AbstractStructure.py:157`
 - Spec: `AUTOSAR_FO_TPS_GenericStructureTemplate.md` Table 5.2
 - Role: ref target of AnyInstanceRef.contextElement
@@ -179,7 +179,7 @@ Per-class 9-step sub-checklists are written at file creation and flipped per ste
   - [x] Step 8 — Deviations ⇒ no stamp decision record
   - [x] Step 9 — Verify (9a); stamp deferred to batch confirmation
 
-### [x] 11. AtpInstanceRef — base (commit 84fc55f, stamp deferred)
+### [x] 11. AtpInstanceRef — base (commit 84fc55f, stamped 6deafb2)
 - Source: `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/AbstractStructure.py:13`
 - Spec: `AUTOSAR_FO_TPS_GenericStructureTemplate.md` Table 5.3
 - Role: base of AnyInstanceRef
