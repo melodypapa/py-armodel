@@ -170,6 +170,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucAbstractInternalReferenceDef,
     EcucAbstractReferenceDef,
     EcucAbstractStringParamDef,
+    EcucAddInfoParamDef,
     EcucBooleanParamDef,
     EcucChoiceContainerDef,
     EcucChoiceReferenceDef,
@@ -7156,6 +7157,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(element, "SYMBOLIC-NAME-VALUE", param_def.getSymbolicNameValue())
         self.setChildElementOptionalBooleanValue(element, "WITH-AUTO", param_def.getWithAuto())
 
+    def writeEcucAddInfoParamDef(self, element: ET.Element, param_def: EcucAddInfoParamDef):
+        if param_def is not None:
+            child_element = ET.SubElement(element, "ECUC-ADD-INFO-PARAM-DEF")
+            self.writeEcucParameterDef(child_element, param_def)
+
     def writeEcucDerivationSpecification(self, element: ET.Element, derivation: Optional[EcucDerivationSpecification]):
         if derivation is None:
             return
@@ -7307,6 +7313,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             for parameter in parameters:
                 if isinstance(parameter, EcucBooleanParamDef):
                     self.writeEcucBooleanParamDef(child_element, parameter)
+                elif isinstance(parameter, EcucAddInfoParamDef):
+                    self.writeEcucAddInfoParamDef(child_element, parameter)
                 elif isinstance(parameter, EcucStringParamDef):
                     self.writeEcucStringParamDef(child_element, parameter)
                 elif isinstance(parameter, EcucIntegerParamDef):

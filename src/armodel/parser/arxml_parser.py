@@ -186,6 +186,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucAbstractInternalReferenceDef,
     EcucAbstractReferenceDef,
     EcucAbstractStringParamDef,
+    EcucAddInfoParamDef,
     EcucBooleanParamDef,
     EcucChoiceContainerDef,
     EcucChoiceReferenceDef,
@@ -7568,6 +7569,10 @@ class ARXMLParser(AbstractARXMLParser):
                 param_def = EcucBooleanParamDef(policy, self.getShortName(child_element))
                 self.readEcucBooleanParamDef(child_element, param_def)
                 policy.addParameter(param_def)
+            elif tag_name == "ECUC-ADD-INFO-PARAM-DEF":
+                param_def = EcucAddInfoParamDef(policy, self.getShortName(child_element))
+                self.readEcucAddInfoParamDef(child_element, param_def)
+                policy.addParameter(param_def)
             elif tag_name == "ECUC-STRING-PARAM-DEF":
                 param_def = EcucStringParamDef(policy, self.getShortName(child_element))
                 self.readEcucStringParamDef(child_element, param_def)
@@ -7714,6 +7719,9 @@ class ARXMLParser(AbstractARXMLParser):
             expr.setConfigElementDefLocalRef(self.getChildElementOptionalRefType(expr_element, "CONFIG-ELEMENT-DEF-LOCAL-REF"))
             query.setEcucQueryExpression(expr)
 
+    def readEcucAddInfoParamDef(self, element: ET.Element, param_def: EcucAddInfoParamDef):
+        self.readEcucParameterDef(element, param_def)
+
     def readEcucBooleanParamDef(self, element: ET.Element, param_def: EcucBooleanParamDef):
         self.readEcucParameterDef(element, param_def)
         param_def.setDefaultValue(self.getChildElementOptionalBooleanValue(element, "DEFAULT-VALUE"))
@@ -7789,6 +7797,9 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "ECUC-BOOLEAN-PARAM-DEF":
                 param_def = container_def.createEcucBooleanParamDef(self.getShortName(child_element))
                 self.readEcucBooleanParamDef(child_element, param_def)
+            elif tag_name == "ECUC-ADD-INFO-PARAM-DEF":
+                param_def = container_def.createEcucAddInfoParamDef(self.getShortName(child_element))
+                self.readEcucAddInfoParamDef(child_element, param_def)
             elif tag_name == "ECUC-STRING-PARAM-DEF":
                 param_def = container_def.createEcucStringParamDef(self.getShortName(child_element))
                 self.readEcucStringParamDef(child_element, param_def)

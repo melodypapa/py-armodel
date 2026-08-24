@@ -1642,6 +1642,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.4, p.39
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getParameters                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createEcucAddInfoParamDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createEcucBooleanParamDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createEcucStringParamDef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createEcucIntegerParamDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -1675,6 +1676,16 @@ class EcucParamConfContainerDef(EcucContainerDef):
         The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
         return self.parameters
+
+    def createEcucAddInfoParamDef(self, short_name: str) -> "EcucAddInfoParamDef":
+        """
+        The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
+        """
+        if not self.IsElementExists(short_name):
+            param = EcucAddInfoParamDef(self, short_name)
+            self.addElement(param)
+            self.parameters.append(param)
+        return self.getElement(short_name)
 
     def createEcucBooleanParamDef(self, short_name: str) -> EcucBooleanParamDef:
         """
@@ -1838,6 +1849,7 @@ class EcucAddInfoParamDef(EcucParameterDef):
 
     # EcucAddInfoParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.25, p.68
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
