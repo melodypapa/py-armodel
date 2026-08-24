@@ -2,9 +2,12 @@
 
 Input scope: 17 ethernet-related classes in `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet`,
 selected by user from `docs/examples/method_deviation_by_class.md` (all without a `# Spec verified:`
-stamp). Generated: 2026-08-23. Queue updated 2026-08-23: the previously "Skip (placeholder)" member
+stamp). Generated: 2026-08-23. Queue updated 2026-08-24: the previously "Skip (placeholder)" member
 types are now PROMOTED into the queue as class rows and MUST be synced before their dependents per
-Rule 0016.5 (member-type-first ordering).
+Rule 0016.5 (member-type-first ordering). Queue re-audited 2026-08-24 against markdown: XSD-only
+atpVariation `...RefConditional` / `...Conditional` wrappers, the obsolete SoAd enum classes, and the
+ad-hoc technology enum classes were REMOVED from the queue (markdown is authoritative — Rule 0002 /
+user decision); rows retargeted to the real markdown-documented classes.
 (resume = first class row still `[ ]`; all class rows `[x]` = sync finished)
 
 Closure confirmed by user 2026-08-23: queue the 17 input classes + their missing member-type classes;
@@ -13,35 +16,26 @@ Describable, NetworkEndpointAddress, CouplingPortStructuralElement, FibexElement
 project decision — existing and not modified in this pass.
 
 Two specs in scope:
-- `AUTOSAR_CP_TPS_SystemTemplate.md` (Tables 3.47…3.68 topology; Tables 6.117…6.168 services)
+- `AUTOSAR_CP_TPS_SystemTemplate.md` (Tables 3.47…3.68 topology; Tables 6.117…6.168 services;
+  Tables 6.172/6.173/6.207, F.117/F.118 timing + DoIP classes)
 - `AUTOSAR_CP_TPS_SoftwareComponentTemplate.md` (ConsumedEventGroup/ConsumedServiceInstance)
 
 Already stamped, therefore NOT queued (Rule 0012.3): `ProvidedServiceInstance` (R23-11).
 
 Referenced member types that EXIST (no queue row, Rule 0012.3): CouplingPortScheduler,
 EthernetPriorityRegeneration, EthernetPhysicalChannel, SoAdRoutingGroup, TpConnectionIdent,
-NetworkEndpoint, NetworkEndpointAddress, MacMulticastGroup, CouplingPortStructuralElement, and the
-Ethernet switch enums used by CouplingPort members.
+NetworkEndpoint, NetworkEndpointAddress, MacMulticastGroup, CouplingPortStructuralElement,
+DoIpLogicAddress (TransportProtocols.py), and the Ethernet switch enums used by CouplingPort members.
 
 Missing/stub member types PROMOTED into the queue (Rule 0016.4/0016.5) — each now has its own class
-row below and must sync BEFORE the class that references it. No spec table → XSD-only (no
-`# Spec verified:` stamp, Rule 0002) unless a PDF/markdown table is located at the class's own Step 1.
+row below and must sync BEFORE the class that references it. All rows below are real markdown classes
+(no XSD-only wrappers are queued).
 
 ## Queue (dependency / member-type-first, then their dependents)
 
 ### Member types — sync FIRST (Rule 0016.5)
 
-- [x] SomeipSdClientEventGroupTimingConfigRefConditional (ref-conditional · used by ConsumedEventGroup.sdClientTimerConfig · source ServiceInstances.py area) <!-- commit: 2ddb2ef8 -->
-  - [x] Step 1 — Sync members & description from spec
-  - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green)
-  - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a) + confirm (9b)
-- [ ] SomeipSdClientServiceInstanceConfigRefConditional (ref-conditional · used by ConsumedServiceInstance.sdClientTimerConfig · source ServiceInstances.py area)
+- [ ] SomeipSdClientServiceInstanceConfig (ARElement value type · Table F.117 · p.2007 · used by ConsumedServiceInstance.sdClientTimerConfig · source ServiceInstances.py · adds initialFindBehavior aggr InitialSdDelayConfig, priority attr, serviceFindTimeToLive attr)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -51,7 +45,7 @@ row below and must sync BEFORE the class that references it. No spec table → X
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] SomeipSdServerEventGroupTimingConfigRefConditional (ref-conditional · used by EventHandler.sdServerEgTimingConfig · source ServiceInstances.py area)
+- [ ] SomeipSdClientEventGroupTimingConfig (ARElement value type · Table 6.173 · p.1162 · used by ConsumedEventGroup.sdClientTimerConfig · source ServiceInstances.py · adds requestResponseDelay aggr RequestResponseDelay, subscribeEventgroupRetryDelay attr TimeValue, subscribeEventgroupRetryMax attr, timeToLive attr)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -61,7 +55,7 @@ row below and must sync BEFORE the class that references it. No spec table → X
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] SomeipServiceVersion (value type · used by ConsumedServiceInstance.blacklistedVersion)
+- [ ] SomeipSdServerEventGroupTimingConfig (ARElement value type · Table 6.172 · p.1162 · used by EventHandler.sdServerEgTimingConfig · source ServiceInstances.py · adds requestResponseDelay aggr RequestResponseDelay)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -71,7 +65,7 @@ row below and must sync BEFORE the class that references it. No spec table → X
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] ApplicationEndpointRefConditional (ref-conditional · used by ConsumedServiceInstance.eventMulticastSubscriptionAddress, EventHandler.eventMulticastAddress)
+- [ ] SomeipServiceVersion (ARObject value type · Table F.118 · used by ConsumedServiceInstance.blacklistedVersion · source ServiceInstances.py · adds majorVersion, minorVersion)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -81,7 +75,7 @@ row below and must sync BEFORE the class that references it. No spec table → X
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] NetworkEndpointRefConditional (ref-conditional · used by Consumed/Provided service instance address fields)
+- [ ] DhcpServerConfiguration (value type · Table 3.79 · used by InfrastructureServices.dhcpServerConfiguration, VlanMembership.dhcpAddressAssignment)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -91,7 +85,7 @@ row below and must sync BEFORE the class that references it. No spec table → X
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] DiscoveryTechnology (enum · used by ApplicationEndpoint.discoveryTechnology)
+- [ ] CouplingPortTrafficClassAssignment (value type · Table 3.75 · used by CouplingPortDetails.ethernetTrafficClassAssignments)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -101,7 +95,7 @@ row below and must sync BEFORE the class that references it. No spec table → X
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] RemotingTechnology (enum · used by ApplicationEndpoint.remotingTechnology)
+- [ ] CanXlProps (value type · existing EthernetCommunication.py · used by EthernetCommunicationConnector.canXlPropsRefs / apApplicationEndpoint)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -111,97 +105,7 @@ row below and must sync BEFORE the class that references it. No spec table → X
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] SerializationTechnology (ref target · used by ApplicationEndpoint.serializationTechnologyRef)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] LogicAddress (ref target · used by SoAdConfig.logicAddress, SocketConnection.doIpSourceAddressRef/doIpTargetAddressRef)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] DhcpServerConfiguration (value type · used by InfrastructureServices.dhcpServerConfiguration, VlanMembership.dhcpAddressAssignment)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] EthernetClusterConditional (conditional · used by EthernetCluster.ethernetClusterVariant)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] EthernetCommunicationControllerConditional (conditional · used by EthernetCommunicationController.ethernetCommunicationControllerVariant)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CouplingPortTrafficClassAssignment (value type · used by CouplingPortDetails.ethernetTrafficClassAssignments)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CanXlProps (value type · used by EthernetCommunicationConnector.canXlPropsRefs / apApplicationEndpoint)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TagWithOptionalValue (value type · used by SdClientConfig.capabilityRecord, AbstractServiceInstance.capabilityRecords)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] SoAdConnectorType (enum · used by SocketConnection.autosarConnector — obsolete)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] SoAdProtocolType (enum · used by SocketConnection.socketProtocol — obsolete)
+- [ ] TagWithOptionalValue (value type · Table 6.159 (CP) / 4.76 (FO) · used by SdClientConfig.capabilityRecord, AbstractServiceInstance.capabilityRecords)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -214,7 +118,7 @@ row below and must sync BEFORE the class that references it. No spec table → X
 
 ### Input ethernet classes — sync AFTER their member types (Rule 0016.5)
 
-- [ ] ConsumedEventGroup (markdown SoftwareComponentTemplate · Table 6.168 · p.978 · source Fibex4Ethernet/ServiceInstances.py · depends on SomeipSdClientEventGroupTimingConfigRefConditional above; adds instanceIdentifier, sdClientTimerConfig)
+- [ ] ConsumedEventGroup (markdown SoftwareComponentTemplate · Table 6.168 · p.978 · source Fibex4Ethernet/ServiceInstances.py · depends on SomeipSdClientEventGroupTimingConfig above; sdClientTimerConfig is a ref to it; adds instanceIdentifier)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -224,7 +128,7 @@ row below and must sync BEFORE the class that references it. No spec table → X
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] ConsumedServiceInstance (markdown SoftwareComponentTemplate · Table 6.167 · p.980 · source Fibex4Ethernet/ServiceInstances.py · base AbstractServiceInstance below; depends on SomeipSdClientServiceInstanceConfigRefConditional / SomeipServiceVersion / ApplicationEndpointRefConditional above; adds blacklistedVersion, eventMulticastSubscriptionAddress, sdClientTimerConfig)
+- [ ] ConsumedServiceInstance (markdown SoftwareComponentTemplate · Table 6.167 · p.980 · source Fibex4Ethernet/ServiceInstances.py · base AbstractServiceInstance below; depends on SomeipSdClientServiceInstanceConfig / SomeipServiceVersion above; adds blacklistedVersion, eventMulticastSubscriptionAddress, sdClientTimerConfig refs)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -244,7 +148,7 @@ row below and must sync BEFORE the class that references it. No spec table → X
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] ApplicationEndpoint (markdown SystemTemplate · Table 6.124 · p.457 · source Fibex4Ethernet/ServiceInstances.py · depends on DiscoveryTechnology / RemotingTechnology / SerializationTechnology above; adds discoveryTechnology, remotingTechnology, serializationTechnologyRef)
+- [ ] ApplicationEndpoint (markdown SystemTemplate · Table 6.124 · p.457 · source Fibex4Ethernet/ServiceInstances.py · adds discoveryTechnology, remotingTechnology, serializationTechnologyRef; these tech member types are XSD/ad-hoc — handle inside this sync)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -264,7 +168,7 @@ row below and must sync BEFORE the class that references it. No spec table → X
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] SoAdConfig (markdown SystemTemplate · Table 6.117 · p.451 · source Fibex4Ethernet/ServiceInstances.py · depends on LogicAddress above; adds logicAddress)
+- [ ] SoAdConfig (markdown SystemTemplate · Table 6.117 · p.451 · source Fibex4Ethernet/ServiceInstances.py · adds logicAddress ref to existing DoIpLogicAddress)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -274,7 +178,7 @@ row below and must sync BEFORE the class that references it. No spec table → X
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] EventHandler (markdown SystemTemplate · Table 6.166 · p.492 · source Fibex4Ethernet/ServiceInstances.py · depends on ApplicationEndpointRefConditional / SomeipSdServerEventGroupTimingConfigRefConditional above; adds eventGroupIdentifier, eventMulticastAddress, pduActivationRoutingGroup, sdServerEgTimingConfig)
+- [ ] EventHandler (markdown SystemTemplate · Table 6.166 · p.492 · source Fibex4Ethernet/ServiceInstances.py · depends on SomeipSdServerEventGroupTimingConfig above; adds eventGroupIdentifier, eventMulticastAddress, pduActivationRoutingGroup, sdServerEgTimingConfig)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -334,7 +238,7 @@ row below and must sync BEFORE the class that references it. No spec table → X
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] EthernetCluster (markdown SystemTemplate · Table 3.47 · p.103 · source Fibex4Ethernet/EthernetTopology.py · depends on EthernetClusterConditional above; adds ethernetClusterVariant)
+- [ ] EthernetCluster (markdown SystemTemplate · Table 3.47 · p.103 · source Fibex4Ethernet/EthernetTopology.py · adds couplingPorts to EthernetCluster; closes open items)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -344,7 +248,7 @@ row below and must sync BEFORE the class that references it. No spec table → X
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] EthernetCommunicationController (markdown SystemTemplate · Table 3.61 · p.115 · source Fibex4Ethernet/EthernetTopology.py · depends on EthernetCommunicationControllerConditional above; adds ethernetCommunicationControllerVariant)
+- [ ] EthernetCommunicationController (markdown SystemTemplate · Table 3.61 · p.115 · source Fibex4Ethernet/EthernetTopology.py · closes open items)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -374,7 +278,7 @@ row below and must sync BEFORE the class that references it. No spec table → X
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] SocketConnection (obsolete · p.2057 · source Fibex4Ethernet/EthernetCommunication.py · depends on SoAdConnectorType / SoAdProtocolType / LogicAddress above; adds autosarConnector, doIpSourceAddressRef/doIpTargetAddressRef, ident → TpConnectionIdent, localPortRef/remotePortRef → SocketAddress Ref, nPduRef, socketProtocol)
+- [ ] SocketConnection (obsolete · p.2057 · source Fibex4Ethernet/EthernetCommunication.py · adds autosarConnector, doIpSourceAddressRef/doIpTargetAddressRef, ident → TpConnectionIdent, localPortRef/remotePortRef → SocketAddress Ref, nPduRef, socketProtocol)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
