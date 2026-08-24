@@ -49,6 +49,16 @@ class MockParent(ARObject):
         super().__init__()
 
 
+def _assert_return_is(hints: dict, expected: type):
+    # On Python 3.8 a module with `from __future__ import annotations` leaves
+    # bare-name forward references unresolved in get_type_hints results.
+    hint = hints["return"]
+    if isinstance(hint, typing.ForwardRef):
+        assert hint.__forward_arg__ == expected.__name__
+    else:
+        assert hint == expected
+
+
 class Test_FibexCoreTopology:
     """Test cases for FibexCore Topology classes."""
 
@@ -389,7 +399,7 @@ class Test_FibexCoreTopology:
         assert hints["return"] == typing.Optional[CommunicationDirectionType]
         hints = typing.get_type_hints(FramePort.setCommunicationDirection)
         assert hints["value"] == typing.Optional[CommunicationDirectionType]
-        assert hints["return"] == CommConnectorPort
+        _assert_return_is(hints, CommConnectorPort)
 
     def test_FramePort(self):
         """Test FramePort class functionality."""
@@ -503,7 +513,7 @@ class Test_FibexCoreTopology:
         assert hints["return"] == typing.Optional[IPduSignalProcessingEnum]
         hints = typing.get_type_hints(IPduPort.setIPduSignalProcessing)
         assert hints["value"] == typing.Optional[IPduSignalProcessingEnum]
-        assert hints["return"] == IPduPort
+        _assert_return_is(hints, IPduPort)
 
         for getter, setter, value_type in [
             ("getRxSecurityVerification", "setRxSecurityVerification", Boolean),
@@ -514,7 +524,7 @@ class Test_FibexCoreTopology:
             assert hints["return"] == typing.Optional[value_type]
             hints = typing.get_type_hints(getattr(IPduPort, setter))
             assert hints["value"] == typing.Optional[value_type]
-            assert hints["return"] == IPduPort
+            _assert_return_is(hints, IPduPort)
 
     def test_ISignalPort(self):
         """Test ISignalPort class functionality."""
