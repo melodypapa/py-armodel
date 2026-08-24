@@ -793,6 +793,36 @@ class SomeipSdClientEventGroupTimingConfig(ARElement):
         return self
 
 
+class SomeipSdServerEventGroupTimingConfig(ARElement):
+    """EventGroup specific timing configuration settings. Tags: atp.recommendedPackage=SomeipSdTimingConfigs"""
+
+    # SomeipSdServerEventGroupTimingConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.172, p.517
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getRequestResponseDelay    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRequestResponseDelay    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The Service Discovery shall delay answers to unicast messages triggered by multicast messages (e.g. Subscribe Eventgroup after Offer Service).
+        self.requestResponseDelay: Optional[RequestResponseDelay] = None
+
+    def getRequestResponseDelay(self) -> Optional[RequestResponseDelay]:
+        """The Service Discovery shall delay answers to unicast messages triggered by multicast messages (e.g. Subscribe Eventgroup after Offer Service)."""
+        return self.requestResponseDelay
+
+    def setRequestResponseDelay(self, value: Optional[RequestResponseDelay]) -> "SomeipSdServerEventGroupTimingConfig":
+        """
+        The Service Discovery shall delay answers to unicast messages triggered by multicast messages (e.g. Subscribe Eventgroup after Offer Service).
+        A None value is a no-op and does not overwrite an existing requestResponseDelay.
+        """
+        if value is not None:
+            self.requestResponseDelay = value
+        return self
+
+
 class SdServerConfig(ARObject):
     """
     Configures Service Discovery (SD) server properties, specifying

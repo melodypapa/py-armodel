@@ -514,6 +514,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SocketAddress,
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
+    SomeipSdServerEventGroupTimingConfig,
     TcpTp,
     TpPort,
     TransportProtocolConfiguration,
@@ -6306,6 +6307,11 @@ class ARXMLParser(AbstractARXMLParser):
         config.setSubscribeEventgroupRetryMax(self.getChildElementOptionalPositiveInteger(element, "SUBSCRIBE-EVENTGROUP-RETRY-MAX"))
         config.setTimeToLive(self.getChildElementOptionalPositiveInteger(element, "TIME-TO-LIVE"))
 
+    def readSomeipSdServerEventGroupTimingConfig(self, element: ET.Element, config: SomeipSdServerEventGroupTimingConfig):
+        self.logger.debug("Read SomeipSdServerEventGroupTimingConfig <%s>" % config.getShortName())
+        self.readIdentifiable(element, config)
+        config.setRequestResponseDelay(self.getRequestResponseDelay(element, "REQUEST-RESPONSE-DELAY"))
+
     def getSdServerConfig(self, element: ET.Element, key: str) -> SdServerConfig:
         config = None
         child_element = self.find(element, key)
@@ -9519,6 +9525,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SOME-IP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG":
                 config = parent.createSomeipSdClientEventGroupTimingConfig(self.getShortName(child_element))
                 self.readSomeipSdClientEventGroupTimingConfig(child_element, config)
+            elif tag_name == "SOME-IP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG":
+                config = parent.createSomeipSdServerEventGroupTimingConfig(self.getShortName(child_element))
+                self.readSomeipSdServerEventGroupTimingConfig(child_element, config)
             elif tag_name == "DO-IP-TP-CONFIG":
                 config = parent.createDoIpTpConfig(self.getShortName(child_element))
                 self.readDoIpTpConfig(child_element, config)

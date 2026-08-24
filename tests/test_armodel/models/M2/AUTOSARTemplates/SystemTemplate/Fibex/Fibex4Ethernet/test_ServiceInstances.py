@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SocketAddress,
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
+    SomeipSdServerEventGroupTimingConfig,
     TcpTp,
     TcpUdpConfig,
     TpPort,
@@ -1016,3 +1017,27 @@ class TestSomeipSdClientEventGroupTimingConfig:
         config.setTimeToLive(255)
         assert config.getTimeToLive() == 255
         assert config == config.setTimeToLive(255)
+
+
+class TestSomeipSdServerEventGroupTimingConfig:
+    """Test cases for SomeipSdServerEventGroupTimingConfig class."""
+
+    def test_initialization(self):
+        """Test SomeipSdServerEventGroupTimingConfig defaults."""
+        parent = MockParent()
+        config = SomeipSdServerEventGroupTimingConfig(parent, "test_config")
+
+        assert config.getRequestResponseDelay() is None
+
+    def test_get_set_requestResponseDelay(self):
+        """Test get/set requestResponseDelay with None no-op and chaining."""
+        parent = MockParent()
+        config = SomeipSdServerEventGroupTimingConfig(parent, "test_config")
+
+        assert config == config.setRequestResponseDelay(None)
+        assert config.getRequestResponseDelay() is None
+
+        delay = RequestResponseDelay()
+        config.setRequestResponseDelay(delay)
+        assert config.getRequestResponseDelay() == delay
+        assert config == config.setRequestResponseDelay(delay)

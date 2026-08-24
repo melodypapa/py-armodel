@@ -485,6 +485,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SocketAddress,
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
+    SomeipSdServerEventGroupTimingConfig,
     TcpTp,
     TpPort,
     TransportProtocolConfiguration,
@@ -6815,6 +6816,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "SUBSCRIBE-EVENTGROUP-RETRY-MAX", config.getSubscribeEventgroupRetryMax())
         self.setChildElementOptionalPositiveInteger(child_element, "TIME-TO-LIVE", config.getTimeToLive())
 
+    def writeSomeipSdServerEventGroupTimingConfig(self, element: ET.Element, config: SomeipSdServerEventGroupTimingConfig):
+        self.logger.debug("Write SomeipSdServerEventGroupTimingConfig <%s>" % config.getShortName())
+        child_element = ET.SubElement(element, "SOME-IP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG")
+        self.writeIdentifiable(child_element, config)
+        self.setRequestResponseDelay(child_element, "REQUEST-RESPONSE-DELAY", config.getRequestResponseDelay())
+
     def writeEventHandler(self, element: ET.Element, handler: EventHandler):
         if handler is not None:
             child_element = ET.SubElement(element, "EVENT-HANDLER")
@@ -9697,6 +9704,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSomeipSdClientServiceInstanceConfig(element, ar_element)
         elif isinstance(ar_element, SomeipSdClientEventGroupTimingConfig):
             self.writeSomeipSdClientEventGroupTimingConfig(element, ar_element)
+        elif isinstance(ar_element, SomeipSdServerEventGroupTimingConfig):
+            self.writeSomeipSdServerEventGroupTimingConfig(element, ar_element)
         elif isinstance(ar_element, DoIpTpConfig):
             self.writeDoIpTpConfig(element, ar_element)
         elif isinstance(ar_element, HwElement):

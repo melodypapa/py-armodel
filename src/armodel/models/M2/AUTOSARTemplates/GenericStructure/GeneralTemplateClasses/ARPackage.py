@@ -89,7 +89,11 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SomeipSdClientEventGroupTimingConfig, SomeipSdClientServiceInstanceConfig
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
+    SomeipSdClientEventGroupTimingConfig,
+    SomeipSdClientServiceInstanceConfig,
+    SomeipSdServerEventGroupTimingConfig,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig
@@ -1400,6 +1404,12 @@ class ARPackage(CollectableElement):
             config = SomeipSdClientEventGroupTimingConfig(self, short_name)
             self.addElement(config)
         return self.getElement(short_name, SomeipSdClientEventGroupTimingConfig)
+
+    def createSomeipSdServerEventGroupTimingConfig(self, short_name: str) -> SomeipSdServerEventGroupTimingConfig:
+        if not self.IsElementExists(short_name, SomeipSdServerEventGroupTimingConfig):
+            config = SomeipSdServerEventGroupTimingConfig(self, short_name)
+            self.addElement(config)
+        return self.getElement(short_name, SomeipSdServerEventGroupTimingConfig)
 
     def createDoIpTpConfig(self, short_name: str) -> DoIpTpConfig:
         if not self.IsElementExists(short_name, DoIpTpConfig):
