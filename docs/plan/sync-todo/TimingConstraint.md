@@ -12,7 +12,7 @@ explicitly added to the queue per user decision). Missing external ref targets
 Rule 0001.10 placeholder and report it at their own Step 8.
 
 ## Queue (dependency-first)
-- [x] Traceable (base · markdown · AUTOSAR_FO_TPS_GenericStructureTemplate.md, Table 9.29)
+- [x] Traceable (base · markdown · AUTOSAR_FO_TPS_GenericStructureTemplate.md, Table 9.29) · commit 9c6c5b5
   - [x] Step 1 — Spec: abstract; Package M2::MSR::Documentation::BlockElements::RequirementsTracing; Base ARObject/MultilanguageReferrable/Referrable (codebase collapses to Identifiable); 1 attribute `trace` (Traceable, *, ref) = "ability to trace to upstream requirements / constraints"
   - [x] Step 2 — Unit tests added: test_Traceable.py::test_trace_refs, test_trace_reader_writer_round_trip, test_traceable_text_reuses_base (Red→Green)
   - [x] Step 3 — Implemented: added `traceRefs: List[RefType]`, `getTraceRefs()`, `addTraceRef()` (None no-op, chaining) mirroring RequirementsTracing.py convention
