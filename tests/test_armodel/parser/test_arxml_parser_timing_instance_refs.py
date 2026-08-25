@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
     AutosarOperationArgumentInstance,
+    AutosarVariableInstance,
     ModeInBswInstanceRef,
     ModeInSwcInstanceRef,
     OperationArgumentInComponentInstanceRef,
@@ -240,6 +241,42 @@ class TestReadAutosarOperationArgumentInstance:
 
         instance = ARXMLParser().readAutosarOperationArgumentInstance(parent, _round_trip(element))
         assert instance.getOperationArgumentInstanceIRef() is None
+
+
+class TestReadAutosarVariableInstance:
+    def _build_element(self) -> ET.Element:
+        element = ET.Element("AUTOSAR-VARIABLE-INSTANCE")
+        ET.SubElement(element, "SHORT-NAME").text = "Var1"
+        iref_tag = ET.SubElement(element, "VARIABLE-INSTANCE-IREF")
+        comp = ET.SubElement(iref_tag, "CONTEXT-COMPONENT-REF")
+        comp.attrib["DEST"] = "SW-COMPONENT-PROTOTYPE"
+        comp.text = "/Pkg/SwcProto"
+        port = ET.SubElement(iref_tag, "CONTEXT-PORT-PROTOTYPE-REF")
+        port.attrib["DEST"] = "PORT-PROTOTYPE"
+        port.text = "/Pkg/Port"
+        target = ET.SubElement(iref_tag, "TARGET-DATA-PROTOTYPE-REF")
+        target.attrib["DEST"] = "DATA-PROTOTYPE"
+        target.text = "/Pkg/DP"
+        return element
+
+    def test_read_with_iref(self):
+        parent = _parent()
+        instance = ARXMLParser().readAutosarVariableInstance(parent, _round_trip(self._build_element()))
+        assert isinstance(instance, AutosarVariableInstance)
+        assert instance.getShortName() == "Var1"
+        iref = instance.getVariableInstanceIRef()
+        assert isinstance(iref, VariableInComponentInstanceRef)
+        assert iref.getContextComponentRefs()[0].getValue() == "/Pkg/SwcProto"
+        assert iref.getContextPortPrototypeRef().getValue() == "/Pkg/Port"
+        assert iref.getTargetDataPrototypeRef().getValue() == "/Pkg/DP"
+
+    def test_read_without_iref(self):
+        parent = _parent()
+        element = ET.Element("AUTOSAR-VARIABLE-INSTANCE")
+        ET.SubElement(element, "SHORT-NAME").text = "Var1"
+
+        instance = ARXMLParser().readAutosarVariableInstance(parent, _round_trip(element))
+        assert instance.getVariableInstanceIRef() is None
 
 
 class TestReadOperationArgumentInComponentInstanceRef:

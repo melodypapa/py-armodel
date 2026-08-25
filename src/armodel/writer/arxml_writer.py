@@ -264,6 +264,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition i
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef, TimingCondition
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
     AutosarOperationArgumentInstance,
+    AutosarVariableInstance,
     OperationArgumentInComponentInstanceRef,
     TimingExtensionResource,
     TimingModeInstance,
@@ -3522,6 +3523,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         for context_data_prototype_ref in iref.getContextDataPrototypeRefs():
             self.setChildElementOptionalRefType(element, "CONTEXT-DATA-PROTOTYPE-REF", context_data_prototype_ref)
         self.setChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF", iref.getTargetDataPrototypeRef())
+
+    def writeAutosarVariableInstance(self, element: ET.Element, instance: AutosarVariableInstance):
+        self.writeIdentifiable(element, instance)
+        iref = instance.getVariableInstanceIRef()
+        if iref is not None:
+            iref_tag = ET.SubElement(element, "VARIABLE-INSTANCE-IREF")
+            self.writeVariableInComponentInstanceRef(iref_tag, iref)
 
     def writeVariableInComponentInstanceRef(self, element: ET.Element, iref: VariableInComponentInstanceRef):
         for context_component_ref in iref.getContextComponentRefs():

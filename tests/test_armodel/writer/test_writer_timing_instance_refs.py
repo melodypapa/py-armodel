@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
     AutosarOperationArgumentInstance,
+    AutosarVariableInstance,
     ModeInBswInstanceRef,
     ModeInSwcInstanceRef,
     OperationArgumentInComponentInstanceRef,
@@ -214,6 +215,50 @@ class TestWriteAutosarOperationArgumentInstance:
         element = ET.Element("AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
         ARXMLWriter().writeAutosarOperationArgumentInstance(element, instance)
         assert element.find("OPERATION-ARGUMENT-INSTANCE-IREF") is None
+
+
+class TestWriteAutosarVariableInstance:
+    def _parent(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        return document.createARPackage("AUTOSAR")
+
+    def test_round_trip_autosar_variable_instance(self):
+        parent = self._parent()
+        instance = AutosarVariableInstance(parent, "Var1")
+        iref = VariableInComponentInstanceRef()
+        iref.addContextComponentRef(RefType().setValue("/Pkg/SwcProto").setDest("SW-COMPONENT-PROTOTYPE"))
+        iref.setContextPortPrototypeRef(RefType().setValue("/Pkg/Port").setDest("PORT-PROTOTYPE"))
+        iref.setTargetDataPrototypeRef(RefType().setValue("/Pkg/DP").setDest("DATA-PROTOTYPE"))
+        instance.setVariableInstanceIRef(iref)
+
+        element = ET.Element("AUTOSAR-VARIABLE-INSTANCE")
+        ARXMLWriter().writeAutosarVariableInstance(element, instance)
+        iref_tag = element.find("VARIABLE-INSTANCE-IREF")
+        assert iref_tag is not None
+        assert iref_tag.find("CONTEXT-COMPONENT-REF").text == "/Pkg/SwcProto"
+        assert iref_tag.find("CONTEXT-PORT-PROTOTYPE-REF").text == "/Pkg/Port"
+        target = iref_tag.find("TARGET-DATA-PROTOTYPE-REF")
+        assert target is not None
+        assert target.text == "/Pkg/DP"
+        assert target.attrib["DEST"] == "DATA-PROTOTYPE"
+
+        reloaded = ARXMLParser().readAutosarVariableInstance(parent, _round_trip(element))
+        assert reloaded.getShortName() == "Var1"
+        reloaded_iref = reloaded.getVariableInstanceIRef()
+        assert isinstance(reloaded_iref, VariableInComponentInstanceRef)
+        assert reloaded_iref.getContextComponentRefs()[0].getValue() == "/Pkg/SwcProto"
+        assert reloaded_iref.getContextPortPrototypeRef().getValue() == "/Pkg/Port"
+        assert reloaded_iref.getTargetDataPrototypeRef().getValue() == "/Pkg/DP"
+
+    def test_write_without_iref(self):
+        parent = self._parent()
+        instance = AutosarVariableInstance(parent, "Var1")
+
+        element = ET.Element("AUTOSAR-VARIABLE-INSTANCE")
+        ARXMLWriter().writeAutosarVariableInstance(element, instance)
+        assert element.find("VARIABLE-INSTANCE-IREF") is None
 
 
 class TestWriteOperationArgumentInComponentInstanceRef:

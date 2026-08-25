@@ -207,6 +207,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition i
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
     AutosarOperationArgumentInstance,
+    AutosarVariableInstance,
     OperationArgumentInComponentInstanceRef,
     TimingCondition,
     TimingExtensionResource,
@@ -2225,6 +2226,14 @@ class ARXMLParser(AbstractARXMLParser):
             iref.addContextDataPrototypeRef(ref)
         iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))
         return iref
+
+    def readAutosarVariableInstance(self, parent, element: ET.Element) -> AutosarVariableInstance:
+        instance = AutosarVariableInstance(parent, self.getShortName(element))
+        self.readIdentifiable(element, instance)
+        iref_element = self.find(element, "VARIABLE-INSTANCE-IREF")
+        if iref_element is not None:
+            instance.setVariableInstanceIRef(self.readVariableInComponentInstanceRef(iref_element))
+        return instance
 
     def readVariableInComponentInstanceRef(self, element: ET.Element) -> VariableInComponentInstanceRef:
         iref = VariableInComponentInstanceRef()

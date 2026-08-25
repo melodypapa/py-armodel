@@ -94,16 +94,16 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 7 — Update checklist comment (XSD-only, no # Spec: line)
   - [x] Step 8 — Deviations: none
   - [x] Step 9 — Verify (9a) + confirm (9b): 37 model/parser/writer tests pass; ruff/flake8/black clean; XSD-only class, no # Spec verified: marker (Rule 0002)
-- [ ] AutosarVariableInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.52 · variableInstance re-typed to aggregate VariableInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingVariable placeholder)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] AutosarVariableInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.52 · variableInstance re-typed to aggregate VariableInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingVariable placeholder) · commit bba54cc9
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base Identifiable(parent, short_name); variableInstanceIRef Optional[VariableInComponentInstanceRef] (iref → IRef suffix, 0..1), getter/setter with None no-op
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring = spec Note verbatim; member comment + getter/setter docstrings = spec attribute Note verbatim
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeAutosarVariableInstance round-trip VARIABLE-INSTANCE-IREF
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.52, p.85)
+  - [x] Step 8 — Deviations: none (VariableInComponentInstanceRef already synced; placeholder in TimingExtensionResource.timingVariables resolved under that row's REWORK)
+  - [x] Step 9 — Verify (9a) + confirm (9b): 36 model/parser/writer tests pass; ruff/flake8/black clean; `# Spec verified: R23-11` stamped
 - [ ] TimingExtensionResource (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.9 · timingArgument/timingVariable -> aggregate AutosarOperationArgumentInstance/AutosarVariableInstance (reworked above) replacing the Rule 0001.10 RefType placeholders)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
