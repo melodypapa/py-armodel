@@ -43,44 +43,44 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 8 — Deviations: timingArgument→AutosarOperationArgumentInstance, timingEvent→TimingDescriptionEvent, timingVariable→AutosarVariableInstance are Rule 0001.10 placeholders (not in codebase); modeled as RefType per Phase 0 decision — no blocking deviation
   - [x] Step 9 — Verify (9a) + confirm (9b): 18 model/parser/writer tests pass; ruff/flake8/black clean; # Spec verified: R23-11 stamped. User relocated class into TimingCondition/__init__.py (non-leaf package convention) before stamping.
 - [ ] ModeInBswInstanceRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.11 · InstanceRef, referenced by TimingModeInstance.modeInstance)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base ARObject (spec Base `ARObject, ModeInSwcBswInstanceRef`; ModeInSwcBswInstanceRef not in codebase → Rule 0001.10 placeholder); contextBswImplementationRef/contextModeDeclarationGroupPrototypeRef/targetModeDeclarationRef as Optional[RefType]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeModeInBswInstanceRef, flat inner refs
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: ModeInSwcBswInstanceRef abstract base missing → re-base when it lands
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] ModeInSwcInstanceRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.12 · InstanceRef, referenced by TimingModeInstance.modeInstance)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base AtpInstanceRef (most-derived available; ModeInSwcBswInstanceRef missing); baseRef atpDerived ([—] XML), contextComponentRefs List, contextModeDeclarationGroupPrototypeRef/contextPortRef/targetModeDeclarationRef Optional[RefType]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeModeInSwcInstanceRef, flat inner refs
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: ModeInSwcBswInstanceRef placeholder (Rule 0001.10)
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] TimingModeInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.10 · aggregates ModeInBswInstanceRef/ModeInSwcInstanceRef via modeInstance)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base Identifiable(parent, short_name); fabricated modeRef/modeValue removed; modeInstance polymorphic choice (0..1, setXxx shape)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingModeInstance, nested MODE-INSTANCE wrapper dispatch by tag/isinstance
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: none blocking
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] TimingExtensionResource (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.9 · timingArgument -> AutosarOperationArgumentInstance is a Rule 0001.10 placeholder, not queued)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base Identifiable; timingArguments/timingVariables List[RefType] placeholders, timingModes List[TimingModeInstance] + createTimingMode(short_name)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingExtensionResource, TIMING-MODES wrapper only when non-empty; empty-wrapper case tested
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: AutosarOperationArgumentInstance/AutosarVariableInstance placeholders (Rule 0001.10), reader/writer deferred for those items
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] TimingCondition (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.7 · ref target of TimingConstraint.timingCondition · aggregates TimingConditionFormula)
   - [ ] Step 1 — Sync members & description from spec
