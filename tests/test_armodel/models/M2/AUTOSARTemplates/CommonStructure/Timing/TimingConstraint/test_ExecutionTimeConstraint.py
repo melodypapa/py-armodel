@@ -20,7 +20,21 @@ class TestExecutionTimeConstraint:
         obj = ExecutionTimeConstraint(parent, "ExecTime")
         assert obj.getShortName() == "ExecTime"
 
-    def test_execution_type_enum_members(self):
-        assert ExecutionTimeTypeEnum.BEST_CASE == "best-case"
-        assert ExecutionTimeTypeEnum.WORST_CASE == "worst-case"
-        assert ExecutionTimeTypeEnum.AVERAGE_CASE == "average-case"
+
+class TestExecutionTimeTypeEnum:
+    def test_initialization(self):
+        """Test ExecutionTimeTypeEnum initialization"""
+        enum = ExecutionTimeTypeEnum()
+        assert isinstance(enum, ExecutionTimeTypeEnum)
+        assert list(enum.getEnumValues()) == ["gross", "net"]
+
+    def test_enum_values(self):
+        """Test ExecutionTimeTypeEnum literal values (Table 3.76)"""
+        assert ExecutionTimeTypeEnum.GROSS == "gross"
+        assert ExecutionTimeTypeEnum.NET == "net"
+
+    def test_valid_values(self):
+        """Test ExecutionTimeTypeEnum setValue round-trip for all literals"""
+        enum = ExecutionTimeTypeEnum()
+        for member in [ExecutionTimeTypeEnum.GROSS, ExecutionTimeTypeEnum.NET]:
+            assert enum.setValue(member).getValue() == member

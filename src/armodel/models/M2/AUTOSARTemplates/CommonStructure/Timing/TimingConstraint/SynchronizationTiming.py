@@ -18,44 +18,66 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint 
 
 class SynchronizationTypeEnum(AREnum):
     """
-    Enumeration for synchronization types.
+    Specifies the synchronizationConstraintType for a SynchronizationTimingConstraint .
     """
 
     # SynchronizationTypeEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.55, p.93
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on SynchronizationTimingConstraint.synchronizationConstraintType
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
-    HARD_SYNCHRONIZATION = "hard-synchronization"
-    SOFT_SYNCHRONIZATION = "soft-synchronization"
-    NO_SYNCHRONIZATION = "no-synchronization"
+    # In case that the Synchronization Timing Constraint is specified for event chains, the response events of the associated event chains shall occur synchronously with respect to the specified tolerance.
+    # All associated event chains shall have the same stimulus event. In case that the Synchronization Timing Constraint is specified for events, the associated events shall occur synchronously with respect to the specified tolerance.
+    # All associated events represent the response events of a common stimulus event, even such a stimulus event is not known yet or not available in the scope of the model.
+    # Tags: atp.EnumerationLiteralIndex=0
+    RESPONSE_SYNCHRONIZATION = "responseSynchronization"
+
+    # In case that the Synchronization Timing Constraint is specified for event chains, the stimulus events of the associated event chains shall occur synchronously with respect to the specified tolerance.
+    # All associated event chains shall have the same response event. In case that the Synchronization Timing Constraint is specified for events, the associated events shall occur synchronously with respect to the specified tolerance.
+    # All associated events represent the stimulus events of a common response event, even such a response event is not known yet or not available in the scope of the model.
+    # Tags: atp.EnumerationLiteralIndex=1
+    STIMULUS_SYNCHRONIZATION = "stimulusSynchronization"
 
     def __init__(self):
+        """
+        Initializes the SynchronizationTypeEnum with valid values.
+        """
         super().__init__(
             (
-                SynchronizationTypeEnum.HARD_SYNCHRONIZATION,
-                SynchronizationTypeEnum.SOFT_SYNCHRONIZATION,
-                SynchronizationTypeEnum.NO_SYNCHRONIZATION,
+                SynchronizationTypeEnum.RESPONSE_SYNCHRONIZATION,
+                SynchronizationTypeEnum.STIMULUS_SYNCHRONIZATION,
             )
         )
 
 
 class EventOccurrenceKindEnum(AREnum):
     """
-    Enumeration for event occurrence kinds.
+    Specifies the eventOccurrenceKind for a SynchronizationTimingConstraint .
     """
 
     # EventOccurrenceKindEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.56, p.93
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on SynchronizationTimingConstraint.eventOccurrenceKind
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
-    START = "start"
-    END = "end"
-    START_AND_END = "start-and-end"
+    # Specifies that an event may occur more than once in a given time interval.
+    # Tags: atp.EnumerationLiteralIndex=0
+    MULTIPLE_OCCURRENCES = "multipleOccurrences"
+
+    # The referenced event shall occur only once in a given time interval. Indicates whether the referenced events shall occur only once (single occurrence) or multiple times (multiple occurrences) in the given time interval.
+    # Tags: atp.EnumerationLiteralIndex=1
+    SINGLE_OCCURRENCE = "singleOccurrence"
 
     def __init__(self):
+        """
+        Initializes the EventOccurrenceKindEnum with valid values.
+        """
         super().__init__(
             (
-                EventOccurrenceKindEnum.START,
-                EventOccurrenceKindEnum.END,
-                EventOccurrenceKindEnum.START_AND_END,
+                EventOccurrenceKindEnum.MULTIPLE_OCCURRENCES,
+                EventOccurrenceKindEnum.SINGLE_OCCURRENCE,
             )
         )
 

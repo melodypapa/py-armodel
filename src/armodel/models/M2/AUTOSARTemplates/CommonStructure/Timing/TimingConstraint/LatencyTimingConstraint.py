@@ -18,22 +18,31 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint 
 
 class LatencyConstraintTypeEnum(AREnum):
     """
-    Enumeration for latency constraint types.
+    Specifies the latencyConstraintType for a LatencyTimingConstraint .
     """
 
     # LatencyConstraintTypeEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.58, p.96
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on LatencyTimingConstraint.latencyConstraintType
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
-    RESPONSE_TIME = "response-time"
-    REACTION_TIME = "reaction-time"
-    END_TO_END_LATENCY = "end-to-end-latency"
+    # The LatencyTimingConstraint is seen from the perspective of the response event of the scope . Given a certain response event, the age interval of the latest stimulus is constrained.
+    # Tags: atp.EnumerationLiteralIndex=0
+    AGE = "age"
+
+    # The LatencyTimingConstraint is seen from the perspective of the stimulus event of the scope . Given a certain stimulus event, the reaction interval of the first response is constrained.
+    # Tags: atp.EnumerationLiteralIndex=1
+    REACTION = "reaction"
 
     def __init__(self):
+        """
+        Initializes the LatencyConstraintTypeEnum with valid values.
+        """
         super().__init__(
             (
-                LatencyConstraintTypeEnum.RESPONSE_TIME,
-                LatencyConstraintTypeEnum.REACTION_TIME,
-                LatencyConstraintTypeEnum.END_TO_END_LATENCY,
+                LatencyConstraintTypeEnum.AGE,
+                LatencyConstraintTypeEnum.REACTION,
             )
         )
 

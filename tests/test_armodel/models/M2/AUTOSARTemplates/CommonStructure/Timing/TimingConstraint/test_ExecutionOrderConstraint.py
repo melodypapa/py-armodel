@@ -1,7 +1,13 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRef, EOCExecutableEntityRefAbstract, ExecutionOrderConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
+    EOCExecutableEntityRef,
+    EOCExecutableEntityRefAbstract,
+    ExecutionOrderConstraint,
+    ExecutionOrderConstraintTypeEnum,
+    LetDataExchangeParadigmEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
@@ -92,3 +98,42 @@ class TestExecutionOrderConstraint:
         elements = constraint.getOrderedElements()
         assert elements == []
         assert isinstance(elements, list)
+
+
+class TestExecutionOrderConstraintTypeEnum:
+    def test_initialization(self):
+        """Test ExecutionOrderConstraintTypeEnum initialization"""
+        enum = ExecutionOrderConstraintTypeEnum()
+        assert isinstance(enum, ExecutionOrderConstraintTypeEnum)
+        assert list(enum.getEnumValues()) == ["hierarchicalEOC", "ordinaryEOC", "repetitiveEOC"]
+
+    def test_enum_values(self):
+        """Test ExecutionOrderConstraintTypeEnum literal values (Table 3.69)"""
+        assert ExecutionOrderConstraintTypeEnum.HIERARCHICAL_EOC == "hierarchicalEOC"
+        assert ExecutionOrderConstraintTypeEnum.ORDINARY_EOC == "ordinaryEOC"
+        assert ExecutionOrderConstraintTypeEnum.REPETITIVE_EOC == "repetitiveEOC"
+
+    def test_valid_values(self):
+        """Test ExecutionOrderConstraintTypeEnum setValue round-trip for all literals"""
+        enum = ExecutionOrderConstraintTypeEnum()
+        for member in [ExecutionOrderConstraintTypeEnum.HIERARCHICAL_EOC, ExecutionOrderConstraintTypeEnum.ORDINARY_EOC, ExecutionOrderConstraintTypeEnum.REPETITIVE_EOC]:
+            assert enum.setValue(member).getValue() == member
+
+
+class TestLetDataExchangeParadigmEnum:
+    def test_initialization(self):
+        """Test LetDataExchangeParadigmEnum initialization"""
+        enum = LetDataExchangeParadigmEnum()
+        assert isinstance(enum, LetDataExchangeParadigmEnum)
+        assert list(enum.getEnumValues()) == ["interLetOnly", "intraLetEOC"]
+
+    def test_enum_values(self):
+        """Test LetDataExchangeParadigmEnum literal values (Table 4.4)"""
+        assert LetDataExchangeParadigmEnum.INTER_LET_ONLY == "interLetOnly"
+        assert LetDataExchangeParadigmEnum.INTRA_LET_EOC == "intraLetEOC"
+
+    def test_valid_values(self):
+        """Test LetDataExchangeParadigmEnum setValue round-trip for all literals"""
+        enum = LetDataExchangeParadigmEnum()
+        for member in [LetDataExchangeParadigmEnum.INTER_LET_ONLY, LetDataExchangeParadigmEnum.INTRA_LET_EOC]:
+            assert enum.setValue(member).getValue() == member

@@ -15,7 +15,7 @@ from typing import List
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, RefType
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
 
 
@@ -195,30 +195,71 @@ class EOCExecutableEntityRefGroup(ARObject):
         return self.entityRefs
 
 
-class ExecutionOrderConstraintTypeEnum:
+class ExecutionOrderConstraintTypeEnum(AREnum):
     """
-    Enumeration for execution order constraint types in AUTOSAR.
-    Defines different types of execution order constraints.
+    Specifies the type of the executionOrderConstraintType for a ExecutionOrderConstraint .
     """
 
     # ExecutionOrderConstraintTypeEnum method parity checklist:
-    # (no methods)
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.69, p.119
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ExecutionOrderConstraint.executionOrderConstraintType
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
-    ENUM_BEFORE = "before"
-    ENUM_AFTER = "after"
-    ENUM_IMMEDIATE = "immediate"
-    ENUM_CONCURRENT = "concurrent"
+    # Specifies that the Execution Order Constraint specifies a hierarchical execution order constraint.
+    # Tags: atp.EnumerationLiteralIndex=0
+    HIERARCHICAL_EOC = "hierarchicalEOC"
+
+    # Specifies that the Execution Order Constraint specifies an ordinary execution order constraint.
+    # Tags: atp.EnumerationLiteralIndex=1
+    ORDINARY_EOC = "ordinaryEOC"
+
+    # Specifies that the Execution Order Constraint specifies a repetitive execution order constraint.
+    # Tags: atp.EnumerationLiteralIndex=2
+    REPETITIVE_EOC = "repetitiveEOC"
+
+    def __init__(self):
+        """
+        Initializes the ExecutionOrderConstraintTypeEnum with valid values.
+        """
+        super().__init__(
+            (
+                ExecutionOrderConstraintTypeEnum.HIERARCHICAL_EOC,
+                ExecutionOrderConstraintTypeEnum.ORDINARY_EOC,
+                ExecutionOrderConstraintTypeEnum.REPETITIVE_EOC,
+            )
+        )
 
 
-class LetDataExchangeParadigmEnum:
+class LetDataExchangeParadigmEnum(AREnum):
     """
-    Enumeration for LET (Logical Execution Time) data exchange paradigms in AUTOSAR.
-    Defines different paradigms for data exchange in LET timing.
+    Specifies the data exchange paradigm between ExecutableEntity s within a LET interval.
     """
 
     # LetDataExchangeParadigmEnum method parity checklist:
-    # (no methods)
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 4.4, p.143
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on EOCExecutableEntityRefGroup.letDataExchangeParadigm
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
-    ENUM_BUFFERED = "buffered"
-    ENUM_UNBUFFERED = "unbuffered"
-    ENUM_EVENT_TRIGGERED = "event-triggered"
+    # All ExecutableEntity s mapped to this LET interval exchange data ONLY at the release and terminate event of the LET interval.
+    # This allows for a straightforward translation of the required label buffering but results in longer end-to-end latencies (multiple of the period).
+    # The execution order of \ARMetaClass{Executable Entity}s within the LET interval does not affect the data flow.
+    # Tags: atp.EnumerationLiteralIndex=0 atp.Status=draft
+    INTER_LET_ONLY = "interLetOnly"
+
+    # The ExecutableEntity s that belong to the same EOCExecutableEntityRefGroup and are mapped to this LET interval are executed in the order defined by the EOCExecutableEntityRefGroup and exchange data directly within this LET interval according to implicit semantics.
+    # Only at the borders of the LET interval or between independent EOCExecutableEntityRefGroup s, is data propagated according to the LET paradigm.
+    # Tags: atp.EnumerationLiteralIndex=1 atp.Status=draft
+    INTRA_LET_EOC = "intraLetEOC"
+
+    def __init__(self):
+        """
+        Initializes the LetDataExchangeParadigmEnum with valid values.
+        """
+        super().__init__(
+            (
+                LetDataExchangeParadigmEnum.INTER_LET_ONLY,
+                LetDataExchangeParadigmEnum.INTRA_LET_EOC,
+            )
+        )

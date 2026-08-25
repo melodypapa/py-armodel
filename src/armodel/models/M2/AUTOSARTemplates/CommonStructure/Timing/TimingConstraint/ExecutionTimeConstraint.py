@@ -18,22 +18,31 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint 
 
 class ExecutionTimeTypeEnum(AREnum):
     """
-    Enumeration for execution time constraint types.
+    Specifies the type of the executionTimeType for a ExecutionTimeConstraint .
     """
 
     # ExecutionTimeTypeEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.76, p.131
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ExecutionTimeConstraint.executionTimeType
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
-    BEST_CASE = "best-case"
-    WORST_CASE = "worst-case"
-    AVERAGE_CASE = "average-case"
+    # Indicates that the given execution time is the time used to execute the executable WITHOUT any interruption and WITH external calls.
+    # Tags: atp.EnumerationLiteralIndex=0
+    GROSS = "gross"
+
+    # Indicates that the given execution time is the time used to execute the executable WITHOUT any interruption and WITHOUT any external calls.
+    # Tags: atp.EnumerationLiteralIndex=1
+    NET = "net"
 
     def __init__(self):
+        """
+        Initializes the ExecutionTimeTypeEnum with valid values.
+        """
         super().__init__(
             (
-                ExecutionTimeTypeEnum.BEST_CASE,
-                ExecutionTimeTypeEnum.WORST_CASE,
-                ExecutionTimeTypeEnum.AVERAGE_CASE,
+                ExecutionTimeTypeEnum.GROSS,
+                ExecutionTimeTypeEnum.NET,
             )
         )
 
