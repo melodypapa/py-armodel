@@ -255,16 +255,25 @@ row below and must sync BEFORE the class that references it. All rows below are 
      iPduIdentifier/remoteAddress singular→plural/ref naming noted; SocketAddress placeholder row resolved by RE-FIX)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7304 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] UdpChecksumCalculationEnum (enum · Table 6.119 · used by SocketAddress.udpChecksumHandling · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (N/A if standalone enum)
-  - [ ] Step 6 — Update parser & writer (N/A if standalone enum)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] UdpChecksumCalculationEnum (enum · Table 6.119 · p.454 · used by SocketAddress.udpChecksumHandling · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Sync members & description from spec
+    (Table 6.119 in markdown AUTOSAR_CP_TPS_SystemTemplate.md:11988–11997 + PDF p.454;
+    Package ServiceInstances; literals udpChecksumEnabled idx0 / udpChecksumDisabled idx1 — display order differs from index order,
+    enum member list follows EnumerationLiteralIndex)
+  - [x] Step 2 — Write model class unit test (Red)
+    (TestUdpChecksumCalculationEnum in test_ServiceInstances.py; Red confirmed — ImportError at collection)
+  - [x] Step 3 — Implement model class (Green)
+    (AREnum subclass next to ServiceVersionAcceptanceKindEnum)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    (fresh implementation: class Note verbatim; literal comments verbatim incl. Tags tails per AREnum convention)
+  - [x] Step 5 — Write reader/writer round-trip test (N/A — standalone enum, no own XML element;
+    round-tripped via consuming class SocketAddress.udpChecksumHandling in its RE-FIX row)
+  - [x] Step 6 — Update parser & writer (N/A — same reason as Step 5)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (none; SocketAddress udpChecksumHandling placeholder row resolved by the RE-FIX row)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7306 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 
 ## RE-FIX rows (user review docs/plan/check.md 2026-08-25 — consumers of the member types above; re-run after their member classes land)
 

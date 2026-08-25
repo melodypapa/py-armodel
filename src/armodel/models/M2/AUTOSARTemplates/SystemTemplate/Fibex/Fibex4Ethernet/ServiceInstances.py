@@ -532,6 +532,31 @@ class ServiceVersionAcceptanceKindEnum(AREnum):
         )
 
 
+class UdpChecksumCalculationEnum(AREnum):
+    """
+    This enumeration defines the UDP checksum calculation.
+    """
+
+    # UdpChecksumCalculationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.119, p.454
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on SocketAddress.udpChecksumHandling
+
+    # Udp checksum handling shall be disabled Tags: atp.EnumerationLiteralIndex=1
+    UDP_CHECKSUM_DISABLED = "udpChecksumDisabled"
+
+    # Udp checksum handling shall be enabled Tags: atp.EnumerationLiteralIndex=0
+    UDP_CHECKSUM_ENABLED = "udpChecksumEnabled"
+
+    def __init__(self):
+        super().__init__(
+            [
+                UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED,
+                UdpChecksumCalculationEnum.UDP_CHECKSUM_DISABLED,
+            ]
+        )
+
+
 class PduActivationRoutingGroup(Identifiable):
     """
     Group of Pdus that can be activated or deactivated for transmission over a socket connection.

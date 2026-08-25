@@ -30,6 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     TcpUdpConfig,
     TpPort,
     TransportProtocolConfiguration,
+    UdpChecksumCalculationEnum,
     UdpTp,
 )
 
@@ -1671,3 +1672,29 @@ class TestStaticSocketConnection:
         # None no-op
         result = connection.setTcpRole(None)
         assert connection.getTcpRole() is role
+
+
+class TestUdpChecksumCalculationEnum:
+    """
+    Test cases for UdpChecksumCalculationEnum (Table 6.119).
+    """
+
+    def test_member_presence_and_values(self):
+        """
+        Test that both spec literals exist with their index order.
+        """
+        assert UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED == "udpChecksumEnabled"
+        assert UdpChecksumCalculationEnum.UDP_CHECKSUM_DISABLED == "udpChecksumDisabled"
+        assert list(UdpChecksumCalculationEnum().getEnumValues()) == [
+            "udpChecksumEnabled",
+            "udpChecksumDisabled",
+        ]
+
+    def test_instantiability(self):
+        """
+        Test instantiability and setValue with an enum member.
+        """
+        enum = UdpChecksumCalculationEnum()
+        result = enum.setValue(UdpChecksumCalculationEnum.UDP_CHECKSUM_DISABLED)
+        assert result == enum  # method chaining
+        assert enum.getValue() == "udpChecksumDisabled"
