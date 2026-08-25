@@ -151,7 +151,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7223 passed, black/black-check/lint clean,
     checklist==methods 1:1 source order, verbatim Note diff OK; 9b stamp DEFERRED to batch pass)
-- [ ] AbstractServiceInstance (markdown SystemTemplate · Table 6.158 · p.476 · source Fibex4Ethernet/ServiceInstances.py · base of ConsumedServiceInstance / ProvidedServiceInstance; depends on TagWithOptionalValue above; fixes methodActivationRoutingGroup & routingGroupRefs member types)
+- [ ] AbstractServiceInstance (markdown SystemTemplate · Table 6.158 · p.476 · source Fibex4Ethernet/ServiceInstances.py · base of ConsumedServiceInstance / ProvidedServiceInstance; depends on TagWithOptionalValue above; fixes methodActivationRoutingGroup & routingGroupRefs member types) · steps complete commit 9b0023ed — STAMP DEFERRED (batch 9b pending)
   NOTE: Table 6.158 verified in AUTOSAR_CP_TPS_SystemTemplate.md:12736–12752 + PDF p.477 (pdf_page.py
   authoritative). No explicit Base row in the table — XSD group ABSTRACT-SERVICE-INSTANCE is
   incorporated into IDENTIFIABLE-extending subclasses; Python base stays (Identifiable, ABC). No
