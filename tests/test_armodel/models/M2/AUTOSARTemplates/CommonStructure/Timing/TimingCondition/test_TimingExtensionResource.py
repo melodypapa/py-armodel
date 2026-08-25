@@ -4,8 +4,12 @@ AUTOSAR CommonStructure.Timing.TimingCondition module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingExtensionResource, TimingModeInstance
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
+    AutosarOperationArgumentInstance,
+    AutosarVariableInstance,
+    TimingExtensionResource,
+    TimingModeInstance,
+)
 
 
 class TestTimingExtensionResource:
@@ -28,20 +32,22 @@ class TestTimingExtensionResource:
         assert obj.getTimingModes() == []
         assert obj.getTimingVariables() == []
 
-    def test_add_timing_argument(self):
+    def test_create_timing_argument(self):
         parent = self._parent()
         obj = TimingExtensionResource(parent, "Resource1")
-        ref = RefType().setValue("/Pkg/Arg").setDest("AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
-        assert obj.addTimingArgument(ref) is obj
-        args = obj.getTimingArguments()
-        assert len(args) == 1
-        assert args[0] is ref
+        argument = obj.createTimingArgument("Arg1")
+        assert isinstance(argument, AutosarOperationArgumentInstance)
+        assert argument.getShortName() == "Arg1"
+        assert len(obj.getTimingArguments()) == 1
+        assert obj.getTimingArguments()[0] is argument
 
-    def test_add_timing_argument_none_noop(self):
+    def test_create_timing_argument_duplicate_returns_existing(self):
         parent = self._parent()
         obj = TimingExtensionResource(parent, "Resource1")
-        assert obj.addTimingArgument(None) is obj
-        assert obj.getTimingArguments() == []
+        argument1 = obj.createTimingArgument("Arg1")
+        argument2 = obj.createTimingArgument("Arg1")
+        assert argument2 is argument1
+        assert len(obj.getTimingArguments()) == 1
 
     def test_add_timing_mode(self):
         parent = self._parent()
@@ -59,17 +65,19 @@ class TestTimingExtensionResource:
         assert mode2 is mode1
         assert len(obj.getTimingModes()) == 1
 
-    def test_add_timing_variable(self):
+    def test_create_timing_variable(self):
         parent = self._parent()
         obj = TimingExtensionResource(parent, "Resource1")
-        ref = RefType().setValue("/Pkg/Var").setDest("AUTOSAR-VARIABLE-INSTANCE")
-        assert obj.addTimingVariable(ref) is obj
-        variables = obj.getTimingVariables()
-        assert len(variables) == 1
-        assert variables[0] is ref
+        variable = obj.createTimingVariable("Var1")
+        assert isinstance(variable, AutosarVariableInstance)
+        assert variable.getShortName() == "Var1"
+        assert len(obj.getTimingVariables()) == 1
+        assert obj.getTimingVariables()[0] is variable
 
-    def test_add_timing_variable_none_noop(self):
+    def test_create_timing_variable_duplicate_returns_existing(self):
         parent = self._parent()
         obj = TimingExtensionResource(parent, "Resource1")
-        assert obj.addTimingVariable(None) is obj
-        assert obj.getTimingVariables() == []
+        variable1 = obj.createTimingVariable("Var1")
+        variable2 = obj.createTimingVariable("Var1")
+        assert variable2 is variable1
+        assert len(obj.getTimingVariables()) == 1

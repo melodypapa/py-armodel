@@ -158,6 +158,45 @@ class TestWriteTimingInstanceRefs:
         assert mode_instance.getContextBswImplementationRef().getValue() == "/Pkg/BswImpl"
         assert mode_instance.getTargetModeDeclarationRef().getValue() == "/Pkg/Mode"
 
+    def test_round_trip_timing_extension_resource_arguments_and_variables(self):
+        parent = self._parent()
+        resource = TimingExtensionResource(parent, "Resource1")
+        argument = resource.createTimingArgument("Arg1")
+        arg_iref = OperationArgumentInComponentInstanceRef()
+        arg_iref.setContextOperationRef(RefType().setValue("/Pkg/Op").setDest("CLIENT-SERVER-OPERATION"))
+        arg_iref.setTargetDataPrototypeRef(RefType().setValue("/Pkg/DP").setDest("DATA-PROTOTYPE"))
+        argument.setOperationArgumentInstanceIRef(arg_iref)
+        variable = resource.createTimingVariable("Var1")
+        var_iref = VariableInComponentInstanceRef()
+        var_iref.setTargetDataPrototypeRef(RefType().setValue("/Pkg/VarDP").setDest("DATA-PROTOTYPE"))
+        variable.setVariableInstanceIRef(var_iref)
+
+        element = ET.Element("TIMING-EXTENSION-RESOURCE")
+        ARXMLWriter().writeTimingExtensionResource(element, resource)
+        arguments_tag = element.find("TIMING-ARGUMENTS")
+        assert arguments_tag is not None
+        argument_tag = arguments_tag.find("AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
+        assert argument_tag is not None
+        assert argument_tag.find("SHORT-NAME").text == "Arg1"
+        variables_tag = element.find("TIMING-VARIABLES")
+        assert variables_tag is not None
+        variable_tag = variables_tag.find("AUTOSAR-VARIABLE-INSTANCE")
+        assert variable_tag is not None
+        assert variable_tag.find("SHORT-NAME").text == "Var1"
+
+        reloaded = ARXMLParser().readTimingExtensionResource(parent, _round_trip(element))
+        reloaded_arguments = reloaded.getTimingArguments()
+        assert len(reloaded_arguments) == 1
+        reloaded_arg_iref = reloaded_arguments[0].getOperationArgumentInstanceIRef()
+        assert isinstance(reloaded_arg_iref, OperationArgumentInComponentInstanceRef)
+        assert reloaded_arg_iref.getContextOperationRef().getValue() == "/Pkg/Op"
+        assert reloaded_arg_iref.getTargetDataPrototypeRef().getValue() == "/Pkg/DP"
+        reloaded_variables = reloaded.getTimingVariables()
+        assert len(reloaded_variables) == 1
+        reloaded_var_iref = reloaded_variables[0].getVariableInstanceIRef()
+        assert isinstance(reloaded_var_iref, VariableInComponentInstanceRef)
+        assert reloaded_var_iref.getTargetDataPrototypeRef().getValue() == "/Pkg/VarDP"
+
     def test_write_timing_extension_resource_empty_wrapper_lists(self):
         parent = self._parent()
         resource = TimingExtensionResource(parent, "Resource1")
@@ -200,7 +239,7 @@ class TestWriteAutosarOperationArgumentInstance:
         assert target.text == "/Pkg/DP"
         assert target.attrib["DEST"] == "DATA-PROTOTYPE"
 
-        reloaded = ARXMLParser().readAutosarOperationArgumentInstance(parent, _round_trip(element))
+        reloaded = ARXMLParser().readAutosarOperationArgumentInstance(_round_trip(element), AutosarOperationArgumentInstance(parent, "Arg1"))
         assert reloaded.getShortName() == "Arg1"
         reloaded_iref = reloaded.getOperationArgumentInstanceIRef()
         assert isinstance(reloaded_iref, OperationArgumentInComponentInstanceRef)
@@ -244,7 +283,7 @@ class TestWriteAutosarVariableInstance:
         assert target.text == "/Pkg/DP"
         assert target.attrib["DEST"] == "DATA-PROTOTYPE"
 
-        reloaded = ARXMLParser().readAutosarVariableInstance(parent, _round_trip(element))
+        reloaded = ARXMLParser().readAutosarVariableInstance(_round_trip(element), AutosarVariableInstance(parent, "Var1"))
         assert reloaded.getShortName() == "Var1"
         reloaded_iref = reloaded.getVariableInstanceIRef()
         assert isinstance(reloaded_iref, VariableInComponentInstanceRef)

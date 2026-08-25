@@ -7,9 +7,11 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
 family (TimingConstraint / TimingCondition / TimingClock packages) plus `Traceable`
 (direct Base of TimingConstraint) and `SwComponentPrototype` (unstamped iref target,
 explicitly added to the queue per user decision). Missing external ref targets
-(`TimingDescriptionEvent`, `TimingDescriptionEventChain`, `GlobalTimeDomain`,
-`AutosarOperationArgumentInstance`) are **not queued** — referencing classes record a
+(`TimingDescriptionEvent`, `TimingDescriptionEventChain`, `GlobalTimeDomain`)
+are **not queued** — referencing classes record a
 Rule 0001.10 placeholder and report it at their own Step 8.
+(`AutosarOperationArgumentInstance`, initially listed here as not queued, was later
+queued and synced — see its row below.)
 
 ## Queue (dependency-first)
 - [x] Traceable (base · markdown · AUTOSAR_FO_TPS_GenericStructureTemplate.md, Table 9.29) · commit 9c6c5b5
@@ -104,16 +106,16 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.52, p.85)
   - [x] Step 8 — Deviations: none (VariableInComponentInstanceRef already synced; placeholder in TimingExtensionResource.timingVariables resolved under that row's REWORK)
   - [x] Step 9 — Verify (9a) + confirm (9b): 36 model/parser/writer tests pass; ruff/flake8/black clean; `# Spec verified: R23-11` stamped
-- [ ] TimingExtensionResource (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.9 · timingArgument/timingVariable -> aggregate AutosarOperationArgumentInstance/AutosarVariableInstance (reworked above) replacing the Rule 0001.10 RefType placeholders)
+- [ ] TimingExtensionResource (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.9 · timingArgument/timingVariable -> aggregate AutosarOperationArgumentInstance/AutosarVariableInstance (reworked above) replacing the Rule 0001.10 RefType placeholders) · commit pending
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green) — base Identifiable; timingModes List[TimingModeInstance] + createTimingMode(short_name); timingArguments/timingVariables still List[RefType] placeholders (REWORK to List[AutosarOperationArgumentInstance]/List[AutosarVariableInstance])
+  - [x] Step 3 — Implement model class (Green) — base Identifiable; timingModes List[TimingModeInstance] + createTimingMode(short_name); REWORK DONE: timingArguments List[AutosarOperationArgumentInstance] + createTimingArgument, timingVariables List[AutosarVariableInstance] + createTimingVariable (addTimingArgument/addTimingVariable RefType methods replaced by create* factories per createTimingMode convention)
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
   - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingExtensionResource, TIMING-MODES wrapper only when non-empty; empty-wrapper case tested; timingArguments/timingVariables REWORK to aggregate real classes
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingExtensionResource, TIMING-MODES wrapper only when non-empty; empty-wrapper case tested; REWORK DONE: TIMING-ARGUMENTS/TIMING-VARIABLES wrappers (XSD order arguments → modes → variables); readAutosarOperationArgumentInstance/readAutosarVariableInstance refactored to fill-style (element, instance) like readTimingModeInstance
   - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations: being resolved by aggregating AutosarOperationArgumentInstance/AutosarVariableInstance
-  - [ ] Step 9 — REWORK pending the two item-class aggregations
+  - [x] Step 8 — Deviations: none (Rule 0001.10 placeholders resolved by the two item-class aggregations)
+  - [x] Step 9 — Verify (9a): 369 Timing tests pass; ruff clean; # Spec verified stamp DEFERRED to batch confirmation
 - [ ] TimingCondition (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.7 · ref target of TimingConstraint.timingCondition · aggregates TimingConditionFormula)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -203,6 +205,16 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 6 — Update parser & writer (Green) — read/writeEOCExecutableEntityRefGroup
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: TimingDescriptionEventChain ref target unsynced → RefType placeholder (Rule 0001.10)
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] ComponentInCompositionInstanceRef (InstanceRef · XSD-only · AUTOSAR_00046.xsd COMPONENT-IN-COMPOSITION-INSTANCE-REF group · "points to a concrete SwComponentPrototype within a CompositionSwComponentType" · dependency of EOCExecutableEntityRef.componentIRef / EOCEventRef.componentIRef · resolves the Rule 0001.10 componentIRef debt recorded on those classes · parallels VariableInComponentInstanceRef · no own PDF table, so no # Spec verified: marker)
+  - [ ] Step 1 — Sync members & description from XSD (contextComponent * refs + targetComponent 0..1 ref, sequenceOffset order)
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green) — COMPONENT-IREF/TARGET-COMPONENT-REF flat inner refs
+  - [ ] Step 7 — Update checklist comment (XSD-only, no # Spec: line)
+  - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] EOCExecutableEntityRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.72 · Base includes EOCExecutableEntityRefAbstract · component -> SwComponentPrototype iref (queued above), bswModuleInstance -> BswImplementation (already stamped), executable -> ExecutableEntity (already stamped))
   - [x] Step 1 — Sync members & description from spec
@@ -444,8 +456,9 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   own Step 8.
 - GlobalTimeDomain — not in codebase; Rule 0001.10 placeholder for TimingClock
   .platformTimeBase, reported at TimingClock's Step 8.
-- AutosarOperationArgumentInstance — not in codebase; Rule 0001.10 placeholder for
-  TimingExtensionResource.timingArgument, reported at TimingExtensionResource's Step 8.
+- AutosarOperationArgumentInstance — originally not in codebase (Rule 0001.10 placeholder
+  for TimingExtensionResource.timingArgument); since queued and synced (Table 3.53 row
+  above, with OperationArgumentInComponentInstanceRef).
 - CompositionSwComponentType — not confirmed in this pass; Rule 0001.10 placeholder for
   ExecutionOrderConstraint.baseComposition, reported at ExecutionOrderConstraint's Step 8
   (verify existence/stamp when that class's turn comes; may already exist under

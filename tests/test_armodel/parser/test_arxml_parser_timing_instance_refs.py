@@ -167,6 +167,16 @@ class TestReadTimingExtensionResource:
     def _build_resource_element(self) -> ET.Element:
         element = ET.Element("TIMING-EXTENSION-RESOURCE")
         ET.SubElement(element, "SHORT-NAME").text = "Resource1"
+        arguments_tag = ET.SubElement(element, "TIMING-ARGUMENTS")
+        argument_tag = ET.SubElement(arguments_tag, "AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
+        ET.SubElement(argument_tag, "SHORT-NAME").text = "Arg1"
+        arg_iref_tag = ET.SubElement(argument_tag, "OPERATION-ARGUMENT-INSTANCE-IREF")
+        op_ref = ET.SubElement(arg_iref_tag, "CONTEXT-OPERATION-REF")
+        op_ref.attrib["DEST"] = "CLIENT-SERVER-OPERATION"
+        op_ref.text = "/Pkg/Op"
+        target_arg_ref = ET.SubElement(arg_iref_tag, "TARGET-DATA-PROTOTYPE-REF")
+        target_arg_ref.attrib["DEST"] = "DATA-PROTOTYPE"
+        target_arg_ref.text = "/Pkg/DP"
         modes_tag = ET.SubElement(element, "TIMING-MODES")
         mode_tag = ET.SubElement(modes_tag, "TIMING-MODE-INSTANCE")
         ET.SubElement(mode_tag, "SHORT-NAME").text = "ModeInstance1"
@@ -178,6 +188,13 @@ class TestReadTimingExtensionResource:
         mode_ref = ET.SubElement(swc_iref_tag, "TARGET-MODE-DECLARATION-REF")
         mode_ref.attrib["DEST"] = "MODE-DECLARATION"
         mode_ref.text = "/Pkg/Mode"
+        variables_tag = ET.SubElement(element, "TIMING-VARIABLES")
+        variable_tag = ET.SubElement(variables_tag, "AUTOSAR-VARIABLE-INSTANCE")
+        ET.SubElement(variable_tag, "SHORT-NAME").text = "Var1"
+        var_iref_tag = ET.SubElement(variable_tag, "VARIABLE-INSTANCE-IREF")
+        target_var_ref = ET.SubElement(var_iref_tag, "TARGET-DATA-PROTOTYPE-REF")
+        target_var_ref.attrib["DEST"] = "DATA-PROTOTYPE"
+        target_var_ref.text = "/Pkg/VarDP"
         return element
 
     def test_read_timing_modes(self):
@@ -185,6 +202,15 @@ class TestReadTimingExtensionResource:
 
         resource = ARXMLParser().readTimingExtensionResource(parent, _round_trip(self._build_resource_element()))
         assert resource.getShortName() == "Resource1"
+        arguments = resource.getTimingArguments()
+        assert len(arguments) == 1
+        argument = arguments[0]
+        assert isinstance(argument, AutosarOperationArgumentInstance)
+        assert argument.getShortName() == "Arg1"
+        arg_iref = argument.getOperationArgumentInstanceIRef()
+        assert isinstance(arg_iref, OperationArgumentInComponentInstanceRef)
+        assert arg_iref.getContextOperationRef().getValue() == "/Pkg/Op"
+        assert arg_iref.getTargetDataPrototypeRef().getValue() == "/Pkg/DP"
         modes = resource.getTimingModes()
         assert len(modes) == 1
         mode = modes[0]
@@ -194,8 +220,14 @@ class TestReadTimingExtensionResource:
         assert isinstance(mode_instance, ModeInSwcInstanceRef)
         assert mode_instance.getContextPortRef().getValue() == "/Pkg/Port"
         assert mode_instance.getTargetModeDeclarationRef().getValue() == "/Pkg/Mode"
-        assert resource.getTimingArguments() == []
-        assert resource.getTimingVariables() == []
+        variables = resource.getTimingVariables()
+        assert len(variables) == 1
+        variable = variables[0]
+        assert isinstance(variable, AutosarVariableInstance)
+        assert variable.getShortName() == "Var1"
+        var_iref = variable.getVariableInstanceIRef()
+        assert isinstance(var_iref, VariableInComponentInstanceRef)
+        assert var_iref.getTargetDataPrototypeRef().getValue() == "/Pkg/VarDP"
 
     def test_read_empty(self):
         parent = _parent()
@@ -225,7 +257,8 @@ class TestReadAutosarOperationArgumentInstance:
 
     def test_read_with_iref(self):
         parent = _parent()
-        instance = ARXMLParser().readAutosarOperationArgumentInstance(parent, _round_trip(self._build_element()))
+        instance = AutosarOperationArgumentInstance(parent, "Arg1")
+        ARXMLParser().readAutosarOperationArgumentInstance(_round_trip(self._build_element()), instance)
         assert isinstance(instance, AutosarOperationArgumentInstance)
         assert instance.getShortName() == "Arg1"
         iref = instance.getOperationArgumentInstanceIRef()
@@ -239,7 +272,8 @@ class TestReadAutosarOperationArgumentInstance:
         element = ET.Element("AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
         ET.SubElement(element, "SHORT-NAME").text = "Arg1"
 
-        instance = ARXMLParser().readAutosarOperationArgumentInstance(parent, _round_trip(element))
+        instance = AutosarOperationArgumentInstance(parent, "Arg1")
+        ARXMLParser().readAutosarOperationArgumentInstance(_round_trip(element), instance)
         assert instance.getOperationArgumentInstanceIRef() is None
 
 
@@ -261,7 +295,8 @@ class TestReadAutosarVariableInstance:
 
     def test_read_with_iref(self):
         parent = _parent()
-        instance = ARXMLParser().readAutosarVariableInstance(parent, _round_trip(self._build_element()))
+        instance = AutosarVariableInstance(parent, "Var1")
+        ARXMLParser().readAutosarVariableInstance(_round_trip(self._build_element()), instance)
         assert isinstance(instance, AutosarVariableInstance)
         assert instance.getShortName() == "Var1"
         iref = instance.getVariableInstanceIRef()
@@ -275,7 +310,8 @@ class TestReadAutosarVariableInstance:
         element = ET.Element("AUTOSAR-VARIABLE-INSTANCE")
         ET.SubElement(element, "SHORT-NAME").text = "Var1"
 
-        instance = ARXMLParser().readAutosarVariableInstance(parent, _round_trip(element))
+        instance = AutosarVariableInstance(parent, "Var1")
+        ARXMLParser().readAutosarVariableInstance(_round_trip(element), instance)
         assert instance.getVariableInstanceIRef() is None
 
 

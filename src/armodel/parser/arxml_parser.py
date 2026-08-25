@@ -2202,13 +2202,18 @@ class ARXMLParser(AbstractARXMLParser):
     def readTimingExtensionResource(self, parent, element: ET.Element) -> TimingExtensionResource:
         resource = TimingExtensionResource(parent, self.getShortName(element))
         self.readIdentifiable(element, resource)
+        for child_element in self.findall(element, "TIMING-ARGUMENTS/AUTOSAR-OPERATION-ARGUMENT-INSTANCE"):
+            argument = resource.createTimingArgument(self.getShortName(child_element))
+            self.readAutosarOperationArgumentInstance(child_element, argument)
         for child_element in self.findall(element, "TIMING-MODES/TIMING-MODE-INSTANCE"):
             mode = resource.createTimingMode(self.getShortName(child_element))
             self.readTimingModeInstance(child_element, mode)
+        for child_element in self.findall(element, "TIMING-VARIABLES/AUTOSAR-VARIABLE-INSTANCE"):
+            variable = resource.createTimingVariable(self.getShortName(child_element))
+            self.readAutosarVariableInstance(child_element, variable)
         return resource
 
-    def readAutosarOperationArgumentInstance(self, parent, element: ET.Element) -> AutosarOperationArgumentInstance:
-        instance = AutosarOperationArgumentInstance(parent, self.getShortName(element))
+    def readAutosarOperationArgumentInstance(self, element: ET.Element, instance: AutosarOperationArgumentInstance) -> AutosarOperationArgumentInstance:
         self.readIdentifiable(element, instance)
         iref_element = self.find(element, "OPERATION-ARGUMENT-INSTANCE-IREF")
         if iref_element is not None:
@@ -2227,8 +2232,7 @@ class ARXMLParser(AbstractARXMLParser):
         iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))
         return iref
 
-    def readAutosarVariableInstance(self, parent, element: ET.Element) -> AutosarVariableInstance:
-        instance = AutosarVariableInstance(parent, self.getShortName(element))
+    def readAutosarVariableInstance(self, element: ET.Element, instance: AutosarVariableInstance) -> AutosarVariableInstance:
         self.readIdentifiable(element, instance)
         iref_element = self.find(element, "VARIABLE-INSTANCE-IREF")
         if iref_element is not None:

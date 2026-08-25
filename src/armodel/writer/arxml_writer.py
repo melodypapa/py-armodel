@@ -3500,12 +3500,24 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeTimingExtensionResource(self, element: ET.Element, resource: TimingExtensionResource):
         self.writeIdentifiable(element, resource)
+        arguments = resource.getTimingArguments()
+        if len(arguments) > 0:
+            arguments_tag = ET.SubElement(element, "TIMING-ARGUMENTS")
+            for argument in arguments:
+                argument_tag = ET.SubElement(arguments_tag, "AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
+                self.writeAutosarOperationArgumentInstance(argument_tag, argument)
         modes = resource.getTimingModes()
         if len(modes) > 0:
             modes_tag = ET.SubElement(element, "TIMING-MODES")
             for mode in modes:
                 mode_tag = ET.SubElement(modes_tag, "TIMING-MODE-INSTANCE")
                 self.writeTimingModeInstance(mode_tag, mode)
+        variables = resource.getTimingVariables()
+        if len(variables) > 0:
+            variables_tag = ET.SubElement(element, "TIMING-VARIABLES")
+            for variable in variables:
+                variable_tag = ET.SubElement(variables_tag, "AUTOSAR-VARIABLE-INSTANCE")
+                self.writeAutosarVariableInstance(variable_tag, variable)
 
     def writeAutosarOperationArgumentInstance(self, element: ET.Element, instance: AutosarOperationArgumentInstance):
         self.writeIdentifiable(element, instance)

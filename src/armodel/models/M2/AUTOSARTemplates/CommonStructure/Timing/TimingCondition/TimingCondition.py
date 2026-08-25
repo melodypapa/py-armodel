@@ -558,36 +558,34 @@ class TimingExtensionResource(Identifiable):
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.9, p.36
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addTimingArgument        [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
-    # [x] getTimingArguments       [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
+    # [x] createTimingArgument     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimingArguments       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createTimingMode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getTimingModes           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addTimingVariable        [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
-    # [x] getTimingVariables       [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
-    # The timingArgument and timingVariable rows stay [ ] (pending): the item classes
-    # AutosarOperationArgumentInstance and AutosarVariableInstance are not yet implemented.
+    # [x] createTimingVariable     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimingVariables       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
         # This refers to an instance reference of an argument of an operation call.
-        # Placeholder typed List[RefType]: the spec item type AutosarOperationArgumentInstance is not yet implemented as a model class.
-        self.timingArguments: List[RefType] = []
+        self.timingArguments: List[AutosarOperationArgumentInstance] = []
 
         # This refers to an instance reference of a mode declaration.
         self.timingModes: List[TimingModeInstance] = []
 
         # This refers to an instance reference of a variable.
-        # Placeholder typed List[RefType]: the spec item type AutosarVariableInstance is not yet implemented as a model class.
-        self.timingVariables: List[RefType] = []
+        self.timingVariables: List[AutosarVariableInstance] = []
 
-    def addTimingArgument(self, value: Optional[RefType]) -> "TimingExtensionResource":
-        """This refers to an instance reference of an argument of an operation call. A None value is a no-op and does not append anything."""
-        if value is not None:
-            self.timingArguments.append(value)
-        return self
+    def createTimingArgument(self, short_name: str) -> AutosarOperationArgumentInstance:
+        """This refers to an instance reference of an argument of an operation call."""
+        if not self.IsElementExists(short_name):
+            argument = AutosarOperationArgumentInstance(self, short_name)
+            self.addElement(argument)
+            self.timingArguments.append(argument)
+        return self.getElement(short_name, AutosarOperationArgumentInstance)
 
-    def getTimingArguments(self) -> List[RefType]:
+    def getTimingArguments(self) -> List[AutosarOperationArgumentInstance]:
         """This refers to an instance reference of an argument of an operation call."""
         return self.timingArguments
 
@@ -603,13 +601,15 @@ class TimingExtensionResource(Identifiable):
         """This refers to an instance reference of a mode declaration."""
         return self.timingModes
 
-    def addTimingVariable(self, value: Optional[RefType]) -> "TimingExtensionResource":
-        """This refers to an instance reference of a variable. A None value is a no-op and does not append anything."""
-        if value is not None:
-            self.timingVariables.append(value)
-        return self
+    def createTimingVariable(self, short_name: str) -> AutosarVariableInstance:
+        """This refers to an instance reference of a variable."""
+        if not self.IsElementExists(short_name):
+            variable = AutosarVariableInstance(self, short_name)
+            self.addElement(variable)
+            self.timingVariables.append(variable)
+        return self.getElement(short_name, AutosarVariableInstance)
 
-    def getTimingVariables(self) -> List[RefType]:
+    def getTimingVariables(self) -> List[AutosarVariableInstance]:
         """This refers to an instance reference of a variable."""
         return self.timingVariables
 
