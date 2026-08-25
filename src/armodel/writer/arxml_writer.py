@@ -6755,9 +6755,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "CONSUMED-EVENT-GROUP")
             self.writeIdentifiable(child_element, group)
             self.setChildElementOptionalRefType(child_element, "APPLICATION-ENDPOINT-REF", group.getApplicationEndpointRef())
+            self.setChildElementOptionalBooleanValue(child_element, "AUTO-REQUIRE", group.getAutoRequire())
             self.setChildElementOptionalPositiveInteger(child_element, "EVENT-GROUP-IDENTIFIER", group.getEventGroupIdentifier())
+            refs = group.getEventMulticastAddressRefs()
+            if len(refs) > 0:
+                wrapper = ET.SubElement(child_element, "EVENT-MULTICAST-ADDRESSS")
+                for ref in refs:
+                    cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+                    self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
+            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", group.getPriority())
             self.writeConsumedEventGroupRoutingGroupRefs(child_element, group)
             self.setSdClientConfig(child_element, "SD-CLIENT-CONFIG", group.getSdClientConfig())
+            ref = group.getSdClientTimerConfigRef()
+            if ref is not None:
+                wrapper = ET.SubElement(child_element, "SD-CLIENT-TIMER-CONFIGS")
+                cond_tag = ET.SubElement(wrapper, "SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(cond_tag, "SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG-REF", ref)
 
     def writeConsumedServiceInstanceConsumedEventGroups(self, element: ET.Element, instance: ConsumedServiceInstance):
         groups = instance.getConsumedEventGroups()

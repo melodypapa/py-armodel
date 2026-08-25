@@ -8,7 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import RequestResponseDelay
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import RequestResponseDelay, SdClientConfig
 
 
 class TransportProtocolConfiguration(ARObject, ABC):
@@ -299,114 +299,177 @@ class AbstractServiceInstance(Identifiable, ABC):
 
 
 class ConsumedEventGroup(Identifiable):
-    """
-    Defines a consumed event group for service-oriented communication,
-    specifying how events are consumed by service clients including
-    application endpoint references and event group identifiers.
-    """
+    """This element represents an event-group to which the service consumer wants to subscribe."""
 
     # ConsumedEventGroup method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getApplicationEndpointRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] setApplicationEndpointRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] getAutoRequire               [x] impl  [ ] docstring  [ ] test
-    # [ ] setAutoRequire               [x] impl  [ ] docstring  [ ] test
-    # [ ] getEventGroupIdentifier      [x] impl  [ ] docstring  [ ] test
-    # [ ] setEventGroupIdentifier      [x] impl  [ ] docstring  [ ] test
-    # [ ] getEventMulticastAddressRefs [x] impl  [ ] docstring  [ ] test
-    # [ ] addEventMulticastAddressRef  [x] impl  [ ] docstring  [ ] test
-    # [ ] getPduActivationRoutingGroups [x] impl  [ ] docstring  [ ] test
-    # [ ] setPduActivationRoutingGroups [x] impl  [ ] docstring  [ ] test
-    # [ ] getPriority                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setPriority                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getRoutingGroupRefs          [x] impl  [ ] docstring  [ ] test
-    # [ ] addRoutingGroupRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getSdClientConfig            [x] impl  [ ] docstring  [ ] test
-    # [ ] setSdClientConfig            [x] impl  [ ] docstring  [ ] test
-    # [ ] getSdClientTimerConfigRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] setSdClientTimerConfigRef    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.168, p.505
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getApplicationEndpointRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setApplicationEndpointRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAutoRequire                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAutoRequire                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEventGroupIdentifier        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEventGroupIdentifier        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addEventMulticastAddressRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEventMulticastAddressRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addPduActivationRoutingGroup   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getPduActivationRoutingGroups  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getPriority                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPriority                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addRoutingGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRoutingGroupRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getSdClientConfig              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSdClientConfig              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSdClientTimerConfigRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSdClientTimerConfigRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # pduActivationRoutingGroups: PduActivationRoutingGroup not yet implemented - reader/writer pending
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.applicationEndpointRef: RefType = None
-        self.autoRequire: Boolean = None
-        self.eventGroupIdentifier: PositiveInteger = None
-        self.eventMulticastAddressRefs: List[RefType] = []
-        self.pduActivationRoutingGroups: List = []
-        self.priority: PositiveInteger = None
-        self.routingGroupRefs: List[RefType] = []
-        self.sdClientConfig = None
-        self.sdClientTimerConfigRef: RefType = None
+        # Defines the application endpoint where the events of the event group are received in case of multicast reception.
+        self.applicationEndpointRef: Optional[RefType] = None
 
-    def getApplicationEndpointRef(self):
+        # Defines that this ConsumedEventGroup shall be requested (subscribed) as soon as the corresponding ConsumedServiceInstance is requested. This could be at ECU start, if ConsumedServiceInstance.autoRequire is set to TRUE or as soon as the ConsumedServiceInstance is requested by the application, if ConsumedService Instance.autoRequire is set to FALSE.
+        self.autoRequire: Optional[Boolean] = None
+
+        # EventGroup ID. Shall be unique within one system to allow service discovery.
+        self.eventGroupIdentifier: Optional[PositiveInteger] = None
+
+        # This reference defines the multicast address or a multicast address resource where the events of the event group are received. If the multicast address is determined via configuration and not at runtime via service discovery this reference points to the multicast address over which the events will be received. If the multicast address is determined at runtime via service discovery this reference shall be used to define the necessary local multicast address resources, i.e. RAM space in the TcpIp module in which the multicast address is stored at runtime. Please note that in this case the referenced address may be defined as ANY UDP port and ANY IP address since the multicast address will be received at runtime. If several multicast addresses are considered to be used the ConsumedEventGroup shall point to different ApplicationEndpoint objects to reserve the necessary resources in the configuration.
+        self.eventMulticastAddressRefs: List[RefType] = []
+
+        # The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events.
+        # (PduActivationRoutingGroup class is not yet implemented - placeholder; reader/writer pending)
+        self.pduActivationRoutingGroups: List[ARObject] = []
+
+        # Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
+        self.priority: Optional[PositiveInteger] = None
+
+        # The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events.
+        self.routingGroupRefs: List[RefType] = []
+
+        # The readiness to receive events is defined by the Service Discovery of the ConsumedEventGroup. The Event Handler shall know about this announcement to decide about the submission of events. Therefore the Event Handler may be configured with Service-Discovery Client attributes.
+        self.sdClientConfig: Optional[SdClientConfig] = None
+
+        # Client Timing configuration settings that are EventGroup specific.
+        self.sdClientTimerConfigRef: Optional[RefType] = None
+
+    def getApplicationEndpointRef(self) -> Optional[RefType]:
+        """Defines the application endpoint where the events of the event group are received in case of multicast reception."""
         return self.applicationEndpointRef
 
-    def setApplicationEndpointRef(self, value):
+    def setApplicationEndpointRef(self, value: Optional[RefType]) -> "ConsumedEventGroup":
+        """
+        Defines the application endpoint where the events of the event group are received in case of multicast reception.
+        A None value is a no-op and does not overwrite an existing applicationEndpointRef.
+        """
         if value is not None:
             self.applicationEndpointRef = value
         return self
 
-    def getAutoRequire(self):
+    def getAutoRequire(self) -> Optional[Boolean]:
+        """Defines that this ConsumedEventGroup shall be requested (subscribed) as soon as the corresponding ConsumedServiceInstance is requested. This could be at ECU start, if ConsumedServiceInstance.autoRequire is set to TRUE or as soon as the ConsumedServiceInstance is requested by the application, if ConsumedService Instance.autoRequire is set to FALSE."""
         return self.autoRequire
 
-    def setAutoRequire(self, value):
+    def setAutoRequire(self, value: Optional[Boolean]) -> "ConsumedEventGroup":
+        """
+        Defines that this ConsumedEventGroup shall be requested (subscribed) as soon as the corresponding ConsumedServiceInstance is requested. This could be at ECU start, if ConsumedServiceInstance.autoRequire is set to TRUE or as soon as the ConsumedServiceInstance is requested by the application, if ConsumedService Instance.autoRequire is set to FALSE.
+        A None value is a no-op and does not overwrite an existing autoRequire.
+        """
         if value is not None:
             self.autoRequire = value
         return self
 
-    def getEventGroupIdentifier(self):
+    def getEventGroupIdentifier(self) -> Optional[PositiveInteger]:
+        """EventGroup ID. Shall be unique within one system to allow service discovery."""
         return self.eventGroupIdentifier
 
-    def setEventGroupIdentifier(self, value):
+    def setEventGroupIdentifier(self, value: Optional[PositiveInteger]) -> "ConsumedEventGroup":
+        """
+        EventGroup ID. Shall be unique within one system to allow service discovery.
+        A None value is a no-op and does not overwrite an existing eventGroupIdentifier.
+        """
         if value is not None:
             self.eventGroupIdentifier = value
         return self
 
-    def getEventMulticastAddressRefs(self):
-        return self.eventMulticastAddressRefs
-
-    def addEventMulticastAddressRef(self, value):
+    def addEventMulticastAddressRef(self, value: Optional[RefType]) -> "ConsumedEventGroup":
+        """
+        This reference defines the multicast address or a multicast address resource where the events of the event group are received. If the multicast address is determined via configuration and not at runtime via service discovery this reference points to the multicast address over which the events will be received. If the multicast address is determined at runtime via service discovery this reference shall be used to define the necessary local multicast address resources, i.e. RAM space in the TcpIp module in which the multicast address is stored at runtime. Please note that in this case the referenced address may be defined as ANY UDP port and ANY IP address since the multicast address will be received at runtime. If several multicast addresses are considered to be used the ConsumedEventGroup shall point to different ApplicationEndpoint objects to reserve the necessary resources in the configuration.
+        A None value is a no-op and does not append to eventMulticastAddressRefs.
+        """
         if value is not None:
             self.eventMulticastAddressRefs.append(value)
         return self
 
-    def getPduActivationRoutingGroups(self):
-        return self.pduActivationRoutingGroups
+    def getEventMulticastAddressRefs(self) -> List[RefType]:
+        """This reference defines the multicast address or a multicast address resource where the events of the event group are received. If the multicast address is determined via configuration and not at runtime via service discovery this reference points to the multicast address over which the events will be received. If the multicast address is determined at runtime via service discovery this reference shall be used to define the necessary local multicast address resources, i.e. RAM space in the TcpIp module in which the multicast address is stored at runtime. Please note that in this case the referenced address may be defined as ANY UDP port and ANY IP address since the multicast address will be received at runtime. If several multicast addresses are considered to be used the ConsumedEventGroup shall point to different ApplicationEndpoint objects to reserve the necessary resources in the configuration."""
+        return self.eventMulticastAddressRefs
 
-    def setPduActivationRoutingGroups(self, value):
+    def addPduActivationRoutingGroup(self, value: Optional[ARObject]) -> "ConsumedEventGroup":
+        """
+        Adds a PduActivationRoutingGroup (spec type, not yet implemented; carried as an ARObject placeholder) so that the ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events. A None value is a no-op and does not append to pduActivationRoutingGroups.
+        """
         if value is not None:
-            self.pduActivationRoutingGroups = value
+            self.pduActivationRoutingGroups.append(value)
         return self
 
-    def getPriority(self):
+    def getPduActivationRoutingGroups(self) -> List[ARObject]:
+        """
+        Gets the PduActivationRoutingGroups (spec type, not yet implemented; carried as ARObject placeholders) with which the ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events.
+        """
+        return self.pduActivationRoutingGroups
+
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed."""
         return self.priority
 
-    def setPriority(self, value):
+    def setPriority(self, value: Optional[PositiveInteger]) -> "ConsumedEventGroup":
+        """
+        Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
+        A None value is a no-op and does not overwrite an existing priority.
+        """
         if value is not None:
             self.priority = value
         return self
 
-    def getRoutingGroupRefs(self):
-        return self.routingGroupRefs
-
-    def addRoutingGroupRef(self, value):
+    def addRoutingGroupRef(self, value: Optional[RefType]) -> "ConsumedEventGroup":
+        """
+        The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events.
+        A None value is a no-op and does not append to routingGroupRefs.
+        """
         if value is not None:
             self.routingGroupRefs.append(value)
         return self
 
-    def getSdClientConfig(self):
+    def getRoutingGroupRefs(self) -> List[RefType]:
+        """The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events."""
+        return self.routingGroupRefs
+
+    def getSdClientConfig(self) -> Optional[SdClientConfig]:
+        """The readiness to receive events is defined by the Service Discovery of the ConsumedEventGroup. The Event Handler shall know about this announcement to decide about the submission of events. Therefore the Event Handler may be configured with Service-Discovery Client attributes."""
         return self.sdClientConfig
 
-    def setSdClientConfig(self, value):
+    def setSdClientConfig(self, value: Optional[SdClientConfig]) -> "ConsumedEventGroup":
+        """
+        The readiness to receive events is defined by the Service Discovery of the ConsumedEventGroup. The Event Handler shall know about this announcement to decide about the submission of events. Therefore the Event Handler may be configured with Service-Discovery Client attributes.
+        A None value is a no-op and does not overwrite an existing sdClientConfig.
+        """
         if value is not None:
             self.sdClientConfig = value
         return self
 
-    def getSdClientTimerConfigRef(self):
+    def getSdClientTimerConfigRef(self) -> Optional[RefType]:
+        """Client Timing configuration settings that are EventGroup specific."""
         return self.sdClientTimerConfigRef
 
-    def setSdClientTimerConfigRef(self, value):
+    def setSdClientTimerConfigRef(self, value: Optional[RefType]) -> "ConsumedEventGroup":
+        """
+        Client Timing configuration settings that are EventGroup specific.
+        A None value is a no-op and does not overwrite an existing sdClientTimerConfigRef.
+        """
         if value is not None:
             self.sdClientTimerConfigRef = value
         return self

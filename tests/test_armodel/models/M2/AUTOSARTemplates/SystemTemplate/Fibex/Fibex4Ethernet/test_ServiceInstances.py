@@ -2,8 +2,9 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import SdClientConfig
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     AbstractServiceInstance,
     ApplicationEndpoint,
@@ -240,82 +241,6 @@ class Test_Fibex4EthernetServiceInstances:
         instance.addRoutingGroupRef("routing_ref")
         assert "routing_ref" in instance.getRoutingGroupRefs()
         assert instance == instance.addRoutingGroupRef("routing_ref")  # Test method chaining
-
-    def test_ConsumedEventGroup(self):
-        """Test ConsumedEventGroup class functionality."""
-        parent = MockParent()
-        group = ConsumedEventGroup(parent, "test_consumed_event_group")
-
-        assert isinstance(group, Identifiable)
-
-        # Test default values
-        assert group.getApplicationEndpointRef() is None
-        assert group.getAutoRequire() is None
-        assert group.getEventGroupIdentifier() is None
-        assert group.getEventMulticastAddressRefs() == []
-        assert group.getPduActivationRoutingGroups() == []
-        assert group.getPriority() is None
-        assert group.getRoutingGroupRefs() == []
-        assert group.getSdClientConfig() is None
-        assert group.getSdClientTimerConfigRef() is None
-
-        # Test setter/getter methods with method chaining - with None
-        assert group == group.setApplicationEndpointRef(None)  # Test method chaining with None
-        assert group.getApplicationEndpointRef() is None  # Should remain None
-
-        assert group == group.setAutoRequire(None)  # Test method chaining with None
-        assert group.getAutoRequire() is None  # Should remain None
-
-        assert group == group.setEventGroupIdentifier(None)  # Test method chaining with None
-        assert group.getEventGroupIdentifier() is None  # Should remain None
-
-        assert group == group.setPriority(None)  # Test method chaining with None
-        assert group.getPriority() is None  # Should remain None
-
-        assert group == group.setSdClientConfig(None)  # Test method chaining with None
-        assert group.getSdClientConfig() is None  # Should remain None
-
-        assert group == group.setSdClientTimerConfigRef(None)  # Test method chaining with None
-        assert group.getSdClientTimerConfigRef() is None  # Should remain None
-
-        # Test setter/getter methods with method chaining - with actual values
-        group.setApplicationEndpointRef("app_endpoint_ref")
-        assert group.getApplicationEndpointRef() == "app_endpoint_ref"
-        assert group == group.setApplicationEndpointRef("app_endpoint_ref")  # Test method chaining
-
-        group.setAutoRequire(True)
-        assert group.getAutoRequire() is True
-        assert group == group.setAutoRequire(True)  # Test method chaining
-
-        group.setEventGroupIdentifier(10)
-        assert group.getEventGroupIdentifier() == 10
-        assert group == group.setEventGroupIdentifier(10)  # Test method chaining
-
-        group.setPriority(5)
-        assert group.getPriority() == 5
-        assert group == group.setPriority(5)  # Test method chaining
-
-        config = object()
-        group.setSdClientConfig(config)
-        assert group.getSdClientConfig() == config
-        assert group == group.setSdClientConfig(config)  # Test method chaining
-
-        group.setSdClientTimerConfigRef("timer_config_ref")
-        assert group.getSdClientTimerConfigRef() == "timer_config_ref"
-        assert group == group.setSdClientTimerConfigRef("timer_config_ref")  # Test method chaining
-
-        # Test add methods
-        group.addEventMulticastAddressRef("multicast_ref1")
-        assert "multicast_ref1" in group.getEventMulticastAddressRefs()
-        assert group == group.addEventMulticastAddressRef("multicast_ref1")  # Test method chaining
-
-        group.addRoutingGroupRef("routing_ref1")
-        assert "routing_ref1" in group.getRoutingGroupRefs()
-        assert group == group.addRoutingGroupRef("routing_ref1")  # Test method chaining
-
-        group.setPduActivationRoutingGroups(["pdu_routing_group"])
-        assert "pdu_routing_group" in group.getPduActivationRoutingGroups()
-        assert group == group.setPduActivationRoutingGroups(["pdu_routing_group"])  # Test method chaining
 
     def test_ConsumedServiceInstance(self):
         """Test ConsumedServiceInstance class functionality."""
@@ -1077,3 +1002,134 @@ class TestSomeipServiceVersion:
         version.setMinorVersion(PositiveInteger().setValue("2"))
         assert version.getMinorVersion().getValue() == 2
         assert version == version.setMinorVersion(PositiveInteger().setValue("2"))
+
+
+def _ref(value):
+    ref = RefType()
+    ref.setValue(value)
+    return ref
+
+
+class TestConsumedEventGroup:
+    def _group(self):
+        return ConsumedEventGroup(MockParent(), "ceg")
+
+    def test_initialization(self):
+        """Test __init__ defaults for all fields (Table 6.168)."""
+        group = self._group()
+
+        assert isinstance(group, Identifiable)
+        assert group.getShortName() == "ceg"
+        assert group.getApplicationEndpointRef() is None
+        assert group.getAutoRequire() is None
+        assert group.getEventGroupIdentifier() is None
+        assert group.getEventMulticastAddressRefs() == []
+        assert group.getPduActivationRoutingGroups() == []
+        assert group.getPriority() is None
+        assert group.getRoutingGroupRefs() == []
+        assert group.getSdClientConfig() is None
+        assert group.getSdClientTimerConfigRef() is None
+
+    def test_get_set_applicationEndpointRef(self):
+        """Test get/set applicationEndpointRef with chaining and None no-op."""
+        group = self._group()
+        ref = _ref("/Ethernet/ApplicationEndpoint/AE1")
+
+        assert group.setApplicationEndpointRef(ref) is group
+        assert group.getApplicationEndpointRef() is ref
+
+        group.setApplicationEndpointRef(None)
+        assert group.getApplicationEndpointRef() is ref
+
+    def test_get_set_autoRequire(self):
+        """Test get/set autoRequire with chaining and None no-op."""
+        group = self._group()
+        value = Boolean().setValue("true")
+
+        assert group.setAutoRequire(value) is group
+        assert group.getAutoRequire() is value
+        assert group.getAutoRequire().getValue() is True
+
+        group.setAutoRequire(None)
+        assert group.getAutoRequire() is value
+
+    def test_get_set_eventGroupIdentifier(self):
+        """Test get/set eventGroupIdentifier with chaining and None no-op."""
+        group = self._group()
+
+        assert group.setEventGroupIdentifier(PositiveInteger().setValue("42")) is group
+        assert group.getEventGroupIdentifier().getValue() == 42
+
+        group.setEventGroupIdentifier(None)
+        assert group.getEventGroupIdentifier().getValue() == 42
+
+    def test_add_get_eventMulticastAddressRefs(self):
+        """Test add/get eventMulticastAddressRefs append order and None no-op."""
+        group = self._group()
+        ref1 = _ref("/Ethernet/ApplicationEndpoint/MC1")
+        ref2 = _ref("/Ethernet/ApplicationEndpoint/MC2")
+
+        assert group.addEventMulticastAddressRef(ref1) is group
+        group.addEventMulticastAddressRef(ref2)
+        assert group.getEventMulticastAddressRefs() == [ref1, ref2]
+
+        group.addEventMulticastAddressRef(None)
+        assert group.getEventMulticastAddressRefs() == [ref1, ref2]
+
+    def test_add_get_pduActivationRoutingGroups(self):
+        """Test add/get pduActivationRoutingGroups (placeholder child type) and None no-op."""
+        group = self._group()
+        routing_group1 = MockParent()
+        routing_group2 = MockParent()
+
+        assert group.addPduActivationRoutingGroup(routing_group1) is group
+        group.addPduActivationRoutingGroup(routing_group2)
+        assert group.getPduActivationRoutingGroups() == [routing_group1, routing_group2]
+
+        group.addPduActivationRoutingGroup(None)
+        assert group.getPduActivationRoutingGroups() == [routing_group1, routing_group2]
+
+    def test_get_set_priority(self):
+        """Test get/set priority with chaining and None no-op."""
+        group = self._group()
+
+        assert group.setPriority(PositiveInteger().setValue("5")) is group
+        assert group.getPriority().getValue() == 5
+
+        group.setPriority(None)
+        assert group.getPriority().getValue() == 5
+
+    def test_add_get_routingGroupRefs(self):
+        """Test add/get routingGroupRefs append order and None no-op."""
+        group = self._group()
+        ref1 = _ref("/SoAd/RoutingGroup/RG1")
+        ref2 = _ref("/SoAd/RoutingGroup/RG2")
+
+        assert group.addRoutingGroupRef(ref1) is group
+        group.addRoutingGroupRef(ref2)
+        assert group.getRoutingGroupRefs() == [ref1, ref2]
+
+        group.addRoutingGroupRef(None)
+        assert group.getRoutingGroupRefs() == [ref1, ref2]
+
+    def test_get_set_sdClientConfig(self):
+        """Test get/set sdClientConfig with chaining and None no-op."""
+        group = self._group()
+        config = SdClientConfig()
+
+        assert group.setSdClientConfig(config) is group
+        assert group.getSdClientConfig() is config
+
+        group.setSdClientConfig(None)
+        assert group.getSdClientConfig() is config
+
+    def test_get_set_sdClientTimerConfigRef(self):
+        """Test get/set sdClientTimerConfigRef with chaining and None no-op."""
+        group = self._group()
+        ref = _ref("/SomeipSdTimingConfigs/Timing1")
+
+        assert group.setSdClientTimerConfigRef(ref) is group
+        assert group.getSdClientTimerConfigRef() is ref
+
+        group.setSdClientTimerConfigRef(None)
+        assert group.getSdClientTimerConfigRef() is ref

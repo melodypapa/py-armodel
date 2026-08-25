@@ -6262,9 +6262,16 @@ class ARXMLParser(AbstractARXMLParser):
     def readConsumedEventGroup(self, element: ET.Element, group: ConsumedEventGroup):
         self.readIdentifiable(element, group)
         group.setApplicationEndpointRef(self.getChildElementOptionalRefType(element, "APPLICATION-ENDPOINT-REF"))
+        group.setAutoRequire(self.getChildElementOptionalBooleanValue(element, "AUTO-REQUIRE"))
         group.setEventGroupIdentifier(self.getChildElementOptionalPositiveInteger(element, "EVENT-GROUP-IDENTIFIER"))
+        for ref in self.getChildElementRefTypeList(element, "EVENT-MULTICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
+            group.addEventMulticastAddressRef(ref)
+        group.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
         self.readConsumedEventGroupRoutingGroupRefs(element, group)
         group.setSdClientConfig(self.getSdClientConfig(element, "SD-CLIENT-CONFIG"))
+        group.setSdClientTimerConfigRef(
+            self.getChildElementOptionalRefType(element, "SD-CLIENT-TIMER-CONFIGS/SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG-REF-CONDITIONAL/SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG-REF")
+        )
 
     def readConsumedServiceInstanceConsumedEventGroups(self, element: ET.Element, instance: ConsumedServiceInstance):
         for child_element in self.findall(element, "CONSUMED-EVENT-GROUPS/*"):

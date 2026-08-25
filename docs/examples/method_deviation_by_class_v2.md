@@ -807,6 +807,16 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `contextDataPrototype(ordered)` | ``ApplicationComposite ElementDataPrototype`` | ref | missing |
 
+## `ConsumedEventGroup`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 505  | **table:** Table 6.168
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `pduActivationRoutingGroups` | `List[ARObject]` | `pduActivationRoutingGroup` | ``PduActivationRoutingGroup`` | aggr | referenced class `PduActivationRoutingGroup` not yet implemented; carried as an `ARObject` placeholder list, reader/writer pending, full sync deferred (Rule 0001.10) |
+| — *(missing)* | `—` | `instanceIdentifier` | ``PositiveInteger`` | attr | deprecated (atp.Status=removed since 4.4.0), not implemented — absent from the R23-11 Table 6.168 rendering; XSD-only remnant, not modeled per Rule 0015 |
+
 ## `ConsumedServiceInstance`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 980
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
