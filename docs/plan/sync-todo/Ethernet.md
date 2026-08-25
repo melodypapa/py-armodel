@@ -118,7 +118,10 @@ row below and must sync BEFORE the class that references it. All rows below are 
 
 ### Input ethernet classes — sync AFTER their member types (Rule 0016.5)
 
-- [ ] ConsumedEventGroup (markdown SoftwareComponentTemplate · Table 6.168 · p.978 · source Fibex4Ethernet/ServiceInstances.py · depends on SomeipSdClientEventGroupTimingConfig above; sdClientTimerConfig is a ref to it; adds instanceIdentifier)
+- [ ] ConsumedEventGroup (markdown SoftwareComponentTemplate · Table 6.168 · p.978 · source Fibex4Ethernet/ServiceInstances.py · depends on SomeipSdClientEventGroupTimingConfig above; sdClientTimerConfig is a ref to it; adds instanceIdentifier) · steps complete commit d17132bf — STAMP DEFERRED (batch 9b pending)
+  NOTE: Table 6.168 verified in AUTOSAR_CP_TPS_SystemTemplate.md + PDF pp.504–505 — the table has NO
+  instanceIdentifier row; the XSD marks it atp.Status="removed" since 4.4.0, so it was NOT modeled
+  (Rule 0015 / "the table wins"). Queue note above is stale.
   - [x] Step 1 — Sync members & description from spec
     (Table 6.168 verified in markdown AUTOSAR_CP_TPS_SystemTemplate.md:13315–13351 + PDF pp.504–505;
     NO instanceIdentifier row exists — XSD marks it atp.Status="removed" since 4.4.0, Rule 0015: not modeled)
