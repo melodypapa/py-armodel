@@ -50,7 +50,7 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
   - [x] Step 6 — Update parser & writer (Green) — read/writeModeInBswInstanceRef, flat inner refs
   - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations: ModeInSwcBswInstanceRef abstract base missing → re-base when it lands
+   - [x] Step 8 — Deviations: resolved — ModeInSwcBswInstanceRef now implemented; ModeInBswInstanceRef(ModeInSwcBswInstanceRef)
   - [x] Step 9 — Verify (9a) + confirm (9b): 24 tests pass; ruff/flake8/black clean; # Spec verified: R23-11 stamped (deviation: ModeInSwcBswInstanceRef abstract base missing, re-based to ARObject, deferred per user review)
 - [x] ModeInSwcInstanceRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.12 · InstanceRef, referenced by TimingModeInstance.modeInstance) · commit 33ff0980
   - [x] Step 1 — Sync members & description from spec
@@ -60,18 +60,28 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
   - [x] Step 6 — Update parser & writer (Green) — read/writeModeInSwcInstanceRef, flat inner refs
   - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations: ModeInSwcBswInstanceRef placeholder (Rule 0001.10)
+   - [x] Step 8 — Deviations: resolved — ModeInSwcBswInstanceRef now implemented; ModeInSwcInstanceRef(AtpInstanceRef, ModeInSwcBswInstanceRef)
   - [x] Step 9 — Verify (9a) + confirm (9b): 28 model/parser/writer tests pass; ruff/flake8/black clean; # Spec verified: R23-11 stamped (deviation: ModeInSwcBswInstanceRef abstract base missing, re-based to AtpInstanceRef, deferred per user review)
-- [ ] TimingModeInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.10 · aggregates ModeInBswInstanceRef/ModeInSwcInstanceRef via modeInstance)
+- [x] ModeInSwcBswInstanceRef (base · XSD-only · abstract base of ModeInBswInstanceRef/ModeInSwcInstanceRef; resolves the deferred placeholder recorded on those classes and on TimingModeInstance.modeInstance) · commit pending
+  - [x] Step 1 — XSD-only: no own AUTOSAR table; abstract base ARObject+ABC
+  - [x] Step 2 — Unit tests added: test_ModeInSwcBswInstanceRef.py (abstract-guard + subclass isinstance)
+  - [x] Step 3 — Implemented: ModeInSwcBswInstanceRef(ARObject, ABC) with TypeError guard; defined in TimingCondition/__init__.py (non-leaf package convention)
+  - [x] Step 4 — Docstrings synced (wiped + rewritten)
+  - [ ] Step 5 — N/A: abstract base, never serialized directly (no own XML element)
+  - [ ] Step 6 — N/A: abstract base, no reader/writer of its own
+  - [x] Step 7 — Checklist comment added (XSD-only, no # Spec: line)
+  - [x] Step 8 — Deviations: none (resolves the Rule 0001.10 placeholder for ModeInSwcBswInstanceRef)
+  - [x] Step 9 — XSD-only class, no # Spec verified: marker (Rule 0002); 65 model/parser/writer tests pass; ruff/flake8/black clean
+- [x] TimingModeInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.10 · aggregates ModeInBswInstanceRef/ModeInSwcInstanceRef via modeInstance) · commit pending
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green) — base Identifiable(parent, short_name); fabricated modeRef/modeValue removed; modeInstance polymorphic choice (0..1, setXxx shape)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring now verbatim spec Note
   - [x] Step 5 — Write reader/writer round-trip test (Red)
   - [x] Step 6 — Update parser & writer (Green) — read/writeTimingModeInstance, nested MODE-INSTANCE wrapper dispatch by tag/isinstance
   - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations: none blocking
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 8 — Deviations: resolved — modeInstance now typed Optional[ModeInSwcBswInstanceRef]; the abstract base placeholder is implemented (no deferred deviation remains)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — # Spec verified: R23-11 stamped
 - [ ] TimingExtensionResource (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.9 · timingArgument -> AutosarOperationArgumentInstance is a Rule 0001.10 placeholder, not queued)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)

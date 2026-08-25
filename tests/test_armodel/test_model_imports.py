@@ -62,6 +62,7 @@ INTENTIONALLY_UNEXPORTED_MODULES = {
     "ModeErrorBehavior",
     "ModeErrorReactionPolicyEnum",
     "ModeInBswInstanceRef",
+    "ModeInSwcBswInstanceRef",
     "ModeInSwcInstanceRef",
     "ModeTransition",
     "OffsetTimingConstraint",
