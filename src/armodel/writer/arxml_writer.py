@@ -243,8 +243,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.Attribu
     UnlimitedIntegerValueVariationPoint,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef, TimingCondition
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingExtensionResource, TimingModeInstance
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import ConfidenceInterval
 
 VALUE_ACCESS_CLASS_TO_TAG = {
     LimitValueVariationPoint: "LIMIT",
@@ -3425,6 +3426,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         text = tcf.getText()
         if text is not None:
             element.text = text
+
+    def writeTimingCondition(self, element: ET.Element, condition: TimingCondition):
+        self.writeIdentifiable(element, condition)
+        formula = condition.getTimingConditionFormula()
+        if formula is not None:
+            self.writeTimingConditionFormula(ET.SubElement(element, "TIMING-CONDITION-FORMULA"), formula)
+
+    def writeConfidenceInterval(self, element: ET.Element, interval: ConfidenceInterval):
+        self.writeARObjectAttributes(element, interval)
+        self.setMultidimensionalTime(element, "LOWER-BOUND", interval.getLowerBound())
+        self.setChildElementOptionalFloatValue(element, "PROPABILITY", interval.getPropability())
+        self.setMultidimensionalTime(element, "UPPER-BOUND", interval.getUpperBound())
 
     def writeModeInBswInstanceRef(self, element: ET.Element, iref: ModeInBswInstanceRef):
         self.writeARObjectAttributes(element, iref)

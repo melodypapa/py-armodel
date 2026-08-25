@@ -1,68 +1,37 @@
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from typing import List
+from __future__ import annotations
+
+from typing import Optional, TYPE_CHECKING
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
 
 
-class TimingCondition(ARObject):
+class TimingCondition(Identifiable):
     """
-    Represents a timing condition in AUTOSAR timing specifications.
-    Defines conditions that affect timing behavior.
+    A TimingCondition describes a dependency on a specific condition. The element owns an expression which describes the timing condition dependency.
     """
 
     # TimingCondition method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getConditionFormula          [x] impl  [x] docstring  [ ] test
-    # [ ] setConditionFormula          [x] impl  [x] docstring  [ ] test
-    # [ ] addModeInstance              [x] impl  [x] docstring  [ ] test
-    # [ ] getModeInstances             [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.7, p.35
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getTimingConditionFormula  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimingConditionFormula  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self):
-        """
-        Initializes the TimingCondition with default values.
-        """
-        super().__init__()
-        self.conditionFormula: str = None
-        self.modeInstances: List[str] = []
+    def __init__(self, parent, short_name: str):
+        super().__init__(parent, short_name)
 
-    def getConditionFormula(self) -> str:
-        """
-        Gets the condition formula.
+        # This is the expression describing the dependency on a specific condition.
+        self.timingConditionFormula: Optional[TimingConditionFormula] = None
 
-        Returns:
-            String representing the condition formula
-        """
-        return self.conditionFormula
+    def getTimingConditionFormula(self) -> Optional[TimingConditionFormula]:
+        """This is the expression describing the dependency on a specific condition."""
+        return self.timingConditionFormula
 
-    def setConditionFormula(self, value: str):
-        """
-        Sets the condition formula.
-
-        Args:
-            value: String value to set
-
-        Returns:
-            self for method chaining
-        """
-        self.conditionFormula = value
+    def setTimingConditionFormula(self, value: Optional[TimingConditionFormula]) -> "TimingCondition":
+        """This is the expression describing the dependency on a specific condition. A None value is a no-op and does not overwrite an existing formula."""
+        if value is not None:
+            self.timingConditionFormula = value
         return self
-
-    def addModeInstance(self, instance: str):
-        """
-        Adds a mode instance to this timing condition.
-
-        Args:
-            instance: The mode instance to add
-
-        Returns:
-            self for method chaining
-        """
-        self.modeInstances.append(instance)
-        return self
-
-    def getModeInstances(self) -> List[str]:
-        """
-        Gets the list of mode instances.
-
-        Returns:
-            List of mode instances
-        """
-        return self.modeInstances

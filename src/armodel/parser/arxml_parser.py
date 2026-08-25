@@ -165,10 +165,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import ConfidenceInterval
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingExtensionResource, TimingModeInstance
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingCondition, TimingExtensionResource, TimingModeInstance
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
@@ -2117,6 +2118,12 @@ class ARXMLParser(AbstractARXMLParser):
             tcf.setText(element.text)
         return tcf
 
+    def readTimingCondition(self, element: ET.Element, condition: TimingCondition):
+        self.readIdentifiable(element, condition)
+        formula_element = self.find(element, "TIMING-CONDITION-FORMULA")
+        if formula_element is not None:
+            condition.setTimingConditionFormula(self.readTimingConditionFormula(condition, formula_element))
+
     def readModeInBswInstanceRef(self, element: ET.Element) -> ModeInBswInstanceRef:
         ref = ModeInBswInstanceRef()
         self.readARObjectAttributes(element, ref)
@@ -2683,6 +2690,20 @@ class ARXMLParser(AbstractARXMLParser):
     def readMultidimensionalTime(self, element: ET.Element, time: MultidimensionalTime):
         time.setCseCode(self.getChildElementOptionalLiteral(element, "CSE-CODE"))
         time.setCseCodeFactor(self.getChildElementOptionalIntegerValue(element, "CSE-CODE-FACTOR"))
+
+    def readConfidenceInterval(self, element: ET.Element, interval: ConfidenceInterval):
+        self.readARObjectAttributes(element, interval)
+        lower_bound_element = self.find(element, "LOWER-BOUND")
+        if lower_bound_element is not None:
+            lower_bound = MultidimensionalTime()
+            self.readMultidimensionalTime(lower_bound_element, lower_bound)
+            interval.setLowerBound(lower_bound)
+        interval.setPropability(self.getChildElementOptionalFloatValue(element, "PROPABILITY"))
+        upper_bound_element = self.find(element, "UPPER-BOUND")
+        if upper_bound_element is not None:
+            upper_bound = MultidimensionalTime()
+            self.readMultidimensionalTime(upper_bound_element, upper_bound)
+            interval.setUpperBound(upper_bound)
 
     def readHardwareConfiguration(self, element: ET.Element, config: HardwareConfiguration):
         config.setAdditionalInformation(self.getChildElementOptionalLiteral(element, "ADDITIONAL-INFORMATION"))

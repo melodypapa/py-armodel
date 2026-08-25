@@ -15,7 +15,10 @@ Classes:
 """
 
 from abc import ABC
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     TimeValue,
     Float,
@@ -189,50 +192,58 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
 
 class ConfidenceInterval(ARObject):
     """
-    Specifies a confidence interval for timing measurements.
-    This class defines the confidence interval with a confidence level
-    and interval bounds.
+    Additionally to the list of measured distances of event occurrences, a confidence interval can be specified for the expected distance of two consecutive event occurrences with a given probability.
     """
 
     # ConfidenceInterval method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getConfidenceLevel           [x] impl  [ ] docstring  [ ] test
-    # [ ] setConfidenceLevel           [x] impl  [ ] docstring  [ ] test
-    # [ ] getLowerBound                [x] impl  [ ] docstring  [ ] test
-    # [ ] setLowerBound                [x] impl  [ ] docstring  [ ] test
-    # [ ] getUpperBound                [x] impl  [ ] docstring  [ ] test
-    # [ ] setUpperBound                [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.65, p.112
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getLowerBound   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setLowerBound   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPropability  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPropability  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUpperBound   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUpperBound   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
-        """
-        Initializes the ConfidenceInterval with default values.
-        """
         super().__init__()
 
-        # Confidence level (e.g., 0.95 for 95% confidence)
-        self.confidence_level: Float = None
-        # Lower bound of the interval
-        self.lower_bound: TimeValue = None
-        # Upper bound of the interval
-        self.upper_bound: TimeValue = None
+        # The lower bound of the expected distance of two consecutive event occurrences.
+        self.lowerBound: Optional[MultidimensionalTime] = None
 
-    def getConfidenceLevel(self):
-        return self.confidence_level
+        # The probability for the measured lower and upper bound of the confidence interval.
+        self.propability: Optional[Float] = None
 
-    def setConfidenceLevel(self, value):
-        self.confidence_level = value
+        # The upper bound of the expected distance of two consecutive event occurrences.
+        self.upperBound: Optional[MultidimensionalTime] = None
+
+    def getLowerBound(self) -> Optional[MultidimensionalTime]:
+        """The lower bound of the expected distance of two consecutive event occurrences."""
+        return self.lowerBound
+
+    def setLowerBound(self, value: Optional[MultidimensionalTime]) -> "ConfidenceInterval":
+        """The lower bound of the expected distance of two consecutive event occurrences. A None value is a no-op and does not overwrite an existing lowerBound."""
+        if value is not None:
+            self.lowerBound = value
         return self
 
-    def getLowerBound(self):
-        return self.lower_bound
+    def getPropability(self) -> Optional[Float]:
+        """The probability for the measured lower and upper bound of the confidence interval."""
+        return self.propability
 
-    def setLowerBound(self, value):
-        self.lower_bound = value
+    def setPropability(self, value: Optional[Float]) -> "ConfidenceInterval":
+        """The probability for the measured lower and upper bound of the confidence interval. A None value is a no-op and does not overwrite an existing propability."""
+        if value is not None:
+            self.propability = value
         return self
 
-    def getUpperBound(self):
-        return self.upper_bound
+    def getUpperBound(self) -> Optional[MultidimensionalTime]:
+        """The upper bound of the expected distance of two consecutive event occurrences."""
+        return self.upperBound
 
-    def setUpperBound(self, value):
-        self.upper_bound = value
+    def setUpperBound(self, value: Optional[MultidimensionalTime]) -> "ConfidenceInterval":
+        """The upper bound of the expected distance of two consecutive event occurrences. A None value is a no-op and does not overwrite an existing upperBound."""
+        if value is not None:
+            self.upperBound = value
         return self
