@@ -52,16 +52,16 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: ModeInSwcBswInstanceRef abstract base missing → re-base when it lands
   - [x] Step 9 — Verify (9a) + confirm (9b): 24 tests pass; ruff/flake8/black clean; # Spec verified: R23-11 stamped (deviation: ModeInSwcBswInstanceRef abstract base missing, re-based to ARObject, deferred per user review)
-- [ ] ModeInSwcInstanceRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.12 · InstanceRef, referenced by TimingModeInstance.modeInstance)
+- [x] ModeInSwcInstanceRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.12 · InstanceRef, referenced by TimingModeInstance.modeInstance) · commit 33ff0980
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green) — base AtpInstanceRef (most-derived available; ModeInSwcBswInstanceRef missing); baseRef atpDerived ([—] XML), contextComponentRefs List, contextModeDeclarationGroupPrototypeRef/contextPortRef/targetModeDeclarationRef Optional[RefType]
+  - [x] Step 3 — Implement model class (Green) — base AtpInstanceRef (most-derived available; ModeInSwcBswInstanceRef missing); contextBswImplementationRef atpDerived ([—] XML), contextComponentRefs List, contextModeDeclarationGroupPrototypeRef/contextPortRef/targetModeDeclarationRef Optional[RefType]
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
   - [x] Step 5 — Write reader/writer round-trip test (Red)
   - [x] Step 6 — Update parser & writer (Green) — read/writeModeInSwcInstanceRef, flat inner refs
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: ModeInSwcBswInstanceRef placeholder (Rule 0001.10)
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b): 28 model/parser/writer tests pass; ruff/flake8/black clean; # Spec verified: R23-11 stamped (deviation: ModeInSwcBswInstanceRef abstract base missing, re-based to AtpInstanceRef, deferred per user review)
 - [ ] TimingModeInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.10 · aggregates ModeInBswInstanceRef/ModeInSwcInstanceRef via modeInstance)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
