@@ -824,9 +824,9 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `instanceIdentifier` | `Optional[String]` | `instanceIdentifier` | ``AnyServiceInstanceId`` | attr | referenced primitive `AnyServiceInstanceId` (FO_TPS GenericStructureTemplate Table E.6) not yet implemented; carried as a `String` placeholder, full sync deferred (Rule 0001.10) |
-| `minorVersion` | `Optional[String]` | `minorVersion` | ``AnyVersionString`` | attr | referenced primitive `AnyVersionString` (FO_TPS GenericStructureTemplate Table E.7) not yet implemented; carried as a `String` placeholder, full sync deferred (Rule 0001.10) |
-| `versionDrivenFindBehavior` | `Optional[ARLiteral]` | `versionDrivenFindBehavior` | ``ServiceVersionAcceptanceKindEnum`` | attr | referenced enum `ServiceVersionAcceptanceKindEnum` (Table F.113) not yet implemented; carried as an `ARLiteral` placeholder, full sync deferred (Rule 0001.10) |
+| `instanceIdentifier` | `Optional[AnyServiceInstanceId]` | `instanceIdentifier` | ``AnyServiceInstanceId`` | attr | - (RE-FIX 2026-08-26: String placeholder resolved, primitive now implemented) |
+| `minorVersion` | `Optional[AnyVersionString]` | `minorVersion` | ``AnyVersionString`` | attr | - (RE-FIX 2026-08-26: String placeholder resolved, primitive now implemented) |
+| `versionDrivenFindBehavior` | `Optional[ServiceVersionAcceptanceKindEnum]` | `versionDrivenFindBehavior` | ``ServiceVersionAcceptanceKindEnum`` | attr | - (RE-FIX 2026-08-26: ARLiteral placeholder resolved, enum now implemented) |
 
 ## `GeneralAnnotation`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 4.57

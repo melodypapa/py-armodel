@@ -4,7 +4,17 @@
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, Boolean, PositiveInteger, RefType, String, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AnyServiceInstanceId,
+    AnyVersionString,
+    AREnum,
+    ARLiteral,
+    Boolean,
+    PositiveInteger,
+    RefType,
+    String,
+    TimeValue,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -766,13 +776,13 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.eventMulticastSubscriptionAddressRef: Optional[RefType] = None
 
         # This attribute represents the ability to describe the required service instance ID.
-        self.instanceIdentifier: Optional[String] = None
+        self.instanceIdentifier: Optional[AnyServiceInstanceId] = None
 
         # The local address over which the CSI is consumed (udp, tcp or both).
         self.localUnicastAddressRefs: List[RefType] = []
 
         # Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY.
-        self.minorVersion: Optional[String] = None
+        self.minorVersion: Optional[AnyVersionString] = None
 
         # Reference to a providedServiceInstance to get the instanceIdentifier information from the ProvidedService Instance.
         self.providedServiceInstanceRef: Optional[RefType] = None
@@ -790,7 +800,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         self.serviceIdentifier: Optional[PositiveInteger] = None
 
         # Defines the service discovery find behavior.
-        self.versionDrivenFindBehavior: Optional[ARLiteral] = None
+        self.versionDrivenFindBehavior: Optional[ServiceVersionAcceptanceKindEnum] = None
 
     def addAllowedServiceProviderRef(self, value: Optional[RefType]) -> "ConsumedServiceInstance":
         """
@@ -856,11 +866,11 @@ class ConsumedServiceInstance(AbstractServiceInstance):
             self.eventMulticastSubscriptionAddressRef = value
         return self
 
-    def getInstanceIdentifier(self) -> Optional[String]:
+    def getInstanceIdentifier(self) -> Optional[AnyServiceInstanceId]:
         """This attribute represents the ability to describe the required service instance ID."""
         return self.instanceIdentifier
 
-    def setInstanceIdentifier(self, value: Optional[String]) -> "ConsumedServiceInstance":
+    def setInstanceIdentifier(self, value: Optional[AnyServiceInstanceId]) -> "ConsumedServiceInstance":
         """
         This attribute represents the ability to describe the required service instance ID.
         A None value is a no-op and does not overwrite an existing instanceIdentifier.
@@ -882,11 +892,11 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """The local address over which the CSI is consumed (udp, tcp or both)."""
         return self.localUnicastAddressRefs
 
-    def getMinorVersion(self) -> Optional[String]:
+    def getMinorVersion(self) -> Optional[AnyVersionString]:
         """Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY."""
         return self.minorVersion
 
-    def setMinorVersion(self, value: Optional[String]) -> "ConsumedServiceInstance":
+    def setMinorVersion(self, value: Optional[AnyVersionString]) -> "ConsumedServiceInstance":
         """
         Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY.
         A None value is a no-op and does not overwrite an existing minorVersion.
@@ -960,11 +970,11 @@ class ConsumedServiceInstance(AbstractServiceInstance):
             self.serviceIdentifier = value
         return self
 
-    def getVersionDrivenFindBehavior(self) -> Optional[ARLiteral]:
+    def getVersionDrivenFindBehavior(self) -> Optional[ServiceVersionAcceptanceKindEnum]:
         """Defines the service discovery find behavior."""
         return self.versionDrivenFindBehavior
 
-    def setVersionDrivenFindBehavior(self, value: Optional[ARLiteral]) -> "ConsumedServiceInstance":
+    def setVersionDrivenFindBehavior(self, value: Optional[ServiceVersionAcceptanceKindEnum]) -> "ConsumedServiceInstance":
         """
         Defines the service discovery find behavior.
         A None value is a no-op and does not overwrite an existing versionDrivenFindBehavior.

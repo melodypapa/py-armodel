@@ -235,6 +235,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AnyServiceInstanceId,
+    AnyVersionString,
     ARLiteral,
     IntervalTypeEnum,
     NameToken,
@@ -518,6 +520,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     PduActivationRoutingGroup,
     ProvidedServiceInstance,
     SdServerConfig,
+    ServiceVersionAcceptanceKindEnum,
     SoAdConfig,
     StaticSocketConnection,
     SocketAddress,
@@ -6308,11 +6311,19 @@ class ARXMLParser(AbstractARXMLParser):
         instance.setEventMulticastSubscriptionAddressRef(
             self.getChildElementOptionalRefType(element, "EVENT-MULTICAST-SUBSCRIPTION-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF")
         )
-        instance.setInstanceIdentifier(self.getChildElementOptionalString(element, "INSTANCE-IDENTIFIER"))
+        instance_id_literal = self.getChildElementOptionalLiteral(element, "INSTANCE-IDENTIFIER")
+        if instance_id_literal is not None:
+            instance_id = AnyServiceInstanceId()
+            instance_id.setValue(instance_id_literal.getValue())
+            instance.setInstanceIdentifier(instance_id)
         for ref in self.getChildElementRefTypeList(element, "LOCAL-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             instance.addLocalUnicastAddressRef(ref)
         instance.setMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAJOR-VERSION"))
-        instance.setMinorVersion(self.getChildElementOptionalString(element, "MINOR-VERSION"))
+        minor_version_literal = self.getChildElementOptionalLiteral(element, "MINOR-VERSION")
+        if minor_version_literal is not None:
+            minor_version = AnyVersionString()
+            minor_version.setValue(minor_version_literal.getValue())
+            instance.setMinorVersion(minor_version)
         instance.setProvidedServiceInstanceRef(self.getChildElementOptionalRefType(element, "PROVIDED-SERVICE-INSTANCE-REF"))
         for ref in self.getChildElementRefTypeList(element, "REMOTE-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             instance.addRemoteUnicastAddressRef(ref)
@@ -6323,7 +6334,11 @@ class ARXMLParser(AbstractARXMLParser):
             self.getChildElementOptionalRefType(element, "SD-CLIENT-TIMER-CONFIGS/SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL/SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG-REF")
         )
         instance.setServiceIdentifier(self.getChildElementOptionalPositiveInteger(element, "SERVICE-IDENTIFIER"))
-        instance.setVersionDrivenFindBehavior(self.getChildElementOptionalLiteral(element, "VERSION-DRIVEN-FIND-BEHAVIOR"))
+        behavior_literal = self.getChildElementOptionalLiteral(element, "VERSION-DRIVEN-FIND-BEHAVIOR")
+        if behavior_literal is not None:
+            behavior = ServiceVersionAcceptanceKindEnum()
+            behavior.setValue(behavior_literal.getValue())
+            instance.setVersionDrivenFindBehavior(behavior)
 
     def readSocketAddressApplicationEndpointConsumedServiceInstances(self, element: ET.Element, end_point: ApplicationEndpoint):
         for child_element in self.findall(element, "CONSUMED-SERVICE-INSTANCES/*"):

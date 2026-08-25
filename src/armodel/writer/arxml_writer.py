@@ -6813,7 +6813,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 wrapper = ET.SubElement(child_element, "EVENT-MULTICAST-SUBSCRIPTION-ADDRESSS")
                 cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
-            self.setChildElementOptionalString(child_element, "INSTANCE-IDENTIFIER", instance.getInstanceIdentifier())
+            self.setChildElementOptionalLiteral(child_element, "INSTANCE-IDENTIFIER", instance.getInstanceIdentifier())
             refs = instance.getLocalUnicastAddressRefs()
             if len(refs) > 0:
                 wrapper = ET.SubElement(child_element, "LOCAL-UNICAST-ADDRESSS")
@@ -6821,7 +6821,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
                     self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
             self.setChildElementOptionalPositiveInteger(child_element, "MAJOR-VERSION", instance.getMajorVersion())
-            self.setChildElementOptionalString(child_element, "MINOR-VERSION", instance.getMinorVersion())
+            self.setChildElementOptionalLiteral(child_element, "MINOR-VERSION", instance.getMinorVersion())
             self.setChildElementOptionalRefType(child_element, "PROVIDED-SERVICE-INSTANCE-REF", instance.getProvidedServiceInstanceRef())
             refs = instance.getRemoteUnicastAddressRefs()
             if len(refs) > 0:

@@ -6,9 +6,9 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AnyServiceInstanceId, AnyVersionString, Boolean, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import SdClientConfig
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ConsumedServiceInstance, SomeipServiceVersion
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ConsumedServiceInstance, ServiceVersionAcceptanceKindEnum, SomeipServiceVersion
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -72,12 +72,6 @@ def _bool(value):
     return b
 
 
-def _string(value):
-    s = String()
-    s.setValue(value)
-    return s
-
-
 def _version(major, minor):
     version = SomeipServiceVersion()
     version.setMajorVersion(_pos_int(major))
@@ -94,10 +88,10 @@ def _full_instance():
     group = instance.createConsumedEventGroup("CEG1")
     group.setEventGroupIdentifier(_pos_int("7"))
     instance.setEventMulticastSubscriptionAddressRef(_ref("APPLICATION-ENDPOINT", "/Ether/ApplicationEndpoint/MC1"))
-    instance.setInstanceIdentifier(_string("123"))
+    instance.setInstanceIdentifier(AnyServiceInstanceId().setValue("123"))
     instance.addLocalUnicastAddressRef(_ref("APPLICATION-ENDPOINT", "/Ether/ApplicationEndpoint/LU1"))
     instance.addLocalUnicastAddressRef(_ref("APPLICATION-ENDPOINT", "/Ether/ApplicationEndpoint/LU2"))
-    instance.setMinorVersion(_string("ANY"))
+    instance.setMinorVersion(AnyVersionString().setValue("ANY"))
     instance.setProvidedServiceInstanceRef(_ref("PROVIDED-SERVICE-INSTANCE", "/Ether/Provider/PSI1"))
     instance.addRemoteUnicastAddressRef(_ref("APPLICATION-ENDPOINT", "/Ether/ApplicationEndpoint/RU1"))
     config = SdClientConfig()
@@ -106,8 +100,8 @@ def _full_instance():
     instance.setSdClientConfig(config)
     instance.setSdClientTimerConfigRef(_ref("SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG", "/SomeipSdTimingConfigs/InstanceTiming1"))
     instance.setServiceIdentifier(_pos_int("50"))
-    behavior = ARLiteral()
-    behavior.setValue("minimumMinorVersion")
+    behavior = ServiceVersionAcceptanceKindEnum()
+    behavior.setValue(ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION)
     instance.setVersionDrivenFindBehavior(behavior)
     return instance
 
@@ -210,8 +204,10 @@ class TestConsumedServiceInstanceRoundTrip:
         assert groups[0].getShortName() == "CEG1"
         assert groups[0].getEventGroupIdentifier().getValue() == 7
         assert recovered.getEventMulticastSubscriptionAddressRef().getValue() == "/Ether/ApplicationEndpoint/MC1"
+        assert isinstance(recovered.getInstanceIdentifier(), AnyServiceInstanceId)
         assert recovered.getInstanceIdentifier().getValue() == "123"
         assert [r.getValue() for r in recovered.getLocalUnicastAddressRefs()] == ["/Ether/ApplicationEndpoint/LU1", "/Ether/ApplicationEndpoint/LU2"]
+        assert isinstance(recovered.getMinorVersion(), AnyVersionString)
         assert recovered.getMinorVersion().getValue() == "ANY"
         assert recovered.getProvidedServiceInstanceRef().getValue() == "/Ether/Provider/PSI1"
         assert [r.getValue() for r in recovered.getRemoteUnicastAddressRefs()] == ["/Ether/ApplicationEndpoint/RU1"]
@@ -221,6 +217,7 @@ class TestConsumedServiceInstanceRoundTrip:
         assert re_config.getTtl().getValue() == 10
         assert recovered.getSdClientTimerConfigRef().getValue() == "/SomeipSdTimingConfigs/InstanceTiming1"
         assert recovered.getServiceIdentifier().getValue() == 50
+        assert isinstance(recovered.getVersionDrivenFindBehavior(), ServiceVersionAcceptanceKindEnum)
         assert recovered.getVersionDrivenFindBehavior().getValue() == "minimumMinorVersion"
 
     def test_reader_empty_fields(self, parser):

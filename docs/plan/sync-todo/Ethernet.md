@@ -292,7 +292,23 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (tracker updated: base corrected Describable→ARObject per Table 3.79 + XSD; aggr rows now cite verbatim Notes)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7306 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] ConsumedServiceInstance RE-FIX (member types incorrect per user: retype instanceIdentifier → AnyServiceInstanceId, minorVersion → AnyVersionString, versionDrivenFindBehavior → ServiceVersionAcceptanceKindEnum once those classes land; remove resolved deviation rows)
+- [ ] ConsumedServiceInstance RE-FIX (member types incorrect per user: retype instanceIdentifier → AnyServiceInstanceId, minorVersion → AnyVersionString, versionDrivenFindBehavior → ServiceVersionAcceptanceKindEnum once those classes land; remove resolved deviation rows) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Spec re-check (Table 6.167 unchanged; member types now real)
+  - [x] Step 2 — Retype round-trip assertions (Red)
+    (test_consumed_service_instance.py: isinstance asserts for the three retyped members; Red confirmed —
+    reader returned generic ARLiteral for instanceIdentifier)
+  - [x] Step 3/4 — Model retyped: instanceIdentifier → Optional[AnyServiceInstanceId],
+    minorVersion → Optional[AnyVersionString], versionDrivenFindBehavior → Optional[ServiceVersionAcceptanceKindEnum]
+    (+ getter/setter hints); docstrings already verbatim from Table 6.167 sync
+  - [x] Step 5/6 — Reader/writer updated
+    (parser constructs AnyServiceInstanceId/AnyVersionString/ServiceVersionAcceptanceKindEnum from element values;
+    writer switched INSTANCE-IDENTIFIER/MINOR-VERSION to literal helpers; ProvidedServiceInstance side untouched —
+    stamped R23-11, out of scope)
+  - [x] Step 7 — Checklist comment (method set unchanged)
+  - [x] Step 8 — Deviations
+    (tracker: three placeholder rows resolved and annotated; no open deviations left for this class)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7306 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] ConsumedEventGroup RE-FIX (missing member class per user: type pduActivationRoutingGroups → List[PduActivationRoutingGroup] with reader/writer coverage once it lands; remove resolved deviation row)
 - [ ] SocketAddress RE-FIX (type staticSocketConnections → List[StaticSocketConnection], udpChecksumHandling → UdpChecksumCalculationEnum once they land; remove resolved deviation rows)
 - [ ] CanXlProps NOT CONFIRMED by user (reason pending clarification; canConfig placeholder may resolve via CanControllerConfiguration Table 3.14)
