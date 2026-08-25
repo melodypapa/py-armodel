@@ -227,6 +227,7 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory im
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
@@ -6311,6 +6312,17 @@ class ARXMLParser(AbstractARXMLParser):
             config.setInitialRepetitionsBaseDelay(self.getChildElementOptionalTimeValue(child_element, "INITIAL-REPETITIONS-BASE-DELAY"))
             config.setInitialRepetitionsMax(self.getChildElementOptionalPositiveInteger(child_element, "INITIAL-REPETITIONS-MAX"))
         return config
+
+    def getTagWithOptionalValue(self, element: ET.Element, key: str) -> Optional[TagWithOptionalValue]:
+        tag = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            tag = TagWithOptionalValue()
+            self.readARObjectAttributes(child_element, tag)
+            tag.setKey(self.getChildElementOptionalString(child_element, "KEY"))
+            tag.setSequenceOffset(self.getChildElementOptionalIntegerValue(child_element, "SEQUENCE-OFFSET"))
+            tag.setValue(self.getChildElementOptionalString(child_element, "VALUE"))
+        return tag
 
     def readSomeipSdClientServiceInstanceConfig(self, element: ET.Element, config: SomeipSdClientServiceInstanceConfig):
         self.logger.debug("Read SomeipSdClientServiceInstanceConfig <%s>" % config.getShortName())

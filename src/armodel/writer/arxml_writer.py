@@ -213,6 +213,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     ARNumerical,
@@ -6812,6 +6813,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(child_element, "SERVER-SERVICE-MAJOR-VERSION", config.getServerServiceMajorVersion())
             self.setChildElementOptionalPositiveInteger(child_element, "SERVER-SERVICE-MINOR-VERSION", config.getServerServiceMinorVersion())
             self.setChildElementOptionalPositiveInteger(child_element, "TTL", config.getTtl())
+
+    def setTagWithOptionalValue(self, element: ET.Element, key: str, tag: TagWithOptionalValue):
+        if tag is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObjectAttributes(child_element, tag)
+            self.setChildElementOptionalString(child_element, "KEY", tag.getKey())
+            self.setChildElementOptionalIntegerValue(child_element, "SEQUENCE-OFFSET", tag.getSequenceOffset())
+            self.setChildElementOptionalString(child_element, "VALUE", tag.getValue())
 
     def writeSomeipSdClientServiceInstanceConfig(self, element: ET.Element, config: SomeipSdClientServiceInstanceConfig):
         self.logger.debug("Write SomeipSdClientServiceInstanceConfig <%s>" % config.getShortName())
