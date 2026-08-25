@@ -243,15 +243,15 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 8 — Deviations: TimingDescriptionEvent placeholder (Rule 0001.10)
   - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] EventTriggeringConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.59 · abstract · Base includes TimingConstraint · event -> TimingDescriptionEvent is a Rule 0001.10 placeholder, not queued · Subclasses queued next)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec (impl committed da8cf5c2; eventRef Optional[RefType]; Base TimingConstraint)
+  - [x] Step 2 — Write model class unit test (Red→Green, test_EventTriggeringConstraint.py)
+  - [x] Step 3 — Implement model class (Green): abstract base TimingConstraint+ABC TypeError guard; eventRef Optional[RefType]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite from spec Note verbatim)
+  - [x] Step 5 — Write reader/writer round-trip test (Red→Green, parser/writer test_*.py)
+  - [x] Step 6 — Update parser & writer (Green): read/writeEventTriggeringConstraint (EVENT-REF)
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.59, p.100)
+  - [x] Step 8 — Deviations: TimingDescriptionEvent not in codebase → RefType placeholder (Rule 0001.10)
+  - [ ] Step 9 — 9a verify passed (82 tests green; ruff/flake8/black clean); 9b stamp deferred to batch per todo.md (no `# Spec verified:` written)
 - [ ] PeriodicEventTriggering (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.60 · Base includes EventTriggeringConstraint · uses MultidimensionalTime (already stamped))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
