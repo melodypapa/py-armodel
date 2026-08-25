@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 from abc import ABC
-from typing import Optional
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
 
@@ -1006,4 +1007,54 @@ class DhcpServerConfiguration(Describable):
         """
         if value is not None:
             self.ipv6DhcpServerConfiguration = value
+        return self
+
+
+class CouplingPortTrafficClassAssignment(Referrable):
+    """
+    Defines the assignment of Traffic Class to a frame.
+    """
+
+    # CouplingPortTrafficClassAssignment method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.75, p.128
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addPriority               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPriorities             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getTrafficClass           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTrafficClass           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # Defines a priority which is mapped onto a Traffic Class.
+        self.priorities: List[PositiveInteger] = []
+
+        # Defines the Traffic Class which is assigned. range: 0-7
+        self.trafficClass: Optional[PositiveInteger] = None
+
+    def addPriority(self, value: Optional[PositiveInteger]) -> "CouplingPortTrafficClassAssignment":
+        """
+        Defines a priority which is mapped onto a Traffic Class.
+        A None value is a no-op and does not append to priorities.
+        """
+        if value is not None:
+            self.priorities.append(value)
+        return self
+
+    def getPriorities(self) -> List[PositiveInteger]:
+        """Defines a priority which is mapped onto a Traffic Class."""
+        return self.priorities
+
+    def getTrafficClass(self) -> Optional[PositiveInteger]:
+        """Defines the Traffic Class which is assigned. range: 0-7"""
+        return self.trafficClass
+
+    def setTrafficClass(self, value: Optional[PositiveInteger]) -> "CouplingPortTrafficClassAssignment":
+        """
+        Defines the Traffic Class which is assigned. range: 0-7
+        A None value is a no-op and does not overwrite an existing trafficClass.
+        """
+        if value is not None:
+            self.trafficClass = value
         return self

@@ -10,12 +10,14 @@ of the respective classes.
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
     CouplingPortDetails,
     CouplingPortFifo,
     CouplingPortScheduler,
     CouplingPortStructuralElement,
+    CouplingPortTrafficClassAssignment,
     DhcpServerConfiguration,
     EthernetCluster,
     EthernetCommunicationConnector,
@@ -540,6 +542,44 @@ class TestEthernetTopology:
         # Test None no-op for IPv6 configuration
         result = config.setIpv6DhcpServerConfiguration(None)
         assert config.getIpv6DhcpServerConfiguration() is ipv6
+
+    def test_coupling_port_traffic_class_assignment(self):
+        """
+        Test the CouplingPortTrafficClassAssignment class initialization and methods.
+        """
+        parent = MockParent()
+        assignment = CouplingPortTrafficClassAssignment(parent, "TestAssignment")
+
+        assert assignment.getShortName() == "TestAssignment"
+        assert assignment.getPriorities() == []
+        assert assignment.getTrafficClass() is None
+
+        # Test setting traffic class with method chaining
+        tc = PositiveInteger()
+        tc.setValue("3")
+        result = assignment.setTrafficClass(tc)
+        assert assignment.getTrafficClass() is tc
+        assert result == assignment
+
+        # Test None no-op for traffic class
+        result = assignment.setTrafficClass(None)
+        assert assignment.getTrafficClass() is tc
+
+        # Test adding priorities with method chaining
+        p1 = PositiveInteger()
+        p1.setValue("1")
+        p2 = PositiveInteger()
+        p2.setValue("2")
+        result = assignment.addPriority(p1)
+        assert assignment.getPriorities() == [p1]
+        assert result == assignment
+
+        assignment.addPriority(p2)
+        assert assignment.getPriorities() == [p1, p2]
+
+        # Test None no-op for priorities
+        assignment.addPriority(None)
+        assert assignment.getPriorities() == [p1, p2]
 
     def test_sd_client_config(self):
         """

@@ -462,6 +462,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortFifo,
     CouplingPortScheduler,
     CouplingPortStructuralElement,
+    CouplingPortTrafficClassAssignment,
     EthernetCluster,
     EthernetCommunicationConnector,
     EthernetCommunicationController,
@@ -7863,11 +7864,29 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported EthernetPriorityRegeneration <%s>" % type(regeneration))
 
+    def writeCouplingPortTrafficClassAssignment(self, element: ET.Element, assignment: CouplingPortTrafficClassAssignment):
+        child_element = ET.SubElement(element, "COUPLING-PORT-TRAFFIC-CLASS-ASSIGNMENT")
+        self.writeReferrable(child_element, assignment)
+        for priority in assignment.getPriorities():
+            self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", priority)
+        self.setChildElementOptionalPositiveInteger(child_element, "TRAFFIC-CLASS", assignment.getTrafficClass())
+
+    def writeCouplingPortDetailsEthernetTrafficClassAssignments(self, element: ET.Element, details: CouplingPortDetails):
+        assignments = details.getEthernetTrafficClassAssignments()
+        if len(assignments) > 0:
+            child_element = ET.SubElement(element, "ETHERNET-TRAFFIC-CLASS-ASSIGNMENTS")
+            for assignment in assignments:
+                if isinstance(assignment, CouplingPortTrafficClassAssignment):
+                    self.writeCouplingPortTrafficClassAssignment(child_element, assignment)
+                else:
+                    self.notImplemented("Unsupported CouplingPortTrafficClassAssignment <%s>" % type(assignment))
+
     def setCouplingPortDetails(self, element: ET.Element, key: str, details: CouplingPortDetails):
         if details is not None:
             child_element = ET.SubElement(element, key)
             self.writeCouplingPortDetailsCouplingPortStructuralElements(child_element, details)
             self.writeCouplingPortDetailsEthernetPriorityRegenerations(child_element, details)
+            self.writeCouplingPortDetailsEthernetTrafficClassAssignments(child_element, details)
             self.setChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF", details.getLastEgressSchedulerRef())
 
     def setDhcpServerConfiguration(self, element: ET.Element, key: str, config: DhcpServerConfiguration):

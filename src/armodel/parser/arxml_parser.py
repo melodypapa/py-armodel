@@ -238,6 +238,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     IntervalTypeEnum,
     NameToken,
     Numerical,
+    PositiveInteger,
     PrimitiveIdentifier,
     RefType,
     SectionInitializationPolicyType,
@@ -491,6 +492,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortFifo,
     CouplingPortScheduler,
     CouplingPortStructuralElement,
+    CouplingPortTrafficClassAssignment,
     EthernetCluster,
     EthernetCommunicationConnector,
     EthernetCommunicationController,
@@ -8251,6 +8253,27 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported EthernetPriorityRegeneration <%s>" % tag_name)
 
+    def readCouplingPortTrafficClassAssignment(self, element: ET.Element, assignment: CouplingPortTrafficClassAssignment):
+        self.readReferrable(element, assignment)
+        for child_element in self.findall(element, "PRIORITY"):
+            priority = PositiveInteger()
+            self.readARObjectAttributes(child_element, priority)
+            priority.setValue(child_element.text)
+            assignment.addPriority(priority)
+        assignment.setTrafficClass(self.getChildElementOptionalPositiveInteger(element, "TRAFFIC-CLASS"))
+
+    def readCouplingPortDetailsEthernetTrafficClassAssignments(self, element: ET.Element, details: CouplingPortDetails):
+        assignments = []
+        for child_element in self.findall(element, "ETHERNET-TRAFFIC-CLASS-ASSIGNMENTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "COUPLING-PORT-TRAFFIC-CLASS-ASSIGNMENT":
+                assignment = CouplingPortTrafficClassAssignment(details, self.getShortName(child_element))
+                self.readCouplingPortTrafficClassAssignment(child_element, assignment)
+                assignments.append(assignment)
+            else:
+                self.notImplemented("Unsupported CouplingPortTrafficClassAssignment <%s>" % tag_name)
+        details.setEthernetTrafficClassAssignments(assignments)
+
     def getCouplingPortDetails(self, element: ET.Element, key: str) -> CouplingPortDetails:
         details = None
         child_element = self.find(element, key)
@@ -8258,6 +8281,7 @@ class ARXMLParser(AbstractARXMLParser):
             details = CouplingPortDetails()
             self.readCouplingPortDetailsCouplingPortStructuralElements(child_element, details)
             self.readCouplingPortDetailsEthernetPriorityRegenerations(child_element, details)
+            self.readCouplingPortDetailsEthernetTrafficClassAssignments(child_element, details)
             details.setLastEgressSchedulerRef(self.getChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF"))
         return details
 
