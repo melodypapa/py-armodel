@@ -213,16 +213,27 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (none; ConsumedServiceInstance versionDrivenFindBehavior placeholder row resolved by the RE-FIX row)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7288 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] PduActivationRoutingGroup (Table 6.161 · used by ConsumedEventGroup.pduActivationRoutingGroups AND AbstractServiceInstance.methodActivationRoutingGroup · Identifiable child → createXxx(short_name))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] PduActivationRoutingGroup (Table 6.161 · p.489 · used by ConsumedEventGroup.pduActivationRoutingGroups AND AbstractServiceInstance.methodActivationRoutingGroup · Identifiable child → createXxx(short_name)) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Sync members & description from spec
+    (Table 6.161 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:12976–13000 + PDF p.489;
+    Base → Identifiable; 3 attr rows: eventGroupControlType attr, iPduIdentifierTcp/Udp * refs)
+  - [x] Step 2 — Write model class unit test (Red)
+    (TestPduActivationRoutingGroup in test_ServiceInstances.py; Red confirmed — ImportError at collection)
+  - [x] Step 3 — Implement model class (Green)
+    (Identifiable with (parent, short_name); typed List fields for both ref lists, guarded setters/adders)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    (fresh implementation: class Note + per-attribute Notes verbatim)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    (tests/test_armodel/writer/test_pdu_activation_routing_group.py; Red confirmed — 4 failed)
+  - [x] Step 6 — Update parser & writer (Green)
+    (writer setPduActivationRoutingGroup: writeIdentifiable + EVENT-GROUP-CONTROL-TYPE + both wrapper ref lists;
+    parser getPduActivationRoutingGroup: getShortName + readIdentifiable + mutators)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (tracker: eventGroupControlType ARLiteral placeholder — EventGroupControlTypeEnum Table F.114 not queued/not implemented,
+     Rule 0001.10; iPduIdentifierTcp/Udp singular→plural convention noted; consumer wiring pending RE-FIX rows)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7295 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] StaticSocketConnection (Table 6.201 · used by SocketAddress.staticSocketConnections · resolves ARObject placeholder)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

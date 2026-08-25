@@ -485,6 +485,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     ConsumedServiceInstance,
     EventHandler,
     GenericTp,
+    PduActivationRoutingGroup,
     ProvidedServiceInstance,
     SdServerConfig,
     SoAdConfig,
@@ -7995,6 +7996,22 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for address in addresses:
                     self.setChildElementOptionalLiteral(dns_element, "DNS-SERVER-ADDRESS", address)
             self.setChildElementOptionalLiteral(child_element, "NETWORK-MASK", config.getNetworkMask())
+
+    def setPduActivationRoutingGroup(self, element: ET.Element, group: PduActivationRoutingGroup):
+        if group is not None:
+            child_element = ET.SubElement(element, "PDU-ACTIVATION-ROUTING-GROUP")
+            self.writeIdentifiable(child_element, group)
+            self.setChildElementOptionalLiteral(child_element, "EVENT-GROUP-CONTROL-TYPE", group.getEventGroupControlType())
+            refs = group.getIPduIdentifierTcpRefs()
+            if len(refs) > 0:
+                refs_element = ET.SubElement(child_element, "I-PDU-IDENTIFIER-TCP-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_element, "I-PDU-IDENTIFIER-TCP-REF", ref)
+            refs = group.getIPduIdentifierUdpRefs()
+            if len(refs) > 0:
+                refs_element = ET.SubElement(child_element, "I-PDU-IDENTIFIER-UDP-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_element, "I-PDU-IDENTIFIER-UDP-REF", ref)
 
     def setIpv6DhcpServerConfiguration(self, element: ET.Element, key: str, config: Ipv6DhcpServerConfiguration):
         if config is not None:

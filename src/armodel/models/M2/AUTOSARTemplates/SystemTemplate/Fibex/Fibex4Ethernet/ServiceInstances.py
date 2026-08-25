@@ -532,6 +532,74 @@ class ServiceVersionAcceptanceKindEnum(AREnum):
         )
 
 
+class PduActivationRoutingGroup(Identifiable):
+    """
+    Group of Pdus that can be activated or deactivated for transmission over a socket connection.
+    """
+
+    # PduActivationRoutingGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.161, p.489
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEventGroupControlType        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEventGroupControlType        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIPduIdentifierTcpRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addIPduIdentifierTcpRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIPduIdentifierUdpRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addIPduIdentifierUdpRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This attribute defines the type of a RoutingGroup. There are RoutingGroups that activate the data path for unicast or multicast events of an event group. And there are RoutingGroups that activate the data path for initial events that are triggered, namely events that are sent out on the server side after a client got subscribed. Please note that this attribute is only valid for event communication (Sender Receiver communication) and shall be omitted in MethodActivationRoutingGroups.
+        self.eventGroupControlType: Optional[ARLiteral] = None
+
+        # PduIdentifiers assigned for transmission over Tcp in case that the referencing PduActivationRoutingGroup is activated.
+        self.iPduIdentifierTcpRefs: List[RefType] = []
+
+        # PduIdentifiers assigned for transmission over Udp in case that the referencing PduActivationRoutingGroup is activated.
+        self.iPduIdentifierUdpRefs: List[RefType] = []
+
+    def getEventGroupControlType(self) -> Optional[ARLiteral]:
+        """This attribute defines the type of a RoutingGroup. There are RoutingGroups that activate the data path for unicast or multicast events of an event group. And there are RoutingGroups that activate the data path for initial events that are triggered, namely events that are sent out on the server side after a client got subscribed. Please note that this attribute is only valid for event communication (Sender Receiver communication) and shall be omitted in MethodActivationRoutingGroups."""
+        return self.eventGroupControlType
+
+    def setEventGroupControlType(self, value: Optional[ARLiteral]) -> "PduActivationRoutingGroup":
+        """
+        This attribute defines the type of a RoutingGroup. There are RoutingGroups that activate the data path for unicast or multicast events of an event group. And there are RoutingGroups that activate the data path for initial events that are triggered, namely events that are sent out on the server side after a client got subscribed. Please note that this attribute is only valid for event communication (Sender Receiver communication) and shall be omitted in MethodActivationRoutingGroups.
+        A None value is a no-op and does not overwrite an existing eventGroupControlType.
+        """
+        if value is not None:
+            self.eventGroupControlType = value
+        return self
+
+    def getIPduIdentifierTcpRefs(self) -> List[RefType]:
+        """PduIdentifiers assigned for transmission over Tcp in case that the referencing PduActivationRoutingGroup is activated."""
+        return self.iPduIdentifierTcpRefs
+
+    def addIPduIdentifierTcpRef(self, ref: Optional[RefType]) -> "PduActivationRoutingGroup":
+        """
+        PduIdentifiers assigned for transmission over Tcp in case that the referencing PduActivationRoutingGroup is activated.
+        A None value is a no-op and does not append to iPduIdentifierTcpRefs.
+        """
+        if ref is not None:
+            self.iPduIdentifierTcpRefs.append(ref)
+        return self
+
+    def getIPduIdentifierUdpRefs(self) -> List[RefType]:
+        """PduIdentifiers assigned for transmission over Udp in case that the referencing PduActivationRoutingGroup is activated."""
+        return self.iPduIdentifierUdpRefs
+
+    def addIPduIdentifierUdpRef(self, ref: Optional[RefType]) -> "PduActivationRoutingGroup":
+        """
+        PduIdentifiers assigned for transmission over Udp in case that the referencing PduActivationRoutingGroup is activated.
+        A None value is a no-op and does not append to iPduIdentifierUdpRefs.
+        """
+        if ref is not None:
+            self.iPduIdentifierUdpRefs.append(ref)
+        return self
+
+
 class ConsumedServiceInstance(AbstractServiceInstance):
     """Service instances that are consumed by the ECU that is connected via the ApplicationEndpoint to a CommunicationConnector."""
 

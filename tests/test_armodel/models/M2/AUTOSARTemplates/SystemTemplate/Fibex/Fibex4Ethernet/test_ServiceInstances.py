@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     EventHandler,
     GenericTp,
     InitialSdDelayConfig,
+    PduActivationRoutingGroup,
     ProvidedServiceInstance,
     RequestResponseDelay,
     SdServerConfig,
@@ -1527,3 +1528,61 @@ class TestServiceVersionAcceptanceKindEnum:
         result = enum.setValue(ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION)
         assert result == enum  # method chaining
         assert enum.getValue() == "minimumMinorVersion"
+
+
+class TestPduActivationRoutingGroup:
+    """
+    Test cases for PduActivationRoutingGroup (Table 6.161).
+    """
+
+    def test_initialization(self):
+        """
+        Test initialization and Identifiable base.
+        """
+        parent = MockParent()
+        group = PduActivationRoutingGroup(parent, "Group1")
+
+        assert isinstance(group, Identifiable)
+        assert group.getShortName() == "Group1"
+        assert group.getEventGroupControlType() is None
+        assert group.getIPduIdentifierTcpRefs() == []
+        assert group.getIPduIdentifierUdpRefs() == []
+
+    def test_event_group_control_type(self):
+        """
+        Test eventGroupControlType round-trip and None no-op.
+        """
+        parent = MockParent()
+        group = PduActivationRoutingGroup(parent, "Group1")
+        control_type = ARLiteral().setValue("activateAndTriggerUnicast")
+
+        result = group.setEventGroupControlType(control_type)
+        assert group.getEventGroupControlType() is control_type
+        assert result == group  # method chaining
+
+        # None no-op
+        result = group.setEventGroupControlType(None)
+        assert group.getEventGroupControlType() is control_type
+
+    def test_ipdu_identifier_refs(self):
+        """
+        Test iPduIdentifierTcp/Udp ref lists, append semantics and None no-op.
+        """
+        parent = MockParent()
+        group = PduActivationRoutingGroup(parent, "Group1")
+        ref_tcp = RefType()
+        ref_udp = RefType()
+
+        result = group.addIPduIdentifierTcpRef(ref_tcp)
+        assert group.getIPduIdentifierTcpRefs() == [ref_tcp]
+        assert result == group  # method chaining
+
+        group.addIPduIdentifierTcpRef(None)
+        assert group.getIPduIdentifierTcpRefs() == [ref_tcp]
+
+        result = group.addIPduIdentifierUdpRef(ref_udp)
+        assert group.getIPduIdentifierUdpRefs() == [ref_udp]
+        assert result == group  # method chaining
+
+        group.addIPduIdentifierUdpRef(None)
+        assert group.getIPduIdentifierUdpRefs() == [ref_udp]

@@ -515,6 +515,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     ConsumedServiceInstance,
     EventHandler,
     GenericTp,
+    PduActivationRoutingGroup,
     ProvidedServiceInstance,
     SdServerConfig,
     SoAdConfig,
@@ -8398,6 +8399,18 @@ class ARXMLParser(AbstractARXMLParser):
                 config.addDnsServerAddress(literal)
             config.setNetworkMask(self.getChildElementOptionalLiteral(child_element, "NETWORK-MASK"))
         return config
+
+    def getPduActivationRoutingGroup(self, element: ET.Element) -> Optional[PduActivationRoutingGroup]:
+        group = None
+        if element is not None:
+            group = PduActivationRoutingGroup(None, self.getShortName(element))
+            self.readIdentifiable(element, group)
+            group.setEventGroupControlType(self.getChildElementOptionalLiteral(element, "EVENT-GROUP-CONTROL-TYPE"))
+            for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIER-TCP-REFS/I-PDU-IDENTIFIER-TCP-REF"):
+                group.addIPduIdentifierTcpRef(ref)
+            for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIER-UDP-REFS/I-PDU-IDENTIFIER-UDP-REF"):
+                group.addIPduIdentifierUdpRef(ref)
+        return group
 
     def getIpv6DhcpServerConfiguration(self, element: ET.Element, key: str) -> Optional[Ipv6DhcpServerConfiguration]:
         config = None
