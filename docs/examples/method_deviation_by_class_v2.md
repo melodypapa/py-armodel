@@ -1620,6 +1620,20 @@ R23-11 Table 6.144; field/accessors plus its DHCP-SERVER-CONFIGURATION reader/wr
 class were removed in this pass (Rule 0015/the-table-wins). DhcpServerConfiguration itself remains
 modelled for VlanMembership.dhcpAddressAssignment (Table 3.79).
 
+## `CouplingPortFifo`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 124  | **table:** Table 3.68
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `assignedTrafficClasses` | `List[PositiveInteger]` | `assignedTrafficClass` | ``PositiveInteger`` (0..8) | attr | singular spec member modelled per project convention (`addAssignedTrafficClass`/`getAssignedTrafficClasses`, wrapper ASSIGNED-TRAFFIC-CLASSS) |
+| `minimumFifoLength` | `Optional[PositiveInteger]` | `minimumFifoLength` | ``PositiveInteger`` | attr | - |
+| `shaper` | `Optional[ARObject]` | `shaper` | ``CouplingPortAbstract Shaper`` | aggr | referenced abstract class `CouplingPortAbstractShaper` not yet implemented; carried as an `ARObject` placeholder, reader/writer pending, full sync deferred (Rule 0001.10) |
+
+Removed member: `trafficClassPreemptionSupport` — absent from the R23-11 Table 3.68 and the XSD
+COUPLING-PORT-FIFO group; field/accessors removed in this pass (Rule 0015/the-table-wins).
+
 ## `Ipv6Configuration`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 466
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::NetworkEndpoint`

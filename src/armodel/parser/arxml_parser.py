@@ -8401,6 +8401,11 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCouplingPortFifo(self, element: ET.Element, fifo: CouplingPortFifo):
         self.readCouplingPortSchedulerCouplingPortStructuralElement(element, fifo)
+        for item in self.findall(element, "ASSIGNED-TRAFFIC-CLASSS/ASSIGNED-TRAFFIC-CLASS"):
+            value = PositiveInteger()
+            value.setValue(item.text)
+            fifo.addAssignedTrafficClass(value)
+        fifo.setMinimumFifoLength(self.getChildElementOptionalPositiveInteger(element, "MINIMUM-FIFO-LENGTH"))
 
     def readCouplingPortScheduler(self, element: ET.Element, scheduler: CouplingPortScheduler):
         self.readCouplingPortSchedulerCouplingPortStructuralElement(element, scheduler)

@@ -580,16 +580,23 @@ row below and must sync BEFORE the class that references it. All rows below are 
      timeSynchronization inner-members deferral recorded per Rule 0001.10)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7336 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] CouplingPortFifo (markdown SystemTemplate · Table 3.68 · p.124 · source Fibex4Ethernet/EthernetTopology.py · fixes assignedTrafficClass type)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] CouplingPortFifo (markdown SystemTemplate · Table 3.68 · p.124 · source Fibex4Ethernet/EthernetTopology.py · fixes assignedTrafficClass type) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Sync members & description from spec
+    (Table 3.68 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:3300–3312 + PDF p.124;
+    Base → CouplingPortStructuralElement; 3 attr rows: assignedTrafficClass 0..8, minimumFifoLength, shaper candidate;
+    trafficClassPreemptionSupport absent from table+XSD → REMOVED per Rule 0015)
+  - [x] Step 2 — Model tests rewritten to spec shape (Red)
+  - [x] Step 3 — Implement model class (Green) — verbatim Notes, typed fields, guarded setters
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5/6 — Reader/writer round-trip test + wiring
+    (tests/test_armodel/writer/test_coupling_port_fifo.py; ASSIGNED-TRAFFIC-CLASSS wrapper + MINIMUM-FIFO-LENGTH
+     wired both sides in XSD order; SHAPER element deferred with the placeholder class)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (tracker: shaper ARObject placeholder — CouplingPortAbstractShaper not implemented, Rule 0001.10;
+     trafficClassPreemptionSupport removal recorded per Rule 0015)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7341 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] CouplingPortDetails (markdown SystemTemplate · Table 3.63 · p.121 · source Fibex4Ethernet/EthernetTopology.py · depends on CouplingPortTrafficClassAssignment above; fixes ethernetPriorityRegeneration / ethernetTrafficClassAssignment member types)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

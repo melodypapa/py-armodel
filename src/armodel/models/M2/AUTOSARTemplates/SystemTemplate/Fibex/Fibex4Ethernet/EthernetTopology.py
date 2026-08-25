@@ -116,60 +116,69 @@ class CouplingPortStructuralElement(Identifiable, ABC):
 
 class CouplingPortFifo(CouplingPortStructuralElement):
     """
-    Defines a FIFO (First In, First Out) buffer for coupling ports in
-    Ethernet switches, specifying traffic class assignments, minimum
-    buffer lengths, and preemption support properties.
+    Defines a FIFO for the CouplingPort egress structure.
     """
 
     # CouplingPortFifo method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAssignedTrafficClasses    [x] impl  [ ] docstring  [ ] test
-    # [ ] addAssignedTrafficClass      [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinimumFifoLength         [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinimumFifoLength         [x] impl  [ ] docstring  [ ] test
-    # [ ] getShaper                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setShaper                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getTrafficClassPreemptionSupport [x] impl  [ ] docstring  [ ] test
-    # [ ] setTrafficClassPreemptionSupport [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.68, p.124
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addAssignedTrafficClass      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAssignedTrafficClasses    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getMinimumFifoLength         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinimumFifoLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getShaper                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setShaper                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.assignedTrafficClasses = []  # type: List[PositiveInteger]
-        self.minimumFifoLength = None  # type: PositiveInteger
-        self.shaper = None  # type: CouplingPortAbstractShaper
-        self.trafficClassPreemptionSupport = None  # type: EthernetCouplingPortPreemptionEnum
+        # Defines a set of Traffic Classes which shall be handled by this FIFO. range: 0-7
+        self.assignedTrafficClasses: List[PositiveInteger] = []
 
-    def getAssignedTrafficClasses(self):
-        return self.assignedTrafficClasses
+        # FIFO minimum length in Byte. An actual configuration/ hardware may use a bigger value.
+        self.minimumFifoLength: Optional[PositiveInteger] = None
 
-    def addAssignedTrafficClass(self, value):
+        # Definition of the shaper to be used for the processing of this FIFO.
+        self.shaper: Optional[ARObject] = None
+
+    def addAssignedTrafficClass(self, value: Optional[PositiveInteger]) -> "CouplingPortFifo":
+        """
+        Defines a set of Traffic Classes which shall be handled by this FIFO. range: 0-7
+        A None value is a no-op and does not append to assignedTrafficClasses.
+        """
         if value is not None:
             self.assignedTrafficClasses.append(value)
         return self
 
-    def getMinimumFifoLength(self):
+    def getAssignedTrafficClasses(self) -> List[PositiveInteger]:
+        """Defines a set of Traffic Classes which shall be handled by this FIFO. range: 0-7"""
+        return self.assignedTrafficClasses
+
+    def getMinimumFifoLength(self) -> Optional[PositiveInteger]:
+        """FIFO minimum length in Byte. An actual configuration/ hardware may use a bigger value."""
         return self.minimumFifoLength
 
-    def setMinimumFifoLength(self, value):
+    def setMinimumFifoLength(self, value: Optional[PositiveInteger]) -> "CouplingPortFifo":
+        """
+        FIFO minimum length in Byte. An actual configuration/ hardware may use a bigger value.
+        A None value is a no-op and does not overwrite an existing minimumFifoLength.
+        """
         if value is not None:
             self.minimumFifoLength = value
         return self
 
-    def getShaper(self):
+    def getShaper(self) -> Optional[ARObject]:
+        """Definition of the shaper to be used for the processing of this FIFO."""
         return self.shaper
 
-    def setShaper(self, value):
+    def setShaper(self, value: Optional[ARObject]) -> "CouplingPortFifo":
+        """
+        Definition of the shaper to be used for the processing of this FIFO.
+        A None value is a no-op and does not overwrite an existing shaper.
+        """
         if value is not None:
             self.shaper = value
-        return self
-
-    def getTrafficClassPreemptionSupport(self):
-        return self.trafficClassPreemptionSupport
-
-    def setTrafficClassPreemptionSupport(self, value):
-        if value is not None:
-            self.trafficClassPreemptionSupport = value
         return self
 
 

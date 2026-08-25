@@ -8003,6 +8003,12 @@ class ARXMLWriter(AbstractARXMLWriter):
         if fifo is not None:
             child_element = ET.SubElement(element, "COUPLING-PORT-FIFO")
             self.writeCouplingPortSchedulerCouplingPortStructuralElement(child_element, fifo)
+            classes = fifo.getAssignedTrafficClasses()
+            if len(classes) > 0:
+                classes_element = ET.SubElement(child_element, "ASSIGNED-TRAFFIC-CLASSS")
+                for value in classes:
+                    self.setChildElementOptionalPositiveInteger(classes_element, "ASSIGNED-TRAFFIC-CLASS", value)
+            self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-FIFO-LENGTH", fifo.getMinimumFifoLength())
 
     def writeCouplingPortScheduler(self, element: ET.Element, scheduler: CouplingPortScheduler):
         if scheduler is not None:

@@ -117,7 +117,7 @@ class TestEthernetTopology:
 
     def test_coupling_port_fifo(self):
         """
-        Test the CouplingPortFifo class initialization and methods.
+        Test the CouplingPortFifo class initialization and methods (Table 3.68).
         """
         parent = MockParent()
         fifo = CouplingPortFifo(parent, "TestFifo")
@@ -126,27 +126,40 @@ class TestEthernetTopology:
         assert fifo.getAssignedTrafficClasses() == []
         assert fifo.getMinimumFifoLength() is None
         assert fifo.getShaper() is None
-        assert fifo.getTrafficClassPreemptionSupport() is None
 
-        # Test adding traffic class with method chaining
+        # Test adding traffic class with method chaining and None no-op
         result = fifo.addAssignedTrafficClass(5)
         assert fifo.getAssignedTrafficClasses() == [5]
         assert result == fifo  # Test method chaining
+
+        fifo.addAssignedTrafficClass(None)
+        assert fifo.getAssignedTrafficClasses() == [5]
 
         # Test setting minimum FIFO length with method chaining
         result = fifo.setMinimumFifoLength(1024)
         assert fifo.getMinimumFifoLength() == 1024
         assert result == fifo  # Test method chaining
 
+        # None no-op for minimumFifoLength
+        result = fifo.setMinimumFifoLength(None)
+        assert fifo.getMinimumFifoLength() == 1024
+
         # Test setting shaper with method chaining
-        result = fifo.setShaper("shaper_obj")
-        assert fifo.getShaper() == "shaper_obj"
+        shaper = MockParent()
+        result = fifo.setShaper(shaper)
+        assert fifo.getShaper() is shaper
         assert result == fifo  # Test method chaining
 
-        # Test setting traffic class preemption support with method chaining
-        result = fifo.setTrafficClassPreemptionSupport("support")
-        assert fifo.getTrafficClassPreemptionSupport() == "support"
-        assert result == fifo  # Test method chaining
+        # None no-op for shaper
+        result = fifo.setShaper(None)
+        assert fifo.getShaper() is shaper
+
+    def test_coupling_port_fifo_removed_members(self):
+        """
+        trafficClassPreemptionSupport is absent from the R23-11 Table 3.68 and XSD group (Rule 0015).
+        """
+        fifo = CouplingPortFifo(MockParent(), "TestFifo")
+        assert not hasattr(fifo, "trafficClassPreemptionSupport")
 
     def test_coupling_port_scheduler(self):
         """
