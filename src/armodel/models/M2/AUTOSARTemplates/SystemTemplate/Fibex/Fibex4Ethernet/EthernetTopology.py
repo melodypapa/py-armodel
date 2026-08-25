@@ -5,7 +5,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip4AddressString, PositiveInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
 
@@ -944,12 +944,124 @@ class SdClientConfig(ARObject):
 
 class Ipv4DhcpServerConfiguration(Describable):
     """
-    Placeholder for the IPv4 DHCP server configuration (AUTOSAR_CP_TPS_SystemTemplate, Table 3.80).
-    To be fully synced in a later pass.
+    Defines the configuration of a IPv4 DHCP server that runs on the network endpoint.
     """
+
+    # Ipv4DhcpServerConfiguration method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.80, p.132
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAddressRangeUpperBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAddressRangeUpperBound      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDefaultGateway              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefaultGateway              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDefaultLeaseTime            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefaultLeaseTime            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDnsServerAddresses          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addDnsServerAddress            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNetworkMask                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNetworkMask                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
+
+        # Lower range of IP addresses to be issued to DHCP clients. IPv4 Address. Notation: 255.255.255.255.
+        self.addressRangeLowerBound: Optional[Ip4AddressString] = None
+
+        # Upper range of IP addresses to be issued to DHCP clients. Pv4 Address. Notation: 255.255.255.255.
+        self.addressRangeUpperBound: Optional[Ip4AddressString] = None
+
+        # IP address of the default gateway. Notation 255.255.255.255
+        self.defaultGateway: Optional[Ip4AddressString] = None
+
+        # Amount of time in seconds that a client may keep the IP address.
+        self.defaultLeaseTime: Optional[TimeValue] = None
+
+        # IP addresses of preconfigured DNS servers. Notation 255.255.255.255
+        self.dnsServerAddresses: List[Ip4AddressString] = []
+
+        # Default network mask to be used by DHCP clients. Notation 255.255.255.255
+        self.networkMask: Optional[Ip4AddressString] = None
+
+    def getAddressRangeLowerBound(self) -> Optional[Ip4AddressString]:
+        """Lower range of IP addresses to be issued to DHCP clients. IPv4 Address. Notation: 255.255.255.255."""
+        return self.addressRangeLowerBound
+
+    def setAddressRangeLowerBound(self, value: Optional[Ip4AddressString]) -> "Ipv4DhcpServerConfiguration":
+        """
+        Lower range of IP addresses to be issued to DHCP clients. IPv4 Address. Notation: 255.255.255.255.
+        A None value is a no-op and does not overwrite an existing addressRangeLowerBound.
+        """
+        if value is not None:
+            self.addressRangeLowerBound = value
+        return self
+
+    def getAddressRangeUpperBound(self) -> Optional[Ip4AddressString]:
+        """Upper range of IP addresses to be issued to DHCP clients. Pv4 Address. Notation: 255.255.255.255."""
+        return self.addressRangeUpperBound
+
+    def setAddressRangeUpperBound(self, value: Optional[Ip4AddressString]) -> "Ipv4DhcpServerConfiguration":
+        """
+        Upper range of IP addresses to be issued to DHCP clients. Pv4 Address. Notation: 255.255.255.255.
+        A None value is a no-op and does not overwrite an existing addressRangeUpperBound.
+        """
+        if value is not None:
+            self.addressRangeUpperBound = value
+        return self
+
+    def getDefaultGateway(self) -> Optional[Ip4AddressString]:
+        """IP address of the default gateway. Notation 255.255.255.255"""
+        return self.defaultGateway
+
+    def setDefaultGateway(self, value: Optional[Ip4AddressString]) -> "Ipv4DhcpServerConfiguration":
+        """
+        IP address of the default gateway. Notation 255.255.255.255
+        A None value is a no-op and does not overwrite an existing defaultGateway.
+        """
+        if value is not None:
+            self.defaultGateway = value
+        return self
+
+    def getDefaultLeaseTime(self) -> Optional[TimeValue]:
+        """Amount of time in seconds that a client may keep the IP address."""
+        return self.defaultLeaseTime
+
+    def setDefaultLeaseTime(self, value: Optional[TimeValue]) -> "Ipv4DhcpServerConfiguration":
+        """
+        Amount of time in seconds that a client may keep the IP address.
+        A None value is a no-op and does not overwrite an existing defaultLeaseTime.
+        """
+        if value is not None:
+            self.defaultLeaseTime = value
+        return self
+
+    def getDnsServerAddresses(self) -> List[Ip4AddressString]:
+        """IP addresses of preconfigured DNS servers. Notation 255.255.255.255"""
+        return self.dnsServerAddresses
+
+    def addDnsServerAddress(self, value: Optional[Ip4AddressString]) -> "Ipv4DhcpServerConfiguration":
+        """
+        IP addresses of preconfigured DNS servers. Notation 255.255.255.255
+        A None value is a no-op and does not append to dnsServerAddresses.
+        """
+        if value is not None:
+            self.dnsServerAddresses.append(value)
+        return self
+
+    def getNetworkMask(self) -> Optional[Ip4AddressString]:
+        """Default network mask to be used by DHCP clients. Notation 255.255.255.255"""
+        return self.networkMask
+
+    def setNetworkMask(self, value: Optional[Ip4AddressString]) -> "Ipv4DhcpServerConfiguration":
+        """
+        Default network mask to be used by DHCP clients. Notation 255.255.255.255
+        A None value is a no-op and does not overwrite an existing networkMask.
+        """
+        if value is not None:
+            self.networkMask = value
+        return self
 
 
 class Ipv6DhcpServerConfiguration(Describable):

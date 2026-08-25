@@ -8378,10 +8378,26 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             config = DhcpServerConfiguration()
-            if self.find(child_element, "IPV-4-DHCP-SERVER-CONFIGURATION") is not None:
-                config.setIpv4DhcpServerConfiguration(Ipv4DhcpServerConfiguration())
+            config.setIpv4DhcpServerConfiguration(self.getIpv4DhcpServerConfiguration(child_element, "IPV-4-DHCP-SERVER-CONFIGURATION"))
             if self.find(child_element, "IPV-6-DHCP-SERVER-CONFIGURATION") is not None:
                 config.setIpv6DhcpServerConfiguration(Ipv6DhcpServerConfiguration())
+        return config
+
+    def getIpv4DhcpServerConfiguration(self, element: ET.Element, key: str) -> Optional[Ipv4DhcpServerConfiguration]:
+        config = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            config = Ipv4DhcpServerConfiguration()
+            config.setAddressRangeLowerBound(self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND"))
+            config.setAddressRangeUpperBound(self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-UPPER-BOUND"))
+            config.setDefaultGateway(self.getChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY"))
+            config.setDefaultLeaseTime(self.getChildElementOptionalTimeValue(child_element, "DEFAULT-LEASE-TIME"))
+            for address in self.findall(child_element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
+                literal = ARLiteral()
+                self.readARObjectAttributes(address, literal)
+                literal.setValue(address.text)
+                config.addDnsServerAddress(literal)
+            config.setNetworkMask(self.getChildElementOptionalLiteral(child_element, "NETWORK-MASK"))
         return config
 
     def readVlanMembership(self, element: ET.Element, membership: VlanMembership):

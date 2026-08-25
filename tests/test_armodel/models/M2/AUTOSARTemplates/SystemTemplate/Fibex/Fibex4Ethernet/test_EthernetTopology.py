@@ -10,7 +10,8 @@ of the respective classes.
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
     CouplingPortDetails,
@@ -542,6 +543,86 @@ class TestEthernetTopology:
         # Test None no-op for IPv6 configuration
         result = config.setIpv6DhcpServerConfiguration(None)
         assert config.getIpv6DhcpServerConfiguration() is ipv6
+
+    def test_ipv4_dhcp_server_configuration_initialization(self):
+        """
+        Test the Ipv4DhcpServerConfiguration class initialization (Table 3.80).
+        """
+        config = Ipv4DhcpServerConfiguration()
+
+        assert isinstance(config, Describable)
+        assert config.getAddressRangeLowerBound() is None
+        assert config.getAddressRangeUpperBound() is None
+        assert config.getDefaultGateway() is None
+        assert config.getDefaultLeaseTime() is None
+        assert config.getDnsServerAddresses() == []
+        assert config.getNetworkMask() is None
+
+    def test_ipv4_dhcp_server_configuration_get_set(self):
+        """
+        Test the Ipv4DhcpServerConfiguration getters/setters (Table 3.80).
+        """
+        config = Ipv4DhcpServerConfiguration()
+
+        result = config.setAddressRangeLowerBound("192.168.0.100")
+        assert config.getAddressRangeLowerBound() == "192.168.0.100"
+        assert result == config  # Test method chaining
+
+        # Test None no-op for addressRangeLowerBound
+        result = config.setAddressRangeLowerBound(None)
+        assert config.getAddressRangeLowerBound() == "192.168.0.100"
+
+        result = config.setAddressRangeUpperBound("192.168.0.200")
+        assert config.getAddressRangeUpperBound() == "192.168.0.200"
+        assert result == config  # Test method chaining
+
+        # Test None no-op for addressRangeUpperBound
+        result = config.setAddressRangeUpperBound(None)
+        assert config.getAddressRangeUpperBound() == "192.168.0.200"
+
+        result = config.setDefaultGateway("192.168.0.1")
+        assert config.getDefaultGateway() == "192.168.0.1"
+        assert result == config  # Test method chaining
+
+        # Test None no-op for defaultGateway
+        result = config.setDefaultGateway(None)
+        assert config.getDefaultGateway() == "192.168.0.1"
+
+        lease_time = TimeValue().setValue("3600")
+        result = config.setDefaultLeaseTime(lease_time)
+        assert config.getDefaultLeaseTime() == lease_time
+        assert result == config  # Test method chaining
+
+        # Test None no-op for defaultLeaseTime
+        result = config.setDefaultLeaseTime(None)
+        assert config.getDefaultLeaseTime() == lease_time
+
+        result = config.setNetworkMask("255.255.255.0")
+        assert config.getNetworkMask() == "255.255.255.0"
+        assert result == config  # Test method chaining
+
+        # Test None no-op for networkMask
+        result = config.setNetworkMask(None)
+        assert config.getNetworkMask() == "255.255.255.0"
+
+    def test_ipv4_dhcp_server_configuration_dns_server_addresses(self):
+        """
+        Test the Ipv4DhcpServerConfiguration dnsServerAddresses list (Table 3.80).
+        """
+        config = Ipv4DhcpServerConfiguration()
+
+        assert config.getDnsServerAddresses() == []
+
+        result = config.addDnsServerAddress("8.8.8.8")
+        assert config.getDnsServerAddresses() == ["8.8.8.8"]
+        assert result == config  # Test method chaining
+
+        config.addDnsServerAddress("8.8.4.4")
+        assert config.getDnsServerAddresses() == ["8.8.8.8", "8.8.4.4"]
+
+        # Test None no-op for dnsServerAddresses
+        config.addDnsServerAddress(None)
+        assert config.getDnsServerAddresses() == ["8.8.8.8", "8.8.4.4"]
 
     def test_coupling_port_traffic_class_assignment(self):
         """
