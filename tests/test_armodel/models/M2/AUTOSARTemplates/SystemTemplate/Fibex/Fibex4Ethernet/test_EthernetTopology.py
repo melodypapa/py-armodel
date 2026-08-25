@@ -299,7 +299,7 @@ class TestEthernetTopology:
 
     def test_coupling_port(self):
         """
-        Test the CouplingPort class initialization and methods.
+        Test the CouplingPort class initialization and methods (Table 3.54).
         """
         parent = MockParent()
         port = CouplingPort(parent, "TestPort")
@@ -309,7 +309,6 @@ class TestEthernetTopology:
         assert port.getCouplingPortDetails() is None
         assert port.getCouplingPortRole() is None
         assert port.getDefaultVlanRef() is None
-        assert port.getMacAddressVlanAssignments() == []
         assert port.getMacLayerType() is None
         assert port.getMacMulticastAddressRefs() == []
         assert port.getMacSecProps() == []
@@ -318,6 +317,7 @@ class TestEthernetTopology:
         assert port.getPncMappingRefs() == []
         assert port.getReceiveActivity() is None
         assert port.getVlanMemberships() == []
+        assert port.getVlanModifierRef() is None
         assert port.getWakeupSleepOnDatalineConfigRef() is None
 
         # Test setting values with method chaining
@@ -329,12 +329,18 @@ class TestEthernetTopology:
         assert port.getCouplingPortRole() == "Master"
         assert result == port  # Test method chaining
 
-        result = port.setCouplingPortDetails("details_obj")
-        assert port.getCouplingPortDetails() == "details_obj"
+        details = CouplingPortDetails()
+        result = port.setCouplingPortDetails(details)
+        assert port.getCouplingPortDetails() is details
         assert result == port  # Test method chaining
 
-        result = port.setDefaultVlanRef("vlan_ref")
-        assert port.getDefaultVlanRef() == "vlan_ref"
+        # None no-op for couplingPortDetails
+        result = port.setCouplingPortDetails(None)
+        assert port.getCouplingPortDetails() is details
+
+        vlan_ref = RefType()
+        result = port.setDefaultVlanRef(vlan_ref)
+        assert port.getDefaultVlanRef() is vlan_ref
         assert result == port  # Test method chaining
 
         result = port.setMacLayerType("type")
@@ -345,8 +351,9 @@ class TestEthernetTopology:
         assert port.getPhysicalLayerType() == "phy_type"
         assert result == port  # Test method chaining
 
-        result = port.setPlcaProps("plca_props")
-        assert port.getPlcaProps() == "plca_props"
+        plca_props = MockParent()
+        result = port.setPlcaProps(plca_props)
+        assert port.getPlcaProps() is plca_props
         assert result == port  # Test method chaining
 
         result = port.setWakeupSleepOnDatalineConfigRef("wakeup_ref")
@@ -357,24 +364,34 @@ class TestEthernetTopology:
         assert port.getReceiveActivity() == "activity"
         assert result == port  # Test method chaining
 
-        # Test adding MAC multicast address refs with method chaining
-        result = port.setMacMulticastAddressRefs(["ref1", "ref2"])
-        assert port.getMacMulticastAddressRefs() == ["ref1", "ref2"]
+        modifier_ref = RefType()
+        result = port.setVlanModifierRef(modifier_ref)
+        assert port.getVlanModifierRef() is modifier_ref
         assert result == port  # Test method chaining
 
+        # None no-op for vlanModifierRef
+        result = port.setVlanModifierRef(None)
+        assert port.getVlanModifierRef() is modifier_ref
+
+        # Test adding MAC multicast address refs with method chaining and None no-op
+        ref1 = RefType()
+        result = port.addMacMulticastAddressRef(ref1)
+        assert port.getMacMulticastAddressRefs() == [ref1]
+        assert result == port  # Test method chaining
+
+        port.addMacMulticastAddressRef(None)
+        assert port.getMacMulticastAddressRefs() == [ref1]
+
         # Test adding MAC sec props with method chaining
-        result = port.setMacSecProps(["sec1", "sec2"])
-        assert port.getMacSecProps() == ["sec1", "sec2"]
+        mac_sec = MockParent()
+        result = port.addMacSecProps(mac_sec)
+        assert port.getMacSecProps() == [mac_sec]
         assert result == port  # Test method chaining
 
         # Test adding PNC mapping refs with method chaining
-        result = port.setPncMappingRefs(["pnc1", "pnc2"])
-        assert port.getPncMappingRefs() == ["pnc1", "pnc2"]
-        assert result == port  # Test method chaining
-
-        # Test adding MAC address VLAN assignments with method chaining
-        result = port.setMacAddressVlanAssignments(["vlan1", "vlan2"])
-        assert port.getMacAddressVlanAssignments() == ["vlan1", "vlan2"]
+        pnc_ref = RefType()
+        result = port.addPncMappingRef(pnc_ref)
+        assert port.getPncMappingRefs() == [pnc_ref]
         assert result == port  # Test method chaining
 
         # Test adding VLAN membership with method chaining

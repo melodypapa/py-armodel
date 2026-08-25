@@ -1455,19 +1455,6 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
-## `CouplingPort`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 109
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `defaultVlanRef` | `RefType` | `defaultVlan` | ``EthernetPhysical Channel`` | ref | type (PDF EthernetPhysical Channel vs py RefType) |
-| `macMulticastAddressRefs` | `List[RefType]` | `macMulticastAddress` | ``MacMulticastGroup`` | ref | type (PDF MacMulticastGroup vs py List[RefType]) |
-| `macSecProps` | `List[MacSecProps]` | `macSecProps` | ``MacSecProps`` | aggr | type (PDF MacSecProps vs py List[MacSecProps]) |
-| `pncMappingRefs` | `List[RefType]` | `pncMapping` | ``PncMappingIdent`` | ref | type (PDF PncMappingIdent vs py List[RefType]) |
-| — *(missing)* | `—` | `vlanModifier` | ``EthernetPhysical Channel`` | ref | missing |
-
 ## `EthernetCommunicationConnector`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 117
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
@@ -1617,6 +1604,33 @@ Removed member: `dhcpServerConfiguration` — atp.Status=removed since 4.3.1 and
 R23-11 Table 6.144; field/accessors plus its DHCP-SERVER-CONFIGURATION reader/writer wiring on this
 class were removed in this pass (Rule 0015/the-table-wins). DhcpServerConfiguration itself remains
 modelled for VlanMembership.dhcpAddressAssignment (Table 3.79).
+
+## `CouplingPort`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 110  | **table:** Table 3.54
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `connectionNegotiationBehavior` | `Optional[ARLiteral]` | `connectionNegotiation Behavior` | ``EthernetConnection NegotiationEnum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `couplingPortDetails` | `Optional[CouplingPortDetails]` | `couplingPort Details` | ``CouplingPortDetails`` | aggr | - |
+| `couplingPortRole` | `Optional[ARLiteral]` | `couplingPort Role` | ``CouplingPortRoleEnum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `defaultVlanRef` | `Optional[RefType]` | `defaultVlan` | ``EthernetPhysical Channel`` | ref | ref-form naming per project convention |
+| `macLayerType` | `Optional[ARLiteral]` | `macLayerType` | ``EthernetMacLayerType Enum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `macMulticastAddressRefs` | `List[RefType]` | `macMulticast Address` | ``MacMulticastGroup`` | ref | singular spec member modelled per project convention (`addMacMulticastAddressRef`/`getMacMulticastAddressRefs`, wrapper MAC-MULTICAST-ADDRESS-REFS) |
+| `macSecProps` | `List[ARObject]` | `macSecProps` | ``MacSecProps`` | aggr | referenced class `MacSecProps` not yet implemented; carried as an `ARObject` placeholder list with add/get accessors, reader/writer pending, full sync deferred (Rule 0001.10) |
+| `physicalLayerType` | `Optional[ARLiteral]` | `physicalLayer Type` | ``EthernetPhysicalLayer TypeEnum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `plcaProps` | `Optional[ARObject]` | `plcaProps` | ``PlcaProps`` | aggr | referenced class `PlcaProps` not yet implemented; carried as an `ARObject` placeholder, reader/writer pending, full sync deferred (Rule 0001.10) |
+| `pncMappingRefs` | `List[RefType]` | `pncMapping` | ``PncMappingIdent`` | ref | singular spec member modelled per project convention (`addPncMappingRef`/`getPncMappingRefs`, wrapper PNC-MAPPING-REFS) |
+| `receiveActivity` | `Optional[ARLiteral]` | `receiveActivity` | ``EthernetSwitchVlan IngressTagEnum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `vlanMemberships` | `List[VlanMembership]` | `vlan Membership` | ``VlanMembership`` | aggr | - |
+| `vlanModifierRef` | `Optional[RefType]` | `vlanModifier` | ``EthernetPhysical Channel`` | ref | ref-form naming per project convention (`getVlanModifierRef`/`setVlanModifierRef`) |
+| `wakeupSleepOnDatalineConfigRef` | `Optional[RefType]` | `wakeupSleep OnDataline Config` | ``EthernetWakeupSleep OnDatalineConfig`` | ref | - |
+
+Removed member: `macAddressVlanAssignments` (typed `MacAddressVlanMembership`) — absent from the
+R23-11 Table 3.54 and the XSD COUPLING-PORT group; field/accessors removed in this pass
+(Rule 0015/the-table-wins). Queue note "adds couplingPortSpeed" is stale: COUPLING-PORT-SPEED exists
+in the XSD group but has NO row in the R23-11 table — NOT modeled per Rule 0015.
 
 ## `CouplingPortFifo`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 124  | **table:** Table 3.68

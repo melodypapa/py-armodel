@@ -8551,9 +8551,19 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCouplingPort(self, element: ET.Element, port: CouplingPort):
         self.readIdentifiable(element, port)
+        port.setConnectionNegotiationBehavior(self.getChildElementOptionalLiteral(element, "CONNECTION-NEGOTIATION-BEHAVIOR"))
         port.setCouplingPortDetails(self.getCouplingPortDetails(element, "COUPLING-PORT-DETAILS"))
+        port.setCouplingPortRole(self.getChildElementOptionalLiteral(element, "COUPLING-PORT-ROLE"))
+        port.setDefaultVlanRef(self.getChildElementOptionalRefType(element, "DEFAULT-VLAN-REF"))
         port.setMacLayerType(self.getChildElementOptionalLiteral(element, "MAC-LAYER-TYPE"))
+        for ref in self.getChildElementRefTypeList(element, "MAC-MULTICAST-ADDRESS-REFS/MAC-MULTICAST-ADDRESS-REF"):
+            port.addMacMulticastAddressRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "PNC-MAPPING-REFS/PNC-MAPPING-REF"):
+            port.addPncMappingRef(ref)
+        port.setReceiveActivity(self.getChildElementOptionalLiteral(element, "RECEIVE-ACTIVITY"))
         self.readCouplingPortVlanMemberships(element, port)
+        port.setVlanModifierRef(self.getChildElementOptionalRefType(element, "VLAN-MODIFIER-REF"))
+        port.setWakeupSleepOnDatalineConfigRef(self.getChildElementOptionalRefType(element, "WAKEUP-SLEEP-ON-DATALINE-CONFIG-REF"))
 
     def readEthernetCommunicationControllerCouplingPorts(self, element: ET.Element, controller: EthernetCommunicationController):
         for child_element in self.findall(element, "COUPLING-PORTS/*"):

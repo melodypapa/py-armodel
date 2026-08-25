@@ -5,7 +5,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip4AddressString, Ip6AddressString, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Ip4AddressString, Ip6AddressString, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
 
@@ -422,168 +422,265 @@ class VlanMembership(ARObject):
 
 class CouplingPort(Identifiable):
     """
-    Defines a coupling port in an Ethernet switch or bridge,
-    specifying connection negotiation behavior, MAC layer type,
-    physical layer type, and VLAN membership configurations.
+    A CouplingPort is used to connect a CouplingElement with an EcuInstance or two CouplingElements with each other via a CouplingPortConnection. Optionally, the CouplingPort may also have a reference to a macMulticastGroup and a defaultVLAN.
     """
 
     # CouplingPort method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getConnectionNegotiationBehavior [x] impl  [ ] docstring  [ ] test
-    # [ ] setConnectionNegotiationBehavior [x] impl  [ ] docstring  [ ] test
-    # [ ] getCouplingPortDetails       [x] impl  [ ] docstring  [ ] test
-    # [ ] setCouplingPortDetails       [x] impl  [ ] docstring  [ ] test
-    # [ ] getCouplingPortRole          [x] impl  [ ] docstring  [ ] test
-    # [ ] setCouplingPortRole          [x] impl  [ ] docstring  [ ] test
-    # [ ] getDefaultVlanRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefaultVlanRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getMacAddressVlanAssignments [x] impl  [ ] docstring  [ ] test
-    # [ ] setMacAddressVlanAssignments [x] impl  [ ] docstring  [ ] test
-    # [ ] getMacLayerType              [x] impl  [ ] docstring  [ ] test
-    # [ ] setMacLayerType              [x] impl  [ ] docstring  [ ] test
-    # [ ] getMacMulticastAddressRefs   [x] impl  [ ] docstring  [ ] test
-    # [ ] setMacMulticastAddressRefs   [x] impl  [ ] docstring  [ ] test
-    # [ ] getMacSecProps               [x] impl  [ ] docstring  [ ] test
-    # [ ] setMacSecProps               [x] impl  [ ] docstring  [ ] test
-    # [ ] getPhysicalLayerType         [x] impl  [ ] docstring  [ ] test
-    # [ ] setPhysicalLayerType         [x] impl  [ ] docstring  [ ] test
-    # [ ] getPlcaProps                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setPlcaProps                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getPncMappingRefs            [x] impl  [ ] docstring  [ ] test
-    # [ ] setPncMappingRefs            [x] impl  [ ] docstring  [ ] test
-    # [ ] getReceiveActivity           [x] impl  [ ] docstring  [ ] test
-    # [ ] setReceiveActivity           [x] impl  [ ] docstring  [ ] test
-    # [ ] getVlanMemberships           [x] impl  [ ] docstring  [ ] test
-    # [ ] addVlanMembership            [x] impl  [ ] docstring  [ ] test
-    # [ ] getWakeupSleepOnDatalineConfigRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setWakeupSleepOnDatalineConfigRef [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.54, p.110
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getConnectionNegotiationBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setConnectionNegotiationBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCouplingPortDetails               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCouplingPortDetails               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCouplingPortRole                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCouplingPortRole                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDefaultVlanRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefaultVlanRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMacLayerType                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMacLayerType                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addMacMulticastAddressRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMacMulticastAddressRefs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addMacSecProps                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMacSecProps                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getPhysicalLayerType                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPhysicalLayerType                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPlcaProps                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPlcaProps                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addPncMappingRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPncMappingRefs                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getReceiveActivity                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setReceiveActivity                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addVlanMembership                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVlanMemberships                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getVlanModifierRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setVlanModifierRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getWakeupSleepOnDatalineConfigRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setWakeupSleepOnDatalineConfigRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.connectionNegotiationBehavior = None  # type: EthernetConnectionNegotiationEnum
-        self.couplingPortDetails = None  # type: CouplingPortDetails
-        self.couplingPortRole = None  # type: CouplingPortRoleEnum
-        self.defaultVlanRef = None  # type: RefType
-        self.macAddressVlanAssignments = []  # type: List[MacAddressVlanMembership]
-        self.macLayerType = None  # type: EthernetMacLayerTypeEnum
-        self.macMulticastAddressRefs = []  # type: List[RefType]
-        self.macSecProps = []  # type: List[MacSecProps]
-        self.physicalLayerType = None  # type: EthernetPhysicalLayerTypeEnum
-        self.plcaProps = None  # type: PlcaProps
-        self.pncMappingRefs = []  # type: List[RefType]
-        self.receiveActivity = None  # type: EthernetSwitchVlanIngressTagEnum
-        self.vlanMemberships = []  # type: List[VlanMembership]
-        self.wakeupSleepOnDatalineConfigRef = None  # type: RefType
+        # Specifies the connection negotiation of the CouplingPort.
+        self.connectionNegotiationBehavior: Optional[ARLiteral] = None
 
-    def getConnectionNegotiationBehavior(self):
+        # Defines more details of a CouplingPort in case a more specific configuration is required.
+        self.couplingPortDetails: Optional[CouplingPortDetails] = None
+
+        # Defines the role this CouplingPort takes in the context of the CouplingElement.
+        self.couplingPortRole: Optional[ARLiteral] = None
+
+        # The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the Vlan
+        self.defaultVlanRef: Optional[RefType] = None
+
+        # Specifies the mac layer type of the CouplingPort.
+        self.macLayerType: Optional[ARLiteral] = None
+
+        # Assigns a set of MAC-Multicast-Addresses which are addressable via this CouplingPort. This is a static pre-configuration and further addresses may be learned during runtime.
+        self.macMulticastAddressRefs: List[RefType] = []
+
+        # Properties to configure MACsec (Media access control security) and the MKA (MACsec Key Agreement) for the CouplingPort (PHY).
+        self.macSecProps: List[ARObject] = []
+
+        # Specifies the physical layer type of the CouplingPort.
+        self.physicalLayerType: Optional[ARLiteral] = None
+
+        # Optional properties for configuration of PLCA (Physical Layer Collision Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the Coupling Port (PHY).
+        self.plcaProps: Optional[ARObject] = None
+
+        # Reference to the partial networks this CouplingPort participates in.
+        self.pncMappingRefs: List[RefType] = []
+
+        # Defines the handling of frames at the ingress port.
+        self.receiveActivity: Optional[ARLiteral] = None
+
+        # Messages of VLANs that are defined here can be communicated via the CouplingPort.
+        self.vlanMemberships: List[VlanMembership] = []
+
+        # All incoming messages at this CouplingPort shall be tagged with this VLAN Id. This tagging is performed regardless whether the message already has a VLAN tag or is untagged, an existing VLAN tag will be overwritten. This feature is XOR with CoupligPort.defaultVlan.
+        self.vlanModifierRef: Optional[RefType] = None
+
+        # Optional reference to EthernetWakeupSleepOnDatalineConfig.
+        self.wakeupSleepOnDatalineConfigRef: Optional[RefType] = None
+
+    def getConnectionNegotiationBehavior(self) -> Optional[ARLiteral]:
+        """Specifies the connection negotiation of the CouplingPort."""
         return self.connectionNegotiationBehavior
 
-    def setConnectionNegotiationBehavior(self, value):
+    def setConnectionNegotiationBehavior(self, value: Optional[ARLiteral]) -> "CouplingPort":
+        """
+        Specifies the connection negotiation of the CouplingPort.
+        A None value is a no-op and does not overwrite an existing connectionNegotiationBehavior.
+        """
         if value is not None:
             self.connectionNegotiationBehavior = value
         return self
 
-    def getCouplingPortDetails(self):
+    def getCouplingPortDetails(self) -> Optional[CouplingPortDetails]:
+        """Defines more details of a CouplingPort in case a more specific configuration is required."""
         return self.couplingPortDetails
 
-    def setCouplingPortDetails(self, value):
+    def setCouplingPortDetails(self, value: Optional[CouplingPortDetails]) -> "CouplingPort":
+        """
+        Defines more details of a CouplingPort in case a more specific configuration is required.
+        A None value is a no-op and does not overwrite an existing couplingPortDetails.
+        """
         if value is not None:
             self.couplingPortDetails = value
         return self
 
-    def getCouplingPortRole(self):
+    def getCouplingPortRole(self) -> Optional[ARLiteral]:
+        """Defines the role this CouplingPort takes in the context of the CouplingElement."""
         return self.couplingPortRole
 
-    def setCouplingPortRole(self, value):
+    def setCouplingPortRole(self, value: Optional[ARLiteral]) -> "CouplingPort":
+        """
+        Defines the role this CouplingPort takes in the context of the CouplingElement.
+        A None value is a no-op and does not overwrite an existing couplingPortRole.
+        """
         if value is not None:
             self.couplingPortRole = value
         return self
 
-    def getDefaultVlanRef(self):
+    def getDefaultVlanRef(self) -> Optional[RefType]:
+        """The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the Vlan"""
         return self.defaultVlanRef
 
-    def setDefaultVlanRef(self, value):
+    def setDefaultVlanRef(self, value: Optional[RefType]) -> "CouplingPort":
+        """
+        The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the Vlan
+        A None value is a no-op and does not overwrite an existing defaultVlanRef.
+        """
         if value is not None:
             self.defaultVlanRef = value
         return self
 
-    def getMacAddressVlanAssignments(self):
-        return self.macAddressVlanAssignments
-
-    def setMacAddressVlanAssignments(self, value):
-        if value is not None:
-            self.macAddressVlanAssignments = value
-        return self
-
-    def getMacLayerType(self):
+    def getMacLayerType(self) -> Optional[ARLiteral]:
+        """Specifies the mac layer type of the CouplingPort."""
         return self.macLayerType
 
-    def setMacLayerType(self, value):
+    def setMacLayerType(self, value: Optional[ARLiteral]) -> "CouplingPort":
+        """
+        Specifies the mac layer type of the CouplingPort.
+        A None value is a no-op and does not overwrite an existing macLayerType.
+        """
         if value is not None:
             self.macLayerType = value
         return self
 
-    def getMacMulticastAddressRefs(self):
+    def addMacMulticastAddressRef(self, ref: Optional[RefType]) -> "CouplingPort":
+        """
+        Assigns a set of MAC-Multicast-Addresses which are addressable via this CouplingPort. This is a static pre-configuration and further addresses may be learned during runtime.
+        A None value is a no-op and does not append to macMulticastAddressRefs.
+        """
+        if ref is not None:
+            self.macMulticastAddressRefs.append(ref)
+        return self
+
+    def getMacMulticastAddressRefs(self) -> List[RefType]:
+        """Assigns a set of MAC-Multicast-Addresses which are addressable via this CouplingPort. This is a static pre-configuration and further addresses may be learned during runtime."""
         return self.macMulticastAddressRefs
 
-    def setMacMulticastAddressRefs(self, value):
+    def addMacSecProps(self, value: Optional[ARObject]) -> "CouplingPort":
+        """
+        Properties to configure MACsec (Media access control security) and the MKA (MACsec Key Agreement) for the CouplingPort (PHY).
+        A None value is a no-op and does not append to macSecProps.
+        """
         if value is not None:
-            self.macMulticastAddressRefs = value
+            self.macSecProps.append(value)
         return self
 
-    def getMacSecProps(self):
+    def getMacSecProps(self) -> List[ARObject]:
+        """Properties to configure MACsec (Media access control security) and the MKA (MACsec Key Agreement) for the CouplingPort (PHY)."""
         return self.macSecProps
 
-    def setMacSecProps(self, value):
-        if value is not None:
-            self.macSecProps = value
-        return self
-
-    def getPhysicalLayerType(self):
+    def getPhysicalLayerType(self) -> Optional[ARLiteral]:
+        """Specifies the physical layer type of the CouplingPort."""
         return self.physicalLayerType
 
-    def setPhysicalLayerType(self, value):
+    def setPhysicalLayerType(self, value: Optional[ARLiteral]) -> "CouplingPort":
+        """
+        Specifies the physical layer type of the CouplingPort.
+        A None value is a no-op and does not overwrite an existing physicalLayerType.
+        """
         if value is not None:
             self.physicalLayerType = value
         return self
 
-    def getPlcaProps(self):
+    def getPlcaProps(self) -> Optional[ARObject]:
+        """Optional properties for configuration of PLCA (Physical Layer Collision Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the Coupling Port (PHY)."""
         return self.plcaProps
 
-    def setPlcaProps(self, value):
+    def setPlcaProps(self, value: Optional[ARObject]) -> "CouplingPort":
+        """
+        Optional properties for configuration of PLCA (Physical Layer Collision Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the Coupling Port (PHY).
+        A None value is a no-op and does not overwrite an existing plcaProps.
+        """
         if value is not None:
             self.plcaProps = value
         return self
 
-    def getPncMappingRefs(self):
-        return self.pncMappingRefs
-
-    def setPncMappingRefs(self, value):
-        if value is not None:
-            self.pncMappingRefs = value
+    def addPncMappingRef(self, ref: Optional[RefType]) -> "CouplingPort":
+        """
+        Reference to the partial networks this CouplingPort participates in.
+        A None value is a no-op and does not append to pncMappingRefs.
+        """
+        if ref is not None:
+            self.pncMappingRefs.append(ref)
         return self
 
-    def getReceiveActivity(self):
+    def getPncMappingRefs(self) -> List[RefType]:
+        """Reference to the partial networks this CouplingPort participates in."""
+        return self.pncMappingRefs
+
+    def getReceiveActivity(self) -> Optional[ARLiteral]:
+        """Defines the handling of frames at the ingress port."""
         return self.receiveActivity
 
-    def setReceiveActivity(self, value):
+    def setReceiveActivity(self, value: Optional[ARLiteral]) -> "CouplingPort":
+        """
+        Defines the handling of frames at the ingress port.
+        A None value is a no-op and does not overwrite an existing receiveActivity.
+        """
         if value is not None:
             self.receiveActivity = value
         return self
 
-    def getVlanMemberships(self):
-        return self.vlanMemberships
-
-    def addVlanMembership(self, value):
+    def addVlanMembership(self, value: Optional[VlanMembership]) -> "CouplingPort":
+        """
+        Messages of VLANs that are defined here can be communicated via the CouplingPort.
+        A None value is a no-op and does not append to vlanMemberships.
+        """
         if value is not None:
             self.vlanMemberships.append(value)
         return self
 
-    def getWakeupSleepOnDatalineConfigRef(self):
+    def getVlanMemberships(self) -> List[VlanMembership]:
+        """Messages of VLANs that are defined here can be communicated via the CouplingPort."""
+        return self.vlanMemberships
+
+    def getVlanModifierRef(self) -> Optional[RefType]:
+        """All incoming messages at this CouplingPort shall be tagged with this VLAN Id. This tagging is performed regardless whether the message already has a VLAN tag or is untagged, an existing VLAN tag will be overwritten. This feature is XOR with CoupligPort.defaultVlan."""
+        return self.vlanModifierRef
+
+    def setVlanModifierRef(self, value: Optional[RefType]) -> "CouplingPort":
+        """
+        All incoming messages at this CouplingPort shall be tagged with this VLAN Id. This tagging is performed regardless whether the message already has a VLAN tag or is untagged, an existing VLAN tag will be overwritten. This feature is XOR with CoupligPort.defaultVlan.
+        A None value is a no-op and does not overwrite an existing vlanModifierRef.
+        """
+        if value is not None:
+            self.vlanModifierRef = value
+        return self
+
+    def getWakeupSleepOnDatalineConfigRef(self) -> Optional[RefType]:
+        """Optional reference to EthernetWakeupSleepOnDatalineConfig."""
         return self.wakeupSleepOnDatalineConfigRef
 
-    def setWakeupSleepOnDatalineConfigRef(self, value):
+    def setWakeupSleepOnDatalineConfigRef(self, value: Optional[RefType]) -> "CouplingPort":
+        """
+        Optional reference to EthernetWakeupSleepOnDatalineConfig.
+        A None value is a no-op and does not overwrite an existing wakeupSleepOnDatalineConfigRef.
+        """
         if value is not None:
             self.wakeupSleepOnDatalineConfigRef = value
         return self

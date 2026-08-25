@@ -12,3 +12,8 @@ Ipv4DhcpServerConfiguration is confirmed.
 Ipv6DhcpServerConfiguration is confirmed.
 AnyServiceInstanceId is confirmed.
 AnyVersionString is confirmed.
+ServiceVersionAcceptanceKindEnum is confirmed.
+fix PduActivationRoutingGroup deviation member type.
+fix tcpRole deviation of StaticSocketConnection.
+UdpChecksumCalculationEnum is confirmed.
+DhcpServerConfiguration is confirmed.

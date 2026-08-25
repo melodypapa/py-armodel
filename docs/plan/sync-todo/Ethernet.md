@@ -624,16 +624,25 @@ row below and must sync BEFORE the class that references it. All rows below are 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CouplingPort (markdown SystemTemplate · Table 3.54 · p.109 · source Fibex4Ethernet/EthernetTopology.py · member of EthernetCluster.couplingPorts & EthernetCommunicationController.couplingPorts; adds couplingPortSpeed, vlanModifierRef → EthernetPhysicalChannel Ref)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] CouplingPort (markdown SystemTemplate · Table 3.54 · p.110 · source Fibex4Ethernet/EthernetTopology.py · member of EthernetCluster.couplingPorts & EthernetCommunicationController.couplingPorts; adds couplingPortSpeed, vlanModifierRef → EthernetPhysicalChannel Ref) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Sync members & description from spec
+    (Table 3.54 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:2795–2825 + PDF p.110;
+    Base → Identifiable; 14 attr rows incl. wakeupSleepOnDatalineConfig after caption;
+    queue note "adds couplingPortSpeed" is STALE — XSD has COUPLING-PORT-SPEED but NO table row → NOT modeled per Rule 0015;
+    vlanModifierRef ✓ added; macAddressVlanAssignments absent from table+XSD → REMOVED)
+  - [x] Step 2 — Model test rewritten to spec shape (Red — vlanModifierRef missing, bulk setters removed)
+  - [x] Step 3 — Implement model class (Green) — verbatim Notes, typed fields, guarded setters,
+    enum-typed attrs carried as ARLiteral placeholders (Rule 0001.10), macSecProps/plcaProps ARObject placeholders
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5/6 — Reader/writer round-trip test + wiring
+    (tests/test_armodel/writer/test_coupling_port.py: full-field write + tmp_path round trip + empty reader;
+     readCouplingPort/writeCouplingPort cover all 14 members in XSD order)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (tracker: six enum placeholders, macSecProps/plcaProps placeholders, stale couplingPortSpeed note resolved;
+     macAddressVlanAssignments removal recorded per Rule 0015)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7347 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] EthernetCluster (markdown SystemTemplate · Table 3.47 · p.103 · source Fibex4Ethernet/EthernetTopology.py · adds couplingPorts to EthernetCluster; closes open items)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

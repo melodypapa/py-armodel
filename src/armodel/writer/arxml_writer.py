@@ -8157,9 +8157,27 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeCouplingPort(self, element: ET.Element, port: CouplingPort):
         child_element = ET.SubElement(element, "COUPLING-PORT")
         self.writeIdentifiable(child_element, port)
+        self.setChildElementOptionalLiteral(child_element, "CONNECTION-NEGOTIATION-BEHAVIOR", port.getConnectionNegotiationBehavior())
         self.setCouplingPortDetails(child_element, "COUPLING-PORT-DETAILS", port.getCouplingPortDetails())
+        self.setChildElementOptionalLiteral(child_element, "COUPLING-PORT-ROLE", port.getCouplingPortRole())
+        self.setChildElementOptionalRefType(child_element, "DEFAULT-VLAN-REF", port.getDefaultVlanRef())
         self.setChildElementOptionalLiteral(child_element, "MAC-LAYER-TYPE", port.getMacLayerType())
+
+        refs = port.getMacMulticastAddressRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(child_element, "MAC-MULTICAST-ADDRESS-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "MAC-MULTICAST-ADDRESS-REF", ref)
+
+        refs = port.getPncMappingRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(child_element, "PNC-MAPPING-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "PNC-MAPPING-REF", ref)
+        self.setChildElementOptionalLiteral(child_element, "RECEIVE-ACTIVITY", port.getReceiveActivity())
         self.writeCouplingPortVlanMemberships(child_element, port)
+        self.setChildElementOptionalRefType(child_element, "VLAN-MODIFIER-REF", port.getVlanModifierRef())
+        self.setChildElementOptionalRefType(child_element, "WAKEUP-SLEEP-ON-DATALINE-CONFIG-REF", port.getWakeupSleepOnDatalineConfigRef())
 
     def writeEthernetCommunicationControllerCouplingPorts(self, element: ET.Element, controller: EthernetCommunicationController):
         ports = controller.getCouplingPorts()
