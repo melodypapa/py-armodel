@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     ProvidedServiceInstance,
     RequestResponseDelay,
     SdServerConfig,
+    ServiceVersionAcceptanceKindEnum,
     SoAdConfig,
     SocketAddress,
     SomeipSdClientEventGroupTimingConfig,
@@ -1500,3 +1501,29 @@ class TestSocketAddress:
 
         address.setUdpChecksumHandling(None)
         assert address.getUdpChecksumHandling() is value
+
+
+class TestServiceVersionAcceptanceKindEnum:
+    """
+    Test cases for ServiceVersionAcceptanceKindEnum (Table F.113).
+    """
+
+    def test_member_presence_and_values(self):
+        """
+        Test that both spec literals exist with their index order.
+        """
+        assert ServiceVersionAcceptanceKindEnum.EXACT_OR_ANY_MINOR_VERSION == "exactOrAnyMinorVersion"
+        assert ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION == "minimumMinorVersion"
+        assert list(ServiceVersionAcceptanceKindEnum().getEnumValues()) == [
+            "exactOrAnyMinorVersion",
+            "minimumMinorVersion",
+        ]
+
+    def test_instantiability(self):
+        """
+        Test instantiability and setValue with an enum member.
+        """
+        enum = ServiceVersionAcceptanceKindEnum()
+        result = enum.setValue(ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION)
+        assert result == enum  # method chaining
+        assert enum.getValue() == "minimumMinorVersion"

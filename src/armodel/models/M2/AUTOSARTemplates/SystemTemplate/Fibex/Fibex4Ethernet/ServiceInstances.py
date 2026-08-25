@@ -4,7 +4,7 @@
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType, String, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, Boolean, PositiveInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -505,6 +505,31 @@ class ConsumedEventGroup(Identifiable):
         if value is not None:
             self.sdClientTimerConfigRef = value
         return self
+
+
+class ServiceVersionAcceptanceKindEnum(AREnum):
+    """
+    Defined the possible acceptance kinds for required service instances.
+    """
+
+    # ServiceVersionAcceptanceKindEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.113, p.2057
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on ConsumedServiceInstance.versionDrivenFindBehavior
+
+    # Search for ANY or specific minor version service instance and select either ALL returned service instances (in case of ANY) or exactly the specific minor version service instances defined in requiredMinorVersion. Tags: atp.EnumerationLiteralIndex=0
+    EXACT_OR_ANY_MINOR_VERSION = "exactOrAnyMinorVersion"
+
+    # Search for ANY minor version service instance and select only those service instances which have an equal or greater minor version than given in requiredMinorVersion. Tags: atp.EnumerationLiteralIndex=1
+    MINIMUM_MINOR_VERSION = "minimumMinorVersion"
+
+    def __init__(self):
+        super().__init__(
+            [
+                ServiceVersionAcceptanceKindEnum.EXACT_OR_ANY_MINOR_VERSION,
+                ServiceVersionAcceptanceKindEnum.MINIMUM_MINOR_VERSION,
+            ]
+        )
 
 
 class ConsumedServiceInstance(AbstractServiceInstance):

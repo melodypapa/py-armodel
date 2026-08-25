@@ -192,16 +192,27 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (none; ConsumedServiceInstance minorVersion placeholder row resolved by the RE-FIX row)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7286 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] ServiceVersionAcceptanceKindEnum (enum · Table F.113 · used by ConsumedServiceInstance.versionDrivenFindBehavior · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (N/A if standalone enum)
-  - [ ] Step 6 — Update parser & writer (N/A if standalone enum)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] ServiceVersionAcceptanceKindEnum (enum · Table F.113 · p.2057 · used by ConsumedServiceInstance.versionDrivenFindBehavior · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Sync members & description from spec
+    (Table F.113 page-split: exactOrAnyMinorVersion before caption markdown AUTOSAR_CP_TPS_SystemTemplate.md,
+    minimumMinorVersion after; PDF pp.2056–2057, caption p.2057 per pypdf — pdf_page.py regex cannot match "F.113";
+    Package ServiceInstances; Note verbatim incl. spec typo "Defined the possible acceptance kinds")
+  - [x] Step 2 — Write model class unit test (Red)
+    (TestServiceVersionAcceptanceKindEnum in test_ServiceInstances.py; Red confirmed — ImportError at collection;
+    fixed test to AREnum convention: members are plain string constants + getEnumValues order)
+  - [x] Step 3 — Implement model class (Green)
+    (AREnum subclass, first enum in Fibex4Ethernet/ServiceInstances.py; literals EXACT_OR_ANY_MINOR_VERSION/MINIMUM_MINOR_VERSION
+    with verbatim Descriptions as member comments)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    (fresh implementation: class Note verbatim; literal comments verbatim incl. Tags tails per AREnum convention)
+  - [x] Step 5 — Write reader/writer round-trip test (N/A — standalone enum, no own XML element;
+    round-tripped via consuming class ConsumedServiceInstance.versionDrivenFindBehavior in its RE-FIX row)
+  - [x] Step 6 — Update parser & writer (N/A — same reason as Step 5)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (none; ConsumedServiceInstance versionDrivenFindBehavior placeholder row resolved by the RE-FIX row)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7288 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] PduActivationRoutingGroup (Table 6.161 · used by ConsumedEventGroup.pduActivationRoutingGroups AND AbstractServiceInstance.methodActivationRoutingGroup · Identifiable child → createXxx(short_name))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
