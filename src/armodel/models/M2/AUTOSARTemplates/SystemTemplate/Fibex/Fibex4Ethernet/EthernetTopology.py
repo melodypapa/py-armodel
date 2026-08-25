@@ -1,6 +1,9 @@
-from abc import ABC
+from __future__ import annotations
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from abc import ABC
+from typing import Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
@@ -935,4 +938,72 @@ class SdClientConfig(ARObject):
     def setTtl(self, value):
         if value is not None:
             self.ttl = value
+        return self
+
+
+class Ipv4DhcpServerConfiguration(Describable):
+    """
+    Placeholder for the IPv4 DHCP server configuration (AUTOSAR_CP_TPS_SystemTemplate, Table 3.80).
+    To be fully synced in a later pass.
+    """
+
+    def __init__(self):
+        super().__init__()
+
+
+class Ipv6DhcpServerConfiguration(Describable):
+    """
+    Placeholder for the IPv6 DHCP server configuration (AUTOSAR_CP_TPS_SystemTemplate, Table 3.81).
+    To be fully synced in a later pass.
+    """
+
+    def __init__(self):
+        super().__init__()
+
+
+class DhcpServerConfiguration(Describable):
+    """Defines the configuration of a IPv4 DHCP server that runs on the network endpoint."""
+
+    # DhcpServerConfiguration method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.79, p.131
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getIpv4DhcpServerConfiguration    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIpv4DhcpServerConfiguration    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIpv6DhcpServerConfiguration    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIpv6DhcpServerConfiguration    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Aggregated IPv4 DHCP server configuration. Stereotypes: Aggregated by DhcpServerConfiguration.ipv4DhcpServerConfiguration
+        self.ipv4DhcpServerConfiguration: Optional[Ipv4DhcpServerConfiguration] = None
+
+        # Aggregated IPv6 DHCP server configuration. Stereotypes: Aggregated by DhcpServerConfiguration.ipv6DhcpServerConfiguration
+        self.ipv6DhcpServerConfiguration: Optional[Ipv6DhcpServerConfiguration] = None
+
+    def getIpv4DhcpServerConfiguration(self) -> Optional[Ipv4DhcpServerConfiguration]:
+        """Aggregated IPv4 DHCP server configuration. Stereotypes: Aggregated by DhcpServerConfiguration.ipv4DhcpServerConfiguration"""
+        return self.ipv4DhcpServerConfiguration
+
+    def setIpv4DhcpServerConfiguration(self, value: Optional[Ipv4DhcpServerConfiguration]) -> "DhcpServerConfiguration":
+        """
+        Aggregated IPv4 DHCP server configuration. Stereotypes: Aggregated by DhcpServerConfiguration.ipv4DhcpServerConfiguration
+        A None value is a no-op and does not overwrite an existing ipv4DhcpServerConfiguration.
+        """
+        if value is not None:
+            self.ipv4DhcpServerConfiguration = value
+        return self
+
+    def getIpv6DhcpServerConfiguration(self) -> Optional[Ipv6DhcpServerConfiguration]:
+        """Aggregated IPv6 DHCP server configuration. Stereotypes: Aggregated by DhcpServerConfiguration.ipv6DhcpServerConfiguration"""
+        return self.ipv6DhcpServerConfiguration
+
+    def setIpv6DhcpServerConfiguration(self, value: Optional[Ipv6DhcpServerConfiguration]) -> "DhcpServerConfiguration":
+        """
+        Aggregated IPv6 DHCP server configuration. Stereotypes: Aggregated by DhcpServerConfiguration.ipv6DhcpServerConfiguration
+        A None value is a no-op and does not overwrite an existing ipv6DhcpServerConfiguration.
+        """
+        if value is not None:
+            self.ipv6DhcpServerConfiguration = value
         return self

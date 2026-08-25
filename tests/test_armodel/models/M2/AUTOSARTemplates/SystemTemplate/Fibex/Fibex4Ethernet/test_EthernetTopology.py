@@ -16,11 +16,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortFifo,
     CouplingPortScheduler,
     CouplingPortStructuralElement,
+    DhcpServerConfiguration,
     EthernetCluster,
     EthernetCommunicationConnector,
     EthernetCommunicationController,
     EthernetPriorityRegeneration,
     InitialSdDelayConfig,
+    Ipv4DhcpServerConfiguration,
+    Ipv6DhcpServerConfiguration,
     MacMulticastGroup,
     RequestResponseDelay,
     SdClientConfig,
@@ -508,6 +511,35 @@ class TestEthernetTopology:
         result = config.setInitialRepetitionsMax(3)
         assert config.getInitialRepetitionsMax() == 3
         assert result == config  # Test method chaining
+
+    def test_dhcp_server_configuration(self):
+        """
+        Test the DhcpServerConfiguration class initialization and methods.
+        """
+        config = DhcpServerConfiguration()
+
+        assert config.getIpv4DhcpServerConfiguration() is None
+        assert config.getIpv6DhcpServerConfiguration() is None
+
+        # Test setting IPv4 configuration with method chaining
+        ipv4 = Ipv4DhcpServerConfiguration()
+        result = config.setIpv4DhcpServerConfiguration(ipv4)
+        assert config.getIpv4DhcpServerConfiguration() is ipv4
+        assert result == config  # Test method chaining
+
+        # Test None no-op for IPv4 configuration
+        result = config.setIpv4DhcpServerConfiguration(None)
+        assert config.getIpv4DhcpServerConfiguration() is ipv4
+
+        # Test setting IPv6 configuration with method chaining
+        ipv6 = Ipv6DhcpServerConfiguration()
+        result = config.setIpv6DhcpServerConfiguration(ipv6)
+        assert config.getIpv6DhcpServerConfiguration() is ipv6
+        assert result == config  # Test method chaining
+
+        # Test None no-op for IPv6 configuration
+        result = config.setIpv6DhcpServerConfiguration(None)
+        assert config.getIpv6DhcpServerConfiguration() is ipv6
 
     def test_sd_client_config(self):
         """

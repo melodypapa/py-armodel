@@ -402,6 +402,7 @@ class InfrastructureServices(ARObject):
         super().__init__()
 
         self.doIpEntity: DoIpEntity = None
+        self.dhcpServerConfiguration = None
         self.timeSynchronization: TimeSynchronization = None
 
     def getDoIpEntity(self):
@@ -409,6 +410,13 @@ class InfrastructureServices(ARObject):
 
     def setDoIpEntity(self, value):
         self.doIpEntity = value
+        return self
+
+    def getDhcpServerConfiguration(self):
+        return self.dhcpServerConfiguration
+
+    def setDhcpServerConfiguration(self, value):
+        self.dhcpServerConfiguration = value
         return self
 
     def getTimeSynchronization(self):

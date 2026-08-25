@@ -466,6 +466,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetCommunicationConnector,
     EthernetCommunicationController,
     EthernetPriorityRegeneration,
+    DhcpServerConfiguration,
     InitialSdDelayConfig,
     MacMulticastGroup,
     RequestResponseDelay,
@@ -6611,6 +6612,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if services is not None:
             child_element = ET.SubElement(element, key)
             self.setDoIpEntity(child_element, "DO-IP-ENTITY", services.getDoIpEntity())
+            self.setDhcpServerConfiguration(child_element, "DHCP-SERVER-CONFIGURATION", services.getDhcpServerConfiguration())
 
     def writeNetworkEndPoint(self, element: ET.Element, end_point: NetworkEndpoint):
         self.logger.debug("Set NetworkEndpoint %s" % end_point.getShortName())
@@ -7868,11 +7870,20 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCouplingPortDetailsEthernetPriorityRegenerations(child_element, details)
             self.setChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF", details.getLastEgressSchedulerRef())
 
+    def setDhcpServerConfiguration(self, element: ET.Element, key: str, config: DhcpServerConfiguration):
+        if config is not None:
+            child_element = ET.SubElement(element, key)
+            if config.getIpv4DhcpServerConfiguration() is not None:
+                ET.SubElement(child_element, "IPV-4-DHCP-SERVER-CONFIGURATION")
+            if config.getIpv6DhcpServerConfiguration() is not None:
+                ET.SubElement(child_element, "IPV-6-DHCP-SERVER-CONFIGURATION")
+
     def writeVlanMembership(self, element: ET.Element, membership: VlanMembership):
         if membership is not None:
             child_element = ET.SubElement(element, "VLAN-MEMBERSHIP")
             self.setChildElementOptionalLiteral(child_element, "SEND-ACTIVITY", membership.getSendActivity())
             self.setChildElementOptionalRefType(child_element, "VLAN-REF", membership.getVlanRef())
+            self.setDhcpServerConfiguration(child_element, "DHCP-ADDRESS-ASSIGNMENT", membership.getDhcpAddressAssignment())
 
     def writeCouplingPortVlanMemberships(self, element: ET.Element, port: CouplingPort):
         memberships = port.getVlanMemberships()

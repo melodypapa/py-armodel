@@ -2854,3 +2854,16 @@ the concrete subclasses in `read/writeBusDependentNmEcus`.
 - `SynchronizationTypeEnum` (`M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming`)
 - `EventOccurrenceKindEnum` (`M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming`)
 - `HwPinGroupContent` (`M2::AUTOSARTemplates::EcuResourceTemplate`)
+
+## `DhcpServerConfiguration`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 131  | **table:** Table 3.79
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `DhcpServerConfiguration` | `Describable` | `DhcpServerConfiguration` | ``ARObject , Describable`` | - | Spec Table 3.79 heading says `DhcpServerConfiguration` but its `Class` row is `Ipv4DhcpServerConfiguration` and the table carries no attribute rows; the class is modelled per the XSD `DHCP-SERVER-CONFIGURATION` complexType which aggregates `IPV-4-DHCP-SERVER-CONFIGURATION` and `IPV-6-DHCP-SERVER-CONFIGURATION` (also see `Aggregated by` rows in Tables 3.80/3.81) |
+| `ipv4DhcpServerConfiguration` | `Optional[Ipv4DhcpServerConfiguration]` | `ipv4DhcpServerConfiguration` | ``Ipv4DhcpServerConfiguration`` | aggr | derived from cross-table `Aggregated by` (Table 3.80); no verbatim `Note` cell exists for this aggregation role in Table 3.79 |
+| `ipv6DhcpServerConfiguration` | `Optional[Ipv6DhcpServerConfiguration]` | `ipv6DhcpServerConfiguration` | ``Ipv6DhcpServerConfiguration`` | aggr | derived from cross-table `Aggregated by` (Table 3.81); no verbatim `Note` cell exists for this aggregation role in Table 3.79 |
+| `Ipv4DhcpServerConfiguration` | `Describable` (stub) | `Ipv4DhcpServerConfiguration` | ``ARObject , Describable`` | - | placeholder stub, full sync deferred (Rule 0001.10) |
+| `Ipv6DhcpServerConfiguration` | `Describable` (stub) | `Ipv6DhcpServerConfiguration` | ``ARObject , Describable`` | - | placeholder stub, full sync deferred (Rule 0001.10) |

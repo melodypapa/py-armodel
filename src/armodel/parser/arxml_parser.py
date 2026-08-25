@@ -495,6 +495,9 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetCommunicationConnector,
     EthernetCommunicationController,
     EthernetPriorityRegeneration,
+    DhcpServerConfiguration,
+    Ipv4DhcpServerConfiguration,
+    Ipv6DhcpServerConfiguration,
     InitialSdDelayConfig,
     MacMulticastGroup,
     RequestResponseDelay,
@@ -6113,6 +6116,7 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             services = InfrastructureServices()
             services.setDoIpEntity(self.getDoIpEntity(child_element, "DO-IP-ENTITY"))
+            services.setDhcpServerConfiguration(self.getDhcpServerConfiguration(child_element, "DHCP-SERVER-CONFIGURATION"))
         return services
 
     def readNetworkEndPoint(self, element: ET.Element, end_point: NetworkEndpoint):
@@ -8257,9 +8261,21 @@ class ARXMLParser(AbstractARXMLParser):
             details.setLastEgressSchedulerRef(self.getChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF"))
         return details
 
+    def getDhcpServerConfiguration(self, element: ET.Element, key: str) -> DhcpServerConfiguration:
+        config = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            config = DhcpServerConfiguration()
+            if self.find(child_element, "IPV-4-DHCP-SERVER-CONFIGURATION") is not None:
+                config.setIpv4DhcpServerConfiguration(Ipv4DhcpServerConfiguration())
+            if self.find(child_element, "IPV-6-DHCP-SERVER-CONFIGURATION") is not None:
+                config.setIpv6DhcpServerConfiguration(Ipv6DhcpServerConfiguration())
+        return config
+
     def readVlanMembership(self, element: ET.Element, membership: VlanMembership):
         membership.setSendActivity(self.getChildElementOptionalLiteral(element, "SEND-ACTIVITY"))
         membership.setVlanRef(self.getChildElementOptionalRefType(element, "VLAN-REF"))
+        membership.setDhcpAddressAssignment(self.getDhcpServerConfiguration(element, "DHCP-ADDRESS-ASSIGNMENT"))
 
     def readCouplingPortVlanMemberships(self, element: ET.Element, port: CouplingPort):
         for child_element in self.findall(element, "VLAN-MEMBERSHIPS/*"):
