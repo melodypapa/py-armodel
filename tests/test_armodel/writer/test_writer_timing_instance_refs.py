@@ -181,12 +181,18 @@ class TestWriteAutosarOperationArgumentInstance:
     def test_round_trip_autosar_operation_argument_instance(self):
         parent = self._parent()
         instance = AutosarOperationArgumentInstance(parent, "Arg1")
-        instance.setOperationArgumentInstanceIRef(RefType().setValue("/Pkg/DP").setDest("DATA-PROTOTYPE"))
+        iref = OperationArgumentInComponentInstanceRef()
+        iref.addContextComponentRef(RefType().setValue("/Pkg/SwcProto").setDest("SW-COMPONENT-PROTOTYPE"))
+        iref.setContextOperationRef(RefType().setValue("/Pkg/Op").setDest("CLIENT-SERVER-OPERATION"))
+        iref.setTargetDataPrototypeRef(RefType().setValue("/Pkg/DP").setDest("DATA-PROTOTYPE"))
+        instance.setOperationArgumentInstanceIRef(iref)
 
         element = ET.Element("AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
         ARXMLWriter().writeAutosarOperationArgumentInstance(element, instance)
         iref_tag = element.find("OPERATION-ARGUMENT-INSTANCE-IREF")
         assert iref_tag is not None
+        assert iref_tag.find("CONTEXT-COMPONENT-REF").text == "/Pkg/SwcProto"
+        assert iref_tag.find("CONTEXT-OPERATION-REF").text == "/Pkg/Op"
         target = iref_tag.find("TARGET-DATA-PROTOTYPE-REF")
         assert target is not None
         assert target.text == "/Pkg/DP"
@@ -194,9 +200,11 @@ class TestWriteAutosarOperationArgumentInstance:
 
         reloaded = ARXMLParser().readAutosarOperationArgumentInstance(parent, _round_trip(element))
         assert reloaded.getShortName() == "Arg1"
-        iref = reloaded.getOperationArgumentInstanceIRef()
-        assert iref.getValue() == "/Pkg/DP"
-        assert iref.getDest() == "DATA-PROTOTYPE"
+        reloaded_iref = reloaded.getOperationArgumentInstanceIRef()
+        assert isinstance(reloaded_iref, OperationArgumentInComponentInstanceRef)
+        assert reloaded_iref.getContextComponentRefs()[0].getValue() == "/Pkg/SwcProto"
+        assert reloaded_iref.getContextOperationRef().getValue() == "/Pkg/Op"
+        assert reloaded_iref.getTargetDataPrototypeRef().getValue() == "/Pkg/DP"
 
     def test_write_without_iref(self):
         parent = self._parent()

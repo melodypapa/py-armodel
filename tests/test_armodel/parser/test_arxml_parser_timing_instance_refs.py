@@ -210,6 +210,12 @@ class TestReadAutosarOperationArgumentInstance:
         element = ET.Element("AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
         ET.SubElement(element, "SHORT-NAME").text = "Arg1"
         iref_tag = ET.SubElement(element, "OPERATION-ARGUMENT-INSTANCE-IREF")
+        comp = ET.SubElement(iref_tag, "CONTEXT-COMPONENT-REF")
+        comp.attrib["DEST"] = "SW-COMPONENT-PROTOTYPE"
+        comp.text = "/Pkg/SwcProto"
+        op = ET.SubElement(iref_tag, "CONTEXT-OPERATION-REF")
+        op.attrib["DEST"] = "CLIENT-SERVER-OPERATION"
+        op.text = "/Pkg/Op"
         target = ET.SubElement(iref_tag, "TARGET-DATA-PROTOTYPE-REF")
         target.attrib["DEST"] = "DATA-PROTOTYPE"
         target.text = "/Pkg/DP"
@@ -221,9 +227,10 @@ class TestReadAutosarOperationArgumentInstance:
         assert isinstance(instance, AutosarOperationArgumentInstance)
         assert instance.getShortName() == "Arg1"
         iref = instance.getOperationArgumentInstanceIRef()
-        assert iref is not None
-        assert iref.getValue() == "/Pkg/DP"
-        assert iref.getDest() == "DATA-PROTOTYPE"
+        assert isinstance(iref, OperationArgumentInComponentInstanceRef)
+        assert iref.getContextComponentRefs()[0].getValue() == "/Pkg/SwcProto"
+        assert iref.getContextOperationRef().getValue() == "/Pkg/Op"
+        assert iref.getTargetDataPrototypeRef().getValue() == "/Pkg/DP"
 
     def test_read_without_iref(self):
         parent = _parent()

@@ -3510,7 +3510,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         iref = instance.getOperationArgumentInstanceIRef()
         if iref is not None:
             iref_tag = ET.SubElement(element, "OPERATION-ARGUMENT-INSTANCE-IREF")
-            self.setChildElementOptionalRefType(iref_tag, "TARGET-DATA-PROTOTYPE-REF", iref)
+            self.writeOperationArgumentInComponentInstanceRef(iref_tag, iref)
 
     def writeOperationArgumentInComponentInstanceRef(self, element: ET.Element, iref: OperationArgumentInComponentInstanceRef):
         for context_component_ref in iref.getContextComponentRefs():

@@ -83,16 +83,7 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 8 — Deviations: resolved — modeInstance now typed Optional[ModeInSwcBswInstanceRef]; the abstract base placeholder is implemented (no deferred deviation remains)
   - [x] Step 9 — Verify (9a) + confirm (9b) — # Spec verified: R23-11 stamped
 - [x] OperationArgumentInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00046.xsd OPERATION-ARGUMENT-IN-COMPONENT-INSTANCE-REF group · dependency of AutosarOperationArgumentInstance.operationArgumentInstance · parallels ModeInSwcInstanceRef · no own PDF table, so no # Spec verified: marker) [45453e9f]
-- [ ] AutosarOperationArgumentInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.53 · operationArgumentInstance re-typed to aggregate OperationArgumentInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingArgument placeholder)
-  - [x] Step 1 — Sync members & description from spec
-  - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green) — REWORK: currently operationArgumentInstanceIRef: Optional[RefType]; change to Optional[OperationArgumentInComponentInstanceRef]
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red) — REWORK pending InstanceRef class
-  - [x] Step 6 — Update parser & writer (Green) — REWORK: read/write OPERATION-ARGUMENT-INSTANCE-IREF via OperationArgumentInComponentInstanceRef
-  - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations: will be resolved by aggregating OperationArgumentInComponentInstanceRef
-  - [ ] Step 9 — REWORK pending: re-type operationArgumentInstanceIRef, re-run 9a/9b
+- [x] AutosarOperationArgumentInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.53 · operationArgumentInstance re-typed to aggregate OperationArgumentInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingArgument placeholder) [1570df56]
 - [ ] VariableInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00046.xsd VARIABLE-IN-COMPONENT-INSTANCE-REF group · dependency of AutosarVariableInstance.variableInstance · parallels ModeInSwcInstanceRef · no own PDF table, so no # Spec verified: marker)
   - [ ] Step 1 — Sync members & description from XSD
   - [ ] Step 2 — Write model class unit test (Red)

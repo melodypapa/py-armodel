@@ -2210,7 +2210,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, instance)
         iref_element = self.find(element, "OPERATION-ARGUMENT-INSTANCE-IREF")
         if iref_element is not None:
-            instance.setOperationArgumentInstanceIRef(self.getChildElementOptionalRefType(iref_element, "TARGET-DATA-PROTOTYPE-REF"))
+            instance.setOperationArgumentInstanceIRef(self.readOperationArgumentInComponentInstanceRef(iref_element))
         return instance
 
     def readOperationArgumentInComponentInstanceRef(self, element: ET.Element) -> OperationArgumentInComponentInstanceRef:

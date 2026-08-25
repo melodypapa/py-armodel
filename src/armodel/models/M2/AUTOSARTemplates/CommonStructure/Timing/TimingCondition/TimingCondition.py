@@ -532,23 +532,25 @@ class AutosarOperationArgumentInstance(Identifiable):
 
     # AutosarOperationArgumentInstance method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.53, p.85
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getOperationArgumentInstanceIRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setOperationArgumentInstanceIRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # operationArgumentInstanceIRef is an InstanceRef (OperationArgumentInComponentInstanceRef), read/written via its own reader/writer.
+    # [x] __init__                               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getOperationArgumentInstanceIRef       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setOperationArgumentInstanceIRef       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        # This is the reference to the instanceRef definition. InstanceRef implemented by: OperationArgumentIn ComponentInstanceRef
-        self.operationArgumentInstanceIRef: Optional[RefType] = None
+        # This is the reference to the instanceRef definition. InstanceRef implemented by: OperationArgumentInComponentInstanceRef
+        self.operationArgumentInstanceIRef: Optional[OperationArgumentInComponentInstanceRef] = None
 
-    def getOperationArgumentInstanceIRef(self) -> Optional[RefType]:
-        """This is the reference to the instanceRef definition. InstanceRef implemented by: OperationArgumentIn ComponentInstanceRef."""
+    def getOperationArgumentInstanceIRef(self) -> Optional[OperationArgumentInComponentInstanceRef]:
+        """This is the reference to the instanceRef definition. InstanceRef implemented by: OperationArgumentInComponentInstanceRef."""
         return self.operationArgumentInstanceIRef
 
-    def setOperationArgumentInstanceIRef(self, value: Optional[RefType]) -> "AutosarOperationArgumentInstance":
-        """This is the reference to the instanceRef definition. InstanceRef implemented by: OperationArgumentIn ComponentInstanceRef. A None value is a no-op and does not overwrite an existing operationArgumentInstanceIRef."""
+    def setOperationArgumentInstanceIRef(self, value: Optional[OperationArgumentInComponentInstanceRef]) -> "AutosarOperationArgumentInstance":
+        """This is the reference to the instanceRef definition. InstanceRef implemented by: OperationArgumentInComponentInstanceRef. A None value is a no-op and does not overwrite an existing operationArgumentInstanceIRef."""
         if value is not None:
             self.operationArgumentInstanceIRef = value
         return self
