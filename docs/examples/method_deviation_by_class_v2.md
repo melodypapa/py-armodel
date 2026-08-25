@@ -1574,13 +1574,13 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 | — *(missing)* | `—` | `dnsServerAddress` | ``Ip6AddressString`` | attr | missing |
 
 ## `AbstractServiceInstance`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 476
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 477
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `routingGroupRefs` | `List[RefType]` | `routingGroup` | ``SoAdRoutingGroup`` | ref | type (PDF SoAdRoutingGroup vs py List[RefType]) |
+| `methodActivationRoutingGroup` | `Optional[ARObject]` | `methodActivationRoutingGroup` | ``PduActivationRoutingGroup`` | aggr | referenced class `PduActivationRoutingGroup` (Table 6.161; Identifiable child — final shape will be `createMethodActivationRoutingGroup(short_name)` per Rule 0001.6) not yet implemented; carried as an `ARObject` placeholder with get/set accessors, reader/writer pending, full sync deferred (Rule 0001.10); earlier `routingGroupRefs` type row removed — ref-kind members are modeled as `List[RefType]` (DEST=`SO-AD-ROUTING-GROUP`) and round-trip via `ROUTING-GROUP-REFS/ROUTING-GROUP-REF`; spec Tags: atp.Status=obsolete on `routingGroup`, kept and round-tripped |
 
 ## `EventHandler`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 492

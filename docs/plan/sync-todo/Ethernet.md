@@ -152,15 +152,40 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (9a automated verification only — pytest 7223 passed, black/black-check/lint clean,
     checklist==methods 1:1 source order, verbatim Note diff OK; 9b stamp DEFERRED to batch pass)
 - [ ] AbstractServiceInstance (markdown SystemTemplate · Table 6.158 · p.476 · source Fibex4Ethernet/ServiceInstances.py · base of ConsumedServiceInstance / ProvidedServiceInstance; depends on TagWithOptionalValue above; fixes methodActivationRoutingGroup & routingGroupRefs member types)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  NOTE: Table 6.158 verified in AUTOSAR_CP_TPS_SystemTemplate.md:12736–12752 + PDF p.477 (pdf_page.py
+  authoritative). No explicit Base row in the table — XSD group ABSTRACT-SERVICE-INSTANCE is
+  incorporated into IDENTIFIABLE-extending subclasses; Python base stays (Identifiable, ABC). No
+  class-level Note row; post-table prose paragraph used as class docstring. 4 Attribute rows: capabilityRecord (* aggr
+  TagWithOptionalValue), majorVersion (0..1 attr PositiveInteger), methodActivationRoutingGroup (0..1
+  aggr PduActivationRoutingGroup — class not yet implemented, ARObject placeholder),
+  routingGroup (* ref SoAdRoutingGroup, atp.Status=obsolete).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+    (tests written first; suite green against HEAD since runtime behavior already conformed —
+    red gate proven via mutation check: guard removal → test_add_get_routingGroupRefs FAILED,
+    source restored byte-identical)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    (old class docstring + trailing # type: comments wiped; class Note → class docstring;
+    per-attribute Note verbatim → __init__ comments + getter/setter docstrings; None-no-op
+    sentences appended on guarded setters/adders; Stereotypes/Tags tails dropped per Rule 0012)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    (tests/test_armodel/writer/test_abstract_service_instance.py: write_all_fields,
+    round_trip_preserves_all_values, reader_empty_fields, provided-side base-attrs round trip;
+    Red confirmed — 3 failed / 2 passed before parser+writer wiring)
+  - [x] Step 6 — Update parser & writer (Green)
+    (reader: getTagWithOptionalValues/addCapabilityRecord/setMajorVersion/addRoutingGroupRef wired
+    into readConsumedServiceInstance AND readProvidedServiceInstance via mutators; writer: matched
+    setTagWithOptionalValues/getCapabilityRecords/getMajorVersion/getRoutingGroupRefs pairs; no
+    chained mutators; methodActivationRoutingGroup reader/writer pending — class not implemented)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (tracker entry updated: page 476→477; stale routingGroupRefs type row removed; placeholder row
+    added for methodActivationRoutingGroup per Rule 0001.10/0014)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7232 passed incl. lossless integration round trip,
+    black/black-check/lint clean, checklist==methods 1:1 source order, verbatim Note diff OK,
+    no receiver-chain mutators in new code; 9b stamp DEFERRED to batch pass)
 - [ ] ApplicationEndpoint (markdown SystemTemplate · Table 6.124 · p.457 · source Fibex4Ethernet/ServiceInstances.py · adds discoveryTechnology, remotingTechnology, serializationTechnologyRef; these tech member types are XSD/ad-hoc — handle inside this sync)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

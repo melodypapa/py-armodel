@@ -3,6 +3,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import SdClientConfig
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
@@ -189,58 +190,6 @@ class Test_Fibex4EthernetServiceInstances:
         tp.setTcpTpPort(port)
         assert tp.getTcpTpPort() == port
         assert tp == tp.setTcpTpPort(port)  # Test method chaining
-
-    def test_AbstractServiceInstance(self):
-        """Test AbstractServiceInstance abstract class instantiation."""
-        parent = MockParent()
-        with pytest.raises(TypeError):
-            AbstractServiceInstance(parent, "test_abstract_service_instance")
-
-    def test_AbstractServiceInstance_methods(self):
-        """Test AbstractServiceInstance concrete implementation methods."""
-
-        class ConcreteServiceInstance(AbstractServiceInstance):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        parent = MockParent()
-        instance = ConcreteServiceInstance(parent, "test_concrete_service_instance")
-
-        # Test default values
-        assert instance.getCapabilityRecords() == []
-        assert instance.getMajorVersion() is None
-        assert instance.getMethodActivationRoutingGroup() is None
-        assert instance.getRoutingGroupRefs() == []
-
-        # Test addCapabilityRecord method with None value (this should not add anything)
-        instance.addCapabilityRecord(None)
-        assert instance.getCapabilityRecords() == []  # Should remain empty
-        assert instance == instance.addCapabilityRecord(None)  # Test method chaining
-
-        # Test addCapabilityRecord method with actual value
-        instance.addCapabilityRecord("capability1")
-        assert "capability1" in instance.getCapabilityRecords()
-        assert instance == instance.addCapabilityRecord("capability2")  # Test method chaining
-        assert len(instance.getCapabilityRecords()) == 2
-
-        # Test setMajorVersion with None
-        instance.setMajorVersion(None)
-        assert instance.getMajorVersion() is None  # Should remain None
-        assert instance == instance.setMajorVersion(None)  # Test method chaining
-
-        # Test setMajorVersion with actual value
-        instance.setMajorVersion(2)
-        assert instance.getMajorVersion() == 2
-        assert instance == instance.setMajorVersion(2)  # Test method chaining
-
-        # Test other methods
-        instance.setMethodActivationRoutingGroup("routing_group")
-        assert instance.getMethodActivationRoutingGroup() == "routing_group"
-        assert instance == instance.setMethodActivationRoutingGroup("routing_group")  # Test method chaining
-
-        instance.addRoutingGroupRef("routing_ref")
-        assert "routing_ref" in instance.getRoutingGroupRefs()
-        assert instance == instance.addRoutingGroupRef("routing_ref")  # Test method chaining
 
     def test_InitialSdDelayConfig(self):
         """Test InitialSdDelayConfig class functionality."""
@@ -1218,3 +1167,81 @@ class TestConsumedServiceInstance:
 
         instance.setVersionDrivenFindBehavior(None)
         assert instance.getVersionDrivenFindBehavior() is value
+
+
+class TestAbstractServiceInstance:
+    class ConcreteServiceInstance(AbstractServiceInstance):
+        def __init__(self, parent, short_name):
+            super().__init__(parent, short_name)
+
+    def _instance(self):
+        return self.ConcreteServiceInstance(MockParent(), "asi")
+
+    def test_abstract_instantiation_blocked(self):
+        """Test AbstractServiceInstance cannot be instantiated directly."""
+        with pytest.raises(TypeError):
+            AbstractServiceInstance(MockParent(), "asi")
+
+    def test_initialization(self):
+        """Test __init__ defaults for all fields (Table 6.158)."""
+        instance = self._instance()
+
+        assert isinstance(instance, Identifiable)
+        assert instance.getShortName() == "asi"
+        assert instance.getCapabilityRecords() == []
+        assert instance.getMajorVersion() is None
+        assert instance.getMethodActivationRoutingGroup() is None
+        assert instance.getRoutingGroupRefs() == []
+
+    def test_add_get_capabilityRecords(self):
+        """Test add/get capabilityRecords append order and None no-op."""
+        instance = self._instance()
+        tag1 = TagWithOptionalValue()
+        tag1.setKey(String().setValue("service"))
+        tag2 = TagWithOptionalValue()
+        tag2.setKey(String().setValue("config"))
+
+        assert instance.addCapabilityRecord(tag1) is instance
+        instance.addCapabilityRecord(tag2)
+        assert instance.getCapabilityRecords() == [tag1, tag2]
+        assert instance.getCapabilityRecords()[0].getKey().getValue() == "service"
+
+        instance.addCapabilityRecord(None)
+        assert instance.getCapabilityRecords() == [tag1, tag2]
+
+    def test_get_set_majorVersion(self):
+        """Test get/set majorVersion with chaining and None no-op."""
+        instance = self._instance()
+        value = PositiveInteger().setValue("33")
+
+        assert instance.setMajorVersion(value) is instance
+        assert instance.getMajorVersion() is value
+        assert instance.getMajorVersion().getValue() == 33
+
+        instance.setMajorVersion(None)
+        assert instance.getMajorVersion() is value
+
+    def test_get_set_methodActivationRoutingGroup(self):
+        """Test get/set methodActivationRoutingGroup with chaining and None no-op (placeholder type)."""
+        instance = self._instance()
+        value = MockParent()
+
+        assert instance.setMethodActivationRoutingGroup(value) is instance
+        assert instance.getMethodActivationRoutingGroup() is value
+
+        instance.setMethodActivationRoutingGroup(None)
+        assert instance.getMethodActivationRoutingGroup() is value
+
+    def test_add_get_routingGroupRefs(self):
+        """Test add/get routingGroupRefs append order and None no-op."""
+        instance = self._instance()
+        ref1 = _ref("/Ether/RoutingGroup/RG1")
+        ref2 = _ref("/Ether/RoutingGroup/RG2")
+
+        assert instance.addRoutingGroupRef(ref1) is instance
+        instance.addRoutingGroupRef(ref2)
+        assert instance.getRoutingGroupRefs() == [ref1, ref2]
+        assert instance.getRoutingGroupRefs()[0].getValue() == "/Ether/RoutingGroup/RG1"
+
+        instance.addRoutingGroupRef(None)
+        assert instance.getRoutingGroupRefs() == [ref1, ref2]

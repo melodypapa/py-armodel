@@ -6300,6 +6300,8 @@ class ARXMLParser(AbstractARXMLParser):
         instance.setAutoRequire(self.getChildElementOptionalBooleanValue(element, "AUTO-REQUIRE"))
         for version in self.getSomeipServiceVersions(element, "BLOCKLISTED-VERSIONS"):
             instance.addBlocklistedVersion(version)
+        for tag in self.getTagWithOptionalValues(element, "CAPABILITY-RECORDS"):
+            instance.addCapabilityRecord(tag)
         self.readConsumedServiceInstanceConsumedEventGroups(element, instance)
         instance.setEventMulticastSubscriptionAddressRef(
             self.getChildElementOptionalRefType(element, "EVENT-MULTICAST-SUBSCRIPTION-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF")
@@ -6307,10 +6309,13 @@ class ARXMLParser(AbstractARXMLParser):
         instance.setInstanceIdentifier(self.getChildElementOptionalString(element, "INSTANCE-IDENTIFIER"))
         for ref in self.getChildElementRefTypeList(element, "LOCAL-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             instance.addLocalUnicastAddressRef(ref)
+        instance.setMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAJOR-VERSION"))
         instance.setMinorVersion(self.getChildElementOptionalString(element, "MINOR-VERSION"))
         instance.setProvidedServiceInstanceRef(self.getChildElementOptionalRefType(element, "PROVIDED-SERVICE-INSTANCE-REF"))
         for ref in self.getChildElementRefTypeList(element, "REMOTE-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             instance.addRemoteUnicastAddressRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
+            instance.addRoutingGroupRef(ref)
         instance.setSdClientConfig(self.getSdClientConfig(element, "SD-CLIENT-CONFIG"))
         instance.setSdClientTimerConfigRef(
             self.getChildElementOptionalRefType(element, "SD-CLIENT-TIMER-CONFIGS/SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL/SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG-REF")
@@ -6348,6 +6353,19 @@ class ARXMLParser(AbstractARXMLParser):
             tag.setSequenceOffset(self.getChildElementOptionalIntegerValue(child_element, "SEQUENCE-OFFSET"))
             tag.setValue(self.getChildElementOptionalString(child_element, "VALUE"))
         return tag
+
+    def getTagWithOptionalValues(self, element: ET.Element, key: str) -> List[TagWithOptionalValue]:
+        tags = []
+        wrapper = self.find(element, key)
+        if wrapper is not None:
+            for child_element in self.findall(wrapper, "TAG-WITH-OPTIONAL-VALUE"):
+                tag = TagWithOptionalValue()
+                self.readARObjectAttributes(child_element, tag)
+                tag.setKey(self.getChildElementOptionalString(child_element, "KEY"))
+                tag.setSequenceOffset(self.getChildElementOptionalIntegerValue(child_element, "SEQUENCE-OFFSET"))
+                tag.setValue(self.getChildElementOptionalString(child_element, "VALUE"))
+                tags.append(tag)
+        return tags
 
     def readSomeipSdClientServiceInstanceConfig(self, element: ET.Element, config: SomeipSdClientServiceInstanceConfig):
         self.logger.debug("Read SomeipSdClientServiceInstanceConfig <%s>" % config.getShortName())
@@ -6403,18 +6421,23 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readProvidedServiceInstance(self, element: ET.Element, instance: ProvidedServiceInstance):
         self.readIdentifiable(element, instance)
+        for tag in self.getTagWithOptionalValues(element, "CAPABILITY-RECORDS"):
+            instance.addCapabilityRecord(tag)
         self.readProvidedServiceInstanceEventHandlers(element, instance)
         instance.setInstanceIdentifier(self.getChildElementOptionalPositiveInteger(element, "INSTANCE-IDENTIFIER"))
         instance.setLoadBalancingPriority(self.getChildElementOptionalPositiveInteger(element, "LOAD-BALANCING-PRIORITY"))
         instance.setLoadBalancingWeight(self.getChildElementOptionalPositiveInteger(element, "LOAD-BALANCING-WEIGHT"))
         for ref in self.getChildElementRefTypeList(element, "LOCAL-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             instance.addLocalUnicastAddressRef(ref)
+        instance.setMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAJOR-VERSION"))
         instance.setMinorVersion(self.getChildElementOptionalPositiveInteger(element, "MINOR-VERSION"))
         instance.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
         for ref in self.getChildElementRefTypeList(element, "REMOTE-MULTICAST-SUBSCRIPTION-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             instance.addRemoteMulticastSubscriptionAddressRef(ref)
         for ref in self.getChildElementRefTypeList(element, "REMOTE-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             instance.addRemoteUnicastAddressRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
+            instance.addRoutingGroupRef(ref)
         instance.setSdServerConfig(self.getSdServerConfig(element, "SD-SERVER-CONFIG"))
         instance.setSdServerTimerConfigRef(
             self.getChildElementOptionalRefType(element, "SD-SERVER-TIMER-CONFIGS/SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL/SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF")

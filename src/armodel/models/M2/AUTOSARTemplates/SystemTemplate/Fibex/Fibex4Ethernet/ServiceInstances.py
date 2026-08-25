@@ -7,6 +7,7 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import RequestResponseDelay, SdClientConfig
 
@@ -237,22 +238,21 @@ class TcpTp(TcpUdpConfig):
 
 
 class AbstractServiceInstance(Identifiable, ABC):
-    """
-    Abstract base class for service instances, defining common properties
-    for both consumed and provided services in the AUTOSAR service-oriented
-    architecture.
-    """
+    """It is possible to specify additional information about the AbstractServiceInstance with the Capability Record that allows to transport arbitrary configuration strings (key/value pairs). This allows to encode additional information like the name of a service or its configuration."""
 
     # AbstractServiceInstance method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCapabilityRecords         [x] impl  [ ] docstring  [ ] test
-    # [ ] addCapabilityRecord          [x] impl  [ ] docstring  [ ] test
-    # [ ] getMajorVersion              [x] impl  [ ] docstring  [ ] test
-    # [ ] setMajorVersion              [x] impl  [ ] docstring  [ ] test
-    # [ ] getMethodActivationRoutingGroup [x] impl  [ ] docstring  [ ] test
-    # [ ] setMethodActivationRoutingGroup [x] impl  [ ] docstring  [ ] test
-    # [ ] getRoutingGroupRefs          [x] impl  [ ] docstring  [ ] test
-    # [ ] addRoutingGroupRef           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.158, p.477
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addCapabilityRecord             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCapabilityRecords            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getMajorVersion                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMajorVersion                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMethodActivationRoutingGroup [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] setMethodActivationRoutingGroup [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addRoutingGroupRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRoutingGroupRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # methodActivationRoutingGroup: PduActivationRoutingGroup not yet implemented - reader/writer pending
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractServiceInstance:
@@ -260,42 +260,74 @@ class AbstractServiceInstance(Identifiable, ABC):
 
         super().__init__(parent, short_name)
 
-        self.capabilityRecords = []  # type: List[TagWithOptionalValue]
-        self.majorVersion = None  # type: PositiveInteger
-        self.methodActivationRoutingGroup = None  # type: PduActivationRoutingGroup
-        self.routingGroupRefs = []  # type: List[RefType]
+        # A sequence of records to store arbitrary name/value pairs conveying additional information about the named service.
+        self.capabilityRecords: List[TagWithOptionalValue] = []
 
-    def getCapabilityRecords(self):
-        return self.capabilityRecords
+        # Major Version of the ServiceInterface. Value can be set to a number that represents the Major Version of the service.
+        self.majorVersion: Optional[PositiveInteger] = None
 
-    def addCapabilityRecord(self, value):
+        # The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods).
+        # (PduActivationRoutingGroup class is not yet implemented - placeholder)
+        self.methodActivationRoutingGroup: Optional[ARObject] = None
+
+        # The ServiceDiscovery module is able to activate and deactivate the PDU routing from and to TCP/IP-sockets.
+        self.routingGroupRefs: List[RefType] = []
+
+    def addCapabilityRecord(self, value: Optional[TagWithOptionalValue]) -> "AbstractServiceInstance":
+        """
+        A sequence of records to store arbitrary name/value pairs conveying additional information about the named service.
+        A None value is a no-op and does not append to capabilityRecords.
+        """
         if value is not None:
             self.capabilityRecords.append(value)
         return self
 
-    def getMajorVersion(self):
+    def getCapabilityRecords(self) -> List[TagWithOptionalValue]:
+        """A sequence of records to store arbitrary name/value pairs conveying additional information about the named service."""
+        return self.capabilityRecords
+
+    def getMajorVersion(self) -> Optional[PositiveInteger]:
+        """Major Version of the ServiceInterface. Value can be set to a number that represents the Major Version of the service."""
         return self.majorVersion
 
-    def setMajorVersion(self, value):
+    def setMajorVersion(self, value: Optional[PositiveInteger]) -> "AbstractServiceInstance":
+        """
+        Major Version of the ServiceInterface. Value can be set to a number that represents the Major Version of the service.
+        A None value is a no-op and does not overwrite an existing majorVersion.
+        """
         if value is not None:
             self.majorVersion = value
         return self
 
-    def getMethodActivationRoutingGroup(self):
+    def getMethodActivationRoutingGroup(self) -> Optional[ARObject]:
+        """
+        The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods).
+        (PduActivationRoutingGroup class is not yet implemented - placeholder)
+        """
         return self.methodActivationRoutingGroup
 
-    def setMethodActivationRoutingGroup(self, value):
+    def setMethodActivationRoutingGroup(self, value: Optional[ARObject]) -> "AbstractServiceInstance":
+        """
+        The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods).
+        (PduActivationRoutingGroup class is not yet implemented - placeholder)
+        A None value is a no-op and does not overwrite an existing methodActivationRoutingGroup.
+        """
         if value is not None:
             self.methodActivationRoutingGroup = value
         return self
 
-    def getRoutingGroupRefs(self):
-        return self.routingGroupRefs
-
-    def addRoutingGroupRef(self, value):
+    def addRoutingGroupRef(self, value: Optional[RefType]) -> "AbstractServiceInstance":
+        """
+        The ServiceDiscovery module is able to activate and deactivate the PDU routing from and to TCP/IP-sockets.
+        A None value is a no-op and does not append to routingGroupRefs.
+        """
         if value is not None:
             self.routingGroupRefs.append(value)
         return self
+
+    def getRoutingGroupRefs(self) -> List[RefType]:
+        """The ServiceDiscovery module is able to activate and deactivate the PDU routing from and to TCP/IP-sockets."""
+        return self.routingGroupRefs
 
 
 class ConsumedEventGroup(Identifiable):
