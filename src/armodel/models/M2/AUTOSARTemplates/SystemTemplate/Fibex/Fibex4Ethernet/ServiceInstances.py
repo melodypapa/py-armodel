@@ -4,7 +4,7 @@
 from abc import ABC
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, String, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
@@ -476,171 +476,263 @@ class ConsumedEventGroup(Identifiable):
 
 
 class ConsumedServiceInstance(AbstractServiceInstance):
-    """
-    Represents a consumed service instance in the AUTOSAR service-oriented
-    architecture, defining how services are consumed by clients including
-    provider references, service identifiers, and client configuration.
-    """
+    """Service instances that are consumed by the ECU that is connected via the ApplicationEndpoint to a CommunicationConnector."""
 
     # ConsumedServiceInstance method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAllowedServiceProviderRefs [x] impl  [ ] docstring  [ ] test
-    # [ ] setAllowedServiceProviderRefs [x] impl  [ ] docstring  [ ] test
-    # [ ] getAutoRequire               [x] impl  [ ] docstring  [ ] test
-    # [ ] setAutoRequire               [x] impl  [ ] docstring  [ ] test
-    # [ ] getBlocklistedVersions       [x] impl  [ ] docstring  [ ] test
-    # [ ] setBlocklistedVersions       [x] impl  [ ] docstring  [ ] test
-    # [ ] getConsumedEventGroups       [x] impl  [ ] docstring  [ ] test
-    # [ ] createConsumedEventGroup     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEventMulticastSubscriptionAddressRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setEventMulticastSubscriptionAddressRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getInstanceIdentifier        [x] impl  [ ] docstring  [ ] test
-    # [ ] setInstanceIdentifier        [x] impl  [ ] docstring  [ ] test
-    # [ ] getLocalUnicastAddressRefs   [x] impl  [ ] docstring  [ ] test
-    # [ ] setLocalUnicastAddressRefs   [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinorVersion              [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinorVersion              [x] impl  [ ] docstring  [ ] test
-    # [ ] getProvidedServiceInstanceRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setProvidedServiceInstanceRef [x] impl  [ ] docstring  [ ] test
-    # [ ] getRemoteUnicastAddressRefs  [x] impl  [ ] docstring  [ ] test
-    # [ ] setRemoteUnicastAddressRefs  [x] impl  [ ] docstring  [ ] test
-    # [ ] getSdClientConfig            [x] impl  [ ] docstring  [ ] test
-    # [ ] setSdClientConfig            [x] impl  [ ] docstring  [ ] test
-    # [ ] getSdClientTimerConfigRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] setSdClientTimerConfigRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] getServiceIdentifier         [x] impl  [ ] docstring  [ ] test
-    # [ ] setServiceIdentifier         [x] impl  [ ] docstring  [ ] test
-    # [ ] getVersionDrivenFindBehavior [x] impl  [ ] docstring  [ ] test
-    # [ ] setVersionDrivenFindBehavior [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.167, p.501
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addAllowedServiceProviderRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAllowedServiceProviderRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getAutoRequire                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAutoRequire                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addBlocklistedVersion                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getBlocklistedVersions                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createConsumedEventGroup                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getConsumedEventGroups                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getEventMulticastSubscriptionAddressRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEventMulticastSubscriptionAddressRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getInstanceIdentifier                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setInstanceIdentifier                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addLocalUnicastAddressRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getLocalUnicastAddressRefs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getMinorVersion                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinorVersion                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getProvidedServiceInstanceRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setProvidedServiceInstanceRef            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addRemoteUnicastAddressRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRemoteUnicastAddressRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getSdClientConfig                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSdClientConfig                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSdClientTimerConfigRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSdClientTimerConfigRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getServiceIdentifier                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setServiceIdentifier                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVersionDrivenFindBehavior             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setVersionDrivenFindBehavior             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # NetworkEndpoint on which the ProvidedServiceInstance that is communicating with this ConsumedService Instance is allowed to be located so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established.
         self.allowedServiceProviderRefs: List[RefType] = []
-        self.autoRequire: Boolean = None
-        self.blocklistedVersions: List = []
+
+        # Defines that this ConsumedServiceInstance shall be required (searched for) by the service discovery at ECU start.
+        self.autoRequire: Optional[Boolean] = None
+
+        # Collection of blocklisted versions
+        self.blocklistedVersions: List[SomeipServiceVersion] = []
+
+        # Selection of event-groups the consumer wants to subscribe for.
         self.consumedEventGroups: List[ConsumedEventGroup] = []
-        self.eventMulticastSubscriptionAddressRef: RefType = None
-        self.instanceIdentifier = None
+
+        # Multicast Address that is used by the client to subscribe to the server: This enables the multicast subscription feature.
+        self.eventMulticastSubscriptionAddressRef: Optional[RefType] = None
+
+        # This attribute represents the ability to describe the required service instance ID.
+        self.instanceIdentifier: Optional[String] = None
+
+        # The local address over which the CSI is consumed (udp, tcp or both).
         self.localUnicastAddressRefs: List[RefType] = []
-        self.minorVersion = None
-        self.providedServiceInstanceRef: RefType = None
+
+        # Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY.
+        self.minorVersion: Optional[String] = None
+
+        # Reference to a providedServiceInstance to get the instanceIdentifier information from the ProvidedService Instance.
+        self.providedServiceInstanceRef: Optional[RefType] = None
+
+        # This reference defines the remote address where the service provider is located. This reference shall ONLY be used if the remote address is determined from the configuration and not at runtime from the Service Discovery.
         self.remoteUnicastAddressRefs: List[RefType] = []
-        self.sdClientConfig = None
-        self.sdClientTimerConfigRef: RefType = None
-        self.serviceIdentifier: PositiveInteger = None
-        self.versionDrivenFindBehavior = None
 
-    def getAllowedServiceProviderRefs(self):
-        return self.allowedServiceProviderRefs
+        # Service Discovery Client configuration.
+        self.sdClientConfig: Optional[SdClientConfig] = None
 
-    def setAllowedServiceProviderRefs(self, value):
+        # Client specific configuration settings relevant for the SOME/IP service discovery.
+        self.sdClientTimerConfigRef: Optional[RefType] = None
+
+        # This attribute represents the ability to describe the SOME/ IP service ID that is searched.
+        self.serviceIdentifier: Optional[PositiveInteger] = None
+
+        # Defines the service discovery find behavior.
+        self.versionDrivenFindBehavior: Optional[ARLiteral] = None
+
+    def addAllowedServiceProviderRef(self, value: Optional[RefType]) -> "ConsumedServiceInstance":
+        """
+        NetworkEndpoint on which the ProvidedServiceInstance that is communicating with this ConsumedService Instance is allowed to be located so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established.
+        A None value is a no-op and does not append to allowedServiceProviderRefs.
+        """
         if value is not None:
-            self.allowedServiceProviderRefs = value
+            self.allowedServiceProviderRefs.append(value)
         return self
 
-    def getAutoRequire(self):
+    def getAllowedServiceProviderRefs(self) -> List[RefType]:
+        """NetworkEndpoint on which the ProvidedServiceInstance that is communicating with this ConsumedService Instance is allowed to be located so that the ACL check in the ServiceDiscovery is successful and the connection is allowed to be established."""
+        return self.allowedServiceProviderRefs
+
+    def getAutoRequire(self) -> Optional[Boolean]:
+        """Defines that this ConsumedServiceInstance shall be required (searched for) by the service discovery at ECU start."""
         return self.autoRequire
 
-    def setAutoRequire(self, value):
+    def setAutoRequire(self, value: Optional[Boolean]) -> "ConsumedServiceInstance":
+        """
+        Defines that this ConsumedServiceInstance shall be required (searched for) by the service discovery at ECU start.
+        A None value is a no-op and does not overwrite an existing autoRequire.
+        """
         if value is not None:
             self.autoRequire = value
         return self
 
-    def getBlocklistedVersions(self):
-        return self.blocklistedVersions
-
-    def setBlocklistedVersions(self, value):
+    def addBlocklistedVersion(self, value: Optional["SomeipServiceVersion"]) -> "ConsumedServiceInstance":
+        """
+        Collection of blocklisted versions
+        A None value is a no-op and does not append to blocklistedVersions.
+        """
         if value is not None:
-            self.blocklistedVersions = value
+            self.blocklistedVersions.append(value)
         return self
 
-    def getConsumedEventGroups(self):
-        return self.consumedEventGroups
+    def getBlocklistedVersions(self) -> List["SomeipServiceVersion"]:
+        """Collection of blocklisted versions"""
+        return self.blocklistedVersions
 
-    def createConsumedEventGroup(self, short_name: str) -> ConsumedEventGroup:
-        if short_name not in self.elements:
+    def createConsumedEventGroup(self, short_name: str) -> "ConsumedEventGroup":
+        """Selection of event-groups the consumer wants to subscribe for."""
+        if not self.IsElementExists(short_name, ConsumedEventGroup):
             group = ConsumedEventGroup(self, short_name)
             self.addElement(group)
             self.consumedEventGroups.append(group)
-        return self.getElement(short_name)
+        return self.getElement(short_name, ConsumedEventGroup)
 
-    def getEventMulticastSubscriptionAddressRef(self):
+    def getConsumedEventGroups(self) -> List["ConsumedEventGroup"]:
+        """Selection of event-groups the consumer wants to subscribe for."""
+        return self.consumedEventGroups
+
+    def getEventMulticastSubscriptionAddressRef(self) -> Optional[RefType]:
+        """Multicast Address that is used by the client to subscribe to the server: This enables the multicast subscription feature."""
         return self.eventMulticastSubscriptionAddressRef
 
-    def setEventMulticastSubscriptionAddressRef(self, value):
+    def setEventMulticastSubscriptionAddressRef(self, value: Optional[RefType]) -> "ConsumedServiceInstance":
+        """
+        Multicast Address that is used by the client to subscribe to the server: This enables the multicast subscription feature.
+        A None value is a no-op and does not overwrite an existing eventMulticastSubscriptionAddressRef.
+        """
         if value is not None:
             self.eventMulticastSubscriptionAddressRef = value
         return self
 
-    def getInstanceIdentifier(self):
+    def getInstanceIdentifier(self) -> Optional[String]:
+        """This attribute represents the ability to describe the required service instance ID."""
         return self.instanceIdentifier
 
-    def setInstanceIdentifier(self, value):
+    def setInstanceIdentifier(self, value: Optional[String]) -> "ConsumedServiceInstance":
+        """
+        This attribute represents the ability to describe the required service instance ID.
+        A None value is a no-op and does not overwrite an existing instanceIdentifier.
+        """
         if value is not None:
             self.instanceIdentifier = value
         return self
 
-    def getLocalUnicastAddressRefs(self):
-        return self.localUnicastAddressRefs
-
-    def setLocalUnicastAddressRefs(self, value):
+    def addLocalUnicastAddressRef(self, value: Optional[RefType]) -> "ConsumedServiceInstance":
+        """
+        The local address over which the CSI is consumed (udp, tcp or both).
+        A None value is a no-op and does not append to localUnicastAddressRefs.
+        """
         if value is not None:
-            self.localUnicastAddressRefs = value
+            self.localUnicastAddressRefs.append(value)
         return self
 
-    def getMinorVersion(self):
+    def getLocalUnicastAddressRefs(self) -> List[RefType]:
+        """The local address over which the CSI is consumed (udp, tcp or both)."""
+        return self.localUnicastAddressRefs
+
+    def getMinorVersion(self) -> Optional[String]:
+        """Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY."""
         return self.minorVersion
 
-    def setMinorVersion(self, value):
+    def setMinorVersion(self, value: Optional[String]) -> "ConsumedServiceInstance":
+        """
+        Minor Version of the ServiceInterface. Value can be set to a number that represents the Minor Version of the searched service or to ANY.
+        A None value is a no-op and does not overwrite an existing minorVersion.
+        """
         if value is not None:
             self.minorVersion = value
         return self
 
-    def getProvidedServiceInstanceRef(self):
+    def getProvidedServiceInstanceRef(self) -> Optional[RefType]:
+        """Reference to a providedServiceInstance to get the instanceIdentifier information from the ProvidedService Instance."""
         return self.providedServiceInstanceRef
 
-    def setProvidedServiceInstanceRef(self, value):
+    def setProvidedServiceInstanceRef(self, value: Optional[RefType]) -> "ConsumedServiceInstance":
+        """
+        Reference to a providedServiceInstance to get the instanceIdentifier information from the ProvidedService Instance.
+        A None value is a no-op and does not overwrite an existing providedServiceInstanceRef.
+        """
         if value is not None:
             self.providedServiceInstanceRef = value
         return self
 
-    def getRemoteUnicastAddressRefs(self):
-        return self.remoteUnicastAddressRefs
-
-    def setRemoteUnicastAddressRefs(self, value):
+    def addRemoteUnicastAddressRef(self, value: Optional[RefType]) -> "ConsumedServiceInstance":
+        """
+        This reference defines the remote address where the service provider is located. This reference shall ONLY be used if the remote address is determined from the configuration and not at runtime from the Service Discovery.
+        A None value is a no-op and does not append to remoteUnicastAddressRefs.
+        """
         if value is not None:
-            self.remoteUnicastAddressRefs = value
+            self.remoteUnicastAddressRefs.append(value)
         return self
 
-    def getSdClientConfig(self):
+    def getRemoteUnicastAddressRefs(self) -> List[RefType]:
+        """This reference defines the remote address where the service provider is located. This reference shall ONLY be used if the remote address is determined from the configuration and not at runtime from the Service Discovery."""
+        return self.remoteUnicastAddressRefs
+
+    def getSdClientConfig(self) -> Optional[SdClientConfig]:
+        """Service Discovery Client configuration."""
         return self.sdClientConfig
 
-    def setSdClientConfig(self, value):
+    def setSdClientConfig(self, value: Optional[SdClientConfig]) -> "ConsumedServiceInstance":
+        """
+        Service Discovery Client configuration.
+        A None value is a no-op and does not overwrite an existing sdClientConfig.
+        """
         if value is not None:
             self.sdClientConfig = value
         return self
 
-    def getSdClientTimerConfigRef(self):
+    def getSdClientTimerConfigRef(self) -> Optional[RefType]:
+        """Client specific configuration settings relevant for the SOME/IP service discovery."""
         return self.sdClientTimerConfigRef
 
-    def setSdClientTimerConfigRef(self, value):
+    def setSdClientTimerConfigRef(self, value: Optional[RefType]) -> "ConsumedServiceInstance":
+        """
+        Client specific configuration settings relevant for the SOME/IP service discovery.
+        A None value is a no-op and does not overwrite an existing sdClientTimerConfigRef.
+        """
         if value is not None:
             self.sdClientTimerConfigRef = value
         return self
 
-    def getServiceIdentifier(self):
+    def getServiceIdentifier(self) -> Optional[PositiveInteger]:
+        """This attribute represents the ability to describe the SOME/ IP service ID that is searched."""
         return self.serviceIdentifier
 
-    def setServiceIdentifier(self, value):
+    def setServiceIdentifier(self, value: Optional[PositiveInteger]) -> "ConsumedServiceInstance":
+        """
+        This attribute represents the ability to describe the SOME/ IP service ID that is searched.
+        A None value is a no-op and does not overwrite an existing serviceIdentifier.
+        """
         if value is not None:
             self.serviceIdentifier = value
         return self
 
-    def getVersionDrivenFindBehavior(self):
+    def getVersionDrivenFindBehavior(self) -> Optional[ARLiteral]:
+        """Defines the service discovery find behavior."""
         return self.versionDrivenFindBehavior
 
-    def setVersionDrivenFindBehavior(self, value):
+    def setVersionDrivenFindBehavior(self, value: Optional[ARLiteral]) -> "ConsumedServiceInstance":
+        """
+        Defines the service discovery find behavior.
+        A None value is a no-op and does not overwrite an existing versionDrivenFindBehavior.
+        """
         if value is not None:
             self.versionDrivenFindBehavior = value
         return self

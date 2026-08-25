@@ -2,7 +2,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import SdClientConfig
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
@@ -241,116 +241,6 @@ class Test_Fibex4EthernetServiceInstances:
         instance.addRoutingGroupRef("routing_ref")
         assert "routing_ref" in instance.getRoutingGroupRefs()
         assert instance == instance.addRoutingGroupRef("routing_ref")  # Test method chaining
-
-    def test_ConsumedServiceInstance(self):
-        """Test ConsumedServiceInstance class functionality."""
-        parent = MockParent()
-        instance = ConsumedServiceInstance(parent, "test_consumed_service_instance")
-
-        assert isinstance(instance, AbstractServiceInstance)
-
-        # Test default values
-        assert instance.getAllowedServiceProviderRefs() == []
-        assert instance.getAutoRequire() is None
-        assert instance.getBlocklistedVersions() == []
-        assert instance.getConsumedEventGroups() == []
-        assert instance.getEventMulticastSubscriptionAddressRef() is None
-        assert instance.getInstanceIdentifier() is None
-        assert instance.getLocalUnicastAddressRefs() == []
-        assert instance.getMinorVersion() is None
-        assert instance.getProvidedServiceInstanceRef() is None
-        assert instance.getRemoteUnicastAddressRefs() == []
-        assert instance.getSdClientConfig() is None
-        assert instance.getSdClientTimerConfigRef() is None
-        assert instance.getServiceIdentifier() is None
-        assert instance.getVersionDrivenFindBehavior() is None
-
-        # Test setter/getter methods with method chaining - with None
-        assert instance == instance.setAutoRequire(None)  # Test method chaining with None
-        assert instance.getAutoRequire() is None  # Should remain None
-
-        assert instance == instance.setBlocklistedVersions(None)  # Test method chaining with None
-        assert instance.getBlocklistedVersions() == []  # Should remain empty
-
-        assert instance == instance.setEventMulticastSubscriptionAddressRef(None)  # Test method chaining with None
-        assert instance.getEventMulticastSubscriptionAddressRef() is None  # Should remain None
-
-        assert instance == instance.setInstanceIdentifier(None)  # Test method chaining with None
-        assert instance.getInstanceIdentifier() is None  # Should remain None
-
-        assert instance == instance.setMinorVersion(None)  # Test method chaining with None
-        assert instance.getMinorVersion() is None  # Should remain None
-
-        assert instance == instance.setProvidedServiceInstanceRef(None)  # Test method chaining with None
-        assert instance.getProvidedServiceInstanceRef() is None  # Should remain None
-
-        assert instance == instance.setSdClientConfig(None)  # Test method chaining with None
-        assert instance.getSdClientConfig() is None  # Should remain None
-
-        assert instance == instance.setSdClientTimerConfigRef(None)  # Test method chaining with None
-        assert instance.getSdClientTimerConfigRef() is None  # Should remain None
-
-        assert instance == instance.setVersionDrivenFindBehavior(None)  # Test method chaining with None
-        assert instance.getVersionDrivenFindBehavior() is None  # Should remain None
-
-        # Test setter/getter methods with method chaining - with actual values
-        instance.setAutoRequire(True)
-        assert instance.getAutoRequire() is True
-        assert instance == instance.setAutoRequire(True)  # Test method chaining
-
-        instance.setBlocklistedVersions(["v1.0", "v1.1"])
-        assert "v1.0" in instance.getBlocklistedVersions()
-        assert instance == instance.setBlocklistedVersions(["v1.0", "v1.1"])  # Test method chaining
-
-        instance.setEventMulticastSubscriptionAddressRef("multicast_sub_ref")
-        assert instance.getEventMulticastSubscriptionAddressRef() == "multicast_sub_ref"
-        assert instance == instance.setEventMulticastSubscriptionAddressRef("multicast_sub_ref")  # Test method chaining
-
-        instance.setInstanceIdentifier(100)
-        assert instance.getInstanceIdentifier() == 100
-        assert instance == instance.setInstanceIdentifier(100)  # Test method chaining
-
-        instance.setMinorVersion("2.1")
-        assert instance.getMinorVersion() == "2.1"
-        assert instance == instance.setMinorVersion("2.1")  # Test method chaining
-
-        instance.setProvidedServiceInstanceRef("provider_ref")
-        assert instance.getProvidedServiceInstanceRef() == "provider_ref"
-        assert instance == instance.setProvidedServiceInstanceRef("provider_ref")  # Test method chaining
-
-        instance.setSdClientConfig("sd_client_config")
-        assert instance.getSdClientConfig() == "sd_client_config"
-        assert instance == instance.setSdClientConfig("sd_client_config")  # Test method chaining
-
-        instance.setSdClientTimerConfigRef("timer_ref")
-        assert instance.getSdClientTimerConfigRef() == "timer_ref"
-        assert instance == instance.setSdClientTimerConfigRef("timer_ref")  # Test method chaining
-
-        instance.setVersionDrivenFindBehavior("find_behavior")
-        assert instance.getVersionDrivenFindBehavior() == "find_behavior"
-        assert instance == instance.setVersionDrivenFindBehavior("find_behavior")  # Test method chaining
-
-        instance.setServiceIdentifier(50)
-        assert instance.getServiceIdentifier() == 50
-        assert instance == instance.setServiceIdentifier(50)  # Test method chaining
-
-        # Test add methods
-        instance.setAllowedServiceProviderRefs(["provider1", "provider2"])
-        assert "provider1" in instance.getAllowedServiceProviderRefs()
-        assert instance == instance.setAllowedServiceProviderRefs(["provider1", "provider2"])  # Test method chaining
-
-        instance.setLocalUnicastAddressRefs(["local1", "local2"])
-        assert "local1" in instance.getLocalUnicastAddressRefs()
-        assert instance == instance.setLocalUnicastAddressRefs(["local1", "local2"])  # Test method chaining
-
-        instance.setRemoteUnicastAddressRefs(["remote1", "remote2"])
-        assert "remote1" in instance.getRemoteUnicastAddressRefs()
-        assert instance == instance.setRemoteUnicastAddressRefs(["remote1", "remote2"])  # Test method chaining
-
-        # Test create method for consumed event groups
-        event_group = instance.createConsumedEventGroup("test_event_group")
-        assert isinstance(event_group, ConsumedEventGroup)
-        assert len(instance.getConsumedEventGroups()) == 1
 
     def test_InitialSdDelayConfig(self):
         """Test InitialSdDelayConfig class functionality."""
@@ -1133,3 +1023,198 @@ class TestConsumedEventGroup:
 
         group.setSdClientTimerConfigRef(None)
         assert group.getSdClientTimerConfigRef() is ref
+
+
+class TestConsumedServiceInstance:
+    def _instance(self):
+        return ConsumedServiceInstance(MockParent(), "csi")
+
+    def test_initialization(self):
+        """Test __init__ defaults for all fields (Table 6.167)."""
+        instance = self._instance()
+
+        assert isinstance(instance, AbstractServiceInstance)
+        assert instance.getShortName() == "csi"
+        assert instance.getAllowedServiceProviderRefs() == []
+        assert instance.getAutoRequire() is None
+        assert instance.getBlocklistedVersions() == []
+        assert instance.getConsumedEventGroups() == []
+        assert instance.getEventMulticastSubscriptionAddressRef() is None
+        assert instance.getInstanceIdentifier() is None
+        assert instance.getLocalUnicastAddressRefs() == []
+        assert instance.getMinorVersion() is None
+        assert instance.getProvidedServiceInstanceRef() is None
+        assert instance.getRemoteUnicastAddressRefs() == []
+        assert instance.getSdClientConfig() is None
+        assert instance.getSdClientTimerConfigRef() is None
+        assert instance.getServiceIdentifier() is None
+        assert instance.getVersionDrivenFindBehavior() is None
+
+    def test_add_get_allowedServiceProviderRefs(self):
+        """Test add/get allowedServiceProviderRefs append order and None no-op."""
+        instance = self._instance()
+        ref1 = _ref("/Ethernet/NetworkEndpoint/NE1")
+        ref2 = _ref("/Ethernet/NetworkEndpoint/NE2")
+
+        assert instance.addAllowedServiceProviderRef(ref1) is instance
+        instance.addAllowedServiceProviderRef(ref2)
+        assert instance.getAllowedServiceProviderRefs() == [ref1, ref2]
+
+        instance.addAllowedServiceProviderRef(None)
+        assert instance.getAllowedServiceProviderRefs() == [ref1, ref2]
+
+    def test_get_set_autoRequire(self):
+        """Test get/set autoRequire with chaining and None no-op."""
+        instance = self._instance()
+        value = Boolean().setValue("true")
+
+        assert instance.setAutoRequire(value) is instance
+        assert instance.getAutoRequire() is value
+        assert instance.getAutoRequire().getValue() is True
+
+        instance.setAutoRequire(None)
+        assert instance.getAutoRequire() is value
+
+    def test_add_get_blocklistedVersions(self):
+        """Test add/get blocklistedVersions append order and None no-op."""
+        instance = self._instance()
+        version1 = SomeipServiceVersion()
+        version1.setMajorVersion(PositiveInteger().setValue("1"))
+        version1.setMinorVersion(PositiveInteger().setValue("0"))
+        version2 = SomeipServiceVersion()
+        version2.setMajorVersion(PositiveInteger().setValue("2"))
+        version2.setMinorVersion(PositiveInteger().setValue("5"))
+
+        assert instance.addBlocklistedVersion(version1) is instance
+        instance.addBlocklistedVersion(version2)
+        assert instance.getBlocklistedVersions() == [version1, version2]
+
+        instance.addBlocklistedVersion(None)
+        assert instance.getBlocklistedVersions() == [version1, version2]
+
+    def test_create_get_consumedEventGroups(self):
+        """Test create/get consumedEventGroups: appended, duplicate returns existing."""
+        instance = self._instance()
+
+        group = instance.createConsumedEventGroup("CEG1")
+        assert isinstance(group, ConsumedEventGroup)
+        assert instance.createConsumedEventGroup("CEG1") is group
+        assert instance.getConsumedEventGroups() == [group]
+        assert len(instance.getConsumedEventGroups()) == 1
+
+    def test_get_set_eventMulticastSubscriptionAddressRef(self):
+        """Test get/set eventMulticastSubscriptionAddressRef with chaining and None no-op."""
+        instance = self._instance()
+        ref = _ref("/Ethernet/ApplicationEndpoint/MC1")
+
+        assert instance.setEventMulticastSubscriptionAddressRef(ref) is instance
+        assert instance.getEventMulticastSubscriptionAddressRef() is ref
+
+        instance.setEventMulticastSubscriptionAddressRef(None)
+        assert instance.getEventMulticastSubscriptionAddressRef() is ref
+
+    def test_get_set_instanceIdentifier(self):
+        """Test get/set instanceIdentifier with chaining and None no-op."""
+        instance = self._instance()
+        value = String().setValue("123")
+
+        assert instance.setInstanceIdentifier(value) is instance
+        assert instance.getInstanceIdentifier() is value
+        assert instance.getInstanceIdentifier().getValue() == "123"
+
+        instance.setInstanceIdentifier(None)
+        assert instance.getInstanceIdentifier() is value
+
+    def test_add_get_localUnicastAddressRefs(self):
+        """Test add/get localUnicastAddressRefs append order and None no-op."""
+        instance = self._instance()
+        ref1 = _ref("/Ethernet/ApplicationEndpoint/LU1")
+        ref2 = _ref("/Ethernet/ApplicationEndpoint/LU2")
+
+        assert instance.addLocalUnicastAddressRef(ref1) is instance
+        instance.addLocalUnicastAddressRef(ref2)
+        assert instance.getLocalUnicastAddressRefs() == [ref1, ref2]
+
+        instance.addLocalUnicastAddressRef(None)
+        assert instance.getLocalUnicastAddressRefs() == [ref1, ref2]
+
+    def test_get_set_minorVersion(self):
+        """Test get/set minorVersion with chaining and None no-op."""
+        instance = self._instance()
+        value = String().setValue("ANY")
+
+        assert instance.setMinorVersion(value) is instance
+        assert instance.getMinorVersion() is value
+        assert instance.getMinorVersion().getValue() == "ANY"
+
+        instance.setMinorVersion(None)
+        assert instance.getMinorVersion() is value
+
+    def test_get_set_providedServiceInstanceRef(self):
+        """Test get/set providedServiceInstanceRef with chaining and None no-op."""
+        instance = self._instance()
+        ref = _ref("/Ether/Provider/PSI1")
+
+        assert instance.setProvidedServiceInstanceRef(ref) is instance
+        assert instance.getProvidedServiceInstanceRef() is ref
+
+        instance.setProvidedServiceInstanceRef(None)
+        assert instance.getProvidedServiceInstanceRef() is ref
+
+    def test_add_get_remoteUnicastAddressRefs(self):
+        """Test add/get remoteUnicastAddressRefs append order and None no-op."""
+        instance = self._instance()
+        ref1 = _ref("/Ethernet/ApplicationEndpoint/RU1")
+        ref2 = _ref("/Ethernet/ApplicationEndpoint/RU2")
+
+        assert instance.addRemoteUnicastAddressRef(ref1) is instance
+        instance.addRemoteUnicastAddressRef(ref2)
+        assert instance.getRemoteUnicastAddressRefs() == [ref1, ref2]
+
+        instance.addRemoteUnicastAddressRef(None)
+        assert instance.getRemoteUnicastAddressRefs() == [ref1, ref2]
+
+    def test_get_set_sdClientConfig(self):
+        """Test get/set sdClientConfig with chaining and None no-op."""
+        instance = self._instance()
+        config = SdClientConfig()
+
+        assert instance.setSdClientConfig(config) is instance
+        assert instance.getSdClientConfig() is config
+
+        instance.setSdClientConfig(None)
+        assert instance.getSdClientConfig() is config
+
+    def test_get_set_sdClientTimerConfigRef(self):
+        """Test get/set sdClientTimerConfigRef with chaining and None no-op."""
+        instance = self._instance()
+        ref = _ref("/SomeipSdTimingConfigs/InstanceTiming1")
+
+        assert instance.setSdClientTimerConfigRef(ref) is instance
+        assert instance.getSdClientTimerConfigRef() is ref
+
+        instance.setSdClientTimerConfigRef(None)
+        assert instance.getSdClientTimerConfigRef() is ref
+
+    def test_get_set_serviceIdentifier(self):
+        """Test get/set serviceIdentifier with chaining and None no-op."""
+        instance = self._instance()
+
+        assert instance.setServiceIdentifier(PositiveInteger().setValue("50")) is instance
+        assert instance.getServiceIdentifier().getValue() == 50
+
+        instance.setServiceIdentifier(None)
+        assert instance.getServiceIdentifier().getValue() == 50
+
+    def test_get_set_versionDrivenFindBehavior(self):
+        """Test get/set versionDrivenFindBehavior with chaining and None no-op."""
+        instance = self._instance()
+        value = ARLiteral()
+        value.setValue("minimumMinorVersion")
+
+        assert instance.setVersionDrivenFindBehavior(value) is instance
+        assert instance.getVersionDrivenFindBehavior() is value
+        assert instance.getVersionDrivenFindBehavior().getValue() == "minimumMinorVersion"
+
+        instance.setVersionDrivenFindBehavior(None)
+        assert instance.getVersionDrivenFindBehavior() is value

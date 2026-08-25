@@ -6295,10 +6295,28 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readConsumedServiceInstance(self, element: ET.Element, instance: ConsumedServiceInstance):
         self.readIdentifiable(element, instance)
+        for ref in self.getChildElementRefTypeList(element, "ALLOWED-SERVICE-PROVIDERS/NETWORK-ENDPOINT-REF-CONDITIONAL/NETWORK-ENDPOINT-REF"):
+            instance.addAllowedServiceProviderRef(ref)
+        instance.setAutoRequire(self.getChildElementOptionalBooleanValue(element, "AUTO-REQUIRE"))
+        for version in self.getSomeipServiceVersions(element, "BLOCKLISTED-VERSIONS"):
+            instance.addBlocklistedVersion(version)
         self.readConsumedServiceInstanceConsumedEventGroups(element, instance)
-        instance.setBlocklistedVersions(self.getSomeipServiceVersions(element, "BLOCKLISTED-VERSIONS"))
+        instance.setEventMulticastSubscriptionAddressRef(
+            self.getChildElementOptionalRefType(element, "EVENT-MULTICAST-SUBSCRIPTION-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF")
+        )
+        instance.setInstanceIdentifier(self.getChildElementOptionalString(element, "INSTANCE-IDENTIFIER"))
+        for ref in self.getChildElementRefTypeList(element, "LOCAL-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
+            instance.addLocalUnicastAddressRef(ref)
+        instance.setMinorVersion(self.getChildElementOptionalString(element, "MINOR-VERSION"))
         instance.setProvidedServiceInstanceRef(self.getChildElementOptionalRefType(element, "PROVIDED-SERVICE-INSTANCE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "REMOTE-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
+            instance.addRemoteUnicastAddressRef(ref)
         instance.setSdClientConfig(self.getSdClientConfig(element, "SD-CLIENT-CONFIG"))
+        instance.setSdClientTimerConfigRef(
+            self.getChildElementOptionalRefType(element, "SD-CLIENT-TIMER-CONFIGS/SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL/SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG-REF")
+        )
+        instance.setServiceIdentifier(self.getChildElementOptionalPositiveInteger(element, "SERVICE-IDENTIFIER"))
+        instance.setVersionDrivenFindBehavior(self.getChildElementOptionalLiteral(element, "VERSION-DRIVEN-FIND-BEHAVIOR"))
 
     def readSocketAddressApplicationEndpointConsumedServiceInstances(self, element: ET.Element, end_point: ApplicationEndpoint):
         for child_element in self.findall(element, "CONSUMED-SERVICE-INSTANCES/*"):
