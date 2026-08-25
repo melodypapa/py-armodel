@@ -10,8 +10,14 @@ Classes:
     EventOccurrenceKindEnum: Enumeration for event occurrence kinds
 """
 
+from typing import List, Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import (
+    MultidimensionalTime,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 
@@ -84,73 +90,108 @@ class EventOccurrenceKindEnum(AREnum):
 
 class SynchronizationTimingConstraint(TimingConstraint):
     """
-    Specifies synchronization timing requirements in AUTOSAR timing specifications.
-    This constraint defines timing requirements for synchronization between
-    AUTOSAR elements.
+    Constraint This constraint is used to restrict the timing behavior of different, but correlated events or event chains,
+    with regard to synchronization. Two scenarios are supported: • If ( synchronizationConstraintType ==
+    responseSynchronization ) - TimingDescriptionEvent s: An arbitrary number of correlated events which play the role of
+    responses shall occur synchronously with respect to a predefined tolerance. - TimingDescriptionEventChain s: An
+    arbitrary number of correlated event chains with a common stimulus, but different responses, where the responses
+    shall occur synchronously with respect to a predefined tolerance. • If ( synchronizationConstraintType ==
+    stimulusSynchronization ) - TimingDescriptionEvent s:An arbitrary number of correlated events which play the role of
+    stimuli shall occur synchronously with respect to a predefined tolerance. - TimingDescriptionEventChain s: An
+    arbitrary number of correlated event chains with a common response, but different stimuli, where the stimuli shall
+    occur synchronously with respect to a predefined tolerance. In case the constraint is imposed on events the following
+    two scenarios are supported: • If ( eventOccurrenceKind == singleOccurrence ): any of the events shall occur only once
+    in the given time interval. • If ( eventOccurrenceKind == multipleOccurrences ): any of the events may occur more than
+    once in the given time interval. In other words multiple occurrences of an event within the given time
+
+    [constr_4522] SynchronizationTimingConstraint shall either reference events or event chains: The SynchronizationTimingConstraint
+    shall either reference TimingDescriptionEvent s or TimingDescriptionEventChain s, but not both at the same time.
+    [constr_4514] SynchronizationTimingConstraint shall reference at least two event chains: In the case, that the
+    SynchronizationTimingConstraint is imposed on TimingDescriptionEventChain s then at least two (2) TimingDescriptionEventChain s
+    shall be referenced.
+    [constr_4521] Specifying attribute synchronizationConstraintType: The attribute synchronizationConstraintType shall be specified
+    if the SynchronizationTimingConstraint is imposed on TimingDescriptionEventChain s.
     """
 
     # SynchronizationTimingConstraint method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getSynchronizationType       [x] impl  [x] docstring  [ ] test
-    # [ ] setSynchronizationType       [x] impl  [x] docstring  [ ] test
-    # [ ] getEventOccurrenceKind       [x] impl  [x] docstring  [ ] test
-    # [ ] setEventOccurrenceKind       [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.54, p.92
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEventOccurrenceKind           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEventOccurrenceKind           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addScope                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getScopes                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addScopeEvent                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getScopeEvents                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getSynchronizationConstraintType [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSynchronizationConstraintType [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTolerance                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTolerance                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the SynchronizationTimingConstraint with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this synchronization timing constraint
-            short_name: The unique short name of this synchronization timing constraint
-        """
         super().__init__(parent, short_name)
 
-        # Type of synchronization
-        self.synchronization_type: SynchronizationTypeEnum = None
-        # Event occurrence kind
-        self.event_occurrence_kind: EventOccurrenceKindEnum = None
+        # Indicates whether the referenced events shall occur only once (single occurrence) or multiple times (multiple occurrences) in the given time interval.
+        self.eventOccurrenceKind: Optional[EventOccurrenceKindEnum] = None
 
-    def getSynchronizationType(self):
-        """
-        Gets the synchronization type.
+        # The event chains that are in the scope of the constraint. Mutually exclusive to scopeEvent , see ([constr_4522]).
+        self.scopeRefs: List[RefType] = []
 
-        Returns:
-            SynchronizationTypeEnum: The synchronization type
-        """
-        return self.synchronization_type
+        # The events that are in the scope of the constraint. Mutually exclusive to scope , see ([constr_4522])
+        self.scopeEventRefs: List[RefType] = []
 
-    def setSynchronizationType(self, value):
-        """
-        Sets the synchronization type.
+        # Indicates whether the associated events of the SynchronizationTimingConstraint have a common stimulus or response.
+        self.synchronizationConstraintType: Optional[SynchronizationTypeEnum] = None
 
-        Args:
-            value: The synchronization type to set
+        # The maximum time interval, within which the synchronized events shall occur. The events may occur in any order within this time interval. The time interval starts at the point-in-time when one of the referenced events occurs.
+        self.tolerance: Optional[MultidimensionalTime] = None
 
-        Returns:
-            self for method chaining
-        """
-        self.synchronization_type = value
+    def getEventOccurrenceKind(self) -> Optional[EventOccurrenceKindEnum]:
+        """Indicates whether the referenced events shall occur only once (single occurrence) or multiple times (multiple occurrences) in the given time interval."""
+        return self.eventOccurrenceKind
+
+    def setEventOccurrenceKind(self, value: Optional[EventOccurrenceKindEnum]) -> "SynchronizationTimingConstraint":
+        """Indicates whether the referenced events shall occur only once (single occurrence) or multiple times (multiple occurrences) in the given time interval. A None value is a no-op and does not overwrite an existing eventOccurrenceKind."""
+        if value is not None:
+            self.eventOccurrenceKind = value
         return self
 
-    def getEventOccurrenceKind(self):
-        """
-        Gets the event occurrence kind.
+    def addScope(self, value: Optional[RefType]) -> "SynchronizationTimingConstraint":
+        """The event chains that are in the scope of the constraint. Mutually exclusive to scopeEvent , see ([constr_4522]). A None value is a no-op."""
+        if value is not None:
+            self.scopeRefs.append(value)
+        return self
 
-        Returns:
-            EventOccurrenceKindEnum: The event occurrence kind
-        """
-        return self.event_occurrence_kind
+    def getScopes(self) -> List[RefType]:
+        """The event chains that are in the scope of the constraint. Mutually exclusive to scopeEvent , see ([constr_4522])."""
+        return self.scopeRefs
 
-    def setEventOccurrenceKind(self, value):
-        """
-        Sets the event occurrence kind.
+    def addScopeEvent(self, value: Optional[RefType]) -> "SynchronizationTimingConstraint":
+        """The events that are in the scope of the constraint. Mutually exclusive to scope , see ([constr_4522]). A None value is a no-op."""
+        if value is not None:
+            self.scopeEventRefs.append(value)
+        return self
 
-        Args:
-            value: The event occurrence kind to set
+    def getScopeEvents(self) -> List[RefType]:
+        """The events that are in the scope of the constraint. Mutually exclusive to scope , see ([constr_4522])."""
+        return self.scopeEventRefs
 
-        Returns:
-            self for method chaining
-        """
-        self.event_occurrence_kind = value
+    def getSynchronizationConstraintType(self) -> Optional[SynchronizationTypeEnum]:
+        """Indicates whether the associated events of the SynchronizationTimingConstraint have a common stimulus or response."""
+        return self.synchronizationConstraintType
+
+    def setSynchronizationConstraintType(self, value: Optional[SynchronizationTypeEnum]) -> "SynchronizationTimingConstraint":
+        """Indicates whether the associated events of the SynchronizationTimingConstraint have a common stimulus or response. A None value is a no-op and does not overwrite an existing synchronizationConstraintType."""
+        if value is not None:
+            self.synchronizationConstraintType = value
+        return self
+
+    def getTolerance(self) -> Optional[MultidimensionalTime]:
+        """The maximum time interval, within which the synchronized events shall occur. The events may occur in any order within this time interval. The time interval starts at the point-in-time when one of the referenced events occurs."""
+        return self.tolerance
+
+    def setTolerance(self, value: Optional[MultidimensionalTime]) -> "SynchronizationTimingConstraint":
+        """The maximum time interval, within which the synchronized events shall occur. The events may occur in any order within this time interval. The time interval starts at the point-in-time when one of the referenced events occurs. A None value is a no-op and does not overwrite an existing tolerance."""
+        if value is not None:
+            self.tolerance = value
         return self

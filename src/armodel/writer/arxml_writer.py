@@ -151,6 +151,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import Swc
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TDLETZoneClock import TDLETZoneClock
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TimingClock import TimingClock
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TimingClockSyncAccuracy import TimingClockSyncAccuracy
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
     EOCExecutableEntityRefAbstract,
@@ -158,6 +159,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
     EOCExecutableEntityRefGroup,
     ExecutionOrderConstraint,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.LatencyTimingConstraint import LatencyTimingConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.OffsetConstraint import OffsetTimingConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTiming import SynchronizationTimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
@@ -3488,6 +3492,47 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(element, constraint)
         self.writeTraceable(element, constraint)
         self.setChildElementOptionalRefType(element, "TIMING-CONDITION-REF", constraint.getTimingConditionRef())
+
+    def writeSynchronizationTimingConstraint(self, element: ET.Element, constraint: SynchronizationTimingConstraint):
+        self.logger.debug("writeSynchronizationTimingConstraint %s" % constraint.getShortName())
+        self.writeTimingConstraint(element, constraint)
+        self.setChildElementOptionalLiteral(element, "EVENT-OCCURRENCE-KIND", constraint.getEventOccurrenceKind())
+        scope_events = constraint.getScopeEvents()
+        if len(scope_events) > 0:
+            refs_tag = ET.SubElement(element, "SCOPE-EVENT-REFS")
+            for scope_event in scope_events:
+                self.setChildElementOptionalRefType(refs_tag, "SCOPE-EVENT-REF", scope_event)
+        scopes = constraint.getScopes()
+        if len(scopes) > 0:
+            refs_tag = ET.SubElement(element, "SCOPE-REFS")
+            for scope in scopes:
+                self.setChildElementOptionalRefType(refs_tag, "SCOPE-REF", scope)
+        self.setChildElementOptionalLiteral(element, "SYNCHRONIZATION-CONSTRAINT-TYPE", constraint.getSynchronizationConstraintType())
+        self.setMultidimensionalTime(element, "TOLERANCE", constraint.getTolerance())
+
+    def writeLatencyTimingConstraint(self, element: ET.Element, constraint: LatencyTimingConstraint):
+        self.logger.debug("writeLatencyTimingConstraint %s" % constraint.getShortName())
+        self.writeTimingConstraint(element, constraint)
+        self.setChildElementOptionalLiteral(element, "LATENCY-CONSTRAINT-TYPE", constraint.getLatencyConstraintType())
+        self.setChildElementOptionalRefType(element, "SCOPE-REF", constraint.getScopeRef())
+        self.setMultidimensionalTime(element, "MINIMUM", constraint.getMinimum())
+        self.setMultidimensionalTime(element, "MAXIMUM", constraint.getMaximum())
+        self.setMultidimensionalTime(element, "NOMINAL", constraint.getNominal())
+
+    def writeOffsetTimingConstraint(self, element: ET.Element, constraint: OffsetTimingConstraint):
+        self.logger.debug("writeOffsetTimingConstraint %s" % constraint.getShortName())
+        self.writeTimingConstraint(element, constraint)
+        self.setChildElementOptionalRefType(element, "SOURCE-REF", constraint.getSourceRef())
+        self.setChildElementOptionalRefType(element, "TARGET-REF", constraint.getTargetRef())
+        self.setMultidimensionalTime(element, "MINIMUM", constraint.getMinimum())
+        self.setMultidimensionalTime(element, "MAXIMUM", constraint.getMaximum())
+
+    def writeAgeConstraint(self, element: ET.Element, constraint: AgeConstraint):
+        self.logger.debug("writeAgeConstraint %s" % constraint.getShortName())
+        self.writeTimingConstraint(element, constraint)
+        self.setMultidimensionalTime(element, "MAXIMUM", constraint.getMaximum())
+        self.setMultidimensionalTime(element, "MINIMUM", constraint.getMinimum())
+        self.setChildElementOptionalRefType(element, "SCOPE-REF", constraint.getScopeRef())
 
     def writeTimingClock(self, element: ET.Element, clock: TimingClock):
         self.writeIdentifiable(element, clock)

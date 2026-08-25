@@ -167,6 +167,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import Swc
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TDLETZoneClock import TDLETZoneClock
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TimingClock import TimingClock
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TimingClockSyncAccuracy import TimingClockSyncAccuracy
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
     EOCExecutableEntityRef,
@@ -176,6 +177,16 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
     LetDataExchangeParadigmEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import ConfidenceInterval
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.LatencyTimingConstraint import (
+    LatencyConstraintTypeEnum,
+    LatencyTimingConstraint,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.OffsetConstraint import OffsetTimingConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTiming import (
+    EventOccurrenceKindEnum,
+    SynchronizationTimingConstraint,
+    SynchronizationTypeEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
@@ -2178,6 +2189,79 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, constraint)
         self.readTraceable(element, constraint)
         constraint.setTimingConditionRef(self.getChildElementOptionalRefType(element, "TIMING-CONDITION-REF"))
+
+    def readSynchronizationTimingConstraint(self, element: ET.Element, constraint: SynchronizationTimingConstraint):
+        self.logger.debug("readSynchronizationTimingConstraint %s" % self.getShortName(element))
+        self.readTimingConstraint(element, constraint)
+        literal = self.getChildElementOptionalLiteral(element, "EVENT-OCCURRENCE-KIND")
+        if literal is not None:
+            constraint.setEventOccurrenceKind(EventOccurrenceKindEnum().setValue(literal.getText()))
+        for ref in self.getChildElementRefTypeList(element, "SCOPE-EVENT-REFS/SCOPE-EVENT-REF"):
+            constraint.addScopeEvent(ref)
+        for ref in self.getChildElementRefTypeList(element, "SCOPE-REFS/SCOPE-REF"):
+            constraint.addScope(ref)
+        literal = self.getChildElementOptionalLiteral(element, "SYNCHRONIZATION-CONSTRAINT-TYPE")
+        if literal is not None:
+            constraint.setSynchronizationConstraintType(SynchronizationTypeEnum().setValue(literal.getText()))
+        tolerance_element = self.find(element, "TOLERANCE")
+        if tolerance_element is not None:
+            tolerance = MultidimensionalTime()
+            self.readMultidimensionalTime(tolerance_element, tolerance)
+            constraint.setTolerance(tolerance)
+
+    def readLatencyTimingConstraint(self, element: ET.Element, constraint: LatencyTimingConstraint):
+        self.logger.debug("readLatencyTimingConstraint %s" % self.getShortName(element))
+        self.readTimingConstraint(element, constraint)
+        literal = self.getChildElementOptionalLiteral(element, "LATENCY-CONSTRAINT-TYPE")
+        if literal is not None:
+            constraint.setLatencyConstraintType(LatencyConstraintTypeEnum().setValue(literal.getText()))
+        constraint.setScopeRef(self.getChildElementOptionalRefType(element, "SCOPE-REF"))
+        minimum_element = self.find(element, "MINIMUM")
+        if minimum_element is not None:
+            minimum = MultidimensionalTime()
+            self.readMultidimensionalTime(minimum_element, minimum)
+            constraint.setMinimum(minimum)
+        maximum_element = self.find(element, "MAXIMUM")
+        if maximum_element is not None:
+            maximum = MultidimensionalTime()
+            self.readMultidimensionalTime(maximum_element, maximum)
+            constraint.setMaximum(maximum)
+        nominal_element = self.find(element, "NOMINAL")
+        if nominal_element is not None:
+            nominal = MultidimensionalTime()
+            self.readMultidimensionalTime(nominal_element, nominal)
+            constraint.setNominal(nominal)
+
+    def readOffsetTimingConstraint(self, element: ET.Element, constraint: OffsetTimingConstraint):
+        self.logger.debug("readOffsetTimingConstraint %s" % self.getShortName(element))
+        self.readTimingConstraint(element, constraint)
+        constraint.setSourceRef(self.getChildElementOptionalRefType(element, "SOURCE-REF"))
+        constraint.setTargetRef(self.getChildElementOptionalRefType(element, "TARGET-REF"))
+        minimum_element = self.find(element, "MINIMUM")
+        if minimum_element is not None:
+            minimum = MultidimensionalTime()
+            self.readMultidimensionalTime(minimum_element, minimum)
+            constraint.setMinimum(minimum)
+        maximum_element = self.find(element, "MAXIMUM")
+        if maximum_element is not None:
+            maximum = MultidimensionalTime()
+            self.readMultidimensionalTime(maximum_element, maximum)
+            constraint.setMaximum(maximum)
+
+    def readAgeConstraint(self, element: ET.Element, constraint: AgeConstraint):
+        self.logger.debug("readAgeConstraint %s" % self.getShortName(element))
+        self.readTimingConstraint(element, constraint)
+        maximum_element = self.find(element, "MAXIMUM")
+        if maximum_element is not None:
+            maximum = MultidimensionalTime()
+            self.readMultidimensionalTime(maximum_element, maximum)
+            constraint.setMaximum(maximum)
+        minimum_element = self.find(element, "MINIMUM")
+        if minimum_element is not None:
+            minimum = MultidimensionalTime()
+            self.readMultidimensionalTime(minimum_element, minimum)
+            constraint.setMinimum(minimum)
+        constraint.setScopeRef(self.getChildElementOptionalRefType(element, "SCOPE-REF"))
 
     def readTimingClock(self, element: ET.Element, clock: TimingClock):
         self.readIdentifiable(element, clock)
