@@ -277,7 +277,21 @@ row below and must sync BEFORE the class that references it. All rows below are 
 
 ## RE-FIX rows (user review docs/plan/check.md 2026-08-25 — consumers of the member types above; re-run after their member classes land)
 
-- [ ] DhcpServerConfiguration RE-FIX (class docstring partial + member docstrings incorrect per user; full verbatim Notes incl. Tables 3.80/3.81 aggregation roles once Ipv4/Ipv6 subclasses are real)
+- [ ] DhcpServerConfiguration RE-FIX (class docstring partial + member docstrings incorrect per user; full verbatim Notes incl. Tables 3.80/3.81 aggregation roles once Ipv4/Ipv6 subclasses are real) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Sync members & description from spec
+    (Table 3.79 re-verified: Note "Defines the configuration of DHCP servers that are running on the network
+    endpoint. It is possible that an Ipv4DhcpServer and an Ipv6DhcpServer run on the same Ecu."; Base row = ARObject only;
+    XSD complexType confirms AR-OBJECT group without DESCRIBABLE)
+  - [x] Step 2/3 — Model behavior unchanged (docstring/base sync; existing get/set tests still green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    (class docstring → full verbatim Note; member comments/getter/setter docstrings → verbatim Attribute-row Notes
+    "Configuration of a IPv4/IPv6 DHCP server that runs on the network endpoint.")
+  - [x] Step 5/6 — Reader/writer unchanged (no XML contract change)
+  - [x] Step 7 — Update checklist comment (unchanged, p.131 verified)
+  - [x] Step 8 — Deviations
+    (tracker updated: base corrected Describable→ARObject per Table 3.79 + XSD; aggr rows now cite verbatim Notes)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7306 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] ConsumedServiceInstance RE-FIX (member types incorrect per user: retype instanceIdentifier → AnyServiceInstanceId, minorVersion → AnyVersionString, versionDrivenFindBehavior → ServiceVersionAcceptanceKindEnum once those classes land; remove resolved deviation rows)
 - [ ] ConsumedEventGroup RE-FIX (missing member class per user: type pduActivationRoutingGroups → List[PduActivationRoutingGroup] with reader/writer coverage once it lands; remove resolved deviation row)
 - [ ] SocketAddress RE-FIX (type staticSocketConnections → List[StaticSocketConnection], udpChecksumHandling → UdpChecksumCalculationEnum once they land; remove resolved deviation rows)

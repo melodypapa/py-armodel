@@ -1186,8 +1186,10 @@ class Ipv6DhcpServerConfiguration(Describable):
         return self
 
 
-class DhcpServerConfiguration(Describable):
-    """Defines the configuration of a IPv4 DHCP server that runs on the network endpoint."""
+class DhcpServerConfiguration(ARObject):
+    """
+    Defines the configuration of DHCP servers that are running on the network endpoint. It is possible that an Ipv4DhcpServer and an Ipv6DhcpServer run on the same Ecu.
+    """
 
     # DhcpServerConfiguration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.79, p.131
@@ -1201,19 +1203,19 @@ class DhcpServerConfiguration(Describable):
     def __init__(self):
         super().__init__()
 
-        # Aggregated IPv4 DHCP server configuration. Stereotypes: Aggregated by DhcpServerConfiguration.ipv4DhcpServerConfiguration
+        # Configuration of a IPv4 DHCP server that runs on the network endpoint.
         self.ipv4DhcpServerConfiguration: Optional[Ipv4DhcpServerConfiguration] = None
 
-        # Aggregated IPv6 DHCP server configuration. Stereotypes: Aggregated by DhcpServerConfiguration.ipv6DhcpServerConfiguration
+        # Configuration of a IPv6 DHCP server that runs on the network endpoint.
         self.ipv6DhcpServerConfiguration: Optional[Ipv6DhcpServerConfiguration] = None
 
     def getIpv4DhcpServerConfiguration(self) -> Optional[Ipv4DhcpServerConfiguration]:
-        """Aggregated IPv4 DHCP server configuration. Stereotypes: Aggregated by DhcpServerConfiguration.ipv4DhcpServerConfiguration"""
+        """Configuration of a IPv4 DHCP server that runs on the network endpoint."""
         return self.ipv4DhcpServerConfiguration
 
     def setIpv4DhcpServerConfiguration(self, value: Optional[Ipv4DhcpServerConfiguration]) -> "DhcpServerConfiguration":
         """
-        Aggregated IPv4 DHCP server configuration. Stereotypes: Aggregated by DhcpServerConfiguration.ipv4DhcpServerConfiguration
+        Configuration of a IPv4 DHCP server that runs on the network endpoint.
         A None value is a no-op and does not overwrite an existing ipv4DhcpServerConfiguration.
         """
         if value is not None:
@@ -1221,12 +1223,12 @@ class DhcpServerConfiguration(Describable):
         return self
 
     def getIpv6DhcpServerConfiguration(self) -> Optional[Ipv6DhcpServerConfiguration]:
-        """Aggregated IPv6 DHCP server configuration. Stereotypes: Aggregated by DhcpServerConfiguration.ipv6DhcpServerConfiguration"""
+        """Configuration of a IPv6 DHCP server that runs on the network endpoint."""
         return self.ipv6DhcpServerConfiguration
 
     def setIpv6DhcpServerConfiguration(self, value: Optional[Ipv6DhcpServerConfiguration]) -> "DhcpServerConfiguration":
         """
-        Aggregated IPv6 DHCP server configuration. Stereotypes: Aggregated by DhcpServerConfiguration.ipv6DhcpServerConfiguration
+        Configuration of a IPv6 DHCP server that runs on the network endpoint.
         A None value is a no-op and does not overwrite an existing ipv6DhcpServerConfiguration.
         """
         if value is not None:
