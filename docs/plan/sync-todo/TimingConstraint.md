@@ -83,14 +83,14 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 8 — Deviations: AutosarOperationArgumentInstance/AutosarVariableInstance placeholders (Rule 0001.10), reader/writer deferred for those items
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] TimingCondition (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.7 · ref target of TimingConstraint.timingCondition · aggregates TimingConditionFormula)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base Identifiable(parent, short_name); single attr timingConditionFormula 0..1 aggr (setXxx shape: child spec Base = ARObject+FormulaExpression has no Referrable/Identifiable); fabricated conditionFormula/modeInstances removed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — fragment-level tests (aggregator TimingExtension not yet synced)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingCondition reusing read/writeTimingConditionFormula
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: none blocking
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] SynchronizationTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.55 · enum · consumed by SynchronizationTimingConstraint.synchronizationConstraintType)
   - [x] Step 1 — Sync members & description from spec
@@ -123,14 +123,14 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] ConfidenceInterval (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.65 · aggregated by ArbitraryEventTriggering.confidenceInterval)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base ARObject; lowerBound/upperBound Optional[MultidimensionalTime], propability Optional[Float] (spec spelling kept); fabricated confidenceLevel removed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — fragment-level tests (aggregator ArbitraryEventTriggering queued in Batch H)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeConfidenceInterval reusing readMultidimensionalTime/setMultidimensionalTime
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: none blocking
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] ExecutionOrderConstraintTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.69 · enum · consumed by ExecutionOrderConstraint.executionOrderConstraintType)
   - [x] Step 1 — Sync members & description from spec
