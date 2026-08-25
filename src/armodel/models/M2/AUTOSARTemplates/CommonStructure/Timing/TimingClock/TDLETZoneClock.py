@@ -1,68 +1,52 @@
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from typing import Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import (
+    MultidimensionalTime,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TimingClock import (
+    TimingClock,
+)
 
 
-class TDLETZoneClock(ARObject):
+class TDLETZoneClock(TimingClock):
     """
-    Represents a TDLET zone clock in AUTOSAR timing specifications.
-    Defines a clock for TDLET (Time Domain LET) zones.
+    Describes a LET zone clock.
     """
 
     # TDLETZoneClock method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getClockRef                  [x] impl  [x] docstring  [ ] test
-    # [ ] setClockRef                  [x] impl  [x] docstring  [ ] test
-    # [ ] getZoneRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] setZoneRef                   [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table D.58, p.252
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAccuracyExt    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAccuracyExt    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAccuracyInt    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAccuracyInt    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self):
-        """
-        Initializes the TDLETZoneClock with default values.
-        """
-        super().__init__()
-        self.clockRef: RefType = None
-        self.zoneRef: RefType = None
+    def __init__(self, parent, short_name: str):
+        super().__init__(parent, short_name)
 
-    def getClockRef(self) -> RefType:
-        """
-        Gets the clock reference.
+        # External synchronization accuracy within the LET Zone/ Zone Clock.
+        self.accuracyExt: Optional[MultidimensionalTime] = None
 
-        Returns:
-            Reference to the clock
-        """
-        return self.clockRef
+        # Internal synchronization accuracy within the LET Zone/ Zone Clock.
+        self.accuracyInt: Optional[MultidimensionalTime] = None
 
-    def setClockRef(self, value: RefType):
-        """
-        Sets the clock reference.
+    def getAccuracyExt(self) -> Optional[MultidimensionalTime]:
+        """External synchronization accuracy within the LET Zone/ Zone Clock."""
+        return self.accuracyExt
 
-        Args:
-            value: The clock reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.clockRef = value
+    def setAccuracyExt(self, value: Optional[MultidimensionalTime]) -> "TDLETZoneClock":
+        """External synchronization accuracy within the LET Zone/ Zone Clock. A None value is a no-op and does not overwrite an existing accuracyExt."""
+        if value is not None:
+            self.accuracyExt = value
         return self
 
-    def getZoneRef(self) -> RefType:
-        """
-        Gets the zone reference.
+    def getAccuracyInt(self) -> Optional[MultidimensionalTime]:
+        """Internal synchronization accuracy within the LET Zone/ Zone Clock."""
+        return self.accuracyInt
 
-        Returns:
-            Reference to the zone
-        """
-        return self.zoneRef
-
-    def setZoneRef(self, value: RefType):
-        """
-        Sets the zone reference.
-
-        Args:
-            value: The zone reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.zoneRef = value
+    def setAccuracyInt(self, value: Optional[MultidimensionalTime]) -> "TDLETZoneClock":
+        """Internal synchronization accuracy within the LET Zone/ Zone Clock. A None value is a no-op and does not overwrite an existing accuracyInt."""
+        if value is not None:
+            self.accuracyInt = value
         return self

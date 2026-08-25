@@ -164,6 +164,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TDLETZoneClock import TDLETZoneClock
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TimingClock import TimingClock
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TimingClockSyncAccuracy import TimingClockSyncAccuracy
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
     EOCExecutableEntityRef,
@@ -173,6 +176,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
     LetDataExchangeParadigmEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import ConfidenceInterval
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef
@@ -2169,6 +2173,42 @@ class ARXMLParser(AbstractARXMLParser):
             mode = resource.createTimingMode(self.getShortName(child_element))
             self.readTimingModeInstance(child_element, mode)
         return resource
+
+    def readTimingConstraint(self, element: ET.Element, constraint: TimingConstraint):
+        self.readIdentifiable(element, constraint)
+        self.readTraceable(element, constraint)
+        constraint.setTimingConditionRef(self.getChildElementOptionalRefType(element, "TIMING-CONDITION-REF"))
+
+    def readTimingClock(self, element: ET.Element, clock: TimingClock):
+        self.readIdentifiable(element, clock)
+        time_bases_element = self.find(element, "PLATFORM-TIME-BASES")
+        if time_bases_element is not None:
+            conditional_element = self.find(time_bases_element, "GLOBAL-TIME-DOMAIN-REF-CONDITIONAL")
+            if conditional_element is not None:
+                clock.setPlatformTimeBaseRef(self.getChildElementOptionalRefType(conditional_element, "GLOBAL-TIME-DOMAIN-REF"))
+
+    def readTDLETZoneClock(self, element: ET.Element, clock: TDLETZoneClock):
+        self.readTimingClock(element, clock)
+        accuracy_ext_element = self.find(element, "ACCURACY-EXT")
+        if accuracy_ext_element is not None:
+            accuracy_ext = MultidimensionalTime()
+            self.readMultidimensionalTime(accuracy_ext_element, accuracy_ext)
+            clock.setAccuracyExt(accuracy_ext)
+        accuracy_int_element = self.find(element, "ACCURACY-INT")
+        if accuracy_int_element is not None:
+            accuracy_int = MultidimensionalTime()
+            self.readMultidimensionalTime(accuracy_int_element, accuracy_int)
+            clock.setAccuracyInt(accuracy_int)
+
+    def readTimingClockSyncAccuracy(self, element: ET.Element, sync_accuracy: TimingClockSyncAccuracy):
+        self.readIdentifiable(element, sync_accuracy)
+        accuracy_element = self.find(element, "ACCURACY")
+        if accuracy_element is not None:
+            accuracy = MultidimensionalTime()
+            self.readMultidimensionalTime(accuracy_element, accuracy)
+            sync_accuracy.setAccuracy(accuracy)
+        sync_accuracy.setLowerRef(self.getChildElementOptionalRefType(element, "LOWER-REF"))
+        sync_accuracy.setUpperRef(self.getChildElementOptionalRefType(element, "UPPER-REF"))
 
     def readEOCExecutableEntityRefAbstract(self, element: ET.Element, obj: EOCExecutableEntityRefAbstract):
         for ref in self.getChildElementRefTypeList(element, "DIRECT-SUCCESSOR-REFS/DIRECT-SUCCESSOR-REF"):

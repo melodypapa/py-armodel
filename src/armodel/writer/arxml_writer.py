@@ -148,6 +148,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TDLETZoneClock import TDLETZoneClock
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TimingClock import TimingClock
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TimingClockSyncAccuracy import TimingClockSyncAccuracy
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
     EOCExecutableEntityRefAbstract,
@@ -155,6 +158,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
     EOCExecutableEntityRefGroup,
     ExecutionOrderConstraint,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
@@ -3479,6 +3483,30 @@ class ARXMLWriter(AbstractARXMLWriter):
             for mode in modes:
                 mode_tag = ET.SubElement(modes_tag, "TIMING-MODE-INSTANCE")
                 self.writeTimingModeInstance(mode_tag, mode)
+
+    def writeTimingConstraint(self, element: ET.Element, constraint: TimingConstraint):
+        self.writeIdentifiable(element, constraint)
+        self.writeTraceable(element, constraint)
+        self.setChildElementOptionalRefType(element, "TIMING-CONDITION-REF", constraint.getTimingConditionRef())
+
+    def writeTimingClock(self, element: ET.Element, clock: TimingClock):
+        self.writeIdentifiable(element, clock)
+        platform_time_base_ref = clock.getPlatformTimeBaseRef()
+        if platform_time_base_ref is not None:
+            time_bases_tag = ET.SubElement(element, "PLATFORM-TIME-BASES")
+            conditional_tag = ET.SubElement(time_bases_tag, "GLOBAL-TIME-DOMAIN-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(conditional_tag, "GLOBAL-TIME-DOMAIN-REF", platform_time_base_ref)
+
+    def writeTDLETZoneClock(self, element: ET.Element, clock: TDLETZoneClock):
+        self.writeTimingClock(element, clock)
+        self.setMultidimensionalTime(element, "ACCURACY-EXT", clock.getAccuracyExt())
+        self.setMultidimensionalTime(element, "ACCURACY-INT", clock.getAccuracyInt())
+
+    def writeTimingClockSyncAccuracy(self, element: ET.Element, sync_accuracy: TimingClockSyncAccuracy):
+        self.writeIdentifiable(element, sync_accuracy)
+        self.setMultidimensionalTime(element, "ACCURACY", sync_accuracy.getAccuracy())
+        self.setChildElementOptionalRefType(element, "LOWER-REF", sync_accuracy.getLowerRef())
+        self.setChildElementOptionalRefType(element, "UPPER-REF", sync_accuracy.getUpperRef())
 
     def setEOCExecutableEntityRefSuccessorRefs(self, element: ET.Element, successor_refs: List[RefType]):
         if len(successor_refs) > 0:

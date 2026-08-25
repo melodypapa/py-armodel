@@ -1,67 +1,45 @@
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from abc import ABC
+from typing import Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
 
 
-class TimingClock(ARObject):
+class TimingClock(Identifiable, ABC):
     """
-    Represents a timing clock in AUTOSAR timing specifications.
-    Defines a clock used for timing analysis and synchronization.
+    Describes an abstract clock.
     """
 
     # TimingClock method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getClockName                 [x] impl  [x] docstring  [ ] test
-    # [ ] setClockName                 [x] impl  [x] docstring  [ ] test
-    # [ ] getClockType                 [x] impl  [x] docstring  [ ] test
-    # [ ] setClockType                 [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table D.59, p.252
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getPlatformTimeBaseRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPlatformTimeBaseRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self):
-        """
-        Initializes the TimingClock with default values.
-        """
-        super().__init__()
-        self.clockName: str = None
-        self.clockType: str = None
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is TimingClock:
+            raise TypeError("TimingClock is an abstract class.")
 
-    def getClockName(self) -> str:
-        """
-        Gets the clock name.
+        super().__init__(parent, short_name)
 
-        Returns:
-            String representing the clock name
-        """
-        return self.clockName
+        # Refers to a physical time base reference on the respective platform level
+        # Placeholder: GlobalTimeDomain not yet implemented (Rule 0001.10); typed RefType.
+        self.platformTimeBaseRef: Optional[RefType] = None
 
-    def setClockName(self, value: str):
-        """
-        Sets the clock name.
+    def getPlatformTimeBaseRef(self) -> Optional[RefType]:
+        """Refers to a physical time base reference on the respective platform level."""
+        return self.platformTimeBaseRef
 
-        Args:
-            value: String value to set
-
-        Returns:
-            self for method chaining
-        """
-        self.clockName = value
-        return self
-
-    def getClockType(self) -> str:
-        """
-        Gets the clock type.
-
-        Returns:
-            String representing the clock type
-        """
-        return self.clockType
-
-    def setClockType(self, value: str):
-        """
-        Sets the clock type.
-
-        Args:
-            value: String value to set
-
-        Returns:
-            self for method chaining
-        """
-        self.clockType = value
+    def setPlatformTimeBaseRef(self, value: Optional[RefType]) -> "TimingClock":
+        """Refers to a physical time base reference on the respective platform level. A None value is a no-op and does not overwrite an existing platformTimeBaseRef."""
+        if value is not None:
+            self.platformTimeBaseRef = value
         return self

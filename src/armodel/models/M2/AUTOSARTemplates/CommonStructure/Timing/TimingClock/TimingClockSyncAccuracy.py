@@ -1,67 +1,73 @@
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import (
+    MultidimensionalTime,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
 
 
-class TimingClockSyncAccuracy(ARObject):
+class TimingClockSyncAccuracy(Identifiable):
     """
-    Represents timing clock synchronization accuracy in AUTOSAR.
-    Defines the accuracy of clock synchronization.
+    Describes the synchronization accuracy between exactly two TDClocks.
     """
 
     # TimingClockSyncAccuracy method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getAccuracy                  [x] impl  [x] docstring  [ ] test
-    # [ ] setAccuracy                  [x] impl  [x] docstring  [ ] test
-    # [ ] getUnit                      [x] impl  [x] docstring  [ ] test
-    # [ ] setUnit                      [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table D.60, p.252
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAccuracy    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAccuracy    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getLowerRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setLowerRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUpperRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUpperRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self):
-        """
-        Initializes the TimingClockSyncAccuracy with default values.
-        """
-        super().__init__()
-        self.accuracy: str = None
-        self.unit: str = None
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
-    def getAccuracy(self) -> str:
-        """
-        Gets the accuracy value.
+        # Synchronization accuracy, treated as zero if not given.
+        self.accuracy: Optional[MultidimensionalTime] = None
 
-        Returns:
-            String representing the accuracy
-        """
+        # References a target clock
+        self.lowerRef: Optional[RefType] = None
+
+        # References a source clock
+        self.upperRef: Optional[RefType] = None
+
+    def getAccuracy(self) -> Optional[MultidimensionalTime]:
+        """Synchronization accuracy, treated as zero if not given."""
         return self.accuracy
 
-    def setAccuracy(self, value: str):
-        """
-        Sets the accuracy value.
-
-        Args:
-            value: String value to set
-
-        Returns:
-            self for method chaining
-        """
-        self.accuracy = value
+    def setAccuracy(self, value: Optional[MultidimensionalTime]) -> "TimingClockSyncAccuracy":
+        """Synchronization accuracy, treated as zero if not given. A None value is a no-op and does not overwrite an existing accuracy."""
+        if value is not None:
+            self.accuracy = value
         return self
 
-    def getUnit(self) -> str:
-        """
-        Gets the unit.
+    def getLowerRef(self) -> Optional[RefType]:
+        """References a target clock"""
+        return self.lowerRef
 
-        Returns:
-            String representing the unit
-        """
-        return self.unit
+    def setLowerRef(self, value: Optional[RefType]) -> "TimingClockSyncAccuracy":
+        """References a target clock. A None value is a no-op and does not overwrite an existing lowerRef."""
+        if value is not None:
+            self.lowerRef = value
+        return self
 
-    def setUnit(self, value: str):
-        """
-        Sets the unit.
+    def getUpperRef(self) -> Optional[RefType]:
+        """References a source clock"""
+        return self.upperRef
 
-        Args:
-            value: String value to set
-
-        Returns:
-            self for method chaining
-        """
-        self.unit = value
+    def setUpperRef(self, value: Optional[RefType]) -> "TimingClockSyncAccuracy":
+        """References a source clock. A None value is a no-op and does not overwrite an existing upperRef."""
+        if value is not None:
+            self.upperRef = value
         return self
