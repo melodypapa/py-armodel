@@ -156,16 +156,24 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (tracker: new Ipv6DhcpServerConfiguration section, zero deviations; DhcpServerConfiguration Ipv6 stub row removed)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7279 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] AnyServiceInstanceId (primitive · FO_TPS_GenericStructureTemplate Table E.6 · used by ConsumedServiceInstance.instanceIdentifier · resolves String placeholder)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] AnyServiceInstanceId (primitive · FO_TPS_GenericStructureTemplate Table E.6 · p.423 · used by ConsumedServiceInstance.instanceIdentifier · resolves String placeholder) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Sync members & description from spec
+    (Table E.6 in markdown AUTOSAR_FO_TPS_GenericStructureTemplate.md:11455–11461 + PDF p.423;
+    Primitive in GeneralTemplateClasses::PrimitiveTypes; Note verbatim, Tags stripped per Rule 0012)
+  - [x] Step 2 — Write model class unit test (Red)
+    (TestAnyServiceInstanceId in test_PrimitiveTypes.py; Red confirmed — ImportError at collection)
+  - [x] Step 3 — Implement model class (Green)
+    (ARLiteral subclass mirroring PositiveInteger/CategoryString conventions)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    (fresh implementation: class docstring = Table E.6 Note verbatim incl. Tags block per primitive convention)
+  - [x] Step 5 — Write reader/writer round-trip test (N/A — standalone primitive, no own XML element;
+    round-tripped via consuming class ConsumedServiceInstance.instanceIdentifier in its RE-FIX row)
+  - [x] Step 6 — Update parser & writer (N/A — same reason as Step 5)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (none; ConsumedServiceInstance instanceIdentifier placeholder row resolved by the RE-FIX row)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7283 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] AnyVersionString (primitive · FO_TPS_GenericStructureTemplate Table E.7 · used by ConsumedServiceInstance.minorVersion · resolves String placeholder)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

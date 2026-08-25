@@ -1248,6 +1248,25 @@ class CategoryString(ARLiteral):
         super().__init__()
 
 
+class AnyServiceInstanceId(ARLiteral):
+    r"""
+    This is a positive integer or the literal ALL (the value ANY is technically supported but deprecated) which can be denoted in decimal, octal and hexadecimal. The value is between 0 and 65535.
+
+    Tags:
+        * xml.xsd.customType=ANY-SERVICE-INSTANCE-ID
+        * xml.xsd.pattern=[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[0-7]*|0[bB][0-1]+|ANY|ALL
+        * xml.xsd.type=string
+    """
+
+    # AnyServiceInstanceId method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.6, p.423
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+
 class ByteOrderEnum(AREnum):
     """
     When more than one byte is stored in the memory the order of those bytes may differ depending on the architecture of the processing unit. If the least significant byte is stored at the lowest address, this architecture is called little endian and otherwise it is called big endian. ByteOrder is very important in case of communication between different PUs or ECUs.
