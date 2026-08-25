@@ -242,7 +242,7 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: TimingDescriptionEvent placeholder (Rule 0001.10)
   - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
-- [x] EventTriggeringConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.59 · abstract · Base includes TimingConstraint · event -> TimingDescriptionEvent is a Rule 0001.10 placeholder, not queued · Subclasses queued next) · commit <TBD>
+- [x] EventTriggeringConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.59 · abstract · Base includes TimingConstraint · event -> TimingDescriptionEvent is a Rule 0001.10 placeholder, not queued · Subclasses queued next) · commit add46b0f
   - [x] Step 1 — Sync members & description from spec (impl committed da8cf5c2; eventRef Optional[RefType]; Base TimingConstraint)
   - [x] Step 2 — Write model class unit test (Red→Green, test_EventTriggeringConstraint.py)
   - [x] Step 3 — Implement model class (Green): abstract base TimingConstraint+ABC TypeError guard; eventRef Optional[RefType]
