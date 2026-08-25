@@ -93,35 +93,35 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] SynchronizationTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.55 · enum · consumed by SynchronizationTimingConstraint.synchronizationConstraintType)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
-  - [ ] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] EventOccurrenceKindEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.56 · enum · consumed by SynchronizationTimingConstraint.eventOccurrenceKind)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
-  - [ ] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] LatencyConstraintTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.58 · enum · consumed by LatencyTimingConstraint.latencyConstraintType)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
-  - [ ] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] ConfidenceInterval (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.65 · aggregated by ArbitraryEventTriggering.confidenceInterval)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -133,25 +133,25 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] ExecutionOrderConstraintTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.69 · enum · consumed by ExecutionOrderConstraint.executionOrderConstraintType)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
-  - [ ] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] LetDataExchangeParadigmEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 4.4 · enum · consumed by EOCExecutableEntityRefGroup.letDataExchangeParadigm)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
-  - [ ] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] EOCExecutableEntityRefAbstract (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.70 · abstract · Base of EOCExecutableEntityRefGroup/EOCExecutableEntityRef/EOCEventRef)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -313,15 +313,15 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] ExecutionTimeTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.76 · enum · consumed by ExecutionTimeConstraint.executionTimeType)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
-  - [ ] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] ExecutionTimeConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.75 · Base includes TimingConstraint · uses ExecutionTimeTypeEnum (queued above), MultidimensionalTime (already stamped) · component -> SwComponentPrototype iref (queued above) · executable -> ExecutableEntity (already stamped))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
