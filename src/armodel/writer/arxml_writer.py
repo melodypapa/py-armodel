@@ -480,6 +480,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint, NetworkEndpointAddress
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
+    AbstractServiceInstance,
     ApplicationEndpoint,
     ConsumedEventGroup,
     ConsumedServiceInstance,
@@ -6767,6 +6768,11 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
                     self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
+            groups = group.getPduActivationRoutingGroups()
+            if len(groups) > 0:
+                wrapper = ET.SubElement(child_element, "PDU-ACTIVATION-ROUTING-GROUPS")
+                for activation_group in groups:
+                    self.setPduActivationRoutingGroup(wrapper, activation_group)
             self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", group.getPriority())
             self.writeConsumedEventGroupRoutingGroupRefs(child_element, group)
             self.setSdClientConfig(child_element, "SD-CLIENT-CONFIG", group.getSdClientConfig())
@@ -6793,6 +6799,12 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(wrapper, "SOMEIP-SERVICE-VERSION")
                 self.setChildElementOptionalPositiveInteger(child_element, "MAJOR-VERSION", version.getMajorVersion())
                 self.setChildElementOptionalPositiveInteger(child_element, "MINOR-VERSION", version.getMinorVersion())
+
+    def writeAbstractServiceInstanceMethodActivationRoutingGroups(self, element: ET.Element, instance: AbstractServiceInstance):
+        group = instance.getMethodActivationRoutingGroup()
+        if group is not None:
+            wrapper = ET.SubElement(element, "METHOD-ACTIVATION-ROUTING-GROUPS")
+            self.setPduActivationRoutingGroup(wrapper, group)
 
     def writeConsumedServiceInstance(self, element: ET.Element, instance: ConsumedServiceInstance):
         if instance is not None:
@@ -6821,6 +6833,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
                     self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
             self.setChildElementOptionalPositiveInteger(child_element, "MAJOR-VERSION", instance.getMajorVersion())
+            self.writeAbstractServiceInstanceMethodActivationRoutingGroups(child_element, instance)
             self.setChildElementOptionalLiteral(child_element, "MINOR-VERSION", instance.getMinorVersion())
             self.setChildElementOptionalRefType(child_element, "PROVIDED-SERVICE-INSTANCE-REF", instance.getProvidedServiceInstanceRef())
             refs = instance.getRemoteUnicastAddressRefs()
@@ -6955,6 +6968,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
                     self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
             self.setChildElementOptionalPositiveInteger(child_element, "MAJOR-VERSION", instance.getMajorVersion())
+            self.writeAbstractServiceInstanceMethodActivationRoutingGroups(child_element, instance)
             self.setChildElementOptionalPositiveInteger(child_element, "MINOR-VERSION", instance.getMinorVersion())
             self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", instance.getPriority())
             refs = instance.getRemoteMulticastSubscriptionAddressRefs()

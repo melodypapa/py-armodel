@@ -6,9 +6,9 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, PositiveInteger, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ConsumedServiceInstance, ProvidedServiceInstance
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ConsumedServiceInstance, PduActivationRoutingGroup, ProvidedServiceInstance
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -189,3 +189,66 @@ class TestAbstractServiceInstanceRoundTrip:
         assert recovered.getMajorVersion().getValue() == 7
         refs = recovered.getRoutingGroupRefs()
         assert [r.getValue() for r in refs] == ["/Ether/RoutingGroup/RG3"]
+
+
+def _activation_group():
+    group = PduActivationRoutingGroup(MockParent(), "MARG1")
+    literal = ARLiteral()
+    literal.setValue("deactivateAndTriggerUnicast")
+    group.setEventGroupControlType(literal)
+    ref = RefType()
+    ref.setValue("/SoCon/IPduUdp9")
+    group.addIPduIdentifierUdpRef(ref)
+    return group
+
+
+class TestMethodActivationRoutingGroupRoundTrip:
+    def test_write_method_activation_routing_group_consumed_side(self, writer):
+        parent = _parent()
+        instance = ConsumedServiceInstance(MockParent(), "CSI")
+        instance.setMethodActivationRoutingGroup(_activation_group())
+        writer.writeConsumedServiceInstance(parent, instance)
+
+        el = parent.find("CONSUMED-SERVICE-INSTANCE")
+        wrapper = el.find("METHOD-ACTIVATION-ROUTING-GROUPS")
+        assert wrapper is not None
+        entry = wrapper.find("PDU-ACTIVATION-ROUTING-GROUP")
+        assert entry is not None
+        assert entry.find("SHORT-NAME").text == "MARG1"
+        assert entry.find("EVENT-GROUP-CONTROL-TYPE").text == "deactivateAndTriggerUnicast"
+
+    def test_round_trip_preserves_method_activation_routing_group(self, writer, parser, tmp_path):
+        parent = _parent()
+        instance = ConsumedServiceInstance(MockParent(), "CSI")
+        instance.setMethodActivationRoutingGroup(_activation_group())
+        writer.writeConsumedServiceInstance(parent, instance)
+
+        element = _namespaced_wrap(parent)
+        recovered = ConsumedServiceInstance(MockParent(), "CSI")
+        parser.readConsumedServiceInstance(element, recovered)
+
+        group = recovered.getMethodActivationRoutingGroup()
+        assert isinstance(group, PduActivationRoutingGroup)
+        assert group.getShortName() == "MARG1"
+        assert group.getEventGroupControlType().getValue() == "deactivateAndTriggerUnicast"
+        assert group.getIPduIdentifierUdpRefs()[0].getValue() == "/SoCon/IPduUdp9"
+
+    def test_provided_side_method_activation_routing_group_round_trip(self, writer, parser, tmp_path):
+        parent = _parent()
+        instance = ProvidedServiceInstance(MockParent(), "PSI")
+        instance.setMethodActivationRoutingGroup(_activation_group())
+        writer.writeProvidedServiceInstance(parent, instance)
+
+        element = _namespaced_wrap(parent)
+        recovered = ProvidedServiceInstance(MockParent(), "PSI")
+        parser.readProvidedServiceInstance(element, recovered)
+
+        group = recovered.getMethodActivationRoutingGroup()
+        assert isinstance(group, PduActivationRoutingGroup)
+        assert group.getShortName() == "MARG1"
+
+    def test_reader_no_wrapper_leaves_none(self, parser):
+        element = ET.fromstring(f"<CONSUMED-SERVICE-INSTANCE xmlns='{NS}'><SHORT-NAME>CSI</SHORT-NAME></CONSUMED-SERVICE-INSTANCE>")
+        recovered = ConsumedServiceInstance(MockParent(), "CSI")
+        parser.readConsumedServiceInstance(element, recovered)
+        assert recovered.getMethodActivationRoutingGroup() is None

@@ -814,7 +814,7 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `pduActivationRoutingGroups` | `List[ARObject]` | `pduActivationRoutingGroup` | ``PduActivationRoutingGroup`` | aggr | referenced class `PduActivationRoutingGroup` not yet implemented; carried as an `ARObject` placeholder list, reader/writer pending, full sync deferred (Rule 0001.10) |
+| `pduActivationRoutingGroups` | `List[PduActivationRoutingGroup]` | `pduActivationRoutingGroup` | ``PduActivationRoutingGroup`` | aggr | - (resolved 2026-08-26: `PduActivationRoutingGroup` (Table 6.161) implemented; reader/writer cover the PDU-ACTIVATION-ROUTING-GROUPS wrapper on ConsumedEventGroup) |
 | — *(missing)* | `—` | `instanceIdentifier` | ``PositiveInteger`` | attr | deprecated (atp.Status=removed since 4.4.0), not implemented — absent from the R23-11 Table 6.168 rendering; XSD-only remnant, not modeled per Rule 0015 |
 
 ## `ConsumedServiceInstance`
@@ -1596,7 +1596,7 @@ Resolution of the three technology members (queue context): Table 6.124 (markdow
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `methodActivationRoutingGroup` | `Optional[ARObject]` | `methodActivationRoutingGroup` | ``PduActivationRoutingGroup`` | aggr | referenced class `PduActivationRoutingGroup` (Table 6.161; Identifiable child — final shape will be `createMethodActivationRoutingGroup(short_name)` per Rule 0001.6) not yet implemented; carried as an `ARObject` placeholder with get/set accessors, reader/writer pending, full sync deferred (Rule 0001.10); earlier `routingGroupRefs` type row removed — ref-kind members are modeled as `List[RefType]` (DEST=`SO-AD-ROUTING-GROUP`) and round-trip via `ROUTING-GROUP-REFS/ROUTING-GROUP-REF`; spec Tags: atp.Status=obsolete on `routingGroup`, kept and round-tripped |
+| `methodActivationRoutingGroup` | `Optional[PduActivationRoutingGroup]` | `methodActivationRoutingGroup` | ``PduActivationRoutingGroup`` | aggr | - (resolved 2026-08-26: `PduActivationRoutingGroup` (Table 6.161) implemented and wired — reader/writer cover the METHOD-ACTIVATION-ROUTING-GROUPS wrapper on both ConsumedServiceInstance and ProvidedServiceInstance sides; model keeps 0..1 per Table 6.158 while XSD resolves the atpVariation to unbounded, first entry read / single entry written); earlier `routingGroupRefs` type row removed — ref-kind members are modeled as `List[RefType]` (DEST=`SO-AD-ROUTING-GROUP`) and round-trip via `ROUTING-GROUP-REFS/ROUTING-GROUP-REF`; spec Tags: atp.Status=obsolete on `routingGroup`, kept and round-tripped |
 
 ## `EventHandler`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 492

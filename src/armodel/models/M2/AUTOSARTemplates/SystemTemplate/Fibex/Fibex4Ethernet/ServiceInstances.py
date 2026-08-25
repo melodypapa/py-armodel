@@ -258,11 +258,10 @@ class AbstractServiceInstance(Identifiable, ABC):
     # [x] getCapabilityRecords            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] getMajorVersion                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setMajorVersion                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMethodActivationRoutingGroup [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setMethodActivationRoutingGroup [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getMethodActivationRoutingGroup [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMethodActivationRoutingGroup [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] addRoutingGroupRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getRoutingGroupRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # methodActivationRoutingGroup: PduActivationRoutingGroup not yet implemented - reader/writer pending
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractServiceInstance:
@@ -277,8 +276,7 @@ class AbstractServiceInstance(Identifiable, ABC):
         self.majorVersion: Optional[PositiveInteger] = None
 
         # The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods).
-        # (PduActivationRoutingGroup class is not yet implemented - placeholder)
-        self.methodActivationRoutingGroup: Optional[ARObject] = None
+        self.methodActivationRoutingGroup: Optional[PduActivationRoutingGroup] = None
 
         # The ServiceDiscovery module is able to activate and deactivate the PDU routing from and to TCP/IP-sockets.
         self.routingGroupRefs: List[RefType] = []
@@ -309,17 +307,13 @@ class AbstractServiceInstance(Identifiable, ABC):
             self.majorVersion = value
         return self
 
-    def getMethodActivationRoutingGroup(self) -> Optional[ARObject]:
-        """
-        The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods).
-        (PduActivationRoutingGroup class is not yet implemented - placeholder)
-        """
+    def getMethodActivationRoutingGroup(self) -> Optional["PduActivationRoutingGroup"]:
+        """The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods)."""
         return self.methodActivationRoutingGroup
 
-    def setMethodActivationRoutingGroup(self, value: Optional[ARObject]) -> "AbstractServiceInstance":
+    def setMethodActivationRoutingGroup(self, value: Optional["PduActivationRoutingGroup"]) -> "AbstractServiceInstance":
         """
         The ServiceDiscovery module is able to activate and deactivate the PDU routing for ClientServerOperations (SOME/IP methods).
-        (PduActivationRoutingGroup class is not yet implemented - placeholder)
         A None value is a no-op and does not overwrite an existing methodActivationRoutingGroup.
         """
         if value is not None:
@@ -355,8 +349,8 @@ class ConsumedEventGroup(Identifiable):
     # [x] setEventGroupIdentifier        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] addEventMulticastAddressRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getEventMulticastAddressRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addPduActivationRoutingGroup   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getPduActivationRoutingGroups  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addPduActivationRoutingGroup   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPduActivationRoutingGroups  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] getPriority                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setPriority                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] addRoutingGroupRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -365,7 +359,6 @@ class ConsumedEventGroup(Identifiable):
     # [x] setSdClientConfig              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getSdClientTimerConfigRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setSdClientTimerConfigRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # pduActivationRoutingGroups: PduActivationRoutingGroup not yet implemented - reader/writer pending
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -383,8 +376,7 @@ class ConsumedEventGroup(Identifiable):
         self.eventMulticastAddressRefs: List[RefType] = []
 
         # The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events.
-        # (PduActivationRoutingGroup class is not yet implemented - placeholder; reader/writer pending)
-        self.pduActivationRoutingGroups: List[ARObject] = []
+        self.pduActivationRoutingGroups: List[PduActivationRoutingGroup] = []
 
         # Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
         self.priority: Optional[PositiveInteger] = None
@@ -450,18 +442,17 @@ class ConsumedEventGroup(Identifiable):
         """This reference defines the multicast address or a multicast address resource where the events of the event group are received. If the multicast address is determined via configuration and not at runtime via service discovery this reference points to the multicast address over which the events will be received. If the multicast address is determined at runtime via service discovery this reference shall be used to define the necessary local multicast address resources, i.e. RAM space in the TcpIp module in which the multicast address is stored at runtime. Please note that in this case the referenced address may be defined as ANY UDP port and ANY IP address since the multicast address will be received at runtime. If several multicast addresses are considered to be used the ConsumedEventGroup shall point to different ApplicationEndpoint objects to reserve the necessary resources in the configuration."""
         return self.eventMulticastAddressRefs
 
-    def addPduActivationRoutingGroup(self, value: Optional[ARObject]) -> "ConsumedEventGroup":
+    def addPduActivationRoutingGroup(self, value: Optional["PduActivationRoutingGroup"]) -> "ConsumedEventGroup":
         """
-        Adds a PduActivationRoutingGroup (spec type, not yet implemented; carried as an ARObject placeholder) so that the ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events. A None value is a no-op and does not append to pduActivationRoutingGroups.
+        The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events.
+        A None value is a no-op and does not append to pduActivationRoutingGroups.
         """
         if value is not None:
             self.pduActivationRoutingGroups.append(value)
         return self
 
-    def getPduActivationRoutingGroups(self) -> List[ARObject]:
-        """
-        Gets the PduActivationRoutingGroups (spec type, not yet implemented; carried as ARObject placeholders) with which the ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events.
-        """
+    def getPduActivationRoutingGroups(self) -> List["PduActivationRoutingGroup"]:
+        """The ServiceDiscovery module is able to activate and deactivate the PDU routing for receiving events."""
         return self.pduActivationRoutingGroups
 
     def getPriority(self) -> Optional[PositiveInteger]:

@@ -309,7 +309,27 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (tracker: three placeholder rows resolved and annotated; no open deviations left for this class)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7306 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] ConsumedEventGroup RE-FIX (missing member class per user: type pduActivationRoutingGroups → List[PduActivationRoutingGroup] with reader/writer coverage once it lands; remove resolved deviation row)
+- [ ] ConsumedEventGroup RE-FIX (missing member class per user: type pduActivationRoutingGroups → List[PduActivationRoutingGroup] with reader/writer coverage once it lands; remove resolved deviation row) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Spec re-check (Table 6.168 unchanged; PduActivationRoutingGroup landed)
+  - [x] Step 2 — Reader/writer coverage tests (Red)
+    (test_consumed_event_group.py: write + round-trip of PDU-ACTIVATION-ROUTING-GROUPS wrapper;
+     test_abstract_service_instance.py: METHOD-ACTIVATION-ROUTING-GROUPS on consumed AND provided sides;
+     Red confirmed — 3 failed)
+  - [x] Step 3/4 — Model retyped
+    (ConsumedEventGroup.pduActivationRoutingGroups → List[PduActivationRoutingGroup]; AbstractServiceInstance.
+    methodActivationRoutingGroup → Optional[PduActivationRoutingGroup]; placeholder docstrings replaced by verbatim
+    spec Notes; forward refs quoted for py3.8 eager-annotation compatibility; checklists reader/writer flipped)
+  - [x] Step 5/6 — Parser & writer wired
+    (parser: readAbstractServiceInstanceMethodActivationRoutingGroups called from both readConsumedServiceInstance
+    and readProvidedServiceInstance; readConsumedEventGroup loops the wrapper. writer:
+    writeAbstractServiceInstanceMethodActivationRoutingGroups after MAJOR-VERSION per XSD group order;
+    CONSUMED-EVENT-GROUP writes wrapper between EVENT-MULTICAST-ADDRESSS and PRIORITY)
+  - [x] Step 7 — Checklist comments updated
+  - [x] Step 8 — Deviations
+    (tracker: both placeholder rows resolved and annotated; XSD unbounded-vs-PDF 0..1 note recorded on
+    methodActivationRoutingGroup row, Rule 0015 table-wins)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7313 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] SocketAddress RE-FIX (type staticSocketConnections → List[StaticSocketConnection], udpChecksumHandling → UdpChecksumCalculationEnum once they land; remove resolved deviation rows)
 - [ ] CanXlProps NOT CONFIRMED by user (reason pending clarification; canConfig placeholder may resolve via CanControllerConfiguration Table 3.14)
 

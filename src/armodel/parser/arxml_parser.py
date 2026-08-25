@@ -512,6 +512,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
+    AbstractServiceInstance,
     ApplicationEndpoint,
     ConsumedEventGroup,
     ConsumedServiceInstance,
@@ -6264,6 +6265,10 @@ class ARXMLParser(AbstractARXMLParser):
             config.setTtl(self.getChildElementOptionalPositiveInteger(child_element, "TTL"))
         return config
 
+    def readAbstractServiceInstanceMethodActivationRoutingGroups(self, element: ET.Element, instance: AbstractServiceInstance):
+        for child_element in self.findall(element, "METHOD-ACTIVATION-ROUTING-GROUPS/PDU-ACTIVATION-ROUTING-GROUP"):
+            instance.setMethodActivationRoutingGroup(self.getPduActivationRoutingGroup(child_element))
+
     def readConsumedEventGroup(self, element: ET.Element, group: ConsumedEventGroup):
         self.readIdentifiable(element, group)
         group.setApplicationEndpointRef(self.getChildElementOptionalRefType(element, "APPLICATION-ENDPOINT-REF"))
@@ -6271,6 +6276,8 @@ class ARXMLParser(AbstractARXMLParser):
         group.setEventGroupIdentifier(self.getChildElementOptionalPositiveInteger(element, "EVENT-GROUP-IDENTIFIER"))
         for ref in self.getChildElementRefTypeList(element, "EVENT-MULTICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             group.addEventMulticastAddressRef(ref)
+        for child_element in self.findall(element, "PDU-ACTIVATION-ROUTING-GROUPS/PDU-ACTIVATION-ROUTING-GROUP"):
+            group.addPduActivationRoutingGroup(self.getPduActivationRoutingGroup(child_element))
         group.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
         self.readConsumedEventGroupRoutingGroupRefs(element, group)
         group.setSdClientConfig(self.getSdClientConfig(element, "SD-CLIENT-CONFIG"))
@@ -6307,6 +6314,7 @@ class ARXMLParser(AbstractARXMLParser):
             instance.addBlocklistedVersion(version)
         for tag in self.getTagWithOptionalValues(element, "CAPABILITY-RECORDS"):
             instance.addCapabilityRecord(tag)
+        self.readAbstractServiceInstanceMethodActivationRoutingGroups(element, instance)
         self.readConsumedServiceInstanceConsumedEventGroups(element, instance)
         instance.setEventMulticastSubscriptionAddressRef(
             self.getChildElementOptionalRefType(element, "EVENT-MULTICAST-SUBSCRIPTION-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF")
@@ -6440,6 +6448,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, instance)
         for tag in self.getTagWithOptionalValues(element, "CAPABILITY-RECORDS"):
             instance.addCapabilityRecord(tag)
+        self.readAbstractServiceInstanceMethodActivationRoutingGroups(element, instance)
         self.readProvidedServiceInstanceEventHandlers(element, instance)
         instance.setInstanceIdentifier(self.getChildElementOptionalPositiveInteger(element, "INSTANCE-IDENTIFIER"))
         instance.setLoadBalancingPriority(self.getChildElementOptionalPositiveInteger(element, "LOAD-BALANCING-PRIORITY"))
