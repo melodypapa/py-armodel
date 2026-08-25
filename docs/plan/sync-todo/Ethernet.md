@@ -221,16 +221,50 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (9a automated verification only — pytest 7244 passed incl. lossless integration round trip,
     black/black-check/lint clean, checklist==methods 1:1 source order, verbatim Note diff OK,
     no receiver-chain mutators in new code; 9b stamp DEFERRED to batch pass)
-- [ ] SocketAddress (markdown SystemTemplate · Table 6.118 · p.452 · source Fibex4Ethernet/ServiceInstances.py · fixes applicationEndpoint type; adds ipAddress)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] SocketAddress (markdown SystemTemplate · Table 6.118 · p.453 · source Fibex4Ethernet/ServiceInstances.py · fixes applicationEndpoint type; adds ipAddress) · steps complete commit 1d699cf8 — STAMP DEFERRED (batch 9b pending)
+  NOTE: Table 6.118 verified in AUTOSAR_CP_TPS_SystemTemplate.md:11940–11969 (page-split table:
+  group 1 before caption, group 2 after) + PDF p.453 (pdf_page.py authoritative; p.452 above was
+  stale). The table has NO ipAddress row (and NO portAddress row); both are deprecated XSD-only
+  elements ("replaced by the aggregated NetworkEndpoint/ApplicationEndpoint") — NOT modeled, the
+  pre-existing portAddress field/accessors/reader/writer removed (Rule 0015 / "the table wins");
+  tracker records the resolution. Queue note "adds ipAddress" is stale.
+  - [x] Step 1 — Sync members & description from spec
+    (page-split table: rows before caption = allowedIPv6ExtHeaders, allowedTcpOptions,
+    applicationEndpoint, connector, differentiatedServiceField, flowLabel; after caption =
+    multicastConnector, pathMtuDiscoveryEnabled, pduCollectionMaxBufferSize, pduCollectionTimeout,
+    staticSocketConnection, udpChecksumHandling; Base = ARObject, Identifiable,
+    MultilanguageReferrable, Referrable → Identifiable; Aggregated by SoAdConfig.socketAddress →
+    no ARPackage dispatch)
+  - [x] Step 2 — Write model class unit test (Red)
+    (TestSocketAddress added to test_ServiceInstances.py; Red confirmed — 13 failed)
+  - [x] Step 3 — Implement model class (Green)
+    (typed Optional/List fields, guarded setters returning self, createApplicationEndpoint with
+    IsElementExists/getElement + addElement; legacy test_SocketAddress updated to synced API;
+    79 passed in file incl. siblings)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    (class Note verbatim → class docstring; per-attribute Note verbatim → __init__ comments +
+    getter/setter docstrings; None-no-op sentences appended; Stereotypes/Tags tails dropped per
+    Rule 0012)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    (tests/test_armodel/writer/test_socket_address.py: write_all_fields,
+    write_empty_fields_omits_optional_tags, round_trip_preserves_all_values, reader_empty_fields;
+    Red confirmed — 4 failed incl. stale setPortAddress AttributeError before parser+writer wiring)
+  - [x] Step 6 — Update parser & writer (Green)
+    (reader: ALLOWED-I-PV-6-EXT-HEADERS-REF/ALLOWED-TCP-OPTIONS-REF/DIFFERENTIATED-SERVICE-FIELD/
+    FLOW-LABEL/PATH-MTU-DISCOVERY-ENABLED/PDU-COLLECTION-MAX-BUFFER-SIZE/PDU-COLLECTION-TIMEOUT/
+    UDP-CHECKSUM-HANDLING wired via mutators in XSD sequence order, PORT-ADDRESS read removed;
+    writer matched getXxx pairs same order; no chained mutators)
+  - [x] Step 7 — Update checklist comment
+    (# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.118, p.453; 25 method rows, source order;
+    staticSocketConnections reader/writer [—] pending child class)
+  - [x] Step 8 — Deviations
+    (tracker entry added: staticSocketConnections ARObject placeholder + udpChecksumHandling
+    ARLiteral placeholder per Rule 0001.10; portAddress/ipAddress Rule 0015 resolution recorded;
+    stale queue note documented)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7261 passed incl. lossless integration round trip,
+    black/black-check/lint clean, checklist==methods 1:1 source order, verbatim Note diff OK,
+    no receiver-chain mutators in new code; 9b stamp DEFERRED to batch pass)
 - [ ] SoAdConfig (markdown SystemTemplate · Table 6.117 · p.451 · source Fibex4Ethernet/ServiceInstances.py · adds logicAddress ref to existing DoIpLogicAddress)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
