@@ -186,7 +186,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (9a automated verification only — pytest 7232 passed incl. lossless integration round trip,
     black/black-check/lint clean, checklist==methods 1:1 source order, verbatim Note diff OK,
     no receiver-chain mutators in new code; 9b stamp DEFERRED to batch pass)
-- [ ] ApplicationEndpoint (markdown SystemTemplate · Table 6.124 · p.458 · source Fibex4Ethernet/ServiceInstances.py · adds discoveryTechnology, remotingTechnology, serializationTechnologyRef; these tech member types are XSD/ad-hoc — handle inside this sync)
+- [ ] ApplicationEndpoint (markdown SystemTemplate · Table 6.124 · p.458 · source Fibex4Ethernet/ServiceInstances.py · adds discoveryTechnology, remotingTechnology, serializationTechnologyRef; these tech member types are XSD/ad-hoc — handle inside this sync) · steps complete commit 92517479 — STAMP DEFERRED (batch 9b pending)
   NOTE: Table 6.124 verified in AUTOSAR_CP_TPS_SystemTemplate.md:12091–12115 + PDF p.458 (pdf_page.py
   authoritative; p.457 above was stale). The table has NO discoveryTechnology/remotingTechnology/
   serializationTechnologyRef rows; XSD marks all three atp.Status="removed" — NOT modeled
