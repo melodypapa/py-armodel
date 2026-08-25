@@ -1357,71 +1357,159 @@ class SdServerConfig(ARObject):
 
 class EventHandler(Identifiable):
     """
-    Defines an event handler for service-oriented communication,
-    specifying how events are processed by service providers including
-    application endpoint references and service discovery configuration.
+    This element represents an event group as part of the Provided Service Instance.
     """
 
     # EventHandler method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getApplicationEndpointRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] setApplicationEndpointRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] getConsumedEventGroupRefs    [x] impl  [ ] docstring  [ ] test
-    # [ ] addConsumedEventGroupRef     [x] impl  [ ] docstring  [ ] test
-    # [ ] getMulticastThreshold        [x] impl  [ ] docstring  [ ] test
-    # [ ] setMulticastThreshold        [x] impl  [ ] docstring  [ ] test
-    # [ ] getRoutingGroupRefs          [x] impl  [ ] docstring  [ ] test
-    # [ ] addRoutingGroupRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getSdServerConfig            [x] impl  [ ] docstring  [ ] test
-    # [ ] setSdServerConfig            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.166, p.492
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addConsumedEventGroupRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getConsumedEventGroupRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getEventGroupIdentifier           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEventGroupIdentifier           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEventMulticastAddressRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEventMulticastAddressRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMulticastThreshold             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMulticastThreshold             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addPduActivationRoutingGroup      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPduActivationRoutingGroups     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addRoutingGroupRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRoutingGroupRefs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getSdServerConfig                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSdServerConfig                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSdServerEgTimingConfigRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSdServerEgTimingConfigRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.applicationEndpointRef: RefType = None
+        # All consumers of the event are referenced here.
         self.consumedEventGroupRefs: List[RefType] = []
-        self.multicastThreshold: PositiveInteger = None
+
+        # Unique Identifier that identifies the EventGroup in SOME/IP. This Identifier is sent as Eventgroup ID in SOME/IP Service Discovery messages.
+        self.eventGroupIdentifier: Optional[PositiveInteger] = None
+
+        # Multicast Address that is used for event communication in the IP-Multicast case. It is the destination address to which the server sends the multicast event messages if the mulicastThreshold is exceeded. This address is transmitted in the SD-SubscribeEventGroupAck Message to client (answer to SD-SubscribeEventGroup).
+        self.eventMulticastAddressRef: Optional[RefType] = None
+
+        # Specifies the number of subscribed clients that trigger the server to change the transmission of events to multicast. If configured to 0 only unicast will be used. If configured to 1 the first client will be already served by multicast. If configured to 2 the first client will be server with unicast and as soon as the second client arrives both will be served by multicast. This does not influence the handling of initial events, which are served using unicast only.
+        self.multicastThreshold: Optional[PositiveInteger] = None
+
+        # The ServiceDiscovery module is able to activate and deactivate the PDU routing for events.
+        self.pduActivationRoutingGroups: List[PduActivationRoutingGroup] = []
+
+        # The ServiceDiscovery module is able to activate and deactivate the PDU routing for events.
         self.routingGroupRefs: List[RefType] = []
-        self.sdServerConfig = None
 
-    def getApplicationEndpointRef(self):
-        return self.applicationEndpointRef
+        # Server configuration parameter for Service-Discovery.
+        self.sdServerConfig: Optional[SdServerConfig] = None
 
-    def setApplicationEndpointRef(self, value):
-        if value is not None:
-            self.applicationEndpointRef = value
-        return self
+        # Server Timing configuration settings that are EventGroup specific.
+        self.sdServerEgTimingConfigRef: Optional[RefType] = None
 
-    def getConsumedEventGroupRefs(self):
-        return self.consumedEventGroupRefs
-
-    def addConsumedEventGroupRef(self, value):
+    def addConsumedEventGroupRef(self, value: Optional[RefType]) -> "EventHandler":
+        """
+        All consumers of the event are referenced here.
+        A None value is a no-op and does not append to consumedEventGroupRefs.
+        """
         if value is not None:
             self.consumedEventGroupRefs.append(value)
         return self
 
-    def getMulticastThreshold(self):
+    def getConsumedEventGroupRefs(self) -> List[RefType]:
+        """All consumers of the event are referenced here."""
+        return self.consumedEventGroupRefs
+
+    def getEventGroupIdentifier(self) -> Optional[PositiveInteger]:
+        """Unique Identifier that identifies the EventGroup in SOME/IP. This Identifier is sent as Eventgroup ID in SOME/IP Service Discovery messages."""
+        return self.eventGroupIdentifier
+
+    def setEventGroupIdentifier(self, value: Optional[PositiveInteger]) -> "EventHandler":
+        """
+        Unique Identifier that identifies the EventGroup in SOME/IP. This Identifier is sent as Eventgroup ID in SOME/IP Service Discovery messages.
+        A None value is a no-op and does not overwrite an existing eventGroupIdentifier.
+        """
+        if value is not None:
+            self.eventGroupIdentifier = value
+        return self
+
+    def getEventMulticastAddressRef(self) -> Optional[RefType]:
+        """Multicast Address that is used for event communication in the IP-Multicast case. It is the destination address to which the server sends the multicast event messages if the mulicastThreshold is exceeded. This address is transmitted in the SD-SubscribeEventGroupAck Message to client (answer to SD-SubscribeEventGroup)."""
+        return self.eventMulticastAddressRef
+
+    def setEventMulticastAddressRef(self, value: Optional[RefType]) -> "EventHandler":
+        """
+        Multicast Address that is used for event communication in the IP-Multicast case. It is the destination address to which the server sends the multicast event messages if the mulicastThreshold is exceeded. This address is transmitted in the SD-SubscribeEventGroupAck Message to client (answer to SD-SubscribeEventGroup).
+        A None value is a no-op and does not overwrite an existing eventMulticastAddressRef.
+        """
+        if value is not None:
+            self.eventMulticastAddressRef = value
+        return self
+
+    def getMulticastThreshold(self) -> Optional[PositiveInteger]:
+        """Specifies the number of subscribed clients that trigger the server to change the transmission of events to multicast. If configured to 0 only unicast will be used. If configured to 1 the first client will be already served by multicast. If configured to 2 the first client will be server with unicast and as soon as the second client arrives both will be served by multicast. This does not influence the handling of initial events, which are served using unicast only."""
         return self.multicastThreshold
 
-    def setMulticastThreshold(self, value):
+    def setMulticastThreshold(self, value: Optional[PositiveInteger]) -> "EventHandler":
+        """
+        Specifies the number of subscribed clients that trigger the server to change the transmission of events to multicast. If configured to 0 only unicast will be used. If configured to 1 the first client will be already served by multicast. If configured to 2 the first client will be server with unicast and as soon as the second client arrives both will be served by multicast. This does not influence the handling of initial events, which are served using unicast only.
+        A None value is a no-op and does not overwrite an existing multicastThreshold.
+        """
         if value is not None:
             self.multicastThreshold = value
         return self
 
-    def getRoutingGroupRefs(self):
-        return self.routingGroupRefs
+    def addPduActivationRoutingGroup(self, value: Optional[PduActivationRoutingGroup]) -> "EventHandler":
+        """
+        The ServiceDiscovery module is able to activate and deactivate the PDU routing for events.
+        A None value is a no-op and does not append to pduActivationRoutingGroups.
+        """
+        if value is not None:
+            self.pduActivationRoutingGroups.append(value)
+        return self
 
-    def addRoutingGroupRef(self, value):
+    def getPduActivationRoutingGroups(self) -> List[PduActivationRoutingGroup]:
+        """The ServiceDiscovery module is able to activate and deactivate the PDU routing for events."""
+        return self.pduActivationRoutingGroups
+
+    def addRoutingGroupRef(self, value: Optional[RefType]) -> "EventHandler":
+        """
+        The ServiceDiscovery module is able to activate and deactivate the PDU routing for events.
+        A None value is a no-op and does not append to routingGroupRefs.
+        """
         if value is not None:
             self.routingGroupRefs.append(value)
         return self
 
-    def getSdServerConfig(self):
+    def getRoutingGroupRefs(self) -> List[RefType]:
+        """The ServiceDiscovery module is able to activate and deactivate the PDU routing for events."""
+        return self.routingGroupRefs
+
+    def getSdServerConfig(self) -> Optional[SdServerConfig]:
+        """Server configuration parameter for Service-Discovery."""
         return self.sdServerConfig
 
-    def setSdServerConfig(self, value):
+    def setSdServerConfig(self, value: Optional[SdServerConfig]) -> "EventHandler":
+        """
+        Server configuration parameter for Service-Discovery.
+        A None value is a no-op and does not overwrite an existing sdServerConfig.
+        """
         if value is not None:
             self.sdServerConfig = value
+        return self
+
+    def getSdServerEgTimingConfigRef(self) -> Optional[RefType]:
+        """Server Timing configuration settings that are EventGroup specific."""
+        return self.sdServerEgTimingConfigRef
+
+    def setSdServerEgTimingConfigRef(self, value: Optional[RefType]) -> "EventHandler":
+        """
+        Server Timing configuration settings that are EventGroup specific.
+        A None value is a no-op and does not overwrite an existing sdServerEgTimingConfigRef.
+        """
+        if value is not None:
+            self.sdServerEgTimingConfigRef = value
         return self
 
 

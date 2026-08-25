@@ -1630,10 +1630,14 @@ Resolution of the three technology members (queue context): Table 6.124 (markdow
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `eventGroupIdentifier` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `eventMulticastAddress` | ``ApplicationEndpoint`` | ref | missing |
-| — *(missing)* | `—` | `pduActivationRoutingGroup` | ``PduActivationRouting Group`` | aggr | missing |
-| — *(missing)* | `—` | `sdServerEgTimingConfig` | ``SomeipSdServerEvent GroupTimingConfig`` | ref | missing |
+| — *(removed)* | `—` | `applicationEndpoint` | ``ApplicationEndpoint`` | ref | atp.Status=removed since 4.4.0, absent from the R23-11 Table 6.166; pre-existing field/accessors/reader/writer removed in this pass (Rule 0015/the-table-wins) |
+| `eventGroupIdentifier` | `Optional[PositiveInteger]` | `eventGroupIdentifier` | ``PositiveInteger`` | attr | - (synced 2026-08-26) |
+| `eventMulticastAddressRef` | `Optional[RefType]` | `eventMulticastAddress` | ``ApplicationEndpoint`` | ref | - (synced 2026-08-26; serialized through EVENT-MULTICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL) |
+| `pduActivationRoutingGroups` | `List[PduActivationRoutingGroup]` | `pduActivationRoutingGroup` | ``PduActivationRouting Group`` | aggr | - (synced 2026-08-26, class implemented per Table 6.161) |
+| `sdServerEgTimingConfigRef` | `Optional[RefType]` | `sdServerEgTimingConfig` | ``SomeipSdServerEvent GroupTimingConfig`` | ref | - (synced 2026-08-26; serialized through SD-SERVER-EG-TIMING-CONFIGS conditional wrapper) |
+
+Resolution of the former missing rows: all four members are now modelled with full reader/writer
+coverage against Table 6.166.
 
 ## `DoIpLogicTesterAddressProps`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 556

@@ -521,16 +521,27 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (tracker updated: naming deviations resolved to convention notes; stale logicAddress resolution recorded)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7318 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] EventHandler (markdown SystemTemplate · Table 6.166 · p.492 · source Fibex4Ethernet/ServiceInstances.py · depends on SomeipSdServerEventGroupTimingConfig above; adds eventGroupIdentifier, eventMulticastAddress, pduActivationRoutingGroup, sdServerEgTimingConfig)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] EventHandler (markdown SystemTemplate · Table 6.166 · p.492 · source Fibex4Ethernet/ServiceInstances.py · depends on SomeipSdServerEventGroupTimingConfig above; adds eventGroupIdentifier, eventMulticastAddress, pduActivationRoutingGroup, sdServerEgTimingConfig) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Sync members & description from spec
+    (Table 6.166 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:13081–13105 + PDF p.492;
+    Base → Identifiable; 8 attr rows; applicationEndpoint is atp.Status=removed since 4.4.0 and ABSENT from the
+    table → field/accessors/reader/writer removed per Rule 0015/the-table-wins)
+  - [x] Step 2 — Model tests (Red)
+    (TestEventHandler added: new members + applicationEndpointRef-removed assertion; legacy test_EventHandler
+    rewritten to synced API; Red confirmed — 6 failed)
+  - [x] Step 3 — Implement model class (Green)
+    (adds eventGroupIdentifier, eventMulticastAddressRef, pduActivationRoutingGroups List[PduActivationRoutingGroup],
+    sdServerEgTimingConfigRef; removes applicationEndpointRef)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) (class Note + all Attribute Notes verbatim, Stereotypes/Tags stripped)
+  - [x] Step 5/6 — Reader/writer round-trip test + wiring
+    (tests/test_armodel/writer/test_event_handler.py: write_all_fields incl. conditional wrappers, removed-member
+     omission case, tmp_path round trip, empty reader; readEventHandler/writeEventHandler fully rewired in XSD order;
+     stale consumer test_writer_frame_channel updated off the removed API)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (tracker: four former missing rows resolved and annotated; applicationEndpoint removal recorded per Rule 0015)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7328 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] Ipv6Configuration (markdown SystemTemplate · Table 6.139 · p.466 · source Fibex4Ethernet/NetworkEndpoint.py · fixes dnsServerAddresses naming → dnsServerAddress)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

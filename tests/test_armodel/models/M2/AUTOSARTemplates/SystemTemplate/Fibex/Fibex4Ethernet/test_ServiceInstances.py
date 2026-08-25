@@ -305,23 +305,23 @@ class Test_Fibex4EthernetServiceInstances:
         assert config == config.setTtl(64)  # Test method chaining
 
     def test_EventHandler(self):
-        """Test EventHandler class functionality."""
+        """Test EventHandler class functionality (Table 6.166)."""
         parent = MockParent()
         handler = EventHandler(parent, "test_event_handler")
 
         assert isinstance(handler, Identifiable)
 
         # Test default values
-        assert handler.getApplicationEndpointRef() is None
         assert handler.getConsumedEventGroupRefs() == []
+        assert handler.getEventGroupIdentifier() is None
+        assert handler.getEventMulticastAddressRef() is None
         assert handler.getMulticastThreshold() is None
+        assert handler.getPduActivationRoutingGroups() == []
         assert handler.getRoutingGroupRefs() == []
         assert handler.getSdServerConfig() is None
+        assert handler.getSdServerEgTimingConfigRef() is None
 
-        # Test setter/getter methods with method chaining - with None
-        assert handler == handler.setApplicationEndpointRef(None)  # Test method chaining with None
-        assert handler.getApplicationEndpointRef() is None  # Should remain None
-
+        # Test setter/getter methods with method chaining - with None no-ops
         assert handler == handler.setMulticastThreshold(None)  # Test method chaining with None
         assert handler.getMulticastThreshold() is None  # Should remain None
 
@@ -329,15 +329,11 @@ class Test_Fibex4EthernetServiceInstances:
         assert handler.getSdServerConfig() is None  # Should remain None
 
         # Test setter/getter methods with method chaining - with actual values
-        handler.setApplicationEndpointRef("app_endpoint_ref")
-        assert handler.getApplicationEndpointRef() == "app_endpoint_ref"
-        assert handler == handler.setApplicationEndpointRef("app_endpoint_ref")  # Test method chaining
-
         handler.setMulticastThreshold(10)
         assert handler.getMulticastThreshold() == 10
         assert handler == handler.setMulticastThreshold(10)  # Test method chaining
 
-        config = object()
+        config = SdServerConfig()
         handler.setSdServerConfig(config)
         assert handler.getSdServerConfig() == config
         assert handler == handler.setSdServerConfig(config)  # Test method chaining
@@ -1694,3 +1690,97 @@ class TestUdpChecksumCalculationEnum:
         result = enum.setValue(UdpChecksumCalculationEnum.UDP_CHECKSUM_DISABLED)
         assert result == enum  # method chaining
         assert enum.getValue() == "udpChecksumDisabled"
+
+
+class TestEventHandler:
+    """
+    Test cases for EventHandler (Table 6.166).
+    """
+
+    def _new_handler(self):
+        return EventHandler(MockParent(), "EH1")
+
+    def test_initialization(self):
+        """
+        Test initialization and defaults.
+        """
+        handler = self._new_handler()
+
+        assert isinstance(handler, Identifiable)
+        assert handler.getShortName() == "EH1"
+        assert handler.getConsumedEventGroupRefs() == []
+        assert handler.getEventGroupIdentifier() is None
+        assert handler.getEventMulticastAddressRef() is None
+        assert handler.getMulticastThreshold() is None
+        assert handler.getPduActivationRoutingGroups() == []
+        assert handler.getRoutingGroupRefs() == []
+        assert handler.getSdServerConfig() is None
+        assert handler.getSdServerEgTimingConfigRef() is None
+
+    def test_event_group_identifier(self):
+        """
+        Test eventGroupIdentifier round-trip and None no-op.
+        """
+        handler = self._new_handler()
+        identifier = PositiveInteger().setValue(7)
+
+        result = handler.setEventGroupIdentifier(identifier)
+        assert handler.getEventGroupIdentifier() == identifier
+        assert result == handler  # method chaining
+
+        # None no-op
+        result = handler.setEventGroupIdentifier(None)
+        assert handler.getEventGroupIdentifier() == identifier
+
+    def test_event_multicast_address_ref(self):
+        """
+        Test eventMulticastAddressRef round-trip and None no-op.
+        """
+        handler = self._new_handler()
+        ref = RefType()
+        ref.setValue("/Ether/ApplicationEndpoint/MC1")
+
+        result = handler.setEventMulticastAddressRef(ref)
+        assert handler.getEventMulticastAddressRef() is ref
+        assert result == handler  # method chaining
+
+        # None no-op
+        result = handler.setEventMulticastAddressRef(None)
+        assert handler.getEventMulticastAddressRef() is ref
+
+    def test_pdu_activation_routing_groups(self):
+        """
+        Test pduActivationRoutingGroups append semantics and None no-op.
+        """
+        handler = self._new_handler()
+        group = PduActivationRoutingGroup(MockParent(), "PARG1")
+
+        result = handler.addPduActivationRoutingGroup(group)
+        assert handler.getPduActivationRoutingGroups() == [group]
+        assert result == handler  # method chaining
+
+        handler.addPduActivationRoutingGroup(None)
+        assert handler.getPduActivationRoutingGroups() == [group]
+
+    def test_sd_server_eg_timing_config_ref(self):
+        """
+        Test sdServerEgTimingConfigRef round-trip and None no-op.
+        """
+        handler = self._new_handler()
+        ref = RefType()
+        ref.setValue("/SomeipSdTimingConfigs/ServerTiming1")
+
+        result = handler.setSdServerEgTimingConfigRef(ref)
+        assert handler.getSdServerEgTimingConfigRef() is ref
+        assert result == handler  # method chaining
+
+        # None no-op
+        result = handler.setSdServerEgTimingConfigRef(None)
+        assert handler.getSdServerEgTimingConfigRef() is ref
+
+    def test_application_endpoint_ref_removed(self):
+        """
+        applicationEndpoint is atp.Status=removed since 4.4.0 and absent from Table 6.166 (Rule 0015).
+        """
+        handler = self._new_handler()
+        assert not hasattr(handler, "applicationEndpointRef")

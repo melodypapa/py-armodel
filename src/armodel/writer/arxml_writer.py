@@ -6938,7 +6938,6 @@ class ARXMLWriter(AbstractARXMLWriter):
         if handler is not None:
             child_element = ET.SubElement(element, "EVENT-HANDLER")
             self.writeIdentifiable(child_element, handler)
-            self.setChildElementOptionalRefType(child_element, "APPLICATION-ENDPOINT-REF", handler.getApplicationEndpointRef())
 
             refs = handler.getConsumedEventGroupRefs()
             if len(refs) > 0:
@@ -6946,7 +6945,21 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_tag, "CONSUMED-EVENT-GROUP-REF", ref)
 
+            self.setChildElementOptionalPositiveInteger(child_element, "EVENT-GROUP-IDENTIFIER", handler.getEventGroupIdentifier())
+
+            ref = handler.getEventMulticastAddressRef()
+            if ref is not None:
+                wrapper = ET.SubElement(child_element, "EVENT-MULTICAST-ADDRESSS")
+                cond_tag = ET.SubElement(wrapper, "APPLICATION-ENDPOINT-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(cond_tag, "APPLICATION-ENDPOINT-REF", ref)
+
             self.setChildElementOptionalPositiveInteger(child_element, "MULTICAST-THRESHOLD", handler.getMulticastThreshold())
+
+            groups = handler.getPduActivationRoutingGroups()
+            if len(groups) > 0:
+                groups_tag = ET.SubElement(child_element, "PDU-ACTIVATION-ROUTING-GROUPS")
+                for group in groups:
+                    self.setPduActivationRoutingGroup(groups_tag, group)
 
             refs = handler.getRoutingGroupRefs()
             if len(refs) > 0:
@@ -6954,6 +6967,12 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_tag, "ROUTING-GROUP-REF", ref)
             self.setSdServerConfig(child_element, "SD-SERVER-CONFIG", handler.getSdServerConfig())
+
+            ref = handler.getSdServerEgTimingConfigRef()
+            if ref is not None:
+                wrapper = ET.SubElement(child_element, "SD-SERVER-EG-TIMING-CONFIGS")
+                cond_tag = ET.SubElement(wrapper, "SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(cond_tag, "SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG-REF", ref)
 
     def writeProvidedServiceInstanceEventHandlers(self, element: ET.Element, instance: ProvidedServiceInstance):
         handlers = instance.getEventHandlers()

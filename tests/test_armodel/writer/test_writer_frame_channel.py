@@ -1388,7 +1388,7 @@ class TestWriteEventHandler:
     def test_write_event_handler_full(self, writer):
         pkg = _pkg()
         handler = EventHandler(pkg, "Handler")
-        handler.setApplicationEndpointRef(_ref("APPLICATION-ENDPOINT", "/ae"))
+        handler.setEventGroupIdentifier(_pos_int("42"))
         handler.addConsumedEventGroupRef(_ref("CONSUMED-EVENT-GROUP", "/ceg"))
         handler.setMulticastThreshold(_pos_int("5"))
         handler.addRoutingGroupRef(_ref("ROUTING-GROUP", "/rg"))
@@ -1399,7 +1399,7 @@ class TestWriteEventHandler:
         writer.writeEventHandler(parent, handler)
         eh = parent.find("EVENT-HANDLER")
         assert eh is not None
-        assert eh.find("APPLICATION-ENDPOINT-REF") is not None
+        assert eh.find("EVENT-GROUP-IDENTIFIER").text == "42"
         refs = eh.find("CONSUMED-EVENT-GROUP-REFS")
         assert refs is not None
         assert len(refs.findall("CONSUMED-EVENT-GROUP-REF")) == 1
