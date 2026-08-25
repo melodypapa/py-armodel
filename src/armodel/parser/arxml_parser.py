@@ -2200,8 +2200,7 @@ class ARXMLParser(AbstractARXMLParser):
                 else:
                     self.notImplemented("Unsupported TimingModeInstance.modeInstance <%s>" % tag_name)
 
-    def readTimingExtensionResource(self, parent, element: ET.Element) -> TimingExtensionResource:
-        resource = TimingExtensionResource(parent, self.getShortName(element))
+    def readTimingExtensionResource(self, element: ET.Element, resource: TimingExtensionResource) -> TimingExtensionResource:
         self.readIdentifiable(element, resource)
         for child_element in self.findall(element, "TIMING-ARGUMENTS/AUTOSAR-OPERATION-ARGUMENT-INSTANCE"):
             argument = resource.createTimingArgument(self.getShortName(child_element))
@@ -6323,10 +6322,8 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.raiseError("Unsupported order element <%s>." % tag_name)
 
-    def readExecutionOrderConstraint(self, element: ET.Element, extension: TimingExtension):
-        short_name = self.getShortName(element)
-        self.logger.debug("readExecutionOrderConstraint %s" % short_name)
-        constraint = extension.createExecutionOrderConstraint(short_name)
+    def readExecutionOrderConstraint(self, element: ET.Element, constraint: ExecutionOrderConstraint):
+        self.logger.debug("readExecutionOrderConstraint %s" % self.getShortName(element))
         self.readTimingConstraint(element, constraint)
         constraint.setBaseCompositionRef(self.getChildElementOptionalRefType(element, "BASE-COMPOSITION-REF"))
         literal = self.getChildElementOptionalLiteral(element, "EXECUTION-ORDER-CONSTRAINT-TYPE")
@@ -6337,18 +6334,91 @@ class ARXMLParser(AbstractARXMLParser):
         self.readExecutionOrderConstraintOrderedElement(element, constraint)
         constraint.setPermitMultipleReferencesToEE(self.getChildElementOptionalBooleanValue(element, "PERMIT-MULTIPLE-REFERENCES-TO-EE"))
 
+    def readTimingExtensionConstraint(self, element: ET.Element, extension: TimingExtension, key: str):
+        tag_name = self.getTagName(element)
+        if tag_name not in (
+            "AGE-CONSTRAINT",
+            "ARBITRARY-EVENT-TRIGGERING",
+            "BURST-PATTERN-EVENT-TRIGGERING",
+            "CONCRETE-PATTERN-EVENT-TRIGGERING",
+            "EXECUTION-ORDER-CONSTRAINT",
+            "EXECUTION-TIME-CONSTRAINT",
+            "LATENCY-TIMING-CONSTRAINT",
+            "OFFSET-TIMING-CONSTRAINT",
+            "PERIODIC-EVENT-TRIGGERING",
+            "SPORADIC-EVENT-TRIGGERING",
+            "SYNCHRONIZATION-POINT-CONSTRAINT",
+            "SYNCHRONIZATION-TIMING-CONSTRAINT",
+        ):
+            self.raiseError("Unsupported timing requirement <%s>" % tag_name)
+            return
+        short_name = self.getShortName(element)
+        constraint = None
+        if tag_name == "AGE-CONSTRAINT":
+            constraint = AgeConstraint(extension, short_name)
+            self.readAgeConstraint(element, constraint)
+        elif tag_name == "ARBITRARY-EVENT-TRIGGERING":
+            constraint = ArbitraryEventTriggering(extension, short_name)
+            self.readArbitraryEventTriggering(element, constraint)
+        elif tag_name == "BURST-PATTERN-EVENT-TRIGGERING":
+            constraint = BurstPatternEventTriggering(extension, short_name)
+            self.readBurstPatternEventTriggering(element, constraint)
+        elif tag_name == "CONCRETE-PATTERN-EVENT-TRIGGERING":
+            constraint = ConcretePatternEventTriggering(extension, short_name)
+            self.readConcretePatternEventTriggering(element, constraint)
+        elif tag_name == "EXECUTION-ORDER-CONSTRAINT":
+            constraint = ExecutionOrderConstraint(extension, short_name)
+            self.readExecutionOrderConstraint(element, constraint)
+        elif tag_name == "EXECUTION-TIME-CONSTRAINT":
+            constraint = ExecutionTimeConstraint(extension, short_name)
+            self.readExecutionTimeConstraint(element, constraint)
+        elif tag_name == "LATENCY-TIMING-CONSTRAINT":
+            constraint = LatencyTimingConstraint(extension, short_name)
+            self.readLatencyTimingConstraint(element, constraint)
+        elif tag_name == "OFFSET-TIMING-CONSTRAINT":
+            constraint = OffsetTimingConstraint(extension, short_name)
+            self.readOffsetTimingConstraint(element, constraint)
+        elif tag_name == "PERIODIC-EVENT-TRIGGERING":
+            constraint = PeriodicEventTriggering(extension, short_name)
+            self.readPeriodicEventTriggering(element, constraint)
+        elif tag_name == "SPORADIC-EVENT-TRIGGERING":
+            constraint = SporadicEventTriggering(extension, short_name)
+            self.readSporadicEventTriggering(element, constraint)
+        elif tag_name == "SYNCHRONIZATION-POINT-CONSTRAINT":
+            constraint = SynchronizationPointConstraint(extension, short_name)
+            self.readSynchronizationPointConstraint(element, constraint)
+        elif tag_name == "SYNCHRONIZATION-TIMING-CONSTRAINT":
+            constraint = SynchronizationTimingConstraint(extension, short_name)
+            self.readSynchronizationTimingConstraint(element, constraint)
+        else:
+            self.raiseError("Unsupported timing requirement <%s>" % tag_name)
+            return
+        extension.addElement(constraint)
+        if key == "TIMING-GUARANTEES":
+            extension.addTimingGuarantee(constraint)
+        else:
+            extension.addTimingRequirement(constraint)
+
     def readTimingExtension(self, element: ET.Element, extension: TimingExtension):
+        for child_element in self.findall(element, "TIMING-CONDITIONS/TIMING-CONDITION"):
+            condition = extension.createTimingCondition(self.getShortName(child_element))
+            self.readTimingCondition(child_element, condition)
+        for child_element in self.findall(element, "TIMING-DESCRIPTIONS/*"):
+            self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % self.getTagName(child_element))
+        for child_element in self.findall(element, "TIMING-GUARANTEES/*"):
+            self.readTimingExtensionConstraint(child_element, extension, "TIMING-GUARANTEES")
         for child_element in self.findall(element, "TIMING-REQUIREMENTS/*"):
-            tag_name = self.getTagName(child_element)
-            if tag_name == "EXECUTION-ORDER-CONSTRAINT":
-                self.readExecutionOrderConstraint(child_element, extension)
-            else:
-                self.raiseError("Unsupported timing requirement <%s>" % tag_name)
+            self.readTimingExtensionConstraint(child_element, extension, "TIMING-REQUIREMENTS")
+        resource_element = self.find(element, "TIMING-RESOURCE")
+        if resource_element is not None:
+            resource = extension.createTimingResource(self.getShortName(resource_element))
+            self.readTimingExtensionResource(resource_element, resource)
 
     def readSwcTiming(self, element: ET.Element, timing: SwcTiming):
         self.logger.debug("Read SwcTiming <%s>" % timing.getShortName())
         self.readIdentifiable(element, timing)
         self.readTimingExtension(element, timing)
+        timing.setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
 
     def readFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.readIdentifiable(element, triggering)

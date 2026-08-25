@@ -148,7 +148,8 @@ class TestWriteTimingInstanceRefs:
         assert mode_tag.find("SHORT-NAME").text == "ModeInstance1"
         assert mode_tag.find("MODE-INSTANCE/MODE-IN-BSW-INSTANCE-REF") is not None
 
-        reloaded = ARXMLParser().readTimingExtensionResource(parent, _round_trip(element))
+        reloaded = TimingExtensionResource(parent, "Resource1")
+        ARXMLParser().readTimingExtensionResource(_round_trip(element), reloaded)
         assert reloaded.getShortName() == "Resource1"
         modes = reloaded.getTimingModes()
         assert len(modes) == 1
@@ -185,7 +186,8 @@ class TestWriteTimingInstanceRefs:
         assert variable_tag is not None
         assert variable_tag.find("SHORT-NAME").text == "Var1"
 
-        reloaded = ARXMLParser().readTimingExtensionResource(parent, _round_trip(element))
+        reloaded = TimingExtensionResource(parent, "Resource1")
+        ARXMLParser().readTimingExtensionResource(_round_trip(element), reloaded)
         reloaded_arguments = reloaded.getTimingArguments()
         assert len(reloaded_arguments) == 1
         reloaded_arg_iref = reloaded_arguments[0].getOperationArgumentInstanceIRef()
@@ -208,7 +210,8 @@ class TestWriteTimingInstanceRefs:
         assert element.find("TIMING-ARGUMENTS") is None
         assert element.find("TIMING-VARIABLES") is None
 
-        reloaded = ARXMLParser().readTimingExtensionResource(parent, _round_trip(element))
+        reloaded = TimingExtensionResource(parent, "Resource1")
+        ARXMLParser().readTimingExtensionResource(_round_trip(element), reloaded)
         assert reloaded.getShortName() == "Resource1"
         assert reloaded.getTimingModes() == []
 

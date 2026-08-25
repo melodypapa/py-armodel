@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition i
     ModeInBswInstanceRef,
     ModeInSwcInstanceRef,
     OperationArgumentInComponentInstanceRef,
+    TimingExtensionResource,
     TimingModeInstance,
     VariableInComponentInstanceRef,
 )
@@ -201,7 +202,8 @@ class TestReadTimingExtensionResource:
     def test_read_timing_modes(self):
         parent = _parent()
 
-        resource = ARXMLParser().readTimingExtensionResource(parent, _round_trip(self._build_resource_element()))
+        resource = TimingExtensionResource(parent, "Resource1")
+        ARXMLParser().readTimingExtensionResource(_round_trip(self._build_resource_element()), resource)
         assert resource.getShortName() == "Resource1"
         arguments = resource.getTimingArguments()
         assert len(arguments) == 1
@@ -235,7 +237,8 @@ class TestReadTimingExtensionResource:
         element = ET.Element("TIMING-EXTENSION-RESOURCE")
         ET.SubElement(element, "SHORT-NAME").text = "Resource1"
 
-        resource = ARXMLParser().readTimingExtensionResource(parent, _round_trip(element))
+        resource = TimingExtensionResource(parent, "Resource1")
+        ARXMLParser().readTimingExtensionResource(_round_trip(element), resource)
         assert resource.getShortName() == "Resource1"
         assert resource.getTimingModes() == []
 

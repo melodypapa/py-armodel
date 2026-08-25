@@ -115,7 +115,8 @@ class TestSwcTiming:
 
         assert swc_timing is not None
         assert swc_timing.getShortName() == "TestSwcTiming"
-        assert swc_timing.timing_requirements == []
+        assert swc_timing.getBehaviorRef() is None
+        assert swc_timing.getTimingRequirements() == []
 
     def test_create_execution_order_constraint(self):
         """Test createExecutionOrderConstraint method"""

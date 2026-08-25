@@ -6196,24 +6196,58 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeExecutionOrderConstraintOrderedElement(child_element, constraint)
         self.setChildElementOptionalBooleanValue(child_element, "PERMIT-MULTIPLE-REFERENCES-TO-EE", constraint.getPermitMultipleReferencesToEE())
 
-    def writeTimingRequirements(self, element: ET.Element, extension: TimingExtension):
-        requirements = extension.getTimingRequirements()
-        if len(requirements) > 0:
-            child_element = ET.SubElement(element, "TIMING-REQUIREMENTS")
-            for requirement in requirements:
-                if isinstance(requirement, ExecutionOrderConstraint):
-                    self.writeExecutionOrderConstraint(child_element, requirement)
-                else:
-                    self.notImplemented("Unsupported timing requirement <%s>" % type(requirement))
+    def writeTimingConstraintItem(self, parent_element: ET.Element, constraint):
+        if isinstance(constraint, ExecutionOrderConstraint):
+            self.writeExecutionOrderConstraint(parent_element, constraint)
+            return
+        tag_map = (
+            (AgeConstraint, "AGE-CONSTRAINT", self.writeAgeConstraint),
+            (ArbitraryEventTriggering, "ARBITRARY-EVENT-TRIGGERING", self.writeArbitraryEventTriggering),
+            (BurstPatternEventTriggering, "BURST-PATTERN-EVENT-TRIGGERING", self.writeBurstPatternEventTriggering),
+            (ConcretePatternEventTriggering, "CONCRETE-PATTERN-EVENT-TRIGGERING", self.writeConcretePatternEventTriggering),
+            (ExecutionTimeConstraint, "EXECUTION-TIME-CONSTRAINT", self.writeExecutionTimeConstraint),
+            (LatencyTimingConstraint, "LATENCY-TIMING-CONSTRAINT", self.writeLatencyTimingConstraint),
+            (OffsetTimingConstraint, "OFFSET-TIMING-CONSTRAINT", self.writeOffsetTimingConstraint),
+            (PeriodicEventTriggering, "PERIODIC-EVENT-TRIGGERING", self.writePeriodicEventTriggering),
+            (SporadicEventTriggering, "SPORADIC-EVENT-TRIGGERING", self.writeSporadicEventTriggering),
+            (SynchronizationPointConstraint, "SYNCHRONIZATION-POINT-CONSTRAINT", self.writeSynchronizationPointConstraint),
+            (SynchronizationTimingConstraint, "SYNCHRONIZATION-TIMING-CONSTRAINT", self.writeSynchronizationTimingConstraint),
+        )
+        for cls, tag, writer_method in tag_map:
+            if isinstance(constraint, cls):
+                child_element = ET.SubElement(parent_element, tag)
+                writer_method(child_element, constraint)
+                return
+        self.notImplemented("Unsupported timing requirement <%s>" % type(constraint).__name__)
 
     def writeTimingExtension(self, element: ET.Element, extension: TimingExtension):
-        self.writeTimingRequirements(element, extension)
+        conditions = extension.getTimingConditions()
+        if len(conditions) > 0:
+            conditions_tag = ET.SubElement(element, "TIMING-CONDITIONS")
+            for condition in conditions:
+                condition_tag = ET.SubElement(conditions_tag, "TIMING-CONDITION")
+                self.writeTimingCondition(condition_tag, condition)
+        guarantees = extension.getTimingGuarantees()
+        if len(guarantees) > 0:
+            guarantees_tag = ET.SubElement(element, "TIMING-GUARANTEES")
+            for guarantee in guarantees:
+                self.writeTimingConstraintItem(guarantees_tag, guarantee)
+        requirements = extension.getTimingRequirements()
+        if len(requirements) > 0:
+            requirements_tag = ET.SubElement(element, "TIMING-REQUIREMENTS")
+            for requirement in requirements:
+                self.writeTimingConstraintItem(requirements_tag, requirement)
+        resource = extension.getTimingResource()
+        if resource is not None:
+            resource_tag = ET.SubElement(element, "TIMING-RESOURCE")
+            self.writeTimingExtensionResource(resource_tag, resource)
 
     def writeSwcTiming(self, element: ET.Element, timing: SwcTiming):
         self.logger.debug("writeSWcTiming %s" % timing.getShortName())
         child_element = ET.SubElement(element, "SWC-TIMING")
         self.writeIdentifiable(child_element, timing)
         self.writeTimingExtension(child_element, timing)
+        self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", timing.getBehaviorRef())
 
     def writePduToFrameMappings(self, element: ET.Element, parent: Frame):
         mappings = parent.getPduToFrameMappings()

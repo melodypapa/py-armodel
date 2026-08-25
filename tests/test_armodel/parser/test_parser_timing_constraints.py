@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingCondition import TimingCondition, TimingExtensionResource
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
     ArbitraryEventTriggering,
@@ -288,16 +289,11 @@ class TestReadTimingConstraints:
 
 
 class TestReadExecutionOrderConstraint:
-    def _extension(self):
-        return SwcTiming(_parent(), "Timing1")
-
-    def _constraint(self, extension):
-        constraints = extension.getTimingRequirements()
-        assert len(constraints) == 1
-        return constraints[0]
+    def _constraint(self, short_name="Eoc1"):
+        return ExecutionOrderConstraint(_parent(), short_name)
 
     def test_read_execution_order_constraint_full(self, parser):
-        extension = self._extension()
+        constraint = self._constraint()
         element = ET.fromstring(
             f"<EXECUTION-ORDER-CONSTRAINT xmlns='{NS}'>"
             "<SHORT-NAME>Eoc1</SHORT-NAME>"
@@ -322,8 +318,7 @@ class TestReadExecutionOrderConstraint:
             "<PERMIT-MULTIPLE-REFERENCES-TO-EE>true</PERMIT-MULTIPLE-REFERENCES-TO-EE>"
             "</EXECUTION-ORDER-CONSTRAINT>"
         )
-        parser.readExecutionOrderConstraint(element, extension)
-        constraint = self._constraint(extension)
+        parser.readExecutionOrderConstraint(element, constraint)
         assert isinstance(constraint, ExecutionOrderConstraint)
         assert constraint.getShortName() == "Eoc1"
         assert constraint.getBaseCompositionRef().getValue() == "/AUTOSAR/Composition"
@@ -345,10 +340,9 @@ class TestReadExecutionOrderConstraint:
         assert constraint.getPermitMultipleReferencesToEE().getText() == "true"
 
     def test_read_execution_order_constraint_empty(self, parser):
-        extension = self._extension()
+        constraint = self._constraint()
         element = ET.fromstring(f"<EXECUTION-ORDER-CONSTRAINT xmlns='{NS}'>" "<SHORT-NAME>Eoc1</SHORT-NAME>" "</EXECUTION-ORDER-CONSTRAINT>")
-        parser.readExecutionOrderConstraint(element, extension)
-        constraint = self._constraint(extension)
+        parser.readExecutionOrderConstraint(element, constraint)
         assert constraint.getShortName() == "Eoc1"
         assert constraint.getBaseCompositionRef() is None
         assert constraint.getExecutionOrderConstraintType() is None
@@ -358,15 +352,14 @@ class TestReadExecutionOrderConstraint:
         assert constraint.getPermitMultipleReferencesToEE() is None
 
     def test_read_execution_order_constraint_timing_condition_ref(self, parser):
-        extension = self._extension()
+        constraint = self._constraint()
         element = ET.fromstring(
             f"<EXECUTION-ORDER-CONSTRAINT xmlns='{NS}'>"
             "<SHORT-NAME>Eoc1</SHORT-NAME>"
             "<TIMING-CONDITION-REF DEST='TIMING-CONDITION'>/AUTOSAR/Cond1</TIMING-CONDITION-REF>"
             "</EXECUTION-ORDER-CONSTRAINT>"
         )
-        parser.readExecutionOrderConstraint(element, extension)
-        constraint = self._constraint(extension)
+        parser.readExecutionOrderConstraint(element, constraint)
         assert constraint.getTimingConditionRef().getValue() == "/AUTOSAR/Cond1"
         assert constraint.getTimingConditionRef().getDest() == "TIMING-CONDITION"
 
@@ -461,3 +454,52 @@ class TestReadSynchronizationPointConstraint:
         assert constraint.getSourceEventRefs() == []
         assert constraint.getTargetEecRefs() == []
         assert constraint.getTargetEventRefs() == []
+
+
+class TestReadSwcTiming:
+    def test_read_swc_timing_full(self, parser):
+        parent = _parent()
+        timing = SwcTiming(parent, "Timing1")
+        element = ET.fromstring(
+            f"<SWC-TIMING xmlns='{NS}'>"
+            "<SHORT-NAME>Timing1</SHORT-NAME>"
+            "<TIMING-CONDITIONS>"
+            "<TIMING-CONDITION><SHORT-NAME>Cond1</SHORT-NAME></TIMING-CONDITION>"
+            "</TIMING-CONDITIONS>"
+            "<TIMING-GUARANTEES>"
+            "<EXECUTION-TIME-CONSTRAINT><SHORT-NAME>Guarantee1</SHORT-NAME></EXECUTION-TIME-CONSTRAINT>"
+            "</TIMING-GUARANTEES>"
+            "<TIMING-REQUIREMENTS>"
+            "<EXECUTION-ORDER-CONSTRAINT><SHORT-NAME>Req1</SHORT-NAME></EXECUTION-ORDER-CONSTRAINT>"
+            "</TIMING-REQUIREMENTS>"
+            "<TIMING-RESOURCE><SHORT-NAME>Res1</SHORT-NAME></TIMING-RESOURCE>"
+            "<BEHAVIOR-REF DEST='SWC-INTERNAL-BEHAVIOR'>/AUTOSAR/Swc/IB</BEHAVIOR-REF>"
+            "</SWC-TIMING>"
+        )
+        parser.readSwcTiming(element, timing)
+        conditions = timing.getTimingConditions()
+        assert len(conditions) == 1
+        assert isinstance(conditions[0], TimingCondition)
+        assert conditions[0].getShortName() == "Cond1"
+        guarantees = timing.getTimingGuarantees()
+        assert len(guarantees) == 1
+        assert isinstance(guarantees[0], ExecutionTimeConstraint)
+        requirements = timing.getTimingRequirements()
+        assert len(requirements) == 1
+        assert isinstance(requirements[0], ExecutionOrderConstraint)
+        resource = timing.getTimingResource()
+        assert isinstance(resource, TimingExtensionResource)
+        assert resource.getShortName() == "Res1"
+        assert timing.getBehaviorRef().getValue() == "/AUTOSAR/Swc/IB"
+        assert timing.getBehaviorRef().getDest() == "SWC-INTERNAL-BEHAVIOR"
+
+    def test_read_swc_timing_empty(self, parser):
+        parent = _parent()
+        timing = SwcTiming(parent, "Timing1")
+        element = ET.fromstring(f"<SWC-TIMING xmlns='{NS}'><SHORT-NAME>Timing1</SHORT-NAME></SWC-TIMING>")
+        parser.readSwcTiming(element, timing)
+        assert timing.getTimingConditions() == []
+        assert timing.getTimingGuarantees() == []
+        assert timing.getTimingRequirements() == []
+        assert timing.getTimingResource() is None
+        assert timing.getBehaviorRef() is None

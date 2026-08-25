@@ -1582,40 +1582,6 @@ class TestTimingWriter:
         assert child.find("SHORT-NAME").text == "Eoc"
         assert child.find("ORDERED-ELEMENTS") is not None
 
-    def test_write_timing_requirements(self, writer):
-        autosar = AUTOSAR.getInstance()
-        pkg = autosar.createARPackage("Pkg")
-        timing = pkg.createSwcTiming("Timing")
-        timing.createExecutionOrderConstraint("Eoc")
-
-        parent = _parent()
-        writer.writeTimingRequirements(parent, timing)
-
-        assert len(parent) == 1
-        assert parent[0].tag == "TIMING-REQUIREMENTS"
-        assert len(parent[0]) == 1
-        assert parent[0][0].tag == "EXECUTION-ORDER-CONSTRAINT"
-
-    def test_write_timing_requirements_empty(self, writer):
-        autosar = AUTOSAR.getInstance()
-        pkg = autosar.createARPackage("Pkg")
-        timing = pkg.createSwcTiming("Timing")
-
-        parent = _parent()
-        writer.writeTimingRequirements(parent, timing)
-        assert len(parent) == 0
-
-    def test_write_timing_requirements_unsupported(self, warning_writer):
-        autosar = AUTOSAR.getInstance()
-        pkg = autosar.createARPackage("Pkg")
-        timing = pkg.createSwcTiming("Timing")
-        timing.timing_requirements.append("not-a-constraint")
-
-        parent = _parent()
-        warning_writer.writeTimingRequirements(parent, timing)
-        assert parent[0].tag == "TIMING-REQUIREMENTS"
-        assert len(parent[0]) == 0
-
     def test_write_timing_extension(self, writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
@@ -1627,6 +1593,28 @@ class TestTimingWriter:
 
         assert len(parent) == 1
         assert parent[0].tag == "TIMING-REQUIREMENTS"
+        assert len(parent[0]) == 1
+        assert parent[0][0].tag == "EXECUTION-ORDER-CONSTRAINT"
+
+    def test_write_timing_extension_empty(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        timing = pkg.createSwcTiming("Timing")
+
+        parent = _parent()
+        writer.writeTimingExtension(parent, timing)
+        assert len(parent) == 0
+
+    def test_write_timing_extension_unsupported_constraint(self, warning_writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        timing = pkg.createSwcTiming("Timing")
+        timing.timingRequirements.append("not-a-constraint")
+
+        parent = _parent()
+        warning_writer.writeTimingExtension(parent, timing)
+        assert parent[0].tag == "TIMING-REQUIREMENTS"
+        assert len(parent[0]) == 0
 
     def test_write_swc_timing(self, writer):
         autosar = AUTOSAR.getInstance()

@@ -675,9 +675,8 @@ class TestWriteExecutionOrderConstraint:
         assert [child.tag for child in ordered_children] == ["EOC-EXECUTABLE-ENTITY-REF", "EOC-EVENT-REF", "EOC-EXECUTABLE-ENTITY-REF-GROUP"]
         assert element.find("PERMIT-MULTIPLE-REFERENCES-TO-EE").text == "true"
 
-        extension = SwcTiming(self._parent(), "TimingW")
-        ARXMLParser().readExecutionOrderConstraint(_round_trip(element), extension)
-        reloaded = extension.getTimingRequirements()[0]
+        reloaded = ExecutionOrderConstraint(self._parent(), "Eoc1")
+        ARXMLParser().readExecutionOrderConstraint(_round_trip(element), reloaded)
         assert reloaded.getShortName() == "Eoc1"
         assert reloaded.getBaseCompositionRef().getValue() == "/AUTOSAR/Composition"
         assert reloaded.getBaseCompositionRef().getDest() == "COMPOSITION-SW-COMPONENT-TYPE"
@@ -710,9 +709,8 @@ class TestWriteExecutionOrderConstraint:
         element = root.find("EXECUTION-ORDER-CONSTRAINT")
 
         reloaded_element = _round_trip(element)
-        extension = SwcTiming(self._parent(), "TimingX")
-        ARXMLParser().readExecutionOrderConstraint(reloaded_element, extension)
-        reloaded = extension.getTimingRequirements()[0]
+        reloaded = ExecutionOrderConstraint(self._parent(), "Eoc1")
+        ARXMLParser().readExecutionOrderConstraint(reloaded_element, reloaded)
         assert reloaded.getShortName() == "Eoc1"
         assert reloaded.getBaseCompositionRef().getValue() == "/AUTOSAR/Composition"
         assert reloaded.getBaseCompositionRef().getDest() == "COMPOSITION-SW-COMPONENT-TYPE"
@@ -735,10 +733,8 @@ class TestWriteExecutionOrderConstraint:
         assert element.find("ORDERED-ELEMENTS") is None
         assert element.find("PERMIT-MULTIPLE-REFERENCES-TO-EE") is None
 
-        reloaded_extension_parent = self._parent()
-        extension = SwcTiming(reloaded_extension_parent, "TimingY")
-        ARXMLParser().readExecutionOrderConstraint(_round_trip(element), extension)
-        reloaded = extension.getTimingRequirements()[0]
+        reloaded = ExecutionOrderConstraint(self._parent(), "Eoc1")
+        ARXMLParser().readExecutionOrderConstraint(_round_trip(element), reloaded)
         assert reloaded.getBaseCompositionRef() is None
         assert reloaded.getExecutionOrderConstraintType() is None
         assert reloaded.getIgnoreOrderAllowed() is None
@@ -882,3 +878,80 @@ class TestWriteSynchronizationPointConstraint:
         assert reloaded.getSourceEventRefs() == []
         assert reloaded.getTargetEecRefs() == []
         assert reloaded.getTargetEventRefs() == []
+
+
+class TestWriteSwcTiming:
+    def _parent(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        return document.createARPackage("AUTOSAR")
+
+    def test_round_trip_swc_timing_full(self):
+        parent = self._parent()
+        timing = SwcTiming(parent, "Timing1")
+        condition = timing.createTimingCondition("Cond1")
+        condition.setTimingConditionFormula(None)
+        guarantee = ExecutionTimeConstraint(timing, "Guarantee1")
+        timing.addElement(guarantee)
+        timing.addTimingGuarantee(guarantee)
+        requirement = timing.createExecutionOrderConstraint("Req1")
+        requirement.setExecutionOrderConstraintType(ExecutionOrderConstraintTypeEnum().setValue(ExecutionOrderConstraintTypeEnum.REPETITIVE_EOC))
+        resource = timing.createTimingResource("Res1")
+        resource.createTimingMode("Mode1")
+        timing.setBehaviorRef(RefType().setValue("/AUTOSAR/Swc/IB").setDest("SWC-INTERNAL-BEHAVIOR"))
+
+        wrapper = ET.Element("ROOT")
+        ARXMLWriter().writeSwcTiming(wrapper, timing)
+        element = wrapper[0]
+        assert element.tag == "SWC-TIMING"
+        assert element.find("SHORT-NAME").text == "Timing1"
+        conditions_tag = element.find("TIMING-CONDITIONS")
+        assert conditions_tag is not None
+        assert conditions_tag.find("TIMING-CONDITION/SHORT-NAME").text == "Cond1"
+        guarantees_tag = element.find("TIMING-GUARANTEES")
+        assert guarantees_tag is not None
+        assert guarantees_tag.find("EXECUTION-TIME-CONSTRAINT/SHORT-NAME").text == "Guarantee1"
+        requirements_tag = element.find("TIMING-REQUIREMENTS")
+        assert requirements_tag is not None
+        assert requirements_tag.find("EXECUTION-ORDER-CONSTRAINT/SHORT-NAME").text == "Req1"
+        resource_tag = element.find("TIMING-RESOURCE")
+        assert resource_tag is not None
+        assert resource_tag.find("SHORT-NAME").text == "Res1"
+        behavior_ref = element.find("BEHAVIOR-REF")
+        assert behavior_ref.text == "/AUTOSAR/Swc/IB"
+        assert behavior_ref.attrib["DEST"] == "SWC-INTERNAL-BEHAVIOR"
+
+        reloaded = SwcTiming(parent, "Timing1")
+        ARXMLParser().readSwcTiming(_round_trip(element), reloaded)
+        reloaded_conditions = reloaded.getTimingConditions()
+        assert len(reloaded_conditions) == 1
+        assert reloaded_conditions[0].getShortName() == "Cond1"
+        reloaded_guarantees = reloaded.getTimingGuarantees()
+        assert len(reloaded_guarantees) == 1
+        assert isinstance(reloaded_guarantees[0], ExecutionTimeConstraint)
+        reloaded_requirements = reloaded.getTimingRequirements()
+        assert len(reloaded_requirements) == 1
+        assert isinstance(reloaded_requirements[0], ExecutionOrderConstraint)
+        assert reloaded_requirements[0].getExecutionOrderConstraintType().getValue() == "repetitiveEOC"
+        reloaded_resource = reloaded.getTimingResource()
+        assert reloaded_resource is not None
+        assert len(reloaded_resource.getTimingModes()) == 1
+        assert reloaded.getBehaviorRef().getValue() == "/AUTOSAR/Swc/IB"
+
+    def test_write_swc_timing_empty(self):
+        parent = self._parent()
+        timing = SwcTiming(parent, "Timing1")
+
+        element = ET.Element("SWC-TIMING")
+        ARXMLWriter().writeSwcTiming(element, timing)
+        assert element.find("TIMING-CONDITIONS") is None
+        assert element.find("TIMING-GUARANTEES") is None
+        assert element.find("TIMING-REQUIREMENTS") is None
+        assert element.find("TIMING-RESOURCE") is None
+        assert element.find("BEHAVIOR-REF") is None
+
+        reloaded = SwcTiming(parent, "Timing1")
+        ARXMLParser().readSwcTiming(_round_trip(element), reloaded)
+        assert reloaded.getTimingConditions() == []
+        assert reloaded.getBehaviorRef() is None
