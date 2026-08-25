@@ -63,7 +63,7 @@ def _new_assignment(short_name="TA1", priorities=(1, 2), traffic_class=3):
 class TestWriteCouplingPortTrafficClassAssignment:
     def test_write_all_fields(self, writer):
         details, assignment = _new_assignment()
-        details.setEthernetTrafficClassAssignments([assignment])
+        details.addEthernetTrafficClassAssignment(assignment)
         parent = ET.Element("PARENT")
         writer.setCouplingPortDetails(parent, "COUPLING-PORT-DETAILS", details)
         details_element = parent.find("COUPLING-PORT-DETAILS")
@@ -90,7 +90,7 @@ class TestWriteCouplingPortTrafficClassAssignment:
 class TestCouplingPortTrafficClassAssignmentRoundTrip:
     def test_round_trip_preserves_all_values(self, writer, parser):
         details, assignment = _new_assignment()
-        details.setEthernetTrafficClassAssignments([assignment])
+        details.addEthernetTrafficClassAssignment(assignment)
         parent = ET.Element("PARENT")
         writer.setCouplingPortDetails(parent, "COUPLING-PORT-DETAILS", details)
         details_element = _serialize_and_wrap(parent)

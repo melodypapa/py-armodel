@@ -1478,24 +1478,22 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 | `ethIpPropsRef` | `RefType` | `ethIpProps` | ``EthIpProps`` | ref | type (PDF EthIpProps vs py RefType) |
 
 ## `CouplingPortDetails`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 121
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 122  | **table:** Table 3.63
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `couplingPortStructuralElements` | `List[CouplingPortStructuralElement]` | `couplingPortStructuralElement` | ``CouplingPortStructural Element`` | aggr | naming |
-| `ethernetPriorityRegenerations` | `List[EthernetPriorityRegeneration]` | `ethernetPriorityRegeneration` | ``EthernetPriority Regeneration`` | aggr | naming |
-| `ethernetTrafficClassAssignments` | `List[CouplingPortTrafficClassAssignment]` | `ethernetTrafficClassAssignment` | ``CouplingPortTraffic ClassAssignment`` | aggr | naming |
+| `couplingPortStructuralElements` | `List[CouplingPortStructuralElement]` | `couplingPort StructuralElement` | ``CouplingPortStructural Element`` | aggr | - |
+| `ethernetPriorityRegenerations` | `List[EthernetPriorityRegeneration]` | `ethernetPriority Regeneration` | ``EthernetPriority Regeneration`` (0..8) | aggr | - |
+| `ethernetTrafficClassAssignments` | `List[CouplingPortTrafficClassAssignment]` | `ethernetTraffic ClassAssignment` | ``CouplingPortTraffic ClassAssignment`` (0..8) | aggr | - |
+| `globalTimeProps` | `Optional[ARObject]` | `globalTimeProps` | ``GlobalTimeCoupling PortProps`` | aggr | referenced class `GlobalTimeCouplingPortProps` not yet implemented; carried as an `ARObject` placeholder, reader/writer pending, full sync deferred (Rule 0001.10) |
+| `lastEgressSchedulerRef` | `Optional[RefType]` | `lastEgressScheduler` | ``CouplingPortScheduler`` | ref | ref-form naming per project convention (`getLastEgressSchedulerRef`/`setLastEgressSchedulerRef`) |
 
-## `CouplingPortFifo`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 124
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `assignedtrafficclass` | `—` | `assignedTrafficClass` | ``PositiveInteger`` | attr | type (spec one vs py list) |
+Removed members: `defaultTrafficClass`, `framePreemptionSupport`, `ratePolicies`, `vlanTranslationTables`
+— all absent from the R23-11 Table 3.63 Attribute rows; `ratePolicies` exists in the XSD group but not in
+the table, the rest are absent from both. Fields/accessors removed in this pass
+(Rule 0015/the-table-wins).
 
 ## `SenderRecArrayTypeMapping`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 235  | **table:** Table 5.28

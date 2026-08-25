@@ -597,7 +597,24 @@ row below and must sync BEFORE the class that references it. All rows below are 
      trafficClassPreemptionSupport removal recorded per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7341 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] CouplingPortDetails (markdown SystemTemplate · Table 3.63 · p.121 · source Fibex4Ethernet/EthernetTopology.py · depends on CouplingPortTrafficClassAssignment above; fixes ethernetPriorityRegeneration / ethernetTrafficClassAssignment member types)
+- [ ] CouplingPortDetails (markdown SystemTemplate · Table 3.63 · p.122 · source Fibex4Ethernet/EthernetTopology.py · depends on CouplingPortTrafficClassAssignment above; fixes ethernetPriorityRegeneration / ethernetTrafficClassAssignment member types) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Sync members & description from spec
+    (Table 3.63 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:3231–3248 + PDF p.122;
+    Base ARObject; 5 attr rows; defaultTrafficClass/framePreemptionSupport/ratePolicies/vlanTranslationTables
+    absent from table → REMOVED per Rule 0015; globalTimeProps placeholder — GlobalTimeCouplingPortProps not implemented)
+  - [x] Step 2 — Model tests rewritten to spec shape (Red)
+  - [x] Step 3 — Implement model class (Green) — verbatim Notes, typed fields, guarded setters,
+    bulk setters replaced with addEthernetTrafficClassAssignment mutator
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5/6 — Reader/writer round-trip test + wiring
+    (tests/test_armodel/writer/test_coupling_port_details.py: structural elements incl. fifo+scheduler dispatch,
+     priority regenerations, traffic class assignments, lastEgressSchedulerRef round trip;
+     parser bulk-setter call replaced with mutator loop per Rule 0013)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (tracker: globalTimeProps ARObject placeholder recorded; four removed members documented per Rule 0015)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7344 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

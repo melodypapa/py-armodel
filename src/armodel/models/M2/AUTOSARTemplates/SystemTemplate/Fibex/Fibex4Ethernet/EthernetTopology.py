@@ -5,7 +5,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip4AddressString, Ip6AddressString, PositiveInteger, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip4AddressString, Ip6AddressString, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
 
@@ -258,127 +258,106 @@ class EthernetPriorityRegeneration(Referrable):
 
 class CouplingPortDetails(ARObject):
     """
-    Contains detailed configuration information for coupling ports
-    in Ethernet switches, including traffic class assignments, frame
-    preemption support, and VLAN translation tables.
+    Defines details of a CouplingPort. May be used to configure the structures of a switch.
     """
 
     # CouplingPortDetails method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCouplingPortStructuralElements [x] impl  [ ] docstring  [ ] test
-    # [ ] createCouplingPortFifo       [x] impl  [ ] docstring  [ ] test
-    # [ ] createCouplingPortScheduler  [x] impl  [ ] docstring  [ ] test
-    # [ ] createEthernetPriorityRegeneration [x] impl  [ ] docstring  [ ] test
-    # [ ] getDefaultTrafficClass       [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefaultTrafficClass       [x] impl  [ ] docstring  [ ] test
-    # [ ] getEthernetPriorityRegenerations [x] impl  [ ] docstring  [ ] test
-    # [ ] setEthernetPriorityRegenerations [x] impl  [ ] docstring  [ ] test
-    # [ ] getEthernetTrafficClassAssignments [x] impl  [ ] docstring  [ ] test
-    # [ ] setEthernetTrafficClassAssignments [x] impl  [ ] docstring  [ ] test
-    # [ ] getFramePreemptionSupport    [x] impl  [ ] docstring  [ ] test
-    # [ ] setFramePreemptionSupport    [x] impl  [ ] docstring  [ ] test
-    # [ ] getGlobalTimeProps           [x] impl  [ ] docstring  [ ] test
-    # [ ] setGlobalTimeProps           [x] impl  [ ] docstring  [ ] test
-    # [ ] getLastEgressSchedulerRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] setLastEgressSchedulerRef    [x] impl  [ ] docstring  [ ] test
-    # [ ] getRatePolicies              [x] impl  [ ] docstring  [ ] test
-    # [ ] setRatePolicies              [x] impl  [ ] docstring  [ ] test
-    # [ ] getVlanTranslationTables     [x] impl  [ ] docstring  [ ] test
-    # [ ] setVlanTranslationTables     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.63, p.122
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCouplingPortStructuralElements   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createCouplingPortFifo              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createCouplingPortScheduler         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createEthernetPriorityRegeneration  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEthernetPriorityRegenerations    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addEthernetTrafficClassAssignment   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEthernetTrafficClassAssignments  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getGlobalTimeProps                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setGlobalTimeProps                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getLastEgressSchedulerRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setLastEgressSchedulerRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.couplingPortStructuralElements = []  # type: List[CouplingPortStructuralElement]
-        self.defaultTrafficClass = None  # type: PositiveInteger
-        self.ethernetPriorityRegenerations = []  # type: List[EthernetPriorityRegeneration]
-        self.ethernetTrafficClassAssignments = []  # type: List[CouplingPortTrafficClassAssignment]
-        self.framePreemptionSupport = None  # type: Boolean
-        self.globalTimeProps = None  # type: GlobalTimeCouplingPortProps
-        self.lastEgressSchedulerRef = None  # type: RefType
-        self.ratePolicies = []  # type: List[CouplingPortRatePolicy]
-        self.vlanTranslationTables = []  # type: List[EthernetVlanTranslationTable]
+        # Collects all the structural parts at which a CouplingPort may be configurable.
+        self.couplingPortStructuralElements: List[CouplingPortStructuralElement] = []
 
-    def getCouplingPortStructuralElements(self):
+        # Defines a priority regeneration where the ingress priority is replaced by regenerated priority.
+        self.ethernetPriorityRegenerations: List[EthernetPriorityRegeneration] = []
+
+        # Defines the ingress port to EthernetTrafficClass assignment.
+        self.ethernetTrafficClassAssignments: List[CouplingPortTrafficClassAssignment] = []
+
+        # Specifies properties for the usage of the CouplingPort in the scope of Global Time Sync.
+        self.globalTimeProps: Optional[ARObject] = None
+
+        # Defines which CouplingPortScheduler is the last in the egress port structure.
+        self.lastEgressSchedulerRef: Optional[RefType] = None
+
+    def getCouplingPortStructuralElements(self) -> List[CouplingPortStructuralElement]:
+        """Collects all the structural parts at which a CouplingPort may be configurable."""
         return self.couplingPortStructuralElements
 
     def createCouplingPortFifo(self, short_name: str) -> CouplingPortFifo:
+        """Collects all the structural parts at which a CouplingPort may be configurable."""
         fifo = CouplingPortFifo(self, short_name)
         self.couplingPortStructuralElements.append(fifo)
         return fifo
 
     def createCouplingPortScheduler(self, short_name: str) -> CouplingPortScheduler:
+        """Collects all the structural parts at which a CouplingPort may be configurable."""
         scheduler = CouplingPortScheduler(self, short_name)
         self.couplingPortStructuralElements.append(scheduler)
         return scheduler
 
     def createEthernetPriorityRegeneration(self, short_name: str) -> EthernetPriorityRegeneration:
+        """Defines a priority regeneration where the ingress priority is replaced by regenerated priority."""
         regeneration = EthernetPriorityRegeneration(self, short_name)
         self.ethernetPriorityRegenerations.append(regeneration)
         return regeneration
 
-    def getDefaultTrafficClass(self):
-        return self.defaultTrafficClass
-
-    def setDefaultTrafficClass(self, value):
-        if value is not None:
-            self.defaultTrafficClass = value
-        return self
-
-    def getEthernetPriorityRegenerations(self):
+    def getEthernetPriorityRegenerations(self) -> List[EthernetPriorityRegeneration]:
+        """Defines a priority regeneration where the ingress priority is replaced by regenerated priority."""
         return self.ethernetPriorityRegenerations
 
-    def setEthernetPriorityRegenerations(self, value):
+    def addEthernetTrafficClassAssignment(self, value: Optional[CouplingPortTrafficClassAssignment]) -> "CouplingPortDetails":
+        """
+        Defines the ingress port to EthernetTrafficClass assignment.
+        A None value is a no-op and does not append to ethernetTrafficClassAssignments.
+        """
         if value is not None:
-            self.ethernetPriorityRegenerations = value
+            self.ethernetTrafficClassAssignments.append(value)
         return self
 
-    def getEthernetTrafficClassAssignments(self):
+    def getEthernetTrafficClassAssignments(self) -> List[CouplingPortTrafficClassAssignment]:
+        """Defines the ingress port to EthernetTrafficClass assignment."""
         return self.ethernetTrafficClassAssignments
 
-    def setEthernetTrafficClassAssignments(self, value):
-        if value is not None:
-            self.ethernetTrafficClassAssignments = value
-        return self
-
-    def getFramePreemptionSupport(self):
-        return self.framePreemptionSupport
-
-    def setFramePreemptionSupport(self, value):
-        if value is not None:
-            self.framePreemptionSupport = value
-        return self
-
-    def getGlobalTimeProps(self):
+    def getGlobalTimeProps(self) -> Optional[ARObject]:
+        """Specifies properties for the usage of the CouplingPort in the scope of Global Time Sync."""
         return self.globalTimeProps
 
-    def setGlobalTimeProps(self, value):
+    def setGlobalTimeProps(self, value: Optional[ARObject]) -> "CouplingPortDetails":
+        """
+        Specifies properties for the usage of the CouplingPort in the scope of Global Time Sync.
+        A None value is a no-op and does not overwrite an existing globalTimeProps.
+        """
         if value is not None:
             self.globalTimeProps = value
         return self
 
-    def getLastEgressSchedulerRef(self):
+    def getLastEgressSchedulerRef(self) -> Optional[RefType]:
+        """Defines which CouplingPortScheduler is the last in the egress port structure."""
         return self.lastEgressSchedulerRef
 
-    def setLastEgressSchedulerRef(self, value):
+    def setLastEgressSchedulerRef(self, value: Optional[RefType]) -> "CouplingPortDetails":
+        """
+        Defines which CouplingPortScheduler is the last in the egress port structure.
+        A None value is a no-op and does not overwrite an existing lastEgressSchedulerRef.
+        """
         if value is not None:
             self.lastEgressSchedulerRef = value
-        return self
-
-    def getRatePolicies(self):
-        return self.ratePolicies
-
-    def setRatePolicies(self, value):
-        if value is not None:
-            self.ratePolicies = value
-        return self
-
-    def getVlanTranslationTables(self):
-        return self.vlanTranslationTables
-
-    def setVlanTranslationTables(self, value):
-        if value is not None:
-            self.vlanTranslationTables = value
         return self
 
 

@@ -8446,16 +8446,14 @@ class ARXMLParser(AbstractARXMLParser):
         assignment.setTrafficClass(self.getChildElementOptionalPositiveInteger(element, "TRAFFIC-CLASS"))
 
     def readCouplingPortDetailsEthernetTrafficClassAssignments(self, element: ET.Element, details: CouplingPortDetails):
-        assignments = []
         for child_element in self.findall(element, "ETHERNET-TRAFFIC-CLASS-ASSIGNMENTS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "COUPLING-PORT-TRAFFIC-CLASS-ASSIGNMENT":
                 assignment = CouplingPortTrafficClassAssignment(details, self.getShortName(child_element))
                 self.readCouplingPortTrafficClassAssignment(child_element, assignment)
-                assignments.append(assignment)
+                details.addEthernetTrafficClassAssignment(assignment)
             else:
                 self.notImplemented("Unsupported CouplingPortTrafficClassAssignment <%s>" % tag_name)
-        details.setEthernetTrafficClassAssignments(assignments)
 
     def getCouplingPortDetails(self, element: ET.Element, key: str) -> CouplingPortDetails:
         details = None

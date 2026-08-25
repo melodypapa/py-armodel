@@ -11,7 +11,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
     CouplingPortDetails,
@@ -204,53 +204,54 @@ class TestEthernetTopology:
 
     def test_coupling_port_details(self):
         """
-        Test the CouplingPortDetails class initialization and methods.
+        Test the CouplingPortDetails class initialization and methods (Table 3.63).
         """
         details = CouplingPortDetails()
 
         assert details.getCouplingPortStructuralElements() == []
-        assert details.getDefaultTrafficClass() is None
         assert details.getEthernetPriorityRegenerations() == []
         assert details.getEthernetTrafficClassAssignments() == []
-        assert details.getFramePreemptionSupport() is None
         assert details.getGlobalTimeProps() is None
         assert details.getLastEgressSchedulerRef() is None
-        assert details.getRatePolicies() == []
-        assert details.getVlanTranslationTables() == []
 
-        # Test setting default traffic class with method chaining
-        result = details.setDefaultTrafficClass(5)
-        assert details.getDefaultTrafficClass() == 5
+        # Test creating coupling port fifo with method chaining
+        fifo = details.createCouplingPortFifo("TestFifo")
+        assert fifo.getShortName() == "TestFifo"
+        assert fifo in details.getCouplingPortStructuralElements()
+
+        # Test creating coupling port scheduler with method chaining
+        scheduler = details.createCouplingPortScheduler("TestScheduler")
+        assert scheduler.getShortName() == "TestScheduler"
+        assert scheduler in details.getCouplingPortStructuralElements()
+
+        # Test creating ethernet priority regeneration with method chaining
+        regeneration = details.createEthernetPriorityRegeneration("TestRegeneration")
+        assert regeneration.getShortName() == "TestRegeneration"
+        assert regeneration in details.getEthernetPriorityRegenerations()
+
+        # Test adding ethernet traffic class assignment with method chaining
+        assignment = CouplingPortTrafficClassAssignment(details, "TestAssignment")
+        result = details.addEthernetTrafficClassAssignment(assignment)
+        assert details.getEthernetTrafficClassAssignments() == [assignment]
         assert result == details  # Test method chaining
 
-        # Test frame preemption support with method chaining
-        result = details.setFramePreemptionSupport(True)
-        assert details.getFramePreemptionSupport() is True
-        assert result == details  # Test method chaining
+        result = details.addEthernetTrafficClassAssignment(None)
+        assert details.getEthernetTrafficClassAssignments() == [assignment]
 
         # Test global time props with method chaining
-        result = details.setGlobalTimeProps("time_props")
-        assert details.getGlobalTimeProps() == "time_props"
+        time_props = MockParent()
+        result = details.setGlobalTimeProps(time_props)
+        assert details.getGlobalTimeProps() is time_props
         assert result == details  # Test method chaining
+
+        # None no-op for globalTimeProps
+        result = details.setGlobalTimeProps(None)
+        assert details.getGlobalTimeProps() is time_props
 
         # Test last egress scheduler ref with method chaining
-        result = details.setLastEgressSchedulerRef("scheduler_ref")
-        assert details.getLastEgressSchedulerRef() == "scheduler_ref"
-        assert result == details  # Test method chaining
-
-        # Test ethernet traffic class assignments with method chaining
-        result = details.setEthernetTrafficClassAssignments(["assignment1"])
-        assert details.getEthernetTrafficClassAssignments() == ["assignment1"]
-        assert result == details  # Test method chaining
-
-        # Test rate policies with method chaining
-        result = details.setRatePolicies(["policy1"])
-        assert details.getRatePolicies() == ["policy1"]
-        assert result == details  # Test method chaining
-
-        # Test vlan translation tables with method chaining
-        result = details.setVlanTranslationTables(["table1"])
-        assert details.getVlanTranslationTables() == ["table1"]
+        ref = RefType()
+        result = details.setLastEgressSchedulerRef(ref)
+        assert details.getLastEgressSchedulerRef() is ref
         assert result == details  # Test method chaining
 
         # Test creating coupling port fifo with method chaining
@@ -267,11 +268,6 @@ class TestEthernetTopology:
         regen = details.createEthernetPriorityRegeneration("TestRegen")
         assert regen.getShortName() == "TestRegen"
         assert regen in details.getEthernetPriorityRegenerations()
-
-        # Test setting ethernet priority regenerations with method chaining
-        result = details.setEthernetPriorityRegenerations(["regen1", "regen2"])
-        assert details.getEthernetPriorityRegenerations() == ["regen1", "regen2"]
-        assert result == details  # Test method chaining
 
     def test_vlan_membership(self):
         """
