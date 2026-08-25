@@ -1267,6 +1267,23 @@ class AnyServiceInstanceId(ARLiteral):
         super().__init__()
 
 
+class AnyVersionString(ARLiteral):
+    r"""
+    Tags:
+        * xml.xsd.customType=ANY-VERSION-STRING
+        * xml.xsd.pattern=[0-9]+|ANY
+        * xml.xsd.type=string
+    """
+
+    # AnyVersionString method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.7, p.423
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+
 class ByteOrderEnum(AREnum):
     """
     When more than one byte is stored in the memory the order of those bytes may differ depending on the architecture of the processing unit. If the least significant byte is stored at the lowest address, this architecture is called little endian and otherwise it is called big endian. ByteOrder is very important in case of communication between different PUs or ECUs.

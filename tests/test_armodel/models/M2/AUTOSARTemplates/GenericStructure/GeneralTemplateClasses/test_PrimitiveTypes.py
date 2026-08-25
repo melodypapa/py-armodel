@@ -8,6 +8,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AlignmentType,
     AnyServiceInstanceId,
+    AnyVersionString,
     ARBoolean,
     AREnum,
     ARFloat,
@@ -1315,3 +1316,28 @@ class TestAnyServiceInstanceId:
         """Test that the ALL literal (and deprecated ANY) are stored verbatim."""
         assert AnyServiceInstanceId().setValue("ALL").value == "ALL"
         assert AnyServiceInstanceId().setValue("ANY").value == "ANY"
+
+
+class TestAnyVersionString:
+    """
+    Test class for AnyVersionString functionality (Table E.7).
+    """
+
+    def test_initialization(self):
+        """
+        Test AnyVersionString initialization.
+        """
+        version = AnyVersionString()
+
+        assert version is not None
+        assert version._value is None
+
+    def test_set_get_value(self):
+        """Test setValue round-trip and method chaining."""
+        version = AnyVersionString()
+        assert version.setValue("4") is version
+        assert str(version) == "4"
+
+    def test_any_literal(self):
+        """Test that the ANY literal is stored verbatim."""
+        assert AnyVersionString().setValue("ANY").value == "ANY"
