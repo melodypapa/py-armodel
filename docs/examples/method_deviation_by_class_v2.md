@@ -1612,7 +1612,11 @@ Resolution of the three technology members (queue context): Table 6.124 (markdow
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `dnsServerAddress` | ``Ip6AddressString`` | attr | missing |
+| `dnsServerAddresses` | `List[Ip6AddressString]` | `dnsServerAddress` | ``Ip6AddressString`` | attr | - (resolved 2026-08-26: singular spec member with xml.namePlural=DNS-SERVER-ADDRESSES modelled per project convention — `getDnsServerAddresses`/`addDnsServerAddress` replacing the non-conventional bulk setter; wrapper element DNS-SERVER-ADDRESSES wired into reader/writer) |
+
+Resolution of the former missing row: dnsServerAddress is modelled and round-trips via the
+DNS-SERVER-ADDRESSES wrapper. Full sync 2026-08-26: all nine Attribute rows carry verbatim Notes,
+typed annotations, guarded setters and reader/writer coverage (Table 6.139).
 
 ## `AbstractServiceInstance`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 477

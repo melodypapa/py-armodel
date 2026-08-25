@@ -84,7 +84,7 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert result == config  # Test method chaining
 
     def test_Ipv6Configuration(self):
-        """Test Ipv6Configuration class functionality."""
+        """Test Ipv6Configuration class functionality (Table 6.139, p.466)."""
         config = Ipv6Configuration()
 
         assert isinstance(config, NetworkEndpointAddress)
@@ -100,7 +100,7 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert config.getIpv6Address() is None
         assert config.getIpv6AddressSource() is None
 
-        # Test setter/getter methods with method chaining
+        # Test setter/getter methods with method chaining and None no-ops
         result = config.setAssignmentPriority(2)
         assert config.getAssignmentPriority() == 2
         assert result == config  # Test method chaining
@@ -117,9 +117,13 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert config.getHopCount() == 64
         assert result == config  # Test method chaining
 
-        result = config.setIpAddressKeepBehavior("keep")
-        assert config.getIpAddressKeepBehavior() == "keep"
+        result = config.setIpAddressKeepBehavior("storePersistently")
+        assert config.getIpAddressKeepBehavior() == "storePersistently"
         assert result == config  # Test method chaining
+
+        # None no-op for ipAddressKeepBehavior
+        result = config.setIpAddressKeepBehavior(None)
+        assert config.getIpAddressKeepBehavior() == "storePersistently"
 
         result = config.setIpAddressPrefixLength(64)
         assert config.getIpAddressPrefixLength() == 64
@@ -133,10 +137,16 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert config.getIpv6AddressSource() == "auto"
         assert result == config  # Test method chaining
 
-        # Test setting DNS server addresses with method chaining
-        result = config.setDnsServerAddresses(["2001:4860:4860::8888", "2001:4860:4860::8844"])
-        assert config.getDnsServerAddresses() == ["2001:4860:4860::8888", "2001:4860:4860::8844"]
+        # Test adding DNS server addresses with method chaining and None no-op
+        result = config.addDnsServerAddress("2001:4860:4860::8888")
+        assert config.getDnsServerAddresses() == ["2001:4860:4860::8888"]
         assert result == config  # Test method chaining
+
+        config.addDnsServerAddress("2001:4860:4860::8844")
+        assert config.getDnsServerAddresses() == ["2001:4860:4860::8888", "2001:4860:4860::8844"]
+
+        config.addDnsServerAddress(None)
+        assert config.getDnsServerAddresses() == ["2001:4860:4860::8888", "2001:4860:4860::8844"]
 
     def test_DoIpEntity(self):
         """Test DoIpEntity class functionality."""

@@ -542,16 +542,25 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (tracker: four former missing rows resolved and annotated; applicationEndpoint removal recorded per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7328 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] Ipv6Configuration (markdown SystemTemplate · Table 6.139 · p.466 · source Fibex4Ethernet/NetworkEndpoint.py · fixes dnsServerAddresses naming → dnsServerAddress)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] Ipv6Configuration (markdown SystemTemplate · Table 6.139 · p.466 · source Fibex4Ethernet/NetworkEndpoint.py · fixes dnsServerAddresses naming → dnsServerAddress) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Sync members & description from spec
+    (Table 6.139 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:12392–12410 + PDF p.466;
+    Base ARObject+NetworkEndpointAddress → NetworkEndpointAddress; 9 attr rows; "naming fix" resolved as
+    convention alignment: bulk setDnsServerAddresses → addDnsServerAddress/getDnsServerAddresses per Rule 0001.5)
+  - [x] Step 2 — Model test rewritten to spec shape (Red — addDnsServerAddress + None no-ops missing)
+  - [x] Step 3 — Implement model class (Green)
+    (typed annotations incl. ipAddressKeepBehavior/ipv6AddressSource as ARLiteral placeholders —
+     IpAddressKeepEnum Table 6.138 / Ipv6AddressSourceEnum not implemented, Rule 0001.10; guarded setters)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) (class Note + all nine Attribute Notes verbatim)
+  - [x] Step 5/6 — Reader/writer round-trip test + wiring
+    (tests/test_armodel/writer/test_ipv6_configuration.py: write_all/empty + round trip + empty reader;
+     DNS-SERVER-ADDRESSES wrapper and IP-ADDRESS-KEEP-BEHAVIOR wired both sides in XSD order;
+     stale frame_channel ipv6 writer tests still green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (tracker: former dnsServerAddress missing row resolved and annotated; two enum placeholders recorded)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7332 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] InfrastructureServices (markdown SystemTemplate · Table 6.144 · p.469 · source Fibex4Ethernet/NetworkEndpoint.py · depends on DhcpServerConfiguration above; adds dhcpServerConfiguration)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

@@ -6596,8 +6596,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "IPV-6-CONFIGURATION")
             self.setChildElementOptionalPositiveInteger(child_element, "ASSIGNMENT-PRIORITY", configuration.getAssignmentPriority())
             self.setChildElementOptionalLiteral(child_element, "DEFAULT-ROUTER", configuration.getDefaultRouter())
+            addresses = configuration.getDnsServerAddresses()
+            if len(addresses) > 0:
+                dns_element = ET.SubElement(child_element, "DNS-SERVER-ADDRESSES")
+                for address in addresses:
+                    self.setChildElementOptionalLiteral(dns_element, "DNS-SERVER-ADDRESS", address)
             self.setChildElementOptionalBooleanValue(child_element, "ENABLE-ANYCAST", configuration.getEnableAnycast())
             self.setChildElementOptionalPositiveInteger(child_element, "HOP-COUNT", configuration.getHopCount())
+            self.setChildElementOptionalLiteral(child_element, "IP-ADDRESS-KEEP-BEHAVIOR", configuration.getIpAddressKeepBehavior())
             self.setChildElementOptionalPositiveInteger(child_element, "IP-ADDRESS-PREFIX-LENGTH", configuration.getIpAddressPrefixLength())
             self.setChildElementOptionalLiteral(child_element, "IPV-6-ADDRESS", configuration.getIpv6Address())
             self.setChildElementOptionalLiteral(child_element, "IPV-6-ADDRESS-SOURCE", configuration.getIpv6AddressSource())

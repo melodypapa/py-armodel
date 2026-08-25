@@ -2,10 +2,10 @@
 # It defines IP configuration, network addresses, and communication protocols for networked ECUs
 
 from abc import ABC
-from typing import List
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Ip4AddressString, Ip6AddressString, PositiveInteger, String, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Ip4AddressString, Ip6AddressString, PositiveInteger, String, TimeValue
 
 
 class NetworkEndpointAddress(ARObject, ABC):
@@ -122,106 +122,177 @@ class Ipv4Configuration(NetworkEndpointAddress):
 
 class Ipv6Configuration(NetworkEndpointAddress):
     """
-    Defines IPv6 network configuration properties for a network endpoint,
-    including IPv6 addresses, default router, DNS server addresses,
-    and IPv6-specific communication parameters.
+    Internet Protocol version 6 (IPv6) configuration.
     """
 
     # Ipv6Configuration method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAssignmentPriority        [x] impl  [ ] docstring  [ ] test
-    # [ ] setAssignmentPriority        [x] impl  [ ] docstring  [ ] test
-    # [ ] getDefaultRouter             [x] impl  [ ] docstring  [ ] test
-    # [ ] setDefaultRouter             [x] impl  [ ] docstring  [ ] test
-    # [ ] getDnsServerAddresses        [x] impl  [ ] docstring  [ ] test
-    # [ ] setDnsServerAddresses        [x] impl  [ ] docstring  [ ] test
-    # [ ] getEnableAnycast             [x] impl  [ ] docstring  [ ] test
-    # [ ] setEnableAnycast             [x] impl  [ ] docstring  [ ] test
-    # [ ] getHopCount                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setHopCount                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getIpAddressKeepBehavior     [x] impl  [ ] docstring  [ ] test
-    # [ ] setIpAddressKeepBehavior     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIpAddressPrefixLength     [x] impl  [ ] docstring  [ ] test
-    # [ ] setIpAddressPrefixLength     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIpv6Address               [x] impl  [ ] docstring  [ ] test
-    # [ ] setIpv6Address               [x] impl  [ ] docstring  [ ] test
-    # [ ] getIpv6AddressSource         [x] impl  [ ] docstring  [ ] test
-    # [ ] setIpv6AddressSource         [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.139, p.466
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAssignmentPriority        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAssignmentPriority        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDefaultRouter             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefaultRouter             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDnsServerAddresses        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addDnsServerAddress          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEnableAnycast             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEnableAnycast             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getHopCount                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setHopCount                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIpAddressKeepBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIpAddressKeepBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIpAddressPrefixLength     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIpAddressPrefixLength     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIpv6Address               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIpv6Address               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIpv6AddressSource         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIpv6AddressSource         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.assignmentPriority: PositiveInteger = None
-        self.defaultRouter: Ip6AddressString = None
-        self.dnsServerAddresses: List[Ip6AddressString] = []
-        self.enableAnycast: Boolean = None
-        self.hopCount: PositiveInteger = None
-        self.ipAddressKeepBehavior = None
-        self.ipAddressPrefixLength: PositiveInteger = None
-        self.ipv6Address: Ip6AddressString = None
-        self.ipv6AddressSource = None
+        # Priority of assignment (1 is highest). If a new address from an assignment method with a higher priority is available, it overwrites the IP address previously assigned by an assignment method with a lower priority.
+        self.assignmentPriority: Optional[PositiveInteger] = None
 
-    def getAssignmentPriority(self):
+        # IP address of the default router.
+        self.defaultRouter: Optional[Ip6AddressString] = None
+
+        # IP addresses of pre configured DNS servers.
+        self.dnsServerAddresses: List[Ip6AddressString] = []
+
+        # This attribute is used to enable anycast addressing (i.e. to one of multiple receivers).
+        self.enableAnycast: Optional[Boolean] = None
+
+        # The distance between two hosts. The hop count n means that n gateways separate the source host from the destination host (Range 0..255)
+        self.hopCount: Optional[PositiveInteger] = None
+
+        # Defines the lifetime of a dynamically fetched IP address.
+        self.ipAddressKeepBehavior: Optional[ARLiteral] = None
+
+        # IPv6 prefix length defines the part of the IPv6 address that is the network prefix.
+        self.ipAddressPrefixLength: Optional[PositiveInteger] = None
+
+        # IPv6 Address. Notation: FFFF:...:FFFF. The IP Address shall be declared in case the ipv6AddressSource is FIXED and thus no auto-configuration mechanism is used.
+        self.ipv6Address: Optional[Ip6AddressString] = None
+
+        # Defines how the node obtains its IP address.
+        self.ipv6AddressSource: Optional[ARLiteral] = None
+
+    def getAssignmentPriority(self) -> Optional[PositiveInteger]:
+        """Priority of assignment (1 is highest). If a new address from an assignment method with a higher priority is available, it overwrites the IP address previously assigned by an assignment method with a lower priority."""
         return self.assignmentPriority
 
-    def setAssignmentPriority(self, value):
-        self.assignmentPriority = value
+    def setAssignmentPriority(self, value: Optional[PositiveInteger]) -> "Ipv6Configuration":
+        """
+        Priority of assignment (1 is highest). If a new address from an assignment method with a higher priority is available, it overwrites the IP address previously assigned by an assignment method with a lower priority.
+        A None value is a no-op and does not overwrite an existing assignmentPriority.
+        """
+        if value is not None:
+            self.assignmentPriority = value
         return self
 
-    def getDefaultRouter(self):
+    def getDefaultRouter(self) -> Optional[Ip6AddressString]:
+        """IP address of the default router."""
         return self.defaultRouter
 
-    def setDefaultRouter(self, value):
-        self.defaultRouter = value
+    def setDefaultRouter(self, value: Optional[Ip6AddressString]) -> "Ipv6Configuration":
+        """
+        IP address of the default router.
+        A None value is a no-op and does not overwrite an existing defaultRouter.
+        """
+        if value is not None:
+            self.defaultRouter = value
         return self
 
-    def getDnsServerAddresses(self):
+    def getDnsServerAddresses(self) -> List[Ip6AddressString]:
+        """IP addresses of pre configured DNS servers."""
         return self.dnsServerAddresses
 
-    def setDnsServerAddresses(self, value):
-        self.dnsServerAddresses = value
+    def addDnsServerAddress(self, value: Optional[Ip6AddressString]) -> "Ipv6Configuration":
+        """
+        IP addresses of pre configured DNS servers.
+        A None value is a no-op and does not append to dnsServerAddresses.
+        """
+        if value is not None:
+            self.dnsServerAddresses.append(value)
         return self
 
-    def getEnableAnycast(self):
+    def getEnableAnycast(self) -> Optional[Boolean]:
+        """This attribute is used to enable anycast addressing (i.e. to one of multiple receivers)."""
         return self.enableAnycast
 
-    def setEnableAnycast(self, value):
-        self.enableAnycast = value
+    def setEnableAnycast(self, value: Optional[Boolean]) -> "Ipv6Configuration":
+        """
+        This attribute is used to enable anycast addressing (i.e. to one of multiple receivers).
+        A None value is a no-op and does not overwrite an existing enableAnycast.
+        """
+        if value is not None:
+            self.enableAnycast = value
         return self
 
-    def getHopCount(self):
+    def getHopCount(self) -> Optional[PositiveInteger]:
+        """The distance between two hosts. The hop count n means that n gateways separate the source host from the destination host (Range 0..255)"""
         return self.hopCount
 
-    def setHopCount(self, value):
-        self.hopCount = value
+    def setHopCount(self, value: Optional[PositiveInteger]) -> "Ipv6Configuration":
+        """
+        The distance between two hosts. The hop count n means that n gateways separate the source host from the destination host (Range 0..255)
+        A None value is a no-op and does not overwrite an existing hopCount.
+        """
+        if value is not None:
+            self.hopCount = value
         return self
 
-    def getIpAddressKeepBehavior(self):
+    def getIpAddressKeepBehavior(self) -> Optional[ARLiteral]:
+        """Defines the lifetime of a dynamically fetched IP address."""
         return self.ipAddressKeepBehavior
 
-    def setIpAddressKeepBehavior(self, value):
-        self.ipAddressKeepBehavior = value
+    def setIpAddressKeepBehavior(self, value: Optional[ARLiteral]) -> "Ipv6Configuration":
+        """
+        Defines the lifetime of a dynamically fetched IP address.
+        A None value is a no-op and does not overwrite an existing ipAddressKeepBehavior.
+        """
+        if value is not None:
+            self.ipAddressKeepBehavior = value
         return self
 
-    def getIpAddressPrefixLength(self):
+    def getIpAddressPrefixLength(self) -> Optional[PositiveInteger]:
+        """IPv6 prefix length defines the part of the IPv6 address that is the network prefix."""
         return self.ipAddressPrefixLength
 
-    def setIpAddressPrefixLength(self, value):
-        self.ipAddressPrefixLength = value
+    def setIpAddressPrefixLength(self, value: Optional[PositiveInteger]) -> "Ipv6Configuration":
+        """
+        IPv6 prefix length defines the part of the IPv6 address that is the network prefix.
+        A None value is a no-op and does not overwrite an existing ipAddressPrefixLength.
+        """
+        if value is not None:
+            self.ipAddressPrefixLength = value
         return self
 
-    def getIpv6Address(self):
+    def getIpv6Address(self) -> Optional[Ip6AddressString]:
+        """IPv6 Address. Notation: FFFF:...:FFFF. The IP Address shall be declared in case the ipv6AddressSource is FIXED and thus no auto-configuration mechanism is used."""
         return self.ipv6Address
 
-    def setIpv6Address(self, value):
-        self.ipv6Address = value
+    def setIpv6Address(self, value: Optional[Ip6AddressString]) -> "Ipv6Configuration":
+        """
+        IPv6 Address. Notation: FFFF:...:FFFF. The IP Address shall be declared in case the ipv6AddressSource is FIXED and thus no auto-configuration mechanism is used.
+        A None value is a no-op and does not overwrite an existing ipv6Address.
+        """
+        if value is not None:
+            self.ipv6Address = value
         return self
 
-    def getIpv6AddressSource(self):
+    def getIpv6AddressSource(self) -> Optional[ARLiteral]:
+        """Defines how the node obtains its IP address."""
         return self.ipv6AddressSource
 
-    def setIpv6AddressSource(self, value):
-        self.ipv6AddressSource = value
+    def setIpv6AddressSource(self, value: Optional[ARLiteral]) -> "Ipv6Configuration":
+        """
+        Defines how the node obtains its IP address.
+        A None value is a no-op and does not overwrite an existing ipv6AddressSource.
+        """
+        if value is not None:
+            self.ipv6AddressSource = value
         return self
 
 
