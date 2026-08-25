@@ -203,45 +203,45 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 8 — Deviations: none blocking
   - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] SynchronizationTimingConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.54 · Base includes TimingConstraint · uses SynchronizationTypeEnum/EventOccurrenceKindEnum (queued above), MultidimensionalTime (already stamped) · scope/scopeEvent -> TimingDescriptionEventChain/TimingDescriptionEvent are Rule 0001.10 placeholders, not queued)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — fabricated snake_case syncType/eventOccurrence fields removed; eventOccurrenceKind enum, scopeRefs/scopeEventRefs List[RefType] (* refs), synchronizationConstraintType enum, tolerance Optional[MultidimensionalTime] per PDF row order
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeSynchronizationTimingConstraint; SCOPE-EVENT-REFS/SCOPE-REFS wrappers emitted only when non-empty; XSD order EVENT-OCCURRENCE-KIND → SCOPE-EVENT-REFS → SCOPE-REFS → SYNCHRONIZATION-CONSTRAINT-TYPE → TOLERANCE
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: TimingDescriptionEventChain/TimingDescriptionEvent ref targets unsynced → RefType placeholders (Rule 0001.10)
+  - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] LatencyTimingConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.57 · Base includes TimingConstraint · uses LatencyConstraintTypeEnum (queued above), MultidimensionalTime (already stamped) · scope -> TimingDescriptionEventChain is a Rule 0001.10 placeholder, not queued)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — fabricated latency_type/latency TimeValue fields removed; latencyConstraintType enum, maximum/minimum/nominal Optional[MultidimensionalTime], scopeRef Optional[RefType]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeLatencyTimingConstraint; XSD order LATENCY-CONSTRAINT-TYPE → SCOPE-REF → MINIMUM(10) → MAXIMUM(20) → NOMINAL(30)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: TimingDescriptionEventChain placeholder (Rule 0001.10)
+  - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] OffsetTimingConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.66 · Base includes TimingConstraint · uses MultidimensionalTime (already stamped) · source/target -> TimingDescriptionEvent are Rule 0001.10 placeholders, not queued)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — fabricated offset TimeValue field removed; maximum/minimum Optional[MultidimensionalTime], sourceRef/targetRef Optional[RefType]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeOffsetTimingConstraint; XSD order SOURCE-REF → TARGET-REF → MINIMUM(10) → MAXIMUM(20)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: TimingDescriptionEvent placeholders (Rule 0001.10)
+  - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] AgeConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.67 · Base includes TimingConstraint · uses MultidimensionalTime (already stamped) · scope -> TimingDescriptionEvent is a Rule 0001.10 placeholder, not queued)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — fabricated age TimeValue field removed; maximum/minimum Optional[MultidimensionalTime], scopeRef Optional[RefType]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeAgeConstraint; XSD order MAXIMUM → MINIMUM → SCOPE-REF
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: TimingDescriptionEvent placeholder (Rule 0001.10)
+  - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] EventTriggeringConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.59 · abstract · Base includes TimingConstraint · event -> TimingDescriptionEvent is a Rule 0001.10 placeholder, not queued · Subclasses queued next)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
