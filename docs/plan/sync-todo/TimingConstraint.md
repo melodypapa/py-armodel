@@ -42,7 +42,7 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: timingArgument→AutosarOperationArgumentInstance, timingEvent→TimingDescriptionEvent, timingVariable→AutosarVariableInstance are Rule 0001.10 placeholders (not in codebase); modeled as RefType per Phase 0 decision — no blocking deviation
   - [x] Step 9 — Verify (9a) + confirm (9b): 18 model/parser/writer tests pass; ruff/flake8/black clean; # Spec verified: R23-11 stamped. User relocated class into TimingCondition/__init__.py (non-leaf package convention) before stamping.
-- [x] ModeInBswInstanceRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.11 · InstanceRef, referenced by TimingModeInstance.modeInstance) · commit 84f1c2a
+- [x] ModeInBswInstanceRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.11 · InstanceRef, referenced by TimingModeInstance.modeInstance) · commit bb53916d
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green) — base ARObject (spec Base `ARObject, ModeInSwcBswInstanceRef`; ModeInSwcBswInstanceRef not in codebase → Rule 0001.10 placeholder); contextBswImplementationRef/contextModeDeclarationGroupPrototypeRef/targetModeDeclarationRef as Optional[RefType]
