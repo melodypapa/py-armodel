@@ -11,7 +11,7 @@ import xml.etree.cElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip4AddressString, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip4AddressString, Ip6AddressString, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     DhcpServerConfiguration,
     Ipv4DhcpServerConfiguration,
@@ -168,6 +168,81 @@ class TestIpv4DhcpServerConfigurationRoundTrip:
         parent = ET.fromstring("<PARENT xmlns='%s'><IPV-4-DHCP-SERVER-CONFIGURATION/></PARENT>" % NS)
         parsed = parser.getIpv4DhcpServerConfiguration(parent, "IPV-4-DHCP-SERVER-CONFIGURATION")
         assert isinstance(parsed, Ipv4DhcpServerConfiguration)
+        assert parsed.getAddressRangeLowerBound() is None
+        assert parsed.getAddressRangeUpperBound() is None
+        assert parsed.getDefaultGateway() is None
+        assert parsed.getDefaultLeaseTime() is None
+        assert parsed.getDnsServerAddresses() == []
+        assert parsed.getNetworkMask() is None
+
+
+def _new_ipv6_config():
+    config = Ipv6DhcpServerConfiguration()
+    config.setAddressRangeLowerBound(Ip6AddressString().setValue("fe80::100"))
+    config.setAddressRangeUpperBound(Ip6AddressString().setValue("fe80::200"))
+    config.setDefaultGateway(Ip6AddressString().setValue("fe80::1"))
+    config.setDefaultLeaseTime(TimeValue().setValue(3600))
+    config.addDnsServerAddress(Ip6AddressString().setValue("2001:db8::53"))
+    config.addDnsServerAddress(Ip6AddressString().setValue("2001:db8::54"))
+    config.setNetworkMask(Ip6AddressString().setValue("ffff:ffff:ffff:ffff::"))
+    return config
+
+
+class TestIpv6DhcpServerConfigurationWrite:
+    def test_write_all_fields(self, writer):
+        parent = ET.Element("PARENT")
+        writer.setIpv6DhcpServerConfiguration(parent, "IPV-6-DHCP-SERVER-CONFIGURATION", _new_ipv6_config())
+        node = parent.find("IPV-6-DHCP-SERVER-CONFIGURATION")
+        assert node is not None
+        assert node.find("ADDRESS-RANGE-LOWER-BOUND").text == "fe80::100"
+        assert node.find("ADDRESS-RANGE-UPPER-BOUND").text == "fe80::200"
+        assert node.find("DEFAULT-GATEWAY").text == "fe80::1"
+        assert node.find("DEFAULT-LEASE-TIME").text == "3600.0"
+        dns_addresses = node.findall("DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS")
+        assert len(dns_addresses) == 2
+        assert dns_addresses[0].text == "2001:db8::53"
+        assert dns_addresses[1].text == "2001:db8::54"
+        assert node.find("NETWORK-MASK").text == "ffff:ffff:ffff:ffff::"
+
+    def test_write_empty_fields_omits_optional_tags(self, writer):
+        parent = ET.Element("PARENT")
+        writer.setIpv6DhcpServerConfiguration(parent, "IPV-6-DHCP-SERVER-CONFIGURATION", Ipv6DhcpServerConfiguration())
+        node = parent.find("IPV-6-DHCP-SERVER-CONFIGURATION")
+        assert node is not None
+        assert len(list(node)) == 0
+
+    def test_write_none_omits_element(self, writer):
+        parent = ET.Element("PARENT")
+        writer.setIpv6DhcpServerConfiguration(parent, "IPV-6-DHCP-SERVER-CONFIGURATION", None)
+        assert parent.find("IPV-6-DHCP-SERVER-CONFIGURATION") is None
+
+
+class TestIpv6DhcpServerConfigurationRoundTrip:
+    def test_round_trip_preserves_all_values(self, writer, parser):
+        parent = ET.Element("PARENT")
+        writer.setIpv6DhcpServerConfiguration(parent, "IPV-6-DHCP-SERVER-CONFIGURATION", _new_ipv6_config())
+        inner = ET.tostring(parent).decode("utf-8")
+        root = ET.fromstring("<AUTOSAR xmlns='%s'>%s</AUTOSAR>" % (NS, inner))
+        parsed = parser.getIpv6DhcpServerConfiguration(root[0], "IPV-6-DHCP-SERVER-CONFIGURATION")
+        assert isinstance(parsed, Ipv6DhcpServerConfiguration)
+        assert parsed.getAddressRangeLowerBound().getValue() == "fe80::100"
+        assert parsed.getAddressRangeUpperBound().getValue() == "fe80::200"
+        assert parsed.getDefaultGateway().getValue() == "fe80::1"
+        assert parsed.getDefaultLeaseTime().getValue() == 3600
+        dns_addresses = parsed.getDnsServerAddresses()
+        assert len(dns_addresses) == 2
+        assert dns_addresses[0].getValue() == "2001:db8::53"
+        assert dns_addresses[1].getValue() == "2001:db8::54"
+        assert parsed.getNetworkMask().getValue() == "ffff:ffff:ffff:ffff::"
+
+    def test_reader_missing_element_returns_none(self, parser):
+        parent = ET.fromstring("<PARENT xmlns='%s'></PARENT>" % NS)
+        assert parser.getIpv6DhcpServerConfiguration(parent, "IPV-6-DHCP-SERVER-CONFIGURATION") is None
+
+    def test_reader_empty_fields(self, parser):
+        parent = ET.fromstring("<PARENT xmlns='%s'><IPV-6-DHCP-SERVER-CONFIGURATION/></PARENT>" % NS)
+        parsed = parser.getIpv6DhcpServerConfiguration(parent, "IPV-6-DHCP-SERVER-CONFIGURATION")
+        assert isinstance(parsed, Ipv6DhcpServerConfiguration)
         assert parsed.getAddressRangeLowerBound() is None
         assert parsed.getAddressRangeUpperBound() is None
         assert parsed.getDefaultGateway() is None

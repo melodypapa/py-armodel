@@ -137,16 +137,25 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (tracker: new Ipv4DhcpServerConfiguration section, zero deviations; DhcpServerConfiguration stub row removed)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7270 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] Ipv6DhcpServerConfiguration (value type · Table 3.81 · used by DhcpServerConfiguration.ipv6DhcpServerConfiguration · source EthernetTopology.py · resolves DhcpServerConfiguration stub deviation; same attr set as Ipv4 variant with Ip6AddressString types)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] Ipv6DhcpServerConfiguration (value type · Table 3.81 · p.132 · used by DhcpServerConfiguration.ipv6DhcpServerConfiguration · source EthernetTopology.py · resolves DhcpServerConfiguration stub deviation; same attr set as Ipv4 variant with Ip6AddressString types) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Sync members & description from spec
+    (Table 3.81 in markdown AUTOSAR_CP_TPS_SystemTemplate.md:3577–3616 + PDF p.132;
+    Base ARObject+Describable → Describable; 6 attr rows, Ip6AddressString types)
+  - [x] Step 2 — Write model class unit test (Red)
+    (TestEthernetTopology.test_ipv6_dhcp_server_configuration_* added; Red confirmed — 3 failed AttributeError)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    (fresh implementation: class Note + per-attribute Notes verbatim incl. spec's "Notation 255.255.255.255" on defaultGateway/networkMask rows kept verbatim)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    (test_dhcp_server_configuration.py TestIpv6DhcpServerConfigurationWrite/RoundTrip; Red confirmed — 6 failed)
+  - [x] Step 6 — Update parser & writer (Green)
+    (writer setIpv6DhcpServerConfiguration wired into setDhcpServerConfiguration replacing empty-SubElement branch;
+    parser getIpv6DhcpServerConfiguration via mutators wired into getDhcpServerConfiguration)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (tracker: new Ipv6DhcpServerConfiguration section, zero deviations; DhcpServerConfiguration Ipv6 stub row removed)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7279 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] AnyServiceInstanceId (primitive · FO_TPS_GenericStructureTemplate Table E.6 · used by ConsumedServiceInstance.instanceIdentifier · resolves String placeholder)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

@@ -5,7 +5,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip4AddressString, PositiveInteger, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Ip4AddressString, Ip6AddressString, PositiveInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
 
@@ -1066,12 +1066,124 @@ class Ipv4DhcpServerConfiguration(Describable):
 
 class Ipv6DhcpServerConfiguration(Describable):
     """
-    Placeholder for the IPv6 DHCP server configuration (AUTOSAR_CP_TPS_SystemTemplate, Table 3.81).
-    To be fully synced in a later pass.
+    Defines the configuration of a IPv6 DHCP server that runs on the network endpoint.
     """
+
+    # Ipv6DhcpServerConfiguration method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.81, p.132
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAddressRangeUpperBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAddressRangeUpperBound      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDefaultGateway              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefaultGateway              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDefaultLeaseTime            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefaultLeaseTime            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDnsServerAddresses          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addDnsServerAddress            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNetworkMask                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNetworkMask                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
+
+        # Lower range of IP addresses to be issued to DHCP clients. IPv6 Address. Notation: FFFF:...:FFFF.
+        self.addressRangeLowerBound: Optional[Ip6AddressString] = None
+
+        # Upper range of IP addresses to be issued to DHCP clients. IPv6 Address. Notation: FFFF:...:FFFF.
+        self.addressRangeUpperBound: Optional[Ip6AddressString] = None
+
+        # IP address of the default gateway. Notation 255.255.255.255
+        self.defaultGateway: Optional[Ip6AddressString] = None
+
+        # Amount of time in seconds that a client may keep the IP address.
+        self.defaultLeaseTime: Optional[TimeValue] = None
+
+        # IP addresses of preconfigured DNS servers. Notation: FFFF:...:FFFF.
+        self.dnsServerAddresses: List[Ip6AddressString] = []
+
+        # Default network mask to be used by DHCP clients. Notation 255.255.255.255
+        self.networkMask: Optional[Ip6AddressString] = None
+
+    def getAddressRangeLowerBound(self) -> Optional[Ip6AddressString]:
+        """Lower range of IP addresses to be issued to DHCP clients. IPv6 Address. Notation: FFFF:...:FFFF."""
+        return self.addressRangeLowerBound
+
+    def setAddressRangeLowerBound(self, value: Optional[Ip6AddressString]) -> "Ipv6DhcpServerConfiguration":
+        """
+        Lower range of IP addresses to be issued to DHCP clients. IPv6 Address. Notation: FFFF:...:FFFF.
+        A None value is a no-op and does not overwrite an existing addressRangeLowerBound.
+        """
+        if value is not None:
+            self.addressRangeLowerBound = value
+        return self
+
+    def getAddressRangeUpperBound(self) -> Optional[Ip6AddressString]:
+        """Upper range of IP addresses to be issued to DHCP clients. IPv6 Address. Notation: FFFF:...:FFFF."""
+        return self.addressRangeUpperBound
+
+    def setAddressRangeUpperBound(self, value: Optional[Ip6AddressString]) -> "Ipv6DhcpServerConfiguration":
+        """
+        Upper range of IP addresses to be issued to DHCP clients. IPv6 Address. Notation: FFFF:...:FFFF.
+        A None value is a no-op and does not overwrite an existing addressRangeUpperBound.
+        """
+        if value is not None:
+            self.addressRangeUpperBound = value
+        return self
+
+    def getDefaultGateway(self) -> Optional[Ip6AddressString]:
+        """IP address of the default gateway. Notation 255.255.255.255"""
+        return self.defaultGateway
+
+    def setDefaultGateway(self, value: Optional[Ip6AddressString]) -> "Ipv6DhcpServerConfiguration":
+        """
+        IP address of the default gateway. Notation 255.255.255.255
+        A None value is a no-op and does not overwrite an existing defaultGateway.
+        """
+        if value is not None:
+            self.defaultGateway = value
+        return self
+
+    def getDefaultLeaseTime(self) -> Optional[TimeValue]:
+        """Amount of time in seconds that a client may keep the IP address."""
+        return self.defaultLeaseTime
+
+    def setDefaultLeaseTime(self, value: Optional[TimeValue]) -> "Ipv6DhcpServerConfiguration":
+        """
+        Amount of time in seconds that a client may keep the IP address.
+        A None value is a no-op and does not overwrite an existing defaultLeaseTime.
+        """
+        if value is not None:
+            self.defaultLeaseTime = value
+        return self
+
+    def getDnsServerAddresses(self) -> List[Ip6AddressString]:
+        """IP addresses of preconfigured DNS servers. Notation: FFFF:...:FFFF."""
+        return self.dnsServerAddresses
+
+    def addDnsServerAddress(self, value: Optional[Ip6AddressString]) -> "Ipv6DhcpServerConfiguration":
+        """
+        IP addresses of preconfigured DNS servers. Notation: FFFF:...:FFFF.
+        A None value is a no-op and does not append to dnsServerAddresses.
+        """
+        if value is not None:
+            self.dnsServerAddresses.append(value)
+        return self
+
+    def getNetworkMask(self) -> Optional[Ip6AddressString]:
+        """Default network mask to be used by DHCP clients. Notation 255.255.255.255"""
+        return self.networkMask
+
+    def setNetworkMask(self, value: Optional[Ip6AddressString]) -> "Ipv6DhcpServerConfiguration":
+        """
+        Default network mask to be used by DHCP clients. Notation 255.255.255.255
+        A None value is a no-op and does not overwrite an existing networkMask.
+        """
+        if value is not None:
+            self.networkMask = value
+        return self
 
 
 class DhcpServerConfiguration(Describable):

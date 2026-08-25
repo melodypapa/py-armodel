@@ -471,6 +471,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     DhcpServerConfiguration,
     InitialSdDelayConfig,
     Ipv4DhcpServerConfiguration,
+    Ipv6DhcpServerConfiguration,
     MacMulticastGroup,
     RequestResponseDelay,
     SdClientConfig,
@@ -7979,10 +7980,23 @@ class ARXMLWriter(AbstractARXMLWriter):
         if config is not None:
             child_element = ET.SubElement(element, key)
             self.setIpv4DhcpServerConfiguration(child_element, "IPV-4-DHCP-SERVER-CONFIGURATION", config.getIpv4DhcpServerConfiguration())
-            if config.getIpv6DhcpServerConfiguration() is not None:
-                ET.SubElement(child_element, "IPV-6-DHCP-SERVER-CONFIGURATION")
+            self.setIpv6DhcpServerConfiguration(child_element, "IPV-6-DHCP-SERVER-CONFIGURATION", config.getIpv6DhcpServerConfiguration())
 
     def setIpv4DhcpServerConfiguration(self, element: ET.Element, key: str, config: Ipv4DhcpServerConfiguration):
+        if config is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND", config.getAddressRangeLowerBound())
+            self.setChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-UPPER-BOUND", config.getAddressRangeUpperBound())
+            self.setChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY", config.getDefaultGateway())
+            self.setChildElementOptionalTimeValue(child_element, "DEFAULT-LEASE-TIME", config.getDefaultLeaseTime())
+            addresses = config.getDnsServerAddresses()
+            if len(addresses) > 0:
+                dns_element = ET.SubElement(child_element, "DNS-SERVER-ADDRESSES")
+                for address in addresses:
+                    self.setChildElementOptionalLiteral(dns_element, "DNS-SERVER-ADDRESS", address)
+            self.setChildElementOptionalLiteral(child_element, "NETWORK-MASK", config.getNetworkMask())
+
+    def setIpv6DhcpServerConfiguration(self, element: ET.Element, key: str, config: Ipv6DhcpServerConfiguration):
         if config is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND", config.getAddressRangeLowerBound())

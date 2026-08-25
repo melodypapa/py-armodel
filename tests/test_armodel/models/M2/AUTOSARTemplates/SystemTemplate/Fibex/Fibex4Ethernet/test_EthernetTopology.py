@@ -624,6 +624,86 @@ class TestEthernetTopology:
         config.addDnsServerAddress(None)
         assert config.getDnsServerAddresses() == ["8.8.8.8", "8.8.4.4"]
 
+    def test_ipv6_dhcp_server_configuration_initialization(self):
+        """
+        Test the Ipv6DhcpServerConfiguration class initialization (Table 3.81).
+        """
+        config = Ipv6DhcpServerConfiguration()
+
+        assert isinstance(config, Describable)
+        assert config.getAddressRangeLowerBound() is None
+        assert config.getAddressRangeUpperBound() is None
+        assert config.getDefaultGateway() is None
+        assert config.getDefaultLeaseTime() is None
+        assert config.getDnsServerAddresses() == []
+        assert config.getNetworkMask() is None
+
+    def test_ipv6_dhcp_server_configuration_get_set(self):
+        """
+        Test the Ipv6DhcpServerConfiguration getters/setters (Table 3.81).
+        """
+        config = Ipv6DhcpServerConfiguration()
+
+        result = config.setAddressRangeLowerBound("fe80::1")
+        assert config.getAddressRangeLowerBound() == "fe80::1"
+        assert result == config  # Test method chaining
+
+        # Test None no-op for addressRangeLowerBound
+        result = config.setAddressRangeLowerBound(None)
+        assert config.getAddressRangeLowerBound() == "fe80::1"
+
+        result = config.setAddressRangeUpperBound("fe80::2")
+        assert config.getAddressRangeUpperBound() == "fe80::2"
+        assert result == config  # Test method chaining
+
+        # Test None no-op for addressRangeUpperBound
+        result = config.setAddressRangeUpperBound(None)
+        assert config.getAddressRangeUpperBound() == "fe80::2"
+
+        result = config.setDefaultGateway("fe80::ffff")
+        assert config.getDefaultGateway() == "fe80::ffff"
+        assert result == config  # Test method chaining
+
+        # Test None no-op for defaultGateway
+        result = config.setDefaultGateway(None)
+        assert config.getDefaultGateway() == "fe80::ffff"
+
+        lease_time = TimeValue().setValue("3600")
+        result = config.setDefaultLeaseTime(lease_time)
+        assert config.getDefaultLeaseTime() == lease_time
+        assert result == config  # Test method chaining
+
+        # Test None no-op for defaultLeaseTime
+        result = config.setDefaultLeaseTime(None)
+        assert config.getDefaultLeaseTime() == lease_time
+
+        result = config.setNetworkMask("ffff:ffff:ffff:ffff::")
+        assert config.getNetworkMask() == "ffff:ffff:ffff:ffff::"
+        assert result == config  # Test method chaining
+
+        # Test None no-op for networkMask
+        result = config.setNetworkMask(None)
+        assert config.getNetworkMask() == "ffff:ffff:ffff:ffff::"
+
+    def test_ipv6_dhcp_server_configuration_dns_server_addresses(self):
+        """
+        Test the Ipv6DhcpServerConfiguration dnsServerAddresses list (Table 3.81).
+        """
+        config = Ipv6DhcpServerConfiguration()
+
+        assert config.getDnsServerAddresses() == []
+
+        result = config.addDnsServerAddress("2001:db8::53")
+        assert config.getDnsServerAddresses() == ["2001:db8::53"]
+        assert result == config  # Test method chaining
+
+        config.addDnsServerAddress("2001:db8::54")
+        assert config.getDnsServerAddresses() == ["2001:db8::53", "2001:db8::54"]
+
+        # Test None no-op for dnsServerAddresses
+        config.addDnsServerAddress(None)
+        assert config.getDnsServerAddresses() == ["2001:db8::53", "2001:db8::54"]
+
     def test_coupling_port_traffic_class_assignment(self):
         """
         Test the CouplingPortTrafficClassAssignment class initialization and methods.
