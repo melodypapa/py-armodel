@@ -259,7 +259,15 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.Attribu
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef, TimingCondition
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingExtensionResource, TimingModeInstance
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import ConfidenceInterval
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
+    ArbitraryEventTriggering,
+    BurstPatternEventTriggering,
+    ConcretePatternEventTriggering,
+    ConfidenceInterval,
+    EventTriggeringConstraint,
+    PeriodicEventTriggering,
+    SporadicEventTriggering,
+)
 
 VALUE_ACCESS_CLASS_TO_TAG = {
     LimitValueVariationPoint: "LIMIT",
@@ -3533,6 +3541,66 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setMultidimensionalTime(element, "MAXIMUM", constraint.getMaximum())
         self.setMultidimensionalTime(element, "MINIMUM", constraint.getMinimum())
         self.setChildElementOptionalRefType(element, "SCOPE-REF", constraint.getScopeRef())
+
+    def writeEventTriggeringConstraint(self, element: ET.Element, constraint: EventTriggeringConstraint):
+        self.writeTimingConstraint(element, constraint)
+        self.setChildElementOptionalRefType(element, "EVENT-REF", constraint.getEventRef())
+
+    def writePeriodicEventTriggering(self, element: ET.Element, constraint: PeriodicEventTriggering):
+        self.logger.debug("writePeriodicEventTriggering %s" % constraint.getShortName())
+        self.writeEventTriggeringConstraint(element, constraint)
+        self.setMultidimensionalTime(element, "MINIMUM-INTER-ARRIVAL-TIME", constraint.getMinimumInterArrivalTime())
+        self.setMultidimensionalTime(element, "JITTER", constraint.getJitter())
+        self.setMultidimensionalTime(element, "PERIOD", constraint.getPeriod())
+
+    def writeSporadicEventTriggering(self, element: ET.Element, constraint: SporadicEventTriggering):
+        self.logger.debug("writeSporadicEventTriggering %s" % constraint.getShortName())
+        self.writeEventTriggeringConstraint(element, constraint)
+        self.setMultidimensionalTime(element, "MINIMUM-INTER-ARRIVAL-TIME", constraint.getMinimumInterArrivalTime())
+        self.setMultidimensionalTime(element, "MAXIMUM-INTER-ARRIVAL-TIME", constraint.getMaximumInterArrivalTime())
+        self.setMultidimensionalTime(element, "JITTER", constraint.getJitter())
+        self.setMultidimensionalTime(element, "PERIOD", constraint.getPeriod())
+
+    def writeConcretePatternEventTriggering(self, element: ET.Element, constraint: ConcretePatternEventTriggering):
+        self.logger.debug("writeConcretePatternEventTriggering %s" % constraint.getShortName())
+        self.writeEventTriggeringConstraint(element, constraint)
+        self.setMultidimensionalTime(element, "PATTERN-JITTER", constraint.getPatternJitter())
+        self.setMultidimensionalTime(element, "PATTERN-PERIOD", constraint.getPatternPeriod())
+        offsets = constraint.getOffsets()
+        if len(offsets) > 0:
+            offsets_tag = ET.SubElement(element, "OFFSETS")
+            for offset in offsets:
+                self.setMultidimensionalTime(offsets_tag, "TIME-VALUE", offset)
+        self.setMultidimensionalTime(element, "PATTERN-LENGTH", constraint.getPatternLength())
+
+    def writeBurstPatternEventTriggering(self, element: ET.Element, constraint: BurstPatternEventTriggering):
+        self.logger.debug("writeBurstPatternEventTriggering %s" % constraint.getShortName())
+        self.writeEventTriggeringConstraint(element, constraint)
+        self.setChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-OCCURRENCES", constraint.getMaxNumberOfOccurrences())
+        self.setMultidimensionalTime(element, "MINIMUM-INTER-ARRIVAL-TIME", constraint.getMinimumInterArrivalTime())
+        self.setMultidimensionalTime(element, "PATTERN-JITTER", constraint.getPatternJitter())
+        self.setMultidimensionalTime(element, "PATTERN-LENGTH", constraint.getPatternLength())
+        self.setMultidimensionalTime(element, "PATTERN-PERIOD", constraint.getPatternPeriod())
+        self.setChildElementOptionalPositiveInteger(element, "MIN-NUMBER-OF-OCCURRENCES", constraint.getMinNumberOfOccurrences())
+
+    def writeArbitraryEventTriggering(self, element: ET.Element, constraint: ArbitraryEventTriggering):
+        self.logger.debug("writeArbitraryEventTriggering %s" % constraint.getShortName())
+        self.writeEventTriggeringConstraint(element, constraint)
+        minimum_distances = constraint.getMinimumDistances()
+        if len(minimum_distances) > 0:
+            minimum_distances_tag = ET.SubElement(element, "MINIMUM-DISTANCES")
+            for distance in minimum_distances:
+                self.setMultidimensionalTime(minimum_distances_tag, "TIME-VALUE", distance)
+        maximum_distances = constraint.getMaximumDistances()
+        if len(maximum_distances) > 0:
+            maximum_distances_tag = ET.SubElement(element, "MAXIMUM-DISTANCES")
+            for distance in maximum_distances:
+                self.setMultidimensionalTime(maximum_distances_tag, "TIME-VALUE", distance)
+        confidence_intervals = constraint.getConfidenceIntervals()
+        if len(confidence_intervals) > 0:
+            confidence_intervals_tag = ET.SubElement(element, "CONFIDENCE-INTERVALS")
+            for interval in confidence_intervals:
+                self.writeConfidenceInterval(ET.SubElement(confidence_intervals_tag, "CONFIDENCE-INTERVAL"), interval)
 
     def writeTimingClock(self, element: ET.Element, clock: TimingClock):
         self.writeIdentifiable(element, clock)

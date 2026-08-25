@@ -176,7 +176,15 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
     ExecutionOrderConstraint,
     LetDataExchangeParadigmEnum,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import ConfidenceInterval
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
+    ArbitraryEventTriggering,
+    BurstPatternEventTriggering,
+    ConcretePatternEventTriggering,
+    ConfidenceInterval,
+    EventTriggeringConstraint,
+    PeriodicEventTriggering,
+    SporadicEventTriggering,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.LatencyTimingConstraint import (
     LatencyConstraintTypeEnum,
     LatencyTimingConstraint,
@@ -2262,6 +2270,126 @@ class ARXMLParser(AbstractARXMLParser):
             self.readMultidimensionalTime(minimum_element, minimum)
             constraint.setMinimum(minimum)
         constraint.setScopeRef(self.getChildElementOptionalRefType(element, "SCOPE-REF"))
+
+    def readEventTriggeringConstraint(self, element: ET.Element, constraint: EventTriggeringConstraint):
+        self.readTimingConstraint(element, constraint)
+        constraint.setEventRef(self.getChildElementOptionalRefType(element, "EVENT-REF"))
+
+    def readPeriodicEventTriggering(self, element: ET.Element, constraint: PeriodicEventTriggering):
+        self.logger.debug("readPeriodicEventTriggering %s" % self.getShortName(element))
+        self.readEventTriggeringConstraint(element, constraint)
+        jitter_element = self.find(element, "JITTER")
+        if jitter_element is not None:
+            jitter = MultidimensionalTime()
+            self.readMultidimensionalTime(jitter_element, jitter)
+            constraint.setJitter(jitter)
+        minimum_inter_arrival_time_element = self.find(element, "MINIMUM-INTER-ARRIVAL-TIME")
+        if minimum_inter_arrival_time_element is not None:
+            minimum_inter_arrival_time = MultidimensionalTime()
+            self.readMultidimensionalTime(minimum_inter_arrival_time_element, minimum_inter_arrival_time)
+            constraint.setMinimumInterArrivalTime(minimum_inter_arrival_time)
+        period_element = self.find(element, "PERIOD")
+        if period_element is not None:
+            period = MultidimensionalTime()
+            self.readMultidimensionalTime(period_element, period)
+            constraint.setPeriod(period)
+
+    def readSporadicEventTriggering(self, element: ET.Element, constraint: SporadicEventTriggering):
+        self.logger.debug("readSporadicEventTriggering %s" % self.getShortName(element))
+        self.readEventTriggeringConstraint(element, constraint)
+        jitter_element = self.find(element, "JITTER")
+        if jitter_element is not None:
+            jitter = MultidimensionalTime()
+            self.readMultidimensionalTime(jitter_element, jitter)
+            constraint.setJitter(jitter)
+        maximum_inter_arrival_time_element = self.find(element, "MAXIMUM-INTER-ARRIVAL-TIME")
+        if maximum_inter_arrival_time_element is not None:
+            maximum_inter_arrival_time = MultidimensionalTime()
+            self.readMultidimensionalTime(maximum_inter_arrival_time_element, maximum_inter_arrival_time)
+            constraint.setMaximumInterArrivalTime(maximum_inter_arrival_time)
+        minimum_inter_arrival_time_element = self.find(element, "MINIMUM-INTER-ARRIVAL-TIME")
+        if minimum_inter_arrival_time_element is not None:
+            minimum_inter_arrival_time = MultidimensionalTime()
+            self.readMultidimensionalTime(minimum_inter_arrival_time_element, minimum_inter_arrival_time)
+            constraint.setMinimumInterArrivalTime(minimum_inter_arrival_time)
+        period_element = self.find(element, "PERIOD")
+        if period_element is not None:
+            period = MultidimensionalTime()
+            self.readMultidimensionalTime(period_element, period)
+            constraint.setPeriod(period)
+
+    def readConcretePatternEventTriggering(self, element: ET.Element, constraint: ConcretePatternEventTriggering):
+        self.logger.debug("readConcretePatternEventTriggering %s" % self.getShortName(element))
+        self.readEventTriggeringConstraint(element, constraint)
+        offsets_element = self.find(element, "OFFSETS")
+        if offsets_element is not None:
+            for time_value_element in self.findall(offsets_element, "TIME-VALUE"):
+                offset = MultidimensionalTime()
+                self.readMultidimensionalTime(time_value_element, offset)
+                constraint.addOffset(offset)
+        pattern_jitter_element = self.find(element, "PATTERN-JITTER")
+        if pattern_jitter_element is not None:
+            pattern_jitter = MultidimensionalTime()
+            self.readMultidimensionalTime(pattern_jitter_element, pattern_jitter)
+            constraint.setPatternJitter(pattern_jitter)
+        pattern_length_element = self.find(element, "PATTERN-LENGTH")
+        if pattern_length_element is not None:
+            pattern_length = MultidimensionalTime()
+            self.readMultidimensionalTime(pattern_length_element, pattern_length)
+            constraint.setPatternLength(pattern_length)
+        pattern_period_element = self.find(element, "PATTERN-PERIOD")
+        if pattern_period_element is not None:
+            pattern_period = MultidimensionalTime()
+            self.readMultidimensionalTime(pattern_period_element, pattern_period)
+            constraint.setPatternPeriod(pattern_period)
+
+    def readBurstPatternEventTriggering(self, element: ET.Element, constraint: BurstPatternEventTriggering):
+        self.logger.debug("readBurstPatternEventTriggering %s" % self.getShortName(element))
+        self.readEventTriggeringConstraint(element, constraint)
+        constraint.setMaxNumberOfOccurrences(self.getChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-OCCURRENCES"))
+        minimum_inter_arrival_time_element = self.find(element, "MINIMUM-INTER-ARRIVAL-TIME")
+        if minimum_inter_arrival_time_element is not None:
+            minimum_inter_arrival_time = MultidimensionalTime()
+            self.readMultidimensionalTime(minimum_inter_arrival_time_element, minimum_inter_arrival_time)
+            constraint.setMinimumInterArrivalTime(minimum_inter_arrival_time)
+        constraint.setMinNumberOfOccurrences(self.getChildElementOptionalPositiveInteger(element, "MIN-NUMBER-OF-OCCURRENCES"))
+        pattern_jitter_element = self.find(element, "PATTERN-JITTER")
+        if pattern_jitter_element is not None:
+            pattern_jitter = MultidimensionalTime()
+            self.readMultidimensionalTime(pattern_jitter_element, pattern_jitter)
+            constraint.setPatternJitter(pattern_jitter)
+        pattern_length_element = self.find(element, "PATTERN-LENGTH")
+        if pattern_length_element is not None:
+            pattern_length = MultidimensionalTime()
+            self.readMultidimensionalTime(pattern_length_element, pattern_length)
+            constraint.setPatternLength(pattern_length)
+        pattern_period_element = self.find(element, "PATTERN-PERIOD")
+        if pattern_period_element is not None:
+            pattern_period = MultidimensionalTime()
+            self.readMultidimensionalTime(pattern_period_element, pattern_period)
+            constraint.setPatternPeriod(pattern_period)
+
+    def readArbitraryEventTriggering(self, element: ET.Element, constraint: ArbitraryEventTriggering):
+        self.logger.debug("readArbitraryEventTriggering %s" % self.getShortName(element))
+        self.readEventTriggeringConstraint(element, constraint)
+        minimum_distances_element = self.find(element, "MINIMUM-DISTANCES")
+        if minimum_distances_element is not None:
+            for time_value_element in self.findall(minimum_distances_element, "TIME-VALUE"):
+                distance = MultidimensionalTime()
+                self.readMultidimensionalTime(time_value_element, distance)
+                constraint.addMinimumDistance(distance)
+        maximum_distances_element = self.find(element, "MAXIMUM-DISTANCES")
+        if maximum_distances_element is not None:
+            for time_value_element in self.findall(maximum_distances_element, "TIME-VALUE"):
+                distance = MultidimensionalTime()
+                self.readMultidimensionalTime(time_value_element, distance)
+                constraint.addMaximumDistance(distance)
+        confidence_intervals_element = self.find(element, "CONFIDENCE-INTERVALS")
+        if confidence_intervals_element is not None:
+            for interval_element in self.findall(confidence_intervals_element, "CONFIDENCE-INTERVAL"):
+                interval = ConfidenceInterval()
+                self.readConfidenceInterval(interval_element, interval)
+                constraint.addConfidenceInterval(interval)
 
     def readTimingClock(self, element: ET.Element, clock: TimingClock):
         self.readIdentifiable(element, clock)

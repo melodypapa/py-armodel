@@ -1,4 +1,4 @@
-"""Parser tests for the timing constraints (AGE-CONSTRAINT, LATENCY-TIMING-CONSTRAINT, OFFSET-TIMING-CONSTRAINT, SYNCHRONIZATION-TIMING-CONSTRAINT)."""
+"""Parser tests for the timing constraints (AGE-CONSTRAINT, LATENCY-TIMING-CONSTRAINT, OFFSET-TIMING-CONSTRAINT, SYNCHRONIZATION-TIMING-CONSTRAINT, event triggering constraints)."""
 
 import xml.etree.ElementTree as ET
 
@@ -6,6 +6,13 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
+    ArbitraryEventTriggering,
+    BurstPatternEventTriggering,
+    ConcretePatternEventTriggering,
+    PeriodicEventTriggering,
+    SporadicEventTriggering,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.LatencyTimingConstraint import (
     LatencyTimingConstraint,
 )
@@ -139,3 +146,129 @@ class TestReadTimingConstraints:
         parser.readAgeConstraint(element, constraint)
         assert constraint.getTimingConditionRef().getValue() == "/AUTOSAR/Cond1"
         assert constraint.getTimingConditionRef().getDest() == "TIMING-CONDITION"
+
+    def test_read_periodic_event_triggering(self, parser):
+        parent = _parent()
+        constraint = PeriodicEventTriggering(parent, "Periodic1")
+        element = ET.fromstring(
+            f"<PERIODIC-EVENT-TRIGGERING xmlns='{NS}'>"
+            "<SHORT-NAME>Periodic1</SHORT-NAME>"
+            "<EVENT-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/TdEvent</EVENT-REF>"
+            "<MINIMUM-INTER-ARRIVAL-TIME><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>10</CSE-CODE-FACTOR></MINIMUM-INTER-ARRIVAL-TIME>"
+            "<JITTER><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>20</CSE-CODE-FACTOR></JITTER>"
+            "<PERIOD><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>30</CSE-CODE-FACTOR></PERIOD>"
+            "</PERIODIC-EVENT-TRIGGERING>"
+        )
+        parser.readPeriodicEventTriggering(element, constraint)
+        assert constraint.getShortName() == "Periodic1"
+        assert constraint.getEventRef().getValue() == "/AUTOSAR/TdEvent"
+        assert constraint.getEventRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        assert constraint.getMinimumInterArrivalTime().getCseCodeFactor().getValue() == 10
+        assert constraint.getJitter().getCseCodeFactor().getValue() == 20
+        assert constraint.getPeriod().getCseCodeFactor().getValue() == 30
+
+    def test_read_sporadic_event_triggering(self, parser):
+        parent = _parent()
+        constraint = SporadicEventTriggering(parent, "Sporadic1")
+        element = ET.fromstring(
+            f"<SPORADIC-EVENT-TRIGGERING xmlns='{NS}'>"
+            "<SHORT-NAME>Sporadic1</SHORT-NAME>"
+            "<MINIMUM-INTER-ARRIVAL-TIME><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>10</CSE-CODE-FACTOR></MINIMUM-INTER-ARRIVAL-TIME>"
+            "<MAXIMUM-INTER-ARRIVAL-TIME><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>20</CSE-CODE-FACTOR></MAXIMUM-INTER-ARRIVAL-TIME>"
+            "<JITTER><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>30</CSE-CODE-FACTOR></JITTER>"
+            "<PERIOD><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>40</CSE-CODE-FACTOR></PERIOD>"
+            "</SPORADIC-EVENT-TRIGGERING>"
+        )
+        parser.readSporadicEventTriggering(element, constraint)
+        assert constraint.getShortName() == "Sporadic1"
+        assert constraint.getMinimumInterArrivalTime().getCseCodeFactor().getValue() == 10
+        assert constraint.getMaximumInterArrivalTime().getCseCodeFactor().getValue() == 20
+        assert constraint.getJitter().getCseCodeFactor().getValue() == 30
+        assert constraint.getPeriod().getCseCodeFactor().getValue() == 40
+
+    def test_read_concrete_pattern_event_triggering(self, parser):
+        parent = _parent()
+        constraint = ConcretePatternEventTriggering(parent, "Concrete1")
+        element = ET.fromstring(
+            f"<CONCRETE-PATTERN-EVENT-TRIGGERING xmlns='{NS}'>"
+            "<SHORT-NAME>Concrete1</SHORT-NAME>"
+            "<PATTERN-JITTER><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>2</CSE-CODE-FACTOR></PATTERN-JITTER>"
+            "<PATTERN-PERIOD><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>200</CSE-CODE-FACTOR></PATTERN-PERIOD>"
+            "<OFFSETS>"
+            "<TIME-VALUE><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>5</CSE-CODE-FACTOR></TIME-VALUE>"
+            "<TIME-VALUE><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>15</CSE-CODE-FACTOR></TIME-VALUE>"
+            "</OFFSETS>"
+            "<PATTERN-LENGTH><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>100</CSE-CODE-FACTOR></PATTERN-LENGTH>"
+            "</CONCRETE-PATTERN-EVENT-TRIGGERING>"
+        )
+        parser.readConcretePatternEventTriggering(element, constraint)
+        assert constraint.getShortName() == "Concrete1"
+        offsets = constraint.getOffsets()
+        assert len(offsets) == 2
+        assert offsets[0].getCseCodeFactor().getValue() == 5
+        assert offsets[1].getCseCodeFactor().getValue() == 15
+        assert constraint.getPatternJitter().getCseCodeFactor().getValue() == 2
+        assert constraint.getPatternLength().getCseCodeFactor().getValue() == 100
+        assert constraint.getPatternPeriod().getCseCodeFactor().getValue() == 200
+
+    def test_read_burst_pattern_event_triggering(self, parser):
+        parent = _parent()
+        constraint = BurstPatternEventTriggering(parent, "Burst1")
+        element = ET.fromstring(
+            f"<BURST-PATTERN-EVENT-TRIGGERING xmlns='{NS}'>"
+            "<SHORT-NAME>Burst1</SHORT-NAME>"
+            "<MAX-NUMBER-OF-OCCURRENCES>10</MAX-NUMBER-OF-OCCURRENCES>"
+            "<MINIMUM-INTER-ARRIVAL-TIME><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>5</CSE-CODE-FACTOR></MINIMUM-INTER-ARRIVAL-TIME>"
+            "<PATTERN-JITTER><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>1</CSE-CODE-FACTOR></PATTERN-JITTER>"
+            "<PATTERN-LENGTH><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>50</CSE-CODE-FACTOR></PATTERN-LENGTH>"
+            "<PATTERN-PERIOD><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>80</CSE-CODE-FACTOR></PATTERN-PERIOD>"
+            "<MIN-NUMBER-OF-OCCURRENCES>3</MIN-NUMBER-OF-OCCURRENCES>"
+            "</BURST-PATTERN-EVENT-TRIGGERING>"
+        )
+        parser.readBurstPatternEventTriggering(element, constraint)
+        assert constraint.getShortName() == "Burst1"
+        assert constraint.getMaxNumberOfOccurrences().getValue() == 10
+        assert constraint.getMinimumInterArrivalTime().getCseCodeFactor().getValue() == 5
+        assert constraint.getMinNumberOfOccurrences().getValue() == 3
+        assert constraint.getPatternJitter().getCseCodeFactor().getValue() == 1
+        assert constraint.getPatternLength().getCseCodeFactor().getValue() == 50
+        assert constraint.getPatternPeriod().getCseCodeFactor().getValue() == 80
+
+    def test_read_arbitrary_event_triggering(self, parser):
+        parent = _parent()
+        constraint = ArbitraryEventTriggering(parent, "Arbitrary1")
+        element = ET.fromstring(
+            f"<ARBITRARY-EVENT-TRIGGERING xmlns='{NS}'>"
+            "<SHORT-NAME>Arbitrary1</SHORT-NAME>"
+            "<EVENT-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/TdEvent</EVENT-REF>"
+            "<MINIMUM-DISTANCES>"
+            "<TIME-VALUE><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>10</CSE-CODE-FACTOR></TIME-VALUE>"
+            "<TIME-VALUE><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>12</CSE-CODE-FACTOR></TIME-VALUE>"
+            "</MINIMUM-DISTANCES>"
+            "<MAXIMUM-DISTANCES>"
+            "<TIME-VALUE><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>20</CSE-CODE-FACTOR></TIME-VALUE>"
+            "</MAXIMUM-DISTANCES>"
+            "<CONFIDENCE-INTERVALS>"
+            "<CONFIDENCE-INTERVAL>"
+            "<LOWER-BOUND><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>8</CSE-CODE-FACTOR></LOWER-BOUND>"
+            "<PROPABILITY>0.95</PROPABILITY>"
+            "<UPPER-BOUND><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>80</CSE-CODE-FACTOR></UPPER-BOUND>"
+            "</CONFIDENCE-INTERVAL>"
+            "</CONFIDENCE-INTERVALS>"
+            "</ARBITRARY-EVENT-TRIGGERING>"
+        )
+        parser.readArbitraryEventTriggering(element, constraint)
+        assert constraint.getShortName() == "Arbitrary1"
+        assert constraint.getEventRef().getValue() == "/AUTOSAR/TdEvent"
+        min_distances = constraint.getMinimumDistances()
+        assert len(min_distances) == 2
+        assert min_distances[0].getCseCodeFactor().getValue() == 10
+        assert min_distances[1].getCseCodeFactor().getValue() == 12
+        max_distances = constraint.getMaximumDistances()
+        assert len(max_distances) == 1
+        assert max_distances[0].getCseCodeFactor().getValue() == 20
+        intervals = constraint.getConfidenceIntervals()
+        assert len(intervals) == 1
+        assert intervals[0].getLowerBound().getCseCodeFactor().getValue() == 8
+        assert intervals[0].getPropability().getValue() == 0.95
+        assert intervals[0].getUpperBound().getCseCodeFactor().getValue() == 80
