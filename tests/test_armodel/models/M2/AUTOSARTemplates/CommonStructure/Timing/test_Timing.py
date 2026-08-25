@@ -42,7 +42,7 @@ class TestExecutionOrderConstraint:
 
         assert constraint is not None
         assert constraint.getShortName() == "TestConstraint"
-        assert constraint.ordered_elements == []
+        assert constraint.orderedElements == []
 
     def test_create_eoc_executable_entity_ref(self):
         """Test createEOCExecutableEntityRef method"""

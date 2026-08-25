@@ -8,55 +8,83 @@ Classes:
     SynchronizationPointConstraint: Specifies synchronization point requirements
 """
 
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    String,
+    RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 
 
 class SynchronizationPointConstraint(TimingConstraint):
     """
-    Specifies synchronization point requirements in AUTOSAR timing specifications.
-    This constraint defines synchronization requirements between distributed
-    AUTOSAR elements.
+    Specifies a synchronization point either between groups of ExecutableEntity s or individual ExecutableEntity s referenced via their corresponding RTE or BSW events.
     """
 
     # SynchronizationPointConstraint method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getSynchronizationPoint      [x] impl  [x] docstring  [ ] test
-    # [ ] setSynchronizationPoint      [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.77, p.132
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addSourceEecRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSourceEecRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addSourceEventRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSourceEventRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addTargetEecRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTargetEecRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addTargetEventRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTargetEventRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the SynchronizationPointConstraint with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this synchronization point constraint
-            short_name: The unique short name of this synchronization point constraint
-        """
         super().__init__(parent, short_name)
 
-        # Synchronization point identifier
-        self.synchronization_point: String = None
+        # The source executable entities cluster containing the executable entities that shall finish execution before the synchronization point.
+        self.sourceEecRefs: List[RefType] = []
 
-    def getSynchronizationPoint(self):
-        """
-        Gets the synchronization point identifier.
+        # The executable entities -referenced by their events- that shall finish execution before the synchronization point.
+        self.sourceEventRefs: List[RefType] = []
 
-        Returns:
-            String: The synchronization point identifier
-        """
-        return self.synchronization_point
+        # The target executable entities cluster containing the executable entities that shall start execution after the synchronization point.
+        self.targetEecRefs: List[RefType] = []
 
-    def setSynchronizationPoint(self, value):
-        """
-        Sets the synchronization point identifier.
+        # The executable entities -referenced by their events- that shall start execution after the synchronization point.
+        self.targetEventRefs: List[RefType] = []
 
-        Args:
-            value: The synchronization point identifier to set
-
-        Returns:
-            self for method chaining
-        """
-        self.synchronization_point = value
+    def addSourceEecRef(self, ref: Optional[RefType]) -> "SynchronizationPointConstraint":
+        """The source executable entities cluster containing the executable entities that shall finish execution before the synchronization point. A None value is a no-op."""
+        if ref is not None:
+            self.sourceEecRefs.append(ref)
         return self
+
+    def getSourceEecRefs(self) -> List[RefType]:
+        """The source executable entities cluster containing the executable entities that shall finish execution before the synchronization point."""
+        return self.sourceEecRefs
+
+    def addSourceEventRef(self, ref: Optional[RefType]) -> "SynchronizationPointConstraint":
+        """The executable entities -referenced by their events- that shall finish execution before the synchronization point. A None value is a no-op."""
+        if ref is not None:
+            self.sourceEventRefs.append(ref)
+        return self
+
+    def getSourceEventRefs(self) -> List[RefType]:
+        """The executable entities -referenced by their events- that shall finish execution before the synchronization point."""
+        return self.sourceEventRefs
+
+    def addTargetEecRef(self, ref: Optional[RefType]) -> "SynchronizationPointConstraint":
+        """The target executable entities cluster containing the executable entities that shall start execution after the synchronization point. A None value is a no-op."""
+        if ref is not None:
+            self.targetEecRefs.append(ref)
+        return self
+
+    def getTargetEecRefs(self) -> List[RefType]:
+        """The target executable entities cluster containing the executable entities that shall start execution after the synchronization point."""
+        return self.targetEecRefs
+
+    def addTargetEventRef(self, ref: Optional[RefType]) -> "SynchronizationPointConstraint":
+        """The executable entities -referenced by their events- that shall start execution after the synchronization point. A None value is a no-op."""
+        if ref is not None:
+            self.targetEventRefs.append(ref)
+        return self
+
+    def getTargetEventRefs(self) -> List[RefType]:
+        """The executable entities -referenced by their events- that shall start execution after the synchronization point."""
+        return self.targetEventRefs

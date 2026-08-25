@@ -159,8 +159,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
     EOCExecutableEntityRefGroup,
     ExecutionOrderConstraint,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint import (
+    ExecutionTimeConstraint,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.LatencyTimingConstraint import LatencyTimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.OffsetConstraint import OffsetTimingConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import SynchronizationPointConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTiming import SynchronizationTimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
@@ -3542,6 +3546,39 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setMultidimensionalTime(element, "MINIMUM", constraint.getMinimum())
         self.setChildElementOptionalRefType(element, "SCOPE-REF", constraint.getScopeRef())
 
+    def writeExecutionTimeConstraint(self, element: ET.Element, constraint: ExecutionTimeConstraint):
+        self.logger.debug("writeExecutionTimeConstraint %s" % constraint.getShortName())
+        self.writeTimingConstraint(element, constraint)
+        self.writeEOCComponentIRef(element, constraint.getComponentIRef())
+        self.setChildElementOptionalRefType(element, "EXECUTABLE-REF", constraint.getExecutableRef())
+        self.setChildElementOptionalLiteral(element, "EXECUTION-TIME-TYPE", constraint.getExecutionTimeType())
+        self.setMultidimensionalTime(element, "MAXIMUM", constraint.getMaximum())
+        self.setMultidimensionalTime(element, "MINIMUM", constraint.getMinimum())
+
+    def writeSynchronizationPointConstraint(self, element: ET.Element, constraint: SynchronizationPointConstraint):
+        self.logger.debug("writeSynchronizationPointConstraint %s" % constraint.getShortName())
+        self.writeTimingConstraint(element, constraint)
+        source_eec_refs = constraint.getSourceEecRefs()
+        if len(source_eec_refs) > 0:
+            refs_tag = ET.SubElement(element, "SOURCE-EEC-REFS")
+            for source_eec_ref in source_eec_refs:
+                self.setChildElementOptionalRefType(refs_tag, "SOURCE-EEC-REF", source_eec_ref)
+        source_event_refs = constraint.getSourceEventRefs()
+        if len(source_event_refs) > 0:
+            refs_tag = ET.SubElement(element, "SOURCE-EVENT-REFS")
+            for source_event_ref in source_event_refs:
+                self.setChildElementOptionalRefType(refs_tag, "SOURCE-EVENT-REF", source_event_ref)
+        target_eec_refs = constraint.getTargetEecRefs()
+        if len(target_eec_refs) > 0:
+            refs_tag = ET.SubElement(element, "TARGET-EEC-REFS")
+            for target_eec_ref in target_eec_refs:
+                self.setChildElementOptionalRefType(refs_tag, "TARGET-EEC-REF", target_eec_ref)
+        target_event_refs = constraint.getTargetEventRefs()
+        if len(target_event_refs) > 0:
+            refs_tag = ET.SubElement(element, "TARGET-EVENT-REFS")
+            for target_event_ref in target_event_refs:
+                self.setChildElementOptionalRefType(refs_tag, "TARGET-EVENT-REF", target_event_ref)
+
     def writeEventTriggeringConstraint(self, element: ET.Element, constraint: EventTriggeringConstraint):
         self.writeTimingConstraint(element, constraint)
         self.setChildElementOptionalRefType(element, "EVENT-REF", constraint.getEventRef())
@@ -6093,8 +6130,13 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeExecutionOrderConstraint(self, element: ET.Element, constraint: ExecutionOrderConstraint):
         self.logger.debug("writeExecutionOrderConstraint %s" % constraint.getShortName())
         child_element = ET.SubElement(element, "EXECUTION-ORDER-CONSTRAINT")
-        self.writeIdentifiable(child_element, constraint)
+        self.writeTimingConstraint(child_element, constraint)
+        self.setChildElementOptionalRefType(child_element, "BASE-COMPOSITION-REF", constraint.getBaseCompositionRef())
+        self.setChildElementOptionalLiteral(child_element, "EXECUTION-ORDER-CONSTRAINT-TYPE", constraint.getExecutionOrderConstraintType())
+        self.setChildElementOptionalBooleanValue(child_element, "IGNORE-ORDER-ALLOWED", constraint.getIgnoreOrderAllowed())
+        self.setChildElementOptionalBooleanValue(child_element, "IS-EVENT", constraint.getIsEvent())
         self.writeExecutionOrderConstraintOrderedElement(child_element, constraint)
+        self.setChildElementOptionalBooleanValue(child_element, "PERMIT-MULTIPLE-REFERENCES-TO-EE", constraint.getPermitMultipleReferencesToEE())
 
     def writeTimingRequirements(self, element: ET.Element, extension: TimingExtension):
         requirements = extension.getTimingRequirements()

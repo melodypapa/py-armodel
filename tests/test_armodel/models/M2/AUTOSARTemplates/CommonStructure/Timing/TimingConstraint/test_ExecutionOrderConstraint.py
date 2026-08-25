@@ -7,6 +7,10 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
     ExecutionOrderConstraintTypeEnum,
     LetDataExchangeParadigmEnum,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Boolean,
+    RefType,
+)
 
 
 class TestExecutionOrderConstraint:
@@ -22,7 +26,78 @@ class TestExecutionOrderConstraint:
 
         assert constraint is not None
         assert constraint.getShortName() == "TestConstraint"
+        assert constraint.getTimingConditionRef() is None
+        assert constraint.getBaseCompositionRef() is None
+        assert constraint.getExecutionOrderConstraintType() is None
+        assert constraint.getIgnoreOrderAllowed() is None
+        assert constraint.getIsEvent() is None
         assert constraint.getOrderedElements() == []
+        assert constraint.getPermitMultipleReferencesToEE() is None
+
+    def test_get_set_base_composition_ref(self):
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
+        ref = RefType().setValue("/AUTOSAR/Composition").setDest("COMPOSITION-SW-COMPONENT-TYPE")
+        assert constraint.setBaseCompositionRef(ref) is constraint
+        assert constraint.getBaseCompositionRef() is ref
+        assert constraint.getBaseCompositionRef().getValue() == "/AUTOSAR/Composition"
+        assert constraint.getBaseCompositionRef().getDest() == "COMPOSITION-SW-COMPONENT-TYPE"
+
+    def test_set_base_composition_ref_none_is_no_op(self):
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
+        ref = RefType().setValue("/AUTOSAR/Composition").setDest("COMPOSITION-SW-COMPONENT-TYPE")
+        constraint.setBaseCompositionRef(ref)
+        constraint.setBaseCompositionRef(None)
+        assert constraint.getBaseCompositionRef() is ref
+
+    def test_get_set_execution_order_constraint_type(self):
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
+        eoc_type = ExecutionOrderConstraintTypeEnum().setValue(ExecutionOrderConstraintTypeEnum.HIERARCHICAL_EOC)
+        assert constraint.setExecutionOrderConstraintType(eoc_type) is constraint
+        assert constraint.getExecutionOrderConstraintType() is eoc_type
+        assert constraint.getExecutionOrderConstraintType().getValue() == "hierarchicalEOC"
+
+    def test_set_execution_order_constraint_type_none_is_no_op(self):
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
+        eoc_type = ExecutionOrderConstraintTypeEnum().setValue(ExecutionOrderConstraintTypeEnum.ORDINARY_EOC)
+        constraint.setExecutionOrderConstraintType(eoc_type)
+        constraint.setExecutionOrderConstraintType(None)
+        assert constraint.getExecutionOrderConstraintType() is eoc_type
+
+    def test_get_set_ignore_order_allowed(self):
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
+        value = Boolean().setValue("true")
+        assert constraint.setIgnoreOrderAllowed(value) is constraint
+        assert constraint.getIgnoreOrderAllowed() is value
+        assert constraint.getIgnoreOrderAllowed().getText() == "true"
+
+    def test_set_ignore_order_allowed_none_is_no_op(self):
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
+        value = Boolean().setValue("false")
+        constraint.setIgnoreOrderAllowed(value)
+        constraint.setIgnoreOrderAllowed(None)
+        assert constraint.getIgnoreOrderAllowed() is value
+
+    def test_get_set_is_event(self):
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
+        value = Boolean().setValue("true")
+        assert constraint.setIsEvent(value) is constraint
+        assert constraint.getIsEvent() is value
+        assert constraint.getIsEvent().getText() == "true"
+
+    def test_set_is_event_none_is_no_op(self):
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
+        value = Boolean().setValue("false")
+        constraint.setIsEvent(value)
+        constraint.setIsEvent(None)
+        assert constraint.getIsEvent() is value
 
     def test_create_eoc_executable_entity_ref(self):
         parent = self._parent()
@@ -95,6 +170,22 @@ class TestExecutionOrderConstraint:
         elements = constraint.getOrderedElements()
         assert elements == [entity_ref, event_ref, group]
         assert len(elements) == 3
+
+    def test_get_set_permit_multiple_references_to_ee(self):
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
+        value = Boolean().setValue("true")
+        assert constraint.setPermitMultipleReferencesToEE(value) is constraint
+        assert constraint.getPermitMultipleReferencesToEE() is value
+        assert constraint.getPermitMultipleReferencesToEE().getText() == "true"
+
+    def test_set_permit_multiple_references_to_ee_none_is_no_op(self):
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
+        value = Boolean().setValue("false")
+        constraint.setPermitMultipleReferencesToEE(value)
+        constraint.setPermitMultipleReferencesToEE(None)
+        assert constraint.getPermitMultipleReferencesToEE() is value
 
 
 class TestExecutionOrderConstraintTypeEnum:

@@ -174,7 +174,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
     EOCExecutableEntityRefAbstract,
     EOCExecutableEntityRefGroup,
     ExecutionOrderConstraint,
+    ExecutionOrderConstraintTypeEnum,
     LetDataExchangeParadigmEnum,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint import (
+    ExecutionTimeConstraint,
+    ExecutionTimeTypeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
     ArbitraryEventTriggering,
@@ -190,6 +195,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
     LatencyTimingConstraint,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.OffsetConstraint import OffsetTimingConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import SynchronizationPointConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTiming import (
     EventOccurrenceKindEnum,
     SynchronizationTimingConstraint,
@@ -2239,6 +2245,37 @@ class ARXMLParser(AbstractARXMLParser):
             nominal = MultidimensionalTime()
             self.readMultidimensionalTime(nominal_element, nominal)
             constraint.setNominal(nominal)
+
+    def readExecutionTimeConstraint(self, element: ET.Element, constraint: ExecutionTimeConstraint):
+        self.logger.debug("readExecutionTimeConstraint %s" % self.getShortName(element))
+        self.readTimingConstraint(element, constraint)
+        constraint.setComponentIRef(self.readEOCComponentIRef(element, "COMPONENT-IREF"))
+        constraint.setExecutableRef(self.getChildElementOptionalRefType(element, "EXECUTABLE-REF"))
+        literal = self.getChildElementOptionalLiteral(element, "EXECUTION-TIME-TYPE")
+        if literal is not None:
+            constraint.setExecutionTimeType(ExecutionTimeTypeEnum().setValue(literal.getText()))
+        maximum_element = self.find(element, "MAXIMUM")
+        if maximum_element is not None:
+            maximum = MultidimensionalTime()
+            self.readMultidimensionalTime(maximum_element, maximum)
+            constraint.setMaximum(maximum)
+        minimum_element = self.find(element, "MINIMUM")
+        if minimum_element is not None:
+            minimum = MultidimensionalTime()
+            self.readMultidimensionalTime(minimum_element, minimum)
+            constraint.setMinimum(minimum)
+
+    def readSynchronizationPointConstraint(self, element: ET.Element, constraint: SynchronizationPointConstraint):
+        self.logger.debug("readSynchronizationPointConstraint %s" % self.getShortName(element))
+        self.readTimingConstraint(element, constraint)
+        for ref in self.getChildElementRefTypeList(element, "SOURCE-EEC-REFS/SOURCE-EEC-REF"):
+            constraint.addSourceEecRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "SOURCE-EVENT-REFS/SOURCE-EVENT-REF"):
+            constraint.addSourceEventRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "TARGET-EEC-REFS/TARGET-EEC-REF"):
+            constraint.addTargetEecRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "TARGET-EVENT-REFS/TARGET-EVENT-REF"):
+            constraint.addTargetEventRef(ref)
 
     def readOffsetTimingConstraint(self, element: ET.Element, constraint: OffsetTimingConstraint):
         self.logger.debug("readOffsetTimingConstraint %s" % self.getShortName(element))
@@ -6231,8 +6268,15 @@ class ARXMLParser(AbstractARXMLParser):
         short_name = self.getShortName(element)
         self.logger.debug("readExecutionOrderConstraint %s" % short_name)
         constraint = extension.createExecutionOrderConstraint(short_name)
-        self.readIdentifiable(element, constraint)
+        self.readTimingConstraint(element, constraint)
+        constraint.setBaseCompositionRef(self.getChildElementOptionalRefType(element, "BASE-COMPOSITION-REF"))
+        literal = self.getChildElementOptionalLiteral(element, "EXECUTION-ORDER-CONSTRAINT-TYPE")
+        if literal is not None:
+            constraint.setExecutionOrderConstraintType(ExecutionOrderConstraintTypeEnum().setValue(literal.getText()))
+        constraint.setIgnoreOrderAllowed(self.getChildElementOptionalBooleanValue(element, "IGNORE-ORDER-ALLOWED"))
+        constraint.setIsEvent(self.getChildElementOptionalBooleanValue(element, "IS-EVENT"))
         self.readExecutionOrderConstraintOrderedElement(element, constraint)
+        constraint.setPermitMultipleReferencesToEE(self.getChildElementOptionalBooleanValue(element, "PERMIT-MULTIPLE-REFERENCES-TO-EE"))
 
     def readTimingExtension(self, element: ET.Element, extension: TimingExtension):
         for child_element in self.findall(element, "TIMING-REQUIREMENTS/*"):

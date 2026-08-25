@@ -1559,7 +1559,7 @@ class TestTimingWriter:
         pkg = autosar.createARPackage("Pkg")
         timing = pkg.createSwcTiming("Timing")
         constraint = timing.createExecutionOrderConstraint("Eoc")
-        constraint.ordered_elements.append("not-an-entity")
+        constraint.orderedElements.append("not-an-entity")
 
         parent = _parent()
         warning_writer.writeExecutionOrderConstraintOrderedElement(parent, constraint)

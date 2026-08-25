@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Boolean,
     Integer,
     PositiveInteger,
     RefType,
@@ -201,79 +202,126 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
 
 class ExecutionOrderConstraint(TimingConstraint):
     """
-    Execution order constraint defining the execution sequence of executable entities.
-    This constraint specifies the order in which runnables or other executable entities
-    should be executed within a software component.
+    This constraint is used to restrict the order of execution for a set of ExecutableEntity s. The ExecutionOrderConstraint can be used in any timing view. The various scopes for ExecutionOrderConstraint are described below. Generally, each ExecutionOrder Constraint has a scope of software components and can reference all ExecutableEntity s available in the corresponding internal behavior (RunnableEntity and BswModuleEntity) either directly or by the events activating respectively starting them (RteEvent and BswEvent). On VFB level an ExecutionOrderConstraint can be specified for RunnableEntities part of the composition hierarchy referenced by the VfbTiming. On SW-C level an ExecutionOrderConstraint can be specified for RunnableEntities part of the Internal Behavior referenced by the SwcTiming. On System level an ExecutionOrderConstraint can be specified for RunnableEntities part of the composition hierarchy of the system referenced by the SystemTiming. On BSW Module level, an ExectionOrderConstraint can be specified for BswModuleEntities part of an BswInternalBehavior referenced by the BswModuleTiming. On ECU level an ExecutionOrderConstraint can be specified for all ExecutableEntity s and Events available via the EcucValueCollection, covering ECU Extract and BSW Module Configuration, referenced by the EcuTiming.
     """
 
     # ExecutionOrderConstraint method parity checklist:
-    # [ ] __init__                             [x] impl  [ ] docstring  [x] test
-    # [x] createEOCExecutableEntityRef         [x] impl  [x] docstring  [x] test
-    # [x] createEOCEventRef                    [x] impl  [x] docstring  [x] test
-    # [x] createEOCExecutableEntityRefGroup    [x] impl  [x] docstring  [x] test
-    # [x] getOrderedElements                   [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.68, p.118
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBaseCompositionRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setBaseCompositionRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getExecutionOrderConstraintType   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setExecutionOrderConstraintType   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIgnoreOrderAllowed             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIgnoreOrderAllowed             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIsEvent                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIsEvent                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createEOCEventRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createEOCExecutableEntityRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createEOCExecutableEntityRefGroup [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getOrderedElements                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getPermitMultipleReferencesToEE   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPermitMultipleReferencesToEE   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.ordered_elements: List[EOCExecutableEntityRefAbstract] = []
+        # Specifies the composition SW-C type playing the role of a SW-C containing further SW-Cs and represents the scope of the Execution Order Constraint.
+        self.baseCompositionRef: Optional[RefType] = None
 
-    def createEOCExecutableEntityRef(self, short_name: str) -> EOCExecutableEntityRef:
-        """
-        Creates a new executable entity reference with the specified short name.
+        # Specifies the specific type of ExecutionOrderConstraint.
+        self.executionOrderConstraintType: Optional[ExecutionOrderConstraintTypeEnum] = None
 
-        Args:
-            short_name: Short name for the new entity reference
+        # Controls whether the order of execution specified by this constraint can be intentionally ignored (TRUE), or shall be respected (FALSE).
+        self.ignoreOrderAllowed: Optional[Boolean] = None
 
-        Returns:
-            The created EOCExecutableEntityRef instance
-        """
-        if not self.IsElementExists(short_name):
-            entity_ref = EOCExecutableEntityRef(self, short_name)
-            self.addElement(entity_ref)
-            self.ordered_elements.append(entity_ref)
-        return self.getElement(short_name, EOCExecutableEntityRef)
+        # Indicates whether the ExecutionOrderConstraint is only referring to Executable Entities (FALSE) or only to RTE and/or BSW Events (TRUE).
+        self.isEvent: Optional[Boolean] = None
+
+        # This aggregation represents an unordered collection of references to RunnableEntities which shall be considered in the ExecutionOrderConstraint. The role does not imply that the collection of references itself shall be ordered.
+        self.orderedElements: List[EOCExecutableEntityRefAbstract] = []
+
+        # Indicates that the ExecutionOrderConstraints permits that an Executable Entity is referenced multiple times (TRUE) or only once (FALSE) in the constraint.
+        self.permitMultipleReferencesToEE: Optional[Boolean] = None
+
+    def getBaseCompositionRef(self) -> Optional[RefType]:
+        """Specifies the composition SW-C type playing the role of a SW-C containing further SW-Cs and represents the scope of the Execution Order Constraint."""
+        return self.baseCompositionRef
+
+    def setBaseCompositionRef(self, value: Optional[RefType]) -> "ExecutionOrderConstraint":
+        """Specifies the composition SW-C type playing the role of a SW-C containing further SW-Cs and represents the scope of the Execution Order Constraint. A None value is a no-op and does not overwrite an existing baseComposition."""
+        if value is not None:
+            self.baseCompositionRef = value
+        return self
+
+    def getExecutionOrderConstraintType(self) -> Optional[ExecutionOrderConstraintTypeEnum]:
+        """Specifies the specific type of ExecutionOrderConstraint."""
+        return self.executionOrderConstraintType
+
+    def setExecutionOrderConstraintType(self, value: Optional[ExecutionOrderConstraintTypeEnum]) -> "ExecutionOrderConstraint":
+        """Specifies the specific type of ExecutionOrderConstraint. A None value is a no-op and does not overwrite an existing executionOrderConstraintType."""
+        if value is not None:
+            self.executionOrderConstraintType = value
+        return self
+
+    def getIgnoreOrderAllowed(self) -> Optional[Boolean]:
+        """Controls whether the order of execution specified by this constraint can be intentionally ignored (TRUE), or shall be respected (FALSE)."""
+        return self.ignoreOrderAllowed
+
+    def setIgnoreOrderAllowed(self, value: Optional[Boolean]) -> "ExecutionOrderConstraint":
+        """Controls whether the order of execution specified by this constraint can be intentionally ignored (TRUE), or shall be respected (FALSE). A None value is a no-op and does not overwrite an existing ignoreOrderAllowed."""
+        if value is not None:
+            self.ignoreOrderAllowed = value
+        return self
+
+    def getIsEvent(self) -> Optional[Boolean]:
+        """Indicates whether the ExecutionOrderConstraint is only referring to Executable Entities (FALSE) or only to RTE and/or BSW Events (TRUE)."""
+        return self.isEvent
+
+    def setIsEvent(self, value: Optional[Boolean]) -> "ExecutionOrderConstraint":
+        """Indicates whether the ExecutionOrderConstraint is only referring to Executable Entities (FALSE) or only to RTE and/or BSW Events (TRUE). A None value is a no-op and does not overwrite an existing isEvent."""
+        if value is not None:
+            self.isEvent = value
+        return self
 
     def createEOCEventRef(self, short_name: str) -> "EOCEventRef":
-        """
-        Creates a new event reference with the specified short name.
-
-        Args:
-            short_name: Short name for the new event reference
-
-        Returns:
-            The created EOCEventRef instance
-        """
+        """This aggregation represents an unordered collection of references to RunnableEntities which shall be considered in the ExecutionOrderConstraint. The role does not imply that the collection of references itself shall be ordered."""
         if not self.IsElementExists(short_name):
             event_ref = EOCEventRef(self, short_name)
             self.addElement(event_ref)
-            self.ordered_elements.append(event_ref)
+            self.orderedElements.append(event_ref)
         return self.getElement(short_name, EOCEventRef)
 
+    def createEOCExecutableEntityRef(self, short_name: str) -> EOCExecutableEntityRef:
+        """This aggregation represents an unordered collection of references to RunnableEntities which shall be considered in the ExecutionOrderConstraint. The role does not imply that the collection of references itself shall be ordered."""
+        if not self.IsElementExists(short_name):
+            entity_ref = EOCExecutableEntityRef(self, short_name)
+            self.addElement(entity_ref)
+            self.orderedElements.append(entity_ref)
+        return self.getElement(short_name, EOCExecutableEntityRef)
+
     def createEOCExecutableEntityRefGroup(self, short_name: str) -> "EOCExecutableEntityRefGroup":
-        """
-        Creates a new executable entity reference group with the specified short name.
-
-        Args:
-            short_name: Short name for the new entity reference group
-
-        Returns:
-            The created EOCExecutableEntityRefGroup instance
-        """
+        """This aggregation represents an unordered collection of references to RunnableEntities which shall be considered in the ExecutionOrderConstraint. The role does not imply that the collection of references itself shall be ordered."""
         if not self.IsElementExists(short_name):
             entity_ref_group = EOCExecutableEntityRefGroup(self, short_name)
             self.addElement(entity_ref_group)
-            self.ordered_elements.append(entity_ref_group)
+            self.orderedElements.append(entity_ref_group)
         return self.getElement(short_name, EOCExecutableEntityRefGroup)
 
     def getOrderedElements(self) -> List[EOCExecutableEntityRefAbstract]:
-        """
-        Returns the list of ordered executable entity references.
+        """This aggregation represents an unordered collection of references to RunnableEntities which shall be considered in the ExecutionOrderConstraint. The role does not imply that the collection of references itself shall be ordered."""
+        return self.orderedElements
 
-        Returns:
-            List of ordered executable entity references
-        """
-        return self.ordered_elements
+    def getPermitMultipleReferencesToEE(self) -> Optional[Boolean]:
+        """Indicates that the ExecutionOrderConstraints permits that an Executable Entity is referenced multiple times (TRUE) or only once (FALSE) in the constraint."""
+        return self.permitMultipleReferencesToEE
+
+    def setPermitMultipleReferencesToEE(self, value: Optional[Boolean]) -> "ExecutionOrderConstraint":
+        """Indicates that the ExecutionOrderConstraints permits that an Executable Entity is referenced multiple times (TRUE) or only once (FALSE) in the constraint. A None value is a no-op and does not overwrite an existing permitMultipleReferencesToEE."""
+        if value is not None:
+            self.permitMultipleReferencesToEE = value
+        return self
 
 
 class EOCEventRef(EOCExecutableEntityRefAbstract):

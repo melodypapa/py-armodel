@@ -1,4 +1,4 @@
-"""Parser tests for the timing constraints (AGE-CONSTRAINT, LATENCY-TIMING-CONSTRAINT, OFFSET-TIMING-CONSTRAINT, SYNCHRONIZATION-TIMING-CONSTRAINT, event triggering constraints)."""
+"""Parser tests for the timing constraints (AGE-CONSTRAINT, LATENCY-TIMING-CONSTRAINT, OFFSET-TIMING-CONSTRAINT, SYNCHRONIZATION-TIMING-CONSTRAINT, EXECUTION-ORDER/TIME and SYNCHRONIZATION-POINT constraints, event triggering constraints)."""
 
 import xml.etree.ElementTree as ET
 
@@ -13,15 +13,28 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
     PeriodicEventTriggering,
     SporadicEventTriggering,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
+    EOCEventRef,
+    EOCExecutableEntityRef,
+    EOCExecutableEntityRefGroup,
+    ExecutionOrderConstraint,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint import (
+    ExecutionTimeConstraint,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.LatencyTimingConstraint import (
     LatencyTimingConstraint,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.OffsetConstraint import (
     OffsetTimingConstraint,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import (
+    SynchronizationPointConstraint,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTiming import (
     SynchronizationTimingConstraint,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -272,3 +285,178 @@ class TestReadTimingConstraints:
         assert intervals[0].getLowerBound().getCseCodeFactor().getValue() == 8
         assert intervals[0].getPropability().getValue() == 0.95
         assert intervals[0].getUpperBound().getCseCodeFactor().getValue() == 80
+
+
+class TestReadExecutionOrderConstraint:
+    def _extension(self):
+        return SwcTiming(_parent(), "Timing1")
+
+    def _constraint(self, extension):
+        constraints = extension.getTimingRequirements()
+        assert len(constraints) == 1
+        return constraints[0]
+
+    def test_read_execution_order_constraint_full(self, parser):
+        extension = self._extension()
+        element = ET.fromstring(
+            f"<EXECUTION-ORDER-CONSTRAINT xmlns='{NS}'>"
+            "<SHORT-NAME>Eoc1</SHORT-NAME>"
+            "<BASE-COMPOSITION-REF DEST='COMPOSITION-SW-COMPONENT-TYPE'>/AUTOSAR/Composition</BASE-COMPOSITION-REF>"
+            "<EXECUTION-ORDER-CONSTRAINT-TYPE>HIERARCHICAL_EOC</EXECUTION-ORDER-CONSTRAINT-TYPE>"
+            "<IGNORE-ORDER-ALLOWED>false</IGNORE-ORDER-ALLOWED>"
+            "<IS-EVENT>true</IS-EVENT>"
+            "<ORDERED-ELEMENTS>"
+            "<EOC-EXECUTABLE-ENTITY-REF>"
+            "<SHORT-NAME>Ref1</SHORT-NAME>"
+            "<EXECUTABLE-REF DEST='RUNNABLE-ENTITY'>/AUTOSAR/Runnable1</EXECUTABLE-REF>"
+            "</EOC-EXECUTABLE-ENTITY-REF>"
+            "<EOC-EVENT-REF>"
+            "<SHORT-NAME>EventRef1</SHORT-NAME>"
+            "<EVENT-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/TdEvent1</EVENT-REF>"
+            "</EOC-EVENT-REF>"
+            "<EOC-EXECUTABLE-ENTITY-REF-GROUP>"
+            "<SHORT-NAME>Group1</SHORT-NAME>"
+            "<MAX-SLOTS-PER-CYCLE>4</MAX-SLOTS-PER-CYCLE>"
+            "</EOC-EXECUTABLE-ENTITY-REF-GROUP>"
+            "</ORDERED-ELEMENTS>"
+            "<PERMIT-MULTIPLE-REFERENCES-TO-EE>true</PERMIT-MULTIPLE-REFERENCES-TO-EE>"
+            "</EXECUTION-ORDER-CONSTRAINT>"
+        )
+        parser.readExecutionOrderConstraint(element, extension)
+        constraint = self._constraint(extension)
+        assert isinstance(constraint, ExecutionOrderConstraint)
+        assert constraint.getShortName() == "Eoc1"
+        assert constraint.getBaseCompositionRef().getValue() == "/AUTOSAR/Composition"
+        assert constraint.getBaseCompositionRef().getDest() == "COMPOSITION-SW-COMPONENT-TYPE"
+        assert constraint.getExecutionOrderConstraintType() is not None
+        assert constraint.getExecutionOrderConstraintType().getValue() == "HIERARCHICAL_EOC"
+        assert constraint.getIgnoreOrderAllowed().getText() == "false"
+        assert constraint.getIsEvent().getText() == "true"
+        elements = constraint.getOrderedElements()
+        assert len(elements) == 3
+        assert isinstance(elements[0], EOCExecutableEntityRef)
+        assert elements[0].getExecutableRef().getValue() == "/AUTOSAR/Runnable1"
+        assert elements[0].getExecutableRef().getDest() == "RUNNABLE-ENTITY"
+        assert isinstance(elements[1], EOCEventRef)
+        assert elements[1].getEventRef().getValue() == "/AUTOSAR/TdEvent1"
+        assert elements[1].getEventRef().getDest() == "TIMING-DESCRIPTION-EVENT"
+        assert isinstance(elements[2], EOCExecutableEntityRefGroup)
+        assert elements[2].getMaxSlotsPerCycle().getValue() == 4
+        assert constraint.getPermitMultipleReferencesToEE().getText() == "true"
+
+    def test_read_execution_order_constraint_empty(self, parser):
+        extension = self._extension()
+        element = ET.fromstring(f"<EXECUTION-ORDER-CONSTRAINT xmlns='{NS}'>" "<SHORT-NAME>Eoc1</SHORT-NAME>" "</EXECUTION-ORDER-CONSTRAINT>")
+        parser.readExecutionOrderConstraint(element, extension)
+        constraint = self._constraint(extension)
+        assert constraint.getShortName() == "Eoc1"
+        assert constraint.getBaseCompositionRef() is None
+        assert constraint.getExecutionOrderConstraintType() is None
+        assert constraint.getIgnoreOrderAllowed() is None
+        assert constraint.getIsEvent() is None
+        assert constraint.getOrderedElements() == []
+        assert constraint.getPermitMultipleReferencesToEE() is None
+
+    def test_read_execution_order_constraint_timing_condition_ref(self, parser):
+        extension = self._extension()
+        element = ET.fromstring(
+            f"<EXECUTION-ORDER-CONSTRAINT xmlns='{NS}'>"
+            "<SHORT-NAME>Eoc1</SHORT-NAME>"
+            "<TIMING-CONDITION-REF DEST='TIMING-CONDITION'>/AUTOSAR/Cond1</TIMING-CONDITION-REF>"
+            "</EXECUTION-ORDER-CONSTRAINT>"
+        )
+        parser.readExecutionOrderConstraint(element, extension)
+        constraint = self._constraint(extension)
+        assert constraint.getTimingConditionRef().getValue() == "/AUTOSAR/Cond1"
+        assert constraint.getTimingConditionRef().getDest() == "TIMING-CONDITION"
+
+
+class TestReadExecutionTimeConstraint:
+    def test_read_execution_time_constraint(self, parser):
+        parent = _parent()
+        constraint = ExecutionTimeConstraint(parent, "ExecTime1")
+        element = ET.fromstring(
+            f"<EXECUTION-TIME-CONSTRAINT xmlns='{NS}'>"
+            "<SHORT-NAME>ExecTime1</SHORT-NAME>"
+            "<COMPONENT-IREF><TARGET-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/AUTOSAR/SwComp</TARGET-COMPONENT-REF></COMPONENT-IREF>"
+            "<EXECUTABLE-REF DEST='RUNNABLE-ENTITY'>/AUTOSAR/Runnable1</EXECUTABLE-REF>"
+            "<EXECUTION-TIME-TYPE>GROSS</EXECUTION-TIME-TYPE>"
+            "<MAXIMUM><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>100</CSE-CODE-FACTOR></MAXIMUM>"
+            "<MINIMUM><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>20</CSE-CODE-FACTOR></MINIMUM>"
+            "</EXECUTION-TIME-CONSTRAINT>"
+        )
+        parser.readExecutionTimeConstraint(element, constraint)
+        assert constraint.getShortName() == "ExecTime1"
+        assert constraint.getComponentIRef().getValue() == "/AUTOSAR/SwComp"
+        assert constraint.getComponentIRef().getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert constraint.getExecutableRef().getValue() == "/AUTOSAR/Runnable1"
+        assert constraint.getExecutableRef().getDest() == "RUNNABLE-ENTITY"
+        assert constraint.getExecutionTimeType() is not None
+        assert constraint.getExecutionTimeType().getValue() == "GROSS"
+        assert constraint.getMaximum().getCseCodeFactor().getValue() == 100
+        assert constraint.getMinimum().getCseCodeFactor().getValue() == 20
+
+    def test_read_execution_time_constraint_empty(self, parser):
+        parent = _parent()
+        constraint = ExecutionTimeConstraint(parent, "ExecTime1")
+        element = ET.fromstring(f"<EXECUTION-TIME-CONSTRAINT xmlns='{NS}'>" "<SHORT-NAME>ExecTime1</SHORT-NAME>" "</EXECUTION-TIME-CONSTRAINT>")
+        parser.readExecutionTimeConstraint(element, constraint)
+        assert constraint.getShortName() == "ExecTime1"
+        assert constraint.getComponentIRef() is None
+        assert constraint.getExecutableRef() is None
+        assert constraint.getExecutionTimeType() is None
+        assert constraint.getMaximum() is None
+        assert constraint.getMinimum() is None
+
+
+class TestReadSynchronizationPointConstraint:
+    def test_read_synchronization_point_constraint(self, parser):
+        parent = _parent()
+        constraint = SynchronizationPointConstraint(parent, "SyncPoint1")
+        element = ET.fromstring(
+            f"<SYNCHRONIZATION-POINT-CONSTRAINT xmlns='{NS}'>"
+            "<SHORT-NAME>SyncPoint1</SHORT-NAME>"
+            "<SOURCE-EEC-REFS>"
+            "<SOURCE-EEC-REF DEST='EOC-EXECUTABLE-ENTITY-REF-GROUP'>/AUTOSAR/Group1</SOURCE-EEC-REF>"
+            "<SOURCE-EEC-REF DEST='EOC-EXECUTABLE-ENTITY-REF-GROUP'>/AUTOSAR/Group2</SOURCE-EEC-REF>"
+            "</SOURCE-EEC-REFS>"
+            "<SOURCE-EVENT-REFS>"
+            "<SOURCE-EVENT-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/Evt1</SOURCE-EVENT-REF>"
+            "</SOURCE-EVENT-REFS>"
+            "<TARGET-EEC-REFS>"
+            "<TARGET-EEC-REF DEST='EOC-EXECUTABLE-ENTITY-REF-GROUP'>/AUTOSAR/Group3</TARGET-EEC-REF>"
+            "</TARGET-EEC-REFS>"
+            "<TARGET-EVENT-REFS>"
+            "<TARGET-EVENT-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/Evt2</TARGET-EVENT-REF>"
+            "<TARGET-EVENT-REF DEST='TIMING-DESCRIPTION-EVENT'>/AUTOSAR/Evt3</TARGET-EVENT-REF>"
+            "</TARGET-EVENT-REFS>"
+            "</SYNCHRONIZATION-POINT-CONSTRAINT>"
+        )
+        parser.readSynchronizationPointConstraint(element, constraint)
+        assert constraint.getShortName() == "SyncPoint1"
+        source_eec_refs = constraint.getSourceEecRefs()
+        assert len(source_eec_refs) == 2
+        assert source_eec_refs[0].getValue() == "/AUTOSAR/Group1"
+        assert source_eec_refs[0].getDest() == "EOC-EXECUTABLE-ENTITY-REF-GROUP"
+        assert source_eec_refs[1].getValue() == "/AUTOSAR/Group2"
+        source_event_refs = constraint.getSourceEventRefs()
+        assert len(source_event_refs) == 1
+        assert source_event_refs[0].getValue() == "/AUTOSAR/Evt1"
+        target_eec_refs = constraint.getTargetEecRefs()
+        assert len(target_eec_refs) == 1
+        assert target_eec_refs[0].getValue() == "/AUTOSAR/Group3"
+        target_event_refs = constraint.getTargetEventRefs()
+        assert len(target_event_refs) == 2
+        assert target_event_refs[0].getValue() == "/AUTOSAR/Evt2"
+        assert target_event_refs[1].getValue() == "/AUTOSAR/Evt3"
+
+    def test_read_synchronization_point_constraint_empty_wrapper_lists(self, parser):
+        parent = _parent()
+        constraint = SynchronizationPointConstraint(parent, "SyncPoint1")
+        element = ET.fromstring(f"<SYNCHRONIZATION-POINT-CONSTRAINT xmlns='{NS}'>" "<SHORT-NAME>SyncPoint1</SHORT-NAME>" "</SYNCHRONIZATION-POINT-CONSTRAINT>")
+        parser.readSynchronizationPointConstraint(element, constraint)
+        assert constraint.getShortName() == "SyncPoint1"
+        assert constraint.getSourceEecRefs() == []
+        assert constraint.getSourceEventRefs() == []
+        assert constraint.getTargetEecRefs() == []
+        assert constraint.getTargetEventRefs() == []
