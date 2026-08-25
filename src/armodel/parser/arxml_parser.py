@@ -211,6 +211,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition i
     TimingCondition,
     TimingExtensionResource,
     TimingModeInstance,
+    VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
@@ -2220,6 +2221,17 @@ class ARXMLParser(AbstractARXMLParser):
         iref.setContextPortPrototypeRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-PROTOTYPE-REF"))
         iref.setContextOperationRef(self.getChildElementOptionalRefType(element, "CONTEXT-OPERATION-REF"))
         iref.setRootArgumentDataPrototypeRef(self.getChildElementOptionalRefType(element, "ROOT-ARGUMENT-DATA-PROTOTYPE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-DATA-PROTOTYPE-REF"):
+            iref.addContextDataPrototypeRef(ref)
+        iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))
+        return iref
+
+    def readVariableInComponentInstanceRef(self, element: ET.Element) -> VariableInComponentInstanceRef:
+        iref = VariableInComponentInstanceRef()
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+            iref.addContextComponentRef(ref)
+        iref.setContextPortPrototypeRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-PROTOTYPE-REF"))
+        iref.setRootVariableDataPrototypeRef(self.getChildElementOptionalRefType(element, "ROOT-VARIABLE-DATA-PROTOTYPE-REF"))
         for ref in self.getChildElementRefTypeList(element, "CONTEXT-DATA-PROTOTYPE-REF"):
             iref.addContextDataPrototypeRef(ref)
         iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))

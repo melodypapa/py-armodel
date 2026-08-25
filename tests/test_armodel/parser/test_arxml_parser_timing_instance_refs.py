@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition i
     ModeInSwcInstanceRef,
     OperationArgumentInComponentInstanceRef,
     TimingModeInstance,
+    VariableInComponentInstanceRef,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -286,5 +287,54 @@ class TestReadOperationArgumentInComponentInstanceRef:
         assert iref.getContextPortPrototypeRef() is None
         assert iref.getContextOperationRef() is None
         assert iref.getRootArgumentDataPrototypeRef() is None
+        assert iref.getContextDataPrototypeRefs() == []
+        assert iref.getTargetDataPrototypeRef() is None
+
+
+class TestReadVariableInComponentInstanceRef:
+    def _build_element(self) -> ET.Element:
+        element = ET.Element("VARIABLE-INSTANCE-IREF")
+        comp1 = ET.SubElement(element, "CONTEXT-COMPONENT-REF")
+        comp1.attrib["DEST"] = "SW-COMPONENT-PROTOTYPE"
+        comp1.text = "/Pkg/SwcProto1"
+        comp2 = ET.SubElement(element, "CONTEXT-COMPONENT-REF")
+        comp2.attrib["DEST"] = "SW-COMPONENT-PROTOTYPE"
+        comp2.text = "/Pkg/SwcProto2"
+        port_ref = ET.SubElement(element, "CONTEXT-PORT-PROTOTYPE-REF")
+        port_ref.attrib["DEST"] = "PORT-PROTOTYPE"
+        port_ref.text = "/Pkg/Port"
+        root_ref = ET.SubElement(element, "ROOT-VARIABLE-DATA-PROTOTYPE-REF")
+        root_ref.attrib["DEST"] = "VARIABLE-DATA-PROTOTYPE"
+        root_ref.text = "/Pkg/Var"
+        cdp = ET.SubElement(element, "CONTEXT-DATA-PROTOTYPE-REF")
+        cdp.attrib["DEST"] = "APPLICATION-COMPOSITE-ELEMENT-DATA-PROTOTYPE"
+        cdp.text = "/Pkg/CDP"
+        target = ET.SubElement(element, "TARGET-DATA-PROTOTYPE-REF")
+        target.attrib["DEST"] = "DATA-PROTOTYPE"
+        target.text = "/Pkg/DP"
+        return element
+
+    def test_read_all_members(self):
+        iref = ARXMLParser().readVariableInComponentInstanceRef(_round_trip(self._build_element()))
+        assert isinstance(iref, VariableInComponentInstanceRef)
+        context_components = iref.getContextComponentRefs()
+        assert len(context_components) == 2
+        assert context_components[0].getValue() == "/Pkg/SwcProto1"
+        assert context_components[0].getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert iref.getContextPortPrototypeRef().getValue() == "/Pkg/Port"
+        assert iref.getContextPortPrototypeRef().getDest() == "PORT-PROTOTYPE"
+        assert iref.getRootVariableDataPrototypeRef().getValue() == "/Pkg/Var"
+        assert iref.getRootVariableDataPrototypeRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+        assert iref.getContextDataPrototypeRefs()[0].getValue() == "/Pkg/CDP"
+        assert iref.getContextDataPrototypeRefs()[0].getDest() == "APPLICATION-COMPOSITE-ELEMENT-DATA-PROTOTYPE"
+        assert iref.getTargetDataPrototypeRef().getValue() == "/Pkg/DP"
+        assert iref.getTargetDataPrototypeRef().getDest() == "DATA-PROTOTYPE"
+
+    def test_read_empty(self):
+        element = ET.Element("VARIABLE-INSTANCE-IREF")
+        iref = ARXMLParser().readVariableInComponentInstanceRef(_round_trip(element))
+        assert iref.getContextComponentRefs() == []
+        assert iref.getContextPortPrototypeRef() is None
+        assert iref.getRootVariableDataPrototypeRef() is None
         assert iref.getContextDataPrototypeRefs() == []
         assert iref.getTargetDataPrototypeRef() is None

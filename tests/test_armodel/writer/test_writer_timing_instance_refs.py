@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition i
     OperationArgumentInComponentInstanceRef,
     TimingExtensionResource,
     TimingModeInstance,
+    VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.parser.arxml_parser import ARXMLParser
@@ -247,4 +248,39 @@ class TestWriteOperationArgumentInComponentInstanceRef:
         iref = OperationArgumentInComponentInstanceRef()
         element = ET.Element("OPERATION-ARGUMENT-INSTANCE-IREF")
         ARXMLWriter().writeOperationArgumentInComponentInstanceRef(element, iref)
+        assert len(element.findall("*")) == 0
+
+
+class TestWriteVariableInComponentInstanceRef:
+    def test_round_trip_variable_in_component_instance_ref(self):
+        iref = VariableInComponentInstanceRef()
+        iref.addContextComponentRef(RefType().setValue("/Pkg/SwcProto1").setDest("SW-COMPONENT-PROTOTYPE"))
+        iref.addContextComponentRef(RefType().setValue("/Pkg/SwcProto2").setDest("SW-COMPONENT-PROTOTYPE"))
+        iref.setContextPortPrototypeRef(RefType().setValue("/Pkg/Port").setDest("PORT-PROTOTYPE"))
+        iref.setRootVariableDataPrototypeRef(RefType().setValue("/Pkg/Var").setDest("VARIABLE-DATA-PROTOTYPE"))
+        iref.addContextDataPrototypeRef(RefType().setValue("/Pkg/CDP").setDest("APPLICATION-COMPOSITE-ELEMENT-DATA-PROTOTYPE"))
+        iref.setTargetDataPrototypeRef(RefType().setValue("/Pkg/DP").setDest("DATA-PROTOTYPE"))
+
+        element = ET.Element("VARIABLE-INSTANCE-IREF")
+        ARXMLWriter().writeVariableInComponentInstanceRef(element, iref)
+        context_components = element.findall("CONTEXT-COMPONENT-REF")
+        assert len(context_components) == 2
+        assert context_components[0].text == "/Pkg/SwcProto1"
+        assert element.find("CONTEXT-PORT-PROTOTYPE-REF").text == "/Pkg/Port"
+        assert element.find("ROOT-VARIABLE-DATA-PROTOTYPE-REF").text == "/Pkg/Var"
+        assert element.find("CONTEXT-DATA-PROTOTYPE-REF").text == "/Pkg/CDP"
+        assert element.find("TARGET-DATA-PROTOTYPE-REF").text == "/Pkg/DP"
+
+        reloaded = ARXMLParser().readVariableInComponentInstanceRef(_round_trip(element))
+        assert len(reloaded.getContextComponentRefs()) == 2
+        assert reloaded.getContextComponentRefs()[1].getValue() == "/Pkg/SwcProto2"
+        assert reloaded.getContextPortPrototypeRef().getValue() == "/Pkg/Port"
+        assert reloaded.getRootVariableDataPrototypeRef().getValue() == "/Pkg/Var"
+        assert reloaded.getContextDataPrototypeRefs()[0].getValue() == "/Pkg/CDP"
+        assert reloaded.getTargetDataPrototypeRef().getValue() == "/Pkg/DP"
+
+    def test_write_empty(self):
+        iref = VariableInComponentInstanceRef()
+        element = ET.Element("VARIABLE-INSTANCE-IREF")
+        ARXMLWriter().writeVariableInComponentInstanceRef(element, iref)
         assert len(element.findall("*")) == 0

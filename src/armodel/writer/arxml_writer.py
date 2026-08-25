@@ -267,6 +267,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition i
     OperationArgumentInComponentInstanceRef,
     TimingExtensionResource,
     TimingModeInstance,
+    VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
     ArbitraryEventTriggering,
@@ -3518,6 +3519,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "CONTEXT-PORT-PROTOTYPE-REF", iref.getContextPortPrototypeRef())
         self.setChildElementOptionalRefType(element, "CONTEXT-OPERATION-REF", iref.getContextOperationRef())
         self.setChildElementOptionalRefType(element, "ROOT-ARGUMENT-DATA-PROTOTYPE-REF", iref.getRootArgumentDataPrototypeRef())
+        for context_data_prototype_ref in iref.getContextDataPrototypeRefs():
+            self.setChildElementOptionalRefType(element, "CONTEXT-DATA-PROTOTYPE-REF", context_data_prototype_ref)
+        self.setChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF", iref.getTargetDataPrototypeRef())
+
+    def writeVariableInComponentInstanceRef(self, element: ET.Element, iref: VariableInComponentInstanceRef):
+        for context_component_ref in iref.getContextComponentRefs():
+            self.setChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF", context_component_ref)
+        self.setChildElementOptionalRefType(element, "CONTEXT-PORT-PROTOTYPE-REF", iref.getContextPortPrototypeRef())
+        self.setChildElementOptionalRefType(element, "ROOT-VARIABLE-DATA-PROTOTYPE-REF", iref.getRootVariableDataPrototypeRef())
         for context_data_prototype_ref in iref.getContextDataPrototypeRefs():
             self.setChildElementOptionalRefType(element, "CONTEXT-DATA-PROTOTYPE-REF", context_data_prototype_ref)
         self.setChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF", iref.getTargetDataPrototypeRef())
