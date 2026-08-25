@@ -2,7 +2,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import SdClientConfig
@@ -544,7 +544,6 @@ class Test_Fibex4EthernetServiceInstances:
         assert address.getPathMtuDiscoveryEnabled() is None
         assert address.getPduCollectionMaxBufferSize() is None
         assert address.getPduCollectionTimeout() is None
-        assert address.getPortAddress() is None
         assert address.getStaticSocketConnections() == []
         assert address.getUdpChecksumHandling() is None
 
@@ -572,9 +571,6 @@ class Test_Fibex4EthernetServiceInstances:
 
         assert address == address.setPduCollectionTimeout(None)  # Test method chaining with None
         assert address.getPduCollectionTimeout() is None  # Should remain None
-
-        assert address == address.setPortAddress(None)  # Test method chaining with None
-        assert address.getPortAddress() is None  # Should remain None
 
         assert address == address.setUdpChecksumHandling(None)  # Test method chaining with None
         assert address.getUdpChecksumHandling() is None  # Should remain None
@@ -611,10 +607,6 @@ class Test_Fibex4EthernetServiceInstances:
         address.setPduCollectionTimeout(5000)
         assert address.getPduCollectionTimeout() == 5000
         assert address == address.setPduCollectionTimeout(5000)  # Test method chaining
-
-        address.setPortAddress(8080)
-        assert address.getPortAddress() == 8080
-        assert address == address.setPortAddress(8080)  # Test method chaining
 
         address.setUdpChecksumHandling("udp_checksum")
         assert address.getUdpChecksumHandling() == "udp_checksum"
@@ -1343,3 +1335,168 @@ class TestApplicationEndpoint:
 
         endpoint.setTpConfiguration(None)
         assert endpoint.getTpConfiguration() is value
+
+
+class TestSocketAddress:
+    def _address(self):
+        return SocketAddress(MockParent(), "sa")
+
+    def test_initialization(self):
+        """Test __init__ defaults for all fields (Table 6.118)."""
+        address = self._address()
+
+        assert isinstance(address, Identifiable)
+        assert address.getShortName() == "sa"
+        assert address.getAllowedIPv6ExtHeadersRef() is None
+        assert address.getAllowedTcpOptionsRef() is None
+        assert address.getApplicationEndpoint() is None
+        assert address.getConnectorRef() is None
+        assert address.getDifferentiatedServiceField() is None
+        assert address.getFlowLabel() is None
+        assert address.getMulticastConnectorRefs() == []
+        assert address.getPathMtuDiscoveryEnabled() is None
+        assert address.getPduCollectionMaxBufferSize() is None
+        assert address.getPduCollectionTimeout() is None
+        assert address.getStaticSocketConnections() == []
+        assert address.getUdpChecksumHandling() is None
+        assert not hasattr(address, "portAddress")
+
+    def test_get_set_allowedIPv6ExtHeadersRef(self):
+        """Test get/set allowedIPv6ExtHeadersRef with chaining and None no-op."""
+        address = self._address()
+        value = _ref("/Ether/TcpOptionFilterSet/IPV6List1")
+
+        assert address.setAllowedIPv6ExtHeadersRef(value) is address
+        assert address.getAllowedIPv6ExtHeadersRef() is value
+
+        address.setAllowedIPv6ExtHeadersRef(None)
+        assert address.getAllowedIPv6ExtHeadersRef() is value
+
+    def test_get_set_allowedTcpOptionsRef(self):
+        """Test get/set allowedTcpOptionsRef with chaining and None no-op."""
+        address = self._address()
+        value = _ref("/Ether/TcpOptionFilterSet/TcpList1")
+
+        assert address.setAllowedTcpOptionsRef(value) is address
+        assert address.getAllowedTcpOptionsRef() is value
+
+        address.setAllowedTcpOptionsRef(None)
+        assert address.getAllowedTcpOptionsRef() is value
+
+    def test_create_get_applicationEndpoint(self):
+        """Test create/get applicationEndpoint append and duplicate returns existing."""
+        address = self._address()
+        end_point = address.createApplicationEndpoint("AEP1")
+
+        assert isinstance(end_point, ApplicationEndpoint)
+        assert address.createApplicationEndpoint("AEP1") is end_point
+        assert address.getApplicationEndpoint() is end_point
+        assert end_point.getShortName() == "AEP1"
+
+    def test_get_set_connectorRef(self):
+        """Test get/set connectorRef with chaining and None no-op."""
+        address = self._address()
+        value = _ref("/Ether/Ecu1/Connector1")
+
+        assert address.setConnectorRef(value) is address
+        assert address.getConnectorRef() is value
+
+        address.setConnectorRef(None)
+        assert address.getConnectorRef() is value
+
+    def test_get_set_differentiatedServiceField(self):
+        """Test get/set differentiatedServiceField with chaining and None no-op."""
+        address = self._address()
+        value = PositiveInteger().setValue("0")
+
+        assert address.setDifferentiatedServiceField(value) is address
+        assert address.getDifferentiatedServiceField() is value
+        assert address.getDifferentiatedServiceField().getValue() == 0
+
+        address.setDifferentiatedServiceField(None)
+        assert address.getDifferentiatedServiceField() is value
+
+    def test_get_set_flowLabel(self):
+        """Test get/set flowLabel with chaining and None no-op."""
+        address = self._address()
+        value = PositiveInteger().setValue("1048575")
+
+        assert address.setFlowLabel(value) is address
+        assert address.getFlowLabel() is value
+        assert address.getFlowLabel().getValue() == 1048575
+
+        address.setFlowLabel(None)
+        assert address.getFlowLabel() is value
+
+    def test_add_get_multicastConnectorRefs(self):
+        """Test add/get multicastConnectorRefs append, chaining and None no-op."""
+        address = self._address()
+        ref1 = _ref("/Ether/Ecu2/Connector2")
+        ref2 = _ref("/Ether/Ecu3/Connector3")
+
+        assert address.addMulticastConnectorRef(ref1) is address
+        assert address.addMulticastConnectorRef(ref2) is address
+        assert address.getMulticastConnectorRefs() == [ref1, ref2]
+
+        address.addMulticastConnectorRef(None)
+        assert address.getMulticastConnectorRefs() == [ref1, ref2]
+
+    def test_get_set_pathMtuDiscoveryEnabled(self):
+        """Test get/set pathMtuDiscoveryEnabled with chaining and None no-op."""
+        address = self._address()
+        value = Boolean().setValue("true")
+
+        assert address.setPathMtuDiscoveryEnabled(value) is address
+        assert address.getPathMtuDiscoveryEnabled() is value
+        assert address.getPathMtuDiscoveryEnabled().getValue() is True
+
+        address.setPathMtuDiscoveryEnabled(None)
+        assert address.getPathMtuDiscoveryEnabled() is value
+
+    def test_get_set_pduCollectionMaxBufferSize(self):
+        """Test get/set pduCollectionMaxBufferSize with chaining and None no-op."""
+        address = self._address()
+        value = PositiveInteger().setValue("2048")
+
+        assert address.setPduCollectionMaxBufferSize(value) is address
+        assert address.getPduCollectionMaxBufferSize() is value
+        assert address.getPduCollectionMaxBufferSize().getValue() == 2048
+
+        address.setPduCollectionMaxBufferSize(None)
+        assert address.getPduCollectionMaxBufferSize() is value
+
+    def test_get_set_pduCollectionTimeout(self):
+        """Test get/set pduCollectionTimeout with chaining and None no-op."""
+        address = self._address()
+        value = TimeValue().setValue("0.005")
+
+        assert address.setPduCollectionTimeout(value) is address
+        assert address.getPduCollectionTimeout() is value
+        assert address.getPduCollectionTimeout().getValue() == 0.005
+
+        address.setPduCollectionTimeout(None)
+        assert address.getPduCollectionTimeout() is value
+
+    def test_add_get_staticSocketConnections(self):
+        """Test add/get staticSocketConnections (placeholder child type) and None no-op."""
+        address = self._address()
+        connection1 = MockParent()
+        connection2 = MockParent()
+
+        assert address.addStaticSocketConnection(connection1) is address
+        assert address.addStaticSocketConnection(connection2) is address
+        assert address.getStaticSocketConnections() == [connection1, connection2]
+
+        address.addStaticSocketConnection(None)
+        assert address.getStaticSocketConnections() == [connection1, connection2]
+
+    def test_get_set_udpChecksumHandling(self):
+        """Test get/set udpChecksumHandling with chaining and None no-op."""
+        address = self._address()
+        value = ARLiteral()
+
+        assert address.setUdpChecksumHandling(value) is address
+        assert address.getUdpChecksumHandling() is value
+
+        address.setUdpChecksumHandling(None)
+        assert address.getUdpChecksumHandling() is value

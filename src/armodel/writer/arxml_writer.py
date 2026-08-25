@@ -7018,10 +7018,17 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSocketAddress(self, element: ET.Element, address: SocketAddress):
         child_element = ET.SubElement(element, "SOCKET-ADDRESS")
         self.writeIdentifiable(child_element, address)
+        self.setChildElementOptionalRefType(child_element, "ALLOWED-I-PV-6-EXT-HEADERS-REF", address.getAllowedIPv6ExtHeadersRef())
+        self.setChildElementOptionalRefType(child_element, "ALLOWED-TCP-OPTIONS-REF", address.getAllowedTcpOptionsRef())
         self.writeSocketAddressApplicationEndpoint(child_element, address)
-        self.writeSocketAddressMulticastConnectorRefs(child_element, address)
         self.setChildElementOptionalRefType(child_element, "CONNECTOR-REF", address.getConnectorRef())
-        self.setChildElementOptionalPositiveInteger(child_element, "PORT-ADDRESS", address.getPortAddress())
+        self.setChildElementOptionalPositiveInteger(child_element, "DIFFERENTIATED-SERVICE-FIELD", address.getDifferentiatedServiceField())
+        self.setChildElementOptionalPositiveInteger(child_element, "FLOW-LABEL", address.getFlowLabel())
+        self.writeSocketAddressMulticastConnectorRefs(child_element, address)
+        self.setChildElementOptionalBooleanValue(child_element, "PATH-MTU-DISCOVERY-ENABLED", address.getPathMtuDiscoveryEnabled())
+        self.setChildElementOptionalPositiveInteger(child_element, "PDU-COLLECTION-MAX-BUFFER-SIZE", address.getPduCollectionMaxBufferSize())
+        self.setChildElementOptionalTimeValue(child_element, "PDU-COLLECTION-TIMEOUT", address.getPduCollectionTimeout())
+        self.setChildElementOptionalLiteral(child_element, "UDP-CHECKSUM-HANDLING", address.getUdpChecksumHandling())
 
     def writeSoAdConfigSocketAddresses(self, element: ET.Element, config: SoAdConfig):
         addresses = config.getSocketAddresses()

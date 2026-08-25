@@ -832,9 +832,9 @@ class InitialSdDelayConfig(ARObject):
 class SomeipSdClientServiceInstanceConfig(ARElement):
     """Client specific settings that are relevant for the configuration of SOME/IP Service-Discovery. Tags: atp.recommendedPackage=SomeipSdTimingConfigs"""
 
-    # Spec verified: R23-11
     # SomeipSdClientServiceInstanceConfig method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.117, p.2059
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
     # [x] getInitialFindBehavior       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
@@ -1676,148 +1676,237 @@ class ApplicationEndpoint(Identifiable):
 
 
 class SocketAddress(Identifiable):
-    """
-    Defines a socket address for network communication, specifying
-    port addresses, connection properties, and socket configuration
-    for TCP/IP communication endpoints.
-    """
+    """This meta-class represents a socket address towards the rest of the meta-model. The actual semantics of the represented socket address, however, is contributed by aggregation of an ApplicationEndpoint."""
 
     # SocketAddress method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAllowedIPv6ExtHeadersRef  [x] impl  [ ] docstring  [ ] test
-    # [ ] setAllowedIPv6ExtHeadersRef  [x] impl  [ ] docstring  [ ] test
-    # [ ] getAllowedTcpOptionsRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] setAllowedTcpOptionsRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] getApplicationEndpoint       [x] impl  [ ] docstring  [ ] test
-    # [ ] createApplicationEndpoint    [x] impl  [ ] docstring  [ ] test
-    # [ ] getConnectorRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] setConnectorRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] getDifferentiatedServiceField [x] impl  [ ] docstring  [ ] test
-    # [ ] setDifferentiatedServiceField [x] impl  [ ] docstring  [ ] test
-    # [ ] getFlowLabel                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setFlowLabel                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getMulticastConnectorRefs    [x] impl  [ ] docstring  [ ] test
-    # [ ] addMulticastConnectorRef     [x] impl  [ ] docstring  [ ] test
-    # [ ] getPathMtuDiscoveryEnabled   [x] impl  [ ] docstring  [ ] test
-    # [ ] setPathMtuDiscoveryEnabled   [x] impl  [ ] docstring  [ ] test
-    # [ ] getPduCollectionMaxBufferSize [x] impl  [ ] docstring  [ ] test
-    # [ ] setPduCollectionMaxBufferSize [x] impl  [ ] docstring  [ ] test
-    # [ ] getPduCollectionTimeout      [x] impl  [ ] docstring  [ ] test
-    # [ ] setPduCollectionTimeout      [x] impl  [ ] docstring  [ ] test
-    # [ ] getPortAddress               [x] impl  [ ] docstring  [ ] test
-    # [ ] setPortAddress               [x] impl  [ ] docstring  [ ] test
-    # [ ] getStaticSocketConnections   [x] impl  [ ] docstring  [ ] test
-    # [ ] addStaticSocketConnection    [x] impl  [ ] docstring  [ ] test
-    # [ ] getUdpChecksumHandling       [x] impl  [ ] docstring  [ ] test
-    # [ ] setUdpChecksumHandling       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.118, p.453
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAllowedIPv6ExtHeadersRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAllowedIPv6ExtHeadersRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAllowedTcpOptionsRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAllowedTcpOptionsRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createApplicationEndpoint            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getApplicationEndpoint               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getConnectorRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setConnectorRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDifferentiatedServiceField        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDifferentiatedServiceField        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFlowLabel                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFlowLabel                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addMulticastConnectorRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMulticastConnectorRefs            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getPathMtuDiscoveryEnabled           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPathMtuDiscoveryEnabled           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPduCollectionMaxBufferSize        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPduCollectionMaxBufferSize        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPduCollectionTimeout              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPduCollectionTimeout              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addStaticSocketConnection            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getStaticSocketConnections           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getUdpChecksumHandling               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUdpChecksumHandling               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # staticSocketConnections: StaticSocketConnection not yet implemented - reader/writer pending
+    # udpChecksumHandling: UdpChecksumCalculationEnum not yet implemented - carried as ARLiteral
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.allowedIPv6ExtHeadersRef: RefType = None
-        self.allowedTcpOptionsRef: RefType = None
-        self.applicationEndpoint: ApplicationEndpoint = None
-        self.connectorRef: RefType = None
-        self.differentiatedServiceField: PositiveInteger = None
-        self.flowLabel: PositiveInteger = None
-        self.multicastConnectorRefs: List[RefType] = []
-        self.pathMtuDiscoveryEnabled: Boolean = None
-        self.pduCollectionMaxBufferSize: PositiveInteger = None
-        self.pduCollectionTimeout: TimeValue = None
-        self.portAddress: PositiveInteger = None
-        self.staticSocketConnections = []
-        self.udpChecksumHandling = None
+        # Reference to a list of IPv6 Extension Headers allowed for this SocketConnection. If no list is referenced all IPv6 Extension Headers are allowed and processed.
+        self.allowedIPv6ExtHeadersRef: Optional[RefType] = None
 
-    def getAllowedIPv6ExtHeadersRef(self):
+        # Reference to a list of TCP options allowed for this Socket Connection.
+        self.allowedTcpOptionsRef: Optional[RefType] = None
+
+        # Application addressing
+        self.applicationEndpoint: Optional[ApplicationEndpoint] = None
+
+        # Association to a CommunicationConnector in the topology description. This reference shall be used if the SocketAddress describes an IP unicast address for an ECU that is part of the model.
+        self.connectorRef: Optional[RefType] = None
+
+        # The 6-bit Differentiated Service Field in the IP headers may be used for classifying network traffic. If not set a value of zero is used to indicate packets that have not been classified.
+        self.differentiatedServiceField: Optional[PositiveInteger] = None
+
+        # The 20-bit Flow Label field in the IPv6 header may be used by a source to label sequences of packets for which it requests special handling by the IPv6 routers, such as non-default quality of service. If not set a Flow Label of zero is used to indicate packets that have not been labeled.
+        self.flowLabel: Optional[PositiveInteger] = None
+
+        # Association to a CommunicationConnector in the topology description. This reference shall be used if the SocketAddress describes an IP multicast address, i.e. if the aggregated ApplicationEndpoint references a NetworkEndpoint that describes an IP Address in the IP multicast range. Such a SocketAddress contains references to those Ecus (via the multicastConnector reference) in the model that will receive multicast messages via the SocketAddress that is defined by the aggregated ApplicationEndpoint and NetworkEndpoint, i.e. IP Address and UDP Port combination.
+        self.multicastConnectorRefs: List[RefType] = []
+
+        # Defines whether the Path MTU Discovery shall be performed for the related socket.
+        self.pathMtuDiscoveryEnabled: Optional[Boolean] = None
+
+        # Defines the maximum buffer size in Byte which shall be filled before a socket with Pdu collection enabled shall be transmitted to the lower layer.
+        self.pduCollectionMaxBufferSize: Optional[PositiveInteger] = None
+
+        # Defines the time in seconds which shall pass before a socket with Pdu collection enabled shall be transmitted to the lower layer after the first Pdu has been put into the socket buffer.
+        self.pduCollectionTimeout: Optional[TimeValue] = None
+
+        # Definition of a static SocketConnection.
+        # (StaticSocketConnection class is not yet implemented - placeholder)
+        self.staticSocketConnections: List[ARObject] = []
+
+        # Specifies if UDP checksum handling shall be enabled (udpChecksumEnabled) or skipped (udpChecksum Disabled) on the related socket connection.
+        # (UdpChecksumCalculationEnum class is not yet implemented - carried as ARLiteral)
+        self.udpChecksumHandling: Optional[ARLiteral] = None
+
+    def getAllowedIPv6ExtHeadersRef(self) -> Optional[RefType]:
+        """Reference to a list of IPv6 Extension Headers allowed for this SocketConnection. If no list is referenced all IPv6 Extension Headers are allowed and processed."""
         return self.allowedIPv6ExtHeadersRef
 
-    def setAllowedIPv6ExtHeadersRef(self, value):
-        self.allowedIPv6ExtHeadersRef = value
+    def setAllowedIPv6ExtHeadersRef(self, value: Optional[RefType]) -> "SocketAddress":
+        """
+        Reference to a list of IPv6 Extension Headers allowed for this SocketConnection. If no list is referenced all IPv6 Extension Headers are allowed and processed.
+        A None value is a no-op and does not overwrite an existing allowedIPv6ExtHeadersRef.
+        """
+        if value is not None:
+            self.allowedIPv6ExtHeadersRef = value
         return self
 
-    def getAllowedTcpOptionsRef(self):
+    def getAllowedTcpOptionsRef(self) -> Optional[RefType]:
+        """Reference to a list of TCP options allowed for this Socket Connection."""
         return self.allowedTcpOptionsRef
 
-    def setAllowedTcpOptionsRef(self, value):
-        self.allowedTcpOptionsRef = value
+    def setAllowedTcpOptionsRef(self, value: Optional[RefType]) -> "SocketAddress":
+        """
+        Reference to a list of TCP options allowed for this Socket Connection.
+        A None value is a no-op and does not overwrite an existing allowedTcpOptionsRef.
+        """
+        if value is not None:
+            self.allowedTcpOptionsRef = value
         return self
-
-    def getApplicationEndpoint(self):
-        return self.applicationEndpoint
 
     def createApplicationEndpoint(self, short_name: str) -> ApplicationEndpoint:
-        end_point = ApplicationEndpoint(self, short_name)
-        self.applicationEndpoint = end_point
-        return end_point
+        """Application addressing"""
+        if not self.IsElementExists(short_name, ApplicationEndpoint):
+            end_point = ApplicationEndpoint(self, short_name)
+            self.addElement(end_point)
+            self.applicationEndpoint = end_point
+        return self.getElement(short_name, ApplicationEndpoint)
 
-    def getConnectorRef(self):
+    def getApplicationEndpoint(self) -> Optional[ApplicationEndpoint]:
+        """Application addressing"""
+        return self.applicationEndpoint
+
+    def getConnectorRef(self) -> Optional[RefType]:
+        """Association to a CommunicationConnector in the topology description. This reference shall be used if the SocketAddress describes an IP unicast address for an ECU that is part of the model."""
         return self.connectorRef
 
-    def setConnectorRef(self, value):
-        self.connectorRef = value
+    def setConnectorRef(self, value: Optional[RefType]) -> "SocketAddress":
+        """
+        Association to a CommunicationConnector in the topology description. This reference shall be used if the SocketAddress describes an IP unicast address for an ECU that is part of the model.
+        A None value is a no-op and does not overwrite an existing connectorRef.
+        """
+        if value is not None:
+            self.connectorRef = value
         return self
 
-    def getDifferentiatedServiceField(self):
+    def getDifferentiatedServiceField(self) -> Optional[PositiveInteger]:
+        """The 6-bit Differentiated Service Field in the IP headers may be used for classifying network traffic. If not set a value of zero is used to indicate packets that have not been classified."""
         return self.differentiatedServiceField
 
-    def setDifferentiatedServiceField(self, value):
-        self.differentiatedServiceField = value
+    def setDifferentiatedServiceField(self, value: Optional[PositiveInteger]) -> "SocketAddress":
+        """
+        The 6-bit Differentiated Service Field in the IP headers may be used for classifying network traffic. If not set a value of zero is used to indicate packets that have not been classified.
+        A None value is a no-op and does not overwrite an existing differentiatedServiceField.
+        """
+        if value is not None:
+            self.differentiatedServiceField = value
         return self
 
-    def getFlowLabel(self):
+    def getFlowLabel(self) -> Optional[PositiveInteger]:
+        """The 20-bit Flow Label field in the IPv6 header may be used by a source to label sequences of packets for which it requests special handling by the IPv6 routers, such as non-default quality of service. If not set a Flow Label of zero is used to indicate packets that have not been labeled."""
         return self.flowLabel
 
-    def setFlowLabel(self, value):
-        self.flowLabel = value
+    def setFlowLabel(self, value: Optional[PositiveInteger]) -> "SocketAddress":
+        """
+        The 20-bit Flow Label field in the IPv6 header may be used by a source to label sequences of packets for which it requests special handling by the IPv6 routers, such as non-default quality of service. If not set a Flow Label of zero is used to indicate packets that have not been labeled.
+        A None value is a no-op and does not overwrite an existing flowLabel.
+        """
+        if value is not None:
+            self.flowLabel = value
         return self
 
-    def getMulticastConnectorRefs(self):
+    def addMulticastConnectorRef(self, value: Optional[RefType]) -> "SocketAddress":
+        """
+        Association to a CommunicationConnector in the topology description. This reference shall be used if the SocketAddress describes an IP multicast address, i.e. if the aggregated ApplicationEndpoint references a NetworkEndpoint that describes an IP Address in the IP multicast range. Such a SocketAddress contains references to those Ecus (via the multicastConnector reference) in the model that will receive multicast messages via the SocketAddress that is defined by the aggregated ApplicationEndpoint and NetworkEndpoint, i.e. IP Address and UDP Port combination.
+        A None value is a no-op and does not append to multicastConnectorRefs.
+        """
+        if value is not None:
+            self.multicastConnectorRefs.append(value)
+        return self
+
+    def getMulticastConnectorRefs(self) -> List[RefType]:
+        """Association to a CommunicationConnector in the topology description. This reference shall be used if the SocketAddress describes an IP multicast address, i.e. if the aggregated ApplicationEndpoint references a NetworkEndpoint that describes an IP Address in the IP multicast range. Such a SocketAddress contains references to those Ecus (via the multicastConnector reference) in the model that will receive multicast messages via the SocketAddress that is defined by the aggregated ApplicationEndpoint and NetworkEndpoint, i.e. IP Address and UDP Port combination."""
         return self.multicastConnectorRefs
 
-    def addMulticastConnectorRef(self, value):
-        self.multicastConnectorRefs.append(value)
-        return self
-
-    def getPathMtuDiscoveryEnabled(self):
+    def getPathMtuDiscoveryEnabled(self) -> Optional[Boolean]:
+        """Defines whether the Path MTU Discovery shall be performed for the related socket."""
         return self.pathMtuDiscoveryEnabled
 
-    def setPathMtuDiscoveryEnabled(self, value):
-        self.pathMtuDiscoveryEnabled = value
+    def setPathMtuDiscoveryEnabled(self, value: Optional[Boolean]) -> "SocketAddress":
+        """
+        Defines whether the Path MTU Discovery shall be performed for the related socket.
+        A None value is a no-op and does not overwrite an existing pathMtuDiscoveryEnabled.
+        """
+        if value is not None:
+            self.pathMtuDiscoveryEnabled = value
         return self
 
-    def getPduCollectionMaxBufferSize(self):
+    def getPduCollectionMaxBufferSize(self) -> Optional[PositiveInteger]:
+        """Defines the maximum buffer size in Byte which shall be filled before a socket with Pdu collection enabled shall be transmitted to the lower layer."""
         return self.pduCollectionMaxBufferSize
 
-    def setPduCollectionMaxBufferSize(self, value):
-        self.pduCollectionMaxBufferSize = value
+    def setPduCollectionMaxBufferSize(self, value: Optional[PositiveInteger]) -> "SocketAddress":
+        """
+        Defines the maximum buffer size in Byte which shall be filled before a socket with Pdu collection enabled shall be transmitted to the lower layer.
+        A None value is a no-op and does not overwrite an existing pduCollectionMaxBufferSize.
+        """
+        if value is not None:
+            self.pduCollectionMaxBufferSize = value
         return self
 
-    def getPduCollectionTimeout(self):
+    def getPduCollectionTimeout(self) -> Optional[TimeValue]:
+        """Defines the time in seconds which shall pass before a socket with Pdu collection enabled shall be transmitted to the lower layer after the first Pdu has been put into the socket buffer."""
         return self.pduCollectionTimeout
 
-    def setPduCollectionTimeout(self, value):
-        self.pduCollectionTimeout = value
+    def setPduCollectionTimeout(self, value: Optional[TimeValue]) -> "SocketAddress":
+        """
+        Defines the time in seconds which shall pass before a socket with Pdu collection enabled shall be transmitted to the lower layer after the first Pdu has been put into the socket buffer.
+        A None value is a no-op and does not overwrite an existing pduCollectionTimeout.
+        """
+        if value is not None:
+            self.pduCollectionTimeout = value
         return self
 
-    def getPortAddress(self):
-        return self.portAddress
-
-    def setPortAddress(self, value):
-        self.portAddress = value
+    def addStaticSocketConnection(self, value: Optional[ARObject]) -> "SocketAddress":
+        """
+        Definition of a static SocketConnection.
+        (StaticSocketConnection class is not yet implemented - placeholder)
+        A None value is a no-op and does not append to staticSocketConnections.
+        """
+        if value is not None:
+            self.staticSocketConnections.append(value)
         return self
 
-    def getStaticSocketConnections(self):
+    def getStaticSocketConnections(self) -> List[ARObject]:
+        """
+        Definition of a static SocketConnection.
+        (StaticSocketConnection class is not yet implemented - placeholder)
+        """
         return self.staticSocketConnections
 
-    def addStaticSocketConnection(self, value):
-        self.staticSocketConnections.append(value)
-        return self
-
-    def getUdpChecksumHandling(self):
+    def getUdpChecksumHandling(self) -> Optional[ARLiteral]:
+        """Specifies if UDP checksum handling shall be enabled (udpChecksumEnabled) or skipped (udpChecksum Disabled) on the related socket connection."""
         return self.udpChecksumHandling
 
-    def setUdpChecksumHandling(self, value):
-        self.udpChecksumHandling = value
+    def setUdpChecksumHandling(self, value: Optional[ARLiteral]) -> "SocketAddress":
+        """
+        Specifies if UDP checksum handling shall be enabled (udpChecksumEnabled) or skipped (udpChecksum Disabled) on the related socket connection.
+        A None value is a no-op and does not overwrite an existing udpChecksumHandling.
+        """
+        if value is not None:
+            self.udpChecksumHandling = value
         return self
 
 

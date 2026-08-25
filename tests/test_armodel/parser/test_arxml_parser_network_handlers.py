@@ -772,18 +772,18 @@ class TestSoAdAndSocketHandlers:
             warning_parser.readSoAdConfigSocketAddresses(element, config)
         assert any("Unsupported Socket Address" in r.getMessage() for r in caplog.records)
 
-    def test_readSocketAddress_sets_portAddress(self, parser):
+    def test_readSocketAddress_sets_differentiatedServiceField(self, parser):
         from armodel.models import SoAdConfig, SocketAddress
 
         config = SoAdConfig()
         address = SocketAddress(parent=config, short_name="sa")
         element = _snip(
-            "<SHORT-NAME>sa</SHORT-NAME>" "<PORT-ADDRESS>5000</PORT-ADDRESS>",
+            "<SHORT-NAME>sa</SHORT-NAME>" "<DIFFERENTIATED-SERVICE-FIELD>46</DIFFERENTIATED-SERVICE-FIELD>",
             root_tag="SOCKET-ADDRESS",
         )
         parser.readSocketAddress(element, address)
-        assert address.getPortAddress() is not None
-        assert address.getPortAddress().getValue() == 5000
+        assert address.getDifferentiatedServiceField() is not None
+        assert address.getDifferentiatedServiceField().getValue() == 46
 
     def test_readSocketAddressApplicationEndpoint_creates_endpoint(self, parser):
         from armodel.models import SoAdConfig, SocketAddress

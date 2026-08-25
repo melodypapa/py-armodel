@@ -6475,10 +6475,17 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSocketAddress(self, element: ET.Element, address: SocketAddress):
         self.readIdentifiable(element, address)
+        address.setAllowedIPv6ExtHeadersRef(self.getChildElementOptionalRefType(element, "ALLOWED-I-PV-6-EXT-HEADERS-REF"))
+        address.setAllowedTcpOptionsRef(self.getChildElementOptionalRefType(element, "ALLOWED-TCP-OPTIONS-REF"))
         self.readSocketAddressApplicationEndpoint(element, address)
-        self.readSocketAddressMulticastConnectorRefs(element, address)
         address.setConnectorRef(self.getChildElementOptionalRefType(element, "CONNECTOR-REF"))
-        address.setPortAddress(self.getChildElementOptionalPositiveInteger(element, "PORT-ADDRESS"))
+        address.setDifferentiatedServiceField(self.getChildElementOptionalPositiveInteger(element, "DIFFERENTIATED-SERVICE-FIELD"))
+        address.setFlowLabel(self.getChildElementOptionalPositiveInteger(element, "FLOW-LABEL"))
+        self.readSocketAddressMulticastConnectorRefs(element, address)
+        address.setPathMtuDiscoveryEnabled(self.getChildElementOptionalBooleanValue(element, "PATH-MTU-DISCOVERY-ENABLED"))
+        address.setPduCollectionMaxBufferSize(self.getChildElementOptionalPositiveInteger(element, "PDU-COLLECTION-MAX-BUFFER-SIZE"))
+        address.setPduCollectionTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-TIMEOUT"))
+        address.setUdpChecksumHandling(self.getChildElementOptionalLiteral(element, "UDP-CHECKSUM-HANDLING"))
 
     def readSoAdConfigSocketAddresses(self, element: ET.Element, config: SoAdConfig):
         for child_element in self.findall(element, "SOCKET-ADDRESSS/*"):

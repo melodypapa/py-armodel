@@ -1555,6 +1555,18 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 | `connections` | `List[SocketConnection]` | `connection` | ``SocketConnection`` | aggr | naming |
 | `connectionBundles` | `List[SocketConnectionBundle]` | `connectionBundle` | ``SocketConnection Bundle`` | aggr | naming |
 
+## `SocketAddress`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 453
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `staticSocketConnections` | `List[ARObject]` | `staticSocketConnection` | ``StaticSocketConnection`` | aggr | referenced class `StaticSocketConnection` not yet implemented; carried as an `ARObject` placeholder with add/get accessors, reader/writer pending, full sync deferred (Rule 0001.10) |
+| `udpChecksumHandling` | `Optional[ARLiteral]` | `udpChecksumHandling` | ``UdpChecksumCalculationEnum`` | attr | referenced enum `UdpChecksumCalculationEnum` (Table 6.119) not yet implemented as `AREnum`; round-tripped as a generic `ARLiteral` (the `VERSION-DRIVEN-FIND-BEHAVIOR` pattern), switch to the enum when it lands (Rule 0001.10) |
+
+Resolution of the queue context ("adds ipAddress"): Table 6.118 (markdown AUTOSAR_CP_TPS_SystemTemplate.md:11940–11969, page-split table; PDF p.453 per pdf_page.py) has NO ipAddress/portAddress rows; both are deprecated XSD-only elements ("This attribute is deprecated ... replaced by the aggregated NetworkEndpoint/ApplicationEndpoint"). Rule 0015/the-table-wins: NOT modeled — the pre-existing `portAddress` field/accessors plus its PORT-ADDRESS reader/writer coverage were removed in this pass; `ipAddress` was never modeled. Queue note is stale.
+
 ## `ApplicationEndpoint`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 458
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`

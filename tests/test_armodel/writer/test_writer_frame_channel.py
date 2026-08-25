@@ -1536,7 +1536,7 @@ class TestWriteSocketAddress:
         addr.createApplicationEndpoint("Ep")
         addr.addMulticastConnectorRef(_ref("MULTICAST-CONNECTOR", "/mc"))
         addr.setConnectorRef(_ref("CONNECTOR", "/conn"))
-        addr.setPortAddress(_pos_int("4096"))
+        addr.setDifferentiatedServiceField(_pos_int("46"))
         parent = _parent()
         writer.writeSocketAddress(parent, addr)
         sa = parent.find("SOCKET-ADDRESS")
@@ -1544,7 +1544,7 @@ class TestWriteSocketAddress:
         assert sa.find("APPLICATION-ENDPOINT") is not None
         assert sa.find("MULTICAST-CONNECTOR-REFS") is not None
         assert sa.find("CONNECTOR-REF") is not None
-        assert sa.find("PORT-ADDRESS").text == "4096"
+        assert sa.find("DIFFERENTIATED-SERVICE-FIELD").text == "46"
 
     def test_write_soad_config_socket_addresses_empty(self, writer):
         cfg = SoAdConfig()
