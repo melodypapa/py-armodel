@@ -600,6 +600,92 @@ class PduActivationRoutingGroup(Identifiable):
         return self
 
 
+class StaticSocketConnection(Identifiable):
+    """
+    Definition of static SocketConnection between the Socket that is defined by the aggregating Socket Address and the remoteAddress.
+    """
+
+    # StaticSocketConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.201, p.544
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getIPduIdentifierRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addIPduIdentifierRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRemoteAddressRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRemoteAddressRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTcpConnectTimeout        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTcpConnectTimeout        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTcpRole                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTcpRole                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Assignment of IPduIdentifiers that are transmitted over the static SocketConnection.
+        self.iPduIdentifierRefs: List[RefType] = []
+
+        # RemoteAddress of the static SocketConnection.
+        self.remoteAddressRef: Optional[RefType] = None
+
+        # Specifies the time in seconds how long TCP connect attempts are repeated to reach SOAD_SOCON_ONLINE. This attribute is restricted to socket connection groups which are initiating a TCP connection and are under control of SoAd.
+        self.tcpConnectTimeout: Optional[TimeValue] = None
+
+        # Defines whether the local Address (that is aggregating the StaticSocketConnection) does a listen or a connect.
+        self.tcpRole: Optional[ARLiteral] = None
+
+    def getIPduIdentifierRefs(self) -> List[RefType]:
+        """Assignment of IPduIdentifiers that are transmitted over the static SocketConnection."""
+        return self.iPduIdentifierRefs
+
+    def addIPduIdentifierRef(self, ref: Optional[RefType]) -> "StaticSocketConnection":
+        """
+        Assignment of IPduIdentifiers that are transmitted over the static SocketConnection.
+        A None value is a no-op and does not append to iPduIdentifierRefs.
+        """
+        if ref is not None:
+            self.iPduIdentifierRefs.append(ref)
+        return self
+
+    def getRemoteAddressRef(self) -> Optional[RefType]:
+        """RemoteAddress of the static SocketConnection."""
+        return self.remoteAddressRef
+
+    def setRemoteAddressRef(self, ref: Optional[RefType]) -> "StaticSocketConnection":
+        """
+        RemoteAddress of the static SocketConnection.
+        A None value is a no-op and does not overwrite an existing remoteAddressRef.
+        """
+        if ref is not None:
+            self.remoteAddressRef = ref
+        return self
+
+    def getTcpConnectTimeout(self) -> Optional[TimeValue]:
+        """Specifies the time in seconds how long TCP connect attempts are repeated to reach SOAD_SOCON_ONLINE. This attribute is restricted to socket connection groups which are initiating a TCP connection and are under control of SoAd."""
+        return self.tcpConnectTimeout
+
+    def setTcpConnectTimeout(self, value: Optional[TimeValue]) -> "StaticSocketConnection":
+        """
+        Specifies the time in seconds how long TCP connect attempts are repeated to reach SOAD_SOCON_ONLINE. This attribute is restricted to socket connection groups which are initiating a TCP connection and are under control of SoAd.
+        A None value is a no-op and does not overwrite an existing tcpConnectTimeout.
+        """
+        if value is not None:
+            self.tcpConnectTimeout = value
+        return self
+
+    def getTcpRole(self) -> Optional[ARLiteral]:
+        """Defines whether the local Address (that is aggregating the StaticSocketConnection) does a listen or a connect."""
+        return self.tcpRole
+
+    def setTcpRole(self, value: Optional[ARLiteral]) -> "StaticSocketConnection":
+        """
+        Defines whether the local Address (that is aggregating the StaticSocketConnection) does a listen or a connect.
+        A None value is a no-op and does not overwrite an existing tcpRole.
+        """
+        if value is not None:
+            self.tcpRole = value
+        return self
+
+
 class ConsumedServiceInstance(AbstractServiceInstance):
     """Service instances that are consumed by the ECU that is connected via the ApplicationEndpoint to a CommunicationConnector."""
 

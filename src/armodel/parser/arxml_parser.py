@@ -519,6 +519,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     ProvidedServiceInstance,
     SdServerConfig,
     SoAdConfig,
+    StaticSocketConnection,
     SocketAddress,
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
@@ -8411,6 +8412,19 @@ class ARXMLParser(AbstractARXMLParser):
             for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIER-UDP-REFS/I-PDU-IDENTIFIER-UDP-REF"):
                 group.addIPduIdentifierUdpRef(ref)
         return group
+
+    def getStaticSocketConnection(self, element: ET.Element) -> Optional[StaticSocketConnection]:
+        connection = None
+        if element is not None:
+            connection = StaticSocketConnection(None, self.getShortName(element))
+            self.readIdentifiable(element, connection)
+            for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIERS/SO-CON-I-PDU-IDENTIFIER-REF-CONDITIONAL/SO-CON-I-PDU-IDENTIFIER-REF"):
+                connection.addIPduIdentifierRef(ref)
+            for ref in self.getChildElementRefTypeList(element, "REMOTE-ADDRESSS/SOCKET-ADDRESS-REF-CONDITIONAL/SOCKET-ADDRESS-REF"):
+                connection.setRemoteAddressRef(ref)
+            connection.setTcpConnectTimeout(self.getChildElementOptionalTimeValue(element, "TCP-CONNECT-TIMEOUT"))
+            connection.setTcpRole(self.getChildElementOptionalLiteral(element, "TCP-ROLE"))
+        return connection
 
     def getIpv6DhcpServerConfiguration(self, element: ET.Element, key: str) -> Optional[Ipv6DhcpServerConfiguration]:
         config = None

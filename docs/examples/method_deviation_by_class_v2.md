@@ -2910,6 +2910,21 @@ the stub deviation row was removed.
 | `iPduIdentifierTcpRefs` | `List[RefType]` | `iPduIdentifierTcp` | ``SoConIPduIdentifier`` | ref | singular spec member modelled per project convention (`getIPduIdentifierTcpRefs`/`addIPduIdentifierTcpRef`, wrapper element I-PDU-IDENTIFIER-TCP-REFS); ref target class not required for RefType round-trip |
 | `iPduIdentifierUdpRefs` | `List[RefType]` | `iPduIdentifierUdp` | ``SoConIPduIdentifier`` | ref | singular spec member modelled per project convention (`getIPduIdentifierUdpRefs`/`addIPduIdentifierUdpRef`, wrapper element I-PDU-IDENTIFIER-UDP-REFS); ref target class not required for RefType round-trip |
 
+## `StaticSocketConnection`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 544  | **table:** Table 6.201
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `iPduIdentifierRefs` | `List[RefType]` | `iPduIdentifier` | ``SoConIPduIdentifier`` | ref | singular spec member modelled per project convention (`getIPduIdentifierRefs`/`addIPduIdentifierRef`); serialized through the XSD-only atpVariation wrapper I-PDU-IDENTIFIERS/SO-CON-I-PDU-IDENTIFIER-REF-CONDITIONAL/SO-CON-I-PDU-IDENTIFIER-REF |
+| `remoteAddressRef` | `Optional[RefType]` | `remoteAddress` | ``SocketAddress`` | ref | ref-form naming per project convention (`getRemoteAddressRef`/`setRemoteAddressRef`); serialized through the XSD-only atpVariation wrapper REMOTE-ADDRESSS/SOCKET-ADDRESS-REF-CONDITIONAL/SOCKET-ADDRESS-REF |
+| `tcpConnectTimeout` | `Optional[TimeValue]` | `tcpConnectTimeout` | ``TimeValue`` | attr | - |
+| `tcpRole` | `Optional[ARLiteral]` | `tcpRole` | ``TcpRoleEnum`` | attr | referenced enum `TcpRoleEnum` not yet implemented as `AREnum`; round-tripped as a generic `ARLiteral`, switch to the enum when it lands (Rule 0001.10) |
+
+Consumer note: the `SocketAddress.staticSocketConnections` ARObject placeholder row is resolved by the
+SocketAddress RE-FIX row (retype to `List[StaticSocketConnection]` + reader/writer wiring).
+
 ## `Ipv6DhcpServerConfiguration`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 132  | **table:** Table 3.81
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`

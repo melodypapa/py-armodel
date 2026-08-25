@@ -234,16 +234,27 @@ row below and must sync BEFORE the class that references it. All rows below are 
      Rule 0001.10; iPduIdentifierTcp/Udp singular→plural convention noted; consumer wiring pending RE-FIX rows)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7295 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] StaticSocketConnection (Table 6.201 · used by SocketAddress.staticSocketConnections · resolves ARObject placeholder)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] StaticSocketConnection (Table 6.201 · p.544 · used by SocketAddress.staticSocketConnections · resolves ARObject placeholder) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Sync members & description from spec
+    (Table 6.201 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:14280–14310 + PDF p.544;
+    Base → Identifiable; 4 attr rows: iPduIdentifier * ref, remoteAddress 0..1 ref, tcpConnectTimeout attr, tcpRole attr;
+    XSD serialization uses atpVariation conditional wrappers)
+  - [x] Step 2 — Write model class unit test (Red)
+    (TestStaticSocketConnection in test_ServiceInstances.py; Red confirmed — ImportError at collection)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    (fresh implementation: class Note + per-attribute Notes verbatim, Stereotypes/Tags tails stripped per Rule 0012)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    (tests/test_armodel/writer/test_static_socket_connection.py; Red confirmed — 4 failed)
+  - [x] Step 6 — Update parser & writer (Green)
+    (writer setStaticSocketConnection incl. conditional wrappers; parser getStaticSocketConnection via mutators;
+     consumer wiring into SocketAddress pending its RE-FIX row)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (tracker: tcpRole ARLiteral placeholder — TcpRoleEnum not queued/not implemented, Rule 0001.10;
+     iPduIdentifier/remoteAddress singular→plural/ref naming noted; SocketAddress placeholder row resolved by RE-FIX)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7304 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] UdpChecksumCalculationEnum (enum · Table 6.119 · used by SocketAddress.udpChecksumHandling · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

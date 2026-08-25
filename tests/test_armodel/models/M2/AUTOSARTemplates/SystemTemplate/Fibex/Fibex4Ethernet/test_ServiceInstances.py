@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
     SomeipServiceVersion,
+    StaticSocketConnection,
     TcpTp,
     TcpUdpConfig,
     TpPort,
@@ -1586,3 +1587,87 @@ class TestPduActivationRoutingGroup:
 
         group.addIPduIdentifierUdpRef(None)
         assert group.getIPduIdentifierUdpRefs() == [ref_udp]
+
+
+class TestStaticSocketConnection:
+    """
+    Test cases for StaticSocketConnection (Table 6.201).
+    """
+
+    def test_initialization(self):
+        """
+        Test initialization and Identifiable base.
+        """
+        parent = MockParent()
+        connection = StaticSocketConnection(parent, "Conn1")
+
+        assert isinstance(connection, Identifiable)
+        assert connection.getShortName() == "Conn1"
+        assert connection.getIPduIdentifierRefs() == []
+        assert connection.getRemoteAddressRef() is None
+        assert connection.getTcpConnectTimeout() is None
+        assert connection.getTcpRole() is None
+
+    def test_ipdu_identifier_refs(self):
+        """
+        Test iPduIdentifier ref list append semantics and None no-op.
+        """
+        parent = MockParent()
+        connection = StaticSocketConnection(parent, "Conn1")
+        ref = RefType()
+
+        result = connection.addIPduIdentifierRef(ref)
+        assert connection.getIPduIdentifierRefs() == [ref]
+        assert result == connection  # method chaining
+
+        connection.addIPduIdentifierRef(None)
+        assert connection.getIPduIdentifierRefs() == [ref]
+
+    def test_remote_address_ref(self):
+        """
+        Test remoteAddressRef round-trip and None no-op.
+        """
+        parent = MockParent()
+        connection = StaticSocketConnection(parent, "Conn1")
+        ref = RefType()
+        ref.setValue("/Ecu/SoAd/SocketAddress/Remote")
+
+        result = connection.setRemoteAddressRef(ref)
+        assert connection.getRemoteAddressRef() is ref
+        assert result == connection  # method chaining
+
+        # None no-op
+        result = connection.setRemoteAddressRef(None)
+        assert connection.getRemoteAddressRef() is ref
+
+    def test_tcp_connect_timeout(self):
+        """
+        Test tcpConnectTimeout round-trip and None no-op.
+        """
+        parent = MockParent()
+        connection = StaticSocketConnection(parent, "Conn1")
+        timeout = TimeValue().setValue(30)
+
+        result = connection.setTcpConnectTimeout(timeout)
+        assert connection.getTcpConnectTimeout() is timeout
+        assert result == connection  # method chaining
+
+        # None no-op
+        result = connection.setTcpConnectTimeout(None)
+        assert connection.getTcpConnectTimeout() is timeout
+
+    def test_tcp_role(self):
+        """
+        Test tcpRole round-trip and None no-op.
+        """
+        parent = MockParent()
+        connection = StaticSocketConnection(parent, "Conn1")
+        role = ARLiteral().setValue("connect")
+
+        result = connection.setTcpRole(role)
+        assert connection.getTcpRole() is role
+        assert result == connection  # method chaining
+
+        # None no-op
+        result = connection.setTcpRole(None)
+        assert connection.getTcpRole() is role

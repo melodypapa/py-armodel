@@ -489,6 +489,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     ProvidedServiceInstance,
     SdServerConfig,
     SoAdConfig,
+    StaticSocketConnection,
     SocketAddress,
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
@@ -8012,6 +8013,23 @@ class ARXMLWriter(AbstractARXMLWriter):
                 refs_element = ET.SubElement(child_element, "I-PDU-IDENTIFIER-UDP-REFS")
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_element, "I-PDU-IDENTIFIER-UDP-REF", ref)
+
+    def setStaticSocketConnection(self, element: ET.Element, connection: StaticSocketConnection):
+        if connection is not None:
+            child_element = ET.SubElement(element, "STATIC-SOCKET-CONNECTION")
+            self.writeIdentifiable(child_element, connection)
+            refs = connection.getIPduIdentifierRefs()
+            if len(refs) > 0:
+                refs_element = ET.SubElement(child_element, "I-PDU-IDENTIFIERS")
+                for ref in refs:
+                    conditional_element = ET.SubElement(refs_element, "SO-CON-I-PDU-IDENTIFIER-REF-CONDITIONAL")
+                    self.setChildElementOptionalRefType(conditional_element, "SO-CON-I-PDU-IDENTIFIER-REF", ref)
+            if connection.getRemoteAddressRef() is not None:
+                remote_element = ET.SubElement(child_element, "REMOTE-ADDRESSS")
+                conditional_element = ET.SubElement(remote_element, "SOCKET-ADDRESS-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_element, "SOCKET-ADDRESS-REF", connection.getRemoteAddressRef())
+            self.setChildElementOptionalTimeValue(child_element, "TCP-CONNECT-TIMEOUT", connection.getTcpConnectTimeout())
+            self.setChildElementOptionalLiteral(child_element, "TCP-ROLE", connection.getTcpRole())
 
     def setIpv6DhcpServerConfiguration(self, element: ET.Element, key: str, config: Ipv6DhcpServerConfiguration):
         if config is not None:
