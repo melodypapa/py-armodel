@@ -2,10 +2,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.T
     ModeInBswInstanceRef,
     ModeInSwcBswInstanceRef,
     ModeInSwcInstanceRef,
+    OperationArgumentInComponentInstanceRef,
     TimingCondition,
     TimingConditionFormula,
     TimingExtensionResource,
     TimingModeInstance,
+    AutosarOperationArgumentInstance,
 )
 
 
@@ -13,8 +15,10 @@ __all__ = [
     "ModeInBswInstanceRef",
     "ModeInSwcBswInstanceRef",
     "ModeInSwcInstanceRef",
+    "OperationArgumentInComponentInstanceRef",
     "TimingCondition",
     "TimingConditionFormula",
     "TimingExtensionResource",
     "TimingModeInstance",
+    "AutosarOperationArgumentInstance",
 ]

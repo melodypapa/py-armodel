@@ -262,7 +262,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.Attribu
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef, TimingCondition
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingExtensionResource, TimingModeInstance
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
+    AutosarOperationArgumentInstance,
+    OperationArgumentInComponentInstanceRef,
+    TimingExtensionResource,
+    TimingModeInstance,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
     ArbitraryEventTriggering,
     BurstPatternEventTriggering,
@@ -3499,6 +3504,23 @@ class ARXMLWriter(AbstractARXMLWriter):
             for mode in modes:
                 mode_tag = ET.SubElement(modes_tag, "TIMING-MODE-INSTANCE")
                 self.writeTimingModeInstance(mode_tag, mode)
+
+    def writeAutosarOperationArgumentInstance(self, element: ET.Element, instance: AutosarOperationArgumentInstance):
+        self.writeIdentifiable(element, instance)
+        iref = instance.getOperationArgumentInstanceIRef()
+        if iref is not None:
+            iref_tag = ET.SubElement(element, "OPERATION-ARGUMENT-INSTANCE-IREF")
+            self.setChildElementOptionalRefType(iref_tag, "TARGET-DATA-PROTOTYPE-REF", iref)
+
+    def writeOperationArgumentInComponentInstanceRef(self, element: ET.Element, iref: OperationArgumentInComponentInstanceRef):
+        for context_component_ref in iref.getContextComponentRefs():
+            self.setChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF", context_component_ref)
+        self.setChildElementOptionalRefType(element, "CONTEXT-PORT-PROTOTYPE-REF", iref.getContextPortPrototypeRef())
+        self.setChildElementOptionalRefType(element, "CONTEXT-OPERATION-REF", iref.getContextOperationRef())
+        self.setChildElementOptionalRefType(element, "ROOT-ARGUMENT-DATA-PROTOTYPE-REF", iref.getRootArgumentDataPrototypeRef())
+        for context_data_prototype_ref in iref.getContextDataPrototypeRefs():
+            self.setChildElementOptionalRefType(element, "CONTEXT-DATA-PROTOTYPE-REF", context_data_prototype_ref)
+        self.setChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF", iref.getTargetDataPrototypeRef())
 
     def writeTimingConstraint(self, element: ET.Element, constraint: TimingConstraint):
         self.writeIdentifiable(element, constraint)

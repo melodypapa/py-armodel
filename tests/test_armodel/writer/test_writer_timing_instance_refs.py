@@ -3,7 +3,14 @@
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef, TimingExtensionResource, TimingModeInstance
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
+    AutosarOperationArgumentInstance,
+    ModeInBswInstanceRef,
+    ModeInSwcInstanceRef,
+    OperationArgumentInComponentInstanceRef,
+    TimingExtensionResource,
+    TimingModeInstance,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -162,3 +169,74 @@ class TestWriteTimingInstanceRefs:
         reloaded = ARXMLParser().readTimingExtensionResource(parent, _round_trip(element))
         assert reloaded.getShortName() == "Resource1"
         assert reloaded.getTimingModes() == []
+
+
+class TestWriteAutosarOperationArgumentInstance:
+    def _parent(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        return document.createARPackage("AUTOSAR")
+
+    def test_round_trip_autosar_operation_argument_instance(self):
+        parent = self._parent()
+        instance = AutosarOperationArgumentInstance(parent, "Arg1")
+        instance.setOperationArgumentInstanceIRef(RefType().setValue("/Pkg/DP").setDest("DATA-PROTOTYPE"))
+
+        element = ET.Element("AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
+        ARXMLWriter().writeAutosarOperationArgumentInstance(element, instance)
+        iref_tag = element.find("OPERATION-ARGUMENT-INSTANCE-IREF")
+        assert iref_tag is not None
+        target = iref_tag.find("TARGET-DATA-PROTOTYPE-REF")
+        assert target is not None
+        assert target.text == "/Pkg/DP"
+        assert target.attrib["DEST"] == "DATA-PROTOTYPE"
+
+        reloaded = ARXMLParser().readAutosarOperationArgumentInstance(parent, _round_trip(element))
+        assert reloaded.getShortName() == "Arg1"
+        iref = reloaded.getOperationArgumentInstanceIRef()
+        assert iref.getValue() == "/Pkg/DP"
+        assert iref.getDest() == "DATA-PROTOTYPE"
+
+    def test_write_without_iref(self):
+        parent = self._parent()
+        instance = AutosarOperationArgumentInstance(parent, "Arg1")
+
+        element = ET.Element("AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
+        ARXMLWriter().writeAutosarOperationArgumentInstance(element, instance)
+        assert element.find("OPERATION-ARGUMENT-INSTANCE-IREF") is None
+
+
+class TestWriteOperationArgumentInComponentInstanceRef:
+    def test_round_trip_operation_argument_in_component_instance_ref(self):
+        iref = OperationArgumentInComponentInstanceRef()
+        iref.addContextComponentRef(RefType().setValue("/Pkg/SwcProto1").setDest("SW-COMPONENT-PROTOTYPE"))
+        iref.addContextComponentRef(RefType().setValue("/Pkg/SwcProto2").setDest("SW-COMPONENT-PROTOTYPE"))
+        iref.setContextPortPrototypeRef(RefType().setValue("/Pkg/Port").setDest("PORT-PROTOTYPE"))
+        iref.setContextOperationRef(RefType().setValue("/Pkg/Op").setDest("CLIENT-SERVER-OPERATION"))
+        iref.setRootArgumentDataPrototypeRef(RefType().setValue("/Pkg/RootArg").setDest("ARGUMENT-DATA-PROTOTYPE"))
+        iref.setTargetDataPrototypeRef(RefType().setValue("/Pkg/DP").setDest("DATA-PROTOTYPE"))
+
+        element = ET.Element("OPERATION-ARGUMENT-INSTANCE-IREF")
+        ARXMLWriter().writeOperationArgumentInComponentInstanceRef(element, iref)
+        context_components = element.findall("CONTEXT-COMPONENT-REF")
+        assert len(context_components) == 2
+        assert context_components[0].text == "/Pkg/SwcProto1"
+        assert element.find("CONTEXT-PORT-PROTOTYPE-REF").text == "/Pkg/Port"
+        assert element.find("CONTEXT-OPERATION-REF").text == "/Pkg/Op"
+        assert element.find("ROOT-ARGUMENT-DATA-PROTOTYPE-REF").text == "/Pkg/RootArg"
+        assert element.find("TARGET-DATA-PROTOTYPE-REF").text == "/Pkg/DP"
+
+        reloaded = ARXMLParser().readOperationArgumentInComponentInstanceRef(_round_trip(element))
+        assert len(reloaded.getContextComponentRefs()) == 2
+        assert reloaded.getContextComponentRefs()[1].getValue() == "/Pkg/SwcProto2"
+        assert reloaded.getContextPortPrototypeRef().getValue() == "/Pkg/Port"
+        assert reloaded.getContextOperationRef().getValue() == "/Pkg/Op"
+        assert reloaded.getRootArgumentDataPrototypeRef().getValue() == "/Pkg/RootArg"
+        assert reloaded.getTargetDataPrototypeRef().getValue() == "/Pkg/DP"
+
+    def test_write_empty(self):
+        iref = OperationArgumentInComponentInstanceRef()
+        element = ET.Element("OPERATION-ARGUMENT-INSTANCE-IREF")
+        ARXMLWriter().writeOperationArgumentInComponentInstanceRef(element, iref)
+        assert len(element.findall("*")) == 0

@@ -82,16 +82,47 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: resolved — modeInstance now typed Optional[ModeInSwcBswInstanceRef]; the abstract base placeholder is implemented (no deferred deviation remains)
   - [x] Step 9 — Verify (9a) + confirm (9b) — # Spec verified: R23-11 stamped
-- [ ] TimingExtensionResource (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.9 · timingArgument -> AutosarOperationArgumentInstance is a Rule 0001.10 placeholder, not queued)
+- [x] OperationArgumentInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00046.xsd OPERATION-ARGUMENT-IN-COMPONENT-INSTANCE-REF group · dependency of AutosarOperationArgumentInstance.operationArgumentInstance · parallels ModeInSwcInstanceRef · no own PDF table, so no # Spec verified: marker) [<HASH>]
+- [ ] AutosarOperationArgumentInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.53 · operationArgumentInstance re-typed to aggregate OperationArgumentInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingArgument placeholder)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green) — base Identifiable; timingArguments/timingVariables List[RefType] placeholders, timingModes List[TimingModeInstance] + createTimingMode(short_name)
+  - [x] Step 3 — Implement model class (Green) — REWORK: currently operationArgumentInstanceIRef: Optional[RefType]; change to Optional[OperationArgumentInComponentInstanceRef]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — REWORK pending InstanceRef class
+  - [x] Step 6 — Update parser & writer (Green) — REWORK: read/write OPERATION-ARGUMENT-INSTANCE-IREF via OperationArgumentInComponentInstanceRef
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: will be resolved by aggregating OperationArgumentInComponentInstanceRef
+  - [ ] Step 9 — REWORK pending: re-type operationArgumentInstanceIRef, re-run 9a/9b
+- [ ] VariableInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00046.xsd VARIABLE-IN-COMPONENT-INSTANCE-REF group · dependency of AutosarVariableInstance.variableInstance · parallels ModeInSwcInstanceRef · no own PDF table, so no # Spec verified: marker)
+  - [ ] Step 1 — Sync members & description from XSD
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)  [no stamp — XSD-only]
+- [ ] AutosarVariableInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.52 · variableInstance re-typed to aggregate VariableInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingVariable placeholder)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TimingExtensionResource (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.9 · timingArgument/timingVariable -> aggregate AutosarOperationArgumentInstance/AutosarVariableInstance (reworked above) replacing the Rule 0001.10 RefType placeholders)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base Identifiable; timingModes List[TimingModeInstance] + createTimingMode(short_name); timingArguments/timingVariables still List[RefType] placeholders (REWORK to List[AutosarOperationArgumentInstance]/List[AutosarVariableInstance])
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
   - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingExtensionResource, TIMING-MODES wrapper only when non-empty; empty-wrapper case tested
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingExtensionResource, TIMING-MODES wrapper only when non-empty; empty-wrapper case tested; timingArguments/timingVariables REWORK to aggregate real classes
   - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations: AutosarOperationArgumentInstance/AutosarVariableInstance placeholders (Rule 0001.10), reader/writer deferred for those items
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 8 — Deviations: being resolved by aggregating AutosarOperationArgumentInstance/AutosarVariableInstance
+  - [ ] Step 9 — REWORK pending the two item-class aggregations
 - [ ] TimingCondition (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.7 · ref target of TimingConstraint.timingCondition · aggregates TimingConditionFormula)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)

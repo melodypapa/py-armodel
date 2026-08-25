@@ -3,7 +3,13 @@
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef, TimingModeInstance
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
+    AutosarOperationArgumentInstance,
+    ModeInBswInstanceRef,
+    ModeInSwcInstanceRef,
+    OperationArgumentInComponentInstanceRef,
+    TimingModeInstance,
+)
 from armodel.parser.arxml_parser import ARXMLParser
 
 
@@ -197,3 +203,81 @@ class TestReadTimingExtensionResource:
         resource = ARXMLParser().readTimingExtensionResource(parent, _round_trip(element))
         assert resource.getShortName() == "Resource1"
         assert resource.getTimingModes() == []
+
+
+class TestReadAutosarOperationArgumentInstance:
+    def _build_element(self) -> ET.Element:
+        element = ET.Element("AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
+        ET.SubElement(element, "SHORT-NAME").text = "Arg1"
+        iref_tag = ET.SubElement(element, "OPERATION-ARGUMENT-INSTANCE-IREF")
+        target = ET.SubElement(iref_tag, "TARGET-DATA-PROTOTYPE-REF")
+        target.attrib["DEST"] = "DATA-PROTOTYPE"
+        target.text = "/Pkg/DP"
+        return element
+
+    def test_read_with_iref(self):
+        parent = _parent()
+        instance = ARXMLParser().readAutosarOperationArgumentInstance(parent, _round_trip(self._build_element()))
+        assert isinstance(instance, AutosarOperationArgumentInstance)
+        assert instance.getShortName() == "Arg1"
+        iref = instance.getOperationArgumentInstanceIRef()
+        assert iref is not None
+        assert iref.getValue() == "/Pkg/DP"
+        assert iref.getDest() == "DATA-PROTOTYPE"
+
+    def test_read_without_iref(self):
+        parent = _parent()
+        element = ET.Element("AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
+        ET.SubElement(element, "SHORT-NAME").text = "Arg1"
+
+        instance = ARXMLParser().readAutosarOperationArgumentInstance(parent, _round_trip(element))
+        assert instance.getOperationArgumentInstanceIRef() is None
+
+
+class TestReadOperationArgumentInComponentInstanceRef:
+    def _build_element(self) -> ET.Element:
+        element = ET.Element("OPERATION-ARGUMENT-INSTANCE-IREF")
+        comp1 = ET.SubElement(element, "CONTEXT-COMPONENT-REF")
+        comp1.attrib["DEST"] = "SW-COMPONENT-PROTOTYPE"
+        comp1.text = "/Pkg/SwcProto1"
+        comp2 = ET.SubElement(element, "CONTEXT-COMPONENT-REF")
+        comp2.attrib["DEST"] = "SW-COMPONENT-PROTOTYPE"
+        comp2.text = "/Pkg/SwcProto2"
+        port_ref = ET.SubElement(element, "CONTEXT-PORT-PROTOTYPE-REF")
+        port_ref.attrib["DEST"] = "PORT-PROTOTYPE"
+        port_ref.text = "/Pkg/Port"
+        op_ref = ET.SubElement(element, "CONTEXT-OPERATION-REF")
+        op_ref.attrib["DEST"] = "CLIENT-SERVER-OPERATION"
+        op_ref.text = "/Pkg/Op"
+        root_ref = ET.SubElement(element, "ROOT-ARGUMENT-DATA-PROTOTYPE-REF")
+        root_ref.attrib["DEST"] = "ARGUMENT-DATA-PROTOTYPE"
+        root_ref.text = "/Pkg/RootArg"
+        target = ET.SubElement(element, "TARGET-DATA-PROTOTYPE-REF")
+        target.attrib["DEST"] = "DATA-PROTOTYPE"
+        target.text = "/Pkg/DP"
+        return element
+
+    def test_read_all_members(self):
+        iref = ARXMLParser().readOperationArgumentInComponentInstanceRef(_round_trip(self._build_element()))
+        assert isinstance(iref, OperationArgumentInComponentInstanceRef)
+        context_components = iref.getContextComponentRefs()
+        assert len(context_components) == 2
+        assert context_components[0].getValue() == "/Pkg/SwcProto1"
+        assert context_components[0].getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert iref.getContextPortPrototypeRef().getValue() == "/Pkg/Port"
+        assert iref.getContextPortPrototypeRef().getDest() == "PORT-PROTOTYPE"
+        assert iref.getContextOperationRef().getValue() == "/Pkg/Op"
+        assert iref.getContextOperationRef().getDest() == "CLIENT-SERVER-OPERATION"
+        assert iref.getRootArgumentDataPrototypeRef().getValue() == "/Pkg/RootArg"
+        assert iref.getTargetDataPrototypeRef().getValue() == "/Pkg/DP"
+        assert iref.getTargetDataPrototypeRef().getDest() == "DATA-PROTOTYPE"
+
+    def test_read_empty(self):
+        element = ET.Element("OPERATION-ARGUMENT-INSTANCE-IREF")
+        iref = ARXMLParser().readOperationArgumentInComponentInstanceRef(_round_trip(element))
+        assert iref.getContextComponentRefs() == []
+        assert iref.getContextPortPrototypeRef() is None
+        assert iref.getContextOperationRef() is None
+        assert iref.getRootArgumentDataPrototypeRef() is None
+        assert iref.getContextDataPrototypeRefs() == []
+        assert iref.getTargetDataPrototypeRef() is None

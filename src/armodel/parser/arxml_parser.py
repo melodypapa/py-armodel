@@ -205,7 +205,13 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingCondition, TimingExtensionResource, TimingModeInstance
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
+    AutosarOperationArgumentInstance,
+    OperationArgumentInComponentInstanceRef,
+    TimingCondition,
+    TimingExtensionResource,
+    TimingModeInstance,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
@@ -2198,6 +2204,26 @@ class ARXMLParser(AbstractARXMLParser):
             mode = resource.createTimingMode(self.getShortName(child_element))
             self.readTimingModeInstance(child_element, mode)
         return resource
+
+    def readAutosarOperationArgumentInstance(self, parent, element: ET.Element) -> AutosarOperationArgumentInstance:
+        instance = AutosarOperationArgumentInstance(parent, self.getShortName(element))
+        self.readIdentifiable(element, instance)
+        iref_element = self.find(element, "OPERATION-ARGUMENT-INSTANCE-IREF")
+        if iref_element is not None:
+            instance.setOperationArgumentInstanceIRef(self.getChildElementOptionalRefType(iref_element, "TARGET-DATA-PROTOTYPE-REF"))
+        return instance
+
+    def readOperationArgumentInComponentInstanceRef(self, element: ET.Element) -> OperationArgumentInComponentInstanceRef:
+        iref = OperationArgumentInComponentInstanceRef()
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+            iref.addContextComponentRef(ref)
+        iref.setContextPortPrototypeRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-PROTOTYPE-REF"))
+        iref.setContextOperationRef(self.getChildElementOptionalRefType(element, "CONTEXT-OPERATION-REF"))
+        iref.setRootArgumentDataPrototypeRef(self.getChildElementOptionalRefType(element, "ROOT-ARGUMENT-DATA-PROTOTYPE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-DATA-PROTOTYPE-REF"):
+            iref.addContextDataPrototypeRef(ref)
+        iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))
+        return iref
 
     def readTimingConstraint(self, element: ET.Element, constraint: TimingConstraint):
         self.readIdentifiable(element, constraint)
