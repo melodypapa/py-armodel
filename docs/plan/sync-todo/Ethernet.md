@@ -499,16 +499,28 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (9a automated verification only — pytest 7261 passed incl. lossless integration round trip,
     black/black-check/lint clean, checklist==methods 1:1 source order, verbatim Note diff OK,
     no receiver-chain mutators in new code; 9b stamp DEFERRED to batch pass)
-- [ ] SoAdConfig (markdown SystemTemplate · Table 6.117 · p.451 · source Fibex4Ethernet/ServiceInstances.py · adds logicAddress ref to existing DoIpLogicAddress)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] SoAdConfig (markdown SystemTemplate · Table 6.117 · p.452 · source Fibex4Ethernet/ServiceInstances.py) — STAMP DEFERRED (batch 9b pending); SYNCED AFTER SocketConnection (reorder per Rule 0016.5)
+  - [x] Step 1 — Sync members & description from spec
+    (Table 6.117 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:11920–11937 + PDF p.452;
+    Base ARObject; 3 attr rows: connection * aggr obsolete, connectionBundle * aggr obsolete, socketAddress * aggr;
+    queue note "adds logicAddress ref" is STALE — no logicAddress row in the R23-11 table, XSD-only LOGIC-ADDRESSS
+    wrapper NOT modeled per Rule 0015)
+  - [x] Step 2 — Model test rewritten to spec shape (Red — createSocketConnection/addConnection missing,
+    legacy bulk setters asserted)
+  - [x] Step 3 — Implement model class (Green)
+    (addConnection/getConnections; createSocketConnectionBundle/getConnectionBundles;
+    createSocketAddress/getSocketAddresses; bulk setters removed as non-spec-shaped)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    (class Note verbatim "SoAd Configuration for one specific Physical Channel."; member Notes verbatim
+    incl. obsolete wording)
+  - [x] Step 5/6 — Reader/writer round-trip test + wiring
+    (tests/test_armodel/writer/test_so_ad_config.py: CONNECTIONS/BUNDLES/SOCKET-ADDRESSS round trip with new
+     SocketConnection members; parser readSoAdConfigConnections + writer writeSoAdConfigConnections added in XSD order)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (tracker updated: naming deviations resolved to convention notes; stale logicAddress resolution recorded)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7318 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] EventHandler (markdown SystemTemplate · Table 6.166 · p.492 · source Fibex4Ethernet/ServiceInstances.py · depends on SomeipSdServerEventGroupTimingConfig above; adds eventGroupIdentifier, eventMulticastAddress, pduActivationRoutingGroup, sdServerEgTimingConfig)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -609,13 +621,19 @@ row below and must sync BEFORE the class that references it. All rows below are 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] SocketConnection (obsolete · p.2057 · source Fibex4Ethernet/EthernetCommunication.py · adds autosarConnector, doIpSourceAddressRef/doIpTargetAddressRef, ident → TpConnectionIdent, localPortRef/remotePortRef → SocketAddress Ref, nPduRef, socketProtocol)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] SocketConnection (obsolete · p.2057 · source Fibex4Ethernet/EthernetCommunication.py · adds autosarConnector, doIpSourceAddressRef/doIpTargetAddressRef, ident → TpConnectionIdent, localPortRef/remotePortRef → SocketAddress Ref, nPduRef, socketProtocol) — SYNCED AHEAD OF SoAdConfig (dependency-first, Rule 0016.5); XSD-ONLY CLASS: no R23-11 table exists (obsolete, Rel 4.4.0 documentation) — Rule 0002 exclusion, no # Spec line/marker applicable
+  - [x] Step 1 — Derive members from XSD SOCKET-CONNECTION group (AUTOSAR_00052.xsd); Base ARObject+DESCRIBABLE → stays Describable; 19 elements incl. 8 newly modelled
+  - [x] Step 2 — Model test rewritten to XSD shape (Red — new accessors missing)
+  - [x] Step 3 — Implement model class (Green)
+    (adds autosarConnector, doIpSource/TargetAddressRef, ident→TpConnectionIdent, localPortRef, nPduRef,
+    remotePortRef, socketProtocol; typed Optional/List fields, guarded setters, verbatim XSD Notes;
+    removed non-XSD pduSocketConnectionIpdus duplicate)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5/6 — Reader/writer extended
+    (setSocketConnection/getSocketConnection cover all XSD children in group order incl. IDENT via writeReferrable/
+     readReferrable; SoAdConfig CONNECTIONS wrapper wired both sides)
+  - [x] Step 7 — Checklist comment (XSD-only form, all rows checked, no marker)
+  - [x] Step 8 — Deviations
+    (tracker section added; SoAdConnectorType/SoAdProtocolType enums carried as ARLiteral placeholders, Rule 0001.10)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7318 passed, black/black-check/lint clean; marker N/A per Rule 0002)

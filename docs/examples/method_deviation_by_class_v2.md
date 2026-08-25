@@ -1546,14 +1546,39 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 | — *(missing)* | `—` | `assignedLinSlaveConfig` | ``LinSlaveConfigIdent`` | ref | missing |
 
 ## `SoAdConfig`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 451
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 452
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `connections` | `List[SocketConnection]` | `connection` | ``SocketConnection`` | aggr | naming |
-| `connectionBundles` | `List[SocketConnectionBundle]` | `connectionBundle` | ``SocketConnection Bundle`` | aggr | naming |
+| `connections` | `List[SocketConnection]` | `connection` | ``SocketConnection`` | aggr | singular spec member modelled per project convention (`addConnection`/`getConnections`); spec Note marks the aggregation obsolete (kept, Table 6.117 wins) |
+| `connectionBundles` | `List[SocketConnectionBundle]` | `connectionBundle` | ``SocketConnection Bundle`` | aggr | singular spec member modelled per project convention (`createSocketConnectionBundle`/`getConnectionBundles`); spec Note marks the aggregation obsolete (kept) |
+| `socketAddresses` | `List[SocketAddress]` | `socketAddress` | ``SocketAddress`` | aggr | singular spec member modelled per project convention (`createSocketAddress`/`getSocketAddresses`) |
+
+Resolution of the queue note ("adds logicAddress ref"): Table 6.117 (markdown
+AUTOSAR_CP_TPS_SystemTemplate.md:11920–11937 + PDF p.452) has NO logicAddress row; the XSD-only
+LOGIC-ADDRESSS wrapper is not part of the R23-11 table — NOT modeled per Rule 0015/the-table-wins.
+Queue note is stale. Bulk setters setConnections/setConnectionBundles were removed as non-spec-shaped.
+
+## `SocketConnection`
+- **PDF:** n/a — obsolete class, no R23-11 table (Rel 4.4.0 System Template documentation); attributes derived from the XSD `SOCKET-CONNECTION` group in `docs/requirements/xsd/AUTOSAR_00052.xsd` (Rule 0002)
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetCommunication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetCommunication.py`
+
+| Name in source code | Type (source) | Member name (XSD) | Type (XSD) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `autosarConnector` | `Optional[ARLiteral]` | `autosarConnector` | ``SoAdConnectorType`` | attr | enum `SoAdConnectorType` not implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `doIpSourceAddressRef` | `Optional[RefType]` | `doIpSourceAddressRef` | ``DoIpLogicAddress`` | ref | - |
+| `doIpTargetAddressRef` | `Optional[RefType]` | `doIpTargetAddressRef` | ``DoIpLogicAddress`` | ref | - |
+| `ident` | `Optional[TpConnectionIdent]` | `ident` | ``TpConnectionIdent`` | aggr | - |
+| `localPortRef` | `Optional[RefType]` | `localPortRef` | ``SocketAddress`` | ref | spec/XSD marks the reference obsolete (kept per XSD) |
+| `nPduRef` | `Optional[RefType]` | `nPduRef` | ``NpDu`` | ref | - |
+| `remotePortRef` | `Optional[RefType]` | `remotePortRef` | ``SocketAddress`` | ref | spec/XSD marks the reference obsolete (kept per XSD) |
+| `socketProtocol` | `Optional[ARLiteral]` | `socketProtocol` | ``SoAdProtocolType`` | attr | enum `SoAdProtocolType` not implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+
+Removed non-XSD member `pduSocketConnectionIpdus` (duplicate of `pdus`, unused outside the class).
+Base stays `Describable` per XSD complexType groups (AR-OBJECT + DESCRIBABLE).
 
 ## `SocketAddress`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 453

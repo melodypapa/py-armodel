@@ -18,7 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import RequestResponseDelay, SdClientConfig
 
 
@@ -2109,51 +2109,61 @@ class SocketAddress(Identifiable):
 
 class SoAdConfig(ARObject):
     """
-    Defines Socket Adaptor (SoAd) configuration, specifying socket
-    connections, connection bundles, and socket address configurations
-    for TCP/IP communication management in AUTOSAR systems.
+    SoAd Configuration for one specific Physical Channel.
     """
 
     # SoAdConfig method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getConnections               [x] impl  [ ] docstring  [ ] test
-    # [ ] setConnections               [x] impl  [ ] docstring  [ ] test
-    # [ ] getConnectionBundles         [x] impl  [ ] docstring  [ ] test
-    # [ ] createSocketConnectionBundle [x] impl  [ ] docstring  [ ] test
-    # [ ] setConnectionBundles         [x] impl  [ ] docstring  [ ] test
-    # [ ] getSocketAddresses           [x] impl  [ ] docstring  [ ] test
-    # [ ] createSocketAddress          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.117, p.452
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addConnection                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getConnections               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createSocketConnectionBundle [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getConnectionBundles         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createSocketAddress          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSocketAddresses           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self):
         super().__init__()
 
-        self.connections = []  # type: List[SocketConnection]
-        self.connectionBundles = []  # type: List[SocketConnectionBundle]
-        self.socketAddresses = []  # type: List[SocketAddress]
+        # This aggregation is obsolete and will be removed in the future. The connectionGroup aggregation with bundled Connections shall be used instead. Old description: Collection of socket connections.
+        self.connections: List[SocketConnection] = []
 
-    def getConnections(self):
-        return self.connections
+        # Collection of SocketConnectionBundles.
+        self.connectionBundles: List[SocketConnectionBundle] = []
 
-    def setConnections(self, value):
-        self.connections = value
+        # Collection of SoAdAddresses.
+        self.socketAddresses: List[SocketAddress] = []
+
+    def addConnection(self, value: Optional[SocketConnection]) -> "SoAdConfig":
+        """
+        This aggregation is obsolete and will be removed in the future. The connectionGroup aggregation with bundled Connections shall be used instead. Old description: Collection of socket connections.
+        A None value is a no-op and does not append to connections.
+        """
+        if value is not None:
+            self.connections.append(value)
         return self
 
-    def getConnectionBundles(self):
-        return self.connectionBundles
+    def getConnections(self) -> List[SocketConnection]:
+        """This aggregation is obsolete and will be removed in the future. The connectionGroup aggregation with bundled Connections shall be used instead. Old description: Collection of socket connections."""
+        return self.connections
 
     def createSocketConnectionBundle(self, short_name: str) -> SocketConnectionBundle:
+        """Collection of SocketConnectionBundles."""
         bundle = SocketConnectionBundle(self, short_name)
         self.connectionBundles.append(bundle)
         return bundle
 
-    def setConnectionBundles(self, value):
-        self.connectionBundles = value
-        return self
-
-    def getSocketAddresses(self):
-        return self.socketAddresses
+    def getConnectionBundles(self) -> List[SocketConnectionBundle]:
+        """Collection of SocketConnectionBundles."""
+        return self.connectionBundles
 
     def createSocketAddress(self, short_name: str) -> SocketAddress:
+        """Collection of SoAdAddresses."""
         address = SocketAddress(self, short_name)
         self.socketAddresses.append(address)
         return address
+
+    def getSocketAddresses(self) -> List[SocketAddress]:
+        """Collection of SoAdAddresses."""
+        return self.socketAddresses

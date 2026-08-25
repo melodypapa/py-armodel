@@ -4,7 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import SdClientConfig
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     AbstractServiceInstance,
@@ -631,7 +631,9 @@ class Test_Fibex4EthernetServiceInstances:
         assert address.getApplicationEndpoint() == app_endpoint
 
     def test_SoAdConfig(self):
-        """Test SoAdConfig class functionality."""
+        """
+        Test SoAdConfig class functionality (Table 6.117).
+        """
         config = SoAdConfig()
 
         assert isinstance(config, ARObject)
@@ -641,31 +643,25 @@ class Test_Fibex4EthernetServiceInstances:
         assert config.getConnectionBundles() == []
         assert config.getSocketAddresses() == []
 
-        # Test setter/getter methods with method chaining
-        config.setConnections(["connection1", "connection2"])
-        assert "connection1" in config.getConnections()
-        assert config == config.setConnections(["connection1", "connection2"])  # Test method chaining
+        # Test addConnection (connection * aggr, obsolete; SocketConnection is a Describable value type — not Referrable)
+        connection = SocketConnection()
+        result = config.addConnection(connection)
+        assert config.getConnections() == [connection]
+        assert result == config  # method chaining
 
-        config.setConnectionBundles(["bundle1", "bundle2"])
-        assert "bundle1" in config.getConnectionBundles()
-        assert config == config.setConnectionBundles(["bundle1", "bundle2"])  # Test method chaining
-
-        # Test create method for socket connection bundle - this should add to the existing list
+        # Test createSocketConnectionBundle (connectionBundle * aggr, obsolete)
         bundle = config.createSocketConnectionBundle("test_bundle")
         assert isinstance(bundle, SocketConnectionBundle)
-        assert len(config.getConnectionBundles()) == 3  # 2 from setConnectionBundles + 1 from createSocketConnectionBundle
+        assert len(config.getConnectionBundles()) == 1
 
-        # Create another config to test just the create method
-        config2 = SoAdConfig()
-        bundle2 = config2.createSocketConnectionBundle("test_bundle2")
-        assert isinstance(bundle2, SocketConnectionBundle)
-        assert len(config2.getConnectionBundles()) == 1
+        config.createSocketConnectionBundle("test_bundle2")
+        assert len(config.getConnectionBundles()) == 2
 
-        # Test createSocketAddress method
-        config3 = SoAdConfig()
-        socket_addr = config3.createSocketAddress("test_socket_addr")
+        # Test createSocketAddress (socketAddress * aggr)
+        socket_addr = config.createSocketAddress("test_socket_addr")
         assert isinstance(socket_addr, SocketAddress)
-        assert len(config3.getSocketAddresses()) == 1
+        assert len(config.getSocketAddresses()) == 1
+        assert config.getSocketAddresses()[0].getShortName() == "test_socket_addr"
 
 
 class TestSomeipSdClientServiceInstanceConfig:

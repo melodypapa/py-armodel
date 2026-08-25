@@ -464,7 +464,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordElementMapping,
     SenderRecRecordTypeMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection, TpConnectionIdent
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanAddressingModeType,
@@ -6166,16 +6166,29 @@ class ARXMLParser(AbstractARXMLParser):
         connection = None
         if element is not None:
             connection = SocketConnection()
+            connection.setAllowedIPv6ExtHeadersRef(self.getChildElementOptionalRefType(element, "ALLOWED-I-PV-6-EXT-HEADERS-REF"))
+            connection.setAllowedTcpOptionsRef(self.getChildElementOptionalRefType(element, "ALLOWED-TCP-OPTIONS-REF"))
+            connection.setAutosarConnector(self.getChildElementOptionalLiteral(element, "AUTOSAR-CONNECTOR"))
             connection.setClientIpAddrFromConnectionRequest(self.getChildElementOptionalBooleanValue(element, "CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST"))
             connection.setClientPortFromConnectionRequest(self.getChildElementOptionalBooleanValue(element, "CLIENT-PORT-FROM-CONNECTION-REQUEST"))
             connection.setClientPortRef(self.getChildElementOptionalRefType(element, "CLIENT-PORT-REF"))  # NOQA E501
+            connection.setDoIpSourceAddressRef(self.getChildElementOptionalRefType(element, "DO-IP-SOURCE-ADDRESS-REF"))
+            connection.setDoIpTargetAddressRef(self.getChildElementOptionalRefType(element, "DO-IP-TARGET-ADDRESS-REF"))
+            ident_element = self.find(element, "IDENT")
+            if ident_element is not None:
+                connection.setIdent(TpConnectionIdent(None, self.getShortName(ident_element)))
+                self.readReferrable(ident_element, connection.getIdent())
+            connection.setLocalPortRef(self.getChildElementOptionalRefType(element, "LOCAL-PORT-REF"))
+            connection.setNPduRef(self.getChildElementOptionalRefType(element, "N-PDU-REF"))
             for pdu in self.getSocketConnectionPdus(element):
                 connection.addPdu(pdu)
             connection.setPduCollectionMaxBufferSize(self.getChildElementOptionalPositiveInteger(element, "PDU-COLLECTION-MAX-BUFFER-SIZE"))
             connection.setPduCollectionTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-TIMEOUT"))
+            connection.setRemotePortRef(self.getChildElementOptionalRefType(element, "REMOTE-PORT-REF"))
             connection.setRuntimeIpAddressConfiguration(self.getChildElementOptionalLiteral(element, "RUNTIME-IP-ADDRESS-CONFIGURATION"))
             connection.setRuntimePortConfiguration(self.getChildElementOptionalLiteral(element, "RUNTIME-PORT-CONFIGURATION"))
             connection.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+            connection.setSocketProtocol(self.getChildElementOptionalLiteral(element, "SOCKET-PROTOCOL"))
         return connection
 
     def readSocketConnectionBundleConnections(self, element: ET.Element, bundle: SocketConnectionBundle):
@@ -6529,11 +6542,20 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Socket Address <%s>" % tag_name)
 
+    def readSoAdConfigConnections(self, element: ET.Element, config: SoAdConfig):
+        for child_element in self.findall(element, "CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SOCKET-CONNECTION":
+                config.addConnection(self.getSocketConnection(child_element))
+            else:
+                self.notImplemented("Unsupported Connection <%s>" % tag_name)
+
     def getSoAdConfig(self, element: ET.Element, key: str) -> SoAdConfig:
         child_element = self.find(element, key)
         config = None
         if child_element is not None:
             config = SoAdConfig()
+            self.readSoAdConfigConnections(child_element, config)
             self.readSoAdConfigConnectionBundles(child_element, config)
             self.readSoAdConfigSocketAddresses(child_element, config)
         return config
