@@ -1605,6 +1605,21 @@ Resolution of the queue context ("adds ipAddress"): Table 6.118 (markdown AUTOSA
 
 Resolution of the three technology members (queue context): Table 6.124 (markdown AUTOSAR_CP_TPS_SystemTemplate.md:12091–12115 + PDF p.458 per pdf_page.py) has NO discoveryTechnology/remotingTechnology/serializationTechnologyRef rows; the XSD groups mark all three atp.Status="removed" (AUTOSAR_00052.xsd:3410/3452/3458). Rule 0015/the-table-wins: NOT modeled; the earlier "consumedServiceInstance missing" row was removed — it is implemented (`createConsumedServiceInstance`/`getConsumedServiceInstances`, dedicated typed list field).
 
+## `InfrastructureServices`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 469  | **table:** Table 6.144
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology` (modelled in NetworkEndpoint.py)
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/NetworkEndpoint.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `doIpEntity` | `Optional[DoIpEntity]` | `doIpEntity` | ``DoIpEntity`` | aggr | - |
+| `timeSynchronization` | `Optional[TimeSynchronization]` | `timeSynchronization` | ``TimeSynchronization`` | aggr | reader/writer cover the aggregation role and TIME-SYNC-SERVER identity; inner members of `TimeSyncClientConfiguration`/`TimeSyncServerConfiguration` (ORDERED-MASTER-LIST etc.) pending those classes' own sync (Rule 0001.10) |
+
+Removed member: `dhcpServerConfiguration` — atp.Status=removed since 4.3.1 and absent from the
+R23-11 Table 6.144; field/accessors plus its DHCP-SERVER-CONFIGURATION reader/writer wiring on this
+class were removed in this pass (Rule 0015/the-table-wins). DhcpServerConfiguration itself remains
+modelled for VlanMembership.dhcpAddressAssignment (Table 3.79).
+
 ## `Ipv6Configuration`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 466
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::NetworkEndpoint`

@@ -478,7 +478,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     VlanMembership,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import CanControllerConfiguration, CanXlProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint, NetworkEndpointAddress
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import (
+    DoIpEntity,
+    InfrastructureServices,
+    Ipv6Configuration,
+    NetworkEndpoint,
+    NetworkEndpointAddress,
+    TimeSynchronization,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     AbstractServiceInstance,
     ApplicationEndpoint,
@@ -6622,11 +6629,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "DO-IP-ENTITY-ROLE", entity.getDoIpEntityRole())
 
+    def setTimeSynchronization(self, element: ET.Element, sync: TimeSynchronization):
+        if sync is not None:
+            child_element = ET.SubElement(element, "TIME-SYNCHRONIZATION")
+            client = sync.getTimeSyncClient()
+            if client is not None:
+                ET.SubElement(child_element, "TIME-SYNC-CLIENT")
+            server = sync.getTimeSyncServer()
+            if server is not None:
+                server_element = ET.SubElement(child_element, "TIME-SYNC-SERVER")
+                self.writeReferrable(server_element, server)
+
     def setInfrastructureServices(self, element: ET.Element, key: str, services: InfrastructureServices):
         if services is not None:
             child_element = ET.SubElement(element, key)
             self.setDoIpEntity(child_element, "DO-IP-ENTITY", services.getDoIpEntity())
-            self.setDhcpServerConfiguration(child_element, "DHCP-SERVER-CONFIGURATION", services.getDhcpServerConfiguration())
+            self.setTimeSynchronization(child_element, services.getTimeSynchronization())
 
     def writeNetworkEndPoint(self, element: ET.Element, end_point: NetworkEndpoint):
         self.logger.debug("Set NetworkEndpoint %s" % end_point.getShortName())

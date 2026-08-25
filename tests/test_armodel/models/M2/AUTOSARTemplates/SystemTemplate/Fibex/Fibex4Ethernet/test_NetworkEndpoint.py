@@ -242,7 +242,7 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert result == sync  # Test method chaining
 
     def test_InfrastructureServices(self):
-        """Test InfrastructureServices class functionality."""
+        """Test InfrastructureServices class functionality (Table 6.144, p.469)."""
         services = InfrastructureServices()
 
         assert isinstance(services, ARObject)
@@ -250,6 +250,9 @@ class Test_Fibex4EthernetNetworkEndpoint:
         # Test default values
         assert services.getDoIpEntity() is None
         assert services.getTimeSynchronization() is None
+
+        # dhcpServerConfiguration is atp.Status=removed since 4.3.1 and absent from Table 6.144 (Rule 0015)
+        assert not hasattr(services, "dhcpServerConfiguration")
 
         # Test setter/getter methods with method chaining
         doip_entity = DoIpEntity()

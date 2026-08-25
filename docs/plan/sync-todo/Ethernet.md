@@ -561,16 +561,25 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (tracker: former dnsServerAddress missing row resolved and annotated; two enum placeholders recorded)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7332 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] InfrastructureServices (markdown SystemTemplate · Table 6.144 · p.469 · source Fibex4Ethernet/NetworkEndpoint.py · depends on DhcpServerConfiguration above; adds dhcpServerConfiguration)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] InfrastructureServices (markdown SystemTemplate · Table 6.144 · p.469 · source Fibex4Ethernet/NetworkEndpoint.py · depends on DhcpServerConfiguration above; adds dhcpServerConfiguration) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Sync members & description from spec
+    (Table 6.144 in markdown AUTOSAR_CP_TPS_SystemTemplate.md:12480–12490 + PDF p.469;
+    Base ARObject; only 2 attr rows: doIpEntity aggr, timeSynchronization aggr;
+    queue note "adds dhcpServerConfiguration" is STALE — atp.Status=removed since 4.3.1, absent from the
+    R23-11 table → field/accessors/reader-writer wiring REMOVED per Rule 0015/the-table-wins)
+  - [x] Step 2 — Model test updated to spec shape (Red — removed-member assertion + missing TIME-SYNC coverage)
+  - [x] Step 3 — Implement model class (Green) — verbatim Notes, typed Optional fields, guarded setters
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5/6 — Reader/writer round-trip test + wiring
+    (tests/test_armodel/writer/test_infrastructure_services.py: presence round trip incl. TIME-SYNCHRONIZATION
+     with TIME-SYNC-SERVER identity via writeReferrable/readReferrable; removed DHCP-SERVER-CONFIGURATION no longer
+     written on this path; inner TimeSyncClient/ServerConfiguration members deferred — deviation recorded)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (tracker: new InfrastructureServices section; dhcpServerConfiguration removal per Rule 0015;
+     timeSynchronization inner-members deferral recorded per Rule 0001.10)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7336 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] CouplingPortFifo (markdown SystemTemplate · Table 3.68 · p.124 · source Fibex4Ethernet/EthernetTopology.py · fixes assignedTrafficClass type)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

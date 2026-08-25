@@ -510,7 +510,15 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     VlanMembership,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import CanControllerConfiguration, CanXlProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import (
+    DoIpEntity,
+    InfrastructureServices,
+    Ipv6Configuration,
+    NetworkEndpoint,
+    TimeSyncClientConfiguration,
+    TimeSyncServerConfiguration,
+    TimeSynchronization,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     AbstractServiceInstance,
     ApplicationEndpoint,
@@ -6127,13 +6135,28 @@ class ARXMLParser(AbstractARXMLParser):
             entity.setDoIpEntityRole(self.getChildElementOptionalLiteral(child_element, "DO-IP-ENTITY-ROLE"))
         return entity
 
+    def getTimeSynchronization(self, element: ET.Element, key: str) -> TimeSynchronization:
+        sync = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            sync = TimeSynchronization()
+            client_element = self.find(child_element, "TIME-SYNC-CLIENT")
+            if client_element is not None:
+                sync.setTimeSyncClient(TimeSyncClientConfiguration())
+            server_element = self.find(child_element, "TIME-SYNC-SERVER")
+            if server_element is not None:
+                server = TimeSyncServerConfiguration(None, self.getShortName(server_element))
+                self.readReferrable(server_element, server)
+                sync.setTimeSyncServer(server)
+        return sync
+
     def getInfrastructureServices(self, element: ET.Element, key: str) -> InfrastructureServices:
         services = None
         child_element = self.find(element, key)
         if child_element is not None:
             services = InfrastructureServices()
             services.setDoIpEntity(self.getDoIpEntity(child_element, "DO-IP-ENTITY"))
-            services.setDhcpServerConfiguration(self.getDhcpServerConfiguration(child_element, "DHCP-SERVER-CONFIGURATION"))
+            services.setTimeSynchronization(self.getTimeSynchronization(child_element, "TIME-SYNCHRONIZATION"))
         return services
 
     def readNetworkEndPoint(self, element: ET.Element, end_point: NetworkEndpoint):

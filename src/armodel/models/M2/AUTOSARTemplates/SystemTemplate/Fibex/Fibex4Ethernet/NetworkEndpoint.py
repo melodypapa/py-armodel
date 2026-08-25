@@ -457,44 +457,51 @@ class TimeSynchronization(ARObject):
 
 class InfrastructureServices(ARObject):
     """
-    Defines infrastructure services available at a network endpoint,
-    including DoIP capabilities and time synchronization services
-    for network management and coordination.
+    Defines the network infrastructure services provided or consumed.
     """
 
     # InfrastructureServices method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDoIpEntity                [x] impl  [ ] docstring  [ ] test
-    # [ ] setDoIpEntity                [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeSynchronization       [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeSynchronization       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.144, p.469
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDoIpEntity                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDoIpEntity                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeSynchronization       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimeSynchronization       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.doIpEntity: DoIpEntity = None
-        self.dhcpServerConfiguration = None
-        self.timeSynchronization: TimeSynchronization = None
+        # Defines whether a infrastructure service that runs on the network endpoint is a DoIP-Entity.
+        self.doIpEntity: Optional[DoIpEntity] = None
 
-    def getDoIpEntity(self):
+        # Defines the servers / clients in a time synchronised network.
+        self.timeSynchronization: Optional[TimeSynchronization] = None
+
+    def getDoIpEntity(self) -> Optional[DoIpEntity]:
+        """Defines whether a infrastructure service that runs on the network endpoint is a DoIP-Entity."""
         return self.doIpEntity
 
-    def setDoIpEntity(self, value):
-        self.doIpEntity = value
+    def setDoIpEntity(self, value: Optional[DoIpEntity]) -> "InfrastructureServices":
+        """
+        Defines whether a infrastructure service that runs on the network endpoint is a DoIP-Entity.
+        A None value is a no-op and does not overwrite an existing doIpEntity.
+        """
+        if value is not None:
+            self.doIpEntity = value
         return self
 
-    def getDhcpServerConfiguration(self):
-        return self.dhcpServerConfiguration
-
-    def setDhcpServerConfiguration(self, value):
-        self.dhcpServerConfiguration = value
-        return self
-
-    def getTimeSynchronization(self):
+    def getTimeSynchronization(self) -> Optional[TimeSynchronization]:
+        """Defines the servers / clients in a time synchronised network."""
         return self.timeSynchronization
 
-    def setTimeSynchronization(self, value):
-        self.timeSynchronization = value
+    def setTimeSynchronization(self, value: Optional[TimeSynchronization]) -> "InfrastructureServices":
+        """
+        Defines the servers / clients in a time synchronised network.
+        A None value is a no-op and does not overwrite an existing timeSynchronization.
+        """
+        if value is not None:
+            self.timeSynchronization = value
         return self
 
 
