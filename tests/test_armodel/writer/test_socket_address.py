@@ -7,7 +7,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SocketAddress
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SocketAddress, StaticSocketConnection, UdpChecksumCalculationEnum
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -74,8 +74,8 @@ def _full_address():
     timeout.setValue("0.005")
     address.setPduCollectionTimeout(timeout)
 
-    checksum = ARLiteral()
-    checksum.setValue("UDP-CHECKSUM-ENABLED")
+    checksum = UdpChecksumCalculationEnum()
+    checksum.setValue(UdpChecksumCalculationEnum.UDP_CHECKSUM_ENABLED)
     address.setUdpChecksumHandling(checksum)
     return address
 
@@ -109,7 +109,7 @@ class TestWriteSocketAddress:
         assert el.find("PATH-MTU-DISCOVERY-ENABLED").text == "true"
         assert el.find("PDU-COLLECTION-MAX-BUFFER-SIZE").text == "1024"
         assert float(el.find("PDU-COLLECTION-TIMEOUT").text) == 0.005
-        assert el.find("UDP-CHECKSUM-HANDLING").text == "UDP-CHECKSUM-ENABLED"
+        assert el.find("UDP-CHECKSUM-HANDLING").text == "udpChecksumEnabled"
 
     def test_write_empty_fields_omits_optional_tags(self, writer):
         address = SocketAddress(MockParent(), "EmptyAddress")
@@ -165,7 +165,8 @@ class TestSocketAddressRoundTrip:
         assert recovered_address.getPathMtuDiscoveryEnabled().getValue() is True
         assert recovered_address.getPduCollectionMaxBufferSize().getValue() == 1024
         assert recovered_address.getPduCollectionTimeout().getValue() == 0.005
-        assert recovered_address.getUdpChecksumHandling().getValue() == "UDP-CHECKSUM-ENABLED"
+        assert isinstance(recovered_address.getUdpChecksumHandling(), UdpChecksumCalculationEnum)
+        assert recovered_address.getUdpChecksumHandling().getValue() == "udpChecksumEnabled"
 
     def test_reader_empty_fields(self, parser):
         element = ET.fromstring(f"<SOCKET-ADDRESS xmlns='{NS}'><SHORT-NAME>SA1</SHORT-NAME></SOCKET-ADDRESS>")
@@ -191,3 +192,58 @@ class TestSocketAddressRoundTrip:
 def _wrap(element: ET.Element) -> ET.Element:
     inner = ET.tostring(element).decode("utf-8")
     return ET.fromstring(f"<AUTOSAR xmlns='{NS}'>{inner}</AUTOSAR>")
+
+
+def _static_connection(short_name):
+    connection = StaticSocketConnection(MockParent(), short_name)
+    role = ARLiteral()
+    role.setValue("listen")
+    connection.setTcpRole(role)
+    return connection
+
+
+class TestSocketAddressStaticSocketConnections:
+    def test_write_static_socket_connections(self, writer):
+        parent = ET.Element("SO-AD-CONFIG")
+        address = SocketAddress(MockParent(), "SA1")
+        address.addStaticSocketConnection(_static_connection("SSC1"))
+        address.addStaticSocketConnection(_static_connection("SSC2"))
+        writer.writeSocketAddress(parent, address)
+
+        el = parent.find("SOCKET-ADDRESS")
+        wrapper = el.find("STATIC-SOCKET-CONNECTIONS")
+        assert wrapper is not None
+        entries = wrapper.findall("STATIC-SOCKET-CONNECTION")
+        assert len(entries) == 2
+        assert entries[0].find("SHORT-NAME").text == "SSC1"
+        assert entries[0].find("TCP-ROLE").text == "listen"
+        assert entries[1].find("SHORT-NAME").text == "SSC2"
+
+    def test_round_trip_preserves_static_socket_connections(self, writer, parser, tmp_path):
+        address = SocketAddress(MockParent(), "SA1")
+        address.addStaticSocketConnection(_static_connection("SSC1"))
+        address.addStaticSocketConnection(_static_connection("SSC2"))
+
+        parent = ET.Element("SO-AD-CONFIG")
+        writer.writeSocketAddress(parent, address)
+
+        out_file = str(tmp_path / "socket_address_ssc.arxml")
+        with open(out_file, "w", encoding="utf-8") as f:
+            f.write(ET.tostring(_wrap(parent), encoding="unicode"))
+
+        recovered = SocketAddress(MockParent(), "SA1")
+        tree = ET.parse(out_file)
+        parser.readSocketAddress(tree.getroot()[0][0], recovered)
+
+        connections = recovered.getStaticSocketConnections()
+        assert len(connections) == 2
+        assert isinstance(connections[0], StaticSocketConnection)
+        assert connections[0].getShortName() == "SSC1"
+        assert connections[0].getTcpRole().getValue() == "listen"
+        assert connections[1].getShortName() == "SSC2"
+
+    def test_reader_no_wrapper_leaves_list_empty(self, parser):
+        element = ET.fromstring(f"<SOCKET-ADDRESS xmlns='{NS}'><SHORT-NAME>SA1</SHORT-NAME></SOCKET-ADDRESS>")
+        recovered = SocketAddress(MockParent(), "SA1")
+        parser.readSocketAddress(element, recovered)
+        assert recovered.getStaticSocketConnections() == []

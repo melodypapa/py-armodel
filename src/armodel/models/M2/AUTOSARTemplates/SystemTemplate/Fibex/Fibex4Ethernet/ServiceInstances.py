@@ -1907,12 +1907,10 @@ class SocketAddress(Identifiable):
     # [x] setPduCollectionMaxBufferSize        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getPduCollectionTimeout              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setPduCollectionTimeout              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addStaticSocketConnection            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getStaticSocketConnections           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addStaticSocketConnection            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getStaticSocketConnections           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] getUdpChecksumHandling               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setUdpChecksumHandling               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # staticSocketConnections: StaticSocketConnection not yet implemented - reader/writer pending
-    # udpChecksumHandling: UdpChecksumCalculationEnum not yet implemented - carried as ARLiteral
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1948,12 +1946,10 @@ class SocketAddress(Identifiable):
         self.pduCollectionTimeout: Optional[TimeValue] = None
 
         # Definition of a static SocketConnection.
-        # (StaticSocketConnection class is not yet implemented - placeholder)
-        self.staticSocketConnections: List[ARObject] = []
+        self.staticSocketConnections: List[StaticSocketConnection] = []
 
         # Specifies if UDP checksum handling shall be enabled (udpChecksumEnabled) or skipped (udpChecksum Disabled) on the related socket connection.
-        # (UdpChecksumCalculationEnum class is not yet implemented - carried as ARLiteral)
-        self.udpChecksumHandling: Optional[ARLiteral] = None
+        self.udpChecksumHandling: Optional[UdpChecksumCalculationEnum] = None
 
     def getAllowedIPv6ExtHeadersRef(self) -> Optional[RefType]:
         """Reference to a list of IPv6 Extension Headers allowed for this SocketConnection. If no list is referenced all IPv6 Extension Headers are allowed and processed."""
@@ -2084,28 +2080,24 @@ class SocketAddress(Identifiable):
             self.pduCollectionTimeout = value
         return self
 
-    def addStaticSocketConnection(self, value: Optional[ARObject]) -> "SocketAddress":
+    def addStaticSocketConnection(self, value: Optional[StaticSocketConnection]) -> "SocketAddress":
         """
         Definition of a static SocketConnection.
-        (StaticSocketConnection class is not yet implemented - placeholder)
         A None value is a no-op and does not append to staticSocketConnections.
         """
         if value is not None:
             self.staticSocketConnections.append(value)
         return self
 
-    def getStaticSocketConnections(self) -> List[ARObject]:
-        """
-        Definition of a static SocketConnection.
-        (StaticSocketConnection class is not yet implemented - placeholder)
-        """
+    def getStaticSocketConnections(self) -> List[StaticSocketConnection]:
+        """Definition of a static SocketConnection."""
         return self.staticSocketConnections
 
-    def getUdpChecksumHandling(self) -> Optional[ARLiteral]:
+    def getUdpChecksumHandling(self) -> Optional[UdpChecksumCalculationEnum]:
         """Specifies if UDP checksum handling shall be enabled (udpChecksumEnabled) or skipped (udpChecksum Disabled) on the related socket connection."""
         return self.udpChecksumHandling
 
-    def setUdpChecksumHandling(self, value: Optional[ARLiteral]) -> "SocketAddress":
+    def setUdpChecksumHandling(self, value: Optional[UdpChecksumCalculationEnum]) -> "SocketAddress":
         """
         Specifies if UDP checksum handling shall be enabled (udpChecksumEnabled) or skipped (udpChecksum Disabled) on the related socket connection.
         A None value is a no-op and does not overwrite an existing udpChecksumHandling.

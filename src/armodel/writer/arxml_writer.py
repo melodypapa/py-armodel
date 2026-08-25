@@ -7046,6 +7046,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "PATH-MTU-DISCOVERY-ENABLED", address.getPathMtuDiscoveryEnabled())
         self.setChildElementOptionalPositiveInteger(child_element, "PDU-COLLECTION-MAX-BUFFER-SIZE", address.getPduCollectionMaxBufferSize())
         self.setChildElementOptionalTimeValue(child_element, "PDU-COLLECTION-TIMEOUT", address.getPduCollectionTimeout())
+        connections = address.getStaticSocketConnections()
+        if len(connections) > 0:
+            wrapper = ET.SubElement(child_element, "STATIC-SOCKET-CONNECTIONS")
+            for connection in connections:
+                self.setStaticSocketConnection(wrapper, connection)
         self.setChildElementOptionalLiteral(child_element, "UDP-CHECKSUM-HANDLING", address.getUdpChecksumHandling())
 
     def writeSoAdConfigSocketAddresses(self, element: ET.Element, config: SoAdConfig):

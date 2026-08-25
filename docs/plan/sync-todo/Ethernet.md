@@ -330,7 +330,24 @@ row below and must sync BEFORE the class that references it. All rows below are 
     methodActivationRoutingGroup row, Rule 0015 table-wins)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7313 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] SocketAddress RE-FIX (type staticSocketConnections → List[StaticSocketConnection], udpChecksumHandling → UdpChecksumCalculationEnum once they land; remove resolved deviation rows)
+- [ ] SocketAddress RE-FIX (type staticSocketConnections → List[StaticSocketConnection], udpChecksumHandling → UdpChecksumCalculationEnum once they land; remove resolved deviation rows) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Spec re-check (Tables 6.118/6.119/6.201 unchanged; member classes landed)
+  - [x] Step 2 — Retype round-trip tests (Red)
+    (test_socket_address.py: fixture switched to enum, isinstance asserts, new TestSocketAddressStaticSocketConnections
+    write + tmp_path round-trip + empty-reader cases; Red confirmed — 3 failed incl. old literal text assertion,
+    updated to spec value udpChecksumEnabled)
+  - [x] Step 3/4 — Model retyped (staticSocketConnections → List[StaticSocketConnection],
+    udpChecksumHandling → Optional[UdpChecksumCalculationEnum]; placeholder docstring lines removed;
+    checklist reader/writer columns flipped)
+  - [x] Step 5/6 — Parser & writer wired
+    (parser readSocketAddress: STATIC-SOCKET-CONNECTIONS loop via getStaticSocketConnection + enum construction for
+     UDP-CHECKSUM-HANDLING; writer writeSocketAddress: STATIC-SOCKET-CONNECTIONS wrapper before UDP-CHECKSUM-HANDLING
+     per XSD group order)
+  - [x] Step 7 — Checklist comment updated
+  - [x] Step 8 — Deviations
+    (tracker: both placeholder rows resolved and annotated; SocketAddress now has zero open deviations)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7316 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] CanXlProps NOT CONFIRMED by user (reason pending clarification; canConfig placeholder may resolve via CanControllerConfiguration Table 3.14)
 
 ### Input ethernet classes — sync AFTER their member types (Rule 0016.5)

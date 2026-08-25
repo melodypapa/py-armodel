@@ -525,6 +525,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SoAdConfig,
     StaticSocketConnection,
     SocketAddress,
+    UdpChecksumCalculationEnum,
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
@@ -6511,7 +6512,13 @@ class ARXMLParser(AbstractARXMLParser):
         address.setPathMtuDiscoveryEnabled(self.getChildElementOptionalBooleanValue(element, "PATH-MTU-DISCOVERY-ENABLED"))
         address.setPduCollectionMaxBufferSize(self.getChildElementOptionalPositiveInteger(element, "PDU-COLLECTION-MAX-BUFFER-SIZE"))
         address.setPduCollectionTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-TIMEOUT"))
-        address.setUdpChecksumHandling(self.getChildElementOptionalLiteral(element, "UDP-CHECKSUM-HANDLING"))
+        for child_element in self.findall(element, "STATIC-SOCKET-CONNECTIONS/STATIC-SOCKET-CONNECTION"):
+            address.addStaticSocketConnection(self.getStaticSocketConnection(child_element))
+        behavior_literal = self.getChildElementOptionalLiteral(element, "UDP-CHECKSUM-HANDLING")
+        if behavior_literal is not None:
+            behavior = UdpChecksumCalculationEnum()
+            behavior.setValue(behavior_literal.getValue())
+            address.setUdpChecksumHandling(behavior)
 
     def readSoAdConfigSocketAddresses(self, element: ET.Element, config: SoAdConfig):
         for child_element in self.findall(element, "SOCKET-ADDRESSS/*"):
