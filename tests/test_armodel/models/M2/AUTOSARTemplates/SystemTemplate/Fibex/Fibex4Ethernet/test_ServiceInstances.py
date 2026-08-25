@@ -1245,3 +1245,101 @@ class TestAbstractServiceInstance:
 
         instance.addRoutingGroupRef(None)
         assert instance.getRoutingGroupRefs() == [ref1, ref2]
+
+
+class TestApplicationEndpoint:
+    def _endpoint(self):
+        return ApplicationEndpoint(MockParent(), "aep")
+
+    def test_initialization(self):
+        """Test __init__ defaults for all fields (Table 6.124)."""
+        endpoint = self._endpoint()
+
+        assert isinstance(endpoint, Identifiable)
+        assert endpoint.getShortName() == "aep"
+        assert endpoint.getConsumedServiceInstances() == []
+        assert endpoint.getMaxNumberOfConnections() is None
+        assert endpoint.getNetworkEndpointRef() is None
+        assert endpoint.getPriority() is None
+        assert endpoint.getProvidedServiceInstances() == []
+        assert endpoint.getTlsCryptoMappingRef() is None
+        assert endpoint.getTpConfiguration() is None
+
+    def test_create_get_consumedServiceInstances(self):
+        """Test create/get consumedServiceInstance append and duplicate returns existing."""
+        endpoint = self._endpoint()
+        instance = endpoint.createConsumedServiceInstance("CSI1")
+
+        assert isinstance(instance, ConsumedServiceInstance)
+        assert endpoint.createConsumedServiceInstance("CSI1") is instance
+        assert len(endpoint.getConsumedServiceInstances()) == 1
+        assert endpoint.getConsumedServiceInstances()[0].getShortName() == "CSI1"
+
+    def test_get_set_maxNumberOfConnections(self):
+        """Test get/set maxNumberOfConnections with chaining and None no-op."""
+        endpoint = self._endpoint()
+        value = PositiveInteger().setValue("10")
+
+        assert endpoint.setMaxNumberOfConnections(value) is endpoint
+        assert endpoint.getMaxNumberOfConnections() is value
+        assert endpoint.getMaxNumberOfConnections().getValue() == 10
+
+        endpoint.setMaxNumberOfConnections(None)
+        assert endpoint.getMaxNumberOfConnections() is value
+
+    def test_get_set_networkEndpointRef(self):
+        """Test get/set networkEndpointRef with chaining and None no-op."""
+        endpoint = self._endpoint()
+        value = _ref("/Ether/NetworkEndpoint/NE1")
+
+        assert endpoint.setNetworkEndpointRef(value) is endpoint
+        assert endpoint.getNetworkEndpointRef() is value
+        assert endpoint.getNetworkEndpointRef().getValue() == "/Ether/NetworkEndpoint/NE1"
+
+        endpoint.setNetworkEndpointRef(None)
+        assert endpoint.getNetworkEndpointRef() is value
+
+    def test_get_set_priority(self):
+        """Test get/set priority with chaining and None no-op."""
+        endpoint = self._endpoint()
+        value = PositiveInteger().setValue("4")
+
+        assert endpoint.setPriority(value) is endpoint
+        assert endpoint.getPriority() is value
+        assert endpoint.getPriority().getValue() == 4
+
+        endpoint.setPriority(None)
+        assert endpoint.getPriority() is value
+
+    def test_create_get_providedServiceInstances(self):
+        """Test create/get providedServiceInstance append and duplicate returns existing."""
+        endpoint = self._endpoint()
+        instance = endpoint.createProvidedServiceInstance("PSI1")
+
+        assert isinstance(instance, ProvidedServiceInstance)
+        assert endpoint.createProvidedServiceInstance("PSI1") is instance
+        assert len(endpoint.getProvidedServiceInstances()) == 1
+        assert endpoint.getProvidedServiceInstances()[0].getShortName() == "PSI1"
+
+    def test_get_set_tlsCryptoMappingRef(self):
+        """Test get/set tlsCryptoMappingRef with chaining and None no-op."""
+        endpoint = self._endpoint()
+        value = _ref("/Ether/TlsCryptoServiceMapping/TCSM1")
+
+        assert endpoint.setTlsCryptoMappingRef(value) is endpoint
+        assert endpoint.getTlsCryptoMappingRef() is value
+        assert endpoint.getTlsCryptoMappingRef().getValue() == "/Ether/TlsCryptoServiceMapping/TCSM1"
+
+        endpoint.setTlsCryptoMappingRef(None)
+        assert endpoint.getTlsCryptoMappingRef() is value
+
+    def test_get_set_tpConfiguration(self):
+        """Test get/set tpConfiguration with chaining and None no-op."""
+        endpoint = self._endpoint()
+        value = GenericTp()
+
+        assert endpoint.setTpConfiguration(value) is endpoint
+        assert endpoint.getTpConfiguration() is value
+
+        endpoint.setTpConfiguration(None)
+        assert endpoint.getTpConfiguration() is value

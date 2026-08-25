@@ -186,16 +186,41 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (9a automated verification only — pytest 7232 passed incl. lossless integration round trip,
     black/black-check/lint clean, checklist==methods 1:1 source order, verbatim Note diff OK,
     no receiver-chain mutators in new code; 9b stamp DEFERRED to batch pass)
-- [ ] ApplicationEndpoint (markdown SystemTemplate · Table 6.124 · p.457 · source Fibex4Ethernet/ServiceInstances.py · adds discoveryTechnology, remotingTechnology, serializationTechnologyRef; these tech member types are XSD/ad-hoc — handle inside this sync)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] ApplicationEndpoint (markdown SystemTemplate · Table 6.124 · p.458 · source Fibex4Ethernet/ServiceInstances.py · adds discoveryTechnology, remotingTechnology, serializationTechnologyRef; these tech member types are XSD/ad-hoc — handle inside this sync)
+  NOTE: Table 6.124 verified in AUTOSAR_CP_TPS_SystemTemplate.md:12091–12115 + PDF p.458 (pdf_page.py
+  authoritative; p.457 above was stale). The table has NO discoveryTechnology/remotingTechnology/
+  serializationTechnologyRef rows; XSD marks all three atp.Status="removed" — NOT modeled
+  (Rule 0015 / "the table wins"); tracker records them as deprecated. Queue note above is stale.
+  - [x] Step 1 — Sync members & description from spec
+    (page-split table: rows before caption = pp.457–458 group 1 (consumedServiceInstance,
+    maxNumberOfConnections), after caption group 2 (networkEndpoint, priority, providedServiceInstance,
+    tlsCryptoMapping, tpConfiguration); Base = ARObject, Identifiable, MultilanguageReferrable,
+    Referrable → Identifiable; Aggregated by SocketAddress.applicationEndpoint → no ARPackage dispatch)
+  - [x] Step 2 — Write model class unit test (Red)
+    (TestApplicationEndpoint added to test_ServiceInstances.py; Red confirmed — 7 failed / 1 passed)
+  - [x] Step 3 — Implement model class (Green)
+    (typed Optional/List fields, guarded setters, typed IsElementExists/getElement create factories;
+    66 passed in file incl. siblings)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    (class Note verbatim → class docstring; per-attribute Note verbatim → __init__ comments +
+    getter/setter docstrings; None-no-op sentences appended; Tags tails dropped per Rule 0012)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    (tests/test_armodel/writer/test_application_endpoint.py: write_all_fields,
+    write_empty_fields_omits_optional_tags, round_trip_preserves_all_values, reader_empty_fields;
+    Red confirmed — 2 failed / 2 passed before parser+writer wiring)
+  - [x] Step 6 — Update parser & writer (Green)
+    (reader: readIdentifiable added + setMaxNumberOfConnections/setTlsCryptoMappingRef wired into
+    readSocketAddressApplicationEndpoint; writer matched getMaxNumberOfConnections/
+    getTlsCryptoMappingRef pairs in XSD sequence order; no chained mutators)
+  - [x] Step 7 — Update checklist comment
+    (# Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.124, p.458; 15 method rows, source order)
+  - [x] Step 8 — Deviations
+    (tracker entry updated: page 457→458, package corrected to EthernetTopology, stale
+    consumedServiceInstance missing row removed, three atp.Status="removed" technology members recorded)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7244 passed incl. lossless integration round trip,
+    black/black-check/lint clean, checklist==methods 1:1 source order, verbatim Note diff OK,
+    no receiver-chain mutators in new code; 9b stamp DEFERRED to batch pass)
 - [ ] SocketAddress (markdown SystemTemplate · Table 6.118 · p.452 · source Fibex4Ethernet/ServiceInstances.py · fixes applicationEndpoint type; adds ipAddress)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

@@ -7001,9 +7001,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "APPLICATION-ENDPOINT")
             self.writeIdentifiable(child_element, end_point)
             self.writeSocketAddressApplicationEndpointConsumedServiceInstances(child_element, end_point)
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-NUMBER-OF-CONNECTIONS", end_point.getMaxNumberOfConnections())
             self.setChildElementOptionalRefType(child_element, "NETWORK-ENDPOINT-REF", end_point.getNetworkEndpointRef())
             self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", end_point.getPriority())
             self.writeSocketAddressApplicationEndpointProvidedServiceInstance(child_element, end_point)
+            self.setChildElementOptionalRefType(child_element, "TLS-CRYPTO-MAPPING-REF", end_point.getTlsCryptoMappingRef())
             self.writeTransportProtocolConfiguration(child_element, end_point.getTpConfiguration())
 
     def writeSocketAddressMulticastConnectorRefs(self, element: ET.Element, address: SocketAddress):

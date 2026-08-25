@@ -1540,93 +1540,138 @@ class ProvidedServiceInstance(AbstractServiceInstance):
 
 
 class ApplicationEndpoint(Identifiable):
-    """
-    Defines an application endpoint for service-oriented communication,
-    specifying the interface between applications and the service
-    infrastructure including network endpoint references and service instances.
-    """
+    """An application endpoint is the endpoint on an Ecu in terms of application addressing (e.g. socket). The application endpoint represents e.g. the listen socket in client-server-based communication."""
 
     # ApplicationEndpoint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getConsumedServiceInstances  [x] impl  [ ] docstring  [ ] test
-    # [ ] createConsumedServiceInstance [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxNumberOfConnections    [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxNumberOfConnections    [x] impl  [ ] docstring  [ ] test
-    # [ ] getNetworkEndpointRef        [x] impl  [ ] docstring  [ ] test
-    # [ ] setNetworkEndpointRef        [x] impl  [ ] docstring  [ ] test
-    # [ ] getPriority                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setPriority                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getProvidedServiceInstances  [x] impl  [ ] docstring  [ ] test
-    # [ ] createProvidedServiceInstance [x] impl  [ ] docstring  [ ] test
-    # [ ] getTlsCryptoMappingRef       [x] impl  [ ] docstring  [ ] test
-    # [ ] setTlsCryptoMappingRef       [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpConfiguration           [x] impl  [ ] docstring  [ ] test
-    # [ ] setTpConfiguration           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.124, p.458
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createConsumedServiceInstance        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getConsumedServiceInstances          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getMaxNumberOfConnections            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxNumberOfConnections            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNetworkEndpointRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNetworkEndpointRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPriority                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPriority                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createProvidedServiceInstance        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getProvidedServiceInstances          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getTlsCryptoMappingRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTlsCryptoMappingRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTpConfiguration                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTpConfiguration                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # Consumed service instances.
         self.consumedServiceInstances: List[ConsumedServiceInstance] = []
-        self.maxNumberOfConnections: PositiveInteger = None
-        self.networkEndpointRef: RefType = None
-        self.priority: PositiveInteger = None
-        self.providedServiceInstances: List[ProvidedServiceInstance] = []
-        self.tlsCryptoMappingRef: RefType = None
-        self.tpConfiguration = None
 
-    def getConsumedServiceInstances(self):
-        return self.consumedServiceInstances
+        # This attribute defines the maximal number of clients the Server is able to deal with in case of Service Discovery.
+        self.maxNumberOfConnections: Optional[PositiveInteger] = None
+
+        # Reference to the network address.
+        self.networkEndpointRef: Optional[RefType] = None
+
+        # Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
+        self.priority: Optional[PositiveInteger] = None
+
+        # Provided service instances.
+        self.providedServiceInstances: List[ProvidedServiceInstance] = []
+
+        # This reference identifies the applicable TlsCryptoServiceMapping that adds the ability for TLS-based encryption on the enclosing ApplicationEndpoint.
+        self.tlsCryptoMappingRef: Optional[RefType] = None
+
+        # Configuration of the used transport protocol.
+        self.tpConfiguration: Optional[TransportProtocolConfiguration] = None
 
     def createConsumedServiceInstance(self, short_name: str) -> ConsumedServiceInstance:
-        if short_name not in self.elements:
+        """Consumed service instances."""
+        if not self.IsElementExists(short_name, ConsumedServiceInstance):
             instance = ConsumedServiceInstance(self, short_name)
             self.addElement(instance)
             self.consumedServiceInstances.append(instance)
-        return self.getElement(short_name)
+        return self.getElement(short_name, ConsumedServiceInstance)
 
-    def getMaxNumberOfConnections(self):
+    def getConsumedServiceInstances(self) -> List[ConsumedServiceInstance]:
+        """Consumed service instances."""
+        return self.consumedServiceInstances
+
+    def getMaxNumberOfConnections(self) -> Optional[PositiveInteger]:
+        """This attribute defines the maximal number of clients the Server is able to deal with in case of Service Discovery."""
         return self.maxNumberOfConnections
 
-    def setMaxNumberOfConnections(self, value):
-        self.maxNumberOfConnections = value
+    def setMaxNumberOfConnections(self, value: Optional[PositiveInteger]) -> "ApplicationEndpoint":
+        """
+        This attribute defines the maximal number of clients the Server is able to deal with in case of Service Discovery.
+        A None value is a no-op and does not overwrite an existing maxNumberOfConnections.
+        """
+        if value is not None:
+            self.maxNumberOfConnections = value
         return self
 
-    def getNetworkEndpointRef(self):
+    def getNetworkEndpointRef(self) -> Optional[RefType]:
+        """Reference to the network address."""
         return self.networkEndpointRef
 
-    def setNetworkEndpointRef(self, value):
-        self.networkEndpointRef = value
+    def setNetworkEndpointRef(self, value: Optional[RefType]) -> "ApplicationEndpoint":
+        """
+        Reference to the network address.
+        A None value is a no-op and does not overwrite an existing networkEndpointRef.
+        """
+        if value is not None:
+            self.networkEndpointRef = value
         return self
 
-    def getPriority(self):
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed."""
         return self.priority
 
-    def setPriority(self, value):
-        self.priority = value
+    def setPriority(self, value: Optional[PositiveInteger]) -> "ApplicationEndpoint":
+        """
+        Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
+        A None value is a no-op and does not overwrite an existing priority.
+        """
+        if value is not None:
+            self.priority = value
         return self
 
-    def getProvidedServiceInstances(self):
-        return self.providedServiceInstances
-
     def createProvidedServiceInstance(self, short_name: str) -> ProvidedServiceInstance:
-        if short_name not in self.elements:
+        """Provided service instances."""
+        if not self.IsElementExists(short_name, ProvidedServiceInstance):
             instance = ProvidedServiceInstance(self, short_name)
             self.addElement(instance)
             self.providedServiceInstances.append(instance)
-        return self.getElement(short_name)
+        return self.getElement(short_name, ProvidedServiceInstance)
 
-    def getTlsCryptoMappingRef(self):
+    def getProvidedServiceInstances(self) -> List[ProvidedServiceInstance]:
+        """Provided service instances."""
+        return self.providedServiceInstances
+
+    def getTlsCryptoMappingRef(self) -> Optional[RefType]:
+        """This reference identifies the applicable TlsCryptoServiceMapping that adds the ability for TLS-based encryption on the enclosing ApplicationEndpoint."""
         return self.tlsCryptoMappingRef
 
-    def setTlsCryptoMappingRef(self, value):
-        self.tlsCryptoMappingRef = value
+    def setTlsCryptoMappingRef(self, value: Optional[RefType]) -> "ApplicationEndpoint":
+        """
+        This reference identifies the applicable TlsCryptoServiceMapping that adds the ability for TLS-based encryption on the enclosing ApplicationEndpoint.
+        A None value is a no-op and does not overwrite an existing tlsCryptoMappingRef.
+        """
+        if value is not None:
+            self.tlsCryptoMappingRef = value
         return self
 
-    def getTpConfiguration(self):
+    def getTpConfiguration(self) -> Optional[TransportProtocolConfiguration]:
+        """Configuration of the used transport protocol."""
         return self.tpConfiguration
 
-    def setTpConfiguration(self, value):
-        self.tpConfiguration = value
+    def setTpConfiguration(self, value: Optional[TransportProtocolConfiguration]) -> "ApplicationEndpoint":
+        """
+        Configuration of the used transport protocol.
+        A None value is a no-op and does not overwrite an existing tpConfiguration.
+        """
+        if value is not None:
+            self.tpConfiguration = value
         return self
 
 

@@ -6460,10 +6460,13 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "APPLICATION-ENDPOINT")
         if child_element is not None:
             end_point = address.createApplicationEndpoint(self.getShortName(child_element))
+            self.readIdentifiable(child_element, end_point)
             self.readSocketAddressApplicationEndpointConsumedServiceInstances(child_element, end_point)
+            end_point.setMaxNumberOfConnections(self.getChildElementOptionalPositiveInteger(child_element, "MAX-NUMBER-OF-CONNECTIONS"))
             end_point.setNetworkEndpointRef(self.getChildElementOptionalRefType(child_element, "NETWORK-ENDPOINT-REF"))
             end_point.setPriority(self.getChildElementOptionalPositiveInteger(child_element, "PRIORITY"))
             self.readSocketAddressApplicationEndpointProvidedServiceInstance(child_element, end_point)
+            end_point.setTlsCryptoMappingRef(self.getChildElementOptionalRefType(child_element, "TLS-CRYPTO-MAPPING-REF"))
             end_point.setTpConfiguration(self.getTransportProtocolConfiguration(child_element, "TP-CONFIGURATION"))
 
     def readSocketAddressMulticastConnectorRefs(self, element: ET.Element, address: SocketAddress):

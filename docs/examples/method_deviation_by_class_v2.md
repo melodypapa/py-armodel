@@ -1556,13 +1556,17 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 | `connectionBundles` | `List[SocketConnectionBundle]` | `connectionBundle` | ``SocketConnection Bundle`` | aggr | naming |
 
 ## `ApplicationEndpoint`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 457
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 458
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `consumedServiceInstance` | ``ConsumedService Instance`` | aggr | missing |
+| — *(not implemented)* | `—` | `discoveryTechnology` | ``DISCOVERY-TECHNOLOGY`` (XSD-only) | attr | deprecated (atp.Status=removed), not implemented |
+| — *(not implemented)* | `—` | `remotingTechnology` | ``REMOTING-TECHNOLOGY`` (XSD-only) | attr | deprecated (atp.Status=removed), not implemented |
+| — *(not implemented)* | `—` | `serializationTechnologyRef` | ``SerializationTechnology`` REF (XSD-only) | ref | deprecated (atp.Status=removed), not implemented |
+
+Resolution of the three technology members (queue context): Table 6.124 (markdown AUTOSAR_CP_TPS_SystemTemplate.md:12091–12115 + PDF p.458 per pdf_page.py) has NO discoveryTechnology/remotingTechnology/serializationTechnologyRef rows; the XSD groups mark all three atp.Status="removed" (AUTOSAR_00052.xsd:3410/3452/3458). Rule 0015/the-table-wins: NOT modeled; the earlier "consumedServiceInstance missing" row was removed — it is implemented (`createConsumedServiceInstance`/`getConsumedServiceInstances`, dedicated typed list field).
 
 ## `Ipv6Configuration`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 466
