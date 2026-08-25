@@ -1,68 +1,34 @@
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
-class TimingModeInstance(ARObject):
+class TimingModeInstance(Identifiable):
     """
-    Represents a timing mode instance in AUTOSAR.
-    Defines a mode instance used in timing specifications.
+    This class specifies the mode declaration to be checked in a specific instance of a mode declaration group. This is used in a timing condition formula as an operand of the unary timing function TIMEX_modeActive to check whether the mode declaration is active at the point in time this expression is evaluated.
     """
 
     # TimingModeInstance method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getModeRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] setModeRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] getModeValue                 [x] impl  [x] docstring  [ ] test
-    # [ ] setModeValue                 [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.10, p.37
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getModeInstance         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setModeInstance         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self):
-        """
-        Initializes the TimingModeInstance with default values.
-        """
-        super().__init__()
-        self.modeRef: RefType = None
-        self.modeValue: str = None
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
 
-    def getModeRef(self) -> RefType:
-        """
-        Gets the mode reference.
+        # This refers to a specific mode declaration in the given context.
+        # Placeholder typed Optional[RefType]: the spec type ModeInSwcBswInstanceRef (abstract) is not yet implemented as a model class.
+        self.modeInstance: Optional[RefType] = None
 
-        Returns:
-            Reference to the mode
-        """
-        return self.modeRef
+    def getModeInstance(self) -> Optional[RefType]:
+        """This refers to a specific mode declaration in the given context."""
+        return self.modeInstance
 
-    def setModeRef(self, value: RefType):
-        """
-        Sets the mode reference.
-
-        Args:
-            value: The mode reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.modeRef = value
-        return self
-
-    def getModeValue(self) -> str:
-        """
-        Gets the mode value.
-
-        Returns:
-            String representing the mode value
-        """
-        return self.modeValue
-
-    def setModeValue(self, value: str):
-        """
-        Sets the mode value.
-
-        Args:
-            value: String value to set
-
-        Returns:
-            self for method chaining
-        """
-        self.modeValue = value
+    def setModeInstance(self, value: Optional[RefType]) -> "TimingModeInstance":
+        """This refers to a specific mode declaration in the given context. A None value is a no-op and does not overwrite an existing modeInstance."""
+        if value is not None:
+            self.modeInstance = value
         return self

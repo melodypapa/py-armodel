@@ -243,6 +243,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.Attribu
     UnlimitedIntegerValueVariationPoint,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingExtensionResource, TimingModeInstance
 
 VALUE_ACCESS_CLASS_TO_TAG = {
     LimitValueVariationPoint: "LIMIT",
@@ -3423,6 +3425,41 @@ class ARXMLWriter(AbstractARXMLWriter):
         text = tcf.getText()
         if text is not None:
             element.text = text
+
+    def writeModeInBswInstanceRef(self, element: ET.Element, iref: ModeInBswInstanceRef):
+        self.writeARObjectAttributes(element, iref)
+        self.setChildElementOptionalRefType(element, "CONTEXT-BSW-IMPLEMENTATION-REF", iref.getContextBswImplementationRef())
+        self.setChildElementOptionalRefType(element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF", iref.getContextModeDeclarationGroupPrototypeRef())
+        self.setChildElementOptionalRefType(element, "TARGET-MODE-DECLARATION-REF", iref.getTargetModeDeclarationRef())
+
+    def writeModeInSwcInstanceRef(self, element: ET.Element, iref: ModeInSwcInstanceRef):
+        self.writeARObjectAttributes(element, iref)
+        for component_ref in iref.getContextComponentRefs():
+            self.setChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF", component_ref)
+        self.setChildElementOptionalRefType(element, "CONTEXT-PORT-REF", iref.getContextPortRef())
+        self.setChildElementOptionalRefType(element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF", iref.getContextModeDeclarationGroupPrototypeRef())
+        self.setChildElementOptionalRefType(element, "TARGET-MODE-DECLARATION-REF", iref.getTargetModeDeclarationRef())
+
+    def writeTimingModeInstance(self, element: ET.Element, instance: TimingModeInstance):
+        self.writeIdentifiable(element, instance)
+        mode_instance = instance.getModeInstance()
+        if mode_instance is not None:
+            mode_instance_tag = ET.SubElement(element, "MODE-INSTANCE")
+            if isinstance(mode_instance, ModeInBswInstanceRef):
+                self.writeModeInBswInstanceRef(ET.SubElement(mode_instance_tag, "MODE-IN-BSW-INSTANCE-REF"), mode_instance)
+            elif isinstance(mode_instance, ModeInSwcInstanceRef):
+                self.writeModeInSwcInstanceRef(ET.SubElement(mode_instance_tag, "MODE-IN-SWC-INSTANCE-REF"), mode_instance)
+            else:
+                self.notImplemented("Unsupported TimingModeInstance.modeInstance <%s>" % type(mode_instance).__name__)
+
+    def writeTimingExtensionResource(self, element: ET.Element, resource: TimingExtensionResource):
+        self.writeIdentifiable(element, resource)
+        modes = resource.getTimingModes()
+        if len(modes) > 0:
+            modes_tag = ET.SubElement(element, "TIMING-MODES")
+            for mode in modes:
+                mode_tag = ET.SubElement(modes_tag, "TIMING-MODE-INSTANCE")
+                self.writeTimingModeInstance(mode_tag, mode)
 
     def writeSwcInternalBehaviorVariationPointProxies(self, element: ET.Element, behavior: SwcInternalBehavior):
         proxies = behavior.getVariationPointProxies()

@@ -167,6 +167,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import Swc
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingExtensionResource, TimingModeInstance
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
@@ -2114,6 +2116,45 @@ class ARXMLParser(AbstractARXMLParser):
         if element.text is not None and element.text.strip() != "":
             tcf.setText(element.text)
         return tcf
+
+    def readModeInBswInstanceRef(self, element: ET.Element) -> ModeInBswInstanceRef:
+        ref = ModeInBswInstanceRef()
+        self.readARObjectAttributes(element, ref)
+        ref.setContextBswImplementationRef(self.getChildElementOptionalRefType(element, "CONTEXT-BSW-IMPLEMENTATION-REF"))
+        ref.setContextModeDeclarationGroupPrototypeRef(self.getChildElementOptionalRefType(element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF"))
+        ref.setTargetModeDeclarationRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-DECLARATION-REF"))
+        return ref
+
+    def readModeInSwcInstanceRef(self, element: ET.Element) -> ModeInSwcInstanceRef:
+        ref = ModeInSwcInstanceRef()
+        self.readARObjectAttributes(element, ref)
+        for component_ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+            ref.addContextComponentRef(component_ref)
+        ref.setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF"))
+        ref.setContextModeDeclarationGroupPrototypeRef(self.getChildElementOptionalRefType(element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF"))
+        ref.setTargetModeDeclarationRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-DECLARATION-REF"))
+        return ref
+
+    def readTimingModeInstance(self, element: ET.Element, instance: TimingModeInstance):
+        self.readIdentifiable(element, instance)
+        mode_instance_element = self.find(element, "MODE-INSTANCE")
+        if mode_instance_element is not None:
+            for child_element in mode_instance_element:
+                tag_name = self.getTagName(child_element)
+                if tag_name == "MODE-IN-BSW-INSTANCE-REF":
+                    instance.setModeInstance(self.readModeInBswInstanceRef(child_element))
+                elif tag_name == "MODE-IN-SWC-INSTANCE-REF":
+                    instance.setModeInstance(self.readModeInSwcInstanceRef(child_element))
+                else:
+                    self.notImplemented("Unsupported TimingModeInstance.modeInstance <%s>" % tag_name)
+
+    def readTimingExtensionResource(self, parent, element: ET.Element) -> TimingExtensionResource:
+        resource = TimingExtensionResource(parent, self.getShortName(element))
+        self.readIdentifiable(element, resource)
+        for child_element in self.findall(element, "TIMING-MODES/TIMING-MODE-INSTANCE"):
+            mode = resource.createTimingMode(self.getShortName(child_element))
+            self.readTimingModeInstance(child_element, mode)
+        return resource
 
     def readSwcInternalBehaviorVariationPointProxies(self, element: ET.Element, behavior: SwcInternalBehavior):
         for child_element in self.findall(element, "VARIATION-POINT-PROXYS/VARIATION-POINT-PROXY"):

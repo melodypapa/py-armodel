@@ -1,67 +1,70 @@
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from typing import List, Optional
+
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingModeInstance import TimingModeInstance
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
-class TimingExtensionResource(ARObject):
+class TimingExtensionResource(Identifiable):
     """
-    Represents a timing extension resource in AUTOSAR.
-    Defines resources used for timing extensions.
+    A TimingExtensionResource provides the capability to contain instance references referred from within a timing condition formula.
     """
 
     # TimingExtensionResource method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getResourceName              [x] impl  [x] docstring  [ ] test
-    # [ ] setResourceName              [x] impl  [x] docstring  [ ] test
-    # [ ] getResourceType              [x] impl  [x] docstring  [ ] test
-    # [ ] setResourceType              [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.9, p.36
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addTimingArgument        [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
+    # [x] getTimingArguments       [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
+    # [x] createTimingMode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimingModes           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addTimingVariable        [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
+    # [x] getTimingVariables       [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
+    # The timingArgument and timingVariable rows stay [ ] (pending): the item classes
+    # AutosarOperationArgumentInstance and AutosarVariableInstance are not yet implemented.
 
-    def __init__(self):
-        """
-        Initializes the TimingExtensionResource with default values.
-        """
-        super().__init__()
-        self.resourceName: str = None
-        self.resourceType: str = None
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
 
-    def getResourceName(self) -> str:
-        """
-        Gets the resource name.
+        # This refers to an instance reference of an argument of an operation call.
+        # Placeholder typed List[RefType]: the spec item type AutosarOperationArgumentInstance is not yet implemented as a model class.
+        self.timingArguments: List[RefType] = []
 
-        Returns:
-            String representing the resource name
-        """
-        return self.resourceName
+        # This refers to an instance reference of a mode declaration.
+        self.timingModes: List[TimingModeInstance] = []
 
-    def setResourceName(self, value: str):
-        """
-        Sets the resource name.
+        # This refers to an instance reference of a variable.
+        # Placeholder typed List[RefType]: the spec item type AutosarVariableInstance is not yet implemented as a model class.
+        self.timingVariables: List[RefType] = []
 
-        Args:
-            value: String value to set
-
-        Returns:
-            self for method chaining
-        """
-        self.resourceName = value
+    def addTimingArgument(self, value: Optional[RefType]) -> "TimingExtensionResource":
+        """This refers to an instance reference of an argument of an operation call. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.timingArguments.append(value)
         return self
 
-    def getResourceType(self) -> str:
-        """
-        Gets the resource type.
+    def getTimingArguments(self) -> List[RefType]:
+        """This refers to an instance reference of an argument of an operation call."""
+        return self.timingArguments
 
-        Returns:
-            String representing the resource type
-        """
-        return self.resourceType
+    def createTimingMode(self, short_name: str) -> TimingModeInstance:
+        """This refers to an instance reference of a mode declaration."""
+        if not self.IsElementExists(short_name):
+            mode = TimingModeInstance(self, short_name)
+            self.addElement(mode)
+            self.timingModes.append(mode)
+        return self.getElement(short_name, TimingModeInstance)
 
-    def setResourceType(self, value: str):
-        """
-        Sets the resource type.
+    def getTimingModes(self) -> List[TimingModeInstance]:
+        """This refers to an instance reference of a mode declaration."""
+        return self.timingModes
 
-        Args:
-            value: String value to set
-
-        Returns:
-            self for method chaining
-        """
-        self.resourceType = value
+    def addTimingVariable(self, value: Optional[RefType]) -> "TimingExtensionResource":
+        """This refers to an instance reference of a variable. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.timingVariables.append(value)
         return self
+
+    def getTimingVariables(self) -> List[RefType]:
+        """This refers to an instance reference of a variable."""
+        return self.timingVariables
