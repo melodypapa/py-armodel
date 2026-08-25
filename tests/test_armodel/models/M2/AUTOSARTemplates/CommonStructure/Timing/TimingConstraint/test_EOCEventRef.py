@@ -4,6 +4,7 @@ AUTOSAR CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingCondition import ComponentInCompositionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
 )
@@ -59,7 +60,8 @@ class TestEOCEventRef:
         parent = self._parent()
         event_ref = EOCEventRef(parent, "EventRef1")
 
-        iref = RefType().setValue("/AUTOSAR/SwcProto").setDest("SW-COMPONENT-PROTOTYPE")
+        iref = ComponentInCompositionInstanceRef()
+        iref.setTargetComponentRef(RefType().setValue("/AUTOSAR/SwcProto").setDest("SW-COMPONENT-PROTOTYPE"))
         assert event_ref.setComponentIRef(iref) is event_ref
         assert event_ref.getComponentIRef() is iref
 

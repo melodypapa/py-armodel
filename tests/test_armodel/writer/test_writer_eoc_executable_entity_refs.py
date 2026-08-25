@@ -3,6 +3,7 @@
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingCondition import ComponentInCompositionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
     EOCExecutableEntityRef,
@@ -41,7 +42,10 @@ class TestWriteEOCExecutableEntityRefs:
         entity_ref = EOCExecutableEntityRef(parent, "Entity1")
         entity_ref.addDirectSuccessorRef(RefType().setValue("/AUTOSAR/Group1").setDest("EOC-EXECUTABLE-ENTITY-REF-GROUP"))
         entity_ref.setBswModuleInstanceRef(RefType().setValue("/AUTOSAR/BswImpl").setDest("BSW-IMPLEMENTATION"))
-        entity_ref.setComponentIRef(RefType().setValue("/AUTOSAR/SwcProto").setDest("SW-COMPONENT-PROTOTYPE"))
+        entity_component_iref = ComponentInCompositionInstanceRef()
+        entity_component_iref.addContextComponentRef(RefType().setValue("/AUTOSAR/Composition/Ctx").setDest("SW-COMPONENT-PROTOTYPE"))
+        entity_component_iref.setTargetComponentRef(RefType().setValue("/AUTOSAR/SwcProto").setDest("SW-COMPONENT-PROTOTYPE"))
+        entity_ref.setComponentIRef(entity_component_iref)
         entity_ref.setExecutableRef(RefType().setValue("/AUTOSAR/Runnable").setDest("RUNNABLE-ENTITY"))
         entity_ref.addSuccessorRef(RefType().setValue("/AUTOSAR/Entity2").setDest("EOC-EXECUTABLE-ENTITY-REF"))
 
@@ -62,8 +66,9 @@ class TestWriteEOCExecutableEntityRefs:
         assert direct_successors[0].getDest() == "EOC-EXECUTABLE-ENTITY-REF-GROUP"
         assert reloaded.getBswModuleInstanceRef().getValue() == "/AUTOSAR/BswImpl"
         assert reloaded.getBswModuleInstanceRef().getDest() == "BSW-IMPLEMENTATION"
-        assert reloaded.getComponentIRef().getValue() == "/AUTOSAR/SwcProto"
-        assert reloaded.getComponentIRef().getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert reloaded.getComponentIRef().getContextComponentRefs()[0].getValue() == "/AUTOSAR/Composition/Ctx"
+        assert reloaded.getComponentIRef().getTargetComponentRef().getValue() == "/AUTOSAR/SwcProto"
+        assert reloaded.getComponentIRef().getTargetComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
         assert reloaded.getExecutableRef().getValue() == "/AUTOSAR/Runnable"
         assert reloaded.getExecutableRef().getDest() == "RUNNABLE-ENTITY"
         successors = reloaded.getSuccessorRefs()
@@ -174,7 +179,9 @@ class TestWriteEOCExecutableEntityRefs:
         event_ref = EOCEventRef(parent, "EventRef1")
         event_ref.addDirectSuccessorRef(RefType().setValue("/AUTOSAR/Entity1").setDest("EOC-EXECUTABLE-ENTITY-REF"))
         event_ref.setBswModuleInstanceRef(RefType().setValue("/AUTOSAR/BswImpl").setDest("BSW-IMPLEMENTATION"))
-        event_ref.setComponentIRef(RefType().setValue("/AUTOSAR/SwcProto").setDest("SW-COMPONENT-PROTOTYPE"))
+        event_component_iref = ComponentInCompositionInstanceRef()
+        event_component_iref.setTargetComponentRef(RefType().setValue("/AUTOSAR/SwcProto").setDest("SW-COMPONENT-PROTOTYPE"))
+        event_ref.setComponentIRef(event_component_iref)
         event_ref.setEventRef(RefType().setValue("/AUTOSAR/RteEvent").setDest("RTE-EVENT"))
         event_ref.addSuccessorRef(RefType().setValue("/AUTOSAR/Entity2").setDest("EOC-EVENT-REF"))
 
@@ -188,7 +195,7 @@ class TestWriteEOCExecutableEntityRefs:
         ARXMLParser().readEOCEventRef(_round_trip(element), reloaded)
         assert reloaded.getShortName() == "EventRef1"
         assert reloaded.getBswModuleInstanceRef().getValue() == "/AUTOSAR/BswImpl"
-        assert reloaded.getComponentIRef().getValue() == "/AUTOSAR/SwcProto"
+        assert reloaded.getComponentIRef().getTargetComponentRef().getValue() == "/AUTOSAR/SwcProto"
         assert reloaded.getEventRef().getValue() == "/AUTOSAR/RteEvent"
         assert reloaded.getEventRef().getDest() == "RTE-EVENT"
         successors = reloaded.getSuccessorRefs()

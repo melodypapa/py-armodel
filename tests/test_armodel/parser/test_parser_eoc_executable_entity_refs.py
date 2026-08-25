@@ -62,8 +62,10 @@ class TestReadEOCExecutableEntityRefs:
         assert direct_successors[0].getDest() == "EOC-EXECUTABLE-ENTITY-REF-GROUP"
         assert entity_ref.getBswModuleInstanceRef().getValue() == "/AUTOSAR/BswImpl"
         assert entity_ref.getBswModuleInstanceRef().getDest() == "BSW-IMPLEMENTATION"
-        assert entity_ref.getComponentIRef().getValue() == "/AUTOSAR/SwcProto"
-        assert entity_ref.getComponentIRef().getDest() == "SW-COMPONENT-PROTOTYPE"
+        component_iref = entity_ref.getComponentIRef()
+        assert component_iref.getContextComponentRefs()[0].getValue() == "/AUTOSAR/Composition/ProtoCtx"
+        assert component_iref.getTargetComponentRef().getValue() == "/AUTOSAR/SwcProto"
+        assert component_iref.getTargetComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
         assert entity_ref.getExecutableRef().getValue() == "/AUTOSAR/Runnable"
         successors = entity_ref.getSuccessorRefs()
         assert len(successors) == 1
@@ -124,7 +126,7 @@ class TestReadEOCExecutableEntityRefs:
         parser.readEOCEventRef(element, event_ref)
         assert event_ref.getShortName() == "EventRef1"
         assert event_ref.getBswModuleInstanceRef().getValue() == "/AUTOSAR/BswImpl"
-        assert event_ref.getComponentIRef().getValue() == "/AUTOSAR/SwcProto"
+        assert event_ref.getComponentIRef().getTargetComponentRef().getValue() == "/AUTOSAR/SwcProto"
         assert event_ref.getEventRef().getValue() == "/AUTOSAR/RteEvent"
         assert event_ref.getEventRef().getDest() == "RTE-EVENT"
         successors = event_ref.getSuccessorRefs()

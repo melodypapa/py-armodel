@@ -385,6 +385,48 @@ class VariableInComponentInstanceRef(AtpInstanceRef):
         return self
 
 
+class ComponentInCompositionInstanceRef(AtpInstanceRef):
+    """
+    The ComponentInCompositionInstanceRef points to a concrete SwComponentPrototype within a CompositionSwComponentType.
+    """
+
+    # ComponentInCompositionInstanceRef method parity checklist:
+    # Spec: (XSD-only - AUTOSAR_00046.xsd COMPONENT-IN-COMPOSITION-INSTANCE-REF group; no own AUTOSAR table)
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getContextComponentRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addContextComponentRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTargetComponentRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTargetComponentRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # The context for the scope of this timing event.
+        self.contextComponentRefs: List[RefType] = []
+
+        self.targetComponentRef: Optional[RefType] = None
+
+    def getContextComponentRefs(self) -> List[RefType]:
+        """The context for the scope of this timing event."""
+        return self.contextComponentRefs
+
+    def addContextComponentRef(self, value: Optional[RefType]) -> "ComponentInCompositionInstanceRef":
+        """The context for the scope of this timing event. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.contextComponentRefs.append(value)
+        return self
+
+    def getTargetComponentRef(self) -> Optional[RefType]:
+        return self.targetComponentRef
+
+    def setTargetComponentRef(self, value: Optional[RefType]) -> "ComponentInCompositionInstanceRef":
+        """A None value is a no-op and does not overwrite an existing targetComponentRef."""
+        if value is not None:
+            self.targetComponentRef = value
+        return self
+
+
 class TimingModeInstance(Identifiable):
     """
     This class specifies the mode declaration to be checked in a specific instance of a mode declaration group. This is used in a timing condition formula as an operand of the unary timing function TIMEX_mode Active to check whether the mode declaration is active at the point in time this expression is evaluated.

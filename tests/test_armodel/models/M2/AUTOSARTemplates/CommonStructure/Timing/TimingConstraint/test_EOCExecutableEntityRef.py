@@ -4,6 +4,7 @@ AUTOSAR CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingCondition import ComponentInCompositionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCExecutableEntityRef,
 )
@@ -61,10 +62,11 @@ class TestEOCExecutableEntityRef:
         parent = self._parent()
         entity_ref = EOCExecutableEntityRef(parent, "Entity1")
 
-        iref = RefType().setValue("/AUTOSAR/SwcProto").setDest("SW-COMPONENT-PROTOTYPE")
+        iref = ComponentInCompositionInstanceRef()
+        iref.setTargetComponentRef(RefType().setValue("/AUTOSAR/SwcProto").setDest("SW-COMPONENT-PROTOTYPE"))
         assert entity_ref.setComponentIRef(iref) is entity_ref
         assert entity_ref.getComponentIRef() is iref
-        assert entity_ref.getComponentIRef().getValue() == "/AUTOSAR/SwcProto"
+        assert entity_ref.getComponentIRef().getTargetComponentRef().getValue() == "/AUTOSAR/SwcProto"
 
         entity_ref.setComponentIRef(None)
         assert entity_ref.getComponentIRef() is iref

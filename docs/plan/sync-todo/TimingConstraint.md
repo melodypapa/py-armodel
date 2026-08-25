@@ -207,15 +207,15 @@ queued and synced — see its row below.)
   - [x] Step 8 — Deviations: TimingDescriptionEventChain ref target unsynced → RefType placeholder (Rule 0001.10)
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] ComponentInCompositionInstanceRef (InstanceRef · XSD-only · AUTOSAR_00046.xsd COMPONENT-IN-COMPOSITION-INSTANCE-REF group · "points to a concrete SwComponentPrototype within a CompositionSwComponentType" · dependency of EOCExecutableEntityRef.componentIRef / EOCEventRef.componentIRef · resolves the Rule 0001.10 componentIRef debt recorded on those classes · parallels VariableInComponentInstanceRef · no own PDF table, so no # Spec verified: marker)
-  - [ ] Step 1 — Sync members & description from XSD (contextComponent * refs + targetComponent 0..1 ref, sequenceOffset order)
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green) — COMPONENT-IREF/TARGET-COMPONENT-REF flat inner refs
-  - [ ] Step 7 — Update checklist comment (XSD-only, no # Spec: line)
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from XSD (contextComponent * refs + targetComponent 0..1 ref, sequenceOffset order)
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base AtpInstanceRef; contextComponentRefs List[RefType] + addContextComponentRef (None no-op), targetComponentRef Optional[RefType] + setTargetComponentRef
+  - [x] Step 4 — Sync docstrings (wipe + rewrite; contextComponent Note = XSD documentation verbatim)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeComponentInCompositionInstanceRef + COMPONENT-IREF/TARGET-COMPONENT-REF flat inner refs
+  - [x] Step 7 — Update checklist comment (XSD-only, no # Spec: line)
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a): 378 Timing tests pass; ruff clean; XSD-only class, no # Spec verified: marker (Rule 0002)
 - [ ] EOCExecutableEntityRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.72 · Base includes EOCExecutableEntityRefAbstract · component -> SwComponentPrototype iref (queued above), bswModuleInstance -> BswImplementation (already stamped), executable -> ExecutableEntity (already stamped))
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -224,7 +224,7 @@ queued and synced — see its row below.)
   - [x] Step 5 — Write reader/writer round-trip test (Red)
   - [x] Step 6 — Update parser & writer (Green) — read/writeEOCExecutableEntityRef + three-way dispatch in readExecutionOrderConstraintOrderedElement/writeEOCExecutableEntityRef
   - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations: ComponentInCompositionInstanceRef not implemented → componentIRef RefType placeholder serialized COMPONENT-IREF/TARGET-COMPONENT-REF (context refs dropped — debt recorded)
+  - [x] Step 8 — Deviations: RESOLVED — ComponentInCompositionInstanceRef now implemented; componentIRef typed Optional[ComponentInCompositionInstanceRef], full nested CONTEXT-COMPONENT-REF*/TARGET-COMPONENT-REF serialization (context refs no longer dropped)
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] EOCEventRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.73 · Base includes EOCExecutableEntityRefAbstract · component -> SwComponentPrototype iref (queued above), bswModuleInstance -> BswImplementation (already stamped))
   - [x] Step 1 — Sync members & description from spec
@@ -234,7 +234,7 @@ queued and synced — see its row below.)
   - [x] Step 5 — Write reader/writer round-trip test (Red)
   - [x] Step 6 — Update parser & writer (Green) — read/writeEOCEventRef + createEOCEventRef/createEOCExecutableEntityRefGroup factories on ExecutionOrderConstraint
   - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations: ComponentInCompositionInstanceRef placeholder (Rule 0001.10)
+  - [x] Step 8 — Deviations: RESOLVED — ComponentInCompositionInstanceRef now implemented; componentIRef typed Optional[ComponentInCompositionInstanceRef], full nested serialization
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] TimingConstraint (input · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.61 · abstract · Base = Traceable (queued above) · timingCondition -> TimingCondition (queued above))
   - [x] Step 1 — Sync members & description from spec

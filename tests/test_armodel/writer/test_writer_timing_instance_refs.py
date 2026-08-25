@@ -6,6 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
     AutosarOperationArgumentInstance,
     AutosarVariableInstance,
+    ComponentInCompositionInstanceRef,
     ModeInBswInstanceRef,
     ModeInSwcInstanceRef,
     OperationArgumentInComponentInstanceRef,
@@ -298,6 +299,41 @@ class TestWriteAutosarVariableInstance:
         element = ET.Element("AUTOSAR-VARIABLE-INSTANCE")
         ARXMLWriter().writeAutosarVariableInstance(element, instance)
         assert element.find("VARIABLE-INSTANCE-IREF") is None
+
+
+class TestWriteComponentInCompositionInstanceRef:
+    def test_round_trip_component_in_composition_instance_ref(self):
+        iref = ComponentInCompositionInstanceRef()
+        iref.addContextComponentRef(RefType().setValue("/Pkg/Comp/SwcProto1").setDest("SW-COMPONENT-PROTOTYPE"))
+        iref.addContextComponentRef(RefType().setValue("/Pkg/Comp/SwcProto2").setDest("SW-COMPONENT-PROTOTYPE"))
+        iref.setTargetComponentRef(RefType().setValue("/Pkg/Comp/SwcProtoTarget").setDest("SW-COMPONENT-PROTOTYPE"))
+
+        element = ET.Element("COMPONENT-IN-COMPOSITION-INSTANCE-REF")
+        ARXMLWriter().writeComponentInCompositionInstanceRef(element, iref)
+        component_refs = element.findall("CONTEXT-COMPONENT-REF")
+        assert len(component_refs) == 2
+        assert component_refs[0].text == "/Pkg/Comp/SwcProto1"
+        assert component_refs[0].attrib["DEST"] == "SW-COMPONENT-PROTOTYPE"
+        assert component_refs[1].text == "/Pkg/Comp/SwcProto2"
+        target = element.find("TARGET-COMPONENT-REF")
+        assert target is not None
+        assert target.text == "/Pkg/Comp/SwcProtoTarget"
+
+        reloaded = ARXMLParser().readComponentInCompositionInstanceRef(_round_trip(element))
+        assert isinstance(reloaded, ComponentInCompositionInstanceRef)
+        reloaded_refs = reloaded.getContextComponentRefs()
+        assert len(reloaded_refs) == 2
+        assert reloaded_refs[0].getValue() == "/Pkg/Comp/SwcProto1"
+        assert reloaded_refs[1].getValue() == "/Pkg/Comp/SwcProto2"
+        assert reloaded.getTargetComponentRef().getValue() == "/Pkg/Comp/SwcProtoTarget"
+
+    def test_write_minimal(self):
+        iref = ComponentInCompositionInstanceRef()
+
+        element = ET.Element("COMPONENT-IN-COMPOSITION-INSTANCE-REF")
+        ARXMLWriter().writeComponentInCompositionInstanceRef(element, iref)
+        assert element.find("TARGET-COMPONENT-REF") is None
+        assert len(element.findall("*")) == 0
 
 
 class TestWriteOperationArgumentInComponentInstanceRef:

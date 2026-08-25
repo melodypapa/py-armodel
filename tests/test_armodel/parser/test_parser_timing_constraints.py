@@ -378,7 +378,7 @@ class TestReadExecutionTimeConstraint:
         element = ET.fromstring(
             f"<EXECUTION-TIME-CONSTRAINT xmlns='{NS}'>"
             "<SHORT-NAME>ExecTime1</SHORT-NAME>"
-            "<COMPONENT-IREF><TARGET-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/AUTOSAR/SwComp</TARGET-COMPONENT-REF></COMPONENT-IREF>"
+            "<COMPONENT-IREF><CONTEXT-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/AUTOSAR/Comp/Ctx</CONTEXT-COMPONENT-REF><TARGET-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/AUTOSAR/Comp/SwComp</TARGET-COMPONENT-REF></COMPONENT-IREF>"
             "<EXECUTABLE-REF DEST='RUNNABLE-ENTITY'>/AUTOSAR/Runnable1</EXECUTABLE-REF>"
             "<EXECUTION-TIME-TYPE>GROSS</EXECUTION-TIME-TYPE>"
             "<MAXIMUM><CSE-CODE>0</CSE-CODE><CSE-CODE-FACTOR>100</CSE-CODE-FACTOR></MAXIMUM>"
@@ -387,8 +387,9 @@ class TestReadExecutionTimeConstraint:
         )
         parser.readExecutionTimeConstraint(element, constraint)
         assert constraint.getShortName() == "ExecTime1"
-        assert constraint.getComponentIRef().getValue() == "/AUTOSAR/SwComp"
-        assert constraint.getComponentIRef().getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert constraint.getComponentIRef().getContextComponentRefs()[0].getValue() == "/AUTOSAR/Comp/Ctx"
+        assert constraint.getComponentIRef().getTargetComponentRef().getValue() == "/AUTOSAR/Comp/SwComp"
+        assert constraint.getComponentIRef().getTargetComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
         assert constraint.getExecutableRef().getValue() == "/AUTOSAR/Runnable1"
         assert constraint.getExecutableRef().getDest() == "RUNNABLE-ENTITY"
         assert constraint.getExecutionTimeType() is not None

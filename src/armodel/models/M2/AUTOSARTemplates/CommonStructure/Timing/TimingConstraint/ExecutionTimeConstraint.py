@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AREnum,
     RefType,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingCondition import ComponentInCompositionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 
 
@@ -76,8 +77,7 @@ class ExecutionTimeConstraint(TimingConstraint):
         super().__init__(parent, short_name)
 
         # The component that containts the referenced Executable Entity for the ExecutionTimeConstraint. If the entity is in a basic software module no component shall be provided. InstanceRef implemented by: ComponentInCompositionInstanceRef
-        # Placeholder: ComponentInCompositionInstanceRef not yet implemented (Rule 0001.10); typed RefType.
-        self.componentIRef: Optional[RefType] = None
+        self.componentIRef: Optional[ComponentInCompositionInstanceRef] = None
 
         # The referenced ExecutableEntity for the ExecutionTime Constraint.
         self.executableRef: Optional[RefType] = None
@@ -91,11 +91,11 @@ class ExecutionTimeConstraint(TimingConstraint):
         # The minimum execution time.
         self.minimum: Optional[MultidimensionalTime] = None
 
-    def getComponentIRef(self) -> Optional[RefType]:
+    def getComponentIRef(self) -> Optional[ComponentInCompositionInstanceRef]:
         """The component that containts the referenced Executable Entity for the ExecutionTimeConstraint. If the entity is in a basic software module no component shall be provided. InstanceRef implemented by: ComponentInCompositionInstanceRef"""
         return self.componentIRef
 
-    def setComponentIRef(self, value: Optional[RefType]) -> "ExecutionTimeConstraint":
+    def setComponentIRef(self, value: Optional[ComponentInCompositionInstanceRef]) -> "ExecutionTimeConstraint":
         """The component that containts the referenced Executable Entity for the ExecutionTimeConstraint. If the entity is in a basic software module no component shall be provided. InstanceRef implemented by: ComponentInCompositionInstanceRef. A None value is a no-op and does not overwrite an existing componentIRef."""
         if value is not None:
             self.componentIRef = value

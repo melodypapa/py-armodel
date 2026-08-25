@@ -3,6 +3,7 @@
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingCondition import ComponentInCompositionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
     ArbitraryEventTriggering,
@@ -756,7 +757,10 @@ class TestWriteExecutionTimeConstraint:
     def test_round_trip_execution_time_constraint(self):
         parent = self._parent()
         constraint = ExecutionTimeConstraint(parent, "ExecTime1")
-        constraint.setComponentIRef(RefType().setValue("/AUTOSAR/SwComp").setDest("SW-COMPONENT-PROTOTYPE"))
+        component_iref = ComponentInCompositionInstanceRef()
+        component_iref.addContextComponentRef(RefType().setValue("/AUTOSAR/Comp/Ctx").setDest("SW-COMPONENT-PROTOTYPE"))
+        component_iref.setTargetComponentRef(RefType().setValue("/AUTOSAR/Comp/SwComp").setDest("SW-COMPONENT-PROTOTYPE"))
+        constraint.setComponentIRef(component_iref)
         constraint.setExecutableRef(RefType().setValue("/AUTOSAR/Runnable1").setDest("RUNNABLE-ENTITY"))
         constraint.setExecutionTimeType(ExecutionTimeTypeEnum().setValue(ExecutionTimeTypeEnum.NET))
         constraint.setMaximum(_mdt("0", "100"))
@@ -770,15 +774,17 @@ class TestWriteExecutionTimeConstraint:
         max_idx = list(element).index(element.find("MAXIMUM"))
         min_idx = list(element).index(element.find("MINIMUM"))
         assert iref_idx < exec_idx < type_idx < max_idx < min_idx
-        assert element.find("COMPONENT-IREF/TARGET-COMPONENT-REF").text == "/AUTOSAR/SwComp"
+        assert element.find("COMPONENT-IREF/CONTEXT-COMPONENT-REF").text == "/AUTOSAR/Comp/Ctx"
+        assert element.find("COMPONENT-IREF/TARGET-COMPONENT-REF").text == "/AUTOSAR/Comp/SwComp"
         assert element.find("COMPONENT-IREF/TARGET-COMPONENT-REF").attrib["DEST"] == "SW-COMPONENT-PROTOTYPE"
         assert element.find("EXECUTION-TIME-TYPE").text == "net"
 
         reloaded = ExecutionTimeConstraint(parent, "ExecTime1")
         ARXMLParser().readExecutionTimeConstraint(_round_trip(element), reloaded)
         assert reloaded.getShortName() == "ExecTime1"
-        assert reloaded.getComponentIRef().getValue() == "/AUTOSAR/SwComp"
-        assert reloaded.getComponentIRef().getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert reloaded.getComponentIRef().getContextComponentRefs()[0].getValue() == "/AUTOSAR/Comp/Ctx"
+        assert reloaded.getComponentIRef().getTargetComponentRef().getValue() == "/AUTOSAR/Comp/SwComp"
+        assert reloaded.getComponentIRef().getTargetComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
         assert reloaded.getExecutableRef().getValue() == "/AUTOSAR/Runnable1"
         assert reloaded.getExecutableRef().getDest() == "RUNNABLE-ENTITY"
         assert reloaded.getExecutionTimeType() is not None

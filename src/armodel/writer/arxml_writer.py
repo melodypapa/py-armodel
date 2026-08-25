@@ -265,6 +265,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition i
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
     AutosarOperationArgumentInstance,
     AutosarVariableInstance,
+    ComponentInCompositionInstanceRef,
     OperationArgumentInComponentInstanceRef,
     TimingExtensionResource,
     TimingModeInstance,
@@ -3526,6 +3527,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             iref_tag = ET.SubElement(element, "OPERATION-ARGUMENT-INSTANCE-IREF")
             self.writeOperationArgumentInComponentInstanceRef(iref_tag, iref)
 
+    def writeComponentInCompositionInstanceRef(self, element: ET.Element, iref: ComponentInCompositionInstanceRef):
+        for context_component_ref in iref.getContextComponentRefs():
+            self.setChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF", context_component_ref)
+        self.setChildElementOptionalRefType(element, "TARGET-COMPONENT-REF", iref.getTargetComponentRef())
+
     def writeOperationArgumentInComponentInstanceRef(self, element: ET.Element, iref: OperationArgumentInComponentInstanceRef):
         for context_component_ref in iref.getContextComponentRefs():
             self.setChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF", context_component_ref)
@@ -3723,10 +3729,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             for direct_successor_ref in direct_successor_refs:
                 self.setChildElementOptionalRefType(refs_tag, "DIRECT-SUCCESSOR-REF", direct_successor_ref)
 
-    def writeEOCComponentIRef(self, element: ET.Element, component_iref):
+    def writeEOCComponentIRef(self, element: ET.Element, component_iref: Optional[ComponentInCompositionInstanceRef]):
         if component_iref is not None:
             iref_tag = ET.SubElement(element, "COMPONENT-IREF")
-            self.setChildElementOptionalRefType(iref_tag, "TARGET-COMPONENT-REF", component_iref)
+            self.writeComponentInCompositionInstanceRef(iref_tag, component_iref)
 
     def writeEOCExecutableEntityRef(self, element: ET.Element, entity_ref: EOCExecutableEntityRef):
         child_element = ET.SubElement(element, "EOC-EXECUTABLE-ENTITY-REF")

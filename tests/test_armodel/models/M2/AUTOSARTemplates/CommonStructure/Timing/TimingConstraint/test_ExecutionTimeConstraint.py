@@ -4,6 +4,7 @@ AUTOSAR CommonStructure.Timing.TimingConstraint module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingCondition import ComponentInCompositionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint import (
     ExecutionTimeConstraint,
     ExecutionTimeTypeEnum,
@@ -48,18 +49,20 @@ class TestExecutionTimeConstraint:
 
     def test_get_set_component_iref(self):
         constraint = ExecutionTimeConstraint(self._parent(), "ExecTime1")
-        ref = RefType().setValue("/AUTOSAR/Comp").setDest("COMPOSITION-SW-COMPONENT-TYPE")
-        assert constraint.setComponentIRef(ref) is constraint
-        assert constraint.getComponentIRef() is ref
-        assert constraint.getComponentIRef().getValue() == "/AUTOSAR/Comp"
-        assert constraint.getComponentIRef().getDest() == "COMPOSITION-SW-COMPONENT-TYPE"
+        iref = ComponentInCompositionInstanceRef()
+        iref.setTargetComponentRef(RefType().setValue("/AUTOSAR/Comp/SwcProto").setDest("SW-COMPONENT-PROTOTYPE"))
+        assert constraint.setComponentIRef(iref) is constraint
+        assert constraint.getComponentIRef() is iref
+        assert constraint.getComponentIRef().getTargetComponentRef().getValue() == "/AUTOSAR/Comp/SwcProto"
+        assert constraint.getComponentIRef().getTargetComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
 
     def test_set_component_iref_none_is_no_op(self):
         constraint = ExecutionTimeConstraint(self._parent(), "ExecTime1")
-        ref = RefType().setValue("/AUTOSAR/Comp").setDest("COMPOSITION-SW-COMPONENT-TYPE")
-        constraint.setComponentIRef(ref)
+        iref = ComponentInCompositionInstanceRef()
+        iref.setTargetComponentRef(RefType().setValue("/AUTOSAR/Comp/SwcProto").setDest("SW-COMPONENT-PROTOTYPE"))
+        constraint.setComponentIRef(iref)
         constraint.setComponentIRef(None)
-        assert constraint.getComponentIRef() is ref
+        assert constraint.getComponentIRef() is iref
 
     def test_get_set_executable_ref(self):
         constraint = ExecutionTimeConstraint(self._parent(), "ExecTime1")

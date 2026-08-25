@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     RefType,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingCondition import ComponentInCompositionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
 
 
@@ -150,8 +151,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
         self.bswModuleInstanceRef: Optional[RefType] = None
 
         # This association references the specific instance of the SW-C prototype. InstanceRef implemented by: ComponentInCompositionInstanceRef
-        # Placeholder: ComponentInCompositionInstanceRef not yet implemented (Rule 0001.10); typed RefType.
-        self.componentIRef: Optional[RefType] = None
+        self.componentIRef: Optional[ComponentInCompositionInstanceRef] = None
 
         # The ExecutableEntity whose execution order is restricted by the contraint.
         self.executableRef: Optional[RefType] = None
@@ -169,11 +169,11 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
             self.bswModuleInstanceRef = value
         return self
 
-    def getComponentIRef(self) -> Optional[RefType]:
+    def getComponentIRef(self) -> Optional[ComponentInCompositionInstanceRef]:
         """This association references the specific instance of the SW-C prototype. InstanceRef implemented by: ComponentInCompositionInstanceRef"""
         return self.componentIRef
 
-    def setComponentIRef(self, value: Optional[RefType]) -> "EOCExecutableEntityRef":
+    def setComponentIRef(self, value: Optional[ComponentInCompositionInstanceRef]) -> "EOCExecutableEntityRef":
         """This association references the specific instance of the SW-C prototype. InstanceRef implemented by: ComponentInCompositionInstanceRef. A None value is a no-op and does not overwrite an existing componentIRef."""
         if value is not None:
             self.componentIRef = value
@@ -349,8 +349,7 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
         self.bswModuleInstanceRef: Optional[RefType] = None
 
         # This association references the specific instance of the SW-C prototype. InstanceRef implemented by: ComponentInCompositionInstanceRef
-        # Placeholder: ComponentInCompositionInstanceRef not yet implemented (Rule 0001.10); typed RefType.
-        self.componentIRef: Optional[RefType] = None
+        self.componentIRef: Optional[ComponentInCompositionInstanceRef] = None
 
         # The AbstractEvent (event) whose execution order is restricted by the contraint.
         self.eventRef: Optional[RefType] = None
@@ -368,11 +367,11 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
             self.bswModuleInstanceRef = value
         return self
 
-    def getComponentIRef(self) -> Optional[RefType]:
+    def getComponentIRef(self) -> Optional[ComponentInCompositionInstanceRef]:
         """This association references the specific instance of the SW-C prototype. InstanceRef implemented by: ComponentInCompositionInstanceRef"""
         return self.componentIRef
 
-    def setComponentIRef(self, value: Optional[RefType]) -> "EOCEventRef":
+    def setComponentIRef(self, value: Optional[ComponentInCompositionInstanceRef]) -> "EOCEventRef":
         """This association references the specific instance of the SW-C prototype. InstanceRef implemented by: ComponentInCompositionInstanceRef. A None value is a no-op and does not overwrite an existing componentIRef."""
         if value is not None:
             self.componentIRef = value

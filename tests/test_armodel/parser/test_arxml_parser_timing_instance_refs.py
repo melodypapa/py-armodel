@@ -6,6 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
     AutosarOperationArgumentInstance,
     AutosarVariableInstance,
+    ComponentInCompositionInstanceRef,
     ModeInBswInstanceRef,
     ModeInSwcInstanceRef,
     OperationArgumentInComponentInstanceRef,
@@ -237,6 +238,38 @@ class TestReadTimingExtensionResource:
         resource = ARXMLParser().readTimingExtensionResource(parent, _round_trip(element))
         assert resource.getShortName() == "Resource1"
         assert resource.getTimingModes() == []
+
+
+class TestReadComponentInCompositionInstanceRef:
+    def test_read_all_members(self):
+        element = ET.Element("COMPONENT-IN-COMPOSITION-INSTANCE-REF")
+        comp1 = ET.SubElement(element, "CONTEXT-COMPONENT-REF")
+        comp1.attrib["DEST"] = "SW-COMPONENT-PROTOTYPE"
+        comp1.text = "/Pkg/Comp/SwcProto1"
+        comp2 = ET.SubElement(element, "CONTEXT-COMPONENT-REF")
+        comp2.attrib["DEST"] = "SW-COMPONENT-PROTOTYPE"
+        comp2.text = "/Pkg/Comp/SwcProto2"
+        target = ET.SubElement(element, "TARGET-COMPONENT-REF")
+        target.attrib["DEST"] = "SW-COMPONENT-PROTOTYPE"
+        target.text = "/Pkg/Comp/SwcProtoTarget"
+
+        iref = ARXMLParser().readComponentInCompositionInstanceRef(_round_trip(element))
+        assert isinstance(iref, ComponentInCompositionInstanceRef)
+        component_refs = iref.getContextComponentRefs()
+        assert len(component_refs) == 2
+        assert component_refs[0].getValue() == "/Pkg/Comp/SwcProto1"
+        assert component_refs[0].getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert component_refs[1].getValue() == "/Pkg/Comp/SwcProto2"
+        assert iref.getTargetComponentRef().getValue() == "/Pkg/Comp/SwcProtoTarget"
+        assert iref.getTargetComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
+
+    def test_read_minimal(self):
+        element = ET.Element("COMPONENT-IN-COMPOSITION-INSTANCE-REF")
+
+        iref = ARXMLParser().readComponentInCompositionInstanceRef(_round_trip(element))
+        assert isinstance(iref, ComponentInCompositionInstanceRef)
+        assert iref.getContextComponentRefs() == []
+        assert iref.getTargetComponentRef() is None
 
 
 class TestReadAutosarOperationArgumentInstance:

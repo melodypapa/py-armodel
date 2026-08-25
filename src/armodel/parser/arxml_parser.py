@@ -208,6 +208,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition i
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
     AutosarOperationArgumentInstance,
     AutosarVariableInstance,
+    ComponentInCompositionInstanceRef,
     OperationArgumentInComponentInstanceRef,
     TimingCondition,
     TimingExtensionResource,
@@ -2220,6 +2221,13 @@ class ARXMLParser(AbstractARXMLParser):
             instance.setOperationArgumentInstanceIRef(self.readOperationArgumentInComponentInstanceRef(iref_element))
         return instance
 
+    def readComponentInCompositionInstanceRef(self, element: ET.Element) -> ComponentInCompositionInstanceRef:
+        iref = ComponentInCompositionInstanceRef()
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+            iref.addContextComponentRef(ref)
+        iref.setTargetComponentRef(self.getChildElementOptionalRefType(element, "TARGET-COMPONENT-REF"))
+        return iref
+
     def readOperationArgumentInComponentInstanceRef(self, element: ET.Element) -> OperationArgumentInComponentInstanceRef:
         iref = OperationArgumentInComponentInstanceRef()
         for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
@@ -2514,10 +2522,10 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "DIRECT-SUCCESSOR-REFS/DIRECT-SUCCESSOR-REF"):
             obj.addDirectSuccessorRef(ref)
 
-    def readEOCComponentIRef(self, element: ET.Element, key: str) -> RefType:
+    def readEOCComponentIRef(self, element: ET.Element, key: str) -> Optional[ComponentInCompositionInstanceRef]:
         component_iref_element = self.find(element, key)
         if component_iref_element is not None:
-            return self.getChildElementOptionalRefType(component_iref_element, "TARGET-COMPONENT-REF")
+            return self.readComponentInCompositionInstanceRef(component_iref_element)
         return None
 
     def readEOCExecutableEntityRef(self, element: ET.Element, entity_ref: EOCExecutableEntityRef):
