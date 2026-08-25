@@ -193,15 +193,15 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 8 — Deviations: ComponentInCompositionInstanceRef placeholder (Rule 0001.10)
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] TimingConstraint (input · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.61 · abstract · Base = Traceable (queued above) · timingCondition -> TimingCondition (queued above))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base Traceable+ABC with TypeError guard; timingConditionRef Optional[RefType] (was snake_case @property stub → renamed/re-typed get/setTimingConditionRef)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingConstraint = identifiable + traceable (TRACE-REFS) + TIMING-CONDITION-REF
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: none blocking
+  - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] SynchronizationTimingConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.54 · Base includes TimingConstraint · uses SynchronizationTypeEnum/EventOccurrenceKindEnum (queued above), MultidimensionalTime (already stamped) · scope/scopeEvent -> TimingDescriptionEventChain/TimingDescriptionEvent are Rule 0001.10 placeholders, not queued)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -343,35 +343,35 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] TimingClock (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.59 · abstract · platformTimeBase -> GlobalTimeDomain is a Rule 0001.10 placeholder, not queued · Subclass TDLETZoneClock queued next)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base Identifiable+ABC with TypeError guard; platformTimeBaseRef Optional[RefType] placeholder; fabricated clockName/clockType removed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingClock, PLATFORM-TIME-BASES/GLOBAL-TIME-DOMAIN-REF-CONDITIONAL wrapper emitted only when set
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: GlobalTimeDomain not implemented → RefType placeholder (Rule 0001.10); XSD atpSplitable wrapper may repeat REF-CONDITIONAL entries — single value kept per PDF Mult 0..1
+  - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] TDLETZoneClock (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.58 · Base includes TimingClock (queued above) · uses MultidimensionalTime (already stamped))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base TimingClock; accuracyExt/accuracyInt Optional[MultidimensionalTime]; fabricated clockRef/zoneRef removed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTDLETZoneClock reusing read/writeTimingClock + readMultidimensionalTime/setMultidimensionalTime
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: none blocking
+  - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] TimingClockSyncAccuracy (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.60 · lower/upper -> TimingClock (queued above))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base Identifiable; accuracy Optional[MultidimensionalTime], lowerRef/upperRef Optional[RefType] in spec row order; fabricated string-typed accuracy/unit removed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingClockSyncAccuracy, ACCURACY + flat LOWER-REF/UPPER-REF
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: none blocking
+  - [ ] Step 9 — Verify (9a passed; 9b confirm + stamp deferred to batch after human review)
 - [ ] TimingExtension (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.65 · abstract · aggregates TimingClock/TimingClockSyncAccuracy/TimingCondition (queued above); timingGuarantee/timingRequirement -> TimingConstraint (queued above); timingDescription -> TimingDescription/TimingDescriptionEvent(Chain) is a Rule 0001.10 placeholder, not queued · Subclass SwcTiming queued next)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
