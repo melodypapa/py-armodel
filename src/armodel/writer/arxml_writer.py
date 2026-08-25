@@ -474,6 +474,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SdClientConfig,
     VlanMembership,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint, NetworkEndpointAddress
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     ApplicationEndpoint,
@@ -9740,6 +9741,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSecureCommunicationPropsSet(element, ar_element)
         elif isinstance(ar_element, SoAdRoutingGroup):
             self.writeSoAdRoutingGroup(element, ar_element)
+        elif isinstance(ar_element, CanXlProps):
+            self.writeCanXlProps(element, ar_element)
         elif isinstance(ar_element, SomeipSdClientServiceInstanceConfig):
             self.writeSomeipSdClientServiceInstanceConfig(element, ar_element)
         elif isinstance(ar_element, SomeipSdClientEventGroupTimingConfig):
@@ -9888,6 +9891,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             refs_element = ET.SubElement(conditional_element, "MC-DATA-INSTANCE-REFS")
             for ref in mc_data_instance_refs:
                 self.setChildElementOptionalRefType(refs_element, "MC-DATA-INSTANCE-REF", ref)
+
+    def setCanControllerConfiguration(self, element: ET.Element, key: str, configuration: CanControllerConfiguration):
+        if configuration is not None:
+            ET.SubElement(element, key)
+
+    def writeCanXlProps(self, parent: ET.Element, can_xl_props: CanXlProps):
+        self.logger.debug("Write CanXlProps %s" % can_xl_props.getShortName())
+        element = ET.SubElement(parent, "CAN-XL-PROPS")
+        self.writeIdentifiable(element, can_xl_props)
+        self.setChildElementOptionalPositiveInteger(element, "CAN-BAUDRATE", can_xl_props.getCanBaudrate())
+        self.setCanControllerConfiguration(element, "CAN-CONFIG", can_xl_props.getCanConfig())
+        self.setChildElementOptionalPositiveInteger(element, "CAN-FD-BAUDRATE", can_xl_props.getCanFdBaudrate())
+        self.setCanControllerFdConfiguration(element, "CAN-FD-CONFIG", can_xl_props.getCanFdConfig())
+        self.setChildElementOptionalPositiveInteger(element, "CAN-XL-BAUDRATE", can_xl_props.getCanXlBaudrate())
+        self.setCanControllerXlConfiguration(element, "CAN-XL-CONFIG", can_xl_props.getCanXlConfig())
+        self.setCanControllerXlConfigurationRequirements(element, "CAN-XL-CONFIG-REQS", can_xl_props.getCanXlConfigReqs())
 
     def writeARPackage(self, element: ET.Element, pkg: ARPackage):
         self.logger.debug("Write ARPackage %s" % pkg.getFullName())

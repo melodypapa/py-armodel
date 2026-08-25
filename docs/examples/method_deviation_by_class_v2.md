@@ -2867,3 +2867,19 @@ the concrete subclasses in `read/writeBusDependentNmEcus`.
 | `ipv6DhcpServerConfiguration` | `Optional[Ipv6DhcpServerConfiguration]` | `ipv6DhcpServerConfiguration` | ``Ipv6DhcpServerConfiguration`` | aggr | derived from cross-table `Aggregated by` (Table 3.81); no verbatim `Note` cell exists for this aggregation role in Table 3.79 |
 | `Ipv4DhcpServerConfiguration` | `Describable` (stub) | `Ipv4DhcpServerConfiguration` | ``ARObject , Describable`` | - | placeholder stub, full sync deferred (Rule 0001.10) |
 | `Ipv6DhcpServerConfiguration` | `Describable` (stub) | `Ipv6DhcpServerConfiguration` | ``ARObject , Describable`` | - | placeholder stub, full sync deferred (Rule 0001.10) |
+
+## `CanXlProps`
+- **PDF:** `AUTOSAR_AP_TPS_SystemDesign (AdaptivePlatform)`  | **page:** n/a  | **table:** CAN-XL-PROPS (AUTOSAR_00052.xsd)
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetCommunication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetCommunication.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `CanXlProps` | `ARElement` | `CanXlProps` | ``ARObject , Referrable , MultilanguageReferrable , Identifiable , CollectableElement , PackageableElement , ARElement , UploadablePackageElement , UploadableDesignElement`` | - | no verbatim markdown/PDF table; spec derived from XSD `CAN-XL-PROPS` complexType (AdaptivePlatform). Registered as a top-level serializable ARElement (package dispatch in `ARPackage` + writer `writeARPackageElement`). |
+| `canBaudrate` | `Optional[PositiveInteger]` | `canBaudrate` | ``POSITIVE-INTEGER`` | attr | verbatim `Note` from XSD |
+| `canConfig` | `Optional[CanControllerConfiguration]` | `canConfig` | ``CAN-CONTROLLER-CONFIGURATION`` | aggr | referenced class `CanControllerConfiguration` (AUTOSAR_CP_TPS_SystemTemplate Table 3.14) not yet implemented; modeled as a placeholder `ARObject` subclass (`CanControllerConfiguration`), full sync deferred (Rule 0001.10) |
+| `canFdBaudrate` | `Optional[PositiveInteger]` | `canFdBaudrate` | ``POSITIVE-INTEGER`` | attr | verbatim `Note` from XSD |
+| `canFdConfig` | `Optional[CanControllerFdConfiguration]` | `canFdConfig` | ``CAN-CONTROLLER-FD-CONFIGURATION`` | aggr | verbatim `Note` from XSD |
+| `canXlBaudrate` | `Optional[PositiveInteger]` | `canXlBaudrate` | ``POSITIVE-INTEGER`` | attr | verbatim `Note` from XSD |
+| `canXlConfig` | `Optional[CanControllerXlConfiguration]` | `canXlConfig` | ``CAN-CONTROLLER-XL-CONFIGURATION`` | aggr | verbatim `Note` from XSD |
+| `canXlConfigReqs` | `Optional[CanControllerXlConfigurationRequirements]` | `canXlConfigReqs` | ``CAN-CONTROLLER-XL-CONFIGURATION-REQUIREMENTS`` | aggr | verbatim `Note` from XSD |

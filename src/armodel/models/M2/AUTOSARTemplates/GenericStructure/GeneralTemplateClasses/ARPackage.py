@@ -88,7 +88,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import CanXlProps, SoAdRoutingGroup
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
@@ -1392,6 +1392,12 @@ class ARPackage(CollectableElement):
             group = SoAdRoutingGroup(self, short_name)
             self.addElement(group)
         return self.getElement(short_name, SoAdRoutingGroup)
+
+    def createCanXlProps(self, short_name: str) -> CanXlProps:
+        if not self.IsElementExists(short_name, CanXlProps):
+            can_xl_props = CanXlProps(self, short_name)
+            self.addElement(can_xl_props)
+        return self.getElement(short_name, CanXlProps)
 
     def createSomeipSdClientServiceInstanceConfig(self, short_name: str) -> SomeipSdClientServiceInstanceConfig:
         if not self.IsElementExists(short_name, SomeipSdClientServiceInstanceConfig):

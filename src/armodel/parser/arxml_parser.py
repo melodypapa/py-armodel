@@ -506,6 +506,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SdClientConfig,
     VlanMembership,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     ApplicationEndpoint,
@@ -8159,6 +8160,13 @@ class ARXMLParser(AbstractARXMLParser):
             configuration.setTrcvPwmModeEnabled(self.getChildElementOptionalBooleanValue(child_element, "TRCV-PWM-MODE-ENABLED"))
         return configuration
 
+    def getCanControllerConfiguration(self, element: ET.Element, key: str) -> CanControllerConfiguration:
+        configuration = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            configuration = CanControllerConfiguration()
+        return configuration
+
     def getCanControllerXlConfigurationRequirements(self, element: ET.Element, key: str) -> CanControllerXlConfigurationRequirements:
         requirements = None
         child_element = self.find(element, key)
@@ -8181,6 +8189,16 @@ class ARXMLParser(AbstractARXMLParser):
             requirements.setMinTrcvDelayCompensationOffset(self.getChildElementOptionalTimeValue(child_element, "MIN-TRCV-DELAY-COMPENSATION-OFFSET"))
             requirements.setTrcvPwmModeEnabled(self.getChildElementOptionalBooleanValue(child_element, "TRCV-PWM-MODE-ENABLED"))
         return requirements
+
+    def readCanXlProps(self, element: ET.Element, can_xl_props: CanXlProps):
+        self.readIdentifiable(element, can_xl_props)
+        can_xl_props.setCanBaudrate(self.getChildElementOptionalPositiveInteger(element, "CAN-BAUDRATE"))
+        can_xl_props.setCanConfig(self.getCanControllerConfiguration(element, "CAN-CONFIG"))
+        can_xl_props.setCanFdBaudrate(self.getChildElementOptionalPositiveInteger(element, "CAN-FD-BAUDRATE"))
+        can_xl_props.setCanFdConfig(self.getCanControllerFdConfiguration(element, "CAN-FD-CONFIG"))
+        can_xl_props.setCanXlBaudrate(self.getChildElementOptionalPositiveInteger(element, "CAN-XL-BAUDRATE"))
+        can_xl_props.setCanXlConfig(self.getCanControllerXlConfiguration(element, "CAN-XL-CONFIG"))
+        can_xl_props.setCanXlConfigReqs(self.getCanControllerXlConfigurationRequirements(element, "CAN-XL-CONFIG-REQS"))
 
     def readAbstractCanCommunicationControllerAttributes(self, element: ET.Element, attributes: AbstractCanCommunicationControllerAttributes):
         attributes.setCanControllerFdAttributes(self.getCanControllerFdConfiguration(element, "CAN-CONTROLLER-FD-CONFIGURATION"))
@@ -9542,6 +9560,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ETHERNET-CLUSTER":
                 cluster = parent.createEthernetCluster(self.getShortName(child_element))
                 self.readEthernetCluster(child_element, cluster)
+            elif tag_name == "CAN-XL-PROPS":
+                can_xl_props = parent.createCanXlProps(self.getShortName(child_element))
+                self.readCanXlProps(child_element, can_xl_props)
             elif tag_name == "DIAGNOSTIC-CONNECTION":
                 connection = parent.createDiagnosticConnection(self.getShortName(child_element))
                 self.readDiagnosticConnection(child_element, connection)
