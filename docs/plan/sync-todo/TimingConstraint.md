@@ -84,16 +84,16 @@ Rule 0001.10 placeholder and report it at their own Step 8.
   - [x] Step 9 — Verify (9a) + confirm (9b) — # Spec verified: R23-11 stamped
 - [x] OperationArgumentInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00046.xsd OPERATION-ARGUMENT-IN-COMPONENT-INSTANCE-REF group · dependency of AutosarOperationArgumentInstance.operationArgumentInstance · parallels ModeInSwcInstanceRef · no own PDF table, so no # Spec verified: marker) [45453e9f]
 - [x] AutosarOperationArgumentInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.53 · operationArgumentInstance re-typed to aggregate OperationArgumentInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingArgument placeholder) [1570df56]
-- [ ] VariableInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00046.xsd VARIABLE-IN-COMPONENT-INSTANCE-REF group · dependency of AutosarVariableInstance.variableInstance · parallels ModeInSwcInstanceRef · no own PDF table, so no # Spec verified: marker)
-  - [ ] Step 1 — Sync members & description from XSD
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)  [no stamp — XSD-only]
+- [x] VariableInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00046.xsd VARIABLE-IN-COMPONENT-INSTANCE-REF group · dependency of AutosarVariableInstance.variableInstance · parallels ModeInSwcInstanceRef · no own PDF table, so no # Spec verified: marker) [98cf27e2]
+  - [x] Step 1 — Sync members & description from XSD
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base AtpInstanceRef; 5 RefType members matching XSD sequenceOffset order
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeVariableInComponentInstanceRef (VARIABLE-INSTANCE-IREF)
+  - [x] Step 7 — Update checklist comment (XSD-only, no # Spec: line)
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a) + confirm (9b): 37 model/parser/writer tests pass; ruff/flake8/black clean; XSD-only class, no # Spec verified: marker (Rule 0002)
 - [ ] AutosarVariableInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.52 · variableInstance re-typed to aggregate VariableInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingVariable placeholder)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
