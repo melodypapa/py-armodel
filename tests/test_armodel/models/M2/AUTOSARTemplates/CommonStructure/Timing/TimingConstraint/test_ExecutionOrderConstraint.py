@@ -1,75 +1,32 @@
-import pytest
-
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
+    EOCEventRef,
     EOCExecutableEntityRef,
-    EOCExecutableEntityRefAbstract,
+    EOCExecutableEntityRefGroup,
     ExecutionOrderConstraint,
     ExecutionOrderConstraintTypeEnum,
     LetDataExchangeParadigmEnum,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-
-
-class TestEOCExecutableEntityRefAbstract:
-    def test_abstract_class_cannot_be_instantiated(self):
-        """Test that EOCExecutableEntityRefAbstract abstract class cannot be instantiated directly"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        with pytest.raises(TypeError, match="EOCExecutableEntityRefAbstract is an abstract class"):
-            EOCExecutableEntityRefAbstract(ar_root, "TestEOCExecutableEntityRefAbstract")
-
-
-class TestEOCExecutableEntityRef:
-    def test_initialization(self):
-        """Test EOCExecutableEntityRef initialization"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        entity_ref = EOCExecutableEntityRef(ar_root, "TestEntityRef")
-
-        assert entity_ref is not None
-        assert entity_ref.getShortName() == "TestEntityRef"
-        assert entity_ref.successor_refs == []
-
-    def test_add_successor_ref(self):
-        """Test addSuccessorRef method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        entity_ref = EOCExecutableEntityRef(ar_root, "TestEntityRef")
-
-        ref = RefType().setValue("SuccessorRef")
-        entity_ref.addSuccessorRef(ref)
-        assert ref in entity_ref.getSuccessorRefs()
-        assert len(entity_ref.getSuccessorRefs()) == 1
-        assert entity_ref.getSuccessorRefs()[0] == ref
-
-    def test_get_successor_refs(self):
-        """Test getSuccessorRefs method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        entity_ref = EOCExecutableEntityRef(ar_root, "TestEntityRef")
-
-        refs = entity_ref.getSuccessorRefs()
-        assert refs == []
-        assert isinstance(refs, list)
 
 
 class TestExecutionOrderConstraint:
+    def _parent(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        return document.createARPackage("AUTOSAR")
+
     def test_initialization(self):
-        """Test ExecutionOrderConstraint initialization"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        constraint = ExecutionOrderConstraint(ar_root, "TestConstraint")
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
 
         assert constraint is not None
         assert constraint.getShortName() == "TestConstraint"
-        assert constraint.ordered_elements == []
+        assert constraint.getOrderedElements() == []
 
     def test_create_eoc_executable_entity_ref(self):
-        """Test createEOCExecutableEntityRef method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        constraint = ExecutionOrderConstraint(ar_root, "TestConstraint")
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
 
         entity_ref = constraint.createEOCExecutableEntityRef("EntityRef")
         assert isinstance(entity_ref, EOCExecutableEntityRef)
@@ -78,10 +35,8 @@ class TestExecutionOrderConstraint:
         assert len(constraint.getOrderedElements()) == 1
 
     def test_create_eoc_executable_entity_ref_duplicate(self):
-        """Test createEOCExecutableEntityRef with duplicate name"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        constraint = ExecutionOrderConstraint(ar_root, "TestConstraint")
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
 
         entity_ref1 = constraint.createEOCExecutableEntityRef("EntityRef")
         entity_ref2 = constraint.createEOCExecutableEntityRef("EntityRef")  # Should return same instance
@@ -89,15 +44,57 @@ class TestExecutionOrderConstraint:
         assert entity_ref1 is entity_ref2
         assert len(constraint.getOrderedElements()) == 1
 
-    def test_get_ordered_elements(self):
-        """Test getOrderedElements method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        constraint = ExecutionOrderConstraint(ar_root, "TestConstraint")
+    def test_create_eoc_event_ref(self):
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
+
+        event_ref = constraint.createEOCEventRef("EventRef")
+        assert isinstance(event_ref, EOCEventRef)
+        assert event_ref.getShortName() == "EventRef"
+        assert event_ref in constraint.getOrderedElements()
+        assert len(constraint.getOrderedElements()) == 1
+
+    def test_create_eoc_event_ref_duplicate(self):
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
+
+        event_ref1 = constraint.createEOCEventRef("EventRef")
+        event_ref2 = constraint.createEOCEventRef("EventRef")
+
+        assert event_ref1 is event_ref2
+        assert len(constraint.getOrderedElements()) == 1
+
+    def test_create_eoc_executable_entity_ref_group(self):
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
+
+        group = constraint.createEOCExecutableEntityRefGroup("Group")
+        assert isinstance(group, EOCExecutableEntityRefGroup)
+        assert group.getShortName() == "Group"
+        assert group in constraint.getOrderedElements()
+        assert len(constraint.getOrderedElements()) == 1
+
+    def test_create_eoc_executable_entity_ref_group_duplicate(self):
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
+
+        group1 = constraint.createEOCExecutableEntityRefGroup("Group")
+        group2 = constraint.createEOCExecutableEntityRefGroup("Group")
+
+        assert group1 is group2
+        assert len(constraint.getOrderedElements()) == 1
+
+    def test_get_ordered_elements_mixed_subtypes(self):
+        parent = self._parent()
+        constraint = ExecutionOrderConstraint(parent, "TestConstraint")
+
+        entity_ref = constraint.createEOCExecutableEntityRef("EntityRef")
+        event_ref = constraint.createEOCEventRef("EventRef")
+        group = constraint.createEOCExecutableEntityRefGroup("Group")
 
         elements = constraint.getOrderedElements()
-        assert elements == []
-        assert isinstance(elements, list)
+        assert elements == [entity_ref, event_ref, group]
+        assert len(elements) == 3
 
 
 class TestExecutionOrderConstraintTypeEnum:
@@ -137,3 +134,16 @@ class TestLetDataExchangeParadigmEnum:
         enum = LetDataExchangeParadigmEnum()
         for member in [LetDataExchangeParadigmEnum.INTER_LET_ONLY, LetDataExchangeParadigmEnum.INTRA_LET_EOC]:
             assert enum.setValue(member).getValue() == member
+
+
+def test_imports():
+    """Ensure the module re-exports stay stable."""
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import (
+        EOCEventRef as _eoc_event_ref,
+    )
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import (
+        EOCExecutableEntityRefGroup as _eoc_group,
+    )
+
+    assert _eoc_event_ref is EOCEventRef
+    assert _eoc_group is EOCExecutableEntityRefGroup

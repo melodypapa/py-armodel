@@ -164,7 +164,14 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
+    EOCEventRef,
+    EOCExecutableEntityRef,
+    EOCExecutableEntityRefAbstract,
+    EOCExecutableEntityRefGroup,
+    ExecutionOrderConstraint,
+    LetDataExchangeParadigmEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import ConfidenceInterval
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
@@ -2162,6 +2169,52 @@ class ARXMLParser(AbstractARXMLParser):
             mode = resource.createTimingMode(self.getShortName(child_element))
             self.readTimingModeInstance(child_element, mode)
         return resource
+
+    def readEOCExecutableEntityRefAbstract(self, element: ET.Element, obj: EOCExecutableEntityRefAbstract):
+        for ref in self.getChildElementRefTypeList(element, "DIRECT-SUCCESSOR-REFS/DIRECT-SUCCESSOR-REF"):
+            obj.addDirectSuccessorRef(ref)
+
+    def readEOCComponentIRef(self, element: ET.Element, key: str) -> RefType:
+        component_iref_element = self.find(element, key)
+        if component_iref_element is not None:
+            return self.getChildElementOptionalRefType(component_iref_element, "TARGET-COMPONENT-REF")
+        return None
+
+    def readEOCExecutableEntityRef(self, element: ET.Element, entity_ref: EOCExecutableEntityRef):
+        self.readIdentifiable(element, entity_ref)
+        self.readEOCExecutableEntityRefAbstract(element, entity_ref)
+        entity_ref.setBswModuleInstanceRef(self.getChildElementOptionalRefType(element, "BSW-MODULE-INSTANCE-REF"))
+        entity_ref.setComponentIRef(self.readEOCComponentIRef(element, "COMPONENT-IREF"))
+        entity_ref.setExecutableRef(self.getChildElementOptionalRefType(element, "EXECUTABLE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "SUCCESSOR-REFS/SUCCESSOR-REF"):
+            entity_ref.addSuccessorRef(ref)
+
+    def readEOCEventRef(self, element: ET.Element, event_ref: EOCEventRef):
+        self.readIdentifiable(element, event_ref)
+        self.readEOCExecutableEntityRefAbstract(element, event_ref)
+        event_ref.setBswModuleInstanceRef(self.getChildElementOptionalRefType(element, "BSW-MODULE-INSTANCE-REF"))
+        event_ref.setComponentIRef(self.readEOCComponentIRef(element, "COMPONENT-IREF"))
+        event_ref.setEventRef(self.getChildElementOptionalRefType(element, "EVENT-REF"))
+        for ref in self.getChildElementRefTypeList(element, "SUCCESSOR-REFS/SUCCESSOR-REF"):
+            event_ref.addSuccessorRef(ref)
+
+    def readEOCExecutableEntityRefGroup(self, element: ET.Element, group: EOCExecutableEntityRefGroup):
+        self.readIdentifiable(element, group)
+        self.readEOCExecutableEntityRefAbstract(element, group)
+        literal = self.getChildElementOptionalLiteral(element, "LET-DATA-EXCHANGE-PARADIGM")
+        if literal is not None:
+            group.setLetDataExchangeParadigm(LetDataExchangeParadigmEnum().setValue(literal.getText()))
+        for ref in self.getChildElementRefTypeList(element, "LET-INTERVAL-REFS/LET-INTERVAL-REF"):
+            group.addLetIntervalRef(ref)
+        group.setMaxCycleRepetitions(self.getChildElementOptionalPositiveInteger(element, "MAX-CYCLE-REPETITIONS"))
+        group.setMaxCycles(self.getChildElementOptionalIntegerValue(element, "MAX-CYCLES"))
+        group.setMaxSlots(self.getChildElementOptionalIntegerValue(element, "MAX-SLOTS"))
+        group.setMaxSlotsPerCycle(self.getChildElementOptionalPositiveInteger(element, "MAX-SLOTS-PER-CYCLE"))
+        for ref in self.getChildElementRefTypeList(element, "NESTED-ELEMENT-REFS/NESTED-ELEMENT-REF"):
+            group.addNestedElementRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "SUCCESSOR-REFS/SUCCESSOR-REF"):
+            group.addSuccessorRef(ref)
+        group.setTriggeringEventRef(self.getChildElementOptionalRefType(element, "TRIGGERING-EVENT-REF"))
 
     def readSwcInternalBehaviorVariationPointProxies(self, element: ET.Element, behavior: SwcInternalBehavior):
         for child_element in self.findall(element, "VARIATION-POINT-PROXYS/VARIATION-POINT-PROXY"):
@@ -5907,19 +5960,18 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPortInterface(element, mode_interface)
         self.readModeSwitchInterfaceModeGroup(element, mode_interface)
 
-    def readEOCExecutableEntityRef(self, element: ET.Element, constraint: ExecutionOrderConstraint):
-        short_name = self.getShortName(element)
-        self.logger.debug("readEocExecutableEntityRef %s" % short_name)
-        entity_ref = constraint.createEOCExecutableEntityRef(short_name)
-        self.readIdentifiable(element, entity_ref)
-        for ref in self.getChildElementRefTypeList(element, "SUCCESSOR-REFS/SUCCESSOR-REF"):
-            entity_ref.addSuccessorRef(ref)
-
     def readExecutionOrderConstraintOrderedElement(self, element: ET.Element, constrain: ExecutionOrderConstraint):
         for child_element in self.findall(element, "ORDERED-ELEMENTS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "EOC-EXECUTABLE-ENTITY-REF":
-                self.readEOCExecutableEntityRef(child_element, constrain)
+                entity_ref = constrain.createEOCExecutableEntityRef(self.getShortName(child_element))
+                self.readEOCExecutableEntityRef(child_element, entity_ref)
+            elif tag_name == "EOC-EVENT-REF":
+                event_ref = constrain.createEOCEventRef(self.getShortName(child_element))
+                self.readEOCEventRef(child_element, event_ref)
+            elif tag_name == "EOC-EXECUTABLE-ENTITY-REF-GROUP":
+                entity_ref_group = constrain.createEOCExecutableEntityRefGroup(self.getShortName(child_element))
+                self.readEOCExecutableEntityRefGroup(child_element, entity_ref_group)
             else:
                 self.raiseError("Unsupported order element <%s>." % tag_name)
 

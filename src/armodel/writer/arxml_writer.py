@@ -148,7 +148,13 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRef, ExecutionOrderConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
+    EOCEventRef,
+    EOCExecutableEntityRefAbstract,
+    EOCExecutableEntityRef,
+    EOCExecutableEntityRefGroup,
+    ExecutionOrderConstraint,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
@@ -3474,6 +3480,64 @@ class ARXMLWriter(AbstractARXMLWriter):
                 mode_tag = ET.SubElement(modes_tag, "TIMING-MODE-INSTANCE")
                 self.writeTimingModeInstance(mode_tag, mode)
 
+    def setEOCExecutableEntityRefSuccessorRefs(self, element: ET.Element, successor_refs: List[RefType]):
+        if len(successor_refs) > 0:
+            child_element = ET.SubElement(element, "SUCCESSOR-REFS")
+            for successor_ref in successor_refs:
+                self.setChildElementOptionalRefType(child_element, "SUCCESSOR-REF", successor_ref)
+
+    def writeEOCExecutableEntityRefAbstract(self, element: ET.Element, obj: EOCExecutableEntityRefAbstract):
+        direct_successor_refs = obj.getDirectSuccessorRefs()
+        if len(direct_successor_refs) > 0:
+            refs_tag = ET.SubElement(element, "DIRECT-SUCCESSOR-REFS")
+            for direct_successor_ref in direct_successor_refs:
+                self.setChildElementOptionalRefType(refs_tag, "DIRECT-SUCCESSOR-REF", direct_successor_ref)
+
+    def writeEOCComponentIRef(self, element: ET.Element, component_iref):
+        if component_iref is not None:
+            iref_tag = ET.SubElement(element, "COMPONENT-IREF")
+            self.setChildElementOptionalRefType(iref_tag, "TARGET-COMPONENT-REF", component_iref)
+
+    def writeEOCExecutableEntityRef(self, element: ET.Element, entity_ref: EOCExecutableEntityRef):
+        child_element = ET.SubElement(element, "EOC-EXECUTABLE-ENTITY-REF")
+        self.writeIdentifiable(child_element, entity_ref)
+        self.writeEOCExecutableEntityRefAbstract(child_element, entity_ref)
+        self.setChildElementOptionalRefType(child_element, "BSW-MODULE-INSTANCE-REF", entity_ref.getBswModuleInstanceRef())
+        self.writeEOCComponentIRef(child_element, entity_ref.getComponentIRef())
+        self.setChildElementOptionalRefType(child_element, "EXECUTABLE-REF", entity_ref.getExecutableRef())
+        self.setEOCExecutableEntityRefSuccessorRefs(child_element, entity_ref.getSuccessorRefs())
+
+    def writeEOCEventRef(self, element: ET.Element, event_ref: EOCEventRef):
+        child_element = ET.SubElement(element, "EOC-EVENT-REF")
+        self.writeIdentifiable(child_element, event_ref)
+        self.writeEOCExecutableEntityRefAbstract(child_element, event_ref)
+        self.setChildElementOptionalRefType(child_element, "BSW-MODULE-INSTANCE-REF", event_ref.getBswModuleInstanceRef())
+        self.writeEOCComponentIRef(child_element, event_ref.getComponentIRef())
+        self.setChildElementOptionalRefType(child_element, "EVENT-REF", event_ref.getEventRef())
+        self.setEOCExecutableEntityRefSuccessorRefs(child_element, event_ref.getSuccessorRefs())
+
+    def writeEOCExecutableEntityRefGroup(self, element: ET.Element, group: EOCExecutableEntityRefGroup):
+        child_element = ET.SubElement(element, "EOC-EXECUTABLE-ENTITY-REF-GROUP")
+        self.writeIdentifiable(child_element, group)
+        self.writeEOCExecutableEntityRefAbstract(child_element, group)
+        self.setChildElementOptionalLiteral(child_element, "LET-DATA-EXCHANGE-PARADIGM", group.getLetDataExchangeParadigm())
+        let_interval_refs = group.getLetIntervalRefs()
+        if len(let_interval_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "LET-INTERVAL-REFS")
+            for let_interval_ref in let_interval_refs:
+                self.setChildElementOptionalRefType(refs_tag, "LET-INTERVAL-REF", let_interval_ref)
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-CYCLE-REPETITIONS", group.getMaxCycleRepetitions())
+        self.setChildElementOptionalIntegerValue(child_element, "MAX-CYCLES", group.getMaxCycles())
+        self.setChildElementOptionalIntegerValue(child_element, "MAX-SLOTS", group.getMaxSlots())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-SLOTS-PER-CYCLE", group.getMaxSlotsPerCycle())
+        nested_element_refs = group.getNestedElementRefs()
+        if len(nested_element_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "NESTED-ELEMENT-REFS")
+            for nested_element_ref in nested_element_refs:
+                self.setChildElementOptionalRefType(refs_tag, "NESTED-ELEMENT-REF", nested_element_ref)
+        self.setEOCExecutableEntityRefSuccessorRefs(child_element, group.getSuccessorRefs())
+        self.setChildElementOptionalRefType(child_element, "TRIGGERING-EVENT-REF", group.getTriggeringEventRef())
+
     def writeSwcInternalBehaviorVariationPointProxies(self, element: ET.Element, behavior: SwcInternalBehavior):
         proxies = behavior.getVariationPointProxies()
         if len(proxies) > 0:
@@ -5871,17 +5935,6 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writePortInterface(child_element, mode_interface)
         self.writeModeSwitchInterfaceModeGroup(child_element, mode_interface)
 
-    def setEOCExecutableEntityRefSuccessorRefs(self, element: ET.Element, successor_refs: List[RefType]):
-        if len(successor_refs) > 0:
-            child_element = ET.SubElement(element, "SUCCESSOR-REFS")
-            for successor_ref in successor_refs:
-                self.setChildElementOptionalRefType(child_element, "SUCCESSOR-REF", successor_ref)
-
-    def writeEOCExecutableEntityRef(self, element: ET.Element, entity_ref: EOCExecutableEntityRef):
-        child_element = ET.SubElement(element, "EOC-EXECUTABLE-ENTITY-REF")
-        self.writeIdentifiable(child_element, entity_ref)
-        self.setEOCExecutableEntityRefSuccessorRefs(child_element, entity_ref.getSuccessorRefs())
-
     def writeExecutionOrderConstraintOrderedElement(self, element: ET.Element, constraint: ExecutionOrderConstraint):
         order_elements = constraint.getOrderedElements()
         if len(order_elements) > 0:
@@ -5889,6 +5942,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             for order_element in order_elements:
                 if isinstance(order_element, EOCExecutableEntityRef):
                     self.writeEOCExecutableEntityRef(child_element, order_element)
+                elif isinstance(order_element, EOCEventRef):
+                    self.writeEOCEventRef(child_element, order_element)
+                elif isinstance(order_element, EOCExecutableEntityRefGroup):
+                    self.writeEOCExecutableEntityRefGroup(child_element, order_element)
                 else:
                     self.notImplemented("Unsupported order element <%s>" % type(order_element))
 
