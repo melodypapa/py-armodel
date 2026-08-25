@@ -12,9 +12,10 @@ class ModeInBswInstanceRef(ARObject):
     [constr_6854] Existence of ModeInBswInstanceRef.targetModeDeclaration: For each ModeInBswInstanceRef, the reference to ModeDeclaration in the role targetModeDeclaration shall exist at least once at the time when the Bsw Timing Description is complete.
     """
 
-    # ModeInBswInstanceRef method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.11, p.38
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+# ModeInBswInstanceRef method parity checklist:
+# Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.11, p.38
+# Spec verified: R23-11
+# Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getContextBswImplementationRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setContextBswImplementationRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
