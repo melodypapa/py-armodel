@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortRoleEnum,
     DhcpServerConfiguration,
     EthernetConnectionNegotiationEnum,
+    EthernetMacLayerTypeEnum,
     DoIpEntity,
     EthernetCluster,
     EthernetCommunicationConnector,
@@ -862,6 +863,16 @@ class TestCouplingPortRoleEnum:
         assert CouplingPortRoleEnum.HOST_PORT == "hostPort"
         assert CouplingPortRoleEnum.UP_LINK_PORT == "upLinkPort"
         assert CouplingPortRoleEnum.STANDARD_PORT == "standardPort"
+
+
+class TestEthernetMacLayerTypeEnum:
+    """Test cases for EthernetMacLayerTypeEnum (Table 3.56, p.110)."""
+
+    def test_enum_values(self):
+        assert list(EthernetMacLayerTypeEnum().getEnumValues()) == ["xGMII", "xMII", "xXGMII"]
+        assert EthernetMacLayerTypeEnum.XGMII == "xGMII"
+        assert EthernetMacLayerTypeEnum.XMII == "xMII"
+        assert EthernetMacLayerTypeEnum.XXGMII == "xXGMII"
 
 
 class Test_Fibex4EthernetNetworkEndpoint:

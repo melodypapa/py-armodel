@@ -1884,6 +1884,35 @@ class CouplingPortRoleEnum(AREnum):
         )
 
 
+class EthernetMacLayerTypeEnum(AREnum):
+    """
+    Specifies MAC (Media Access Control) Layer types.
+    """
+
+    # EthernetMacLayerTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.56, p.110
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on CouplingPort.macLayerType, EthernetCommunicationController.macLayerType
+
+    # Mac layer interface (data) bandwith class 1Gbit/s (e.g. GMII, RGMII, SGMII, RvGMII, USGMII) Tags: atp.EnumerationLiteralIndex=1 xml.name=XG-MII
+    XGMII = "xGMII"
+
+    # Mac layer interface (data) bandwith class 100Mbit/s and 10Mbit/s (e.g. RMII, RvMII, SMII, RvMII) Tags: atp.EnumerationLiteralIndex=0 xml.name=X-MII
+    XMII = "xMII"
+
+    # Mac layer interface (data) bandwith class 10Gbit/s Tags: atp.EnumerationLiteralIndex=2 xml.name=XXG-MII
+    XXGMII = "xXGMII"
+
+    def __init__(self):
+        super().__init__(
+            [
+                EthernetMacLayerTypeEnum.XGMII,
+                EthernetMacLayerTypeEnum.XMII,
+                EthernetMacLayerTypeEnum.XXGMII,
+            ]
+        )
+
+
 class Ipv6Configuration(NetworkEndpointAddress):
     """
     Internet Protocol version 6 (IPv6) configuration.
