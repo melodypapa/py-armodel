@@ -8,7 +8,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AnyServiceInstanceId,
     AnyVersionString,
     AREnum,
-    ARLiteral,
     Boolean,
     PositiveInteger,
     RefType,
@@ -558,6 +557,64 @@ class UdpChecksumCalculationEnum(AREnum):
         )
 
 
+class EventGroupControlTypeEnum(AREnum):
+    """
+    Types of a RoutingGroups for the event communication.
+    """
+
+    # EventGroupControlTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.162, p.489
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on PduActivationRoutingGroup.eventGroupControlType
+
+    # Activate the data path for unicast events and triggered unicast events that are sent out after a client got subscribed. Tags: atp.EnumerationLiteralIndex=0
+    ACTIVATION_AND_TRIGGER_UNICAST = "activationAndTriggerUnicast"
+
+    # Activate the data path for multicast events of an EventGroup. Tags: atp.EnumerationLiteralIndex=1
+    ACTIVATION_MULTICAST = "activationMulticast"
+
+    # Activate the data path for unicast events of an EventGroup. Tags: atp.EnumerationLiteralIndex=2
+    ACTIVATION_UNICAST = "activationUnicast"
+
+    # Activate the data path for triggered unicast events that are sent out after a client got subscribed. Tags: atp.EnumerationLiteralIndex=3
+    TRIGGER_UNICAST = "triggerUnicast"
+
+    def __init__(self):
+        super().__init__(
+            [
+                EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST,
+                EventGroupControlTypeEnum.ACTIVATION_MULTICAST,
+                EventGroupControlTypeEnum.ACTIVATION_UNICAST,
+                EventGroupControlTypeEnum.TRIGGER_UNICAST,
+            ]
+        )
+
+
+class TcpRoleEnum(AREnum):
+    """
+    This enumeration defines whether a TCP node has the tcp server role or the client role.
+    """
+
+    # TcpRoleEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.135
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on StaticSocketConnection.tcpRole
+
+    # Connects the client to a remote TCP host. Tags: atp.EnumerationLiteralIndex=0
+    CONNECT = "connect"
+
+    # Socket is put into the server mode (listen for connections). Tags: atp.EnumerationLiteralIndex=1
+    LISTEN = "listen"
+
+    def __init__(self):
+        super().__init__(
+            [
+                TcpRoleEnum.CONNECT,
+                TcpRoleEnum.LISTEN,
+            ]
+        )
+
+
 class PduActivationRoutingGroup(Identifiable):
     """
     Group of Pdus that can be activated or deactivated for transmission over a socket connection.
@@ -578,7 +635,7 @@ class PduActivationRoutingGroup(Identifiable):
         super().__init__(parent, short_name)
 
         # This attribute defines the type of a RoutingGroup. There are RoutingGroups that activate the data path for unicast or multicast events of an event group. And there are RoutingGroups that activate the data path for initial events that are triggered, namely events that are sent out on the server side after a client got subscribed. Please note that this attribute is only valid for event communication (Sender Receiver communication) and shall be omitted in MethodActivationRoutingGroups.
-        self.eventGroupControlType: Optional[ARLiteral] = None
+        self.eventGroupControlType: Optional[EventGroupControlTypeEnum] = None
 
         # PduIdentifiers assigned for transmission over Tcp in case that the referencing PduActivationRoutingGroup is activated.
         self.iPduIdentifierTcpRefs: List[RefType] = []
@@ -586,11 +643,11 @@ class PduActivationRoutingGroup(Identifiable):
         # PduIdentifiers assigned for transmission over Udp in case that the referencing PduActivationRoutingGroup is activated.
         self.iPduIdentifierUdpRefs: List[RefType] = []
 
-    def getEventGroupControlType(self) -> Optional[ARLiteral]:
+    def getEventGroupControlType(self) -> Optional[EventGroupControlTypeEnum]:
         """This attribute defines the type of a RoutingGroup. There are RoutingGroups that activate the data path for unicast or multicast events of an event group. And there are RoutingGroups that activate the data path for initial events that are triggered, namely events that are sent out on the server side after a client got subscribed. Please note that this attribute is only valid for event communication (Sender Receiver communication) and shall be omitted in MethodActivationRoutingGroups."""
         return self.eventGroupControlType
 
-    def setEventGroupControlType(self, value: Optional[ARLiteral]) -> "PduActivationRoutingGroup":
+    def setEventGroupControlType(self, value: Optional[EventGroupControlTypeEnum]) -> "PduActivationRoutingGroup":
         """
         This attribute defines the type of a RoutingGroup. There are RoutingGroups that activate the data path for unicast or multicast events of an event group. And there are RoutingGroups that activate the data path for initial events that are triggered, namely events that are sent out on the server side after a client got subscribed. Please note that this attribute is only valid for event communication (Sender Receiver communication) and shall be omitted in MethodActivationRoutingGroups.
         A None value is a no-op and does not overwrite an existing eventGroupControlType.
@@ -641,8 +698,8 @@ class StaticSocketConnection(Identifiable):
     # [x] setRemoteAddressRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getTcpConnectTimeout        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setTcpConnectTimeout        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTcpRole                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTcpRole                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTcpRole                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setTcpRole                  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

@@ -526,6 +526,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     AbstractServiceInstance,
     ConsumedEventGroup,
     ConsumedServiceInstance,
+    EventGroupControlTypeEnum,
     EventHandler,
     GenericTp,
     PduActivationRoutingGroup,
@@ -6897,7 +6898,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readSoAdRoutingGroup(self, element: ET.Element, group: SoAdRoutingGroup):
         self.logger.debug("Read SoAdRoutingGroup <%s>" % group.getShortName())
         self.readIdentifiable(element, group)
-        group.setEventGroupControlType(self.getChildElementOptionalLiteral(element, "EVENT-GROUP-CONTROL-TYPE"))
+        control_type_literal = self.getChildElementOptionalLiteral(element, "EVENT-GROUP-CONTROL-TYPE")
+        if control_type_literal is not None:
+            control_type = EventGroupControlTypeEnum()
+            control_type.setValue(control_type_literal.getValue())
+            group.setEventGroupControlType(control_type)
 
     def readDoIpLogicAddress(self, element: ET.Element, address: DoIpLogicAddress):
         self.readIdentifiable(element, address)
@@ -8511,7 +8516,11 @@ class ARXMLParser(AbstractARXMLParser):
         if element is not None:
             group = PduActivationRoutingGroup(None, self.getShortName(element))
             self.readIdentifiable(element, group)
-            group.setEventGroupControlType(self.getChildElementOptionalLiteral(element, "EVENT-GROUP-CONTROL-TYPE"))
+            control_type_literal = self.getChildElementOptionalLiteral(element, "EVENT-GROUP-CONTROL-TYPE")
+            if control_type_literal is not None:
+                control_type = EventGroupControlTypeEnum()
+                control_type.setValue(control_type_literal.getValue())
+                group.setEventGroupControlType(control_type)
             for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIER-TCP-REFS/I-PDU-IDENTIFIER-TCP-REF"):
                 group.addIPduIdentifierTcpRef(ref)
             for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIER-UDP-REFS/I-PDU-IDENTIFIER-UDP-REF"):

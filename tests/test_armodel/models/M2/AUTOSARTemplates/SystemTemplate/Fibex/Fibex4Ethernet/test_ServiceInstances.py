@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     AbstractServiceInstance,
     ConsumedEventGroup,
     ConsumedServiceInstance,
+    EventGroupControlTypeEnum,
     EventHandler,
     GenericTp,
     InitialSdDelayConfig,
@@ -1547,7 +1548,7 @@ class TestPduActivationRoutingGroup:
         """
         parent = MockParent()
         group = PduActivationRoutingGroup(parent, "Group1")
-        control_type = ARLiteral().setValue("activateAndTriggerUnicast")
+        control_type = EventGroupControlTypeEnum().setValue(EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST)
 
         result = group.setEventGroupControlType(control_type)
         assert group.getEventGroupControlType() is control_type
@@ -1689,6 +1690,62 @@ class TestUdpChecksumCalculationEnum:
         result = enum.setValue(UdpChecksumCalculationEnum.UDP_CHECKSUM_DISABLED)
         assert result == enum  # method chaining
         assert enum.getValue() == "udpChecksumDisabled"
+
+
+class TestEventGroupControlTypeEnum:
+    """
+    Test cases for EventGroupControlTypeEnum (Table 6.162).
+    """
+
+    def test_member_presence_and_values(self):
+        """
+        Test that all spec literals exist with their index order.
+        """
+        assert EventGroupControlTypeEnum.ACTIVATION_AND_TRIGGER_UNICAST == "activationAndTriggerUnicast"
+        assert EventGroupControlTypeEnum.ACTIVATION_MULTICAST == "activationMulticast"
+        assert EventGroupControlTypeEnum.ACTIVATION_UNICAST == "activationUnicast"
+        assert EventGroupControlTypeEnum.TRIGGER_UNICAST == "triggerUnicast"
+        assert list(EventGroupControlTypeEnum().getEnumValues()) == [
+            "activationAndTriggerUnicast",
+            "activationMulticast",
+            "activationUnicast",
+            "triggerUnicast",
+        ]
+
+    def test_instantiability(self):
+        """
+        Test instantiability and setValue with an enum member.
+        """
+        enum = EventGroupControlTypeEnum()
+        result = enum.setValue(EventGroupControlTypeEnum.ACTIVATION_MULTICAST)
+        assert result == enum  # method chaining
+        assert enum.getValue() == "activationMulticast"
+
+
+class TestTcpRoleEnum:
+    """
+    Test cases for TcpRoleEnum (Table F.135).
+    """
+
+    def test_member_presence_and_values(self):
+        """
+        Test that all spec literals exist with their index order.
+        """
+        assert TcpRoleEnum.CONNECT == "connect"
+        assert TcpRoleEnum.LISTEN == "listen"
+        assert list(TcpRoleEnum().getEnumValues()) == [
+            "connect",
+            "listen",
+        ]
+
+    def test_instantiability(self):
+        """
+        Test instantiability and setValue with an enum member.
+        """
+        enum = TcpRoleEnum()
+        result = enum.setValue(TcpRoleEnum.LISTEN)
+        assert result == enum  # method chaining
+        assert enum.getValue() == "listen"
 
 
 class TestEventHandler:
