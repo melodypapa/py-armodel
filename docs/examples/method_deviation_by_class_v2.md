@@ -1456,13 +1456,23 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
 ## `EthernetCommunicationConnector`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 117
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 117  | **table:** Table 3.62
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `ethIpPropsRef` | `RefType` | `ethIpProps` | ``EthIpProps`` | ref | type (PDF EthIpProps vs py RefType) |
+| `ethIpPropsRef` | `Optional[RefType]` | `ethIpProps` | ``EthIpProps`` | ref | ref-form naming per project convention (`getEthIpPropsRef`/`setEthIpPropsRef`) |
+| `maximumTransmissionUnit` | `Optional[PositiveInteger]` | `maximum TransmissionUnit` | ``PositiveInteger`` | attr | - |
+| `neighborCacheSize` | `Optional[PositiveInteger]` | `neighborCache Size` | ``PositiveInteger`` | attr | - |
+| `pathMtuEnabled` | `Optional[Boolean]` | `pathMtu Enabled` | ``Boolean`` | attr | - |
+| `pathMtuTimeout` | `Optional[TimeValue]` | `pathMtuTimeout` | ``TimeValue`` | attr | - |
+
+Removed member: `networkEndpointRefs` — atp.Status=removed since 4.3.1 and absent from the R23-11
+Table 3.62; field/accessors plus its NETWORK-ENDPOINT-REFS reader/writer wiring were removed in this
+pass (Rule 0015/the-table-wins). Queue-note members NOT modelled per Rule 0015 (no R23-11 table rows):
+apApplicationEndpoint (XSD AP-APPLICATION-ENDPOINTS, class not queued), canXlPropsRefs (XSD-only,
+CanXlProps unconfirmed), ipV6PathMtuEnabled/ipV6PathMtuTimeout (atp.Status=removed), pncFilterDataMask (absent).
 
 ## `EthernetCommunicationController`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 116  | **table:** Table 3.61

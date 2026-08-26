@@ -775,32 +775,12 @@ class TestWriterEthernetCommunicationConnector:
         connector = instance.createEthernetCommunicationConnector("ec")
         connector.setCommControllerRef(_ref("/ctrl", "ETHERNET-COMMUNICATION-CONTROLLER"))
         connector.setMaximumTransmissionUnit(_posint(1500))
-        connector.addNetworkEndpointRef(_ref("/ne", "NETWORK-ENDPOINT"))
+        connector.setNeighborCacheSize(_posint(50))
         parent = _parent()
         writer.writeEthernetCommunicationConnector(parent, connector)
         assert parent.find("COMM-CONTROLLER-REF") is not None
         assert parent.find("MAXIMUM-TRANSMISSION-UNIT") is not None
-        assert parent.find("NETWORK-ENDPOINT-REFS") is not None
-
-
-class TestWriterEthernetCommunicationConnectorNetworkEndpointRefs:
-    def test_with_refs(self, writer):
-        instance = _make_ecu_instance()
-        connector = instance.createEthernetCommunicationConnector("ec")
-        connector.addNetworkEndpointRef(_ref("/ne1", "NETWORK-ENDPOINT"))
-        connector.addNetworkEndpointRef(_ref("/ne2", "NETWORK-ENDPOINT"))
-        parent = _parent()
-        writer.writeEthernetCommunicationConnectorNetworkEndpointRefs(parent, connector)
-        assert parent[0].tag == "NETWORK-ENDPOINT-REFS"
-        refs = parent[0].findall("NETWORK-ENDPOINT-REF")
-        assert len(refs) == 2
-
-    def test_empty(self, writer):
-        instance = _make_ecu_instance()
-        connector = instance.createEthernetCommunicationConnector("ec")
-        parent = _parent()
-        writer.writeEthernetCommunicationConnectorNetworkEndpointRefs(parent, connector)
-        assert len(parent) == 0
+        assert parent.find("NEIGHBOR-CACHE-SIZE") is not None
 
 
 class TestWriterLinCommunicationConnector:

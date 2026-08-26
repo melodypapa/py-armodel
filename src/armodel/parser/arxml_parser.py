@@ -8736,14 +8736,13 @@ class ARXMLParser(AbstractARXMLParser):
     def readCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):
         self.readCommunicationConnector(element, connector)
 
-    def readEthernetCommunicationConnectorNetworkEndpointRefs(self, element: ET.Element, connector: EthernetCommunicationConnector):
-        for ref in self.getChildElementRefTypeList(element, "NETWORK-ENDPOINT-REFS/NETWORK-ENDPOINT-REF"):
-            connector.addNetworkEndpointRef(ref)
-
     def readEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
         self.readCommunicationConnector(element, connector)
+        connector.setEthIpPropsRef(self.getChildElementOptionalRefType(element, "ETH-IP-PROPS-REF"))
         connector.setMaximumTransmissionUnit(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-TRANSMISSION-UNIT"))
-        self.readEthernetCommunicationConnectorNetworkEndpointRefs(element, connector)
+        connector.setNeighborCacheSize(self.getChildElementOptionalPositiveInteger(element, "NEIGHBOR-CACHE-SIZE"))
+        connector.setPathMtuEnabled(self.getChildElementOptionalBooleanValue(element, "PATH-MTU-ENABLED"))
+        connector.setPathMtuTimeout(self.getChildElementOptionalTimeValue(element, "PATH-MTU-TIMEOUT"))
 
     def readLinCommunicationConnector(self, element: ET.Element, connector: LinCommunicationConnector):
         self.readCommunicationConnector(element, connector)

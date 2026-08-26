@@ -2594,17 +2594,17 @@ class TestEcuInstanceHandlers:
         parser.readEthernetCommunicationConnector(element, conn)
         assert conn.getMaximumTransmissionUnit().getValue() == 1500
 
-    def test_readEthernetCommunicationConnectorNetworkEndpointRefs_adds_ref(self, parser):
+    def test_readEthernetCommunicationConnector_sets_neighborCacheSize(self, parser):
         from armodel.models import EcuInstance, EthernetCommunicationConnector
 
         instance = EcuInstance(parent=_autosar_root(), short_name="ecu")
         conn = EthernetCommunicationConnector(parent=instance, short_name="conn")
         element = _snip(
-            "<NETWORK-ENDPOINT-REFS>" "<NETWORK-ENDPOINT-REF DEST='NETWORK-ENDPOINT'>/ne</NETWORK-ENDPOINT-REF>" "</NETWORK-ENDPOINT-REFS>",
+            "<SHORT-NAME>conn</SHORT-NAME>" "<NEIGHBOR-CACHE-SIZE>50</NEIGHBOR-CACHE-SIZE>",
             root_tag="ETHERNET-COMMUNICATION-CONNECTOR",
         )
-        parser.readEthernetCommunicationConnectorNetworkEndpointRefs(element, conn)
-        assert len(conn.getNetworkEndpointRefs()) == 1
+        parser.readEthernetCommunicationConnector(element, conn)
+        assert conn.getNeighborCacheSize().getValue() == 50
 
     def test_readCommunicationConnectorEcuCommPortInstances_framePort(self, parser):
         from armodel.models import CanCommunicationConnector, EcuInstance

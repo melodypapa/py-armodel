@@ -459,7 +459,7 @@ class TestEthernetTopology:
 
     def test_ethernet_communication_connector(self):
         """
-        Test the EthernetCommunicationConnector class initialization and methods.
+        Test the EthernetCommunicationConnector class initialization and methods (Table 3.62).
         """
         parent = MockParent()
         connector = EthernetCommunicationConnector(parent, "TestConnector")
@@ -468,14 +468,17 @@ class TestEthernetTopology:
         assert connector.getEthIpPropsRef() is None
         assert connector.getMaximumTransmissionUnit() is None
         assert connector.getNeighborCacheSize() is None
-        assert connector.getNetworkEndpointRefs() == []
         assert connector.getPathMtuEnabled() is None
         assert connector.getPathMtuTimeout() is None
 
-        # Test setting values with method chaining
+        # Test setting values with method chaining and None no-ops
         result = connector.setEthIpPropsRef("EthIpPropsRef")
         assert connector.getEthIpPropsRef() == "EthIpPropsRef"
         assert result == connector  # Test method chaining
+
+        # None no-op for ethIpPropsRef
+        result = connector.setEthIpPropsRef(None)
+        assert connector.getEthIpPropsRef() == "EthIpPropsRef"
 
         result = connector.setMaximumTransmissionUnit(1500)
         assert connector.getMaximumTransmissionUnit() == 1500
@@ -489,18 +492,21 @@ class TestEthernetTopology:
         assert connector.getPathMtuEnabled() is True
         assert result == connector  # Test method chaining
 
+        # None no-op for pathMtuEnabled
+        result = connector.setPathMtuEnabled(None)
+        assert connector.getPathMtuEnabled() is True
+
         result = connector.setPathMtuTimeout("timeout_val")
         assert connector.getPathMtuTimeout() == "timeout_val"
         assert result == connector  # Test method chaining
 
-        # Test adding network endpoint reference with method chaining
-        result = connector.addNetworkEndpointRef("EndpointRef1")
-        assert connector.getNetworkEndpointRefs() == ["EndpointRef1"]
-        assert result == connector  # Test method chaining
-
-        result = connector.addNetworkEndpointRef("EndpointRef2")
-        assert connector.getNetworkEndpointRefs() == ["EndpointRef1", "EndpointRef2"]
-        assert result == connector  # Test method chaining
+    def test_ethernet_communication_connector_removed_members(self):
+        """
+        networkEndpointRefs is atp.Status=removed since 4.3.1 and absent from Table 3.62 (Rule 0015);
+        apApplicationEndpoint/canXlPropsRefs/ipV6PathMtu*/pncFilterDataMask are not in the R23-11 table.
+        """
+        connector = EthernetCommunicationConnector(MockParent(), "TestConnector")
+        assert not hasattr(connector, "networkEndpointRefs")
 
     def test_request_response_delay(self):
         """

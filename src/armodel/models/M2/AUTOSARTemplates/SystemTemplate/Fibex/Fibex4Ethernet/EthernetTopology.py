@@ -5,7 +5,16 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Integer, Ip4AddressString, Ip6AddressString, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+    Boolean,
+    Integer,
+    Ip4AddressString,
+    Ip6AddressString,
+    PositiveInteger,
+    RefType,
+    TimeValue,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
 
@@ -825,77 +834,105 @@ class EthernetCommunicationController(CommunicationController):
 
 class EthernetCommunicationConnector(CommunicationConnector):
     """
-    Defines an Ethernet communication connector that links Ethernet
-    controllers to communication channels, specifying MTU settings,
-    network endpoint references, and path MTU configuration properties.
+    Ethernet specific attributes to the CommunicationConnector.
     """
 
     # EthernetCommunicationConnector method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEthIpPropsRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] setEthIpPropsRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaximumTransmissionUnit   [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaximumTransmissionUnit   [x] impl  [ ] docstring  [ ] test
-    # [ ] getNeighborCacheSize         [x] impl  [ ] docstring  [ ] test
-    # [ ] setNeighborCacheSize         [x] impl  [ ] docstring  [ ] test
-    # [ ] getNetworkEndpointRefs       [x] impl  [ ] docstring  [ ] test
-    # [ ] addNetworkEndpointRef        [x] impl  [ ] docstring  [ ] test
-    # [ ] getPathMtuEnabled            [x] impl  [ ] docstring  [ ] test
-    # [ ] setPathMtuEnabled            [x] impl  [ ] docstring  [ ] test
-    # [ ] getPathMtuTimeout            [x] impl  [ ] docstring  [ ] test
-    # [ ] setPathMtuTimeout            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.62, p.117
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEthIpPropsRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEthIpPropsRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaximumTransmissionUnit     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaximumTransmissionUnit     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNeighborCacheSize           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNeighborCacheSize           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPathMtuEnabled              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPathMtuEnabled              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPathMtuTimeout              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPathMtuTimeout              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.ethIpPropsRef = None  # type: RefType
-        self.maximumTransmissionUnit = None  # type: PositiveInteger
-        self.neighborCacheSize = None  # type: PositiveInteger
-        self.networkEndpointRefs = []  # type: List[RefType]       ## 4.3.1 Version
-        self.pathMtuEnabled = None  # type: Boolean
-        self.pathMtuTimeout = None  # type: TimeValue
+        # EcuInstance specific IP attributes.
+        self.ethIpPropsRef: Optional[RefType] = None
 
-    def getEthIpPropsRef(self):
+        # This attribute specifies the maximum transmission unit in bytes.
+        self.maximumTransmissionUnit: Optional[PositiveInteger] = None
+
+        # This attribute specifies the size of neighbor cache or ARP table in units of entries.
+        self.neighborCacheSize: Optional[PositiveInteger] = None
+
+        # If enabled the IPv4/IPv6 processes incoming ICMP "Packet Too Big" messages and stores a MTU value for each destination address.
+        self.pathMtuEnabled: Optional[Boolean] = None
+
+        # If this value is >0 the IPv4/IPv6 will reset the MTU value stored for each destination after n seconds.
+        self.pathMtuTimeout: Optional[TimeValue] = None
+
+    def getEthIpPropsRef(self) -> Optional[RefType]:
+        """EcuInstance specific IP attributes."""
         return self.ethIpPropsRef
 
-    def setEthIpPropsRef(self, value):
-        self.ethIpPropsRef = value
+    def setEthIpPropsRef(self, value: Optional[RefType]) -> "EthernetCommunicationConnector":
+        """
+        EcuInstance specific IP attributes.
+        A None value is a no-op and does not overwrite an existing ethIpPropsRef.
+        """
+        if value is not None:
+            self.ethIpPropsRef = value
         return self
 
-    def getMaximumTransmissionUnit(self):
+    def getMaximumTransmissionUnit(self) -> Optional[PositiveInteger]:
+        """This attribute specifies the maximum transmission unit in bytes."""
         return self.maximumTransmissionUnit
 
-    def setMaximumTransmissionUnit(self, value):
-        self.maximumTransmissionUnit = value
+    def setMaximumTransmissionUnit(self, value: Optional[PositiveInteger]) -> "EthernetCommunicationConnector":
+        """
+        This attribute specifies the maximum transmission unit in bytes.
+        A None value is a no-op and does not overwrite an existing maximumTransmissionUnit.
+        """
+        if value is not None:
+            self.maximumTransmissionUnit = value
         return self
 
-    def getNeighborCacheSize(self):
+    def getNeighborCacheSize(self) -> Optional[PositiveInteger]:
+        """This attribute specifies the size of neighbor cache or ARP table in units of entries."""
         return self.neighborCacheSize
 
-    def setNeighborCacheSize(self, value):
-        self.neighborCacheSize = value
-        return self
-
-    def getNetworkEndpointRefs(self):
-        return self.networkEndpointRefs
-
-    def addNetworkEndpointRef(self, value):
+    def setNeighborCacheSize(self, value: Optional[PositiveInteger]) -> "EthernetCommunicationConnector":
+        """
+        This attribute specifies the size of neighbor cache or ARP table in units of entries.
+        A None value is a no-op and does not overwrite an existing neighborCacheSize.
+        """
         if value is not None:
-            self.networkEndpointRefs.append(value)
+            self.neighborCacheSize = value
         return self
 
-    def getPathMtuEnabled(self):
+    def getPathMtuEnabled(self) -> Optional[Boolean]:
+        """If enabled the IPv4/IPv6 processes incoming ICMP "Packet Too Big" messages and stores a MTU value for each destination address."""
         return self.pathMtuEnabled
 
-    def setPathMtuEnabled(self, value):
-        self.pathMtuEnabled = value
+    def setPathMtuEnabled(self, value: Optional[Boolean]) -> "EthernetCommunicationConnector":
+        """
+        If enabled the IPv4/IPv6 processes incoming ICMP "Packet Too Big" messages and stores a MTU value for each destination address.
+        A None value is a no-op and does not overwrite an existing pathMtuEnabled.
+        """
+        if value is not None:
+            self.pathMtuEnabled = value
         return self
 
-    def getPathMtuTimeout(self):
+    def getPathMtuTimeout(self) -> Optional[TimeValue]:
+        """If this value is >0 the IPv4/IPv6 will reset the MTU value stored for each destination after n seconds."""
         return self.pathMtuTimeout
 
-    def setPathMtuTimeout(self, value):
-        self.pathMtuTimeout = value
+    def setPathMtuTimeout(self, value: Optional[TimeValue]) -> "EthernetCommunicationConnector":
+        """
+        If this value is >0 the IPv4/IPv6 will reset the MTU value stored for each destination after n seconds.
+        A None value is a no-op and does not overwrite an existing pathMtuTimeout.
+        """
+        if value is not None:
+            self.pathMtuTimeout = value
         return self
 
 

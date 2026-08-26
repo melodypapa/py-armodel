@@ -8241,18 +8241,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Write CanCommunicationConnector %s" % connector.getShortName())
         self.writeCommunicationConnector(element, connector)
 
-    def writeEthernetCommunicationConnectorNetworkEndpointRefs(self, element: ET.Element, connector: EthernetCommunicationConnector):
-        refs = connector.getNetworkEndpointRefs()
-        if len(refs) > 0:
-            child_element = ET.SubElement(element, "NETWORK-ENDPOINT-REFS")
-            for ref in refs:
-                self.setChildElementOptionalRefType(child_element, "NETWORK-ENDPOINT-REF", ref)
-
     def writeEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
         self.logger.debug("Write EthernetCommunicationConnector %s" % connector.getShortName())
         self.writeCommunicationConnector(element, connector)
+        self.setChildElementOptionalRefType(element, "ETH-IP-PROPS-REF", connector.getEthIpPropsRef())
         self.setChildElementOptionalPositiveInteger(element, "MAXIMUM-TRANSMISSION-UNIT", connector.getMaximumTransmissionUnit())
-        self.writeEthernetCommunicationConnectorNetworkEndpointRefs(element, connector)
+        self.setChildElementOptionalPositiveInteger(element, "NEIGHBOR-CACHE-SIZE", connector.getNeighborCacheSize())
+        self.setChildElementOptionalBooleanValue(element, "PATH-MTU-ENABLED", connector.getPathMtuEnabled())
+        self.setChildElementOptionalTimeValue(element, "PATH-MTU-TIMEOUT", connector.getPathMtuTimeout())
 
     def writeLinCommunicationConnector(self, element: ET.Element, connector: LinCommunicationConnector):
         self.logger.debug("Write LinCommunicationConnector %s" % connector.getShortName())
