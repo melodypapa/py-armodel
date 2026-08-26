@@ -1,8 +1,10 @@
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingModeInstance
 
 
 class TDEventOccurrenceExpressionFormula(Referrable):
@@ -347,3 +349,86 @@ class AutosarVariableInstance(Identifiable):
         if value is not None:
             self.variableInstanceIRef = value
         return self
+
+
+class TDEventOccurrenceExpression(ARObject):
+    """
+    This is used to specify a filter on the occurrences of TimingDescriptionEvent s by means of a TDEventOccurrenceExpressionFormula. Filter criteria can be variable and argument values, i.e. the timing event only occurs for specific values, as well as the temporal characteristics of the occurrences of arbitrary timing events.
+    """
+
+    # TDEventOccurrenceExpression method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.50, p.84
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createArgument     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getArguments       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getFormula         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFormula         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createMode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getModes           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createVariable     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVariables       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # An occurrence expression can reference an arbitrary number of OperationArgumentPrototypes in its expression. This association aggregates instance references to OperationArgumentPrototypes which can be referenced in the expression.
+        self.arguments: List[AutosarOperationArgumentInstance] = []
+
+        # This is the expression formula which is used to describe the occurrence expression.
+        self.formula: Optional[TDEventOccurrenceExpressionFormula] = None
+
+        # An occurrence expression can reference an arbitrary number of TimingModeInstances in its expression. This association aggregates instance references to Mode Declaration which can be referenced in the expression.
+        self.modes: List[TimingModeInstance] = []
+
+        # An occurrence expression can reference an arbitrary number of VariableDataPrototypes in its expression. This association aggregates instance references to Variable DataPrototypes which can be referenced in the expression.
+        self.variables: List[AutosarVariableInstance] = []
+
+    def createArgument(self, parent, short_name: str) -> AutosarOperationArgumentInstance:
+        """An occurrence expression can reference an arbitrary number of OperationArgumentPrototypes in its expression. This association aggregates instance references to OperationArgumentPrototypes which can be referenced in the expression."""
+        for argument in self.arguments:
+            if argument.getShortName() == short_name:
+                return argument
+        argument = AutosarOperationArgumentInstance(parent, short_name)
+        self.arguments.append(argument)
+        return argument
+
+    def getArguments(self) -> List[AutosarOperationArgumentInstance]:
+        """An occurrence expression can reference an arbitrary number of OperationArgumentPrototypes in its expression. This association aggregates instance references to OperationArgumentPrototypes which can be referenced in the expression."""
+        return self.arguments
+
+    def getFormula(self) -> Optional[TDEventOccurrenceExpressionFormula]:
+        """This is the expression formula which is used to describe the occurrence expression."""
+        return self.formula
+
+    def setFormula(self, value: Optional[TDEventOccurrenceExpressionFormula]) -> "TDEventOccurrenceExpression":
+        """This is the expression formula which is used to describe the occurrence expression. A None value is a no-op and does not overwrite an existing formula."""
+        if value is not None:
+            self.formula = value
+        return self
+
+    def createMode(self, parent, short_name: str) -> TimingModeInstance:
+        """An occurrence expression can reference an arbitrary number of TimingModeInstances in its expression. This association aggregates instance references to Mode Declaration which can be referenced in the expression."""
+        for mode in self.modes:
+            if mode.getShortName() == short_name:
+                return mode
+        mode = TimingModeInstance(parent, short_name)
+        self.modes.append(mode)
+        return mode
+
+    def getModes(self) -> List[TimingModeInstance]:
+        """An occurrence expression can reference an arbitrary number of TimingModeInstances in its expression. This association aggregates instance references to Mode Declaration which can be referenced in the expression."""
+        return self.modes
+
+    def createVariable(self, parent, short_name: str) -> AutosarVariableInstance:
+        """An occurrence expression can reference an arbitrary number of VariableDataPrototypes in its expression. This association aggregates instance references to Variable DataPrototypes which can be referenced in the expression."""
+        for variable in self.variables:
+            if variable.getShortName() == short_name:
+                return variable
+        variable = AutosarVariableInstance(parent, short_name)
+        self.variables.append(variable)
+        return variable
+
+    def getVariables(self) -> List[AutosarVariableInstance]:
+        """An occurrence expression can reference an arbitrary number of VariableDataPrototypes in its expression. This association aggregates instance references to Variable DataPrototypes which can be referenced in the expression."""
+        return self.variables

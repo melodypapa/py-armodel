@@ -213,6 +213,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     AutosarOperationArgumentInstance,
     AutosarVariableInstance,
     OperationArgumentInComponentInstanceRef,
+    TDEventOccurrenceExpression,
     TDEventOccurrenceExpressionFormula,
     VariableInComponentInstanceRef,
 )
@@ -2151,6 +2152,23 @@ class ARXMLParser(AbstractARXMLParser):
         if element.text is not None and element.text.strip() != "":
             avp.setText(element.text)
         return avp
+
+    def readTDEventOccurrenceExpression(self, element: ET.Element, parent) -> TDEventOccurrenceExpression:
+        expression = TDEventOccurrenceExpression()
+        self.readARObjectAttributes(element, expression)
+        for child_element in self.findall(element, "ARGUMENTS/AUTOSAR-OPERATION-ARGUMENT-INSTANCE"):
+            argument = expression.createArgument(parent, self.getShortName(child_element))
+            self.readAutosarOperationArgumentInstance(child_element, argument)
+        formula_element = self.find(element, "FORMULA")
+        if formula_element is not None:
+            expression.setFormula(self.readTDEventOccurrenceExpressionFormula(parent, formula_element))
+        for child_element in self.findall(element, "MODES/TIMING-MODE-INSTANCE"):
+            mode = expression.createMode(parent, self.getShortName(child_element))
+            self.readTimingModeInstance(child_element, mode)
+        for child_element in self.findall(element, "VARIABLES/AUTOSAR-VARIABLE-INSTANCE"):
+            variable = expression.createVariable(parent, self.getShortName(child_element))
+            self.readAutosarVariableInstance(child_element, variable)
+        return expression
 
     def readTDEventOccurrenceExpressionFormula(self, parent, element: ET.Element) -> TDEventOccurrenceExpressionFormula:
         formula = TDEventOccurrenceExpressionFormula(parent, self.getShortName(element))

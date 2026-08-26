@@ -1,9 +1,10 @@
-"""Writer tests for the TIMING-DESCRIPTIONS family (TDEvent occurrence expression formula)."""
+"""Writer tests for the TIMING-DESCRIPTIONS family (TDEvent occurrence expression)."""
 
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
+    TDEventOccurrenceExpression,
     TDEventOccurrenceExpressionFormula,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -79,3 +80,71 @@ class TestWriteTDEventOccurrenceExpressionFormula:
         assert formula2.getEventRef().getDest() == "TD-EVENT-VFB"
         assert formula2.getModeRef().getValue() == "/AUTOSAR/Mode1"
         assert formula2.getVariableRef().getDest() == "AUTOSAR-VARIABLE-INSTANCE"
+
+
+class TestWriteTDEventOccurrenceExpression:
+    def _parent(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        return document.createARPackage("AUTOSAR")
+
+    def _build_full(self, parent):
+        expression = TDEventOccurrenceExpression()
+        expression.createArgument(parent, "OpArg1")
+        expression.createMode(parent, "Mode1")
+        expression.createVariable(parent, "Var1")
+        formula = TDEventOccurrenceExpressionFormula(parent, "Formula1")
+        formula.setText("TIMEX_count(E1) > 3")
+        expression.setFormula(formula)
+        return expression
+
+    def test_write_full(self):
+        parent = self._parent()
+        expression = self._build_full(parent)
+
+        element = ET.Element("OCCURRENCE-EXPRESSION")
+        ARXMLWriter().writeTDEventOccurrenceExpression(element, expression)
+
+        arguments_tag = element.find("ARGUMENTS")
+        assert arguments_tag is not None
+        assert arguments_tag.find("AUTOSAR-OPERATION-ARGUMENT-INSTANCE/SHORT-NAME").text == "OpArg1"
+        formula_tag = element.find("FORMULA")
+        assert formula_tag is not None
+        assert formula_tag.find("SHORT-NAME").text == "Formula1"
+        modes_tag = element.find("MODES")
+        assert modes_tag is not None
+        assert modes_tag.find("TIMING-MODE-INSTANCE/SHORT-NAME").text == "Mode1"
+        variables_tag = element.find("VARIABLES")
+        assert variables_tag is not None
+        assert variables_tag.find("AUTOSAR-VARIABLE-INSTANCE/SHORT-NAME").text == "Var1"
+
+    def test_write_empty_omits_wrappers(self):
+        element = ET.Element("OCCURRENCE-EXPRESSION")
+        ARXMLWriter().writeTDEventOccurrenceExpression(element, TDEventOccurrenceExpression())
+
+        assert element.find("ARGUMENTS") is None
+        assert element.find("FORMULA") is None
+        assert element.find("MODES") is None
+        assert element.find("VARIABLES") is None
+
+    def test_round_trip(self):
+        parent = self._parent()
+        expression = self._build_full(parent)
+
+        element = ET.Element("OCCURRENCE-EXPRESSION")
+        ARXMLWriter().writeTDEventOccurrenceExpression(element, expression)
+
+        xml_str = ET.tostring(element).decode()
+        idx = xml_str.find(">")
+        xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
+        parsed = ET.fromstring(xml_str)
+
+        expression2 = ARXMLParser().readTDEventOccurrenceExpression(parsed, self._parent())
+        assert len(expression2.getArguments()) == 1
+        assert expression2.getArguments()[0].getShortName() == "OpArg1"
+        assert expression2.getFormula().getText() == "TIMEX_count(E1) > 3"
+        assert len(expression2.getModes()) == 1
+        assert expression2.getModes()[0].getShortName() == "Mode1"
+        assert len(expression2.getVariables()) == 1
+        assert expression2.getVariables()[0].getShortName() == "Var1"

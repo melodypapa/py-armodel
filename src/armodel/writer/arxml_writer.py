@@ -269,6 +269,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     AutosarOperationArgumentInstance,
     AutosarVariableInstance,
     OperationArgumentInComponentInstanceRef,
+    TDEventOccurrenceExpression,
     TDEventOccurrenceExpressionFormula,
     VariableInComponentInstanceRef,
 )
@@ -3450,6 +3451,30 @@ class ARXMLWriter(AbstractARXMLWriter):
         text = avp.getText()
         if text is not None:
             element.text = text
+
+    def writeTDEventOccurrenceExpression(self, element: ET.Element, expression: TDEventOccurrenceExpression):
+        self.writeARObjectAttributes(element, expression)
+        arguments = expression.getArguments()
+        if len(arguments) > 0:
+            arguments_tag = ET.SubElement(element, "ARGUMENTS")
+            for argument in arguments:
+                argument_tag = ET.SubElement(arguments_tag, "AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
+                self.writeAutosarOperationArgumentInstance(argument_tag, argument)
+        formula = expression.getFormula()
+        if formula is not None:
+            self.writeTDEventOccurrenceExpressionFormula(ET.SubElement(element, "FORMULA"), formula)
+        modes = expression.getModes()
+        if len(modes) > 0:
+            modes_tag = ET.SubElement(element, "MODES")
+            for mode in modes:
+                mode_tag = ET.SubElement(modes_tag, "TIMING-MODE-INSTANCE")
+                self.writeTimingModeInstance(mode_tag, mode)
+        variables = expression.getVariables()
+        if len(variables) > 0:
+            variables_tag = ET.SubElement(element, "VARIABLES")
+            for variable in variables:
+                variable_tag = ET.SubElement(variables_tag, "AUTOSAR-VARIABLE-INSTANCE")
+                self.writeAutosarVariableInstance(variable_tag, variable)
 
     def writeTDEventOccurrenceExpressionFormula(self, element: ET.Element, formula: TDEventOccurrenceExpressionFormula):
         self.writeReferrable(element, formula)
