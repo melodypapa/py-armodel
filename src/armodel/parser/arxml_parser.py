@@ -165,7 +165,10 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock, TimingClock, TimingClockSyncAccuracy
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
+    TimingDescriptionEvent,
+    TimingDescriptionEventChain,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
@@ -288,6 +291,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
+    Boolean,
     IntervalTypeEnum,
     NameToken,
     Numerical,
@@ -2153,6 +2157,16 @@ class ARXMLParser(AbstractARXMLParser):
         if element.text is not None and element.text.strip() != "":
             avp.setText(element.text)
         return avp
+
+    def readTimingDescriptionEventChain(self, element: ET.Element, chain: TimingDescriptionEventChain):
+        self.readIdentifiable(element, chain)
+        pipelining_element = self.find(element, "IS-PIPELINING-PERMITTED")
+        if pipelining_element is not None:
+            chain.setIsPipeliningPermitted(Boolean().setValue(pipelining_element.text == "true"))
+        chain.setStimulusRef(self.getChildElementOptionalRefType(element, "STIMULUS-REF"))
+        chain.setResponseRef(self.getChildElementOptionalRefType(element, "RESPONSE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "SEGMENT-REFS/SEGMENT-REF"):
+            chain.addSegmentRef(ref)
 
     def readTimingDescriptionEvent(self, element: ET.Element, event: TimingDescriptionEvent):
         self.readIdentifiable(element, event)

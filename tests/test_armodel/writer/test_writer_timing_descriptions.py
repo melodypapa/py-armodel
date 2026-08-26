@@ -3,12 +3,15 @@
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
+    TimingDescriptionEvent,
+    TimingDescriptionEventChain,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
     TDEventOccurrenceExpression,
     TDEventOccurrenceExpressionFormula,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -203,3 +206,53 @@ class TestWriteTimingDescriptionEvent:
         assert event2.getClockReferenceRef().getDest() == "TIMING-CLOCK"
         assert len(event2.getOccurrenceExpression().getVariables()) == 1
         assert event2.getOccurrenceExpression().getVariables()[0].getShortName() == "Var1"
+
+
+class TestWriteTimingDescriptionEventChain:
+    def _parent(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        return document.createARPackage("AUTOSAR")
+
+    def _build_full(self, parent):
+        chain = TimingDescriptionEventChain(parent, "Chain1")
+        chain.setIsPipeliningPermitted(Boolean().setValue(True))
+        chain.setStimulusRef(RefType().setValue("/AUTOSAR/Stimulus").setDest("TD-EVENT-VFB"))
+        chain.setResponseRef(RefType().setValue("/AUTOSAR/Response").setDest("TD-EVENT-COM"))
+        chain.addSegmentRef(RefType().setValue("/AUTOSAR/Seg1").setDest("TIMING-DESCRIPTION-EVENT-CHAIN"))
+        return chain
+
+    def test_write_full(self):
+        parent = self._parent()
+        chain = self._build_full(parent)
+
+        element = ET.Element("TIMING-DESCRIPTION-EVENT-CHAIN")
+        ARXMLWriter().writeTimingDescriptionEventChain(element, chain)
+
+        assert element.find("SHORT-NAME").text == "Chain1"
+        assert element.find("IS-PIPELINING-PERMITTED").text == "true"
+        stimulus_ref = element.find("STIMULUS-REF")
+        assert stimulus_ref.text == "/AUTOSAR/Stimulus"
+        assert stimulus_ref.attrib["DEST"] == "TD-EVENT-VFB"
+        segments_tag = element.find("SEGMENT-REFS")
+        assert segments_tag is not None
+        assert segments_tag.find("SEGMENT-REF").text == "/AUTOSAR/Seg1"
+
+    def test_round_trip(self):
+        parent = self._parent()
+        chain = self._build_full(parent)
+
+        element = ET.Element("TIMING-DESCRIPTION-EVENT-CHAIN")
+        ARXMLWriter().writeTimingDescriptionEventChain(element, chain)
+
+        xml_str = ET.tostring(element).decode()
+        idx = xml_str.find(">")
+        xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
+        parsed = ET.fromstring(xml_str)
+
+        chain2 = TimingDescriptionEventChain(parent, "Chain2")
+        ARXMLParser().readTimingDescriptionEventChain(parsed, chain2)
+        assert chain2.getIsPipeliningPermitted().getValue() is True
+        assert chain2.getStimulusRef().getDest() == "TD-EVENT-VFB"
+        assert len(chain2.getSegmentRefs()) == 1

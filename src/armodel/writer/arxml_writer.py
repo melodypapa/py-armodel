@@ -149,7 +149,10 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock, TimingClock, TimingClockSyncAccuracy
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
+    TimingDescriptionEvent,
+    TimingDescriptionEventChain,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
@@ -3452,6 +3455,17 @@ class ARXMLWriter(AbstractARXMLWriter):
         text = avp.getText()
         if text is not None:
             element.text = text
+
+    def writeTimingDescriptionEventChain(self, element: ET.Element, chain: TimingDescriptionEventChain):
+        self.writeIdentifiable(element, chain)
+        self.setChildElementOptionalBooleanValue(element, "IS-PIPELINING-PERMITTED", chain.getIsPipeliningPermitted())
+        self.setChildElementOptionalRefType(element, "STIMULUS-REF", chain.getStimulusRef())
+        self.setChildElementOptionalRefType(element, "RESPONSE-REF", chain.getResponseRef())
+        segments = chain.getSegmentRefs()
+        if len(segments) > 0:
+            segments_tag = ET.SubElement(element, "SEGMENT-REFS")
+            for segment in segments:
+                self.setChildElementOptionalRefType(segments_tag, "SEGMENT-REF", segment)
 
     def writeTimingDescriptionEvent(self, element: ET.Element, event: TimingDescriptionEvent):
         self.writeIdentifiable(element, event)

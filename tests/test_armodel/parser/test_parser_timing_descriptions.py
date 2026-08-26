@@ -5,7 +5,10 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
+    TimingDescriptionEvent,
+    TimingDescriptionEventChain,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
     AutosarOperationArgumentInstance,
     AutosarVariableInstance,
@@ -167,3 +170,37 @@ class TestReadTimingDescriptionEvent:
         assert event.getShortName() == "TDEvent1"
         assert event.getClockReferenceRef() is None
         assert event.getOccurrenceExpression() is None
+
+
+class TestReadTimingDescriptionEventChain:
+    def test_read_full(self, parser):
+        parent = _parent()
+        chain = TimingDescriptionEventChain(parent, "Chain1")
+        element = ET.fromstring(
+            f"<TIMING-DESCRIPTION-EVENT-CHAIN xmlns='{NS}'>"
+            "<SHORT-NAME>Chain1</SHORT-NAME>"
+            "<IS-PIPELINING-PERMITTED>true</IS-PIPELINING-PERMITTED>"
+            "<STIMULUS-REF DEST='TD-EVENT-VFB'>/AUTOSAR/Stimulus</STIMULUS-REF>"
+            "<RESPONSE-REF DEST='TD-EVENT-COM'>/AUTOSAR/Response</RESPONSE-REF>"
+            "<SEGMENT-REFS>"
+            "<SEGMENT-REF DEST='TIMING-DESCRIPTION-EVENT-CHAIN'>/AUTOSAR/Seg1</SEGMENT-REF>"
+            "<SEGMENT-REF DEST='TIMING-DESCRIPTION-EVENT-CHAIN'>/AUTOSAR/Seg2</SEGMENT-REF>"
+            "</SEGMENT-REFS>"
+            "</TIMING-DESCRIPTION-EVENT-CHAIN>"
+        )
+        parser.readTimingDescriptionEventChain(element, chain)
+        assert chain.getShortName() == "Chain1"
+        assert chain.getIsPipeliningPermitted().getValue() is True
+        assert chain.getStimulusRef().getValue() == "/AUTOSAR/Stimulus"
+        assert chain.getResponseRef().getDest() == "TD-EVENT-COM"
+        segments = chain.getSegmentRefs()
+        assert len(segments) == 2
+        assert segments[1].getValue() == "/AUTOSAR/Seg2"
+
+    def test_read_minimal(self, parser):
+        parent = _parent()
+        chain = TimingDescriptionEventChain(parent, "Chain1")
+        element = ET.fromstring(f"<TIMING-DESCRIPTION-EVENT-CHAIN xmlns='{NS}'><SHORT-NAME>Chain1</SHORT-NAME></TIMING-DESCRIPTION-EVENT-CHAIN>")
+        parser.readTimingDescriptionEventChain(element, chain)
+        assert chain.getIsPipeliningPermitted() is None
+        assert chain.getSegmentRefs() == []
