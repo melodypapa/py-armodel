@@ -1,0 +1,13 @@
+"""
+This module contains timing description event classes for AUTOSAR models.
+"""
+
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression.TDEventOccurrenceExpression import (  # noqa: F401
+    AutosarOperationArgumentInstance,
+    OperationArgumentInComponentInstanceRef,
+)
+
+__all__ = [
+    "AutosarOperationArgumentInstance",
+    "OperationArgumentInComponentInstanceRef",
+]

@@ -3,7 +3,7 @@ This module contains tests for the OperationArgumentInComponentInstanceRef Insta
 AUTOSAR CommonStructure.Timing.TimingCondition module.
 """
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import OperationArgumentInComponentInstanceRef
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import OperationArgumentInComponentInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 

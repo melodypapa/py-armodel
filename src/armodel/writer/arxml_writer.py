@@ -263,13 +263,15 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.Attribu
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef, TimingCondition
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
-    AutosarOperationArgumentInstance,
     AutosarVariableInstance,
     ComponentInCompositionInstanceRef,
-    OperationArgumentInComponentInstanceRef,
     TimingExtensionResource,
     TimingModeInstance,
     VariableInComponentInstanceRef,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
+    AutosarOperationArgumentInstance,
+    OperationArgumentInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
     ArbitraryEventTriggering,

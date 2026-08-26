@@ -1,10 +1,10 @@
 """
 This module contains tests for the AutosarOperationArgumentInstance class in the
-AUTOSAR CommonStructure.Timing.TimingCondition module.
+AUTOSAR CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
     AutosarOperationArgumentInstance,
     OperationArgumentInComponentInstanceRef,
 )

@@ -14,7 +14,7 @@ Rule 0001.10 placeholder and report it at their own Step 8.
 queued and synced — see its row below.)
 
 ## Queue (dependency-first)
-- [x] Traceable (base · markdown · AUTOSAR_FO_TPS_GenericStructureTemplate.md, Table 9.29) · commit 9c6c5b5
+- [x] Traceable (base · markdown · AUTOSAR_FO_TPS_GenericStructureTemplate.md, Table 9.29) · commit 9c6c5b5 · user review: confirmed
   - [x] Step 1 — Spec: abstract; Package M2::MSR::Documentation::BlockElements::RequirementsTracing; Base ARObject/MultilanguageReferrable/Referrable (codebase collapses to Identifiable); 1 attribute `trace` (Traceable, *, ref) = "ability to trace to upstream requirements / constraints"
   - [x] Step 2 — Unit tests added: test_Traceable.py::test_trace_refs, test_trace_reader_writer_round_trip, test_traceable_text_reuses_base (Red→Green)
   - [x] Step 3 — Implemented: added `traceRefs: List[RefType]`, `getTraceRefs()`, `addTraceRef()` (None no-op, chaining) mirroring RequirementsTracing.py convention
@@ -24,7 +24,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Checklist comment updated + `# Spec verified: R23-11` stamp added (reader/writer columns now `[x]`)
   - [x] Step 8 — No deviation: `trace` reader/writer implemented at base level (per codebase convention for abstract bases, e.g. writeReferrable/writeIdentifiable). Also relocated the canonical abstract `Traceable` from the misplaced `CommonStructure/Timing/Traceable.py` into `M2/MSR/Documentation/TextModel/BlockElements/RequirementsTracing.py` (its spec package, alongside `TraceableText`/`StructuredReq`); deleted the old file and repointed imports in TimingConstraint.py, arxml_writer.py, arxml_parser.py, models/__init__.py, test_Traceable.py.
   - [x] Step 9 — Verify (9a) + confirm (9b): `pytest test_Traceable.py` 5 passed; lint clean; 230 Timing+MSR/Documentation tests pass
-- [x] SwComponentPrototype (member · markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate.md, Table 3.11 · unstamped, added to queue per user decision · iref target of EOCEventRef.component / EOCExecutableEntityRef.component / ExecutionTimeConstraint.component) · commit 63b253e
+- [x] SwComponentPrototype (member · markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate.md, Table 3.11 · unstamped, added to queue per user decision · iref target of EOCEventRef.component / EOCExecutableEntityRef.component / ExecutionTimeConstraint.component) · commit 63b253e · user review: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -34,7 +34,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [x] TimingConditionFormula (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.8 · atpMixedString · aggregated by TimingCondition.timingConditionFormula) · commit 884652c
+- [x] TimingConditionFormula (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.8 · atpMixedString · aggregated by TimingCondition.timingConditionFormula) · commit 884652c · user review: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -44,7 +44,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: timingArgument→AutosarOperationArgumentInstance, timingEvent→TimingDescriptionEvent, timingVariable→AutosarVariableInstance are Rule 0001.10 placeholders (not in codebase); modeled as RefType per Phase 0 decision — no blocking deviation
   - [x] Step 9 — Verify (9a) + confirm (9b): 18 model/parser/writer tests pass; ruff/flake8/black clean; # Spec verified: R23-11 stamped. User relocated class into TimingCondition/__init__.py (non-leaf package convention) before stamping.
-- [x] ModeInBswInstanceRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.11 · InstanceRef, referenced by TimingModeInstance.modeInstance) · commit bb53916d
+- [x] ModeInBswInstanceRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.11 · InstanceRef, referenced by TimingModeInstance.modeInstance) · commit bb53916d · user review: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green) — base ARObject (spec Base `ARObject, ModeInSwcBswInstanceRef`; ModeInSwcBswInstanceRef not in codebase → Rule 0001.10 placeholder); contextBswImplementationRef/contextModeDeclarationGroupPrototypeRef/targetModeDeclarationRef as Optional[RefType]
@@ -54,7 +54,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Update checklist comment
    - [x] Step 8 — Deviations: resolved — ModeInSwcBswInstanceRef now implemented; ModeInBswInstanceRef(ModeInSwcBswInstanceRef)
   - [x] Step 9 — Verify (9a) + confirm (9b): 24 tests pass; ruff/flake8/black clean; # Spec verified: R23-11 stamped (deviation: ModeInSwcBswInstanceRef abstract base missing, re-based to ARObject, deferred per user review)
-- [x] ModeInSwcInstanceRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.12 · InstanceRef, referenced by TimingModeInstance.modeInstance) · commit 33ff0980
+- [x] ModeInSwcInstanceRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.12 · InstanceRef, referenced by TimingModeInstance.modeInstance) · commit 33ff0980 · user review: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green) — base AtpInstanceRef (most-derived available; ModeInSwcBswInstanceRef missing); contextBswImplementationRef atpDerived ([—] XML), contextComponentRefs List, contextModeDeclarationGroupPrototypeRef/contextPortRef/targetModeDeclarationRef Optional[RefType]
@@ -64,7 +64,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Update checklist comment
    - [x] Step 8 — Deviations: resolved — ModeInSwcBswInstanceRef now implemented; ModeInSwcInstanceRef(AtpInstanceRef, ModeInSwcBswInstanceRef)
   - [x] Step 9 — Verify (9a) + confirm (9b): 28 model/parser/writer tests pass; ruff/flake8/black clean; # Spec verified: R23-11 stamped (deviation: ModeInSwcBswInstanceRef abstract base missing, re-based to AtpInstanceRef, deferred per user review)
-- [x] ModeInSwcBswInstanceRef (base · XSD-only · abstract base of ModeInBswInstanceRef/ModeInSwcInstanceRef; resolves the deferred placeholder recorded on those classes and on TimingModeInstance.modeInstance) · commit 6e2afb99
+- [x] ModeInSwcBswInstanceRef (base · XSD-only · abstract base of ModeInBswInstanceRef/ModeInSwcInstanceRef; resolves the deferred placeholder recorded on those classes and on TimingModeInstance.modeInstance) · commit 6e2afb99 · user review: confirmed + stamped `# XSD verified: AUTOSAR_00052.xsd`
   - [x] Step 1 — XSD-only: no own AUTOSAR table; abstract base ARObject+ABC
   - [x] Step 2 — Unit tests added: test_ModeInSwcBswInstanceRef.py (abstract-guard + subclass isinstance)
   - [x] Step 3 — Implemented: ModeInSwcBswInstanceRef(ARObject, ABC) with TypeError guard; defined in TimingCondition/__init__.py (non-leaf package convention)
@@ -74,7 +74,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Checklist comment added (XSD-only, no # Spec: line)
   - [x] Step 8 — Deviations: none (resolves the Rule 0001.10 placeholder for ModeInSwcBswInstanceRef)
   - [x] Step 9 — XSD-only class, no # Spec verified: marker (Rule 0002); 65 model/parser/writer tests pass; ruff/flake8/black clean
-- [x] TimingModeInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.10 · aggregates ModeInBswInstanceRef/ModeInSwcInstanceRef via modeInstance) · commit 6e2afb99
+- [x] TimingModeInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.10 · aggregates ModeInBswInstanceRef/ModeInSwcInstanceRef via modeInstance) · commit 6e2afb99 · user review: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green) — base Identifiable(parent, short_name); fabricated modeRef/modeValue removed; modeInstance polymorphic choice (0..1, setXxx shape)
@@ -84,8 +84,8 @@ queued and synced — see its row below.)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: resolved — modeInstance now typed Optional[ModeInSwcBswInstanceRef]; the abstract base placeholder is implemented (no deferred deviation remains)
   - [x] Step 9 — Verify (9a) + confirm (9b) — # Spec verified: R23-11 stamped
-- [x] OperationArgumentInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00046.xsd OPERATION-ARGUMENT-IN-COMPONENT-INSTANCE-REF group · dependency of AutosarOperationArgumentInstance.operationArgumentInstance · parallels ModeInSwcInstanceRef · no own PDF table, so no # Spec verified: marker) [45453e9f]
-- [x] AutosarOperationArgumentInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.53 · operationArgumentInstance re-typed to aggregate OperationArgumentInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingArgument placeholder) [1570df56]
+- [x] OperationArgumentInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00052.xsd OPERATION-ARGUMENT-IN-COMPONENT-INSTANCE-REF group · package TDEventOccurrenceExpression (relocated from TimingCondition per user review, 00052.xsd complexType comment) · dependency of AutosarOperationArgumentInstance.operationArgumentInstance · parallels ModeInSwcInstanceRef · no own PDF table; stamped `# XSD verified: AUTOSAR_00052.xsd`) [45453e9f]
+- [x] AutosarOperationArgumentInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.53 · operationArgumentInstance re-typed to aggregate OperationArgumentInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingArgument placeholder · RELOCATED to Timing/TimingDescription/TimingDescriptionEvents/TDEventOccurrenceExpression/ per user review — spec package per AUTOSAR_00052.xsd) [1570df56]
 - [x] VariableInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00046.xsd VARIABLE-IN-COMPONENT-INSTANCE-REF group · dependency of AutosarVariableInstance.variableInstance · parallels ModeInSwcInstanceRef · no own PDF table, so no # Spec verified: marker) [98cf27e2]
   - [x] Step 1 — Sync members & description from XSD
   - [x] Step 2 — Write model class unit test (Red)
