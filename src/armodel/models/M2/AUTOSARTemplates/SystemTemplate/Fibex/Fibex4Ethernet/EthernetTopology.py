@@ -1855,6 +1855,35 @@ class EthernetConnectionNegotiationEnum(AREnum):
         )
 
 
+class CouplingPortRoleEnum(AREnum):
+    """
+    Defines the role a CouplingPort takes in the context of a CouplingElement.
+    """
+
+    # CouplingPortRoleEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.38, p.aux
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on CouplingPort.couplingPortRole
+
+    # The hostPort is connected to an ECU (host ecu). The host ECU controls the connected Coupling Element (e.g. Ethernet switch). Tags: atp.EnumerationLiteralIndex=0
+    HOST_PORT = "hostPort"
+
+    # A CouplingPort can be connected to another CouplingPort of a CouplingElement located on the same ECU (CouplingElement.ecuInstance) using the CouplingPortConnection. This is used to model a cascaded switch. Tags: atp.EnumerationLiteralIndex=1
+    UP_LINK_PORT = "upLinkPort"
+
+    # A CoupingPort can be a standardPort that is used to connect the CouplingElement with Coupling Ports outside the ECU. Tags: atp.EnumerationLiteralIndex=2
+    STANDARD_PORT = "standardPort"
+
+    def __init__(self):
+        super().__init__(
+            [
+                CouplingPortRoleEnum.HOST_PORT,
+                CouplingPortRoleEnum.UP_LINK_PORT,
+                CouplingPortRoleEnum.STANDARD_PORT,
+            ]
+        )
+
+
 class Ipv6Configuration(NetworkEndpointAddress):
     """
     Internet Protocol version 6 (IPv6) configuration.

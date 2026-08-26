@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortScheduler,
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
+    CouplingPortRoleEnum,
     DhcpServerConfiguration,
     EthernetConnectionNegotiationEnum,
     DoIpEntity,
@@ -851,6 +852,16 @@ class TestEthernetConnectionNegotiationEnum:
         assert EthernetConnectionNegotiationEnum.AUTO == "auto"
         assert EthernetConnectionNegotiationEnum.MASTER == "master"
         assert EthernetConnectionNegotiationEnum.SLAVE == "slave"
+
+
+class TestCouplingPortRoleEnum:
+    """Test cases for CouplingPortRoleEnum (Table F.38)."""
+
+    def test_enum_values(self):
+        assert list(CouplingPortRoleEnum().getEnumValues()) == ["hostPort", "upLinkPort", "standardPort"]
+        assert CouplingPortRoleEnum.HOST_PORT == "hostPort"
+        assert CouplingPortRoleEnum.UP_LINK_PORT == "upLinkPort"
+        assert CouplingPortRoleEnum.STANDARD_PORT == "standardPort"
 
 
 class Test_Fibex4EthernetNetworkEndpoint:
