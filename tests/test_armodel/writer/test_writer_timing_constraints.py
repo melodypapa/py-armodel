@@ -3,6 +3,7 @@
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
     ArbitraryEventTriggering,
@@ -890,6 +891,11 @@ class TestWriteSwcTiming:
     def test_round_trip_swc_timing_full(self):
         parent = self._parent()
         timing = SwcTiming(parent, "Timing1")
+        clock = TDLETZoneClock(timing, "Clock1")
+        timing.addElement(clock)
+        timing.addTimingClock(clock)
+        accuracy = timing.createTimingClockSyncAccuracy("Accuracy1")
+        accuracy.setAccuracy(_mdt())
         condition = timing.createTimingCondition("Cond1")
         condition.setTimingConditionFormula(None)
         guarantee = ExecutionTimeConstraint(timing, "Guarantee1")
@@ -906,6 +912,12 @@ class TestWriteSwcTiming:
         element = wrapper[0]
         assert element.tag == "SWC-TIMING"
         assert element.find("SHORT-NAME").text == "Timing1"
+        clocks_tag = element.find("TIMING-CLOCKS")
+        assert clocks_tag is not None
+        assert clocks_tag.find("TDLET-ZONE-CLOCK/SHORT-NAME").text == "Clock1"
+        accuracies_tag = element.find("TIMING-CLOCK-SYNC-ACCURACYS")
+        assert accuracies_tag is not None
+        assert accuracies_tag.find("TIMING-CLOCK-SYNC-ACCURACY/SHORT-NAME").text == "Accuracy1"
         conditions_tag = element.find("TIMING-CONDITIONS")
         assert conditions_tag is not None
         assert conditions_tag.find("TIMING-CONDITION/SHORT-NAME").text == "Cond1"
@@ -924,6 +936,13 @@ class TestWriteSwcTiming:
 
         reloaded = SwcTiming(parent, "Timing1")
         ARXMLParser().readSwcTiming(_round_trip(element), reloaded)
+        reloaded_clocks = reloaded.getTimingClocks()
+        assert len(reloaded_clocks) == 1
+        assert isinstance(reloaded_clocks[0], TDLETZoneClock)
+        assert reloaded_clocks[0].getShortName() == "Clock1"
+        reloaded_accuracies = reloaded.getTimingClockSyncAccuracies()
+        assert len(reloaded_accuracies) == 1
+        assert reloaded_accuracies[0].getShortName() == "Accuracy1"
         reloaded_conditions = reloaded.getTimingConditions()
         assert len(reloaded_conditions) == 1
         assert reloaded_conditions[0].getShortName() == "Cond1"
@@ -945,6 +964,8 @@ class TestWriteSwcTiming:
 
         element = ET.Element("SWC-TIMING")
         ARXMLWriter().writeSwcTiming(element, timing)
+        assert element.find("TIMING-CLOCKS") is None
+        assert element.find("TIMING-CLOCK-SYNC-ACCURACYS") is None
         assert element.find("TIMING-CONDITIONS") is None
         assert element.find("TIMING-GUARANTEES") is None
         assert element.find("TIMING-REQUIREMENTS") is None

@@ -9,6 +9,7 @@ Classes:
 from typing import List, Optional
 from abc import ABC
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TimingClock, TimingClockSyncAccuracy
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingCondition, TimingExtensionResource
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
@@ -19,25 +20,27 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class TimingExtension(ARElement, ABC):
     """
-    The abstract parent class of the different template specific timing extensions.
-
-    Depending on the specific timing extension (VfbTiming, SwcTiming, SystemTiming, BswModuleTiming, EcuTiming) the timing descriptions and timing constraints, that can be used to specify the timing behavior, are restricted.
+    The abstract parent class of the different template specific timing extensions. Depending on the specific timing extension the timing descriptions and timing constraints, that can be used to specify the timing behavior, are restricted.
     """
 
     # TimingExtension method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table D.65 (XSD group TIMING-EXTENSION), p.255
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table D.65, p.255
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addTimingGuarantee              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimingConditions             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addTimingClock                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimingClocks                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createTimingClockSyncAccuracy   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimingClockSyncAccuracies    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createTimingCondition           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimingConditions             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addTimingGuarantee              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getTimingGuarantees             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getTimingRequirements           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] addTimingRequirement            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimingRequirements           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createTimingResource            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getTimingResource               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createExecutionOrderConstraint  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer   (convenience factory appending to timingRequirements)
-    # timingDescription (* aggr, TimingDescription family) is NOT modeled: item classes out of scope (Rule 0001.10)
+    # [x] createExecutionOrderConstraint  [x] impl  [—] docstring  [x] test  [—] reader  [—] writer   (convenience factory appending to timingRequirements)
+    # timingDescription (* aggr) is a Rule 0001.10 placeholder: TimingDescription/TDEvent* family out of scope (Phase 0 decision); reader logs notImplemented
 
     __metaclass__ = ABC
 
@@ -47,15 +50,48 @@ class TimingExtension(ARElement, ABC):
 
         super().__init__(parent, short_name)
 
+        # A list of abstract model Clocks.
+        self.timingClocks: List[TimingClock] = []
+
+        # A list of accuracies - which may be used to specify synchronizations from one model clock to another model clock.
+        self.timingClockSyncAccuracies: List[TimingClockSyncAccuracy] = []
+
+        # The timing condition specifies a specific condition.
         self.timingConditions: List[TimingCondition] = []
 
+        # The timing constraints that belong to a specific timing specification in the role of a timing guarantee. In order to support different timing constraint variants within a timing specification, the aggregation is marked with the stereotype "atpVariation".
         self.timingGuarantees: List[TimingConstraint] = []
 
+        # The timing constraints that belong to a specific timing specification in the role of a timing requirement. In order to support different timing constraint variants within a timing specification, the aggregation is marked with the stereotype "atpVariation".
         self.timingRequirements: List[TimingConstraint] = []
 
+        # The timing resource contains all instance references referred from within a timing condition formula of a timing view.
         self.timingResource: Optional[TimingExtensionResource] = None
 
+    def addTimingClock(self, value: Optional[TimingClock]) -> "TimingExtension":
+        """A list of abstract model Clocks. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.timingClocks.append(value)
+        return self
+
+    def getTimingClocks(self) -> List[TimingClock]:
+        """A list of abstract model Clocks."""
+        return self.timingClocks
+
+    def createTimingClockSyncAccuracy(self, short_name: str) -> TimingClockSyncAccuracy:
+        """A list of accuracies - which may be used to specify synchronizations from one model clock to another model clock."""
+        if not self.IsElementExists(short_name):
+            accuracy = TimingClockSyncAccuracy(self, short_name)
+            self.addElement(accuracy)
+            self.timingClockSyncAccuracies.append(accuracy)
+        return self.getElement(short_name, TimingClockSyncAccuracy)
+
+    def getTimingClockSyncAccuracies(self) -> List[TimingClockSyncAccuracy]:
+        """A list of accuracies - which may be used to specify synchronizations from one model clock to another model clock."""
+        return self.timingClockSyncAccuracies
+
     def createTimingCondition(self, short_name: str) -> TimingCondition:
+        """The timing condition specifies a specific condition."""
         if not self.IsElementExists(short_name):
             condition = TimingCondition(self, short_name)
             self.addElement(condition)
@@ -63,27 +99,31 @@ class TimingExtension(ARElement, ABC):
         return self.getElement(short_name, TimingCondition)
 
     def getTimingConditions(self) -> List[TimingCondition]:
+        """The timing condition specifies a specific condition."""
         return self.timingConditions
 
     def addTimingGuarantee(self, value: Optional[TimingConstraint]) -> "TimingExtension":
-        """A None value is a no-op and does not append anything."""
+        """The timing constraints that belong to a specific timing specification in the role of a timing guarantee. In order to support different timing constraint variants within a timing specification, the aggregation is marked with the stereotype "atpVariation". A None value is a no-op and does not append anything."""
         if value is not None:
             self.timingGuarantees.append(value)
         return self
 
     def getTimingGuarantees(self) -> List[TimingConstraint]:
+        """The timing constraints that belong to a specific timing specification in the role of a timing guarantee. In order to support different timing constraint variants within a timing specification, the aggregation is marked with the stereotype "atpVariation"."""
         return self.timingGuarantees
 
     def addTimingRequirement(self, value: Optional[TimingConstraint]) -> "TimingExtension":
-        """A None value is a no-op and does not append anything."""
+        """The timing constraints that belong to a specific timing specification in the role of a timing requirement. In order to support different timing constraint variants within a timing specification, the aggregation is marked with the stereotype "atpVariation". A None value is a no-op and does not append anything."""
         if value is not None:
             self.timingRequirements.append(value)
         return self
 
     def getTimingRequirements(self) -> List[TimingConstraint]:
+        """The timing constraints that belong to a specific timing specification in the role of a timing requirement. In order to support different timing constraint variants within a timing specification, the aggregation is marked with the stereotype "atpVariation"."""
         return self.timingRequirements
 
     def createTimingResource(self, short_name: str) -> TimingExtensionResource:
+        """The timing resource contains all instance references referred from within a timing condition formula of a timing view."""
         if self.timingResource is None:
             resource = TimingExtensionResource(self, short_name)
             self.addElement(resource)
@@ -91,10 +131,10 @@ class TimingExtension(ARElement, ABC):
         return self.timingResource
 
     def getTimingResource(self) -> Optional[TimingExtensionResource]:
+        """The timing resource contains all instance references referred from within a timing condition formula of a timing view."""
         return self.timingResource
 
     def createExecutionOrderConstraint(self, short_name: str) -> ExecutionOrderConstraint:
-        """Convenience factory creating an ExecutionOrderConstraint and appending it to timingRequirements."""
         if not self.IsElementExists(short_name):
             constraint = ExecutionOrderConstraint(self, short_name)
             self.addElement(constraint)
@@ -117,16 +157,16 @@ class SwcTiming(TimingExtension):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints must be defined within this scope.
+        # This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints shall be defined within this scope.
         # Note! The reason for the cardinality of 0..1 is to ensure backward compatibility.
         self.behaviorRef: Optional[RefType] = None
 
     def getBehaviorRef(self) -> Optional[RefType]:
-        """This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints must be defined within this scope. Note! The reason for the cardinality of 0..1 is to ensure backward compatibility."""
+        """This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints shall be defined within this scope. Note! The reason for the cardinality of 0..1 is to ensure backward compatibility."""
         return self.behaviorRef
 
     def setBehaviorRef(self, value: Optional[RefType]) -> "SwcTiming":
-        """This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints must be defined within this scope. Note! The reason for the cardinality of 0..1 is to ensure backward compatibility. A None value is a no-op and does not overwrite an existing behaviorRef."""
+        """This defines the scope of a SwcTiming. All corresponding timing descriptions and constraints shall be defined within this scope. Note! The reason for the cardinality of 0..1 is to ensure backward compatibility. A None value is a no-op and does not overwrite an existing behaviorRef."""
         if value is not None:
             self.behaviorRef = value
         return self

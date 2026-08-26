@@ -1,6 +1,10 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import (
+    TDLETZoneClock,
+    TimingClockSyncAccuracy,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
     TimingCondition,
     TimingExtensionResource,
@@ -40,10 +44,44 @@ class TestTimingExtension:
         parent = _ar_package()
         extension = ConcreteTimingExtension(parent, "Ext1")
         assert isinstance(extension, TimingExtension)
+        assert extension.getTimingClocks() == []
+        assert extension.getTimingClockSyncAccuracies() == []
         assert extension.getTimingConditions() == []
         assert extension.getTimingGuarantees() == []
         assert extension.getTimingRequirements() == []
         assert extension.getTimingResource() is None
+
+    def test_add_timing_clock(self):
+        parent = _ar_package()
+        extension = ConcreteTimingExtension(parent, "Ext1")
+        clock = TDLETZoneClock(extension, "Clock1")
+        extension.addElement(clock)
+        assert extension.addTimingClock(clock) is extension
+        assert len(extension.getTimingClocks()) == 1
+        assert extension.getTimingClocks()[0] is clock
+
+    def test_add_timing_clock_none_noop(self):
+        parent = _ar_package()
+        extension = ConcreteTimingExtension(parent, "Ext1")
+        assert extension.addTimingClock(None) is extension
+        assert extension.getTimingClocks() == []
+
+    def test_create_timing_clock_sync_accuracy(self):
+        parent = _ar_package()
+        extension = ConcreteTimingExtension(parent, "Ext1")
+        accuracy = extension.createTimingClockSyncAccuracy("Accuracy1")
+        assert isinstance(accuracy, TimingClockSyncAccuracy)
+        assert accuracy.getShortName() == "Accuracy1"
+        assert len(extension.getTimingClockSyncAccuracies()) == 1
+        assert extension.getTimingClockSyncAccuracies()[0] is accuracy
+
+    def test_create_timing_clock_sync_accuracy_duplicate_returns_existing(self):
+        parent = _ar_package()
+        extension = ConcreteTimingExtension(parent, "Ext1")
+        accuracy1 = extension.createTimingClockSyncAccuracy("Accuracy1")
+        accuracy2 = extension.createTimingClockSyncAccuracy("Accuracy1")
+        assert accuracy2 is accuracy1
+        assert len(extension.getTimingClockSyncAccuracies()) == 1
 
     def test_create_timing_condition(self):
         parent = _ar_package()
@@ -139,3 +177,5 @@ class TestSwcTiming:
         constraint = swc_timing.createExecutionOrderConstraint("Eoc1")
         assert isinstance(constraint, ExecutionOrderConstraint)
         assert len(swc_timing.getTimingRequirements()) == 1
+        accuracy = swc_timing.createTimingClockSyncAccuracy("Accuracy1")
+        assert isinstance(accuracy, TimingClockSyncAccuracy)

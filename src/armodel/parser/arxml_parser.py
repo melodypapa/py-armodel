@@ -6400,6 +6400,18 @@ class ARXMLParser(AbstractARXMLParser):
             extension.addTimingRequirement(constraint)
 
     def readTimingExtension(self, element: ET.Element, extension: TimingExtension):
+        for child_element in self.findall(element, "TIMING-CLOCKS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TDLET-ZONE-CLOCK":
+                clock = TDLETZoneClock(extension, self.getShortName(child_element))
+                self.readTDLETZoneClock(child_element, clock)
+                extension.addElement(clock)
+                extension.addTimingClock(clock)
+            else:
+                self.notImplemented("Unsupported TIMING-CLOCKS item <%s>" % tag_name)
+        for child_element in self.findall(element, "TIMING-CLOCK-SYNC-ACCURACYS/TIMING-CLOCK-SYNC-ACCURACY"):
+            sync_accuracy = extension.createTimingClockSyncAccuracy(self.getShortName(child_element))
+            self.readTimingClockSyncAccuracy(child_element, sync_accuracy)
         for child_element in self.findall(element, "TIMING-CONDITIONS/TIMING-CONDITION"):
             condition = extension.createTimingCondition(self.getShortName(child_element))
             self.readTimingCondition(child_element, condition)

@@ -6220,7 +6220,27 @@ class ARXMLWriter(AbstractARXMLWriter):
                 return
         self.notImplemented("Unsupported timing requirement <%s>" % type(constraint).__name__)
 
+    def writeTimingClockItem(self, parent_element: ET.Element, clock):
+        tag_map = ((TDLETZoneClock, "TDLET-ZONE-CLOCK", self.writeTDLETZoneClock),)
+        for cls, tag, writer_method in tag_map:
+            if isinstance(clock, cls):
+                child_element = ET.SubElement(parent_element, tag)
+                writer_method(child_element, clock)
+                return
+        self.notImplemented("Unsupported timing clock <%s>" % type(clock).__name__)
+
     def writeTimingExtension(self, element: ET.Element, extension: TimingExtension):
+        clocks = extension.getTimingClocks()
+        if len(clocks) > 0:
+            clocks_tag = ET.SubElement(element, "TIMING-CLOCKS")
+            for clock in clocks:
+                self.writeTimingClockItem(clocks_tag, clock)
+        sync_accuracies = extension.getTimingClockSyncAccuracies()
+        if len(sync_accuracies) > 0:
+            sync_accuracies_tag = ET.SubElement(element, "TIMING-CLOCK-SYNC-ACCURACYS")
+            for sync_accuracy in sync_accuracies:
+                sync_accuracy_tag = ET.SubElement(sync_accuracies_tag, "TIMING-CLOCK-SYNC-ACCURACY")
+                self.writeTimingClockSyncAccuracy(sync_accuracy_tag, sync_accuracy)
         conditions = extension.getTimingConditions()
         if len(conditions) > 0:
             conditions_tag = ET.SubElement(element, "TIMING-CONDITIONS")

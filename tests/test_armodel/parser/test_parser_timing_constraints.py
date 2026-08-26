@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock, TimingClockSyncAccuracy
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingCondition, TimingExtensionResource
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
@@ -463,6 +464,12 @@ class TestReadSwcTiming:
         element = ET.fromstring(
             f"<SWC-TIMING xmlns='{NS}'>"
             "<SHORT-NAME>Timing1</SHORT-NAME>"
+            "<TIMING-CLOCKS>"
+            "<TDLET-ZONE-CLOCK><SHORT-NAME>Clock1</SHORT-NAME></TDLET-ZONE-CLOCK>"
+            "</TIMING-CLOCKS>"
+            "<TIMING-CLOCK-SYNC-ACCURACYS>"
+            "<TIMING-CLOCK-SYNC-ACCURACY><SHORT-NAME>Accuracy1</SHORT-NAME></TIMING-CLOCK-SYNC-ACCURACY>"
+            "</TIMING-CLOCK-SYNC-ACCURACYS>"
             "<TIMING-CONDITIONS>"
             "<TIMING-CONDITION><SHORT-NAME>Cond1</SHORT-NAME></TIMING-CONDITION>"
             "</TIMING-CONDITIONS>"
@@ -477,6 +484,14 @@ class TestReadSwcTiming:
             "</SWC-TIMING>"
         )
         parser.readSwcTiming(element, timing)
+        clocks = timing.getTimingClocks()
+        assert len(clocks) == 1
+        assert isinstance(clocks[0], TDLETZoneClock)
+        assert clocks[0].getShortName() == "Clock1"
+        accuracies = timing.getTimingClockSyncAccuracies()
+        assert len(accuracies) == 1
+        assert isinstance(accuracies[0], TimingClockSyncAccuracy)
+        assert accuracies[0].getShortName() == "Accuracy1"
         conditions = timing.getTimingConditions()
         assert len(conditions) == 1
         assert isinstance(conditions[0], TimingCondition)
@@ -498,6 +513,8 @@ class TestReadSwcTiming:
         timing = SwcTiming(parent, "Timing1")
         element = ET.fromstring(f"<SWC-TIMING xmlns='{NS}'><SHORT-NAME>Timing1</SHORT-NAME></SWC-TIMING>")
         parser.readSwcTiming(element, timing)
+        assert timing.getTimingClocks() == []
+        assert timing.getTimingClockSyncAccuracies() == []
         assert timing.getTimingConditions() == []
         assert timing.getTimingGuarantees() == []
         assert timing.getTimingRequirements() == []
