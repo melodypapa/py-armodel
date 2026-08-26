@@ -111,6 +111,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     AutosarOperationArgumentInstance,
     AutosarVariableInstance,
     OperationArgumentInComponentInstanceRef,
+    TDEventOccurrenceExpressionFormula,
     VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ComponentInCompositionInstanceRef  # noqa: F401
@@ -120,6 +121,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint import ExecutionTimeConstraint, ExecutionTimeTypeEnum  # noqa: F401
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import SynchronizationPointConstraint  # noqa: F401
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock, TimingClock, TimingClockSyncAccuracy  # noqa: F401
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescription  # noqa: F401
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import Traceable  # noqa: F401
 
 # Additional DiagnosticExtract imports

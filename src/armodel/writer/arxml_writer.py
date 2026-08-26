@@ -269,6 +269,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     AutosarOperationArgumentInstance,
     AutosarVariableInstance,
     OperationArgumentInComponentInstanceRef,
+    TDEventOccurrenceExpressionFormula,
     VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
@@ -3447,6 +3448,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     element.attrib["INTERVAL-TYPE"] = token
         text = avp.getText()
+        if text is not None:
+            element.text = text
+
+    def writeTDEventOccurrenceExpressionFormula(self, element: ET.Element, formula: TDEventOccurrenceExpressionFormula):
+        self.writeReferrable(element, formula)
+        self.setChildElementOptionalRefType(element, "ARGUMENT-REF", formula.getArgumentRef())
+        self.setChildElementOptionalRefType(element, "EVENT-REF", formula.getEventRef())
+        self.setChildElementOptionalRefType(element, "MODE-REF", formula.getModeRef())
+        self.setChildElementOptionalRefType(element, "VARIABLE-REF", formula.getVariableRef())
+        text = formula.getText()
         if text is not None:
             element.text = text
 

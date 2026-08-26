@@ -417,16 +417,16 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table D.62, p.253)
   - [x] Step 8 — Deviations: none
   - [x] Step 9 — Verify (9a passed); 9b confirm + stamp deferred to batch
-- [ ] TDEventOccurrenceExpressionFormula (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.51 · atpMixedString <<atpMixedString>>, Base = ARObject + FormulaExpression · argument/event/mode/variable 0..1 refs · event -> TimingDescriptionEvent is a RefType placeholder until that row lands (mirrors TimingConditionFormula.timingEvent precedent)) · queued 2026-08-26 (dependency of TDEventOccurrenceExpression.formula, discovered at session start)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventOccurrenceExpressionFormula (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.51 · atpMixedString <<atpMixedString>>, Base = ARObject + FormulaExpression · argument/event/mode/variable 0..1 refs) · queued 2026-08-26 (dependency of TDEventOccurrenceExpression.formula, discovered at session start)
+  - [x] Step 1 — Sync members & description from spec (Table 3.51, p.84; Note verbatim; Base ARObject+FormulaExpression; 4× 0..1 ref attrs)
+  - [x] Step 2 — Write model class unit test (Red) — test_TDEventOccurrenceExpressionFormula.py (9 tests)
+  - [x] Step 3 — Implement model class (Green) — TDEventOccurrenceExpressionFormula(Referrable); argumentRef/eventRef/modeRef/variableRef Optional[RefType] + _text mixed string
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class + member notes verbatim from Table 3.51
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — fragment-level FORMULA tests (parser + writer files test_*_timing_descriptions.py)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTDEventOccurrenceExpressionFormula (ARGUMENT-REF/EVENT-REF/MODE-REF/VARIABLE-REF + mixed text)
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.51, p.84)
+  - [x] Step 8 — Deviations: FormulaExpression not in codebase → re-based to Referrable (mirrors user-confirmed TimingConditionFormula precedent); event -> TimingDescriptionEvent RefType placeholder until that row lands (Rule 0001.10)
+  - [x] Step 9 — Verify (9a passed: 3734 parser/writer/model tests green; ruff/black clean; top-level export OK); 9b confirm + stamp deferred to batch
 - [ ] TDEventOccurrenceExpression (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.50 · Base = ARObject · arguments * aggr AutosarOperationArgumentInstance (stamped), formula 0..1 aggr TDEventOccurrenceExpressionFormula (queued above), modes * aggr TimingModeInstance (stamped), variables * aggr AutosarVariableInstance (stamped) · aggregated by TimingDescriptionEvent.occurrenceExpression) · queued 2026-08-26 (was wrongly noted "ALREADY STAMPED" on the TDEventComplex row — the stamp in TDEventOccurrenceExpression.py belongs to AutosarVariableInstance)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

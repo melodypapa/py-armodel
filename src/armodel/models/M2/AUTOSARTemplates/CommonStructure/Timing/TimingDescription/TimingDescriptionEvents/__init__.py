@@ -6,6 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     AutosarOperationArgumentInstance,
     AutosarVariableInstance,
     OperationArgumentInComponentInstanceRef,
+    TDEventOccurrenceExpressionFormula,
     VariableInComponentInstanceRef,
 )
 
@@ -13,5 +14,6 @@ __all__ = [
     "AutosarOperationArgumentInstance",
     "AutosarVariableInstance",
     "OperationArgumentInComponentInstanceRef",
+    "TDEventOccurrenceExpressionFormula",
     "VariableInComponentInstanceRef",
 ]

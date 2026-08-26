@@ -213,6 +213,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     AutosarOperationArgumentInstance,
     AutosarVariableInstance,
     OperationArgumentInComponentInstanceRef,
+    TDEventOccurrenceExpressionFormula,
     VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
@@ -2150,6 +2151,17 @@ class ARXMLParser(AbstractARXMLParser):
         if element.text is not None and element.text.strip() != "":
             avp.setText(element.text)
         return avp
+
+    def readTDEventOccurrenceExpressionFormula(self, parent, element: ET.Element) -> TDEventOccurrenceExpressionFormula:
+        formula = TDEventOccurrenceExpressionFormula(parent, self.getShortName(element))
+        self.readReferrable(element, formula)
+        formula.setArgumentRef(self.getChildElementOptionalRefType(element, "ARGUMENT-REF"))
+        formula.setEventRef(self.getChildElementOptionalRefType(element, "EVENT-REF"))
+        formula.setModeRef(self.getChildElementOptionalRefType(element, "MODE-REF"))
+        formula.setVariableRef(self.getChildElementOptionalRefType(element, "VARIABLE-REF"))
+        if element.text is not None and element.text.strip() != "":
+            formula.setText(element.text)
+        return formula
 
     def readTimingConditionFormula(self, parent, element: ET.Element) -> TimingConditionFormula:
         tcf = TimingConditionFormula(parent, self.getShortName(element))
