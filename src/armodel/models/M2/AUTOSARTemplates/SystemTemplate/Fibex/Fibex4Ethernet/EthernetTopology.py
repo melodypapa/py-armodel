@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
     ARLiteral,
     Boolean,
     Integer,
@@ -1763,6 +1764,68 @@ class Ipv4Configuration(NetworkEndpointAddress):
         return self
 
 
+class IpAddressKeepEnum(AREnum):
+    """
+    Defines the behavior after a dynamic IP address has been assigned.
+    """
+
+    # IpAddressKeepEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.138, p.466
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Ipv4Configuration/Ipv6Configuration.ipAddressKeepBehavior
+
+    # After a dynamic IP address has been assigned just use it for this session. Tags: atp.EnumerationLiteralIndex=0
+    FORGET = "forget"
+
+    # After a dynamic IP address has been assigned store the address persistently. Tags: atp.EnumerationLiteralIndex=1
+    STORE_PERSISTENTLY = "storePersistently"
+
+    def __init__(self):
+        super().__init__(
+            [
+                IpAddressKeepEnum.FORGET,
+                IpAddressKeepEnum.STORE_PERSISTENTLY,
+            ]
+        )
+
+
+class Ipv6AddressSourceEnum(AREnum):
+    """
+    Defines how the node obtains its IPv6-Address.
+    """
+
+    # Ipv6AddressSourceEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.140, p.467
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Ipv6Configuration.ipv6AddressSource
+
+    # DHCP is a service for the automatic IP configuration of a client. Tags: atp.EnumerationLiteralIndex=0
+    DHCPV6 = "dhcpv6"
+
+    # The IP Address shall be declared manually. Tags: atp.EnumerationLiteralIndex=1
+    FIXED = "fixed"
+
+    # LinkLocal is intended only for communications within the segment of a local network (a link) or a point-to-point connection that a host is connected to. Tags: atp.EnumerationLiteralIndex=2
+    LINK_LOCAL = "linkLocal"
+
+    # Linklocal IPv6 Address Assignment using DoIP Parameters Tags: atp.EnumerationLiteralIndex=3 xml.name=LINK-LOCAL-DOIP
+    LINK_LOCAL_DOIP = "linkLocal_doip"
+
+    # IPv6 Stateless Autoconfiguration. Tags: atp.EnumerationLiteralIndex=4
+    ROUTER_ADVERTISEMENT = "routerAdvertisement"
+
+    def __init__(self):
+        super().__init__(
+            [
+                Ipv6AddressSourceEnum.DHCPV6,
+                Ipv6AddressSourceEnum.FIXED,
+                Ipv6AddressSourceEnum.LINK_LOCAL,
+                Ipv6AddressSourceEnum.LINK_LOCAL_DOIP,
+                Ipv6AddressSourceEnum.ROUTER_ADVERTISEMENT,
+            ]
+        )
+
+
 class Ipv6Configuration(NetworkEndpointAddress):
     """
     Internet Protocol version 6 (IPv6) configuration.
@@ -1810,7 +1873,7 @@ class Ipv6Configuration(NetworkEndpointAddress):
         self.hopCount: Optional[PositiveInteger] = None
 
         # Defines the lifetime of a dynamically fetched IP address.
-        self.ipAddressKeepBehavior: Optional[ARLiteral] = None
+        self.ipAddressKeepBehavior: Optional[IpAddressKeepEnum] = None
 
         # IPv6 prefix length defines the part of the IPv6 address that is the network prefix.
         self.ipAddressPrefixLength: Optional[PositiveInteger] = None
@@ -1819,7 +1882,7 @@ class Ipv6Configuration(NetworkEndpointAddress):
         self.ipv6Address: Optional[Ip6AddressString] = None
 
         # Defines how the node obtains its IP address.
-        self.ipv6AddressSource: Optional[ARLiteral] = None
+        self.ipv6AddressSource: Optional[Ipv6AddressSourceEnum] = None
 
     def getAssignmentPriority(self) -> Optional[PositiveInteger]:
         """Priority of assignment (1 is highest). If a new address from an assignment method with a higher priority is available, it overwrites the IP address previously assigned by an assignment method with a lower priority."""
@@ -1886,11 +1949,11 @@ class Ipv6Configuration(NetworkEndpointAddress):
             self.hopCount = value
         return self
 
-    def getIpAddressKeepBehavior(self) -> Optional[ARLiteral]:
+    def getIpAddressKeepBehavior(self) -> Optional[IpAddressKeepEnum]:
         """Defines the lifetime of a dynamically fetched IP address."""
         return self.ipAddressKeepBehavior
 
-    def setIpAddressKeepBehavior(self, value: Optional[ARLiteral]) -> "Ipv6Configuration":
+    def setIpAddressKeepBehavior(self, value: Optional[IpAddressKeepEnum]) -> "Ipv6Configuration":
         """
         Defines the lifetime of a dynamically fetched IP address.
         A None value is a no-op and does not overwrite an existing ipAddressKeepBehavior.
@@ -1925,11 +1988,11 @@ class Ipv6Configuration(NetworkEndpointAddress):
             self.ipv6Address = value
         return self
 
-    def getIpv6AddressSource(self) -> Optional[ARLiteral]:
+    def getIpv6AddressSource(self) -> Optional[Ipv6AddressSourceEnum]:
         """Defines how the node obtains its IP address."""
         return self.ipv6AddressSource
 
-    def setIpv6AddressSource(self, value: Optional[ARLiteral]) -> "Ipv6Configuration":
+    def setIpv6AddressSource(self, value: Optional[Ipv6AddressSourceEnum]) -> "Ipv6Configuration":
         """
         Defines how the node obtains its IP address.
         A None value is a no-op and does not overwrite an existing ipv6AddressSource.

@@ -16,6 +16,22 @@ user decision); rows retargeted to the real markdown-documented classes.
 `Fibex4Can/CanTopology.py`. `NetworkEndpoint.py` and `EthernetCommunication.py` deleted. Row notes
 below carry per-class `MOVED ... per Rule 0007` markers. **Correction:** `SocketConnection` is NOT an
 XSD-only class — Table F.116 exists in the R23-11 obsolete-model appendix (package ObsoleteModel).
+**2026-08-26 — Ipv6Configuration member-type fix (user-reported):** `ipAddressKeepBehavior` was typed
+ARLiteral but the spec (Table 6.138) says `IpAddressKeepEnum`; `ipv6AddressSource` was typed ARLiteral
+but the spec (Table 6.140) says `Ipv6AddressSourceEnum`. Both AREnum classes implemented in
+`EthernetTopology.py`, members retyped, parser constructs the enums; the two placeholder deviation
+rows removed. `Ipv4Configuration.ipAddressKeepBehavior`/`ipv4AddressSource` have the SAME latent
+mismatch (Ipv4AddressSourceEnum Table 6.137) — Ipv4Configuration is legacy/not queued, not yet retyped.
+**2026-08-26 — member-type audit across the whole queue:** applied the Ipv6Configuration check to every
+queued class. 12 missing member types found (placeholder ARLiteral/ARObject where real spec classes exist)
+and ADDED as queue rows with 9-step sub-checklists below ("Member types — ADDED 2026-08-26"): 7 enums
+(EventGroupControlTypeEnum 6.162, TcpRoleEnum F.135, EthernetConnectionNegotiationEnum 3.55,
+CouplingPortRoleEnum F.38, EthernetMacLayerTypeEnum 3.56, EthernetPhysicalLayerTypeEnum 3.57,
+EthernetSwitchVlanIngressTagEnum 3.58) + 5 classes (MacSecProps 3.118/SecureCommunication, PlcaProps 3.117,
+CouplingPortConnection 3.60, GlobalTimeCouplingPortProps 9.18, CouplingPortAbstractShaper XSD-only).
+These must sync BEFORE their consumers per Rule 0016.5 and resolve the placeholder deviation rows below.
+Ref-target classes stored as RefType (SoConIPduIdentifier 6.163, EthernetWakeupSleepOnDatalineConfig 3.115/Set 3.116,
+PncMappingIdent F.95) are NOT placeholder mismatches and are NOT queued.
 (resume = first class row still `[ ]`; all class rows `[x]` = sync finished)
 
 Closure confirmed by user 2026-08-23: queue the 17 input classes + their missing member-type classes;
@@ -238,8 +254,8 @@ row below and must sync BEFORE the class that references it. All rows below are 
     parser getPduActivationRoutingGroup: getShortName + readIdentifiable + mutators)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-    (tracker: eventGroupControlType ARLiteral placeholder — EventGroupControlTypeEnum Table F.114 not queued/not implemented,
-     Rule 0001.10; iPduIdentifierTcp/Udp singular→plural convention noted; consumer wiring pending RE-FIX rows)
+    (tracker: eventGroupControlType ARLiteral placeholder — EventGroupControlTypeEnum Table 6.162 queued 2026-08-26 (see Member types ADDED);
+     iPduIdentifierTcp/Udp singular→plural convention noted; consumer wiring pending RE-FIX rows)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7295 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] StaticSocketConnection (Table 6.201 · p.544 · used by SocketAddress.staticSocketConnections · resolves ARObject placeholder) — STAMP DEFERRED (batch 9b pending)
@@ -259,7 +275,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
      consumer wiring into SocketAddress pending its RE-FIX row)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-    (tracker: tcpRole ARLiteral placeholder — TcpRoleEnum not queued/not implemented, Rule 0001.10;
+    (tracker: tcpRole ARLiteral placeholder — TcpRoleEnum Table F.135 queued 2026-08-26 (see Member types ADDED);
      iPduIdentifier/remoteAddress singular→plural/ref naming noted; SocketAddress placeholder row resolved by RE-FIX)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7304 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
@@ -282,6 +298,137 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (none; SocketAddress udpChecksumHandling placeholder row resolved by the RE-FIX row)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7306 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
+
+### Member types — ADDED 2026-08-26 after Ipv6Configuration member-type audit (user-reported placeholder mismatch) — Rule 0016.4/0016.5: sync BEFORE their consumers
+
+Same issue as Ipv6Configuration (ARLiteral/ARObject placeholder where a real spec class exists). Each row
+resolves the placeholders recorded in its consumers' Step 8 deviation notes below and MUST sync before that
+consumer is stamped. (Ref targets stored as RefType — SoConIPduIdentifier 6.163, EthernetWakeupSleepOnDatalineConfig
+3.115/Set 3.116, PncMappingIdent F.95 — are NOT placeholder mismatches and are NOT queued; noted for completeness.
+Retype-only gaps with no missing class are NOT queued: EthernetCommunicationController.macUnicastAddress uses
+ARLiteral but MacAddressString exists in PrimitiveTypes.py; legacy Ipv4Configuration.ipv4AddressSource/
+ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) — class not queued.)
+
+- [ ] EventGroupControlTypeEnum (enum · Table 6.162 · p.489 · used by PduActivationRoutingGroup.eventGroupControlType AND SoAdRoutingGroup.eventGroupControlType (ObsoleteModel.py, untyped `# type:` comment) · source ServiceInstances.py · resolves both ARLiteral placeholders · Steps 5/6 N/A if standalone enum)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TcpRoleEnum (enum · Table F.135 (obsolete appendix) · used by StaticSocketConnection.tcpRole · source ServiceInstances.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] EthernetConnectionNegotiationEnum (enum · Table 3.55 · p.110 · used by CouplingPort.connectionNegotiationBehavior · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] CouplingPortRoleEnum (enum · Table F.38 (obsolete appendix) · used by CouplingPort.couplingPortRole · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] EthernetMacLayerTypeEnum (enum · Table 3.56 · p.110 · used by CouplingPort.macLayerType AND EthernetCommunicationController.macLayerType · source EthernetTopology.py · resolves both ARLiteral placeholders · Steps 5/6 N/A if standalone enum)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] EthernetPhysicalLayerTypeEnum (enum · Table 3.57 · p.111 · used by CouplingPort.physicalLayerType · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] EthernetSwitchVlanIngressTagEnum (enum · Table 3.58 · p.111 · used by CouplingPort.receiveActivity · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] MacSecProps (class · Table 3.118 · p.173 · used by CouplingPort.macSecProps (List) · source SystemTemplate/SecureCommunication — Table 3.118 Package row = M2::...::SystemTemplate::SecureCommunication (Rule 0007) · NOTE: own member closure — MacSecLocalKayProps, MacSecGlobalKayProps, MacSecFailPermissiveModeEnum etc. — to be resolved interactively in its own Phase 0)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] PlcaProps (class · Table 3.117 · p.169 · used by CouplingPort.plcaProps · source EthernetTopology.py · resolves ARObject placeholder; attrs plcaLocalNodeId, plcaMaxBurstCount, plcaMaxBurstTimer)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] CouplingPortConnection (class · Table 3.60 · p.113 · used by EthernetCluster.couplingPortConnections (List) · source EthernetTopology.py · Base ARObject; attrs firstPort 0..1 ref CouplingPort, nodePort * ref CouplingPort, plcaLocalNodeCount, plcaTransmitOpportunityTimer, secondPort 0..1 ref CouplingPort · resolves ARObject placeholder)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] GlobalTimeCouplingPortProps (class · Table 9.18 · p.875 · used by CouplingPortDetails.globalTimeProps · source EthernetTopology.py · Base ARObject; attr propagationDelay TimeValue · resolves ARObject placeholder)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] CouplingPortAbstractShaper (abstract class · no own table (abstract; XSD-derived per Rule 0002, no marker) · used by CouplingPortFifo.shaper · source EthernetTopology.py · resolves ARObject placeholder; subclasses CouplingPortFifo/CouplingPortScheduler-style shapers reference it in Base)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 ## RE-FIX rows (user review docs/plan/check.md 2026-08-25 — consumers of the member types above; re-run after their member classes land)
 
@@ -557,16 +704,19 @@ row below and must sync BEFORE the class that references it. All rows below are 
     convention alignment: bulk setDnsServerAddresses → addDnsServerAddress/getDnsServerAddresses per Rule 0001.5)
   - [x] Step 2 — Model test rewritten to spec shape (Red — addDnsServerAddress + None no-ops missing)
   - [x] Step 3 — Implement model class (Green)
-    (typed annotations incl. ipAddressKeepBehavior/ipv6AddressSource as ARLiteral placeholders —
-     IpAddressKeepEnum Table 6.138 / Ipv6AddressSourceEnum not implemented, Rule 0001.10; guarded setters)
+    (typed annotations incl. ipAddressKeepBehavior → IpAddressKeepEnum Table 6.138 / ipv6AddressSource →
+     Ipv6AddressSourceEnum Table 6.140 — both REAL AREnum classes implemented in EthernetTopology.py on
+     2026-08-26 (user-reported member-type mismatch); ARLiteral placeholders removed; guarded setters)
   - [x] Step 4 — Sync docstrings (wipe + rewrite) (class Note + all nine Attribute Notes verbatim)
   - [x] Step 5/6 — Reader/writer round-trip test + wiring
     (tests/test_armodel/writer/test_ipv6_configuration.py: write_all/empty + round trip + empty reader;
      DNS-SERVER-ADDRESSES wrapper and IP-ADDRESS-KEEP-BEHAVIOR wired both sides in XSD order;
+     reader now constructs IpAddressKeepEnum/Ipv6AddressSourceEnum from the element values;
      stale frame_channel ipv6 writer tests still green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-    (tracker: former dnsServerAddress missing row resolved and annotated; two enum placeholders recorded)
+    (tracker: former dnsServerAddress missing row resolved and annotated; the two enum placeholder rows
+     REMOVED — IpAddressKeepEnum/Ipv6AddressSourceEnum implemented, Rule 0011, member types retyped)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7332 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] InfrastructureServices (markdown SystemTemplate · Table 6.144 · p.469 · source Fibex4Ethernet/EthernetTopology.py — MOVED from NetworkEndpoint.py per Rule 0007: Table 6.144 Package row = Fibex4Ethernet::EthernetTopology · depends on DhcpServerConfiguration above; adds dhcpServerConfiguration) — STAMP DEFERRED (batch 9b pending)
@@ -601,7 +751,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
      wired both sides in XSD order; SHAPER element deferred with the placeholder class)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-    (tracker: shaper ARObject placeholder — CouplingPortAbstractShaper not implemented, Rule 0001.10;
+    (tracker: shaper ARObject placeholder — CouplingPortAbstractShaper queued 2026-08-26 (see Member types ADDED);
      trafficClassPreemptionSupport removal recorded per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7341 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
@@ -620,7 +770,8 @@ row below and must sync BEFORE the class that references it. All rows below are 
      parser bulk-setter call replaced with mutator loop per Rule 0013)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-    (tracker: globalTimeProps ARObject placeholder recorded; four removed members documented per Rule 0015)
+    (tracker: globalTimeProps ARObject placeholder — GlobalTimeCouplingPortProps Table 9.18 queued 2026-08-26 (see Member types ADDED);
+     four removed members documented per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7344 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
   - [ ] Step 1 — Sync members & description from spec
@@ -647,8 +798,10 @@ row below and must sync BEFORE the class that references it. All rows below are 
      readCouplingPort/writeCouplingPort cover all 14 members in XSD order)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-    (tracker: six enum placeholders, macSecProps/plcaProps placeholders, stale couplingPortSpeed note resolved;
-     macAddressVlanAssignments removal recorded per Rule 0015)
+    (tracker: six enum placeholders (EthernetConnectionNegotiationEnum 3.55, CouplingPortRoleEnum F.38, EthernetMacLayerTypeEnum 3.56,
+     EthernetPhysicalLayerTypeEnum 3.57, EthernetSwitchVlanIngressTagEnum 3.58, EthernetWakeupSleepOnDatalineConfig 3.115 ref) +
+     macSecProps/plcaProps placeholders — ALL queued 2026-08-26 (see Member types ADDED);
+     stale couplingPortSpeed note resolved; macAddressVlanAssignments removal recorded per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7347 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] EthernetCluster (markdown SystemTemplate · Table 3.47 · p.103 · source Fibex4Ethernet/EthernetTopology.py · adds couplingPorts to EthernetCluster; closes open items) — STAMP DEFERRED (batch 9b pending)
@@ -666,7 +819,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
      both sides inside ETHERNET-CLUSTER-CONDITIONAL per XSD order)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-    (tracker: couplingPortConnections ARObject placeholder — CouplingPortConnection not implemented, Rule 0001.10)
+    (tracker: couplingPortConnections ARObject placeholder — CouplingPortConnection Table 3.60 queued 2026-08-26 (see Member types ADDED))
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7350 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] EthernetCommunicationController (markdown SystemTemplate · Table 3.61 · p.116 · source Fibex4Ethernet/EthernetTopology.py · closes open items) — STAMP DEFERRED (batch 9b pending)
@@ -683,7 +836,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
      SLAVE-ACT-AS-PASSIVE-COMMUNICATION-SLAVE + coupling ports, in XSD order)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-    (tracker: new section, macLayerType ARLiteral placeholder for EthernetMacLayerTypeEnum, Rule 0001.10)
+    (tracker: new section, macLayerType ARLiteral placeholder — EthernetMacLayerTypeEnum Table 3.56 queued 2026-08-26 (see Member types ADDED))
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7353 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] EthernetCommunicationConnector (markdown SystemTemplate · Table 3.62 · p.117 · source Fibex4Ethernet/EthernetTopology.py · depends on CanXlProps above; adds apApplicationEndpoint, canXlPropsRefs, ipV6PathMtuEnabled, ipV6PathMtuTimeout, pncFilterDataMask, unicastNetworkEndpointRefs → NetworkEndpoint Ref) — STAMP DEFERRED (batch 9b pending)

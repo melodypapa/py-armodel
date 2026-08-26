@@ -29,8 +29,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetPriorityRegeneration,
     InfrastructureServices,
     InitialSdDelayConfig,
+    IpAddressKeepEnum,
     Ipv4Configuration,
     Ipv4DhcpServerConfiguration,
+    Ipv6AddressSourceEnum,
     Ipv6Configuration,
     Ipv6DhcpServerConfiguration,
     MacMulticastGroup,
@@ -936,13 +938,16 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert config.getHopCount() == 64
         assert result == config  # Test method chaining
 
-        result = config.setIpAddressKeepBehavior("storePersistently")
-        assert config.getIpAddressKeepBehavior() == "storePersistently"
+        keep = IpAddressKeepEnum().setValue(IpAddressKeepEnum.STORE_PERSISTENTLY)
+        result = config.setIpAddressKeepBehavior(keep)
+        assert config.getIpAddressKeepBehavior() is keep
+        assert config.getIpAddressKeepBehavior().getValue() == "storePersistently"
+        assert isinstance(config.getIpAddressKeepBehavior(), IpAddressKeepEnum)
         assert result == config  # Test method chaining
 
         # None no-op for ipAddressKeepBehavior
         result = config.setIpAddressKeepBehavior(None)
-        assert config.getIpAddressKeepBehavior() == "storePersistently"
+        assert config.getIpAddressKeepBehavior().getValue() == "storePersistently"
 
         result = config.setIpAddressPrefixLength(64)
         assert config.getIpAddressPrefixLength() == 64
@@ -952,8 +957,11 @@ class Test_Fibex4EthernetNetworkEndpoint:
         assert config.getIpv6Address() == "2001:db8::1"
         assert result == config  # Test method chaining
 
-        result = config.setIpv6AddressSource("auto")
-        assert config.getIpv6AddressSource() == "auto"
+        source = Ipv6AddressSourceEnum().setValue(Ipv6AddressSourceEnum.LINK_LOCAL)
+        result = config.setIpv6AddressSource(source)
+        assert config.getIpv6AddressSource() is source
+        assert config.getIpv6AddressSource().getValue() == "linkLocal"
+        assert isinstance(config.getIpv6AddressSource(), Ipv6AddressSourceEnum)
         assert result == config  # Test method chaining
 
         # Test adding DNS server addresses with method chaining and None no-op

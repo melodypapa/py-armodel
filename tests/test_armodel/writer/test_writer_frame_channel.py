@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     DoIpEntity,
     InfrastructureServices,
     InitialSdDelayConfig,
+    Ipv6AddressSourceEnum,
     Ipv6Configuration,
     NetworkEndpoint,
     RequestResponseDelay,
@@ -828,7 +829,7 @@ class TestWriteNetworkEndPoint:
         cfg.setHopCount(_pos_int("64"))
         cfg.setIpAddressPrefixLength(_pos_int("48"))
         cfg.setIpv6Address(_literal("::1"))
-        cfg.setIpv6AddressSource(_literal("MANUAL"))
+        cfg.setIpv6AddressSource(Ipv6AddressSourceEnum().setValue(Ipv6AddressSourceEnum.FIXED))
         parent = _parent()
         writer.setIpv6Configuration(parent, cfg)
         tag = parent.find("IPV-6-CONFIGURATION")
@@ -839,7 +840,7 @@ class TestWriteNetworkEndPoint:
         assert tag.find("HOP-COUNT").text == "64"
         assert tag.find("IP-ADDRESS-PREFIX-LENGTH").text == "48"
         assert tag.find("IPV-6-ADDRESS").text == "::1"
-        assert tag.find("IPV-6-ADDRESS-SOURCE").text == "MANUAL"
+        assert tag.find("IPV-6-ADDRESS-SOURCE").text == "fixed"
 
     def test_write_network_end_point_addresses_empty(self, writer):
         parent = _parent()

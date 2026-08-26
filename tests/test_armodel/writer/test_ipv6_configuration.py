@@ -10,12 +10,15 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARLiteral,
     Boolean,
     Ip6AddressString,
     PositiveInteger,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import Ipv6Configuration
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    IpAddressKeepEnum,
+    Ipv6AddressSourceEnum,
+    Ipv6Configuration,
+)
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -48,10 +51,10 @@ def _new_configuration():
     configuration.addDnsServerAddress(Ip6AddressString().setValue("2001:db8::53"))
     configuration.setEnableAnycast(Boolean().setValue("true"))
     configuration.setHopCount(PositiveInteger().setValue(64))
-    configuration.setIpAddressKeepBehavior(ARLiteral().setValue("storePersistently"))
+    configuration.setIpAddressKeepBehavior(IpAddressKeepEnum().setValue(IpAddressKeepEnum.STORE_PERSISTENTLY))
     configuration.setIpAddressPrefixLength(PositiveInteger().setValue(48))
     configuration.setIpv6Address(Ip6AddressString().setValue("2001:db8::1"))
-    configuration.setIpv6AddressSource(ARLiteral().setValue("dhcpv6"))
+    configuration.setIpv6AddressSource(Ipv6AddressSourceEnum().setValue(Ipv6AddressSourceEnum.DHCPV6))
     return configuration
 
 
@@ -97,9 +100,11 @@ class TestIpv6ConfigurationRoundTrip:
         assert parsed.getEnableAnycast().getValue() is True
         assert parsed.getHopCount().getValue() == 64
         assert parsed.getIpAddressKeepBehavior().getValue() == "storePersistently"
+        assert isinstance(parsed.getIpAddressKeepBehavior(), IpAddressKeepEnum)
         assert parsed.getIpAddressPrefixLength().getValue() == 48
         assert parsed.getIpv6Address().getValue() == "2001:db8::1"
         assert parsed.getIpv6AddressSource().getValue() == "dhcpv6"
+        assert isinstance(parsed.getIpv6AddressSource(), Ipv6AddressSourceEnum)
 
     def test_reader_empty_fields(self, parser):
         element = ET.fromstring("<IPV-6-CONFIGURATION xmlns='%s'></IPV-6-CONFIGURATION>" % NS)

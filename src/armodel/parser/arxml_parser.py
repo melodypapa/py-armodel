@@ -514,6 +514,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     ApplicationEndpoint,
     DoIpEntity,
     InfrastructureServices,
+    IpAddressKeepEnum,
+    Ipv6AddressSourceEnum,
     Ipv6Configuration,
     NetworkEndpoint,
     TimeSyncClientConfiguration,
@@ -6113,10 +6115,18 @@ class ARXMLParser(AbstractARXMLParser):
                 configuration.addDnsServerAddress(literal)
             configuration.setEnableAnycast(self.getChildElementOptionalBooleanValue(element, "ENABLE-ANYCAST"))
             configuration.setHopCount(self.getChildElementOptionalPositiveInteger(element, "HOP-COUNT"))
-            configuration.setIpAddressKeepBehavior(self.getChildElementOptionalLiteral(element, "IP-ADDRESS-KEEP-BEHAVIOR"))
+            keep_literal = self.getChildElementOptionalLiteral(element, "IP-ADDRESS-KEEP-BEHAVIOR")
+            if keep_literal is not None:
+                keep = IpAddressKeepEnum()
+                keep.setValue(keep_literal.getValue())
+                configuration.setIpAddressKeepBehavior(keep)
             configuration.setIpAddressPrefixLength(self.getChildElementOptionalPositiveInteger(element, "IP-ADDRESS-PREFIX-LENGTH"))
             configuration.setIpv6Address(self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS"))
-            configuration.setIpv6AddressSource(self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS-SOURCE"))
+            source_literal = self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS-SOURCE")
+            if source_literal is not None:
+                source = Ipv6AddressSourceEnum()
+                source.setValue(source_literal.getValue())
+                configuration.setIpv6AddressSource(source)
         return configuration
 
     def readNetworkEndPointNetworkEndPointAddress(self, element: ET.Element, end_point: NetworkEndpoint):
