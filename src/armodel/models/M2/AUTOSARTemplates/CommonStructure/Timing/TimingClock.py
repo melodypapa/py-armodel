@@ -14,6 +14,7 @@ class TimingClock(Identifiable, ABC):
 
     # TimingClock method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table D.59, p.252
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getPlatformTimeBaseRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -47,6 +48,7 @@ class TDLETZoneClock(TimingClock):
 
     # TDLETZoneClock method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table D.58, p.252
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getAccuracyExt    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -91,6 +93,7 @@ class TimingClockSyncAccuracy(Identifiable):
 
     # TimingClockSyncAccuracy method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table D.60, p.252
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getAccuracy    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
