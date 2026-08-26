@@ -1,14 +1,5 @@
-"""
-This module defines the abstract base class for timing constraints in AUTOSAR.
-
-Timing constraints represent temporal relationships between AUTOSAR elements,
-such as execution order, timing requirements, and synchronization constraints.
-This module provides the base abstract class from which specific timing
-constraint types inherit their common functionality.
-
-Classes:
-    TimingConstraint: Abstract base class for all timing constraints
-"""
+from abc import ABC
+from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
@@ -16,21 +7,22 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
-from abc import ABC
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.Traceable import Traceable
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import (
+    Traceable,
+)
 
 
 class TimingConstraint(Traceable, ABC):
     """
-    Abstract base class for all timing constraints in AUTOSAR.
-    This class cannot be instantiated directly and serves as the base for concrete
-    timing constraint implementations such as execution order constraints.
+    The abstract parent class of different timing constraints supported by the Timing extension. A concrete timing constraint is used to bound the timing behavior of the model elements in its scope.
     """
 
     # TimingConstraint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] timingConditionRef           [x] impl  [x] docstring  [ ] test
-    # [ ] timingConditionRef           [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table D.61, p.253
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getTimingConditionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimingConditionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is TimingConstraint:
@@ -38,24 +30,15 @@ class TimingConstraint(Traceable, ABC):
 
         super().__init__(parent, short_name)
 
-        self.timing_condition_ref: RefType = None
+        # A timing condition the timing constraint depends on. In other words it specifies the condition the timing constraint holds.
+        self.timingConditionRef: Optional[RefType] = None
 
-    @property
-    def timingConditionRef(self) -> RefType:
-        """
-        Gets the timing condition reference for this constraint.
+    def getTimingConditionRef(self) -> Optional[RefType]:
+        """A timing condition the timing constraint depends on. In other words it specifies the condition the timing constraint holds."""
+        return self.timingConditionRef
 
-        Returns:
-            Reference to the timing condition
-        """
-        return self.timing_condition_ref
-
-    @timingConditionRef.setter
-    def timingConditionRef(self, ref: RefType):
-        """
-        Sets the timing condition reference for this constraint.
-
-        Args:
-            ref: Reference to the timing condition
-        """
-        self.timing_condition_ref = ref
+    def setTimingConditionRef(self, value: Optional[RefType]) -> "TimingConstraint":
+        """A timing condition the timing constraint depends on. In other words it specifies the condition the timing constraint holds. A None value is a no-op and does not overwrite an existing timingConditionRef."""
+        if value is not None:
+            self.timingConditionRef = value
+        return self

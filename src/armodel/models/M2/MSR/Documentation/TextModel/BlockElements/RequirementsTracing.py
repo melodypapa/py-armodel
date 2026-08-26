@@ -2,11 +2,57 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, List, Optional
 
+from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
 
 if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+
+
+class Traceable(Identifiable, ABC):
+    """
+    This meta class represents the ability to be subject to tracing within an AUTOSAR model. Note that it is expected that its subclasses inherit either from MultilanguageReferrable or from Identifiable. Nevertheless it also inherits from MultilanguageReferrable in order to provide a common reference target for all Traceables.
+    """
+
+    # Traceable method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.29, p.313
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getTraceRefs     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] addTraceRef      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+
+    def __init__(self, parent, short_name: str):
+        if type(self) is Traceable:
+            raise TypeError("Traceable is an abstract class.")
+        super().__init__(parent, short_name)
+
+        # This association represents the ability to trace to upstream requirements / constraints.
+        self.traceRefs: List[RefType] = []
+
+    def getTraceRefs(self) -> List[RefType]:
+        """
+        This association represents the ability to trace to upstream requirements / constraints.
+
+        Returns:
+            The upstream requirements / constraints references
+        """
+        return self.traceRefs
+
+    def addTraceRef(self, value: Optional[RefType]) -> "Traceable":
+        """
+        This association represents the ability to trace to upstream requirements / constraints. A None value is a no-op and is not appended.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.traceRefs.append(value)
+        return self
 
 
 class TraceableText(ARObject):

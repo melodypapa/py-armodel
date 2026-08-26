@@ -148,7 +148,23 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import EOCExecutableEntityRef, ExecutionOrderConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock, TimingClock, TimingClockSyncAccuracy
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
+    EOCEventRef,
+    EOCExecutableEntityRefAbstract,
+    EOCExecutableEntityRef,
+    EOCExecutableEntityRefGroup,
+    ExecutionOrderConstraint,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint import (
+    ExecutionTimeConstraint,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.LatencyTimingConstraint import LatencyTimingConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.OffsetConstraint import OffsetTimingConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import SynchronizationPointConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTimingConstraint import SynchronizationTimingConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
@@ -241,6 +257,28 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.Attribu
     PositiveIntegerValueVariationPoint,
     TimeValueValueVariationPoint,
     UnlimitedIntegerValueVariationPoint,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef, TimingCondition
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
+    TimingExtensionResource,
+    TimingModeInstance,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ComponentInCompositionInstanceRef
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
+    AutosarOperationArgumentInstance,
+    AutosarVariableInstance,
+    OperationArgumentInComponentInstanceRef,
+    VariableInComponentInstanceRef,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
+    ArbitraryEventTriggering,
+    BurstPatternEventTriggering,
+    ConcretePatternEventTriggering,
+    ConfidenceInterval,
+    EventTriggeringConstraint,
+    PeriodicEventTriggering,
+    SporadicEventTriggering,
 )
 
 VALUE_ACCESS_CLASS_TO_TAG = {
@@ -696,7 +734,11 @@ from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import Document
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import Note
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import StructuredReq, TraceableText
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import (
+    StructuredReq,
+    Traceable,
+    TraceableText,
+)
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Tt
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
@@ -882,6 +924,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setShortName(element, referrable.getShortName())
         if isinstance(referrable, Referrable):
             self.setShortNameFragments(element, referrable.getShortNameFragments())
+
+    def writeTraceable(self, element: ET.Element, traceable: Traceable):
+        trace_refs = traceable.getTraceRefs()
+        if trace_refs is not None and len(trace_refs) > 0:
+            refs_tag = ET.SubElement(element, "TRACE-REFS")
+            for trace_ref in trace_refs:
+                ref_tag = ET.SubElement(refs_tag, "TRACE-REF")
+                ref_tag.text = trace_ref.getValue()
 
     def setShortNameFragment(self, element: ET.Element, fragment: ShortNameFragment):
         if fragment is not None:
@@ -2041,12 +2091,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.writeARObjectAttributes(child_element, traceable_text)
             self.writeDocumentationBlock(child_element, "TEXT", traceable_text.getText())
-            trace_refs = traceable_text.getTraceRefs()
-            if len(trace_refs) > 0:
-                refs_tag = ET.SubElement(child_element, "TRACE-REFS")
-                for trace_ref in trace_refs:
-                    ref_tag = ET.SubElement(refs_tag, "TRACE-REF")
-                    ref_tag.text = trace_ref.getValue()
+            self.writeTraceable(child_element, traceable_text)
 
     def setStructuredReq(self, element: ET.Element, structured_req: StructuredReq):
         if structured_req is not None:
@@ -3404,6 +3449,330 @@ class ARXMLWriter(AbstractARXMLWriter):
         text = avp.getText()
         if text is not None:
             element.text = text
+
+    def writeTimingConditionFormula(self, element: ET.Element, tcf: TimingConditionFormula):
+        self.writeReferrable(element, tcf)
+        self.setChildElementOptionalRefType(element, "TIMING-ARGUMENT-REF", tcf.getTimingArgumentRef())
+        self.setChildElementOptionalRefType(element, "TIMING-CONDITION-REF", tcf.getTimingConditionRef())
+        self.setChildElementOptionalRefType(element, "TIMING-EVENT-REF", tcf.getTimingEventRef())
+        self.setChildElementOptionalRefType(element, "TIMING-MODE-REF", tcf.getTimingModeRef())
+        self.setChildElementOptionalRefType(element, "TIMING-VARIABLE-REF", tcf.getTimingVariableRef())
+        text = tcf.getText()
+        if text is not None:
+            element.text = text
+
+    def writeTimingCondition(self, element: ET.Element, condition: TimingCondition):
+        self.writeIdentifiable(element, condition)
+        formula = condition.getTimingConditionFormula()
+        if formula is not None:
+            self.writeTimingConditionFormula(ET.SubElement(element, "TIMING-CONDITION-FORMULA"), formula)
+
+    def writeConfidenceInterval(self, element: ET.Element, interval: ConfidenceInterval):
+        self.writeARObjectAttributes(element, interval)
+        self.setMultidimensionalTime(element, "LOWER-BOUND", interval.getLowerBound())
+        self.setChildElementOptionalFloatValue(element, "PROPABILITY", interval.getPropability())
+        self.setMultidimensionalTime(element, "UPPER-BOUND", interval.getUpperBound())
+
+    def writeModeInBswInstanceRef(self, element: ET.Element, iref: ModeInBswInstanceRef):
+        self.writeARObjectAttributes(element, iref)
+        self.setChildElementOptionalRefType(element, "CONTEXT-BSW-IMPLEMENTATION-REF", iref.getContextBswImplementationRef())
+        self.setChildElementOptionalRefType(element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF", iref.getContextModeDeclarationGroupPrototypeRef())
+        self.setChildElementOptionalRefType(element, "TARGET-MODE-DECLARATION-REF", iref.getTargetModeDeclarationRef())
+
+    def writeModeInSwcInstanceRef(self, element: ET.Element, iref: ModeInSwcInstanceRef):
+        self.writeARObjectAttributes(element, iref)
+        for component_ref in iref.getContextComponentRefs():
+            self.setChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF", component_ref)
+        self.setChildElementOptionalRefType(element, "CONTEXT-PORT-REF", iref.getContextPortRef())
+        self.setChildElementOptionalRefType(element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF", iref.getContextModeDeclarationGroupPrototypeRef())
+        self.setChildElementOptionalRefType(element, "TARGET-MODE-DECLARATION-REF", iref.getTargetModeDeclarationRef())
+
+    def writeTimingModeInstance(self, element: ET.Element, instance: TimingModeInstance):
+        self.writeIdentifiable(element, instance)
+        mode_instance = instance.getModeInstance()
+        if mode_instance is not None:
+            mode_instance_tag = ET.SubElement(element, "MODE-INSTANCE")
+            if isinstance(mode_instance, ModeInBswInstanceRef):
+                self.writeModeInBswInstanceRef(ET.SubElement(mode_instance_tag, "MODE-IN-BSW-INSTANCE-REF"), mode_instance)
+            elif isinstance(mode_instance, ModeInSwcInstanceRef):
+                self.writeModeInSwcInstanceRef(ET.SubElement(mode_instance_tag, "MODE-IN-SWC-INSTANCE-REF"), mode_instance)
+            else:
+                self.notImplemented("Unsupported TimingModeInstance.modeInstance <%s>" % type(mode_instance).__name__)
+
+    def writeTimingExtensionResource(self, element: ET.Element, resource: TimingExtensionResource):
+        self.writeIdentifiable(element, resource)
+        arguments = resource.getTimingArguments()
+        if len(arguments) > 0:
+            arguments_tag = ET.SubElement(element, "TIMING-ARGUMENTS")
+            for argument in arguments:
+                argument_tag = ET.SubElement(arguments_tag, "AUTOSAR-OPERATION-ARGUMENT-INSTANCE")
+                self.writeAutosarOperationArgumentInstance(argument_tag, argument)
+        modes = resource.getTimingModes()
+        if len(modes) > 0:
+            modes_tag = ET.SubElement(element, "TIMING-MODES")
+            for mode in modes:
+                mode_tag = ET.SubElement(modes_tag, "TIMING-MODE-INSTANCE")
+                self.writeTimingModeInstance(mode_tag, mode)
+        variables = resource.getTimingVariables()
+        if len(variables) > 0:
+            variables_tag = ET.SubElement(element, "TIMING-VARIABLES")
+            for variable in variables:
+                variable_tag = ET.SubElement(variables_tag, "AUTOSAR-VARIABLE-INSTANCE")
+                self.writeAutosarVariableInstance(variable_tag, variable)
+
+    def writeAutosarOperationArgumentInstance(self, element: ET.Element, instance: AutosarOperationArgumentInstance):
+        self.writeIdentifiable(element, instance)
+        iref = instance.getOperationArgumentInstanceIRef()
+        if iref is not None:
+            iref_tag = ET.SubElement(element, "OPERATION-ARGUMENT-INSTANCE-IREF")
+            self.writeOperationArgumentInComponentInstanceRef(iref_tag, iref)
+
+    def writeComponentInCompositionInstanceRef(self, element: ET.Element, iref: ComponentInCompositionInstanceRef):
+        for context_component_ref in iref.getContextComponentRefs():
+            self.setChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF", context_component_ref)
+        self.setChildElementOptionalRefType(element, "TARGET-COMPONENT-REF", iref.getTargetComponentRef())
+
+    def writeOperationArgumentInComponentInstanceRef(self, element: ET.Element, iref: OperationArgumentInComponentInstanceRef):
+        for context_component_ref in iref.getContextComponentRefs():
+            self.setChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF", context_component_ref)
+        self.setChildElementOptionalRefType(element, "CONTEXT-PORT-PROTOTYPE-REF", iref.getContextPortPrototypeRef())
+        self.setChildElementOptionalRefType(element, "CONTEXT-OPERATION-REF", iref.getContextOperationRef())
+        self.setChildElementOptionalRefType(element, "ROOT-ARGUMENT-DATA-PROTOTYPE-REF", iref.getRootArgumentDataPrototypeRef())
+        for context_data_prototype_ref in iref.getContextDataPrototypeRefs():
+            self.setChildElementOptionalRefType(element, "CONTEXT-DATA-PROTOTYPE-REF", context_data_prototype_ref)
+        self.setChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF", iref.getTargetDataPrototypeRef())
+
+    def writeAutosarVariableInstance(self, element: ET.Element, instance: AutosarVariableInstance):
+        self.writeIdentifiable(element, instance)
+        iref = instance.getVariableInstanceIRef()
+        if iref is not None:
+            iref_tag = ET.SubElement(element, "VARIABLE-INSTANCE-IREF")
+            self.writeVariableInComponentInstanceRef(iref_tag, iref)
+
+    def writeVariableInComponentInstanceRef(self, element: ET.Element, iref: VariableInComponentInstanceRef):
+        for context_component_ref in iref.getContextComponentRefs():
+            self.setChildElementOptionalRefType(element, "CONTEXT-COMPONENT-REF", context_component_ref)
+        self.setChildElementOptionalRefType(element, "CONTEXT-PORT-PROTOTYPE-REF", iref.getContextPortPrototypeRef())
+        self.setChildElementOptionalRefType(element, "ROOT-VARIABLE-DATA-PROTOTYPE-REF", iref.getRootVariableDataPrototypeRef())
+        for context_data_prototype_ref in iref.getContextDataPrototypeRefs():
+            self.setChildElementOptionalRefType(element, "CONTEXT-DATA-PROTOTYPE-REF", context_data_prototype_ref)
+        self.setChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF", iref.getTargetDataPrototypeRef())
+
+    def writeTimingConstraint(self, element: ET.Element, constraint: TimingConstraint):
+        self.writeIdentifiable(element, constraint)
+        self.writeTraceable(element, constraint)
+        self.setChildElementOptionalRefType(element, "TIMING-CONDITION-REF", constraint.getTimingConditionRef())
+
+    def writeSynchronizationTimingConstraint(self, element: ET.Element, constraint: SynchronizationTimingConstraint):
+        self.logger.debug("writeSynchronizationTimingConstraint %s" % constraint.getShortName())
+        self.writeTimingConstraint(element, constraint)
+        self.setChildElementOptionalLiteral(element, "EVENT-OCCURRENCE-KIND", constraint.getEventOccurrenceKind())
+        scope_events = constraint.getScopeEvents()
+        if len(scope_events) > 0:
+            refs_tag = ET.SubElement(element, "SCOPE-EVENT-REFS")
+            for scope_event in scope_events:
+                self.setChildElementOptionalRefType(refs_tag, "SCOPE-EVENT-REF", scope_event)
+        scopes = constraint.getScopes()
+        if len(scopes) > 0:
+            refs_tag = ET.SubElement(element, "SCOPE-REFS")
+            for scope in scopes:
+                self.setChildElementOptionalRefType(refs_tag, "SCOPE-REF", scope)
+        self.setChildElementOptionalLiteral(element, "SYNCHRONIZATION-CONSTRAINT-TYPE", constraint.getSynchronizationConstraintType())
+        self.setMultidimensionalTime(element, "TOLERANCE", constraint.getTolerance())
+
+    def writeLatencyTimingConstraint(self, element: ET.Element, constraint: LatencyTimingConstraint):
+        self.logger.debug("writeLatencyTimingConstraint %s" % constraint.getShortName())
+        self.writeTimingConstraint(element, constraint)
+        self.setChildElementOptionalLiteral(element, "LATENCY-CONSTRAINT-TYPE", constraint.getLatencyConstraintType())
+        self.setChildElementOptionalRefType(element, "SCOPE-REF", constraint.getScopeRef())
+        self.setMultidimensionalTime(element, "MINIMUM", constraint.getMinimum())
+        self.setMultidimensionalTime(element, "MAXIMUM", constraint.getMaximum())
+        self.setMultidimensionalTime(element, "NOMINAL", constraint.getNominal())
+
+    def writeOffsetTimingConstraint(self, element: ET.Element, constraint: OffsetTimingConstraint):
+        self.logger.debug("writeOffsetTimingConstraint %s" % constraint.getShortName())
+        self.writeTimingConstraint(element, constraint)
+        self.setChildElementOptionalRefType(element, "SOURCE-REF", constraint.getSourceRef())
+        self.setChildElementOptionalRefType(element, "TARGET-REF", constraint.getTargetRef())
+        self.setMultidimensionalTime(element, "MINIMUM", constraint.getMinimum())
+        self.setMultidimensionalTime(element, "MAXIMUM", constraint.getMaximum())
+
+    def writeAgeConstraint(self, element: ET.Element, constraint: AgeConstraint):
+        self.logger.debug("writeAgeConstraint %s" % constraint.getShortName())
+        self.writeTimingConstraint(element, constraint)
+        self.setMultidimensionalTime(element, "MAXIMUM", constraint.getMaximum())
+        self.setMultidimensionalTime(element, "MINIMUM", constraint.getMinimum())
+        self.setChildElementOptionalRefType(element, "SCOPE-REF", constraint.getScopeRef())
+
+    def writeExecutionTimeConstraint(self, element: ET.Element, constraint: ExecutionTimeConstraint):
+        self.logger.debug("writeExecutionTimeConstraint %s" % constraint.getShortName())
+        self.writeTimingConstraint(element, constraint)
+        self.writeEOCComponentIRef(element, constraint.getComponentIRef())
+        self.setChildElementOptionalRefType(element, "EXECUTABLE-REF", constraint.getExecutableRef())
+        self.setChildElementOptionalLiteral(element, "EXECUTION-TIME-TYPE", constraint.getExecutionTimeType())
+        self.setMultidimensionalTime(element, "MAXIMUM", constraint.getMaximum())
+        self.setMultidimensionalTime(element, "MINIMUM", constraint.getMinimum())
+
+    def writeSynchronizationPointConstraint(self, element: ET.Element, constraint: SynchronizationPointConstraint):
+        self.logger.debug("writeSynchronizationPointConstraint %s" % constraint.getShortName())
+        self.writeTimingConstraint(element, constraint)
+        source_eec_refs = constraint.getSourceEecRefs()
+        if len(source_eec_refs) > 0:
+            refs_tag = ET.SubElement(element, "SOURCE-EEC-REFS")
+            for source_eec_ref in source_eec_refs:
+                self.setChildElementOptionalRefType(refs_tag, "SOURCE-EEC-REF", source_eec_ref)
+        source_event_refs = constraint.getSourceEventRefs()
+        if len(source_event_refs) > 0:
+            refs_tag = ET.SubElement(element, "SOURCE-EVENT-REFS")
+            for source_event_ref in source_event_refs:
+                self.setChildElementOptionalRefType(refs_tag, "SOURCE-EVENT-REF", source_event_ref)
+        target_eec_refs = constraint.getTargetEecRefs()
+        if len(target_eec_refs) > 0:
+            refs_tag = ET.SubElement(element, "TARGET-EEC-REFS")
+            for target_eec_ref in target_eec_refs:
+                self.setChildElementOptionalRefType(refs_tag, "TARGET-EEC-REF", target_eec_ref)
+        target_event_refs = constraint.getTargetEventRefs()
+        if len(target_event_refs) > 0:
+            refs_tag = ET.SubElement(element, "TARGET-EVENT-REFS")
+            for target_event_ref in target_event_refs:
+                self.setChildElementOptionalRefType(refs_tag, "TARGET-EVENT-REF", target_event_ref)
+
+    def writeEventTriggeringConstraint(self, element: ET.Element, constraint: EventTriggeringConstraint):
+        self.writeTimingConstraint(element, constraint)
+        self.setChildElementOptionalRefType(element, "EVENT-REF", constraint.getEventRef())
+
+    def writePeriodicEventTriggering(self, element: ET.Element, constraint: PeriodicEventTriggering):
+        self.logger.debug("writePeriodicEventTriggering %s" % constraint.getShortName())
+        self.writeEventTriggeringConstraint(element, constraint)
+        self.setMultidimensionalTime(element, "MINIMUM-INTER-ARRIVAL-TIME", constraint.getMinimumInterArrivalTime())
+        self.setMultidimensionalTime(element, "JITTER", constraint.getJitter())
+        self.setMultidimensionalTime(element, "PERIOD", constraint.getPeriod())
+
+    def writeSporadicEventTriggering(self, element: ET.Element, constraint: SporadicEventTriggering):
+        self.logger.debug("writeSporadicEventTriggering %s" % constraint.getShortName())
+        self.writeEventTriggeringConstraint(element, constraint)
+        self.setMultidimensionalTime(element, "MINIMUM-INTER-ARRIVAL-TIME", constraint.getMinimumInterArrivalTime())
+        self.setMultidimensionalTime(element, "MAXIMUM-INTER-ARRIVAL-TIME", constraint.getMaximumInterArrivalTime())
+        self.setMultidimensionalTime(element, "JITTER", constraint.getJitter())
+        self.setMultidimensionalTime(element, "PERIOD", constraint.getPeriod())
+
+    def writeConcretePatternEventTriggering(self, element: ET.Element, constraint: ConcretePatternEventTriggering):
+        self.logger.debug("writeConcretePatternEventTriggering %s" % constraint.getShortName())
+        self.writeEventTriggeringConstraint(element, constraint)
+        self.setMultidimensionalTime(element, "PATTERN-JITTER", constraint.getPatternJitter())
+        self.setMultidimensionalTime(element, "PATTERN-PERIOD", constraint.getPatternPeriod())
+        offsets = constraint.getOffsets()
+        if len(offsets) > 0:
+            offsets_tag = ET.SubElement(element, "OFFSETS")
+            for offset in offsets:
+                self.setMultidimensionalTime(offsets_tag, "TIME-VALUE", offset)
+        self.setMultidimensionalTime(element, "PATTERN-LENGTH", constraint.getPatternLength())
+
+    def writeBurstPatternEventTriggering(self, element: ET.Element, constraint: BurstPatternEventTriggering):
+        self.logger.debug("writeBurstPatternEventTriggering %s" % constraint.getShortName())
+        self.writeEventTriggeringConstraint(element, constraint)
+        self.setChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-OCCURRENCES", constraint.getMaxNumberOfOccurrences())
+        self.setMultidimensionalTime(element, "MINIMUM-INTER-ARRIVAL-TIME", constraint.getMinimumInterArrivalTime())
+        self.setMultidimensionalTime(element, "PATTERN-JITTER", constraint.getPatternJitter())
+        self.setMultidimensionalTime(element, "PATTERN-LENGTH", constraint.getPatternLength())
+        self.setMultidimensionalTime(element, "PATTERN-PERIOD", constraint.getPatternPeriod())
+        self.setChildElementOptionalPositiveInteger(element, "MIN-NUMBER-OF-OCCURRENCES", constraint.getMinNumberOfOccurrences())
+
+    def writeArbitraryEventTriggering(self, element: ET.Element, constraint: ArbitraryEventTriggering):
+        self.logger.debug("writeArbitraryEventTriggering %s" % constraint.getShortName())
+        self.writeEventTriggeringConstraint(element, constraint)
+        minimum_distances = constraint.getMinimumDistances()
+        if len(minimum_distances) > 0:
+            minimum_distances_tag = ET.SubElement(element, "MINIMUM-DISTANCES")
+            for distance in minimum_distances:
+                self.setMultidimensionalTime(minimum_distances_tag, "TIME-VALUE", distance)
+        maximum_distances = constraint.getMaximumDistances()
+        if len(maximum_distances) > 0:
+            maximum_distances_tag = ET.SubElement(element, "MAXIMUM-DISTANCES")
+            for distance in maximum_distances:
+                self.setMultidimensionalTime(maximum_distances_tag, "TIME-VALUE", distance)
+        confidence_intervals = constraint.getConfidenceIntervals()
+        if len(confidence_intervals) > 0:
+            confidence_intervals_tag = ET.SubElement(element, "CONFIDENCE-INTERVALS")
+            for interval in confidence_intervals:
+                self.writeConfidenceInterval(ET.SubElement(confidence_intervals_tag, "CONFIDENCE-INTERVAL"), interval)
+
+    def writeTimingClock(self, element: ET.Element, clock: TimingClock):
+        self.writeIdentifiable(element, clock)
+        platform_time_base_ref = clock.getPlatformTimeBaseRef()
+        if platform_time_base_ref is not None:
+            time_bases_tag = ET.SubElement(element, "PLATFORM-TIME-BASES")
+            conditional_tag = ET.SubElement(time_bases_tag, "GLOBAL-TIME-DOMAIN-REF-CONDITIONAL")
+            self.setChildElementOptionalRefType(conditional_tag, "GLOBAL-TIME-DOMAIN-REF", platform_time_base_ref)
+
+    def writeTDLETZoneClock(self, element: ET.Element, clock: TDLETZoneClock):
+        self.writeTimingClock(element, clock)
+        self.setMultidimensionalTime(element, "ACCURACY-EXT", clock.getAccuracyExt())
+        self.setMultidimensionalTime(element, "ACCURACY-INT", clock.getAccuracyInt())
+
+    def writeTimingClockSyncAccuracy(self, element: ET.Element, sync_accuracy: TimingClockSyncAccuracy):
+        self.writeIdentifiable(element, sync_accuracy)
+        self.setMultidimensionalTime(element, "ACCURACY", sync_accuracy.getAccuracy())
+        self.setChildElementOptionalRefType(element, "LOWER-REF", sync_accuracy.getLowerRef())
+        self.setChildElementOptionalRefType(element, "UPPER-REF", sync_accuracy.getUpperRef())
+
+    def setEOCExecutableEntityRefSuccessorRefs(self, element: ET.Element, successor_refs: List[RefType]):
+        if len(successor_refs) > 0:
+            child_element = ET.SubElement(element, "SUCCESSOR-REFS")
+            for successor_ref in successor_refs:
+                self.setChildElementOptionalRefType(child_element, "SUCCESSOR-REF", successor_ref)
+
+    def writeEOCExecutableEntityRefAbstract(self, element: ET.Element, obj: EOCExecutableEntityRefAbstract):
+        direct_successor_refs = obj.getDirectSuccessorRefs()
+        if len(direct_successor_refs) > 0:
+            refs_tag = ET.SubElement(element, "DIRECT-SUCCESSOR-REFS")
+            for direct_successor_ref in direct_successor_refs:
+                self.setChildElementOptionalRefType(refs_tag, "DIRECT-SUCCESSOR-REF", direct_successor_ref)
+
+    def writeEOCComponentIRef(self, element: ET.Element, component_iref: Optional[ComponentInCompositionInstanceRef]):
+        if component_iref is not None:
+            iref_tag = ET.SubElement(element, "COMPONENT-IREF")
+            self.writeComponentInCompositionInstanceRef(iref_tag, component_iref)
+
+    def writeEOCExecutableEntityRef(self, element: ET.Element, entity_ref: EOCExecutableEntityRef):
+        child_element = ET.SubElement(element, "EOC-EXECUTABLE-ENTITY-REF")
+        self.writeIdentifiable(child_element, entity_ref)
+        self.writeEOCExecutableEntityRefAbstract(child_element, entity_ref)
+        self.setChildElementOptionalRefType(child_element, "BSW-MODULE-INSTANCE-REF", entity_ref.getBswModuleInstanceRef())
+        self.writeEOCComponentIRef(child_element, entity_ref.getComponentIRef())
+        self.setChildElementOptionalRefType(child_element, "EXECUTABLE-REF", entity_ref.getExecutableRef())
+        self.setEOCExecutableEntityRefSuccessorRefs(child_element, entity_ref.getSuccessorRefs())
+
+    def writeEOCEventRef(self, element: ET.Element, event_ref: EOCEventRef):
+        child_element = ET.SubElement(element, "EOC-EVENT-REF")
+        self.writeIdentifiable(child_element, event_ref)
+        self.writeEOCExecutableEntityRefAbstract(child_element, event_ref)
+        self.setChildElementOptionalRefType(child_element, "BSW-MODULE-INSTANCE-REF", event_ref.getBswModuleInstanceRef())
+        self.writeEOCComponentIRef(child_element, event_ref.getComponentIRef())
+        self.setChildElementOptionalRefType(child_element, "EVENT-REF", event_ref.getEventRef())
+        self.setEOCExecutableEntityRefSuccessorRefs(child_element, event_ref.getSuccessorRefs())
+
+    def writeEOCExecutableEntityRefGroup(self, element: ET.Element, group: EOCExecutableEntityRefGroup):
+        child_element = ET.SubElement(element, "EOC-EXECUTABLE-ENTITY-REF-GROUP")
+        self.writeIdentifiable(child_element, group)
+        self.writeEOCExecutableEntityRefAbstract(child_element, group)
+        self.setChildElementOptionalLiteral(child_element, "LET-DATA-EXCHANGE-PARADIGM", group.getLetDataExchangeParadigm())
+        let_interval_refs = group.getLetIntervalRefs()
+        if len(let_interval_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "LET-INTERVAL-REFS")
+            for let_interval_ref in let_interval_refs:
+                self.setChildElementOptionalRefType(refs_tag, "LET-INTERVAL-REF", let_interval_ref)
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-CYCLE-REPETITIONS", group.getMaxCycleRepetitions())
+        self.setChildElementOptionalIntegerValue(child_element, "MAX-CYCLES", group.getMaxCycles())
+        self.setChildElementOptionalIntegerValue(child_element, "MAX-SLOTS", group.getMaxSlots())
+        self.setChildElementOptionalPositiveInteger(child_element, "MAX-SLOTS-PER-CYCLE", group.getMaxSlotsPerCycle())
+        nested_element_refs = group.getNestedElementRefs()
+        if len(nested_element_refs) > 0:
+            refs_tag = ET.SubElement(child_element, "NESTED-ELEMENT-REFS")
+            for nested_element_ref in nested_element_refs:
+                self.setChildElementOptionalRefType(refs_tag, "NESTED-ELEMENT-REF", nested_element_ref)
+        self.setEOCExecutableEntityRefSuccessorRefs(child_element, group.getSuccessorRefs())
+        self.setChildElementOptionalRefType(child_element, "TRIGGERING-EVENT-REF", group.getTriggeringEventRef())
 
     def writeSwcInternalBehaviorVariationPointProxies(self, element: ET.Element, behavior: SwcInternalBehavior):
         proxies = behavior.getVariationPointProxies()
@@ -5802,17 +6171,6 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writePortInterface(child_element, mode_interface)
         self.writeModeSwitchInterfaceModeGroup(child_element, mode_interface)
 
-    def setEOCExecutableEntityRefSuccessorRefs(self, element: ET.Element, successor_refs: List[RefType]):
-        if len(successor_refs) > 0:
-            child_element = ET.SubElement(element, "SUCCESSOR-REFS")
-            for successor_ref in successor_refs:
-                self.setChildElementOptionalRefType(child_element, "SUCCESSOR-REF", successor_ref)
-
-    def writeEOCExecutableEntityRef(self, element: ET.Element, entity_ref: EOCExecutableEntityRef):
-        child_element = ET.SubElement(element, "EOC-EXECUTABLE-ENTITY-REF")
-        self.writeIdentifiable(child_element, entity_ref)
-        self.setEOCExecutableEntityRefSuccessorRefs(child_element, entity_ref.getSuccessorRefs())
-
     def writeExecutionOrderConstraintOrderedElement(self, element: ET.Element, constraint: ExecutionOrderConstraint):
         order_elements = constraint.getOrderedElements()
         if len(order_elements) > 0:
@@ -5820,33 +6178,96 @@ class ARXMLWriter(AbstractARXMLWriter):
             for order_element in order_elements:
                 if isinstance(order_element, EOCExecutableEntityRef):
                     self.writeEOCExecutableEntityRef(child_element, order_element)
+                elif isinstance(order_element, EOCEventRef):
+                    self.writeEOCEventRef(child_element, order_element)
+                elif isinstance(order_element, EOCExecutableEntityRefGroup):
+                    self.writeEOCExecutableEntityRefGroup(child_element, order_element)
                 else:
                     self.notImplemented("Unsupported order element <%s>" % type(order_element))
 
     def writeExecutionOrderConstraint(self, element: ET.Element, constraint: ExecutionOrderConstraint):
         self.logger.debug("writeExecutionOrderConstraint %s" % constraint.getShortName())
         child_element = ET.SubElement(element, "EXECUTION-ORDER-CONSTRAINT")
-        self.writeIdentifiable(child_element, constraint)
+        self.writeTimingConstraint(child_element, constraint)
+        self.setChildElementOptionalRefType(child_element, "BASE-COMPOSITION-REF", constraint.getBaseCompositionRef())
+        self.setChildElementOptionalLiteral(child_element, "EXECUTION-ORDER-CONSTRAINT-TYPE", constraint.getExecutionOrderConstraintType())
+        self.setChildElementOptionalBooleanValue(child_element, "IGNORE-ORDER-ALLOWED", constraint.getIgnoreOrderAllowed())
+        self.setChildElementOptionalBooleanValue(child_element, "IS-EVENT", constraint.getIsEvent())
         self.writeExecutionOrderConstraintOrderedElement(child_element, constraint)
+        self.setChildElementOptionalBooleanValue(child_element, "PERMIT-MULTIPLE-REFERENCES-TO-EE", constraint.getPermitMultipleReferencesToEE())
 
-    def writeTimingRequirements(self, element: ET.Element, extension: TimingExtension):
-        requirements = extension.getTimingRequirements()
-        if len(requirements) > 0:
-            child_element = ET.SubElement(element, "TIMING-REQUIREMENTS")
-            for requirement in requirements:
-                if isinstance(requirement, ExecutionOrderConstraint):
-                    self.writeExecutionOrderConstraint(child_element, requirement)
-                else:
-                    self.notImplemented("Unsupported timing requirement <%s>" % type(requirement))
+    def writeTimingConstraintItem(self, parent_element: ET.Element, constraint):
+        if isinstance(constraint, ExecutionOrderConstraint):
+            self.writeExecutionOrderConstraint(parent_element, constraint)
+            return
+        tag_map = (
+            (AgeConstraint, "AGE-CONSTRAINT", self.writeAgeConstraint),
+            (ArbitraryEventTriggering, "ARBITRARY-EVENT-TRIGGERING", self.writeArbitraryEventTriggering),
+            (BurstPatternEventTriggering, "BURST-PATTERN-EVENT-TRIGGERING", self.writeBurstPatternEventTriggering),
+            (ConcretePatternEventTriggering, "CONCRETE-PATTERN-EVENT-TRIGGERING", self.writeConcretePatternEventTriggering),
+            (ExecutionTimeConstraint, "EXECUTION-TIME-CONSTRAINT", self.writeExecutionTimeConstraint),
+            (LatencyTimingConstraint, "LATENCY-TIMING-CONSTRAINT", self.writeLatencyTimingConstraint),
+            (OffsetTimingConstraint, "OFFSET-TIMING-CONSTRAINT", self.writeOffsetTimingConstraint),
+            (PeriodicEventTriggering, "PERIODIC-EVENT-TRIGGERING", self.writePeriodicEventTriggering),
+            (SporadicEventTriggering, "SPORADIC-EVENT-TRIGGERING", self.writeSporadicEventTriggering),
+            (SynchronizationPointConstraint, "SYNCHRONIZATION-POINT-CONSTRAINT", self.writeSynchronizationPointConstraint),
+            (SynchronizationTimingConstraint, "SYNCHRONIZATION-TIMING-CONSTRAINT", self.writeSynchronizationTimingConstraint),
+        )
+        for cls, tag, writer_method in tag_map:
+            if isinstance(constraint, cls):
+                child_element = ET.SubElement(parent_element, tag)
+                writer_method(child_element, constraint)
+                return
+        self.notImplemented("Unsupported timing requirement <%s>" % type(constraint).__name__)
+
+    def writeTimingClockItem(self, parent_element: ET.Element, clock):
+        tag_map = ((TDLETZoneClock, "TDLET-ZONE-CLOCK", self.writeTDLETZoneClock),)
+        for cls, tag, writer_method in tag_map:
+            if isinstance(clock, cls):
+                child_element = ET.SubElement(parent_element, tag)
+                writer_method(child_element, clock)
+                return
+        self.notImplemented("Unsupported timing clock <%s>" % type(clock).__name__)
 
     def writeTimingExtension(self, element: ET.Element, extension: TimingExtension):
-        self.writeTimingRequirements(element, extension)
+        clocks = extension.getTimingClocks()
+        if len(clocks) > 0:
+            clocks_tag = ET.SubElement(element, "TIMING-CLOCKS")
+            for clock in clocks:
+                self.writeTimingClockItem(clocks_tag, clock)
+        sync_accuracies = extension.getTimingClockSyncAccuracies()
+        if len(sync_accuracies) > 0:
+            sync_accuracies_tag = ET.SubElement(element, "TIMING-CLOCK-SYNC-ACCURACYS")
+            for sync_accuracy in sync_accuracies:
+                sync_accuracy_tag = ET.SubElement(sync_accuracies_tag, "TIMING-CLOCK-SYNC-ACCURACY")
+                self.writeTimingClockSyncAccuracy(sync_accuracy_tag, sync_accuracy)
+        conditions = extension.getTimingConditions()
+        if len(conditions) > 0:
+            conditions_tag = ET.SubElement(element, "TIMING-CONDITIONS")
+            for condition in conditions:
+                condition_tag = ET.SubElement(conditions_tag, "TIMING-CONDITION")
+                self.writeTimingCondition(condition_tag, condition)
+        guarantees = extension.getTimingGuarantees()
+        if len(guarantees) > 0:
+            guarantees_tag = ET.SubElement(element, "TIMING-GUARANTEES")
+            for guarantee in guarantees:
+                self.writeTimingConstraintItem(guarantees_tag, guarantee)
+        requirements = extension.getTimingRequirements()
+        if len(requirements) > 0:
+            requirements_tag = ET.SubElement(element, "TIMING-REQUIREMENTS")
+            for requirement in requirements:
+                self.writeTimingConstraintItem(requirements_tag, requirement)
+        resource = extension.getTimingResource()
+        if resource is not None:
+            resource_tag = ET.SubElement(element, "TIMING-RESOURCE")
+            self.writeTimingExtensionResource(resource_tag, resource)
 
     def writeSwcTiming(self, element: ET.Element, timing: SwcTiming):
         self.logger.debug("writeSWcTiming %s" % timing.getShortName())
         child_element = ET.SubElement(element, "SWC-TIMING")
         self.writeIdentifiable(child_element, timing)
         self.writeTimingExtension(child_element, timing)
+        self.setChildElementOptionalRefType(child_element, "BEHAVIOR-REF", timing.getBehaviorRef())
 
     def writePduToFrameMappings(self, element: ET.Element, parent: Frame):
         mappings = parent.getPduToFrameMappings()

@@ -17,21 +17,46 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 class SwComponentPrototype(AtpPrototype):
+    """
+    Role of a software component within a composition.
+    """
+
     # SwComponentPrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTypeTRef                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setTypeTRef                  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.11, p.77
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getTypeTRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTypeTRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.typeTRef = None  # type: RefType
+        # Type of the instance. Stereotypes: isOfType
+        self.typeTRef: Optional[RefType] = None
 
-    def getTypeTRef(self) -> RefType:
+    def getTypeTRef(self) -> Optional[RefType]:
+        """
+        Gets the Type of the instance. Stereotypes: isOfType.
+
+        Returns:
+            RefType referencing the SwComponentType, or None if not set
+        """
         return self.typeTRef
 
-    def setTypeTRef(self, value: RefType):
-        self.typeTRef = value
+    def setTypeTRef(self, value: Optional[RefType]) -> "SwComponentPrototype":
+        """
+        Sets the Type of the instance. Stereotypes: isOfType.
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The SwComponentType reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.typeTRef = value
         return self
 
 

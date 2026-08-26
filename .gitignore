@@ -83,3 +83,5 @@ uv.lock
 .codebuddy
 # pdf_page.py per-PDF table cache
 .pdf_table_cache.json
+
+autosar/R4.3.1

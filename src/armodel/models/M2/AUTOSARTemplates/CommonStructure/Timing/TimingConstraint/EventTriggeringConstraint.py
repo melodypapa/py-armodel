@@ -15,23 +15,32 @@ Classes:
 """
 
 from abc import ABC
+from typing import List, Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    TimeValue,
     Float,
+    PositiveInteger,
+    RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 
 
 class EventTriggeringConstraint(TimingConstraint, ABC):
     """
-    Abstract base class for event triggering constraints.
-    This class cannot be instantiated directly and serves as the base for
-    concrete event triggering constraint implementations.
+    Describes the occurrence behavior of the referenced timing event. The occurrence behavior can only be determined when a mapping from the timing events to the implementation can be obtained. However, such an occurrence behavior can also be described by the modeler as an assumption or as a requirement about the occurrence of the event.
+
+    (event -> TimingDescriptionEvent placeholder, Rule 0001.10)
     """
 
     # EventTriggeringConstraint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.59, p.100
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEventRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEventRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent, short_name: str):
         if type(self) is EventTriggeringConstraint:
@@ -39,200 +48,444 @@ class EventTriggeringConstraint(TimingConstraint, ABC):
 
         super().__init__(parent, short_name)
 
+        # The referenced timing event. (TimingDescriptionEvent placeholder, Rule 0001.10)
+        self.eventRef: Optional[RefType] = None
+
+    def getEventRef(self) -> Optional[RefType]:
+        """The referenced timing event."""
+        return self.eventRef
+
+    def setEventRef(self, value: Optional[RefType]) -> "EventTriggeringConstraint":
+        """The referenced timing event. A None value is a no-op and does not overwrite an existing event."""
+        if value is not None:
+            self.eventRef = value
+        return self
+
 
 class PeriodicEventTriggering(EventTriggeringConstraint):
     """
-    Specifies periodic event triggering requirements.
-    This constraint defines the period for periodic event triggering.
+    Describes the behavior of an event with a strict periodic occurrence pattern, given by period . Additionally, it is possible to soften the strictness of the periodic occurrence behavior by specifying a jitter , so that there can be a deviation from the period up to the size of the jitter .
     """
 
     # PeriodicEventTriggering method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getPeriod                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setPeriod                    [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.60, p.101
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getJitter                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setJitter                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinimumInterArrivalTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinimumInterArrivalTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPeriod                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPeriod                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the PeriodicEventTriggering with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this constraint
-            short_name: The unique short name of this constraint
-        """
         super().__init__(parent, short_name)
 
-        # Period for event triggering
-        self.period: TimeValue = None
+        # The maximum deviation of the periodic event occurrence.
+        self.jitter: Optional[MultidimensionalTime] = None
 
-    def getPeriod(self):
+        # The minimum time distance between subsequent consecutive occurrences of the associated event. If the minimumInterArrivalTime is less than the period minus the jitter , then the minimumInterArrivalTime has no effect on the properties of the constraint.
+        self.minimumInterArrivalTime: Optional[MultidimensionalTime] = None
+
+        # The periodic distance between subsequent occurrences of the event.
+        self.period: Optional[MultidimensionalTime] = None
+
+    def getJitter(self) -> Optional[MultidimensionalTime]:
+        """The maximum deviation of the periodic event occurrence."""
+        return self.jitter
+
+    def setJitter(self, value: Optional[MultidimensionalTime]) -> "PeriodicEventTriggering":
+        """The maximum deviation of the periodic event occurrence. A None value is a no-op and does not overwrite an existing jitter."""
+        if value is not None:
+            self.jitter = value
+        return self
+
+    def getMinimumInterArrivalTime(self) -> Optional[MultidimensionalTime]:
+        """The minimum time distance between subsequent consecutive occurrences of the associated event. If the minimumInterArrivalTime is less than the period minus the jitter , then the minimumInterArrivalTime has no effect on the properties of the constraint."""
+        return self.minimumInterArrivalTime
+
+    def setMinimumInterArrivalTime(self, value: Optional[MultidimensionalTime]) -> "PeriodicEventTriggering":
+        """The minimum time distance between subsequent consecutive occurrences of the associated event. If the minimumInterArrivalTime is less than the period minus the jitter , then the minimumInterArrivalTime has no effect on the properties of the constraint. A None value is a no-op and does not overwrite an existing minimumInterArrivalTime."""
+        if value is not None:
+            self.minimumInterArrivalTime = value
+        return self
+
+    def getPeriod(self) -> Optional[MultidimensionalTime]:
+        """The periodic distance between subsequent occurrences of the event."""
         return self.period
 
-    def setPeriod(self, value):
-        self.period = value
+    def setPeriod(self, value: Optional[MultidimensionalTime]) -> "PeriodicEventTriggering":
+        """The periodic distance between subsequent occurrences of the event. A None value is a no-op and does not overwrite an existing period."""
+        if value is not None:
+            self.period = value
         return self
 
 
 class SporadicEventTriggering(EventTriggeringConstraint):
     """
-    Specifies sporadic event triggering requirements.
-    This constraint defines the minimum inter-arrival time for sporadic events.
+    Describes the behavior of an event which occurs occasionally or singularly.
     """
 
     # SporadicEventTriggering method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getMinInterArrivalTime       [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinInterArrivalTime       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.61, p.105
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getJitter                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setJitter                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaximumInterArrivalTime    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaximumInterArrivalTime    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinimumInterArrivalTime    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinimumInterArrivalTime    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPeriod                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPeriod                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the SporadicEventTriggering with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this constraint
-            short_name: The unique short name of this constraint
-        """
         super().__init__(parent, short_name)
 
-        # Minimum inter-arrival time
-        self.min_inter_arrival_time: TimeValue = None
+        # The maximum devation of the sporadic event occurrence. Jitter=max |nthPeriod - standardPeriod|
+        self.jitter: Optional[MultidimensionalTime] = None
 
-    def getMinInterArrivalTime(self):
-        return self.min_inter_arrival_time
+        # The maximum time distance between two consecutive (subsequent) occurrences of the associated event.
+        self.maximumInterArrivalTime: Optional[MultidimensionalTime] = None
 
-    def setMinInterArrivalTime(self, value):
-        self.min_inter_arrival_time = value
+        # The minimum time distance between two consecutive (subsequent) occurrences of the associated event.
+        self.minimumInterArrivalTime: Optional[MultidimensionalTime] = None
+
+        # The periodic distance between subsequent occurrences of the event.
+        self.period: Optional[MultidimensionalTime] = None
+
+    def getJitter(self) -> Optional[MultidimensionalTime]:
+        """The maximum devation of the sporadic event occurrence. Jitter=max |nthPeriod - standardPeriod|"""
+        return self.jitter
+
+    def setJitter(self, value: Optional[MultidimensionalTime]) -> "SporadicEventTriggering":
+        """The maximum devation of the sporadic event occurrence. Jitter=max |nthPeriod - standardPeriod| A None value is a no-op and does not overwrite an existing jitter."""
+        if value is not None:
+            self.jitter = value
         return self
 
+    def getMaximumInterArrivalTime(self) -> Optional[MultidimensionalTime]:
+        """The maximum time distance between two consecutive (subsequent) occurrences of the associated event."""
+        return self.maximumInterArrivalTime
 
-class ArbitraryEventTriggering(EventTriggeringConstraint):
-    """
-    Specifies arbitrary event triggering requirements.
-    This constraint allows for arbitrary event triggering patterns.
-    """
-
-    # ArbitraryEventTriggering method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-
-    def __init__(self, parent, short_name: str):
-        """
-        Initializes the ArbitraryEventTriggering with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this constraint
-            short_name: The unique short name of this constraint
-        """
-        super().__init__(parent, short_name)
-
-
-class BurstPatternEventTriggering(EventTriggeringConstraint):
-    """
-    Specifies burst pattern event triggering requirements.
-    This constraint defines burst pattern parameters for event triggering.
-    """
-
-    # BurstPatternEventTriggering method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getBurstSize                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setBurstSize                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getBurstInterval             [x] impl  [ ] docstring  [ ] test
-    # [ ] setBurstInterval             [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent, short_name: str):
-        """
-        Initializes the BurstPatternEventTriggering with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this constraint
-            short_name: The unique short name of this constraint
-        """
-        super().__init__(parent, short_name)
-
-        # Number of events in burst
-        self.burst_size: int = None
-        # Burst interval
-        self.burst_interval: TimeValue = None
-
-    def getBurstSize(self):
-        return self.burst_size
-
-    def setBurstSize(self, value):
-        self.burst_size = value
+    def setMaximumInterArrivalTime(self, value: Optional[MultidimensionalTime]) -> "SporadicEventTriggering":
+        """The maximum time distance between two consecutive (subsequent) occurrences of the associated event. A None value is a no-op and does not overwrite an existing maximumInterArrivalTime."""
+        if value is not None:
+            self.maximumInterArrivalTime = value
         return self
 
-    def getBurstInterval(self):
-        return self.burst_interval
+    def getMinimumInterArrivalTime(self) -> Optional[MultidimensionalTime]:
+        """The minimum time distance between two consecutive (subsequent) occurrences of the associated event."""
+        return self.minimumInterArrivalTime
 
-    def setBurstInterval(self, value):
-        self.burst_interval = value
+    def setMinimumInterArrivalTime(self, value: Optional[MultidimensionalTime]) -> "SporadicEventTriggering":
+        """The minimum time distance between two consecutive (subsequent) occurrences of the associated event. A None value is a no-op and does not overwrite an existing minimumInterArrivalTime."""
+        if value is not None:
+            self.minimumInterArrivalTime = value
+        return self
+
+    def getPeriod(self) -> Optional[MultidimensionalTime]:
+        """The periodic distance between subsequent occurrences of the event."""
+        return self.period
+
+    def setPeriod(self, value: Optional[MultidimensionalTime]) -> "SporadicEventTriggering":
+        """The periodic distance between subsequent occurrences of the event. A None value is a no-op and does not overwrite an existing period."""
+        if value is not None:
+            self.period = value
         return self
 
 
 class ConcretePatternEventTriggering(EventTriggeringConstraint):
     """
-    Specifies concrete pattern event triggering requirements.
-    This constraint defines a concrete pattern for event triggering.
+    Describes the behavior of an event that occurs according to a precisely known pattern.
     """
 
     # ConcretePatternEventTriggering method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.62, p.107
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addOffset             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getOffsets            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getPatternJitter      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPatternJitter      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPatternLength      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPatternLength      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPatternPeriod      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPatternPeriod      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the ConcretePatternEventTriggering with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this constraint
-            short_name: The unique short name of this constraint
-        """
         super().__init__(parent, short_name)
+
+        # The offset for each occurrence of the event in the specified time interval. A list of point-in-times in the time interval given by the parameter patternLength at which the event occurs.
+        self.offsets: List[MultidimensionalTime] = []
+
+        # The maximum deviation of the time interval's starting point from the beginning of the given period. This parameter is only applicable in conjunction with the parameter patternPeriod .
+        self.patternJitter: Optional[MultidimensionalTime] = None
+
+        # The duration of the time interval within which the event repeatedly occurs. The event occurs at concrete points in time within the given time interval.
+        self.patternLength: Optional[MultidimensionalTime] = None
+
+        # The time distance between the beginnings of subsequent repetitions of the given concrete pattern.
+        self.patternPeriod: Optional[MultidimensionalTime] = None
+
+    def addOffset(self, value: Optional[MultidimensionalTime]) -> "ConcretePatternEventTriggering":
+        """The offset for each occurrence of the event in the specified time interval. A list of point-in-times in the time interval given by the parameter patternLength at which the event occurs. A None value is a no-op and does not change the offsets list."""
+        if value is not None:
+            self.offsets.append(value)
+        return self
+
+    def getOffsets(self) -> List[MultidimensionalTime]:
+        """The offset for each occurrence of the event in the specified time interval. A list of point-in-times in the time interval given by the parameter patternLength at which the event occurs."""
+        return self.offsets
+
+    def getPatternJitter(self) -> Optional[MultidimensionalTime]:
+        """The maximum deviation of the time interval's starting point from the beginning of the given period. This parameter is only applicable in conjunction with the parameter patternPeriod ."""
+        return self.patternJitter
+
+    def setPatternJitter(self, value: Optional[MultidimensionalTime]) -> "ConcretePatternEventTriggering":
+        """The maximum deviation of the time interval's starting point from the beginning of the given period. This parameter is only applicable in conjunction with the parameter patternPeriod . A None value is a no-op and does not overwrite an existing patternJitter."""
+        if value is not None:
+            self.patternJitter = value
+        return self
+
+    def getPatternLength(self) -> Optional[MultidimensionalTime]:
+        """The duration of the time interval within which the event repeatedly occurs. The event occurs at concrete points in time within the given time interval."""
+        return self.patternLength
+
+    def setPatternLength(self, value: Optional[MultidimensionalTime]) -> "ConcretePatternEventTriggering":
+        """The duration of the time interval within which the event repeatedly occurs. The event occurs at concrete points in time within the given time interval. A None value is a no-op and does not overwrite an existing patternLength."""
+        if value is not None:
+            self.patternLength = value
+        return self
+
+    def getPatternPeriod(self) -> Optional[MultidimensionalTime]:
+        """The time distance between the beginnings of subsequent repetitions of the given concrete pattern."""
+        return self.patternPeriod
+
+    def setPatternPeriod(self, value: Optional[MultidimensionalTime]) -> "ConcretePatternEventTriggering":
+        """The time distance between the beginnings of subsequent repetitions of the given concrete pattern. A None value is a no-op and does not overwrite an existing patternPeriod."""
+        if value is not None:
+            self.patternPeriod = value
+        return self
+
+
+class BurstPatternEventTriggering(EventTriggeringConstraint):
+    """
+    Describes the maximum number of occurrences of the same event in a given time interval. Typically used to model a worst case activation scenario.
+    """
+
+    # BurstPatternEventTriggering method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.63, p.109
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getMaxNumberOfOccurrences   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxNumberOfOccurrences   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinimumInterArrivalTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinimumInterArrivalTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinNumberOfOccurrences   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinNumberOfOccurrences   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPatternJitter            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPatternJitter            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPatternLength            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPatternLength            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPatternPeriod            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPatternPeriod            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent, short_name: str):
+        super().__init__(parent, short_name)
+
+        # The maximum number of event occurrences within the given time interval. The event may never occur, or may occur N times between 1 and maxNumberOfOccurrences . If the parameter minNumberOfOccurrences is specified then the event occurs at least the number of times specified by minNumberOfOccurrences and at maximum by maxNumberOfOccurrences .
+        self.maxNumberOfOccurrences: Optional[PositiveInteger] = None
+
+        # Specifies the minimum distance between subsequent occurrences of the event within the given time interval.
+        self.minimumInterArrivalTime: Optional[MultidimensionalTime] = None
+
+        # The minimum number of event occurrences within the given time interval.
+        self.minNumberOfOccurrences: Optional[PositiveInteger] = None
+
+        # The maximum deviation of the time interval's starting point from the beginning of the given period. This parameter is only applicable in conjunction with the parameter patternPeriod
+        self.patternJitter: Optional[MultidimensionalTime] = None
+
+        # The duration of the time interval within which the event repeatedly occurs. The event occurs at arbitrary points in time within the given time interval.
+        self.patternLength: Optional[MultidimensionalTime] = None
+
+        # The time distance between the beginnings of subsequent repetitions of the given burst pattern.
+        self.patternPeriod: Optional[MultidimensionalTime] = None
+
+    def getMaxNumberOfOccurrences(self) -> Optional[PositiveInteger]:
+        """The maximum number of event occurrences within the given time interval. The event may never occur, or may occur N times between 1 and maxNumberOfOccurrences . If the parameter minNumberOfOccurrences is specified then the event occurs at least the number of times specified by minNumberOfOccurrences and at maximum by maxNumberOfOccurrences ."""
+        return self.maxNumberOfOccurrences
+
+    def setMaxNumberOfOccurrences(self, value: Optional[PositiveInteger]) -> "BurstPatternEventTriggering":
+        """The maximum number of event occurrences within the given time interval. The event may never occur, or may occur N times between 1 and maxNumberOfOccurrences . If the parameter minNumberOfOccurrences is specified then the event occurs at least the number of times specified by minNumberOfOccurrences and at maximum by maxNumberOfOccurrences . A None value is a no-op and does not overwrite an existing maxNumberOfOccurrences."""
+        if value is not None:
+            self.maxNumberOfOccurrences = value
+        return self
+
+    def getMinimumInterArrivalTime(self) -> Optional[MultidimensionalTime]:
+        """Specifies the minimum distance between subsequent occurrences of the event within the given time interval."""
+        return self.minimumInterArrivalTime
+
+    def setMinimumInterArrivalTime(self, value: Optional[MultidimensionalTime]) -> "BurstPatternEventTriggering":
+        """Specifies the minimum distance between subsequent occurrences of the event within the given time interval. A None value is a no-op and does not overwrite an existing minimumInterArrivalTime."""
+        if value is not None:
+            self.minimumInterArrivalTime = value
+        return self
+
+    def getMinNumberOfOccurrences(self) -> Optional[PositiveInteger]:
+        """The minimum number of event occurrences within the given time interval."""
+        return self.minNumberOfOccurrences
+
+    def setMinNumberOfOccurrences(self, value: Optional[PositiveInteger]) -> "BurstPatternEventTriggering":
+        """The minimum number of event occurrences within the given time interval. A None value is a no-op and does not overwrite an existing minNumberOfOccurrences."""
+        if value is not None:
+            self.minNumberOfOccurrences = value
+        return self
+
+    def getPatternJitter(self) -> Optional[MultidimensionalTime]:
+        """The maximum deviation of the time interval's starting point from the beginning of the given period. This parameter is only applicable in conjunction with the parameter patternPeriod"""
+        return self.patternJitter
+
+    def setPatternJitter(self, value: Optional[MultidimensionalTime]) -> "BurstPatternEventTriggering":
+        """The maximum deviation of the time interval's starting point from the beginning of the given period. This parameter is only applicable in conjunction with the parameter patternPeriod A None value is a no-op and does not overwrite an existing patternJitter."""
+        if value is not None:
+            self.patternJitter = value
+        return self
+
+    def getPatternLength(self) -> Optional[MultidimensionalTime]:
+        """The duration of the time interval within which the event repeatedly occurs. The event occurs at arbitrary points in time within the given time interval."""
+        return self.patternLength
+
+    def setPatternLength(self, value: Optional[MultidimensionalTime]) -> "BurstPatternEventTriggering":
+        """The duration of the time interval within which the event repeatedly occurs. The event occurs at arbitrary points in time within the given time interval. A None value is a no-op and does not overwrite an existing patternLength."""
+        if value is not None:
+            self.patternLength = value
+        return self
+
+    def getPatternPeriod(self) -> Optional[MultidimensionalTime]:
+        """The time distance between the beginnings of subsequent repetitions of the given burst pattern."""
+        return self.patternPeriod
+
+    def setPatternPeriod(self, value: Optional[MultidimensionalTime]) -> "BurstPatternEventTriggering":
+        """The time distance between the beginnings of subsequent repetitions of the given burst pattern. A None value is a no-op and does not overwrite an existing patternPeriod."""
+        if value is not None:
+            self.patternPeriod = value
+        return self
+
+
+class ArbitraryEventTriggering(EventTriggeringConstraint):
+    """
+    Describes that an event occurs occasionally, singly, irregularly or randomly. The primary purpose of this event triggering is to abstract event occurrences captured by data acquisition tools (background debugger, trace analyzer, etc.) during system runtime.
+    """
+
+    # ArbitraryEventTriggering method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.64, p.112
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addConfidenceInterval    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getConfidenceIntervals   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addMaximumDistance       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaximumDistances      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addMinimumDistance       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinimumDistances      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+
+    def __init__(self, parent, short_name: str):
+        super().__init__(parent, short_name)
+
+        # List of confidence intervals.
+        self.confidenceIntervals: List["ConfidenceInterval"] = []
+
+        # The nth array element describes the maximum distance that can be observed for a sample of n+1 event occurrences. This is an array with an identical number of elements as for the minimumDistance.
+        self.maximumDistances: List[MultidimensionalTime] = []
+
+        # The nth array element describes the minimum distance that can be observed for a sample of n+1 event occurrences. This is an array with an identical number of elements as for the maximumDistance.
+        self.minimumDistances: List[MultidimensionalTime] = []
+
+    def addConfidenceInterval(self, value: Optional["ConfidenceInterval"]) -> "ArbitraryEventTriggering":
+        """List of confidence intervals. A None value is a no-op and does not change the confidenceIntervals list."""
+        if value is not None:
+            self.confidenceIntervals.append(value)
+        return self
+
+    def getConfidenceIntervals(self) -> List["ConfidenceInterval"]:
+        """List of confidence intervals."""
+        return self.confidenceIntervals
+
+    def addMaximumDistance(self, value: Optional[MultidimensionalTime]) -> "ArbitraryEventTriggering":
+        """The nth array element describes the maximum distance that can be observed for a sample of n+1 event occurrences. This is an array with an identical number of elements as for the minimumDistance. A None value is a no-op and does not change the maximumDistances list."""
+        if value is not None:
+            self.maximumDistances.append(value)
+        return self
+
+    def getMaximumDistances(self) -> List[MultidimensionalTime]:
+        """The nth array element describes the maximum distance that can be observed for a sample of n+1 event occurrences. This is an array with an identical number of elements as for the minimumDistance."""
+        return self.maximumDistances
+
+    def addMinimumDistance(self, value: Optional[MultidimensionalTime]) -> "ArbitraryEventTriggering":
+        """The nth array element describes the minimum distance that can be observed for a sample of n+1 event occurrences. This is an array with an identical number of elements as for the maximumDistance. A None value is a no-op and does not change the minimumDistances list."""
+        if value is not None:
+            self.minimumDistances.append(value)
+        return self
+
+    def getMinimumDistances(self) -> List[MultidimensionalTime]:
+        """The nth array element describes the minimum distance that can be observed for a sample of n+1 event occurrences. This is an array with an identical number of elements as for the maximumDistance."""
+        return self.minimumDistances
 
 
 class ConfidenceInterval(ARObject):
     """
-    Specifies a confidence interval for timing measurements.
-    This class defines the confidence interval with a confidence level
-    and interval bounds.
+    Additionally to the list of measured distances of event occurrences, a confidence interval can be specified for the expected distance of two consecutive event occurrences with a given probability.
     """
 
     # ConfidenceInterval method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getConfidenceLevel           [x] impl  [ ] docstring  [ ] test
-    # [ ] setConfidenceLevel           [x] impl  [ ] docstring  [ ] test
-    # [ ] getLowerBound                [x] impl  [ ] docstring  [ ] test
-    # [ ] setLowerBound                [x] impl  [ ] docstring  [ ] test
-    # [ ] getUpperBound                [x] impl  [ ] docstring  [ ] test
-    # [ ] setUpperBound                [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.65, p.112
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getLowerBound   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setLowerBound   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPropability  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPropability  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUpperBound   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUpperBound   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
-        """
-        Initializes the ConfidenceInterval with default values.
-        """
         super().__init__()
 
-        # Confidence level (e.g., 0.95 for 95% confidence)
-        self.confidence_level: Float = None
-        # Lower bound of the interval
-        self.lower_bound: TimeValue = None
-        # Upper bound of the interval
-        self.upper_bound: TimeValue = None
+        # The lower bound of the expected distance of two consecutive event occurrences.
+        self.lowerBound: Optional[MultidimensionalTime] = None
 
-    def getConfidenceLevel(self):
-        return self.confidence_level
+        # The probability for the measured lower and upper bound of the confidence interval.
+        self.propability: Optional[Float] = None
 
-    def setConfidenceLevel(self, value):
-        self.confidence_level = value
+        # The upper bound of the expected distance of two consecutive event occurrences.
+        self.upperBound: Optional[MultidimensionalTime] = None
+
+    def getLowerBound(self) -> Optional[MultidimensionalTime]:
+        """The lower bound of the expected distance of two consecutive event occurrences."""
+        return self.lowerBound
+
+    def setLowerBound(self, value: Optional[MultidimensionalTime]) -> "ConfidenceInterval":
+        """The lower bound of the expected distance of two consecutive event occurrences. A None value is a no-op and does not overwrite an existing lowerBound."""
+        if value is not None:
+            self.lowerBound = value
         return self
 
-    def getLowerBound(self):
-        return self.lower_bound
+    def getPropability(self) -> Optional[Float]:
+        """The probability for the measured lower and upper bound of the confidence interval."""
+        return self.propability
 
-    def setLowerBound(self, value):
-        self.lower_bound = value
+    def setPropability(self, value: Optional[Float]) -> "ConfidenceInterval":
+        """The probability for the measured lower and upper bound of the confidence interval. A None value is a no-op and does not overwrite an existing propability."""
+        if value is not None:
+            self.propability = value
         return self
 
-    def getUpperBound(self):
-        return self.upper_bound
+    def getUpperBound(self) -> Optional[MultidimensionalTime]:
+        """The upper bound of the expected distance of two consecutive event occurrences."""
+        return self.upperBound
 
-    def setUpperBound(self, value):
-        self.upper_bound = value
+    def setUpperBound(self, value: Optional[MultidimensionalTime]) -> "ConfidenceInterval":
+        """The upper bound of the expected distance of two consecutive event occurrences. A None value is a no-op and does not overwrite an existing upperBound."""
+        if value is not None:
+            self.upperBound = value
         return self
