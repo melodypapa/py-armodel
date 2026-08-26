@@ -23,21 +23,19 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommun
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (  # noqa: E501
     CanPhysicalChannel,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (  # noqa: E501
-    SocketConnection,
-    SocketConnectionBundle,
-    SocketConnectionIpduIdentifier,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (  # noqa: E501
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (  # noqa: E501  # noqa: E501
+    DoIpEntity,
+    InfrastructureServices,
     InitialSdDelayConfig,
+    Ipv6Configuration,
+    NetworkEndpoint,
     RequestResponseDelay,
     SdClientConfig,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import (  # noqa: E501
-    DoIpEntity,
-    InfrastructureServices,
-    Ipv6Configuration,
-    NetworkEndpoint,
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import (  # noqa: E501
+    SocketConnection,
+    SocketConnectionBundle,
+    SocketConnectionIpduIdentifier,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (  # noqa: E501
     ApplicationEndpoint,

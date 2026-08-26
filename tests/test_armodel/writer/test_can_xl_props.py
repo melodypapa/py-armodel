@@ -13,12 +13,10 @@ import pytest
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
+    CanControllerConfiguration,
     CanControllerFdConfiguration,
     CanControllerXlConfiguration,
     CanControllerXlConfigurationRequirements,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
-    CanControllerConfiguration,
     CanXlProps,
 )
 from armodel.parser.arxml_parser import ARXMLParser

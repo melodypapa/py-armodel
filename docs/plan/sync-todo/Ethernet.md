@@ -8,6 +8,14 @@ Rule 0016.5 (member-type-first ordering). Queue re-audited 2026-08-24 against ma
 atpVariation `...RefConditional` / `...Conditional` wrappers, the obsolete SoAd enum classes, and the
 ad-hoc technology enum classes were REMOVED from the queue (markdown is authoritative — Rule 0002 /
 user decision); rows retargeted to the real markdown-documented classes.
+**2026-08-26 — Rule 0007 (package location) audit + fix applied:** module layout now matches the spec
+`Package` rows. `ApplicationEndpoint`, `Ipv6Configuration`, `InfrastructureServices` and the former
+`NetworkEndpoint.py` classes moved into `EthernetTopology.py`; `SocketConnection`,
+`SocketConnectionIpduIdentifier`, `SocketConnectionBundle`, `SoAdRoutingGroup` moved into the new
+`ObsoleteModel.py` (Tables F.115/F.116); `CanControllerConfiguration` + `CanXlProps` moved into
+`Fibex4Can/CanTopology.py`. `NetworkEndpoint.py` and `EthernetCommunication.py` deleted. Row notes
+below carry per-class `MOVED ... per Rule 0007` markers. **Correction:** `SocketConnection` is NOT an
+XSD-only class — Table F.116 exists in the R23-11 obsolete-model appendix (package ObsoleteModel).
 (resume = first class row still `[ ]`; all class rows `[x]` = sync finished)
 
 Closure confirmed by user 2026-08-23: queue the 17 input classes + their missing member-type classes;
@@ -95,7 +103,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CanXlProps (value type · existing EthernetCommunication.py · used by EthernetCommunicationConnector.canXlPropsRefs / apApplicationEndpoint) · steps complete commit 4169b432 — STAMP DEFERRED (batch 9b pending)
+- [ ] CanXlProps (value type · existing Fibex4Can/CanTopology.py — MOVED from EthernetCommunication.py per Rule 0007: no CP table, CAN-XL domain, aggregated by CanControllerConfiguration · used by EthernetCommunicationConnector.canXlPropsRefs / apApplicationEndpoint) · steps complete commit 4169b432 — STAMP DEFERRED (batch 9b pending)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -420,7 +428,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (9a automated verification only — pytest 7232 passed incl. lossless integration round trip,
     black/black-check/lint clean, checklist==methods 1:1 source order, verbatim Note diff OK,
     no receiver-chain mutators in new code; 9b stamp DEFERRED to batch pass)
-- [ ] ApplicationEndpoint (markdown SystemTemplate · Table 6.124 · p.458 · source Fibex4Ethernet/ServiceInstances.py · adds discoveryTechnology, remotingTechnology, serializationTechnologyRef; these tech member types are XSD/ad-hoc — handle inside this sync) · steps complete commit 92517479 — STAMP DEFERRED (batch 9b pending)
+- [ ] ApplicationEndpoint (markdown SystemTemplate · Table 6.124 · p.458 · source Fibex4Ethernet/EthernetTopology.py — MOVED from ServiceInstances.py per Rule 0007: Table 6.124 Package row = Fibex4Ethernet::EthernetTopology · adds discoveryTechnology, remotingTechnology, serializationTechnologyRef; these tech member types are XSD/ad-hoc — handle inside this sync) · steps complete commit 92517479 — STAMP DEFERRED (batch 9b pending)
   NOTE: Table 6.124 verified in AUTOSAR_CP_TPS_SystemTemplate.md:12091–12115 + PDF p.458 (pdf_page.py
   authoritative; p.457 above was stale). The table has NO discoveryTechnology/remotingTechnology/
   serializationTechnologyRef rows; XSD marks all three atp.Status="removed" — NOT modeled
@@ -542,7 +550,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (tracker: four former missing rows resolved and annotated; applicationEndpoint removal recorded per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7328 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] Ipv6Configuration (markdown SystemTemplate · Table 6.139 · p.466 · source Fibex4Ethernet/NetworkEndpoint.py · fixes dnsServerAddresses naming → dnsServerAddress) — STAMP DEFERRED (batch 9b pending)
+- [ ] Ipv6Configuration (markdown SystemTemplate · Table 6.139 · p.466 · source Fibex4Ethernet/EthernetTopology.py — MOVED from NetworkEndpoint.py per Rule 0007: Table 6.139 Package row = Fibex4Ethernet::EthernetTopology · fixes dnsServerAddresses naming → dnsServerAddress) — STAMP DEFERRED (batch 9b pending)
   - [x] Step 1 — Sync members & description from spec
     (Table 6.139 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:12392–12410 + PDF p.466;
     Base ARObject+NetworkEndpointAddress → NetworkEndpointAddress; 9 attr rows; "naming fix" resolved as
@@ -561,7 +569,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (tracker: former dnsServerAddress missing row resolved and annotated; two enum placeholders recorded)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7332 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] InfrastructureServices (markdown SystemTemplate · Table 6.144 · p.469 · source Fibex4Ethernet/NetworkEndpoint.py · depends on DhcpServerConfiguration above; adds dhcpServerConfiguration) — STAMP DEFERRED (batch 9b pending)
+- [ ] InfrastructureServices (markdown SystemTemplate · Table 6.144 · p.469 · source Fibex4Ethernet/EthernetTopology.py — MOVED from NetworkEndpoint.py per Rule 0007: Table 6.144 Package row = Fibex4Ethernet::EthernetTopology · depends on DhcpServerConfiguration above; adds dhcpServerConfiguration) — STAMP DEFERRED (batch 9b pending)
   - [x] Step 1 — Sync members & description from spec
     (Table 6.144 in markdown AUTOSAR_CP_TPS_SystemTemplate.md:12480–12490 + PDF p.469;
     Base ARObject; only 2 attr rows: doIpEntity aggr, timeSynchronization aggr;
@@ -714,7 +722,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (tracker: new SdClientConfig section, zero open deviations)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7360 passed, black/black-check/lint clean; marker N/A per Rule 0002)
-- [ ] SocketConnection (obsolete · p.2057 · source Fibex4Ethernet/EthernetCommunication.py · adds autosarConnector, doIpSourceAddressRef/doIpTargetAddressRef, ident → TpConnectionIdent, localPortRef/remotePortRef → SocketAddress Ref, nPduRef, socketProtocol) — SYNCED AHEAD OF SoAdConfig (dependency-first, Rule 0016.5); XSD-ONLY CLASS: no R23-11 table exists (obsolete, Rel 4.4.0 documentation) — Rule 0002 exclusion, no # Spec line/marker applicable
+- [ ] SocketConnection (obsolete · Table F.116 · p.2057 · source Fibex4Ethernet/ObsoleteModel.py — MOVED from EthernetCommunication.py per Rule 0007: Table F.116 Package row = M2::...::Fibex4Ethernet::ObsoleteModel · adds autosarConnector, doIpSourceAddressRef/doIpTargetAddressRef, ident → TpConnectionIdent, localPortRef/remotePortRef → SocketAddress Ref, nPduRef, socketProtocol) — SYNCED AHEAD OF SoAdConfig (dependency-first, Rule 0016.5); CORRECTION (2026-08-26, Rule 0007 audit): a table DOES exist — Table F.116 in the R23-11 obsolete-model appendix — so this is NOT an XSD-only/Rel-4.4.0 class; the Rule 0002 XSD-exclusion note was stale and has been removed; the checklist keeps the XSD-derived rows for members the F-table lacks (Rule 0015)
   - [x] Step 1 — Derive members from XSD SOCKET-CONNECTION group (AUTOSAR_00052.xsd); Base ARObject+DESCRIBABLE → stays Describable; 19 elements incl. 8 newly modelled
   - [x] Step 2 — Model test rewritten to XSD shape (Red — new accessors missing)
   - [x] Step 3 — Implement model class (Green)

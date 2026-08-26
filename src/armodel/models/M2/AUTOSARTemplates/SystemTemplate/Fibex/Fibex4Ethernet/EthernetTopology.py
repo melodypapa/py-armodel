@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -13,11 +13,19 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip6AddressString,
     PositiveInteger,
     RefType,
+    String,
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
+        ConsumedServiceInstance,
+        ProvidedServiceInstance,
+        TransportProtocolConfiguration,
+    )
 
 
 class MacMulticastGroup(Identifiable):
@@ -1500,4 +1508,706 @@ class CouplingPortTrafficClassAssignment(Referrable):
         """
         if value is not None:
             self.trafficClass = value
+        return self
+
+
+class ApplicationEndpoint(Identifiable):
+    """An application endpoint is the endpoint on an Ecu in terms of application addressing (e.g. socket). The application endpoint represents e.g. the listen socket in client-server-based communication."""
+
+    # ApplicationEndpoint method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.124, p.458
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createConsumedServiceInstance        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getConsumedServiceInstances          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getMaxNumberOfConnections            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaxNumberOfConnections            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNetworkEndpointRef                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNetworkEndpointRef                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPriority                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPriority                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createProvidedServiceInstance        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getProvidedServiceInstances          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getTlsCryptoMappingRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTlsCryptoMappingRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTpConfiguration                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTpConfiguration                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Consumed service instances.
+        self.consumedServiceInstances: List[ConsumedServiceInstance] = []
+
+        # This attribute defines the maximal number of clients the Server is able to deal with in case of Service Discovery.
+        self.maxNumberOfConnections: Optional[PositiveInteger] = None
+
+        # Reference to the network address.
+        self.networkEndpointRef: Optional[RefType] = None
+
+        # Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
+        self.priority: Optional[PositiveInteger] = None
+
+        # Provided service instances.
+        self.providedServiceInstances: List[ProvidedServiceInstance] = []
+
+        # This reference identifies the applicable TlsCryptoServiceMapping that adds the ability for TLS-based encryption on the enclosing ApplicationEndpoint.
+        self.tlsCryptoMappingRef: Optional[RefType] = None
+
+        # Configuration of the used transport protocol.
+        self.tpConfiguration: Optional[TransportProtocolConfiguration] = None
+
+    def createConsumedServiceInstance(self, short_name: str) -> "ConsumedServiceInstance":
+        """Consumed service instances."""
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ConsumedServiceInstance
+
+        if not self.IsElementExists(short_name, ConsumedServiceInstance):
+            instance = ConsumedServiceInstance(self, short_name)
+            self.addElement(instance)
+            self.consumedServiceInstances.append(instance)
+        return self.getElement(short_name, ConsumedServiceInstance)
+
+    def getConsumedServiceInstances(self) -> List[ConsumedServiceInstance]:
+        """Consumed service instances."""
+        return self.consumedServiceInstances
+
+    def getMaxNumberOfConnections(self) -> Optional[PositiveInteger]:
+        """This attribute defines the maximal number of clients the Server is able to deal with in case of Service Discovery."""
+        return self.maxNumberOfConnections
+
+    def setMaxNumberOfConnections(self, value: Optional[PositiveInteger]) -> "ApplicationEndpoint":
+        """
+        This attribute defines the maximal number of clients the Server is able to deal with in case of Service Discovery.
+        A None value is a no-op and does not overwrite an existing maxNumberOfConnections.
+        """
+        if value is not None:
+            self.maxNumberOfConnections = value
+        return self
+
+    def getNetworkEndpointRef(self) -> Optional[RefType]:
+        """Reference to the network address."""
+        return self.networkEndpointRef
+
+    def setNetworkEndpointRef(self, value: Optional[RefType]) -> "ApplicationEndpoint":
+        """
+        Reference to the network address.
+        A None value is a no-op and does not overwrite an existing networkEndpointRef.
+        """
+        if value is not None:
+            self.networkEndpointRef = value
+        return self
+
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed."""
+        return self.priority
+
+    def setPriority(self, value: Optional[PositiveInteger]) -> "ApplicationEndpoint":
+        """
+        Defines the frame priority where values from 0 (best effort) to 7 (highest) are allowed.
+        A None value is a no-op and does not overwrite an existing priority.
+        """
+        if value is not None:
+            self.priority = value
+        return self
+
+    def createProvidedServiceInstance(self, short_name: str) -> "ProvidedServiceInstance":
+        """Provided service instances."""
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import ProvidedServiceInstance
+
+        if not self.IsElementExists(short_name, ProvidedServiceInstance):
+            instance = ProvidedServiceInstance(self, short_name)
+            self.addElement(instance)
+            self.providedServiceInstances.append(instance)
+        return self.getElement(short_name, ProvidedServiceInstance)
+
+    def getProvidedServiceInstances(self) -> List[ProvidedServiceInstance]:
+        """Provided service instances."""
+        return self.providedServiceInstances
+
+    def getTlsCryptoMappingRef(self) -> Optional[RefType]:
+        """This reference identifies the applicable TlsCryptoServiceMapping that adds the ability for TLS-based encryption on the enclosing ApplicationEndpoint."""
+        return self.tlsCryptoMappingRef
+
+    def setTlsCryptoMappingRef(self, value: Optional[RefType]) -> "ApplicationEndpoint":
+        """
+        This reference identifies the applicable TlsCryptoServiceMapping that adds the ability for TLS-based encryption on the enclosing ApplicationEndpoint.
+        A None value is a no-op and does not overwrite an existing tlsCryptoMappingRef.
+        """
+        if value is not None:
+            self.tlsCryptoMappingRef = value
+        return self
+
+    def getTpConfiguration(self) -> Optional[TransportProtocolConfiguration]:
+        """Configuration of the used transport protocol."""
+        return self.tpConfiguration
+
+    def setTpConfiguration(self, value: Optional[TransportProtocolConfiguration]) -> "ApplicationEndpoint":
+        """
+        Configuration of the used transport protocol.
+        A None value is a no-op and does not overwrite an existing tpConfiguration.
+        """
+        if value is not None:
+            self.tpConfiguration = value
+        return self
+
+
+class NetworkEndpointAddress(ARObject, ABC):
+    """
+    Abstract base class for network endpoint addresses, defining the
+    common properties and behavior for different types of network
+    addresses (IPv4, IPv6, etc.) used in AUTOSAR communication.
+    """
+
+    # NetworkEndpointAddress method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        if type(self) is NetworkEndpointAddress:
+            raise TypeError("NetworkEndpointAddress is an abstract class.")
+
+        super().__init__()
+
+
+class Ipv4Configuration(NetworkEndpointAddress):
+    """
+    Defines IPv4 network configuration properties for a network endpoint,
+    including IP addresses, network masks, DNS server addresses, and
+    TTL settings for IPv4 communication.
+    """
+
+    # Ipv4Configuration method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAssignmentPriority        [x] impl  [ ] docstring  [ ] test
+    # [ ] setAssignmentPriority        [x] impl  [ ] docstring  [ ] test
+    # [ ] getDefaultGateway            [x] impl  [ ] docstring  [ ] test
+    # [ ] setDefaultGateway            [x] impl  [ ] docstring  [ ] test
+    # [ ] getDnsServerAddresses        [x] impl  [ ] docstring  [ ] test
+    # [ ] addDnsServerAddress          [x] impl  [ ] docstring  [ ] test
+    # [ ] getIpAddressKeepBehavior     [x] impl  [ ] docstring  [ ] test
+    # [ ] setIpAddressKeepBehavior     [x] impl  [ ] docstring  [ ] test
+    # [ ] getIpv4Address               [x] impl  [ ] docstring  [ ] test
+    # [ ] setIpv4Address               [x] impl  [ ] docstring  [ ] test
+    # [ ] getIpv4AddressSource         [x] impl  [ ] docstring  [ ] test
+    # [ ] setIpv4AddressSource         [x] impl  [ ] docstring  [ ] test
+    # [ ] getNetworkMask               [x] impl  [ ] docstring  [ ] test
+    # [ ] setNetworkMask               [x] impl  [ ] docstring  [ ] test
+    # [ ] getTtl                       [x] impl  [ ] docstring  [ ] test
+    # [ ] setTtl                       [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        super().__init__()
+
+        self.assignmentPriority: PositiveInteger = None
+        self.defaultGateway: Ip4AddressString = None
+        self.dnsServerAddresses: List[Ip4AddressString] = []
+        self.ipAddressKeepBehavior = None
+        self.ipv4Address: Ip4AddressString = None
+        self.ipv4AddressSource = None
+        self.networkMask: Ip4AddressString = None
+        self.ttl: PositiveInteger = None
+
+    def getAssignmentPriority(self):
+        return self.assignmentPriority
+
+    def setAssignmentPriority(self, value):
+        self.assignmentPriority = value
+        return self
+
+    def getDefaultGateway(self):
+        return self.defaultGateway
+
+    def setDefaultGateway(self, value):
+        self.defaultGateway = value
+        return self
+
+    def getDnsServerAddresses(self):
+        return self.dnsServerAddresses
+
+    def addDnsServerAddress(self, value):
+        self.dnsServerAddresses.append(value)
+        return self
+
+    def getIpAddressKeepBehavior(self):
+        return self.ipAddressKeepBehavior
+
+    def setIpAddressKeepBehavior(self, value):
+        self.ipAddressKeepBehavior = value
+        return self
+
+    def getIpv4Address(self):
+        return self.ipv4Address
+
+    def setIpv4Address(self, value):
+        self.ipv4Address = value
+        return self
+
+    def getIpv4AddressSource(self):
+        return self.ipv4AddressSource
+
+    def setIpv4AddressSource(self, value):
+        self.ipv4AddressSource = value
+        return self
+
+    def getNetworkMask(self):
+        return self.networkMask
+
+    def setNetworkMask(self, value):
+        self.networkMask = value
+        return self
+
+    def getTtl(self):
+        return self.ttl
+
+    def setTtl(self, value):
+        self.ttl = value
+        return self
+
+
+class Ipv6Configuration(NetworkEndpointAddress):
+    """
+    Internet Protocol version 6 (IPv6) configuration.
+    """
+
+    # Ipv6Configuration method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.139, p.466
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAssignmentPriority        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAssignmentPriority        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDefaultRouter             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDefaultRouter             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getDnsServerAddresses        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addDnsServerAddress          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEnableAnycast             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEnableAnycast             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getHopCount                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setHopCount                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIpAddressKeepBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIpAddressKeepBehavior     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIpAddressPrefixLength     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIpAddressPrefixLength     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIpv6Address               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIpv6Address               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIpv6AddressSource         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIpv6AddressSource         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Priority of assignment (1 is highest). If a new address from an assignment method with a higher priority is available, it overwrites the IP address previously assigned by an assignment method with a lower priority.
+        self.assignmentPriority: Optional[PositiveInteger] = None
+
+        # IP address of the default router.
+        self.defaultRouter: Optional[Ip6AddressString] = None
+
+        # IP addresses of pre configured DNS servers.
+        self.dnsServerAddresses: List[Ip6AddressString] = []
+
+        # This attribute is used to enable anycast addressing (i.e. to one of multiple receivers).
+        self.enableAnycast: Optional[Boolean] = None
+
+        # The distance between two hosts. The hop count n means that n gateways separate the source host from the destination host (Range 0..255)
+        self.hopCount: Optional[PositiveInteger] = None
+
+        # Defines the lifetime of a dynamically fetched IP address.
+        self.ipAddressKeepBehavior: Optional[ARLiteral] = None
+
+        # IPv6 prefix length defines the part of the IPv6 address that is the network prefix.
+        self.ipAddressPrefixLength: Optional[PositiveInteger] = None
+
+        # IPv6 Address. Notation: FFFF:...:FFFF. The IP Address shall be declared in case the ipv6AddressSource is FIXED and thus no auto-configuration mechanism is used.
+        self.ipv6Address: Optional[Ip6AddressString] = None
+
+        # Defines how the node obtains its IP address.
+        self.ipv6AddressSource: Optional[ARLiteral] = None
+
+    def getAssignmentPriority(self) -> Optional[PositiveInteger]:
+        """Priority of assignment (1 is highest). If a new address from an assignment method with a higher priority is available, it overwrites the IP address previously assigned by an assignment method with a lower priority."""
+        return self.assignmentPriority
+
+    def setAssignmentPriority(self, value: Optional[PositiveInteger]) -> "Ipv6Configuration":
+        """
+        Priority of assignment (1 is highest). If a new address from an assignment method with a higher priority is available, it overwrites the IP address previously assigned by an assignment method with a lower priority.
+        A None value is a no-op and does not overwrite an existing assignmentPriority.
+        """
+        if value is not None:
+            self.assignmentPriority = value
+        return self
+
+    def getDefaultRouter(self) -> Optional[Ip6AddressString]:
+        """IP address of the default router."""
+        return self.defaultRouter
+
+    def setDefaultRouter(self, value: Optional[Ip6AddressString]) -> "Ipv6Configuration":
+        """
+        IP address of the default router.
+        A None value is a no-op and does not overwrite an existing defaultRouter.
+        """
+        if value is not None:
+            self.defaultRouter = value
+        return self
+
+    def getDnsServerAddresses(self) -> List[Ip6AddressString]:
+        """IP addresses of pre configured DNS servers."""
+        return self.dnsServerAddresses
+
+    def addDnsServerAddress(self, value: Optional[Ip6AddressString]) -> "Ipv6Configuration":
+        """
+        IP addresses of pre configured DNS servers.
+        A None value is a no-op and does not append to dnsServerAddresses.
+        """
+        if value is not None:
+            self.dnsServerAddresses.append(value)
+        return self
+
+    def getEnableAnycast(self) -> Optional[Boolean]:
+        """This attribute is used to enable anycast addressing (i.e. to one of multiple receivers)."""
+        return self.enableAnycast
+
+    def setEnableAnycast(self, value: Optional[Boolean]) -> "Ipv6Configuration":
+        """
+        This attribute is used to enable anycast addressing (i.e. to one of multiple receivers).
+        A None value is a no-op and does not overwrite an existing enableAnycast.
+        """
+        if value is not None:
+            self.enableAnycast = value
+        return self
+
+    def getHopCount(self) -> Optional[PositiveInteger]:
+        """The distance between two hosts. The hop count n means that n gateways separate the source host from the destination host (Range 0..255)"""
+        return self.hopCount
+
+    def setHopCount(self, value: Optional[PositiveInteger]) -> "Ipv6Configuration":
+        """
+        The distance between two hosts. The hop count n means that n gateways separate the source host from the destination host (Range 0..255)
+        A None value is a no-op and does not overwrite an existing hopCount.
+        """
+        if value is not None:
+            self.hopCount = value
+        return self
+
+    def getIpAddressKeepBehavior(self) -> Optional[ARLiteral]:
+        """Defines the lifetime of a dynamically fetched IP address."""
+        return self.ipAddressKeepBehavior
+
+    def setIpAddressKeepBehavior(self, value: Optional[ARLiteral]) -> "Ipv6Configuration":
+        """
+        Defines the lifetime of a dynamically fetched IP address.
+        A None value is a no-op and does not overwrite an existing ipAddressKeepBehavior.
+        """
+        if value is not None:
+            self.ipAddressKeepBehavior = value
+        return self
+
+    def getIpAddressPrefixLength(self) -> Optional[PositiveInteger]:
+        """IPv6 prefix length defines the part of the IPv6 address that is the network prefix."""
+        return self.ipAddressPrefixLength
+
+    def setIpAddressPrefixLength(self, value: Optional[PositiveInteger]) -> "Ipv6Configuration":
+        """
+        IPv6 prefix length defines the part of the IPv6 address that is the network prefix.
+        A None value is a no-op and does not overwrite an existing ipAddressPrefixLength.
+        """
+        if value is not None:
+            self.ipAddressPrefixLength = value
+        return self
+
+    def getIpv6Address(self) -> Optional[Ip6AddressString]:
+        """IPv6 Address. Notation: FFFF:...:FFFF. The IP Address shall be declared in case the ipv6AddressSource is FIXED and thus no auto-configuration mechanism is used."""
+        return self.ipv6Address
+
+    def setIpv6Address(self, value: Optional[Ip6AddressString]) -> "Ipv6Configuration":
+        """
+        IPv6 Address. Notation: FFFF:...:FFFF. The IP Address shall be declared in case the ipv6AddressSource is FIXED and thus no auto-configuration mechanism is used.
+        A None value is a no-op and does not overwrite an existing ipv6Address.
+        """
+        if value is not None:
+            self.ipv6Address = value
+        return self
+
+    def getIpv6AddressSource(self) -> Optional[ARLiteral]:
+        """Defines how the node obtains its IP address."""
+        return self.ipv6AddressSource
+
+    def setIpv6AddressSource(self, value: Optional[ARLiteral]) -> "Ipv6Configuration":
+        """
+        Defines how the node obtains its IP address.
+        A None value is a no-op and does not overwrite an existing ipv6AddressSource.
+        """
+        if value is not None:
+            self.ipv6AddressSource = value
+        return self
+
+
+class DoIpEntity(ARObject):
+    """
+    Defines properties for a DoIP (Diagnostics over IP) entity,
+    specifying the role and behavior of DoIP-enabled devices in
+    the network for diagnostic communication purposes.
+    """
+
+    # DoIpEntity method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDoIpEntityRole            [x] impl  [ ] docstring  [ ] test
+    # [ ] setDoIpEntityRole            [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        super().__init__()
+
+        self.doIpEntityRole = None  # type: DoIpEntityRoleEnum
+
+    def getDoIpEntityRole(self):
+        return self.doIpEntityRole
+
+    def setDoIpEntityRole(self, value):
+        if value is not None:
+            self.doIpEntityRole = value
+        return self
+
+
+class TimeSyncClientConfiguration(ARObject):
+    """
+    Configures time synchronization client properties, defining
+    ordered master relationships and time synchronization
+    technology settings for network time coordination.
+    """
+
+    # TimeSyncClientConfiguration method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getOrderedMasters            [x] impl  [ ] docstring  [ ] test
+    # [ ] addOrderedMaster             [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSyncTechnology        [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSyncTechnology        [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        super().__init__()
+
+        self.orderedMasters = []
+        self.timeSyncTechnology = None  # type: TimeSyncTechnologyEnum
+
+    def getOrderedMasters(self):
+        return self.orderedMasters
+
+    def addOrderedMaster(self, value):
+        if value is not None:
+            self.orderedMasters.append(value)
+        return self
+
+    def getTimeSyncTechnology(self):
+        return self.timeSyncTechnology
+
+    def setTimeSyncTechnology(self, value):
+        if value is not None:
+            self.timeSyncTechnology = value
+        return self
+
+
+class TimeSyncServerConfiguration(Referrable):
+    """
+    Configures time synchronization server properties, specifying
+    priority, synchronization intervals, and time synchronization
+    identifiers for network time coordination services.
+    """
+
+    # TimeSyncServerConfiguration method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getPriority                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setPriority                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getSyncInterval              [x] impl  [ ] docstring  [ ] test
+    # [ ] setSyncInterval              [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSyncServerIdentifier  [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSyncServerIdentifier  [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSyncTechnology        [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSyncTechnology        [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.priority: PositiveInteger = None
+        self.syncInterval: TimeValue = None
+        self.timeSyncServerIdentifier: String = None
+        self.timeSyncTechnology = None  # type: TimeSyncTechnologyEnum
+
+    def getPriority(self):
+        return self.priority
+
+    def setPriority(self, value):
+        if value is not None:
+            self.priority = value
+        return self
+
+    def getSyncInterval(self):
+        return self.syncInterval
+
+    def setSyncInterval(self, value):
+        if value is not None:
+            self.syncInterval = value
+        return self
+
+    def getTimeSyncServerIdentifier(self):
+        return self.timeSyncServerIdentifier
+
+    def setTimeSyncServerIdentifier(self, value):
+        if value is not None:
+            self.timeSyncServerIdentifier = value
+        return self
+
+    def getTimeSyncTechnology(self):
+        return self.timeSyncTechnology
+
+    def setTimeSyncTechnology(self, value):
+        if value is not None:
+            self.timeSyncTechnology = value
+        return self
+
+
+class TimeSynchronization(ARObject):
+    """
+    Defines time synchronization configuration for network entities,
+    including both client and server configurations for coordinated
+    timing across the AUTOSAR system network.
+    """
+
+    # TimeSynchronization method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSyncClient            [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSyncClient            [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeSyncServer            [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeSyncServer            [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        super().__init__()
+
+        self.timeSyncClient: TimeSyncClientConfiguration = None
+        self.timeSyncServer: TimeSyncServerConfiguration = None
+
+    def getTimeSyncClient(self):
+        return self.timeSyncClient
+
+    def setTimeSyncClient(self, value):
+        if value is not None:
+            self.timeSyncClient = value
+        return self
+
+    def getTimeSyncServer(self):
+        return self.timeSyncServer
+
+    def setTimeSyncServer(self, value):
+        if value is not None:
+            self.timeSyncServer = value
+        return self
+
+
+class InfrastructureServices(ARObject):
+    """
+    Defines the network infrastructure services provided or consumed.
+    """
+
+    # InfrastructureServices method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.144, p.469
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDoIpEntity                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDoIpEntity                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeSynchronization       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimeSynchronization       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Defines whether a infrastructure service that runs on the network endpoint is a DoIP-Entity.
+        self.doIpEntity: Optional[DoIpEntity] = None
+
+        # Defines the servers / clients in a time synchronised network.
+        self.timeSynchronization: Optional[TimeSynchronization] = None
+
+    def getDoIpEntity(self) -> Optional[DoIpEntity]:
+        """Defines whether a infrastructure service that runs on the network endpoint is a DoIP-Entity."""
+        return self.doIpEntity
+
+    def setDoIpEntity(self, value: Optional[DoIpEntity]) -> "InfrastructureServices":
+        """
+        Defines whether a infrastructure service that runs on the network endpoint is a DoIP-Entity.
+        A None value is a no-op and does not overwrite an existing doIpEntity.
+        """
+        if value is not None:
+            self.doIpEntity = value
+        return self
+
+    def getTimeSynchronization(self) -> Optional[TimeSynchronization]:
+        """Defines the servers / clients in a time synchronised network."""
+        return self.timeSynchronization
+
+    def setTimeSynchronization(self, value: Optional[TimeSynchronization]) -> "InfrastructureServices":
+        """
+        Defines the servers / clients in a time synchronised network.
+        A None value is a no-op and does not overwrite an existing timeSynchronization.
+        """
+        if value is not None:
+            self.timeSynchronization = value
+        return self
+
+
+class NetworkEndpoint(Identifiable):
+    """
+    Represents a network endpoint in the AUTOSAR system, defining
+    IP configuration, infrastructure services, and network address
+    properties for communication nodes in the network.
+    """
+
+    # NetworkEndpoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getFullyQualifiedDomainName  [x] impl  [ ] docstring  [ ] test
+    # [ ] setFullyQualifiedDomainName  [x] impl  [ ] docstring  [ ] test
+    # [ ] getInfrastructureServices    [x] impl  [ ] docstring  [ ] test
+    # [ ] setInfrastructureServices    [x] impl  [ ] docstring  [ ] test
+    # [ ] getIpSecConfig               [x] impl  [ ] docstring  [ ] test
+    # [ ] setIpSecConfig               [x] impl  [ ] docstring  [ ] test
+    # [ ] getNetworkEndpointAddresses  [x] impl  [ ] docstring  [ ] test
+    # [ ] addNetworkEndpointAddress    [x] impl  [ ] docstring  [ ] test
+    # [ ] getPriority                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setPriority                  [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.fullyQualifiedDomainName: String = None
+        self.infrastructureServices: InfrastructureServices = None
+        self.ipSecConfig = None
+        self.networkEndpointAddresses: List[NetworkEndpointAddress] = []
+        self.priority: PositiveInteger = None
+
+    def getFullyQualifiedDomainName(self):
+        return self.fullyQualifiedDomainName
+
+    def setFullyQualifiedDomainName(self, value):
+        self.fullyQualifiedDomainName = value
+        return self
+
+    def getInfrastructureServices(self):
+        return self.infrastructureServices
+
+    def setInfrastructureServices(self, value):
+        self.infrastructureServices = value
+        return self
+
+    def getIpSecConfig(self):
+        return self.ipSecConfig
+
+    def setIpSecConfig(self, value):
+        self.ipSecConfig = value
+        return self
+
+    def getNetworkEndpointAddresses(self):
+        return self.networkEndpointAddresses
+
+    def addNetworkEndpointAddress(self, value):
+        self.networkEndpointAddresses.append(value)
+        return self
+
+    def getPriority(self):
+        return self.priority
+
+    def setPriority(self, value):
+        self.priority = value
         return self
