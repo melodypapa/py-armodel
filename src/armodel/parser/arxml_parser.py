@@ -6301,6 +6301,8 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             config = SdClientConfig()
+            for tag in self.getTagWithOptionalValues(child_element, "CAPABILITY-RECORDS"):
+                config.addCapabilityRecord(tag)
             config.setClientServiceMajorVersion(self.getChildElementOptionalPositiveInteger(child_element, "CLIENT-SERVICE-MAJOR-VERSION"))
             config.setClientServiceMinorVersion(self.getChildElementOptionalPositiveInteger(child_element, "CLIENT-SERVICE-MINOR-VERSION"))
             config.setInitialFindBehavior(self.getInitialSdDelayConfig(child_element, "INITIAL-FIND-BEHAVIOR"))

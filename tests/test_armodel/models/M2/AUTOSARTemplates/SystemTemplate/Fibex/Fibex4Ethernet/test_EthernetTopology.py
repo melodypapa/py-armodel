@@ -12,6 +12,7 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
     CouplingPortDetails,
@@ -783,17 +784,27 @@ class TestEthernetTopology:
 
     def test_sd_client_config(self):
         """
-        Test the SdClientConfig class initialization and methods.
+        Test the SdClientConfig class initialization and methods (XSD SD-CLIENT-CONFIG group;
+        obsolete class, no R23-11 table).
         """
         config = SdClientConfig()
 
-        # Note: SdClientConfig doesn't have getCapabilityRecord() method
-        # Check other properties that exist
+        assert isinstance(config, ARObject)
+        assert config.getCapabilityRecords() == []
         assert config.getClientServiceMajorVersion() is None
         assert config.getClientServiceMinorVersion() is None
         assert config.getInitialFindBehavior() is None
         assert config.getRequestResponseDelay() is None
         assert config.getTtl() is None
+
+        # Test capability records with method chaining and None no-op
+        record = TagWithOptionalValue()
+        result = config.addCapabilityRecord(record)
+        assert config.getCapabilityRecords() == [record]
+        assert result == config  # Test method chaining
+
+        config.addCapabilityRecord(None)
+        assert config.getCapabilityRecords() == [record]
 
         # Test setting values with method chaining
         result = config.setClientServiceMajorVersion(1)

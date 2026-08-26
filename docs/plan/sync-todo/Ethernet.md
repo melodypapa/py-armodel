@@ -699,16 +699,21 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (tracker: networkEndpointRefs removal + all queue-note non-modelled members documented per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7356 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] SdClientConfig (no PDF table · p.870 source EthernetTopology.py · depends on TagWithOptionalValue above; fixes capabilityRecord type)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] SdClientConfig (no PDF table · p.870 source EthernetTopology.py · depends on TagWithOptionalValue above; fixes capabilityRecord type) — STAMP DEFERRED (batch 9b pending); XSD-ONLY CLASS (obsolete, no R23-11 table) — Rule 0002 exclusion, no # Spec line/marker applicable
+  - [x] Step 1 — Derive members from XSD SD-CLIENT-CONFIG group; Base ARObject; 6 members;
+    "fixes capabilityRecord type" resolved: single TagWithOptionalValue field → List[TagWithOptionalValue]
+    with addCapabilityRecord/getCapabilityRecords per Rule 0001.5
+  - [x] Step 2 — Model test rewritten to spec shape (Red)
+  - [x] Step 3 — Implement model class (Green) — verbatim XSD Notes, typed fields, guarded setters
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5/6 — Reader/writer round-trip test + wiring
+    (tests/test_armodel/writer/test_sd_client_config.py; CAPABILITY-RECORDS wired via
+     getTagWithOptionalValues/setTagWithOptionalValues in both reader and writer)
+  - [x] Step 7 — Checklist comment (XSD-only form, all rows checked, no marker)
+  - [x] Step 8 — Deviations
+    (tracker: new SdClientConfig section, zero open deviations)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7360 passed, black/black-check/lint clean; marker N/A per Rule 0002)
 - [ ] SocketConnection (obsolete · p.2057 · source Fibex4Ethernet/EthernetCommunication.py · adds autosarConnector, doIpSourceAddressRef/doIpTargetAddressRef, ident → TpConnectionIdent, localPortRef/remotePortRef → SocketAddress Ref, nPduRef, socketProtocol) — SYNCED AHEAD OF SoAdConfig (dependency-first, Rule 0016.5); XSD-ONLY CLASS: no R23-11 table exists (obsolete, Rel 4.4.0 documentation) — Rule 0002 exclusion, no # Spec line/marker applicable
   - [x] Step 1 — Derive members from XSD SOCKET-CONNECTION group (AUTOSAR_00052.xsd); Base ARObject+DESCRIBABLE → stays Describable; 19 elements incl. 8 newly modelled
   - [x] Step 2 — Model test rewritten to XSD shape (Red — new accessors missing)

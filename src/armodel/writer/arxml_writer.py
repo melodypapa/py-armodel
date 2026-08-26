@@ -6786,6 +6786,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if config is not None:
             child_element = ET.SubElement(element, key)
 
+            self.setTagWithOptionalValues(child_element, "CAPABILITY-RECORDS", config.getCapabilityRecords())
             self.setChildElementOptionalPositiveInteger(child_element, "CLIENT-SERVICE-MAJOR-VERSION", config.getClientServiceMajorVersion())
             self.setChildElementOptionalPositiveInteger(child_element, "CLIENT-SERVICE-MINOR-VERSION", config.getClientServiceMinorVersion())
             self.setInitialSdDelayConfig(child_element, "INITIAL-FIND-BEHAVIOR", config.getInitialFindBehavior())

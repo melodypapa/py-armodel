@@ -1490,6 +1490,20 @@ CanXlProps unconfirmed), ipV6PathMtuEnabled/ipV6PathMtuTimeout (atp.Status=remov
 | `slaveActAsPassiveCommunicationSlave` | `Optional[Boolean]` | `slaveActAs Passive Communication Slave` | ``Boolean`` | attr | - |
 | `slaveQualifiedUnexpectedLinkDownTime` | `Optional[TimeValue]` | `slaveQualified UnexpectedLink DownTime` | ``TimeValue`` | attr | - |
 
+## `SdClientConfig`
+- **PDF:** n/a — obsolete class, no R23-11 table; attributes derived from the XSD `SD-CLIENT-CONFIG` group in `docs/requirements/xsd/AUTOSAR_00052.xsd` (Rule 0002)
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+
+| Name in source code | Type (source) | Member name (XSD) | Type (XSD) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `capabilityRecords` | `List[TagWithOptionalValue]` | `capabilityRecord` | ``TagWithOptionalValue`` | aggr | singular spec member modelled per project convention (`addCapabilityRecord`/`getCapabilityRecords`, wrapper CAPABILITY-RECORDS); fixes the former single-object `capabilityRecord` field |
+| `clientServiceMajorVersion` | `Optional[PositiveInteger]` | `clientServiceMajorVersion` | ``PositiveInteger`` | attr | - |
+| `clientServiceMinorVersion` | `Optional[PositiveInteger]` | `clientServiceMinorVersion` | ``PositiveInteger`` | attr | - |
+| `initialFindBehavior` | `Optional[InitialSdDelayConfig]` | `initialFindBehavior` | ``InitialSdDelayConfig`` | aggr | - |
+| `requestResponseDelay` | `Optional[RequestResponseDelay]` | `requestResponseDelay` | ``RequestResponseDelay`` | aggr | - |
+| `ttl` | `Optional[PositiveInteger]` | `ttl` | ``PositiveInteger`` | attr | - |
+
 ## `CouplingPortDetails`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 122  | **table:** Table 3.63
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`

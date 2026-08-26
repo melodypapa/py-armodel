@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     TimeValue,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
 
@@ -1034,70 +1035,121 @@ class InitialSdDelayConfig(ARObject):
 
 class SdClientConfig(ARObject):
     """
-    Configures Service Discovery (SD) client properties, including
-    service version requirements, delay configurations, and TTL settings
-    for service discovery communication in the network.
+    Client configuration for Service-Discovery.
     """
 
-    # SdClientConfig method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getClientServiceMajorVersion [x] impl  [ ] docstring  [ ] test
-    # [ ] setClientServiceMajorVersion [x] impl  [ ] docstring  [ ] test
-    # [ ] getClientServiceMinorVersion [x] impl  [ ] docstring  [ ] test
-    # [ ] setClientServiceMinorVersion [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitialFindBehavior       [x] impl  [ ] docstring  [ ] test
-    # [ ] setInitialFindBehavior       [x] impl  [ ] docstring  [ ] test
-    # [ ] getRequestResponseDelay      [x] impl  [ ] docstring  [ ] test
-    # [ ] setRequestResponseDelay      [x] impl  [ ] docstring  [ ] test
-    # [ ] getTtl                       [x] impl  [ ] docstring  [ ] test
-    # [ ] setTtl                       [x] impl  [ ] docstring  [ ] test
+    # SdClientConfig method parity checklist (XSD-only class — obsolete, no R23-11 PDF table; Rule 0002:
+    # attributes derived from the AUTOSAR_00052.xsd SD-CLIENT-CONFIG group; no # Spec line, no marker):
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addCapabilityRecord           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCapabilityRecords          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getClientServiceMajorVersion  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setClientServiceMajorVersion  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getClientServiceMinorVersion  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setClientServiceMinorVersion  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getInitialFindBehavior        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setInitialFindBehavior        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRequestResponseDelay       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRequestResponseDelay       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTtl                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTtl                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.capabilityRecord = None  # type: TagWithOptionalValue
-        self.clientServiceMajorVersion = None  # type: PositiveInteger
-        self.clientServiceMinorVersion = None  # type: PositiveInteger
-        self.initialFindBehavior = None  # type: InitialSdDelayConfig
-        self.requestResponseDelay = None  # type: RequestResponseDelay
-        self.ttl = None  # type: PositiveInteger
+        # A sequence of records to store arbitrary name/value pairs conveying additional information about the named service.
+        self.capabilityRecords: List[TagWithOptionalValue] = []
 
-    def getClientServiceMajorVersion(self):
+        # Major version number of the Service.
+        self.clientServiceMajorVersion: Optional[PositiveInteger] = None
+
+        # Minor version number of the Service.
+        self.clientServiceMinorVersion: Optional[PositiveInteger] = None
+
+        # Controls initial find behavior of clients.
+        self.initialFindBehavior: Optional[InitialSdDelayConfig] = None
+
+        # Maximum/Minimum allowable response delay to entries received by multicast in seconds.
+        self.requestResponseDelay: Optional[RequestResponseDelay] = None
+
+        # TTL for Request and Subscribe messages.
+        self.ttl: Optional[PositiveInteger] = None
+
+    def addCapabilityRecord(self, value: Optional[TagWithOptionalValue]) -> "SdClientConfig":
+        """
+        A sequence of records to store arbitrary name/value pairs conveying additional information about the named service.
+        A None value is a no-op and does not append to capabilityRecords.
+        """
+        if value is not None:
+            self.capabilityRecords.append(value)
+        return self
+
+    def getCapabilityRecords(self) -> List[TagWithOptionalValue]:
+        """A sequence of records to store arbitrary name/value pairs conveying additional information about the named service."""
+        return self.capabilityRecords
+
+    def getClientServiceMajorVersion(self) -> Optional[PositiveInteger]:
+        """Major version number of the Service."""
         return self.clientServiceMajorVersion
 
-    def setClientServiceMajorVersion(self, value):
+    def setClientServiceMajorVersion(self, value: Optional[PositiveInteger]) -> "SdClientConfig":
+        """
+        Major version number of the Service.
+        A None value is a no-op and does not overwrite an existing clientServiceMajorVersion.
+        """
         if value is not None:
             self.clientServiceMajorVersion = value
         return self
 
-    def getClientServiceMinorVersion(self):
+    def getClientServiceMinorVersion(self) -> Optional[PositiveInteger]:
+        """Minor version number of the Service."""
         return self.clientServiceMinorVersion
 
-    def setClientServiceMinorVersion(self, value):
+    def setClientServiceMinorVersion(self, value: Optional[PositiveInteger]) -> "SdClientConfig":
+        """
+        Minor version number of the Service.
+        A None value is a no-op and does not overwrite an existing clientServiceMinorVersion.
+        """
         if value is not None:
             self.clientServiceMinorVersion = value
         return self
 
-    def getInitialFindBehavior(self):
+    def getInitialFindBehavior(self) -> Optional[InitialSdDelayConfig]:
+        """Controls initial find behavior of clients."""
         return self.initialFindBehavior
 
-    def setInitialFindBehavior(self, value):
+    def setInitialFindBehavior(self, value: Optional[InitialSdDelayConfig]) -> "SdClientConfig":
+        """
+        Controls initial find behavior of clients.
+        A None value is a no-op and does not overwrite an existing initialFindBehavior.
+        """
         if value is not None:
             self.initialFindBehavior = value
         return self
 
-    def getRequestResponseDelay(self):
+    def getRequestResponseDelay(self) -> Optional[RequestResponseDelay]:
+        """Maximum/Minimum allowable response delay to entries received by multicast in seconds."""
         return self.requestResponseDelay
 
-    def setRequestResponseDelay(self, value):
+    def setRequestResponseDelay(self, value: Optional[RequestResponseDelay]) -> "SdClientConfig":
+        """
+        Maximum/Minimum allowable response delay to entries received by multicast in seconds.
+        A None value is a no-op and does not overwrite an existing requestResponseDelay.
+        """
         if value is not None:
             self.requestResponseDelay = value
         return self
 
-    def getTtl(self):
+    def getTtl(self) -> Optional[PositiveInteger]:
+        """TTL for Request and Subscribe messages."""
         return self.ttl
 
-    def setTtl(self, value):
+    def setTtl(self, value: Optional[PositiveInteger]) -> "SdClientConfig":
+        """
+        TTL for Request and Subscribe messages.
+        A None value is a no-op and does not overwrite an existing ttl.
+        """
         if value is not None:
             self.ttl = value
         return self
