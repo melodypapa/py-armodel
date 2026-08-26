@@ -1,6 +1,6 @@
 """
 This module contains tests for the AutosarVariableInstance class in the
-AUTOSAR CommonStructure.Timing.TimingCondition module.
+AUTOSAR CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR

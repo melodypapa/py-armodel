@@ -85,8 +85,8 @@ queued and synced — see its row below.)
   - [x] Step 8 — Deviations: resolved — modeInstance now typed Optional[ModeInSwcBswInstanceRef]; the abstract base placeholder is implemented (no deferred deviation remains)
   - [x] Step 9 — Verify (9a) + confirm (9b) — # Spec verified: R23-11 stamped
 - [x] OperationArgumentInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00052.xsd OPERATION-ARGUMENT-IN-COMPONENT-INSTANCE-REF group · package TDEventOccurrenceExpression (relocated from TimingCondition per user review, 00052.xsd complexType comment) · dependency of AutosarOperationArgumentInstance.operationArgumentInstance · parallels ModeInSwcInstanceRef · no own PDF table; stamped `# XSD verified: AUTOSAR_00052.xsd`) [45453e9f]
-- [x] AutosarOperationArgumentInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.53 · operationArgumentInstance re-typed to aggregate OperationArgumentInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingArgument placeholder · RELOCATED to Timing/TimingDescription/TimingDescriptionEvents/TDEventOccurrenceExpression/ per user review — spec package per AUTOSAR_00052.xsd) [1570df56] · user review round 2: confirmed
-- [x] VariableInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00052.xsd VARIABLE-IN-COMPONENT-INSTANCE-REF group (verified vs 00052: PASSED) · dependency of AutosarVariableInstance.variableInstance · parallels ModeInSwcInstanceRef · no own PDF table; stamped `# XSD verified: AUTOSAR_00052.xsd`; RELOCATED to TDEventOccurrenceExpression pkg per user review) [98cf27e2]
+- [x] AutosarOperationArgumentInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.53 · operationArgumentInstance re-typed to aggregate OperationArgumentInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingArgument placeholder · RELOCATED to leaf module Timing/TimingDescription/TimingDescriptionEvents/TDEventOccurrenceExpression.py (Rule 0007; 4 classes direct members) — spec package per AUTOSAR_00052.xsd) [1570df56] · user review round 2: confirmed
+- [x] VariableInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00052.xsd VARIABLE-IN-COMPONENT-INSTANCE-REF group (verified vs 00052: PASSED) · dependency of AutosarVariableInstance.variableInstance · parallels ModeInSwcInstanceRef · no own PDF table; stamped `# XSD verified: AUTOSAR_00052.xsd`; RELOCATED to TDEventOccurrenceExpression leaf module (Rule 0007) per user review) [98cf27e2]
   - [x] Step 1 — Sync members & description from XSD
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green) — base AtpInstanceRef; 5 RefType members matching XSD sequenceOffset order
@@ -126,7 +126,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
-- [ ] SynchronizationTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.55 · enum · consumed by SynchronizationTimingConstraint.synchronizationConstraintType · RELOCATED to Timing/TimingConstraint/SynchronizationTimingConstraint/ per user review
+- [ ] SynchronizationTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.55 · enum · consumed by SynchronizationTimingConstraint.synchronizationConstraintType · RELOCATED to leaf module Timing/TimingConstraint/SynchronizationTimingConstraint.py (Rule 0007 leaf form, all 3 classes direct members)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -136,7 +136,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
-- [ ] EventOccurrenceKindEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.56 · enum · consumed by SynchronizationTimingConstraint.eventOccurrenceKind · RELOCATED to Timing/TimingConstraint/SynchronizationTimingConstraint/ per user review
+- [ ] EventOccurrenceKindEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.56 · enum · consumed by SynchronizationTimingConstraint.eventOccurrenceKind · RELOCATED to leaf module Timing/TimingConstraint/SynchronizationTimingConstraint.py (Rule 0007 leaf form, all 3 classes direct members)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)

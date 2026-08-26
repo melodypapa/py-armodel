@@ -1,6 +1,6 @@
 """
 This module contains tests for the VariableInComponentInstanceRef InstanceRef class in the
-AUTOSAR CommonStructure.Timing.TimingCondition module.
+AUTOSAR CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import VariableInComponentInstanceRef
