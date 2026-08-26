@@ -157,6 +157,36 @@ class CouplingPortStructuralElement(Identifiable, ABC):
         super().__init__(parent, short_name)
 
 
+class CouplingPortAbstractShaper(Identifiable, ABC):
+    """Abstract class for the definition of coupling port shapers."""
+
+    # CouplingPortAbstractShaper method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    _shaper_registry = {}
+
+    @classmethod
+    def registerShaper(cls, xml_tag: str, shaper_cls):
+        cls._shaper_registry[xml_tag] = shaper_cls
+
+    @classmethod
+    def getShaperClass(cls, xml_tag: str):
+        return cls._shaper_registry.get(xml_tag)
+
+    @classmethod
+    def getShaperTag(cls, shaper_cls):
+        for tag, shaper_class in cls._shaper_registry.items():
+            if shaper_class is shaper_cls:
+                return tag
+        return None
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is CouplingPortAbstractShaper:
+            raise TypeError("CouplingPortAbstractShaper is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+
 class CouplingPortFifo(CouplingPortStructuralElement):
     """
     Defines a FIFO for the CouplingPort egress structure.
@@ -170,8 +200,8 @@ class CouplingPortFifo(CouplingPortStructuralElement):
     # [x] getAssignedTrafficClasses    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] getMinimumFifoLength         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setMinimumFifoLength         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getShaper                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setShaper                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getShaper                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setShaper                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -183,7 +213,7 @@ class CouplingPortFifo(CouplingPortStructuralElement):
         self.minimumFifoLength: Optional[PositiveInteger] = None
 
         # Definition of the shaper to be used for the processing of this FIFO.
-        self.shaper: Optional[ARObject] = None
+        self.shaper: Optional[CouplingPortAbstractShaper] = None
 
     def addAssignedTrafficClass(self, value: Optional[PositiveInteger]) -> "CouplingPortFifo":
         """
@@ -211,11 +241,11 @@ class CouplingPortFifo(CouplingPortStructuralElement):
             self.minimumFifoLength = value
         return self
 
-    def getShaper(self) -> Optional[ARObject]:
+    def getShaper(self) -> Optional[CouplingPortAbstractShaper]:
         """Definition of the shaper to be used for the processing of this FIFO."""
         return self.shaper
 
-    def setShaper(self, value: Optional[ARObject]) -> "CouplingPortFifo":
+    def setShaper(self, value: Optional[CouplingPortAbstractShaper]) -> "CouplingPortFifo":
         """
         Definition of the shaper to be used for the processing of this FIFO.
         A None value is a no-op and does not overwrite an existing shaper.
@@ -2115,6 +2145,54 @@ class DoIpEntity(ARObject):
         return self
 
 
+class OrderedMaster(ARObject):
+    """Element in the network endpoint list."""
+
+    # OrderedMaster method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.148, p.470
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getIndex                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] setIndex                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeSyncServer            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] setTimeSyncServer            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Defines the order of the network endpoint list (e.g. 0, 1, 2, ...).
+        self.index: Optional[PositiveInteger] = None
+
+        # Reference to a master (Time Sync Server).
+        self.timeSyncServer: Optional[RefType] = None
+
+    def getIndex(self) -> Optional[PositiveInteger]:
+        """Defines the order of the network endpoint list (e.g. 0, 1, 2, ...)."""
+        return self.index
+
+    def setIndex(self, value: Optional[PositiveInteger]) -> "OrderedMaster":
+        """
+        Defines the order of the network endpoint list (e.g. 0, 1, 2, ...).
+        A None value is a no-op and does not overwrite an existing index.
+        """
+        if value is not None:
+            self.index = value
+        return self
+
+    def getTimeSyncServer(self) -> Optional[RefType]:
+        """Reference to a master (Time Sync Server)."""
+        return self.timeSyncServer
+
+    def setTimeSyncServer(self, value: Optional[RefType]) -> "OrderedMaster":
+        """
+        Reference to a master (Time Sync Server).
+        A None value is a no-op and does not overwrite an existing timeSyncServer.
+        """
+        if value is not None:
+            self.timeSyncServer = value
+        return self
+
+
 class TimeSyncClientConfiguration(ARObject):
     """
     Configures time synchronization client properties, defining
@@ -2123,16 +2201,18 @@ class TimeSyncClientConfiguration(ARObject):
     """
 
     # TimeSyncClientConfiguration method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getOrderedMasters            [x] impl  [ ] docstring  [ ] test
-    # [ ] addOrderedMaster             [x] impl  [ ] docstring  [ ] test
-    # [ ] getTimeSyncTechnology        [x] impl  [ ] docstring  [ ] test
-    # [ ] setTimeSyncTechnology        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.147, p.469
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getOrderedMasters            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addOrderedMaster             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeSyncTechnology        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] setTimeSyncTechnology        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
-        self.orderedMasters = []
+        self.orderedMasters: List[OrderedMaster] = []
         self.timeSyncTechnology = None  # type: TimeSyncTechnologyEnum
 
     def getOrderedMasters(self):

@@ -491,6 +491,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
+    CouplingPortAbstractShaper,
     CouplingPortConnection,
     CouplingPortDetails,
     CouplingPortFifo,
@@ -527,6 +528,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv6AddressSourceEnum,
     Ipv6Configuration,
     NetworkEndpoint,
+    OrderedMaster,
     TimeSyncClientConfiguration,
     TimeSyncServerConfiguration,
     TimeSyncTechnologyEnum,
@@ -6174,6 +6176,10 @@ class ARXMLParser(AbstractARXMLParser):
                     e = TimeSyncTechnologyEnum()
                     e.setValue(time_sync_technology.getValue())
                     client.setTimeSyncTechnology(e)
+                for master_element in self.findall(client_element, "ORDERED-MASTER-LIST/ORDERED-MASTER"):
+                    master = OrderedMaster()
+                    self.readOrderedMaster(master_element, master)
+                    client.addOrderedMaster(master)
                 sync.setTimeSyncClient(client)
             server_element = self.find(child_element, "TIME-SYNC-SERVER")
             if server_element is not None:
@@ -6186,6 +6192,13 @@ class ARXMLParser(AbstractARXMLParser):
                     server.setTimeSyncTechnology(e)
                 sync.setTimeSyncServer(server)
         return sync
+
+    def readOrderedMaster(self, element: ET.Element, master: OrderedMaster):
+        self.readARObjectAttributes(element, master)
+        master.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
+        ref = self.getChildElementOptionalRefType(element, "TIME-SYNC-SERVER-REF")
+        if ref is not None:
+            master.setTimeSyncServer(ref)
 
     def getInfrastructureServices(self, element: ET.Element, key: str) -> InfrastructureServices:
         services = None
@@ -8470,6 +8483,20 @@ class ARXMLParser(AbstractARXMLParser):
             value.setValue(item.text)
             fifo.addAssignedTrafficClass(value)
         fifo.setMinimumFifoLength(self.getChildElementOptionalPositiveInteger(element, "MINIMUM-FIFO-LENGTH"))
+        self.readCouplingPortFifoShaper(element, fifo)
+
+    def readCouplingPortFifoShaper(self, element: ET.Element, fifo: CouplingPortFifo):
+        shaper_element = self.find(element, "SHAPER")
+        if shaper_element is not None:
+            for child in shaper_element:
+                tag = self.getTagName(child)
+                shaper_cls = CouplingPortAbstractShaper.getShaperClass(tag)
+                if shaper_cls is not None:
+                    shaper = shaper_cls(fifo, self.getShortName(child))
+                    self.readIdentifiable(child, shaper)
+                    fifo.setShaper(shaper)
+                else:
+                    self.notImplemented("Unsupported CouplingPort shaper <%s>" % tag)
 
     def readCouplingPortScheduler(self, element: ET.Element, scheduler: CouplingPortScheduler):
         self.readCouplingPortSchedulerCouplingPortStructuralElement(element, scheduler)

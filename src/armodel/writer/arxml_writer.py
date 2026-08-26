@@ -459,6 +459,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
+    CouplingPortAbstractShaper,
     CouplingPortConnection,
     CouplingPortDetails,
     CouplingPortFifo,
@@ -488,6 +489,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv6Configuration,
     NetworkEndpoint,
     NetworkEndpointAddress,
+    TimeSyncClientConfiguration,
     TimeSynchronization,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
@@ -6639,11 +6641,23 @@ class ARXMLWriter(AbstractARXMLWriter):
             if client is not None:
                 client_element = ET.SubElement(child_element, "TIME-SYNC-CLIENT")
                 self.setChildElementOptionalLiteral(client_element, "TIME-SYNC-TECHNOLOGY", client.getTimeSyncTechnology())
+                self.writeTimeSyncClientConfigurationOrderedMasters(client_element, client)
             server = sync.getTimeSyncServer()
             if server is not None:
                 server_element = ET.SubElement(child_element, "TIME-SYNC-SERVER")
                 self.writeReferrable(server_element, server)
                 self.setChildElementOptionalLiteral(server_element, "TIME-SYNC-TECHNOLOGY", server.getTimeSyncTechnology())
+
+    def writeTimeSyncClientConfigurationOrderedMasters(self, element: ET.Element, client: TimeSyncClientConfiguration):
+        masters = client.getOrderedMasters()
+        if len(masters) > 0:
+            list_element = ET.SubElement(element, "ORDERED-MASTER-LIST")
+            for master in masters:
+                if master is not None:
+                    master_element = ET.SubElement(list_element, "ORDERED-MASTER")
+                    self.writeARObjectAttributes(master_element, master)
+                    self.setChildElementOptionalPositiveInteger(master_element, "INDEX", master.getIndex())
+                    self.setChildElementOptionalRefType(master_element, "TIME-SYNC-SERVER-REF", master.getTimeSyncServer())
 
     def setInfrastructureServices(self, element: ET.Element, key: str, services: InfrastructureServices):
         if services is not None:
@@ -8041,6 +8055,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                 for value in classes:
                     self.setChildElementOptionalPositiveInteger(classes_element, "ASSIGNED-TRAFFIC-CLASS", value)
             self.setChildElementOptionalPositiveInteger(child_element, "MINIMUM-FIFO-LENGTH", fifo.getMinimumFifoLength())
+            self.writeCouplingPortFifoShaper(child_element, fifo)
+
+    def writeCouplingPortFifoShaper(self, element: ET.Element, fifo: CouplingPortFifo):
+        shaper = fifo.getShaper()
+        if shaper is not None:
+            shaper_element = ET.SubElement(element, "SHAPER")
+            tag = CouplingPortAbstractShaper.getShaperTag(type(shaper))
+            if tag is None:
+                self.notImplemented("Unsupported CouplingPort shaper <%s>" % type(shaper).__name__)
+                return
+            child = ET.SubElement(shaper_element, tag)
+            self.writeIdentifiable(child, shaper)
 
     def writeCouplingPortScheduler(self, element: ET.Element, scheduler: CouplingPortScheduler):
         if scheduler is not None:
