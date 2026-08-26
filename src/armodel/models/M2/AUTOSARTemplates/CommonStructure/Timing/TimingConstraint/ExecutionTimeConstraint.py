@@ -29,6 +29,7 @@ class ExecutionTimeTypeEnum(AREnum):
 
     # ExecutionTimeTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.76, p.131
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on ExecutionTimeConstraint.executionTimeType
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
@@ -60,6 +61,7 @@ class ExecutionTimeConstraint(TimingConstraint):
 
     # ExecutionTimeConstraint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.75, p.130
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getComponentIRef            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
