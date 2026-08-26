@@ -620,6 +620,7 @@ class EcucValueConfigurationClass(EcucAbstractConfigurationClass):
 
     # EcucValueConfigurationClass method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.10, p.52
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self):
@@ -860,6 +861,7 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
 
     # EcucParameterDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.14, p.57
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getDerivation                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setDerivation                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -873,30 +875,56 @@ class EcucParameterDef(EcucCommonAttributes, ABC):
             raise TypeError("EcucParameterDef is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.derivation: EcucDerivationSpecification = None
-        self.symbolicNameValue: Boolean = None
-        self.withAuto: Boolean = None
+        # A derivation of a Configuration Parameter value can be specified by an informal Calculation Formula or by a formal language that can be used to specify the computational rules.
+        self.derivation: Optional[EcucDerivationSpecification] = None
 
-    def getDerivation(self) -> EcucDerivationSpecification:
+        # Specifies that this parameter's value is used, together with the aggregating container, to derive a symbolic name definition. See chapter "Representation of Symbolic Names" in Ecuc specification for more details.
+        self.symbolicNameValue: Optional[Boolean] = None
+
+        # Specifies whether it shall be allowed on the value side to specify this parameter value as "AUTO". If withAuto is "true" it shall be possible to set the "isAuto Value" attribute of the respective parameter to "true". This means that the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If withAuto is "false" it shall not be possible to set the "is AutoValue" attribute of the respective parameter to "true". If withAuto is not present the default is "false".
+        self.withAuto: Optional[Boolean] = None
+
+    def getDerivation(self) -> Optional[EcucDerivationSpecification]:
+        """
+        A derivation of a Configuration Parameter value can be specified by an informal Calculation Formula or by a formal language that can be used to specify the computational rules.
+        """
         return self.derivation
 
-    def setDerivation(self, value: EcucDerivationSpecification):
+    def setDerivation(self, value: Optional[EcucDerivationSpecification]):
+        """
+        A derivation of a Configuration Parameter value can be specified by an informal Calculation Formula or by a formal language that can be used to specify the computational rules.
+        A None value is a no-op and does not overwrite an existing derivation.
+        """
         if value is not None:
             self.derivation = value
         return self
 
-    def getSymbolicNameValue(self) -> Boolean:
+    def getSymbolicNameValue(self) -> Optional[Boolean]:
+        """
+        Specifies that this parameter's value is used, together with the aggregating container, to derive a symbolic name definition. See chapter "Representation of Symbolic Names" in Ecuc specification for more details.
+        """
         return self.symbolicNameValue
 
-    def setSymbolicNameValue(self, value: Boolean):
+    def setSymbolicNameValue(self, value: Optional[Boolean]):
+        """
+        Specifies that this parameter's value is used, together with the aggregating container, to derive a symbolic name definition. See chapter "Representation of Symbolic Names" in Ecuc specification for more details.
+        A None value is a no-op and does not overwrite an existing symbolicNameValue.
+        """
         if value is not None:
             self.symbolicNameValue = value
         return self
 
-    def getWithAuto(self) -> Boolean:
+    def getWithAuto(self) -> Optional[Boolean]:
+        """
+        Specifies whether it shall be allowed on the value side to specify this parameter value as "AUTO". If withAuto is "true" it shall be possible to set the "isAuto Value" attribute of the respective parameter to "true". This means that the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If withAuto is "false" it shall not be possible to set the "is AutoValue" attribute of the respective parameter to "true". If withAuto is not present the default is "false".
+        """
         return self.withAuto
 
-    def setWithAuto(self, value: Boolean):
+    def setWithAuto(self, value: Optional[Boolean]):
+        """
+        Specifies whether it shall be allowed on the value side to specify this parameter value as "AUTO". If withAuto is "true" it shall be possible to set the "isAuto Value" attribute of the respective parameter to "true". This means that the actual value will not be considered during ECU Configuration but will be (re-)calculated by the code generator and stored in the value attribute afterwards. These implicit updated values might require a re-generation of other modules which reference these values. If withAuto is "false" it shall not be possible to set the "is AutoValue" attribute of the respective parameter to "true". If withAuto is not present the default is "false".
+        A None value is a no-op and does not overwrite an existing withAuto.
+        """
         if value is not None:
             self.withAuto = value
         return self
@@ -1425,43 +1453,47 @@ class EcucEnumerationLiteralDef(Identifiable):
 
     # EcucEnumerationLiteralDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.24, p.67
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcucCond                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEcucCond                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getOrigin                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setOrigin                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.ecucCond: EcucConditionSpecification = None
-        self.origin: String = None
+        # If it evaluates to true the literal definition shall be processed as specified. Otherwise the literal definition shall be ignored.
+        self.ecucCond: Optional[EcucConditionSpecification] = None
 
-    def getEcucCond(self) -> EcucConditionSpecification:
+        # String specifying if this literal is an AUTOSAR standardized literal or if the literal is vendor-specific.
+        self.origin: Optional[String] = None
+
+    def getEcucCond(self) -> Optional[EcucConditionSpecification]:
         """
-        Gets the condition specification of the literal.
+        If it evaluates to true the literal definition shall be processed as specified. Otherwise the literal definition shall be ignored.
         """
         return self.ecucCond
 
-    def setEcucCond(self, value: EcucConditionSpecification) -> "EcucEnumerationLiteralDef":
+    def setEcucCond(self, value: Optional[EcucConditionSpecification]) -> "EcucEnumerationLiteralDef":
         """
-        Sets the condition specification of the literal.
-        A None value is a no-op.
+        If it evaluates to true the literal definition shall be processed as specified. Otherwise the literal definition shall be ignored.
+        A None value is a no-op and does not overwrite an existing ecucCond.
         """
         if value is not None:
             self.ecucCond = value
         return self
 
-    def getOrigin(self) -> String:
+    def getOrigin(self) -> Optional[String]:
         """
-        Gets the origin of the literal.
+        String specifying if this literal is an AUTOSAR standardized literal or if the literal is vendor-specific.
         """
         return self.origin
 
-    def setOrigin(self, value: String) -> "EcucEnumerationLiteralDef":
+    def setOrigin(self, value: Optional[String]) -> "EcucEnumerationLiteralDef":
         """
-        Sets the origin of the literal.
-        A None value is a no-op.
+        String specifying if this literal is an AUTOSAR standardized literal or if the literal is vendor-specific.
+        A None value is a no-op and does not overwrite an existing origin.
         """
         if value is not None:
             self.origin = value
@@ -1474,7 +1506,8 @@ class EcucEnumerationParamDef(EcucParameterDef):
     """
 
     # EcucEnumerationParamDef method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.23, p.68
+    # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.23, p.66
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getDefaultValue              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setDefaultValue              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -1484,19 +1517,22 @@ class EcucEnumerationParamDef(EcucParameterDef):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.defaultValue: Identifier = None
+        # Default value of the enumeration configuration parameter. This string needs to be one of the literals specified for this enumeration.
+        self.defaultValue: Optional[Identifier] = None
+
+        # Aggregation on the literals used to define this enumeration parameter. This aggregation is optional if the surrounding EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this aggregation is mandatory. Stereotypes: atpSplitable
         self.literals: List[EcucEnumerationLiteralDef] = []
 
-    def getDefaultValue(self) -> Identifier:
+    def getDefaultValue(self) -> Optional[Identifier]:
         """
-        Gets the default value of the parameter.
+        Default value of the enumeration configuration parameter. This string needs to be one of the literals specified for this enumeration.
         """
         return self.defaultValue
 
-    def setDefaultValue(self, value: Identifier) -> "EcucEnumerationParamDef":
+    def setDefaultValue(self, value: Optional[Identifier]) -> "EcucEnumerationParamDef":
         """
-        Sets the default value of the parameter.
-        A None value is a no-op.
+        Default value of the enumeration configuration parameter. This string needs to be one of the literals specified for this enumeration.
+        A None value is a no-op and does not overwrite an existing defaultValue.
         """
         if value is not None:
             self.defaultValue = value
@@ -1504,13 +1540,13 @@ class EcucEnumerationParamDef(EcucParameterDef):
 
     def getLiterals(self) -> List[EcucEnumerationLiteralDef]:
         """
-        Gets the list of enumeration literals.
+        Aggregation on the literals used to define this enumeration parameter. This aggregation is optional if the surrounding EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this aggregation is mandatory. Stereotypes: atpSplitable
         """
         return self.literals
 
     def createLiteral(self, short_name: str) -> EcucEnumerationLiteralDef:
         """
-        Creates or returns an existing EcucEnumerationLiteralDef aggregated by this parameter definition.
+        Aggregation on the literals used to define this enumeration parameter. This aggregation is optional if the surrounding EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this aggregation is mandatory. Stereotypes: atpSplitable
         """
         if not self.IsElementExists(short_name):
             literal = EcucEnumerationLiteralDef(self, short_name)
@@ -1573,6 +1609,7 @@ class EcucChoiceContainerDef(EcucContainerDef):
 
     # EcucChoiceContainerDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.5, p.41
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getChoices                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createEcucParamConfContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -1580,12 +1617,19 @@ class EcucChoiceContainerDef(EcucContainerDef):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # The choices available in a EcucChoiceContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=choice.shortName
         self.choices: List["EcucParamConfContainerDef"] = []
 
     def getChoices(self) -> List["EcucParamConfContainerDef"]:
+        """
+        The choices available in a EcucChoiceContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=choice.shortName
+        """
         return self.choices
 
     def createEcucParamConfContainerDef(self, short_name: str) -> "EcucParamConfContainerDef":
+        """
+        The choices available in a EcucChoiceContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=choice.shortName
+        """
         if not self.IsElementExists(short_name):
             choice = EcucParamConfContainerDef(self, short_name)
             self.addElement(choice)
@@ -1600,8 +1644,10 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
     # EcucParamConfContainerDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.4, p.39
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getParameters                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createEcucAddInfoParamDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createEcucBooleanParamDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createEcucStringParamDef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] createEcucIntegerParamDef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -1619,40 +1665,36 @@ class EcucParamConfContainerDef(EcucContainerDef):
     # [x] createEcucParamConfContainerDef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes an ECUCParameterDefTemplate instance.
-        Args:
-            parent (ARObject): The parent ARObject to which this template belongs.
-            short_name (str): The short name identifier for this template.
-        Attributes:
-            parameters (List[EcucParameterDef]): A list of ECUC parameter definitions.
-            references (List[EcucAbstractReferenceDef]): A list of ECUC abstract reference definitions.
-            subContainers (List[EcucContainerDef]): A list of ECUC container definitions.
-        """
         super().__init__(parent, short_name)
 
+        # The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         self.parameters: List[EcucParameterDef] = []
+
+        # The references defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=reference.shortName
         self.references: List[EcucAbstractReferenceDef] = []
+
+        # The containers defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=subContainer.shortName
         self.subContainers: List[EcucContainerDef] = []
 
     def getParameters(self) -> List[EcucParameterDef]:
         """
-        Retrieves the list of ECUC parameter definitions.
-
-        Returns:
-            List[EcucParameterDef]: A list of ECUC parameter definitions.
+        The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
         return self.parameters
 
+    def createEcucAddInfoParamDef(self, short_name: str) -> "EcucAddInfoParamDef":
+        """
+        The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
+        """
+        if not self.IsElementExists(short_name):
+            param = EcucAddInfoParamDef(self, short_name)
+            self.addElement(param)
+            self.parameters.append(param)
+        return self.getElement(short_name)
+
     def createEcucBooleanParamDef(self, short_name: str) -> EcucBooleanParamDef:
         """
-        Creates a new ECUC boolean parameter definition and adds it to the container.
-
-        Args:
-            short_name (str): The short name identifier for the new parameter definition.
-
-        Returns:
-            EcucBooleanParamDef: The newly created ECUC boolean parameter definition.
+        The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
         if not self.IsElementExists(short_name):
             param = EcucBooleanParamDef(self, short_name)
@@ -1662,14 +1704,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
     def createEcucStringParamDef(self, short_name: str) -> EcucStringParamDef:
         """
-        Creates an ECUC string parameter definition with the given short name.
-
-        Args:
-            short_name (str): The short name of the ECUC string parameter definition.
-
-        Returns:
-            EcucStringParamDef: The ECUC string parameter definition instance associated
-            with the given short name.
+        The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
         if not self.IsElementExists(short_name):
             param = EcucStringParamDef(self, short_name)
@@ -1679,14 +1714,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
     def createEcucIntegerParamDef(self, short_name: str) -> EcucIntegerParamDef:
         """
-        Creates an ECUC integer parameter definition with the given short name.
-
-        Args:
-            short_name (str): The short name of the ECUC integer parameter definition.
-
-        Returns:
-            EcucIntegerParamDef: The ECUC integer parameter definition instance associated
-            with the given short name.
+        The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
         if not self.IsElementExists(short_name):
             param = EcucIntegerParamDef(self, short_name)
@@ -1696,14 +1724,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
     def createEcucFloatParamDef(self, short_name: str) -> EcucFloatParamDef:
         """
-        Creates an ECUC float parameter definition with the given short name.
-
-        Args:
-            short_name (str): The short name of the ECUC float parameter definition.
-
-        Returns:
-            EcucFloatParamDef: The ECUC float parameter definition instance associated
-            with the given short name.
+        The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
         if not self.IsElementExists(short_name):
             param = EcucFloatParamDef(self, short_name)
@@ -1713,14 +1734,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
     def createEcucEnumerationParamDef(self, short_name: str) -> EcucEnumerationParamDef:
         """
-        Creates an ECUC enumeration parameter definition with the given short name.
-
-        Args:
-            short_name (str): The short name of the ECUC enumeration parameter definition.
-
-        Returns:
-            EcucEnumerationParamDef: The ECUC enumeration parameter definition instance associated
-            with the given short name.
+        The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
         if not self.IsElementExists(short_name):
             param = EcucEnumerationParamDef(self, short_name)
@@ -1730,13 +1744,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
     def createEcucFunctionNameDef(self, short_name: str) -> EcucFunctionNameDef:
         """
-        Creates a new ECUC function name definition and adds it to the container.
-
-        Args:
-            short_name (str): The short name identifier for the new reference definition.
-
-        Returns:
-            EcucFunctionNameDef: The newly created ECUC function name definition.
+        The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
         if not self.IsElementExists(short_name):
             ref = EcucFunctionNameDef(self, short_name)
@@ -1746,13 +1754,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
     def createEcucMultilineStringParamDef(self, short_name: str) -> "EcucMultilineStringParamDef":
         """
-        Creates a new ECUC multiline string parameter definition and adds it to the container.
-
-        Args:
-            short_name (str): The short name identifier for the new parameter definition.
-
-        Returns:
-            EcucMultilineStringParamDef: The newly created ECUC multiline string parameter definition.
+        The parameters defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=parameter.shortName
         """
         if not self.IsElementExists(short_name):
             param = EcucMultilineStringParamDef(self, short_name)
@@ -1762,22 +1764,13 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
     def getReferences(self) -> List[EcucAbstractReferenceDef]:
         """
-        Retrieves the list of ECUC abstract reference definitions.
-
-        Returns:
-            List[EcucAbstractReferenceDef]: A list of ECUC abstract reference definitions.
+        The references defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=reference.shortName
         """
         return self.references
 
     def createEcucSymbolicNameReferenceDef(self, short_name: str) -> EcucSymbolicNameReferenceDef:
         """
-        Creates a new ECUC symbolic name reference definition and adds it to the container.
-
-        Args:
-            short_name (str): The short name identifier for the new reference definition.
-
-        Returns:
-            EcucSymbolicNameReferenceDef: The newly created ECUC symbolic name reference definition.
+        The references defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=reference.shortName
         """
         if not self.IsElementExists(short_name):
             ref = EcucSymbolicNameReferenceDef(self, short_name)
@@ -1819,13 +1812,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
     def createEcucInstanceReferenceDef(self, short_name: str) -> EcucInstanceReferenceDef:
         """
-        Creates a new ECUC instance reference definition and adds it to the container.
-
-        Args:
-            short_name (str): The short name identifier for the new reference definition.
-
-        Returns:
-            EcucInstanceReferenceDef: The newly created ECUC instance reference definition.
+        The references defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=reference.shortName
         """
         if not self.IsElementExists(short_name):
             ref = EcucInstanceReferenceDef(self, short_name)
@@ -1835,22 +1822,13 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
     def getSubContainers(self) -> List[EcucContainerDef]:
         """
-        Retrieves the list of ECUC container definitions.
-
-        Returns:
-            List[EcucContainerDef]: A list of ECUC container definitions.
+        The containers defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=subContainer.shortName
         """
         return self.subContainers
 
     def createEcucChoiceContainerDef(self, short_name: str) -> EcucChoiceContainerDef:
         """
-        Creates a new ECUC choice container definition and adds it to the container.
-
-        Args:
-            short_name (str): The short name identifier for the new container definition.
-
-        Returns:
-            EcucChoiceContainerDef: The newly created ECUC choice container definition.
+        The containers defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=subContainer.shortName
         """
         if not self.IsElementExists(short_name):
             container = EcucChoiceContainerDef(self, short_name)
@@ -1860,13 +1838,7 @@ class EcucParamConfContainerDef(EcucContainerDef):
 
     def createEcucParamConfContainerDef(self, short_name: str) -> "EcucParamConfContainerDef":
         """
-        Creates a new ECUC parameter configuration container definition and adds it to the container.
-
-        Args:
-            short_name (str): The short name identifier for the new container definition.
-
-        Returns:
-            EcucParamConfContainerDef: The newly created ECUC parameter configuration container definition.
+        The containers defined within the EcucParamConfContainerDef. Stereotypes: atpSplitable Tags: atp.Splitkey=subContainer.shortName
         """
         if not self.IsElementExists(short_name):
             container = EcucParamConfContainerDef(self, short_name)
@@ -1882,6 +1854,7 @@ class EcucAddInfoParamDef(EcucParameterDef):
 
     # EcucAddInfoParamDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.25, p.68
+    # Spec verified: R23-11
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -2353,6 +2326,7 @@ class EcucModuleDef(EcucDefinitionElement):
 
     # EcucModuleDef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUConfiguration.pdf, Table 2.2, p.32
+    # Spec verified: R23-11
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getApiServicePrefix            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setApiServicePrefix            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -2386,14 +2360,14 @@ class EcucModuleDef(EcucDefinitionElement):
 
     def getApiServicePrefix(self) -> Optional[CIdentifier]:
         """
-        Gets the API namespace of the derived instances, e.g. Cdd, Xfrm (ComXf, SomeIpXf, E2EXf).
+        For modules where several instances of the VSMD can be defined the apiServicePrefix defines the API namespace of the derived instances, e.g. Cdd, Xfrm (ComXf, SomeIpXf, E2EXf).
         """
         return self.apiServicePrefix
 
     def setApiServicePrefix(self, value: Optional[CIdentifier]):
         """
-        Sets the API namespace of the derived instances, e.g. Cdd, Xfrm (ComXf, SomeIpXf, E2EXf).
-        A None value is a no-op and does not change the current value.
+        For modules where several instances of the VSMD can be defined the apiServicePrefix defines the API namespace of the derived instances, e.g. Cdd, Xfrm (ComXf, SomeIpXf, E2EXf).
+        A None value is a no-op and does not overwrite an existing apiServicePrefix.
         """
         if value is not None:
             self.apiServicePrefix = value
@@ -2401,13 +2375,13 @@ class EcucModuleDef(EcucDefinitionElement):
 
     def getContainers(self) -> List[EcucContainerDef]:
         """
-        Gets the top-level container definitions of this specific module definition.
+        Aggregates the top-level container definitions of this specific module definition. Stereotypes: atpSplitable Tags: atp.Splitkey=container.shortName xml.sequenceOffset=11
         """
         return self.containers
 
     def createEcucParamConfContainerDef(self, short_name: str) -> "EcucParamConfContainerDef":
         """
-        Creates or returns an existing EcucParamConfContainerDef aggregated as a top-level container of this module definition.
+        Aggregates the top-level container definitions of this specific module definition. Stereotypes: atpSplitable Tags: atp.Splitkey=container.shortName xml.sequenceOffset=11
         """
         if not self.IsElementExists(short_name):
             container_def = EcucParamConfContainerDef(self, short_name)
@@ -2417,7 +2391,7 @@ class EcucModuleDef(EcucDefinitionElement):
 
     def createEcucChoiceContainerDef(self, short_name: str) -> EcucChoiceContainerDef:
         """
-        Creates or returns an existing EcucChoiceContainerDef aggregated as a top-level container of this module definition.
+        Aggregates the top-level container definitions of this specific module definition. Stereotypes: atpSplitable Tags: atp.Splitkey=container.shortName xml.sequenceOffset=11
         """
         if not self.IsElementExists(short_name):
             container_def = EcucChoiceContainerDef(self, short_name)
@@ -2425,31 +2399,31 @@ class EcucModuleDef(EcucDefinitionElement):
             self.containers.append(container_def)
         return self.getElement(short_name)
 
-    def getPostBuildVariantSupport(self) -> Boolean:
+    def getPostBuildVariantSupport(self) -> Optional[Boolean]:
         """
-        Gets whether a module supports different post-build variants. TRUE means yes, FALSE means no.
+        Indicates if a module supports different post-build variants (previously known as post-build selectable configuration sets). TRUE means yes, FALSE means no.
         """
         return self.postBuildVariantSupport
 
-    def setPostBuildVariantSupport(self, value: Boolean):
+    def setPostBuildVariantSupport(self, value: Optional[Boolean]):
         """
-        Sets whether a module supports different post-build variants. TRUE means yes, FALSE means no.
-        A None value is a no-op and does not change the current value.
+        Indicates if a module supports different post-build variants (previously known as post-build selectable configuration sets). TRUE means yes, FALSE means no.
+        A None value is a no-op and does not overwrite an existing postBuildVariantSupport.
         """
         if value is not None:
             self.postBuildVariantSupport = value
         return self
 
-    def getRefinedModuleDefRef(self) -> RefType:
+    def getRefinedModuleDefRef(self) -> Optional[RefType]:
         """
-        Gets the optional reference from the Vendor Specific Module Definition to the Standardized Module Definition it refines.
+        Optional reference from the Vendor Specific Module Definition to the Standardized Module Definition it refines. In case this EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION this reference shall not be provided. In case this EcucModuleDef has the category VENDOR_SPECIFIC_MODULE_DEFINITION this reference is mandatory. Stereotypes: atpUriDef
         """
         return self.refinedModuleDefRef
 
-    def setRefinedModuleDefRef(self, value: RefType):
+    def setRefinedModuleDefRef(self, value: Optional[RefType]):
         """
-        Sets the optional reference from the Vendor Specific Module Definition to the Standardized Module Definition it refines.
-        A None value is a no-op and does not change the current value.
+        Optional reference from the Vendor Specific Module Definition to the Standardized Module Definition it refines. In case this EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION this reference shall not be provided. In case this EcucModuleDef has the category VENDOR_SPECIFIC_MODULE_DEFINITION this reference is mandatory. Stereotypes: atpUriDef
+        A None value is a no-op and does not overwrite an existing refinedModuleDefRef.
         """
         if value is not None:
             self.refinedModuleDefRef = value
@@ -2457,13 +2431,13 @@ class EcucModuleDef(EcucDefinitionElement):
 
     def getSupportedConfigVariants(self) -> List[EcucConfigurationVariantEnum]:
         """
-        Gets the ConfigurationVariants supported by this software module.
+        Specifies which ConfigurationVariants are supported by this software module. This attribute is optional if the EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this attribute is mandatory.
         """
         return self.supportedConfigVariants
 
-    def addSupportedConfigVariant(self, value: EcucConfigurationVariantEnum):
+    def addSupportedConfigVariant(self, value: Optional[EcucConfigurationVariantEnum]):
         """
-        Adds a ConfigurationVariant supported by this software module.
+        Specifies which ConfigurationVariants are supported by this software module. This attribute is optional if the EcucModuleDef has the category STANDARDIZED_MODULE_DEFINITION. If the category attribute of the EcucModuleDef is set to VENDOR_SPECIFIC_MODULE_DEFINITION then this attribute is mandatory.
         A None value is a no-op and does not append anything.
         """
         if value is not None:

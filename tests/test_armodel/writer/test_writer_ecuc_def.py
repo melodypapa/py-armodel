@@ -1196,3 +1196,37 @@ class TestWriterEcucValidationCondition:
         finally:
             if os.path.exists(tmp_path):
                 os.unlink(tmp_path)
+
+
+class TestWriterEcucAddInfoParamDef:
+    def _make_container(self):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        pkg = AUTOSAR.getInstance().createARPackage("Pkg")
+        module = pkg.createEcucModuleDef("Mod")
+        return module.createEcucParamConfContainerDef("Ct")
+
+    def test_round_trip(self, writer):
+        import os
+        import tempfile
+
+        container = self._make_container()
+        add_info = container.createEcucAddInfoParamDef("AddInfo")
+        add_info.setOrigin(_literal("AUTOSAR_ECUC"))
+        with tempfile.NamedTemporaryFile(suffix=".arxml", delete=False) as tmp:
+            tmp_path = tmp.name
+        try:
+            ARXMLWriter().save(tmp_path, AUTOSAR.getInstance())
+            AUTOSAR.getInstance().new()
+            AUTOSAR.getInstance().setARRelease("R23-11")
+            ARXMLParser().load(tmp_path, AUTOSAR.getInstance())
+            reloaded_pkg = AUTOSAR.getInstance().getARPackages()[0]
+            reloaded_module = reloaded_pkg.getElement("Mod", EcucModuleDef)
+            reloaded_container = reloaded_module.getElement("Ct", EcucParamConfContainerDef)
+            params = reloaded_container.getParameters()
+            assert len(params) == 1
+            rt = params[0]
+            assert rt.getShortName() == "AddInfo"
+            assert rt.getOrigin().getValue() == "AUTOSAR_ECUC"
+        finally:
+            if os.path.exists(tmp_path):
+                os.unlink(tmp_path)

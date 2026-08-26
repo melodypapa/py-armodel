@@ -8,7 +8,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, ARBoolean, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, UnlimitedInteger
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeDeclaration
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TransmissionModeDeclaration, TriggerIPduSendCondition
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
@@ -37,61 +38,102 @@ class FibexElement(PackageableElement, ABC):
 
 class PduToFrameMapping(Identifiable):
     """
-    Defines the mapping between Protocol Data Units (PDUs) and frames,
-    specifying how PDUs are embedded within frames including byte order,
-    start position, and update indication bit position.
+    A PduToFrameMapping defines the composition of Pdus in each frame.
     """
 
     # PduToFrameMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getPackingByteOrder          [x] impl  [ ] docstring  [ ] test
-    # [ ] setPackingByteOrder          [x] impl  [ ] docstring  [ ] test
-    # [ ] getPduRef                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setPduRef                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getStartPosition             [x] impl  [ ] docstring  [ ] test
-    # [ ] setStartPosition             [x] impl  [ ] docstring  [ ] test
-    # [ ] getUpdateIndicationBitPosition [x] impl  [ ] docstring  [ ] test
-    # [ ] setUpdateIndicationBitPosition [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.29, p.347
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getPackingByteOrder             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPackingByteOrder             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPduRef                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPduRef                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getStartPosition                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setStartPosition                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUpdateIndicationBitPosition  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUpdateIndicationBitPosition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.packingByteOrder: ARLiteral = None
-        self.pduRef: RefType = None
-        self.startPosition: ARNumerical = None
-        self.updateIndicationBitPosition: ARNumerical = None
+        # This attribute defines the order of the bytes of the Pdu and the packing into the Frame. Please consider that [constr_3246] and [constr_3222] are restricting the usage of this attribute.
+        self.packingByteOrder: Optional[ByteOrderEnum] = None
 
-    def getPackingByteOrder(self):
+        # Reference to a I-Pdu, N-Pdu or NmPdu that is transmitted in the Frame.
+        self.pduRef: Optional[RefType] = None
+
+        # This attribute describes the bitposition of a Pdu within a Frame. Please note that the absolute position of the Pdu in the Frame is determined by the definition of the packingByteOrder attribute. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the Frame. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the Frame. The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. The Pdus are byte aligned in a Frame and only the values 0, 8, 16, 24,... (for little endian) and 7, 15, 23, ... (for big endian) are allowed.
+        self.startPosition: Optional[Integer] = None
+
+        # Indication to the receivers that the corresponding Pdu was updated by the sender. This attribute describes the position of the update bit in the frame that aggregates this PDUToFrameMapping. Length is always one bit. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing Frame still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian".
+        self.updateIndicationBitPosition: Optional[Integer] = None
+
+    def getPackingByteOrder(self) -> Optional[ByteOrderEnum]:
+        """
+        This attribute defines the order of the bytes of the Pdu and the packing into the Frame. Please consider that [constr_3246] and [constr_3222] are restricting the usage of this attribute.
+        """
         return self.packingByteOrder
 
-    def setPackingByteOrder(self, value):
-        self.packingByteOrder = value
+    def setPackingByteOrder(self, value: Optional[ByteOrderEnum]) -> "PduToFrameMapping":
+        """
+        This attribute defines the order of the bytes of the Pdu and the packing into the Frame. Please consider that [constr_3246] and [constr_3222] are restricting the usage of this attribute.
+        A None value is a no-op and does not overwrite an existing packingByteOrder.
+        """
+        if value is not None:
+            self.packingByteOrder = value
         return self
 
-    def getPduRef(self):
+    def getPduRef(self) -> Optional[RefType]:
+        """
+        Reference to a I-Pdu, N-Pdu or NmPdu that is transmitted in the Frame.
+        """
         return self.pduRef
 
-    def setPduRef(self, value):
-        self.pduRef = value
+    def setPduRef(self, value: Optional[RefType]) -> "PduToFrameMapping":
+        """
+        Reference to a I-Pdu, N-Pdu or NmPdu that is transmitted in the Frame.
+        A None value is a no-op and does not overwrite an existing pduRef.
+        """
+        if value is not None:
+            self.pduRef = value
         return self
 
-    def getStartPosition(self):
+    def getStartPosition(self) -> Optional[Integer]:
+        """
+        This attribute describes the bitposition of a Pdu within a Frame. Please note that the absolute position of the Pdu in the Frame is determined by the definition of the packingByteOrder attribute. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the Frame. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the Frame. The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. The Pdus are byte aligned in a Frame and only the values 0, 8, 16, 24,... (for little endian) and 7, 15, 23, ... (for big endian) are allowed.
+        """
         return self.startPosition
 
-    def setStartPosition(self, value):
-        self.startPosition = value
+    def setStartPosition(self, value: Optional[Integer]) -> "PduToFrameMapping":
+        """
+        This attribute describes the bitposition of a Pdu within a Frame. Please note that the absolute position of the Pdu in the Frame is determined by the definition of the packingByteOrder attribute. If Big Endian is specified, the start position indicates the bit position of the most significant bit in the Frame. If Little Endian is specified, the start position indicates the bit position of the least significant bit in the Frame. The bit counting in byte 0 starts with bit 0 (least significant bit). The most significant bit in byte 0 is bit 7. The Pdus are byte aligned in a Frame and only the values 0, 8, 16, 24,... (for little endian) and 7, 15, 23, ... (for big endian) are allowed.
+        A None value is a no-op and does not overwrite an existing startPosition.
+        """
+        if value is not None:
+            self.startPosition = value
         return self
 
-    def getUpdateIndicationBitPosition(self):
+    def getUpdateIndicationBitPosition(self) -> Optional[Integer]:
+        """
+        Indication to the receivers that the corresponding Pdu was updated by the sender. This attribute describes the position of the update bit in the frame that aggregates this PDUToFrameMapping. Length is always one bit. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing Frame still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian".
+        """
         return self.updateIndicationBitPosition
 
-    def setUpdateIndicationBitPosition(self, value):
-        self.updateIndicationBitPosition = value
+    def setUpdateIndicationBitPosition(self, value: Optional[Integer]) -> "PduToFrameMapping":
+        """
+        Indication to the receivers that the corresponding Pdu was updated by the sender. This attribute describes the position of the update bit in the frame that aggregates this PDUToFrameMapping. Length is always one bit. Note that the exact bit position of the updateIndicationBitPosition is linked to the value of the attribute packingByteOrder because the method of finding the bit position is different for the values mostSignificantByteFirst and mostSignificantByteLast. This means that if the value of packingByteOrder is changed while the value of updateIndicationBitPosition remains unchanged the exact bit position of updateIndicationBitPosition within the enclosing Frame still undergoes a change. This attribute denotes the least significant bit for "Little Endian" and the most significant bit for "Big Endian".
+        A None value is a no-op and does not overwrite an existing updateIndicationBitPosition.
+        """
+        if value is not None:
+            self.updateIndicationBitPosition = value
         return self
 
 
 class Frame(FibexElement, ABC):
     """
+    Data frame which is sent over a communication medium. This element describes the pure Layout of a frame sent on a channel.
     Data frame which is sent over a communication medium. This element describes the pure Layout of a frame sent on a channel.
     """
 
@@ -99,11 +141,11 @@ class Frame(FibexElement, ABC):
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.78, p.418
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFrameLength               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFrameLength               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] createPduToFrameMapping      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPduToFrameMappings        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getFrameLength            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFrameLength            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createPduToFrameMapping   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPduToFrameMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Frame:
@@ -114,7 +156,7 @@ class Frame(FibexElement, ABC):
         # The used length (in bytes) of the referencing frame. Should not be confused with a static byte length reserved for each frame by some platforms (e.g. FlexRay). The frameLength of zero bytes is allowed. Please consider also TPS_SYST_02255.
         self.frameLength: Optional[Integer] = None
 
-        # A frames layout as a sequence of Pdus. atpVariation: The content of a frame can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduToFrameMapping.shortName, pduTo FrameMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        # A frames layout as a sequence of Pdus. atpVariation: The content of a frame can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduToFrameMapping.shortName, pduToFrameMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.pduToFrameMappings: List[PduToFrameMapping] = []
 
     def getFrameLength(self) -> Optional[Integer]:
@@ -133,9 +175,6 @@ class Frame(FibexElement, ABC):
         return self
 
     def createPduToFrameMapping(self, short_name: str) -> PduToFrameMapping:
-        """
-        A frames layout as a sequence of Pdus. atpVariation: The content of a frame can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduToFrameMapping.shortName, pduTo FrameMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        """
         if not self.IsElementExists(short_name):
             mapping = PduToFrameMapping(self, short_name)
             self.addElement(mapping)
@@ -143,10 +182,7 @@ class Frame(FibexElement, ABC):
         return self.getElement(short_name, PduToFrameMapping)
 
     def getPduToFrameMappings(self) -> List[PduToFrameMapping]:
-        """
-        A frames layout as a sequence of Pdus. atpVariation: The content of a frame can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduToFrameMapping.shortName, pduTo FrameMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
-        """
-        return self.pduToFrameMappings
+        return list(sorted(filter(lambda a: isinstance(a, PduToFrameMapping), self.elements), key=lambda o: o.short_name))
 
 
 class ContainedIPduProps(ARObject):
@@ -989,60 +1025,95 @@ class ISignalToIPduMapping(Identifiable):
 
 class NmPdu(Pdu):
     """
-    Represents a Network Management Protocol Data Unit (PDU) used for
-    network management communication including node monitoring,
-    wake-up, and sleep state management.
+    Network Management Pdu Tags: atp.recommendedPackage=Pdus
     """
 
     # NmPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalToIPduMappings     [x] impl  [ ] docstring  [ ] test
-    # [ ] createISignalToIPduMapping   [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmDataInformation         [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmDataInformation         [x] impl  [ ] docstring  [ ] test
-    # [ ] getNmVoteInformation         [x] impl  [ ] docstring  [ ] test
-    # [ ] setNmVoteInformation         [x] impl  [ ] docstring  [ ] test
-    # [ ] getUnusedBitPattern          [x] impl  [ ] docstring  [ ] test
-    # [ ] setUnusedBitPattern          [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.20, p.343
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getISignalToIPduMappings     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createISignalToIPduMapping   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNmDataInformation         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNmDataInformation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNmVoteInformation         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setNmVoteInformation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUnusedBitPattern          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUnusedBitPattern          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # This optional aggregation is used to describe NmUserData that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
         self.iSignalToIPduMappings: List[ISignalToIPduMapping] = []
-        self.nmDataInformation: Boolean = None
-        self.nmVoteInformation: Boolean = None
-        self.unusedBitPattern: Integer = None
 
-    def getISignalToIPduMappings(self):
+        # Defines if the Pdu contains NM Data. If the NmPdu does not aggregate any ISignalToIPduMappings it still may contain UserData that is set via Nm_SetUserData(). If the ISignalToIPduMapping exists then the nmDataInformation attribute shall be ignored.
+        self.nmDataInformation: Optional[Boolean] = None
+
+        # Defines if the Pdu contains NM Vote information.
+        self.nmVoteInformation: Optional[Boolean] = None
+
+        # AUTOSAR COM is filling not used areas of an Pdu with this bit-pattern. This attribute can only be used if the nmDataInformation attribute is set to true.
+        self.unusedBitPattern: Optional[Integer] = None
+
+    def getISignalToIPduMappings(self) -> List[ISignalToIPduMapping]:
+        """
+        This optional aggregation is used to describe NmUserData that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
+        """
         return self.iSignalToIPduMappings
 
     def createISignalToIPduMapping(self, short_name: str) -> ISignalToIPduMapping:
+        """
+        This optional aggregation is used to describe NmUserData that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
+        """
         if not self.IsElementExists(short_name):
             mapping = ISignalToIPduMapping(self, short_name)
             self.addElement(mapping)
             self.iSignalToIPduMappings.append(mapping)
         return self.getElement(short_name, ISignalToIPduMapping)
 
-    def getNmDataInformation(self):
+    def getNmDataInformation(self) -> Optional[Boolean]:
+        """
+        Defines if the Pdu contains NM Data. If the NmPdu does not aggregate any ISignalToIPduMappings it still may contain UserData that is set via Nm_SetUserData(). If the ISignalToIPduMapping exists then the nmDataInformation attribute shall be ignored.
+        """
         return self.nmDataInformation
 
-    def setNmDataInformation(self, value):
+    def setNmDataInformation(self, value: Optional[Boolean]) -> "NmPdu":
+        """
+        Defines if the Pdu contains NM Data. If the NmPdu does not aggregate any ISignalToIPduMappings it still may contain UserData that is set via Nm_SetUserData(). If the ISignalToIPduMapping exists then the nmDataInformation attribute shall be ignored.
+        A None value is a no-op and does not overwrite an existing nmDataInformation.
+        """
         if value is not None:
             self.nmDataInformation = value
         return self
 
-    def getNmVoteInformation(self):
+    def getNmVoteInformation(self) -> Optional[Boolean]:
+        """
+        Defines if the Pdu contains NM Vote information.
+        """
         return self.nmVoteInformation
 
-    def setNmVoteInformation(self, value):
+    def setNmVoteInformation(self, value: Optional[Boolean]) -> "NmPdu":
+        """
+        Defines if the Pdu contains NM Vote information.
+        A None value is a no-op and does not overwrite an existing nmVoteInformation.
+        """
         if value is not None:
             self.nmVoteInformation = value
         return self
 
-    def getUnusedBitPattern(self):
+    def getUnusedBitPattern(self) -> Optional[Integer]:
+        """
+        AUTOSAR COM is filling not used areas of an Pdu with this bit-pattern. This attribute can only be used if the nmDataInformation attribute is set to true.
+        """
         return self.unusedBitPattern
 
-    def setUnusedBitPattern(self, value):
+    def setUnusedBitPattern(self, value: Optional[Integer]) -> "NmPdu":
+        """
+        AUTOSAR COM is filling not used areas of an Pdu with this bit-pattern. This attribute can only be used if the nmDataInformation attribute is set to true.
+        A None value is a no-op and does not overwrite an existing unusedBitPattern.
+        """
         if value is not None:
             self.unusedBitPattern = value
         return self
@@ -1050,12 +1121,14 @@ class NmPdu(Pdu):
 
 class NPdu(IPdu):
     """
-    Represents a Network Protocol Data Unit (PDU) used for network-level
-    communication in the AUTOSAR communication system.
+    This is a Pdu of the Transport Layer. The main purpose of the TP Layer is to segment and reassemble IPdus. Tags: atp.recommendedPackage=Pdus
     """
 
     # NPdu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.21, p.343
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -1498,88 +1571,133 @@ class ISignal(FibexElement):
 
 class PduTriggering(Identifiable):
     """
-    Defines the triggering mechanism for Protocol Data Units (PDUs),
-    specifying PDU references, port references, and trigger conditions
-    for PDU transmission and reception.
+    The PduTriggering describes on which channel the IPdu is transmitted. The Pdu routing by the PduR is only allowed for subclasses of IPdu. Depending on its relation to entities such channels and clusters it can be unambiguously deduced whether a fan-out is handled by the Pdu router or the Bus Interface. If the fan-out is specified between different clusters it shall be handled by the Pdu Router. If the fan-out is specified between different channels of the same cluster it shall be handled by the Bus Interface.
     """
 
     # PduTriggering method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIPduRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setIPduRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getIPduPortRefs              [x] impl  [ ] docstring  [ ] test
-    # [ ] addIPduPortRef               [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalTriggeringRefs     [x] impl  [ ] docstring  [ ] test
-    # [ ] addISignalTriggeringRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] getSecOcCryptoMappingRef     [x] impl  [ ] docstring  [ ] test
-    # [ ] setSecOcCryptoMappingRef     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTriggerIPduSendConditions [x] impl  [ ] docstring  [ ] test
-    # [ ] addTriggerIPduSendCondition  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.31, p.349
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getIPduRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIPduRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getIPduPortRefs              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addIPduPortRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getISignalTriggeringRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addISignalTriggeringRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSecOcCryptoMappingRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSecOcCryptoMappingRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTriggerIPduSendConditions [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addTriggerIPduSendCondition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.iPduRef: RefType = None
-        self.iPduPortRefs: List[RefType] = []
-        self.iSignalTriggeringRefs: List[RefType] = []
-        self.secOcCryptoMappingRef: RefType = None
-        self.triggerIPduSendConditions = []  # type: List
+        # Reference to the Pdu for which the PduTriggering is defined. One I-Pdu can be triggered on different channels (PduR fan-out). The Pdu routing by the PduR is only allowed for subclasses of IPdu. Nevertheless is the reference to the Pdu element necessary since the PduTriggering element is also used to specify the sending and receiving connections to Ecu Ports.
+        self.iPduRef: Optional[RefType] = None
 
-    def getIPduRef(self):
+        # References to the IPduPort on every ECU of the system which sends and/or receives the I-PDU. References for both the sender and the receiver side shall be included when the system is completely defined.
+        self.iPduPortRefs: List[RefType] = []
+
+        # This reference provides the relationship to the ISignalTriggerings that are implemented by the PduTriggering. The reference is optional since no ISignalTriggering can be defined for DCM and Multiplexed Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.iSignalTriggering, iSignalTriggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.iSignalTriggeringRefs: List[RefType] = []
+
+        # This reference identifies the crypto profile applicable to the usage (send, receive) of the also referenced Secured IPdu. Obviously, this reference is only applicable if the Pdutriggering also references a SecuredIPdu in the role iPdu.
+        self.secOcCryptoMappingRef: Optional[RefType] = None
+
+        # Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions evaluate to true (AND associated) the Com_TriggerIPDUSend API shall be called.
+        self.triggerIPduSendConditions: List[TriggerIPduSendCondition] = []
+
+    def getIPduRef(self) -> Optional[RefType]:
+        """
+        Reference to the Pdu for which the PduTriggering is defined. One I-Pdu can be triggered on different channels (PduR fan-out). The Pdu routing by the PduR is only allowed for subclasses of IPdu. Nevertheless is the reference to the Pdu element necessary since the PduTriggering element is also used to specify the sending and receiving connections to Ecu Ports.
+        """
         return self.iPduRef
 
-    def setIPduRef(self, value):
-        self.iPduRef = value
+    def setIPduRef(self, value: Optional[RefType]) -> "PduTriggering":
+        """
+        Reference to the Pdu for which the PduTriggering is defined. One I-Pdu can be triggered on different channels (PduR fan-out). The Pdu routing by the PduR is only allowed for subclasses of IPdu. Nevertheless is the reference to the Pdu element necessary since the PduTriggering element is also used to specify the sending and receiving connections to Ecu Ports.
+        A None value is a no-op and does not overwrite an existing iPduRef.
+        """
+        if value is not None:
+            self.iPduRef = value
         return self
 
-    def getIPduPortRefs(self):
+    def getIPduPortRefs(self) -> List[RefType]:
+        """
+        References to the IPduPort on every ECU of the system which sends and/or receives the I-PDU. References for both the sender and the receiver side shall be included when the system is completely defined.
+        """
         return self.iPduPortRefs
 
-    def addIPduPortRef(self, value):
-        self.iPduPortRefs.append(value)
+    def addIPduPortRef(self, value: Optional[RefType]) -> "PduTriggering":
+        """
+        References to the IPduPort on every ECU of the system which sends and/or receives the I-PDU. References for both the sender and the receiver side shall be included when the system is completely defined.
+        """
+        if value is not None:
+            self.iPduPortRefs.append(value)
         return self
 
-    def getISignalTriggeringRefs(self):
-        # return sorted(self.iSignalTriggeringRefs, key = lambda i: i.getShortValue())
+    def getISignalTriggeringRefs(self) -> List[RefType]:
+        """
+        This reference provides the relationship to the ISignalTriggerings that are implemented by the PduTriggering. The reference is optional since no ISignalTriggering can be defined for DCM and Multiplexed Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.iSignalTriggering, iSignalTriggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
         return self.iSignalTriggeringRefs
 
-    def addISignalTriggeringRef(self, value):
-        self.iSignalTriggeringRefs.append(value)
+    def addISignalTriggeringRef(self, value: Optional[RefType]) -> "PduTriggering":
+        """
+        This reference provides the relationship to the ISignalTriggerings that are implemented by the PduTriggering. The reference is optional since no ISignalTriggering can be defined for DCM and Multiplexed Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.iSignalTriggering, iSignalTriggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        """
+        if value is not None:
+            self.iSignalTriggeringRefs.append(value)
         return self
 
-    def getSecOcCryptoMappingRef(self):
+    def getSecOcCryptoMappingRef(self) -> Optional[RefType]:
+        """
+        This reference identifies the crypto profile applicable to the usage (send, receive) of the also referenced Secured IPdu. Obviously, this reference is only applicable if the Pdutriggering also references a SecuredIPdu in the role iPdu.
+        """
         return self.secOcCryptoMappingRef
 
-    def setSecOcCryptoMappingRef(self, value):
-        self.secOcCryptoMappingRef = value
+    def setSecOcCryptoMappingRef(self, value: Optional[RefType]) -> "PduTriggering":
+        """
+        This reference identifies the crypto profile applicable to the usage (send, receive) of the also referenced Secured IPdu. Obviously, this reference is only applicable if the Pdutriggering also references a SecuredIPdu in the role iPdu.
+        A None value is a no-op and does not overwrite an existing secOcCryptoMappingRef.
+        """
+        if value is not None:
+            self.secOcCryptoMappingRef = value
         return self
 
-    def getTriggerIPduSendConditions(self):
+    def getTriggerIPduSendConditions(self) -> List[TriggerIPduSendCondition]:
+        """
+        Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions evaluate to true (AND associated) the Com_TriggerIPDUSend API shall be called.
+        """
         return self.triggerIPduSendConditions
 
-    def addTriggerIPduSendCondition(self, value):
-        self.triggerIPduSendConditions.append(value)
+    def addTriggerIPduSendCondition(self, value: Optional[TriggerIPduSendCondition]) -> "PduTriggering":
+        """
+        Defines the trigger for the Com_TriggerIPDUSend API call. Only if all defined TriggerIPduSendConditions evaluate to true (AND associated) the Com_TriggerIPDUSend API shall be called.
+        """
+        if value is not None:
+            self.triggerIPduSendConditions.append(value)
         return self
 
 
 class FrameTriggering(Identifiable, ABC):
     """
-    The FrameTriggering describes the instance of a frame sent on a channel and defines the manner of triggering (timing information) and identification of a frame on the channel, on which it is sent. For the same frame, if FrameTriggerings exist on more than one channel of the same cluster the fan-out/ in is handled by the Bus interface.
+    Abstract base class for frame triggering mechanisms, defining
+    common properties for triggering frame transmission and reception
+    including frame references and port references.
     """
 
     # FrameTriggering method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.79, p.418
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFrameRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] setFrameRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFramePortRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addFramePortRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPduTriggeringRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addPduTriggeringRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getFrameRef                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setFrameRef                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getFramePortRefs             [x] impl  [ ] docstring  [ ] test
+    # [ ] addFramePortRef              [x] impl  [ ] docstring  [ ] test
+    # [ ] getPduTriggeringRefs         [x] impl  [ ] docstring  [ ] test
+    # [ ] addPduTriggeringRef          [x] impl  [ ] docstring  [ ] test
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is FrameTriggering:
             raise TypeError("FrameTriggering is an abstract class.")
 
@@ -1590,35 +1708,29 @@ class FrameTriggering(Identifiable, ABC):
 
         # References to the FramePort on every ECU of the system which sends and/or receives the frame. References for both the sender and the receiver side shall be included when the system is completely defined.
         self.framePortRefs: List[RefType] = []
-
-        # This reference provides the relationship to the Pdu Triggerings that are implemented by the FrameTriggering. The reference is optional since no PduTriggering can be defined for NmPdus and XCP Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.pduTriggering, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         self.pduTriggeringRefs: List[RefType] = []
 
     def getFrameRef(self) -> Optional[RefType]:
-        # One frame can be triggered several times, e.g. on different channels. If a frame has no frame triggering, it won't be sent at all. A frame triggering has assigned exactly one frame, which it triggers.
         return self.frameRef
 
     def setFrameRef(self, value: Optional[RefType]) -> "FrameTriggering":
         # One frame can be triggered several times, e.g. on different channels. If a frame has no frame triggering, it won't be sent at all. A frame triggering has assigned exactly one frame, which it triggers.
+        # A None value is a no-op and does not overwrite an existing frameRef.
         if value is not None:
             self.frameRef = value
         return self
 
     def getFramePortRefs(self) -> List[RefType]:
-        # References to the FramePort on every ECU of the system which sends and/or receives the frame. References for both the sender and the receiver side shall be included when the system is completely defined.
         return self.framePortRefs
 
-    def addFramePortRef(self, value: RefType) -> "FrameTriggering":
-        # References to the FramePort on every ECU of the system which sends and/or receives the frame. References for both the sender and the receiver side shall be included when the system is completely defined.
+    def addFramePortRef(self, value: RefType):
         self.framePortRefs.append(value)
         return self
 
-    def getPduTriggeringRefs(self) -> List[RefType]:
-        # This reference provides the relationship to the Pdu Triggerings that are implemented by the FrameTriggering. The reference is optional since no PduTriggering can be defined for NmPdus and XCP Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.pduTriggering, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+    def getPduTriggeringRefs(self) -> RefType:
         return self.pduTriggeringRefs
 
-    def addPduTriggeringRef(self, value: RefType) -> "FrameTriggering":
-        # This reference provides the relationship to the Pdu Triggerings that are implemented by the FrameTriggering. The reference is optional since no PduTriggering can be defined for NmPdus and XCP Pdus. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.pduTriggering, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
+    def addPduTriggeringRef(self, value: RefType):
         self.pduTriggeringRefs.append(value)
         return self
 
@@ -1713,47 +1825,76 @@ class SystemSignalGroup(ARElement):
 
 class ISignalTriggering(Identifiable):
     """
-    Defines triggering properties for interaction signals, specifying
-    signal references, group references, and port references for
-    signal-based communication triggering.
+    A ISignalTriggering allows an assignment of ISignals to physical channels.
     """
 
     # ISignalTriggering method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] setISignalRef                [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalGroupRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] setISignalGroupRef           [x] impl  [ ] docstring  [ ] test
-    # [ ] getISignalPortRefs           [x] impl  [ ] docstring  [ ] test
-    # [ ] addISignalPortRef            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.16, p.330
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getISignalRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setISignalRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getISignalGroupRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setISignalGroupRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addISignalPortRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getISignalPortRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
-    def __init__(self, parent, short_name):
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.iSignalRef: RefType = None
-        self.iSignalGroupRef: RefType = None
+        # This reference shall be used if an ISignal is transported on the PhysicalChannel. This reference forms an XOR relationship with the ISignalTriggering-ISignalGroup reference.
+        self.iSignalRef: Optional[RefType] = None
+
+        # This reference shall be used if an ISignalGroup is transported on the PhysicalChannel. This reference forms an XOR relationship with the ISignal Triggering-ISignal reference.
+        self.iSignalGroupRef: Optional[RefType] = None
+
+        # References to the ISignalPort on every ECU of the system which sends and/or receives the ISignal. References for both the sender and the receiver side shall be included when the system is completely defined.
         self.iSignalPortRefs: List[RefType] = []
 
-    def getISignalRef(self):
+    def getISignalRef(self) -> Optional[RefType]:
+        """
+        This reference shall be used if an ISignal is transported on the PhysicalChannel. This reference forms an XOR relationship with the ISignalTriggering-ISignalGroup reference.
+        """
         return self.iSignalRef
 
-    def setISignalRef(self, value):
-        self.iSignalRef = value
+    def setISignalRef(self, value: Optional[RefType]) -> "ISignalTriggering":
+        """
+        This reference shall be used if an ISignal is transported on the PhysicalChannel. This reference forms an XOR relationship with the ISignalTriggering-ISignalGroup reference.
+        A None value is a no-op and does not overwrite an existing iSignalRef.
+        """
+        if value is not None:
+            self.iSignalRef = value
         return self
 
-    def getISignalGroupRef(self):
+    def getISignalGroupRef(self) -> Optional[RefType]:
+        """
+        This reference shall be used if an ISignalGroup is transported on the PhysicalChannel. This reference forms an XOR relationship with the ISignal Triggering-ISignal reference.
+        """
         return self.iSignalGroupRef
 
-    def setISignalGroupRef(self, value):
-        self.iSignalGroupRef = value
+    def setISignalGroupRef(self, value: Optional[RefType]) -> "ISignalTriggering":
+        """
+        This reference shall be used if an ISignalGroup is transported on the PhysicalChannel. This reference forms an XOR relationship with the ISignal Triggering-ISignal reference.
+        A None value is a no-op and does not overwrite an existing iSignalGroupRef.
+        """
+        if value is not None:
+            self.iSignalGroupRef = value
         return self
 
-    def getISignalPortRefs(self):
+    def addISignalPortRef(self, value: Optional[RefType]) -> "ISignalTriggering":
+        """
+        References to the ISignalPort on every ECU of the system which sends and/or receives the ISignal. References for both the sender and the receiver side shall be included when the system is completely defined.
+        """
+        if value is not None:
+            self.iSignalPortRefs.append(value)
+        return self
+
+    def getISignalPortRefs(self) -> List[RefType]:
+        """
+        References to the ISignalPort on every ECU of the system which sends and/or receives the ISignal. References for both the sender and the receiver side shall be included when the system is completely defined.
+        """
         return self.iSignalPortRefs
-
-    def addISignalPortRef(self, value):
-        self.iSignalPortRefs.append(value)
-        return self
 
 
 class SegmentPosition(ARObject):
@@ -2320,4 +2461,264 @@ class SecureCommunicationFreshnessProps(Identifiable):
         """
         if value is not None:
             self.useFreshnessTimestamp = value
+        return self
+
+
+class CommunicationDirectionType(AREnum):
+    """
+    Enumeration defining communication direction types,
+    specifying whether communication is inbound or outbound.
+    """
+
+    # CommunicationDirectionType method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
+    ENUM_IN = "in"
+    ENUM_OUT = "out"
+
+    def __init__(self):
+        super().__init__([CommunicationDirectionType.ENUM_IN, CommunicationDirectionType.ENUM_OUT])
+
+
+class CommConnectorPort(Identifiable, ABC):
+    """
+    The Ecu communication relationship defines which signals, Pdus and frames are actually received and transmitted by this ECU. For each signal, Pdu or Frame that is transmitted or received and used by the Ecu an association between an ISignalPort, IPduPort or FramePort with the corresponding Triggering shall be created. An ISignalPort shall be created only if the corresponding signal is handled by COM (RTE or Signal Gateway). If a Pdu Gateway ECU only routes the Pdu without being interested in the content only a FramePort and an IPduPort needs to be created.
+
+    [constr_9103] Existence of communicationDirection: For each CommConnectorPort, the attribute communicationDirection shall exist at the time when the System Description is complete.
+    """
+
+    # CommConnectorPort method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.1, p.303
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCommunicationDirection    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCommunicationDirection    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is CommConnectorPort:
+            raise TypeError("CommConnectorPort is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # Communication Direction of the Connector Port (input or output Port).
+        self.communicationDirection: Optional[CommunicationDirectionType] = None
+
+    def getCommunicationDirection(self) -> Optional[CommunicationDirectionType]:
+        """
+        Communication Direction of the Connector Port (input or output Port).
+        """
+        return self.communicationDirection
+
+    def setCommunicationDirection(self, value: Optional[CommunicationDirectionType]) -> "CommConnectorPort":
+        """
+        Communication Direction of the Connector Port (input or output Port).
+        A None value is a no-op and does not overwrite an existing communicationDirection.
+        """
+        if value is not None:
+            self.communicationDirection = value
+        return self
+
+
+class FramePort(CommConnectorPort):
+    """
+    Represents a frame port for communication connectors,
+    handling frame-based communication at the connector level.
+    """
+
+    # FramePort method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class IPduSignalProcessingEnum(AREnum):
+    """
+    Definition of signal processing modes.
+    """
+
+    # IPduSignalProcessingEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.4, p.305
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on IPduPort.iPduSignalProcessing
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    # The signal indications / confirmations are deferred. Tags: atp.EnumerationLiteralIndex=0
+    ENUM_DEFERRED = "deferred"
+
+    # The signal indications / confirmations are performed. Tags: atp.EnumerationLiteralIndex=1
+    ENUM_IMMEDIATE = "immediate"
+
+    def __init__(self):
+        super().__init__([IPduSignalProcessingEnum.ENUM_DEFERRED, IPduSignalProcessingEnum.ENUM_IMMEDIATE])
+
+
+class IPduPort(CommConnectorPort):
+    """
+    Connectors reception or send port on the referenced channel referenced by a PduTriggering.
+
+    [constr_3137] IPduPort.rxSecurityVerification is configurable on the receiver side: The IPduPort.rxSecurityVerification attribute shall only be used in IPduPorts with the communicationDirection = in.
+    [constr_3138] IPduPort.rxSecurityVerification validness: The IPduPort.rxSecurityVerification information is only valid for SecuredIPdus.
+    [constr_3337] IPduPort.useAuthDataFreshness is configurable on the receiver side: The IPduPort.useAuthDataFreshness attribute shall only be used in IPduPorts with the communicationDirection = in.
+    [constr_3338] IPduPort.useAuthDataFreshness validness: The IPduPort.useAuthDataFreshness information is only valid for SecuredIPdus.
+    """
+
+    # IPduPort method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.3, p.304
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getIPduSignalProcessing      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setIPduSignalProcessing      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRxSecurityVerification    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRxSecurityVerification    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimestampRxAcceptanceWindow [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimestampRxAcceptanceWindow [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getUseAuthDataFreshness      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setUseAuthDataFreshness      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Definition of the two signal processing modes Immediate and Deferred for both Tx and Rx IPdus.
+        self.iPduSignalProcessing: Optional[IPduSignalProcessingEnum] = None
+
+        # This attribute defines the bypassing of signature authentication or MAC verification in the receiving ECU. If not defined or set to true the signature authentication or MAC verification shall be performed for the SecuredIPdu. If set to false the signature authentication or MAC verification shall not be performed for the SecuredIPdu.
+        self.rxSecurityVerification: Optional[Boolean] = None
+
+        # This attribute is used to define the maximum allowed deviation in seconds from the expected timestamp for which a SecuredIPdu is still deemed authentic. Please note that this attribute is for documentation only to allow the configuration of required freshness value manager and no upstream mapping is defined for it.
+        self.timestampRxAcceptanceWindow: Optional[TimeValue] = None
+
+        # This attribute describes whether a part of AuthenticPdu contained in a SecuredIPdu shall be passed on to the SWC that verifies and generates the Freshness. The part of the Authentic-PDU is defined by the authData FreshnessStartPosition and authDataFreshnessLength.
+        self.useAuthDataFreshness: Optional[Boolean] = None
+
+    def getIPduSignalProcessing(self) -> Optional[IPduSignalProcessingEnum]:
+        """
+        Definition of the two signal processing modes Immediate and Deferred for both Tx and Rx IPdus.
+        """
+        return self.iPduSignalProcessing
+
+    def setIPduSignalProcessing(self, value: Optional[IPduSignalProcessingEnum]) -> "IPduPort":
+        """
+        Definition of the two signal processing modes Immediate and Deferred for both Tx and Rx IPdus.
+        A None value is a no-op and does not overwrite an existing iPduSignalProcessing.
+        """
+        if value is not None:
+            self.iPduSignalProcessing = value
+        return self
+
+    def getRxSecurityVerification(self) -> Optional[Boolean]:
+        """
+        This attribute defines the bypassing of signature authentication or MAC verification in the receiving ECU. If not defined or set to true the signature authentication or MAC verification shall be performed for the SecuredIPdu. If set to false the signature authentication or MAC verification shall not be performed for the SecuredIPdu.
+        """
+        return self.rxSecurityVerification
+
+    def setRxSecurityVerification(self, value: Optional[Boolean]) -> "IPduPort":
+        """
+        This attribute defines the bypassing of signature authentication or MAC verification in the receiving ECU. If not defined or set to true the signature authentication or MAC verification shall be performed for the SecuredIPdu. If set to false the signature authentication or MAC verification shall not be performed for the SecuredIPdu.
+        A None value is a no-op and does not overwrite an existing rxSecurityVerification.
+        """
+        if value is not None:
+            self.rxSecurityVerification = value
+        return self
+
+    def getTimestampRxAcceptanceWindow(self) -> Optional[TimeValue]:
+        """
+        This attribute is used to define the maximum allowed deviation in seconds from the expected timestamp for which a SecuredIPdu is still deemed authentic. Please note that this attribute is for documentation only to allow the configuration of required freshness value manager and no upstream mapping is defined for it.
+        """
+        return self.timestampRxAcceptanceWindow
+
+    def setTimestampRxAcceptanceWindow(self, value: Optional[TimeValue]) -> "IPduPort":
+        """
+        This attribute is used to define the maximum allowed deviation in seconds from the expected timestamp for which a SecuredIPdu is still deemed authentic. Please note that this attribute is for documentation only to allow the configuration of required freshness value manager and no upstream mapping is defined for it.
+        A None value is a no-op and does not overwrite an existing timestampRxAcceptanceWindow.
+        """
+        if value is not None:
+            self.timestampRxAcceptanceWindow = value
+        return self
+
+    def getUseAuthDataFreshness(self) -> Optional[Boolean]:
+        """
+        This attribute describes whether a part of AuthenticPdu contained in a SecuredIPdu shall be passed on to the SWC that verifies and generates the Freshness. The part of the Authentic-PDU is defined by the authData FreshnessStartPosition and authDataFreshnessLength.
+        """
+        return self.useAuthDataFreshness
+
+    def setUseAuthDataFreshness(self, value: Optional[Boolean]) -> "IPduPort":
+        """
+        This attribute describes whether a part of AuthenticPdu contained in a SecuredIPdu shall be passed on to the SWC that verifies and generates the Freshness. The part of the Authentic-PDU is defined by the authData FreshnessStartPosition and authDataFreshnessLength.
+        A None value is a no-op and does not overwrite an existing useAuthDataFreshness.
+        """
+        if value is not None:
+            self.useAuthDataFreshness = value
+        return self
+
+
+class ISignalPort(CommConnectorPort):
+    """
+    Represents an interaction signal port for communication connectors,
+    handling interaction signal communication with filtering,
+    timeout, and validity handling properties.
+    """
+
+    # ISignalPort method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDataFilter                [x] impl  [ ] docstring  [ ] test
+    # [ ] setDataFilter                [x] impl  [ ] docstring  [ ] test
+    # [ ] getDdsQosProfileRef          [x] impl  [ ] docstring  [ ] test
+    # [ ] setDdsQosProfileRef          [x] impl  [ ] docstring  [ ] test
+    # [ ] getFirstTimeout              [x] impl  [ ] docstring  [ ] test
+    # [ ] setFirstTimeout              [x] impl  [ ] docstring  [ ] test
+    # [ ] getHandleInvalid             [x] impl  [ ] docstring  [ ] test
+    # [ ] setHandleInvalid             [x] impl  [ ] docstring  [ ] test
+    # [ ] getTimeout                   [x] impl  [ ] docstring  [ ] test
+    # [ ] setTimeout                   [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.dataFilter: DataFilter = None
+        self.ddsQosProfileRef: RefType = None
+        self.firstTimeout: TimeValue = None
+        self.handleInvalid = None
+        self.timeout: TimeValue = None
+
+    def getDataFilter(self):
+        return self.dataFilter
+
+    def setDataFilter(self, value):
+        if value is not None:
+            self.dataFilter = value
+        return self
+
+    def getDdsQosProfileRef(self):
+        return self.ddsQosProfileRef
+
+    def setDdsQosProfileRef(self, value):
+        if value is not None:
+            self.ddsQosProfileRef = value
+        return self
+
+    def getFirstTimeout(self):
+        return self.firstTimeout
+
+    def setFirstTimeout(self, value):
+        if value is not None:
+            self.firstTimeout = value
+        return self
+
+    def getHandleInvalid(self):
+        return self.handleInvalid
+
+    def setHandleInvalid(self, value):
+        if value is not None:
+            self.handleInvalid = value
+        return self
+
+    def getTimeout(self):
+        return self.timeout
+
+    def setTimeout(self, value):
+        if value is not None:
+            self.timeout = value
         return self

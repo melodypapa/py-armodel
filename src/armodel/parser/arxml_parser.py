@@ -164,8 +164,57 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator.BlueprintGenerator import BlueprintGenerator
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock, TimingClock, TimingClockSyncAccuracy
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
+    EOCEventRef,
+    EOCExecutableEntityRef,
+    EOCExecutableEntityRefAbstract,
+    EOCExecutableEntityRefGroup,
+    ExecutionOrderConstraint,
+    ExecutionOrderConstraintTypeEnum,
+    LetDataExchangeParadigmEnum,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint import (
+    ExecutionTimeConstraint,
+    ExecutionTimeTypeEnum,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
+    ArbitraryEventTriggering,
+    BurstPatternEventTriggering,
+    ConcretePatternEventTriggering,
+    ConfidenceInterval,
+    EventTriggeringConstraint,
+    PeriodicEventTriggering,
+    SporadicEventTriggering,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.LatencyTimingConstraint import (
+    LatencyConstraintTypeEnum,
+    LatencyTimingConstraint,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.OffsetConstraint import OffsetTimingConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import SynchronizationPointConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTimingConstraint import (
+    EventOccurrenceKindEnum,
+    SynchronizationTimingConstraint,
+    SynchronizationTypeEnum,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import SwcTiming, TimingExtension
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
+    TimingCondition,
+    TimingExtensionResource,
+    TimingModeInstance,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ComponentInCompositionInstanceRef
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
+    AutosarOperationArgumentInstance,
+    AutosarVariableInstance,
+    OperationArgumentInComponentInstanceRef,
+    VariableInComponentInstanceRef,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
@@ -186,6 +235,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucAbstractInternalReferenceDef,
     EcucAbstractReferenceDef,
     EcucAbstractStringParamDef,
+    EcucAddInfoParamDef,
     EcucBooleanParamDef,
     EcucChoiceContainerDef,
     EcucChoiceReferenceDef,
@@ -569,11 +619,21 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.Flexr
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
     ApplicationEntry,
+    AssignFrameId,
+    AssignFrameIdRange,
+    AssignNad,
+    ConditionalChangeNad,
+    DataDumpEntry,
+    FreeFormat,
+    LinConfigurationEntry,
     LinErrorResponse,
     LinFrameTriggering,
     LinScheduleTable,
     LinUnconditionalFrame,
+    SaveConfigurationEntry,
     ScheduleTableEntry,
+    UnassignFrameId,
+    FramePid,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
     LinCluster,
@@ -587,20 +647,24 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopolo
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway, IPduMapping, ISignalMapping, TargetIPduRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+    CommConnectorPort,
     ContainedIPduProps,
     DcmIPdu,
     DynamicPart,
     DynamicPartAlternative,
     Frame,
+    FramePort,
     FrameTriggering,
     GeneralPurposeIPdu,
     GeneralPurposePdu,
     IPdu,
+    IPduPort,
     IPduTiming,
     ISignal,
     ISignalGroup,
     ISignalIPdu,
     ISignalIPduGroup,
+    ISignalPort,
     ISignalProps,
     ISignalToIPduMapping,
     ISignalTriggering,
@@ -630,7 +694,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     AbstractCanCluster,
     CanCluster,
     CanClusterBusOffRecovery,
-    CommConnectorPort,
     CommunicationCluster,
     CommunicationConnector,
     CommunicationController,
@@ -638,9 +701,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopol
     CycleRepetition,
     EthernetPhysicalChannel,
     FlexrayPhysicalChannel,
-    FramePort,
-    IPduPort,
-    ISignalPort,
     LinPhysicalChannel,
     PhysicalChannel,
 )
@@ -652,6 +712,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing im
     TransmissionModeCondition,
     TransmissionModeDeclaration,
     TransmissionModeTiming,
+    TriggerIPduSendCondition,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef, VariableDataPrototypeInSystemInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
@@ -766,7 +827,11 @@ from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import Document
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import Note, NoteTypeEnum
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import StructuredReq, TraceableText
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import (
+    StructuredReq,
+    Traceable,
+    TraceableText,
+)
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
@@ -953,6 +1018,8 @@ class ARXMLParser(AbstractARXMLParser):
         revision.setDate(self.getChildElementOptionalDataTime(element, "DATE"))
         revision.setIssuedBy(self.getChildElementOptionalLiteral(element, "ISSUED-BY"))
         revision.setRevisionLabel(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL"))
+        revision.setRevisionLabelP1(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL-P-1"))
+        revision.setRevisionLabelP2(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL-P-2"))
         revision.setState(self.getChildElementOptionalLiteral(element, "STATE"))
 
         self.readDocRevisionModifications(element, revision)
@@ -2126,6 +2193,418 @@ class ARXMLParser(AbstractARXMLParser):
             avp.setText(element.text)
         return avp
 
+    def readTimingConditionFormula(self, parent, element: ET.Element) -> TimingConditionFormula:
+        tcf = TimingConditionFormula(parent, self.getShortName(element))
+        self.readReferrable(element, tcf)
+        tcf.setTimingArgumentRef(self.getChildElementOptionalRefType(element, "TIMING-ARGUMENT-REF"))
+        tcf.setTimingConditionRef(self.getChildElementOptionalRefType(element, "TIMING-CONDITION-REF"))
+        tcf.setTimingEventRef(self.getChildElementOptionalRefType(element, "TIMING-EVENT-REF"))
+        tcf.setTimingModeRef(self.getChildElementOptionalRefType(element, "TIMING-MODE-REF"))
+        tcf.setTimingVariableRef(self.getChildElementOptionalRefType(element, "TIMING-VARIABLE-REF"))
+        if element.text is not None and element.text.strip() != "":
+            tcf.setText(element.text)
+        return tcf
+
+    def readTimingCondition(self, element: ET.Element, condition: TimingCondition):
+        self.readIdentifiable(element, condition)
+        formula_element = self.find(element, "TIMING-CONDITION-FORMULA")
+        if formula_element is not None:
+            condition.setTimingConditionFormula(self.readTimingConditionFormula(condition, formula_element))
+
+    def readModeInBswInstanceRef(self, element: ET.Element) -> ModeInBswInstanceRef:
+        ref = ModeInBswInstanceRef()
+        self.readARObjectAttributes(element, ref)
+        ref.setContextBswImplementationRef(self.getChildElementOptionalRefType(element, "CONTEXT-BSW-IMPLEMENTATION-REF"))
+        ref.setContextModeDeclarationGroupPrototypeRef(self.getChildElementOptionalRefType(element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF"))
+        ref.setTargetModeDeclarationRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-DECLARATION-REF"))
+        return ref
+
+    def readModeInSwcInstanceRef(self, element: ET.Element) -> ModeInSwcInstanceRef:
+        ref = ModeInSwcInstanceRef()
+        self.readARObjectAttributes(element, ref)
+        for component_ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+            ref.addContextComponentRef(component_ref)
+        ref.setContextPortRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-REF"))
+        ref.setContextModeDeclarationGroupPrototypeRef(self.getChildElementOptionalRefType(element, "CONTEXT-MODE-DECLARATION-GROUP-PROTOTYPE-REF"))
+        ref.setTargetModeDeclarationRef(self.getChildElementOptionalRefType(element, "TARGET-MODE-DECLARATION-REF"))
+        return ref
+
+    def readTimingModeInstance(self, element: ET.Element, instance: TimingModeInstance):
+        self.readIdentifiable(element, instance)
+        mode_instance_element = self.find(element, "MODE-INSTANCE")
+        if mode_instance_element is not None:
+            for child_element in mode_instance_element:
+                tag_name = self.getTagName(child_element)
+                if tag_name == "MODE-IN-BSW-INSTANCE-REF":
+                    instance.setModeInstance(self.readModeInBswInstanceRef(child_element))
+                elif tag_name == "MODE-IN-SWC-INSTANCE-REF":
+                    instance.setModeInstance(self.readModeInSwcInstanceRef(child_element))
+                else:
+                    self.notImplemented("Unsupported TimingModeInstance.modeInstance <%s>" % tag_name)
+
+    def readTimingExtensionResource(self, element: ET.Element, resource: TimingExtensionResource) -> TimingExtensionResource:
+        self.readIdentifiable(element, resource)
+        for child_element in self.findall(element, "TIMING-ARGUMENTS/AUTOSAR-OPERATION-ARGUMENT-INSTANCE"):
+            argument = resource.createTimingArgument(self.getShortName(child_element))
+            self.readAutosarOperationArgumentInstance(child_element, argument)
+        for child_element in self.findall(element, "TIMING-MODES/TIMING-MODE-INSTANCE"):
+            mode = resource.createTimingMode(self.getShortName(child_element))
+            self.readTimingModeInstance(child_element, mode)
+        for child_element in self.findall(element, "TIMING-VARIABLES/AUTOSAR-VARIABLE-INSTANCE"):
+            variable = resource.createTimingVariable(self.getShortName(child_element))
+            self.readAutosarVariableInstance(child_element, variable)
+        return resource
+
+    def readAutosarOperationArgumentInstance(self, element: ET.Element, instance: AutosarOperationArgumentInstance) -> AutosarOperationArgumentInstance:
+        self.readIdentifiable(element, instance)
+        iref_element = self.find(element, "OPERATION-ARGUMENT-INSTANCE-IREF")
+        if iref_element is not None:
+            instance.setOperationArgumentInstanceIRef(self.readOperationArgumentInComponentInstanceRef(iref_element))
+        return instance
+
+    def readComponentInCompositionInstanceRef(self, element: ET.Element) -> ComponentInCompositionInstanceRef:
+        iref = ComponentInCompositionInstanceRef()
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+            iref.addContextComponentRef(ref)
+        iref.setTargetComponentRef(self.getChildElementOptionalRefType(element, "TARGET-COMPONENT-REF"))
+        return iref
+
+    def readOperationArgumentInComponentInstanceRef(self, element: ET.Element) -> OperationArgumentInComponentInstanceRef:
+        iref = OperationArgumentInComponentInstanceRef()
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+            iref.addContextComponentRef(ref)
+        iref.setContextPortPrototypeRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-PROTOTYPE-REF"))
+        iref.setContextOperationRef(self.getChildElementOptionalRefType(element, "CONTEXT-OPERATION-REF"))
+        iref.setRootArgumentDataPrototypeRef(self.getChildElementOptionalRefType(element, "ROOT-ARGUMENT-DATA-PROTOTYPE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-DATA-PROTOTYPE-REF"):
+            iref.addContextDataPrototypeRef(ref)
+        iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))
+        return iref
+
+    def readAutosarVariableInstance(self, element: ET.Element, instance: AutosarVariableInstance) -> AutosarVariableInstance:
+        self.readIdentifiable(element, instance)
+        iref_element = self.find(element, "VARIABLE-INSTANCE-IREF")
+        if iref_element is not None:
+            instance.setVariableInstanceIRef(self.readVariableInComponentInstanceRef(iref_element))
+        return instance
+
+    def readVariableInComponentInstanceRef(self, element: ET.Element) -> VariableInComponentInstanceRef:
+        iref = VariableInComponentInstanceRef()
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-COMPONENT-REF"):
+            iref.addContextComponentRef(ref)
+        iref.setContextPortPrototypeRef(self.getChildElementOptionalRefType(element, "CONTEXT-PORT-PROTOTYPE-REF"))
+        iref.setRootVariableDataPrototypeRef(self.getChildElementOptionalRefType(element, "ROOT-VARIABLE-DATA-PROTOTYPE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "CONTEXT-DATA-PROTOTYPE-REF"):
+            iref.addContextDataPrototypeRef(ref)
+        iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(element, "TARGET-DATA-PROTOTYPE-REF"))
+        return iref
+
+    def readTimingConstraint(self, element: ET.Element, constraint: TimingConstraint):
+        self.readIdentifiable(element, constraint)
+        self.readTraceable(element, constraint)
+        constraint.setTimingConditionRef(self.getChildElementOptionalRefType(element, "TIMING-CONDITION-REF"))
+
+    def readSynchronizationTimingConstraint(self, element: ET.Element, constraint: SynchronizationTimingConstraint):
+        self.logger.debug("readSynchronizationTimingConstraint %s" % self.getShortName(element))
+        self.readTimingConstraint(element, constraint)
+        literal = self.getChildElementOptionalLiteral(element, "EVENT-OCCURRENCE-KIND")
+        if literal is not None:
+            constraint.setEventOccurrenceKind(EventOccurrenceKindEnum().setValue(literal.getText()))
+        for ref in self.getChildElementRefTypeList(element, "SCOPE-EVENT-REFS/SCOPE-EVENT-REF"):
+            constraint.addScopeEvent(ref)
+        for ref in self.getChildElementRefTypeList(element, "SCOPE-REFS/SCOPE-REF"):
+            constraint.addScope(ref)
+        literal = self.getChildElementOptionalLiteral(element, "SYNCHRONIZATION-CONSTRAINT-TYPE")
+        if literal is not None:
+            constraint.setSynchronizationConstraintType(SynchronizationTypeEnum().setValue(literal.getText()))
+        tolerance_element = self.find(element, "TOLERANCE")
+        if tolerance_element is not None:
+            tolerance = MultidimensionalTime()
+            self.readMultidimensionalTime(tolerance_element, tolerance)
+            constraint.setTolerance(tolerance)
+
+    def readLatencyTimingConstraint(self, element: ET.Element, constraint: LatencyTimingConstraint):
+        self.logger.debug("readLatencyTimingConstraint %s" % self.getShortName(element))
+        self.readTimingConstraint(element, constraint)
+        literal = self.getChildElementOptionalLiteral(element, "LATENCY-CONSTRAINT-TYPE")
+        if literal is not None:
+            constraint.setLatencyConstraintType(LatencyConstraintTypeEnum().setValue(literal.getText()))
+        constraint.setScopeRef(self.getChildElementOptionalRefType(element, "SCOPE-REF"))
+        minimum_element = self.find(element, "MINIMUM")
+        if minimum_element is not None:
+            minimum = MultidimensionalTime()
+            self.readMultidimensionalTime(minimum_element, minimum)
+            constraint.setMinimum(minimum)
+        maximum_element = self.find(element, "MAXIMUM")
+        if maximum_element is not None:
+            maximum = MultidimensionalTime()
+            self.readMultidimensionalTime(maximum_element, maximum)
+            constraint.setMaximum(maximum)
+        nominal_element = self.find(element, "NOMINAL")
+        if nominal_element is not None:
+            nominal = MultidimensionalTime()
+            self.readMultidimensionalTime(nominal_element, nominal)
+            constraint.setNominal(nominal)
+
+    def readExecutionTimeConstraint(self, element: ET.Element, constraint: ExecutionTimeConstraint):
+        self.logger.debug("readExecutionTimeConstraint %s" % self.getShortName(element))
+        self.readTimingConstraint(element, constraint)
+        constraint.setComponentIRef(self.readEOCComponentIRef(element, "COMPONENT-IREF"))
+        constraint.setExecutableRef(self.getChildElementOptionalRefType(element, "EXECUTABLE-REF"))
+        literal = self.getChildElementOptionalLiteral(element, "EXECUTION-TIME-TYPE")
+        if literal is not None:
+            constraint.setExecutionTimeType(ExecutionTimeTypeEnum().setValue(literal.getText()))
+        maximum_element = self.find(element, "MAXIMUM")
+        if maximum_element is not None:
+            maximum = MultidimensionalTime()
+            self.readMultidimensionalTime(maximum_element, maximum)
+            constraint.setMaximum(maximum)
+        minimum_element = self.find(element, "MINIMUM")
+        if minimum_element is not None:
+            minimum = MultidimensionalTime()
+            self.readMultidimensionalTime(minimum_element, minimum)
+            constraint.setMinimum(minimum)
+
+    def readSynchronizationPointConstraint(self, element: ET.Element, constraint: SynchronizationPointConstraint):
+        self.logger.debug("readSynchronizationPointConstraint %s" % self.getShortName(element))
+        self.readTimingConstraint(element, constraint)
+        for ref in self.getChildElementRefTypeList(element, "SOURCE-EEC-REFS/SOURCE-EEC-REF"):
+            constraint.addSourceEecRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "SOURCE-EVENT-REFS/SOURCE-EVENT-REF"):
+            constraint.addSourceEventRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "TARGET-EEC-REFS/TARGET-EEC-REF"):
+            constraint.addTargetEecRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "TARGET-EVENT-REFS/TARGET-EVENT-REF"):
+            constraint.addTargetEventRef(ref)
+
+    def readOffsetTimingConstraint(self, element: ET.Element, constraint: OffsetTimingConstraint):
+        self.logger.debug("readOffsetTimingConstraint %s" % self.getShortName(element))
+        self.readTimingConstraint(element, constraint)
+        constraint.setSourceRef(self.getChildElementOptionalRefType(element, "SOURCE-REF"))
+        constraint.setTargetRef(self.getChildElementOptionalRefType(element, "TARGET-REF"))
+        minimum_element = self.find(element, "MINIMUM")
+        if minimum_element is not None:
+            minimum = MultidimensionalTime()
+            self.readMultidimensionalTime(minimum_element, minimum)
+            constraint.setMinimum(minimum)
+        maximum_element = self.find(element, "MAXIMUM")
+        if maximum_element is not None:
+            maximum = MultidimensionalTime()
+            self.readMultidimensionalTime(maximum_element, maximum)
+            constraint.setMaximum(maximum)
+
+    def readAgeConstraint(self, element: ET.Element, constraint: AgeConstraint):
+        self.logger.debug("readAgeConstraint %s" % self.getShortName(element))
+        self.readTimingConstraint(element, constraint)
+        maximum_element = self.find(element, "MAXIMUM")
+        if maximum_element is not None:
+            maximum = MultidimensionalTime()
+            self.readMultidimensionalTime(maximum_element, maximum)
+            constraint.setMaximum(maximum)
+        minimum_element = self.find(element, "MINIMUM")
+        if minimum_element is not None:
+            minimum = MultidimensionalTime()
+            self.readMultidimensionalTime(minimum_element, minimum)
+            constraint.setMinimum(minimum)
+        constraint.setScopeRef(self.getChildElementOptionalRefType(element, "SCOPE-REF"))
+
+    def readEventTriggeringConstraint(self, element: ET.Element, constraint: EventTriggeringConstraint):
+        self.readTimingConstraint(element, constraint)
+        constraint.setEventRef(self.getChildElementOptionalRefType(element, "EVENT-REF"))
+
+    def readPeriodicEventTriggering(self, element: ET.Element, constraint: PeriodicEventTriggering):
+        self.logger.debug("readPeriodicEventTriggering %s" % self.getShortName(element))
+        self.readEventTriggeringConstraint(element, constraint)
+        jitter_element = self.find(element, "JITTER")
+        if jitter_element is not None:
+            jitter = MultidimensionalTime()
+            self.readMultidimensionalTime(jitter_element, jitter)
+            constraint.setJitter(jitter)
+        minimum_inter_arrival_time_element = self.find(element, "MINIMUM-INTER-ARRIVAL-TIME")
+        if minimum_inter_arrival_time_element is not None:
+            minimum_inter_arrival_time = MultidimensionalTime()
+            self.readMultidimensionalTime(minimum_inter_arrival_time_element, minimum_inter_arrival_time)
+            constraint.setMinimumInterArrivalTime(minimum_inter_arrival_time)
+        period_element = self.find(element, "PERIOD")
+        if period_element is not None:
+            period = MultidimensionalTime()
+            self.readMultidimensionalTime(period_element, period)
+            constraint.setPeriod(period)
+
+    def readSporadicEventTriggering(self, element: ET.Element, constraint: SporadicEventTriggering):
+        self.logger.debug("readSporadicEventTriggering %s" % self.getShortName(element))
+        self.readEventTriggeringConstraint(element, constraint)
+        jitter_element = self.find(element, "JITTER")
+        if jitter_element is not None:
+            jitter = MultidimensionalTime()
+            self.readMultidimensionalTime(jitter_element, jitter)
+            constraint.setJitter(jitter)
+        maximum_inter_arrival_time_element = self.find(element, "MAXIMUM-INTER-ARRIVAL-TIME")
+        if maximum_inter_arrival_time_element is not None:
+            maximum_inter_arrival_time = MultidimensionalTime()
+            self.readMultidimensionalTime(maximum_inter_arrival_time_element, maximum_inter_arrival_time)
+            constraint.setMaximumInterArrivalTime(maximum_inter_arrival_time)
+        minimum_inter_arrival_time_element = self.find(element, "MINIMUM-INTER-ARRIVAL-TIME")
+        if minimum_inter_arrival_time_element is not None:
+            minimum_inter_arrival_time = MultidimensionalTime()
+            self.readMultidimensionalTime(minimum_inter_arrival_time_element, minimum_inter_arrival_time)
+            constraint.setMinimumInterArrivalTime(minimum_inter_arrival_time)
+        period_element = self.find(element, "PERIOD")
+        if period_element is not None:
+            period = MultidimensionalTime()
+            self.readMultidimensionalTime(period_element, period)
+            constraint.setPeriod(period)
+
+    def readConcretePatternEventTriggering(self, element: ET.Element, constraint: ConcretePatternEventTriggering):
+        self.logger.debug("readConcretePatternEventTriggering %s" % self.getShortName(element))
+        self.readEventTriggeringConstraint(element, constraint)
+        offsets_element = self.find(element, "OFFSETS")
+        if offsets_element is not None:
+            for time_value_element in self.findall(offsets_element, "TIME-VALUE"):
+                offset = MultidimensionalTime()
+                self.readMultidimensionalTime(time_value_element, offset)
+                constraint.addOffset(offset)
+        pattern_jitter_element = self.find(element, "PATTERN-JITTER")
+        if pattern_jitter_element is not None:
+            pattern_jitter = MultidimensionalTime()
+            self.readMultidimensionalTime(pattern_jitter_element, pattern_jitter)
+            constraint.setPatternJitter(pattern_jitter)
+        pattern_length_element = self.find(element, "PATTERN-LENGTH")
+        if pattern_length_element is not None:
+            pattern_length = MultidimensionalTime()
+            self.readMultidimensionalTime(pattern_length_element, pattern_length)
+            constraint.setPatternLength(pattern_length)
+        pattern_period_element = self.find(element, "PATTERN-PERIOD")
+        if pattern_period_element is not None:
+            pattern_period = MultidimensionalTime()
+            self.readMultidimensionalTime(pattern_period_element, pattern_period)
+            constraint.setPatternPeriod(pattern_period)
+
+    def readBurstPatternEventTriggering(self, element: ET.Element, constraint: BurstPatternEventTriggering):
+        self.logger.debug("readBurstPatternEventTriggering %s" % self.getShortName(element))
+        self.readEventTriggeringConstraint(element, constraint)
+        constraint.setMaxNumberOfOccurrences(self.getChildElementOptionalPositiveInteger(element, "MAX-NUMBER-OF-OCCURRENCES"))
+        minimum_inter_arrival_time_element = self.find(element, "MINIMUM-INTER-ARRIVAL-TIME")
+        if minimum_inter_arrival_time_element is not None:
+            minimum_inter_arrival_time = MultidimensionalTime()
+            self.readMultidimensionalTime(minimum_inter_arrival_time_element, minimum_inter_arrival_time)
+            constraint.setMinimumInterArrivalTime(minimum_inter_arrival_time)
+        constraint.setMinNumberOfOccurrences(self.getChildElementOptionalPositiveInteger(element, "MIN-NUMBER-OF-OCCURRENCES"))
+        pattern_jitter_element = self.find(element, "PATTERN-JITTER")
+        if pattern_jitter_element is not None:
+            pattern_jitter = MultidimensionalTime()
+            self.readMultidimensionalTime(pattern_jitter_element, pattern_jitter)
+            constraint.setPatternJitter(pattern_jitter)
+        pattern_length_element = self.find(element, "PATTERN-LENGTH")
+        if pattern_length_element is not None:
+            pattern_length = MultidimensionalTime()
+            self.readMultidimensionalTime(pattern_length_element, pattern_length)
+            constraint.setPatternLength(pattern_length)
+        pattern_period_element = self.find(element, "PATTERN-PERIOD")
+        if pattern_period_element is not None:
+            pattern_period = MultidimensionalTime()
+            self.readMultidimensionalTime(pattern_period_element, pattern_period)
+            constraint.setPatternPeriod(pattern_period)
+
+    def readArbitraryEventTriggering(self, element: ET.Element, constraint: ArbitraryEventTriggering):
+        self.logger.debug("readArbitraryEventTriggering %s" % self.getShortName(element))
+        self.readEventTriggeringConstraint(element, constraint)
+        minimum_distances_element = self.find(element, "MINIMUM-DISTANCES")
+        if minimum_distances_element is not None:
+            for time_value_element in self.findall(minimum_distances_element, "TIME-VALUE"):
+                distance = MultidimensionalTime()
+                self.readMultidimensionalTime(time_value_element, distance)
+                constraint.addMinimumDistance(distance)
+        maximum_distances_element = self.find(element, "MAXIMUM-DISTANCES")
+        if maximum_distances_element is not None:
+            for time_value_element in self.findall(maximum_distances_element, "TIME-VALUE"):
+                distance = MultidimensionalTime()
+                self.readMultidimensionalTime(time_value_element, distance)
+                constraint.addMaximumDistance(distance)
+        confidence_intervals_element = self.find(element, "CONFIDENCE-INTERVALS")
+        if confidence_intervals_element is not None:
+            for interval_element in self.findall(confidence_intervals_element, "CONFIDENCE-INTERVAL"):
+                interval = ConfidenceInterval()
+                self.readConfidenceInterval(interval_element, interval)
+                constraint.addConfidenceInterval(interval)
+
+    def readTimingClock(self, element: ET.Element, clock: TimingClock):
+        self.readIdentifiable(element, clock)
+        time_bases_element = self.find(element, "PLATFORM-TIME-BASES")
+        if time_bases_element is not None:
+            conditional_element = self.find(time_bases_element, "GLOBAL-TIME-DOMAIN-REF-CONDITIONAL")
+            if conditional_element is not None:
+                clock.setPlatformTimeBaseRef(self.getChildElementOptionalRefType(conditional_element, "GLOBAL-TIME-DOMAIN-REF"))
+
+    def readTDLETZoneClock(self, element: ET.Element, clock: TDLETZoneClock):
+        self.readTimingClock(element, clock)
+        accuracy_ext_element = self.find(element, "ACCURACY-EXT")
+        if accuracy_ext_element is not None:
+            accuracy_ext = MultidimensionalTime()
+            self.readMultidimensionalTime(accuracy_ext_element, accuracy_ext)
+            clock.setAccuracyExt(accuracy_ext)
+        accuracy_int_element = self.find(element, "ACCURACY-INT")
+        if accuracy_int_element is not None:
+            accuracy_int = MultidimensionalTime()
+            self.readMultidimensionalTime(accuracy_int_element, accuracy_int)
+            clock.setAccuracyInt(accuracy_int)
+
+    def readTimingClockSyncAccuracy(self, element: ET.Element, sync_accuracy: TimingClockSyncAccuracy):
+        self.readIdentifiable(element, sync_accuracy)
+        accuracy_element = self.find(element, "ACCURACY")
+        if accuracy_element is not None:
+            accuracy = MultidimensionalTime()
+            self.readMultidimensionalTime(accuracy_element, accuracy)
+            sync_accuracy.setAccuracy(accuracy)
+        sync_accuracy.setLowerRef(self.getChildElementOptionalRefType(element, "LOWER-REF"))
+        sync_accuracy.setUpperRef(self.getChildElementOptionalRefType(element, "UPPER-REF"))
+
+    def readEOCExecutableEntityRefAbstract(self, element: ET.Element, obj: EOCExecutableEntityRefAbstract):
+        for ref in self.getChildElementRefTypeList(element, "DIRECT-SUCCESSOR-REFS/DIRECT-SUCCESSOR-REF"):
+            obj.addDirectSuccessorRef(ref)
+
+    def readEOCComponentIRef(self, element: ET.Element, key: str) -> Optional[ComponentInCompositionInstanceRef]:
+        component_iref_element = self.find(element, key)
+        if component_iref_element is not None:
+            return self.readComponentInCompositionInstanceRef(component_iref_element)
+        return None
+
+    def readEOCExecutableEntityRef(self, element: ET.Element, entity_ref: EOCExecutableEntityRef):
+        self.readIdentifiable(element, entity_ref)
+        self.readEOCExecutableEntityRefAbstract(element, entity_ref)
+        entity_ref.setBswModuleInstanceRef(self.getChildElementOptionalRefType(element, "BSW-MODULE-INSTANCE-REF"))
+        entity_ref.setComponentIRef(self.readEOCComponentIRef(element, "COMPONENT-IREF"))
+        entity_ref.setExecutableRef(self.getChildElementOptionalRefType(element, "EXECUTABLE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "SUCCESSOR-REFS/SUCCESSOR-REF"):
+            entity_ref.addSuccessorRef(ref)
+
+    def readEOCEventRef(self, element: ET.Element, event_ref: EOCEventRef):
+        self.readIdentifiable(element, event_ref)
+        self.readEOCExecutableEntityRefAbstract(element, event_ref)
+        event_ref.setBswModuleInstanceRef(self.getChildElementOptionalRefType(element, "BSW-MODULE-INSTANCE-REF"))
+        event_ref.setComponentIRef(self.readEOCComponentIRef(element, "COMPONENT-IREF"))
+        event_ref.setEventRef(self.getChildElementOptionalRefType(element, "EVENT-REF"))
+        for ref in self.getChildElementRefTypeList(element, "SUCCESSOR-REFS/SUCCESSOR-REF"):
+            event_ref.addSuccessorRef(ref)
+
+    def readEOCExecutableEntityRefGroup(self, element: ET.Element, group: EOCExecutableEntityRefGroup):
+        self.readIdentifiable(element, group)
+        self.readEOCExecutableEntityRefAbstract(element, group)
+        literal = self.getChildElementOptionalLiteral(element, "LET-DATA-EXCHANGE-PARADIGM")
+        if literal is not None:
+            group.setLetDataExchangeParadigm(LetDataExchangeParadigmEnum().setValue(literal.getText()))
+        for ref in self.getChildElementRefTypeList(element, "LET-INTERVAL-REFS/LET-INTERVAL-REF"):
+            group.addLetIntervalRef(ref)
+        group.setMaxCycleRepetitions(self.getChildElementOptionalPositiveInteger(element, "MAX-CYCLE-REPETITIONS"))
+        group.setMaxCycles(self.getChildElementOptionalIntegerValue(element, "MAX-CYCLES"))
+        group.setMaxSlots(self.getChildElementOptionalIntegerValue(element, "MAX-SLOTS"))
+        group.setMaxSlotsPerCycle(self.getChildElementOptionalPositiveInteger(element, "MAX-SLOTS-PER-CYCLE"))
+        for ref in self.getChildElementRefTypeList(element, "NESTED-ELEMENT-REFS/NESTED-ELEMENT-REF"):
+            group.addNestedElementRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "SUCCESSOR-REFS/SUCCESSOR-REF"):
+            group.addSuccessorRef(ref)
+        group.setTriggeringEventRef(self.getChildElementOptionalRefType(element, "TRIGGERING-EVENT-REF"))
+
     def readSwcInternalBehaviorVariationPointProxies(self, element: ET.Element, behavior: SwcInternalBehavior):
         for child_element in self.findall(element, "VARIATION-POINT-PROXYS/VARIATION-POINT-PROXY"):
             short_name = self.getShortName(child_element)
@@ -2653,6 +3132,20 @@ class ARXMLParser(AbstractARXMLParser):
     def readMultidimensionalTime(self, element: ET.Element, time: MultidimensionalTime):
         time.setCseCode(self.getChildElementOptionalLiteral(element, "CSE-CODE"))
         time.setCseCodeFactor(self.getChildElementOptionalIntegerValue(element, "CSE-CODE-FACTOR"))
+
+    def readConfidenceInterval(self, element: ET.Element, interval: ConfidenceInterval):
+        self.readARObjectAttributes(element, interval)
+        lower_bound_element = self.find(element, "LOWER-BOUND")
+        if lower_bound_element is not None:
+            lower_bound = MultidimensionalTime()
+            self.readMultidimensionalTime(lower_bound_element, lower_bound)
+            interval.setLowerBound(lower_bound)
+        interval.setPropability(self.getChildElementOptionalFloatValue(element, "PROPABILITY"))
+        upper_bound_element = self.find(element, "UPPER-BOUND")
+        if upper_bound_element is not None:
+            upper_bound = MultidimensionalTime()
+            self.readMultidimensionalTime(upper_bound_element, upper_bound)
+            interval.setUpperBound(upper_bound)
 
     def readHardwareConfiguration(self, element: ET.Element, config: HardwareConfiguration):
         config.setAdditionalInformation(self.getChildElementOptionalLiteral(element, "ADDITIONAL-INFORMATION"))
@@ -3764,6 +4257,10 @@ class ARXMLParser(AbstractARXMLParser):
                 note.setNoteType(NoteTypeEnum().setValue(child_element.attrib["NOTETYPE"]))
         return note
 
+    def readTraceable(self, element: ET.Element, traceable: Traceable):
+        for trace_ref in self.findall(element, "TRACE-REFS/TRACE-REF"):
+            traceable.addTraceRef(RefType().setValue(trace_ref.text))
+
     def getTraceableText(self, element: ET.Element, key: str) -> TraceableText:
         traceable_text = None
         child_element = self.find(element, key)
@@ -3771,8 +4268,7 @@ class ARXMLParser(AbstractARXMLParser):
             traceable_text = TraceableText()
             self.readARObjectAttributes(child_element, traceable_text)
             traceable_text.setText(self.getDocumentationBlock(child_element, "TEXT"))
-            for trace_ref in self.findall(child_element, "TRACE-REFS/TRACE-REF"):
-                traceable_text.addTraceRef(RefType().setDest(trace_ref.text))
+            self.readTraceable(child_element, traceable_text)
         return traceable_text
 
     def getStructuredReq(self, element: ET.Element, key: str) -> StructuredReq:
@@ -5853,41 +6349,130 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPortInterface(element, mode_interface)
         self.readModeSwitchInterfaceModeGroup(element, mode_interface)
 
-    def readEOCExecutableEntityRef(self, element: ET.Element, constraint: ExecutionOrderConstraint):
-        short_name = self.getShortName(element)
-        self.logger.debug("readEocExecutableEntityRef %s" % short_name)
-        entity_ref = constraint.createEOCExecutableEntityRef(short_name)
-        self.readIdentifiable(element, entity_ref)
-        for ref in self.getChildElementRefTypeList(element, "SUCCESSOR-REFS/SUCCESSOR-REF"):
-            entity_ref.addSuccessorRef(ref)
-
     def readExecutionOrderConstraintOrderedElement(self, element: ET.Element, constrain: ExecutionOrderConstraint):
         for child_element in self.findall(element, "ORDERED-ELEMENTS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "EOC-EXECUTABLE-ENTITY-REF":
-                self.readEOCExecutableEntityRef(child_element, constrain)
+                entity_ref = constrain.createEOCExecutableEntityRef(self.getShortName(child_element))
+                self.readEOCExecutableEntityRef(child_element, entity_ref)
+            elif tag_name == "EOC-EVENT-REF":
+                event_ref = constrain.createEOCEventRef(self.getShortName(child_element))
+                self.readEOCEventRef(child_element, event_ref)
+            elif tag_name == "EOC-EXECUTABLE-ENTITY-REF-GROUP":
+                entity_ref_group = constrain.createEOCExecutableEntityRefGroup(self.getShortName(child_element))
+                self.readEOCExecutableEntityRefGroup(child_element, entity_ref_group)
             else:
                 self.raiseError("Unsupported order element <%s>." % tag_name)
 
-    def readExecutionOrderConstraint(self, element: ET.Element, extension: TimingExtension):
-        short_name = self.getShortName(element)
-        self.logger.debug("readExecutionOrderConstraint %s" % short_name)
-        constraint = extension.createExecutionOrderConstraint(short_name)
-        self.readIdentifiable(element, constraint)
+    def readExecutionOrderConstraint(self, element: ET.Element, constraint: ExecutionOrderConstraint):
+        self.logger.debug("readExecutionOrderConstraint %s" % self.getShortName(element))
+        self.readTimingConstraint(element, constraint)
+        constraint.setBaseCompositionRef(self.getChildElementOptionalRefType(element, "BASE-COMPOSITION-REF"))
+        literal = self.getChildElementOptionalLiteral(element, "EXECUTION-ORDER-CONSTRAINT-TYPE")
+        if literal is not None:
+            constraint.setExecutionOrderConstraintType(ExecutionOrderConstraintTypeEnum().setValue(literal.getText()))
+        constraint.setIgnoreOrderAllowed(self.getChildElementOptionalBooleanValue(element, "IGNORE-ORDER-ALLOWED"))
+        constraint.setIsEvent(self.getChildElementOptionalBooleanValue(element, "IS-EVENT"))
         self.readExecutionOrderConstraintOrderedElement(element, constraint)
+        constraint.setPermitMultipleReferencesToEE(self.getChildElementOptionalBooleanValue(element, "PERMIT-MULTIPLE-REFERENCES-TO-EE"))
+
+    def readTimingExtensionConstraint(self, element: ET.Element, extension: TimingExtension, key: str):
+        tag_name = self.getTagName(element)
+        if tag_name not in (
+            "AGE-CONSTRAINT",
+            "ARBITRARY-EVENT-TRIGGERING",
+            "BURST-PATTERN-EVENT-TRIGGERING",
+            "CONCRETE-PATTERN-EVENT-TRIGGERING",
+            "EXECUTION-ORDER-CONSTRAINT",
+            "EXECUTION-TIME-CONSTRAINT",
+            "LATENCY-TIMING-CONSTRAINT",
+            "OFFSET-TIMING-CONSTRAINT",
+            "PERIODIC-EVENT-TRIGGERING",
+            "SPORADIC-EVENT-TRIGGERING",
+            "SYNCHRONIZATION-POINT-CONSTRAINT",
+            "SYNCHRONIZATION-TIMING-CONSTRAINT",
+        ):
+            self.raiseError("Unsupported timing requirement <%s>" % tag_name)
+            return
+        short_name = self.getShortName(element)
+        constraint = None
+        if tag_name == "AGE-CONSTRAINT":
+            constraint = AgeConstraint(extension, short_name)
+            self.readAgeConstraint(element, constraint)
+        elif tag_name == "ARBITRARY-EVENT-TRIGGERING":
+            constraint = ArbitraryEventTriggering(extension, short_name)
+            self.readArbitraryEventTriggering(element, constraint)
+        elif tag_name == "BURST-PATTERN-EVENT-TRIGGERING":
+            constraint = BurstPatternEventTriggering(extension, short_name)
+            self.readBurstPatternEventTriggering(element, constraint)
+        elif tag_name == "CONCRETE-PATTERN-EVENT-TRIGGERING":
+            constraint = ConcretePatternEventTriggering(extension, short_name)
+            self.readConcretePatternEventTriggering(element, constraint)
+        elif tag_name == "EXECUTION-ORDER-CONSTRAINT":
+            constraint = ExecutionOrderConstraint(extension, short_name)
+            self.readExecutionOrderConstraint(element, constraint)
+        elif tag_name == "EXECUTION-TIME-CONSTRAINT":
+            constraint = ExecutionTimeConstraint(extension, short_name)
+            self.readExecutionTimeConstraint(element, constraint)
+        elif tag_name == "LATENCY-TIMING-CONSTRAINT":
+            constraint = LatencyTimingConstraint(extension, short_name)
+            self.readLatencyTimingConstraint(element, constraint)
+        elif tag_name == "OFFSET-TIMING-CONSTRAINT":
+            constraint = OffsetTimingConstraint(extension, short_name)
+            self.readOffsetTimingConstraint(element, constraint)
+        elif tag_name == "PERIODIC-EVENT-TRIGGERING":
+            constraint = PeriodicEventTriggering(extension, short_name)
+            self.readPeriodicEventTriggering(element, constraint)
+        elif tag_name == "SPORADIC-EVENT-TRIGGERING":
+            constraint = SporadicEventTriggering(extension, short_name)
+            self.readSporadicEventTriggering(element, constraint)
+        elif tag_name == "SYNCHRONIZATION-POINT-CONSTRAINT":
+            constraint = SynchronizationPointConstraint(extension, short_name)
+            self.readSynchronizationPointConstraint(element, constraint)
+        elif tag_name == "SYNCHRONIZATION-TIMING-CONSTRAINT":
+            constraint = SynchronizationTimingConstraint(extension, short_name)
+            self.readSynchronizationTimingConstraint(element, constraint)
+        else:
+            self.raiseError("Unsupported timing requirement <%s>" % tag_name)
+            return
+        extension.addElement(constraint)
+        if key == "TIMING-GUARANTEES":
+            extension.addTimingGuarantee(constraint)
+        else:
+            extension.addTimingRequirement(constraint)
 
     def readTimingExtension(self, element: ET.Element, extension: TimingExtension):
-        for child_element in self.findall(element, "TIMING-REQUIREMENTS/*"):
+        for child_element in self.findall(element, "TIMING-CLOCKS/*"):
             tag_name = self.getTagName(child_element)
-            if tag_name == "EXECUTION-ORDER-CONSTRAINT":
-                self.readExecutionOrderConstraint(child_element, extension)
+            if tag_name == "TDLET-ZONE-CLOCK":
+                clock = TDLETZoneClock(extension, self.getShortName(child_element))
+                self.readTDLETZoneClock(child_element, clock)
+                extension.addElement(clock)
+                extension.addTimingClock(clock)
             else:
-                self.raiseError("Unsupported timing requirement <%s>" % tag_name)
+                self.notImplemented("Unsupported TIMING-CLOCKS item <%s>" % tag_name)
+        for child_element in self.findall(element, "TIMING-CLOCK-SYNC-ACCURACYS/TIMING-CLOCK-SYNC-ACCURACY"):
+            sync_accuracy = extension.createTimingClockSyncAccuracy(self.getShortName(child_element))
+            self.readTimingClockSyncAccuracy(child_element, sync_accuracy)
+        for child_element in self.findall(element, "TIMING-CONDITIONS/TIMING-CONDITION"):
+            condition = extension.createTimingCondition(self.getShortName(child_element))
+            self.readTimingCondition(child_element, condition)
+        for child_element in self.findall(element, "TIMING-DESCRIPTIONS/*"):
+            self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % self.getTagName(child_element))
+        for child_element in self.findall(element, "TIMING-GUARANTEES/*"):
+            self.readTimingExtensionConstraint(child_element, extension, "TIMING-GUARANTEES")
+        for child_element in self.findall(element, "TIMING-REQUIREMENTS/*"):
+            self.readTimingExtensionConstraint(child_element, extension, "TIMING-REQUIREMENTS")
+        resource_element = self.find(element, "TIMING-RESOURCE")
+        if resource_element is not None:
+            resource = extension.createTimingResource(self.getShortName(resource_element))
+            self.readTimingExtensionResource(resource_element, resource)
 
     def readSwcTiming(self, element: ET.Element, timing: SwcTiming):
         self.logger.debug("Read SwcTiming <%s>" % timing.getShortName())
         self.readIdentifiable(element, timing)
         self.readTimingExtension(element, timing)
+        timing.setBehaviorRef(self.getChildElementOptionalRefType(element, "BEHAVIOR-REF"))
 
     def readFrameTriggering(self, element: ET.Element, triggering: FrameTriggering):
         self.readIdentifiable(element, triggering)
@@ -6023,6 +6608,15 @@ class ARXMLParser(AbstractARXMLParser):
         triggering.setIPduRef(self.getChildElementOptionalRefType(element, "I-PDU-REF"))
         for child_element in self.findall(element, "I-SIGNAL-TRIGGERINGS/I-SIGNAL-TRIGGERING-REF-CONDITIONAL"):
             triggering.addISignalTriggeringRef(self.getChildElementOptionalRefType(child_element, "I-SIGNAL-TRIGGERING-REF"))
+        triggering.setSecOcCryptoMappingRef(self.getChildElementOptionalRefType(element, "SEC-OC-CRYPTO-MAPPING-REF"))
+        for child_element in self.findall(element, "TRIGGER-I-PDU-SEND-CONDITIONS/TRIGGER-I-PDU-SEND-CONDITION"):
+            condition = TriggerIPduSendCondition()
+            self.readTriggerIPduSendCondition(child_element, condition)
+            triggering.addTriggerIPduSendCondition(condition)
+
+    def readTriggerIPduSendCondition(self, element: ET.Element, condition: TriggerIPduSendCondition):
+        for ref in self.getChildElementRefTypeList(element, "MODE-DECLARATION-REFS/MODE-DECLARATION-REF"):
+            condition.addModeDeclarationRef(ref)
 
     def readPhysicalChannelCommConnectorRefs(self, element: ET.Element, channel: PhysicalChannel):
         for child_element in self.findall(element, "COMM-CONNECTORS/COMMUNICATION-CONNECTOR-REF-CONDITIONAL"):
@@ -6078,6 +6672,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readPhysicalChannel(element, channel)
 
     def readScheduleTableEntry(self, element: ET.Element, entry: ScheduleTableEntry):
+        entry.setIntroduction(self.getDocumentationBlock(element, "INTRODUCTION"))
         entry.setDelay(self.getChildElementOptionalTimeValue(element, "DELAY"))
         entry.setPositionInTable(self.getChildElementOptionalIntegerValue(element, "POSITION-IN-TABLE"))
 
@@ -6089,11 +6684,114 @@ class ARXMLParser(AbstractARXMLParser):
             entry.setFrameTriggeringRef(self.getChildElementOptionalRefType(element, "FRAME-TRIGGERING-REF"))
         return entry
 
+    def readLinConfigurationEntry(self, element: ET.Element, entry: LinConfigurationEntry):
+        entry.setAssignedControllerRef(self.getChildElementOptionalRefType(element, "ASSIGNED-CONTROLLER-REF"))
+        entry.setAssignedLinSlaveConfigRef(self.getChildElementOptionalRefType(element, "ASSIGNED-LIN-SLAVE-CONFIG-REF"))
+
+    def readByteValues(self, element: ET.Element, entry):
+        for child_element in self.findall(element, "BYTE-VALUES/BYTE-VALUE"):
+            entry.addByteValue(self.getChildElementOptionalIntegerValue(child_element, "."))
+
+    def getFreeFormat(self, element: ET.Element) -> FreeFormat:
+        entry = None
+        if element is not None:
+            entry = FreeFormat()
+            self.readScheduleTableEntry(element, entry)
+            self.readByteValues(element, entry)
+        return entry
+
+    def getAssignFrameId(self, element: ET.Element) -> AssignFrameId:
+        entry = None
+        if element is not None:
+            entry = AssignFrameId()
+            self.readScheduleTableEntry(element, entry)
+            self.readLinConfigurationEntry(element, entry)
+            entry.setAssignedFrameTriggeringRef(self.getChildElementOptionalRefType(element, "ASSIGNED-FRAME-TRIGGERING-REF"))
+        return entry
+
+    def getUnassignFrameId(self, element: ET.Element) -> UnassignFrameId:
+        entry = None
+        if element is not None:
+            entry = UnassignFrameId()
+            self.readScheduleTableEntry(element, entry)
+            self.readLinConfigurationEntry(element, entry)
+            entry.setUnassignedFrameTriggeringRef(self.getChildElementOptionalRefType(element, "UNASSIGNED-FRAME-TRIGGERING-REF"))
+        return entry
+
+    def getAssignFrameIdRange(self, element: ET.Element) -> AssignFrameIdRange:
+        entry = None
+        if element is not None:
+            entry = AssignFrameIdRange()
+            self.readScheduleTableEntry(element, entry)
+            self.readLinConfigurationEntry(element, entry)
+            for child_element in self.findall(element, "FRAME-PIDS/FRAME-PID"):
+                frame_pid = FramePid()
+                frame_pid.setIndex(self.getChildElementOptionalIntegerValue(child_element, "INDEX"))
+                frame_pid.setPid(self.getChildElementOptionalPositiveInteger(child_element, "PID"))
+                entry.addFramePid(frame_pid)
+            entry.setStartIndex(self.getChildElementOptionalIntegerValue(element, "START-INDEX"))
+        return entry
+
+    def getAssignNad(self, element: ET.Element) -> AssignNad:
+        entry = None
+        if element is not None:
+            entry = AssignNad()
+            self.readScheduleTableEntry(element, entry)
+            self.readLinConfigurationEntry(element, entry)
+            entry.setNewNad(self.getChildElementOptionalIntegerValue(element, "NEW-NAD"))
+        return entry
+
+    def getConditionalChangeNad(self, element: ET.Element) -> ConditionalChangeNad:
+        entry = None
+        if element is not None:
+            entry = ConditionalChangeNad()
+            self.readScheduleTableEntry(element, entry)
+            self.readLinConfigurationEntry(element, entry)
+            entry.setByte(self.getChildElementOptionalIntegerValue(element, "BYTE"))
+            entry.setId(self.getChildElementOptionalPositiveInteger(element, "ID"))
+            entry.setInvert(self.getChildElementOptionalIntegerValue(element, "INVERT"))
+            entry.setMask(self.getChildElementOptionalIntegerValue(element, "MASK"))
+            entry.setNewNad(self.getChildElementOptionalIntegerValue(element, "NEW-NAD"))
+        return entry
+
+    def getSaveConfigurationEntry(self, element: ET.Element) -> SaveConfigurationEntry:
+        entry = None
+        if element is not None:
+            entry = SaveConfigurationEntry()
+            self.readScheduleTableEntry(element, entry)
+            self.readLinConfigurationEntry(element, entry)
+        return entry
+
+    def getDataDumpEntry(self, element: ET.Element) -> DataDumpEntry:
+        entry = None
+        if element is not None:
+            entry = DataDumpEntry()
+            self.readScheduleTableEntry(element, entry)
+            self.readLinConfigurationEntry(element, entry)
+            self.readByteValues(element, entry)
+        return entry
+
     def readLinScheduleTableTableEntries(self, element: ET.Element, table: LinScheduleTable):
         for child_element in self.findall(element, "TABLE-ENTRYS/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "APPLICATION-ENTRY":
                 table = table.addTableEntry(self.getApplicationEntry(child_element, "APPLICATION-ENTRY"))
+            elif tag_name == "FREE-FORMAT":
+                table = table.addTableEntry(self.getFreeFormat(child_element))
+            elif tag_name == "ASSIGN-FRAME-ID":
+                table = table.addTableEntry(self.getAssignFrameId(child_element))
+            elif tag_name == "ASSIGN-FRAME-ID-RANGE":
+                table = table.addTableEntry(self.getAssignFrameIdRange(child_element))
+            elif tag_name == "UNASSIGN-FRAME-ID":
+                table = table.addTableEntry(self.getUnassignFrameId(child_element))
+            elif tag_name == "ASSIGN-NAD":
+                table = table.addTableEntry(self.getAssignNad(child_element))
+            elif tag_name == "CONDITIONAL-CHANGE-NAD":
+                table = table.addTableEntry(self.getConditionalChangeNad(child_element))
+            elif tag_name == "SAVE-CONFIGURATION-ENTRY":
+                table = table.addTableEntry(self.getSaveConfigurationEntry(child_element))
+            elif tag_name == "DATA-DUMP-ENTRY":
+                table = table.addTableEntry(self.getDataDumpEntry(child_element))
             else:
                 self.notImplemented("Unsupported Schedule Table <%s>" % tag_name)
 
@@ -7120,9 +7818,10 @@ class ARXMLParser(AbstractARXMLParser):
             self.logger.debug("readPduToFrameMapping %s" % short_name)
             mapping = parent.createPduToFrameMapping(short_name)
             self.readIdentifiable(child_element, mapping)
-            mapping.packingByteOrder = self.getChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER")
-            mapping.pduRef = self.getChildElementOptionalRefType(child_element, "PDU-REF")
-            mapping.startPosition = self.getChildElementOptionalNumericalValue(child_element, "START-POSITION")
+            mapping.setPackingByteOrder(self.getChildElementOptionalLiteral(child_element, "PACKING-BYTE-ORDER"))
+            mapping.setPduRef(self.getChildElementOptionalRefType(child_element, "PDU-REF"))
+            mapping.setStartPosition(self.getChildElementOptionalIntegerValue(child_element, "START-POSITION"))
+            mapping.setUpdateIndicationBitPosition(self.getChildElementOptionalIntegerValue(child_element, "UPDATE-INDICATION-BIT-POSITION"))
 
     def readFrame(self, element: ET.Element, frame: Frame):
         self.readIdentifiable(element, frame)
@@ -7160,6 +7859,8 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read NmPdu <%s>" % pdu.getShortName())
         self.readPdu(element, pdu)
         self.readNmPduISignalToIPduMappings(element, pdu)
+        pdu.setNmDataInformation(self.getChildElementOptionalBooleanValue(element, "NM-DATA-INFORMATION"))
+        pdu.setNmVoteInformation(self.getChildElementOptionalBooleanValue(element, "NM-VOTE-INFORMATION"))
         pdu.setUnusedBitPattern(self.getChildElementOptionalIntegerValue(element, "UNUSED-BIT-PATTERN"))
 
     def readContainedIPduProps(self, element: ET.Element) -> ContainedIPduProps:
@@ -7549,6 +8250,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, tp_node)
         tp_node.setConnectorRef(self.getChildElementOptionalRefType(element, "CONNECTOR-REF"))
         tp_node.setDropNotRequestedNad(self.getChildElementOptionalBooleanValue(element, "DROP-NOT-REQUESTED-NAD"))
+        tp_node.setMaxNumberOfRespPendingFrames(self.getChildElementOptionalIntegerValue(element, "MAX-NUMBER-OF-RESP-PENDING-FRAMES"))
         tp_node.setP2Max(self.getChildElementOptionalTimeValue(element, "P-2-MAX"))
         tp_node.setP2Timing(self.getChildElementOptionalTimeValue(element, "P-2-TIMING"))
         tp_node.setTpAddressRef(self.getChildElementOptionalRefType(element, "TP-ADDRESS-REF"))
@@ -7914,6 +8616,10 @@ class ARXMLParser(AbstractARXMLParser):
                 param_def = EcucBooleanParamDef(policy, self.getShortName(child_element))
                 self.readEcucBooleanParamDef(child_element, param_def)
                 policy.addParameter(param_def)
+            elif tag_name == "ECUC-ADD-INFO-PARAM-DEF":
+                param_def = EcucAddInfoParamDef(policy, self.getShortName(child_element))
+                self.readEcucAddInfoParamDef(child_element, param_def)
+                policy.addParameter(param_def)
             elif tag_name == "ECUC-STRING-PARAM-DEF":
                 param_def = EcucStringParamDef(policy, self.getShortName(child_element))
                 self.readEcucStringParamDef(child_element, param_def)
@@ -8060,6 +8766,9 @@ class ARXMLParser(AbstractARXMLParser):
             expr.setConfigElementDefLocalRef(self.getChildElementOptionalRefType(expr_element, "CONFIG-ELEMENT-DEF-LOCAL-REF"))
             query.setEcucQueryExpression(expr)
 
+    def readEcucAddInfoParamDef(self, element: ET.Element, param_def: EcucAddInfoParamDef):
+        self.readEcucParameterDef(element, param_def)
+
     def readEcucBooleanParamDef(self, element: ET.Element, param_def: EcucBooleanParamDef):
         self.readEcucParameterDef(element, param_def)
         param_def.setDefaultValue(self.getChildElementOptionalBooleanValue(element, "DEFAULT-VALUE"))
@@ -8103,6 +8812,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEcucEnumerationLiteral(self, element: ET.Element, literal: EcucEnumerationLiteralDef):
         self.readIdentifiable(element, literal)
+        literal.setEcucCond(self.readEcucConditionSpecification(element))
         literal.setOrigin(self.getChildElementOptionalLiteral(element, "ORIGIN"))
 
     def readEcucEnumerationParamDefLiterals(self, element: ET.Element, literal_def: EcucEnumerationParamDef):
@@ -8134,6 +8844,9 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "ECUC-BOOLEAN-PARAM-DEF":
                 param_def = container_def.createEcucBooleanParamDef(self.getShortName(child_element))
                 self.readEcucBooleanParamDef(child_element, param_def)
+            elif tag_name == "ECUC-ADD-INFO-PARAM-DEF":
+                param_def = container_def.createEcucAddInfoParamDef(self.getShortName(child_element))
+                self.readEcucAddInfoParamDef(child_element, param_def)
             elif tag_name == "ECUC-STRING-PARAM-DEF":
                 param_def = container_def.createEcucStringParamDef(self.getShortName(child_element))
                 self.readEcucStringParamDef(child_element, param_def)
@@ -8840,8 +9553,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readIPduPort(self, element: ET.Element, port: IPduPort):
         self.readCommConnectorPort(element, port)
-        port.setKeyId(self.getChildElementOptionalPositiveInteger(element, "KEY-ID"))
+        port.setIPduSignalProcessing(self.getChildElementOptionalLiteral(element, "I-PDU-SIGNAL-PROCESSING"))
         port.setRxSecurityVerification(self.getChildElementOptionalBooleanValue(element, "RX-SECURITY-VERIFICATION"))
+        port.setTimestampRxAcceptanceWindow(self.getChildElementOptionalTimeValue(element, "TIMESTAMP-RX-ACCEPTANCE-WINDOW"))
         port.setUseAuthDataFreshness(self.getChildElementOptionalBooleanValue(element, "USE-AUTH-DATA-FRESHNESS"))
 
     def readISignalPort(self, element: ET.Element, port: ISignalPort):

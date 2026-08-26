@@ -2,7 +2,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ByteOrderEnum
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
     ContainedIPduProps,
     DcmIPdu,
@@ -41,6 +41,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
     UserDefinedIPdu,
     UserDefinedPdu,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TriggerIPduSendCondition
 
 
 class MockParent(ARObject):
@@ -70,23 +71,37 @@ class Test_FibexCoreCommunication:
         assert mapping.getStartPosition() is None
         assert mapping.getUpdateIndicationBitPosition() is None
 
-        # Test setter/getter methods
-        mapping.setPackingByteOrder("MOST_SIGNIFICANT_BYTE_FIRST")
-        assert mapping.getPackingByteOrder() == "MOST_SIGNIFICANT_BYTE_FIRST"
-        assert mapping == mapping.setPackingByteOrder("MOST_SIGNIFICANT_BYTE_FIRST")  # Test method chaining
+        # Test setter/getter methods with method chaining
+        order = ByteOrderEnum()
+        order.setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST)
+        mapping.setPackingByteOrder(order)
+        assert mapping.getPackingByteOrder().getValue() == "mostSignificantByteFirst"
+        assert mapping == mapping.setPackingByteOrder(order)  # Test method chaining
+        # None is a no-op and does not overwrite an existing packingByteOrder
+        assert mapping == mapping.setPackingByteOrder(None)
+        assert mapping.getPackingByteOrder() == order
 
         ref = object()
         mapping.setPduRef(ref)
         assert mapping.getPduRef() == ref
         assert mapping == mapping.setPduRef(ref)  # Test method chaining
+        # None is a no-op and does not overwrite an existing pduRef
+        assert mapping == mapping.setPduRef(None)
+        assert mapping.getPduRef() == ref
 
         mapping.setStartPosition(10)
         assert mapping.getStartPosition() == 10
         assert mapping == mapping.setStartPosition(10)  # Test method chaining
+        # None is a no-op and does not overwrite an existing startPosition
+        assert mapping == mapping.setStartPosition(None)
+        assert mapping.getStartPosition() == 10
 
         mapping.setUpdateIndicationBitPosition(5)
         assert mapping.getUpdateIndicationBitPosition() == 5
         assert mapping == mapping.setUpdateIndicationBitPosition(5)  # Test method chaining
+        # None is a no-op and does not overwrite an existing updateIndicationBitPosition
+        assert mapping == mapping.setUpdateIndicationBitPosition(None)
+        assert mapping.getUpdateIndicationBitPosition() == 5
 
     def test_Frame(self):
         """Test Frame abstract class instantiation."""
@@ -108,20 +123,17 @@ class Test_FibexCoreCommunication:
         assert frame.getFrameLength() is None
         assert frame.getPduToFrameMappings() == []
 
-        # Test setter/getter methods with method chaining - with actual Integer value
-        value = Integer().setValue("100")
-        frame.setFrameLength(value)
-        assert frame.getFrameLength().getValue() == 100
-        assert frame == frame.setFrameLength(value)  # Test method chaining
-
-        # Test setter/getter methods with method chaining - with None (no-op)
-        assert frame == frame.setFrameLength(None)  # Test method chaining with None
-        assert frame.getFrameLength().getValue() == 100  # Should remain unchanged
+        # Test setter/getter methods with method chaining
+        frame.setFrameLength(100)
+        assert frame.getFrameLength() == 100
+        assert frame == frame.setFrameLength(100)  # Test method chaining
 
         # Test PduToFrameMapping creation methods
         mapping = frame.createPduToFrameMapping("test_mapping")
         assert isinstance(mapping, PduToFrameMapping)
         assert len(frame.getPduToFrameMappings()) == 1
+        mapping.setPduRef(object())
+        assert frame.getPduToFrameMappings()[0].getPduRef() == mapping.getPduRef()
 
         # Try creating the same mapping again (should return existing)
         mapping2 = frame.createPduToFrameMapping("test_mapping")
@@ -521,19 +533,32 @@ class Test_FibexCoreCommunication:
         pdu.setNmDataInformation(True)
         assert pdu.getNmDataInformation() is True
         assert pdu == pdu.setNmDataInformation(True)  # Test method chaining
+        # None is a no-op and does not overwrite an existing nmDataInformation
+        assert pdu == pdu.setNmDataInformation(None)
+        assert pdu.getNmDataInformation() is True
 
         pdu.setNmVoteInformation(False)
         assert pdu.getNmVoteInformation() is False
         assert pdu == pdu.setNmVoteInformation(False)  # Test method chaining
+        # None is a no-op and does not overwrite an existing nmVoteInformation
+        assert pdu == pdu.setNmVoteInformation(None)
+        assert pdu.getNmVoteInformation() is False
 
         pdu.setUnusedBitPattern(-1)
         assert pdu.getUnusedBitPattern() == -1
         assert pdu == pdu.setUnusedBitPattern(-1)  # Test method chaining
+        # None is a no-op and does not overwrite an existing unusedBitPattern
+        assert pdu == pdu.setUnusedBitPattern(None)
+        assert pdu.getUnusedBitPattern() == -1
 
         # Test ISignalToIPduMapping creation method
         mapping = pdu.createISignalToIPduMapping("test_mapping")
         assert isinstance(mapping, ISignalToIPduMapping)
         assert len(pdu.getISignalToIPduMappings()) == 1
+
+        # Try creating the same mapping again (should return existing)
+        mapping2 = pdu.createISignalToIPduMapping("test_mapping")
+        assert mapping == mapping2  # Should return the same instance
 
     def test_NPdu(self):
         """Test NPdu class functionality."""
@@ -698,6 +723,9 @@ class Test_FibexCoreCommunication:
         triggering.setIPduRef(ref1)
         assert triggering.getIPduRef() == ref1
         assert triggering == triggering.setIPduRef(ref1)  # Test method chaining
+        # None is a no-op and does not overwrite an existing iPduRef
+        assert triggering == triggering.setIPduRef(None)
+        assert triggering.getIPduRef() == ref1
 
         ref2 = object()
         triggering.addIPduPortRef(ref2)
@@ -713,11 +741,19 @@ class Test_FibexCoreCommunication:
         triggering.setSecOcCryptoMappingRef(ref4)
         assert triggering.getSecOcCryptoMappingRef() == ref4
         assert triggering == triggering.setSecOcCryptoMappingRef(ref4)  # Test method chaining
+        # None is a no-op and does not overwrite an existing secOcCryptoMappingRef
+        assert triggering == triggering.setSecOcCryptoMappingRef(None)
+        assert triggering.getSecOcCryptoMappingRef() == ref4
 
         ref5 = object()
         triggering.addTriggerIPduSendCondition(ref5)
         assert ref5 in triggering.getTriggerIPduSendConditions()
         assert triggering == triggering.addTriggerIPduSendCondition(ref5)  # Test method chaining
+
+        # Spec Table 6.31: triggerIPduSendCondition is a typed TriggerIPduSendCondition aggregation
+        condition = TriggerIPduSendCondition()
+        triggering.addTriggerIPduSendCondition(condition)
+        assert triggering.getTriggerIPduSendConditions()[-1] is condition
 
         # Test getISignalTriggeringRefs which has commented code that should be covered
         # The method returns the list directly (unlike the commented sorted version)
@@ -750,6 +786,9 @@ class Test_FibexCoreCommunication:
         triggering.setFrameRef(ref1)
         assert triggering.getFrameRef() == ref1
         assert triggering == triggering.setFrameRef(ref1)  # Test method chaining
+        # None is a no-op and does not overwrite an existing frameRef
+        assert triggering == triggering.setFrameRef(None)
+        assert triggering.getFrameRef() == ref1
 
         # Test setFrameRef(None) is a no-op
         triggering.setFrameRef(None)
@@ -829,11 +868,17 @@ class Test_FibexCoreCommunication:
         triggering.setISignalRef(ref1)
         assert triggering.getISignalRef() == ref1
         assert triggering == triggering.setISignalRef(ref1)  # Test method chaining
+        # None is a no-op and does not overwrite an existing iSignalRef
+        assert triggering == triggering.setISignalRef(None)
+        assert triggering.getISignalRef() == ref1
 
         ref2 = object()
         triggering.setISignalGroupRef(ref2)
         assert triggering.getISignalGroupRef() == ref2
         assert triggering == triggering.setISignalGroupRef(ref2)  # Test method chaining
+        # None is a no-op and does not overwrite an existing iSignalGroupRef
+        assert triggering == triggering.setISignalGroupRef(None)
+        assert triggering.getISignalGroupRef() == ref2
 
         ref3 = object()
         triggering.addISignalPortRef(ref3)

@@ -1952,9 +1952,10 @@ class TestTimingAndExecutionOrderHandlers:
         assert len(timing.getTimingRequirements()) == 1
 
     def test_readExecutionOrderConstraint_full(self, parser):
-        from armodel.models import SwcTiming
+        from armodel.models import ExecutionOrderConstraint, SwcTiming
 
         timing = SwcTiming(parent=_autosar_root(), short_name="timing")
+        constraint = ExecutionOrderConstraint(timing, "eoc")
         element = _snip(
             "<SHORT-NAME>eoc</SHORT-NAME>"
             "<ORDERED-ELEMENTS>"
@@ -1967,8 +1968,8 @@ class TestTimingAndExecutionOrderHandlers:
             "</ORDERED-ELEMENTS>",
             root_tag="EXECUTION-ORDER-CONSTRAINT",
         )
-        parser.readExecutionOrderConstraint(element, timing)
-        assert len(timing.getTimingRequirements()) == 1
+        parser.readExecutionOrderConstraint(element, constraint)
+        assert len(constraint.getOrderedElements()) == 1
 
 
 # ==================== Port Interface Mapping Handlers ====================

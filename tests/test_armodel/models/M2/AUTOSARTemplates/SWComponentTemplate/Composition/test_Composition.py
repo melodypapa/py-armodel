@@ -32,12 +32,23 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Composition:
 
         assert component_prototype.parent == ar_root
         assert component_prototype.short_name == "TestComponentPrototype"
-        assert component_prototype.typeTRef is None
+        assert component_prototype.getTypeTRef() is None
 
         # Test setters and getters
         ref = RefType()
+        ref.setValue("/Types/CmpType")
+        ref.setDest("SW-COMPONENT-TYPE")
         component_prototype.setTypeTRef(ref)
         assert component_prototype.getTypeTRef() == ref
+        assert component_prototype.getTypeTRef().getValue() == "/Types/CmpType"
+
+        # None is a no-op and must not overwrite an existing reference
+        component_prototype.setTypeTRef(None)
+        assert component_prototype.getTypeTRef() == ref
+
+        # A fresh prototype defaults to no type reference
+        fresh = SwComponentPrototype(ar_root, "Fresh")
+        assert fresh.getTypeTRef() is None
 
     def test_SwConnector_abstract(self):
         """Test that SwConnector is abstract."""

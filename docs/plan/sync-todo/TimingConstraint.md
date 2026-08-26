@@ -1,0 +1,843 @@
+# Sync todo: TimingConstraint
+
+Input class: TimingConstraint · Generated: 2026-08-24 · Queue order = row order (resume = first class row still `[ ]`; all class rows `[x]` = sync finished)
+
+Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Timing::*` family (TimingConstraint / TimingCondition / TimingClock packages) plus `Traceable` (direct Base of TimingConstraint) and `SwComponentPrototype` (unstamped iref target, explicitly added to the queue per user decision). Missing external ref targets (`TimingDescriptionEvent`, `TimingDescriptionEventChain`, `GlobalTimeDomain`) are **not queued** — referencing classes record a Rule 0001.10 placeholder and report it at their own Step 8.(`AutosarOperationArgumentInstance`, initially listed here as not queued, was later queued and synced — see its row below.)
+
+## Queue (dependency-first)
+- [x] Traceable (base · markdown · AUTOSAR_FO_TPS_GenericStructureTemplate.md, Table 9.29) · commit 9c6c5b5 · user review: confirmed
+  - [x] Step 1 — Spec: abstract; Package M2::MSR::Documentation::BlockElements::RequirementsTracing; Base ARObject/MultilanguageReferrable/Referrable (codebase collapses to Identifiable); 1 attribute `trace` (Traceable, *, ref) = "ability to trace to upstream requirements / constraints"
+  - [x] Step 2 — Unit tests added: test_Traceable.py::test_trace_refs, test_trace_reader_writer_round_trip, test_traceable_text_reuses_base (Red→Green)
+  - [x] Step 3 — Implemented: added `traceRefs: List[RefType]`, `getTraceRefs()`, `addTraceRef()` (None no-op, chaining) mirroring RequirementsTracing.py convention
+  - [x] Step 4 — Docstrings synced (wiped + rewritten from spec Note)
+  - [x] Step 5 — Reader/writer round-trip test added + real base methods: `ARXMLWriter.writeTraceable` + `ARXMLParser.readTraceable` (serialize `trace` as `<TRACE-REFS>/<TRACE-REF>`, value=text). Refactored `setTraceableText`/`getTraceableText` to reuse them; fixed latent bug (reader stored text in `dest`, now `setValue` so round-trip is consistent).
+  - [x] Step 6 — Implemented: `writeTraceable`/`readTraceable` base methods in arxml_writer.py / arxml_parser.py
+  - [x] Step 7 — Checklist comment updated + `# Spec verified: R23-11` stamp added (reader/writer columns now `[x]`)
+  - [x] Step 8 — No deviation: `trace` reader/writer implemented at base level (per codebase convention for abstract bases, e.g. writeReferrable/writeIdentifiable). Also relocated the canonical abstract `Traceable` from the misplaced `CommonStructure/Timing/Traceable.py` into `M2/MSR/Documentation/TextModel/BlockElements/RequirementsTracing.py` (its spec package, alongside `TraceableText`/`StructuredReq`); deleted the old file and repointed imports in TimingConstraint.py, arxml_writer.py, arxml_parser.py, models/__init__.py, test_Traceable.py.
+  - [x] Step 9 — Verify (9a) + confirm (9b): `pytest test_Traceable.py` 5 passed; lint clean; 230 Timing+MSR/Documentation tests pass
+- [x] SwComponentPrototype (member · markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate.md, Table 3.11 · unstamped, added to queue per user decision · iref target of EOCEventRef.component / EOCExecutableEntityRef.component / ExecutionTimeConstraint.component) · commit 63b253e · user review: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+- [x] TimingConditionFormula (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.8 · atpMixedString · aggregated by TimingCondition.timingConditionFormula) · commit 884652c · user review: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: timingArgument→AutosarOperationArgumentInstance, timingEvent→TimingDescriptionEvent, timingVariable→AutosarVariableInstance are Rule 0001.10 placeholders (not in codebase); modeled as RefType per Phase 0 decision — no blocking deviation
+  - [x] Step 9 — Verify (9a) + confirm (9b): 18 model/parser/writer tests pass; ruff/flake8/black clean; # Spec verified: R23-11 stamped. User relocated class into TimingCondition/__init__.py (non-leaf package convention) before stamping.
+- [x] ModeInBswInstanceRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.11 · InstanceRef, referenced by TimingModeInstance.modeInstance) · commit bb53916d · user review: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base ARObject (spec Base `ARObject, ModeInSwcBswInstanceRef`; ModeInSwcBswInstanceRef not in codebase → Rule 0001.10 placeholder); contextBswImplementationRef/contextModeDeclarationGroupPrototypeRef/targetModeDeclarationRef as Optional[RefType]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeModeInBswInstanceRef, flat inner refs
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: resolved — ModeInSwcBswInstanceRef now implemented; ModeInBswInstanceRef(ModeInSwcBswInstanceRef)
+  - [x] Step 9 — Verify (9a) + confirm (9b): 24 tests pass; ruff/flake8/black clean; # Spec verified: R23-11 stamped (deviation: ModeInSwcBswInstanceRef abstract base missing, re-based to ARObject, deferred per user review)
+- [x] ModeInSwcInstanceRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.12 · InstanceRef, referenced by TimingModeInstance.modeInstance) · commit 33ff0980 · user review: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base AtpInstanceRef (most-derived available; ModeInSwcBswInstanceRef missing); contextBswImplementationRef atpDerived ([—] XML), contextComponentRefs List, contextModeDeclarationGroupPrototypeRef/contextPortRef/targetModeDeclarationRef Optional[RefType]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeModeInSwcInstanceRef, flat inner refs
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: resolved — ModeInSwcBswInstanceRef now implemented; ModeInSwcInstanceRef(AtpInstanceRef, ModeInSwcBswInstanceRef)
+  - [x] Step 9 — Verify (9a) + confirm (9b): 28 model/parser/writer tests pass; ruff/flake8/black clean; # Spec verified: R23-11 stamped (deviation: ModeInSwcBswInstanceRef abstract base missing, re-based to AtpInstanceRef, deferred per user review)
+- [x] ModeInSwcBswInstanceRef (base · XSD-only · abstract base of ModeInBswInstanceRef/ModeInSwcInstanceRef; resolves the deferred placeholder recorded on those classes and on TimingModeInstance.modeInstance) · commit 6e2afb99 · user review: confirmed + stamped `# XSD verified: AUTOSAR_00052.xsd`
+  - [x] Step 1 — XSD-only: no own AUTOSAR table; abstract base ARObject+ABC
+  - [x] Step 2 — Unit tests added: test_ModeInSwcBswInstanceRef.py (abstract-guard + subclass isinstance)
+  - [x] Step 3 — Implemented: ModeInSwcBswInstanceRef(ARObject, ABC) with TypeError guard; defined in TimingCondition/__init__.py (non-leaf package convention)
+  - [x] Step 4 — Docstrings synced (wiped + rewritten)
+  - [ ] Step 5 — N/A: abstract base, never serialized directly (no own XML element)
+  - [ ] Step 6 — N/A: abstract base, no reader/writer of its own
+  - [x] Step 7 — Checklist comment added (XSD-only, no # Spec: line)
+  - [x] Step 8 — Deviations: none (resolves the Rule 0001.10 placeholder for ModeInSwcBswInstanceRef)
+  - [x] Step 9 — XSD-only class, no # Spec verified: marker (Rule 0002); 65 model/parser/writer tests pass; ruff/flake8/black clean
+- [x] TimingModeInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.10 · aggregates ModeInBswInstanceRef/ModeInSwcInstanceRef via modeInstance) · commit 6e2afb99 · user review: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base Identifiable(parent, short_name); fabricated modeRef/modeValue removed; modeInstance polymorphic choice (0..1, setXxx shape)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring now verbatim spec Note
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingModeInstance, nested MODE-INSTANCE wrapper dispatch by tag/isinstance
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: resolved — modeInstance now typed Optional[ModeInSwcBswInstanceRef]; the abstract base placeholder is implemented (no deferred deviation remains)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — # Spec verified: R23-11 stamped
+- [x] OperationArgumentInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00052.xsd OPERATION-ARGUMENT-IN-COMPONENT-INSTANCE-REF group · package TDEventOccurrenceExpression (relocated from TimingCondition per user review, 00052.xsd complexType comment) · dependency of AutosarOperationArgumentInstance.operationArgumentInstance · parallels ModeInSwcInstanceRef · no own PDF table; stamped `# XSD verified: AUTOSAR_00052.xsd`) [45453e9f]
+- [x] AutosarOperationArgumentInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.53 · operationArgumentInstance re-typed to aggregate OperationArgumentInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingArgument placeholder · RELOCATED to leaf module Timing/TimingDescription/TimingDescriptionEvents/TDEventOccurrenceExpression.py (Rule 0007; 4 classes direct members) — spec package per AUTOSAR_00052.xsd) [1570df56] · user review round 2: confirmed
+- [x] VariableInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00052.xsd VARIABLE-IN-COMPONENT-INSTANCE-REF group (verified vs 00052: PASSED) · dependency of AutosarVariableInstance.variableInstance · parallels ModeInSwcInstanceRef · no own PDF table; stamped `# XSD verified: AUTOSAR_00052.xsd`; RELOCATED to TDEventOccurrenceExpression leaf module (Rule 0007) per user review) [98cf27e2]
+  - [x] Step 1 — Sync members & description from XSD
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base AtpInstanceRef; 5 RefType members matching XSD sequenceOffset order
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeVariableInComponentInstanceRef (VARIABLE-INSTANCE-IREF)
+  - [x] Step 7 — Update checklist comment (XSD-only, no # Spec: line)
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a) + confirm (9b): 37 model/parser/writer tests pass; ruff/flake8/black clean; XSD-only class, no # Spec verified: marker (Rule 0002)
+- [x] AutosarVariableInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.52 · variableInstance re-typed to aggregate VariableInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingVariable placeholder) · commit bba54cc9 · RELOCATED to TDEventOccurrenceExpression pkg (spec package per AUTOSAR_00052.xsd complexType comment)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base Identifiable(parent, short_name); variableInstanceIRef Optional[VariableInComponentInstanceRef] (iref → IRef suffix, 0..1), getter/setter with None no-op
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring = spec Note verbatim; member comment + getter/setter docstrings = spec attribute Note verbatim
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeAutosarVariableInstance round-trip VARIABLE-INSTANCE-IREF
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.52, p.85)
+  - [x] Step 8 — Deviations: none (VariableInComponentInstanceRef already synced; placeholder in TimingExtensionResource.timingVariables resolved under that row's REWORK)
+  - [x] Step 9 — Verify (9a) + confirm (9b): 36 model/parser/writer tests pass; ruff/flake8/black clean; `# Spec verified: R23-11` stamped
+- [ ] TimingExtensionResource (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.9 · timingArgument/timingVariable -> aggregate AutosarOperationArgumentInstance/AutosarVariableInstance (reworked above) replacing the Rule 0001.10 RefType placeholders) · commit 079ea9a1 · user review round 2: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base Identifiable; timingModes List[TimingModeInstance] + createTimingMode(short_name); REWORK DONE: timingArguments List[AutosarOperationArgumentInstance] + createTimingArgument, timingVariables List[AutosarVariableInstance] + createTimingVariable (addTimingArgument/addTimingVariable RefType methods replaced by create* factories per createTimingMode convention)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingExtensionResource, TIMING-MODES wrapper only when non-empty; empty-wrapper case tested; REWORK DONE: TIMING-ARGUMENTS/TIMING-VARIABLES wrappers (XSD order arguments → modes → variables); readAutosarOperationArgumentInstance/readAutosarVariableInstance refactored to fill-style (element, instance) like readTimingModeInstance
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: none (Rule 0001.10 placeholders resolved by the two item-class aggregations)
+  - [x] Step 9 — Verify (9a): 369 Timing tests pass; ruff clean; # Spec verified stamp DEFERRED to batch confirmation
+- [ ] TimingCondition (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.7 · ref target of TimingConstraint.timingCondition · aggregates TimingConditionFormula) · user review round 2: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base Identifiable(parent, short_name); single attr timingConditionFormula 0..1 aggr (setXxx shape: child spec Base = ARObject+FormulaExpression has no Referrable/Identifiable); fabricated conditionFormula/modeInstances removed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — fragment-level tests (aggregator TimingExtension not yet synced)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingCondition reusing read/writeTimingConditionFormula
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: none blocking
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] SynchronizationTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.55 · enum · consumed by SynchronizationTimingConstraint.synchronizationConstraintType · RELOCATED to leaf module Timing/TimingConstraint/SynchronizationTimingConstraint.py (Rule 0007 leaf form, all 3 classes direct members) · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] EventOccurrenceKindEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.56 · enum · consumed by SynchronizationTimingConstraint.eventOccurrenceKind · RELOCATED to leaf module Timing/TimingConstraint/SynchronizationTimingConstraint.py (Rule 0007 leaf form, all 3 classes direct members) · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] LatencyConstraintTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.58 · enum · consumed by LatencyTimingConstraint.latencyConstraintType) · user review round 2: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] ConfidenceInterval (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.65 · aggregated by ArbitraryEventTriggering.confidenceInterval) · user review round 2: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base ARObject; lowerBound/upperBound Optional[MultidimensionalTime], propability Optional[Float] (spec spelling kept); fabricated confidenceLevel removed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — fragment-level tests (aggregator ArbitraryEventTriggering queued in Batch H)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeConfidenceInterval reusing readMultidimensionalTime/setMultidimensionalTime
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: none blocking
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] ExecutionOrderConstraintTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.69 · enum · consumed by ExecutionOrderConstraint.executionOrderConstraintType) · user review round 2: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] LetDataExchangeParadigmEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 4.4 · enum · consumed by EOCExecutableEntityRefGroup.letDataExchangeParadigm) · user review round 2: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] EOCExecutableEntityRefAbstract (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.70 · abstract · Base of EOCExecutableEntityRefGroup/EOCExecutableEntityRef/EOCEventRef) · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base Identifiable+ABC with TypeError guard; directSuccessorRefs List[RefType]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeEOCExecutableEntityRefAbstract
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: none blocking
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] EOCExecutableEntityRefGroup (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.71 · Base includes EOCExecutableEntityRefAbstract · letInterval -> TimingDescriptionEventChain is a Rule 0001.10 placeholder, not queued) · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base EOCExecutableEntityRefAbstract; letDataExchangeParadigm enum, letIntervalRefs/maxCycleRepetitions/maxSlotsPerCycle/maxCycles/maxSlots/nestedElementRefs/successorRefs/triggeringEventRef per PDF row order; fabricated entityRefs removed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeEOCExecutableEntityRefGroup
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: TimingDescriptionEventChain ref target unsynced → RefType placeholder (Rule 0001.10)
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] ComponentInCompositionInstanceRef (InstanceRef · XSD-only · AUTOSAR_00052.xsd COMPONENT-IN-COMPOSITION-INSTANCE-REF group (verified vs 00052: PASSED) · "points to a concrete SwComponentPrototype within a CompositionSwComponentType" · dependency of EOCExecutableEntityRef.componentIRef / EOCEventRef.componentIRef · resolves the Rule 0001.10 componentIRef debt recorded on those classes · parallels VariableInComponentInstanceRef · no own PDF table; stamped `# XSD verified: AUTOSAR_00052.xsd`; RELOCATED to SWComponentTemplate/Composition/InstanceRefs.py per user review) · commit fba4f06d · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from XSD (contextComponent * refs + targetComponent 0..1 ref, sequenceOffset order)
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base AtpInstanceRef; contextComponentRefs List[RefType] + addContextComponentRef (None no-op), targetComponentRef Optional[RefType] + setTargetComponentRef
+  - [x] Step 4 — Sync docstrings (wipe + rewrite; contextComponent Note = XSD documentation verbatim)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeComponentInCompositionInstanceRef + COMPONENT-IREF/TARGET-COMPONENT-REF flat inner refs
+  - [x] Step 7 — Update checklist comment (XSD-only, no # Spec: line)
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a): 378 Timing tests pass; ruff clean; XSD-only class, no # Spec verified: marker (Rule 0002)
+- [ ] EOCExecutableEntityRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.72 · Base includes EOCExecutableEntityRefAbstract · component -> SwComponentPrototype iref (queued above), bswModuleInstance -> BswImplementation (already stamped), executable -> ExecutableEntity (already stamped)) · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base EOCExecutableEntityRefAbstract; bswModuleInstanceRef/componentIRef/executableRef Optional[RefType], successorRefs List
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeEOCExecutableEntityRef + three-way dispatch in readExecutionOrderConstraintOrderedElement/writeEOCExecutableEntityRef
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: RESOLVED — ComponentInCompositionInstanceRef now implemented; componentIRef typed Optional[ComponentInCompositionInstanceRef], full nested CONTEXT-COMPONENT-REF*/TARGET-COMPONENT-REF serialization (context refs no longer dropped)
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] EOCEventRef (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.73 · Base includes EOCExecutableEntityRefAbstract · component -> SwComponentPrototype iref (queued above), bswModuleInstance -> BswImplementation (already stamped)) · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base EOCExecutableEntityRefAbstract (was ARObject → now parent/short_name ctor); bswModuleInstanceRef/componentIRef/eventRef Optional[RefType], successorRefs List; setter None-guarded/chaining
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeEOCEventRef + createEOCEventRef/createEOCExecutableEntityRefGroup factories on ExecutionOrderConstraint
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: RESOLVED — ComponentInCompositionInstanceRef now implemented; componentIRef typed Optional[ComponentInCompositionInstanceRef], full nested serialization
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] TimingConstraint (input · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.61 · abstract · Base = Traceable (queued above) · timingCondition -> TimingCondition (queued above)) · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base Traceable+ABC with TypeError guard; timingConditionRef Optional[RefType] (was snake_case @property stub → renamed/re-typed get/setTimingConditionRef)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingConstraint = identifiable + traceable (TRACE-REFS) + TIMING-CONDITION-REF
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: none blocking
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] SynchronizationTimingConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.54 · Base includes TimingConstraint · uses SynchronizationTypeEnum/EventOccurrenceKindEnum (queued above), MultidimensionalTime (already stamped) · scope/scopeEvent -> TimingDescriptionEventChain/TimingDescriptionEvent are Rule 0001.10 placeholders, not queued) · user review round 3: confirmed · now in leaf module Timing/TimingConstraint/SynchronizationTimingConstraint.py
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — fabricated snake_case syncType/eventOccurrence fields removed; eventOccurrenceKind enum, scopeRefs/scopeEventRefs List[RefType] (* refs), synchronizationConstraintType enum, tolerance Optional[MultidimensionalTime] per PDF row order
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeSynchronizationTimingConstraint; SCOPE-EVENT-REFS/SCOPE-REFS wrappers emitted only when non-empty; XSD order EVENT-OCCURRENCE-KIND → SCOPE-EVENT-REFS → SCOPE-REFS → SYNCHRONIZATION-CONSTRAINT-TYPE → TOLERANCE
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: TimingDescriptionEventChain/TimingDescriptionEvent ref targets unsynced → RefType placeholders (Rule 0001.10)
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] LatencyTimingConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.57 · Base includes TimingConstraint · uses LatencyConstraintTypeEnum (queued above), MultidimensionalTime (already stamped) · scope -> TimingDescriptionEventChain is a Rule 0001.10 placeholder, not queued) · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — fabricated latency_type/latency TimeValue fields removed; latencyConstraintType enum, maximum/minimum/nominal Optional[MultidimensionalTime], scopeRef Optional[RefType]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeLatencyTimingConstraint; XSD order LATENCY-CONSTRAINT-TYPE → SCOPE-REF → MINIMUM(10) → MAXIMUM(20) → NOMINAL(30)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: TimingDescriptionEventChain placeholder (Rule 0001.10)
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] OffsetTimingConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.66 · Base includes TimingConstraint · uses MultidimensionalTime (already stamped) · source/target -> TimingDescriptionEvent are Rule 0001.10 placeholders, not queued) · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — fabricated offset TimeValue field removed; maximum/minimum Optional[MultidimensionalTime], sourceRef/targetRef Optional[RefType]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeOffsetTimingConstraint; XSD order SOURCE-REF → TARGET-REF → MINIMUM(10) → MAXIMUM(20)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: TimingDescriptionEvent placeholders (Rule 0001.10)
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] AgeConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.67 · Base includes TimingConstraint · uses MultidimensionalTime (already stamped) · scope -> TimingDescriptionEvent is a Rule 0001.10 placeholder, not queued) · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — fabricated age TimeValue field removed; maximum/minimum Optional[MultidimensionalTime], scopeRef Optional[RefType]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeAgeConstraint; XSD order MAXIMUM → MINIMUM → SCOPE-REF
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: TimingDescriptionEvent placeholder (Rule 0001.10)
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [x] EventTriggeringConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.59 · abstract · Base includes TimingConstraint · event -> TimingDescriptionEvent is a Rule 0001.10 placeholder, not queued · Subclasses queued next) · commit add46b0f · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from spec (impl committed da8cf5c2; eventRef Optional[RefType]; Base TimingConstraint)
+  - [x] Step 2 — Write model class unit test (Red→Green, test_EventTriggeringConstraint.py)
+  - [x] Step 3 — Implement model class (Green): abstract base TimingConstraint+ABC TypeError guard; eventRef Optional[RefType]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite from spec Note verbatim)
+  - [x] Step 5 — Write reader/writer round-trip test (Red→Green, parser/writer test_*.py)
+  - [x] Step 6 — Update parser & writer (Green): read/writeEventTriggeringConstraint (EVENT-REF)
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.59, p.100)
+  - [x] Step 8 — Deviations: TimingDescriptionEvent not in codebase → RefType placeholder (Rule 0001.10)
+  - [x] Step 9 — Verify (9a) + confirm (9b): 82 tests green; ruff/flake8/black clean; `# Spec verified: R23-11` stamped
+- [ ] PeriodicEventTriggering (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.60 · Base includes EventTriggeringConstraint · uses MultidimensionalTime (already stamped)) · commit da8cf5c2 · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base EventTriggeringConstraint; tolerance/period Optional[MultidimensionalTime]; jitter removed (not in table)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writePeriodicEventTriggering (PERIODIC-EVENT-TRIGGERING)
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.60, p.101)
+  - [x] Step 8 — Deviations: none blocking
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] SporadicEventTriggering (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.61 · Base includes EventTriggeringConstraint · uses MultidimensionalTime (already stamped)) · commit da8cf5c2 · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base EventTriggeringConstraint; minimumCallInterval/maxNofOccurrence per spec
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeSporadicEventTriggering (SPORADIC-EVENT-TRIGGERING)
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.61, p.105)
+  - [x] Step 8 — Deviations: none blocking
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] ConcretePatternEventTriggering (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.62 · Base includes EventTriggeringConstraint · uses MultidimensionalTime (already stamped)) · commit da8cf5c2 · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base EventTriggeringConstraint; concretePattern per spec
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeConcretePatternEventTriggering (CONCRETE-PATTERN-EVENT-TRIGGERING)
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.62, p.107)
+  - [x] Step 8 — Deviations: none blocking
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] BurstPatternEventTriggering (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.63 · Base includes EventTriggeringConstraint · uses MultidimensionalTime (already stamped)) · commit da8cf5c2 · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base EventTriggeringConstraint; interArrivalTime/minDistance/maxDistance per spec
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeBurstPatternEventTriggering (BURST-PATTERN-EVENT-TRIGGERING)
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.63, p.109)
+  - [x] Step 8 — Deviations: none blocking
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [ ] ArbitraryEventTriggering (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.64 · Base includes EventTriggeringConstraint · confidenceInterval -> ConfidenceInterval (queued above)) · commit da8cf5c2 · user review round 3: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base EventTriggeringConstraint; confidenceInterval Optional[ConfidenceInterval]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeArbitraryEventTriggering (ARBITRARY-EVENT-TRIGGERING)
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.64, p.112)
+  - [x] Step 8 — Deviations: none blocking
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+- [x] ExecutionOrderConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.68 · Base includes TimingConstraint · uses ExecutionOrderConstraintTypeEnum (queued above) · orderedElement -> EOCExecutableEntityRefAbstract (queued above) · baseComposition -> CompositionSwComponentType is a Rule 0001.10 placeholder, not queued) · commit c68e4288 · commit 725e3cbf · user review: batch-confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base TimingConstraint; baseCompositionRef/executionOrderConstraintType/ignoreOrderAllowed/isEvent/permitMultipleReferencesToEE per PDF row order; orderedElements List[EOCExecutableEntityRefAbstract] polymorphic with create* factories
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeExecutionOrderConstraint + ORDERED-ELEMENTS three-way dispatch; componentIRef debt resolved via ComponentInCompositionInstanceRef (commit fba4f06d)
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.68, p.118)
+  - [x] Step 8 — Deviations: CompositionSwComponentType ref target unsynced → RefType placeholder (Rule 0001.10)
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b batch-confirmed; # Spec verified: R23-11 stamped
+- [x] ExecutionTimeTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.76 · enum · consumed by ExecutionTimeConstraint.executionTimeType) · commit 4f1701ba · user review: batch-confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b batch-confirmed; # Spec verified: R23-11 stamped
+- [x] ExecutionTimeConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.75 · Base includes TimingConstraint · uses ExecutionTimeTypeEnum (queued above), MultidimensionalTime (already stamped) · component -> SwComponentPrototype iref (queued above) · executable -> ExecutableEntity (already stamped)) · commit c68e4288 · commit 4f1701ba · user review: batch-confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base TimingConstraint; componentIRef (now Optional[ComponentInCompositionInstanceRef], commit fba4f06d)/executableRef/executionTimeType/maximum/minimum per PDF row order
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeExecutionTimeConstraint; COMPONENT-IREF full nested serialization
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.75, p.130)
+  - [x] Step 8 — Deviations: none blocking (componentIRef debt resolved)
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b batch-confirmed; # Spec verified: R23-11 stamped
+- [x] SynchronizationPointConstraint (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.77 · Base includes TimingConstraint · sourceEec/targetEec -> EOCExecutableEntityRefGroup (queued above) · sourceEvent/targetEvent -> AbstractEvent (already stamped)) · commit c68e4288 · commit 81e9217e · user review: batch-confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base TimingConstraint; sourceEecRefs/targetEecRefs/sourceEventRefs/targetEventRefs List[RefType] (* refs) per PDF row order
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeSynchronizationPointConstraint with wrapper lists emitted only when non-empty
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.77, p.132)
+  - [x] Step 8 — Deviations: none blocking
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b batch-confirmed; # Spec verified: R23-11 stamped
+- [x] TimingClock (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.59 · abstract · platformTimeBase -> GlobalTimeDomain is a Rule 0001.10 placeholder, not queued · Subclass TDLETZoneClock queued next) · commit b201b61e · user review: batch-confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base Identifiable+ABC with TypeError guard; platformTimeBaseRef Optional[RefType] placeholder; fabricated clockName/clockType removed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingClock, PLATFORM-TIME-BASES/GLOBAL-TIME-DOMAIN-REF-CONDITIONAL wrapper emitted only when set
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: GlobalTimeDomain not implemented → RefType placeholder (Rule 0001.10); XSD atpSplitable wrapper may repeat REF-CONDITIONAL entries — single value kept per PDF Mult 0..1
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b batch-confirmed; # Spec verified: R23-11 stamped
+- [x] TDLETZoneClock (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.58 · Base includes TimingClock (queued above) · uses MultidimensionalTime (already stamped)) · commit b201b61e · user review: batch-confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base TimingClock; accuracyExt/accuracyInt Optional[MultidimensionalTime]; fabricated clockRef/zoneRef removed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTDLETZoneClock reusing read/writeTimingClock + readMultidimensionalTime/setMultidimensionalTime
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: none blocking
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b batch-confirmed; # Spec verified: R23-11 stamped
+- [x] TimingClockSyncAccuracy (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.60 · lower/upper -> TimingClock (queued above)) · commit b201b61e · user review: batch-confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base Identifiable; accuracy Optional[MultidimensionalTime], lowerRef/upperRef Optional[RefType] in spec row order; fabricated string-typed accuracy/unit removed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingClockSyncAccuracy, ACCURACY + flat LOWER-REF/UPPER-REF
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: none blocking
+  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b batch-confirmed; # Spec verified: R23-11 stamped
+- [ ] TimingDescription (base · XSD-only · abstract base of all TIMING-DESCRIPTIONS items; no own PDF table; no attributes)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TimingDescriptionEvent (base · XSD-only · abstract base of all TDEvent* + referenced by EventChain stimulus/response/segment and Formula.event (RefType))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventVariableDataPrototypeTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.18 · consumed by TDEventVariableDataPrototype.tdEventVariableDataPrototypeType)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventOperationTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.20 · consumed by TDEventOperation.tdEventOperationType)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventModeDeclarationTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.22 · consumed by TDEventModeDeclaration.tdEventModeDeclarationType)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventTriggerTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.24 · consumed by TDEventTrigger.tdEventTriggerType)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventSwcInternalBehaviorTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.27 · consumed by TDEventSwcInternalBehavior.tdEventSwcInternalBehaviorType)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventISignalTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.31 · consumed by TDEventISignal.tdEventType)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventIPduTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.33 · consumed by TDEventIPdu.tdEventType)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventFrameTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.35 · consumed by TDEventFrame.tdEventType)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventFrameEthernetTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.37 · consumed by TDEventFrameEthernet.tdEventType)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventBswInternalBehaviorTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.43 · consumed by TDEventBswInternalBehavior.tdEventBswInternalBehaviorType)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventBswModuleTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.45 · consumed by TDEventBswModule.tdEventBswModuleType)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventBswModeDeclarationTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.47 · consumed by TDEventBswModeDeclaration.tdEventBswModeDeclarationType)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TimingDescriptionEventChain (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.13 · isPipeliningPermitted Boolean attr; stimulus/response/segment -> TimingDescriptionEvent(Chain) refs (RefType); verify category attr (TPS_TIMEX_00110 STANDARD/LET_INTERVAL/SL_LET_INTERVAL))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventVfb (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.14 · abstract; component -> ComponentInCompositionInstanceRef iref (already stamped); Base includes TimingDescription/TimingDescriptionEvent (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventVfbReference (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.15 · referencedTDEventVfb -> TDEventVfb ref (RefType); Base includes TDEventVfb (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventVfbPort (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.16 · abstract; isExternal Boolean; port/portPrototypeBlueprint -> PortPrototype/PortPrototypeBlueprint refs (RefType); subclasses = 4 port events queued below)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventVariableDataPrototype (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.17 · dataElement -> VariableDataPrototype ref (RefType); tdEventVariableDataPrototypeType -> enum (queued above); Base includes TDEventVfbPort (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventOperation (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.19 · operation -> ClientServerOperation ref (RefType); tdEventOperationType -> enum (queued above); Base includes TDEventVfbPort (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventModeDeclaration (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.21 · entry/exitModeDeclaration -> ModeDeclaration refs, modeDeclaration -> ModeDeclarationGroupPrototype ref (RefType); type enum (queued above); Base includes TDEventVfbPort (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventTrigger (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.23 · trigger -> Trigger ref (RefType); tdEventTriggerType -> enum (queued above); Base includes TDEventVfbPort (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventSwc (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.25 · abstract; component iref (stamped ComponentInCompositionInstanceRef); runnable -> RunnableEntity ref (RefType))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventSwcInternalBehavior (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.26 · tdEventSwcInternalBehaviorType -> enum (queued above); variableAccess -> VariableAccess AGGR (class exists in SWC template - verify stamp at session start); Base includes TDEventSwc (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventSwcInternalBehaviorReference (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.28 · referencedTDEventSwc -> TDEventSwc ref (RefType); Base includes TDEventSwc (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventCom (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.29 · abstract; ecuInstance -> EcuInstance ref (RefType))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventISignal (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.30 · iSignal/physicalChannel refs (RefType); tdEventType enum (queued above); Base includes TDEventCom (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventIPdu (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.32 · iPdu/physicalChannel refs (RefType); tdEventType enum (queued above); Base includes TDEventCom (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventFrame (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.34 · frame/physicalChannel refs (RefType); tdEventType enum (queued above); Base includes TDEventCom (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDHeaderIdRange (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.38 · min/maxHeaderId Integer attrs; Base ARObject (non-Identifiable helper); aggregated by TDEventFrameEthernet.tdHeaderIdFilter)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventFrameEthernet (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.36 · staticSocketConnection -> SocketConnection ref (RefType); tdEventType enum (queued above); tdHeaderIdFilter * aggr TDHeaderIdRange (queued above); tdPduTriggeringFilter * -> PduTriggering refs (RefType); Base includes TDEventCom (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventCycleStart (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.39 · abstract; cycleRepetition Integer attr; Base includes TDEventCom (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventFrClusterCycleStart (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.40 · frCluster -> FlexrayCluster ref (RefType); Base includes TDEventCycleStart (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventTTCanCycleStart (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.41 · ttCanCluster -> TtcanCluster ref (RefType); Base includes TDEventCycleStart (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventBswInternalBehavior (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.42 · bswModuleEntity -> BswModuleEntity ref (RefType); type enum (queued above); Base includes TimingDescription/TimingDescriptionEvent (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventBsw (base · XSD-only · abstract base of TDEventBswModule/TDEventBswModeDeclaration (section 3.3.2.5 header only, no table))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventBswModule (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.44 · bswModuleEntry -> BswModuleEntry ref (RefType); type enum (queued above); Base includes TDEventBsw (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventBswModeDeclaration (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.46 · entry/exitModeDeclaration + modeDeclaration refs (RefType); type enum (queued above); Base includes TDEventBsw (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventComplex (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.48 · occurrenceExpression -> TDEventOccurrenceExpression (ALREADY STAMPED); verify exact attr row at session start (table extraction ambiguous); Base includes TimingDescriptionEvent (queued above))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventSLLETPort (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.49 · port -> PortPrototype ref (RefType); Base includes TDEventSLLET (section 3.3.2.7 header only - treat as XSD-only abstract like TDEventBsw))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TimingExtension (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.65 · abstract · aggregates TimingCondition (TIMING-CONDITIONS) / timingGuarantee+timingRequirement -> polymorphic 12-subclass TimingConstraint dispatch (queued above); timingResource 0..1 -> TimingExtensionResource (queued above); timingDescription -> TIMING-DESCRIPTIONS family QUEUED above (TimingDescription/TimingDescriptionEvent bases + 23 concrete dispatch targets); Step 9b blocked until family lands · Subclass SwcTiming queued next) · commit 8d181a14 · commit e919c413 (spec page corrected); awaiting re-confirmation
+  - [x] Step 1 — Sync members & description from spec (Table D.65 + XSD group TIMING-EXTENSION; class Note from XSD documentation)
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base ARElement+ABC TypeError guard; timingConditions List[TimingCondition] + createTimingCondition; timingGuarantees/timingRequirements List[TimingConstraint] + addTimingGuarantee/addTimingRequirement (None no-op); timingResource Optional[TimingExtensionResource] + createTimingResource/getTimingResource; createExecutionOrderConstraint kept as convenience factory appending to timingRequirements; fabricated snake_case timing_requirements removed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — SWC-TIMING fragment tests incl. empty case
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingExtension: TIMING-CONDITIONS/TIMING-GUARANTEES/TIMING-REQUIREMENTS wrappers + TIMING-RESOURCE element, full 12-subclass polymorphic dispatch both ways; readExecutionOrderConstraint refactored to fill-style; readTimingExtensionResource refactored to fill-style; writeSwcTiming emits BEHAVIOR-REF last per XSD order
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: TimingDescription family not in codebase → TIMING-DESCRIPTIONS not modeled, parser logs notImplemented on items (Rule 0001.10)
+  - [ ] Step 9 — Verify (9a passed: 3717 parser/writer/model tests green; ruff/black clean); 9b confirm + stamp deferred to batch
+- [ ] SwcTiming (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.2 · Base includes TimingExtension (queued above) · behaviorRef -> SwcInternalBehavior (BEHAVIOR-REF); XSD COMPONENT-REF atp.Status=removed → not modeled) · commit 8d181a14 · commit e919c413 (spec page corrected); awaiting re-confirmation
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — base TimingExtension; behaviorRef Optional[RefType] + get/setBehaviorRef (None no-op)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite; class Note verbatim from Table 3.2)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeSwcTiming BEHAVIOR-REF
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations: none blocking
+  - [ ] Step 9 — Verify (9a passed); 9b confirm + stamp deferred to batch
+
+## Not queued (16.2/16.4/16.5 decisions)
+- MultidimensionalTime — already stamped `# Spec verified: R23-11`; consumed as-is by  every constraint's maximum/minimum/nominal/jitter/period/offset/accuracy attributes.
+- BswImplementation — already stamped; consumed as-is (EOCExecutableEntityRef/EOCEventRef  .bswModuleInstance).
+- ExecutableEntity — already stamped; consumed as-is (EOCExecutableEntityRef.executable,  ExecutionTimeConstraint.executable).
+- AbstractEvent — already stamped; consumed as-is (SynchronizationPointConstraint  .sourceEvent/targetEvent).
+- TimingDescriptionEvent, TimingDescriptionEventChain — were not in codebase; per user review 2026-08-26 the full family is QUEUED above (TimingDescription/TimingDescriptionEvent bases + TDEvent* subclasses + TimingDescriptionEventChain) - until those rows land, referencing classes keep Rule 0001.10 placeholders (SynchronizationTimingConstraint  .scope/scopeEvent, LatencyTimingConstraint.scope, EventTriggeringConstraint.event,  OffsetTimingConstraint.source/target, AgeConstraint.scope, TimingExtension  .timingDescription, EOCExecutableEntityRefGroup.letInterval), reported at each class's  own Step 8.
+- GlobalTimeDomain — not in codebase; Rule 0001.10 placeholder for TimingClock  .platformTimeBase, reported at TimingClock's Step 8.
+- AutosarOperationArgumentInstance — originally not in codebase (Rule 0001.10 placeholder  for TimingExtensionResource.timingArgument); since queued and synced (Table 3.53 row  above, with OperationArgumentInComponentInstanceRef).
+- CompositionSwComponentType — not confirmed in this pass; Rule 0001.10 placeholder for  ExecutionOrderConstraint.baseComposition, reported at ExecutionOrderConstraint's Step 8  (verify existence/stamp when that class's turn comes; may already exist under  SWComponentTemplate::Composition and only need a stamp check).
+- TDEventServiceInstanceDiscovery — Skip per user (2026-08-26); no CP markdown/PDF table (XSD-only). Referencing classes keep Rule 0001.10 placeholders.
+- TDEventServiceInstanceEvent — Skip per user (2026-08-26); no CP markdown/PDF table (XSD-only).
+- TDEventServiceInstanceField — Skip per user (2026-08-26); no CP markdown/PDF table (XSD-only).
+- TDEventServiceInstanceMethod — Skip per user (2026-08-26); no CP markdown/PDF table (XSD-only).

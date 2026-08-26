@@ -23,13 +23,22 @@ class TestAnyInstanceRef:
         obj = AnyInstanceRef()
         assert obj.setBaseRef("base") is obj
         assert obj.getBaseRef() == "base"
+        # None is a no-op and does not overwrite an existing baseRef
+        assert obj.setBaseRef(None) is obj
+        assert obj.getBaseRef() == "base"
 
     def test_context_element_refs(self):
         obj = AnyInstanceRef()
         assert obj.addContextElementRef("ctx") is obj
         assert obj.getContextElementRefs() == ["ctx"]
+        # None is a no-op and does not add to contextElementRefs
+        assert obj.addContextElementRef(None) is obj
+        assert obj.getContextElementRefs() == ["ctx"]
 
     def test_set_get_target_ref(self):
         obj = AnyInstanceRef()
         assert obj.setTargetRef("target") is obj
+        assert obj.getTargetRef() == "target"
+        # None is a no-op and does not overwrite an existing targetRef
+        assert obj.setTargetRef(None) is obj
         assert obj.getTargetRef() == "target"

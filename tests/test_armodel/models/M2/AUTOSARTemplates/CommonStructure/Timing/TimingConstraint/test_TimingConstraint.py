@@ -1,31 +1,53 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
+    TimingConstraint,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import (
+    Traceable,
+)
+
+
+class ConcreteTimingConstraint(TimingConstraint):
+    pass
 
 
 class TestTimingConstraint:
+    def _parent(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        return document.createARPackage("AUTOSAR")
+
     def test_abstract_class_cannot_be_instantiated(self):
-        """Test that TimingConstraint abstract class cannot be instantiated directly"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
+        parent = self._parent()
         with pytest.raises(TypeError, match="TimingConstraint is an abstract class"):
-            TimingConstraint(ar_root, "TestTimingConstraint")
+            TimingConstraint(parent, "Constraint1")
 
-    def test_timing_condition_ref_property(self):
-        """Test timingConditionRef property"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
+    def test_base_is_traceable(self):
+        assert issubclass(TimingConstraint, Traceable)
 
-        # Create a concrete subclass for testing
-        class ConcreteTimingConstraint(TimingConstraint):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
+    def test_initialization_defaults(self):
+        constraint = ConcreteTimingConstraint(self._parent(), "Constraint1")
+        assert constraint.getShortName() == "Constraint1"
+        assert constraint.getTimingConditionRef() is None
+        assert constraint.getTraceRefs() == []
 
-        constraint = ConcreteTimingConstraint(ar_root, "TestTimingConstraint")
+    def test_get_set_timing_condition_ref(self):
+        constraint = ConcreteTimingConstraint(self._parent(), "Constraint1")
+        ref = RefType().setValue("/AUTOSAR/TimingCondition").setDest("TIMING-CONDITION")
+        assert constraint.setTimingConditionRef(ref) is constraint
+        assert constraint.getTimingConditionRef() is ref
+        assert constraint.getTimingConditionRef().getValue() == "/AUTOSAR/TimingCondition"
+        assert constraint.getTimingConditionRef().getDest() == "TIMING-CONDITION"
 
-        # Test property setter and getter
-        test_ref = RefType().setValue("TestRef")
-        constraint.timingConditionRef = test_ref
-        assert constraint.timingConditionRef == test_ref
+    def test_set_timing_condition_ref_none_is_no_op(self):
+        constraint = ConcreteTimingConstraint(self._parent(), "Constraint1")
+        ref = RefType().setValue("/AUTOSAR/TimingCondition").setDest("TIMING-CONDITION")
+        constraint.setTimingConditionRef(ref)
+        constraint.setTimingConditionRef(None)
+        assert constraint.getTimingConditionRef() is ref

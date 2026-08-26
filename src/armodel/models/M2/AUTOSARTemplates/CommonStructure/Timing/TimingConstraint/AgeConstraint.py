@@ -8,55 +8,73 @@ Classes:
     AgeConstraint: Specifies the maximum allowed age of data
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    TimeValue,
+from typing import Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import (
+    MultidimensionalTime,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+)
 
 
 class AgeConstraint(TimingConstraint):
     """
-    Specifies the maximum allowed age of data in AUTOSAR timing specifications.
-    This constraint ensures that data is consumed within a specified time
-    window after its creation, maintaining data freshness.
+    Constrains the scope by a minimum and maximum time boundary.
+
+    (scope -> TimingDescriptionEvent placeholder, Rule 0001.10)
     """
 
     # AgeConstraint method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getAge                       [x] impl  [x] docstring  [ ] test
-    # [ ] setAge                       [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.67, p.115
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getMaximum     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaximum     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMinimum     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMinimum     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getScopeRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setScopeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the AgeConstraint with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this age constraint
-            short_name: The unique short name of this age constraint
-        """
         super().__init__(parent, short_name)
 
-        # Maximum allowed age of the data
-        self.age: TimeValue = None
+        # The received event referenced by scope should not exceed this upper bound.
+        self.maximum: Optional[MultidimensionalTime] = None
 
-    def getAge(self):
-        """
-        Gets the maximum allowed age of the data.
+        # The received event referenced by scope should not precede this lower bound.
+        self.minimum: Optional[MultidimensionalTime] = None
 
-        Returns:
-            TimeValue: The maximum allowed age
-        """
-        return self.age
+        # TimingDescriptionEvent to be constrained. (TimingDescriptionEvent placeholder, Rule 0001.10)
+        self.scopeRef: Optional[RefType] = None
 
-    def setAge(self, value):
-        """
-        Sets the maximum allowed age of the data.
+    def getMaximum(self) -> Optional[MultidimensionalTime]:
+        """The received event referenced by scope should not exceed this upper bound."""
+        return self.maximum
 
-        Args:
-            value: The maximum allowed age to set
+    def setMaximum(self, value: Optional[MultidimensionalTime]) -> "AgeConstraint":
+        """The received event referenced by scope should not exceed this upper bound. A None value is a no-op and does not overwrite an existing maximum."""
+        if value is not None:
+            self.maximum = value
+        return self
 
-        Returns:
-            self for method chaining
-        """
-        self.age = value
+    def getMinimum(self) -> Optional[MultidimensionalTime]:
+        """The received event referenced by scope should not precede this lower bound."""
+        return self.minimum
+
+    def setMinimum(self, value: Optional[MultidimensionalTime]) -> "AgeConstraint":
+        """The received event referenced by scope should not precede this lower bound. A None value is a no-op and does not overwrite an existing minimum."""
+        if value is not None:
+            self.minimum = value
+        return self
+
+    def getScopeRef(self) -> Optional[RefType]:
+        """TimingDescriptionEvent to be constrained."""
+        return self.scopeRef
+
+    def setScopeRef(self, value: Optional[RefType]) -> "AgeConstraint":
+        """TimingDescriptionEvent to be constrained. A None value is a no-op and does not overwrite an existing scope."""
+        if value is not None:
+            self.scopeRef = value
         return self
