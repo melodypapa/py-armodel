@@ -643,16 +643,24 @@ row below and must sync BEFORE the class that references it. All rows below are 
      macAddressVlanAssignments removal recorded per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7347 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] EthernetCluster (markdown SystemTemplate · Table 3.47 · p.103 · source Fibex4Ethernet/EthernetTopology.py · adds couplingPorts to EthernetCluster; closes open items)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] EthernetCluster (markdown SystemTemplate · Table 3.47 · p.103 · source Fibex4Ethernet/EthernetTopology.py · adds couplingPorts to EthernetCluster; closes open items) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Sync members & description from spec
+    (Table 3.47 in markdown AUTOSAR_CP_TPS_SystemTemplate.md:2599–2620 + PDF p.103;
+    Base chain → CommunicationCluster; 4 attr rows: couplingPortConnection * aggr, two TimeValue attrs, macMulticastGroup * aggr;
+    queue note "adds couplingPorts" resolved: spec role is couplingPortConnection (CouplingPortConnection objects),
+    CouplingPorts themselves aggregate via CouplingElement/EthernetCommunicationController — mislabelled
+    `couplingPorts` list renamed to `couplingPortConnections`)
+  - [x] Step 2 — Model test rewritten to spec shape (Red)
+  - [x] Step 3 — Implement model class (Green) — verbatim Notes, typed fields, guarded setters
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5/6 — Reader/writer round-trip test + wiring
+    (tests/test_armodel/writer/test_ethernet_cluster.py; COUPLING-PORT-STARTUP-ACTIVE-TIME/SWITCHOFF-DELAY wired
+     both sides inside ETHERNET-CLUSTER-CONDITIONAL per XSD order)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (tracker: couplingPortConnections ARObject placeholder — CouplingPortConnection not implemented, Rule 0001.10)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7350 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] EthernetCommunicationController (markdown SystemTemplate · Table 3.61 · p.115 · source Fibex4Ethernet/EthernetTopology.py · closes open items)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

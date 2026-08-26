@@ -38,63 +38,87 @@ class MacMulticastGroup(Identifiable):
 
 class EthernetCluster(CommunicationCluster):
     """
-    Defines an Ethernet communication cluster in the system topology,
-    specifying properties for Ethernet network communication including
-    coupling ports, startup timing, and multicast group configurations.
+    Ethernet-specific cluster attributes.
     """
 
     # EthernetCluster method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCouplingPorts             [x] impl  [ ] docstring  [ ] test
-    # [ ] addCouplingPort              [x] impl  [ ] docstring  [ ] test
-    # [ ] getCouplingPortStartupActiveTime [x] impl  [ ] docstring  [ ] test
-    # [ ] setCouplingPortStartupActiveTime [x] impl  [ ] docstring  [ ] test
-    # [ ] getCouplingPortSwitchoffDelay [x] impl  [ ] docstring  [ ] test
-    # [ ] setCouplingPortSwitchoffDelay [x] impl  [ ] docstring  [ ] test
-    # [ ] getMacMulticastGroups        [x] impl  [ ] docstring  [ ] test
-    # [ ] createMacMulticastGroup      [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.47, p.103
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addCouplingPortConnection         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCouplingPortConnections        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getCouplingPortStartupActiveTime  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCouplingPortStartupActiveTime  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCouplingPortSwitchoffDelay     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCouplingPortSwitchoffDelay     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createMacMulticastGroup           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMacMulticastGroups             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.couplingPorts = []  # type: List[CouplingPortConnection]
-        self.couplingPortStartupActiveTime = None  # type: TimeValue
-        self.couplingPortSwitchoffDelay = None  # type: TimeValue
-        self.macMulticastGroups = []  # type: List[MacMulticastGroup]
+        # Specification of connections between CouplingElements and EcuInstances.
+        self.couplingPortConnections: List[ARObject] = []
 
-    def getCouplingPorts(self):
-        return self.couplingPorts
+        # The attribute specifies the time in second a coupling port is switched on to enable the host ECU (ECU that maintains an Ethernet switch) to listen to the network for potential network management requests.
+        self.couplingPortStartupActiveTime: Optional[TimeValue] = None
 
-    def addCouplingPort(self, value):
+        # Switch off delay for CouplingPorts in seconds. It denotes the delay of switching off couplingPorts after the request to switch off a couplingPort was issued. (e.g. switch off of Ethernet switch ports).
+        self.couplingPortSwitchoffDelay: Optional[TimeValue] = None
+
+        # MacMulticastGroup that is defined for the Subnet (EthernetCluster).
+        self.macMulticastGroups: List[MacMulticastGroup] = []
+
+    def addCouplingPortConnection(self, value: Optional[ARObject]) -> "EthernetCluster":
+        """
+        Specification of connections between CouplingElements and EcuInstances.
+        A None value is a no-op and does not append to couplingPortConnections.
+        """
         if value is not None:
-            self.couplingPorts.append(value)
+            self.couplingPortConnections.append(value)
         return self
 
-    def getCouplingPortStartupActiveTime(self):
+    def getCouplingPortConnections(self) -> List[ARObject]:
+        """Specification of connections between CouplingElements and EcuInstances."""
+        return self.couplingPortConnections
+
+    def getCouplingPortStartupActiveTime(self) -> Optional[TimeValue]:
+        """The attribute specifies the time in second a coupling port is switched on to enable the host ECU (ECU that maintains an Ethernet switch) to listen to the network for potential network management requests."""
         return self.couplingPortStartupActiveTime
 
-    def setCouplingPortStartupActiveTime(self, value):
+    def setCouplingPortStartupActiveTime(self, value: Optional[TimeValue]) -> "EthernetCluster":
+        """
+        The attribute specifies the time in second a coupling port is switched on to enable the host ECU (ECU that maintains an Ethernet switch) to listen to the network for potential network management requests.
+        A None value is a no-op and does not overwrite an existing couplingPortStartupActiveTime.
+        """
         if value is not None:
             self.couplingPortStartupActiveTime = value
         return self
 
-    def getCouplingPortSwitchoffDelay(self):
+    def getCouplingPortSwitchoffDelay(self) -> Optional[TimeValue]:
+        """Switch off delay for CouplingPorts in seconds. It denotes the delay of switching off couplingPorts after the request to switch off a couplingPort was issued. (e.g. switch off of Ethernet switch ports)."""
         return self.couplingPortSwitchoffDelay
 
-    def setCouplingPortSwitchoffDelay(self, value):
+    def setCouplingPortSwitchoffDelay(self, value: Optional[TimeValue]) -> "EthernetCluster":
+        """
+        Switch off delay for CouplingPorts in seconds. It denotes the delay of switching off couplingPorts after the request to switch off a couplingPort was issued. (e.g. switch off of Ethernet switch ports).
+        A None value is a no-op and does not overwrite an existing couplingPortSwitchoffDelay.
+        """
         if value is not None:
             self.couplingPortSwitchoffDelay = value
         return self
 
-    def getMacMulticastGroups(self):
-        return self.macMulticastGroups
-
     def createMacMulticastGroup(self, short_name: str) -> MacMulticastGroup:
+        """MacMulticastGroup that is defined for the Subnet (EthernetCluster)."""
         if short_name not in self.elements:
             group = MacMulticastGroup(self, short_name)
             self.addElement(group)
             self.macMulticastGroups.append(group)
         return self.getElement(short_name)
+
+    def getMacMulticastGroups(self) -> List[MacMulticastGroup]:
+        """MacMulticastGroup that is defined for the Subnet (EthernetCluster)."""
+        return self.macMulticastGroups
 
 
 class CouplingPortStructuralElement(Identifiable, ABC):

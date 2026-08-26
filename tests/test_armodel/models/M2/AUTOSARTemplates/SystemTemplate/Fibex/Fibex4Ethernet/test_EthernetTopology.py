@@ -74,31 +74,38 @@ class TestEthernetTopology:
 
     def test_ethernet_cluster(self):
         """
-        Test the EthernetCluster class initialization and methods.
+        Test the EthernetCluster class initialization and methods (Table 3.47).
         """
         parent = MockParent()
         cluster = EthernetCluster(parent, "TestCluster")
 
         assert cluster.getShortName() == "TestCluster"
-        assert cluster.getCouplingPorts() == []
+        assert cluster.getCouplingPortConnections() == []
         assert cluster.getCouplingPortStartupActiveTime() is None
         assert cluster.getCouplingPortSwitchoffDelay() is None
         assert cluster.getMacMulticastGroups() == []
 
-        # Test setting timing values with method chaining
+        # Test setting timing values with method chaining and None no-ops
         test_time = 100
         result = cluster.setCouplingPortStartupActiveTime(test_time)
         assert cluster.getCouplingPortStartupActiveTime() == test_time
         assert result == cluster  # Test method chaining
 
+        result = cluster.setCouplingPortStartupActiveTime(None)
+        assert cluster.getCouplingPortStartupActiveTime() == test_time
+
         result = cluster.setCouplingPortSwitchoffDelay(test_time)
         assert cluster.getCouplingPortSwitchoffDelay() == test_time
         assert result == cluster  # Test method chaining
 
-        # Test adding coupling port
-        result = cluster.addCouplingPort("port1")
-        assert cluster.getCouplingPorts() == ["port1"]
+        # Test adding coupling port connection with method chaining and None no-op
+        connection = MockParent()
+        result = cluster.addCouplingPortConnection(connection)
+        assert cluster.getCouplingPortConnections() == [connection]
         assert result == cluster  # Test method chaining
+
+        cluster.addCouplingPortConnection(None)
+        assert cluster.getCouplingPortConnections() == [connection]
 
         # Test creating MAC multicast group
         test_group = cluster.createMacMulticastGroup("TestMulticastGroup")

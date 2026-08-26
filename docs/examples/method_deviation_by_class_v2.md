@@ -1590,6 +1590,23 @@ Resolution of the queue context ("adds ipAddress"): Table 6.118 (markdown AUTOSA
 
 Resolution of the three technology members (queue context): Table 6.124 (markdown AUTOSAR_CP_TPS_SystemTemplate.md:12091–12115 + PDF p.458 per pdf_page.py) has NO discoveryTechnology/remotingTechnology/serializationTechnologyRef rows; the XSD groups mark all three atp.Status="removed" (AUTOSAR_00052.xsd:3410/3452/3458). Rule 0015/the-table-wins: NOT modeled; the earlier "consumedServiceInstance missing" row was removed — it is implemented (`createConsumedServiceInstance`/`getConsumedServiceInstances`, dedicated typed list field).
 
+## `EthernetCluster`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 103  | **table:** Table 3.47
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `couplingPortConnections` | `List[ARObject]` | `couplingPort Connection` | ``CouplingPortConnection`` | aggr | referenced class `CouplingPortConnection` not yet implemented; carried as an `ARObject` placeholder list with add/get accessors, reader/writer pending, full sync deferred (Rule 0001.10); field renamed from the mislabelled `couplingPorts` |
+| `couplingPortStartupActiveTime` | `Optional[TimeValue]` | `couplingPort StartupActiveTime` | ``TimeValue`` | attr | - |
+| `couplingPortSwitchoffDelay` | `Optional[TimeValue]` | `couplingPort SwitchoffDelay` | ``TimeValue`` | attr | - |
+| `macMulticastGroups` | `List[MacMulticastGroup]` | `macMulticast Group` | ``MacMulticastGroup`` | aggr | - |
+
+Resolution of the queue note ("adds couplingPorts to EthernetCluster"): the spec aggregates
+**CouplingPortConnection** objects in the role `couplingPortConnection`, not CouplingPorts — the
+pre-existing mislabelled `couplingPorts` list was renamed accordingly; the CouplingPorts themselves
+are aggregated by CouplingElement / EthernetCommunicationController (Table 3.54 "Aggregated by").
+
 ## `InfrastructureServices`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 469  | **table:** Table 6.144
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology` (modelled in NetworkEndpoint.py)
