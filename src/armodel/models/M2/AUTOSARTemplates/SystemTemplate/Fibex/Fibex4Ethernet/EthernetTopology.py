@@ -77,7 +77,7 @@ class EthernetCluster(CommunicationCluster):
         super().__init__(parent, short_name)
 
         # Specification of connections between CouplingElements and EcuInstances.
-        self.couplingPortConnections: List[ARObject] = []
+        self.couplingPortConnections: List[CouplingPortConnection] = []
 
         # The attribute specifies the time in second a coupling port is switched on to enable the host ECU (ECU that maintains an Ethernet switch) to listen to the network for potential network management requests.
         self.couplingPortStartupActiveTime: Optional[TimeValue] = None
@@ -88,7 +88,7 @@ class EthernetCluster(CommunicationCluster):
         # MacMulticastGroup that is defined for the Subnet (EthernetCluster).
         self.macMulticastGroups: List[MacMulticastGroup] = []
 
-    def addCouplingPortConnection(self, value: Optional[ARObject]) -> "EthernetCluster":
+    def addCouplingPortConnection(self, value: Optional[CouplingPortConnection]) -> "EthernetCluster":
         """
         Specification of connections between CouplingElements and EcuInstances.
         A None value is a no-op and does not append to couplingPortConnections.
@@ -97,7 +97,7 @@ class EthernetCluster(CommunicationCluster):
             self.couplingPortConnections.append(value)
         return self
 
-    def getCouplingPortConnections(self) -> List[ARObject]:
+    def getCouplingPortConnections(self) -> List[CouplingPortConnection]:
         """Specification of connections between CouplingElements and EcuInstances."""
         return self.couplingPortConnections
 
@@ -333,7 +333,7 @@ class CouplingPortDetails(ARObject):
         self.ethernetTrafficClassAssignments: List[CouplingPortTrafficClassAssignment] = []
 
         # Specifies properties for the usage of the CouplingPort in the scope of Global Time Sync.
-        self.globalTimeProps: Optional[ARObject] = None
+        self.globalTimeProps: Optional[GlobalTimeCouplingPortProps] = None
 
         # Defines which CouplingPortScheduler is the last in the egress port structure.
         self.lastEgressSchedulerRef: Optional[RefType] = None
@@ -377,11 +377,11 @@ class CouplingPortDetails(ARObject):
         """Defines the ingress port to EthernetTrafficClass assignment."""
         return self.ethernetTrafficClassAssignments
 
-    def getGlobalTimeProps(self) -> Optional[ARObject]:
+    def getGlobalTimeProps(self) -> Optional[GlobalTimeCouplingPortProps]:
         """Specifies properties for the usage of the CouplingPort in the scope of Global Time Sync."""
         return self.globalTimeProps
 
-    def setGlobalTimeProps(self, value: Optional[ARObject]) -> "CouplingPortDetails":
+    def setGlobalTimeProps(self, value: Optional[GlobalTimeCouplingPortProps]) -> "CouplingPortDetails":
         """
         Specifies properties for the usage of the CouplingPort in the scope of Global Time Sync.
         A None value is a no-op and does not overwrite an existing globalTimeProps.
@@ -529,7 +529,7 @@ class CouplingPort(Identifiable):
         self.physicalLayerType: Optional[EthernetPhysicalLayerTypeEnum] = None
 
         # Optional properties for configuration of PLCA (Physical Layer Collision Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the Coupling Port (PHY).
-        self.plcaProps: Optional[ARObject] = None
+        self.plcaProps: Optional[PlcaProps] = None
 
         # Reference to the partial networks this CouplingPort participates in.
         self.pncMappingRefs: List[RefType] = []
@@ -650,11 +650,11 @@ class CouplingPort(Identifiable):
             self.physicalLayerType = value
         return self
 
-    def getPlcaProps(self) -> Optional[ARObject]:
+    def getPlcaProps(self) -> Optional[PlcaProps]:
         """Optional properties for configuration of PLCA (Physical Layer Collision Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the Coupling Port (PHY)."""
         return self.plcaProps
 
-    def setPlcaProps(self, value: Optional[ARObject]) -> "CouplingPort":
+    def setPlcaProps(self, value: Optional[PlcaProps]) -> "CouplingPort":
         """
         Optional properties for configuration of PLCA (Physical Layer Collision Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the Coupling Port (PHY).
         A None value is a no-op and does not overwrite an existing plcaProps.
@@ -2485,3 +2485,207 @@ class DoIpEntityRoleEnum(AREnum):
                 DoIpEntityRoleEnum.NODE,
             ]
         )
+
+
+class PlcaProps(ARObject):
+    """
+    This meta-class allows to configure the PLCA (Physical Layer Collision Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the CouplingPort (PHY).
+    """
+
+    # PlcaProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.117, p.169
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getPlcaLocalNodeId             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPlcaLocalNodeId             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPlcaMaxBurstCount           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPlcaMaxBurstCount           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPlcaMaxBurstTimer           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPlcaMaxBurstTimer           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines the node ID when the PLCA mode for 10BASE-T1S is used.
+        self.plcaLocalNodeId: Optional[PositiveInteger] = None
+
+        # Defines maximum packets allowed to be transmitted within a TO. This configuration can be different from one ECU to another within the PLCA mixed segment.
+        self.plcaMaxBurstCount: Optional[PositiveInteger] = None
+
+        # Limits the burst frames in bit time. This configuration can be different from one ECU to another within the PLCA mixed segment. For PLCA burst mode to work properly this timer should be set greater than one IPG.
+        self.plcaMaxBurstTimer: Optional[PositiveInteger] = None
+
+    def getPlcaLocalNodeId(self) -> Optional[PositiveInteger]:
+        """This attribute defines the node ID when the PLCA mode for 10BASE-T1S is used."""
+        return self.plcaLocalNodeId
+
+    def setPlcaLocalNodeId(self, value: Optional[PositiveInteger]) -> "PlcaProps":
+        """
+        This attribute defines the node ID when the PLCA mode for 10BASE-T1S is used.
+        A None value is a no-op and does not overwrite an existing plcaLocalNodeId.
+        """
+        if value is not None:
+            self.plcaLocalNodeId = value
+        return self
+
+    def getPlcaMaxBurstCount(self) -> Optional[PositiveInteger]:
+        """Defines maximum packets allowed to be transmitted within a TO. This configuration can be different from one ECU to another within the PLCA mixed segment."""
+        return self.plcaMaxBurstCount
+
+    def setPlcaMaxBurstCount(self, value: Optional[PositiveInteger]) -> "PlcaProps":
+        """
+        Defines maximum packets allowed to be transmitted within a TO. This configuration can be different from one ECU to another within the PLCA mixed segment.
+        A None value is a no-op and does not overwrite an existing plcaMaxBurstCount.
+        """
+        if value is not None:
+            self.plcaMaxBurstCount = value
+        return self
+
+    def getPlcaMaxBurstTimer(self) -> Optional[PositiveInteger]:
+        """Limits the burst frames in bit time. This configuration can be different from one ECU to another within the PLCA mixed segment. For PLCA burst mode to work properly this timer should be set greater than one IPG."""
+        return self.plcaMaxBurstTimer
+
+    def setPlcaMaxBurstTimer(self, value: Optional[PositiveInteger]) -> "PlcaProps":
+        """
+        Limits the burst frames in bit time. This configuration can be different from one ECU to another within the PLCA mixed segment. For PLCA burst mode to work properly this timer should be set greater than one IPG.
+        A None value is a no-op and does not overwrite an existing plcaMaxBurstTimer.
+        """
+        if value is not None:
+            self.plcaMaxBurstTimer = value
+        return self
+
+
+class CouplingPortConnection(ARObject):
+    """
+    Connection between two CouplingPorts (firstPort and secondPort).
+    """
+
+    # CouplingPortConnection method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.60, p.113
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getFirstPort                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFirstPort                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNodePorts                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addNodePort                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPlcaLocalNodeCount          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPlcaLocalNodeCount          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPlcaTransmitOpportunityTimer [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPlcaTransmitOpportunityTimer [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSecondPort                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSecondPort                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Reference to the first CouplingPort that is connected via the CouplingPortConnection.
+        self.firstPort: Optional[RefType] = None
+
+        # Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild
+        self.nodePorts: List[RefType] = []
+
+        # Defines the number of communication participants in case 10BASE-T1S and the nodePort reference is used.
+        self.plcaLocalNodeCount: Optional[PositiveInteger] = None
+
+        # Timer for the transmission in bit time to evaluate if a Transmission Opportunity is yield or not.
+        self.plcaTransmitOpportunityTimer: Optional[PositiveInteger] = None
+
+        # Reference to the second CouplingPort that is connected via the CouplingPortConnection.
+        self.secondPort: Optional[RefType] = None
+
+    def getFirstPort(self) -> Optional[RefType]:
+        """Reference to the first CouplingPort that is connected via the CouplingPortConnection."""
+        return self.firstPort
+
+    def setFirstPort(self, value: Optional[RefType]) -> "CouplingPortConnection":
+        """
+        Reference to the first CouplingPort that is connected via the CouplingPortConnection.
+        A None value is a no-op and does not overwrite an existing firstPort.
+        """
+        if value is not None:
+            self.firstPort = value
+        return self
+
+    def getNodePorts(self) -> List[RefType]:
+        """Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild"""
+        return self.nodePorts
+
+    def addNodePort(self, value: Optional[RefType]) -> "CouplingPortConnection":
+        """
+        Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild
+        A None value is a no-op and does not append to nodePorts.
+        """
+        if value is not None:
+            self.nodePorts.append(value)
+        return self
+
+    def getPlcaLocalNodeCount(self) -> Optional[PositiveInteger]:
+        """Defines the number of communication participants in case 10BASE-T1S and the nodePort reference is used."""
+        return self.plcaLocalNodeCount
+
+    def setPlcaLocalNodeCount(self, value: Optional[PositiveInteger]) -> "CouplingPortConnection":
+        """
+        Defines the number of communication participants in case 10BASE-T1S and the nodePort reference is used.
+        A None value is a no-op and does not overwrite an existing plcaLocalNodeCount.
+        """
+        if value is not None:
+            self.plcaLocalNodeCount = value
+        return self
+
+    def getPlcaTransmitOpportunityTimer(self) -> Optional[PositiveInteger]:
+        """Timer for the transmission in bit time to evaluate if a Transmission Opportunity is yield or not."""
+        return self.plcaTransmitOpportunityTimer
+
+    def setPlcaTransmitOpportunityTimer(self, value: Optional[PositiveInteger]) -> "CouplingPortConnection":
+        """
+        Timer for the transmission in bit time to evaluate if a Transmission Opportunity is yield or not.
+        A None value is a no-op and does not overwrite an existing plcaTransmitOpportunityTimer.
+        """
+        if value is not None:
+            self.plcaTransmitOpportunityTimer = value
+        return self
+
+    def getSecondPort(self) -> Optional[RefType]:
+        """Reference to the second CouplingPort that is connected via the CouplingPortConnection."""
+        return self.secondPort
+
+    def setSecondPort(self, value: Optional[RefType]) -> "CouplingPortConnection":
+        """
+        Reference to the second CouplingPort that is connected via the CouplingPortConnection.
+        A None value is a no-op and does not overwrite an existing secondPort.
+        """
+        if value is not None:
+            self.secondPort = value
+        return self
+
+
+class GlobalTimeCouplingPortProps(ARObject):
+    """
+    Defines properties for the usage of the CouplingPort in the scope of Global Time Sync.
+    """
+
+    # GlobalTimeCouplingPortProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.18, p.875
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getPropagationDelay            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPropagationDelay            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # If cyclic propagation delay measurement is enabled, this parameter represents the default value of the propagation delay until the first actually measured propagation delay is available. If cyclic propagation delay measurement is disabled, this parameter defines a fixed value for the propagation delay.
+        self.propagationDelay: Optional[TimeValue] = None
+
+    def getPropagationDelay(self) -> Optional[TimeValue]:
+        """If cyclic propagation delay measurement is enabled, this parameter represents the default value of the propagation delay until the first actually measured propagation delay is available. If cyclic propagation delay measurement is disabled, this parameter defines a fixed value for the propagation delay."""
+        return self.propagationDelay
+
+    def setPropagationDelay(self, value: Optional[TimeValue]) -> "GlobalTimeCouplingPortProps":
+        """
+        If cyclic propagation delay measurement is enabled, this parameter represents the default value of the propagation delay until the first actually measured propagation delay is available. If cyclic propagation delay measurement is disabled, this parameter defines a fixed value for the propagation delay.
+        A None value is a no-op and does not overwrite an existing propagationDelay.
+        """
+        if value is not None:
+            self.propagationDelay = value
+        return self

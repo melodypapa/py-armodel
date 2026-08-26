@@ -459,12 +459,15 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
+    CouplingPortConnection,
     CouplingPortDetails,
     CouplingPortFifo,
     CouplingPortScheduler,
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
     EthernetCluster,
+    GlobalTimeCouplingPortProps,
+    PlcaProps,
     EthernetCommunicationConnector,
     EthernetCommunicationController,
     EthernetPriorityRegeneration,
@@ -7831,6 +7834,29 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported assigned data type <%s>" % type(group))
 
+    def writeCouplingPortConnection(self, element: ET.Element, connection: CouplingPortConnection):
+        child_element = ET.SubElement(element, "COUPLING-PORT-CONNECTION")
+        self.setChildElementOptionalRefType(child_element, "FIRST-PORT-REF", connection.getFirstPort())
+        node_ports = connection.getNodePorts()
+        if len(node_ports) > 0:
+            node_ports_element = ET.SubElement(child_element, "NODE-PORTS")
+            for ref in node_ports:
+                conditional_element = ET.SubElement(node_ports_element, "COUPLING-PORT-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(conditional_element, "COUPLING-PORT-REF", ref)
+        self.setChildElementOptionalPositiveInteger(child_element, "PLCA-LOCAL-NODE-COUNT", connection.getPlcaLocalNodeCount())
+        self.setChildElementOptionalPositiveInteger(child_element, "PLCA-TRANSMIT-OPPORTUNITY-TIMER", connection.getPlcaTransmitOpportunityTimer())
+        self.setChildElementOptionalRefType(child_element, "SECOND-PORT-REF", connection.getSecondPort())
+
+    def writeEthernetClusterCouplingPortConnections(self, element: ET.Element, cluster: EthernetCluster):
+        connections = cluster.getCouplingPortConnections()
+        if len(connections) > 0:
+            connections_element = ET.SubElement(element, "COUPLING-PORT-CONNECTIONS")
+            for connection in connections:
+                if isinstance(connection, CouplingPortConnection):
+                    self.writeCouplingPortConnection(connections_element, connection)
+                else:
+                    self.notImplemented("Unsupported CouplingPortConnection <%s>" % type(connection))
+
     def writeEthernetCluster(self, element: ET.Element, cluster: EthernetCluster):
         self.logger.debug("Set EthernetCluster %s" % cluster.getShortName())
         child_element = ET.SubElement(element, "ETHERNET-CLUSTER")
@@ -7842,6 +7868,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalTimeValue(child_element, "COUPLING-PORT-STARTUP-ACTIVE-TIME", cluster.getCouplingPortStartupActiveTime())
         self.setChildElementOptionalTimeValue(child_element, "COUPLING-PORT-SWITCHOFF-DELAY", cluster.getCouplingPortSwitchoffDelay())
         self.writeEthernetClusterMacMulticastGroups(child_element, cluster)
+        self.writeEthernetClusterCouplingPortConnections(child_element, cluster)
 
     def writeCanFrame(self, element: ET.Element, frame: CanFrame):
         self.logger.debug("Write CanFrame %s" % frame.getShortName())
@@ -8067,6 +8094,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported CouplingPortTrafficClassAssignment <%s>" % type(assignment))
 
+    def setPlcaProps(self, element: ET.Element, key: str, props: PlcaProps):
+        if props is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalPositiveInteger(child_element, "PLCA-LOCAL-NODE-ID", props.getPlcaLocalNodeId())
+            self.setChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-COUNT", props.getPlcaMaxBurstCount())
+            self.setChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-TIMER", props.getPlcaMaxBurstTimer())
+
+    def setGlobalTimeProps(self, element: ET.Element, key: str, props: GlobalTimeCouplingPortProps):
+        if props is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalTimeValue(child_element, "PROPAGATION-DELAY", props.getPropagationDelay())
+
     def setCouplingPortDetails(self, element: ET.Element, key: str, details: CouplingPortDetails):
         if details is not None:
             child_element = ET.SubElement(element, key)
@@ -8074,6 +8113,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCouplingPortDetailsEthernetPriorityRegenerations(child_element, details)
             self.writeCouplingPortDetailsEthernetTrafficClassAssignments(child_element, details)
             self.setChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF", details.getLastEgressSchedulerRef())
+            self.setGlobalTimeProps(child_element, "GLOBAL-TIME-PROPS", details.getGlobalTimeProps())
 
     def setDhcpServerConfiguration(self, element: ET.Element, key: str, config: DhcpServerConfiguration):
         if config is not None:
@@ -8164,6 +8204,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, port)
         self.setChildElementOptionalLiteral(child_element, "CONNECTION-NEGOTIATION-BEHAVIOR", port.getConnectionNegotiationBehavior())
         self.setCouplingPortDetails(child_element, "COUPLING-PORT-DETAILS", port.getCouplingPortDetails())
+        self.setPlcaProps(child_element, "PLCA-PROPS", port.getPlcaProps())
         self.setChildElementOptionalLiteral(child_element, "COUPLING-PORT-ROLE", port.getCouplingPortRole())
         self.setChildElementOptionalRefType(child_element, "DEFAULT-VLAN-REF", port.getDefaultVlanRef())
         self.setChildElementOptionalLiteral(child_element, "MAC-LAYER-TYPE", port.getMacLayerType())

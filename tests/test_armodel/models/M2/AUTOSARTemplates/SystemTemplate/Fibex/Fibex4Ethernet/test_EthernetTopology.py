@@ -16,6 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
+    CouplingPortConnection,
     CouplingPortDetails,
     CouplingPortFifo,
     CouplingPortRoleEnum,
@@ -33,6 +34,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetPhysicalLayerTypeEnum,
     EthernetPriorityRegeneration,
     EthernetSwitchVlanIngressTagEnum,
+    GlobalTimeCouplingPortProps,
     InfrastructureServices,
     InitialSdDelayConfig,
     IpAddressKeepEnum,
@@ -44,6 +46,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     MacMulticastGroup,
     NetworkEndpoint,
     NetworkEndpointAddress,
+    PlcaProps,
     RequestResponseDelay,
     SdClientConfig,
     TimeSyncClientConfiguration,
@@ -1227,3 +1230,120 @@ class TestDoIpEntityRoleEnum:
         assert DoIpEntityRoleEnum.EDGE_NODE == "edgeNode"
         assert DoIpEntityRoleEnum.GATEWAY == "gateway"
         assert DoIpEntityRoleEnum.NODE == "node"
+
+
+class TestPlcaProps:
+    """Test cases for PlcaProps (Table 3.117, p.169)."""
+
+    def test_initialization(self):
+        props = PlcaProps()
+        assert props.getPlcaLocalNodeId() is None
+        assert props.getPlcaMaxBurstCount() is None
+        assert props.getPlcaMaxBurstTimer() is None
+
+    def test_get_set_plcaLocalNodeId(self):
+        props = PlcaProps()
+        value = PositiveInteger().setValue("5")
+        result = props.setPlcaLocalNodeId(value)
+        assert props.getPlcaLocalNodeId() == value
+        assert result == props
+
+    def test_get_set_plcaMaxBurstCount(self):
+        props = PlcaProps()
+        value = PositiveInteger().setValue("3")
+        result = props.setPlcaMaxBurstCount(value)
+        assert props.getPlcaMaxBurstCount() == value
+        assert result == props
+
+    def test_get_set_plcaMaxBurstTimer(self):
+        props = PlcaProps()
+        value = PositiveInteger().setValue("10")
+        result = props.setPlcaMaxBurstTimer(value)
+        assert props.getPlcaMaxBurstTimer() == value
+        assert result == props
+
+    def test_none_no_op(self):
+        props = PlcaProps()
+        value = PositiveInteger().setValue("7")
+        props.setPlcaLocalNodeId(value)
+        result = props.setPlcaLocalNodeId(None)
+        assert props.getPlcaLocalNodeId() == value
+        assert result == props
+
+
+class TestCouplingPortConnection:
+    """Test cases for CouplingPortConnection (Table 3.60, p.113)."""
+
+    def test_initialization(self):
+        connection = CouplingPortConnection()
+        assert connection.getFirstPort() is None
+        assert connection.getNodePorts() == []
+        assert connection.getPlcaLocalNodeCount() is None
+        assert connection.getPlcaTransmitOpportunityTimer() is None
+        assert connection.getSecondPort() is None
+
+    def test_get_set_first_port(self):
+        connection = CouplingPortConnection()
+        ref = RefType().setValue("/Ether/CouplingPort/CP1")
+        result = connection.setFirstPort(ref)
+        assert connection.getFirstPort() == ref
+        assert result == connection
+
+    def test_get_set_second_port(self):
+        connection = CouplingPortConnection()
+        ref = RefType().setValue("/Ether/CouplingPort/CP2")
+        result = connection.setSecondPort(ref)
+        assert connection.getSecondPort() == ref
+        assert result == connection
+
+    def test_add_node_ports(self):
+        connection = CouplingPortConnection()
+        ref1 = RefType().setValue("/Ether/CouplingPort/CP1")
+        ref2 = RefType().setValue("/Ether/CouplingPort/CP3")
+        result = connection.addNodePort(ref1)
+        connection.addNodePort(ref2)
+        assert connection.getNodePorts() == [ref1, ref2]
+        assert result == connection
+
+    def test_add_node_port_none_no_op(self):
+        connection = CouplingPortConnection()
+        result = connection.addNodePort(None)
+        assert connection.getNodePorts() == []
+        assert result == connection
+
+    def test_get_set_plca_local_node_count(self):
+        connection = CouplingPortConnection()
+        value = PositiveInteger().setValue("4")
+        result = connection.setPlcaLocalNodeCount(value)
+        assert connection.getPlcaLocalNodeCount() == value
+        assert result == connection
+
+    def test_get_set_plca_transmit_opportunity_timer(self):
+        connection = CouplingPortConnection()
+        value = PositiveInteger().setValue("100")
+        result = connection.setPlcaTransmitOpportunityTimer(value)
+        assert connection.getPlcaTransmitOpportunityTimer() == value
+        assert result == connection
+
+
+class TestGlobalTimeCouplingPortProps:
+    """Test cases for GlobalTimeCouplingPortProps (Table 9.18, p.875)."""
+
+    def test_initialization(self):
+        props = GlobalTimeCouplingPortProps()
+        assert props.getPropagationDelay() is None
+
+    def test_get_set_propagation_delay(self):
+        props = GlobalTimeCouplingPortProps()
+        value = TimeValue().setValue("0.005")
+        result = props.setPropagationDelay(value)
+        assert props.getPropagationDelay() == value
+        assert result == props
+
+    def test_none_no_op(self):
+        props = GlobalTimeCouplingPortProps()
+        value = TimeValue().setValue("0.005")
+        props.setPropagationDelay(value)
+        result = props.setPropagationDelay(None)
+        assert props.getPropagationDelay() == value
+        assert result == props

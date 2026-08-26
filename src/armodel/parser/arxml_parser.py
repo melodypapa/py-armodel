@@ -491,12 +491,15 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Obso
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
+    CouplingPortConnection,
     CouplingPortDetails,
     CouplingPortFifo,
     CouplingPortScheduler,
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
     EthernetCluster,
+    GlobalTimeCouplingPortProps,
+    PlcaProps,
     EthernetCommunicationConnector,
     EthernetCommunicationController,
     EthernetPriorityRegeneration,
@@ -6761,6 +6764,24 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported assigned data type <%s>" % tag_name)
 
+    def readCouplingPortConnection(self, element: ET.Element, connection: CouplingPortConnection):
+        connection.setFirstPort(self.getChildElementOptionalRefType(element, "FIRST-PORT-REF"))
+        for ref in self.getChildElementRefTypeList(element, "NODE-PORTS/COUPLING-PORT-REF-CONDITIONAL/COUPLING-PORT-REF"):
+            connection.addNodePort(ref)
+        connection.setPlcaLocalNodeCount(self.getChildElementOptionalPositiveInteger(element, "PLCA-LOCAL-NODE-COUNT"))
+        connection.setPlcaTransmitOpportunityTimer(self.getChildElementOptionalPositiveInteger(element, "PLCA-TRANSMIT-OPPORTUNITY-TIMER"))
+        connection.setSecondPort(self.getChildElementOptionalRefType(element, "SECOND-PORT-REF"))
+
+    def readEthernetClusterCouplingPortConnections(self, element: ET.Element, cluster: EthernetCluster):
+        for child_element in self.findall(element, "COUPLING-PORT-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "COUPLING-PORT-CONNECTION":
+                connection = CouplingPortConnection()
+                self.readCouplingPortConnection(child_element, connection)
+                cluster.addCouplingPortConnection(connection)
+            else:
+                self.notImplemented("Unsupported CouplingPortConnection <%s>" % tag_name)
+
     def readEthernetCluster(self, element: ET.Element, cluster: EthernetCluster):
         self.logger.debug("Read EthernetCluster <%s>" % cluster.getShortName())
         self.readIdentifiable(element, cluster)
@@ -6770,6 +6791,7 @@ class ARXMLParser(AbstractARXMLParser):
             cluster.setCouplingPortStartupActiveTime(self.getChildElementOptionalTimeValue(child_element, "COUPLING-PORT-STARTUP-ACTIVE-TIME"))
             cluster.setCouplingPortSwitchoffDelay(self.getChildElementOptionalTimeValue(child_element, "COUPLING-PORT-SWITCHOFF-DELAY"))
             self.readEthernetClusterMacMulticastGroups(child_element, cluster)
+            self.readEthernetClusterCouplingPortConnections(child_element, cluster)
 
     def readDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         for ref in self.getChildElementRefTypeList(element, "FUNCTIONAL-REQUEST-REFS/FUNCTIONAL-REQUEST-REF"):
@@ -8497,6 +8519,24 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported CouplingPortTrafficClassAssignment <%s>" % tag_name)
 
+    def getPlcaProps(self, element: ET.Element, key: str) -> PlcaProps:
+        props = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            props = PlcaProps()
+            props.setPlcaLocalNodeId(self.getChildElementOptionalPositiveInteger(child_element, "PLCA-LOCAL-NODE-ID"))
+            props.setPlcaMaxBurstCount(self.getChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-COUNT"))
+            props.setPlcaMaxBurstTimer(self.getChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-TIMER"))
+        return props
+
+    def getGlobalTimeProps(self, element: ET.Element, key: str) -> GlobalTimeCouplingPortProps:
+        props = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            props = GlobalTimeCouplingPortProps()
+            props.setPropagationDelay(self.getChildElementOptionalTimeValue(child_element, "PROPAGATION-DELAY"))
+        return props
+
     def getCouplingPortDetails(self, element: ET.Element, key: str) -> CouplingPortDetails:
         details = None
         child_element = self.find(element, key)
@@ -8506,6 +8546,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readCouplingPortDetailsEthernetPriorityRegenerations(child_element, details)
             self.readCouplingPortDetailsEthernetTrafficClassAssignments(child_element, details)
             details.setLastEgressSchedulerRef(self.getChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF"))
+            details.setGlobalTimeProps(self.getGlobalTimeProps(child_element, "GLOBAL-TIME-PROPS"))
         return details
 
     def getDhcpServerConfiguration(self, element: ET.Element, key: str) -> DhcpServerConfiguration:
@@ -8607,6 +8648,7 @@ class ARXMLParser(AbstractARXMLParser):
             e.setValue(connection_negotiation_behavior.getValue())
             port.setConnectionNegotiationBehavior(e)
         port.setCouplingPortDetails(self.getCouplingPortDetails(element, "COUPLING-PORT-DETAILS"))
+        port.setPlcaProps(self.getPlcaProps(element, "PLCA-PROPS"))
         coupling_port_role = self.getChildElementOptionalLiteral(element, "COUPLING-PORT-ROLE")
         if coupling_port_role is not None:
             e = CouplingPortRoleEnum()
