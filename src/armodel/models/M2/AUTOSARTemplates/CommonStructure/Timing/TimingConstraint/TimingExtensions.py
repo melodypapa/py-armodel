@@ -25,7 +25,7 @@ class TimingExtension(ARElement, ABC):
     """
 
     # TimingExtension method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table D.65 (XSD group TIMING-EXTENSION), p.157
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table D.65 (XSD group TIMING-EXTENSION), p.255
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addTimingGuarantee              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -108,7 +108,7 @@ class SwcTiming(TimingExtension):
     """
 
     # SwcTiming method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.2, p.31
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.2, p.25
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getBehaviorRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
