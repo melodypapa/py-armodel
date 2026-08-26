@@ -277,6 +277,7 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory im
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
@@ -284,10 +285,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AnyServiceInstanceId,
+    AnyVersionString,
     ARLiteral,
     IntervalTypeEnum,
     NameToken,
     Numerical,
+    PositiveInteger,
     PrimitiveIdentifier,
     RefType,
     SectionInitializationPolicyType,
@@ -510,7 +514,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordElementMapping,
     SenderRecRecordTypeMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection, TpConnectionIdent
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanAddressingModeType,
@@ -533,35 +537,73 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanControllerXlConfiguration,
     CanControllerXlConfigurationRequirements,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
+    CouplingPortAbstractShaper,
+    CouplingPortConnection,
     CouplingPortDetails,
     CouplingPortFifo,
     CouplingPortScheduler,
     CouplingPortStructuralElement,
+    CouplingPortTrafficClassAssignment,
     EthernetCluster,
+    GlobalTimeCouplingPortProps,
+    PlcaProps,
     EthernetCommunicationConnector,
     EthernetCommunicationController,
     EthernetPriorityRegeneration,
+    DhcpServerConfiguration,
+    Ipv4DhcpServerConfiguration,
+    Ipv6DhcpServerConfiguration,
     InitialSdDelayConfig,
     MacMulticastGroup,
     RequestResponseDelay,
     SdClientConfig,
     VlanMembership,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import DoIpEntity, InfrastructureServices, Ipv6Configuration, NetworkEndpoint
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     ApplicationEndpoint,
+    CouplingPortRoleEnum,
+    DoIpEntity,
+    DoIpEntityRoleEnum,
+    EthernetConnectionNegotiationEnum,
+    EthernetMacLayerTypeEnum,
+    EthernetPhysicalLayerTypeEnum,
+    EthernetSwitchVlanIngressTagEnum,
+    InfrastructureServices,
+    IpAddressKeepEnum,
+    Ipv6AddressSourceEnum,
+    Ipv6Configuration,
+    NetworkEndpoint,
+    OrderedMaster,
+    TimeSyncClientConfiguration,
+    TimeSyncServerConfiguration,
+    TimeSyncTechnologyEnum,
+    TimeSynchronization,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
+    AbstractServiceInstance,
     ConsumedEventGroup,
     ConsumedServiceInstance,
+    EventGroupControlTypeEnum,
     EventHandler,
     GenericTp,
+    PduActivationRoutingGroup,
     ProvidedServiceInstance,
     SdServerConfig,
+    ServiceVersionAcceptanceKindEnum,
     SoAdConfig,
+    StaticSocketConnection,
     SocketAddress,
+    TcpRoleEnum,
+    UdpChecksumCalculationEnum,
+    SomeipSdClientEventGroupTimingConfig,
+    SomeipSdClientServiceInstanceConfig,
+    SomeipSdServerEventGroupTimingConfig,
+    SomeipServiceVersion,
     TcpTp,
     TpPort,
     TransportProtocolConfiguration,
@@ -6778,11 +6820,25 @@ class ARXMLParser(AbstractARXMLParser):
             configuration = Ipv6Configuration()
             configuration.setAssignmentPriority(self.getChildElementOptionalPositiveInteger(element, "ASSIGNMENT-PRIORITY"))
             configuration.setDefaultRouter(self.getChildElementOptionalLiteral(element, "DEFAULT-ROUTER"))
+            for address in self.findall(element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
+                literal = ARLiteral()
+                self.readARObjectAttributes(address, literal)
+                literal.setValue(address.text)
+                configuration.addDnsServerAddress(literal)
             configuration.setEnableAnycast(self.getChildElementOptionalBooleanValue(element, "ENABLE-ANYCAST"))
             configuration.setHopCount(self.getChildElementOptionalPositiveInteger(element, "HOP-COUNT"))
+            keep_literal = self.getChildElementOptionalLiteral(element, "IP-ADDRESS-KEEP-BEHAVIOR")
+            if keep_literal is not None:
+                keep = IpAddressKeepEnum()
+                keep.setValue(keep_literal.getValue())
+                configuration.setIpAddressKeepBehavior(keep)
             configuration.setIpAddressPrefixLength(self.getChildElementOptionalPositiveInteger(element, "IP-ADDRESS-PREFIX-LENGTH"))
             configuration.setIpv6Address(self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS"))
-            configuration.setIpv6AddressSource(self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS-SOURCE"))
+            source_literal = self.getChildElementOptionalLiteral(element, "IPV-6-ADDRESS-SOURCE")
+            if source_literal is not None:
+                source = Ipv6AddressSourceEnum()
+                source.setValue(source_literal.getValue())
+                configuration.setIpv6AddressSource(source)
         return configuration
 
     def readNetworkEndPointNetworkEndPointAddress(self, element: ET.Element, end_point: NetworkEndpoint):
@@ -6798,8 +6854,49 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             entity = DoIpEntity()
-            entity.setDoIpEntityRole(self.getChildElementOptionalLiteral(child_element, "DO-IP-ENTITY-ROLE"))
+            do_ip_entity_role = self.getChildElementOptionalLiteral(child_element, "DO-IP-ENTITY-ROLE")
+            if do_ip_entity_role is not None:
+                e = DoIpEntityRoleEnum()
+                e.setValue(do_ip_entity_role.getValue())
+                entity.setDoIpEntityRole(e)
         return entity
+
+    def getTimeSynchronization(self, element: ET.Element, key: str) -> TimeSynchronization:
+        sync = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            sync = TimeSynchronization()
+            client_element = self.find(child_element, "TIME-SYNC-CLIENT")
+            if client_element is not None:
+                client = TimeSyncClientConfiguration()
+                time_sync_technology = self.getChildElementOptionalLiteral(client_element, "TIME-SYNC-TECHNOLOGY")
+                if time_sync_technology is not None:
+                    e = TimeSyncTechnologyEnum()
+                    e.setValue(time_sync_technology.getValue())
+                    client.setTimeSyncTechnology(e)
+                for master_element in self.findall(client_element, "ORDERED-MASTER-LIST/ORDERED-MASTER"):
+                    master = OrderedMaster()
+                    self.readOrderedMaster(master_element, master)
+                    client.addOrderedMaster(master)
+                sync.setTimeSyncClient(client)
+            server_element = self.find(child_element, "TIME-SYNC-SERVER")
+            if server_element is not None:
+                server = TimeSyncServerConfiguration(None, self.getShortName(server_element))
+                self.readReferrable(server_element, server)
+                time_sync_technology = self.getChildElementOptionalLiteral(server_element, "TIME-SYNC-TECHNOLOGY")
+                if time_sync_technology is not None:
+                    e = TimeSyncTechnologyEnum()
+                    e.setValue(time_sync_technology.getValue())
+                    server.setTimeSyncTechnology(e)
+                sync.setTimeSyncServer(server)
+        return sync
+
+    def readOrderedMaster(self, element: ET.Element, master: OrderedMaster):
+        self.readARObjectAttributes(element, master)
+        master.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
+        ref = self.getChildElementOptionalRefType(element, "TIME-SYNC-SERVER-REF")
+        if ref is not None:
+            master.setTimeSyncServer(ref)
 
     def getInfrastructureServices(self, element: ET.Element, key: str) -> InfrastructureServices:
         services = None
@@ -6807,6 +6904,7 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             services = InfrastructureServices()
             services.setDoIpEntity(self.getDoIpEntity(child_element, "DO-IP-ENTITY"))
+            services.setTimeSynchronization(self.getTimeSynchronization(child_element, "TIME-SYNCHRONIZATION"))
         return services
 
     def readNetworkEndPoint(self, element: ET.Element, end_point: NetworkEndpoint):
@@ -6845,16 +6943,29 @@ class ARXMLParser(AbstractARXMLParser):
         connection = None
         if element is not None:
             connection = SocketConnection()
+            connection.setAllowedIPv6ExtHeadersRef(self.getChildElementOptionalRefType(element, "ALLOWED-I-PV-6-EXT-HEADERS-REF"))
+            connection.setAllowedTcpOptionsRef(self.getChildElementOptionalRefType(element, "ALLOWED-TCP-OPTIONS-REF"))
+            connection.setAutosarConnector(self.getChildElementOptionalLiteral(element, "AUTOSAR-CONNECTOR"))
             connection.setClientIpAddrFromConnectionRequest(self.getChildElementOptionalBooleanValue(element, "CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST"))
             connection.setClientPortFromConnectionRequest(self.getChildElementOptionalBooleanValue(element, "CLIENT-PORT-FROM-CONNECTION-REQUEST"))
             connection.setClientPortRef(self.getChildElementOptionalRefType(element, "CLIENT-PORT-REF"))  # NOQA E501
+            connection.setDoIpSourceAddressRef(self.getChildElementOptionalRefType(element, "DO-IP-SOURCE-ADDRESS-REF"))
+            connection.setDoIpTargetAddressRef(self.getChildElementOptionalRefType(element, "DO-IP-TARGET-ADDRESS-REF"))
+            ident_element = self.find(element, "IDENT")
+            if ident_element is not None:
+                connection.setIdent(TpConnectionIdent(None, self.getShortName(ident_element)))
+                self.readReferrable(ident_element, connection.getIdent())
+            connection.setLocalPortRef(self.getChildElementOptionalRefType(element, "LOCAL-PORT-REF"))
+            connection.setNPduRef(self.getChildElementOptionalRefType(element, "N-PDU-REF"))
             for pdu in self.getSocketConnectionPdus(element):
                 connection.addPdu(pdu)
             connection.setPduCollectionMaxBufferSize(self.getChildElementOptionalPositiveInteger(element, "PDU-COLLECTION-MAX-BUFFER-SIZE"))
             connection.setPduCollectionTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-TIMEOUT"))
+            connection.setRemotePortRef(self.getChildElementOptionalRefType(element, "REMOTE-PORT-REF"))
             connection.setRuntimeIpAddressConfiguration(self.getChildElementOptionalLiteral(element, "RUNTIME-IP-ADDRESS-CONFIGURATION"))
             connection.setRuntimePortConfiguration(self.getChildElementOptionalLiteral(element, "RUNTIME-PORT-CONFIGURATION"))
             connection.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+            connection.setSocketProtocol(self.getChildElementOptionalLiteral(element, "SOCKET-PROTOCOL"))
         return connection
 
     def readSocketConnectionBundleConnections(self, element: ET.Element, bundle: SocketConnectionBundle):
@@ -6938,6 +7049,8 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             config = SdClientConfig()
+            for tag in self.getTagWithOptionalValues(child_element, "CAPABILITY-RECORDS"):
+                config.addCapabilityRecord(tag)
             config.setClientServiceMajorVersion(self.getChildElementOptionalPositiveInteger(child_element, "CLIENT-SERVICE-MAJOR-VERSION"))
             config.setClientServiceMinorVersion(self.getChildElementOptionalPositiveInteger(child_element, "CLIENT-SERVICE-MINOR-VERSION"))
             config.setInitialFindBehavior(self.getInitialSdDelayConfig(child_element, "INITIAL-FIND-BEHAVIOR"))
@@ -6945,12 +7058,25 @@ class ARXMLParser(AbstractARXMLParser):
             config.setTtl(self.getChildElementOptionalPositiveInteger(child_element, "TTL"))
         return config
 
+    def readAbstractServiceInstanceMethodActivationRoutingGroups(self, element: ET.Element, instance: AbstractServiceInstance):
+        for child_element in self.findall(element, "METHOD-ACTIVATION-ROUTING-GROUPS/PDU-ACTIVATION-ROUTING-GROUP"):
+            instance.setMethodActivationRoutingGroup(self.getPduActivationRoutingGroup(child_element))
+
     def readConsumedEventGroup(self, element: ET.Element, group: ConsumedEventGroup):
         self.readIdentifiable(element, group)
         group.setApplicationEndpointRef(self.getChildElementOptionalRefType(element, "APPLICATION-ENDPOINT-REF"))
+        group.setAutoRequire(self.getChildElementOptionalBooleanValue(element, "AUTO-REQUIRE"))
         group.setEventGroupIdentifier(self.getChildElementOptionalPositiveInteger(element, "EVENT-GROUP-IDENTIFIER"))
+        for ref in self.getChildElementRefTypeList(element, "EVENT-MULTICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
+            group.addEventMulticastAddressRef(ref)
+        for child_element in self.findall(element, "PDU-ACTIVATION-ROUTING-GROUPS/PDU-ACTIVATION-ROUTING-GROUP"):
+            group.addPduActivationRoutingGroup(self.getPduActivationRoutingGroup(child_element))
+        group.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
         self.readConsumedEventGroupRoutingGroupRefs(element, group)
         group.setSdClientConfig(self.getSdClientConfig(element, "SD-CLIENT-CONFIG"))
+        group.setSdClientTimerConfigRef(
+            self.getChildElementOptionalRefType(element, "SD-CLIENT-TIMER-CONFIGS/SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG-REF-CONDITIONAL/SOMEIP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG-REF")
+        )
 
     def readConsumedServiceInstanceConsumedEventGroups(self, element: ET.Element, instance: ConsumedServiceInstance):
         for child_element in self.findall(element, "CONSUMED-EVENT-GROUPS/*"):
@@ -6961,11 +7087,59 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported ConsumedEventGroups <%s>" % tag_name)
 
+    def getSomeipServiceVersions(self, element: ET.Element, key: str) -> List[SomeipServiceVersion]:
+        versions = []
+        wrapper = self.find(element, key)
+        if wrapper is not None:
+            for child_element in self.findall(wrapper, "SOMEIP-SERVICE-VERSION"):
+                version = SomeipServiceVersion()
+                version.setMajorVersion(self.getChildElementOptionalPositiveInteger(child_element, "MAJOR-VERSION"))
+                version.setMinorVersion(self.getChildElementOptionalPositiveInteger(child_element, "MINOR-VERSION"))
+                versions.append(version)
+        return versions
+
     def readConsumedServiceInstance(self, element: ET.Element, instance: ConsumedServiceInstance):
         self.readIdentifiable(element, instance)
+        for ref in self.getChildElementRefTypeList(element, "ALLOWED-SERVICE-PROVIDERS/NETWORK-ENDPOINT-REF-CONDITIONAL/NETWORK-ENDPOINT-REF"):
+            instance.addAllowedServiceProviderRef(ref)
+        instance.setAutoRequire(self.getChildElementOptionalBooleanValue(element, "AUTO-REQUIRE"))
+        for version in self.getSomeipServiceVersions(element, "BLOCKLISTED-VERSIONS"):
+            instance.addBlocklistedVersion(version)
+        for tag in self.getTagWithOptionalValues(element, "CAPABILITY-RECORDS"):
+            instance.addCapabilityRecord(tag)
+        self.readAbstractServiceInstanceMethodActivationRoutingGroups(element, instance)
         self.readConsumedServiceInstanceConsumedEventGroups(element, instance)
+        instance.setEventMulticastSubscriptionAddressRef(
+            self.getChildElementOptionalRefType(element, "EVENT-MULTICAST-SUBSCRIPTION-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF")
+        )
+        instance_id_literal = self.getChildElementOptionalLiteral(element, "INSTANCE-IDENTIFIER")
+        if instance_id_literal is not None:
+            instance_id = AnyServiceInstanceId()
+            instance_id.setValue(instance_id_literal.getValue())
+            instance.setInstanceIdentifier(instance_id)
+        for ref in self.getChildElementRefTypeList(element, "LOCAL-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
+            instance.addLocalUnicastAddressRef(ref)
+        instance.setMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAJOR-VERSION"))
+        minor_version_literal = self.getChildElementOptionalLiteral(element, "MINOR-VERSION")
+        if minor_version_literal is not None:
+            minor_version = AnyVersionString()
+            minor_version.setValue(minor_version_literal.getValue())
+            instance.setMinorVersion(minor_version)
         instance.setProvidedServiceInstanceRef(self.getChildElementOptionalRefType(element, "PROVIDED-SERVICE-INSTANCE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "REMOTE-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
+            instance.addRemoteUnicastAddressRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
+            instance.addRoutingGroupRef(ref)
         instance.setSdClientConfig(self.getSdClientConfig(element, "SD-CLIENT-CONFIG"))
+        instance.setSdClientTimerConfigRef(
+            self.getChildElementOptionalRefType(element, "SD-CLIENT-TIMER-CONFIGS/SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL/SOMEIP-SD-CLIENT-SERVICE-INSTANCE-CONFIG-REF")
+        )
+        instance.setServiceIdentifier(self.getChildElementOptionalPositiveInteger(element, "SERVICE-IDENTIFIER"))
+        behavior_literal = self.getChildElementOptionalLiteral(element, "VERSION-DRIVEN-FIND-BEHAVIOR")
+        if behavior_literal is not None:
+            behavior = ServiceVersionAcceptanceKindEnum()
+            behavior.setValue(behavior_literal.getValue())
+            instance.setVersionDrivenFindBehavior(behavior)
 
     def readSocketAddressApplicationEndpointConsumedServiceInstances(self, element: ET.Element, end_point: ApplicationEndpoint):
         for child_element in self.findall(element, "CONSUMED-SERVICE-INSTANCES/*"):
@@ -6987,6 +7161,50 @@ class ARXMLParser(AbstractARXMLParser):
             config.setInitialRepetitionsMax(self.getChildElementOptionalPositiveInteger(child_element, "INITIAL-REPETITIONS-MAX"))
         return config
 
+    def getTagWithOptionalValue(self, element: ET.Element, key: str) -> Optional[TagWithOptionalValue]:
+        tag = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            tag = TagWithOptionalValue()
+            self.readARObjectAttributes(child_element, tag)
+            tag.setKey(self.getChildElementOptionalString(child_element, "KEY"))
+            tag.setSequenceOffset(self.getChildElementOptionalIntegerValue(child_element, "SEQUENCE-OFFSET"))
+            tag.setValue(self.getChildElementOptionalString(child_element, "VALUE"))
+        return tag
+
+    def getTagWithOptionalValues(self, element: ET.Element, key: str) -> List[TagWithOptionalValue]:
+        tags = []
+        wrapper = self.find(element, key)
+        if wrapper is not None:
+            for child_element in self.findall(wrapper, "TAG-WITH-OPTIONAL-VALUE"):
+                tag = TagWithOptionalValue()
+                self.readARObjectAttributes(child_element, tag)
+                tag.setKey(self.getChildElementOptionalString(child_element, "KEY"))
+                tag.setSequenceOffset(self.getChildElementOptionalIntegerValue(child_element, "SEQUENCE-OFFSET"))
+                tag.setValue(self.getChildElementOptionalString(child_element, "VALUE"))
+                tags.append(tag)
+        return tags
+
+    def readSomeipSdClientServiceInstanceConfig(self, element: ET.Element, config: SomeipSdClientServiceInstanceConfig):
+        self.logger.debug("Read SomeipSdClientServiceInstanceConfig <%s>" % config.getShortName())
+        self.readIdentifiable(element, config)
+        config.setInitialFindBehavior(self.getInitialSdDelayConfig(element, "INITIAL-FIND-BEHAVIOR"))
+        config.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
+        config.setServiceFindTimeToLive(self.getChildElementOptionalPositiveInteger(element, "SERVICE-FIND-TIME-TO-LIVE"))
+
+    def readSomeipSdClientEventGroupTimingConfig(self, element: ET.Element, config: SomeipSdClientEventGroupTimingConfig):
+        self.logger.debug("Read SomeipSdClientEventGroupTimingConfig <%s>" % config.getShortName())
+        self.readIdentifiable(element, config)
+        config.setRequestResponseDelay(self.getRequestResponseDelay(element, "REQUEST-RESPONSE-DELAY"))
+        config.setSubscribeEventgroupRetryDelay(self.getChildElementOptionalTimeValue(element, "SUBSCRIBE-EVENTGROUP-RETRY-DELAY"))
+        config.setSubscribeEventgroupRetryMax(self.getChildElementOptionalPositiveInteger(element, "SUBSCRIBE-EVENTGROUP-RETRY-MAX"))
+        config.setTimeToLive(self.getChildElementOptionalPositiveInteger(element, "TIME-TO-LIVE"))
+
+    def readSomeipSdServerEventGroupTimingConfig(self, element: ET.Element, config: SomeipSdServerEventGroupTimingConfig):
+        self.logger.debug("Read SomeipSdServerEventGroupTimingConfig <%s>" % config.getShortName())
+        self.readIdentifiable(element, config)
+        config.setRequestResponseDelay(self.getRequestResponseDelay(element, "REQUEST-RESPONSE-DELAY"))
+
     def getSdServerConfig(self, element: ET.Element, key: str) -> SdServerConfig:
         config = None
         child_element = self.find(element, key)
@@ -7002,13 +7220,19 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readEventHandler(self, element: ET.Element, handler: EventHandler):
         self.readIdentifiable(element, handler)
-        handler.setApplicationEndpointRef(self.getChildElementOptionalRefType(element, "APPLICATION-ENDPOINT-REF"))
         for ref in self.getChildElementRefTypeList(element, "CONSUMED-EVENT-GROUP-REFS/CONSUMED-EVENT-GROUP-REF"):
             handler.addConsumedEventGroupRef(ref)
+        handler.setEventGroupIdentifier(self.getChildElementOptionalPositiveInteger(element, "EVENT-GROUP-IDENTIFIER"))
+        for ref in self.getChildElementRefTypeList(element, "EVENT-MULTICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
+            handler.setEventMulticastAddressRef(ref)
         handler.setMulticastThreshold(self.getChildElementOptionalPositiveInteger(element, "MULTICAST-THRESHOLD"))
+        for child_element in self.findall(element, "PDU-ACTIVATION-ROUTING-GROUPS/PDU-ACTIVATION-ROUTING-GROUP"):
+            handler.addPduActivationRoutingGroup(self.getPduActivationRoutingGroup(child_element))
         for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
             handler.addRoutingGroupRef(ref)
         handler.setSdServerConfig(self.getSdServerConfig(element, "SD-SERVER-CONFIG"))
+        for ref in self.getChildElementRefTypeList(element, "SD-SERVER-EG-TIMING-CONFIGS/SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG-REF-CONDITIONAL/SOMEIP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG-REF"):
+            handler.setSdServerEgTimingConfigRef(ref)
 
     def readProvidedServiceInstanceEventHandlers(self, element: ET.Element, instance: ProvidedServiceInstance):
         for child_element in self.findall(element, "EVENT-HANDLERS/*"):
@@ -7021,18 +7245,24 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readProvidedServiceInstance(self, element: ET.Element, instance: ProvidedServiceInstance):
         self.readIdentifiable(element, instance)
+        for tag in self.getTagWithOptionalValues(element, "CAPABILITY-RECORDS"):
+            instance.addCapabilityRecord(tag)
+        self.readAbstractServiceInstanceMethodActivationRoutingGroups(element, instance)
         self.readProvidedServiceInstanceEventHandlers(element, instance)
         instance.setInstanceIdentifier(self.getChildElementOptionalPositiveInteger(element, "INSTANCE-IDENTIFIER"))
         instance.setLoadBalancingPriority(self.getChildElementOptionalPositiveInteger(element, "LOAD-BALANCING-PRIORITY"))
         instance.setLoadBalancingWeight(self.getChildElementOptionalPositiveInteger(element, "LOAD-BALANCING-WEIGHT"))
         for ref in self.getChildElementRefTypeList(element, "LOCAL-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             instance.addLocalUnicastAddressRef(ref)
+        instance.setMajorVersion(self.getChildElementOptionalPositiveInteger(element, "MAJOR-VERSION"))
         instance.setMinorVersion(self.getChildElementOptionalPositiveInteger(element, "MINOR-VERSION"))
         instance.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
         for ref in self.getChildElementRefTypeList(element, "REMOTE-MULTICAST-SUBSCRIPTION-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             instance.addRemoteMulticastSubscriptionAddressRef(ref)
         for ref in self.getChildElementRefTypeList(element, "REMOTE-UNICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL/APPLICATION-ENDPOINT-REF"):
             instance.addRemoteUnicastAddressRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
+            instance.addRoutingGroupRef(ref)
         instance.setSdServerConfig(self.getSdServerConfig(element, "SD-SERVER-CONFIG"))
         instance.setSdServerTimerConfigRef(
             self.getChildElementOptionalRefType(element, "SD-SERVER-TIMER-CONFIGS/SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF-CONDITIONAL/SOMEIP-SD-SERVER-SERVICE-INSTANCE-CONFIG-REF")
@@ -7055,10 +7285,13 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "APPLICATION-ENDPOINT")
         if child_element is not None:
             end_point = address.createApplicationEndpoint(self.getShortName(child_element))
+            self.readIdentifiable(child_element, end_point)
             self.readSocketAddressApplicationEndpointConsumedServiceInstances(child_element, end_point)
+            end_point.setMaxNumberOfConnections(self.getChildElementOptionalPositiveInteger(child_element, "MAX-NUMBER-OF-CONNECTIONS"))
             end_point.setNetworkEndpointRef(self.getChildElementOptionalRefType(child_element, "NETWORK-ENDPOINT-REF"))
             end_point.setPriority(self.getChildElementOptionalPositiveInteger(child_element, "PRIORITY"))
             self.readSocketAddressApplicationEndpointProvidedServiceInstance(child_element, end_point)
+            end_point.setTlsCryptoMappingRef(self.getChildElementOptionalRefType(child_element, "TLS-CRYPTO-MAPPING-REF"))
             end_point.setTpConfiguration(self.getTransportProtocolConfiguration(child_element, "TP-CONFIGURATION"))
 
     def readSocketAddressMulticastConnectorRefs(self, element: ET.Element, address: SocketAddress):
@@ -7067,10 +7300,23 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSocketAddress(self, element: ET.Element, address: SocketAddress):
         self.readIdentifiable(element, address)
+        address.setAllowedIPv6ExtHeadersRef(self.getChildElementOptionalRefType(element, "ALLOWED-I-PV-6-EXT-HEADERS-REF"))
+        address.setAllowedTcpOptionsRef(self.getChildElementOptionalRefType(element, "ALLOWED-TCP-OPTIONS-REF"))
         self.readSocketAddressApplicationEndpoint(element, address)
-        self.readSocketAddressMulticastConnectorRefs(element, address)
         address.setConnectorRef(self.getChildElementOptionalRefType(element, "CONNECTOR-REF"))
-        address.setPortAddress(self.getChildElementOptionalPositiveInteger(element, "PORT-ADDRESS"))
+        address.setDifferentiatedServiceField(self.getChildElementOptionalPositiveInteger(element, "DIFFERENTIATED-SERVICE-FIELD"))
+        address.setFlowLabel(self.getChildElementOptionalPositiveInteger(element, "FLOW-LABEL"))
+        self.readSocketAddressMulticastConnectorRefs(element, address)
+        address.setPathMtuDiscoveryEnabled(self.getChildElementOptionalBooleanValue(element, "PATH-MTU-DISCOVERY-ENABLED"))
+        address.setPduCollectionMaxBufferSize(self.getChildElementOptionalPositiveInteger(element, "PDU-COLLECTION-MAX-BUFFER-SIZE"))
+        address.setPduCollectionTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-TIMEOUT"))
+        for child_element in self.findall(element, "STATIC-SOCKET-CONNECTIONS/STATIC-SOCKET-CONNECTION"):
+            address.addStaticSocketConnection(self.getStaticSocketConnection(child_element))
+        behavior_literal = self.getChildElementOptionalLiteral(element, "UDP-CHECKSUM-HANDLING")
+        if behavior_literal is not None:
+            behavior = UdpChecksumCalculationEnum()
+            behavior.setValue(behavior_literal.getValue())
+            address.setUdpChecksumHandling(behavior)
 
     def readSoAdConfigSocketAddresses(self, element: ET.Element, config: SoAdConfig):
         for child_element in self.findall(element, "SOCKET-ADDRESSS/*"):
@@ -7081,11 +7327,20 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Socket Address <%s>" % tag_name)
 
+    def readSoAdConfigConnections(self, element: ET.Element, config: SoAdConfig):
+        for child_element in self.findall(element, "CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "SOCKET-CONNECTION":
+                config.addConnection(self.getSocketConnection(child_element))
+            else:
+                self.notImplemented("Unsupported Connection <%s>" % tag_name)
+
     def getSoAdConfig(self, element: ET.Element, key: str) -> SoAdConfig:
         child_element = self.find(element, key)
         config = None
         if child_element is not None:
             config = SoAdConfig()
+            self.readSoAdConfigConnections(child_element, config)
             self.readSoAdConfigConnectionBundles(child_element, config)
             self.readSoAdConfigSocketAddresses(child_element, config)
         return config
@@ -7220,13 +7475,34 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported assigned data type <%s>" % tag_name)
 
+    def readCouplingPortConnection(self, element: ET.Element, connection: CouplingPortConnection):
+        connection.setFirstPort(self.getChildElementOptionalRefType(element, "FIRST-PORT-REF"))
+        for ref in self.getChildElementRefTypeList(element, "NODE-PORTS/COUPLING-PORT-REF-CONDITIONAL/COUPLING-PORT-REF"):
+            connection.addNodePort(ref)
+        connection.setPlcaLocalNodeCount(self.getChildElementOptionalPositiveInteger(element, "PLCA-LOCAL-NODE-COUNT"))
+        connection.setPlcaTransmitOpportunityTimer(self.getChildElementOptionalPositiveInteger(element, "PLCA-TRANSMIT-OPPORTUNITY-TIMER"))
+        connection.setSecondPort(self.getChildElementOptionalRefType(element, "SECOND-PORT-REF"))
+
+    def readEthernetClusterCouplingPortConnections(self, element: ET.Element, cluster: EthernetCluster):
+        for child_element in self.findall(element, "COUPLING-PORT-CONNECTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "COUPLING-PORT-CONNECTION":
+                connection = CouplingPortConnection()
+                self.readCouplingPortConnection(child_element, connection)
+                cluster.addCouplingPortConnection(connection)
+            else:
+                self.notImplemented("Unsupported CouplingPortConnection <%s>" % tag_name)
+
     def readEthernetCluster(self, element: ET.Element, cluster: EthernetCluster):
         self.logger.debug("Read EthernetCluster <%s>" % cluster.getShortName())
         self.readIdentifiable(element, cluster)
         child_element = self.find(element, "ETHERNET-CLUSTER-VARIANTS/ETHERNET-CLUSTER-CONDITIONAL")
         if child_element is not None:
             self.readCommunicationCluster(child_element, cluster)
+            cluster.setCouplingPortStartupActiveTime(self.getChildElementOptionalTimeValue(child_element, "COUPLING-PORT-STARTUP-ACTIVE-TIME"))
+            cluster.setCouplingPortSwitchoffDelay(self.getChildElementOptionalTimeValue(child_element, "COUPLING-PORT-SWITCHOFF-DELAY"))
             self.readEthernetClusterMacMulticastGroups(child_element, cluster)
+            self.readEthernetClusterCouplingPortConnections(child_element, cluster)
 
     def readDiagnosticConnectionFunctionalRequestRefs(self, element: ET.Element, connection: DiagnosticConnection):
         for ref in self.getChildElementRefTypeList(element, "FUNCTIONAL-REQUEST-REFS/FUNCTIONAL-REQUEST-REF"):
@@ -7378,7 +7654,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readSoAdRoutingGroup(self, element: ET.Element, group: SoAdRoutingGroup):
         self.logger.debug("Read SoAdRoutingGroup <%s>" % group.getShortName())
         self.readIdentifiable(element, group)
-        group.setEventGroupControlType(self.getChildElementOptionalLiteral(element, "EVENT-GROUP-CONTROL-TYPE"))
+        control_type_literal = self.getChildElementOptionalLiteral(element, "EVENT-GROUP-CONTROL-TYPE")
+        if control_type_literal is not None:
+            control_type = EventGroupControlTypeEnum()
+            control_type.setValue(control_type_literal.getValue())
+            group.setEventGroupControlType(control_type)
 
     def readDoIpLogicAddress(self, element: ET.Element, address: DoIpLogicAddress):
         self.readIdentifiable(element, address)
@@ -8830,6 +9110,13 @@ class ARXMLParser(AbstractARXMLParser):
             configuration.setTrcvPwmModeEnabled(self.getChildElementOptionalBooleanValue(child_element, "TRCV-PWM-MODE-ENABLED"))
         return configuration
 
+    def getCanControllerConfiguration(self, element: ET.Element, key: str) -> CanControllerConfiguration:
+        configuration = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            configuration = CanControllerConfiguration()
+        return configuration
+
     def getCanControllerXlConfigurationRequirements(self, element: ET.Element, key: str) -> CanControllerXlConfigurationRequirements:
         requirements = None
         child_element = self.find(element, key)
@@ -8852,6 +9139,16 @@ class ARXMLParser(AbstractARXMLParser):
             requirements.setMinTrcvDelayCompensationOffset(self.getChildElementOptionalTimeValue(child_element, "MIN-TRCV-DELAY-COMPENSATION-OFFSET"))
             requirements.setTrcvPwmModeEnabled(self.getChildElementOptionalBooleanValue(child_element, "TRCV-PWM-MODE-ENABLED"))
         return requirements
+
+    def readCanXlProps(self, element: ET.Element, can_xl_props: CanXlProps):
+        self.readIdentifiable(element, can_xl_props)
+        can_xl_props.setCanBaudrate(self.getChildElementOptionalPositiveInteger(element, "CAN-BAUDRATE"))
+        can_xl_props.setCanConfig(self.getCanControllerConfiguration(element, "CAN-CONFIG"))
+        can_xl_props.setCanFdBaudrate(self.getChildElementOptionalPositiveInteger(element, "CAN-FD-BAUDRATE"))
+        can_xl_props.setCanFdConfig(self.getCanControllerFdConfiguration(element, "CAN-FD-CONFIG"))
+        can_xl_props.setCanXlBaudrate(self.getChildElementOptionalPositiveInteger(element, "CAN-XL-BAUDRATE"))
+        can_xl_props.setCanXlConfig(self.getCanControllerXlConfiguration(element, "CAN-XL-CONFIG"))
+        can_xl_props.setCanXlConfigReqs(self.getCanControllerXlConfigurationRequirements(element, "CAN-XL-CONFIG-REQS"))
 
     def readAbstractCanCommunicationControllerAttributes(self, element: ET.Element, attributes: AbstractCanCommunicationControllerAttributes):
         attributes.setCanControllerFdAttributes(self.getCanControllerFdConfiguration(element, "CAN-CONTROLLER-FD-CONFIGURATION"))
@@ -8894,6 +9191,25 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCouplingPortFifo(self, element: ET.Element, fifo: CouplingPortFifo):
         self.readCouplingPortSchedulerCouplingPortStructuralElement(element, fifo)
+        for item in self.findall(element, "ASSIGNED-TRAFFIC-CLASSS/ASSIGNED-TRAFFIC-CLASS"):
+            value = PositiveInteger()
+            value.setValue(item.text)
+            fifo.addAssignedTrafficClass(value)
+        fifo.setMinimumFifoLength(self.getChildElementOptionalPositiveInteger(element, "MINIMUM-FIFO-LENGTH"))
+        self.readCouplingPortFifoShaper(element, fifo)
+
+    def readCouplingPortFifoShaper(self, element: ET.Element, fifo: CouplingPortFifo):
+        shaper_element = self.find(element, "SHAPER")
+        if shaper_element is not None:
+            for child in shaper_element:
+                tag = self.getTagName(child)
+                shaper_cls = CouplingPortAbstractShaper.getShaperClass(tag)
+                if shaper_cls is not None:
+                    shaper = shaper_cls(fifo, self.getShortName(child))
+                    self.readIdentifiable(child, shaper)
+                    fifo.setShaper(shaper)
+                else:
+                    self.notImplemented("Unsupported CouplingPort shaper <%s>" % tag)
 
     def readCouplingPortScheduler(self, element: ET.Element, scheduler: CouplingPortScheduler):
         self.readCouplingPortSchedulerCouplingPortStructuralElement(element, scheduler)
@@ -8924,6 +9240,43 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported EthernetPriorityRegeneration <%s>" % tag_name)
 
+    def readCouplingPortTrafficClassAssignment(self, element: ET.Element, assignment: CouplingPortTrafficClassAssignment):
+        self.readReferrable(element, assignment)
+        for child_element in self.findall(element, "PRIORITY"):
+            priority = PositiveInteger()
+            self.readARObjectAttributes(child_element, priority)
+            priority.setValue(child_element.text)
+            assignment.addPriority(priority)
+        assignment.setTrafficClass(self.getChildElementOptionalPositiveInteger(element, "TRAFFIC-CLASS"))
+
+    def readCouplingPortDetailsEthernetTrafficClassAssignments(self, element: ET.Element, details: CouplingPortDetails):
+        for child_element in self.findall(element, "ETHERNET-TRAFFIC-CLASS-ASSIGNMENTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "COUPLING-PORT-TRAFFIC-CLASS-ASSIGNMENT":
+                assignment = CouplingPortTrafficClassAssignment(details, self.getShortName(child_element))
+                self.readCouplingPortTrafficClassAssignment(child_element, assignment)
+                details.addEthernetTrafficClassAssignment(assignment)
+            else:
+                self.notImplemented("Unsupported CouplingPortTrafficClassAssignment <%s>" % tag_name)
+
+    def getPlcaProps(self, element: ET.Element, key: str) -> PlcaProps:
+        props = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            props = PlcaProps()
+            props.setPlcaLocalNodeId(self.getChildElementOptionalPositiveInteger(child_element, "PLCA-LOCAL-NODE-ID"))
+            props.setPlcaMaxBurstCount(self.getChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-COUNT"))
+            props.setPlcaMaxBurstTimer(self.getChildElementOptionalPositiveInteger(child_element, "PLCA-MAX-BURST-TIMER"))
+        return props
+
+    def getGlobalTimeProps(self, element: ET.Element, key: str) -> GlobalTimeCouplingPortProps:
+        props = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            props = GlobalTimeCouplingPortProps()
+            props.setPropagationDelay(self.getChildElementOptionalTimeValue(child_element, "PROPAGATION-DELAY"))
+        return props
+
     def getCouplingPortDetails(self, element: ET.Element, key: str) -> CouplingPortDetails:
         details = None
         child_element = self.find(element, key)
@@ -8931,12 +9284,91 @@ class ARXMLParser(AbstractARXMLParser):
             details = CouplingPortDetails()
             self.readCouplingPortDetailsCouplingPortStructuralElements(child_element, details)
             self.readCouplingPortDetailsEthernetPriorityRegenerations(child_element, details)
+            self.readCouplingPortDetailsEthernetTrafficClassAssignments(child_element, details)
             details.setLastEgressSchedulerRef(self.getChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF"))
+            details.setGlobalTimeProps(self.getGlobalTimeProps(child_element, "GLOBAL-TIME-PROPS"))
         return details
+
+    def getDhcpServerConfiguration(self, element: ET.Element, key: str) -> DhcpServerConfiguration:
+        config = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            config = DhcpServerConfiguration()
+            config.setIpv4DhcpServerConfiguration(self.getIpv4DhcpServerConfiguration(child_element, "IPV-4-DHCP-SERVER-CONFIGURATION"))
+            config.setIpv6DhcpServerConfiguration(self.getIpv6DhcpServerConfiguration(child_element, "IPV-6-DHCP-SERVER-CONFIGURATION"))
+        return config
+
+    def getIpv4DhcpServerConfiguration(self, element: ET.Element, key: str) -> Optional[Ipv4DhcpServerConfiguration]:
+        config = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            config = Ipv4DhcpServerConfiguration()
+            config.setAddressRangeLowerBound(self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND"))
+            config.setAddressRangeUpperBound(self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-UPPER-BOUND"))
+            config.setDefaultGateway(self.getChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY"))
+            config.setDefaultLeaseTime(self.getChildElementOptionalTimeValue(child_element, "DEFAULT-LEASE-TIME"))
+            for address in self.findall(child_element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
+                literal = ARLiteral()
+                self.readARObjectAttributes(address, literal)
+                literal.setValue(address.text)
+                config.addDnsServerAddress(literal)
+            config.setNetworkMask(self.getChildElementOptionalLiteral(child_element, "NETWORK-MASK"))
+        return config
+
+    def getPduActivationRoutingGroup(self, element: ET.Element) -> Optional[PduActivationRoutingGroup]:
+        group = None
+        if element is not None:
+            group = PduActivationRoutingGroup(None, self.getShortName(element))
+            self.readIdentifiable(element, group)
+            control_type_literal = self.getChildElementOptionalLiteral(element, "EVENT-GROUP-CONTROL-TYPE")
+            if control_type_literal is not None:
+                control_type = EventGroupControlTypeEnum()
+                control_type.setValue(control_type_literal.getValue())
+                group.setEventGroupControlType(control_type)
+            for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIER-TCP-REFS/I-PDU-IDENTIFIER-TCP-REF"):
+                group.addIPduIdentifierTcpRef(ref)
+            for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIER-UDP-REFS/I-PDU-IDENTIFIER-UDP-REF"):
+                group.addIPduIdentifierUdpRef(ref)
+        return group
+
+    def getStaticSocketConnection(self, element: ET.Element) -> Optional[StaticSocketConnection]:
+        connection = None
+        if element is not None:
+            connection = StaticSocketConnection(None, self.getShortName(element))
+            self.readIdentifiable(element, connection)
+            for ref in self.getChildElementRefTypeList(element, "I-PDU-IDENTIFIERS/SO-CON-I-PDU-IDENTIFIER-REF-CONDITIONAL/SO-CON-I-PDU-IDENTIFIER-REF"):
+                connection.addIPduIdentifierRef(ref)
+            for ref in self.getChildElementRefTypeList(element, "REMOTE-ADDRESSS/SOCKET-ADDRESS-REF-CONDITIONAL/SOCKET-ADDRESS-REF"):
+                connection.setRemoteAddressRef(ref)
+            connection.setTcpConnectTimeout(self.getChildElementOptionalTimeValue(element, "TCP-CONNECT-TIMEOUT"))
+            tcp_role_literal = self.getChildElementOptionalLiteral(element, "TCP-ROLE")
+            if tcp_role_literal is not None:
+                tcp_role = TcpRoleEnum()
+                tcp_role.setValue(tcp_role_literal.getValue())
+                connection.setTcpRole(tcp_role)
+        return connection
+
+    def getIpv6DhcpServerConfiguration(self, element: ET.Element, key: str) -> Optional[Ipv6DhcpServerConfiguration]:
+        config = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            config = Ipv6DhcpServerConfiguration()
+            config.setAddressRangeLowerBound(self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-LOWER-BOUND"))
+            config.setAddressRangeUpperBound(self.getChildElementOptionalLiteral(child_element, "ADDRESS-RANGE-UPPER-BOUND"))
+            config.setDefaultGateway(self.getChildElementOptionalLiteral(child_element, "DEFAULT-GATEWAY"))
+            config.setDefaultLeaseTime(self.getChildElementOptionalTimeValue(child_element, "DEFAULT-LEASE-TIME"))
+            for address in self.findall(child_element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
+                literal = ARLiteral()
+                self.readARObjectAttributes(address, literal)
+                literal.setValue(address.text)
+                config.addDnsServerAddress(literal)
+            config.setNetworkMask(self.getChildElementOptionalLiteral(child_element, "NETWORK-MASK"))
+        return config
 
     def readVlanMembership(self, element: ET.Element, membership: VlanMembership):
         membership.setSendActivity(self.getChildElementOptionalLiteral(element, "SEND-ACTIVITY"))
         membership.setVlanRef(self.getChildElementOptionalRefType(element, "VLAN-REF"))
+        membership.setDhcpAddressAssignment(self.getDhcpServerConfiguration(element, "DHCP-ADDRESS-ASSIGNMENT"))
 
     def readCouplingPortVlanMemberships(self, element: ET.Element, port: CouplingPort):
         for child_element in self.findall(element, "VLAN-MEMBERSHIPS/*"):
@@ -8950,9 +9382,41 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCouplingPort(self, element: ET.Element, port: CouplingPort):
         self.readIdentifiable(element, port)
+        connection_negotiation_behavior = self.getChildElementOptionalLiteral(element, "CONNECTION-NEGOTIATION-BEHAVIOR")
+        if connection_negotiation_behavior is not None:
+            e = EthernetConnectionNegotiationEnum()
+            e.setValue(connection_negotiation_behavior.getValue())
+            port.setConnectionNegotiationBehavior(e)
         port.setCouplingPortDetails(self.getCouplingPortDetails(element, "COUPLING-PORT-DETAILS"))
-        port.setMacLayerType(self.getChildElementOptionalLiteral(element, "MAC-LAYER-TYPE"))
+        port.setPlcaProps(self.getPlcaProps(element, "PLCA-PROPS"))
+        coupling_port_role = self.getChildElementOptionalLiteral(element, "COUPLING-PORT-ROLE")
+        if coupling_port_role is not None:
+            e = CouplingPortRoleEnum()
+            e.setValue(coupling_port_role.getValue())
+            port.setCouplingPortRole(e)
+        port.setDefaultVlanRef(self.getChildElementOptionalRefType(element, "DEFAULT-VLAN-REF"))
+        mac_layer_type = self.getChildElementOptionalLiteral(element, "MAC-LAYER-TYPE")
+        if mac_layer_type is not None:
+            e = EthernetMacLayerTypeEnum()
+            e.setValue(mac_layer_type.getValue())
+            port.setMacLayerType(e)
+        for ref in self.getChildElementRefTypeList(element, "MAC-MULTICAST-ADDRESS-REFS/MAC-MULTICAST-ADDRESS-REF"):
+            port.addMacMulticastAddressRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "PNC-MAPPING-REFS/PNC-MAPPING-REF"):
+            port.addPncMappingRef(ref)
+        receive_activity = self.getChildElementOptionalLiteral(element, "RECEIVE-ACTIVITY")
+        if receive_activity is not None:
+            e = EthernetSwitchVlanIngressTagEnum()
+            e.setValue(receive_activity.getValue())
+            port.setReceiveActivity(e)
+        physical_layer_type = self.getChildElementOptionalLiteral(element, "PHYSICAL-LAYER-TYPE")
+        if physical_layer_type is not None:
+            e = EthernetPhysicalLayerTypeEnum()
+            e.setValue(physical_layer_type.getValue())
+            port.setPhysicalLayerType(e)
         self.readCouplingPortVlanMemberships(element, port)
+        port.setVlanModifierRef(self.getChildElementOptionalRefType(element, "VLAN-MODIFIER-REF"))
+        port.setWakeupSleepOnDatalineConfigRef(self.getChildElementOptionalRefType(element, "WAKEUP-SLEEP-ON-DATALINE-CONFIG-REF"))
 
     def readEthernetCommunicationControllerCouplingPorts(self, element: ET.Element, controller: EthernetCommunicationController):
         for child_element in self.findall(element, "COUPLING-PORTS/*"):
@@ -8969,7 +9433,17 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "ETHERNET-COMMUNICATION-CONTROLLER-VARIANTS/ETHERNET-COMMUNICATION-CONTROLLER-CONDITIONAL")
         if child_element is not None:
             self.readCommunicationController(child_element, controller)
+            controller.setCanXlConfigRef(self.getChildElementOptionalRefType(child_element, "CAN-XL-CONFIG-REF"))
             self.readEthernetCommunicationControllerCouplingPorts(child_element, controller)
+            mac_layer_type = self.getChildElementOptionalLiteral(child_element, "MAC-LAYER-TYPE")
+            if mac_layer_type is not None:
+                e = EthernetMacLayerTypeEnum()
+                e.setValue(mac_layer_type.getValue())
+                controller.setMacLayerType(e)
+            controller.setMacUnicastAddress(self.getChildElementOptionalLiteral(child_element, "MAC-UNICAST-ADDRESS"))
+            controller.setMaximumReceiveBufferLength(self.getChildElementOptionalIntegerValue(child_element, "MAXIMUM-RECEIVE-BUFFER-LENGTH"))
+            controller.setMaximumTransmitBufferLength(self.getChildElementOptionalIntegerValue(child_element, "MAXIMUM-TRANSMIT-BUFFER-LENGTH"))
+            controller.setSlaveActAsPassiveCommunicationSlave(self.getChildElementOptionalBooleanValue(child_element, "SLAVE-ACT-AS-PASSIVE-COMMUNICATION-SLAVE"))
 
     def readLinCommunicationController(self, element: ET.Element, controller: LinCommunicationController):
         self.readCommunicationController(element, controller)
@@ -9118,14 +9592,13 @@ class ARXMLParser(AbstractARXMLParser):
     def readCanCommunicationConnector(self, element: ET.Element, connector: CanCommunicationConnector):
         self.readCommunicationConnector(element, connector)
 
-    def readEthernetCommunicationConnectorNetworkEndpointRefs(self, element: ET.Element, connector: EthernetCommunicationConnector):
-        for ref in self.getChildElementRefTypeList(element, "NETWORK-ENDPOINT-REFS/NETWORK-ENDPOINT-REF"):
-            connector.addNetworkEndpointRef(ref)
-
     def readEthernetCommunicationConnector(self, element: ET.Element, connector: EthernetCommunicationConnector):
         self.readCommunicationConnector(element, connector)
+        connector.setEthIpPropsRef(self.getChildElementOptionalRefType(element, "ETH-IP-PROPS-REF"))
         connector.setMaximumTransmissionUnit(self.getChildElementOptionalPositiveInteger(element, "MAXIMUM-TRANSMISSION-UNIT"))
-        self.readEthernetCommunicationConnectorNetworkEndpointRefs(element, connector)
+        connector.setNeighborCacheSize(self.getChildElementOptionalPositiveInteger(element, "NEIGHBOR-CACHE-SIZE"))
+        connector.setPathMtuEnabled(self.getChildElementOptionalBooleanValue(element, "PATH-MTU-ENABLED"))
+        connector.setPathMtuTimeout(self.getChildElementOptionalTimeValue(element, "PATH-MTU-TIMEOUT"))
 
     def readLinCommunicationConnector(self, element: ET.Element, connector: LinCommunicationConnector):
         self.readCommunicationConnector(element, connector)
@@ -10180,6 +10653,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "ETHERNET-CLUSTER":
                 cluster = parent.createEthernetCluster(self.getShortName(child_element))
                 self.readEthernetCluster(child_element, cluster)
+            elif tag_name == "CAN-XL-PROPS":
+                can_xl_props = parent.createCanXlProps(self.getShortName(child_element))
+                self.readCanXlProps(child_element, can_xl_props)
             elif tag_name == "DIAGNOSTIC-CONNECTION":
                 connection = parent.createDiagnosticConnection(self.getShortName(child_element))
                 self.readDiagnosticConnection(child_element, connection)
@@ -10210,6 +10686,15 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SO-AD-ROUTING-GROUP":
                 group = parent.createSoAdRoutingGroup(self.getShortName(child_element))
                 self.readSoAdRoutingGroup(child_element, group)
+            elif tag_name == "SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG":
+                config = parent.createSomeipSdClientServiceInstanceConfig(self.getShortName(child_element))
+                self.readSomeipSdClientServiceInstanceConfig(child_element, config)
+            elif tag_name == "SOME-IP-SD-CLIENT-EVENT-GROUP-TIMING-CONFIG":
+                config = parent.createSomeipSdClientEventGroupTimingConfig(self.getShortName(child_element))
+                self.readSomeipSdClientEventGroupTimingConfig(child_element, config)
+            elif tag_name == "SOME-IP-SD-SERVER-EVENT-GROUP-TIMING-CONFIG":
+                config = parent.createSomeipSdServerEventGroupTimingConfig(self.getShortName(child_element))
+                self.readSomeipSdServerEventGroupTimingConfig(child_element, config)
             elif tag_name == "DO-IP-TP-CONFIG":
                 config = parent.createDoIpTpConfig(self.getShortName(child_element))
                 self.readDoIpTpConfig(child_element, config)

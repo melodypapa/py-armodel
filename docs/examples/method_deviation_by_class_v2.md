@@ -807,16 +807,26 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `contextDataPrototype(ordered)` | ``ApplicationComposite ElementDataPrototype`` | ref | missing |
 
-## `ConsumedServiceInstance`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 980
+## `ConsumedEventGroup`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 505  | **table:** Table 6.168
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `allowedserviceproviderrefs` | `—` | `allowedServiceProvider` | ``NetworkEndpoint`` | ref | type (spec many vs py single) |
-| — *(missing)* | `—` | `blocklistedVersion` | ``SomeipServiceVersion`` | aggr | missing |
-| — *(missing)* | `—` | `consumedEventGroup` | ``ConsumedEventGroup`` | aggr | missing |
+| `pduActivationRoutingGroups` | `List[PduActivationRoutingGroup]` | `pduActivationRoutingGroup` | ``PduActivationRoutingGroup`` | aggr | - (resolved 2026-08-26: `PduActivationRoutingGroup` (Table 6.161) implemented; reader/writer cover the PDU-ACTIVATION-ROUTING-GROUPS wrapper on ConsumedEventGroup) |
+| — *(missing)* | `—` | `instanceIdentifier` | ``PositiveInteger`` | attr | deprecated (atp.Status=removed since 4.4.0), not implemented — absent from the R23-11 Table 6.168 rendering; XSD-only remnant, not modeled per Rule 0015 |
+
+## `ConsumedServiceInstance`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 501  | **table:** Table 6.167
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `instanceIdentifier` | `Optional[AnyServiceInstanceId]` | `instanceIdentifier` | ``AnyServiceInstanceId`` | attr | - (RE-FIX 2026-08-26: String placeholder resolved, primitive now implemented) |
+| `minorVersion` | `Optional[AnyVersionString]` | `minorVersion` | ``AnyVersionString`` | attr | - (RE-FIX 2026-08-26: String placeholder resolved, primitive now implemented) |
+| `versionDrivenFindBehavior` | `Optional[ServiceVersionAcceptanceKindEnum]` | `versionDrivenFindBehavior` | ``ServiceVersionAcceptanceKindEnum`` | attr | - (RE-FIX 2026-08-26: ARLiteral placeholder resolved, enum now implemented) |
 
 ## `GeneralAnnotation`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 4.57
@@ -1445,47 +1455,72 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
-## `CouplingPort`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 109
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `defaultVlanRef` | `RefType` | `defaultVlan` | ``EthernetPhysical Channel`` | ref | type (PDF EthernetPhysical Channel vs py RefType) |
-| `macMulticastAddressRefs` | `List[RefType]` | `macMulticastAddress` | ``MacMulticastGroup`` | ref | type (PDF MacMulticastGroup vs py List[RefType]) |
-| `macSecProps` | `List[MacSecProps]` | `macSecProps` | ``MacSecProps`` | aggr | type (PDF MacSecProps vs py List[MacSecProps]) |
-| `pncMappingRefs` | `List[RefType]` | `pncMapping` | ``PncMappingIdent`` | ref | type (PDF PncMappingIdent vs py List[RefType]) |
-| — *(missing)* | `—` | `vlanModifier` | ``EthernetPhysical Channel`` | ref | missing |
-
 ## `EthernetCommunicationConnector`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 117
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 117  | **table:** Table 3.62
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `ethIpPropsRef` | `RefType` | `ethIpProps` | ``EthIpProps`` | ref | type (PDF EthIpProps vs py RefType) |
+| `ethIpPropsRef` | `Optional[RefType]` | `ethIpProps` | ``EthIpProps`` | ref | ref-form naming per project convention (`getEthIpPropsRef`/`setEthIpPropsRef`) |
+| `maximumTransmissionUnit` | `Optional[PositiveInteger]` | `maximum TransmissionUnit` | ``PositiveInteger`` | attr | - |
+| `neighborCacheSize` | `Optional[PositiveInteger]` | `neighborCache Size` | ``PositiveInteger`` | attr | - |
+| `pathMtuEnabled` | `Optional[Boolean]` | `pathMtu Enabled` | ``Boolean`` | attr | - |
+| `pathMtuTimeout` | `Optional[TimeValue]` | `pathMtuTimeout` | ``TimeValue`` | attr | - |
+
+Removed member: `networkEndpointRefs` — atp.Status=removed since 4.3.1 and absent from the R23-11
+Table 3.62; field/accessors plus its NETWORK-ENDPOINT-REFS reader/writer wiring were removed in this
+pass (Rule 0015/the-table-wins). Queue-note members NOT modelled per Rule 0015 (no R23-11 table rows):
+apApplicationEndpoint (XSD AP-APPLICATION-ENDPOINTS, class not queued), canXlPropsRefs (XSD-only,
+CanXlProps unconfirmed), ipV6PathMtuEnabled/ipV6PathMtuTimeout (atp.Status=removed), pncFilterDataMask (absent).
+
+## `EthernetCommunicationController`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 116  | **table:** Table 3.61
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `canXlConfigRef` | `Optional[RefType]` | `canXlConfig` | ``AbstractCan CommunicationController`` | ref | - |
+| `couplingPorts` | `List[CouplingPort]` | `couplingPort` | ``CouplingPort`` | aggr | singular spec member modelled per project convention (`createCouplingPort`/`getCouplingPorts`, wrapper COUPLING-PORTS) |
+| `macLayerType` | `Optional[ARLiteral]` | `macLayerType` | ``EthernetMacLayerType Enum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `macUnicastAddress` | `Optional[ARLiteral]` | `macUnicast Address` | ``MacAddressString`` | attr | - |
+| `maximumReceiveBufferLength` | `Optional[Integer]` | `maximum ReceiveBuffer Length` | ``Integer`` | attr | - |
+| `maximumTransmitBufferLength` | `Optional[Integer]` | `maximum TransmitBuffer Length` | ``Integer`` | attr | - |
+| `slaveActAsPassiveCommunicationSlave` | `Optional[Boolean]` | `slaveActAs Passive Communication Slave` | ``Boolean`` | attr | - |
+| `slaveQualifiedUnexpectedLinkDownTime` | `Optional[TimeValue]` | `slaveQualified UnexpectedLink DownTime` | ``TimeValue`` | attr | - |
+
+## `SdClientConfig`
+- **PDF:** n/a — obsolete class, no R23-11 table; attributes derived from the XSD `SD-CLIENT-CONFIG` group in `docs/requirements/xsd/AUTOSAR_00052.xsd` (Rule 0002)
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+
+| Name in source code | Type (source) | Member name (XSD) | Type (XSD) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `capabilityRecords` | `List[TagWithOptionalValue]` | `capabilityRecord` | ``TagWithOptionalValue`` | aggr | singular spec member modelled per project convention (`addCapabilityRecord`/`getCapabilityRecords`, wrapper CAPABILITY-RECORDS); fixes the former single-object `capabilityRecord` field |
+| `clientServiceMajorVersion` | `Optional[PositiveInteger]` | `clientServiceMajorVersion` | ``PositiveInteger`` | attr | - |
+| `clientServiceMinorVersion` | `Optional[PositiveInteger]` | `clientServiceMinorVersion` | ``PositiveInteger`` | attr | - |
+| `initialFindBehavior` | `Optional[InitialSdDelayConfig]` | `initialFindBehavior` | ``InitialSdDelayConfig`` | aggr | - |
+| `requestResponseDelay` | `Optional[RequestResponseDelay]` | `requestResponseDelay` | ``RequestResponseDelay`` | aggr | - |
+| `ttl` | `Optional[PositiveInteger]` | `ttl` | ``PositiveInteger`` | attr | - |
 
 ## `CouplingPortDetails`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 121
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 122  | **table:** Table 3.63
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `couplingPortStructuralElements` | `List[CouplingPortStructuralElement]` | `couplingPortStructuralElement` | ``CouplingPortStructural Element`` | aggr | naming |
-| `ethernetPriorityRegenerations` | `List[EthernetPriorityRegeneration]` | `ethernetPriorityRegeneration` | ``EthernetPriority Regeneration`` | aggr | naming |
-| `ethernetTrafficClassAssignments` | `List[CouplingPortTrafficClassAssignment]` | `ethernetTrafficClassAssignment` | ``CouplingPortTraffic ClassAssignment`` | aggr | naming |
+| `couplingPortStructuralElements` | `List[CouplingPortStructuralElement]` | `couplingPort StructuralElement` | ``CouplingPortStructural Element`` | aggr | - |
+| `ethernetPriorityRegenerations` | `List[EthernetPriorityRegeneration]` | `ethernetPriority Regeneration` | ``EthernetPriority Regeneration`` (0..8) | aggr | - |
+| `ethernetTrafficClassAssignments` | `List[CouplingPortTrafficClassAssignment]` | `ethernetTraffic ClassAssignment` | ``CouplingPortTraffic ClassAssignment`` (0..8) | aggr | - |
+| `globalTimeProps` | `Optional[ARObject]` | `globalTimeProps` | ``GlobalTimeCoupling PortProps`` | aggr | referenced class `GlobalTimeCouplingPortProps` not yet implemented; carried as an `ARObject` placeholder, reader/writer pending, full sync deferred (Rule 0001.10) |
+| `lastEgressSchedulerRef` | `Optional[RefType]` | `lastEgressScheduler` | ``CouplingPortScheduler`` | ref | ref-form naming per project convention (`getLastEgressSchedulerRef`/`setLastEgressSchedulerRef`) |
 
-## `CouplingPortFifo`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 124
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `assignedtrafficclass` | `—` | `assignedTrafficClass` | ``PositiveInteger`` | attr | type (spec one vs py list) |
+Removed members: `defaultTrafficClass`, `framePreemptionSupport`, `ratePolicies`, `vlanTranslationTables`
+— all absent from the R23-11 Table 3.63 Attribute rows; `ratePolicies` exists in the XSD group but not in
+the table, the rest are absent from both. Fields/accessors removed in this pass
+(Rule 0015/the-table-wins).
 
 ## `SenderRecArrayTypeMapping`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 235  | **table:** Table 5.28
@@ -1533,23 +1568,137 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 No deviations — both Table 6.99 attributes are modeled: `assignedController` → field `assignedControllerRef` (`Optional[RefType]`, 0..1 ref; Kind-`ref` Ref suffix per Rule 0001.5) and `assignedLinSlaveConfig` → `assignedLinSlaveConfigRef`, each with guarded chaining setter, verbatim spec Notes and model tests. Reader/writer coverage is complete: the class is abstract with no own XML tag, so the refs round-trip through the concrete subclass dispatch (`readLinConfigurationEntry`/`writeLinConfigurationEntry` called from the `TABLE-ENTRYS` handlers for `AssignFrameId`, `UnassignFrameId`, `AssignFrameIdRange`, `AssignNad`, `ConditionalChangeNad`, `SaveConfigurationEntry`, `DataDumpEntry` — all implemented in this pass with their own spec tables 6.100-6.107, incl. member class `FramePid`; `messageId` on AssignFrameId/UnassignFrameId carries `atp.Status="removed"` in the XSD and is deliberately not modeled). Round-trip proven in `tests/test_armodel/writer/test_writer_lin_schedule_entries.py`.
 
 ## `SoAdConfig`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 451
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 452
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `connections` | `List[SocketConnection]` | `connection` | ``SocketConnection`` | aggr | naming |
-| `connectionBundles` | `List[SocketConnectionBundle]` | `connectionBundle` | ``SocketConnection Bundle`` | aggr | naming |
+| `connections` | `List[SocketConnection]` | `connection` | ``SocketConnection`` | aggr | singular spec member modelled per project convention (`addConnection`/`getConnections`); spec Note marks the aggregation obsolete (kept, Table 6.117 wins) |
+| `connectionBundles` | `List[SocketConnectionBundle]` | `connectionBundle` | ``SocketConnection Bundle`` | aggr | singular spec member modelled per project convention (`createSocketConnectionBundle`/`getConnectionBundles`); spec Note marks the aggregation obsolete (kept) |
+| `socketAddresses` | `List[SocketAddress]` | `socketAddress` | ``SocketAddress`` | aggr | singular spec member modelled per project convention (`createSocketAddress`/`getSocketAddresses`) |
+
+Resolution of the queue note ("adds logicAddress ref"): Table 6.117 (markdown
+AUTOSAR_CP_TPS_SystemTemplate.md:11920–11937 + PDF p.452) has NO logicAddress row; the XSD-only
+LOGIC-ADDRESSS wrapper is not part of the R23-11 table — NOT modeled per Rule 0015/the-table-wins.
+Queue note is stale. Bulk setters setConnections/setConnectionBundles were removed as non-spec-shaped.
+
+## `SocketConnection`
+- **PDF:** n/a — obsolete class, no R23-11 table (Rel 4.4.0 System Template documentation); attributes derived from the XSD `SOCKET-CONNECTION` group in `docs/requirements/xsd/AUTOSAR_00052.xsd` (Rule 0002)
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetCommunication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetCommunication.py`
+
+| Name in source code | Type (source) | Member name (XSD) | Type (XSD) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `autosarConnector` | `Optional[ARLiteral]` | `autosarConnector` | ``SoAdConnectorType`` | attr | enum `SoAdConnectorType` not implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `doIpSourceAddressRef` | `Optional[RefType]` | `doIpSourceAddressRef` | ``DoIpLogicAddress`` | ref | - |
+| `doIpTargetAddressRef` | `Optional[RefType]` | `doIpTargetAddressRef` | ``DoIpLogicAddress`` | ref | - |
+| `ident` | `Optional[TpConnectionIdent]` | `ident` | ``TpConnectionIdent`` | aggr | - |
+| `localPortRef` | `Optional[RefType]` | `localPortRef` | ``SocketAddress`` | ref | spec/XSD marks the reference obsolete (kept per XSD) |
+| `nPduRef` | `Optional[RefType]` | `nPduRef` | ``NpDu`` | ref | - |
+| `remotePortRef` | `Optional[RefType]` | `remotePortRef` | ``SocketAddress`` | ref | spec/XSD marks the reference obsolete (kept per XSD) |
+| `socketProtocol` | `Optional[ARLiteral]` | `socketProtocol` | ``SoAdProtocolType`` | attr | enum `SoAdProtocolType` not implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+
+Removed non-XSD member `pduSocketConnectionIpdus` (duplicate of `pdus`, unused outside the class).
+Base stays `Describable` per XSD complexType groups (AR-OBJECT + DESCRIBABLE).
+
+## `SocketAddress`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 453
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `staticSocketConnections` | `List[StaticSocketConnection]` | `staticSocketConnection` | ``StaticSocketConnection`` | aggr | - (resolved 2026-08-26: `StaticSocketConnection` (Table 6.201) implemented; reader/writer cover the STATIC-SOCKET-CONNECTIONS wrapper) |
+| `udpChecksumHandling` | `Optional[UdpChecksumCalculationEnum]` | `udpChecksumHandling` | ``UdpChecksumCalculationEnum`` | attr | - (resolved 2026-08-26: `UdpChecksumCalculationEnum` (Table 6.119) implemented as `AREnum`; reader constructs the enum from the element value) |
+
+Resolution of the queue context ("adds ipAddress"): Table 6.118 (markdown AUTOSAR_CP_TPS_SystemTemplate.md:11940–11969, page-split table; PDF p.453 per pdf_page.py) has NO ipAddress/portAddress rows; both are deprecated XSD-only elements ("This attribute is deprecated ... replaced by the aggregated NetworkEndpoint/ApplicationEndpoint"). Rule 0015/the-table-wins: NOT modeled — the pre-existing `portAddress` field/accessors plus its PORT-ADDRESS reader/writer coverage were removed in this pass; `ipAddress` was never modeled. Queue note is stale.
 
 ## `ApplicationEndpoint`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 457
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 458
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `consumedServiceInstance` | ``ConsumedService Instance`` | aggr | missing |
+| — *(not implemented)* | `—` | `discoveryTechnology` | ``DISCOVERY-TECHNOLOGY`` (XSD-only) | attr | deprecated (atp.Status=removed), not implemented |
+| — *(not implemented)* | `—` | `remotingTechnology` | ``REMOTING-TECHNOLOGY`` (XSD-only) | attr | deprecated (atp.Status=removed), not implemented |
+| — *(not implemented)* | `—` | `serializationTechnologyRef` | ``SerializationTechnology`` REF (XSD-only) | ref | deprecated (atp.Status=removed), not implemented |
+
+Resolution of the three technology members (queue context): Table 6.124 (markdown AUTOSAR_CP_TPS_SystemTemplate.md:12091–12115 + PDF p.458 per pdf_page.py) has NO discoveryTechnology/remotingTechnology/serializationTechnologyRef rows; the XSD groups mark all three atp.Status="removed" (AUTOSAR_00052.xsd:3410/3452/3458). Rule 0015/the-table-wins: NOT modeled; the earlier "consumedServiceInstance missing" row was removed — it is implemented (`createConsumedServiceInstance`/`getConsumedServiceInstances`, dedicated typed list field).
+
+## `EthernetCluster`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 103  | **table:** Table 3.47
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `couplingPortConnections` | `List[ARObject]` | `couplingPort Connection` | ``CouplingPortConnection`` | aggr | referenced class `CouplingPortConnection` not yet implemented; carried as an `ARObject` placeholder list with add/get accessors, reader/writer pending, full sync deferred (Rule 0001.10); field renamed from the mislabelled `couplingPorts` |
+| `couplingPortStartupActiveTime` | `Optional[TimeValue]` | `couplingPort StartupActiveTime` | ``TimeValue`` | attr | - |
+| `couplingPortSwitchoffDelay` | `Optional[TimeValue]` | `couplingPort SwitchoffDelay` | ``TimeValue`` | attr | - |
+| `macMulticastGroups` | `List[MacMulticastGroup]` | `macMulticast Group` | ``MacMulticastGroup`` | aggr | - |
+
+Resolution of the queue note ("adds couplingPorts to EthernetCluster"): the spec aggregates
+**CouplingPortConnection** objects in the role `couplingPortConnection`, not CouplingPorts — the
+pre-existing mislabelled `couplingPorts` list was renamed accordingly; the CouplingPorts themselves
+are aggregated by CouplingElement / EthernetCommunicationController (Table 3.54 "Aggregated by").
+
+## `InfrastructureServices`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 469  | **table:** Table 6.144
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology` (modelled in NetworkEndpoint.py)
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/NetworkEndpoint.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `doIpEntity` | `Optional[DoIpEntity]` | `doIpEntity` | ``DoIpEntity`` | aggr | - |
+| `timeSynchronization` | `Optional[TimeSynchronization]` | `timeSynchronization` | ``TimeSynchronization`` | aggr | reader/writer cover the aggregation role and TIME-SYNC-SERVER identity; inner members of `TimeSyncClientConfiguration`/`TimeSyncServerConfiguration` (ORDERED-MASTER-LIST etc.) pending those classes' own sync (Rule 0001.10) |
+
+Removed member: `dhcpServerConfiguration` — atp.Status=removed since 4.3.1 and absent from the
+R23-11 Table 6.144; field/accessors plus its DHCP-SERVER-CONFIGURATION reader/writer wiring on this
+class were removed in this pass (Rule 0015/the-table-wins). DhcpServerConfiguration itself remains
+modelled for VlanMembership.dhcpAddressAssignment (Table 3.79).
+
+## `CouplingPort`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 110  | **table:** Table 3.54
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `connectionNegotiationBehavior` | `Optional[ARLiteral]` | `connectionNegotiation Behavior` | ``EthernetConnection NegotiationEnum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `couplingPortDetails` | `Optional[CouplingPortDetails]` | `couplingPort Details` | ``CouplingPortDetails`` | aggr | - |
+| `couplingPortRole` | `Optional[ARLiteral]` | `couplingPort Role` | ``CouplingPortRoleEnum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `defaultVlanRef` | `Optional[RefType]` | `defaultVlan` | ``EthernetPhysical Channel`` | ref | ref-form naming per project convention |
+| `macLayerType` | `Optional[ARLiteral]` | `macLayerType` | ``EthernetMacLayerType Enum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `macMulticastAddressRefs` | `List[RefType]` | `macMulticast Address` | ``MacMulticastGroup`` | ref | singular spec member modelled per project convention (`addMacMulticastAddressRef`/`getMacMulticastAddressRefs`, wrapper MAC-MULTICAST-ADDRESS-REFS) |
+| `macSecProps` | `List[ARObject]` | `macSecProps` | ``MacSecProps`` | aggr | referenced class `MacSecProps` not yet implemented; carried as an `ARObject` placeholder list with add/get accessors, reader/writer pending, full sync deferred (Rule 0001.10) |
+| `physicalLayerType` | `Optional[ARLiteral]` | `physicalLayer Type` | ``EthernetPhysicalLayer TypeEnum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `plcaProps` | `Optional[ARObject]` | `plcaProps` | ``PlcaProps`` | aggr | referenced class `PlcaProps` not yet implemented; carried as an `ARObject` placeholder, reader/writer pending, full sync deferred (Rule 0001.10) |
+| `pncMappingRefs` | `List[RefType]` | `pncMapping` | ``PncMappingIdent`` | ref | singular spec member modelled per project convention (`addPncMappingRef`/`getPncMappingRefs`, wrapper PNC-MAPPING-REFS) |
+| `receiveActivity` | `Optional[ARLiteral]` | `receiveActivity` | ``EthernetSwitchVlan IngressTagEnum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `vlanMemberships` | `List[VlanMembership]` | `vlan Membership` | ``VlanMembership`` | aggr | - |
+| `vlanModifierRef` | `Optional[RefType]` | `vlanModifier` | ``EthernetPhysical Channel`` | ref | ref-form naming per project convention (`getVlanModifierRef`/`setVlanModifierRef`) |
+| `wakeupSleepOnDatalineConfigRef` | `Optional[RefType]` | `wakeupSleep OnDataline Config` | ``EthernetWakeupSleep OnDatalineConfig`` | ref | - |
+
+Removed member: `macAddressVlanAssignments` (typed `MacAddressVlanMembership`) — absent from the
+R23-11 Table 3.54 and the XSD COUPLING-PORT group; field/accessors removed in this pass
+(Rule 0015/the-table-wins). Queue note "adds couplingPortSpeed" is stale: COUPLING-PORT-SPEED exists
+in the XSD group but has NO row in the R23-11 table — NOT modeled per Rule 0015.
+
+## `CouplingPortFifo`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 124  | **table:** Table 3.68
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `assignedTrafficClasses` | `List[PositiveInteger]` | `assignedTrafficClass` | ``PositiveInteger`` (0..8) | attr | singular spec member modelled per project convention (`addAssignedTrafficClass`/`getAssignedTrafficClasses`, wrapper ASSIGNED-TRAFFIC-CLASSS) |
+| `minimumFifoLength` | `Optional[PositiveInteger]` | `minimumFifoLength` | ``PositiveInteger`` | attr | - |
+| `shaper` | `Optional[ARObject]` | `shaper` | ``CouplingPortAbstract Shaper`` | aggr | referenced abstract class `CouplingPortAbstractShaper` not yet implemented; carried as an `ARObject` placeholder, reader/writer pending, full sync deferred (Rule 0001.10) |
+
+Removed member: `trafficClassPreemptionSupport` — absent from the R23-11 Table 3.68 and the XSD
+COUPLING-PORT-FIFO group; field/accessors removed in this pass (Rule 0015/the-table-wins).
 
 ## `Ipv6Configuration`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 466
@@ -1558,16 +1707,20 @@ No deviations — both Table 6.99 attributes are modeled: `assignedController` �
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `dnsServerAddress` | ``Ip6AddressString`` | attr | missing |
+| `dnsServerAddresses` | `List[Ip6AddressString]` | `dnsServerAddress` | ``Ip6AddressString`` | attr | - (resolved 2026-08-26: singular spec member with xml.namePlural=DNS-SERVER-ADDRESSES modelled per project convention — `getDnsServerAddresses`/`addDnsServerAddress` replacing the non-conventional bulk setter; wrapper element DNS-SERVER-ADDRESSES wired into reader/writer) |
+
+Resolution of the former missing row: dnsServerAddress is modelled and round-trips via the
+DNS-SERVER-ADDRESSES wrapper. Full sync 2026-08-26: all nine Attribute rows carry verbatim Notes,
+typed annotations, guarded setters and reader/writer coverage (Table 6.139).
 
 ## `AbstractServiceInstance`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 476
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 477
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `routingGroupRefs` | `List[RefType]` | `routingGroup` | ``SoAdRoutingGroup`` | ref | type (PDF SoAdRoutingGroup vs py List[RefType]) |
+| `methodActivationRoutingGroup` | `Optional[PduActivationRoutingGroup]` | `methodActivationRoutingGroup` | ``PduActivationRoutingGroup`` | aggr | - (resolved 2026-08-26: `PduActivationRoutingGroup` (Table 6.161) implemented and wired — reader/writer cover the METHOD-ACTIVATION-ROUTING-GROUPS wrapper on both ConsumedServiceInstance and ProvidedServiceInstance sides; model keeps 0..1 per Table 6.158 while XSD resolves the atpVariation to unbounded, first entry read / single entry written); earlier `routingGroupRefs` type row removed — ref-kind members are modeled as `List[RefType]` (DEST=`SO-AD-ROUTING-GROUP`) and round-trip via `ROUTING-GROUP-REFS/ROUTING-GROUP-REF`; spec Tags: atp.Status=obsolete on `routingGroup`, kept and round-tripped |
 
 ## `EventHandler`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 492
@@ -1576,10 +1729,14 @@ No deviations — both Table 6.99 attributes are modeled: `assignedController` �
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `eventGroupIdentifier` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `eventMulticastAddress` | ``ApplicationEndpoint`` | ref | missing |
-| — *(missing)* | `—` | `pduActivationRoutingGroup` | ``PduActivationRouting Group`` | aggr | missing |
-| — *(missing)* | `—` | `sdServerEgTimingConfig` | ``SomeipSdServerEvent GroupTimingConfig`` | ref | missing |
+| — *(removed)* | `—` | `applicationEndpoint` | ``ApplicationEndpoint`` | ref | atp.Status=removed since 4.4.0, absent from the R23-11 Table 6.166; pre-existing field/accessors/reader/writer removed in this pass (Rule 0015/the-table-wins) |
+| `eventGroupIdentifier` | `Optional[PositiveInteger]` | `eventGroupIdentifier` | ``PositiveInteger`` | attr | - (synced 2026-08-26) |
+| `eventMulticastAddressRef` | `Optional[RefType]` | `eventMulticastAddress` | ``ApplicationEndpoint`` | ref | - (synced 2026-08-26; serialized through EVENT-MULTICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL) |
+| `pduActivationRoutingGroups` | `List[PduActivationRoutingGroup]` | `pduActivationRoutingGroup` | ``PduActivationRouting Group`` | aggr | - (synced 2026-08-26, class implemented per Table 6.161) |
+| `sdServerEgTimingConfigRef` | `Optional[RefType]` | `sdServerEgTimingConfig` | ``SomeipSdServerEvent GroupTimingConfig`` | ref | - (synced 2026-08-26; serialized through SD-SERVER-EG-TIMING-CONFIGS conditional wrapper) |
+
+Resolution of the former missing rows: all four members are now modelled with full reader/writer
+coverage against Table 6.166.
 
 ## `DoIpLogicTesterAddressProps`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 556
@@ -2866,3 +3023,97 @@ No deviations — Table 6.98 contributes no own attributes (earlier tracker row 
 - `SynchronizationTypeEnum` (`M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming`)
 - `EventOccurrenceKindEnum` (`M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming`)
 - `HwPinGroupContent` (`M2::AUTOSARTemplates::EcuResourceTemplate`)
+
+## `Ipv4DhcpServerConfiguration`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 132  | **table:** Table 3.80
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `addressRangeLowerBound` | `Optional[Ip4AddressString]` | `addressRangeLowerBound` | ``Ip4AddressString`` | attr | - |
+| `addressRangeUpperBound` | `Optional[Ip4AddressString]` | `addressRangeUpperBound` | ``Ip4AddressString`` | attr | - |
+| `defaultGateway` | `Optional[Ip4AddressString]` | `defaultGateway` | ``Ip4AddressString`` | attr | - |
+| `defaultLeaseTime` | `Optional[TimeValue]` | `defaultLeaseTime` | ``TimeValue`` | attr | - |
+| `dnsServerAddresses` | `List[Ip4AddressString]` | `dnsServerAddress` | ``Ip4AddressString`` | attr | singular spec member with xml.namePlural=DNS-SERVER-ADDRESSES modelled per project convention (`getDnsServerAddresses`/`addDnsServerAddress`, wrapper element DNS-SERVER-ADDRESSES) |
+| `networkMask` | `Optional[Ip4AddressString]` | `networkMask` | ``Ip4AddressString`` | attr | - |
+
+Resolution of the former stub row: the placeholder stub recorded under `DhcpServerConfiguration`
+is fully synced against Table 3.80 (Base ARObject+Describable; all six Attribute rows modelled);
+the stub deviation row was removed.
+
+## `PduActivationRoutingGroup`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 489  | **table:** Table 6.161
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `eventGroupControlType` | `Optional[ARLiteral]` | `eventGroupControlType` | ``EventGroupControlTypeEnum`` | attr | referenced enum `EventGroupControlTypeEnum` (Table F.114) not yet implemented as `AREnum`; round-tripped as a generic `ARLiteral` (same pattern as SoAdRoutingGroup.eventGroupControlType), switch to the enum when it lands (Rule 0001.10) |
+| `iPduIdentifierTcpRefs` | `List[RefType]` | `iPduIdentifierTcp` | ``SoConIPduIdentifier`` | ref | singular spec member modelled per project convention (`getIPduIdentifierTcpRefs`/`addIPduIdentifierTcpRef`, wrapper element I-PDU-IDENTIFIER-TCP-REFS); ref target class not required for RefType round-trip |
+| `iPduIdentifierUdpRefs` | `List[RefType]` | `iPduIdentifierUdp` | ``SoConIPduIdentifier`` | ref | singular spec member modelled per project convention (`getIPduIdentifierUdpRefs`/`addIPduIdentifierUdpRef`, wrapper element I-PDU-IDENTIFIER-UDP-REFS); ref target class not required for RefType round-trip |
+
+## `StaticSocketConnection`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 544  | **table:** Table 6.201
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `iPduIdentifierRefs` | `List[RefType]` | `iPduIdentifier` | ``SoConIPduIdentifier`` | ref | singular spec member modelled per project convention (`getIPduIdentifierRefs`/`addIPduIdentifierRef`); serialized through the XSD-only atpVariation wrapper I-PDU-IDENTIFIERS/SO-CON-I-PDU-IDENTIFIER-REF-CONDITIONAL/SO-CON-I-PDU-IDENTIFIER-REF |
+| `remoteAddressRef` | `Optional[RefType]` | `remoteAddress` | ``SocketAddress`` | ref | ref-form naming per project convention (`getRemoteAddressRef`/`setRemoteAddressRef`); serialized through the XSD-only atpVariation wrapper REMOTE-ADDRESSS/SOCKET-ADDRESS-REF-CONDITIONAL/SOCKET-ADDRESS-REF |
+| `tcpConnectTimeout` | `Optional[TimeValue]` | `tcpConnectTimeout` | ``TimeValue`` | attr | - |
+| `tcpRole` | `Optional[ARLiteral]` | `tcpRole` | ``TcpRoleEnum`` | attr | referenced enum `TcpRoleEnum` not yet implemented as `AREnum`; round-tripped as a generic `ARLiteral`, switch to the enum when it lands (Rule 0001.10) |
+
+Consumer note: the `SocketAddress.staticSocketConnections` ARObject placeholder row is resolved by the
+SocketAddress RE-FIX row (retype to `List[StaticSocketConnection]` + reader/writer wiring).
+
+## `Ipv6DhcpServerConfiguration`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 132  | **table:** Table 3.81
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `addressRangeLowerBound` | `Optional[Ip6AddressString]` | `addressRangeLowerBound` | ``Ip6AddressString`` | attr | - |
+| `addressRangeUpperBound` | `Optional[Ip6AddressString]` | `addressRangeUpperBound` | ``Ip6AddressString`` | attr | - |
+| `defaultGateway` | `Optional[Ip6AddressString]` | `defaultGateway` | ``Ip6AddressString`` | attr | - |
+| `defaultLeaseTime` | `Optional[TimeValue]` | `defaultLeaseTime` | ``TimeValue`` | attr | - |
+| `dnsServerAddresses` | `List[Ip6AddressString]` | `dnsServerAddress` | ``Ip6AddressString`` | attr | singular spec member with xml.namePlural=DNS-SERVER-ADDRESSES modelled per project convention (`getDnsServerAddresses`/`addDnsServerAddress`, wrapper element DNS-SERVER-ADDRESSES) |
+| `networkMask` | `Optional[Ip6AddressString]` | `networkMask` | ``Ip6AddressString`` | attr | - |
+
+Resolution of the former stub row: the placeholder stub recorded under `DhcpServerConfiguration`
+is fully synced against Table 3.81 (Base ARObject+Describable; all six Attribute rows modelled);
+the stub deviation row was removed.
+
+## `DhcpServerConfiguration`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 131  | **table:** Table 3.79
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `DhcpServerConfiguration` | `ARObject` | `DhcpServerConfiguration` | ``ARObject`` | - | Spec Table 3.79 heading says `DhcpServerConfiguration` but its `Class` row is `Ipv4DhcpServerConfiguration`; the class is modelled per the XSD `DHCP-SERVER-CONFIGURATION` complexType which aggregates `IPV-4-DHCP-SERVER-CONFIGURATION` and `IPV-6-DHCP-SERVER-CONFIGURATION` (also see `Aggregated by` rows in Tables 3.80/3.81). RE-FIX 2026-08-26: base corrected Describable→ARObject per Table 3.79 Base row + XSD groups |
+| `ipv4DhcpServerConfiguration` | `Optional[Ipv4DhcpServerConfiguration]` | `ipv4DhcpServerConfiguration` | ``Ipv4DhcpServerConfiguration`` | aggr | derived from cross-table `Aggregated by` (Table 3.80); Note cell: "Configuration of a IPv4 DHCP server that runs on the network endpoint." |
+| `ipv6DhcpServerConfiguration` | `Optional[Ipv6DhcpServerConfiguration]` | `ipv6DhcpServerConfiguration` | ``Ipv6DhcpServerConfiguration`` | aggr | derived from cross-table `Aggregated by` (Table 3.81); Note cell: "Configuration of a IPv6 DHCP server that runs on the network endpoint." |
+
+Resolution of the former Ipv4/Ipv6 stub rows: both member classes are now fully synced
+(Tables 3.80/3.81); their stub deviation rows were removed.
+RE-FIX 2026-08-26: class docstring + member docstrings rewritten to the full verbatim
+Table 3.79 Notes; base corrected to ARObject.
+
+## `CanXlProps`
+- **PDF:** `AUTOSAR_AP_TPS_SystemDesign (AdaptivePlatform)`  | **page:** n/a  | **table:** CAN-XL-PROPS (AUTOSAR_00052.xsd)
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetCommunication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetCommunication.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `CanXlProps` | `ARElement` | `CanXlProps` | ``ARObject , Referrable , MultilanguageReferrable , Identifiable , CollectableElement , PackageableElement , ARElement , UploadablePackageElement , UploadableDesignElement`` | - | no verbatim markdown/PDF table; spec derived from XSD `CAN-XL-PROPS` complexType (AdaptivePlatform). Registered as a top-level serializable ARElement (package dispatch in `ARPackage` + writer `writeARPackageElement`). |
+| `canBaudrate` | `Optional[PositiveInteger]` | `canBaudrate` | ``POSITIVE-INTEGER`` | attr | verbatim `Note` from XSD |
+| `canConfig` | `Optional[CanControllerConfiguration]` | `canConfig` | ``CAN-CONTROLLER-CONFIGURATION`` | aggr | referenced class `CanControllerConfiguration` (AUTOSAR_CP_TPS_SystemTemplate Table 3.14) not yet implemented; modeled as a placeholder `ARObject` subclass (`CanControllerConfiguration`), full sync deferred (Rule 0001.10) |
+| `canFdBaudrate` | `Optional[PositiveInteger]` | `canFdBaudrate` | ``POSITIVE-INTEGER`` | attr | verbatim `Note` from XSD |
+| `canFdConfig` | `Optional[CanControllerFdConfiguration]` | `canFdConfig` | ``CAN-CONTROLLER-FD-CONFIGURATION`` | aggr | verbatim `Note` from XSD |
+| `canXlBaudrate` | `Optional[PositiveInteger]` | `canXlBaudrate` | ``POSITIVE-INTEGER`` | attr | verbatim `Note` from XSD |
+| `canXlConfig` | `Optional[CanControllerXlConfiguration]` | `canXlConfig` | ``CAN-CONTROLLER-XL-CONFIGURATION`` | aggr | verbatim `Note` from XSD |
+| `canXlConfigReqs` | `Optional[CanControllerXlConfigurationRequirements]` | `canXlConfigReqs` | ``CAN-CONTROLLER-XL-CONFIGURATION-REQUIREMENTS`` | aggr | verbatim `Note` from XSD |

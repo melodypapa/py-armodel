@@ -1,6 +1,8 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnectionIdent
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
 
 
 class MockParent(ARObject):
@@ -12,7 +14,7 @@ class Test_Fibex4EthernetCommunication:
     """Test cases for Fibex4Ethernet Communication classes."""
 
     def test_SocketConnection(self):
-        """Test SocketConnection class functionality."""
+        """Test SocketConnection class functionality (XSD SOCKET-CONNECTION group; obsolete class, no R23-11 table)."""
         connection = SocketConnection()
 
         assert isinstance(connection, Describable)
@@ -20,16 +22,23 @@ class Test_Fibex4EthernetCommunication:
         # Test default values
         assert connection.getAllowedIPv6ExtHeadersRef() is None
         assert connection.getAllowedTcpOptionsRef() is None
+        assert connection.getAutosarConnector() is None
         assert connection.getClientIpAddrFromConnectionRequest() is None
         assert connection.getClientPortRef() is None
         assert connection.getClientPortFromConnectionRequest() is None
+        assert connection.getDoIpSourceAddressRef() is None
+        assert connection.getDoIpTargetAddressRef() is None
+        assert connection.getIdent() is None
+        assert connection.getLocalPortRef() is None
+        assert connection.getNPduRef() is None
         assert connection.getPdus() == []
-        assert connection.getPduSocketConnectionIpdus() == []
         assert connection.getPduCollectionMaxBufferSize() is None
         assert connection.getPduCollectionTimeout() is None
+        assert connection.getRemotePortRef() is None
         assert connection.getRuntimeIpAddressConfiguration() is None
         assert connection.getRuntimePortConfiguration() is None
         assert connection.getShortLabel() is None
+        assert connection.getSocketProtocol() is None
 
         # Test setter/getter methods
         connection.setAllowedIPv6ExtHeadersRef("ipv6_ref")
@@ -39,6 +48,13 @@ class Test_Fibex4EthernetCommunication:
         connection.setAllowedTcpOptionsRef("tcp_ref")
         assert connection.getAllowedTcpOptionsRef() == "tcp_ref"
         assert connection == connection.setAllowedTcpOptionsRef("tcp_ref")  # Test method chaining
+
+        # Test new members with None no-op and method chaining
+        result = connection.setAutosarConnector("tcp")
+        assert connection.getAutosarConnector() == "tcp"
+        assert result == connection  # Test method chaining
+        result = connection.setAutosarConnector(None)
+        assert connection.getAutosarConnector() == "tcp"  # None no-op
 
         connection.setClientIpAddrFromConnectionRequest(True)
         assert connection.getClientIpAddrFromConnectionRequest() is True
@@ -51,6 +67,54 @@ class Test_Fibex4EthernetCommunication:
         connection.setClientPortFromConnectionRequest(False)
         assert connection.getClientPortFromConnectionRequest() is False
         assert connection == connection.setClientPortFromConnectionRequest(False)  # Test method chaining
+
+        do_ip_source_ref = RefType()
+        result = connection.setDoIpSourceAddressRef(do_ip_source_ref)
+        assert connection.getDoIpSourceAddressRef() is do_ip_source_ref
+        assert result == connection  # Test method chaining
+        result = connection.setDoIpSourceAddressRef(None)
+        assert connection.getDoIpSourceAddressRef() is do_ip_source_ref  # None no-op
+
+        do_ip_target_ref = RefType()
+        result = connection.setDoIpTargetAddressRef(do_ip_target_ref)
+        assert connection.getDoIpTargetAddressRef() is do_ip_target_ref
+        assert result == connection  # Test method chaining
+        result = connection.setDoIpTargetAddressRef(None)
+        assert connection.getDoIpTargetAddressRef() is do_ip_target_ref  # None no-op
+
+        ident = TpConnectionIdent(connection, "Ident1")
+        result = connection.setIdent(ident)
+        assert connection.getIdent() is ident
+        assert result == connection  # Test method chaining
+        result = connection.setIdent(None)
+        assert connection.getIdent() is ident  # None no-op
+
+        local_port_ref = RefType()
+        result = connection.setLocalPortRef(local_port_ref)
+        assert connection.getLocalPortRef() is local_port_ref
+        assert result == connection  # Test method chaining
+        result = connection.setLocalPortRef(None)
+        assert connection.getLocalPortRef() is local_port_ref  # None no-op
+
+        n_pdu_ref = RefType()
+        result = connection.setNPduRef(n_pdu_ref)
+        assert connection.getNPduRef() is n_pdu_ref
+        assert result == connection  # Test method chaining
+        result = connection.setNPduRef(None)
+        assert connection.getNPduRef() is n_pdu_ref  # None no-op
+
+        remote_port_ref = RefType()
+        result = connection.setRemotePortRef(remote_port_ref)
+        assert connection.getRemotePortRef() is remote_port_ref
+        assert result == connection  # Test method chaining
+        result = connection.setRemotePortRef(None)
+        assert connection.getRemotePortRef() is remote_port_ref  # None no-op
+
+        result = connection.setSocketProtocol("udp")
+        assert connection.getSocketProtocol() == "udp"
+        assert result == connection  # Test method chaining
+        result = connection.setSocketProtocol(None)
+        assert connection.getSocketProtocol() == "udp"  # None no-op
 
         connection.setPduCollectionMaxBufferSize(1024)
         assert connection.getPduCollectionMaxBufferSize() == 1024
@@ -77,12 +141,6 @@ class Test_Fibex4EthernetCommunication:
         connection.addPdu(mock_pdu)
         assert connection.getPdus() == [mock_pdu]
         assert connection == connection.addPdu(mock_pdu)  # Test method chaining
-
-        # Test adding PDU socket connection IPDUs
-        connection.addPduSocketConnectionIpdu("identifier1")
-        connection.addPduSocketConnectionIpdu("identifier2")
-        assert connection.getPduSocketConnectionIpdus() == ["identifier1", "identifier2"]
-        assert connection == connection.addPduSocketConnectionIpdu("identifier3")  # Test method chaining
 
     def test_SocketConnectionIpduIdentifier(self):
         """Test SocketConnectionIpduIdentifier class functionality."""

@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     RefType,
     RevisionLabelString,
+    String,
     TimeValue,
     VerbatimString,
 )
@@ -167,6 +168,18 @@ class AbstractARXMLParser(ABC):
 
     def getChildElementOptionalDataTime(self, element: ET.Element, key: str) -> DateTime:
         return self.getChildElementOptionalLiteral(element, key)
+
+    def getChildElementOptionalString(self, element: ET.Element, key: str) -> String:
+        child_element = self.find(element, key)
+        literal = None
+        if child_element is not None:
+            literal = String()
+            self.readARObjectAttributes(child_element, literal)
+            if child_element.text is None:
+                literal.setValue("")
+            else:
+                literal.setValue(child_element.text)
+        return literal
 
     def _convertStringToBooleanValue(self, value: str) -> bool:
         if value == "true":

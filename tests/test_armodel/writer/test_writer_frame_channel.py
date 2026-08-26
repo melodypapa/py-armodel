@@ -23,21 +23,20 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommun
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (  # noqa: E501
     CanPhysicalChannel,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (  # noqa: E501
-    SocketConnection,
-    SocketConnectionBundle,
-    SocketConnectionIpduIdentifier,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (  # noqa: E501
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (  # noqa: E501  # noqa: E501
+    DoIpEntity,
+    InfrastructureServices,
     InitialSdDelayConfig,
+    Ipv6AddressSourceEnum,
+    Ipv6Configuration,
+    NetworkEndpoint,
     RequestResponseDelay,
     SdClientConfig,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.NetworkEndpoint import (  # noqa: E501
-    DoIpEntity,
-    InfrastructureServices,
-    Ipv6Configuration,
-    NetworkEndpoint,
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import (  # noqa: E501
+    SocketConnection,
+    SocketConnectionBundle,
+    SocketConnectionIpduIdentifier,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (  # noqa: E501
     ApplicationEndpoint,
@@ -1012,7 +1011,7 @@ class TestWriteNetworkEndPoint:
         cfg.setHopCount(_pos_int("64"))
         cfg.setIpAddressPrefixLength(_pos_int("48"))
         cfg.setIpv6Address(_literal("::1"))
-        cfg.setIpv6AddressSource(_literal("MANUAL"))
+        cfg.setIpv6AddressSource(Ipv6AddressSourceEnum().setValue(Ipv6AddressSourceEnum.FIXED))
         parent = _parent()
         writer.setIpv6Configuration(parent, cfg)
         tag = parent.find("IPV-6-CONFIGURATION")
@@ -1023,7 +1022,7 @@ class TestWriteNetworkEndPoint:
         assert tag.find("HOP-COUNT").text == "64"
         assert tag.find("IP-ADDRESS-PREFIX-LENGTH").text == "48"
         assert tag.find("IPV-6-ADDRESS").text == "::1"
-        assert tag.find("IPV-6-ADDRESS-SOURCE").text == "MANUAL"
+        assert tag.find("IPV-6-ADDRESS-SOURCE").text == "fixed"
 
     def test_write_network_end_point_addresses_empty(self, writer):
         parent = _parent()
@@ -1570,7 +1569,7 @@ class TestWriteEventHandler:
     def test_write_event_handler_full(self, writer):
         pkg = _pkg()
         handler = EventHandler(pkg, "Handler")
-        handler.setApplicationEndpointRef(_ref("APPLICATION-ENDPOINT", "/ae"))
+        handler.setEventGroupIdentifier(_pos_int("42"))
         handler.addConsumedEventGroupRef(_ref("CONSUMED-EVENT-GROUP", "/ceg"))
         handler.setMulticastThreshold(_pos_int("5"))
         handler.addRoutingGroupRef(_ref("ROUTING-GROUP", "/rg"))
@@ -1581,7 +1580,7 @@ class TestWriteEventHandler:
         writer.writeEventHandler(parent, handler)
         eh = parent.find("EVENT-HANDLER")
         assert eh is not None
-        assert eh.find("APPLICATION-ENDPOINT-REF") is not None
+        assert eh.find("EVENT-GROUP-IDENTIFIER").text == "42"
         refs = eh.find("CONSUMED-EVENT-GROUP-REFS")
         assert refs is not None
         assert len(refs.findall("CONSUMED-EVENT-GROUP-REF")) == 1
@@ -1718,7 +1717,7 @@ class TestWriteSocketAddress:
         addr.createApplicationEndpoint("Ep")
         addr.addMulticastConnectorRef(_ref("MULTICAST-CONNECTOR", "/mc"))
         addr.setConnectorRef(_ref("CONNECTOR", "/conn"))
-        addr.setPortAddress(_pos_int("4096"))
+        addr.setDifferentiatedServiceField(_pos_int("46"))
         parent = _parent()
         writer.writeSocketAddress(parent, addr)
         sa = parent.find("SOCKET-ADDRESS")
@@ -1726,7 +1725,7 @@ class TestWriteSocketAddress:
         assert sa.find("APPLICATION-ENDPOINT") is not None
         assert sa.find("MULTICAST-CONNECTOR-REFS") is not None
         assert sa.find("CONNECTOR-REF") is not None
-        assert sa.find("PORT-ADDRESS").text == "4096"
+        assert sa.find("DIFFERENTIATED-SERVICE-FIELD").text == "46"
 
     def test_write_soad_config_socket_addresses_empty(self, writer):
         cfg = SoAdConfig()

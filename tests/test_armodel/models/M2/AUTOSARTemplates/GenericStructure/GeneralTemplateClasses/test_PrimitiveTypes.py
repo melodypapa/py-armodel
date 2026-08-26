@@ -7,6 +7,8 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AlignmentType,
+    AnyServiceInstanceId,
+    AnyVersionString,
     ARBoolean,
     AREnum,
     ARFloat,
@@ -1282,3 +1284,60 @@ class TestNumerical:
         numerical = Numerical()
         assert numerical.setValue("0x1F") is numerical
         assert numerical.getValue() == "0x1F"
+
+
+class TestAnyServiceInstanceId:
+    """
+    Test class for AnyServiceInstanceId functionality (Table E.6).
+    """
+
+    def test_initialization(self):
+        """
+        Test AnyServiceInstanceId initialization.
+        """
+        instance_id = AnyServiceInstanceId()
+
+        assert instance_id is not None
+        assert instance_id._value is None
+
+    def test_set_get_value_decimal(self):
+        """Test setValue with a decimal string round-trip and method chaining."""
+        instance_id = AnyServiceInstanceId()
+        assert instance_id.setValue("65535") is instance_id
+        assert str(instance_id) == "65535"
+
+    def test_denotations(self):
+        """Test that decimal, octal, hexadecimal denotations are supported as text."""
+        assert AnyServiceInstanceId().setValue("42").value == "42"
+        assert AnyServiceInstanceId().setValue("0x10").value == "0x10"
+        assert AnyServiceInstanceId().setValue("0o17").value == "0o17"
+
+    def test_special_literals(self):
+        """Test that the ALL literal (and deprecated ANY) are stored verbatim."""
+        assert AnyServiceInstanceId().setValue("ALL").value == "ALL"
+        assert AnyServiceInstanceId().setValue("ANY").value == "ANY"
+
+
+class TestAnyVersionString:
+    """
+    Test class for AnyVersionString functionality (Table E.7).
+    """
+
+    def test_initialization(self):
+        """
+        Test AnyVersionString initialization.
+        """
+        version = AnyVersionString()
+
+        assert version is not None
+        assert version._value is None
+
+    def test_set_get_value(self):
+        """Test setValue round-trip and method chaining."""
+        version = AnyVersionString()
+        assert version.setValue("4") is version
+        assert str(version) == "4"
+
+    def test_any_literal(self):
+        """Test that the ANY literal is stored verbatim."""
+        assert AnyVersionString().setValue("ANY").value == "ANY"
