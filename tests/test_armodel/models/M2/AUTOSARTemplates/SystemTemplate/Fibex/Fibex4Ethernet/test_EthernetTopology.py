@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortDetails,
     CouplingPortFifo,
     EthernetPhysicalLayerTypeEnum,
+    EthernetSwitchVlanIngressTagEnum,
     CouplingPortScheduler,
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
@@ -1182,3 +1183,15 @@ class TestEthernetPhysicalLayerTypeEnum:
         assert EthernetPhysicalLayerTypeEnum._100BASE_TX == "100BASE-TX"
         assert EthernetPhysicalLayerTypeEnum._10BASE_T1S == "10BASE-T1S"
         assert EthernetPhysicalLayerTypeEnum.I_EEE802_11P == "IEEE802-11P"
+
+
+class TestEthernetSwitchVlanIngressTagEnum:
+    """Test cases for EthernetSwitchVlanIngressTagEnum (Table 3.58, p.111)."""
+
+    def test_enum_values(self):
+        assert list(EthernetSwitchVlanIngressTagEnum().getEnumValues()) == [
+            "forwardAsIs",
+            "dropUntagged",
+        ]
+        assert EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS == "forwardAsIs"
+        assert EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED == "dropUntagged"

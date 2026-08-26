@@ -2401,3 +2401,27 @@ class EthernetPhysicalLayerTypeEnum(AREnum):
                 EthernetPhysicalLayerTypeEnum.I_EEE802_11P,
             ]
         )
+
+
+class EthernetSwitchVlanIngressTagEnum(AREnum):
+    """
+    Defines the possible tagging behavior at an ingress port.
+    """
+
+    # EthernetSwitchVlanIngressTagEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.58, p.111
+    # (no methods) — enum value form serialized on CouplingPort.receiveActivity
+
+    # Forward with the same VLAN as received. Also untagged frames will be forwarded as untagged. Tags: atp.EnumerationLiteralIndex=0
+    FORWARD_AS_IS = "forwardAsIs"
+
+    # Drop if untagged. Tags: atp.EnumerationLiteralIndex=1
+    DROP_UNTAGGED = "dropUntagged"
+
+    def __init__(self):
+        super().__init__(
+            [
+                EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS,
+                EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED,
+            ]
+        )
