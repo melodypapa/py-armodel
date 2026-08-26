@@ -3,6 +3,7 @@
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
     TDEventOccurrenceExpression,
     TDEventOccurrenceExpressionFormula,
@@ -10,6 +11,10 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
+
+
+class ConcreteTimingDescriptionEvent(TimingDescriptionEvent):
+    pass
 
 
 class TestWriteTDEventOccurrenceExpressionFormula:
@@ -148,3 +153,53 @@ class TestWriteTDEventOccurrenceExpression:
         assert expression2.getModes()[0].getShortName() == "Mode1"
         assert len(expression2.getVariables()) == 1
         assert expression2.getVariables()[0].getShortName() == "Var1"
+
+
+class TestWriteTimingDescriptionEvent:
+    def _parent(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        return document.createARPackage("AUTOSAR")
+
+    def _build_full(self, parent):
+        event = ConcreteTimingDescriptionEvent(parent, "TDEvent1")
+        event.setClockReferenceRef(RefType().setValue("/AUTOSAR/Clock1").setDest("TIMING-CLOCK"))
+        expression = TDEventOccurrenceExpression()
+        expression.createVariable(parent, "Var1")
+        event.setOccurrenceExpression(expression)
+        return event
+
+    def test_write_full(self):
+        parent = self._parent()
+        event = self._build_full(parent)
+
+        element = ET.Element("TD-EVENT-VFB")
+        ARXMLWriter().writeTimingDescriptionEvent(element, event)
+
+        assert element.find("SHORT-NAME").text == "TDEvent1"
+        clock_ref = element.find("CLOCK-REFERENCE-REF")
+        assert clock_ref.text == "/AUTOSAR/Clock1"
+        assert clock_ref.attrib["DEST"] == "TIMING-CLOCK"
+        occurrence_tag = element.find("OCCURRENCE-EXPRESSION")
+        assert occurrence_tag is not None
+        assert occurrence_tag.find("VARIABLES/AUTOSAR-VARIABLE-INSTANCE/SHORT-NAME").text == "Var1"
+
+    def test_round_trip(self):
+        parent = self._parent()
+        event = self._build_full(parent)
+
+        element = ET.Element("TD-EVENT-VFB")
+        ARXMLWriter().writeTimingDescriptionEvent(element, event)
+
+        xml_str = ET.tostring(element).decode()
+        idx = xml_str.find(">")
+        xml_str = xml_str[:idx] + ' xmlns="http://autosar.org/schema/r4.0"' + xml_str[idx:]
+        parsed = ET.fromstring(xml_str)
+
+        event2 = ConcreteTimingDescriptionEvent(parent, "TDEvent2")
+        ARXMLParser().readTimingDescriptionEvent(parsed, event2)
+        assert event2.getClockReferenceRef().getValue() == "/AUTOSAR/Clock1"
+        assert event2.getClockReferenceRef().getDest() == "TIMING-CLOCK"
+        assert len(event2.getOccurrenceExpression().getVariables()) == 1
+        assert event2.getOccurrenceExpression().getVariables()[0].getShortName() == "Var1"

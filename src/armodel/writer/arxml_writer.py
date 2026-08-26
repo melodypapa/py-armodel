@@ -149,6 +149,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock, TimingClock, TimingClockSyncAccuracy
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
@@ -3451,6 +3452,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         text = avp.getText()
         if text is not None:
             element.text = text
+
+    def writeTimingDescriptionEvent(self, element: ET.Element, event: TimingDescriptionEvent):
+        self.writeIdentifiable(element, event)
+        self.setChildElementOptionalRefType(element, "CLOCK-REFERENCE-REF", event.getClockReferenceRef())
+        expression = event.getOccurrenceExpression()
+        if expression is not None:
+            self.writeTDEventOccurrenceExpression(ET.SubElement(element, "OCCURRENCE-EXPRESSION"), expression)
 
     def writeTDEventOccurrenceExpression(self, element: ET.Element, expression: TDEventOccurrenceExpression):
         self.writeARObjectAttributes(element, expression)

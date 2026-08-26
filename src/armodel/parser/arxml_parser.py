@@ -165,6 +165,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock, TimingClock, TimingClockSyncAccuracy
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
@@ -2152,6 +2153,13 @@ class ARXMLParser(AbstractARXMLParser):
         if element.text is not None and element.text.strip() != "":
             avp.setText(element.text)
         return avp
+
+    def readTimingDescriptionEvent(self, element: ET.Element, event: TimingDescriptionEvent):
+        self.readIdentifiable(element, event)
+        event.setClockReferenceRef(self.getChildElementOptionalRefType(element, "CLOCK-REFERENCE-REF"))
+        occurrence_element = self.find(element, "OCCURRENCE-EXPRESSION")
+        if occurrence_element is not None:
+            event.setOccurrenceExpression(self.readTDEventOccurrenceExpression(occurrence_element, event))
 
     def readTDEventOccurrenceExpression(self, element: ET.Element, parent) -> TDEventOccurrenceExpression:
         expression = TDEventOccurrenceExpression()

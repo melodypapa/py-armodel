@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
     AutosarOperationArgumentInstance,
     AutosarVariableInstance,
@@ -13,6 +14,10 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
+
+
+class ConcreteTimingDescriptionEvent(TimingDescriptionEvent):
+    pass
 
 
 @pytest.fixture(autouse=True)
@@ -129,3 +134,36 @@ class TestReadTDEventOccurrenceExpression:
         assert expression.getFormula() is None
         assert expression.getModes() == []
         assert expression.getVariables() == []
+
+
+class TestReadTimingDescriptionEvent:
+    def test_read_full(self, parser):
+        parent = _parent()
+        event = ConcreteTimingDescriptionEvent(parent, "TDEvent1")
+        element = ET.fromstring(
+            f"<TD-EVENT-VFB xmlns='{NS}'>"
+            "<SHORT-NAME>TDEvent1</SHORT-NAME>"
+            "<CLOCK-REFERENCE-REF DEST='TIMING-CLOCK'>/AUTOSAR/Clock1</CLOCK-REFERENCE-REF>"
+            "<OCCURRENCE-EXPRESSION>"
+            "<VARIABLES>"
+            "<AUTOSAR-VARIABLE-INSTANCE>"
+            "<SHORT-NAME>Var1</SHORT-NAME>"
+            "</AUTOSAR-VARIABLE-INSTANCE>"
+            "</VARIABLES>"
+            "</OCCURRENCE-EXPRESSION>"
+            "</TD-EVENT-VFB>"
+        )
+        parser.readTimingDescriptionEvent(element, event)
+        assert event.getShortName() == "TDEvent1"
+        assert event.getClockReferenceRef().getValue() == "/AUTOSAR/Clock1"
+        assert event.getClockReferenceRef().getDest() == "TIMING-CLOCK"
+        assert len(event.getOccurrenceExpression().getVariables()) == 1
+
+    def test_read_minimal(self, parser):
+        parent = _parent()
+        event = ConcreteTimingDescriptionEvent(parent, "TDEvent1")
+        element = ET.fromstring(f"<TD-EVENT-VFB xmlns='{NS}'><SHORT-NAME>TDEvent1</SHORT-NAME></TD-EVENT-VFB>")
+        parser.readTimingDescriptionEvent(element, event)
+        assert event.getShortName() == "TDEvent1"
+        assert event.getClockReferenceRef() is None
+        assert event.getOccurrenceExpression() is None

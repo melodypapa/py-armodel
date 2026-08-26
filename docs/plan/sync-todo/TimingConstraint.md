@@ -437,16 +437,16 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.50, p.84)
   - [x] Step 8 — Deviations: none blocking (all four member types exist)
   - [x] Step 9 — Verify (9a passed: 3748 tests green; ruff/black clean); 9b confirm + stamp deferred to batch
-- [ ] TimingDescriptionEvent (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.63 · abstract · Base includes TimingDescription (queued above) · clockReference 0..1 ref TimingClock (stamped) · occurrenceExpression 0..1 aggr TDEventOccurrenceExpression (queued above) · abstract parent of all TDEvent* + referenced by EventChain stimulus/response/segment and Formula.event placeholders) · Phase 0 correction 2026-08-26: D.63 table found (was marked XSD-only)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TimingDescriptionEvent (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.63, p.253 · abstract · Base includes TimingDescription (done above) · clockReference 0..1 ref TimingClock (stamped) · occurrenceExpression 0..1 aggr TDEventOccurrenceExpression (done above) · abstract parent of all TDEvent* + referenced by EventChain stimulus/response/segment and Formula.event placeholders) · Phase 0 correction 2026-08-26: D.63 table found (was marked XSD-only)
+  - [x] Step 1 — Sync members & description from spec (Table D.63; Note verbatim; row order clockReference/occurrenceExpression)
+  - [x] Step 2 — Write model class unit test (Red) — test_TimingDescriptionEvent.py (7 tests)
+  - [x] Step 3 — Implement model class (Green) — TimingDescriptionEvent(TimingDescription, ABC) + TypeError guard; clockReferenceRef Optional[RefType]; occurrenceExpression Optional[TDEventOccurrenceExpression]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — verbatim from Table D.63
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — fragment-level TD-EVENT-VFB element tests incl. nested OCCURRENCE-EXPRESSION
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingDescriptionEvent = identifiable + CLOCK-REFERENCE-REF + OCCURRENCE-EXPRESSION (base helpers for concrete TDEvent*)
+  - [x] Step 7 — Update checklist comment (# Spec: Table D.63, p.253)
+  - [x] Step 8 — Deviations: none blocking
+  - [x] Step 9 — Verify (9a passed: 3759 tests green; ruff/black clean); 9b confirm + stamp deferred to batch
 - [ ] TDEventVariableDataPrototypeTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.18 · consumed by TDEventVariableDataPrototype.tdEventVariableDataPrototypeType)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
