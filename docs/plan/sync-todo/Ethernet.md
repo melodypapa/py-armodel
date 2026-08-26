@@ -661,16 +661,23 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (tracker: couplingPortConnections ARObject placeholder — CouplingPortConnection not implemented, Rule 0001.10)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7350 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] EthernetCommunicationController (markdown SystemTemplate · Table 3.61 · p.115 · source Fibex4Ethernet/EthernetTopology.py · closes open items)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] EthernetCommunicationController (markdown SystemTemplate · Table 3.61 · p.116 · source Fibex4Ethernet/EthernetTopology.py · closes open items) — STAMP DEFERRED (batch 9b pending)
+  - [x] Step 1 — Sync members & description from spec
+    (Table 3.61 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:2974–3011 + PDF p.116;
+    Base → CommunicationController; 8 attr rows incl. slaveQualifiedUnexpectedLinkDownTime after caption;
+    all members already present in model)
+  - [x] Step 2 — Round-trip tests (Red) — writer/parser only wired COUPLING-PORTS before
+  - [x] Step 3/4 — Docstrings wiped + rewritten (class Note verbatim, per-attribute Notes verbatim,
+    PEP 526 annotations replacing # type: comments)
+  - [x] Step 5/6 — Reader/writer wiring
+    (readEthernetCommunicationController/writeEthernetCommunicationController now cover CAN-XL-CONFIG-REF,
+     MAC-LAYER-TYPE, MAC-UNICAST-ADDRESS, MAXIMUM-{RECEIVE,TRANSMIT}-BUFFER-LENGTH,
+     SLAVE-ACT-AS-PASSIVE-COMMUNICATION-SLAVE + coupling ports, in XSD order)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (tracker: new section, macLayerType ARLiteral placeholder for EthernetMacLayerTypeEnum, Rule 0001.10)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7353 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [ ] EthernetCommunicationConnector (markdown SystemTemplate · Table 3.62 · p.117 · source Fibex4Ethernet/EthernetTopology.py · depends on CanXlProps above; adds apApplicationEndpoint, canXlPropsRefs, ipV6PathMtuEnabled, ipV6PathMtuTimeout, pncFilterDataMask, unicastNetworkEndpointRefs → NetworkEndpoint Ref)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

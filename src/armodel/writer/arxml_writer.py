@@ -8198,7 +8198,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         variants_tag = ET.SubElement(child_element, "ETHERNET-COMMUNICATION-CONTROLLER-VARIANTS")
         cond_tag = ET.SubElement(variants_tag, "ETHERNET-COMMUNICATION-CONTROLLER-CONDITIONAL")
         self.writeCommunicationController(cond_tag, controller)
+        self.setChildElementOptionalRefType(cond_tag, "CAN-XL-CONFIG-REF", controller.getCanXlConfigRef())
         self.writeEthernetCommunicationControllerCouplingPorts(cond_tag, controller)
+        self.setChildElementOptionalLiteral(cond_tag, "MAC-LAYER-TYPE", controller.getMacLayerType())
+        self.setChildElementOptionalLiteral(cond_tag, "MAC-UNICAST-ADDRESS", controller.getMacUnicastAddress())
+        self.setChildElementOptionalIntegerValue(cond_tag, "MAXIMUM-RECEIVE-BUFFER-LENGTH", controller.getMaximumReceiveBufferLength())
+        self.setChildElementOptionalIntegerValue(cond_tag, "MAXIMUM-TRANSMIT-BUFFER-LENGTH", controller.getMaximumTransmitBufferLength())
+        self.setChildElementOptionalBooleanValue(cond_tag, "SLAVE-ACT-AS-PASSIVE-COMMUNICATION-SLAVE", controller.getSlaveActAsPassiveCommunicationSlave())
 
     def writeEcuInstanceCommControllers(self, element: ET.Element, instance: EcuInstance):
         controllers = instance.getCommControllers()

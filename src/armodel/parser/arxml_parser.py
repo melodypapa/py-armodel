@@ -8582,7 +8582,13 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, "ETHERNET-COMMUNICATION-CONTROLLER-VARIANTS/ETHERNET-COMMUNICATION-CONTROLLER-CONDITIONAL")
         if child_element is not None:
             self.readCommunicationController(child_element, controller)
+            controller.setCanXlConfigRef(self.getChildElementOptionalRefType(child_element, "CAN-XL-CONFIG-REF"))
             self.readEthernetCommunicationControllerCouplingPorts(child_element, controller)
+            controller.setMacLayerType(self.getChildElementOptionalLiteral(child_element, "MAC-LAYER-TYPE"))
+            controller.setMacUnicastAddress(self.getChildElementOptionalLiteral(child_element, "MAC-UNICAST-ADDRESS"))
+            controller.setMaximumReceiveBufferLength(self.getChildElementOptionalIntegerValue(child_element, "MAXIMUM-RECEIVE-BUFFER-LENGTH"))
+            controller.setMaximumTransmitBufferLength(self.getChildElementOptionalIntegerValue(child_element, "MAXIMUM-TRANSMIT-BUFFER-LENGTH"))
+            controller.setSlaveActAsPassiveCommunicationSlave(self.getChildElementOptionalBooleanValue(child_element, "SLAVE-ACT-AS-PASSIVE-COMMUNICATION-SLAVE"))
 
     def readLinCommunicationController(self, element: ET.Element, controller: LinCommunicationController):
         self.readCommunicationController(element, controller)

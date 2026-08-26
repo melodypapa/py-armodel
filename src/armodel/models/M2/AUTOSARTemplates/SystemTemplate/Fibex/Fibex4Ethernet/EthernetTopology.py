@@ -5,7 +5,7 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Ip4AddressString, Ip6AddressString, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Integer, Ip4AddressString, Ip6AddressString, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
 
@@ -712,41 +712,56 @@ class CouplingPort(Identifiable):
 
 class EthernetCommunicationController(CommunicationController):
     """
-    Represents an Ethernet communication controller in the system,
-    defining properties for MAC configuration, coupling ports,
-    and communication buffer management for Ethernet networking.
+    Ethernet specific communication port attributes.
     """
 
     # EthernetCommunicationController method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCanXlConfigRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setCanXlConfigRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getCouplingPorts             [x] impl  [ ] docstring  [ ] test
-    # [ ] createCouplingPort           [x] impl  [ ] docstring  [ ] test
-    # [ ] getMacLayerType              [x] impl  [ ] docstring  [ ] test
-    # [ ] setMacLayerType              [x] impl  [ ] docstring  [ ] test
-    # [ ] getMacUnicastAddress         [x] impl  [ ] docstring  [ ] test
-    # [ ] setMacUnicastAddress         [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaximumReceiveBufferLength [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaximumReceiveBufferLength [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaximumTransmitBufferLength [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaximumTransmitBufferLength [x] impl  [ ] docstring  [ ] test
-    # [ ] getSlaveActAsPassiveCommunicationSlave [x] impl  [ ] docstring  [ ] test
-    # [ ] setSlaveActAsPassiveCommunicationSlave [x] impl  [ ] docstring  [ ] test
-    # [ ] getSlaveQualifiedUnexpectedLinkDownTime [x] impl  [ ] docstring  [ ] test
-    # [ ] setSlaveQualifiedUnexpectedLinkDownTime [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.61, p.116
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCanXlConfigRef                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCanXlConfigRef                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCouplingPorts                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createCouplingPort                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMacLayerType                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMacLayerType                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMacUnicastAddress                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMacUnicastAddress                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaximumReceiveBufferLength           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaximumReceiveBufferLength           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMaximumTransmitBufferLength          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setMaximumTransmitBufferLength          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSlaveActAsPassiveCommunicationSlave  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSlaveActAsPassiveCommunicationSlave  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSlaveQualifiedUnexpectedLinkDownTime [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSlaveQualifiedUnexpectedLinkDownTime [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.canXlConfigRef = None  # type: RefType
-        self.couplingPorts = []  # type: List[CouplingPort]
-        self.macLayerType = None  # type: EthernetMacLayerTypeEnum
-        self.macUnicastAddress = None  # type: MacAddressString
-        self.maximumReceiveBufferLength = None  # type: Integer
-        self.maximumTransmitBufferLength = None  # type: Integer
-        self.slaveActAsPassiveCommunicationSlave = None  # type: Boolean
-        self.slaveQualifiedUnexpectedLinkDownTime = None  # type: TimeValue
+        # If the Ethernet frames handled by this Ethernet CommunicationController are to be tunneled through CAN XL, then this reference shall refer to the Abstract CanCommunicationController that aggregates the Can ControllerXlConfiguration of the physical CAN XL channel to be used for tunneling.
+        self.canXlConfigRef: Optional[RefType] = None
+
+        # Optional CouplingPort that can be used to connect the ECU to a CouplingElement (e.g. a switch).
+        self.couplingPorts: List[CouplingPort] = []
+
+        # Specifies the mac layer type of the ethernet controller.
+        self.macLayerType: Optional[ARLiteral] = None
+
+        # Media Access Control address (MAC address) that uniquely identifies each EthernetCommunication Controller in the network.
+        self.macUnicastAddress: Optional[ARLiteral] = None
+
+        # Determines the maximum receive buffer length (frame length) in bytes.
+        self.maximumReceiveBufferLength: Optional[Integer] = None
+
+        # Determines the maximum transmit buffer length (frame length) in bytes.
+        self.maximumTransmitBufferLength: Optional[Integer] = None
+
+        # This attribute specifies if the EcuInstance is acting as a passive communication slave on the connected Physical Channel. This is used for EthernetCommunication Controllers that use Ethernet hardware which supports wake-up and sleep on the network (e.g. Open Alliance TC10 compliant Ethernet hardware).
+        self.slaveActAsPassiveCommunicationSlave: Optional[Boolean] = None
+
+        # This attribute specifies time when an unexpected link down is evaluated as link down and indicated to the AUTOSAR communication stack.
+        self.slaveQualifiedUnexpectedLinkDownTime: Optional[TimeValue] = None
 
     def getCanXlConfigRef(self):
         return self.canXlConfigRef

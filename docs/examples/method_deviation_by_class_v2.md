@@ -1464,6 +1464,22 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 |---|---|---|---|---|---|
 | `ethIpPropsRef` | `RefType` | `ethIpProps` | ``EthIpProps`` | ref | type (PDF EthIpProps vs py RefType) |
 
+## `EthernetCommunicationController`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 116  | **table:** Table 3.61
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `canXlConfigRef` | `Optional[RefType]` | `canXlConfig` | ``AbstractCan CommunicationController`` | ref | - |
+| `couplingPorts` | `List[CouplingPort]` | `couplingPort` | ``CouplingPort`` | aggr | singular spec member modelled per project convention (`createCouplingPort`/`getCouplingPorts`, wrapper COUPLING-PORTS) |
+| `macLayerType` | `Optional[ARLiteral]` | `macLayerType` | ``EthernetMacLayerType Enum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `macUnicastAddress` | `Optional[ARLiteral]` | `macUnicast Address` | ``MacAddressString`` | attr | - |
+| `maximumReceiveBufferLength` | `Optional[Integer]` | `maximum ReceiveBuffer Length` | ``Integer`` | attr | - |
+| `maximumTransmitBufferLength` | `Optional[Integer]` | `maximum TransmitBuffer Length` | ``Integer`` | attr | - |
+| `slaveActAsPassiveCommunicationSlave` | `Optional[Boolean]` | `slaveActAs Passive Communication Slave` | ``Boolean`` | attr | - |
+| `slaveQualifiedUnexpectedLinkDownTime` | `Optional[TimeValue]` | `slaveQualified UnexpectedLink DownTime` | ``TimeValue`` | attr | - |
+
 ## `CouplingPortDetails`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 122  | **table:** Table 3.63
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
