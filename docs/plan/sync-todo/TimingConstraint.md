@@ -407,7 +407,17 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b batch-confirmed; # Spec verified: R23-11 stamped
-- [ ] TimingDescription (base · XSD-only · abstract base of all TIMING-DESCRIPTIONS items; no own PDF table; no attributes)
+- [ ] TimingDescription (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.62 · abstract · Base = Identifiable chain (ARObject/Referrable/MultilanguageReferrable/Identifiable per spec Base list); NO own attributes ("-" row); TIMING-DESCRIPTIONS family root aggregated by TimingExtension.timingDescription) · Phase 0 correction 2026-08-26: D.62 table found (was marked XSD-only)
+  - [x] Step 1 — Sync members & description from spec (Table D.62, p.253; Note verbatim; Base = Identifiable chain; "-" attribute row)
+  - [x] Step 2 — Write model class unit test (Red) — test_TimingDescription.py (abstract guard, base, defaults, inherited accessors)
+  - [x] Step 3 — Implement model class (Green) — TimingDescription(Identifiable, ABC) + TypeError guard; NO own members
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring = Table D.62 Note verbatim
+  - [x] Step 5 — N/A: no own XML element content ("-" attr row); variationPoint serialized by Identifiable base reader/writer
+  - [x] Step 6 — N/A: same reason as Step 5
+  - [x] Step 7 — Update checklist comment (# Spec: Table D.62, p.253)
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a passed); 9b confirm + stamp deferred to batch
+- [ ] TDEventOccurrenceExpressionFormula (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.51 · atpMixedString <<atpMixedString>>, Base = ARObject + FormulaExpression · argument/event/mode/variable 0..1 refs · event -> TimingDescriptionEvent is a RefType placeholder until that row lands (mirrors TimingConditionFormula.timingEvent precedent)) · queued 2026-08-26 (dependency of TDEventOccurrenceExpression.formula, discovered at session start)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -417,7 +427,17 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TimingDescriptionEvent (base · XSD-only · abstract base of all TDEvent* + referenced by EventChain stimulus/response/segment and Formula.event (RefType))
+- [ ] TDEventOccurrenceExpression (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.50 · Base = ARObject · arguments * aggr AutosarOperationArgumentInstance (stamped), formula 0..1 aggr TDEventOccurrenceExpressionFormula (queued above), modes * aggr TimingModeInstance (stamped), variables * aggr AutosarVariableInstance (stamped) · aggregated by TimingDescriptionEvent.occurrenceExpression) · queued 2026-08-26 (was wrongly noted "ALREADY STAMPED" on the TDEventComplex row — the stamp in TDEventOccurrenceExpression.py belongs to AutosarVariableInstance)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TimingDescriptionEvent (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.63 · abstract · Base includes TimingDescription (queued above) · clockReference 0..1 ref TimingClock (stamped) · occurrenceExpression 0..1 aggr TDEventOccurrenceExpression (queued above) · abstract parent of all TDEvent* + referenced by EventChain stimulus/response/segment and Formula.event placeholders) · Phase 0 correction 2026-08-26: D.63 table found (was marked XSD-only)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -757,7 +777,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventBsw (base · XSD-only · abstract base of TDEventBswModule/TDEventBswModeDeclaration (section 3.3.2.5 header only, no table))
+- [ ] TDEventBsw (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.56 · abstract · bswModuleDescription 0..1 ref BswModuleDescription; Base includes TimingDescription/TimingDescriptionEvent (queued above)) · Phase 0 correction 2026-08-26: D.56 table found (was marked XSD-only)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -787,7 +807,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventComplex (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.48 · occurrenceExpression -> TDEventOccurrenceExpression (ALREADY STAMPED); verify exact attr row at session start (table extraction ambiguous); Base includes TimingDescriptionEvent (queued above))
+- [ ] TDEventComplex (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.48 · NO own attributes ("-" row verified at session start; occurrenceExpression comes from TimingDescriptionEvent base) · Base includes TimingDescriptionEvent (queued above))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -797,7 +817,17 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventSLLETPort (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.49 · port -> PortPrototype ref (RefType); Base includes TDEventSLLET (section 3.3.2.7 header only - treat as XSD-only abstract like TDEventBsw))
+- [ ] TDEventSLLET (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.57 · abstract · NO own attributes ("-" row) · Base includes TimingDescription/TimingDescriptionEvent (queued above)) · queued 2026-08-26: D.57 table found at session start (was treated as XSD-only header-only); required Base of TDEventSLLETPort
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventSLLETPort (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.49 · port -> PortPrototype ref (RefType); Base includes TDEventSLLET (queued above))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
