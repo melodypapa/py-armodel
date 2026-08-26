@@ -1162,6 +1162,7 @@ class Ipv4DhcpServerConfiguration(Describable):
 
     # Ipv4DhcpServerConfiguration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.80, p.132
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -1284,6 +1285,7 @@ class Ipv6DhcpServerConfiguration(Describable):
 
     # Ipv6DhcpServerConfiguration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.81, p.132
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getAddressRangeLowerBound      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -1406,6 +1408,7 @@ class DhcpServerConfiguration(ARObject):
 
     # DhcpServerConfiguration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.79, p.131
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getIpv4DhcpServerConfiguration    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -1456,6 +1459,7 @@ class CouplingPortTrafficClassAssignment(Referrable):
 
     # CouplingPortTrafficClassAssignment method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.75, p.128
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addPriority               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
