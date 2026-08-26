@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPort,
     CouplingPortDetails,
     CouplingPortFifo,
+    EthernetPhysicalLayerTypeEnum,
     CouplingPortScheduler,
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
@@ -1161,3 +1162,23 @@ class Test_Fibex4EthernetNetworkEndpoint:
         result = endpoint.addNetworkEndpointAddress(ipv4_config)
         assert endpoint.getNetworkEndpointAddresses() == [ipv4_config]
         assert result == endpoint  # Test method chaining
+
+
+class TestEthernetPhysicalLayerTypeEnum:
+    """Test cases for EthernetPhysicalLayerTypeEnum (Table 3.57, p.111)."""
+
+    def test_enum_values(self):
+        assert list(EthernetPhysicalLayerTypeEnum().getEnumValues()) == [
+            "1000BASE-T",
+            "1000BASE-T1",
+            "100BASE-T1",
+            "100BASE-TX",
+            "10BASE-T1S",
+            "IEEE802-11P",
+        ]
+        assert EthernetPhysicalLayerTypeEnum._1000BASE_T == "1000BASE-T"
+        assert EthernetPhysicalLayerTypeEnum._1000BASE_T1 == "1000BASE-T1"
+        assert EthernetPhysicalLayerTypeEnum._100BASE_T1 == "100BASE-T1"
+        assert EthernetPhysicalLayerTypeEnum._100BASE_TX == "100BASE-TX"
+        assert EthernetPhysicalLayerTypeEnum._10BASE_T1S == "10BASE-T1S"
+        assert EthernetPhysicalLayerTypeEnum.I_EEE802_11P == "IEEE802-11P"
