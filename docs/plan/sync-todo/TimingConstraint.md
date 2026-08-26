@@ -807,46 +807,6 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventServiceInstanceDiscovery (member · XSD-only · NO CP markdown table; resolve Skip vs Derive-from-XSD at session start (00052 group TD-EVENT-SERVICE-INSTANCE-DISCOVERY))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventServiceInstanceEvent (member · XSD-only · NO CP markdown table; resolve Skip vs Derive-from-XSD at session start)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventServiceInstanceField (member · XSD-only · NO CP markdown table; resolve Skip vs Derive-from-XSD at session start)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventServiceInstanceMethod (member · XSD-only · NO CP markdown table; resolve Skip vs Derive-from-XSD at session start)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] TimingExtension (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.65 · abstract · aggregates TimingCondition (TIMING-CONDITIONS) / timingGuarantee+timingRequirement -> polymorphic 12-subclass TimingConstraint dispatch (queued above); timingResource 0..1 -> TimingExtensionResource (queued above); timingDescription -> TIMING-DESCRIPTIONS family QUEUED above (TimingDescription/TimingDescriptionEvent bases + 23 concrete dispatch targets); Step 9b blocked until family lands · Subclass SwcTiming queued next) · commit 8d181a14 · commit e919c413 (spec page corrected); awaiting re-confirmation
   - [x] Step 1 — Sync members & description from spec (Table D.65 + XSD group TIMING-EXTENSION; class Note from XSD documentation)
   - [x] Step 2 — Write model class unit test (Red)
@@ -877,3 +837,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
 - GlobalTimeDomain — not in codebase; Rule 0001.10 placeholder for TimingClock  .platformTimeBase, reported at TimingClock's Step 8.
 - AutosarOperationArgumentInstance — originally not in codebase (Rule 0001.10 placeholder  for TimingExtensionResource.timingArgument); since queued and synced (Table 3.53 row  above, with OperationArgumentInComponentInstanceRef).
 - CompositionSwComponentType — not confirmed in this pass; Rule 0001.10 placeholder for  ExecutionOrderConstraint.baseComposition, reported at ExecutionOrderConstraint's Step 8  (verify existence/stamp when that class's turn comes; may already exist under  SWComponentTemplate::Composition and only need a stamp check).
+- TDEventServiceInstanceDiscovery — Skip per user (2026-08-26); no CP markdown/PDF table (XSD-only). Referencing classes keep Rule 0001.10 placeholders.
+- TDEventServiceInstanceEvent — Skip per user (2026-08-26); no CP markdown/PDF table (XSD-only).
+- TDEventServiceInstanceField — Skip per user (2026-08-26); no CP markdown/PDF table (XSD-only).
+- TDEventServiceInstanceMethod — Skip per user (2026-08-26); no CP markdown/PDF table (XSD-only).
