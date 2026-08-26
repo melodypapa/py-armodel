@@ -4,17 +4,17 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
-    AutosarVariableInstance,
     ComponentInCompositionInstanceRef,
     ModeInBswInstanceRef,
     ModeInSwcInstanceRef,
     TimingExtensionResource,
     TimingModeInstance,
-    VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
     AutosarOperationArgumentInstance,
+    AutosarVariableInstance,
     OperationArgumentInComponentInstanceRef,
+    VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.parser.arxml_parser import ARXMLParser

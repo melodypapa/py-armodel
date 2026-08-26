@@ -1,17 +1,19 @@
 from __future__ import annotations
 
 from abc import ABC
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (  # noqa: F401
-    AutosarOperationArgumentInstance,
-    OperationArgumentInComponentInstanceRef,
-)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
+        AutosarOperationArgumentInstance,
+        AutosarVariableInstance,
+    )
 
 
 class ModeInSwcBswInstanceRef(ARObject, ABC):
@@ -194,95 +196,6 @@ class ModeInSwcInstanceRef(AtpInstanceRef, ModeInSwcBswInstanceRef):
         """Specifies the specific mode declaration in the given context. [constr_6857] The reference shall exist at least once at the time when the Swc Timing Description is complete. A None value is a no-op and does not overwrite an existing targetModeDeclarationRef."""
         if value is not None:
             self.targetModeDeclarationRef = value
-        return self
-
-
-class VariableInComponentInstanceRef(AtpInstanceRef):
-    """
-    Instance reference to be capable of referencing a variable of a software component in the context of a component.
-    """
-
-    # VariableInComponentInstanceRef method parity checklist:
-    # Spec: (XSD-only - AUTOSAR_00046.xsd VARIABLE-IN-COMPONENT-INSTANCE-REF group; no own AUTOSAR table)
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getContextComponentRefs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContextComponentRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContextPortPrototypeRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setContextPortPrototypeRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRootVariableDataPrototypeRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRootVariableDataPrototypeRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getContextDataPrototypeRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addContextDataPrototypeRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTargetDataPrototypeRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTargetDataPrototypeRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-
-    def __init__(self):
-        super().__init__()
-
-        # Specifies the SW component prototype representing the context.
-        self.contextComponentRefs: List[RefType] = []
-
-        # Specifies the port prototype representing the context.
-        self.contextPortPrototypeRef: Optional[RefType] = None
-
-        # Specifies the root variable data prototype representing the context.
-        self.rootVariableDataPrototypeRef: Optional[RefType] = None
-
-        # Specifies the application composite element data prototype representing the context.
-        self.contextDataPrototypeRefs: List[RefType] = []
-
-        # Specifies the target data prototype (the variable instance target).
-        self.targetDataPrototypeRef: Optional[RefType] = None
-
-    def getContextComponentRefs(self) -> List[RefType]:
-        """Specifies the SW component prototype representing the context."""
-        return self.contextComponentRefs
-
-    def addContextComponentRef(self, value: Optional[RefType]) -> "VariableInComponentInstanceRef":
-        """Specifies the SW component prototype representing the context. A None value is a no-op and does not append anything."""
-        if value is not None:
-            self.contextComponentRefs.append(value)
-        return self
-
-    def getContextPortPrototypeRef(self) -> Optional[RefType]:
-        """Specifies the port prototype representing the context."""
-        return self.contextPortPrototypeRef
-
-    def setContextPortPrototypeRef(self, value: Optional[RefType]) -> "VariableInComponentInstanceRef":
-        """Specifies the port prototype representing the context. A None value is a no-op and does not overwrite an existing contextPortPrototypeRef."""
-        if value is not None:
-            self.contextPortPrototypeRef = value
-        return self
-
-    def getRootVariableDataPrototypeRef(self) -> Optional[RefType]:
-        """Specifies the root variable data prototype representing the context."""
-        return self.rootVariableDataPrototypeRef
-
-    def setRootVariableDataPrototypeRef(self, value: Optional[RefType]) -> "VariableInComponentInstanceRef":
-        """Specifies the root variable data prototype representing the context. A None value is a no-op and does not overwrite an existing rootVariableDataPrototypeRef."""
-        if value is not None:
-            self.rootVariableDataPrototypeRef = value
-        return self
-
-    def getContextDataPrototypeRefs(self) -> List[RefType]:
-        """Specifies the application composite element data prototype representing the context."""
-        return self.contextDataPrototypeRefs
-
-    def addContextDataPrototypeRef(self, value: Optional[RefType]) -> "VariableInComponentInstanceRef":
-        """Specifies the application composite element data prototype representing the context. A None value is a no-op and does not append anything."""
-        if value is not None:
-            self.contextDataPrototypeRefs.append(value)
-        return self
-
-    def getTargetDataPrototypeRef(self) -> Optional[RefType]:
-        """Specifies the target data prototype (the variable instance target)."""
-        return self.targetDataPrototypeRef
-
-    def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> "VariableInComponentInstanceRef":
-        """Specifies the target data prototype (the variable instance target). A None value is a no-op and does not overwrite an existing targetDataPrototypeRef."""
-        if value is not None:
-            self.targetDataPrototypeRef = value
         return self
 
 
@@ -522,6 +435,10 @@ class TimingExtensionResource(Identifiable):
 
     def createTimingArgument(self, short_name: str) -> AutosarOperationArgumentInstance:
         """This refers to an instance reference of an argument of an operation call."""
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
+            AutosarOperationArgumentInstance,
+        )
+
         if not self.IsElementExists(short_name):
             argument = AutosarOperationArgumentInstance(self, short_name)
             self.addElement(argument)
@@ -546,6 +463,10 @@ class TimingExtensionResource(Identifiable):
 
     def createTimingVariable(self, short_name: str) -> AutosarVariableInstance:
         """This refers to an instance reference of a variable."""
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
+            AutosarVariableInstance,
+        )
+
         if not self.IsElementExists(short_name):
             variable = AutosarVariableInstance(self, short_name)
             self.addElement(variable)
@@ -555,34 +476,3 @@ class TimingExtensionResource(Identifiable):
     def getTimingVariables(self) -> List[AutosarVariableInstance]:
         """This refers to an instance reference of a variable."""
         return self.timingVariables
-
-
-class AutosarVariableInstance(Identifiable):
-    """
-    This class represents a reference to a variable instance within AUTOSAR. This way it is possible to reference a variable instance in the occurrence expression formula. The variable instance can target to one of the following variables: • a variable provided via a PortPrototype as whole • an element inside of a composite variable provided via a PortPrototype
-    """
-
-    # AutosarVariableInstance method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.52, p.85
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # variableInstanceIRef is an InstanceRef (VariableInComponentInstanceRef), read/written via its own reader/writer.
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getVariableInstanceIRef      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setVariableInstanceIRef      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-
-    def __init__(self, parent, short_name):
-        super().__init__(parent, short_name)
-
-        # This is the reference to the instanceRef definition. InstanceRef implemented by: VariableInComponentInstanceRef
-        self.variableInstanceIRef: Optional[VariableInComponentInstanceRef] = None
-
-    def getVariableInstanceIRef(self) -> Optional[VariableInComponentInstanceRef]:
-        """This is the reference to the instanceRef definition. InstanceRef implemented by: VariableInComponentInstanceRef."""
-        return self.variableInstanceIRef
-
-    def setVariableInstanceIRef(self, value: Optional[VariableInComponentInstanceRef]) -> "AutosarVariableInstance":
-        """This is the reference to the instanceRef definition. InstanceRef implemented by: VariableInComponentInstanceRef. A None value is a no-op and does not overwrite an existing variableInstanceIRef."""
-        if value is not None:
-            self.variableInstanceIRef = value
-        return self

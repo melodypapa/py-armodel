@@ -3,7 +3,7 @@ This module contains tests for the VariableInComponentInstanceRef InstanceRef cl
 AUTOSAR CommonStructure.Timing.TimingCondition module.
 """
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import VariableInComponentInstanceRef
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import VariableInComponentInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 

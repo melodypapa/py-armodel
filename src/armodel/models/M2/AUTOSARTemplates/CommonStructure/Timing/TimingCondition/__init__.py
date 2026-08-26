@@ -7,8 +7,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.T
     TimingConditionFormula,
     TimingExtensionResource,
     TimingModeInstance,
-    AutosarVariableInstance,
-    VariableInComponentInstanceRef,
 )
 
 
@@ -21,6 +19,4 @@ __all__ = [
     "TimingConditionFormula",
     "TimingExtensionResource",
     "TimingModeInstance",
-    "AutosarVariableInstance",
-    "VariableInComponentInstanceRef",
 ]

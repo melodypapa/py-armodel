@@ -85,8 +85,8 @@ queued and synced — see its row below.)
   - [x] Step 8 — Deviations: resolved — modeInstance now typed Optional[ModeInSwcBswInstanceRef]; the abstract base placeholder is implemented (no deferred deviation remains)
   - [x] Step 9 — Verify (9a) + confirm (9b) — # Spec verified: R23-11 stamped
 - [x] OperationArgumentInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00052.xsd OPERATION-ARGUMENT-IN-COMPONENT-INSTANCE-REF group · package TDEventOccurrenceExpression (relocated from TimingCondition per user review, 00052.xsd complexType comment) · dependency of AutosarOperationArgumentInstance.operationArgumentInstance · parallels ModeInSwcInstanceRef · no own PDF table; stamped `# XSD verified: AUTOSAR_00052.xsd`) [45453e9f]
-- [x] AutosarOperationArgumentInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.53 · operationArgumentInstance re-typed to aggregate OperationArgumentInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingArgument placeholder · RELOCATED to Timing/TimingDescription/TimingDescriptionEvents/TDEventOccurrenceExpression/ per user review — spec package per AUTOSAR_00052.xsd) [1570df56]
-- [x] VariableInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00046.xsd VARIABLE-IN-COMPONENT-INSTANCE-REF group · dependency of AutosarVariableInstance.variableInstance · parallels ModeInSwcInstanceRef · no own PDF table, so no # Spec verified: marker) [98cf27e2]
+- [x] AutosarOperationArgumentInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.53 · operationArgumentInstance re-typed to aggregate OperationArgumentInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingArgument placeholder · RELOCATED to Timing/TimingDescription/TimingDescriptionEvents/TDEventOccurrenceExpression/ per user review — spec package per AUTOSAR_00052.xsd) [1570df56] · user review round 2: confirmed
+- [x] VariableInComponentInstanceRef (InstanceRef · XSD-only · AUTOSAR_00052.xsd VARIABLE-IN-COMPONENT-INSTANCE-REF group (verified vs 00052: PASSED) · dependency of AutosarVariableInstance.variableInstance · parallels ModeInSwcInstanceRef · no own PDF table; stamped `# XSD verified: AUTOSAR_00052.xsd`; RELOCATED to TDEventOccurrenceExpression pkg per user review) [98cf27e2]
   - [x] Step 1 — Sync members & description from XSD
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green) — base AtpInstanceRef; 5 RefType members matching XSD sequenceOffset order
@@ -96,7 +96,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Update checklist comment (XSD-only, no # Spec: line)
   - [x] Step 8 — Deviations: none
   - [x] Step 9 — Verify (9a) + confirm (9b): 37 model/parser/writer tests pass; ruff/flake8/black clean; XSD-only class, no # Spec verified: marker (Rule 0002)
-- [x] AutosarVariableInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.52 · variableInstance re-typed to aggregate VariableInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingVariable placeholder) · commit bba54cc9
+- [x] AutosarVariableInstance (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.52 · variableInstance re-typed to aggregate VariableInComponentInstanceRef (queued above); resolves TimingExtensionResource.timingVariable placeholder) · commit bba54cc9 · RELOCATED to TDEventOccurrenceExpression pkg (spec package per AUTOSAR_00052.xsd complexType comment)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green) — base Identifiable(parent, short_name); variableInstanceIRef Optional[VariableInComponentInstanceRef] (iref → IRef suffix, 0..1), getter/setter with None no-op
@@ -106,7 +106,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.52, p.85)
   - [x] Step 8 — Deviations: none (VariableInComponentInstanceRef already synced; placeholder in TimingExtensionResource.timingVariables resolved under that row's REWORK)
   - [x] Step 9 — Verify (9a) + confirm (9b): 36 model/parser/writer tests pass; ruff/flake8/black clean; `# Spec verified: R23-11` stamped
-- [ ] TimingExtensionResource (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.9 · timingArgument/timingVariable -> aggregate AutosarOperationArgumentInstance/AutosarVariableInstance (reworked above) replacing the Rule 0001.10 RefType placeholders) · commit 079ea9a1
+- [ ] TimingExtensionResource (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.9 · timingArgument/timingVariable -> aggregate AutosarOperationArgumentInstance/AutosarVariableInstance (reworked above) replacing the Rule 0001.10 RefType placeholders) · commit 079ea9a1 · user review round 2: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green) — base Identifiable; timingModes List[TimingModeInstance] + createTimingMode(short_name); REWORK DONE: timingArguments List[AutosarOperationArgumentInstance] + createTimingArgument, timingVariables List[AutosarVariableInstance] + createTimingVariable (addTimingArgument/addTimingVariable RefType methods replaced by create* factories per createTimingMode convention)
@@ -116,7 +116,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: none (Rule 0001.10 placeholders resolved by the two item-class aggregations)
   - [x] Step 9 — Verify (9a): 369 Timing tests pass; ruff clean; # Spec verified stamp DEFERRED to batch confirmation
-- [ ] TimingCondition (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.7 · ref target of TimingConstraint.timingCondition · aggregates TimingConditionFormula)
+- [ ] TimingCondition (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.7 · ref target of TimingConstraint.timingCondition · aggregates TimingConditionFormula) · user review round 2: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green) — base Identifiable(parent, short_name); single attr timingConditionFormula 0..1 aggr (setXxx shape: child spec Base = ARObject+FormulaExpression has no Referrable/Identifiable); fabricated conditionFormula/modeInstances removed
@@ -126,7 +126,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
-- [ ] SynchronizationTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.55 · enum · consumed by SynchronizationTimingConstraint.synchronizationConstraintType)
+- [ ] SynchronizationTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.55 · enum · consumed by SynchronizationTimingConstraint.synchronizationConstraintType · RELOCATED to Timing/TimingConstraint/SynchronizationTimingConstraint/ per user review
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -136,7 +136,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
-- [ ] EventOccurrenceKindEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.56 · enum · consumed by SynchronizationTimingConstraint.eventOccurrenceKind)
+- [ ] EventOccurrenceKindEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.56 · enum · consumed by SynchronizationTimingConstraint.eventOccurrenceKind · RELOCATED to Timing/TimingConstraint/SynchronizationTimingConstraint/ per user review
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -146,7 +146,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
-- [ ] LatencyConstraintTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.58 · enum · consumed by LatencyTimingConstraint.latencyConstraintType)
+- [ ] LatencyConstraintTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.58 · enum · consumed by LatencyTimingConstraint.latencyConstraintType) · user review round 2: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -156,7 +156,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
-- [ ] ConfidenceInterval (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.65 · aggregated by ArbitraryEventTriggering.confidenceInterval)
+- [ ] ConfidenceInterval (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.65 · aggregated by ArbitraryEventTriggering.confidenceInterval) · user review round 2: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green) — base ARObject; lowerBound/upperBound Optional[MultidimensionalTime], propability Optional[Float] (spec spelling kept); fabricated confidenceLevel removed
@@ -166,7 +166,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
-- [ ] ExecutionOrderConstraintTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.69 · enum · consumed by ExecutionOrderConstraint.executionOrderConstraintType)
+- [ ] ExecutionOrderConstraintTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.69 · enum · consumed by ExecutionOrderConstraint.executionOrderConstraintType) · user review round 2: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -176,7 +176,7 @@ queued and synced — see its row below.)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
-- [ ] LetDataExchangeParadigmEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 4.4 · enum · consumed by EOCExecutableEntityRefGroup.letDataExchangeParadigm)
+- [ ] LetDataExchangeParadigmEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 4.4 · enum · consumed by EOCExecutableEntityRefGroup.letDataExchangeParadigm) · user review round 2: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
