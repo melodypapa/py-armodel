@@ -17,6 +17,10 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     AutosarVariableInstance,
     OperationArgumentInComponentInstanceRef,
     TDEventOccurrenceExpression,
+    TDEventVariableDataPrototypeTypeEnum,
+    TDEventOperationTypeEnum,
+    TDEventModeDeclarationTypeEnum,
+    TDEventTriggerTypeEnum,
     VariableInComponentInstanceRef,
 )
 

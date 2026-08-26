@@ -115,6 +115,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventOccurrenceExpressionFormula,
     VariableInComponentInstanceRef,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (  # noqa: F401
+    TDEventModeDeclarationTypeEnum,
+    TDEventOperationTypeEnum,
+    TDEventTriggerTypeEnum,
+    TDEventVariableDataPrototypeTypeEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ComponentInCompositionInstanceRef  # noqa: F401
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import *  # noqa: F403

@@ -447,46 +447,46 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table D.63, p.253)
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: 3759 tests green; ruff/black clean); 9b confirm + stamp deferred to batch
-- [ ] TDEventVariableDataPrototypeTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.18 · consumed by TDEventVariableDataPrototype.tdEventVariableDataPrototypeType)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventOperationTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.20 · consumed by TDEventOperation.tdEventOperationType)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventModeDeclarationTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.22 · consumed by TDEventModeDeclaration.tdEventModeDeclarationType)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventTriggerTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.24 · consumed by TDEventTrigger.tdEventTriggerType)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] TDEventVariableDataPrototypeTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.18, p.54 · consumed by TDEventVariableDataPrototype.tdEventVariableDataPrototypeType)
+  - [x] Step 1 — Sync members & description from spec (Note + 2 literals verbatim with EnumerationLiteralIndex tags)
+  - [x] Step 2 — Write model class unit test (Red) — test_TDEventVariableDataPrototypeTypeEnum.py
+  - [x] Step 3 — Implement model class (Green) — AREnum; VARIABLE_DATA_PROTOTYPE_RECEIVED/SENT
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — N/A: standalone enum, round-trip via consuming class (queued below)
+  - [x] Step 6 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.18, p.54; no methods form)
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a passed); 9b confirm + stamp deferred to batch
+- [ ] TDEventOperationTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.20, p.56 · consumed by TDEventOperation.tdEventOperationType)
+  - [x] Step 1 — Sync members & description from spec (4 literals verbatim)
+  - [x] Step 2 — Write model class unit test (Red) — test_TDEventOperationTypeEnum.py
+  - [x] Step 3 — Implement model class (Green) — AREnum; OPERATION_CALLED/OPERATION_CALL_RECEIVED/OPERATION_CALL_RESPONSE_RECEIVED/OPERATION_CALL_RESPONSE_SENT
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 6 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.20, p.56)
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a passed); 9b confirm + stamp deferred to batch
+- [ ] TDEventModeDeclarationTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.22, p.57 · consumed by TDEventModeDeclaration.tdEventModeDeclarationType)
+  - [x] Step 1 — Sync members & description from spec (2 literals verbatim)
+  - [x] Step 2 — Write model class unit test (Red) — test_TDEventModeDeclarationTypeEnum.py
+  - [x] Step 3 — Implement model class (Green) — AREnum; MODE_DECLARATION_SWITCH_COMPLETED/INITIATED
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 6 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.22, p.57)
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a passed); 9b confirm + stamp deferred to batch
+- [ ] TDEventTriggerTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.24, p.59 · consumed by TDEventTrigger.tdEventTriggerType)
+  - [x] Step 1 — Sync members & description from spec (2 literals verbatim)
+  - [x] Step 2 — Write model class unit test (Red) — test_TDEventTriggerTypeEnum.py
+  - [x] Step 3 — Implement model class (Green) — AREnum; TRIGGER_ACTIVATED/TRIGGER_RELEASED
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 6 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.24, p.59)
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a passed); 9b confirm + stamp deferred to batch
 - [ ] TDEventSwcInternalBehaviorTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.27 · consumed by TDEventSwcInternalBehavior.tdEventSwcInternalBehaviorType)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
