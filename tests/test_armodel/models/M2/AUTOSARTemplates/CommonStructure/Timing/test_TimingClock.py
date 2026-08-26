@@ -1,9 +1,7 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TimingClock import (
-    TimingClock,
-)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TimingClock
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )

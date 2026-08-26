@@ -5,10 +5,8 @@ AUTOSAR CommonStructure.Timing.TimingCondition module.
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
-    TimingConditionFormula,
-)
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingCondition import (
     TimingCondition,
+    TimingConditionFormula,
 )
 
 

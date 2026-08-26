@@ -3,12 +3,7 @@
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TDLETZoneClock import (
-    TDLETZoneClock,
-)
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.TimingClockSyncAccuracy import (
-    TimingClockSyncAccuracy,
-)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock, TimingClockSyncAccuracy
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
     TimingConstraint,
 )
@@ -206,7 +201,7 @@ class TestWriteTimingClockBase:
         return document.createARPackage("AUTOSAR")
 
     def test_round_trip_timing_clock_platform_time_base(self):
-        from tests.test_armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.test_TimingClock import (
+        from tests.test_armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.test_TimingClock import (
             ConcreteTimingClock as TestClock,
         )
 
@@ -229,7 +224,7 @@ class TestWriteTimingClockBase:
         assert reloaded.getPlatformTimeBaseRef().getDest() == "GLOBAL-TIME-DOMAIN"
 
     def test_write_timing_clock_no_platform_time_base_wrapper_when_unset(self):
-        from tests.test_armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock.test_TimingClock import (
+        from tests.test_armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.test_TimingClock import (
             ConcreteTimingClock as TestClock,
         )
 
