@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
     DhcpServerConfiguration,
+    EthernetConnectionNegotiationEnum,
     DoIpEntity,
     EthernetCluster,
     EthernetCommunicationConnector,
@@ -840,6 +841,16 @@ class TestEthernetTopology:
         result = config.setRequestResponseDelay(delay)
         assert config.getRequestResponseDelay() == delay
         assert result == config  # Test method chaining
+
+
+class TestEthernetConnectionNegotiationEnum:
+    """Test cases for EthernetConnectionNegotiationEnum (Table 3.55, p.110)."""
+
+    def test_enum_values(self):
+        assert list(EthernetConnectionNegotiationEnum().getEnumValues()) == ["auto", "master", "slave"]
+        assert EthernetConnectionNegotiationEnum.AUTO == "auto"
+        assert EthernetConnectionNegotiationEnum.MASTER == "master"
+        assert EthernetConnectionNegotiationEnum.SLAVE == "slave"
 
 
 class Test_Fibex4EthernetNetworkEndpoint:

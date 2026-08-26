@@ -1826,6 +1826,35 @@ class Ipv6AddressSourceEnum(AREnum):
         )
 
 
+class EthernetConnectionNegotiationEnum(AREnum):
+    """
+    Specifies connection negotiation types of Ethernet transceiver links.
+    """
+
+    # EthernetConnectionNegotiationEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.55, p.110
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on CouplingPort.connectionNegotiationBehavior
+
+    # Automatic Negotiation Tags: atp.EnumerationLiteralIndex=0
+    AUTO = "auto"
+
+    # Master Tags: atp.EnumerationLiteralIndex=1
+    MASTER = "master"
+
+    # Slave Tags: atp.EnumerationLiteralIndex=2
+    SLAVE = "slave"
+
+    def __init__(self):
+        super().__init__(
+            [
+                EthernetConnectionNegotiationEnum.AUTO,
+                EthernetConnectionNegotiationEnum.MASTER,
+                EthernetConnectionNegotiationEnum.SLAVE,
+            ]
+        )
+
+
 class Ipv6Configuration(NetworkEndpointAddress):
     """
     Internet Protocol version 6 (IPv6) configuration.
