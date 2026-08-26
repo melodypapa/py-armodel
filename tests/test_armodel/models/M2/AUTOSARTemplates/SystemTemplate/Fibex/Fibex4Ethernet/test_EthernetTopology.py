@@ -28,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     EthernetConnectionNegotiationEnum,
     EthernetMacLayerTypeEnum,
     DoIpEntity,
+    DoIpEntityRoleEnum,
     EthernetCluster,
     EthernetCommunicationConnector,
     EthernetCommunicationController,
@@ -1212,3 +1213,17 @@ class TestTimeSyncTechnologyEnum:
         assert TimeSyncTechnologyEnum.NTP_RFC958 == "NTP-RFC-958"
         assert TimeSyncTechnologyEnum.PTP_IEEE1588_2002 == "PTP-IEEE-1588-2002"
         assert TimeSyncTechnologyEnum.PTP_IEEE1588_2008 == "PTP-IEEE-1588-2008"
+
+
+class TestDoIpEntityRoleEnum:
+    """Test cases for DoIpEntityRoleEnum (Table 6.151, p.471)."""
+
+    def test_enum_values(self):
+        assert list(DoIpEntityRoleEnum().getEnumValues()) == [
+            "edgeNode",
+            "gateway",
+            "node",
+        ]
+        assert DoIpEntityRoleEnum.EDGE_NODE == "edgeNode"
+        assert DoIpEntityRoleEnum.GATEWAY == "gateway"
+        assert DoIpEntityRoleEnum.NODE == "node"

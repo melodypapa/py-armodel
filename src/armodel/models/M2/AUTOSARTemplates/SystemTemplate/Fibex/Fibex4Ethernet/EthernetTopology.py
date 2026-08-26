@@ -2457,3 +2457,31 @@ class TimeSyncTechnologyEnum(AREnum):
                 TimeSyncTechnologyEnum.PTP_IEEE1588_2008,
             ]
         )
+
+
+class DoIpEntityRoleEnum(AREnum):
+    """
+    DoIP role a network-node has.
+    """
+
+    # DoIpEntityRoleEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.151, p.471
+    # (no methods) — enum value form serialized on DoIpEntity.doIpEntityRole
+
+    # Network node is a DoIP gateway that accepts external connections. Tags: atp.EnumerationLiteralIndex=0
+    EDGE_NODE = "edgeNode"
+
+    # Network node is a Gateway between the DoIP network and other networks. Tags: atp.EnumerationLiteralIndex=1
+    GATEWAY = "gateway"
+
+    # Network node is a DoIp node. Tags: atp.EnumerationLiteralIndex=2
+    NODE = "node"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DoIpEntityRoleEnum.EDGE_NODE,
+                DoIpEntityRoleEnum.GATEWAY,
+                DoIpEntityRoleEnum.NODE,
+            ]
+        )
