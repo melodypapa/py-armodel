@@ -3,8 +3,8 @@ This module contains tests for the ComponentInCompositionInstanceRef InstanceRef
 AUTOSAR CommonStructure.Timing.TimingCondition module.
 """
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ComponentInCompositionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ComponentInCompositionInstanceRef
 
 
 class TestComponentInCompositionInstanceRef:

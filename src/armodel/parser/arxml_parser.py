@@ -206,11 +206,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingConditionFormula
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import ModeInBswInstanceRef, ModeInSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
-    ComponentInCompositionInstanceRef,
     TimingCondition,
     TimingExtensionResource,
     TimingModeInstance,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ComponentInCompositionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
     AutosarOperationArgumentInstance,
     AutosarVariableInstance,

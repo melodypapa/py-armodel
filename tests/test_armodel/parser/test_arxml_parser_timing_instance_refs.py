@@ -4,7 +4,6 @@ import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (
-    ComponentInCompositionInstanceRef,
     ModeInBswInstanceRef,
     ModeInSwcInstanceRef,
     TimingExtensionResource,
@@ -16,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     OperationArgumentInComponentInstanceRef,
     VariableInComponentInstanceRef,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ComponentInCompositionInstanceRef
 from armodel.parser.arxml_parser import ARXMLParser
 
 

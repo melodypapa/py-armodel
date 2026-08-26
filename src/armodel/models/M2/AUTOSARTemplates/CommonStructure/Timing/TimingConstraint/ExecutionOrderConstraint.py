@@ -20,7 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     RefType,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition.TimingCondition import ComponentInCompositionInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ComponentInCompositionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
 
 
@@ -128,7 +128,7 @@ class EOCExecutableEntityRefAbstract(Identifiable, ABC):
 
 class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
     """
-    This is used to define a reference to an ExecutableEntity If the ExecutionOrderConstraint is defined on VFB, System or ECU level, a reference to the SwComponentPrototype, via the ComponentInCompositionInstanceRef, the referenced ExecutableEntity belongs to, shall be provided as context information.
+    This is used to define a reference to an ExecutableEntity. If the ExecutionOrderConstraint is defined on VFB, System or ECU level, a reference to the SwComponentPrototype, via the ComponentInCompositionInstanceRef, the referenced ExecutableEntity belongs to, shall be provided as context information.
     """
 
     # EOCExecutableEntityRef method parity checklist:

@@ -90,7 +90,7 @@ class EventOccurrenceKindEnum(AREnum):
 
 class SynchronizationTimingConstraint(TimingConstraint):
     """
-    Constraint This constraint is used to restrict the timing behavior of different, but correlated events or event chains,
+    This constraint is used to restrict the timing behavior of different, but correlated events or event chains,
     with regard to synchronization. Two scenarios are supported: • If ( synchronizationConstraintType ==
     responseSynchronization ) - TimingDescriptionEvent s: An arbitrary number of correlated events which play the role of
     responses shall occur synchronously with respect to a predefined tolerance. - TimingDescriptionEventChain s: An
