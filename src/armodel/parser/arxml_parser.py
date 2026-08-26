@@ -512,7 +512,13 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     ApplicationEndpoint,
+    CouplingPortRoleEnum,
     DoIpEntity,
+    DoIpEntityRoleEnum,
+    EthernetConnectionNegotiationEnum,
+    EthernetMacLayerTypeEnum,
+    EthernetPhysicalLayerTypeEnum,
+    EthernetSwitchVlanIngressTagEnum,
     InfrastructureServices,
     IpAddressKeepEnum,
     Ipv6AddressSourceEnum,
@@ -520,6 +526,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     NetworkEndpoint,
     TimeSyncClientConfiguration,
     TimeSyncServerConfiguration,
+    TimeSyncTechnologyEnum,
     TimeSynchronization,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
@@ -6144,7 +6151,11 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             entity = DoIpEntity()
-            entity.setDoIpEntityRole(self.getChildElementOptionalLiteral(child_element, "DO-IP-ENTITY-ROLE"))
+            do_ip_entity_role = self.getChildElementOptionalLiteral(child_element, "DO-IP-ENTITY-ROLE")
+            if do_ip_entity_role is not None:
+                e = DoIpEntityRoleEnum()
+                e.setValue(do_ip_entity_role.getValue())
+                entity.setDoIpEntityRole(e)
         return entity
 
     def getTimeSynchronization(self, element: ET.Element, key: str) -> TimeSynchronization:
@@ -6154,11 +6165,22 @@ class ARXMLParser(AbstractARXMLParser):
             sync = TimeSynchronization()
             client_element = self.find(child_element, "TIME-SYNC-CLIENT")
             if client_element is not None:
-                sync.setTimeSyncClient(TimeSyncClientConfiguration())
+                client = TimeSyncClientConfiguration()
+                time_sync_technology = self.getChildElementOptionalLiteral(client_element, "TIME-SYNC-TECHNOLOGY")
+                if time_sync_technology is not None:
+                    e = TimeSyncTechnologyEnum()
+                    e.setValue(time_sync_technology.getValue())
+                    client.setTimeSyncTechnology(e)
+                sync.setTimeSyncClient(client)
             server_element = self.find(child_element, "TIME-SYNC-SERVER")
             if server_element is not None:
                 server = TimeSyncServerConfiguration(None, self.getShortName(server_element))
                 self.readReferrable(server_element, server)
+                time_sync_technology = self.getChildElementOptionalLiteral(server_element, "TIME-SYNC-TECHNOLOGY")
+                if time_sync_technology is not None:
+                    e = TimeSyncTechnologyEnum()
+                    e.setValue(time_sync_technology.getValue())
+                    server.setTimeSyncTechnology(e)
                 sync.setTimeSyncServer(server)
         return sync
 
@@ -8579,16 +8601,37 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCouplingPort(self, element: ET.Element, port: CouplingPort):
         self.readIdentifiable(element, port)
-        port.setConnectionNegotiationBehavior(self.getChildElementOptionalLiteral(element, "CONNECTION-NEGOTIATION-BEHAVIOR"))
+        connection_negotiation_behavior = self.getChildElementOptionalLiteral(element, "CONNECTION-NEGOTIATION-BEHAVIOR")
+        if connection_negotiation_behavior is not None:
+            e = EthernetConnectionNegotiationEnum()
+            e.setValue(connection_negotiation_behavior.getValue())
+            port.setConnectionNegotiationBehavior(e)
         port.setCouplingPortDetails(self.getCouplingPortDetails(element, "COUPLING-PORT-DETAILS"))
-        port.setCouplingPortRole(self.getChildElementOptionalLiteral(element, "COUPLING-PORT-ROLE"))
+        coupling_port_role = self.getChildElementOptionalLiteral(element, "COUPLING-PORT-ROLE")
+        if coupling_port_role is not None:
+            e = CouplingPortRoleEnum()
+            e.setValue(coupling_port_role.getValue())
+            port.setCouplingPortRole(e)
         port.setDefaultVlanRef(self.getChildElementOptionalRefType(element, "DEFAULT-VLAN-REF"))
-        port.setMacLayerType(self.getChildElementOptionalLiteral(element, "MAC-LAYER-TYPE"))
+        mac_layer_type = self.getChildElementOptionalLiteral(element, "MAC-LAYER-TYPE")
+        if mac_layer_type is not None:
+            e = EthernetMacLayerTypeEnum()
+            e.setValue(mac_layer_type.getValue())
+            port.setMacLayerType(e)
         for ref in self.getChildElementRefTypeList(element, "MAC-MULTICAST-ADDRESS-REFS/MAC-MULTICAST-ADDRESS-REF"):
             port.addMacMulticastAddressRef(ref)
         for ref in self.getChildElementRefTypeList(element, "PNC-MAPPING-REFS/PNC-MAPPING-REF"):
             port.addPncMappingRef(ref)
-        port.setReceiveActivity(self.getChildElementOptionalLiteral(element, "RECEIVE-ACTIVITY"))
+        receive_activity = self.getChildElementOptionalLiteral(element, "RECEIVE-ACTIVITY")
+        if receive_activity is not None:
+            e = EthernetSwitchVlanIngressTagEnum()
+            e.setValue(receive_activity.getValue())
+            port.setReceiveActivity(e)
+        physical_layer_type = self.getChildElementOptionalLiteral(element, "PHYSICAL-LAYER-TYPE")
+        if physical_layer_type is not None:
+            e = EthernetPhysicalLayerTypeEnum()
+            e.setValue(physical_layer_type.getValue())
+            port.setPhysicalLayerType(e)
         self.readCouplingPortVlanMemberships(element, port)
         port.setVlanModifierRef(self.getChildElementOptionalRefType(element, "VLAN-MODIFIER-REF"))
         port.setWakeupSleepOnDatalineConfigRef(self.getChildElementOptionalRefType(element, "WAKEUP-SLEEP-ON-DATALINE-CONFIG-REF"))
@@ -8610,7 +8653,11 @@ class ARXMLParser(AbstractARXMLParser):
             self.readCommunicationController(child_element, controller)
             controller.setCanXlConfigRef(self.getChildElementOptionalRefType(child_element, "CAN-XL-CONFIG-REF"))
             self.readEthernetCommunicationControllerCouplingPorts(child_element, controller)
-            controller.setMacLayerType(self.getChildElementOptionalLiteral(child_element, "MAC-LAYER-TYPE"))
+            mac_layer_type = self.getChildElementOptionalLiteral(child_element, "MAC-LAYER-TYPE")
+            if mac_layer_type is not None:
+                e = EthernetMacLayerTypeEnum()
+                e.setValue(mac_layer_type.getValue())
+                controller.setMacLayerType(e)
             controller.setMacUnicastAddress(self.getChildElementOptionalLiteral(child_element, "MAC-UNICAST-ADDRESS"))
             controller.setMaximumReceiveBufferLength(self.getChildElementOptionalIntegerValue(child_element, "MAXIMUM-RECEIVE-BUFFER-LENGTH"))
             controller.setMaximumTransmitBufferLength(self.getChildElementOptionalIntegerValue(child_element, "MAXIMUM-TRANSMIT-BUFFER-LENGTH"))

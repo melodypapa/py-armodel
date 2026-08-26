@@ -505,19 +505,19 @@ class CouplingPort(Identifiable):
         super().__init__(parent, short_name)
 
         # Specifies the connection negotiation of the CouplingPort.
-        self.connectionNegotiationBehavior: Optional[ARLiteral] = None
+        self.connectionNegotiationBehavior: Optional[EthernetConnectionNegotiationEnum] = None
 
         # Defines more details of a CouplingPort in case a more specific configuration is required.
         self.couplingPortDetails: Optional[CouplingPortDetails] = None
 
         # Defines the role this CouplingPort takes in the context of the CouplingElement.
-        self.couplingPortRole: Optional[ARLiteral] = None
+        self.couplingPortRole: Optional[CouplingPortRoleEnum] = None
 
         # The vLanIdentifier of the referenced VLAN is the Default-PVID (port VLAN ID). A Port VLAN ID is a default VLAN ID that is assigned to an access CouplingPort to designate the VLAN segment to which this port is connected. Also, if a CouplingPort has not been configured with any VLAN memberships, the virtual switch's Port VLAN ID (pvid) becomes the default VLAN ID for the ports connection. This identifier/tag is added for incoming untagged messages at the port (ingress tagging). For outgoing messages with this identifier, the tag is removed at the port (egress untagging, depending on the Vlan
         self.defaultVlanRef: Optional[RefType] = None
 
         # Specifies the mac layer type of the CouplingPort.
-        self.macLayerType: Optional[ARLiteral] = None
+        self.macLayerType: Optional[EthernetMacLayerTypeEnum] = None
 
         # Assigns a set of MAC-Multicast-Addresses which are addressable via this CouplingPort. This is a static pre-configuration and further addresses may be learned during runtime.
         self.macMulticastAddressRefs: List[RefType] = []
@@ -526,7 +526,7 @@ class CouplingPort(Identifiable):
         self.macSecProps: List[ARObject] = []
 
         # Specifies the physical layer type of the CouplingPort.
-        self.physicalLayerType: Optional[ARLiteral] = None
+        self.physicalLayerType: Optional[EthernetPhysicalLayerTypeEnum] = None
 
         # Optional properties for configuration of PLCA (Physical Layer Collision Avoidance) in case 10-BASE-T1S Ethernet is used and PLCA is enabled on the Coupling Port (PHY).
         self.plcaProps: Optional[ARObject] = None
@@ -535,7 +535,7 @@ class CouplingPort(Identifiable):
         self.pncMappingRefs: List[RefType] = []
 
         # Defines the handling of frames at the ingress port.
-        self.receiveActivity: Optional[ARLiteral] = None
+        self.receiveActivity: Optional[EthernetSwitchVlanIngressTagEnum] = None
 
         # Messages of VLANs that are defined here can be communicated via the CouplingPort.
         self.vlanMemberships: List[VlanMembership] = []
@@ -546,11 +546,11 @@ class CouplingPort(Identifiable):
         # Optional reference to EthernetWakeupSleepOnDatalineConfig.
         self.wakeupSleepOnDatalineConfigRef: Optional[RefType] = None
 
-    def getConnectionNegotiationBehavior(self) -> Optional[ARLiteral]:
+    def getConnectionNegotiationBehavior(self) -> Optional[EthernetConnectionNegotiationEnum]:
         """Specifies the connection negotiation of the CouplingPort."""
         return self.connectionNegotiationBehavior
 
-    def setConnectionNegotiationBehavior(self, value: Optional[ARLiteral]) -> "CouplingPort":
+    def setConnectionNegotiationBehavior(self, value: Optional[EthernetConnectionNegotiationEnum]) -> "CouplingPort":
         """
         Specifies the connection negotiation of the CouplingPort.
         A None value is a no-op and does not overwrite an existing connectionNegotiationBehavior.
@@ -572,11 +572,11 @@ class CouplingPort(Identifiable):
             self.couplingPortDetails = value
         return self
 
-    def getCouplingPortRole(self) -> Optional[ARLiteral]:
+    def getCouplingPortRole(self) -> Optional[CouplingPortRoleEnum]:
         """Defines the role this CouplingPort takes in the context of the CouplingElement."""
         return self.couplingPortRole
 
-    def setCouplingPortRole(self, value: Optional[ARLiteral]) -> "CouplingPort":
+    def setCouplingPortRole(self, value: Optional[CouplingPortRoleEnum]) -> "CouplingPort":
         """
         Defines the role this CouplingPort takes in the context of the CouplingElement.
         A None value is a no-op and does not overwrite an existing couplingPortRole.
@@ -598,11 +598,11 @@ class CouplingPort(Identifiable):
             self.defaultVlanRef = value
         return self
 
-    def getMacLayerType(self) -> Optional[ARLiteral]:
+    def getMacLayerType(self) -> Optional[EthernetMacLayerTypeEnum]:
         """Specifies the mac layer type of the CouplingPort."""
         return self.macLayerType
 
-    def setMacLayerType(self, value: Optional[ARLiteral]) -> "CouplingPort":
+    def setMacLayerType(self, value: Optional[EthernetMacLayerTypeEnum]) -> "CouplingPort":
         """
         Specifies the mac layer type of the CouplingPort.
         A None value is a no-op and does not overwrite an existing macLayerType.
@@ -637,11 +637,11 @@ class CouplingPort(Identifiable):
         """Properties to configure MACsec (Media access control security) and the MKA (MACsec Key Agreement) for the CouplingPort (PHY)."""
         return self.macSecProps
 
-    def getPhysicalLayerType(self) -> Optional[ARLiteral]:
+    def getPhysicalLayerType(self) -> Optional[EthernetPhysicalLayerTypeEnum]:
         """Specifies the physical layer type of the CouplingPort."""
         return self.physicalLayerType
 
-    def setPhysicalLayerType(self, value: Optional[ARLiteral]) -> "CouplingPort":
+    def setPhysicalLayerType(self, value: Optional[EthernetPhysicalLayerTypeEnum]) -> "CouplingPort":
         """
         Specifies the physical layer type of the CouplingPort.
         A None value is a no-op and does not overwrite an existing physicalLayerType.
@@ -676,11 +676,11 @@ class CouplingPort(Identifiable):
         """Reference to the partial networks this CouplingPort participates in."""
         return self.pncMappingRefs
 
-    def getReceiveActivity(self) -> Optional[ARLiteral]:
+    def getReceiveActivity(self) -> Optional[EthernetSwitchVlanIngressTagEnum]:
         """Defines the handling of frames at the ingress port."""
         return self.receiveActivity
 
-    def setReceiveActivity(self, value: Optional[ARLiteral]) -> "CouplingPort":
+    def setReceiveActivity(self, value: Optional[EthernetSwitchVlanIngressTagEnum]) -> "CouplingPort":
         """
         Defines the handling of frames at the ingress port.
         A None value is a no-op and does not overwrite an existing receiveActivity.
@@ -765,7 +765,7 @@ class EthernetCommunicationController(CommunicationController):
         self.couplingPorts: List[CouplingPort] = []
 
         # Specifies the mac layer type of the ethernet controller.
-        self.macLayerType: Optional[ARLiteral] = None
+        self.macLayerType: Optional[EthernetMacLayerTypeEnum] = None
 
         # Media Access Control address (MAC address) that uniquely identifies each EthernetCommunication Controller in the network.
         self.macUnicastAddress: Optional[ARLiteral] = None

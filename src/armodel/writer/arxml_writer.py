@@ -6634,11 +6634,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "TIME-SYNCHRONIZATION")
             client = sync.getTimeSyncClient()
             if client is not None:
-                ET.SubElement(child_element, "TIME-SYNC-CLIENT")
+                client_element = ET.SubElement(child_element, "TIME-SYNC-CLIENT")
+                self.setChildElementOptionalLiteral(client_element, "TIME-SYNC-TECHNOLOGY", client.getTimeSyncTechnology())
             server = sync.getTimeSyncServer()
             if server is not None:
                 server_element = ET.SubElement(child_element, "TIME-SYNC-SERVER")
                 self.writeReferrable(server_element, server)
+                self.setChildElementOptionalLiteral(server_element, "TIME-SYNC-TECHNOLOGY", server.getTimeSyncTechnology())
 
     def setInfrastructureServices(self, element: ET.Element, key: str, services: InfrastructureServices):
         if services is not None:
