@@ -46,6 +46,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     RequestResponseDelay,
     SdClientConfig,
     TimeSyncClientConfiguration,
+    TimeSyncTechnologyEnum,
     TimeSynchronization,
     TimeSyncServerConfiguration,
     VlanMembership,
@@ -1195,3 +1196,19 @@ class TestEthernetSwitchVlanIngressTagEnum:
         ]
         assert EthernetSwitchVlanIngressTagEnum.FORWARD_AS_IS == "forwardAsIs"
         assert EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED == "dropUntagged"
+
+
+class TestTimeSyncTechnologyEnum:
+    """Test cases for TimeSyncTechnologyEnum (Table 6.149, p.471)."""
+
+    def test_enum_values(self):
+        assert list(TimeSyncTechnologyEnum().getEnumValues()) == [
+            "AVB-IEEE-802-1-AS",
+            "NTP-RFC-958",
+            "PTP-IEEE-1588-2002",
+            "PTP-IEEE-1588-2008",
+        ]
+        assert TimeSyncTechnologyEnum.AVB_IEEE802_1AS == "AVB-IEEE-802-1-AS"
+        assert TimeSyncTechnologyEnum.NTP_RFC958 == "NTP-RFC-958"
+        assert TimeSyncTechnologyEnum.PTP_IEEE1588_2002 == "PTP-IEEE-1588-2002"
+        assert TimeSyncTechnologyEnum.PTP_IEEE1588_2008 == "PTP-IEEE-1588-2008"

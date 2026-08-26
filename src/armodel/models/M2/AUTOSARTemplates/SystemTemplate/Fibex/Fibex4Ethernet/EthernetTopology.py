@@ -2425,3 +2425,35 @@ class EthernetSwitchVlanIngressTagEnum(AREnum):
                 EthernetSwitchVlanIngressTagEnum.DROP_UNTAGGED,
             ]
         )
+
+
+class TimeSyncTechnologyEnum(AREnum):
+    """
+    Defines the time synchronization technology used.
+    """
+
+    # TimeSyncTechnologyEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.149, p.471
+    # (no methods) — enum value form serialized on consuming attribute
+
+    # Ethernet AVB compliant IEEE802.1AS Precision Time Protocol Tags: atp.EnumerationLiteralIndex=0
+    AVB_IEEE802_1AS = "AVB-IEEE-802-1-AS"
+
+    # Network Time Protocol (NTP) Tags: atp.EnumerationLiteralIndex=1
+    NTP_RFC958 = "NTP-RFC-958"
+
+    # Precision Time Protocol (PTP) IEEE 1588-2002 Tags: atp.EnumerationLiteralIndex=2
+    PTP_IEEE1588_2002 = "PTP-IEEE-1588-2002"
+
+    # Precision Time Protocol (PTP) IEEE 1588-2008 Tags: atp.EnumerationLiteralIndex=3
+    PTP_IEEE1588_2008 = "PTP-IEEE-1588-2008"
+
+    def __init__(self):
+        super().__init__(
+            [
+                TimeSyncTechnologyEnum.AVB_IEEE802_1AS,
+                TimeSyncTechnologyEnum.NTP_RFC958,
+                TimeSyncTechnologyEnum.PTP_IEEE1588_2002,
+                TimeSyncTechnologyEnum.PTP_IEEE1588_2008,
+            ]
+        )
