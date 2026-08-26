@@ -624,8 +624,8 @@ class PduActivationRoutingGroup(Identifiable):
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.161, p.489
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getEventGroupControlType        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setEventGroupControlType        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEventGroupControlType        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setEventGroupControlType        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
     # [x] getIPduIdentifierTcpRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] addIPduIdentifierTcpRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getIPduIdentifierUdpRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -714,7 +714,7 @@ class StaticSocketConnection(Identifiable):
         self.tcpConnectTimeout: Optional[TimeValue] = None
 
         # Defines whether the local Address (that is aggregating the StaticSocketConnection) does a listen or a connect.
-        self.tcpRole: Optional[ARLiteral] = None
+        self.tcpRole: Optional[TcpRoleEnum] = None
 
     def getIPduIdentifierRefs(self) -> List[RefType]:
         """Assignment of IPduIdentifiers that are transmitted over the static SocketConnection."""
@@ -755,11 +755,11 @@ class StaticSocketConnection(Identifiable):
             self.tcpConnectTimeout = value
         return self
 
-    def getTcpRole(self) -> Optional[ARLiteral]:
+    def getTcpRole(self) -> Optional[TcpRoleEnum]:
         """Defines whether the local Address (that is aggregating the StaticSocketConnection) does a listen or a connect."""
         return self.tcpRole
 
-    def setTcpRole(self, value: Optional[ARLiteral]) -> "StaticSocketConnection":
+    def setTcpRole(self, value: Optional[TcpRoleEnum]) -> "StaticSocketConnection":
         """
         Defines whether the local Address (that is aggregating the StaticSocketConnection) does a listen or a connect.
         A None value is a no-op and does not overwrite an existing tcpRole.

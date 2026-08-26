@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SomeipSdServerEventGroupTimingConfig,
     SomeipServiceVersion,
     StaticSocketConnection,
+    TcpRoleEnum,
     TcpTp,
     TcpUdpConfig,
     TpPort,
@@ -1655,7 +1656,7 @@ class TestStaticSocketConnection:
         """
         parent = MockParent()
         connection = StaticSocketConnection(parent, "Conn1")
-        role = ARLiteral().setValue("connect")
+        role = TcpRoleEnum().setValue(TcpRoleEnum.CONNECT)
 
         result = connection.setTcpRole(role)
         assert connection.getTcpRole() is role

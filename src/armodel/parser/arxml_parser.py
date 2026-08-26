@@ -536,6 +536,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SoAdConfig,
     StaticSocketConnection,
     SocketAddress,
+    TcpRoleEnum,
     UdpChecksumCalculationEnum,
     SomeipSdClientEventGroupTimingConfig,
     SomeipSdClientServiceInstanceConfig,
@@ -8537,7 +8538,11 @@ class ARXMLParser(AbstractARXMLParser):
             for ref in self.getChildElementRefTypeList(element, "REMOTE-ADDRESSS/SOCKET-ADDRESS-REF-CONDITIONAL/SOCKET-ADDRESS-REF"):
                 connection.setRemoteAddressRef(ref)
             connection.setTcpConnectTimeout(self.getChildElementOptionalTimeValue(element, "TCP-CONNECT-TIMEOUT"))
-            connection.setTcpRole(self.getChildElementOptionalLiteral(element, "TCP-ROLE"))
+            tcp_role_literal = self.getChildElementOptionalLiteral(element, "TCP-ROLE")
+            if tcp_role_literal is not None:
+                tcp_role = TcpRoleEnum()
+                tcp_role.setValue(tcp_role_literal.getValue())
+                connection.setTcpRole(tcp_role)
         return connection
 
     def getIpv6DhcpServerConfiguration(self, element: ET.Element, key: str) -> Optional[Ipv6DhcpServerConfiguration]:
