@@ -36,3 +36,33 @@ class TDEventISignalTypeEnum(AREnum):
                 TDEventISignalTypeEnum.ISIGNAL_SENT_TO_COM,
             )
         )
+
+
+class TDEventIPduTypeEnum(AREnum):
+    """
+    This is used to describe the specific event type of a TDEventIPdu.
+    """
+
+    # TDEventIPduTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.33, p.67
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on TDEventIPdu.tdEventType
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    # A point in time where the received frame is processed by the corresponding (FlexRay / CAN / LIN) Interface BSW module, routed through the PDUR and the contained PDUs are pushed to the COM module. Tags: atp.EnumerationLiteralIndex=0
+    IPDU_RECEIVED_BY_COM = "iPduReceivedByCom"
+
+    # A point in time where the carrier COM I-PDU is routed through the PDUR and is pushed to the bus specific (FlexRay / CAN / LIN) Interface BSW module. Tags: atp.EnumerationLiteralIndex=1
+    IPDU_SENT_TO_IF = "iPduSentToIf"
+
+    def __init__(self):
+        """
+        Initializes the TDEventIPduTypeEnum with valid values.
+        """
+        super().__init__(
+            (
+                TDEventIPduTypeEnum.IPDU_RECEIVED_BY_COM,
+                TDEventIPduTypeEnum.IPDU_SENT_TO_IF,
+            )
+        )

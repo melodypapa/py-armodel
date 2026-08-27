@@ -497,7 +497,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.27, p.62; no-methods form)
   - [x] Step 8 — Deviations: none
   - [x] Step 9 — Verify (9a passed: 61 TimingDescriptionEvents tests green; ruff/black/flake8 clean) + confirm (9b) — # Spec verified: R23-11 stamped
-- [ ] TDEventISignalTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.31 · consumed by TDEventISignal.tdEventType)
+- [x] TDEventISignalTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.31 · consumed by TDEventISignal.tdEventType) · commit 58485d49 · user review: confirmed
   - [x] Step 1 — Sync members & description from spec (Enumeration header confirmed; Table 3.31, p.66; Note verbatim; 2 literals iSignalAvailableForRte/iSignalSentToCom, EnumerationLiteralIndex 0..1; new module TDEventCom.py exported via package __init__ + models/__init__.py)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventISignalTypeEnum.py (3 tests)
   - [x] Step 3 — Implement model class (Green) — TDEventISignalTypeEnum(AREnum); 2 literals + __init__ tuple
@@ -506,17 +506,17 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 6 — N/A: standalone enum, round-trip via consuming class
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.31, p.66; no-methods form)
   - [x] Step 8 — Deviations: none
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventIPduTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.33 · consumed by TDEventIPdu.tdEventType)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a passed: 64 TimingDescriptionEvents tests green; ruff/black/flake8 clean) + confirm (9b) — # Spec verified: R23-11 stamped
+- [x] TDEventIPduTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.33 · consumed by TDEventIPdu.tdEventType)
+  - [x] Step 1 — Sync members & description from spec (Enumeration header confirmed; Table 3.33, p.67; Note verbatim; 2 literals iPduReceivedByCom/iPduSentToIf, EnumerationLiteralIndex 0..1; ADDED to existing module TDEventCom.py)
+  - [x] Step 2 — Write model class unit test (Red) — test_TDEventIPduTypeEnum.py (3 tests)
+  - [x] Step 3 — Implement model class (Green) — TDEventIPduTypeEnum(AREnum) added to TDEventCom.py; 2 literals + __init__ tuple
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring + literal comments verbatim from Table 3.33
+  - [x] Step 5 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 6 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.33, p.67; no-methods form)
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a passed: 3 TDEventIPduTypeEnum tests green; ruff/black/flake8 clean on 4 files) + confirm (9b) — # Spec verified: R23-11 stamped
 - [ ] TDEventFrameTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.35 · consumed by TDEventFrame.tdEventType)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
