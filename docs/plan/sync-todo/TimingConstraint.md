@@ -696,7 +696,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventISignal (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.30 · iSignal/physicalChannel refs (RefType); tdEventType enum (queued above); Base includes TDEventCom (queued above))
+- [x] TDEventISignal (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.30 · iSignal/physicalChannel refs (RefType); tdEventType enum (queued above); Base includes TDEventCom (queued above)) · commit <HASH>
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

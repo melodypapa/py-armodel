@@ -178,3 +178,63 @@ class TDEventCom(TimingDescriptionEvent, ABC):
         if value is not None:
             self.ecuInstanceRef = value
         return self
+
+
+class TDEventISignal(TDEventCom):
+    """
+    This is used to describe timing events related to the exchange of I-Signals between COM and RTE.
+    """
+
+    # TDEventISignal method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.30, p.66
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getISignalRef           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setISignalRef           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getPhysicalChannelRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setPhysicalChannelRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getTdEventType          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setTdEventType          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # The scope of this timing event.
+        self.iSignalRef: Optional[RefType] = None
+
+        # The PhysicalChannel on which the ISignal is transmitted.
+        self.physicalChannelRef: Optional[RefType] = None
+
+        # The specific type of this timing event.
+        self.tdEventType: Optional[TDEventISignalTypeEnum] = None
+
+    def getISignalRef(self) -> Optional[RefType]:
+        """The scope of this timing event."""
+        return self.iSignalRef
+
+    def setISignalRef(self, value: Optional[RefType]) -> "TDEventISignal":
+        """The scope of this timing event. A None value is a no-op and does not overwrite an existing iSignalRef."""
+        if value is not None:
+            self.iSignalRef = value
+        return self
+
+    def getPhysicalChannelRef(self) -> Optional[RefType]:
+        """The PhysicalChannel on which the ISignal is transmitted."""
+        return self.physicalChannelRef
+
+    def setPhysicalChannelRef(self, value: Optional[RefType]) -> "TDEventISignal":
+        """The PhysicalChannel on which the ISignal is transmitted. A None value is a no-op and does not overwrite an existing physicalChannelRef."""
+        if value is not None:
+            self.physicalChannelRef = value
+        return self
+
+    def getTdEventType(self) -> Optional[TDEventISignalTypeEnum]:
+        """The specific type of this timing event."""
+        return self.tdEventType
+
+    def setTdEventType(self, value: Optional[TDEventISignalTypeEnum]) -> "TDEventISignal":
+        """The specific type of this timing event. A None value is a no-op and does not overwrite an existing tdEventType."""
+        if value is not None:
+            self.tdEventType = value
+        return self

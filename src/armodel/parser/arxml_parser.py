@@ -171,6 +171,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventCom import (
     TDEventCom,
+    TDEventISignal,
+    TDEventISignalTypeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
     TDEventModeDeclaration,
@@ -2201,6 +2203,16 @@ class ARXMLParser(AbstractARXMLParser):
         self.readTimingDescriptionEvent(element, event)
         event.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
 
+    def readTDEventISignal(self, element: ET.Element, event: "TDEventISignal"):
+        self.readTDEventCom(element, event)
+        event.setISignalRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-REF"))
+        event.setPhysicalChannelRef(self.getChildElementOptionalRefType(element, "PHYSICAL-CHANNEL-REF"))
+        type_element = self.find(element, "TD-EVENT-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventISignalTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventType(enum)
+
     def readTimingDescriptions(self, element: ET.Element, extension: TimingExtension):
         for child_element in self.findall(element, "TIMING-DESCRIPTIONS/*"):
             tag_name = self.getTagName(child_element)
@@ -2226,6 +2238,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "TD-EVENT-SWC-INTERNAL-BEHAVIOR-REFERENCE":
                 event = TDEventSwcInternalBehaviorReference(extension, short_name)
                 self.readTDEventSwcInternalBehaviorReference(child_element, event)
+            elif tag_name == "TD-EVENT-I-SIGNAL":
+                event = TDEventISignal(extension, short_name)
+                self.readTDEventISignal(child_element, event)
             else:
                 self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % tag_name)
                 continue
