@@ -169,6 +169,19 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TimingDescriptionEvent,
     TimingDescriptionEventChain,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
+    TDEventModeDeclaration,
+    TDEventModeDeclarationTypeEnum,
+    TDEventOperation,
+    TDEventOperationTypeEnum,
+    TDEventTrigger,
+    TDEventTriggerTypeEnum,
+    TDEventVariableDataPrototype,
+    TDEventVariableDataPrototypeTypeEnum,
+    TDEventVfb,
+    TDEventVfbPort,
+    TDEventVfbReference,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
@@ -2174,6 +2187,85 @@ class ARXMLParser(AbstractARXMLParser):
         occurrence_element = self.find(element, "OCCURRENCE-EXPRESSION")
         if occurrence_element is not None:
             event.setOccurrenceExpression(self.readTDEventOccurrenceExpression(occurrence_element, event))
+
+    def readTimingDescriptions(self, element: ET.Element, extension: TimingExtension):
+        for child_element in self.findall(element, "TIMING-DESCRIPTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            short_name = self.getShortName(child_element)
+            if tag_name == "TD-EVENT-VFB-REFERENCE":
+                event = TDEventVfbReference(extension, short_name)
+                self.readTDEventVfbReference(child_element, event)
+            elif tag_name == "TD-EVENT-VARIABLE-DATA-PROTOTYPE":
+                event = TDEventVariableDataPrototype(extension, short_name)
+                self.readTDEventVariableDataPrototype(child_element, event)
+            elif tag_name == "TD-EVENT-OPERATION":
+                event = TDEventOperation(extension, short_name)
+                self.readTDEventOperation(child_element, event)
+            elif tag_name == "TD-EVENT-MODE-DECLARATION":
+                event = TDEventModeDeclaration(extension, short_name)
+                self.readTDEventModeDeclaration(child_element, event)
+            elif tag_name == "TD-EVENT-TRIGGER":
+                event = TDEventTrigger(extension, short_name)
+                self.readTDEventTrigger(child_element, event)
+            else:
+                self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % tag_name)
+                continue
+            extension.addElement(event)
+            extension.addTimingDescription(event)
+
+    def readTDEventVfb(self, element: ET.Element, event: TDEventVfb):
+        self.readTimingDescriptionEvent(element, event)
+        event.setComponentIRef(self.readEOCComponentIRef(element, "COMPONENT-IREF"))
+
+    def readTDEventVfbReference(self, element: ET.Element, event: TDEventVfbReference):
+        self.readTDEventVfb(element, event)
+        event.setReferencedTDEventVfbRef(self.getChildElementOptionalRefType(element, "REFERENCED-TD-EVENT-VFB-REF"))
+
+    def readTDEventVfbPort(self, element: ET.Element, event: TDEventVfbPort):
+        self.readTDEventVfb(element, event)
+        is_external = self.find(element, "IS-EXTERNAL")
+        if is_external is not None:
+            event.setIsExternal(Boolean().setValue(is_external.text == "true"))
+        event.setPortRef(self.getChildElementOptionalRefType(element, "PORT-REF"))
+        event.setPortPrototypeBlueprintRef(self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-BLUEPRINT-REF"))
+
+    def readTDEventVariableDataPrototype(self, element: ET.Element, event: TDEventVariableDataPrototype):
+        self.readTDEventVfbPort(element, event)
+        event.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
+        type_element = self.find(element, "TD-EVENT-VARIABLE-DATA-PROTOTYPE-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventVariableDataPrototypeTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventVariableDataPrototypeType(enum)
+
+    def readTDEventOperation(self, element: ET.Element, event: TDEventOperation):
+        self.readTDEventVfbPort(element, event)
+        event.setOperationRef(self.getChildElementOptionalRefType(element, "OPERATION-REF"))
+        type_element = self.find(element, "TD-EVENT-OPERATION-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventOperationTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventOperationType(enum)
+
+    def readTDEventModeDeclaration(self, element: ET.Element, event: TDEventModeDeclaration):
+        self.readTDEventVfbPort(element, event)
+        event.setEntryModeDeclarationRef(self.getChildElementOptionalRefType(element, "ENTRY-MODE-DECLARATION-REF"))
+        event.setExitModeDeclarationRef(self.getChildElementOptionalRefType(element, "EXIT-MODE-DECLARATION-REF"))
+        event.setModeDeclarationRef(self.getChildElementOptionalRefType(element, "MODE-DECLARATION-REF"))
+        type_element = self.find(element, "TD-EVENT-MODE-DECLARATION-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventModeDeclarationTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventModeDeclarationType(enum)
+
+    def readTDEventTrigger(self, element: ET.Element, event: TDEventTrigger):
+        self.readTDEventVfbPort(element, event)
+        event.setTriggerRef(self.getChildElementOptionalRefType(element, "TRIGGER-REF"))
+        type_element = self.find(element, "TD-EVENT-TRIGGER-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventTriggerTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventTriggerType(enum)
 
     def readTDEventOccurrenceExpression(self, element: ET.Element, parent) -> TDEventOccurrenceExpression:
         expression = TDEventOccurrenceExpression()
@@ -6467,8 +6559,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "TIMING-CONDITIONS/TIMING-CONDITION"):
             condition = extension.createTimingCondition(self.getShortName(child_element))
             self.readTimingCondition(child_element, condition)
-        for child_element in self.findall(element, "TIMING-DESCRIPTIONS/*"):
-            self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % self.getTagName(child_element))
+        self.readTimingDescriptions(element, extension)
         for child_element in self.findall(element, "TIMING-GUARANTEES/*"):
             self.readTimingExtensionConstraint(child_element, extension, "TIMING-GUARANTEES")
         for child_element in self.findall(element, "TIMING-REQUIREMENTS/*"):

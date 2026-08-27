@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock impor
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingCondition, TimingExtensionResource
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -40,7 +41,8 @@ class TimingExtension(ARElement, ABC):
     # [x] createTimingResource            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getTimingResource               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createExecutionOrderConstraint  [x] impl  [—] docstring  [x] test  [—] reader  [—] writer   (convenience factory appending to timingRequirements)
-    # timingDescription (* aggr) is a Rule 0001.10 placeholder: TimingDescription/TDEvent* family out of scope (Phase 0 decision); reader logs notImplemented
+    # [x] addTimingDescription             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getTimingDescriptions            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
 
     __metaclass__ = ABC
 
@@ -67,6 +69,9 @@ class TimingExtension(ARElement, ABC):
 
         # The timing resource contains all instance references referred from within a timing condition formula of a timing view.
         self.timingResource: Optional[TimingExtensionResource] = None
+
+        # The timing descriptions (e.g. TDEventVfb family) aggregated by this timing view.
+        self.timingDescriptions: List[TimingDescriptionEvent] = []
 
     def addTimingClock(self, value: Optional[TimingClock]) -> "TimingExtension":
         """A list of abstract model Clocks. A None value is a no-op and does not append anything."""
@@ -133,6 +138,17 @@ class TimingExtension(ARElement, ABC):
     def getTimingResource(self) -> Optional[TimingExtensionResource]:
         """The timing resource contains all instance references referred from within a timing condition formula of a timing view."""
         return self.timingResource
+
+    def addTimingDescription(self, value: Optional[TimingDescriptionEvent]) -> "TimingExtension":
+        """The timing descriptions (e.g. TDEventVfb family) aggregated by this timing view. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.addElement(value)
+            self.timingDescriptions.append(value)
+        return self
+
+    def getTimingDescriptions(self) -> List[TimingDescriptionEvent]:
+        """The timing descriptions (e.g. TDEventVfb family) aggregated by this timing view."""
+        return self.timingDescriptions
 
     def createExecutionOrderConstraint(self, short_name: str) -> ExecutionOrderConstraint:
         if not self.IsElementExists(short_name):

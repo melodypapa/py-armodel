@@ -277,6 +277,15 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventOccurrenceExpressionFormula,
     VariableInComponentInstanceRef,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
+    TDEventModeDeclaration,
+    TDEventOperation,
+    TDEventTrigger,
+    TDEventVariableDataPrototype,
+    TDEventVfb,
+    TDEventVfbPort,
+    TDEventVfbReference,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
     ArbitraryEventTriggering,
     BurstPatternEventTriggering,
@@ -3474,6 +3483,50 @@ class ARXMLWriter(AbstractARXMLWriter):
         if expression is not None:
             self.writeTDEventOccurrenceExpression(ET.SubElement(element, "OCCURRENCE-EXPRESSION"), expression)
 
+    def writeTDEventVfb(self, element: ET.Element, event: TDEventVfb):
+        self.writeTimingDescriptionEvent(element, event)
+        self.writeEOCComponentIRef(element, event.getComponentIRef())
+
+    def writeTDEventVfbReference(self, element: ET.Element, event: TDEventVfbReference):
+        self.writeTDEventVfb(element, event)
+        self.setChildElementOptionalRefType(element, "REFERENCED-TD-EVENT-VFB-REF", event.getReferencedTDEventVfbRef())
+
+    def writeTDEventVfbPort(self, element: ET.Element, event: TDEventVfbPort):
+        self.writeTDEventVfb(element, event)
+        self.setChildElementOptionalBooleanValue(element, "IS-EXTERNAL", event.getIsExternal())
+        self.setChildElementOptionalRefType(element, "PORT-REF", event.getPortRef())
+        self.setChildElementOptionalRefType(element, "PORT-PROTOTYPE-BLUEPRINT-REF", event.getPortPrototypeBlueprintRef())
+
+    def writeTDEventVariableDataPrototype(self, element: ET.Element, event: TDEventVariableDataPrototype):
+        self.writeTDEventVfbPort(element, event)
+        self.setChildElementOptionalRefType(element, "DATA-ELEMENT-REF", event.getDataElementRef())
+        enum = event.getTdEventVariableDataPrototypeType()
+        if enum is not None:
+            self.setChildElementOptionalLiteral(element, "TD-EVENT-VARIABLE-DATA-PROTOTYPE-TYPE", enum)
+
+    def writeTDEventOperation(self, element: ET.Element, event: TDEventOperation):
+        self.writeTDEventVfbPort(element, event)
+        self.setChildElementOptionalRefType(element, "OPERATION-REF", event.getOperationRef())
+        enum = event.getTdEventOperationType()
+        if enum is not None:
+            self.setChildElementOptionalLiteral(element, "TD-EVENT-OPERATION-TYPE", enum)
+
+    def writeTDEventModeDeclaration(self, element: ET.Element, event: TDEventModeDeclaration):
+        self.writeTDEventVfbPort(element, event)
+        self.setChildElementOptionalRefType(element, "ENTRY-MODE-DECLARATION-REF", event.getEntryModeDeclarationRef())
+        self.setChildElementOptionalRefType(element, "EXIT-MODE-DECLARATION-REF", event.getExitModeDeclarationRef())
+        self.setChildElementOptionalRefType(element, "MODE-DECLARATION-REF", event.getModeDeclarationRef())
+        enum = event.getTdEventModeDeclarationType()
+        if enum is not None:
+            self.setChildElementOptionalLiteral(element, "TD-EVENT-MODE-DECLARATION-TYPE", enum)
+
+    def writeTDEventTrigger(self, element: ET.Element, event: TDEventTrigger):
+        self.writeTDEventVfbPort(element, event)
+        self.setChildElementOptionalRefType(element, "TRIGGER-REF", event.getTriggerRef())
+        enum = event.getTdEventTriggerType()
+        if enum is not None:
+            self.setChildElementOptionalLiteral(element, "TD-EVENT-TRIGGER-TYPE", enum)
+
     def writeTDEventOccurrenceExpression(self, element: ET.Element, expression: TDEventOccurrenceExpression):
         self.writeARObjectAttributes(element, expression)
         arguments = expression.getArguments()
@@ -6319,6 +6372,25 @@ class ARXMLWriter(AbstractARXMLWriter):
         if resource is not None:
             resource_tag = ET.SubElement(element, "TIMING-RESOURCE")
             self.writeTimingExtensionResource(resource_tag, resource)
+        descriptions = extension.getTimingDescriptions()
+        if len(descriptions) > 0:
+            descriptions_tag = ET.SubElement(element, "TIMING-DESCRIPTIONS")
+            for description in descriptions:
+                if isinstance(description, TDEventVfbReference):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-VFB-REFERENCE")
+                    self.writeTDEventVfbReference(description_tag, description)
+                elif isinstance(description, TDEventVariableDataPrototype):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-VARIABLE-DATA-PROTOTYPE")
+                    self.writeTDEventVariableDataPrototype(description_tag, description)
+                elif isinstance(description, TDEventOperation):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-OPERATION")
+                    self.writeTDEventOperation(description_tag, description)
+                elif isinstance(description, TDEventModeDeclaration):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-MODE-DECLARATION")
+                    self.writeTDEventModeDeclaration(description_tag, description)
+                elif isinstance(description, TDEventTrigger):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-TRIGGER")
+                    self.writeTDEventTrigger(description_tag, description)
 
     def writeSwcTiming(self, element: ET.Element, timing: SwcTiming):
         self.logger.debug("writeSWcTiming %s" % timing.getShortName())

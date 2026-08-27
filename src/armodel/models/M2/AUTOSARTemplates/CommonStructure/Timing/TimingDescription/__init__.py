@@ -13,18 +13,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
 )
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents import (  # noqa: F401
-    AutosarOperationArgumentInstance,
-    AutosarVariableInstance,
-    OperationArgumentInComponentInstanceRef,
-    TDEventOccurrenceExpression,
-    TDEventVariableDataPrototypeTypeEnum,
-    TDEventOperationTypeEnum,
-    TDEventModeDeclarationTypeEnum,
-    TDEventTriggerTypeEnum,
-    VariableInComponentInstanceRef,
-)
-
 
 class TimingDescription(Identifiable, ABC):
     """
@@ -67,7 +55,7 @@ class TimingDescriptionEvent(TimingDescription, ABC):
         self.clockReferenceRef: Optional[RefType] = None
 
         # The occurrence expression for this event.
-        self.occurrenceExpression: Optional[TDEventOccurrenceExpression] = None
+        self.occurrenceExpression: "Optional[TDEventOccurrenceExpression]" = None
 
     def getClockReferenceRef(self) -> Optional[RefType]:
         """Optional reference to a clock that holds the time base for an TD event. Tags: atp.Status=draft"""
@@ -79,11 +67,11 @@ class TimingDescriptionEvent(TimingDescription, ABC):
             self.clockReferenceRef = value
         return self
 
-    def getOccurrenceExpression(self) -> Optional[TDEventOccurrenceExpression]:
+    def getOccurrenceExpression(self) -> "Optional[TDEventOccurrenceExpression]":
         """The occurrence expression for this event."""
         return self.occurrenceExpression
 
-    def setOccurrenceExpression(self, value: Optional[TDEventOccurrenceExpression]) -> "TimingDescriptionEvent":
+    def setOccurrenceExpression(self, value: "Optional[TDEventOccurrenceExpression]") -> "TimingDescriptionEvent":
         """The occurrence expression for this event. A None value is a no-op and does not overwrite an existing occurrenceExpression."""
         if value is not None:
             self.occurrenceExpression = value
@@ -174,3 +162,14 @@ __all__ = [
     "TimingDescriptionEvent",
     "TimingDescriptionEventChain",
 ]
+
+
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (  # noqa: F401, E402
+    AutosarOperationArgumentInstance,
+    AutosarVariableInstance,
+    OperationArgumentInComponentInstanceRef,
+    TDEventOccurrenceExpression,
+    VariableInComponentInstanceRef,
+)
+
+
