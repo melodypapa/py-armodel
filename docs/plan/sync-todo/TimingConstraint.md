@@ -517,16 +517,16 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.33, p.67; no-methods form)
   - [x] Step 8 — Deviations: none
   - [x] Step 9 — Verify (9a passed: 3 TDEventIPduTypeEnum tests green; ruff/black/flake8 clean on 4 files) + confirm (9b) — # Spec verified: R23-11 stamped
-- [ ] TDEventFrameTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.35 · consumed by TDEventFrame.tdEventType)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventFrameTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.35 · consumed by TDEventFrame.tdEventType)
+  - [x] Step 1 — Sync members & description from spec (Enumeration header confirmed; Table 3.35; Note verbatim; 3 literals frameQueuedForTransmission/frameReceivedByIf/frameTransmittedOnBus, EnumerationLiteralIndex 0..2; ADDED to existing module TDEventCom.py)
+  - [x] Step 2 — Write model class unit test (Red) — test_TDEventFrameTypeEnum.py (3 tests)
+  - [x] Step 3 — Implement model class (Green) — TDEventFrameTypeEnum(AREnum) added to TDEventCom.py; 3 literals + __init__ tuple
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring + literal comments verbatim from Table 3.35
+  - [x] Step 5 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 6 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.35, p.68; no-methods form)
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a passed: 3 TDEventFrameTypeEnum tests green; ruff/black/flake8 clean on 4 files) + confirm (9b) — # Spec verified: R23-11 stamped
 - [ ] TDEventFrameEthernetTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.37 · consumed by TDEventFrameEthernet.tdEventType)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
