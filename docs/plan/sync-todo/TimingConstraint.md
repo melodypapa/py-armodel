@@ -177,7 +177,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a passed: 25 enum/constraint tests pass; ruff/flake8/black clean; p.143 verified); 9b confirm + # Spec verified: R23-11 stamped (commit bd42649c)
-- [ ] EOCExecutableEntityRefAbstract (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.70 · abstract · Base of EOCExecutableEntityRefGroup/EOCExecutableEntityRef/EOCEventRef) · user review round 3: confirmed
+- [x] EOCExecutableEntityRefAbstract (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.70 · abstract · Base of EOCExecutableEntityRefGroup/EOCExecutableEntityRef/EOCEventRef) · commit 434d75fe · user review: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green) — base Identifiable+ABC with TypeError guard; directSuccessorRefs List[RefType]
