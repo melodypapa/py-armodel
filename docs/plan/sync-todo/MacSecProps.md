@@ -113,10 +113,10 @@ for classes refs typed generic `RefType` → must be corrected + stamped. `missi
 
 ### Phase C — Mid-tier (deps: Phase A + B)
 
-- [ ] MacSecCryptoAlgoConfig (class · Table 3.123 · p.175 · **missing**: Base ARObject; attrs
+- [x] MacSecCryptoAlgoConfig (class · Table 3.123 · p.175 · **missing**: Base ARObject; attrs
   capability(MacSecCapabilityEnum 0..1 attr), cipherSuiteConfig(MacSecCipherSuiteConfig 0..4 aggr),
   confidentialityOffset(MacSecConfidentialityOffsetEnum 0..1 attr), replayProtection(Boolean 0..1 attr),
-  replayProtectionWindow(PositiveInteger 0..1 attr); used by MacSecKayParticipant.cryptoAlgoConfig aggr 0..1)
+  replayProtectionWindow(PositiveInteger 0..1 attr); used by MacSecKayParticipant.cryptoAlgoConfig aggr 0..1) <!-- commit: 6cc501b6 -->
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
