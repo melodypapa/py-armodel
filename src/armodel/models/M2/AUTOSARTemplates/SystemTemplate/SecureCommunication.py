@@ -457,7 +457,8 @@ class MacSecLocalKayProps(ARObject):
     """
 
     # MacSecLocalKayProps method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.119, p.aux
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.119, p.174
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] getDestinationMacAddress       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
