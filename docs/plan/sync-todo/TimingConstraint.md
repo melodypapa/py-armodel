@@ -417,7 +417,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table D.62, p.253)
   - [x] Step 8 — Deviations: none
   - [x] Step 9 — Verify (9a passed); 9b confirm + stamp deferred to batch
-- [ ] TDEventOccurrenceExpressionFormula (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.51 · atpMixedString <<atpMixedString>>, Base = ARObject + FormulaExpression · argument/event/mode/variable 0..1 refs) · queued 2026-08-26 (dependency of TDEventOccurrenceExpression.formula, discovered at session start)
+- [x] TDEventOccurrenceExpressionFormula (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.51 · atpMixedString <<atpMixedString>>, Base = ARObject + FormulaExpression · argument/event/mode/variable 0..1 refs) · queued 2026-08-26 (dependency of TDEventOccurrenceExpression.formula, discovered at session start) · commit c7dc0a87 · user review: confirmed
   - [x] Step 1 — Sync members & description from spec (Table 3.51, p.84; Note verbatim; Base ARObject+FormulaExpression; 4× 0..1 ref attrs)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventOccurrenceExpressionFormula.py (9 tests)
   - [x] Step 3 — Implement model class (Green) — TDEventOccurrenceExpressionFormula(Referrable); argumentRef/eventRef/modeRef/variableRef Optional[RefType] + _text mixed string
