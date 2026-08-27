@@ -26,11 +26,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 
 class ExecutionOrderConstraintTypeEnum(AREnum):
     """
-    Specifies the type of the executionOrderConstraintType for a ExecutionOrderConstraint .
+    Specifies the type of the executionOrderConstraintType for a ExecutionOrderConstraint.
     """
 
     # ExecutionOrderConstraintTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.69, p.119
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on ExecutionOrderConstraint.executionOrderConstraintType
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer

@@ -157,7 +157,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: 34 EventTriggeringConstraint tests pass; ruff/flake8/black clean; p.112 verified); 9b confirm + # Spec verified: R23-11 stamped (commit 03519c95)
-- [ ] ExecutionOrderConstraintTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.69 · enum · consumed by ExecutionOrderConstraint.executionOrderConstraintType) · user review round 2: confirmed
+- [x] ExecutionOrderConstraintTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.69 · enum · consumed by ExecutionOrderConstraint.executionOrderConstraintType) · user review round 2: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -166,7 +166,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+  - [x] Step 9 — Verify (9a passed: 25 enum/constraint tests pass; ruff/flake8/black clean; p.119 verified); 9b confirm + # Spec verified: R23-11 stamped (commit 4b9514f6)
 - [ ] LetDataExchangeParadigmEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 4.4 · enum · consumed by EOCExecutableEntityRefGroup.letDataExchangeParadigm) · user review round 2: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
