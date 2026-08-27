@@ -547,7 +547,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.43, p.74; no-methods form)
   - [x] Step 8 — Deviations: none
   - [x] Step 9 — Verify (9a passed: 3 TDEventBswInternalBehaviorTypeEnum tests green; ruff/black/flake8 clean on 4 files) + confirm (9b) — # Spec verified: R23-11 stamped
-- [x] TDEventBswModuleTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.45 · consumed by TDEventBswModule.tdEventBswModuleType)
+- [x] TDEventBswModuleTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.45 · consumed by TDEventBswModule.tdEventBswModuleType) · commit 784784c4 · user review: confirmed
   - [x] Step 1 — Sync members & description from spec (Enumeration header confirmed; Table 3.45; Note verbatim; 2 literals bswMEntryCalled/bswMEntryCallReturned, EnumerationLiteralIndex 0..1; NEW module TDEventBsw.py)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventBswModuleTypeEnum.py (3 tests)
   - [x] Step 3 — Implement model class (Green) — TDEventBswModuleTypeEnum(AREnum) in new module TDEventBsw.py; 2 literals + __init__ tuple
