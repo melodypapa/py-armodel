@@ -158,6 +158,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventISignal,
     TDEventIPdu,
     TDEventFrame,
+    TDHeaderIdRange,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
@@ -3521,6 +3522,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         enum = event.getTdEventType()
         if enum is not None:
             self.setChildElementOptionalLiteral(element, "TD-EVENT-TYPE", enum)
+
+    def writeTDHeaderIdRange(self, element: ET.Element, header_id_range: "TDHeaderIdRange"):
+        self.setChildElementOptionalIntegerValue(element, "MAX-HEADER-ID", header_id_range.getMaxHeaderId())
+        self.setChildElementOptionalIntegerValue(element, "MIN-HEADER-ID", header_id_range.getMinHeaderId())
 
     def writeTDEventVfb(self, element: ET.Element, event: TDEventVfb):
         self.writeTimingDescriptionEvent(element, event)

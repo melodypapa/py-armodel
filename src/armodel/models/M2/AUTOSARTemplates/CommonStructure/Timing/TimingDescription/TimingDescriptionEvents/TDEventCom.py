@@ -9,8 +9,12 @@ from typing import Optional
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
     TimingDescriptionEvent,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
+    ARObject,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    Integer,
     RefType,
 )
 
@@ -357,4 +361,49 @@ class TDEventFrame(TDEventCom):
         """The specific type of this timing event. A None value is a no-op and does not overwrite an existing tdEventType."""
         if value is not None:
             self.tdEventType = value
+        return self
+
+
+class TDHeaderIdRange(ARObject):
+    """
+    Specifies a range of PDU header identifiers. This range is specified by a minimum and maximum header identifier; and the maximum header identifier shall be greater than or equal the minimum header identifier.
+    """
+
+    # TDHeaderIdRange method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.38, p.70
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getMaxHeaderId       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setMaxHeaderId       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getMinHeaderId       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setMinHeaderId       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Specifies the maximum PDU header identifier, in other words the upper bound of a range of PDU header identifiers.
+        self.maxHeaderId: Optional[Integer] = None
+
+        # Specifies the minimum PDU header identifier, in other words the lower bound of a range of PDU header identifiers.
+        self.minHeaderId: Optional[Integer] = None
+
+    def getMaxHeaderId(self) -> Optional[Integer]:
+        """Specifies the maximum PDU header identifier, in other words the upper bound of a range of PDU header identifiers."""
+        return self.maxHeaderId
+
+    def setMaxHeaderId(self, value: Optional[Integer]) -> "TDHeaderIdRange":
+        """Specifies the maximum PDU header identifier, in other words the upper bound of a range of PDU header identifiers. A None value is a no-op and does not overwrite an existing maxHeaderId."""
+        if value is not None:
+            self.maxHeaderId = value
+        return self
+
+    def getMinHeaderId(self) -> Optional[Integer]:
+        """Specifies the minimum PDU header identifier, in other words the lower bound of a range of PDU header identifiers."""
+        return self.minHeaderId
+
+    def setMinHeaderId(self, value: Optional[Integer]) -> "TDHeaderIdRange":
+        """Specifies the minimum PDU header identifier, in other words the lower bound of a range of PDU header identifiers. A None value is a no-op and does not overwrite an existing minHeaderId."""
+        if value is not None:
+            self.minHeaderId = value
         return self

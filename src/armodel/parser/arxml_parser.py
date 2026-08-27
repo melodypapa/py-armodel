@@ -177,6 +177,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventIPduTypeEnum,
     TDEventFrame,
     TDEventFrameTypeEnum,
+    TDHeaderIdRange,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
     TDEventModeDeclaration,
@@ -2236,6 +2237,10 @@ class ARXMLParser(AbstractARXMLParser):
             enum = TDEventFrameTypeEnum()
             enum.value = type_element.text
             event.setTdEventType(enum)
+
+    def readTDHeaderIdRange(self, element: ET.Element, header_id_range: "TDHeaderIdRange"):
+        header_id_range.setMinHeaderId(self.getChildElementOptionalIntegerValue(element, "MIN-HEADER-ID"))
+        header_id_range.setMaxHeaderId(self.getChildElementOptionalIntegerValue(element, "MAX-HEADER-ID"))
 
     def readTimingDescriptions(self, element: ET.Element, extension: TimingExtension):
         for child_element in self.findall(element, "TIMING-DESCRIPTIONS/*"):
