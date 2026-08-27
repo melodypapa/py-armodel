@@ -407,7 +407,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b batch-confirmed; # Spec verified: R23-11 stamped
-- [ ] TimingDescription (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.62 · abstract · Base = Identifiable chain (ARObject/Referrable/MultilanguageReferrable/Identifiable per spec Base list); NO own attributes ("-" row); TIMING-DESCRIPTIONS family root aggregated by TimingExtension.timingDescription) · Phase 0 correction 2026-08-26: D.62 table found (was marked XSD-only)
+- [x] TimingDescription (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.62 · abstract · Base = Identifiable chain (ARObject/Referrable/MultilanguageReferrable/Identifiable per spec Base list); NO own attributes ("-" row); TIMING-DESCRIPTIONS family root aggregated by TimingExtension.timingDescription) · Phase 0 correction 2026-08-26: D.62 table found (was marked XSD-only) · commit 5d79bdb1 · user review: confirmed
   - [x] Step 1 — Sync members & description from spec (Table D.62, p.253; Note verbatim; Base = Identifiable chain; "-" attribute row)
   - [x] Step 2 — Write model class unit test (Red) — test_TimingDescription.py (abstract guard, base, defaults, inherited accessors)
   - [x] Step 3 — Implement model class (Green) — TimingDescription(Identifiable, ABC) + TypeError guard; NO own members
