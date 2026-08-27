@@ -447,7 +447,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table D.63, p.253)
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: 3759 tests green; ruff/black clean); 9b confirm + stamp deferred to batch
-- [ ] TDEventVariableDataPrototypeTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.18, p.54 · consumed by TDEventVariableDataPrototype.tdEventVariableDataPrototypeType)
+- [x] TDEventVariableDataPrototypeTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.18, p.54 · consumed by TDEventVariableDataPrototype.tdEventVariableDataPrototypeType) · commit a270e0d3 · user review: confirmed
   - [x] Step 1 — Sync members & description from spec (Note + 2 literals verbatim with EnumerationLiteralIndex tags)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventVariableDataPrototypeTypeEnum.py
   - [x] Step 3 — Implement model class (Green) — AREnum; VARIABLE_DATA_PROTOTYPE_RECEIVED/SENT
@@ -456,8 +456,8 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 6 — N/A: standalone enum, round-trip via consuming class
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.18, p.54; no methods form)
   - [x] Step 8 — Deviations: none
-  - [x] Step 9 — Verify (9a passed); 9b confirm + stamp deferred to batch
-- [ ] TDEventOperationTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.20, p.56 · consumed by TDEventOperation.tdEventOperationType)
+  - [x] Step 9 — Verify (9a passed); 9b confirmed + stamped (commit a270e0d3)
+- [x] TDEventOperationTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.20, p.56 · consumed by TDEventOperation.tdEventOperationType) · commit a270e0d3 · user review: confirmed
   - [x] Step 1 — Sync members & description from spec (4 literals verbatim)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventOperationTypeEnum.py
   - [x] Step 3 — Implement model class (Green) — AREnum; OPERATION_CALLED/OPERATION_CALL_RECEIVED/OPERATION_CALL_RESPONSE_RECEIVED/OPERATION_CALL_RESPONSE_SENT
@@ -466,8 +466,8 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 6 — N/A: standalone enum, round-trip via consuming class
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.20, p.56)
   - [x] Step 8 — Deviations: none
-  - [x] Step 9 — Verify (9a passed); 9b confirm + stamp deferred to batch
-- [ ] TDEventModeDeclarationTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.22, p.57 · consumed by TDEventModeDeclaration.tdEventModeDeclarationType)
+  - [x] Step 9 — Verify (9a passed); 9b confirmed + stamped (commit a270e0d3)
+- [x] TDEventModeDeclarationTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.22, p.57 · consumed by TDEventModeDeclaration.tdEventModeDeclarationType) · commit a270e0d3 · user review: confirmed
   - [x] Step 1 — Sync members & description from spec (2 literals verbatim)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventModeDeclarationTypeEnum.py
   - [x] Step 3 — Implement model class (Green) — AREnum; MODE_DECLARATION_SWITCH_COMPLETED/INITIATED
@@ -476,8 +476,8 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 6 — N/A: standalone enum, round-trip via consuming class
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.22, p.57)
   - [x] Step 8 — Deviations: none
-  - [x] Step 9 — Verify (9a passed); 9b confirm + stamp deferred to batch
-- [ ] TDEventTriggerTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.24, p.59 · consumed by TDEventTrigger.tdEventTriggerType)
+  - [x] Step 9 — Verify (9a passed); 9b confirmed + stamped (commit a270e0d3)
+- [x] TDEventTriggerTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.24, p.59 · consumed by TDEventTrigger.tdEventTriggerType) · commit a270e0d3 · user review: confirmed
   - [x] Step 1 — Sync members & description from spec (2 literals verbatim)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventTriggerTypeEnum.py
   - [x] Step 3 — Implement model class (Green) — AREnum; TRIGGER_ACTIVATED/TRIGGER_RELEASED
@@ -486,7 +486,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 6 — N/A: standalone enum, round-trip via consuming class
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.24, p.59)
   - [x] Step 8 — Deviations: none
-  - [x] Step 9 — Verify (9a passed); 9b confirm + stamp deferred to batch
+  - [x] Step 9 — Verify (9a passed); 9b confirmed + stamped (commit a270e0d3)
 - [x] TDEventSwcInternalBehaviorTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.27 · consumed by TDEventSwcInternalBehavior.tdEventSwcInternalBehaviorType) · commit b718866a · user review: confirmed
   - [x] Step 1 — Sync members & description from spec (Enumeration header confirmed; Table 3.27, p.62; Note verbatim; 4 literals runnableEntityActivated/Started/Terminated/VariableAccess, EnumerationLiteralIndex 0..3; new module TDEventSwcInternalBehavior.py exported via package __init__ + models/__init__.py)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventSwcInternalBehaviorTypeEnum.py (3 tests)
@@ -586,76 +586,76 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventVfb (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.14 · abstract; component -> ComponentInCompositionInstanceRef iref (already stamped); Base includes TimingDescription/TimingDescriptionEvent (queued above))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventVfbReference (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.15 · referencedTDEventVfb -> TDEventVfb ref (RefType); Base includes TDEventVfb (queued above))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventVfbPort (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.16 · abstract; isExternal Boolean; port/portPrototypeBlueprint -> PortPrototype/PortPrototypeBlueprint refs (RefType); subclasses = 4 port events queued below)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventVariableDataPrototype (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.17 · dataElement -> VariableDataPrototype ref (RefType); tdEventVariableDataPrototypeType -> enum (queued above); Base includes TDEventVfbPort (queued above))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventOperation (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.19 · operation -> ClientServerOperation ref (RefType); tdEventOperationType -> enum (queued above); Base includes TDEventVfbPort (queued above))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventModeDeclaration (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.21 · entry/exitModeDeclaration -> ModeDeclaration refs, modeDeclaration -> ModeDeclarationGroupPrototype ref (RefType); type enum (queued above); Base includes TDEventVfbPort (queued above))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventTrigger (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.23 · trigger -> Trigger ref (RefType); tdEventTriggerType -> enum (queued above); Base includes TDEventVfbPort (queued above))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventVfb (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.14 · abstract; component -> ComponentInCompositionInstanceRef iref (already stamped); Base includes TimingDescription/TimingDescriptionEvent (queued above)) · commit a270e0d3 · user review: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventVfbReference (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.15 · referencedTDEventVfb -> TDEventVfb ref (RefType); Base includes TDEventVfb (queued above)) · commit a270e0d3 · user review: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventVfbPort (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.16 · abstract; isExternal Boolean; port/portPrototypeBlueprint -> PortPrototype/PortPrototypeBlueprint refs (RefType); subclasses = 4 port events queued below) · commit a270e0d3 · user review: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventVariableDataPrototype (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.17 · dataElement -> VariableDataPrototype ref (RefType); tdEventVariableDataPrototypeType -> enum (queued above); Base includes TDEventVfbPort (queued above)) · commit a270e0d3 · user review: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventOperation (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.19 · operation -> ClientServerOperation ref (RefType); tdEventOperationType -> enum (queued above); Base includes TDEventVfbPort (queued above)) · commit a270e0d3 · user review: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventModeDeclaration (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.21 · entry/exitModeDeclaration -> ModeDeclaration refs, modeDeclaration -> ModeDeclarationGroupPrototype ref (RefType); type enum (queued above); Base includes TDEventVfbPort (queued above)) · commit a270e0d3 · user review: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventTrigger (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.23 · trigger -> Trigger ref (RefType); tdEventTriggerType -> enum (queued above); Base includes TDEventVfbPort (queued above)) · commit a270e0d3 · user review: confirmed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 - [ ] TDEventSwc (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.25 · abstract; component iref (stamped ComponentInCompositionInstanceRef); runnable -> RunnableEntity ref (RefType))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
