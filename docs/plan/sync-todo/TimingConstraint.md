@@ -117,7 +117,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
-- [ ] SynchronizationTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.55 · enum · consumed by SynchronizationTimingConstraint.synchronizationConstraintType · RELOCATED to leaf module Timing/TimingConstraint/SynchronizationTimingConstraint.py (Rule 0007 leaf form, all 3 classes direct members) · user review round 3: confirmed
+- [x] SynchronizationTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.55 · enum · consumed by SynchronizationTimingConstraint.synchronizationConstraintType · RELOCATED to leaf module Timing/TimingConstraint/SynchronizationTimingConstraint.py (Rule 0007 leaf form, all 3 classes direct members) · user review round 3: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -126,7 +126,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+  - [x] Step 9 — Verify (9a passed: 17 enum/constraint tests pass; ruff/flake8/black clean; p.93 verified); 9b confirm + # Spec verified: R23-11 stamped (commit b3b8173b)
 - [ ] EventOccurrenceKindEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.56 · enum · consumed by SynchronizationTimingConstraint.eventOccurrenceKind · RELOCATED to leaf module Timing/TimingConstraint/SynchronizationTimingConstraint.py (Rule 0007 leaf form, all 3 classes direct members) · user review round 3: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
