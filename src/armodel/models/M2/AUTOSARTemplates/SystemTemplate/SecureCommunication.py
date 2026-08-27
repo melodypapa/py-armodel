@@ -650,6 +650,7 @@ class MacSecProps(ARObject):
 
     # MacSecProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.118, p.173
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] getAutoStart                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
