@@ -2948,11 +2948,11 @@ class TestDiagnosticDenominatorConditionEnum:
     def test_initialization(self):
         """Test DiagnosticDenominatorConditionEnum initialization"""
         enum = DiagnosticDenominatorConditionEnum()
-        assert tuple(enum.enumValues) == ("_500miles", "coldstart", "csers", "evap", "evappurgeflow", "individual", "obd")
+        assert tuple(enum.enumValues) == ("-500-MILES", "coldstart", "csers", "evap", "evappurgeflow", "individual", "obd")
 
     def test_values(self):
         """Test enum values"""
-        assert DiagnosticDenominatorConditionEnum._500MILES == "_500miles"
+        assert DiagnosticDenominatorConditionEnum._500MILES == "-500-MILES"
         assert DiagnosticDenominatorConditionEnum.COLDSTART == "coldstart"
         assert DiagnosticDenominatorConditionEnum.CSERS == "csers"
         assert DiagnosticDenominatorConditionEnum.EVAP == "evap"

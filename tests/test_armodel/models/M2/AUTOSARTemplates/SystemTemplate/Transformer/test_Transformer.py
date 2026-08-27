@@ -172,16 +172,16 @@ class TestTransformer:
         # Test that it's properly initialized and instantiable
         assert isinstance(enum, EndToEndProfileBehaviorEnum)
 
-        # Member names and values match the spec Enumeration literals (Table 7.26)
-        assert EndToEndProfileBehaviorEnum.PRE_R4_2 == "PRE_R4_2"
-        assert EndToEndProfileBehaviorEnum.R4_2 == "R4_2"
+        # Member names and values match the spec Enumeration literals (Table 7.26); values are the xml.name forms
+        assert EndToEndProfileBehaviorEnum.PRE_R4_2 == "PRE-R-4-2"
+        assert EndToEndProfileBehaviorEnum.R4_2 == "R-4-2"
 
         # Validated set of allowed values
-        assert list(enum.getEnumValues()) == ["PRE_R4_2", "R4_2"]
+        assert list(enum.getEnumValues()) == ["PRE-R-4-2", "R-4-2"]
 
         # setValue / getValue round-trip
-        assert enum.setValue(EndToEndProfileBehaviorEnum.R4_2).getValue() == "R4_2"
-        assert enum.setValue(EndToEndProfileBehaviorEnum.PRE_R4_2).getValue() == "PRE_R4_2"
+        assert enum.setValue(EndToEndProfileBehaviorEnum.R4_2).getValue() == "R-4-2"
+        assert enum.setValue(EndToEndProfileBehaviorEnum.PRE_R4_2).getValue() == "PRE-R-4-2"
 
     def test_e2e_profile_compatibility_props(self):
         """

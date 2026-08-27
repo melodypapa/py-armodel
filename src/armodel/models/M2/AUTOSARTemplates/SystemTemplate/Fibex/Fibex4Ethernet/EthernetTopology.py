@@ -1839,8 +1839,8 @@ class Ipv6AddressSourceEnum(AREnum):
     # LinkLocal is intended only for communications within the segment of a local network (a link) or a point-to-point connection that a host is connected to. Tags: atp.EnumerationLiteralIndex=2
     LINK_LOCAL = "linkLocal"
 
-    # Linklocal IPv6 Address Assignment using DoIP Parameters Tags: atp.EnumerationLiteralIndex=3 xml.name=LINK-LOCAL-DOIP
-    LINK_LOCAL_DOIP = "linkLocal_doip"
+    # Linklocal IPv6 Address Assignment using DoIP Parameters Tags: atp.EnumerationLiteralIndex=3
+    LINK_LOCAL_DOIP = "LinkLocalDoIP"
 
     # IPv6 Stateless Autoconfiguration. Tags: atp.EnumerationLiteralIndex=4
     ROUTER_ADVERTISEMENT = "routerAdvertisement"
@@ -1926,13 +1926,13 @@ class EthernetMacLayerTypeEnum(AREnum):
     # (no methods) — enum value form serialized on CouplingPort.macLayerType, EthernetCommunicationController.macLayerType
 
     # Mac layer interface (data) bandwith class 1Gbit/s (e.g. GMII, RGMII, SGMII, RvGMII, USGMII) Tags: atp.EnumerationLiteralIndex=1 xml.name=XG-MII
-    XGMII = "xGMII"
+    XGMII = "XG-MII"
 
     # Mac layer interface (data) bandwith class 100Mbit/s and 10Mbit/s (e.g. RMII, RvMII, SMII, RvMII) Tags: atp.EnumerationLiteralIndex=0 xml.name=X-MII
-    XMII = "xMII"
+    XMII = "X-MII"
 
     # Mac layer interface (data) bandwith class 10Gbit/s Tags: atp.EnumerationLiteralIndex=2 xml.name=XXG-MII
-    XXGMII = "xXGMII"
+    XXGMII = "XXG-MII"
 
     def __init__(self):
         super().__init__(

@@ -810,7 +810,7 @@ class TestWriterTransformationDescription:
         desc.setMinOkStateInit(_posint(0))
         desc.setMinOkStateInvalid(_posint(1))
         desc.setMinOkStateValid(_posint(2))
-        desc.setProfileBehavior(_literal("R4_2"))
+        desc.setProfileBehavior(_literal("R-4-2"))
         desc.setProfileName(_literal("Profile1"))
         desc.setSyncCounterInit(_posint(0))
         desc.setUpperHeaderBitsToShift(_posint(0))
@@ -976,7 +976,7 @@ class TestEndToEndTransformationDescriptionRoundTrip:
         desc.setMinOkStateInvalid(PositiveInteger().setValue("1"))
         desc.setMinOkStateValid(PositiveInteger().setValue("2"))
         desc.setOffset(PositiveInteger().setValue("0"))
-        desc.setProfileBehavior(_literal("R4_2"))
+        desc.setProfileBehavior(_literal("R-4-2"))
         desc.setProfileName(_literal("Profile1"))
         desc.setSyncCounterInit(PositiveInteger().setValue("0"))
         desc.setUpperHeaderBitsToShift(PositiveInteger().setValue("0"))
@@ -1024,7 +1024,7 @@ class TestEndToEndTransformationDescriptionRoundTrip:
         assert desc.getMinOkStateInvalid().getValue() == 1
         assert desc.getMinOkStateValid().getValue() == 2
         assert desc.getOffset().getValue() == 0
-        assert desc.getProfileBehavior().getValue() == "R4_2"
+        assert desc.getProfileBehavior().getValue() == "R-4-2"
         assert desc.getProfileName().getValue() == "Profile1"
         assert desc.getSyncCounterInit().getValue() == 0
         assert desc.getUpperHeaderBitsToShift().getValue() == 0
