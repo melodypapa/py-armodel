@@ -63,11 +63,12 @@ class ExecutionOrderConstraintTypeEnum(AREnum):
 
 class LetDataExchangeParadigmEnum(AREnum):
     """
-    Specifies the data exchange paradigm between ExecutableEntity s within a LET interval.
+    Specifies the data exchange paradigm between ExecutableEntity s within a LET interval. Tags: atp.Status=draft
     """
 
     # LetDataExchangeParadigmEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 4.4, p.143
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on EOCExecutableEntityRefGroup.letDataExchangeParadigm
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
