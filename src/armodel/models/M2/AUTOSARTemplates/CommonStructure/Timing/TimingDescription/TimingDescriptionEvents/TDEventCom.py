@@ -298,3 +298,63 @@ class TDEventIPdu(TDEventCom):
         if value is not None:
             self.tdEventType = value
         return self
+
+
+class TDEventFrame(TDEventCom):
+    """
+    This is used to describe timing events related to the exchange of frames between the communication controller and the bus specific (FlexRay / CAN / LIN) Interface BSW module.
+    """
+
+    # TDEventFrame method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.34, p.68
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getFrameRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setFrameRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getPhysicalChannelRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setPhysicalChannelRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getTdEventType          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setTdEventType          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # The scope of this timing event.
+        self.frameRef: Optional[RefType] = None
+
+        # The PhysicalChannel on which the Frame is transmitted.
+        self.physicalChannelRef: Optional[RefType] = None
+
+        # The specific type of this timing event.
+        self.tdEventType: Optional[TDEventFrameTypeEnum] = None
+
+    def getFrameRef(self) -> Optional[RefType]:
+        """The scope of this timing event."""
+        return self.frameRef
+
+    def setFrameRef(self, value: Optional[RefType]) -> "TDEventFrame":
+        """The scope of this timing event. A None value is a no-op and does not overwrite an existing frameRef."""
+        if value is not None:
+            self.frameRef = value
+        return self
+
+    def getPhysicalChannelRef(self) -> Optional[RefType]:
+        """The PhysicalChannel on which the Frame is transmitted."""
+        return self.physicalChannelRef
+
+    def setPhysicalChannelRef(self, value: Optional[RefType]) -> "TDEventFrame":
+        """The PhysicalChannel on which the Frame is transmitted. A None value is a no-op and does not overwrite an existing physicalChannelRef."""
+        if value is not None:
+            self.physicalChannelRef = value
+        return self
+
+    def getTdEventType(self) -> Optional[TDEventFrameTypeEnum]:
+        """The specific type of this timing event."""
+        return self.tdEventType
+
+    def setTdEventType(self, value: Optional[TDEventFrameTypeEnum]) -> "TDEventFrame":
+        """The specific type of this timing event. A None value is a no-op and does not overwrite an existing tdEventType."""
+        if value is not None:
+            self.tdEventType = value
+        return self

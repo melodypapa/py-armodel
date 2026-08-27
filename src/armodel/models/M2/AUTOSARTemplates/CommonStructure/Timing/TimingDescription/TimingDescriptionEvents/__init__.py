@@ -35,6 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventISignalTypeEnum,
     TDEventIPdu,
     TDEventIPduTypeEnum,
+    TDEventFrame,
     TDEventFrameTypeEnum,
     TDEventFrameEthernetTypeEnum,
 )
@@ -62,6 +63,7 @@ __all__ = [
     "TDEventCom",
     "TDEventIPdu",
     "TDEventIPduTypeEnum",
+    "TDEventFrame",
     "TDEventFrameTypeEnum",
     "TDEventFrameEthernetTypeEnum",
 ]

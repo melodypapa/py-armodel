@@ -175,6 +175,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventISignalTypeEnum,
     TDEventIPdu,
     TDEventIPduTypeEnum,
+    TDEventFrame,
+    TDEventFrameTypeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
     TDEventModeDeclaration,
@@ -2225,6 +2227,16 @@ class ARXMLParser(AbstractARXMLParser):
             enum.value = type_element.text
             event.setTdEventType(enum)
 
+    def readTDEventFrame(self, element: ET.Element, event: "TDEventFrame"):
+        self.readTDEventCom(element, event)
+        event.setFrameRef(self.getChildElementOptionalRefType(element, "FRAME-REF"))
+        event.setPhysicalChannelRef(self.getChildElementOptionalRefType(element, "PHYSICAL-CHANNEL-REF"))
+        type_element = self.find(element, "TD-EVENT-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventFrameTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventType(enum)
+
     def readTimingDescriptions(self, element: ET.Element, extension: TimingExtension):
         for child_element in self.findall(element, "TIMING-DESCRIPTIONS/*"):
             tag_name = self.getTagName(child_element)
@@ -2256,6 +2268,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "TD-EVENT-I-PDU":
                 event = TDEventIPdu(extension, short_name)
                 self.readTDEventIPdu(child_element, event)
+            elif tag_name == "TD-EVENT-FRAME":
+                event = TDEventFrame(extension, short_name)
+                self.readTDEventFrame(child_element, event)
             else:
                 self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % tag_name)
                 continue
