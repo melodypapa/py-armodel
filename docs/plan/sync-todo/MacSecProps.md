@@ -127,10 +127,12 @@ for classes refs typed generic `RefType` → must be corrected + stamped. `missi
   - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] MacSecLocalKayProps (class · Table 3.119 · p.174 · **exists-fix**: all 6 fields present and correct
-  (destinationMacAddress, globalKayProps, keyServerPriority, mkaParticipant, role, sourceMacAddress) BUT
-  `globalKayProps`/`mkaParticipant` typed generic `RefType` → retype to `MacSecGlobalKayProps`/`MacSecKayParticipant`
-  refs once those land; verify docstrings verbatim; used by MacSecProps.macSecKayConfig aggr 0..1)
+- [x] MacSecLocalKayProps (class · Table 3.119 · p.174 · **exists-fix**: all 6 fields present and correct
+  (destinationMacAddress, globalKayProps, keyServerPriority, mkaParticipant, role, sourceMacAddress);
+  refs KEPT as generic `RefType` per repo convention (no typed-ref precedent in codebase, user 2026-08-28 —
+  CryptoServiceKey precedent, does not depend on MacSecKayParticipant); docstrings verified verbatim vs PDF;
+  dedicated writer/reader round-trip tests added incl. empty MKA-PARTICIPANT-REFS wrapper; **STAMPED R23-11** —
+  commit b33bd3c5) <!-- commit: b33bd3c5 -->
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -139,7 +141,7 @@ for classes refs typed generic `RefType` → must be corrected + stamped. `missi
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 ### Phase D — Aggregating class (deps: Phase C)
 
