@@ -18,6 +18,7 @@ class TDEventOccurrenceExpressionFormula(Referrable):
 
     # TDEventOccurrenceExpressionFormula method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.51, p.84
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getText            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
