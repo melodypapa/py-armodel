@@ -656,36 +656,36 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventSwc (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.25 · abstract; component iref (stamped ComponentInCompositionInstanceRef); runnable -> RunnableEntity ref (RefType))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventSwcInternalBehavior (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.26 · tdEventSwcInternalBehaviorType -> enum (queued above); variableAccess -> VariableAccess AGGR (class exists in SWC template - verify stamp at session start); Base includes TDEventSwc (queued above))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventSwcInternalBehaviorReference (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.28 · referencedTDEventSwc -> TDEventSwc ref (RefType); Base includes TDEventSwc (queued above))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventSwc (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.25 · abstract; component -> ComponentInCompositionInstanceRef iref (stamped); runnable -> RunnableEntity ref (RefType); Base includes TimingDescription/TimingDescriptionEvent) · commit ce350b80 · user review: confirmed
+  - [x] Step 1 — Sync members & description from spec (Table 3.25, p.60; Note verbatim in class docstring; component iref)
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — TDEventSwc(TimingDescriptionEvent, ABC)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Note verbatim; no __init__ docstring
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — readTDEventSwc/writeTDEventSwc via readTimingDescriptions/writeTimingExtension
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventSwcInternalBehavior (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.26 · tdEventSwcInternalBehaviorType -> enum (queued above); runnable -> RunnableEntity ref (RefType); variableAccess -> VariableAccess ref (RefType); Base includes TDEventSwc (queued above)) · commit ce350b80 · user review: confirmed
+  - [x] Step 1 — Sync members & description from spec (Table 3.26, p.62; Note verbatim; runnable/variableAccess Notes are "The scope of this timing event.")
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — TDEventSwcInternalBehavior(TDEventSwc)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Note verbatim; getter/setter carry per-attribute Note
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — readTDEventSwcInternalBehavior/writeTDEventSwcInternalBehavior
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventSwcInternalBehaviorReference (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.28 · referencedTDEventSwc -> TDEventSwc ref (RefType); Base includes TDEventSwc (queued above)) · commit ce350b80 · user review: confirmed
+  - [x] Step 1 — Sync members & description from spec (Table 3.28, p.63; Note verbatim; referencedTDEventSwc Note "The referenced timing description event.")
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — TDEventSwcInternalBehaviorReference(TDEventSwc)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Note verbatim
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — readTDEventSwcInternalBehaviorReference/writeTDEventSwcInternalBehaviorReference
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 - [ ] TDEventCom (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.29 · abstract; ecuInstance -> EcuInstance ref (RefType))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
