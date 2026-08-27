@@ -137,7 +137,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a passed: 17 enum/constraint tests pass; ruff/flake8/black clean; p.93 verified); 9b confirm + # Spec verified: R23-11 stamped (commit acb85c5f)
-- [ ] LatencyConstraintTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.58 · enum · consumed by LatencyTimingConstraint.latencyConstraintType) · user review round 2: confirmed
+- [x] LatencyConstraintTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.58 · enum · consumed by LatencyTimingConstraint.latencyConstraintType) · user review round 2: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -146,7 +146,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 6 — Update parser & writer (Green) (N/A: standalone enum, round-trip via consuming class)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+  - [x] Step 9 — Verify (9a passed: 14 enum/constraint tests pass; ruff/flake8/black clean; p.96 verified); 9b confirm + # Spec verified: R23-11 stamped (commit 3949067e)
 - [ ] ConfidenceInterval (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.65 · aggregated by ArbitraryEventTriggering.confidenceInterval) · user review round 2: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)

@@ -28,6 +28,7 @@ class LatencyConstraintTypeEnum(AREnum):
 
     # LatencyConstraintTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.58, p.96
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on LatencyTimingConstraint.latencyConstraintType
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
