@@ -129,6 +129,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventVfbPort,
     TDEventVfbReference,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventBsw import (  # noqa: F401
+    TDEventBswModuleTypeEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSwcInternalBehavior import (  # noqa: F401
     TDEventSwcInternalBehaviorTypeEnum,
 )
