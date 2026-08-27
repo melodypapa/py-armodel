@@ -25,7 +25,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
-from build.lib.armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import ConfidenceInterval
 
 
 class EventTriggeringConstraint(TimingConstraint, ABC):
@@ -399,7 +398,7 @@ class ArbitraryEventTriggering(EventTriggeringConstraint):
         super().__init__(parent, short_name)
 
         # List of confidence intervals.
-        self.confidenceIntervals: List[ConfidenceInterval] = []
+        self.confidenceIntervals: List["ConfidenceInterval"] = []
 
         # The nth array element describes the maximum distance that can be observed for a sample of n+1 event occurrences. This is an array with an identical number of elements as for the minimumDistance.
         self.maximumDistances: List[MultidimensionalTime] = []
@@ -407,13 +406,13 @@ class ArbitraryEventTriggering(EventTriggeringConstraint):
         # The nth array element describes the minimum distance that can be observed for a sample of n+1 event occurrences. This is an array with an identical number of elements as for the maximumDistance.
         self.minimumDistances: List[MultidimensionalTime] = []
 
-    def addConfidenceInterval(self, value: Optional[ConfidenceInterval]) -> "ArbitraryEventTriggering":
+    def addConfidenceInterval(self, value: Optional["ConfidenceInterval"]) -> "ArbitraryEventTriggering":
         """List of confidence intervals. A None value is a no-op and does not change the confidenceIntervals list."""
         if value is not None:
             self.confidenceIntervals.append(value)
         return self
 
-    def getConfidenceIntervals(self) -> List[ConfidenceInterval]:
+    def getConfidenceIntervals(self) -> List["ConfidenceInterval"]:
         """List of confidence intervals."""
         return self.confidenceIntervals
 
