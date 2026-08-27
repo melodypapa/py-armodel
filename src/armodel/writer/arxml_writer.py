@@ -520,7 +520,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SdClientConfig,
     VlanMembership,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import MacSecLocalKayProps, MacSecProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import MacSecGlobalKayProps, MacSecLocalKayProps, MacSecProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     ApplicationEndpoint,
@@ -8689,6 +8689,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         if props is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalTimeValue(child_element, "PROPAGATION-DELAY", props.getPropagationDelay())
+
+    def writeMacSecGlobalKayProps(self, element: ET.Element, props: MacSecGlobalKayProps):
+        child_element = ET.SubElement(element, "MAC-SEC-GLOBAL-KAY-PROPS")
+        self.writeARElement(child_element, props)
+        ether_types = props.getBypassEtherTypes()
+        if len(ether_types) > 0:
+            wrapper = ET.SubElement(child_element, "BYPASS-ETHER-TYPES")
+            for value in ether_types:
+                self.setChildElementOptionalPositiveInteger(wrapper, "BYPASS-ETHER-TYPE", value)
+        vlans = props.getBypassVlans()
+        if len(vlans) > 0:
+            wrapper = ET.SubElement(child_element, "BYPASS-VLANS")
+            for value in vlans:
+                self.setChildElementOptionalPositiveInteger(wrapper, "BYPASS-VLAN", value)
 
     def setMacSecLocalKayProps(self, element: ET.Element, key: str, props: MacSecLocalKayProps):
         if props is not None:

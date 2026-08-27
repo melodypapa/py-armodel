@@ -1,13 +1,14 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, MacAddressString, PositiveInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
     CryptoServiceMapping,
     MacSecCapabilityEnum,
     MacSecConfidentialityOffsetEnum,
     MacSecFailPermissiveModeEnum,
+    MacSecGlobalKayProps,
     MacSecLocalKayProps,
     MacSecProps,
     MacSecRoleEnum,
@@ -233,3 +234,29 @@ class Test_MacSecProps:
         props.setOnFailPermissiveMode(None)
         assert props.getAutoStart() is None
         assert props.getOnFailPermissiveMode() is None
+
+
+class Test_MacSecGlobalKayProps:
+    def test_defaults(self):
+        parent = MockParent()
+        props = MacSecGlobalKayProps(parent, "test_global_kay")
+        assert isinstance(props, ARElement)
+        assert props.getBypassEtherTypes() == []
+        assert props.getBypassVlans() == []
+
+    def test_add_and_get(self):
+        parent = MockParent()
+        props = MacSecGlobalKayProps(parent, "test_global_kay")
+        props.addBypassEtherType(_pos_int("88"))
+        props.addBypassEtherType(_pos_int("90"))
+        props.addBypassVlan(_pos_int("100"))
+        assert [v.getValue() for v in props.getBypassEtherTypes()] == [88, 90]
+        assert [v.getValue() for v in props.getBypassVlans()] == [100]
+
+    def test_none_is_noop(self):
+        parent = MockParent()
+        props = MacSecGlobalKayProps(parent, "test_global_kay")
+        props.addBypassEtherType(None)
+        props.addBypassVlan(None)
+        assert props.getBypassEtherTypes() == []
+        assert props.getBypassVlans() == []

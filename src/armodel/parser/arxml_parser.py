@@ -566,6 +566,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
     MacSecFailPermissiveModeEnum,
+    MacSecGlobalKayProps,
     MacSecLocalKayProps,
     MacSecProps,
     MacSecRoleEnum,
@@ -9283,6 +9284,24 @@ class ARXMLParser(AbstractARXMLParser):
             props = GlobalTimeCouplingPortProps()
             props.setPropagationDelay(self.getChildElementOptionalTimeValue(child_element, "PROPAGATION-DELAY"))
         return props
+
+    def readMacSecGlobalKayProps(self, element: ET.Element, props: MacSecGlobalKayProps):
+        self.logger.debug("Read MacSecGlobalKayProps <%s>" % props.getShortName())
+        self.readIdentifiable(element, props)
+        wrapper = self.find(element, "BYPASS-ETHER-TYPES")
+        if wrapper is not None:
+            for child_element in self.findall(wrapper, "BYPASS-ETHER-TYPE"):
+                if child_element.text is not None:
+                    value = PositiveInteger()
+                    value.setValue(child_element.text)
+                    props.addBypassEtherType(value)
+        wrapper = self.find(element, "BYPASS-VLANS")
+        if wrapper is not None:
+            for child_element in self.findall(wrapper, "BYPASS-VLAN"):
+                if child_element.text is not None:
+                    value = PositiveInteger()
+                    value.setValue(child_element.text)
+                    props.addBypassVlan(value)
 
     def getMacSecLocalKayProps(self, element: ET.Element) -> Optional[MacSecLocalKayProps]:
         props = None

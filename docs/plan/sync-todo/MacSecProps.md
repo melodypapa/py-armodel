@@ -84,20 +84,20 @@ for classes refs typed generic `RefType` → must be corrected + stamped. `missi
 
 ### Phase B — Leaf value types (deps: primitives only)
 
-- [ ] MacSecGlobalKayProps (class · Table 3.120 · p.174 · **missing**: Base = full chain
+- [x] MacSecGlobalKayProps (class · Table 3.120 · p.174 · **missing**: Base = full chain
   ARElement,ARObject,CollectableElement,Identifiable,MultilanguageReferrable,PackageableElement,Referrable,
   UploadableDesignElement,UploadablePackageElement; attrs bypassEtherType(PositiveInteger 0..255 attr),
-  bypassVlan(PositiveInteger 0..255 attr); used by MacSecLocalKayProps.globalKayProps ref)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+  bypassVlan(PositiveInteger 0..255 attr); used by MacSecLocalKayProps.globalKayProps ref) <!-- commit: d5dd20df -->
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (tracker: UploadableDesignElement/UploadablePackageElement XSD-only base classes not modeled — ARElement used as most-derived base; list-vs-attr form resolved per XSD + user 2026-08-27 — bypassEtherTypes/bypassVlans as List[PositiveInteger]; no open deviations)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 - [ ] MacSecCipherSuiteConfig (class · Table 3.124 · p.176 · **missing**: Base ARObject; attrs
   cipherSuite(String 0..1 attr), cipherSuitePriority(PositiveInteger 0..1 attr); used by
   MacSecCryptoAlgoConfig.cipherSuiteConfig aggr 0..4)

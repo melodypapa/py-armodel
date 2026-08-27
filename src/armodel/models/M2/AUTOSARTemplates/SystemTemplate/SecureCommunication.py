@@ -12,7 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     TimeValue,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
 
 
 class CryptoServiceMapping(Identifiable, ABC):
@@ -244,6 +244,57 @@ class MacSecFailPermissiveModeEnum(AREnum):
                 MacSecFailPermissiveModeEnum.TIMEOUT,
             ]
         )
+
+
+class MacSecGlobalKayProps(ARElement):
+    """
+    Configuration of the MAC Security Key Agreement Entity properties that are shared by different KaY configurations.
+    """
+
+    # MacSecGlobalKayProps method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.120, p.174
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] addBypassEtherType         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getBypassEtherTypes        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addBypassVlan              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getBypassVlans             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected.
+        self.bypassEtherTypes: List[PositiveInteger] = []
+
+        # This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic)
+        self.bypassVlans: List[PositiveInteger] = []
+
+    def addBypassEtherType(self, value: Optional[PositiveInteger]) -> "MacSecGlobalKayProps":
+        """
+        This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected.
+        A None value is a no-op and does not append to bypassEtherTypes.
+        """
+        if value is not None:
+            self.bypassEtherTypes.append(value)
+        return self
+
+    def getBypassEtherTypes(self) -> List[PositiveInteger]:
+        """This attribute is used to define EtherTypes that are bypassed by MACsec. The providedEtherType will not be MACsec protected."""
+        return self.bypassEtherTypes
+
+    def addBypassVlan(self, value: Optional[PositiveInteger]) -> "MacSecGlobalKayProps":
+        """
+        This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic)
+        A None value is a no-op and does not append to bypassVlans.
+        """
+        if value is not None:
+            self.bypassVlans.append(value)
+        return self
+
+    def getBypassVlans(self) -> List[PositiveInteger]:
+        """This attribute is used to define VLAN-IDs that are bypassed by MACsec. The provided VLAN-IDs will not be MACsec protected. (VLAN-ID 0 is interpreted as no-VLAN -> Bypass untagged traffic)"""
+        return self.bypassVlans
 
 
 class MacSecLocalKayProps(ARObject):
