@@ -100,3 +100,41 @@ class TDEventFrameTypeEnum(AREnum):
                 TDEventFrameTypeEnum.FRAME_TRANSMITTED_ON_BUS,
             )
         )
+
+
+class TDEventFrameEthernetTypeEnum(AREnum):
+    """
+    This is used to describe the specific event type of a TDEventFrameEthernet.
+    """
+
+    # TDEventFrameEthernetTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.37, p.70
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on TDEventFrameEthernet.tdEventType
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    # A point in time where the Ethernet frame containing the specified PDUs is queued for transmission within the corresponding Ethernet Communication Driver. Tags: atp.EnumerationLiteralIndex=0
+    FRAME_ETHERNET_QUEUED_FOR_TRANSMISSION = "frameEthernetQueuedForTransmission"
+
+    # A point in time where the frame is pushed from the corresponding Ethernet communication controller to the BSW Ethernet communication interface. Tags: atp.EnumerationLiteralIndex=1
+    FRAME_ETHERNET_RECEIVED_BY_IF = "frameEthernetReceivedByIf"
+
+    # A point in time where the receipt of the Ethernet frame/packet completes successfully on the recipient's Ethernet communication controller. In other words, the Ethernet frame/packet has entered the recipient's Ethernet communication controller which means the last bit of the Ethernet frame/ packet has been received. Tags: atp.EnumerationLiteralIndex=2
+    FRAME_ETHERNET_RECEIVED_ON_BUS = "frameEthernetReceivedOnBus"
+
+    # A point in time where the transmission of the Ethernet frame/packet completes successfully on the physical Ethernet communication network. In other words, the Ethernet frame/packet has left the sender's Ethernet communication controller, which means that the last bit of the Ethernet frame/ packet has been sent. Tags: atp.EnumerationLiteralIndex=3
+    FRAME_ETHERNET_SENT_ON_BUS = "frameEthernetSentOnBus"
+
+    def __init__(self):
+        """
+        Initializes the TDEventFrameEthernetTypeEnum with valid values.
+        """
+        super().__init__(
+            (
+                TDEventFrameEthernetTypeEnum.FRAME_ETHERNET_QUEUED_FOR_TRANSMISSION,
+                TDEventFrameEthernetTypeEnum.FRAME_ETHERNET_RECEIVED_BY_IF,
+                TDEventFrameEthernetTypeEnum.FRAME_ETHERNET_RECEIVED_ON_BUS,
+                TDEventFrameEthernetTypeEnum.FRAME_ETHERNET_SENT_ON_BUS,
+            )
+        )
