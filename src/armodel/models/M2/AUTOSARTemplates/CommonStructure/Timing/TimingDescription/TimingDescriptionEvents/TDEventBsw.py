@@ -1,5 +1,5 @@
 """
-This module contains the BSW Module level timing description event classes
+This module contains the BSW level timing description event classes
 (spec package CommonStructure::Timing::TimingDescription::TimingDescriptionEvents::TDEventBsw).
 """
 
@@ -34,5 +34,39 @@ class TDEventBswModuleTypeEnum(AREnum):
             (
                 TDEventBswModuleTypeEnum.BSW_M_ENTRY_CALLED,
                 TDEventBswModuleTypeEnum.BSW_M_ENTRY_CALL_RETURNED,
+            )
+        )
+
+
+class TDEventBswModeDeclarationTypeEnum(AREnum):
+    """
+    This is used to describe the specific event type of a TDEventBswModeDeclaration.
+    """
+
+    # TDEventBswModeDeclarationTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.47, p.77
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on TDEventBswModeDeclaration.tdEventBswModeDeclarationType
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    # A point in time where the associated ModeDeclarationGroupPrototype has been requested. Tags: atp.EnumerationLiteralIndex=0
+    MODE_DECLARATION_REQUESTED = "modeDeclarationRequested"
+
+    # A point in time where the switch to the associated ModeDeclarationGroupPrototype has been completed. Tags: atp.EnumerationLiteralIndex=1
+    MODE_DECLARATION_SWITCH_COMPLETED = "modeDeclarationSwitchCompleted"
+
+    # A point in time where the switch to the associated ModeDeclarationGroupPrototype has been initiated by the BswM. Tags: atp.EnumerationLiteralIndex=2
+    MODE_DECLARATION_SWITCH_INITIATED = "modeDeclarationSwitchInitiated"
+
+    def __init__(self):
+        """
+        Initializes the TDEventBswModeDeclarationTypeEnum with valid values.
+        """
+        super().__init__(
+            (
+                TDEventBswModeDeclarationTypeEnum.MODE_DECLARATION_REQUESTED,
+                TDEventBswModeDeclarationTypeEnum.MODE_DECLARATION_SWITCH_COMPLETED,
+                TDEventBswModeDeclarationTypeEnum.MODE_DECLARATION_SWITCH_INITIATED,
             )
         )

@@ -557,16 +557,16 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.45, p.76; no-methods form)
   - [x] Step 8 — Deviations: none
   - [x] Step 9 — Verify (9a passed: 3 TDEventBswModuleTypeEnum tests green; ruff/black/flake8 clean on 4 files) + confirm (9b) — # Spec verified: R23-11 stamped
-- [ ] TDEventBswModeDeclarationTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.47 · consumed by TDEventBswModeDeclaration.tdEventBswModeDeclarationType)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventBswModeDeclarationTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.47 · consumed by TDEventBswModeDeclaration.tdEventBswModeDeclarationType)
+  - [x] Step 1 — Sync members & description from spec (Enumeration header confirmed; Table 3.47; Note verbatim; 3 literals modeDeclarationRequested/modeDeclarationSwitchCompleted/modeDeclarationSwitchInitiated, EnumerationLiteralIndex 0..2; ADDED to existing module TDEventBsw.py)
+  - [x] Step 2 — Write model class unit test (Red) — test_TDEventBswModeDeclarationTypeEnum.py (3 tests)
+  - [x] Step 3 — Implement model class (Green) — TDEventBswModeDeclarationTypeEnum(AREnum) added to TDEventBsw.py; 3 literals + __init__ tuple
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring + literal comments verbatim from Table 3.47
+  - [x] Step 5 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 6 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.47, p.77; no-methods form)
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a passed: 3 TDEventBswModeDeclarationTypeEnum tests green; ruff/black/flake8 clean on 4 files) + confirm (9b) — # Spec verified: R23-11 stamped
 - [x] TimingDescriptionEventChain (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.13, p.41 · isPipeliningPermitted Boolean attr; stimulus/response -> TimingDescriptionEvent refs; segment * -> chain refs · Base = TimingDescription (D.62 subclasses list); pkg = TimingDescription per XSD complexType comment) · unstamped pending batch review
   - [x] Step 1 — Sync members & description from spec (Table 3.13 p.41 + XSD group TIMING-DESCRIPTION-EVENT-CHAIN; XML order STIMULUS(10)/RESPONSE(20)/SEGMENTS(30))
   - [x] Step 2 — Write model class unit test (Red) — test_TimingDescriptionEventChain.py
