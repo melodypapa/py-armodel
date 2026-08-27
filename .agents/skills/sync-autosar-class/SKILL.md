@@ -157,9 +157,15 @@ round-trip) certifies a class as reviewed.
   (Step 2). Do **not** trust pre-existing fields/checklist/docstrings — they may be
   fabricated or stale (Rule 0001.3 shape-3 detector; the Rule 0002 field-to-spec
   cross-check is the gate, in both directions).
-- **Exception — no own spec table:** a class whose attributes are XSD-only legitimately
-  carries no marker and all-`[ ]` rows. It is *not* "unreviewed" — it is excluded
-  (Rule 0002). Confirm the exception before treating a marker-less class as
+- **Exception — no own spec table (XSD-only class):** a class whose attributes exist
+  **only** in an XSD (no PDF/markdown table) legitimately carries no `# Spec verified:
+  R<YY>-<MM>` marker. When fully synced from the XSD with **no deviation**, it carries
+  **`# XSD verified: <xsd-file>`** (e.g. `# XSD verified: AUTOSAR_00052.xsd`) with
+  method rows `[x]` — treat it like a `Spec verified` class. Rows stay all-`[ ]` only
+  if the class was **not** yet synced. `XSD verified` replaces `Spec verified` **only**
+  when the class's information is XSD-exclusive; if a PDF/markdown table exists, use
+  `# Spec verified: R<YY>-<MM>` (PDF authoritative, Rule 0015). It is *not*
+  "unreviewed" — confirm the exception before treating a marker-less class as
   sync-from-scratch.
 
 ## Input
@@ -218,7 +224,11 @@ as each step finishes (*Rule 0018*).
   class and round-tripped there (*Rules 0010–0011*).
 - **No own spec table (XSD-only class, e.g. a concrete `<name>InstanceRef`)** — Step 1
   derives attributes from the XSD group, not a PDF table; the checklist stays all `[ ]`
-  with no `# Spec:` line and no marker (*Rule 0002*).
+  with no `# Spec verified: R<YY>-<MM>` marker (*Rule 0002*). When fully synced from
+  the XSD with no deviation, record provenance with `# XSD verified: <xsd-file>` (e.g.
+  `# XSD verified: AUTOSAR_00052.xsd`) and flip method rows to `[x]`; `# XSD verified:`
+  is used **instead of** `# Spec verified:` only when no PDF/markdown table exists for
+  the class (*Rule 0002*).
 
 ## The 5-column checklist (Rule 0002)
 
@@ -232,6 +242,22 @@ as each step finishes (*Rule 0018*).
 # [x] getFoos      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 # [x] setBar       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 # [x] getBar       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+```
+
+**XSD-only class (no PDF/markdown table) — `# XSD verified:` variant.** Use
+`# XSD verified: <xsd-file>` (e.g. `# XSD verified: AUTOSAR_00052.xsd`) **instead of**
+`# Spec verified: R<YY>-<MM>`, and name the XSD in the `# Spec:` line. Apply it only
+when there is no PDF/markdown table for the class; cross-check every attribute against
+the XSD first, and withhold the marker if any deviation remains (Rule 0001.9):
+
+```
+# ClassName method parity checklist:
+# Spec: (XSD-only - AUTOSAR_00052.xsd <GROUP> group; no own AUTOSAR table)
+# XSD verified: AUTOSAR_00052.xsd
+# Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+# [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+# [x] setFoo       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+# [x] getFoo       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 ```
 
 **Citation source:** the `# Spec:` table name, `Table N.M` id, and `Note` text come from
