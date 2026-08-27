@@ -138,6 +138,36 @@ class TlsCryptoServiceMapping(CryptoServiceMapping):
         return self
 
 
+class MacSecConfidentialityOffsetEnum(AREnum):
+    """
+    This enum defines the MACsec capability options.
+    """
+
+    # MacSecConfidentialityOffsetEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.125, p.177
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on MacSecCryptoAlgoConfig.confidentialityOffset
+
+    # confidentiality offset of 0. Tags: atp.EnumerationLiteralIndex=0 xml.name=CONFIDENTIALITY-OFFSET-0
+    CONFIDENTIALITY_OFFSET_0 = "CONFIDENTIALITY-OFFSET-0"
+
+    # confidentiality offset of 30. Tags: atp.EnumerationLiteralIndex=1 xml.name=CONFIDENTIALITY-OFFSET-30
+    CONFIDENTIALITY_OFFSET_30 = "CONFIDENTIALITY-OFFSET-30"
+
+    # confidentiality offset of 50. Tags: atp.EnumerationLiteralIndex=2 xml.name=CONFIDENTIALITY-OFFSET-50
+    CONFIDENTIALITY_OFFSET_50 = "CONFIDENTIALITY-OFFSET-50"
+
+    def __init__(self):
+        super().__init__(
+            [
+                MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_0,
+                MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_30,
+                MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50,
+            ]
+        )
+
+
 class MacSecCapabilityEnum(AREnum):
     """
     This enum defines the MACsec capability options.

@@ -6,6 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
     CryptoServiceMapping,
     MacSecCapabilityEnum,
+    MacSecConfidentialityOffsetEnum,
     MacSecFailPermissiveModeEnum,
     MacSecLocalKayProps,
     MacSecProps,
@@ -149,6 +150,16 @@ class Test_MacSecEnums:
         e.setValue("intergrityAndConfidentiality")
         assert e.getValue() == "intergrityAndConfidentiality"
         assert e.getText() == "intergrityAndConfidentiality"
+
+    def test_MacSecConfidentialityOffsetEnum(self):
+        # spec literal values are the UPPER-CASE xml.name forms per Table 3.125 (CONFIDENTIALITY-OFFSET-0 idx0, ...-30 idx1, ...-50 idx2)
+        assert MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_0 == "CONFIDENTIALITY-OFFSET-0"
+        assert MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_30 == "CONFIDENTIALITY-OFFSET-30"
+        assert MacSecConfidentialityOffsetEnum.CONFIDENTIALITY_OFFSET_50 == "CONFIDENTIALITY-OFFSET-50"
+        e = MacSecConfidentialityOffsetEnum()
+        e.setValue("CONFIDENTIALITY-OFFSET-50")
+        assert e.getValue() == "CONFIDENTIALITY-OFFSET-50"
+        assert e.getText() == "CONFIDENTIALITY-OFFSET-50"
 
 
 class Test_MacSecLocalKayProps:
