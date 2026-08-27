@@ -123,12 +123,13 @@ def _ref(value):
 
 class Test_MacSecEnums:
     def test_MacSecRoleEnum(self):
-        assert MacSecRoleEnum.PEER == "PEER"
-        assert MacSecRoleEnum.KEY_SERVER == "KEY-SERVER"
+        # spec literal names are camelCase per Table 3.127 (peer idx0, keyServer idx1)
+        assert MacSecRoleEnum.PEER == "peer"
+        assert MacSecRoleEnum.KEY_SERVER == "keyServer"
         e = MacSecRoleEnum()
-        e.setValue("KEY-SERVER")
-        assert e.getValue() == "KEY-SERVER"
-        assert e.getText() == "KEY-SERVER"
+        e.setValue("keyServer")
+        assert e.getValue() == "keyServer"
+        assert e.getText() == "keyServer"
 
     def test_MacSecFailPermissiveModeEnum(self):
         assert MacSecFailPermissiveModeEnum.NEVER == "NEVER"
@@ -157,7 +158,7 @@ class Test_MacSecLocalKayProps:
         props.addMkaParticipant(_ref("/Sec/MkaParticipant1"))
         props.addMkaParticipant(_ref("/Sec/MkaParticipant2"))
         role = MacSecRoleEnum()
-        role.setValue("KEY-SERVER")
+        role.setValue("keyServer")
         props.setRole(role)
         props.setSourceMacAddress(_mac("AA-BB-CC-DD-EE-FF"))
 
@@ -165,7 +166,7 @@ class Test_MacSecLocalKayProps:
         assert props.getGlobalKayProps().getValue() == "/Sec/MacSecGlobalKay"
         assert props.getKeyServerPriority().getValue() == 16
         assert [r.getValue() for r in props.getMkaParticipant()] == ["/Sec/MkaParticipant1", "/Sec/MkaParticipant2"]
-        assert props.getRole().getValue() == "KEY-SERVER"
+        assert props.getRole().getValue() == "keyServer"
         assert props.getSourceMacAddress().getValue() == "AA-BB-CC-DD-EE-FF"
 
     def test_none_is_noop(self):

@@ -17,3 +17,4 @@ fix PduActivationRoutingGroup deviation member type.
 fix tcpRole deviation of StaticSocketConnection.
 UdpChecksumCalculationEnum is confirmed.
 DhcpServerConfiguration is confirmed.
+MacSecRoleEnum literal values corrected to spec camelCase (peer/keyServer); were PEER/KEY-SERVER. No open deviations.

@@ -144,15 +144,16 @@ class MacSecRoleEnum(AREnum):
     """
 
     # MacSecRoleEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.127, p.aux
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.127, p.177
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on MacSecLocalKayProps.role
 
     # Port acts in the peer role Tags: atp.EnumerationLiteralIndex=0
-    PEER = "PEER"
+    PEER = "peer"
 
     # Port acts in the KeyServer role Tags: atp.EnumerationLiteralIndex=1
-    KEY_SERVER = "KEY-SERVER"
+    KEY_SERVER = "keyServer"
 
     def __init__(self):
         super().__init__(
