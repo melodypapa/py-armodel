@@ -565,6 +565,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     VlanMembership,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    MacSecCipherSuiteConfig,
     MacSecFailPermissiveModeEnum,
     MacSecGlobalKayProps,
     MacSecLocalKayProps,
@@ -9302,6 +9303,11 @@ class ARXMLParser(AbstractARXMLParser):
                     value = PositiveInteger()
                     value.setValue(child_element.text)
                     props.addBypassVlan(value)
+
+    def readMacSecCipherSuiteConfig(self, element: ET.Element, config: MacSecCipherSuiteConfig):
+        self.logger.debug("Read MacSecCipherSuiteConfig")
+        config.setCipherSuite(self.getChildElementOptionalString(element, "CIPHER-SUITE"))
+        config.setCipherSuitePriority(self.getChildElementOptionalPositiveInteger(element, "CIPHER-SUITE-PRIORITY"))
 
     def getMacSecLocalKayProps(self, element: ET.Element) -> Optional[MacSecLocalKayProps]:
         props = None

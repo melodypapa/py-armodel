@@ -2,10 +2,11 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, MacAddressString, PositiveInteger, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, MacAddressString, PositiveInteger, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
     CryptoServiceMapping,
     MacSecCapabilityEnum,
+    MacSecCipherSuiteConfig,
     MacSecConfidentialityOffsetEnum,
     MacSecFailPermissiveModeEnum,
     MacSecGlobalKayProps,
@@ -114,6 +115,12 @@ def _pos_int(value):
     p = PositiveInteger()
     p.setValue(value)
     return p
+
+
+def _string(value):
+    s = String()
+    s.setValue(value)
+    return s
 
 
 def _ref(value):
@@ -260,3 +267,30 @@ class Test_MacSecGlobalKayProps:
         props.addBypassVlan(None)
         assert props.getBypassEtherTypes() == []
         assert props.getBypassVlans() == []
+
+
+class Test_MacSecCipherSuiteConfig:
+    def test_defaults(self):
+        config = MacSecCipherSuiteConfig()
+        assert isinstance(config, ARObject)
+        assert config.getCipherSuite() is None
+        assert config.getCipherSuitePriority() is None
+
+    def test_get_set_cipher_suite(self):
+        config = MacSecCipherSuiteConfig()
+        cipher_suite = _string("GCM-AES-128")
+        assert config.setCipherSuite(cipher_suite) is config
+        assert config.getCipherSuite() is cipher_suite
+
+    def test_get_set_cipher_suite_priority(self):
+        config = MacSecCipherSuiteConfig()
+        priority = _pos_int("1")
+        assert config.setCipherSuitePriority(priority) is config
+        assert config.getCipherSuitePriority() is priority
+
+    def test_none_is_noop(self):
+        config = MacSecCipherSuiteConfig()
+        assert config.setCipherSuite(None) is config
+        assert config.setCipherSuitePriority(None) is config
+        assert config.getCipherSuite() is None
+        assert config.getCipherSuitePriority() is None

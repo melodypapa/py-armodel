@@ -520,7 +520,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SdClientConfig,
     VlanMembership,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import MacSecGlobalKayProps, MacSecLocalKayProps, MacSecProps
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    MacSecCipherSuiteConfig,
+    MacSecGlobalKayProps,
+    MacSecLocalKayProps,
+    MacSecProps,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     ApplicationEndpoint,
@@ -8703,6 +8708,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             wrapper = ET.SubElement(child_element, "BYPASS-VLANS")
             for value in vlans:
                 self.setChildElementOptionalPositiveInteger(wrapper, "BYPASS-VLAN", value)
+
+    def writeMacSecCipherSuiteConfig(self, element: ET.Element, config: MacSecCipherSuiteConfig):
+        child_element = ET.SubElement(element, "MAC-SEC-CIPHER-SUITE-CONFIG")
+        self.setChildElementOptionalString(child_element, "CIPHER-SUITE", config.getCipherSuite())
+        self.setChildElementOptionalPositiveInteger(child_element, "CIPHER-SUITE-PRIORITY", config.getCipherSuitePriority())
 
     def setMacSecLocalKayProps(self, element: ET.Element, key: str, props: MacSecLocalKayProps):
         if props is not None:
