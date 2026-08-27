@@ -488,14 +488,14 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 8 — Deviations: none
   - [x] Step 9 — Verify (9a passed); 9b confirm + stamp deferred to batch
 - [ ] TDEventSwcInternalBehaviorTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.27 · consumed by TDEventSwcInternalBehavior.tdEventSwcInternalBehaviorType)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec (Enumeration header confirmed; Table 3.27, p.62; Note verbatim; 4 literals runnableEntityActivated/Started/Terminated/VariableAccess, EnumerationLiteralIndex 0..3; new module TDEventSwcInternalBehavior.py exported via package __init__ + models/__init__.py)
+  - [x] Step 2 — Write model class unit test (Red) — test_TDEventSwcInternalBehaviorTypeEnum.py (3 tests)
+  - [x] Step 3 — Implement model class (Green) — TDEventSwcInternalBehaviorTypeEnum(AREnum); 4 literals + __init__ tuple
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring + literal comments verbatim from Table 3.27
+  - [x] Step 5 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 6 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.27, p.62; no-methods form)
+  - [x] Step 8 — Deviations: none
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] TDEventISignalTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.31 · consumed by TDEventISignal.tdEventType)
   - [ ] Step 1 — Sync members & description from spec
@@ -567,7 +567,16 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TimingDescriptionEventChain (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.13 · isPipeliningPermitted Boolean attr; stimulus/response/segment -> TimingDescriptionEvent(Chain) refs (RefType); verify category attr (TPS_TIMEX_00110 STANDARD/LET_INTERVAL/SL_LET_INTERVAL))
+- [x] TimingDescriptionEventChain (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.13, p.41 · isPipeliningPermitted Boolean attr; stimulus/response -> TimingDescriptionEvent refs; segment * -> chain refs · Base = TimingDescription (D.62 subclasses list); pkg = TimingDescription per XSD complexType comment) · unstamped pending batch review
+  - [x] Step 1 — Sync members & description from spec (Table 3.13 p.41 + XSD group TIMING-DESCRIPTION-EVENT-CHAIN; XML order STIMULUS(10)/RESPONSE(20)/SEGMENTS(30))
+  - [x] Step 2 — Write model class unit test (Red) — test_TimingDescriptionEventChain.py
+  - [x] Step 3 — Implement model class (Green) — TimingDescriptionEventChain(TimingDescription); isPipeliningPermitted Optional[Boolean], stimulusRef/responseRef Optional[RefType], segmentRefs List
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring from XSD documentation (no Note row in table)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTimingDescriptionEventChain; SEGMENT-REFS wrapper only when non-empty
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.13, p.41)
+  - [x] Step 8 — Deviations: none blocking
+  - [x] Step 9 — Verify (9a passed: 3782 tests green; ruff/black clean); 9b confirm + stamp deferred to batch
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

@@ -16,6 +16,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventTriggerTypeEnum,
     TDEventVariableDataPrototypeTypeEnum,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSwcInternalBehavior import (  # noqa: F401
+    TDEventSwcInternalBehaviorTypeEnum,
+)
 
 __all__ = [
     "AutosarOperationArgumentInstance",
@@ -28,4 +31,5 @@ __all__ = [
     "TDEventOperationTypeEnum",
     "TDEventModeDeclarationTypeEnum",
     "TDEventTriggerTypeEnum",
+    "TDEventSwcInternalBehaviorTypeEnum",
 ]
