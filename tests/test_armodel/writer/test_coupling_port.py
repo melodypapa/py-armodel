@@ -6,11 +6,24 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARLiteral,
+    Boolean,
+    MacAddressString,
+    PositiveInteger,
+    RefType,
+    TimeValue,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
     CouplingPortDetails,
     VlanMembership,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    MacSecFailPermissiveModeEnum,
+    MacSecLocalKayProps,
+    MacSecProps,
+    MacSecRoleEnum,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -77,6 +90,51 @@ def _new_port():
     return port
 
 
+def _mac(value):
+    mac = MacAddressString()
+    mac.setValue(value)
+    return mac
+
+
+def _bool(value):
+    b = Boolean()
+    b.setValue(value)
+    return b
+
+
+def _time(value):
+    t = TimeValue()
+    t.setValue(value)
+    return t
+
+
+def _pos_int(value):
+    p = PositiveInteger()
+    p.setValue(value)
+    return p
+
+
+def _new_mac_sec_props():
+    props = MacSecProps()
+    props.setAutoStart(_bool("true"))
+    kay = MacSecLocalKayProps()
+    kay.setDestinationMacAddress(_mac("00-11-22-33-44-55"))
+    kay.setGlobalKayProps(_ref("/Sec/MacSecGlobalKay"))
+    kay.setKeyServerPriority(_pos_int("16"))
+    kay.addMkaParticipant(_ref("/Sec/MkaParticipant1"))
+    role = MacSecRoleEnum()
+    role.setValue("KEY-SERVER")
+    kay.setRole(role)
+    kay.setSourceMacAddress(_mac("AA-BB-CC-DD-EE-FF"))
+    props.setMacSecKayConfig(kay)
+    fail_mode = MacSecFailPermissiveModeEnum()
+    fail_mode.setValue("TIMEOUT")
+    props.setOnFailPermissiveMode(fail_mode)
+    props.setOnFailPermissiveModeTimeout(_time("30.0"))
+    props.setSakRekeyTimeSpan(_time("3600.0"))
+    return props
+
+
 class TestWriteCouplingPort:
     def test_write_all_fields(self, writer):
         parent = ET.Element("PARENT")
@@ -97,6 +155,29 @@ class TestWriteCouplingPort:
         assert node.find("VLAN-MEMBERSHIPS/VLAN-MEMBERSHIP") is not None
         assert node.find("VLAN-MODIFIER-REF").text == "/Ether/PhysicalChannel/Vlan2"
         assert node.find("WAKEUP-SLEEP-ON-DATALINE-CONFIG-REF").text == "/Ether/WakeupConfig/WSD1"
+
+    def test_write_mac_sec_props(self, writer):
+        port = _new_port()
+        port.addMacSecProps(_new_mac_sec_props())
+        parent = ET.Element("PARENT")
+        writer.writeCouplingPort(parent, port)
+
+        node = parent.find("COUPLING-PORT")
+        mac_sec = node.find("MAC-SEC-PROPS")
+        assert mac_sec is not None
+        assert mac_sec.find("AUTO-START").text == "true"
+        kay = mac_sec.find("MAC-SEC-KAY-CONFIG")
+        assert kay is not None
+        assert kay.find("DESTINATION-MAC-ADDRESS").text == "00-11-22-33-44-55"
+        assert kay.find("GLOBAL-KAY-PROPS").text == "/Sec/MacSecGlobalKay"
+        assert kay.find("KEY-SERVER-PRIORITY").text == "16"
+        mka_refs = kay.findall("MKA-PARTICIPANT-REFS/MKA-PARTICIPANT-REF")
+        assert len(mka_refs) == 1
+        assert kay.find("ROLE").text == "KEY-SERVER"
+        assert kay.find("SOURCE-MAC-ADDRESS").text == "AA-BB-CC-DD-EE-FF"
+        assert mac_sec.find("ON-FAIL-PERMISSIVE-MODE").text == "TIMEOUT"
+        assert mac_sec.find("ON-FAIL-PERMISSIVE-MODE-TIMEOUT").text == "30.0"
+        assert mac_sec.find("SAK-REKEY-TIME-SPAN").text == "3600.0"
 
 
 class TestCouplingPortRoundTrip:
@@ -138,6 +219,35 @@ class TestCouplingPortRoundTrip:
         assert recovered.getVlanMemberships() == []
         assert recovered.getVlanModifierRef() is None
         assert recovered.getWakeupSleepOnDatalineConfigRef() is None
+
+    def test_round_trip_mac_sec_props(self, writer, parser, tmp_path):
+        port = _new_port()
+        port.addMacSecProps(_new_mac_sec_props())
+        parent = ET.Element("PARENT")
+        writer.writeCouplingPort(parent, port)
+
+        out_file = str(tmp_path / "coupling_port_mac_sec.arxml")
+        with open(out_file, "w", encoding="utf-8") as f:
+            f.write(ET.tostring(_wrap(parent), encoding="unicode"))
+
+        tree = ET.parse(out_file)
+        recovered = CouplingPort(MockParent(), "CP1")
+        parser.readCouplingPort(tree.getroot()[0][0], recovered)
+
+        assert len(recovered.getMacSecProps()) == 1
+        props = recovered.getMacSecProps()[0]
+        assert props.getAutoStart().getValue() is True
+        kay = props.getMacSecKayConfig()
+        assert isinstance(kay, MacSecLocalKayProps)
+        assert kay.getDestinationMacAddress().getValue() == "00-11-22-33-44-55"
+        assert kay.getGlobalKayProps().getValue() == "/Sec/MacSecGlobalKay"
+        assert kay.getKeyServerPriority().getValue() == 16
+        assert kay.getMkaParticipant()[0].getValue() == "/Sec/MkaParticipant1"
+        assert kay.getRole().getValue() == "KEY-SERVER"
+        assert kay.getSourceMacAddress().getValue() == "AA-BB-CC-DD-EE-FF"
+        assert props.getOnFailPermissiveMode().getValue() == "TIMEOUT"
+        assert props.getOnFailPermissiveModeTimeout().getValue() == 30.0
+        assert props.getSakRekeyTimeSpan().getValue() == 3600.0
 
 
 def _wrap(element: ET.Element) -> ET.Element:

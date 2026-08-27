@@ -289,6 +289,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AnyVersionString,
     ARLiteral,
     IntervalTypeEnum,
+    MacAddressString,
     NameToken,
     Numerical,
     PositiveInteger,
@@ -562,6 +563,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     RequestResponseDelay,
     SdClientConfig,
     VlanMembership,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    MacSecFailPermissiveModeEnum,
+    MacSecLocalKayProps,
+    MacSecProps,
+    MacSecRoleEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -9277,6 +9284,46 @@ class ARXMLParser(AbstractARXMLParser):
             props.setPropagationDelay(self.getChildElementOptionalTimeValue(child_element, "PROPAGATION-DELAY"))
         return props
 
+    def getMacSecLocalKayProps(self, element: ET.Element) -> Optional[MacSecLocalKayProps]:
+        props = None
+        if element is not None:
+            props = MacSecLocalKayProps()
+            destination_mac = self.getChildElementOptionalLiteral(element, "DESTINATION-MAC-ADDRESS")
+            if destination_mac is not None:
+                mac_address = MacAddressString()
+                mac_address.setValue(destination_mac.getValue())
+                props.setDestinationMacAddress(mac_address)
+            props.setGlobalKayProps(self.getChildElementOptionalRefType(element, "GLOBAL-KAY-PROPS"))
+            props.setKeyServerPriority(self.getChildElementOptionalPositiveInteger(element, "KEY-SERVER-PRIORITY"))
+            for ref in self.getChildElementRefTypeList(element, "MKA-PARTICIPANT-REFS/MKA-PARTICIPANT-REF"):
+                props.addMkaParticipant(ref)
+            role = self.getChildElementOptionalLiteral(element, "ROLE")
+            if role is not None:
+                e = MacSecRoleEnum()
+                e.setValue(role.getValue())
+                props.setRole(e)
+            source_mac = self.getChildElementOptionalLiteral(element, "SOURCE-MAC-ADDRESS")
+            if source_mac is not None:
+                mac_address = MacAddressString()
+                mac_address.setValue(source_mac.getValue())
+                props.setSourceMacAddress(mac_address)
+        return props
+
+    def getMacSecProps(self, element: ET.Element) -> Optional[MacSecProps]:
+        props = None
+        if element is not None:
+            props = MacSecProps()
+            props.setAutoStart(self.getChildElementOptionalBooleanValue(element, "AUTO-START"))
+            props.setMacSecKayConfig(self.getMacSecLocalKayProps(self.find(element, "MAC-SEC-KAY-CONFIG")))
+            on_fail_permissive_mode = self.getChildElementOptionalLiteral(element, "ON-FAIL-PERMISSIVE-MODE")
+            if on_fail_permissive_mode is not None:
+                e = MacSecFailPermissiveModeEnum()
+                e.setValue(on_fail_permissive_mode.getValue())
+                props.setOnFailPermissiveMode(e)
+            props.setOnFailPermissiveModeTimeout(self.getChildElementOptionalTimeValue(element, "ON-FAIL-PERMISSIVE-MODE-TIMEOUT"))
+            props.setSakRekeyTimeSpan(self.getChildElementOptionalTimeValue(element, "SAK-REKEY-TIME-SPAN"))
+        return props
+
     def getCouplingPortDetails(self, element: ET.Element, key: str) -> CouplingPortDetails:
         details = None
         child_element = self.find(element, key)
@@ -9389,6 +9436,10 @@ class ARXMLParser(AbstractARXMLParser):
             port.setConnectionNegotiationBehavior(e)
         port.setCouplingPortDetails(self.getCouplingPortDetails(element, "COUPLING-PORT-DETAILS"))
         port.setPlcaProps(self.getPlcaProps(element, "PLCA-PROPS"))
+        for child_element in self.findall(element, "MAC-SEC-PROPS"):
+            props = self.getMacSecProps(child_element)
+            if props is not None:
+                port.addMacSecProps(props)
         coupling_port_role = self.getChildElementOptionalLiteral(element, "COUPLING-PORT-ROLE")
         if coupling_port_role is not None:
             e = CouplingPortRoleEnum()

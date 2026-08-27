@@ -520,6 +520,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SdClientConfig,
     VlanMembership,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import MacSecLocalKayProps, MacSecProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     ApplicationEndpoint,
@@ -8689,6 +8690,29 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalTimeValue(child_element, "PROPAGATION-DELAY", props.getPropagationDelay())
 
+    def setMacSecLocalKayProps(self, element: ET.Element, key: str, props: MacSecLocalKayProps):
+        if props is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalLiteral(child_element, "DESTINATION-MAC-ADDRESS", props.getDestinationMacAddress())
+            self.setChildElementOptionalRefType(child_element, "GLOBAL-KAY-PROPS", props.getGlobalKayProps())
+            self.setChildElementOptionalPositiveInteger(child_element, "KEY-SERVER-PRIORITY", props.getKeyServerPriority())
+            refs = props.getMkaParticipant()
+            if len(refs) > 0:
+                refs_element = ET.SubElement(child_element, "MKA-PARTICIPANT-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_element, "MKA-PARTICIPANT-REF", ref)
+            self.setChildElementOptionalLiteral(child_element, "ROLE", props.getRole())
+            self.setChildElementOptionalLiteral(child_element, "SOURCE-MAC-ADDRESS", props.getSourceMacAddress())
+
+    def setMacSecProps(self, element: ET.Element, key: str, props: MacSecProps):
+        if props is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalBooleanValue(child_element, "AUTO-START", props.getAutoStart())
+            self.setMacSecLocalKayProps(child_element, "MAC-SEC-KAY-CONFIG", props.getMacSecKayConfig())
+            self.setChildElementOptionalLiteral(child_element, "ON-FAIL-PERMISSIVE-MODE", props.getOnFailPermissiveMode())
+            self.setChildElementOptionalTimeValue(child_element, "ON-FAIL-PERMISSIVE-MODE-TIMEOUT", props.getOnFailPermissiveModeTimeout())
+            self.setChildElementOptionalTimeValue(child_element, "SAK-REKEY-TIME-SPAN", props.getSakRekeyTimeSpan())
+
     def setCouplingPortDetails(self, element: ET.Element, key: str, details: CouplingPortDetails):
         if details is not None:
             child_element = ET.SubElement(element, key)
@@ -8788,6 +8812,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "CONNECTION-NEGOTIATION-BEHAVIOR", port.getConnectionNegotiationBehavior())
         self.setCouplingPortDetails(child_element, "COUPLING-PORT-DETAILS", port.getCouplingPortDetails())
         self.setPlcaProps(child_element, "PLCA-PROPS", port.getPlcaProps())
+        for props in port.getMacSecProps():
+            self.setMacSecProps(child_element, "MAC-SEC-PROPS", props)
         self.setChildElementOptionalLiteral(child_element, "COUPLING-PORT-ROLE", port.getCouplingPortRole())
         self.setChildElementOptionalRefType(child_element, "DEFAULT-VLAN-REF", port.getDefaultVlanRef())
         self.setChildElementOptionalLiteral(child_element, "MAC-LAYER-TYPE", port.getMacLayerType())
