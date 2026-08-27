@@ -156,6 +156,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventCom import (
     TDEventCom,
     TDEventISignal,
+    TDEventIPdu,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
@@ -3504,6 +3505,14 @@ class ARXMLWriter(AbstractARXMLWriter):
         if enum is not None:
             self.setChildElementOptionalLiteral(element, "TD-EVENT-TYPE", enum)
 
+    def writeTDEventIPdu(self, element: ET.Element, event: "TDEventIPdu"):
+        self.writeTDEventCom(element, event)
+        self.setChildElementOptionalRefType(element, "I-PDU-REF", event.getIPduRef())
+        self.setChildElementOptionalRefType(element, "PHYSICAL-CHANNEL-REF", event.getPhysicalChannelRef())
+        enum = event.getTdEventType()
+        if enum is not None:
+            self.setChildElementOptionalLiteral(element, "TD-EVENT-TYPE", enum)
+
     def writeTDEventVfb(self, element: ET.Element, event: TDEventVfb):
         self.writeTimingDescriptionEvent(element, event)
         self.writeEOCComponentIRef(element, event.getComponentIRef())
@@ -6437,6 +6446,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(description, TDEventISignal):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-I-SIGNAL")
                     self.writeTDEventISignal(description_tag, description)
+                elif isinstance(description, TDEventIPdu):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-I-PDU")
+                    self.writeTDEventIPdu(description_tag, description)
 
     def writeSwcTiming(self, element: ET.Element, timing: SwcTiming):
         self.logger.debug("writeSWcTiming %s" % timing.getShortName())
