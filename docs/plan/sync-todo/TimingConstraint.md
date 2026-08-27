@@ -537,16 +537,16 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.37, p.70; no-methods form)
   - [x] Step 8 — Deviations: none
   - [x] Step 9 — Verify (9a passed: 3 TDEventFrameEthernetTypeEnum tests green; ruff/black/flake8 clean on 4 files) + confirm (9b) — # Spec verified: R23-11 stamped
-- [ ] TDEventBswInternalBehaviorTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.43 · consumed by TDEventBswInternalBehavior.tdEventBswInternalBehaviorType)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventBswInternalBehaviorTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.43 · consumed by TDEventBswInternalBehavior.tdEventBswInternalBehaviorType)
+  - [x] Step 1 — Sync members & description from spec (Enumeration header confirmed; Table 3.43; Note verbatim; 3 literals bswModuleEntityActivated/bswModuleEntityStarted/bswModuleEntityTerminated, EnumerationLiteralIndex 0..2; NEW module TDEventBswInternalBehavior.py)
+  - [x] Step 2 — Write model class unit test (Red) — test_TDEventBswInternalBehaviorTypeEnum.py (3 tests)
+  - [x] Step 3 — Implement model class (Green) — TDEventBswInternalBehaviorTypeEnum(AREnum) in new module TDEventBswInternalBehavior.py; 3 literals + __init__ tuple
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring + literal comments verbatim from Table 3.43
+  - [x] Step 5 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 6 — N/A: standalone enum, round-trip via consuming class
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.43, p.74; no-methods form)
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a passed: 3 TDEventBswInternalBehaviorTypeEnum tests green; ruff/black/flake8 clean on 4 files) + confirm (9b) — # Spec verified: R23-11 stamped
 - [ ] TDEventBswModuleTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.45 · consumed by TDEventBswModule.tdEventBswModuleType)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
