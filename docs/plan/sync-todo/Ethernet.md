@@ -132,7 +132,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CanXlProps (value type · existing Fibex4Can/CanTopology.py — MOVED from EthernetCommunication.py per Rule 0007: no CP table, CAN-XL domain, aggregated by CanControllerConfiguration · used by EthernetCommunicationConnector.canXlPropsRefs / apApplicationEndpoint) · steps complete commit 4169b432 — STAMP DEFERRED (batch 9b pending)
+- [x] CanXlProps (value type · existing Fibex4Can/CanTopology.py — MOVED from EthernetCommunication.py per Rule 0007: no CP table, CAN-XL domain, aggregated by CanControllerConfiguration · used by EthernetCommunicationConnector.canXlPropsRefs / apApplicationEndpoint) · steps complete commit 4169b432 — XSD verified (AUTOSAR_00052.xsd, Rule 0002 exclusion — no CP marker) — commit 112b2fac
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
