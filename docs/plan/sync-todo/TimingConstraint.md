@@ -437,7 +437,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.50, p.84)
   - [x] Step 8 — Deviations: none blocking (all four member types exist)
   - [x] Step 9 — Verify (9a passed: 3748 tests green; ruff/black clean); 9b confirm + stamp deferred to batch
-- [x] TimingDescriptionEvent (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.63, p.253 · abstract · Base includes TimingDescription (done above) · clockReference 0..1 ref TimingClock (stamped) · occurrenceExpression 0..1 aggr TDEventOccurrenceExpression (done above) · abstract parent of all TDEvent* + referenced by EventChain stimulus/response/segment and Formula.event placeholders) · Phase 0 correction 2026-08-26: D.63 table found (was marked XSD-only) · commit <HASH>
+- [x] TimingDescriptionEvent (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.63, p.253 · abstract · Base includes TimingDescription (done above) · clockReference 0..1 ref TimingClock (stamped) · occurrenceExpression 0..1 aggr TDEventOccurrenceExpression (done above) · abstract parent of all TDEvent* + referenced by EventChain stimulus/response/segment and Formula.event placeholders) · Phase 0 correction 2026-08-26: D.63 table found (was marked XSD-only) · commit 2ad217e5
   - [x] Step 1 — Sync members & description from spec (Table D.63; Note verbatim; row order clockReference/occurrenceExpression)
   - [x] Step 2 — Write model class unit test (Red) — test_TimingDescriptionEvent.py (7 tests)
   - [x] Step 3 — Implement model class (Green) — TimingDescriptionEvent(TimingDescription, ABC) + TypeError guard; clockReferenceRef Optional[RefType]; occurrenceExpression Optional[TDEventOccurrenceExpression]
