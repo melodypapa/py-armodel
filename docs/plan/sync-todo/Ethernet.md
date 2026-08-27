@@ -72,7 +72,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
 
 ### Member types — sync FIRST (Rule 0016.5)
 
-- [x] SomeipSdClientServiceInstanceConfig (ARElement value type · Table F.117 · p.2059 · used by ConsumedServiceInstance.sdClientTimerConfig · source ServiceInstances.py · adds initialFindBehavior aggr InitialSdDelayConfig, priority attr, serviceFindTimeToLive attr) <!-- commit: fa198376 -->
+- [x] SomeipSdClientServiceInstanceConfig (ARElement value type · Table F.117 · p.2059 · used by ConsumedServiceInstance.sdClientTimerConfig · source ServiceInstances.py · adds initialFindBehavior aggr InitialSdDelayConfig, priority attr, serviceFindTimeToLive attr) — STAMPED R23-11 <!-- commit: fa198376 -->
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -122,7 +122,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [x] CouplingPortTrafficClassAssignment (value type · Table 3.75 · used by CouplingPortDetails.ethernetTrafficClassAssignments) · steps complete commit 30c86e62 — STAMP DEFERRED (batch 9b pending)
+- [x] CouplingPortTrafficClassAssignment (value type · Table 3.75 · used by CouplingPortDetails.ethernetTrafficClassAssignments) · steps complete commit 30c86e62 — STAMPED R23-11
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -142,7 +142,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [x] TagWithOptionalValue (value type · Table 6.159 (CP) / 4.76 (FO) · used by SdClientConfig.capabilityRecord, AbstractServiceInstance.capabilityRecords) · steps complete commit 5241d431 — STAMP DEFERRED (batch 9b pending)
+- [x] TagWithOptionalValue (value type · Table 6.159 (CP) / 4.76 (FO) · used by SdClientConfig.capabilityRecord, AbstractServiceInstance.capabilityRecords) · steps complete commit 5241d431 — STAMPED R23-11
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -155,7 +155,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
 
 ### Member types — ADDED 2026-08-25 after user review (docs/plan/check.md) — Rule 0016.4/0016.5: sync BEFORE their consumers
 
-- [x] Ipv4DhcpServerConfiguration (value type · Table 3.80 · p.132 · used by DhcpServerConfiguration.ipv4DhcpServerConfiguration · source EthernetTopology.py · resolves DhcpServerConfiguration stub deviation; attrs addressRangeLowerBound, addressRangeUpperBound, defaultGateway, defaultLeaseTime, dnsServerAddresses *, networkMask) — STAMP DEFERRED (batch 9b pending)
+- [x] Ipv4DhcpServerConfiguration (value type · Table 3.80 · p.132 · used by DhcpServerConfiguration.ipv4DhcpServerConfiguration · source EthernetTopology.py · resolves DhcpServerConfiguration stub deviation; attrs addressRangeLowerBound, addressRangeUpperBound, defaultGateway, defaultLeaseTime, dnsServerAddresses *, networkMask) — STAMPED R23-11
   - [x] Step 1 — Sync members & description from spec
     (Table 3.80 in markdown AUTOSAR_CP_TPS_SystemTemplate.md:3568–3575 + PDF p.132;
     Base ARObject+Describable → Describable; 6 attr rows incl. dnsServerAddress * with xml.namePlural=DNS-SERVER-ADDRESSES)
@@ -174,7 +174,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (tracker: new Ipv4DhcpServerConfiguration section, zero deviations; DhcpServerConfiguration stub row removed)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7270 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] Ipv6DhcpServerConfiguration (value type · Table 3.81 · p.132 · used by DhcpServerConfiguration.ipv6DhcpServerConfiguration · source EthernetTopology.py · resolves DhcpServerConfiguration stub deviation; same attr set as Ipv4 variant with Ip6AddressString types) — STAMP DEFERRED (batch 9b pending)
+- [x] Ipv6DhcpServerConfiguration (value type · Table 3.81 · p.132 · used by DhcpServerConfiguration.ipv6DhcpServerConfiguration · source EthernetTopology.py · resolves DhcpServerConfiguration stub deviation; same attr set as Ipv4 variant with Ip6AddressString types) — STAMPED R23-11
   - [x] Step 1 — Sync members & description from spec
     (Table 3.81 in markdown AUTOSAR_CP_TPS_SystemTemplate.md:3577–3616 + PDF p.132;
     Base ARObject+Describable → Describable; 6 attr rows, Ip6AddressString types)
