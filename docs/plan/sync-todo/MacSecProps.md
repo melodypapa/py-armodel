@@ -69,18 +69,18 @@ for classes refs typed generic `RefType` → must be corrected + stamped. `missi
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] MacSecConfidentialityOffsetEnum (enum · Table 3.125 · p.177 · **missing**: literals
+- [x] MacSecConfidentialityOffsetEnum (enum · Table 3.125 · p.177 · **missing**: literals
   `CONFIDENTIALITY-OFFSET-0`(idx0)/`CONFIDENTIALITY-OFFSET-30`(idx1)/`CONFIDENTIALITY-OFFSET-50`(idx2)
-  (xml.name form); used by MacSecCryptoAlgoConfig.confidentialityOffset)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) — **N/A** (standalone enum)
-  - [ ] Step 6 — Update parser & writer (Green) — **N/A**
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  (xml.name form); used by MacSecCryptoAlgoConfig.confidentialityOffset) <!-- commit: 45f49f30 -->
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — **N/A** (standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) — **N/A**
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 ### Phase B — Leaf value types (deps: primitives only)
 
