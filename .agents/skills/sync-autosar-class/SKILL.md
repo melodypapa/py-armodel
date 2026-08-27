@@ -85,7 +85,8 @@ risks fabricating fields when a referenced class turns out to be missing mid-syn
 4. **Resolve missing classes (interactive, batched)**: present one
    `AskUserQuestion` listing every class not in markdown or PDF. Per class, the
    user picks **Skip** (deviation row + placeholder) or **Derive from XSD**
-   (XSD-only class, no marker). Do not proceed without an answer; do not invent a
+   (XSD-only class — carries `# XSD verified: <xsd-file>` once fully synced,
+   Rule 0002). Do not proceed without an answer; do not invent a
    third option.
 5. **Build the sync queue — dependency-first** (Rule 0016.5): a class that other
    queued classes reference (`Base` or `Attribute` member type) is queued
@@ -145,7 +146,8 @@ session** (Rule 0017).
 ## The stamp is the review gate
 
 A class counts as **reviewed/synced ONLY** when its source carries the
-`# Spec verified: R<YY>-<MM>` marker (Step 8 / Rule 0012.1). That marker is the single
+`# Spec verified: R<YY>-<MM>` marker — or, for an XSD-only class, the
+`# XSD verified: <xsd-file>` marker (Step 8 / Rule 0012.1). These markers are the
 provenance signal — nothing else (a fully-`[x]` checklist, passing tests, or a clean
 round-trip) certifies a class as reviewed.
 
@@ -246,13 +248,21 @@ as each step finishes (*Rule 0018*).
 
 **XSD-only class (no PDF/markdown table) — `# XSD verified:` variant.** Use
 `# XSD verified: <xsd-file>` (e.g. `# XSD verified: AUTOSAR_00052.xsd`) **instead of**
-`# Spec verified: R<YY>-<MM>`, and name the XSD in the `# Spec:` line. Apply it only
+`# Spec verified: R<YY>-<MM>`. "No PDF/markdown table" means no `Class`/`Enumeration`
+table in the repo's `autosar/R23-11` corpus (`CP_TPS`/`FO_TPS`) — an
+Adaptive-Platform class whose upstream document is outside the corpus (e.g.
+`CAN-XL-PROPS`, upstream `AUTOSAR_AP_TPS_SystemDesign`) counts as XSD-only; name the
+upstream document in the `# Spec:` line when known (omit it for e.g. a concrete
+`<name>InstanceRef` backed only by an XSD group). In place of a PDF page (`p.NN`),
+cite the class's **XSD line number** — the `<xsd:complexType … name="…">` line (or
+the `<xsd:group …>` line for a group-only class), found with
+`grep -n 'name="<CLASS-NAME>"' docs/requirements/xsd/<xsd-file>`. Apply it only
 when there is no PDF/markdown table for the class; cross-check every attribute against
 the XSD first, and withhold the marker if any deviation remains (Rule 0001.9):
 
 ```
 # ClassName method parity checklist:
-# Spec: (XSD-only - AUTOSAR_00052.xsd <GROUP> group; no own AUTOSAR table)
+# Spec: AUTOSAR_AP_TPS_SystemDesign (AdaptivePlatform), class CAN-XL-PROPS, AUTOSAR_00052.xsd line 16295 (XSD-only; no own table in repo corpus)
 # XSD verified: AUTOSAR_00052.xsd
 # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
 # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
