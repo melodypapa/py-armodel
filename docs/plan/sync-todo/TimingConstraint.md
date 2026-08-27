@@ -187,7 +187,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
-- [ ] EOCExecutableEntityRefGroup (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.71 · Base includes EOCExecutableEntityRefAbstract · letInterval -> TimingDescriptionEventChain is a Rule 0001.10 placeholder, not queued) · user review round 3: confirmed
+- [x] EOCExecutableEntityRefGroup (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.71 · Base includes EOCExecutableEntityRefAbstract · letInterval -> TimingDescriptionEventChain is a Rule 0001.10 placeholder, not queued) · commit 20c38171 · user review round 3: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green) — base EOCExecutableEntityRefAbstract; letDataExchangeParadigm enum, letIntervalRefs/maxCycleRepetitions/maxSlotsPerCycle/maxCycles/maxSlots/nestedElementRefs/successorRefs/triggeringEventRef per PDF row order; fabricated entityRefs removed
