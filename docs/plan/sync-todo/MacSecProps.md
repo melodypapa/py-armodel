@@ -87,7 +87,7 @@ for classes refs typed generic `RefType` → must be corrected + stamped. `missi
 - [x] MacSecGlobalKayProps (class · Table 3.120 · p.174 · **missing**: Base = full chain
   ARElement,ARObject,CollectableElement,Identifiable,MultilanguageReferrable,PackageableElement,Referrable,
   UploadableDesignElement,UploadablePackageElement; attrs bypassEtherType(PositiveInteger 0..255 attr),
-  bypassVlan(PositiveInteger 0..255 attr); used by MacSecLocalKayProps.globalKayProps ref) <!-- commit: d5dd20df -->
+  bypassVlan(PositiveInteger 0..255 attr); used by MacSecLocalKayProps.globalKayProps ref) <!-- commit: 7ddad6b1 -->
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
