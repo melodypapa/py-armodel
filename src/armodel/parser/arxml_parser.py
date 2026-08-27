@@ -177,6 +177,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventIPduTypeEnum,
     TDEventFrame,
     TDEventFrameTypeEnum,
+    TDEventFrameEthernet,
+    TDEventFrameEthernetTypeEnum,
     TDHeaderIdRange,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
@@ -2242,6 +2244,23 @@ class ARXMLParser(AbstractARXMLParser):
         header_id_range.setMinHeaderId(self.getChildElementOptionalIntegerValue(element, "MIN-HEADER-ID"))
         header_id_range.setMaxHeaderId(self.getChildElementOptionalIntegerValue(element, "MAX-HEADER-ID"))
 
+    def readTDEventFrameEthernet(self, element: ET.Element, event: "TDEventFrameEthernet"):
+        self.readTDEventCom(element, event)
+        event.setStaticSocketConnectionRef(self.getChildElementOptionalRefType(element, "STATIC-SOCKET-CONNECTION-REF"))
+        type_element = self.find(element, "TD-EVENT-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventFrameEthernetTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventType(enum)
+        filters_element = self.find(element, "TD-HEADER-ID-FILTERS")
+        if filters_element is not None:
+            for range_element in self.findall(filters_element, "TD-HEADER-ID-RANGE"):
+                header_id_range = TDHeaderIdRange()
+                self.readTDHeaderIdRange(range_element, header_id_range)
+                event.addTDHeaderIdFilter(header_id_range)
+        for ref in self.getChildElementRefTypeList(element, "TD-PDU-TRIGGERING-FILTER-REFS/TD-PDU-TRIGGERING-FILTER-REF"):
+            event.addTdPduTriggeringFilterRef(ref)
+
     def readTimingDescriptions(self, element: ET.Element, extension: TimingExtension):
         for child_element in self.findall(element, "TIMING-DESCRIPTIONS/*"):
             tag_name = self.getTagName(child_element)
@@ -2276,6 +2295,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "TD-EVENT-FRAME":
                 event = TDEventFrame(extension, short_name)
                 self.readTDEventFrame(child_element, event)
+            elif tag_name == "TD-EVENT-FRAME-ETHERNET":
+                event = TDEventFrameEthernet(extension, short_name)
+                self.readTDEventFrameEthernet(child_element, event)
             else:
                 self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % tag_name)
                 continue

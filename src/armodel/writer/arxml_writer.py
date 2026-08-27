@@ -158,6 +158,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventISignal,
     TDEventIPdu,
     TDEventFrame,
+    TDEventFrameEthernet,
     TDHeaderIdRange,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
@@ -3527,6 +3528,24 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalIntegerValue(element, "MAX-HEADER-ID", header_id_range.getMaxHeaderId())
         self.setChildElementOptionalIntegerValue(element, "MIN-HEADER-ID", header_id_range.getMinHeaderId())
 
+    def writeTDEventFrameEthernet(self, element: ET.Element, event: "TDEventFrameEthernet"):
+        self.writeTDEventCom(element, event)
+        self.setChildElementOptionalRefType(element, "STATIC-SOCKET-CONNECTION-REF", event.getStaticSocketConnectionRef())
+        enum = event.getTdEventType()
+        if enum is not None:
+            self.setChildElementOptionalLiteral(element, "TD-EVENT-TYPE", enum)
+        ranges = event.getTdHeaderIdFilter()
+        if len(ranges) > 0:
+            filters_element = ET.SubElement(element, "TD-HEADER-ID-FILTERS")
+            for header_id_range in ranges:
+                range_tag = ET.SubElement(filters_element, "TD-HEADER-ID-RANGE")
+                self.writeTDHeaderIdRange(range_tag, header_id_range)
+        refs = event.getTdPduTriggeringFilterRefs()
+        if len(refs) > 0:
+            refs_element = ET.SubElement(element, "TD-PDU-TRIGGERING-FILTER-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_element, "TD-PDU-TRIGGERING-FILTER-REF", ref)
+
     def writeTDEventVfb(self, element: ET.Element, event: TDEventVfb):
         self.writeTimingDescriptionEvent(element, event)
         self.writeEOCComponentIRef(element, event.getComponentIRef())
@@ -6466,6 +6485,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(description, TDEventFrame):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-FRAME")
                     self.writeTDEventFrame(description_tag, description)
+                elif isinstance(description, TDEventFrameEthernet):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-FRAME-ETHERNET")
+                    self.writeTDEventFrameEthernet(description_tag, description)
 
     def writeSwcTiming(self, element: ET.Element, timing: SwcTiming):
         self.logger.debug("writeSWcTiming %s" % timing.getShortName())

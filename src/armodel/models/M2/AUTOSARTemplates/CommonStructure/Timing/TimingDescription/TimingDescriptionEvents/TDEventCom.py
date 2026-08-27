@@ -4,7 +4,7 @@ This module contains the Communication (COM) level timing description event clas
 """
 
 from abc import ABC
-from typing import Optional
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
     TimingDescriptionEvent,
@@ -406,4 +406,79 @@ class TDHeaderIdRange(ARObject):
         """Specifies the minimum PDU header identifier, in other words the lower bound of a range of PDU header identifiers. A None value is a no-op and does not overwrite an existing minHeaderId."""
         if value is not None:
             self.minHeaderId = value
+        return self
+
+
+class TDEventFrameEthernet(TDEventCom):
+    """
+    This is used to describe timing description events related to the exchange of Ethernet frames between an Ethernet communication controller and the BSW Ethernet interface and driver module.
+    """
+
+    # TDEventFrameEthernet method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.36, p.69
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getStaticSocketConnectionRef      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setStaticSocketConnectionRef      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getTdEventType                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setTdEventType                    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getTdHeaderIdFilter               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] addTDHeaderIdFilter               [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getTdPduTriggeringFilterRefs      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] addTdPduTriggeringFilterRef       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # Specifies the SocketConnection by the means of which Physical Data Units (PDU) are transmitted or received within an Ethernet Frame.
+        self.staticSocketConnectionRef: Optional[RefType] = None
+
+        # This is used to describe the specific event type of a TDEventFrameEthernet.
+        self.tdEventType: Optional[TDEventFrameEthernetTypeEnum] = None
+
+        # Specifies the header identifier or a range of header identifiers that if contained in the Ethernet frame let the TDEventFrameEthernet occur.
+        self.tdHeaderIdFilter: List[TDHeaderIdRange] = []
+
+        # Specifies the PDU that if contained in the Ethernet frame let the TDEventFrameEthernet occur.
+        self.tdPduTriggeringFilterRefs: List[RefType] = []
+
+    def getStaticSocketConnectionRef(self) -> Optional[RefType]:
+        """Specifies the SocketConnection by the means of which Physical Data Units (PDU) are transmitted or received within an Ethernet Frame."""
+        return self.staticSocketConnectionRef
+
+    def setStaticSocketConnectionRef(self, value: Optional[RefType]) -> "TDEventFrameEthernet":
+        """Specifies the SocketConnection by the means of which Physical Data Units (PDU) are transmitted or received within an Ethernet Frame. A None value is a no-op and does not overwrite an existing staticSocketConnectionRef."""
+        if value is not None:
+            self.staticSocketConnectionRef = value
+        return self
+
+    def getTdEventType(self) -> Optional[TDEventFrameEthernetTypeEnum]:
+        """This is used to describe the specific event type of a TDEventFrameEthernet."""
+        return self.tdEventType
+
+    def setTdEventType(self, value: Optional[TDEventFrameEthernetTypeEnum]) -> "TDEventFrameEthernet":
+        """This is used to describe the specific event type of a TDEventFrameEthernet. A None value is a no-op and does not overwrite an existing tdEventType."""
+        if value is not None:
+            self.tdEventType = value
+        return self
+
+    def getTdHeaderIdFilter(self) -> List[TDHeaderIdRange]:
+        """Specifies the header identifier or a range of header identifiers that if contained in the Ethernet frame let the TDEventFrameEthernet occur."""
+        return self.tdHeaderIdFilter
+
+    def addTDHeaderIdFilter(self, value: Optional[TDHeaderIdRange]) -> "TDEventFrameEthernet":
+        """Specifies the header identifier or a range of header identifiers that if contained in the Ethernet frame let the TDEventFrameEthernet occur. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.tdHeaderIdFilter.append(value)
+        return self
+
+    def getTdPduTriggeringFilterRefs(self) -> List[RefType]:
+        """Specifies the PDU that if contained in the Ethernet frame let the TDEventFrameEthernet occur."""
+        return self.tdPduTriggeringFilterRefs
+
+    def addTdPduTriggeringFilterRef(self, value: Optional[RefType]) -> "TDEventFrameEthernet":
+        """Specifies the PDU that if contained in the Ethernet frame let the TDEventFrameEthernet occur. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.tdPduTriggeringFilterRefs.append(value)
         return self
