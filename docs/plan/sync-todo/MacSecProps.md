@@ -43,18 +43,18 @@ for classes refs typed generic `RefType` → must be corrected + stamped. `missi
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] MacSecFailPermissiveModeEnum (enum · Table 3.128 · p.178 · **exists-fix**: literals currently
+- [x] MacSecFailPermissiveModeEnum (enum · Table 3.128 · p.178 · **exists-fix**: literals currently
   `"NEVER"`/`"TIMEOUT"` but spec literal names are `never`(idx0)/`timeout`(idx1) → must become
-  `NEVER="never"`, `TIMEOUT="timeout"`; used by MacSecProps.onFailPermissiveMode)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) — **N/A** (standalone enum, serialized on MacSecProps.onFailPermissiveMode)
-  - [ ] Step 6 — Update parser & writer (Green) — **N/A**
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  `NEVER="never"`, `TIMEOUT="timeout"`; used by MacSecProps.onFailPermissiveMode) <!-- commit: -->
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — **N/A** (standalone enum, serialized on MacSecProps.onFailPermissiveMode)
+  - [x] Step 6 — Update parser & writer (Green) — **N/A**
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] MacSecCapabilityEnum (enum · Table 3.126 · p.177 · **missing**: literals
   `intergrityWithoutConfidentiality`(idx0)/`intergrityAndConfidentiality`(idx1) — note spec spelling

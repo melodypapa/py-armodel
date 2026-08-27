@@ -132,12 +132,13 @@ class Test_MacSecEnums:
         assert e.getText() == "keyServer"
 
     def test_MacSecFailPermissiveModeEnum(self):
-        assert MacSecFailPermissiveModeEnum.NEVER == "NEVER"
-        assert MacSecFailPermissiveModeEnum.TIMEOUT == "TIMEOUT"
+        # spec literal names are the lower-case xml.name forms per Table 3.128 (never idx0, timeout idx1)
+        assert MacSecFailPermissiveModeEnum.NEVER == "never"
+        assert MacSecFailPermissiveModeEnum.TIMEOUT == "timeout"
         e = MacSecFailPermissiveModeEnum()
-        e.setValue("TIMEOUT")
-        assert e.getValue() == "TIMEOUT"
-        assert e.getText() == "TIMEOUT"
+        e.setValue("timeout")
+        assert e.getValue() == "timeout"
+        assert e.getText() == "timeout"
 
 
 class Test_MacSecLocalKayProps:
