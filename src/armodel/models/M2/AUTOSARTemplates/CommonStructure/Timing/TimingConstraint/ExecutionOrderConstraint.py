@@ -409,6 +409,7 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
 
     # EOCExecutableEntityRefGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.71, p.120
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getLetDataExchangeParadigm     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
