@@ -21,6 +21,7 @@ class TimingDescription(Identifiable, ABC):
 
     # TimingDescription method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table D.62, p.253
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
