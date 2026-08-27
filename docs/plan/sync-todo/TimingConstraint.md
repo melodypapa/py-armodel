@@ -97,7 +97,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.52, p.85)
   - [x] Step 8 — Deviations: none (VariableInComponentInstanceRef already synced; placeholder in TimingExtensionResource.timingVariables resolved under that row's REWORK)
   - [x] Step 9 — Verify (9a) + confirm (9b): 36 model/parser/writer tests pass; ruff/flake8/black clean; `# Spec verified: R23-11` stamped
-- [ ] TimingExtensionResource (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.9 · timingArgument/timingVariable -> aggregate AutosarOperationArgumentInstance/AutosarVariableInstance (reworked above) replacing the Rule 0001.10 RefType placeholders) · commit 079ea9a1 · user review round 2: confirmed
+- [x] TimingExtensionResource (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.9 · timingArgument/timingVariable -> aggregate AutosarOperationArgumentInstance/AutosarVariableInstance (reworked above) replacing the Rule 0001.10 RefType placeholders) · commit 079ea9a1 · user review round 2: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green) — base Identifiable; timingModes List[TimingModeInstance] + createTimingMode(short_name); REWORK DONE: timingArguments List[AutosarOperationArgumentInstance] + createTimingArgument, timingVariables List[AutosarVariableInstance] + createTimingVariable (addTimingArgument/addTimingVariable RefType methods replaced by create* factories per createTimingMode convention)
@@ -106,7 +106,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 6 — Update parser & writer (Green) — read/writeTimingExtensionResource, TIMING-MODES wrapper only when non-empty; empty-wrapper case tested; REWORK DONE: TIMING-ARGUMENTS/TIMING-VARIABLES wrappers (XSD order arguments → modes → variables); readAutosarOperationArgumentInstance/readAutosarVariableInstance refactored to fill-style (element, instance) like readTimingModeInstance
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: none (Rule 0001.10 placeholders resolved by the two item-class aggregations)
-  - [x] Step 9 — Verify (9a): 369 Timing tests pass; ruff clean; # Spec verified stamp DEFERRED to batch confirmation
+  - [x] Step 9 — Verify (9a passed: 363 Timing tests pass; ruff/flake8/black clean); 9b confirm + # Spec verified: R23-11 stamped (commit cc64fe47; import of AutosarOperationArgumentInstance/AutosarVariableInstance moved to top of TimingCondition.py; reverse edge in TDEventOccurrenceExpression.py deferred under TYPE_CHECKING + createMode to break the circular import)
 - [ ] TimingCondition (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.7 · ref target of TimingConstraint.timingCondition · aggregates TimingConditionFormula) · user review round 2: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
