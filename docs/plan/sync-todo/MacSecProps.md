@@ -56,18 +56,18 @@ for classes refs typed generic `RefType` → must be corrected + stamped. `missi
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
 
-- [ ] MacSecCapabilityEnum (enum · Table 3.126 · p.177 · **missing**: literals
+- [x] MacSecCapabilityEnum (enum · Table 3.126 · p.177 · **missing**: literals
   `intergrityWithoutConfidentiality`(idx0)/`intergrityAndConfidentiality`(idx1) — note spec spelling
-  "intergrity"; used by MacSecCryptoAlgoConfig.capability)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) — **N/A** (standalone enum)
-  - [ ] Step 6 — Update parser & writer (Green) — **N/A**
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  "intergrity"; used by MacSecCryptoAlgoConfig.capability) <!-- commit: cd2ca48a -->
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — **N/A** (standalone enum)
+  - [x] Step 6 — Update parser & writer (Green) — **N/A**
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] MacSecConfidentialityOffsetEnum (enum · Table 3.125 · p.177 · **missing**: literals
   `CONFIDENTIALITY-OFFSET-0`(idx0)/`CONFIDENTIALITY-OFFSET-30`(idx1)/`CONFIDENTIALITY-OFFSET-50`(idx2)
