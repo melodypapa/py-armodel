@@ -163,14 +163,14 @@ for classes refs typed generic `RefType` → must be corrected + stamped. `missi
 
 ### Phase E — Input class (deps: Phase A + C)
 
-- [ ] MacSecProps (class · Table 3.118 · p.173 · **exists-fix**: fields correct vs PDF
+- [x] MacSecProps (class · Table 3.118 · p.173 · **exists-fix**: fields correct vs PDF
   (autoStart Boolean, macSecKayConfig MacSecLocalKayProps aggr, onFailPermissiveMode
   MacSecFailPermissiveModeEnum attr, onFailPermissiveModeTimeout TimeValue, sakRekeyTimeSpan TimeValue);
   original gap — "deeper member r/w coverage missing (MacSecLocalKayProps sub-tree not round-tripped)" —
   is now CLOSED: MacSecLocalKayProps stamped (b33bd3c5, dedicated round-trip tests) and CouplingPort
   tests (test_coupling_port.py test_write_mac_sec_props + test_round_trip_mac_sec_props) round-trip the
-  full MacSecProps→MacSecLocalKayProps tree via readCouplingPort/writeCouplingPort; remaining gap = the
-  `# Spec verified:` marker only. Aggregated by CouplingPort.macSecProps (List). Unblocks `CouplingPort`
+  full MacSecProps→MacSecLocalKayProps tree via readCouplingPort/writeCouplingPort; **STAMPED R23-11** —
+  commit a150ffd2. Aggregated by CouplingPort.macSecProps (List). Unblocks `CouplingPort`
   in Ethernet.md once stamped.)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -180,7 +180,7 @@ for classes refs typed generic `RefType` → must be corrected + stamped. `missi
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 ## Termination
 
