@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
+from build.lib.armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import ConfidenceInterval
 
 
 class EventTriggeringConstraint(TimingConstraint, ABC):
@@ -69,6 +70,7 @@ class PeriodicEventTriggering(EventTriggeringConstraint):
 
     # PeriodicEventTriggering method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.60, p.101
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getJitter                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -128,6 +130,7 @@ class SporadicEventTriggering(EventTriggeringConstraint):
 
     # SporadicEventTriggering method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.61, p.105
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getJitter                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -142,7 +145,7 @@ class SporadicEventTriggering(EventTriggeringConstraint):
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        # The maximum devation of the sporadic event occurrence. Jitter=max |nthPeriod - standardPeriod|
+        # The maximum deviation of the sporadic event occurrence. Jitter=max |nthPeriod - standardPeriod|
         self.jitter: Optional[MultidimensionalTime] = None
 
         # The maximum time distance between two consecutive (subsequent) occurrences of the associated event.
@@ -155,11 +158,11 @@ class SporadicEventTriggering(EventTriggeringConstraint):
         self.period: Optional[MultidimensionalTime] = None
 
     def getJitter(self) -> Optional[MultidimensionalTime]:
-        """The maximum devation of the sporadic event occurrence. Jitter=max |nthPeriod - standardPeriod|"""
+        """The maximum deviation of the sporadic event occurrence. Jitter=max |nthPeriod - standardPeriod|"""
         return self.jitter
 
     def setJitter(self, value: Optional[MultidimensionalTime]) -> "SporadicEventTriggering":
-        """The maximum devation of the sporadic event occurrence. Jitter=max |nthPeriod - standardPeriod| A None value is a no-op and does not overwrite an existing jitter."""
+        """The maximum deviation of the sporadic event occurrence. Jitter=max |nthPeriod - standardPeriod| A None value is a no-op and does not overwrite an existing jitter."""
         if value is not None:
             self.jitter = value
         return self
@@ -202,6 +205,7 @@ class ConcretePatternEventTriggering(EventTriggeringConstraint):
 
     # ConcretePatternEventTriggering method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.62, p.107
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addOffset             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -276,6 +280,7 @@ class BurstPatternEventTriggering(EventTriggeringConstraint):
 
     # BurstPatternEventTriggering method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.63, p.109
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getMaxNumberOfOccurrences   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -380,6 +385,7 @@ class ArbitraryEventTriggering(EventTriggeringConstraint):
 
     # ArbitraryEventTriggering method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.64, p.112
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addConfidenceInterval    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -393,7 +399,7 @@ class ArbitraryEventTriggering(EventTriggeringConstraint):
         super().__init__(parent, short_name)
 
         # List of confidence intervals.
-        self.confidenceIntervals: List["ConfidenceInterval"] = []
+        self.confidenceIntervals: List[ConfidenceInterval] = []
 
         # The nth array element describes the maximum distance that can be observed for a sample of n+1 event occurrences. This is an array with an identical number of elements as for the minimumDistance.
         self.maximumDistances: List[MultidimensionalTime] = []
@@ -401,13 +407,13 @@ class ArbitraryEventTriggering(EventTriggeringConstraint):
         # The nth array element describes the minimum distance that can be observed for a sample of n+1 event occurrences. This is an array with an identical number of elements as for the maximumDistance.
         self.minimumDistances: List[MultidimensionalTime] = []
 
-    def addConfidenceInterval(self, value: Optional["ConfidenceInterval"]) -> "ArbitraryEventTriggering":
+    def addConfidenceInterval(self, value: Optional[ConfidenceInterval]) -> "ArbitraryEventTriggering":
         """List of confidence intervals. A None value is a no-op and does not change the confidenceIntervals list."""
         if value is not None:
             self.confidenceIntervals.append(value)
         return self
 
-    def getConfidenceIntervals(self) -> List["ConfidenceInterval"]:
+    def getConfidenceIntervals(self) -> List[ConfidenceInterval]:
         """List of confidence intervals."""
         return self.confidenceIntervals
 

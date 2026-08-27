@@ -165,6 +165,7 @@ class SwcTiming(TimingExtension):
 
     # SwcTiming method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.2, p.25
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getBehaviorRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer

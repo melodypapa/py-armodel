@@ -136,6 +136,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
 
     # EOCExecutableEntityRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.72, p.120
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getBswModuleInstanceRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -335,6 +336,7 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
 
     # EOCEventRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.73, p.121
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getBswModuleInstanceRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
