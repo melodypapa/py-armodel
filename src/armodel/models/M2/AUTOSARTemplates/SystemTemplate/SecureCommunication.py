@@ -349,6 +349,108 @@ class MacSecCipherSuiteConfig(ARObject):
         return self
 
 
+class MacSecCryptoAlgoConfig(ARObject):
+    """
+    This meta-class defines the cryptography configuration for MACsec.
+    """
+
+    # MacSecCryptoAlgoConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.123, p.175
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCapability                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCapability                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createCipherSuiteConfig       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCipherSuiteConfigs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getConfidentialityOffset      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setConfidentialityOffset      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getReplayProtection           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setReplayProtection           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getReplayProtectionWindow     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setReplayProtectionWindow     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute defines the MACsec capability.
+        self.capability: Optional[MacSecCapabilityEnum] = None
+
+        # Cipher suite configuration to use with MACsec.
+        self.cipherSuiteConfigs: List[MacSecCipherSuiteConfig] = []
+
+        # The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame.
+        self.confidentialityOffset: Optional[MacSecConfidentialityOffsetEnum] = None
+
+        # This attribute is used to configure the MACsec replay protection.
+        self.replayProtection: Optional[Boolean] = None
+
+        # In case replay protection is active, this attribute defines the replay protection window.
+        self.replayProtectionWindow: Optional[PositiveInteger] = None
+
+    def getCapability(self) -> Optional[MacSecCapabilityEnum]:
+        """This attribute defines the MACsec capability."""
+        return self.capability
+
+    def setCapability(self, value: Optional[MacSecCapabilityEnum]) -> "MacSecCryptoAlgoConfig":
+        """
+        This attribute defines the MACsec capability.
+        A None value is a no-op and does not overwrite an existing capability.
+        """
+        if value is not None:
+            self.capability = value
+        return self
+
+    def createCipherSuiteConfig(self) -> "MacSecCipherSuiteConfig":
+        """Cipher suite configuration to use with MACsec."""
+        config = MacSecCipherSuiteConfig()
+        self.cipherSuiteConfigs.append(config)
+        return config
+
+    def getCipherSuiteConfigs(self) -> List[MacSecCipherSuiteConfig]:
+        """Cipher suite configuration to use with MACsec."""
+        return self.cipherSuiteConfigs
+
+    def getConfidentialityOffset(self) -> Optional[MacSecConfidentialityOffsetEnum]:
+        """The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame."""
+        return self.confidentialityOffset
+
+    def setConfidentialityOffset(self, value: Optional[MacSecConfidentialityOffsetEnum]) -> "MacSecCryptoAlgoConfig":
+        """
+        The MACsec confidentiality offset specifies the number of bytes starting from the frame header. MACsec encrypts only the bytes after the offset in a frame.
+        A None value is a no-op and does not overwrite an existing confidentialityOffset.
+        """
+        if value is not None:
+            self.confidentialityOffset = value
+        return self
+
+    def getReplayProtection(self) -> Optional[Boolean]:
+        """This attribute is used to configure the MACsec replay protection."""
+        return self.replayProtection
+
+    def setReplayProtection(self, value: Optional[Boolean]) -> "MacSecCryptoAlgoConfig":
+        """
+        This attribute is used to configure the MACsec replay protection.
+        A None value is a no-op and does not overwrite an existing replayProtection.
+        """
+        if value is not None:
+            self.replayProtection = value
+        return self
+
+    def getReplayProtectionWindow(self) -> Optional[PositiveInteger]:
+        """In case replay protection is active, this attribute defines the replay protection window."""
+        return self.replayProtectionWindow
+
+    def setReplayProtectionWindow(self, value: Optional[PositiveInteger]) -> "MacSecCryptoAlgoConfig":
+        """
+        In case replay protection is active, this attribute defines the replay protection window.
+        A None value is a no-op and does not overwrite an existing replayProtectionWindow.
+        """
+        if value is not None:
+            self.replayProtectionWindow = value
+        return self
+
+
 class MacSecLocalKayProps(ARObject):
     """
     Configuration of the MAC Security Key Agreement Entity (KaY).

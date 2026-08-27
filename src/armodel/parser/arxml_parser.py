@@ -565,7 +565,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     VlanMembership,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    MacSecCapabilityEnum,
     MacSecCipherSuiteConfig,
+    MacSecConfidentialityOffsetEnum,
+    MacSecCryptoAlgoConfig,
     MacSecFailPermissiveModeEnum,
     MacSecGlobalKayProps,
     MacSecLocalKayProps,
@@ -9308,6 +9311,26 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read MacSecCipherSuiteConfig")
         config.setCipherSuite(self.getChildElementOptionalString(element, "CIPHER-SUITE"))
         config.setCipherSuitePriority(self.getChildElementOptionalPositiveInteger(element, "CIPHER-SUITE-PRIORITY"))
+
+    def readMacSecCryptoAlgoConfig(self, element: ET.Element, config: MacSecCryptoAlgoConfig):
+        self.logger.debug("Read MacSecCryptoAlgoConfig")
+        capability = self.getChildElementOptionalLiteral(element, "CAPABILITY")
+        if capability is not None:
+            e = MacSecCapabilityEnum()
+            e.setValue(capability.getValue())
+            config.setCapability(e)
+        wrapper = self.find(element, "CIPHER-SUITE-CONFIGS")
+        if wrapper is not None:
+            for child_element in self.findall(wrapper, "MAC-SEC-CIPHER-SUITE-CONFIG"):
+                cipher_config = config.createCipherSuiteConfig()
+                self.readMacSecCipherSuiteConfig(child_element, cipher_config)
+        confidentiality_offset = self.getChildElementOptionalLiteral(element, "CONFIDENTIALITY-OFFSET")
+        if confidentiality_offset is not None:
+            e = MacSecConfidentialityOffsetEnum()
+            e.setValue(confidentiality_offset.getValue())
+            config.setConfidentialityOffset(e)
+        config.setReplayProtection(self.getChildElementOptionalBooleanValue(element, "REPLAY-PROTECTION"))
+        config.setReplayProtectionWindow(self.getChildElementOptionalPositiveInteger(element, "REPLAY-PROTECTION-WINDOW"))
 
     def getMacSecLocalKayProps(self, element: ET.Element) -> Optional[MacSecLocalKayProps]:
         props = None

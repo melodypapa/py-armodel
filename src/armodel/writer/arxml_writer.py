@@ -522,6 +522,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
     MacSecCipherSuiteConfig,
+    MacSecCryptoAlgoConfig,
     MacSecGlobalKayProps,
     MacSecLocalKayProps,
     MacSecProps,
@@ -8713,6 +8714,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "MAC-SEC-CIPHER-SUITE-CONFIG")
         self.setChildElementOptionalString(child_element, "CIPHER-SUITE", config.getCipherSuite())
         self.setChildElementOptionalPositiveInteger(child_element, "CIPHER-SUITE-PRIORITY", config.getCipherSuitePriority())
+
+    def writeMacSecCryptoAlgoConfig(self, element: ET.Element, config: MacSecCryptoAlgoConfig):
+        child_element = ET.SubElement(element, "MAC-SEC-CRYPTO-ALGO-CONFIG")
+        self.setChildElementOptionalLiteral(child_element, "CAPABILITY", config.getCapability())
+        cipher_configs = config.getCipherSuiteConfigs()
+        if len(cipher_configs) > 0:
+            wrapper = ET.SubElement(child_element, "CIPHER-SUITE-CONFIGS")
+            for cipher_config in cipher_configs:
+                self.writeMacSecCipherSuiteConfig(wrapper, cipher_config)
+        self.setChildElementOptionalLiteral(child_element, "CONFIDENTIALITY-OFFSET", config.getConfidentialityOffset())
+        self.setChildElementOptionalBooleanValue(child_element, "REPLAY-PROTECTION", config.getReplayProtection())
+        self.setChildElementOptionalPositiveInteger(child_element, "REPLAY-PROTECTION-WINDOW", config.getReplayProtectionWindow())
 
     def setMacSecLocalKayProps(self, element: ET.Element, key: str, props: MacSecLocalKayProps):
         if props is not None:

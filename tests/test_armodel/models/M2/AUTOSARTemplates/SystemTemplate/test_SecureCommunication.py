@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecCapabilityEnum,
     MacSecCipherSuiteConfig,
     MacSecConfidentialityOffsetEnum,
+    MacSecCryptoAlgoConfig,
     MacSecFailPermissiveModeEnum,
     MacSecGlobalKayProps,
     MacSecLocalKayProps,
@@ -294,3 +295,59 @@ class Test_MacSecCipherSuiteConfig:
         assert config.setCipherSuitePriority(None) is config
         assert config.getCipherSuite() is None
         assert config.getCipherSuitePriority() is None
+
+
+class Test_MacSecCryptoAlgoConfig:
+    def test_defaults(self):
+        config = MacSecCryptoAlgoConfig()
+        assert isinstance(config, ARObject)
+        assert config.getCapability() is None
+        assert config.getCipherSuiteConfigs() == []
+        assert config.getConfidentialityOffset() is None
+        assert config.getReplayProtection() is None
+        assert config.getReplayProtectionWindow() is None
+
+    def test_get_set_capability(self):
+        config = MacSecCryptoAlgoConfig()
+        capability = MacSecCapabilityEnum()
+        capability.setValue("intergrityAndConfidentiality")
+        assert config.setCapability(capability) is config
+        assert config.getCapability() is capability
+
+    def test_get_set_confidentiality_offset(self):
+        config = MacSecCryptoAlgoConfig()
+        offset = MacSecConfidentialityOffsetEnum()
+        offset.setValue("CONFIDENTIALITY-OFFSET-30")
+        assert config.setConfidentialityOffset(offset) is config
+        assert config.getConfidentialityOffset() is offset
+
+    def test_get_set_replay_protection(self):
+        config = MacSecCryptoAlgoConfig()
+        replay = _bool("true")
+        assert config.setReplayProtection(replay) is config
+        assert config.getReplayProtection() is replay
+
+    def test_get_set_replay_protection_window(self):
+        config = MacSecCryptoAlgoConfig()
+        window = _pos_int("100")
+        assert config.setReplayProtectionWindow(window) is config
+        assert config.getReplayProtectionWindow() is window
+
+    def test_create_and_get_cipher_suite_configs(self):
+        config = MacSecCryptoAlgoConfig()
+        c1 = config.createCipherSuiteConfig()
+        c2 = config.createCipherSuiteConfig()
+        assert isinstance(c1, MacSecCipherSuiteConfig)
+        assert isinstance(c2, MacSecCipherSuiteConfig)
+        assert config.getCipherSuiteConfigs() == [c1, c2]
+
+    def test_none_is_noop(self):
+        config = MacSecCryptoAlgoConfig()
+        assert config.setCapability(None) is config
+        assert config.setConfidentialityOffset(None) is config
+        assert config.setReplayProtection(None) is config
+        assert config.setReplayProtectionWindow(None) is config
+        assert config.getCapability() is None
+        assert config.getConfidentialityOffset() is None
+        assert config.getReplayProtection() is None
+        assert config.getReplayProtectionWindow() is None

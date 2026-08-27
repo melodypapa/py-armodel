@@ -117,14 +117,14 @@ for classes refs typed generic `RefType` → must be corrected + stamped. `missi
   capability(MacSecCapabilityEnum 0..1 attr), cipherSuiteConfig(MacSecCipherSuiteConfig 0..4 aggr),
   confidentialityOffset(MacSecConfidentialityOffsetEnum 0..1 attr), replayProtection(Boolean 0..1 attr),
   replayProtectionWindow(PositiveInteger 0..1 attr); used by MacSecKayParticipant.cryptoAlgoConfig aggr 0..1)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 - [ ] MacSecLocalKayProps (class · Table 3.119 · p.174 · **exists-fix**: all 6 fields present and correct
