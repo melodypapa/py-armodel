@@ -32,7 +32,7 @@ for classes refs typed generic `RefType` → must be corrected + stamped. `missi
 
 ### Phase A — Enums (no deps; Steps 5/6 N/A for standalone enums)
 
-- [x] MacSecRoleEnum (enum · Table 3.127 · p.177 · **exists-fix**: literal values corrected `"PEER"`/`"KEY-SERVER"` → `peer`/`keyServer` per spec camelCase names; **STAMPED R23-11** — commit 41c999c3) — used by MacSecLocalKayProps.role
+- [x] MacSecRoleEnum (enum · Table 3.127 · p.177 · **exists-fix**: literal values corrected `"PEER"`/`"KEY-SERVER"` → `peer`/`keyServer` per spec camelCase names; **STAMPED R23-11** — commit f955e5ac) — used by MacSecLocalKayProps.role
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
