@@ -557,7 +557,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.45, p.76; no-methods form)
   - [x] Step 8 — Deviations: none
   - [x] Step 9 — Verify (9a passed: 3 TDEventBswModuleTypeEnum tests green; ruff/black/flake8 clean on 4 files) + confirm (9b) — # Spec verified: R23-11 stamped
-- [x] TDEventBswModeDeclarationTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.47 · consumed by TDEventBswModeDeclaration.tdEventBswModeDeclarationType)
+- [x] TDEventBswModeDeclarationTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.47 · consumed by TDEventBswModeDeclaration.tdEventBswModeDeclarationType) · commit 79278c61 · user review: confirmed
   - [x] Step 1 — Sync members & description from spec (Enumeration header confirmed; Table 3.47; Note verbatim; 3 literals modeDeclarationRequested/modeDeclarationSwitchCompleted/modeDeclarationSwitchInitiated, EnumerationLiteralIndex 0..2; ADDED to existing module TDEventBsw.py)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventBswModeDeclarationTypeEnum.py (3 tests)
   - [x] Step 3 — Implement model class (Green) — TDEventBswModeDeclarationTypeEnum(AREnum) added to TDEventBsw.py; 3 literals + __init__ tuple
