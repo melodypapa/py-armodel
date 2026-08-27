@@ -171,5 +171,3 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventOccurrenceExpression,
     VariableInComponentInstanceRef,
 )
-
-

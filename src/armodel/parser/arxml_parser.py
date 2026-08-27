@@ -182,6 +182,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventVfbPort,
     TDEventVfbReference,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSwcInternalBehavior import (
+    TDEventSwc,
+    TDEventSwcInternalBehavior,
+    TDEventSwcInternalBehaviorReference,
+    TDEventSwcInternalBehaviorTypeEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
@@ -2207,6 +2213,12 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "TD-EVENT-TRIGGER":
                 event = TDEventTrigger(extension, short_name)
                 self.readTDEventTrigger(child_element, event)
+            elif tag_name == "TD-EVENT-SWC-INTERNAL-BEHAVIOR":
+                event = TDEventSwcInternalBehavior(extension, short_name)
+                self.readTDEventSwcInternalBehavior(child_element, event)
+            elif tag_name == "TD-EVENT-SWC-INTERNAL-BEHAVIOR-REFERENCE":
+                event = TDEventSwcInternalBehaviorReference(extension, short_name)
+                self.readTDEventSwcInternalBehaviorReference(child_element, event)
             else:
                 self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % tag_name)
                 continue
@@ -2266,6 +2278,24 @@ class ARXMLParser(AbstractARXMLParser):
             enum = TDEventTriggerTypeEnum()
             enum.value = type_element.text
             event.setTdEventTriggerType(enum)
+
+    def readTDEventSwc(self, element: ET.Element, event: TDEventSwc):
+        self.readTimingDescriptionEvent(element, event)
+        event.setComponentIRef(self.readEOCComponentIRef(element, "COMPONENT-IREF"))
+
+    def readTDEventSwcInternalBehavior(self, element: ET.Element, event: TDEventSwcInternalBehavior):
+        self.readTDEventSwc(element, event)
+        event.setRunnableRef(self.getChildElementOptionalRefType(element, "RUNNABLE-REF"))
+        type_element = self.find(element, "TD-EVENT-SWC-INTERNAL-BEHAVIOR-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventSwcInternalBehaviorTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventSwcInternalBehaviorType(enum)
+        event.setVariableAccessRef(self.getChildElementOptionalRefType(element, "VARIABLE-ACCESS-REF"))
+
+    def readTDEventSwcInternalBehaviorReference(self, element: ET.Element, event: TDEventSwcInternalBehaviorReference):
+        self.readTDEventSwc(element, event)
+        event.setReferencedTDEventSwcRef(self.getChildElementOptionalRefType(element, "REFERENCED-TD-EVENT-SWC-REF"))
 
     def readTDEventOccurrenceExpression(self, element: ET.Element, parent) -> TDEventOccurrenceExpression:
         expression = TDEventOccurrenceExpression()

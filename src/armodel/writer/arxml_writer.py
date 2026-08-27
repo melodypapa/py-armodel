@@ -286,6 +286,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventVfbPort,
     TDEventVfbReference,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSwcInternalBehavior import (
+    TDEventSwc,
+    TDEventSwcInternalBehavior,
+    TDEventSwcInternalBehaviorReference,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
     ArbitraryEventTriggering,
     BurstPatternEventTriggering,
@@ -3527,6 +3532,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         if enum is not None:
             self.setChildElementOptionalLiteral(element, "TD-EVENT-TRIGGER-TYPE", enum)
 
+    def writeTDEventSwc(self, element: ET.Element, event: TDEventSwc):
+        self.writeTimingDescriptionEvent(element, event)
+        self.writeEOCComponentIRef(element, event.getComponentIRef())
+
+    def writeTDEventSwcInternalBehavior(self, element: ET.Element, event: TDEventSwcInternalBehavior):
+        self.writeTDEventSwc(element, event)
+        self.setChildElementOptionalRefType(element, "RUNNABLE-REF", event.getRunnableRef())
+        enum = event.getTdEventSwcInternalBehaviorType()
+        if enum is not None:
+            self.setChildElementOptionalLiteral(element, "TD-EVENT-SWC-INTERNAL-BEHAVIOR-TYPE", enum)
+        self.setChildElementOptionalRefType(element, "VARIABLE-ACCESS-REF", event.getVariableAccessRef())
+
+    def writeTDEventSwcInternalBehaviorReference(self, element: ET.Element, event: TDEventSwcInternalBehaviorReference):
+        self.writeTDEventSwc(element, event)
+        self.setChildElementOptionalRefType(element, "REFERENCED-TD-EVENT-SWC-REF", event.getReferencedTDEventSwcRef())
+
     def writeTDEventOccurrenceExpression(self, element: ET.Element, expression: TDEventOccurrenceExpression):
         self.writeARObjectAttributes(element, expression)
         arguments = expression.getArguments()
@@ -6391,6 +6412,12 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(description, TDEventTrigger):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-TRIGGER")
                     self.writeTDEventTrigger(description_tag, description)
+                elif isinstance(description, TDEventSwcInternalBehavior):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-SWC-INTERNAL-BEHAVIOR")
+                    self.writeTDEventSwcInternalBehavior(description_tag, description)
+                elif isinstance(description, TDEventSwcInternalBehaviorReference):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-SWC-INTERNAL-BEHAVIOR-REFERENCE")
+                    self.writeTDEventSwcInternalBehaviorReference(description_tag, description)
 
     def writeSwcTiming(self, element: ET.Element, timing: SwcTiming):
         self.logger.debug("writeSWcTiming %s" % timing.getShortName())
