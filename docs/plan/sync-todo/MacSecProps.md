@@ -145,10 +145,11 @@ for classes refs typed generic `RefType` → must be corrected + stamped. `missi
 
 ### Phase D — Aggregating class (deps: Phase C)
 
-- [ ] MacSecKayParticipant (class · Table 3.122 · p.175 · **missing**: Base ARObject,Identifiable,
+- [x] MacSecKayParticipant (class · Table 3.122 · p.175 · **missing**: Base ARObject,Identifiable,
   MultilanguageReferrable,Referrable; attrs ckn(CryptoServiceKey 0..1 ref → RefType),
   cryptoAlgoConfig(MacSecCryptoAlgoConfig 0..1 aggr), sak(CryptoServiceKey 0..1 ref → RefType);
-  referenced by MacSecLocalKayProps.mkaParticipant ref 0..*, aggregated by MacSecParticipantSet (excluded))
+  referenced by MacSecLocalKayProps.mkaParticipant ref 0..*, aggregated by MacSecParticipantSet (excluded);
+  **STAMPED R23-11** — commit e2fac560)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -158,7 +159,7 @@ for classes refs typed generic `RefType` → must be corrected + stamped. `missi
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
     (tracker: ckn/sak are CryptoServiceKey refs typed generic `RefType` per repo convention (user 2026-08-28, no typed-ref precedent) — pre-decided in Phase 0, NOT an open deviation; no placeholders; no open deviations)
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 ### Phase E — Input class (deps: Phase A + C)
 
