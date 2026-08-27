@@ -517,7 +517,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.33, p.67; no-methods form)
   - [x] Step 8 — Deviations: none
   - [x] Step 9 — Verify (9a passed: 3 TDEventIPduTypeEnum tests green; ruff/black/flake8 clean on 4 files) + confirm (9b) — # Spec verified: R23-11 stamped
-- [x] TDEventFrameTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.35 · consumed by TDEventFrame.tdEventType)
+- [x] TDEventFrameTypeEnum (enum · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.35 · consumed by TDEventFrame.tdEventType) · commit 8ea685c4 · user review: confirmed
   - [x] Step 1 — Sync members & description from spec (Enumeration header confirmed; Table 3.35; Note verbatim; 3 literals frameQueuedForTransmission/frameReceivedByIf/frameTransmittedOnBus, EnumerationLiteralIndex 0..2; ADDED to existing module TDEventCom.py)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventFrameTypeEnum.py (3 tests)
   - [x] Step 3 — Implement model class (Green) — TDEventFrameTypeEnum(AREnum) added to TDEventCom.py; 3 literals + __init__ tuple
