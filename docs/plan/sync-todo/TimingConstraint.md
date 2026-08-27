@@ -726,7 +726,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [x] TDHeaderIdRange (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.38 · min/maxHeaderId Integer attrs; Base ARObject (non-Identifiable helper); aggregated by TDEventFrameEthernet.tdHeaderIdFilter) · commit <HASH>
+- [x] TDHeaderIdRange (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.38 · min/maxHeaderId Integer attrs; Base ARObject (non-Identifiable helper); aggregated by TDEventFrameEthernet.tdHeaderIdFilter) · commit bea2c8cd
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
