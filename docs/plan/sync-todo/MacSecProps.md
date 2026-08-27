@@ -45,7 +45,7 @@ for classes refs typed generic `RefType` → must be corrected + stamped. `missi
 
 - [x] MacSecFailPermissiveModeEnum (enum · Table 3.128 · p.178 · **exists-fix**: literals currently
   `"NEVER"`/`"TIMEOUT"` but spec literal names are `never`(idx0)/`timeout`(idx1) → must become
-  `NEVER="never"`, `TIMEOUT="timeout"`; used by MacSecProps.onFailPermissiveMode) <!-- commit: -->
+  `NEVER="never"`, `TIMEOUT="timeout"`; used by MacSecProps.onFailPermissiveMode) <!-- commit: ac4d0c88 -->
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
