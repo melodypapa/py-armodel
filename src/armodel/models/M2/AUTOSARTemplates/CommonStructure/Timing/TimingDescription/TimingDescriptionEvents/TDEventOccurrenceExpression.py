@@ -363,6 +363,7 @@ class TDEventOccurrenceExpression(ARObject):
 
     # TDEventOccurrenceExpression method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.50, p.84
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] createArgument     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
