@@ -107,7 +107,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: none (Rule 0001.10 placeholders resolved by the two item-class aggregations)
   - [x] Step 9 — Verify (9a passed: 363 Timing tests pass; ruff/flake8/black clean); 9b confirm + # Spec verified: R23-11 stamped (commit cc64fe47; import of AutosarOperationArgumentInstance/AutosarVariableInstance moved to top of TimingCondition.py; reverse edge in TDEventOccurrenceExpression.py deferred under TYPE_CHECKING + createMode to break the circular import)
-- [ ] TimingCondition (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.7 · ref target of TimingConstraint.timingCondition · aggregates TimingConditionFormula) · user review round 2: confirmed
+- [x] TimingCondition (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.7 · ref target of TimingConstraint.timingCondition · aggregates TimingConditionFormula) · user review round 2: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green) — base Identifiable(parent, short_name); single attr timingConditionFormula 0..1 aggr (setXxx shape: child spec Base = ARObject+FormulaExpression has no Referrable/Identifiable); fabricated conditionFormula/modeInstances removed
@@ -116,7 +116,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 6 — Update parser & writer (Green) — read/writeTimingCondition reusing read/writeTimingConditionFormula
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations: none blocking
-  - [x] Step 9 — Verify (9a passed: full suite green, ruff/flake8/black clean); 9b confirm + stamp deferred to batch
+  - [x] Step 9 — Verify (9a passed: 3 TimingCondition tests pass; ruff/flake8/black clean; p.35 verified); 9b confirm + # Spec verified: R23-11 stamped (commit 7ed0fc2c)
 - [x] SynchronizationTypeEnum (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.55 · enum · consumed by SynchronizationTimingConstraint.synchronizationConstraintType · RELOCATED to leaf module Timing/TimingConstraint/SynchronizationTimingConstraint.py (Rule 0007 leaf form, all 3 classes direct members) · user review round 3: confirmed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
