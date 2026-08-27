@@ -1,0 +1,38 @@
+"""
+This module contains the Communication (COM) level timing description event classes
+(spec package CommonStructure::Timing::TimingDescription::TimingDescriptionEvents::TDEventCom).
+"""
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    AREnum,
+)
+
+
+class TDEventISignalTypeEnum(AREnum):
+    """
+    This is used to describe the specific event type of a TDEventISignal.
+    """
+
+    # TDEventISignalTypeEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.31, p.66
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on TDEventISignal.tdEventType
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    # A point in time, where the COM module makes the contained signal / signal group available for the RTE and the corresponding Rx Indication callout is generated (if configured). Tags: atp.EnumerationLiteralIndex=0
+    ISIGNAL_AVAILABLE_FOR_RTE = "iSignalAvailableForRte"
+
+    # A point in time, where a transmission request call is issued by the RTE on a named COM signal / signal group and the new value is stored to the carrier COM I-PDU buffer. Tags: atp.EnumerationLiteralIndex=1
+    ISIGNAL_SENT_TO_COM = "iSignalSentToCom"
+
+    def __init__(self):
+        """
+        Initializes the TDEventISignalTypeEnum with valid values.
+        """
+        super().__init__(
+            (
+                TDEventISignalTypeEnum.ISIGNAL_AVAILABLE_FOR_RTE,
+                TDEventISignalTypeEnum.ISIGNAL_SENT_TO_COM,
+            )
+        )
