@@ -524,6 +524,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecCipherSuiteConfig,
     MacSecCryptoAlgoConfig,
     MacSecGlobalKayProps,
+    MacSecKayParticipant,
     MacSecLocalKayProps,
     MacSecProps,
 )
@@ -8726,6 +8727,24 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "CONFIDENTIALITY-OFFSET", config.getConfidentialityOffset())
         self.setChildElementOptionalBooleanValue(child_element, "REPLAY-PROTECTION", config.getReplayProtection())
         self.setChildElementOptionalPositiveInteger(child_element, "REPLAY-PROTECTION-WINDOW", config.getReplayProtectionWindow())
+
+    def writeMacSecKayParticipant(self, element: ET.Element, participant: MacSecKayParticipant):
+        child_element = ET.SubElement(element, "MAC-SEC-KAY-PARTICIPANT")
+        self.writeIdentifiable(child_element, participant)
+        self.setChildElementOptionalRefType(child_element, "CKN-REF", participant.getCkn())
+        config = participant.getCryptoAlgoConfig()
+        if config is not None:
+            algo_element = ET.SubElement(child_element, "CRYPTO-ALGO-CONFIG")
+            self.setChildElementOptionalLiteral(algo_element, "CAPABILITY", config.getCapability())
+            cipher_configs = config.getCipherSuiteConfigs()
+            if len(cipher_configs) > 0:
+                wrapper = ET.SubElement(algo_element, "CIPHER-SUITE-CONFIGS")
+                for cipher_config in cipher_configs:
+                    self.writeMacSecCipherSuiteConfig(wrapper, cipher_config)
+            self.setChildElementOptionalLiteral(algo_element, "CONFIDENTIALITY-OFFSET", config.getConfidentialityOffset())
+            self.setChildElementOptionalBooleanValue(algo_element, "REPLAY-PROTECTION", config.getReplayProtection())
+            self.setChildElementOptionalPositiveInteger(algo_element, "REPLAY-PROTECTION-WINDOW", config.getReplayProtectionWindow())
+        self.setChildElementOptionalRefType(child_element, "SAK-REF", participant.getSak())
 
     def setMacSecLocalKayProps(self, element: ET.Element, key: str, props: MacSecLocalKayProps):
         if props is not None:

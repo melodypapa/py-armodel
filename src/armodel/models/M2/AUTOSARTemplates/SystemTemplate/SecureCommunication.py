@@ -574,6 +574,75 @@ class MacSecLocalKayProps(ARObject):
         return self
 
 
+class MacSecKayParticipant(Identifiable):
+    """
+    This meta-class configures a MKA participant.
+    """
+
+    # MacSecKayParticipant method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.122, p.175
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCkn                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCkn                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCryptoAlgoConfig           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCryptoAlgoConfig           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSak                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSak                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # Reference to the key where the ckn (Connectivity Association key) is stored.
+        self.ckn: Optional[RefType] = None
+
+        # Cryptography that is used by the MKA Participant.
+        self.cryptoAlgoConfig: Optional[MacSecCryptoAlgoConfig] = None
+
+        # Reference to the key where SAK shall be stored.
+        self.sak: Optional[RefType] = None
+
+    def getCkn(self) -> Optional[RefType]:
+        """Reference to the key where the ckn (Connectivity Association key) is stored."""
+        return self.ckn
+
+    def setCkn(self, value: Optional[RefType]) -> "MacSecKayParticipant":
+        """
+        Reference to the key where the ckn (Connectivity Association key) is stored.
+        A None value is a no-op and does not overwrite an existing ckn.
+        """
+        if value is not None:
+            self.ckn = value
+        return self
+
+    def getCryptoAlgoConfig(self) -> Optional[MacSecCryptoAlgoConfig]:
+        """Cryptography that is used by the MKA Participant."""
+        return self.cryptoAlgoConfig
+
+    def setCryptoAlgoConfig(self, value: Optional[MacSecCryptoAlgoConfig]) -> "MacSecKayParticipant":
+        """
+        Cryptography that is used by the MKA Participant.
+        A None value is a no-op and does not overwrite an existing cryptoAlgoConfig.
+        """
+        if value is not None:
+            self.cryptoAlgoConfig = value
+        return self
+
+    def getSak(self) -> Optional[RefType]:
+        """Reference to the key where SAK shall be stored."""
+        return self.sak
+
+    def setSak(self, value: Optional[RefType]) -> "MacSecKayParticipant":
+        """
+        Reference to the key where SAK shall be stored.
+        A None value is a no-op and does not overwrite an existing sak.
+        """
+        if value is not None:
+            self.sak = value
+        return self
+
+
 class MacSecProps(ARObject):
     """
     This meta-class allows to configure MACsec (Media access control security) and the MKA (MACsec Key Agreement) for the CouplingPort (PHY).

@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecCryptoAlgoConfig,
     MacSecFailPermissiveModeEnum,
     MacSecGlobalKayProps,
+    MacSecKayParticipant,
     MacSecLocalKayProps,
     MacSecProps,
     MacSecRoleEnum,
@@ -351,3 +352,44 @@ class Test_MacSecCryptoAlgoConfig:
         assert config.getConfidentialityOffset() is None
         assert config.getReplayProtection() is None
         assert config.getReplayProtectionWindow() is None
+
+
+class Test_MacSecKayParticipant:
+    def test_defaults(self):
+        parent = MockParent()
+        participant = MacSecKayParticipant(parent, "test_kay_participant")
+        assert isinstance(participant, Identifiable)
+        assert participant.getCkn() is None
+        assert participant.getCryptoAlgoConfig() is None
+        assert participant.getSak() is None
+
+    def test_get_set_ckn(self):
+        parent = MockParent()
+        participant = MacSecKayParticipant(parent, "test_kay_participant")
+        ckn = _ref("/Sec/CryptoKeyCkn")
+        assert participant.setCkn(ckn) is participant
+        assert participant.getCkn() is ckn
+
+    def test_get_set_crypto_algo_config(self):
+        parent = MockParent()
+        participant = MacSecKayParticipant(parent, "test_kay_participant")
+        config = MacSecCryptoAlgoConfig()
+        assert participant.setCryptoAlgoConfig(config) is participant
+        assert participant.getCryptoAlgoConfig() is config
+
+    def test_get_set_sak(self):
+        parent = MockParent()
+        participant = MacSecKayParticipant(parent, "test_kay_participant")
+        sak = _ref("/Sec/CryptoKeySak")
+        assert participant.setSak(sak) is participant
+        assert participant.getSak() is sak
+
+    def test_none_is_noop(self):
+        parent = MockParent()
+        participant = MacSecKayParticipant(parent, "test_kay_participant")
+        assert participant.setCkn(None) is participant
+        assert participant.setCryptoAlgoConfig(None) is participant
+        assert participant.setSak(None) is participant
+        assert participant.getCkn() is None
+        assert participant.getCryptoAlgoConfig() is None
+        assert participant.getSak() is None

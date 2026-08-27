@@ -571,6 +571,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
     MacSecCryptoAlgoConfig,
     MacSecFailPermissiveModeEnum,
     MacSecGlobalKayProps,
+    MacSecKayParticipant,
     MacSecLocalKayProps,
     MacSecProps,
     MacSecRoleEnum,
@@ -9331,6 +9332,17 @@ class ARXMLParser(AbstractARXMLParser):
             config.setConfidentialityOffset(e)
         config.setReplayProtection(self.getChildElementOptionalBooleanValue(element, "REPLAY-PROTECTION"))
         config.setReplayProtectionWindow(self.getChildElementOptionalPositiveInteger(element, "REPLAY-PROTECTION-WINDOW"))
+
+    def readMacSecKayParticipant(self, element: ET.Element, participant: MacSecKayParticipant):
+        self.logger.debug("Read MacSecKayParticipant <%s>" % participant.getShortName())
+        self.readIdentifiable(element, participant)
+        participant.setCkn(self.getChildElementOptionalRefType(element, "CKN-REF"))
+        algo_element = self.find(element, "CRYPTO-ALGO-CONFIG")
+        if algo_element is not None:
+            config = MacSecCryptoAlgoConfig()
+            self.readMacSecCryptoAlgoConfig(algo_element, config)
+            participant.setCryptoAlgoConfig(config)
+        participant.setSak(self.getChildElementOptionalRefType(element, "SAK-REF"))
 
     def getMacSecLocalKayProps(self, element: ET.Element) -> Optional[MacSecLocalKayProps]:
         props = None

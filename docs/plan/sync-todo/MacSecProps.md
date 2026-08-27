@@ -149,14 +149,15 @@ for classes refs typed generic `RefType` → must be corrected + stamped. `missi
   MultilanguageReferrable,Referrable; attrs ckn(CryptoServiceKey 0..1 ref → RefType),
   cryptoAlgoConfig(MacSecCryptoAlgoConfig 0..1 aggr), sak(CryptoServiceKey 0..1 ref → RefType);
   referenced by MacSecLocalKayProps.mkaParticipant ref 0..*, aggregated by MacSecParticipantSet (excluded))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+    (tracker: ckn/sak are CryptoServiceKey refs typed generic `RefType` per repo convention (user 2026-08-28, no typed-ref precedent) — pre-decided in Phase 0, NOT an open deviation; no placeholders; no open deviations)
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 ### Phase E — Input class (deps: Phase A + C)
