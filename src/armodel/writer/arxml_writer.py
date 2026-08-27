@@ -153,6 +153,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TimingDescriptionEvent,
     TimingDescriptionEventChain,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventCom import (
+    TDEventCom,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
@@ -3487,6 +3490,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         expression = event.getOccurrenceExpression()
         if expression is not None:
             self.writeTDEventOccurrenceExpression(ET.SubElement(element, "OCCURRENCE-EXPRESSION"), expression)
+
+    def writeTDEventCom(self, element: ET.Element, event: "TDEventCom"):
+        self.writeTimingDescriptionEvent(element, event)
+        self.setChildElementOptionalRefType(element, "ECU-INSTANCE-REF", event.getEcuInstanceRef())
 
     def writeTDEventVfb(self, element: ET.Element, event: TDEventVfb):
         self.writeTimingDescriptionEvent(element, event)

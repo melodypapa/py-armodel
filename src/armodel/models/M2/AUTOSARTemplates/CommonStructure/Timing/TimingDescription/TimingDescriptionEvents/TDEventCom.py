@@ -3,8 +3,15 @@ This module contains the Communication (COM) level timing description event clas
 (spec package CommonStructure::Timing::TimingDescription::TimingDescriptionEvents::TDEventCom).
 """
 
+from abc import ABC
+from typing import Optional
+
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
+    TimingDescriptionEvent,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    RefType,
 )
 
 
@@ -138,3 +145,36 @@ class TDEventFrameEthernetTypeEnum(AREnum):
                 TDEventFrameEthernetTypeEnum.FRAME_ETHERNET_SENT_ON_BUS,
             )
         )
+
+
+class TDEventCom(TimingDescriptionEvent, ABC):
+    """
+    This is the abstract parent class to describe timing events related to communication including the physical layer.
+    """
+
+    # TDEventCom method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.29, p.65
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEcuInstanceRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEcuInstanceRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent, short_name):
+        if type(self) is TDEventCom:
+            raise TypeError("TDEventCom is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # The ECU context for a particular timing event. The link is optional, because the EcuInstance can not be defined for events of type TDEventCycleStart.
+        self.ecuInstanceRef: Optional[RefType] = None
+
+    def getEcuInstanceRef(self) -> Optional[RefType]:
+        """The ECU context for a particular timing event. The link is optional, because the EcuInstance can not be defined for events of type TDEventCycleStart."""
+        return self.ecuInstanceRef
+
+    def setEcuInstanceRef(self, value: Optional[RefType]) -> "TDEventCom":
+        """The ECU context for a particular timing event. The link is optional, because the EcuInstance can not be defined for events of type TDEventCycleStart. A None value is a no-op and does not overwrite an existing ecuInstanceRef."""
+        if value is not None:
+            self.ecuInstanceRef = value
+        return self

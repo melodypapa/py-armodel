@@ -1,0 +1,42 @@
+"""Parser tests for TDEventCom (abstract COM timing event base, Table 3.29)."""
+
+import xml.etree.ElementTree as ET
+
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventCom import (
+    TDEventCom,
+)
+from armodel.parser.arxml_parser import ARXMLParser
+
+NS = "http://autosar.org/schema/r4.0"
+
+
+class ConcreteTDEventCom(TDEventCom):
+    pass
+
+
+class TestReadTDEventCom:
+    def test_read_full(self):
+        AUTOSAR.getInstance().new()
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        parent = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        event = ConcreteTDEventCom(parent, "Com1")
+        element = ET.fromstring(
+            f"<TD-EVENT-COM xmlns='{NS}'>"
+            "<SHORT-NAME>Com1</SHORT-NAME>"
+            "<ECU-INSTANCE-REF DEST='ECU-INSTANCE'>/AUTOSAR/Ecu1</ECU-INSTANCE-REF>"
+            "</TD-EVENT-COM>"
+        )
+        ARXMLParser().readTDEventCom(element, event)
+        assert event.getShortName() == "Com1"
+        assert event.getEcuInstanceRef().getValue() == "/AUTOSAR/Ecu1"
+        assert event.getEcuInstanceRef().getDest() == "ECU-INSTANCE"
+
+    def test_read_minimal(self):
+        AUTOSAR.getInstance().new()
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        parent = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        event = ConcreteTDEventCom(parent, "Com1")
+        element = ET.fromstring(f"<TD-EVENT-COM xmlns='{NS}'><SHORT-NAME>Com1</SHORT-NAME></TD-EVENT-COM>")
+        ARXMLParser().readTDEventCom(element, event)
+        assert event.getEcuInstanceRef() is None

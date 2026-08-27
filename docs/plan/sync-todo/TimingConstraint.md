@@ -686,7 +686,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventCom (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.29 · abstract; ecuInstance -> EcuInstance ref (RefType))
+- [x] TDEventCom (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.29 · abstract; ecuInstance -> EcuInstance ref (RefType)) · commit <HASH>
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

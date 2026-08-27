@@ -169,6 +169,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TimingDescriptionEvent,
     TimingDescriptionEventChain,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventCom import (
+    TDEventCom,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
     TDEventModeDeclaration,
     TDEventModeDeclarationTypeEnum,
@@ -2193,6 +2196,10 @@ class ARXMLParser(AbstractARXMLParser):
         occurrence_element = self.find(element, "OCCURRENCE-EXPRESSION")
         if occurrence_element is not None:
             event.setOccurrenceExpression(self.readTDEventOccurrenceExpression(occurrence_element, event))
+
+    def readTDEventCom(self, element: ET.Element, event: "TDEventCom"):
+        self.readTimingDescriptionEvent(element, event)
+        event.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
 
     def readTimingDescriptions(self, element: ET.Element, extension: TimingExtension):
         for child_element in self.findall(element, "TIMING-DESCRIPTIONS/*"):
