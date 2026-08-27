@@ -5,6 +5,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, MacAddressString, PositiveInteger, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
     CryptoServiceMapping,
+    MacSecCapabilityEnum,
     MacSecFailPermissiveModeEnum,
     MacSecLocalKayProps,
     MacSecProps,
@@ -139,6 +140,15 @@ class Test_MacSecEnums:
         e.setValue("timeout")
         assert e.getValue() == "timeout"
         assert e.getText() == "timeout"
+
+    def test_MacSecCapabilityEnum(self):
+        # spec literal names per Table 3.126 (intergrityWithoutConfidentiality idx0, intergrityAndConfidentiality idx1); note spec spells both "intergrity"
+        assert MacSecCapabilityEnum.INTERGRITY_WITHOUT_CONFIDENTIALITY == "intergrityWithoutConfidentiality"
+        assert MacSecCapabilityEnum.INTERGRITY_AND_CONFIDENTIALITY == "intergrityAndConfidentiality"
+        e = MacSecCapabilityEnum()
+        e.setValue("intergrityAndConfidentiality")
+        assert e.getValue() == "intergrityAndConfidentiality"
+        assert e.getText() == "intergrityAndConfidentiality"
 
 
 class Test_MacSecLocalKayProps:
