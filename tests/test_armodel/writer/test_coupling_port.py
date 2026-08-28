@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
     CouplingPortDetails,
+    PlcaProps,
     VlanMembership,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
@@ -179,6 +180,35 @@ class TestWriteCouplingPort:
         assert mac_sec.find("ON-FAIL-PERMISSIVE-MODE").text == "TIMEOUT"
         assert mac_sec.find("ON-FAIL-PERMISSIVE-MODE-TIMEOUT").text == "30.0"
         assert mac_sec.find("SAK-REKEY-TIME-SPAN").text == "3600.0"
+
+    def test_write_child_element_order_matches_xsd(self, writer):
+        port = _new_port()
+        port.setPlcaProps(PlcaProps())
+        port.addMacSecProps(_new_mac_sec_props())
+        parent = ET.Element("PARENT")
+        writer.writeCouplingPort(parent, port)
+
+        node = parent.find("COUPLING-PORT")
+        # AUTOSAR_00052.xsd group COUPLING-PORT sequence; COUPLING-PORT-SPEED is
+        # atp.Status=removed and VARIATION-POINT is framework-owned, so neither is modelled.
+        xsd_order = [
+            "CONNECTION-NEGOTIATION-BEHAVIOR",
+            "COUPLING-PORT-DETAILS",
+            "COUPLING-PORT-ROLE",
+            "DEFAULT-VLAN-REF",
+            "MAC-LAYER-TYPE",
+            "MAC-MULTICAST-ADDRESS-REFS",
+            "MAC-SEC-PROPS",
+            "PHYSICAL-LAYER-TYPE",
+            "PLCA-PROPS",
+            "PNC-MAPPING-REFS",
+            "RECEIVE-ACTIVITY",
+            "VLAN-MEMBERSHIPS",
+            "VLAN-MODIFIER-REF",
+            "WAKEUP-SLEEP-ON-DATALINE-CONFIG-REF",
+        ]
+        emitted = [child.tag for child in node if child.tag in xsd_order]
+        assert emitted == xsd_order
 
 
 class TestCouplingPortRoundTrip:

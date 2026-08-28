@@ -9184,10 +9184,6 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, port)
         self.setChildElementOptionalLiteral(child_element, "CONNECTION-NEGOTIATION-BEHAVIOR", port.getConnectionNegotiationBehavior())
         self.setCouplingPortDetails(child_element, "COUPLING-PORT-DETAILS", port.getCouplingPortDetails())
-        self.setPlcaProps(child_element, "PLCA-PROPS", port.getPlcaProps())
-        for props in port.getMacSecProps():
-            self.setMacSecProps(child_element, "MAC-SEC-PROPS", props)
-        self.setChildElementOptionalLiteral(child_element, "PHYSICAL-LAYER-TYPE", port.getPhysicalLayerType())
         self.setChildElementOptionalLiteral(child_element, "COUPLING-PORT-ROLE", port.getCouplingPortRole())
         self.setChildElementOptionalRefType(child_element, "DEFAULT-VLAN-REF", port.getDefaultVlanRef())
         self.setChildElementOptionalLiteral(child_element, "MAC-LAYER-TYPE", port.getMacLayerType())
@@ -9197,6 +9193,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             refs_element = ET.SubElement(child_element, "MAC-MULTICAST-ADDRESS-REFS")
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_element, "MAC-MULTICAST-ADDRESS-REF", ref)
+
+        for props in port.getMacSecProps():
+            self.setMacSecProps(child_element, "MAC-SEC-PROPS", props)
+        self.setChildElementOptionalLiteral(child_element, "PHYSICAL-LAYER-TYPE", port.getPhysicalLayerType())
+        self.setPlcaProps(child_element, "PLCA-PROPS", port.getPlcaProps())
 
         refs = port.getPncMappingRefs()
         if len(refs) > 0:

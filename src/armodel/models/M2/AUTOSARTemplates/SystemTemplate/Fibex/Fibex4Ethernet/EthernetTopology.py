@@ -2501,6 +2501,8 @@ class EthernetSwitchVlanIngressTagEnum(AREnum):
 
     # EthernetSwitchVlanIngressTagEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.58, p.111
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on CouplingPort.receiveActivity
 
     # Forward with the same VLAN as received. Also untagged frames will be forwarded as untagged. Tags: atp.EnumerationLiteralIndex=0
