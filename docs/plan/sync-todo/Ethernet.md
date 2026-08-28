@@ -269,7 +269,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
      iPduIdentifierTcp/Udp singular→plural convention noted; consumer wiring pending RE-FIX rows)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass; placeholder resolved once EventGroupControlTypeEnum landed — reader/writer now construct the enum)
-- [x] StaticSocketConnection (Table 6.201 · p.544 · used by SocketAddress.staticSocketConnections · resolves ARObject placeholder) — STAMPED R23-11 <!-- commit: pending -->
+- [x] StaticSocketConnection (Table 6.201 · p.544 · used by SocketAddress.staticSocketConnections · resolves ARObject placeholder) — STAMPED R23-11 <!-- commit: 2501d6ed -->
   - [x] Step 1 — Sync members & description from spec
     (Table 6.201 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:14280–14310 + PDF p.544;
     Base → Identifiable; 4 attr rows: iPduIdentifier * ref, remoteAddress 0..1 ref, tcpConnectTimeout attr, tcpRole attr;
