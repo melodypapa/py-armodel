@@ -837,14 +837,14 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 8 — Deviations: none (abstract class, no own attributes, no referenced member types; not dispatched like TDEventBsw — concrete subclass TDEventSLLETPort carries TD-EVENT-SLLET-PORT next session)
   - [x] Step 9 — Verify (9a passed: 5 TDEventSLLET tests + 512 Timing model/parser/writer tests green; ruff/black clean); 9b confirm + # Spec verified: R23-11 stamped (commit 007540a0)
 - [ ] TDEventSLLETPort (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.49 · port -> PortPrototype ref (RefType); Base includes TDEventSLLET (queued above))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec (Table 3.49, p.79; Note verbatim incl "Tags: atp.Status=draft"; base TDEventSLLET; single attr port -> PortPrototype ref (RefType) -> portRef Optional[RefType]; XML PORT-REF; element TD-EVENT-SLLET-PORT; XSD confirms PORT-REF DEST=PORT-PROTOTYPE--SUBTYPES-ENUM 0..1; leaf module TDEventSLLETPort.py in TimingDescriptionEvents)
+  - [x] Step 2 — Write model class unit test (Red) — test_TDEventSLLETPort.py (construct, base, default, get/set round-trip, None no-op)
+  - [x] Step 3 — Implement model class (Green) — TDEventSLLETPort(TDEventSLLET); portRef Optional[RefType] + get/setPortRef (None no-op)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — new file; class docstring = spec Note verbatim; member/getter/setter docstrings = attribute Note verbatim
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — test_parser_tdevents_sllet.py::TestReadTDEventSLLETPort + test_writer_tdevents_sllet.py::TestWriteTDEventSLLETPort (field-value asserts + empty case)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTDEventSLLETPort + TD-EVENT-SLLET-PORT dispatch branch in readTimingDescriptions/writeTimingDescriptions; PORT-REF flat ref
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.49, p.79; marker deferred to 9b)
+  - [x] Step 8 — Deviations: none (TDEventSLLET base already synced; single port ref fully modeled; no Rule 0001.10 placeholders)
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] TimingExtension (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.65 · abstract · aggregates TimingCondition (TIMING-CONDITIONS) / timingGuarantee+timingRequirement -> polymorphic 12-subclass TimingConstraint dispatch (queued above); timingResource 0..1 -> TimingExtensionResource (queued above); timingDescription -> TIMING-DESCRIPTIONS family QUEUED above (TimingDescription/TimingDescriptionEvent bases + 23 concrete dispatch targets); Step 9b blocked until family lands · Subclass SwcTiming queued next) · commit 8d181a14 · commit e919c413 (spec page corrected); awaiting re-confirmation
   - [x] Step 1 — Sync members & description from spec (Table D.65 + XSD group TIMING-EXTENSION; class Note from XSD documentation)

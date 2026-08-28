@@ -220,6 +220,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSLLET import (
     TDEventSLLET,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSLLETPort import (
+    TDEventSLLETPort,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
@@ -2348,6 +2351,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "TD-EVENT-TT-CAN-CYCLE-START":
                 event = TDEventTTCanCycleStart(extension, short_name)
                 self.readTDEventTTCanCycleStart(child_element, event)
+            elif tag_name == "TD-EVENT-SLLET-PORT":
+                event = TDEventSLLETPort(extension, short_name)
+                self.readTDEventSLLETPort(child_element, event)
             else:
                 self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % tag_name)
                 continue
@@ -2460,6 +2466,10 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTDEventSLLET(self, element: ET.Element, event: TDEventSLLET):
         self.readTimingDescriptionEvent(element, event)
+
+    def readTDEventSLLETPort(self, element: ET.Element, event: TDEventSLLETPort):
+        self.readTDEventSLLET(element, event)
+        event.setPortRef(self.getChildElementOptionalRefType(element, "PORT-REF"))
 
     def readTDEventSwcInternalBehaviorReference(self, element: ET.Element, event: TDEventSwcInternalBehaviorReference):
         self.readTDEventSwc(element, event)

@@ -316,6 +316,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSLLET import (
     TDEventSLLET,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSLLETPort import (
+    TDEventSLLETPort,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
     ArbitraryEventTriggering,
     BurstPatternEventTriggering,
@@ -3668,6 +3671,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeTDEventSLLET(self, element: ET.Element, event: TDEventSLLET):
         self.writeTimingDescriptionEvent(element, event)
 
+    def writeTDEventSLLETPort(self, element: ET.Element, event: TDEventSLLETPort):
+        self.writeTDEventSLLET(element, event)
+        self.setChildElementOptionalRefType(element, "PORT-REF", event.getPortRef())
+
     def writeTDEventOccurrenceExpression(self, element: ET.Element, expression: TDEventOccurrenceExpression):
         self.writeARObjectAttributes(element, expression)
         arguments = expression.getArguments()
@@ -6568,6 +6575,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(description, TDEventTTCanCycleStart):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-TT-CAN-CYCLE-START")
                     self.writeTDEventTTCanCycleStart(description_tag, description)
+                elif isinstance(description, TDEventSLLETPort):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-SLLET-PORT")
+                    self.writeTDEventSLLETPort(description_tag, description)
 
     def writeSwcTiming(self, element: ET.Element, timing: SwcTiming):
         self.logger.debug("writeSWcTiming %s" % timing.getShortName())
