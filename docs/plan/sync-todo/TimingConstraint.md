@@ -826,7 +826,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.48, p.78)
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: 165 tests green; ruff/black clean); 9b confirm + # Spec verified: R23-11 stamped
-- [ ] TDEventSLLET (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.57 · abstract · NO own attributes ("-" row) · Base includes TimingDescription/TimingDescriptionEvent (queued above)) · queued 2026-08-26: D.57 table found at session start (was treated as XSD-only header-only); required Base of TDEventSLLETPort
+- [x] TDEventSLLET (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.57 · abstract · NO own attributes ("-" row) · Base includes TimingDescription/TimingDescriptionEvent (queued above)) · queued 2026-08-26: D.57 table found at session start (was treated as XSD-only header-only); required Base of TDEventSLLETPort · commit 007540a0
   - [x] Step 1 — Sync members & description from spec (Table D.57, p.251; Note verbatim incl "Tags: atp.Status=draft"; abstract class, no own attrs; Base = TimingDescriptionEvent; spec package = leaf module TDEventSLLET.py; XSD confirms TD-EVENT-SLLET element exists but class is abstract → not directly dispatched, read/writeTDEventSLLET delegate to base for TDEventSLLETPort)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventSLLET.py (3 tests: abstract guard, base subclass, concrete construct)
   - [x] Step 3 — Implement model class (Green) — TDEventSLLET(TimingDescriptionEvent), abstract TypeError guard, no own members
@@ -835,7 +835,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 6 — Update parser & writer (Green) — read/writeTDEventSLLET delegate to base TimingDescriptionEvent; import added (no TD-EVENT-SLLET dispatch: abstract class like TDEventBsw)
   - [x] Step 7 — Update checklist comment (# Spec: Table D.57, p.251; marker deferred to 9b)
   - [x] Step 8 — Deviations: none (abstract class, no own attributes, no referenced member types; not dispatched like TDEventBsw — concrete subclass TDEventSLLETPort carries TD-EVENT-SLLET-PORT next session)
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a passed: 5 TDEventSLLET tests + 512 Timing model/parser/writer tests green; ruff/black clean); 9b confirm + # Spec verified: R23-11 stamped (commit 007540a0)
 - [ ] TDEventSLLETPort (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.49 · port -> PortPrototype ref (RefType); Base includes TDEventSLLET (queued above))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
