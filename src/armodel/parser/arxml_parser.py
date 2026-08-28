@@ -7840,12 +7840,12 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported assigned data type <%s>" % tag_name)
 
     def readCouplingPortConnection(self, element: ET.Element, connection: CouplingPortConnection):
-        connection.setFirstPort(self.getChildElementOptionalRefType(element, "FIRST-PORT-REF"))
+        connection.setFirstPortRef(self.getChildElementOptionalRefType(element, "FIRST-PORT-REF"))
         for ref in self.getChildElementRefTypeList(element, "NODE-PORTS/COUPLING-PORT-REF-CONDITIONAL/COUPLING-PORT-REF"):
-            connection.addNodePort(ref)
+            connection.addNodePortRef(ref)
         connection.setPlcaLocalNodeCount(self.getChildElementOptionalPositiveInteger(element, "PLCA-LOCAL-NODE-COUNT"))
         connection.setPlcaTransmitOpportunityTimer(self.getChildElementOptionalPositiveInteger(element, "PLCA-TRANSMIT-OPPORTUNITY-TIMER"))
-        connection.setSecondPort(self.getChildElementOptionalRefType(element, "SECOND-PORT-REF"))
+        connection.setSecondPortRef(self.getChildElementOptionalRefType(element, "SECOND-PORT-REF"))
 
     def readEthernetClusterCouplingPortConnections(self, element: ET.Element, cluster: EthernetCluster):
         for child_element in self.findall(element, "COUPLING-PORT-CONNECTIONS/*"):

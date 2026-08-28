@@ -1634,7 +1634,7 @@ Resolution of the three technology members (queue context): Table 6.124 (markdow
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `couplingPortConnections` | `List[ARObject]` | `couplingPort Connection` | ``CouplingPortConnection`` | aggr | referenced class `CouplingPortConnection` not yet implemented; carried as an `ARObject` placeholder list with add/get accessors, reader/writer pending, full sync deferred (Rule 0001.10); field renamed from the mislabelled `couplingPorts` |
+| `couplingPortConnections` | `List[CouplingPortConnection]` | `couplingPort Connection` | ``CouplingPortConnection`` | aggr | field renamed from the mislabelled `couplingPorts` |
 | `couplingPortStartupActiveTime` | `Optional[TimeValue]` | `couplingPort StartupActiveTime` | ``TimeValue`` | attr | - |
 | `couplingPortSwitchoffDelay` | `Optional[TimeValue]` | `couplingPort SwitchoffDelay` | ``TimeValue`` | attr | - |
 | `macMulticastGroups` | `List[MacMulticastGroup]` | `macMulticast Group` | ``MacMulticastGroup`` | aggr | - |

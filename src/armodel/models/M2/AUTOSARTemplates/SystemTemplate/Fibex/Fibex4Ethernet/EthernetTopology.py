@@ -2651,32 +2651,33 @@ class PlcaProps(ARObject):
 
 class CouplingPortConnection(ARObject):
     """
-    Connection between two CouplingPorts (firstPort and secondPort).
+    Connection between two CouplingPorts (firstPort and secondPort) or between a collection of Ports that are all referenced by the portCollection reference.
     """
 
     # CouplingPortConnection method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.60, p.113
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFirstPort                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFirstPort                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNodePorts                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addNodePort                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFirstPortRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFirstPortRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNodePortRefs                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addNodePortRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getPlcaLocalNodeCount          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setPlcaLocalNodeCount          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getPlcaTransmitOpportunityTimer [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setPlcaTransmitOpportunityTimer [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecondPort                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecondPort                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSecondPortRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSecondPortRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
         # Reference to the first CouplingPort that is connected via the CouplingPortConnection.
-        self.firstPort: Optional[RefType] = None
+        self.firstPortRef: Optional[RefType] = None
 
         # Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild
-        self.nodePorts: List[RefType] = []
+        self.nodePortRefs: List[RefType] = []
 
         # Defines the number of communication participants in case 10BASE-T1S and the nodePort reference is used.
         self.plcaLocalNodeCount: Optional[PositiveInteger] = None
@@ -2685,32 +2686,32 @@ class CouplingPortConnection(ARObject):
         self.plcaTransmitOpportunityTimer: Optional[PositiveInteger] = None
 
         # Reference to the second CouplingPort that is connected via the CouplingPortConnection.
-        self.secondPort: Optional[RefType] = None
+        self.secondPortRef: Optional[RefType] = None
 
-    def getFirstPort(self) -> Optional[RefType]:
+    def getFirstPortRef(self) -> Optional[RefType]:
         """Reference to the first CouplingPort that is connected via the CouplingPortConnection."""
-        return self.firstPort
+        return self.firstPortRef
 
-    def setFirstPort(self, value: Optional[RefType]) -> "CouplingPortConnection":
+    def setFirstPortRef(self, value: Optional[RefType]) -> "CouplingPortConnection":
         """
         Reference to the first CouplingPort that is connected via the CouplingPortConnection.
-        A None value is a no-op and does not overwrite an existing firstPort.
+        A None value is a no-op and does not overwrite an existing firstPortRef.
         """
         if value is not None:
-            self.firstPort = value
+            self.firstPortRef = value
         return self
 
-    def getNodePorts(self) -> List[RefType]:
+    def getNodePortRefs(self) -> List[RefType]:
         """Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild"""
-        return self.nodePorts
+        return self.nodePortRefs
 
-    def addNodePort(self, value: Optional[RefType]) -> "CouplingPortConnection":
+    def addNodePortRef(self, value: Optional[RefType]) -> "CouplingPortConnection":
         """
         Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild
-        A None value is a no-op and does not append to nodePorts.
+        A None value is a no-op and does not append to nodePortRefs.
         """
         if value is not None:
-            self.nodePorts.append(value)
+            self.nodePortRefs.append(value)
         return self
 
     def getPlcaLocalNodeCount(self) -> Optional[PositiveInteger]:
@@ -2739,17 +2740,17 @@ class CouplingPortConnection(ARObject):
             self.plcaTransmitOpportunityTimer = value
         return self
 
-    def getSecondPort(self) -> Optional[RefType]:
+    def getSecondPortRef(self) -> Optional[RefType]:
         """Reference to the second CouplingPort that is connected via the CouplingPortConnection."""
-        return self.secondPort
+        return self.secondPortRef
 
-    def setSecondPort(self, value: Optional[RefType]) -> "CouplingPortConnection":
+    def setSecondPortRef(self, value: Optional[RefType]) -> "CouplingPortConnection":
         """
         Reference to the second CouplingPort that is connected via the CouplingPortConnection.
-        A None value is a no-op and does not overwrite an existing secondPort.
+        A None value is a no-op and does not overwrite an existing secondPortRef.
         """
         if value is not None:
-            self.secondPort = value
+            self.secondPortRef = value
         return self
 
 

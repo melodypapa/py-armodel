@@ -8731,8 +8731,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeCouplingPortConnection(self, element: ET.Element, connection: CouplingPortConnection):
         child_element = ET.SubElement(element, "COUPLING-PORT-CONNECTION")
-        self.setChildElementOptionalRefType(child_element, "FIRST-PORT-REF", connection.getFirstPort())
-        node_ports = connection.getNodePorts()
+        self.setChildElementOptionalRefType(child_element, "FIRST-PORT-REF", connection.getFirstPortRef())
+        node_ports = connection.getNodePortRefs()
         if len(node_ports) > 0:
             node_ports_element = ET.SubElement(child_element, "NODE-PORTS")
             for ref in node_ports:
@@ -8740,7 +8740,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(conditional_element, "COUPLING-PORT-REF", ref)
         self.setChildElementOptionalPositiveInteger(child_element, "PLCA-LOCAL-NODE-COUNT", connection.getPlcaLocalNodeCount())
         self.setChildElementOptionalPositiveInteger(child_element, "PLCA-TRANSMIT-OPPORTUNITY-TIMER", connection.getPlcaTransmitOpportunityTimer())
-        self.setChildElementOptionalRefType(child_element, "SECOND-PORT-REF", connection.getSecondPort())
+        self.setChildElementOptionalRefType(child_element, "SECOND-PORT-REF", connection.getSecondPortRef())
 
     def writeEthernetClusterCouplingPortConnections(self, element: ET.Element, cluster: EthernetCluster):
         connections = cluster.getCouplingPortConnections()

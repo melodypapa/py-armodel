@@ -1288,39 +1288,39 @@ class TestCouplingPortConnection:
 
     def test_initialization(self):
         connection = CouplingPortConnection()
-        assert connection.getFirstPort() is None
-        assert connection.getNodePorts() == []
+        assert connection.getFirstPortRef() is None
+        assert connection.getNodePortRefs() == []
         assert connection.getPlcaLocalNodeCount() is None
         assert connection.getPlcaTransmitOpportunityTimer() is None
-        assert connection.getSecondPort() is None
+        assert connection.getSecondPortRef() is None
 
     def test_get_set_first_port(self):
         connection = CouplingPortConnection()
         ref = RefType().setValue("/Ether/CouplingPort/CP1")
-        result = connection.setFirstPort(ref)
-        assert connection.getFirstPort() == ref
+        result = connection.setFirstPortRef(ref)
+        assert connection.getFirstPortRef() == ref
         assert result == connection
 
     def test_get_set_second_port(self):
         connection = CouplingPortConnection()
         ref = RefType().setValue("/Ether/CouplingPort/CP2")
-        result = connection.setSecondPort(ref)
-        assert connection.getSecondPort() == ref
+        result = connection.setSecondPortRef(ref)
+        assert connection.getSecondPortRef() == ref
         assert result == connection
 
     def test_add_node_ports(self):
         connection = CouplingPortConnection()
         ref1 = RefType().setValue("/Ether/CouplingPort/CP1")
         ref2 = RefType().setValue("/Ether/CouplingPort/CP3")
-        result = connection.addNodePort(ref1)
-        connection.addNodePort(ref2)
-        assert connection.getNodePorts() == [ref1, ref2]
+        result = connection.addNodePortRef(ref1)
+        connection.addNodePortRef(ref2)
+        assert connection.getNodePortRefs() == [ref1, ref2]
         assert result == connection
 
     def test_add_node_port_none_no_op(self):
         connection = CouplingPortConnection()
-        result = connection.addNodePort(None)
-        assert connection.getNodePorts() == []
+        result = connection.addNodePortRef(None)
+        assert connection.getNodePortRefs() == []
         assert result == connection
 
     def test_get_set_plca_local_node_count(self):
@@ -1335,6 +1335,33 @@ class TestCouplingPortConnection:
         value = PositiveInteger().setValue("100")
         result = connection.setPlcaTransmitOpportunityTimer(value)
         assert connection.getPlcaTransmitOpportunityTimer() == value
+        assert result == connection
+
+    def test_none_no_op(self):
+        connection = CouplingPortConnection()
+
+        first = RefType().setValue("/Ether/CouplingPort/CP1")
+        connection.setFirstPortRef(first)
+        result = connection.setFirstPortRef(None)
+        assert connection.getFirstPortRef() == first
+        assert result == connection
+
+        second = RefType().setValue("/Ether/CouplingPort/CP2")
+        connection.setSecondPortRef(second)
+        result = connection.setSecondPortRef(None)
+        assert connection.getSecondPortRef() == second
+        assert result == connection
+
+        count = PositiveInteger().setValue("4")
+        connection.setPlcaLocalNodeCount(count)
+        result = connection.setPlcaLocalNodeCount(None)
+        assert connection.getPlcaLocalNodeCount() == count
+        assert result == connection
+
+        timer = PositiveInteger().setValue("100")
+        connection.setPlcaTransmitOpportunityTimer(timer)
+        result = connection.setPlcaTransmitOpportunityTimer(None)
+        assert connection.getPlcaTransmitOpportunityTimer() == timer
         assert result == connection
 
 
