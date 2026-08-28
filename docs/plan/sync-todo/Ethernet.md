@@ -384,9 +384,9 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (none; CouplingPort couplingPortRole placeholder row resolved)
    - [x] Step 9 — Verify (9a) + confirm (9b)
      (full 9-step audit: page corrected to p.2013 and literal order corrected to EnumerationLiteralIndex; targeted verification pending after fix; 9b stamp DEFERRED pending user confirmation)
-- [x] EthernetMacLayerTypeEnum (enum · Table 3.56 · p.110 · used by CouplingPort.macLayerType AND EthernetCommunicationController.macLayerType · source EthernetTopology.py · resolves both ARLiteral placeholders · Steps 5/6 N/A if standalone enum) — STAMP DEFERRED (batch 9b pending)
+- [x] EthernetMacLayerTypeEnum (enum · Table 3.56 · p.110 · used by CouplingPort.macLayerType AND EthernetCommunicationController.macLayerType · source EthernetTopology.py · resolves both ARLiteral placeholders · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 <!-- commit: pending -->
   - [x] Step 1 — Sync members & description from spec
-    (Table 3.56 markdown AUTOSAR_CP_TPS_SystemTemplate.md:2838 + PDF p.110)
+     (Table 3.56 markdown AUTOSAR_CP_TPS_SystemTemplate.md:2838 + PDF p.110; literal order corrected to EnumerationLiteralIndex: X-MII, XG-MII, XXG-MII)
   - [x] Step 2 — Write model class unit test (Red)
     (TestEthernetMacLayerTypeEnum in test_EthernetTopology.py; Red confirmed)
   - [x] Step 3 — Implement model class (Green)
