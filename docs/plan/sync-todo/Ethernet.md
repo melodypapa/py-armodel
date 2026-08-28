@@ -352,7 +352,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (none; StaticSocketConnection tcpRole placeholder row resolved)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] EthernetConnectionNegotiationEnum (enum · Table 3.55 · p.110 · used by CouplingPort.connectionNegotiationBehavior · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMP DEFERRED (batch 9b pending)
+- [x] EthernetConnectionNegotiationEnum (enum · Table 3.55 · p.110 · used by CouplingPort.connectionNegotiationBehavior · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 <!-- commit: pending -->
   - [x] Step 1 — Sync members & description from spec
     (Table 3.55 markdown AUTOSAR_CP_TPS_SystemTemplate.md:2826 + PDF p.110)
   - [x] Step 2 — Write model class unit test (Red)
