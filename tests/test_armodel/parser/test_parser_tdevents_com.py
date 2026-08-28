@@ -6,6 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventCom import (
     TDEventCom,
     TDEventCycleStart,
+    TDEventFrClusterCycleStart,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -61,3 +62,32 @@ class TestReadTDEventCycleStart:
         element = ET.fromstring(f"<TD-EVENT-CYCLE-START xmlns='{NS}'><SHORT-NAME>Cyc1</SHORT-NAME></TD-EVENT-CYCLE-START>")
         ARXMLParser().readTDEventCycleStart(element, event)
         assert event.getCycleRepetition() is None
+
+
+class TestReadTDEventFrClusterCycleStart:
+    def test_read_full(self):
+        AUTOSAR.getInstance().new()
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        parent = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        event = TDEventFrClusterCycleStart(parent, "FrCyc1")
+        element = ET.fromstring(
+            f"<TD-EVENT-FR-CLUSTER-CYCLE-START xmlns='{NS}'>"
+            "<SHORT-NAME>FrCyc1</SHORT-NAME>"
+            "<CYCLE-REPETITION>4</CYCLE-REPETITION>"
+            "<FR-CLUSTER-REF DEST='FLEXRAY-CLUSTER'>/AUTOSAR/FrCluster1</FR-CLUSTER-REF>"
+            "</TD-EVENT-FR-CLUSTER-CYCLE-START>"
+        )
+        ARXMLParser().readTDEventFrClusterCycleStart(element, event)
+        assert event.getShortName() == "FrCyc1"
+        assert event.getCycleRepetition().getValue() == 4
+        assert event.getFrClusterRef().getValue() == "/AUTOSAR/FrCluster1"
+        assert event.getFrClusterRef().getDest() == "FLEXRAY-CLUSTER"
+
+    def test_read_minimal(self):
+        AUTOSAR.getInstance().new()
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        parent = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        event = TDEventFrClusterCycleStart(parent, "FrCyc1")
+        element = ET.fromstring(f"<TD-EVENT-FR-CLUSTER-CYCLE-START xmlns='{NS}'><SHORT-NAME>FrCyc1</SHORT-NAME></TD-EVENT-FR-CLUSTER-CYCLE-START>")
+        ARXMLParser().readTDEventFrClusterCycleStart(element, event)
+        assert event.getFrClusterRef() is None

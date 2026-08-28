@@ -172,6 +172,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventCom import (
     TDEventCom,
     TDEventCycleStart,
+    TDEventFrClusterCycleStart,
     TDEventISignal,
     TDEventISignalTypeEnum,
     TDEventIPdu,
@@ -2215,6 +2216,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readTDEventCom(element, event)
         event.setCycleRepetition(self.getChildElementOptionalIntegerValue(element, "CYCLE-REPETITION"))
 
+    def readTDEventFrClusterCycleStart(self, element: ET.Element, event: "TDEventFrClusterCycleStart"):
+        self.readTDEventCycleStart(element, event)
+        event.setFrClusterRef(self.getChildElementOptionalRefType(element, "FR-CLUSTER-REF"))
+
     def readTDEventISignal(self, element: ET.Element, event: "TDEventISignal"):
         self.readTDEventCom(element, event)
         event.setISignalRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-REF"))
@@ -2303,6 +2308,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "TD-EVENT-FRAME-ETHERNET":
                 event = TDEventFrameEthernet(extension, short_name)
                 self.readTDEventFrameEthernet(child_element, event)
+            elif tag_name == "TD-EVENT-FR-CLUSTER-CYCLE-START":
+                event = TDEventFrClusterCycleStart(extension, short_name)
+                self.readTDEventFrClusterCycleStart(child_element, event)
             else:
                 self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % tag_name)
                 continue

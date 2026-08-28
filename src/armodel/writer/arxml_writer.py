@@ -156,6 +156,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventCom import (
     TDEventCom,
     TDEventCycleStart,
+    TDEventFrClusterCycleStart,
     TDEventISignal,
     TDEventIPdu,
     TDEventFrame,
@@ -3505,6 +3506,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeTDEventCom(element, event)
         self.setChildElementOptionalIntegerValue(element, "CYCLE-REPETITION", event.getCycleRepetition())
 
+    def writeTDEventFrClusterCycleStart(self, element: ET.Element, event: "TDEventFrClusterCycleStart"):
+        self.writeTDEventCycleStart(element, event)
+        self.setChildElementOptionalRefType(element, "FR-CLUSTER-REF", event.getFrClusterRef())
+
     def writeTDEventISignal(self, element: ET.Element, event: "TDEventISignal"):
         self.writeTDEventCom(element, event)
         self.setChildElementOptionalRefType(element, "I-SIGNAL-REF", event.getISignalRef())
@@ -6493,6 +6498,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(description, TDEventFrameEthernet):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-FRAME-ETHERNET")
                     self.writeTDEventFrameEthernet(description_tag, description)
+                elif isinstance(description, TDEventFrClusterCycleStart):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-FR-CLUSTER-CYCLE-START")
+                    self.writeTDEventFrClusterCycleStart(description_tag, description)
 
     def writeSwcTiming(self, element: ET.Element, timing: SwcTiming):
         self.logger.debug("writeSWcTiming %s" % timing.getShortName())

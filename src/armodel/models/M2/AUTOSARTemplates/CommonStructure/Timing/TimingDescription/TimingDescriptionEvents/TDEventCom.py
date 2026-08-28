@@ -217,6 +217,36 @@ class TDEventCycleStart(TDEventCom, ABC):
         return self
 
 
+class TDEventFrClusterCycleStart(TDEventCycleStart):
+    """
+    This is used to describe the timing event related to a point in time where a communication cycle starts on a FlexRay cluster.
+    """
+
+    # TDEventFrClusterCycleStart method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.40, p.71
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getFrClusterRef  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setFrClusterRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # The scope of this timing event.
+        self.frClusterRef: Optional[RefType] = None
+
+    def getFrClusterRef(self) -> Optional[RefType]:
+        """The scope of this timing event."""
+        return self.frClusterRef
+
+    def setFrClusterRef(self, value: Optional[RefType]) -> "TDEventFrClusterCycleStart":
+        """The scope of this timing event. A None value is a no-op and does not overwrite an existing frClusterRef."""
+        if value is not None:
+            self.frClusterRef = value
+        return self
+
+
 class TDEventISignal(TDEventCom):
     """
     This is used to describe timing events related to the exchange of I-Signals between COM and RTE.
