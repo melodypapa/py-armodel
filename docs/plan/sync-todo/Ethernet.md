@@ -336,7 +336,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (none; PduActivationRoutingGroup + SoAdRoutingGroup placeholder rows resolved)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] TcpRoleEnum (enum · Table F.135 · p.2074 (obsolete appendix) · used by StaticSocketConnection.tcpRole · source ServiceInstances.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 <!-- commit: pending -->
+- [x] TcpRoleEnum (enum · Table F.135 · p.2074 (obsolete appendix) · used by StaticSocketConnection.tcpRole · source ServiceInstances.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 <!-- commit: ffe91a62 -->
   - [x] Step 1 — Sync members & description from spec
     (Table F.135 markdown AUTOSAR_CP_TPS_SystemTemplate.md:76140; obsolete appendix; 2 literals)
   - [x] Step 2 — Write model class unit test (Red)
