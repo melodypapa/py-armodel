@@ -63,6 +63,7 @@ class EthernetCluster(CommunicationCluster):
 
     # EthernetCluster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.47, p.103
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addCouplingPortConnection         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -195,6 +196,7 @@ class CouplingPortFifo(CouplingPortStructuralElement):
 
     # CouplingPortFifo method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.68, p.124
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addAssignedTrafficClass      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
