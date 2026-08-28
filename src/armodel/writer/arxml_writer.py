@@ -310,6 +310,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventBswModule,
     TDEventBswModeDeclaration,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventComplex import (
+    TDEventComplex,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
     ArbitraryEventTriggering,
     BurstPatternEventTriggering,
@@ -3656,6 +3659,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         if enum is not None:
             self.setChildElementOptionalLiteral(element, "TD-EVENT-BSW-MODE-DECLARATION-TYPE", enum)
 
+    def writeTDEventComplex(self, element: ET.Element, event: TDEventComplex):
+        self.writeTimingDescriptionEvent(element, event)
+
     def writeTDEventOccurrenceExpression(self, element: ET.Element, expression: TDEventOccurrenceExpression):
         self.writeARObjectAttributes(element, expression)
         arguments = expression.getArguments()
@@ -6535,6 +6541,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(description, TDEventBswModeDeclaration):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-BSW-MODE-DECLARATION")
                     self.writeTDEventBswModeDeclaration(description_tag, description)
+                elif isinstance(description, TDEventComplex):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-COMPLEX")
+                    self.writeTDEventComplex(description_tag, description)
                 elif isinstance(description, TDEventISignal):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-I-SIGNAL")
                     self.writeTDEventISignal(description_tag, description)
