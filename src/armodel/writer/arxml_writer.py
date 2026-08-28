@@ -9187,6 +9187,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setPlcaProps(child_element, "PLCA-PROPS", port.getPlcaProps())
         for props in port.getMacSecProps():
             self.setMacSecProps(child_element, "MAC-SEC-PROPS", props)
+        self.setChildElementOptionalLiteral(child_element, "PHYSICAL-LAYER-TYPE", port.getPhysicalLayerType())
         self.setChildElementOptionalLiteral(child_element, "COUPLING-PORT-ROLE", port.getCouplingPortRole())
         self.setChildElementOptionalRefType(child_element, "DEFAULT-VLAN-REF", port.getDefaultVlanRef())
         self.setChildElementOptionalLiteral(child_element, "MAC-LAYER-TYPE", port.getMacLayerType())

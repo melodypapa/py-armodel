@@ -151,6 +151,7 @@ class TestWriteCouplingPort:
         assert len(mc_refs) == 1
         pnc_refs = node.findall("PNC-MAPPING-REFS/PNC-MAPPING-REF")
         assert len(pnc_refs) == 1
+        assert node.find("PHYSICAL-LAYER-TYPE").text == "100BaseT1"
         assert node.find("RECEIVE-ACTIVITY").text == "receiveActivityUntagged"
         assert node.find("VLAN-MEMBERSHIPS/VLAN-MEMBERSHIP") is not None
         assert node.find("VLAN-MODIFIER-REF").text == "/Ether/PhysicalChannel/Vlan2"
@@ -200,6 +201,7 @@ class TestCouplingPortRoundTrip:
         assert recovered.getMacLayerType().getValue() == "ethernet"
         assert recovered.getMacMulticastAddressRefs()[0].getValue() == "/Ether/MacMulticastGroup/MMG1"
         assert recovered.getPncMappingRefs()[0].getValue() == "/System/PncMapping/PM1"
+        assert recovered.getPhysicalLayerType().getValue() == "100BaseT1"
         assert recovered.getReceiveActivity().getValue() == "receiveActivityUntagged"
         assert len(recovered.getVlanMemberships()) == 1
         assert recovered.getVlanModifierRef().getValue() == "/Ether/PhysicalChannel/Vlan2"

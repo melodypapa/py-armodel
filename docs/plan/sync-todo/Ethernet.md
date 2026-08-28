@@ -45,6 +45,11 @@ marked STAMP DEFERRED pending batch 9b confirmation. `SocketConnection` remains 
 markers remain deferred pending the batch confirmation pass.
 (resume = first class row still `[ ]`; all class rows `[x]` = sync finished)
 
+**2026-08-28 — queue status: 52 of 53 class rows `[x]`; the single remaining row is `SocketConnection`,
+DEFERRED (not skipped) by user decision.** Steps 1–8 landed in earlier sessions; only Step 9 (9a verify +
+9b confirm + stamp) is open, and it is blocked by the XSD-only SoAdConnectorType/SoAdProtocolType
+placeholders (Rule 0008). Next session: take the SocketConnection row and run Step 9 from 9a.
+
 Closure confirmed by user 2026-08-23: queue the 17 input classes + their missing member-type classes;
 framework bases (ARObject…Identifiable, CommunicationCluster/Controller/Connector, Referrable,
 Describable, NetworkEndpointAddress, CouplingPortStructuralElement, FibexElement) excluded per standing
@@ -400,7 +405,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (none; CouplingPort + EthernetCommunicationController macLayerType placeholder rows resolved)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] EthernetPhysicalLayerTypeEnum (enum · Table 3.57 · p.111 · used by CouplingPort.physicalLayerType · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMP DEFERRED (batch 9b pending)
+- [x] EthernetPhysicalLayerTypeEnum (enum · Table 3.57 · p.111 · used by CouplingPort.physicalLayerType · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 — confirmed by user 2026-08-28 <!-- commit: PENDING -->
   - [x] Step 1 — Sync members & description from spec
     (Table 3.57 markdown AUTOSAR_CP_TPS_SystemTemplate.md:2865 + PDF p.111)
   - [x] Step 2 — Write model class unit test (Red)
@@ -409,13 +414,14 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (AREnum in EthernetTopology.py)
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
     (class Note verbatim; literal comments verbatim incl. Tags tails per AREnum convention)
-  - [x] Step 5 — Write reader/writer round-trip test (N/A — standalone enum, no own XML element; round-tripped via consuming class)
+  - [x] Step 5 — Write reader/writer round-trip test (N/A for the enum itself — standalone, no own XML element; round-trip coverage asserted on the consuming class CouplingPort in test_coupling_port.py, added during 9b)
   - [x] Step 6 — Update parser & writer (N/A — same reason as Step 5)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
     (none; CouplingPort physicalLayerType placeholder row resolved)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
+    (9a re-run 2026-08-28: pytest 8129 passed / 0 failed incl. integration round-trip, lint clean, black clean on all touched files; 9b confirmed by user 2026-08-28 — marker written)
+    **9b findings resolved 2026-08-28:** (1) BLOCKER — `writeCouplingPort` never emitted `PHYSICAL-LAYER-TYPE` while `readCouplingPort` read it (silent round-trip drop). Fixed TDD-style: failing assertions added to `tests/test_armodel/writer/test_coupling_port.py` (write_all + round_trip), then `arxml_writer.py:9190` wired at the XSD sequence position. **Drift note (Rule 0012.3): the fix lands on CouplingPort, which is already stamped — not re-stamped here.** Pre-existing, NOT fixed: `writeCouplingPort` emits PLCA-PROPS before MAC-SEC-PROPS but the XSD order is MAC-SEC-PROPS → PHYSICAL-LAYER-TYPE → PLCA-PROPS. (2) `# Columns:` line added to the checklist block. (3) Literal comments restored to the full spec row verbatim (xml.name tails on all 6 literals + atp.Status=draft on _10BASE_T1S), matching the stamped EthernetMacLayerTypeEnum form; verified by diff against Table 3.57.
 - [x] EthernetSwitchVlanIngressTagEnum (enum · Table 3.58 · p.111 · used by CouplingPort.receiveActivity · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMP DEFERRED (batch 9b pending)
   - [x] Step 1 — Sync members & description from spec
     (Table 3.58 markdown AUTOSAR_CP_TPS_SystemTemplate.md:2876 + PDF p.111)
@@ -1009,3 +1015,10 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker section added; SoAdConnectorType/SoAdProtocolType enums carried as ARLiteral placeholders, Rule 0001.10)
   - [ ] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7318 passed, black/black-check/lint clean; 9b/stamp BLOCKED — SoAdConnectorType/SoAdProtocolType placeholders (XSD-only); # Spec verified: withheld (UNSTAMPED))
+    **DEFERRED 2026-08-28 (user decision):** Step 9 / stamp deferred to a later session — NOT a permanent
+    skip. Steps 1–8 stand as landed (source, tests, parser, writer, deviation tracker all in place); the
+    row stays `[ ]` and remains the queue's single open item. Re-entry point for the next session: run 9a
+    fresh, then the full 9b rule-compliance checklist, then decide the stamp. Open blocker unchanged:
+    SoAdConnectorType / SoAdProtocolType are XSD-only and were explicitly skipped per user confirmation,
+    so the ARLiteral placeholders and their deviation rows remain open and Rule 0008 still withholds
+    `# Spec verified:` until that decision is revisited.
