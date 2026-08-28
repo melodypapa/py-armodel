@@ -37,14 +37,12 @@ PncMappingIdent F.95) are NOT placeholder mismatches and are NOT queued.
 is UNSTAMPED — the `# Spec verified:` marker (Rule 0012.1) is blocked until the member type is synced and
 the placeholder deviation row is removed. The consumer rows marked `UNSTAMPED` below are excluded from the
 batch 9b stamping until their queued member types land (Rule 0016.5 member-type-first).
-**2026-08-27 — status synced to feature branch commits:** 14 of the 15 member-type rows landed (all but
-MacSecProps 3.118, still queued) — commits fd6c27ed, 6c8c6ded, 42a028aa, 64c0393f, 1bbe1fdb, 24c76e69,
-c35901a7, 7fd728a6, 70387e1b, 1494e3f5, a264fe14, 042e9a8c, 96d42032. Sub-checklists flipped `[x]` with
-commit refs. Consumers whose Step 9 was BLOCKED on those member types are unblocked and marked
-STAMP DEFERRED (PduActivationRoutingGroup, StaticSocketConnection, InfrastructureServices, CouplingPortFifo,
-CouplingPortDetails, EthernetCluster, EthernetCommunicationController). STILL UNSTAMPED: CouplingPort
-(blocked on MacSecProps) and SocketConnection (SoAdConnectorType/SoAdProtocolType ARLiteral placeholders,
-XSD-only per Rule 0002). No `# Spec verified:` markers applied — 9b stamping pending batch confirmation.
+**2026-08-28 — status synced to feature branch commits:** the member-type rows landed, including
+`MacSecProps` (3.118, commit a150ffd2). `ApplicationEndpoint` was stamped in commit 4164139d and its
+queue record is now complete. Consumers whose Step 9 was previously blocked by member types remain
+marked STAMP DEFERRED pending batch 9b confirmation. `SocketConnection` remains unstamped because
+`SoAdConnectorType`/`SoAdProtocolType` are XSD-only placeholders per Rule 0002. Most `# Spec verified:`
+markers remain deferred pending the batch confirmation pass.
 (resume = first class row still `[ ]`; all class rows `[x]` = sync finished)
 
 Closure confirmed by user 2026-08-23: queue the 17 input classes + their missing member-type classes;
@@ -193,7 +191,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (tracker: new Ipv6DhcpServerConfiguration section, zero deviations; DhcpServerConfiguration Ipv6 stub row removed)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7279 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] AnyServiceInstanceId (primitive · FO_TPS_GenericStructureTemplate Table E.6 · p.423 · used by ConsumedServiceInstance.instanceIdentifier · resolves String placeholder) — STAMP DEFERRED (batch 9b pending)
+- [x] AnyServiceInstanceId (primitive · FO_TPS_GenericStructureTemplate Table E.6 · p.423 · used by ConsumedServiceInstance.instanceIdentifier · resolves String placeholder) — STAMPED R23-11 — confirmed by user 2026-08-28
   - [x] Step 1 — Sync members & description from spec
     (Table E.6 in markdown AUTOSAR_FO_TPS_GenericStructureTemplate.md:11455–11461 + PDF p.423;
     Primitive in GeneralTemplateClasses::PrimitiveTypes; Note verbatim, Tags stripped per Rule 0012)
@@ -211,7 +209,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (none; ConsumedServiceInstance instanceIdentifier placeholder row resolved by the RE-FIX row)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7283 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] AnyVersionString (primitive · FO_TPS_GenericStructureTemplate Table E.7 · p.423 · used by ConsumedServiceInstance.minorVersion · resolves String placeholder) — STAMP DEFERRED (batch 9b pending)
+- [x] AnyVersionString (primitive · FO_TPS_GenericStructureTemplate Table E.7 · p.423 · used by ConsumedServiceInstance.minorVersion · resolves String placeholder) — STAMPED R23-11 — confirmed by user 2026-08-28
   - [x] Step 1 — Sync members & description from spec
     (Table E.7 in markdown AUTOSAR_FO_TPS_GenericStructureTemplate.md:11463–11468 + PDF p.423;
     Primitive in GeneralTemplateClasses::PrimitiveTypes; Note cell is Tags-only — docstring carries the Tags block verbatim)
@@ -229,7 +227,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (none; ConsumedServiceInstance minorVersion placeholder row resolved by the RE-FIX row)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7286 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] ServiceVersionAcceptanceKindEnum (enum · Table F.113 · p.2057 · used by ConsumedServiceInstance.versionDrivenFindBehavior · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMP DEFERRED (batch 9b pending)
+- [x] ServiceVersionAcceptanceKindEnum (enum · Table F.113 · p.2057 · used by ConsumedServiceInstance.versionDrivenFindBehavior · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 — confirmed by user 2026-08-28
   - [x] Step 1 — Sync members & description from spec
     (Table F.113 page-split: exactOrAnyMinorVersion before caption markdown AUTOSAR_CP_TPS_SystemTemplate.md,
     minimumMinorVersion after; PDF pp.2056–2057, caption p.2057 per pypdf — pdf_page.py regex cannot match "F.113";
@@ -434,7 +432,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (none; CouplingPort receiveActivity placeholder row resolved)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] MacSecProps (class · Table 3.118 · p.173 · used by CouplingPort.macSecProps (List) · source SystemTemplate/SecureCommunication · **Phase 0 closure resolved 2026-08-27** — its member-type cluster is a sub-sync tracked in `docs/plan/sync-todo/MacSecProps.md` (10 classes, dependency-first). This row flips to `[x]` only after that sub-queue fully lands and `CouplingPort` is unblocked for stamping. Markdown Table 3.118 is GARBLED (mislabels MacSecLocalKayProps content); the PDF (pp.173–177) is authoritative.)
+- [x] MacSecProps (class · Table 3.118 · p.173 · used by CouplingPort.macSecProps (List) · source SystemTemplate/SecureCommunication · **Phase 0 closure resolved 2026-08-27** — its member-type cluster was synced dependency-first in `docs/plan/sync-todo/MacSecProps.md` and landed in commit a150ffd2. Markdown Table 3.118 is GARBLED (mislabels MacSecLocalKayProps content); the PDF (pp.173–177) is authoritative.) — STAMPED R23-11
 - [x] PlcaProps (class · Table 3.117 · p.169 · used by CouplingPort.plcaProps · source EthernetTopology.py · resolves ARObject placeholder; attrs plcaLocalNodeId, plcaMaxBurstCount, plcaMaxBurstTimer) · steps complete commit a264fe14 — STAMP DEFERRED (batch 9b pending)
   - [x] Step 1 — Sync members & description from spec
     (Table 3.117 markdown AUTOSAR_CP_TPS_SystemTemplate.md:4580 + PDF p.169; Base ARObject; 3 attr rows)
@@ -734,9 +732,9 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker entry updated: page 457→458, package corrected to EthernetTopology, stale
     consumedServiceInstance missing row removed, three atp.Status="removed" technology members recorded)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7244 passed incl. lossless integration round trip,
-    black/black-check/lint clean, checklist==methods 1:1 source order, verbatim Note diff OK,
-    no receiver-chain mutators in new code; 9b stamp DEFERRED to batch pass)
+    (9a automated verification — pytest 3869 passed, lint passed; black-check has one unrelated
+    pre-existing failure in test_parser_tdevents_sllet.py; checklist==methods 1:1 source order,
+    verbatim Note diff OK, no receiver-chain mutators in new code; 9b confirmed by user)
 - [x] SocketAddress (markdown SystemTemplate · Table 6.118 · p.453 · source Fibex4Ethernet/ServiceInstances.py · fixes applicationEndpoint type; adds ipAddress) · steps complete commit 1d699cf8 — STAMPED R23-11 <!-- commit: 2abee405 -->
   NOTE: Table 6.118 verified in AUTOSAR_CP_TPS_SystemTemplate.md:11940–11969 (page-split table:
   group 1 before caption, group 2 after) + PDF p.453 (pdf_page.py authoritative; p.452 above was
