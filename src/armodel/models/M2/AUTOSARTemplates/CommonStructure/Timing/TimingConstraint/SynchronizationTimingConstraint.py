@@ -29,6 +29,7 @@ class SynchronizationTypeEnum(AREnum):
 
     # SynchronizationTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.55, p.93
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on SynchronizationTimingConstraint.synchronizationConstraintType
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
@@ -64,6 +65,7 @@ class EventOccurrenceKindEnum(AREnum):
 
     # EventOccurrenceKindEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.56, p.93
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on SynchronizationTimingConstraint.eventOccurrenceKind
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
@@ -115,6 +117,7 @@ class SynchronizationTimingConstraint(TimingConstraint):
 
     # SynchronizationTimingConstraint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.54, p.92
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getEventOccurrenceKind           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer

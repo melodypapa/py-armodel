@@ -1,8 +1,103 @@
-from typing import List, Optional
+from __future__ import annotations
+
+from typing import List, Optional, TYPE_CHECKING
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingModeInstance
+
+
+class TDEventOccurrenceExpressionFormula(Referrable):
+    """
+    This is an extension of the FormulaExpression for the AUTOSAR Timing Extensions. A TDEventOccurrenceExpressionFormula provides the means to express the temporal characteristics of timing event occurrences in correlation with specific variable and argument values. The formal definition of the extended functions (ExtUnaryFunctions) is described in detail in the AUTOSAR Timing Extensions.
+    """
+
+    # TDEventOccurrenceExpressionFormula method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.51, p.84
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getText            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setText            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getArgumentRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setArgumentRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getEventRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setEventRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getModeRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setModeRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVariableRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setVariableRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # This is one particular argument value used in the expression formula.
+        self.argumentRef: Optional[RefType] = None
+
+        # This is one particular timing description event used in the expression formula.
+        self.eventRef: Optional[RefType] = None
+
+        # This is one particular mode used in the expression formula.
+        self.modeRef: Optional[RefType] = None
+
+        # This is one particular variable value used in the expression formula.
+        self.variableRef: Optional[RefType] = None
+
+        self._text: Optional[str] = None
+
+    def getText(self) -> Optional[str]:
+        """Returns the mixed string content (the occurrence expression) of this <<atpMixedString>> TDEventOccurrenceExpressionFormula."""
+        return self._text
+
+    def setText(self, value: Optional[str]) -> "TDEventOccurrenceExpressionFormula":
+        """Sets the mixed string content (the occurrence expression) of this <<atpMixedString>> TDEventOccurrenceExpressionFormula. A None value is a no-op and does not overwrite an existing value."""
+        if value is not None:
+            self._text = value
+        return self
+
+    def getArgumentRef(self) -> Optional[RefType]:
+        """This is one particular argument value used in the expression formula."""
+        return self.argumentRef
+
+    def setArgumentRef(self, value: Optional[RefType]) -> "TDEventOccurrenceExpressionFormula":
+        """This is one particular argument value used in the expression formula. A None value is a no-op and does not overwrite an existing argumentRef."""
+        if value is not None:
+            self.argumentRef = value
+        return self
+
+    def getEventRef(self) -> Optional[RefType]:
+        """This is one particular timing description event used in the expression formula."""
+        return self.eventRef
+
+    def setEventRef(self, value: Optional[RefType]) -> "TDEventOccurrenceExpressionFormula":
+        """This is one particular timing description event used in the expression formula. A None value is a no-op and does not overwrite an existing eventRef."""
+        if value is not None:
+            self.eventRef = value
+        return self
+
+    def getModeRef(self) -> Optional[RefType]:
+        """This is one particular mode used in the expression formula."""
+        return self.modeRef
+
+    def setModeRef(self, value: Optional[RefType]) -> "TDEventOccurrenceExpressionFormula":
+        """This is one particular mode used in the expression formula. A None value is a no-op and does not overwrite an existing modeRef."""
+        if value is not None:
+            self.modeRef = value
+        return self
+
+    def getVariableRef(self) -> Optional[RefType]:
+        """This is one particular variable value used in the expression formula."""
+        return self.variableRef
+
+    def setVariableRef(self, value: Optional[RefType]) -> "TDEventOccurrenceExpressionFormula":
+        """This is one particular variable value used in the expression formula. A None value is a no-op and does not overwrite an existing variableRef."""
+        if value is not None:
+            self.variableRef = value
+        return self
 
 
 class OperationArgumentInComponentInstanceRef(AtpInstanceRef):
@@ -259,3 +354,89 @@ class AutosarVariableInstance(Identifiable):
         if value is not None:
             self.variableInstanceIRef = value
         return self
+
+
+class TDEventOccurrenceExpression(ARObject):
+    """
+    This is used to specify a filter on the occurrences of TimingDescriptionEvent s by means of a TDEventOccurrenceExpressionFormula. Filter criteria can be variable and argument values, i.e. the timing event only occurs for specific values, as well as the temporal characteristics of the occurrences of arbitrary timing events.
+    """
+
+    # TDEventOccurrenceExpression method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.50, p.84
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] createArgument     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getArguments       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] getFormula         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFormula         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] createMode         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getModes           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] createVariable     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVariables       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # An occurrence expression can reference an arbitrary number of OperationArgumentPrototypes in its expression. This association aggregates instance references to OperationArgumentPrototypes which can be referenced in the expression.
+        self.arguments: List[AutosarOperationArgumentInstance] = []
+
+        # This is the expression formula which is used to describe the occurrence expression.
+        self.formula: Optional[TDEventOccurrenceExpressionFormula] = None
+
+        # An occurrence expression can reference an arbitrary number of TimingModeInstances in its expression. This association aggregates instance references to Mode Declaration which can be referenced in the expression.
+        self.modes: List[TimingModeInstance] = []
+
+        # An occurrence expression can reference an arbitrary number of VariableDataPrototypes in its expression. This association aggregates instance references to Variable DataPrototypes which can be referenced in the expression.
+        self.variables: List[AutosarVariableInstance] = []
+
+    def createArgument(self, parent, short_name: str) -> AutosarOperationArgumentInstance:
+        """An occurrence expression can reference an arbitrary number of OperationArgumentPrototypes in its expression. This association aggregates instance references to OperationArgumentPrototypes which can be referenced in the expression."""
+        for argument in self.arguments:
+            if argument.getShortName() == short_name:
+                return argument
+        argument = AutosarOperationArgumentInstance(parent, short_name)
+        self.arguments.append(argument)
+        return argument
+
+    def getArguments(self) -> List[AutosarOperationArgumentInstance]:
+        """An occurrence expression can reference an arbitrary number of OperationArgumentPrototypes in its expression. This association aggregates instance references to OperationArgumentPrototypes which can be referenced in the expression."""
+        return self.arguments
+
+    def getFormula(self) -> Optional[TDEventOccurrenceExpressionFormula]:
+        """This is the expression formula which is used to describe the occurrence expression."""
+        return self.formula
+
+    def setFormula(self, value: Optional[TDEventOccurrenceExpressionFormula]) -> "TDEventOccurrenceExpression":
+        """This is the expression formula which is used to describe the occurrence expression. A None value is a no-op and does not overwrite an existing formula."""
+        if value is not None:
+            self.formula = value
+        return self
+
+    def createMode(self, parent, short_name: str) -> TimingModeInstance:
+        """An occurrence expression can reference an arbitrary number of TimingModeInstances in its expression. This association aggregates instance references to Mode Declaration which can be referenced in the expression."""
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingModeInstance
+
+        for mode in self.modes:
+            if mode.getShortName() == short_name:
+                return mode
+        mode = TimingModeInstance(parent, short_name)
+        self.modes.append(mode)
+        return mode
+
+    def getModes(self) -> List[TimingModeInstance]:
+        """An occurrence expression can reference an arbitrary number of TimingModeInstances in its expression. This association aggregates instance references to Mode Declaration which can be referenced in the expression."""
+        return self.modes
+
+    def createVariable(self, parent, short_name: str) -> AutosarVariableInstance:
+        """An occurrence expression can reference an arbitrary number of VariableDataPrototypes in its expression. This association aggregates instance references to Variable DataPrototypes which can be referenced in the expression."""
+        for variable in self.variables:
+            if variable.getShortName() == short_name:
+                return variable
+        variable = AutosarVariableInstance(parent, short_name)
+        self.variables.append(variable)
+        return variable
+
+    def getVariables(self) -> List[AutosarVariableInstance]:
+        """An occurrence expression can reference an arbitrary number of VariableDataPrototypes in its expression. This association aggregates instance references to Variable DataPrototypes which can be referenced in the expression."""
+        return self.variables

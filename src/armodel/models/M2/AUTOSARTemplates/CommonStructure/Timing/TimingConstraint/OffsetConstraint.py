@@ -31,6 +31,7 @@ class OffsetTimingConstraint(TimingConstraint):
 
     # OffsetTimingConstraint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.66, p.114
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getMaximum     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer

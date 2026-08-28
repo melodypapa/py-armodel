@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC
-from typing import List, Optional, TYPE_CHECKING
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -9,11 +9,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
-if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
-        AutosarOperationArgumentInstance,
-        AutosarVariableInstance,
-    )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
+    AutosarOperationArgumentInstance,
+    AutosarVariableInstance,
+)
 
 
 class ModeInSwcBswInstanceRef(ARObject, ABC):
@@ -237,6 +236,7 @@ class TimingCondition(Identifiable):
 
     # TimingCondition method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.7, p.35
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getTimingConditionFormula  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -370,6 +370,7 @@ class TimingExtensionResource(Identifiable):
 
     # TimingExtensionResource method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.9, p.36
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] createTimingArgument     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -393,10 +394,6 @@ class TimingExtensionResource(Identifiable):
 
     def createTimingArgument(self, short_name: str) -> AutosarOperationArgumentInstance:
         """This refers to an instance reference of an argument of an operation call."""
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
-            AutosarOperationArgumentInstance,
-        )
-
         if not self.IsElementExists(short_name):
             argument = AutosarOperationArgumentInstance(self, short_name)
             self.addElement(argument)
@@ -421,10 +418,6 @@ class TimingExtensionResource(Identifiable):
 
     def createTimingVariable(self, short_name: str) -> AutosarVariableInstance:
         """This refers to an instance reference of a variable."""
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (
-            AutosarVariableInstance,
-        )
-
         if not self.IsElementExists(short_name):
             variable = AutosarVariableInstance(self, short_name)
             self.addElement(variable)

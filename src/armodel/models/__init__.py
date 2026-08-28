@@ -110,8 +110,36 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     AutosarOperationArgumentInstance,
     AutosarVariableInstance,
     OperationArgumentInComponentInstanceRef,
+    TDEventOccurrenceExpression,
+    TDEventOccurrenceExpressionFormula,
     VariableInComponentInstanceRef,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (  # noqa: F401
+    ConcreteTDEventVfb,
+    TDEventModeDeclaration,
+    TDEventModeDeclarationTypeEnum,
+    TDEventOperation,
+    TDEventOperationTypeEnum,
+    TDEventTrigger,
+    TDEventTriggerTypeEnum,
+    TDEventVariableDataPrototype,
+    TDEventVariableDataPrototypeTypeEnum,
+    TDEventVfb,
+    TDEventVfbPort,
+    TDEventVfbReference,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventBsw import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventComplex import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSLLET import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSLLETPort import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSwcInternalBehavior import (  # noqa: F401
+    TDEventSwc,
+    TDEventSwcInternalBehavior,
+    TDEventSwcInternalBehaviorReference,
+    TDEventSwcInternalBehaviorTypeEnum,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventBswInternalBehavior import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventCom import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ComponentInCompositionInstanceRef  # noqa: F401
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import *  # noqa: F403
@@ -119,6 +147,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint import ExecutionTimeConstraint, ExecutionTimeTypeEnum  # noqa: F401
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import SynchronizationPointConstraint  # noqa: F401
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock, TimingClock, TimingClockSyncAccuracy  # noqa: F401
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (  # noqa: F401
+    TimingDescription,
+    TimingDescriptionEvent,
+    TimingDescriptionEventChain,
+)
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import Traceable  # noqa: F401
 
 # Additional DiagnosticExtract imports

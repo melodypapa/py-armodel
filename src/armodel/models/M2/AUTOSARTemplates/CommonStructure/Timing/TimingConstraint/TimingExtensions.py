@@ -13,6 +13,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock impor
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingCondition, TimingExtensionResource
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
+    TimingDescription,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -25,6 +28,7 @@ class TimingExtension(ARElement, ABC):
 
     # TimingExtension method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table D.65, p.255
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addTimingClock                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -33,6 +37,8 @@ class TimingExtension(ARElement, ABC):
     # [x] getTimingClockSyncAccuracies    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createTimingCondition           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getTimingConditions             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addTimingDescription            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getTimingDescriptions           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
     # [x] addTimingGuarantee              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getTimingGuarantees             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] addTimingRequirement            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -40,7 +46,6 @@ class TimingExtension(ARElement, ABC):
     # [x] createTimingResource            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getTimingResource               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createExecutionOrderConstraint  [x] impl  [—] docstring  [x] test  [—] reader  [—] writer   (convenience factory appending to timingRequirements)
-    # timingDescription (* aggr) is a Rule 0001.10 placeholder: TimingDescription/TDEvent* family out of scope (Phase 0 decision); reader logs notImplemented
 
     __metaclass__ = ABC
 
@@ -58,6 +63,10 @@ class TimingExtension(ARElement, ABC):
 
         # The timing condition specifies a specific condition.
         self.timingConditions: List[TimingCondition] = []
+
+        # The timing descriptions that belong to a specific timing specification.
+        # In order to support different timing description variants within a timing specification, the aggregation is marked with the stereotype "atpVariation".
+        self.timingDescriptions: List[TimingDescription] = []
 
         # The timing constraints that belong to a specific timing specification in the role of a timing guarantee. In order to support different timing constraint variants within a timing specification, the aggregation is marked with the stereotype "atpVariation".
         self.timingGuarantees: List[TimingConstraint] = []
@@ -101,6 +110,17 @@ class TimingExtension(ARElement, ABC):
     def getTimingConditions(self) -> List[TimingCondition]:
         """The timing condition specifies a specific condition."""
         return self.timingConditions
+
+    def addTimingDescription(self, value: Optional[TimingDescription]) -> "TimingExtension":
+        """The timing descriptions that belong to a specific timing specification. In order to support different timing description variants within a timing specification, the aggregation is marked with the stereotype "atpVariation". A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.addElement(value)
+            self.timingDescriptions.append(value)
+        return self
+
+    def getTimingDescriptions(self) -> List[TimingDescription]:
+        """The timing descriptions that belong to a specific timing specification. In order to support different timing description variants within a timing specification, the aggregation is marked with the stereotype "atpVariation"."""
+        return self.timingDescriptions
 
     def addTimingGuarantee(self, value: Optional[TimingConstraint]) -> "TimingExtension":
         """The timing constraints that belong to a specific timing specification in the role of a timing guarantee. In order to support different timing constraint variants within a timing specification, the aggregation is marked with the stereotype "atpVariation". A None value is a no-op and does not append anything."""
@@ -149,6 +169,7 @@ class SwcTiming(TimingExtension):
 
     # SwcTiming method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.2, p.25
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getBehaviorRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer

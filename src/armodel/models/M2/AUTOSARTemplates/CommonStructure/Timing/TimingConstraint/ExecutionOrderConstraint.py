@@ -26,11 +26,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 
 class ExecutionOrderConstraintTypeEnum(AREnum):
     """
-    Specifies the type of the executionOrderConstraintType for a ExecutionOrderConstraint .
+    Specifies the type of the executionOrderConstraintType for a ExecutionOrderConstraint.
     """
 
     # ExecutionOrderConstraintTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.69, p.119
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on ExecutionOrderConstraint.executionOrderConstraintType
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
@@ -62,11 +63,12 @@ class ExecutionOrderConstraintTypeEnum(AREnum):
 
 class LetDataExchangeParadigmEnum(AREnum):
     """
-    Specifies the data exchange paradigm between ExecutableEntity s within a LET interval.
+    Specifies the data exchange paradigm between ExecutableEntity s within a LET interval. Tags: atp.Status=draft
     """
 
     # LetDataExchangeParadigmEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 4.4, p.143
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on EOCExecutableEntityRefGroup.letDataExchangeParadigm
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
@@ -101,6 +103,7 @@ class EOCExecutableEntityRefAbstract(Identifiable, ABC):
 
     # EOCExecutableEntityRefAbstract method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.70, p.119
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addDirectSuccessorRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -133,6 +136,7 @@ class EOCExecutableEntityRef(EOCExecutableEntityRefAbstract):
 
     # EOCExecutableEntityRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.72, p.120
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getBswModuleInstanceRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -332,6 +336,7 @@ class EOCEventRef(EOCExecutableEntityRefAbstract):
 
     # EOCEventRef method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.73, p.121
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getBswModuleInstanceRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -406,6 +411,7 @@ class EOCExecutableEntityRefGroup(EOCExecutableEntityRefAbstract):
 
     # EOCExecutableEntityRefGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.71, p.120
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getLetDataExchangeParadigm     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer

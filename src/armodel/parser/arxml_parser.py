@@ -165,6 +165,64 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import Keyword, KeywordSet
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock, TimingClock, TimingClockSyncAccuracy
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
+    TimingDescriptionEvent,
+    TimingDescriptionEventChain,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventCom import (
+    TDEventCom,
+    TDEventCycleStart,
+    TDEventFrClusterCycleStart,
+    TDEventTTCanCycleStart,
+    TDEventISignal,
+    TDEventISignalTypeEnum,
+    TDEventIPdu,
+    TDEventIPduTypeEnum,
+    TDEventFrame,
+    TDEventFrameTypeEnum,
+    TDEventFrameEthernet,
+    TDEventFrameEthernetTypeEnum,
+    TDHeaderIdRange,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventVfb import (
+    TDEventModeDeclaration,
+    TDEventModeDeclarationTypeEnum,
+    TDEventOperation,
+    TDEventOperationTypeEnum,
+    TDEventTrigger,
+    TDEventTriggerTypeEnum,
+    TDEventVariableDataPrototype,
+    TDEventVariableDataPrototypeTypeEnum,
+    TDEventVfb,
+    TDEventVfbPort,
+    TDEventVfbReference,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSwcInternalBehavior import (
+    TDEventSwc,
+    TDEventSwcInternalBehavior,
+    TDEventSwcInternalBehaviorReference,
+    TDEventSwcInternalBehaviorTypeEnum,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventBswInternalBehavior import (
+    TDEventBswInternalBehavior,
+    TDEventBswInternalBehaviorTypeEnum,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventBsw import (
+    TDEventBsw,
+    TDEventBswModule,
+    TDEventBswModuleTypeEnum,
+    TDEventBswModeDeclaration,
+    TDEventBswModeDeclarationTypeEnum,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventComplex import (
+    TDEventComplex,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSLLET import (
+    TDEventSLLET,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSLLETPort import (
+    TDEventSLLETPort,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
@@ -213,6 +271,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     AutosarOperationArgumentInstance,
     AutosarVariableInstance,
     OperationArgumentInComponentInstanceRef,
+    TDEventOccurrenceExpression,
+    TDEventOccurrenceExpressionFormula,
     VariableInComponentInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
@@ -288,6 +348,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AnyServiceInstanceId,
     AnyVersionString,
     ARLiteral,
+    Boolean,
     IntervalTypeEnum,
     MacAddressString,
     NameToken,
@@ -2205,6 +2266,297 @@ class ARXMLParser(AbstractARXMLParser):
         if element.text is not None and element.text.strip() != "":
             avp.setText(element.text)
         return avp
+
+    def readTimingDescriptionEventChain(self, element: ET.Element, chain: TimingDescriptionEventChain):
+        self.readIdentifiable(element, chain)
+        pipelining_element = self.find(element, "IS-PIPELINING-PERMITTED")
+        if pipelining_element is not None:
+            chain.setIsPipeliningPermitted(Boolean().setValue(pipelining_element.text == "true"))
+        chain.setStimulusRef(self.getChildElementOptionalRefType(element, "STIMULUS-REF"))
+        chain.setResponseRef(self.getChildElementOptionalRefType(element, "RESPONSE-REF"))
+        for ref in self.getChildElementRefTypeList(element, "SEGMENT-REFS/SEGMENT-REF"):
+            chain.addSegmentRef(ref)
+
+    def readTimingDescriptionEvent(self, element: ET.Element, event: TimingDescriptionEvent):
+        self.readIdentifiable(element, event)
+        event.setClockReferenceRef(self.getChildElementOptionalRefType(element, "CLOCK-REFERENCE-REF"))
+        occurrence_element = self.find(element, "OCCURRENCE-EXPRESSION")
+        if occurrence_element is not None:
+            event.setOccurrenceExpression(self.readTDEventOccurrenceExpression(occurrence_element, event))
+
+    def readTDEventCom(self, element: ET.Element, event: "TDEventCom"):
+        self.readTimingDescriptionEvent(element, event)
+        event.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
+
+    def readTDEventCycleStart(self, element: ET.Element, event: "TDEventCycleStart"):
+        self.readTDEventCom(element, event)
+        event.setCycleRepetition(self.getChildElementOptionalIntegerValue(element, "CYCLE-REPETITION"))
+
+    def readTDEventFrClusterCycleStart(self, element: ET.Element, event: "TDEventFrClusterCycleStart"):
+        self.readTDEventCycleStart(element, event)
+        event.setFrClusterRef(self.getChildElementOptionalRefType(element, "FR-CLUSTER-REF"))
+
+    def readTDEventTTCanCycleStart(self, element: ET.Element, event: "TDEventTTCanCycleStart"):
+        self.readTDEventCycleStart(element, event)
+        event.setTtCanClusterRef(self.getChildElementOptionalRefType(element, "TT-CAN-CLUSTER-REF"))
+
+    def readTDEventISignal(self, element: ET.Element, event: "TDEventISignal"):
+        self.readTDEventCom(element, event)
+        event.setISignalRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-REF"))
+        event.setPhysicalChannelRef(self.getChildElementOptionalRefType(element, "PHYSICAL-CHANNEL-REF"))
+        type_element = self.find(element, "TD-EVENT-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventISignalTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventType(enum)
+
+    def readTDEventIPdu(self, element: ET.Element, event: "TDEventIPdu"):
+        self.readTDEventCom(element, event)
+        event.setIPduRef(self.getChildElementOptionalRefType(element, "I-PDU-REF"))
+        event.setPhysicalChannelRef(self.getChildElementOptionalRefType(element, "PHYSICAL-CHANNEL-REF"))
+        type_element = self.find(element, "TD-EVENT-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventIPduTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventType(enum)
+
+    def readTDEventFrame(self, element: ET.Element, event: "TDEventFrame"):
+        self.readTDEventCom(element, event)
+        event.setFrameRef(self.getChildElementOptionalRefType(element, "FRAME-REF"))
+        event.setPhysicalChannelRef(self.getChildElementOptionalRefType(element, "PHYSICAL-CHANNEL-REF"))
+        type_element = self.find(element, "TD-EVENT-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventFrameTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventType(enum)
+
+    def readTDHeaderIdRange(self, element: ET.Element, header_id_range: "TDHeaderIdRange"):
+        header_id_range.setMinHeaderId(self.getChildElementOptionalIntegerValue(element, "MIN-HEADER-ID"))
+        header_id_range.setMaxHeaderId(self.getChildElementOptionalIntegerValue(element, "MAX-HEADER-ID"))
+
+    def readTDEventFrameEthernet(self, element: ET.Element, event: "TDEventFrameEthernet"):
+        self.readTDEventCom(element, event)
+        event.setStaticSocketConnectionRef(self.getChildElementOptionalRefType(element, "STATIC-SOCKET-CONNECTION-REF"))
+        type_element = self.find(element, "TD-EVENT-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventFrameEthernetTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventType(enum)
+        filters_element = self.find(element, "TD-HEADER-ID-FILTERS")
+        if filters_element is not None:
+            for range_element in self.findall(filters_element, "TD-HEADER-ID-RANGE"):
+                header_id_range = TDHeaderIdRange()
+                self.readTDHeaderIdRange(range_element, header_id_range)
+                event.addTDHeaderIdFilter(header_id_range)
+        for ref in self.getChildElementRefTypeList(element, "TD-PDU-TRIGGERING-FILTER-REFS/TD-PDU-TRIGGERING-FILTER-REF"):
+            event.addTdPduTriggeringFilterRef(ref)
+
+    def readTimingDescriptions(self, element: ET.Element, extension: TimingExtension):
+        for child_element in self.findall(element, "TIMING-DESCRIPTIONS/*"):
+            tag_name = self.getTagName(child_element)
+            short_name = self.getShortName(child_element)
+            if tag_name == "TD-EVENT-VFB-REFERENCE":
+                event = TDEventVfbReference(extension, short_name)
+                self.readTDEventVfbReference(child_element, event)
+            elif tag_name == "TD-EVENT-VARIABLE-DATA-PROTOTYPE":
+                event = TDEventVariableDataPrototype(extension, short_name)
+                self.readTDEventVariableDataPrototype(child_element, event)
+            elif tag_name == "TD-EVENT-OPERATION":
+                event = TDEventOperation(extension, short_name)
+                self.readTDEventOperation(child_element, event)
+            elif tag_name == "TD-EVENT-MODE-DECLARATION":
+                event = TDEventModeDeclaration(extension, short_name)
+                self.readTDEventModeDeclaration(child_element, event)
+            elif tag_name == "TD-EVENT-TRIGGER":
+                event = TDEventTrigger(extension, short_name)
+                self.readTDEventTrigger(child_element, event)
+            elif tag_name == "TD-EVENT-SWC-INTERNAL-BEHAVIOR":
+                event = TDEventSwcInternalBehavior(extension, short_name)
+                self.readTDEventSwcInternalBehavior(child_element, event)
+            elif tag_name == "TD-EVENT-SWC-INTERNAL-BEHAVIOR-REFERENCE":
+                event = TDEventSwcInternalBehaviorReference(extension, short_name)
+                self.readTDEventSwcInternalBehaviorReference(child_element, event)
+            elif tag_name == "TD-EVENT-BSW-INTERNAL-BEHAVIOR":
+                event = TDEventBswInternalBehavior(extension, short_name)
+                self.readTDEventBswInternalBehavior(child_element, event)
+            elif tag_name == "TD-EVENT-BSW-MODULE":
+                event = TDEventBswModule(extension, short_name)
+                self.readTDEventBswModule(child_element, event)
+            elif tag_name == "TD-EVENT-BSW-MODE-DECLARATION":
+                event = TDEventBswModeDeclaration(extension, short_name)
+                self.readTDEventBswModeDeclaration(child_element, event)
+            elif tag_name == "TD-EVENT-COMPLEX":
+                event = TDEventComplex(extension, short_name)
+                self.readTDEventComplex(child_element, event)
+            elif tag_name == "TD-EVENT-I-SIGNAL":
+                event = TDEventISignal(extension, short_name)
+                self.readTDEventISignal(child_element, event)
+            elif tag_name == "TD-EVENT-I-PDU":
+                event = TDEventIPdu(extension, short_name)
+                self.readTDEventIPdu(child_element, event)
+            elif tag_name == "TD-EVENT-FRAME":
+                event = TDEventFrame(extension, short_name)
+                self.readTDEventFrame(child_element, event)
+            elif tag_name == "TD-EVENT-FRAME-ETHERNET":
+                event = TDEventFrameEthernet(extension, short_name)
+                self.readTDEventFrameEthernet(child_element, event)
+            elif tag_name == "TD-EVENT-FR-CLUSTER-CYCLE-START":
+                event = TDEventFrClusterCycleStart(extension, short_name)
+                self.readTDEventFrClusterCycleStart(child_element, event)
+            elif tag_name == "TD-EVENT-TT-CAN-CYCLE-START":
+                event = TDEventTTCanCycleStart(extension, short_name)
+                self.readTDEventTTCanCycleStart(child_element, event)
+            elif tag_name == "TD-EVENT-SLLET-PORT":
+                event = TDEventSLLETPort(extension, short_name)
+                self.readTDEventSLLETPort(child_element, event)
+            else:
+                self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % tag_name)
+                continue
+            extension.addElement(event)
+            extension.addTimingDescription(event)
+
+    def readTDEventVfb(self, element: ET.Element, event: TDEventVfb):
+        self.readTimingDescriptionEvent(element, event)
+        event.setComponentIRef(self.readEOCComponentIRef(element, "COMPONENT-IREF"))
+
+    def readTDEventVfbReference(self, element: ET.Element, event: TDEventVfbReference):
+        self.readTDEventVfb(element, event)
+        event.setReferencedTDEventVfbRef(self.getChildElementOptionalRefType(element, "REFERENCED-TD-EVENT-VFB-REF"))
+
+    def readTDEventVfbPort(self, element: ET.Element, event: TDEventVfbPort):
+        self.readTDEventVfb(element, event)
+        is_external = self.find(element, "IS-EXTERNAL")
+        if is_external is not None:
+            event.setIsExternal(Boolean().setValue(is_external.text == "true"))
+        event.setPortRef(self.getChildElementOptionalRefType(element, "PORT-REF"))
+        event.setPortPrototypeBlueprintRef(self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-BLUEPRINT-REF"))
+
+    def readTDEventVariableDataPrototype(self, element: ET.Element, event: TDEventVariableDataPrototype):
+        self.readTDEventVfbPort(element, event)
+        event.setDataElementRef(self.getChildElementOptionalRefType(element, "DATA-ELEMENT-REF"))
+        type_element = self.find(element, "TD-EVENT-VARIABLE-DATA-PROTOTYPE-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventVariableDataPrototypeTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventVariableDataPrototypeType(enum)
+
+    def readTDEventOperation(self, element: ET.Element, event: TDEventOperation):
+        self.readTDEventVfbPort(element, event)
+        event.setOperationRef(self.getChildElementOptionalRefType(element, "OPERATION-REF"))
+        type_element = self.find(element, "TD-EVENT-OPERATION-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventOperationTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventOperationType(enum)
+
+    def readTDEventModeDeclaration(self, element: ET.Element, event: TDEventModeDeclaration):
+        self.readTDEventVfbPort(element, event)
+        event.setEntryModeDeclarationRef(self.getChildElementOptionalRefType(element, "ENTRY-MODE-DECLARATION-REF"))
+        event.setExitModeDeclarationRef(self.getChildElementOptionalRefType(element, "EXIT-MODE-DECLARATION-REF"))
+        event.setModeDeclarationRef(self.getChildElementOptionalRefType(element, "MODE-DECLARATION-REF"))
+        type_element = self.find(element, "TD-EVENT-MODE-DECLARATION-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventModeDeclarationTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventModeDeclarationType(enum)
+
+    def readTDEventTrigger(self, element: ET.Element, event: TDEventTrigger):
+        self.readTDEventVfbPort(element, event)
+        event.setTriggerRef(self.getChildElementOptionalRefType(element, "TRIGGER-REF"))
+        type_element = self.find(element, "TD-EVENT-TRIGGER-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventTriggerTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventTriggerType(enum)
+
+    def readTDEventSwc(self, element: ET.Element, event: TDEventSwc):
+        self.readTimingDescriptionEvent(element, event)
+        event.setComponentIRef(self.readEOCComponentIRef(element, "COMPONENT-IREF"))
+
+    def readTDEventSwcInternalBehavior(self, element: ET.Element, event: TDEventSwcInternalBehavior):
+        self.readTDEventSwc(element, event)
+        event.setRunnableRef(self.getChildElementOptionalRefType(element, "RUNNABLE-REF"))
+        type_element = self.find(element, "TD-EVENT-SWC-INTERNAL-BEHAVIOR-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventSwcInternalBehaviorTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventSwcInternalBehaviorType(enum)
+        event.setVariableAccessRef(self.getChildElementOptionalRefType(element, "VARIABLE-ACCESS-REF"))
+
+    def readTDEventBswInternalBehavior(self, element: ET.Element, event: TDEventBswInternalBehavior):
+        self.readTimingDescriptionEvent(element, event)
+        event.setBswModuleEntityRef(self.getChildElementOptionalRefType(element, "BSW-MODULE-ENTITY-REF"))
+        type_element = self.find(element, "TD-EVENT-BSW-INTERNAL-BEHAVIOR-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventBswInternalBehaviorTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventBswInternalBehaviorType(enum)
+
+    def readTDEventBsw(self, element: ET.Element, event: TDEventBsw):
+        self.readTimingDescriptionEvent(element, event)
+        event.setBswModuleDescriptionRef(self.getChildElementOptionalRefType(element, "BSW-MODULE-DESCRIPTION-REF"))
+
+    def readTDEventBswModule(self, element: ET.Element, event: TDEventBswModule):
+        self.readTDEventBsw(element, event)
+        event.setBswModuleEntryRef(self.getChildElementOptionalRefType(element, "BSW-MODULE-ENTRY-REF"))
+        type_element = self.find(element, "TD-EVENT-BSW-MODULE-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventBswModuleTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventBswModuleType(enum)
+
+    def readTDEventBswModeDeclaration(self, element: ET.Element, event: TDEventBswModeDeclaration):
+        self.readTDEventBsw(element, event)
+        event.setEntryModeDeclarationRef(self.getChildElementOptionalRefType(element, "ENTRY-MODE-DECLARATION-REF"))
+        event.setExitModeDeclarationRef(self.getChildElementOptionalRefType(element, "EXIT-MODE-DECLARATION-REF"))
+        event.setModeDeclarationRef(self.getChildElementOptionalRefType(element, "MODE-DECLARATION-REF"))
+        type_element = self.find(element, "TD-EVENT-BSW-MODE-DECLARATION-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventBswModeDeclarationTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventBswModeDeclarationType(enum)
+
+    def readTDEventComplex(self, element: ET.Element, event: TDEventComplex):
+        self.readTimingDescriptionEvent(element, event)
+
+    def readTDEventSLLET(self, element: ET.Element, event: TDEventSLLET):
+        self.readTimingDescriptionEvent(element, event)
+
+    def readTDEventSLLETPort(self, element: ET.Element, event: TDEventSLLETPort):
+        self.readTDEventSLLET(element, event)
+        event.setPortRef(self.getChildElementOptionalRefType(element, "PORT-REF"))
+
+    def readTDEventSwcInternalBehaviorReference(self, element: ET.Element, event: TDEventSwcInternalBehaviorReference):
+        self.readTDEventSwc(element, event)
+        event.setReferencedTDEventSwcRef(self.getChildElementOptionalRefType(element, "REFERENCED-TD-EVENT-SWC-REF"))
+
+    def readTDEventOccurrenceExpression(self, element: ET.Element, parent) -> TDEventOccurrenceExpression:
+        expression = TDEventOccurrenceExpression()
+        self.readARObjectAttributes(element, expression)
+        for child_element in self.findall(element, "ARGUMENTS/AUTOSAR-OPERATION-ARGUMENT-INSTANCE"):
+            argument = expression.createArgument(parent, self.getShortName(child_element))
+            self.readAutosarOperationArgumentInstance(child_element, argument)
+        formula_element = self.find(element, "FORMULA")
+        if formula_element is not None:
+            expression.setFormula(self.readTDEventOccurrenceExpressionFormula(parent, formula_element))
+        for child_element in self.findall(element, "MODES/TIMING-MODE-INSTANCE"):
+            mode = expression.createMode(parent, self.getShortName(child_element))
+            self.readTimingModeInstance(child_element, mode)
+        for child_element in self.findall(element, "VARIABLES/AUTOSAR-VARIABLE-INSTANCE"):
+            variable = expression.createVariable(parent, self.getShortName(child_element))
+            self.readAutosarVariableInstance(child_element, variable)
+        return expression
+
+    def readTDEventOccurrenceExpressionFormula(self, parent, element: ET.Element) -> TDEventOccurrenceExpressionFormula:
+        formula = TDEventOccurrenceExpressionFormula(parent, self.getShortName(element))
+        self.readReferrable(element, formula)
+        formula.setArgumentRef(self.getChildElementOptionalRefType(element, "ARGUMENT-REF"))
+        formula.setEventRef(self.getChildElementOptionalRefType(element, "EVENT-REF"))
+        formula.setModeRef(self.getChildElementOptionalRefType(element, "MODE-REF"))
+        formula.setVariableRef(self.getChildElementOptionalRefType(element, "VARIABLE-REF"))
+        if element.text is not None and element.text.strip() != "":
+            formula.setText(element.text)
+        return formula
 
     def readTimingConditionFormula(self, parent, element: ET.Element) -> TimingConditionFormula:
         tcf = TimingConditionFormula(parent, self.getShortName(element))
@@ -6470,8 +6822,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "TIMING-CONDITIONS/TIMING-CONDITION"):
             condition = extension.createTimingCondition(self.getShortName(child_element))
             self.readTimingCondition(child_element, condition)
-        for child_element in self.findall(element, "TIMING-DESCRIPTIONS/*"):
-            self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % self.getTagName(child_element))
+        self.readTimingDescriptions(element, extension)
         for child_element in self.findall(element, "TIMING-GUARANTEES/*"):
             self.readTimingExtensionConstraint(child_element, extension, "TIMING-GUARANTEES")
         for child_element in self.findall(element, "TIMING-REQUIREMENTS/*"):
