@@ -313,6 +313,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventComplex import (
     TDEventComplex,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSLLET import (
+    TDEventSLLET,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
     ArbitraryEventTriggering,
     BurstPatternEventTriggering,
@@ -3660,6 +3663,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(element, "TD-EVENT-BSW-MODE-DECLARATION-TYPE", enum)
 
     def writeTDEventComplex(self, element: ET.Element, event: TDEventComplex):
+        self.writeTimingDescriptionEvent(element, event)
+
+    def writeTDEventSLLET(self, element: ET.Element, event: TDEventSLLET):
         self.writeTimingDescriptionEvent(element, event)
 
     def writeTDEventOccurrenceExpression(self, element: ET.Element, expression: TDEventOccurrenceExpression):
