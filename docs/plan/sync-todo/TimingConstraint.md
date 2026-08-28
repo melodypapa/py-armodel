@@ -776,7 +776,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.41, p.72)
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: 435 Timing tests green; ruff/black clean); 9b confirm + # Spec verified: R23-11 stamped
-- [x] TDEventBswInternalBehavior (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.42, p.73 · bswModuleEntity -> BswModuleEntity ref (RefType); type enum (queued above); Base includes TimingDescription/TimingDescriptionEvent (queued above)) · commit {COMMIT}
+- [x] TDEventBswInternalBehavior (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.42, p.73 · bswModuleEntity -> BswModuleEntity ref (RefType); type enum (queued above); Base includes TimingDescription/TimingDescriptionEvent (queued above)) · commit a83d6860
   - [x] Step 1 — Sync members & description from spec (Table 3.42, p.73; Note verbatim; Base TimingDescriptionEvent; bswModuleEntity + tdEventBswInternalBehaviorType)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventBswInternalBehavior.py (6 tests)
   - [x] Step 3 — Implement model class (Green) — TDEventBswInternalBehavior(TimingDescriptionEvent); bswModuleEntityRef Optional[RefType] + tdEventBswInternalBehaviorType Optional[enum] + get/set
