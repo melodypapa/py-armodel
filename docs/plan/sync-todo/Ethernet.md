@@ -957,7 +957,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker: new section, macLayerType ARLiteral placeholder — EthernetMacLayerTypeEnum Table 3.56 landed 2026-08-26 (see Member types ADDED), placeholder row removed)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass; macLayerType placeholder resolved once EthernetMacLayerTypeEnum landed)
-- [x] EthernetCommunicationConnector (markdown SystemTemplate · Table 3.62 · p.117 · source Fibex4Ethernet/EthernetTopology.py · depends on CanXlProps above; adds apApplicationEndpoint, canXlPropsRefs, ipV6PathMtuEnabled, ipV6PathMtuTimeout, pncFilterDataMask, unicastNetworkEndpointRefs → NetworkEndpoint Ref) — STAMPED R23-11 <!-- commit: pending -->
+- [x] EthernetCommunicationConnector (markdown SystemTemplate · Table 3.62 · p.117 · source Fibex4Ethernet/EthernetTopology.py · depends on CanXlProps above; adds apApplicationEndpoint, canXlPropsRefs, ipV6PathMtuEnabled, ipV6PathMtuTimeout, pncFilterDataMask, unicastNetworkEndpointRefs → NetworkEndpoint Ref) — STAMPED R23-11 <!-- commit: ccfd3365 -->
   - [x] Step 1 — Sync members & description from spec
     (Table 3.62 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:3020–3040 + PDF p.117;
     Base → CommunicationConnector; only 5 attr rows: ethIpProps ref, maximumTransmissionUnit, neighborCacheSize,
