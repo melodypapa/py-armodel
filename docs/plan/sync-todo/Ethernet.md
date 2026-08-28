@@ -611,7 +611,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     methodActivationRoutingGroup row, Rule 0015 table-wins)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7313 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] SocketAddress RE-FIX (type staticSocketConnections → List[StaticSocketConnection], udpChecksumHandling → UdpChecksumCalculationEnum once they land; remove resolved deviation rows) — STAMP DEFERRED (batch 9b pending)
+- [x] SocketAddress RE-FIX (type staticSocketConnections → List[StaticSocketConnection], udpChecksumHandling → UdpChecksumCalculationEnum once they land; remove resolved deviation rows) — STAMPED R23-11 <!-- commit: 2abee405 -->
   - [x] Step 1 — Spec re-check (Tables 6.118/6.119/6.201 unchanged; member classes landed)
   - [x] Step 2 — Retype round-trip tests (Red)
     (test_socket_address.py: fixture switched to enum, isinstance asserts, new TestSocketAddressStaticSocketConnections
@@ -737,7 +737,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (9a automated verification only — pytest 7244 passed incl. lossless integration round trip,
     black/black-check/lint clean, checklist==methods 1:1 source order, verbatim Note diff OK,
     no receiver-chain mutators in new code; 9b stamp DEFERRED to batch pass)
-- [ ] SocketAddress (markdown SystemTemplate · Table 6.118 · p.453 · source Fibex4Ethernet/ServiceInstances.py · fixes applicationEndpoint type; adds ipAddress) · steps complete commit 1d699cf8 — STAMP DEFERRED (batch 9b pending)
+- [x] SocketAddress (markdown SystemTemplate · Table 6.118 · p.453 · source Fibex4Ethernet/ServiceInstances.py · fixes applicationEndpoint type; adds ipAddress) · steps complete commit 1d699cf8 — STAMPED R23-11 <!-- commit: 2abee405 -->
   NOTE: Table 6.118 verified in AUTOSAR_CP_TPS_SystemTemplate.md:11940–11969 (page-split table:
   group 1 before caption, group 2 after) + PDF p.453 (pdf_page.py authoritative; p.452 above was
   stale). The table has NO ipAddress row (and NO portAddress row); both are deprecated XSD-only
