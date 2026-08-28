@@ -779,7 +779,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (9a automated verification only — pytest 7261 passed incl. lossless integration round trip,
     black/black-check/lint clean, checklist==methods 1:1 source order, verbatim Note diff OK,
     no receiver-chain mutators in new code; 9b stamp DEFERRED to batch pass)
-- [x] SoAdConfig (markdown SystemTemplate · Table 6.117 · p.452 · source Fibex4Ethernet/ServiceInstances.py) — STAMPED R23-11; SYNCED AFTER SocketConnection (reorder per Rule 0016.5) <!-- commit: pending -->
+- [x] SoAdConfig (markdown SystemTemplate · Table 6.117 · p.452 · source Fibex4Ethernet/ServiceInstances.py) — STAMPED R23-11; SYNCED AFTER SocketConnection (reorder per Rule 0016.5) <!-- commit: ecc58745 -->
   - [x] Step 1 — Sync members & description from spec
     (Table 6.117 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:11920–11937 + PDF p.452;
     Base ARObject; 3 attr rows: connection * aggr obsolete, connectionBundle * aggr obsolete, socketAddress * aggr;
