@@ -405,7 +405,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (none; CouplingPort + EthernetCommunicationController macLayerType placeholder rows resolved)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] EthernetPhysicalLayerTypeEnum (enum · Table 3.57 · p.111 · used by CouplingPort.physicalLayerType · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 — confirmed by user 2026-08-28 <!-- commit: PENDING -->
+- [x] EthernetPhysicalLayerTypeEnum (enum · Table 3.57 · p.111 · used by CouplingPort.physicalLayerType · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 — confirmed by user 2026-08-28 <!-- commit: c7f99ac3 -->
   - [x] Step 1 — Sync members & description from spec
     (Table 3.57 markdown AUTOSAR_CP_TPS_SystemTemplate.md:2865 + PDF p.111)
   - [x] Step 2 — Write model class unit test (Red)
