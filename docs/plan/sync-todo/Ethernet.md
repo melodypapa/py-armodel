@@ -822,7 +822,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker: four former missing rows resolved and annotated; applicationEndpoint removal recorded per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7328 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] Ipv6Configuration (markdown SystemTemplate · Table 6.139 · p.466 · source Fibex4Ethernet/EthernetTopology.py — MOVED from NetworkEndpoint.py per Rule 0007: Table 6.139 Package row = Fibex4Ethernet::EthernetTopology · fixes dnsServerAddresses naming → dnsServerAddress) — STAMP DEFERRED (batch 9b pending)
+- [x] Ipv6Configuration (markdown SystemTemplate · Table 6.139 · p.466 · source Fibex4Ethernet/EthernetTopology.py — MOVED from NetworkEndpoint.py per Rule 0007: Table 6.139 Package row = Fibex4Ethernet::EthernetTopology · fixes dnsServerAddresses naming → dnsServerAddress) — STAMPED R23-11 <!-- commit: pending -->
   - [x] Step 1 — Sync members & description from spec
     (Table 6.139 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:12392–12410 + PDF p.466;
     Base ARObject+NetworkEndpointAddress → NetworkEndpointAddress; 9 attr rows; "naming fix" resolved as
