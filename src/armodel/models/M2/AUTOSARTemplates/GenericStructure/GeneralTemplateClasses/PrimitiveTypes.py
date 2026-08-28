@@ -1260,6 +1260,7 @@ class AnyServiceInstanceId(ARLiteral):
 
     # AnyServiceInstanceId method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.6, p.423
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
@@ -1277,6 +1278,7 @@ class AnyVersionString(ARLiteral):
 
     # AnyVersionString method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.7, p.423
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 

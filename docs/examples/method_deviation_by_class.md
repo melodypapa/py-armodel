@@ -2790,18 +2790,18 @@ No deviations — Table 3.36 has no `Attribute` rows (all members inherited from
 ## `SocketConnection`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 2057
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ObsoleteModel`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetCommunication.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ObsoleteModel.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `autosarConnector` | `SoAdConnectorType` | — | missing |
-| — *(missing)* | `—` | `doIpSourceAddressRef` | `Ref (LogicAddress)` | Ref | missing |
-| — *(missing)* | `—` | `doIpTargetAddressRef` | `Ref (LogicAddress)` | Ref | missing |
-| — *(missing)* | `—` | `ident` | `TpConnectionIdent` | — | missing |
-| — *(missing)* | `—` | `localPortRef` | `Ref (SocketAddress)` | Ref | missing |
-| — *(missing)* | `—` | `nPduRef` | `Ref (NPdu)` | Ref | missing |
-| — *(missing)* | `—` | `remotePortRef` | `Ref (SocketAddress)` | Ref | missing |
-| — *(missing)* | `—` | `socketProtocol` | `SoAdProtocolType` | — | missing |
+| `autosarConnector` | `Optional[ARLiteral]` | `autosarConnector` | `SoAdConnectorType` | attr | XSD-only enum explicitly skipped per user confirmation; carried as generic `ARLiteral` |
+| `doIpSourceAddressRef` | `Optional[RefType]` | `doIpSourceAddressRef` | `Ref (LogicAddress)` | Ref | resolved |
+| `doIpTargetAddressRef` | `Optional[RefType]` | `doIpTargetAddressRef` | `Ref (LogicAddress)` | Ref | resolved |
+| `ident` | `Optional[TpConnectionIdent]` | `ident` | `TpConnectionIdent` | aggr | resolved |
+| `localPortRef` | `Optional[RefType]` | `localPortRef` | `Ref (SocketAddress)` | Ref | resolved |
+| `nPduRef` | `Optional[RefType]` | `nPduRef` | `Ref (NPdu)` | Ref | resolved |
+| `remotePortRef` | `Optional[RefType]` | `remotePortRef` | `Ref (SocketAddress)` | Ref | resolved |
+| `socketProtocol` | `Optional[ARLiteral]` | `socketProtocol` | `SoAdProtocolType` | attr | XSD-only enum explicitly skipped per user confirmation; carried as generic `ARLiteral` |
 
 ## `SwcTiming`
 - **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 25

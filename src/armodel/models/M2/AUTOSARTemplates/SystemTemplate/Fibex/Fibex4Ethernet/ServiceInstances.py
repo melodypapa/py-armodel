@@ -247,10 +247,11 @@ class TcpTp(TcpUdpConfig):
 
 
 class AbstractServiceInstance(Identifiable, ABC):
-    """It is possible to specify additional information about the AbstractServiceInstance with the Capability Record that allows to transport arbitrary configuration strings (key/value pairs). This allows to encode additional information like the name of a service or its configuration."""
+    """Provided and Consumed Ethernet Service Instances that are available at the ApplicationEndpoint."""
 
     # AbstractServiceInstance method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.158, p.477
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addCapabilityRecord             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -514,6 +515,7 @@ class ServiceVersionAcceptanceKindEnum(AREnum):
 
     # ServiceVersionAcceptanceKindEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.113, p.2057
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on ConsumedServiceInstance.versionDrivenFindBehavior
 
@@ -539,6 +541,7 @@ class UdpChecksumCalculationEnum(AREnum):
 
     # UdpChecksumCalculationEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.119, p.454
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on SocketAddress.udpChecksumHandling
 
@@ -564,6 +567,7 @@ class EventGroupControlTypeEnum(AREnum):
 
     # EventGroupControlTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.162, p.489
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on PduActivationRoutingGroup.eventGroupControlType
 
@@ -596,7 +600,8 @@ class TcpRoleEnum(AREnum):
     """
 
     # TcpRoleEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.135
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.135, p.2074
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on StaticSocketConnection.tcpRole
 
@@ -622,6 +627,7 @@ class PduActivationRoutingGroup(Identifiable):
 
     # PduActivationRoutingGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.161, p.489
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getEventGroupControlType        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
@@ -690,6 +696,7 @@ class StaticSocketConnection(Identifiable):
 
     # StaticSocketConnection method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.201, p.544
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getIPduIdentifierRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -1422,6 +1429,7 @@ class EventHandler(Identifiable):
 
     # EventHandler method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.166, p.492
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addConsumedEventGroupRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -1897,6 +1905,7 @@ class SocketAddress(Identifiable):
 
     # SocketAddress method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.118, p.453
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getAllowedIPv6ExtHeadersRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -2126,6 +2135,7 @@ class SoAdConfig(ARObject):
 
     # SoAdConfig method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.117, p.452
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addConnection                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer

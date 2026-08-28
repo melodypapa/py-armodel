@@ -881,6 +881,7 @@ class EthernetCommunicationConnector(CommunicationConnector):
 
     # EthernetCommunicationConnector method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.62, p.117
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getEthIpPropsRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -1081,6 +1082,7 @@ class SdClientConfig(ARObject):
 
     # SdClientConfig method parity checklist (XSD-only class — obsolete, no R23-11 PDF table; Rule 0002:
     # attributes derived from the AUTOSAR_00052.xsd SD-CLIENT-CONFIG group; no # Spec line, no marker):
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addCapabilityRecord           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -1549,6 +1551,7 @@ class ApplicationEndpoint(Identifiable):
 
     # ApplicationEndpoint method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.124, p.458
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] createConsumedServiceInstance        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -1865,6 +1868,7 @@ class EthernetConnectionNegotiationEnum(AREnum):
 
     # EthernetConnectionNegotiationEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.55, p.110
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on CouplingPort.connectionNegotiationBehavior
 
@@ -1893,25 +1897,26 @@ class CouplingPortRoleEnum(AREnum):
     """
 
     # CouplingPortRoleEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.38, p.aux
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.38, p.2013
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on CouplingPort.couplingPortRole
 
     # The hostPort is connected to an ECU (host ecu). The host ECU controls the connected Coupling Element (e.g. Ethernet switch). Tags: atp.EnumerationLiteralIndex=0
     HOST_PORT = "hostPort"
 
-    # A CouplingPort can be connected to another CouplingPort of a CouplingElement located on the same ECU (CouplingElement.ecuInstance) using the CouplingPortConnection. This is used to model a cascaded switch. Tags: atp.EnumerationLiteralIndex=1
-    UP_LINK_PORT = "upLinkPort"
-
     # A CoupingPort can be a standardPort that is used to connect the CouplingElement with Coupling Ports outside the ECU. Tags: atp.EnumerationLiteralIndex=2
     STANDARD_PORT = "standardPort"
+
+    # A CouplingPort can be connected to another CouplingPort of a CouplingElement located on the same ECU (CouplingElement.ecuInstance) using the CouplingPortConnection. This is used to model a cascaded switch. Tags: atp.EnumerationLiteralIndex=1
+    UP_LINK_PORT = "upLinkPort"
 
     def __init__(self):
         super().__init__(
             [
                 CouplingPortRoleEnum.HOST_PORT,
-                CouplingPortRoleEnum.UP_LINK_PORT,
                 CouplingPortRoleEnum.STANDARD_PORT,
+                CouplingPortRoleEnum.UP_LINK_PORT,
             ]
         )
 
@@ -1923,14 +1928,15 @@ class EthernetMacLayerTypeEnum(AREnum):
 
     # EthernetMacLayerTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.56, p.110
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on CouplingPort.macLayerType, EthernetCommunicationController.macLayerType
 
-    # Mac layer interface (data) bandwith class 1Gbit/s (e.g. GMII, RGMII, SGMII, RvGMII, USGMII) Tags: atp.EnumerationLiteralIndex=1 xml.name=XG-MII
-    XGMII = "XG-MII"
-
     # Mac layer interface (data) bandwith class 100Mbit/s and 10Mbit/s (e.g. RMII, RvMII, SMII, RvMII) Tags: atp.EnumerationLiteralIndex=0 xml.name=X-MII
     XMII = "X-MII"
+
+    # Mac layer interface (data) bandwith class 1Gbit/s (e.g. GMII, RGMII, SGMII, RvGMII, USGMII) Tags: atp.EnumerationLiteralIndex=1 xml.name=XG-MII
+    XGMII = "XG-MII"
 
     # Mac layer interface (data) bandwith class 10Gbit/s Tags: atp.EnumerationLiteralIndex=2 xml.name=XXG-MII
     XXGMII = "XXG-MII"
@@ -1938,8 +1944,8 @@ class EthernetMacLayerTypeEnum(AREnum):
     def __init__(self):
         super().__init__(
             [
-                EthernetMacLayerTypeEnum.XGMII,
                 EthernetMacLayerTypeEnum.XMII,
+                EthernetMacLayerTypeEnum.XGMII,
                 EthernetMacLayerTypeEnum.XXGMII,
             ]
         )
@@ -1952,6 +1958,7 @@ class Ipv6Configuration(NetworkEndpointAddress):
 
     # Ipv6Configuration method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.139, p.466
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getAssignmentPriority        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer

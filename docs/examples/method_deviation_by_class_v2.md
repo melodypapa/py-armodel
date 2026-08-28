@@ -1590,14 +1590,14 @@ Queue note is stale. Bulk setters setConnections/setConnectionBundles were remov
 
 | Name in source code | Type (source) | Member name (XSD) | Type (XSD) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `autosarConnector` | `Optional[ARLiteral]` | `autosarConnector` | ``SoAdConnectorType`` | attr | enum `SoAdConnectorType` not implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `autosarConnector` | `Optional[ARLiteral]` | `autosarConnector` | ``SoAdConnectorType`` | attr | XSD-only enum explicitly skipped per user confirmation; carried as generic `ARLiteral` (Rule 0001.10) |
 | `doIpSourceAddressRef` | `Optional[RefType]` | `doIpSourceAddressRef` | ``DoIpLogicAddress`` | ref | - |
 | `doIpTargetAddressRef` | `Optional[RefType]` | `doIpTargetAddressRef` | ``DoIpLogicAddress`` | ref | - |
 | `ident` | `Optional[TpConnectionIdent]` | `ident` | ``TpConnectionIdent`` | aggr | - |
 | `localPortRef` | `Optional[RefType]` | `localPortRef` | ``SocketAddress`` | ref | spec/XSD marks the reference obsolete (kept per XSD) |
 | `nPduRef` | `Optional[RefType]` | `nPduRef` | ``NpDu`` | ref | - |
 | `remotePortRef` | `Optional[RefType]` | `remotePortRef` | ``SocketAddress`` | ref | spec/XSD marks the reference obsolete (kept per XSD) |
-| `socketProtocol` | `Optional[ARLiteral]` | `socketProtocol` | ``SoAdProtocolType`` | attr | enum `SoAdProtocolType` not implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `socketProtocol` | `Optional[ARLiteral]` | `socketProtocol` | ``SoAdProtocolType`` | attr | XSD-only enum explicitly skipped per user confirmation; carried as generic `ARLiteral` (Rule 0001.10) |
 
 Removed non-XSD member `pduSocketConnectionIpdus` (duplicate of `pdus`, unused outside the class).
 Base stays `Describable` per XSD complexType groups (AR-OBJECT + DESCRIBABLE).

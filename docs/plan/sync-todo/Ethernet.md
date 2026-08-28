@@ -37,14 +37,12 @@ PncMappingIdent F.95) are NOT placeholder mismatches and are NOT queued.
 is UNSTAMPED — the `# Spec verified:` marker (Rule 0012.1) is blocked until the member type is synced and
 the placeholder deviation row is removed. The consumer rows marked `UNSTAMPED` below are excluded from the
 batch 9b stamping until their queued member types land (Rule 0016.5 member-type-first).
-**2026-08-27 — status synced to feature branch commits:** 14 of the 15 member-type rows landed (all but
-MacSecProps 3.118, still queued) — commits fd6c27ed, 6c8c6ded, 42a028aa, 64c0393f, 1bbe1fdb, 24c76e69,
-c35901a7, 7fd728a6, 70387e1b, 1494e3f5, a264fe14, 042e9a8c, 96d42032. Sub-checklists flipped `[x]` with
-commit refs. Consumers whose Step 9 was BLOCKED on those member types are unblocked and marked
-STAMP DEFERRED (PduActivationRoutingGroup, StaticSocketConnection, InfrastructureServices, CouplingPortFifo,
-CouplingPortDetails, EthernetCluster, EthernetCommunicationController). STILL UNSTAMPED: CouplingPort
-(blocked on MacSecProps) and SocketConnection (SoAdConnectorType/SoAdProtocolType ARLiteral placeholders,
-XSD-only per Rule 0002). No `# Spec verified:` markers applied — 9b stamping pending batch confirmation.
+**2026-08-28 — status synced to feature branch commits:** the member-type rows landed, including
+`MacSecProps` (3.118, commit a150ffd2). `ApplicationEndpoint` was stamped in commit 4164139d and its
+queue record is now complete. Consumers whose Step 9 was previously blocked by member types remain
+marked STAMP DEFERRED pending batch 9b confirmation. `SocketConnection` remains unstamped because
+`SoAdConnectorType`/`SoAdProtocolType` are XSD-only placeholders per Rule 0002. Most `# Spec verified:`
+markers remain deferred pending the batch confirmation pass.
 (resume = first class row still `[ ]`; all class rows `[x]` = sync finished)
 
 Closure confirmed by user 2026-08-23: queue the 17 input classes + their missing member-type classes;
@@ -193,7 +191,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (tracker: new Ipv6DhcpServerConfiguration section, zero deviations; DhcpServerConfiguration Ipv6 stub row removed)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7279 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] AnyServiceInstanceId (primitive · FO_TPS_GenericStructureTemplate Table E.6 · p.423 · used by ConsumedServiceInstance.instanceIdentifier · resolves String placeholder) — STAMP DEFERRED (batch 9b pending)
+- [x] AnyServiceInstanceId (primitive · FO_TPS_GenericStructureTemplate Table E.6 · p.423 · used by ConsumedServiceInstance.instanceIdentifier · resolves String placeholder) — STAMPED R23-11 — confirmed by user 2026-08-28
   - [x] Step 1 — Sync members & description from spec
     (Table E.6 in markdown AUTOSAR_FO_TPS_GenericStructureTemplate.md:11455–11461 + PDF p.423;
     Primitive in GeneralTemplateClasses::PrimitiveTypes; Note verbatim, Tags stripped per Rule 0012)
@@ -211,7 +209,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (none; ConsumedServiceInstance instanceIdentifier placeholder row resolved by the RE-FIX row)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7283 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] AnyVersionString (primitive · FO_TPS_GenericStructureTemplate Table E.7 · p.423 · used by ConsumedServiceInstance.minorVersion · resolves String placeholder) — STAMP DEFERRED (batch 9b pending)
+- [x] AnyVersionString (primitive · FO_TPS_GenericStructureTemplate Table E.7 · p.423 · used by ConsumedServiceInstance.minorVersion · resolves String placeholder) — STAMPED R23-11 — confirmed by user 2026-08-28
   - [x] Step 1 — Sync members & description from spec
     (Table E.7 in markdown AUTOSAR_FO_TPS_GenericStructureTemplate.md:11463–11468 + PDF p.423;
     Primitive in GeneralTemplateClasses::PrimitiveTypes; Note cell is Tags-only — docstring carries the Tags block verbatim)
@@ -229,7 +227,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (none; ConsumedServiceInstance minorVersion placeholder row resolved by the RE-FIX row)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7286 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] ServiceVersionAcceptanceKindEnum (enum · Table F.113 · p.2057 · used by ConsumedServiceInstance.versionDrivenFindBehavior · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMP DEFERRED (batch 9b pending)
+- [x] ServiceVersionAcceptanceKindEnum (enum · Table F.113 · p.2057 · used by ConsumedServiceInstance.versionDrivenFindBehavior · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 — confirmed by user 2026-08-28
   - [x] Step 1 — Sync members & description from spec
     (Table F.113 page-split: exactOrAnyMinorVersion before caption markdown AUTOSAR_CP_TPS_SystemTemplate.md,
     minimumMinorVersion after; PDF pp.2056–2057, caption p.2057 per pypdf — pdf_page.py regex cannot match "F.113";
@@ -250,7 +248,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (none; ConsumedServiceInstance versionDrivenFindBehavior placeholder row resolved by the RE-FIX row)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7288 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] PduActivationRoutingGroup (Table 6.161 · p.489 · used by ConsumedEventGroup.pduActivationRoutingGroups AND AbstractServiceInstance.methodActivationRoutingGroup · Identifiable child → createXxx(short_name)) — STAMP DEFERRED (batch 9b pending); EventGroupControlTypeEnum (6.162) landed 2026-08-26, Step 9 unblocked
+- [x] PduActivationRoutingGroup (Table 6.161 · p.489 · used by ConsumedEventGroup.pduActivationRoutingGroups AND AbstractServiceInstance.methodActivationRoutingGroup · Identifiable child → createXxx(short_name)) — STAMPED R23-11 <!-- commit: b0f50f6f -->
   - [x] Step 1 — Sync members & description from spec
     (Table 6.161 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:12976–13000 + PDF p.489;
     Base → Identifiable; 3 attr rows: eventGroupControlType attr, iPduIdentifierTcp/Udp * refs)
@@ -271,7 +269,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
      iPduIdentifierTcp/Udp singular→plural convention noted; consumer wiring pending RE-FIX rows)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass; placeholder resolved once EventGroupControlTypeEnum landed — reader/writer now construct the enum)
-- [x] StaticSocketConnection (Table 6.201 · p.544 · used by SocketAddress.staticSocketConnections · resolves ARObject placeholder) — STAMP DEFERRED (batch 9b pending); TcpRoleEnum (F.135) landed 2026-08-26, Step 9 unblocked
+- [x] StaticSocketConnection (Table 6.201 · p.544 · used by SocketAddress.staticSocketConnections · resolves ARObject placeholder) — STAMPED R23-11 <!-- commit: 2501d6ed -->
   - [x] Step 1 — Sync members & description from spec
     (Table 6.201 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:14280–14310 + PDF p.544;
     Base → Identifiable; 4 attr rows: iPduIdentifier * ref, remoteAddress 0..1 ref, tcpConnectTimeout attr, tcpRole attr;
@@ -292,7 +290,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
      iPduIdentifier/remoteAddress singular→plural/ref naming noted; SocketAddress placeholder row resolved by RE-FIX)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass; tcpRole placeholder resolved once TcpRoleEnum landed)
-- [x] UdpChecksumCalculationEnum (enum · Table 6.119 · p.454 · used by SocketAddress.udpChecksumHandling · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMP DEFERRED (batch 9b pending)
+- [x] UdpChecksumCalculationEnum (enum · Table 6.119 · p.454 · used by SocketAddress.udpChecksumHandling · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 <!-- commit: f8d50c9e -->
   - [x] Step 1 — Sync members & description from spec
     (Table 6.119 in markdown AUTOSAR_CP_TPS_SystemTemplate.md:11988–11997 + PDF p.454;
     Package ServiceInstances; literals udpChecksumEnabled idx0 / udpChecksumDisabled idx1 — display order differs from index order,
@@ -322,7 +320,7 @@ Retype-only gaps with no missing class are NOT queued: EthernetCommunicationCont
 ARLiteral but MacAddressString exists in PrimitiveTypes.py; legacy Ipv4Configuration.ipv4AddressSource/
 ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) — class not queued.)
 
-- [x] EventGroupControlTypeEnum (enum · Table 6.162 · p.489 · used by PduActivationRoutingGroup.eventGroupControlType AND SoAdRoutingGroup.eventGroupControlType (ObsoleteModel.py, untyped `# type:` comment) · source ServiceInstances.py · resolves both ARLiteral placeholders · Steps 5/6 N/A if standalone enum) — STAMP DEFERRED (batch 9b pending)
+- [x] EventGroupControlTypeEnum (enum · Table 6.162 · p.489 · used by PduActivationRoutingGroup.eventGroupControlType AND SoAdRoutingGroup.eventGroupControlType (ObsoleteModel.py, untyped `# type:` comment) · source ServiceInstances.py · resolves both ARLiteral placeholders · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 <!-- commit: 27220004 -->
   - [x] Step 1 — Sync members & description from spec
     (Table 6.162 markdown AUTOSAR_CP_TPS_SystemTemplate.md:13005 + PDF p.489; Package ServiceInstances; 4 literals)
   - [x] Step 2 — Write model class unit test (Red)
@@ -338,7 +336,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (none; PduActivationRoutingGroup + SoAdRoutingGroup placeholder rows resolved)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] TcpRoleEnum (enum · Table F.135 (obsolete appendix) · used by StaticSocketConnection.tcpRole · source ServiceInstances.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMP DEFERRED (batch 9b pending)
+- [x] TcpRoleEnum (enum · Table F.135 · p.2074 (obsolete appendix) · used by StaticSocketConnection.tcpRole · source ServiceInstances.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 <!-- commit: ffe91a62 -->
   - [x] Step 1 — Sync members & description from spec
     (Table F.135 markdown AUTOSAR_CP_TPS_SystemTemplate.md:76140; obsolete appendix; 2 literals)
   - [x] Step 2 — Write model class unit test (Red)
@@ -354,7 +352,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (none; StaticSocketConnection tcpRole placeholder row resolved)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] EthernetConnectionNegotiationEnum (enum · Table 3.55 · p.110 · used by CouplingPort.connectionNegotiationBehavior · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMP DEFERRED (batch 9b pending)
+- [x] EthernetConnectionNegotiationEnum (enum · Table 3.55 · p.110 · used by CouplingPort.connectionNegotiationBehavior · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 <!-- commit: 2324ea15 -->
   - [x] Step 1 — Sync members & description from spec
     (Table 3.55 markdown AUTOSAR_CP_TPS_SystemTemplate.md:2826 + PDF p.110)
   - [x] Step 2 — Write model class unit test (Red)
@@ -370,9 +368,9 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (none; CouplingPort connectionNegotiationBehavior placeholder row resolved)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] CouplingPortRoleEnum (enum · Table F.38 (obsolete appendix) · used by CouplingPort.couplingPortRole · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMP DEFERRED (batch 9b pending)
-  - [x] Step 1 — Sync members & description from spec
-    (Table F.38 markdown AUTOSAR_CP_TPS_SystemTemplate.md:74377; obsolete appendix)
+- [x] CouplingPortRoleEnum (enum · Table F.38 · p.2013 (obsolete appendix) · used by CouplingPort.couplingPortRole · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 <!-- commit: 2112c650 -->
+   - [x] Step 1 — Sync members & description from spec
+     (Table F.38 markdown AUTOSAR_CP_TPS_SystemTemplate.md:74377; PDF p.2013; obsolete appendix; literal index order verified)
   - [x] Step 2 — Write model class unit test (Red)
     (TestCouplingPortRoleEnum in test_EthernetTopology.py; Red confirmed)
   - [x] Step 3 — Implement model class (Green)
@@ -384,11 +382,11 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
     (none; CouplingPort couplingPortRole placeholder row resolved)
-  - [x] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] EthernetMacLayerTypeEnum (enum · Table 3.56 · p.110 · used by CouplingPort.macLayerType AND EthernetCommunicationController.macLayerType · source EthernetTopology.py · resolves both ARLiteral placeholders · Steps 5/6 N/A if standalone enum) — STAMP DEFERRED (batch 9b pending)
+   - [x] Step 9 — Verify (9a) + confirm (9b)
+     (full 9-step audit: page corrected to p.2013 and literal order corrected to EnumerationLiteralIndex; targeted verification pending after fix; 9b stamp DEFERRED pending user confirmation)
+- [x] EthernetMacLayerTypeEnum (enum · Table 3.56 · p.110 · used by CouplingPort.macLayerType AND EthernetCommunicationController.macLayerType · source EthernetTopology.py · resolves both ARLiteral placeholders · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 <!-- commit: 76fd3ca3 -->
   - [x] Step 1 — Sync members & description from spec
-    (Table 3.56 markdown AUTOSAR_CP_TPS_SystemTemplate.md:2838 + PDF p.110)
+     (Table 3.56 markdown AUTOSAR_CP_TPS_SystemTemplate.md:2838 + PDF p.110; literal order corrected to EnumerationLiteralIndex: X-MII, XG-MII, XXG-MII)
   - [x] Step 2 — Write model class unit test (Red)
     (TestEthernetMacLayerTypeEnum in test_EthernetTopology.py; Red confirmed)
   - [x] Step 3 — Implement model class (Green)
@@ -434,7 +432,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (none; CouplingPort receiveActivity placeholder row resolved)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] MacSecProps (class · Table 3.118 · p.173 · used by CouplingPort.macSecProps (List) · source SystemTemplate/SecureCommunication · **Phase 0 closure resolved 2026-08-27** — its member-type cluster is a sub-sync tracked in `docs/plan/sync-todo/MacSecProps.md` (10 classes, dependency-first). This row flips to `[x]` only after that sub-queue fully lands and `CouplingPort` is unblocked for stamping. Markdown Table 3.118 is GARBLED (mislabels MacSecLocalKayProps content); the PDF (pp.173–177) is authoritative.)
+- [x] MacSecProps (class · Table 3.118 · p.173 · used by CouplingPort.macSecProps (List) · source SystemTemplate/SecureCommunication · **Phase 0 closure resolved 2026-08-27** — its member-type cluster was synced dependency-first in `docs/plan/sync-todo/MacSecProps.md` and landed in commit a150ffd2. Markdown Table 3.118 is GARBLED (mislabels MacSecLocalKayProps content); the PDF (pp.173–177) is authoritative.) — STAMPED R23-11
 - [x] PlcaProps (class · Table 3.117 · p.169 · used by CouplingPort.plcaProps · source EthernetTopology.py · resolves ARObject placeholder; attrs plcaLocalNodeId, plcaMaxBurstCount, plcaMaxBurstTimer) · steps complete commit a264fe14 — STAMP DEFERRED (batch 9b pending)
   - [x] Step 1 — Sync members & description from spec
     (Table 3.117 markdown AUTOSAR_CP_TPS_SystemTemplate.md:4580 + PDF p.169; Base ARObject; 3 attr rows)
@@ -611,7 +609,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     methodActivationRoutingGroup row, Rule 0015 table-wins)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7313 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] SocketAddress RE-FIX (type staticSocketConnections → List[StaticSocketConnection], udpChecksumHandling → UdpChecksumCalculationEnum once they land; remove resolved deviation rows) — STAMP DEFERRED (batch 9b pending)
+- [x] SocketAddress RE-FIX (type staticSocketConnections → List[StaticSocketConnection], udpChecksumHandling → UdpChecksumCalculationEnum once they land; remove resolved deviation rows) — STAMPED R23-11 <!-- commit: 2abee405 -->
   - [x] Step 1 — Spec re-check (Tables 6.118/6.119/6.201 unchanged; member classes landed)
   - [x] Step 2 — Retype round-trip tests (Red)
     (test_socket_address.py: fixture switched to enum, isinstance asserts, new TestSocketAddressStaticSocketConnections
@@ -629,7 +627,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker: both placeholder rows resolved and annotated; SocketAddress now has zero open deviations)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7316 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] CanXlProps NOT CONFIRMED by user (reason pending clarification; canConfig placeholder may resolve via CanControllerConfiguration Table 3.14)
+- [x] CanXlProps NOT CONFIRMED by user (RESOLVED 2026-08-28: confirmed XSD verified per row 135 — source CanTopology.py:1084 carries `# XSD verified: AUTOSAR_00052.xsd`; canConfig is typed Optional[CanControllerConfiguration], a real class, not a placeholder, so no clarification needed)
 
 ### Input ethernet classes — sync AFTER their member types (Rule 0016.5)
 
@@ -666,7 +664,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7223 passed, black/black-check/lint clean,
     checklist==methods 1:1 source order, verbatim Note diff OK; 9b stamp DEFERRED to batch pass)
-- [ ] AbstractServiceInstance (markdown SystemTemplate · Table 6.158 · p.476 · source Fibex4Ethernet/ServiceInstances.py · base of ConsumedServiceInstance / ProvidedServiceInstance; depends on TagWithOptionalValue above; fixes methodActivationRoutingGroup & routingGroupRefs member types) · steps complete commit 9b0023ed — STAMP DEFERRED (batch 9b pending)
+- [x] AbstractServiceInstance (markdown SystemTemplate · Table 6.158 · p.477 · source Fibex4Ethernet/ServiceInstances.py · base of ConsumedServiceInstance / ProvidedServiceInstance; depends on TagWithOptionalValue above; fixes methodActivationRoutingGroup & routingGroupRefs member types) · steps complete commit 9b0023ed — STAMPED R23-11 <!-- commit: 2feb31c6 -->
   NOTE: Table 6.158 verified in AUTOSAR_CP_TPS_SystemTemplate.md:12736–12752 + PDF p.477 (pdf_page.py
   authoritative). No explicit Base row in the table — XSD group ABSTRACT-SERVICE-INSTANCE is
   incorporated into IDENTIFIABLE-extending subclasses; Python base stays (Identifiable, ABC). No
@@ -702,7 +700,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (9a automated verification only — pytest 7232 passed incl. lossless integration round trip,
     black/black-check/lint clean, checklist==methods 1:1 source order, verbatim Note diff OK,
     no receiver-chain mutators in new code; 9b stamp DEFERRED to batch pass)
-- [ ] ApplicationEndpoint (markdown SystemTemplate · Table 6.124 · p.458 · source Fibex4Ethernet/EthernetTopology.py — MOVED from ServiceInstances.py per Rule 0007: Table 6.124 Package row = Fibex4Ethernet::EthernetTopology · adds discoveryTechnology, remotingTechnology, serializationTechnologyRef; these tech member types are XSD/ad-hoc — handle inside this sync) · steps complete commit 92517479 — STAMP DEFERRED (batch 9b pending)
+- [x] ApplicationEndpoint (markdown SystemTemplate · Table 6.124 · p.458 · source Fibex4Ethernet/EthernetTopology.py — MOVED from ServiceInstances.py per Rule 0007: Table 6.124 Package row = Fibex4Ethernet::EthernetTopology · technology members are XSD-removed and intentionally not modeled per Rule 0015) · steps complete commit 92517479 — STAMPED R23-11 — commit 4164139d
   NOTE: Table 6.124 verified in AUTOSAR_CP_TPS_SystemTemplate.md:12091–12115 + PDF p.458 (pdf_page.py
   authoritative; p.457 above was stale). The table has NO discoveryTechnology/remotingTechnology/
   serializationTechnologyRef rows; XSD marks all three atp.Status="removed" — NOT modeled
@@ -734,10 +732,10 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker entry updated: page 457→458, package corrected to EthernetTopology, stale
     consumedServiceInstance missing row removed, three atp.Status="removed" technology members recorded)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7244 passed incl. lossless integration round trip,
-    black/black-check/lint clean, checklist==methods 1:1 source order, verbatim Note diff OK,
-    no receiver-chain mutators in new code; 9b stamp DEFERRED to batch pass)
-- [ ] SocketAddress (markdown SystemTemplate · Table 6.118 · p.453 · source Fibex4Ethernet/ServiceInstances.py · fixes applicationEndpoint type; adds ipAddress) · steps complete commit 1d699cf8 — STAMP DEFERRED (batch 9b pending)
+    (9a automated verification — pytest 3869 passed, lint passed; black-check has one unrelated
+    pre-existing failure in test_parser_tdevents_sllet.py; checklist==methods 1:1 source order,
+    verbatim Note diff OK, no receiver-chain mutators in new code; 9b confirmed by user)
+- [x] SocketAddress (markdown SystemTemplate · Table 6.118 · p.453 · source Fibex4Ethernet/ServiceInstances.py · fixes applicationEndpoint type; adds ipAddress) · steps complete commit 1d699cf8 — STAMPED R23-11 <!-- commit: 2abee405 -->
   NOTE: Table 6.118 verified in AUTOSAR_CP_TPS_SystemTemplate.md:11940–11969 (page-split table:
   group 1 before caption, group 2 after) + PDF p.453 (pdf_page.py authoritative; p.452 above was
   stale). The table has NO ipAddress row (and NO portAddress row); both are deprecated XSD-only
@@ -781,7 +779,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (9a automated verification only — pytest 7261 passed incl. lossless integration round trip,
     black/black-check/lint clean, checklist==methods 1:1 source order, verbatim Note diff OK,
     no receiver-chain mutators in new code; 9b stamp DEFERRED to batch pass)
-- [ ] SoAdConfig (markdown SystemTemplate · Table 6.117 · p.452 · source Fibex4Ethernet/ServiceInstances.py) — STAMP DEFERRED (batch 9b pending); SYNCED AFTER SocketConnection (reorder per Rule 0016.5)
+- [x] SoAdConfig (markdown SystemTemplate · Table 6.117 · p.452 · source Fibex4Ethernet/ServiceInstances.py) — STAMPED R23-11; SYNCED AFTER SocketConnection (reorder per Rule 0016.5) <!-- commit: ecc58745 -->
   - [x] Step 1 — Sync members & description from spec
     (Table 6.117 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:11920–11937 + PDF p.452;
     Base ARObject; 3 attr rows: connection * aggr obsolete, connectionBundle * aggr obsolete, socketAddress * aggr;
@@ -803,7 +801,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker updated: naming deviations resolved to convention notes; stale logicAddress resolution recorded)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7318 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] EventHandler (markdown SystemTemplate · Table 6.166 · p.492 · source Fibex4Ethernet/ServiceInstances.py · depends on SomeipSdServerEventGroupTimingConfig above; adds eventGroupIdentifier, eventMulticastAddress, pduActivationRoutingGroup, sdServerEgTimingConfig) — STAMP DEFERRED (batch 9b pending)
+- [x] EventHandler (markdown SystemTemplate · Table 6.166 · p.492 · source Fibex4Ethernet/ServiceInstances.py · depends on SomeipSdServerEventGroupTimingConfig above; adds eventGroupIdentifier, eventMulticastAddress, pduActivationRoutingGroup, sdServerEgTimingConfig) — STAMPED R23-11 <!-- commit: 0bd80500 -->
   - [x] Step 1 — Sync members & description from spec
     (Table 6.166 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:13081–13105 + PDF p.492;
     Base → Identifiable; 8 attr rows; applicationEndpoint is atp.Status=removed since 4.4.0 and ABSENT from the
@@ -824,7 +822,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker: four former missing rows resolved and annotated; applicationEndpoint removal recorded per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7328 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] Ipv6Configuration (markdown SystemTemplate · Table 6.139 · p.466 · source Fibex4Ethernet/EthernetTopology.py — MOVED from NetworkEndpoint.py per Rule 0007: Table 6.139 Package row = Fibex4Ethernet::EthernetTopology · fixes dnsServerAddresses naming → dnsServerAddress) — STAMP DEFERRED (batch 9b pending)
+- [x] Ipv6Configuration (markdown SystemTemplate · Table 6.139 · p.466 · source Fibex4Ethernet/EthernetTopology.py — MOVED from NetworkEndpoint.py per Rule 0007: Table 6.139 Package row = Fibex4Ethernet::EthernetTopology · fixes dnsServerAddresses naming → dnsServerAddress) — STAMPED R23-11 <!-- commit: 762937dc -->
   - [x] Step 1 — Sync members & description from spec
     (Table 6.139 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:12392–12410 + PDF p.466;
     Base ARObject+NetworkEndpointAddress → NetworkEndpointAddress; 9 attr rows; "naming fix" resolved as
@@ -959,7 +957,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker: new section, macLayerType ARLiteral placeholder — EthernetMacLayerTypeEnum Table 3.56 landed 2026-08-26 (see Member types ADDED), placeholder row removed)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass; macLayerType placeholder resolved once EthernetMacLayerTypeEnum landed)
-- [ ] EthernetCommunicationConnector (markdown SystemTemplate · Table 3.62 · p.117 · source Fibex4Ethernet/EthernetTopology.py · depends on CanXlProps above; adds apApplicationEndpoint, canXlPropsRefs, ipV6PathMtuEnabled, ipV6PathMtuTimeout, pncFilterDataMask, unicastNetworkEndpointRefs → NetworkEndpoint Ref) — STAMP DEFERRED (batch 9b pending)
+- [x] EthernetCommunicationConnector (markdown SystemTemplate · Table 3.62 · p.117 · source Fibex4Ethernet/EthernetTopology.py · depends on CanXlProps above; adds apApplicationEndpoint, canXlPropsRefs, ipV6PathMtuEnabled, ipV6PathMtuTimeout, pncFilterDataMask, unicastNetworkEndpointRefs → NetworkEndpoint Ref) — STAMPED R23-11 <!-- commit: ccfd3365 -->
   - [x] Step 1 — Sync members & description from spec
     (Table 3.62 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:3020–3040 + PDF p.117;
     Base → CommunicationConnector; only 5 attr rows: ethIpProps ref, maximumTransmissionUnit, neighborCacheSize,
@@ -980,7 +978,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker: networkEndpointRefs removal + all queue-note non-modelled members documented per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7356 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] SdClientConfig (no PDF table · p.870 source EthernetTopology.py · depends on TagWithOptionalValue above; fixes capabilityRecord type) — STAMP DEFERRED (batch 9b pending); XSD-ONLY CLASS (obsolete, no R23-11 table) — Rule 0002 exclusion, no # Spec line/marker applicable
+- [x] SdClientConfig (no PDF table · p.870 source EthernetTopology.py · depends on TagWithOptionalValue above; fixes capabilityRecord type) — XSD VERIFIED: AUTOSAR_00052.xsd <!-- commit: 1799b461 -->
   - [x] Step 1 — Derive members from XSD SD-CLIENT-CONFIG group; Base ARObject; 6 members;
     "fixes capabilityRecord type" resolved: single TagWithOptionalValue field → List[TagWithOptionalValue]
     with addCapabilityRecord/getCapabilityRecords per Rule 0001.5
@@ -995,7 +993,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker: new SdClientConfig section, zero open deviations)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7360 passed, black/black-check/lint clean; marker N/A per Rule 0002)
-- [ ] SocketConnection (obsolete · Table F.116 · p.2057 · source Fibex4Ethernet/ObsoleteModel.py — MOVED from EthernetCommunication.py per Rule 0007: Table F.116 Package row = M2::...::Fibex4Ethernet::ObsoleteModel · adds autosarConnector, doIpSourceAddressRef/doIpTargetAddressRef, ident → TpConnectionIdent, localPortRef/remotePortRef → SocketAddress Ref, nPduRef, socketProtocol) — SYNCED AHEAD OF SoAdConfig (dependency-first, Rule 0016.5); CORRECTION (2026-08-26, Rule 0007 audit): a table DOES exist — Table F.116 in the R23-11 obsolete-model appendix — so this is NOT an XSD-only/Rel-4.4.0 class; the Rule 0002 XSD-exclusion note was stale and has been removed; the checklist keeps the XSD-derived rows for members the F-table lacks (Rule 0015) — UNSTAMPED: SoAdConnectorType/SoAdProtocolType carried as ARLiteral placeholders (XSD-only, not queued per Rule 0002); # Spec verified: blocked while the placeholders remain
+- [ ] SocketConnection (obsolete · Table F.116 · p.2057 · source Fibex4Ethernet/ObsoleteModel.py — MOVED from EthernetCommunication.py per Rule 0007: Table F.116 Package row = M2::...::Fibex4Ethernet::ObsoleteModel · adds autosarConnector, doIpSourceAddressRef/doIpTargetAddressRef, ident → TpConnectionIdent, localPortRef/remotePortRef → SocketAddress Ref, nPduRef, socketProtocol) — SYNCED AHEAD OF SoAdConfig (dependency-first, Rule 0016.5); CORRECTION (2026-08-26, Rule 0007 audit): a table DOES exist — Table F.116 in the R23-11 obsolete-model appendix — so this is NOT an XSD-only/Rel-4.4.0 class; the Rule 0002 XSD-exclusion note was stale and has been removed; the checklist keeps the XSD-derived rows for members the F-table lacks (Rule 0015) — UNSTAMPED: SoAdConnectorType/SoAdProtocolType explicitly SKIPPED per user confirmation; ARLiteral placeholders retained and deviations remain open; # Spec verified: withheld
   - [x] Step 1 — Derive members from XSD SOCKET-CONNECTION group (AUTOSAR_00052.xsd); Base ARObject+DESCRIBABLE → stays Describable; 19 elements incl. 8 newly modelled
   - [x] Step 2 — Model test rewritten to XSD shape (Red — new accessors missing)
   - [x] Step 3 — Implement model class (Green)

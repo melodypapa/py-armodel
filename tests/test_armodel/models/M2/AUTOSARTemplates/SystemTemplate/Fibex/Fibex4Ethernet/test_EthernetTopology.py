@@ -866,7 +866,7 @@ class TestCouplingPortRoleEnum:
     """Test cases for CouplingPortRoleEnum (Table F.38)."""
 
     def test_enum_values(self):
-        assert list(CouplingPortRoleEnum().getEnumValues()) == ["hostPort", "upLinkPort", "standardPort"]
+        assert list(CouplingPortRoleEnum().getEnumValues()) == ["hostPort", "standardPort", "upLinkPort"]
         assert CouplingPortRoleEnum.HOST_PORT == "hostPort"
         assert CouplingPortRoleEnum.UP_LINK_PORT == "upLinkPort"
         assert CouplingPortRoleEnum.STANDARD_PORT == "standardPort"
@@ -876,7 +876,7 @@ class TestEthernetMacLayerTypeEnum:
     """Test cases for EthernetMacLayerTypeEnum (Table 3.56, p.110)."""
 
     def test_enum_values(self):
-        assert list(EthernetMacLayerTypeEnum().getEnumValues()) == ["XG-MII", "X-MII", "XXG-MII"]
+        assert list(EthernetMacLayerTypeEnum().getEnumValues()) == ["X-MII", "XG-MII", "XXG-MII"]
         assert EthernetMacLayerTypeEnum.XGMII == "XG-MII"
         assert EthernetMacLayerTypeEnum.XMII == "X-MII"
         assert EthernetMacLayerTypeEnum.XXGMII == "XXG-MII"
