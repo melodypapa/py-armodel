@@ -881,7 +881,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
      TimeSyncTechnologyEnum 6.149, DoIpEntityRoleEnum 6.151 landed; placeholder deviation rows removed)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass; inner-member placeholders resolved once the member types landed)
-- [x] CouplingPortFifo (markdown SystemTemplate · Table 3.68 · p.124 · source Fibex4Ethernet/EthernetTopology.py · fixes assignedTrafficClass type) — STAMP DEFERRED (batch 9b pending); CouplingPortAbstractShaper landed 2026-08-26, Step 9 unblocked
+- [x] CouplingPortFifo (markdown SystemTemplate · Table 3.68 · p.124 · source Fibex4Ethernet/EthernetTopology.py · fixes assignedTrafficClass type) — STAMPED R23-11 — confirmed by user 2026-08-28 <!-- commit: 0ff430d4 -->
   - [x] Step 1 — Sync members & description from spec
     (Table 3.68 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:3300–3312 + PDF p.124;
     Base → CouplingPortStructuralElement; 3 attr rows: assignedTrafficClass 0..8, minimumFifoLength, shaper candidate;
@@ -897,7 +897,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker: shaper ARObject placeholder — CouplingPortAbstractShaper queued 2026-08-26 (see Member types ADDED);
      trafficClassPreemptionSupport removal recorded per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass; shaper placeholder resolved once CouplingPortAbstractShaper landed)
+    (9a re-verified 2026-08-28 — targeted model+writer tests green, mutation Red proof passed; 9b confirmed by user — # Spec verified: R23-11 applied, commit 0ff430d4)
 - [x] CouplingPortDetails (markdown SystemTemplate · Table 3.63 · p.122 · source Fibex4Ethernet/EthernetTopology.py · depends on CouplingPortTrafficClassAssignment above; fixes ethernetPriorityRegeneration / ethernetTrafficClassAssignment member types) — STAMP DEFERRED (batch 9b pending); GlobalTimeCouplingPortProps (Table 9.18) landed 2026-08-26, Step 9 unblocked
   - [x] Step 1 — Sync members & description from spec
     (Table 3.63 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:3231–3248 + PDF p.122;
@@ -939,7 +939,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
      stale couplingPortSpeed note resolved; macAddressVlanAssignments removal recorded per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a re-verified after MacSecProps landed 2026-08-28 — 60 targeted, 7863 unit, 1 integration, lint, black-check all pass; # Spec verified: R23-11 applied on 9b confirmation — commit 2482fa9b)
-- [x] EthernetCluster (markdown SystemTemplate · Table 3.47 · p.103 · source Fibex4Ethernet/EthernetTopology.py · adds couplingPorts to EthernetCluster; closes open items) — STAMP DEFERRED (batch 9b pending); CouplingPortConnection (Table 3.60) landed 2026-08-26, Step 9 unblocked
+- [x] EthernetCluster (markdown SystemTemplate · Table 3.47 · p.103 · source Fibex4Ethernet/EthernetTopology.py · adds couplingPorts to EthernetCluster; closes open items) — STAMPED R23-11 — confirmed by user 2026-08-28 <!-- commit: 0ff430d4 -->
   - [x] Step 1 — Sync members & description from spec
     (Table 3.47 in markdown AUTOSAR_CP_TPS_SystemTemplate.md:2599–2620 + PDF p.103;
     Base chain → CommunicationCluster; 4 attr rows: couplingPortConnection * aggr, two TimeValue attrs, macMulticastGroup * aggr;
@@ -956,7 +956,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 8 — Deviations
     (tracker: couplingPortConnections ARObject placeholder — CouplingPortConnection Table 3.60 landed 2026-08-26 (see Member types ADDED), placeholder row removed)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass; couplingPortConnections placeholder resolved once CouplingPortConnection landed)
+    (9a re-verified 2026-08-28 — targeted model+writer tests green, mutation Red proof passed; 9b confirmed by user — # Spec verified: R23-11 applied, commit 0ff430d4)
 - [x] EthernetCommunicationController (markdown SystemTemplate · Table 3.61 · p.116 · source Fibex4Ethernet/EthernetTopology.py · closes open items) — STAMP DEFERRED (batch 9b pending); EthernetMacLayerTypeEnum (Table 3.56) landed 2026-08-26, Step 9 unblocked
   - [x] Step 1 — Sync members & description from spec
     (Table 3.61 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:2974–3011 + PDF p.116;
