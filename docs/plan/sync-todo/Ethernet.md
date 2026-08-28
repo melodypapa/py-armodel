@@ -629,7 +629,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker: both placeholder rows resolved and annotated; SocketAddress now has zero open deviations)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7316 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] CanXlProps NOT CONFIRMED by user (reason pending clarification; canConfig placeholder may resolve via CanControllerConfiguration Table 3.14)
+- [x] CanXlProps NOT CONFIRMED by user (RESOLVED 2026-08-28: confirmed XSD verified per row 135 — source CanTopology.py:1084 carries `# XSD verified: AUTOSAR_00052.xsd`; canConfig is typed Optional[CanControllerConfiguration], a real class, not a placeholder, so no clarification needed)
 
 ### Input ethernet classes — sync AFTER their member types (Rule 0016.5)
 
@@ -666,7 +666,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7223 passed, black/black-check/lint clean,
     checklist==methods 1:1 source order, verbatim Note diff OK; 9b stamp DEFERRED to batch pass)
-- [ ] AbstractServiceInstance (markdown SystemTemplate · Table 6.158 · p.476 · source Fibex4Ethernet/ServiceInstances.py · base of ConsumedServiceInstance / ProvidedServiceInstance; depends on TagWithOptionalValue above; fixes methodActivationRoutingGroup & routingGroupRefs member types) · steps complete commit 9b0023ed — STAMP DEFERRED (batch 9b pending)
+- [x] AbstractServiceInstance (markdown SystemTemplate · Table 6.158 · p.477 · source Fibex4Ethernet/ServiceInstances.py · base of ConsumedServiceInstance / ProvidedServiceInstance; depends on TagWithOptionalValue above; fixes methodActivationRoutingGroup & routingGroupRefs member types) · steps complete commit 9b0023ed — STAMPED R23-11 <!-- commit: 2feb31c6 -->
   NOTE: Table 6.158 verified in AUTOSAR_CP_TPS_SystemTemplate.md:12736–12752 + PDF p.477 (pdf_page.py
   authoritative). No explicit Base row in the table — XSD group ABSTRACT-SERVICE-INSTANCE is
   incorporated into IDENTIFIABLE-extending subclasses; Python base stays (Identifiable, ABC). No
