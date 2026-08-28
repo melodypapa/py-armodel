@@ -567,6 +567,7 @@ class EventGroupControlTypeEnum(AREnum):
 
     # EventGroupControlTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.162, p.489
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on PduActivationRoutingGroup.eventGroupControlType
 
