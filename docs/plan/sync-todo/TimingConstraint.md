@@ -756,7 +756,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.39, p.71)
   - [x] Step 8 — Deviations: none
   - [x] Step 9 — Verify (9a passed: 413 Timing tests green; ruff/black clean); 9b confirm + # Spec verified: R23-11 stamped
-- [x] TDEventFrClusterCycleStart (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.40, p.71 · frCluster -> FlexrayCluster ref (RefType); Base includes TDEventCycleStart (queued above)) · commit {COMMIT}
+- [x] TDEventFrClusterCycleStart (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.40, p.71 · frCluster -> FlexrayCluster ref (RefType); Base includes TDEventCycleStart (queued above)) · commit 0934366c
   - [x] Step 1 — Sync members & description from spec (Table 3.40, p.71; Note verbatim; Base TDEventCycleStart; frCluster 0..1 ref)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventFrClusterCycleStart.py (5 tests)
   - [x] Step 3 — Implement model class (Green) — TDEventFrClusterCycleStart(TDEventCycleStart); frClusterRef Optional[RefType] + get/set
