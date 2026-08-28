@@ -4,6 +4,8 @@ This module contains the BSW level timing description event classes
 (spec package CommonStructure::Timing::TimingDescription::TimingDescriptionEvents::TDEventBsw).
 """
 
+from abc import ABC
+
 from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -15,7 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 )
 
 
-class TDEventBsw(TimingDescriptionEvent):
+class TDEventBsw(TimingDescriptionEvent, ABC):
     """
     This is used to describe timing events related to BSW modules.
     """

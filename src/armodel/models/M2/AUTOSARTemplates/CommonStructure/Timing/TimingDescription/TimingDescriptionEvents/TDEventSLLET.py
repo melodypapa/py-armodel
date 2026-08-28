@@ -3,12 +3,14 @@ This module contains the SL-LET timing description event class
 (spec package CommonStructure::Timing::TimingDescription::TimingDescriptionEvents::TDEventSLLET).
 """
 
+from abc import ABC
+
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
     TimingDescriptionEvent,
 )
 
 
-class TDEventSLLET(TimingDescriptionEvent):
+class TDEventSLLET(TimingDescriptionEvent, ABC):
     """
     Used to describe SL-LET (System-Level) timing events. Tags: atp.Status=draft
     """
