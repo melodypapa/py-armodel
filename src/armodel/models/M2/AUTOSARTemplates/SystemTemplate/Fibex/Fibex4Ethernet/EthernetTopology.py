@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import MacSecProps
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
@@ -500,6 +501,7 @@ class CouplingPort(Identifiable):
 
     # CouplingPort method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.54, p.110
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getConnectionNegotiationBehavior     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -553,7 +555,7 @@ class CouplingPort(Identifiable):
         self.macMulticastAddressRefs: List[RefType] = []
 
         # Properties to configure MACsec (Media access control security) and the MKA (MACsec Key Agreement) for the CouplingPort (PHY).
-        self.macSecProps: List[ARObject] = []
+        self.macSecProps: List[MacSecProps] = []
 
         # Specifies the physical layer type of the CouplingPort.
         self.physicalLayerType: Optional[EthernetPhysicalLayerTypeEnum] = None
@@ -654,7 +656,7 @@ class CouplingPort(Identifiable):
         """Assigns a set of MAC-Multicast-Addresses which are addressable via this CouplingPort. This is a static pre-configuration and further addresses may be learned during runtime."""
         return self.macMulticastAddressRefs
 
-    def addMacSecProps(self, value: Optional[ARObject]) -> "CouplingPort":
+    def addMacSecProps(self, value: Optional[MacSecProps]) -> "CouplingPort":
         """
         Properties to configure MACsec (Media access control security) and the MKA (MACsec Key Agreement) for the CouplingPort (PHY).
         A None value is a no-op and does not append to macSecProps.
@@ -663,7 +665,7 @@ class CouplingPort(Identifiable):
             self.macSecProps.append(value)
         return self
 
-    def getMacSecProps(self) -> List[ARObject]:
+    def getMacSecProps(self) -> List[MacSecProps]:
         """Properties to configure MACsec (Media access control security) and the MKA (MACsec Key Agreement) for the CouplingPort (PHY)."""
         return self.macSecProps
 
@@ -1838,8 +1840,8 @@ class Ipv6AddressSourceEnum(AREnum):
     # LinkLocal is intended only for communications within the segment of a local network (a link) or a point-to-point connection that a host is connected to. Tags: atp.EnumerationLiteralIndex=2
     LINK_LOCAL = "linkLocal"
 
-    # Linklocal IPv6 Address Assignment using DoIP Parameters Tags: atp.EnumerationLiteralIndex=3 xml.name=LINK-LOCAL-DOIP
-    LINK_LOCAL_DOIP = "linkLocal_doip"
+    # Linklocal IPv6 Address Assignment using DoIP Parameters Tags: atp.EnumerationLiteralIndex=3
+    LINK_LOCAL_DOIP = "LinkLocalDoIP"
 
     # IPv6 Stateless Autoconfiguration. Tags: atp.EnumerationLiteralIndex=4
     ROUTER_ADVERTISEMENT = "routerAdvertisement"
@@ -1925,13 +1927,13 @@ class EthernetMacLayerTypeEnum(AREnum):
     # (no methods) — enum value form serialized on CouplingPort.macLayerType, EthernetCommunicationController.macLayerType
 
     # Mac layer interface (data) bandwith class 1Gbit/s (e.g. GMII, RGMII, SGMII, RvGMII, USGMII) Tags: atp.EnumerationLiteralIndex=1 xml.name=XG-MII
-    XGMII = "xGMII"
+    XGMII = "XG-MII"
 
     # Mac layer interface (data) bandwith class 100Mbit/s and 10Mbit/s (e.g. RMII, RvMII, SMII, RvMII) Tags: atp.EnumerationLiteralIndex=0 xml.name=X-MII
-    XMII = "xMII"
+    XMII = "X-MII"
 
     # Mac layer interface (data) bandwith class 10Gbit/s Tags: atp.EnumerationLiteralIndex=2 xml.name=XXG-MII
-    XXGMII = "xXGMII"
+    XXGMII = "XXG-MII"
 
     def __init__(self):
         super().__init__(

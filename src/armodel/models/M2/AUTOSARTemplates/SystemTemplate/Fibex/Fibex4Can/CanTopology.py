@@ -1080,7 +1080,8 @@ class CanXlProps(ARElement):
     """
 
     # CanXlProps method parity checklist:
-    # Spec: AUTOSAR_AP_TPS_SystemDesign (AdaptivePlatform), class CAN-XL-PROPS, p.n/a (source: AUTOSAR_00052.xsd)
+    # Spec: AUTOSAR_AP_TPS_SystemDesign (AdaptivePlatform), class CAN-XL-PROPS, AUTOSAR_00052.xsd line 16295 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getCanBaudrate                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer

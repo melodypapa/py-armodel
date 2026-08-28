@@ -334,6 +334,38 @@ Step 7. The block's final form (marker present only once 9b has passed):
 # [x] getBar       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 ```
 
+- **XSD-only class — `# XSD verified:` variant.** When a class's information exists
+  **solely** in an XSD (no PDF/markdown `Class`/`Enumeration` table **in the repo's
+  `autosar/R23-11` corpus** (`CP_TPS`/`FO_TPS`) — e.g. an Adaptive-Platform class such
+  as `CAN-XL-PROPS` whose upstream document is outside the corpus, or a concrete
+  `<name>InstanceRef` backed only by an XSD group), use `# XSD verified:
+  <xsd-file>` **instead of** `# Spec verified: R<YY>-<MM>`. The `# Spec:` line names
+  the upstream document when known (`AUTOSAR_AP_TPS_SystemDesign (AdaptivePlatform)`)
+  and — in place of a PDF page `p.NN` — cites the class's **XSD line number** (the
+  `<xsd:complexType … name="…">` line, or the `<xsd:group …>` line for a group-only
+  class; find it with `grep -n 'name="<CLASS-NAME>"' docs/requirements/xsd/<xsd-file>`).
+  The marker records the XSD provenance where the stamp would go; method rows may be
+  `[x]` once the class is fully synced from the XSD:
+
+  ```
+  # ClassName method parity checklist:
+  # Spec: AUTOSAR_AP_TPS_SystemDesign (AdaptivePlatform), class CAN-XL-PROPS, AUTOSAR_00052.xsd line 16295 (XSD-only; no own table in repo corpus)
+  # XSD verified: AUTOSAR_00052.xsd
+  # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+  # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+  # [x] setFoo       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+  # [x] getFoo       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+  ```
+
+  `# XSD verified:` is used **only** when there is **no** PDF/markdown table in the
+  repo corpus for the class; if a table exists, you MUST use
+  `# Spec verified: R<YY>-<MM>` (the PDF is authoritative, Rule 0015). Before stamping
+  `# XSD verified:`, **cross-check every attribute against the XSD first** — if any
+  attribute cannot be resolved from the XSD, or conflicts with a PDF table, it is a
+  deviation and the `XSD verified` marker is **withheld** (Rule 0001.9). `XSD verified`
+  with no open deviation certifies the class is synced to the XSD to the same effect as
+  `Spec verified` certifies a PDF-synced class.
+
 - **`reader [x]` on the mutator row** (`setXxx`/`addXxx`/`createXxx`) — the reader's
   `readXxx` populates the model via that method. **`writer [x]` on the getter row**
   (`getXxx`/`getXxxs`) — the writer's `writeXxx` reads via that method. **`[—]`** (N/A)
@@ -357,11 +389,19 @@ Step 7. The block's final form (marker present only once 9b has passed):
   (where `Class <Name>` first appears), in format `Table X.Y, p.NN`. A class rendered in >1 PDF
   cites the PDF its sibling family uses. For the enum attribute type, cite the PDF that
   renders the enum's own `Enumeration` table (independent of the class's PDF).
-- **Exception — no own spec table:** a class whose attributes are XSD-only (e.g. a
-  concrete `<name>InstanceRef`) carries **no** `# Spec:` line, **no** `# Spec verified:`
-  marker, and every row stays `[ ]` (a provenance statement, not "not done"). An
-  empty-attribute-rendering class (own table, all attrs inherited) is **not** this
-  exception — it has the line, the marker, and `[x]` rows for the methods it defines.
+- **Exception — no own spec table (XSD-only class):** a class whose attributes exist
+  **only** in an XSD (no PDF/markdown table — e.g. a concrete `<name>InstanceRef`, or
+  an Adaptive-Platform class such as `CAN-XL-PROPS` from `AUTOSAR_00052.xsd`) carries
+  **no** `# Spec verified: R<YY>-<MM>` marker. When the class is **fully synced from
+  the XSD with no deviation**, record provenance with **`# XSD verified: <xsd-file>`**
+  placed where the `# Spec verified:` stamp would go (and the `# Spec:` line names the
+  XSD source); method rows may be `[x]` to reflect completed implementation. Rows stay
+  all-`[ ]` only when the class has **not** yet been synced (no provenance recorded
+  yet). `XSD verified` replaces `Spec verified` **only** when the class's information
+  is XSD-exclusive — if a PDF/markdown table exists, use `# Spec verified:
+  R<YY>-<MM>` (PDF is authoritative, Rule 0015). An empty-attribute-rendering class
+  (own table, all attrs inherited) is **not** this exception — it has the line, the
+  `Spec verified` marker, and `[x]` rows for the methods it defines.
 - **Field-to-spec cross-check (both directions):** walk each model field → spec (catches
   fabricated fields) **and** each spec attr → code (catches missing). A tracker built
   only spec→code is not evidence of completeness. Strip suffixes, search the `Attribute`
@@ -541,7 +581,7 @@ assert not untested, f"methods without test coverage: {untested}"
 # Marker check — run AFTER Step 9b (the marker is written there on user-confirmation;
 # during 9a it is legitimately absent).
 if "# Spec:" in src and "not yet implemented" not in src and "carried as a" not in src:
-    assert re.search(r"# Spec verified: R\d\d-\d\d", src), "missing # Spec verified marker"
+    assert re.search(r"# Spec verified: R\d\d-\d\d|# XSD verified: \S+\.xsd", src), "missing # Spec verified / # XSD verified (with XSD filename) marker"
 ```
 
 ### 0006.1 Post-sync rule-compliance confirmation (gate)
@@ -775,14 +815,25 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
   line but omit the stamp**; the affected rows stay `[ ]`. The stamp flips back on once
   the real type lands. (Rule 0006's `assert` allows a `# Spec:` line with no stamp when a
   placeholder comment is present.)
-- **Exception — no own spec table:** a class with XSD-only attributes carries no marker
-  and all-`[ ]` rows. An empty-attribute-rendering class (own table, attrs inherited) is
-  **not** this exception — it gets the marker and `[x]` rows.
+- **Exception — no own spec table (XSD-only class):** a class whose attributes exist
+  **only** in the XSD (no PDF/markdown table) carries no `# Spec verified: R<YY>-<MM>`
+  marker. When fully synced from the XSD with no deviation, record provenance with
+  **`# XSD verified: <xsd-file>`** (e.g. `# XSD verified: AUTOSAR_00052.xsd`) placed
+  where the marker would go; method rows may be `[x]`. Rows stay all-`[ ]` only when
+  the class has **not** yet been synced (no provenance recorded yet). `XSD verified`
+  replaces `Spec verified` **only** when information is XSD-exclusive; if a PDF/markdown
+  table exists, use `# Spec verified: R<YY>-<MM>` (PDF is authoritative, Rule 0015).
+  An empty-attribute-rendering class (own table, attrs inherited) is **not** this
+  exception — it gets the `Spec verified` marker and `[x]` rows.
 
 ### 0012.2 Per-class sync procedure (run in order)
 
-0. **Exception gate:** XSD-only class (no own table)? Stop — no `# Spec:`, no marker,
-   `[ ]` rows; record in the tracker. Otherwise continue.
+0. **Exception gate:** XSD-only class (no own PDF/markdown table in the repo corpus)?
+   If it has **not** been synced, stop — no `# Spec:`, no marker, `[ ]` rows; record in
+   the tracker. If it **has** been fully synced from the XSD with no deviation, it
+   carries `# Spec: … <xsd-file> line <NNNN> (XSD-only; …)` and
+   `# XSD verified: <xsd-file>` (Rule 0002) and the workflow is done — treat it like a
+   `Spec verified` class. Otherwise continue.
 1. Locate the spec table in the **markdown** (`grep "Table N.M: <ClassName>
    autosar/R23-11/markdown/*.md`) — its `Note`/`Attribute`/`Base` text and the `Table N.M` id are
    the extraction source; then read **only the page number** from the **PDF** via `pypdf`
@@ -1080,8 +1131,13 @@ Per missing class, two mutually-exclusive options:
   Any attribute of C that references it uses a placeholder (Rule 0001.10) and the
   `# Spec:` line stays without the stamp.
 - **Derive from XSD** — read `docs/requirements/xsd/` for K's complexType. K is
-  then synced as an XSD-only class: no `# Spec:` line, no `# Spec verified:`
-  marker, every checklist row stays `[ ]` (Rule 0002 / Rule 0012.1 exception).
+  then synced as an XSD-only class: no `# Spec verified: R<YY>-<MM>` marker
+  (Rule 0002 / Rule 0012.1 exception). The `# Spec:` line names the upstream document
+  when known and cites the XSD file **and line number** (`grep -n 'name="<K>"'
+  docs/requirements/xsd/<xsd-file>`), and once K is fully synced from the XSD with no
+  deviation it carries
+  `# XSD verified: <xsd-file>` (e.g. `# XSD verified: AUTOSAR_00052.xsd`) with
+  method rows `[x]`; checklist rows stay all-`[ ]` only if K was not yet synced.
   The 9-step workflow still runs for K, but Step 1 derives attributes from the XSD
   group, not a PDF table.
 
@@ -1155,7 +1211,7 @@ Input class: <InputClassName> · Generated: <YYYY-MM-DD> · Queue order = row or
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [x] ParentJ (base · markdown · Table C.D · commit abc1234)
-- [ ] MemberK (member · xsd-derived · XSD-only, no marker (16.4))
+- [ ] MemberK (member · xsd-derived · XSD-only → `# XSD verified:` once synced (16.4))
 - [ ] C (input · markdown · Table X.Y)
 
 ## Not queued (16.4 decisions)
@@ -1166,7 +1222,8 @@ Input class: <InputClassName> · Generated: <YYYY-MM-DD> · Queue order = row or
   ancestor first, referenced member types before their referrers, input class
   last), with role · source · table · notes in the parentheses. The parenthetical
   notes carry what later sessions need: `enum` (Steps 5/6 N/A — round-trip via
-  the consuming class), `XSD-only` (no marker), `drift R<YY>-<MM>` (re-opened
+  the consuming class), `XSD-only` (no marker until synced, then
+  `# XSD verified: <xsd-file>` — 16.4), `drift R<YY>-<MM>` (re-opened
   row), and the commit hash once finished.
 - **Every queued class row carries a 9-step sub-checklist** — the exact step
   names from Rule 18.1, all `[ ]`, **written when the file is first created in
@@ -1219,7 +1276,8 @@ state (queue, Skip/XSD decisions) is lost the moment a session dies.
 ### 17.2 Finish — commit, then mark `[x]`
 
 A class is finished only after Step 9b passes (user confirmed every item) **and**
-the `# Spec verified:` marker is written (or the XSD-only exception applies).
+the `# Spec verified:` marker — or, for an XSD-only class, the `# XSD verified:`
+marker — is written.
 Then, in this order:
 
 1. **Commit** the class's changes to the **current feature branch**: model
@@ -1305,7 +1363,8 @@ exists to enforce.
 ### 18.3 Gates and boundaries
 
 - **Step 9's todo completes only after 9b user confirmation** and the
-  `# Spec verified:` marker is written (or the XSD-only exception applies) —
+  `# Spec verified:` marker (or `# XSD verified:` for an XSD-only class) is
+  written —
   passing 9a's automated checks alone does not complete it.
 - **Before the 17.2 commit: all 9 step todos must be completed AND all 9 of the
   class's step checkboxes in the todo file must be `[x]`.** Any open step

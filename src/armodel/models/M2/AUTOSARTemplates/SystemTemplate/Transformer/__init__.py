@@ -236,10 +236,10 @@ class EndToEndProfileBehaviorEnum(AREnum):
     # (no methods)
 
     # Check has the legacy behavior, before AUTOSAR Release 4.2. Tags: atp.EnumerationLiteralIndex=0 xml.name=PRE-R-4-2
-    PRE_R4_2 = "PRE_R4_2"
+    PRE_R4_2 = "PRE-R-4-2"
 
     # Check behaves like new P4/P5/P6 profiles introduced in AUTOSAR Release 4.2. Tags: atp.EnumerationLiteralIndex=1 xml.name=R-4-2
-    R4_2 = "R4_2"
+    R4_2 = "R-4-2"
 
     def __init__(self):
         super().__init__(

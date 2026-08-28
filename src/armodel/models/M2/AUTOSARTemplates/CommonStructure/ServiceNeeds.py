@@ -2322,7 +2322,7 @@ class DiagnosticDenominatorConditionEnum(AREnum):
     # [x] __init__                     [x] impl  [x] docstring  [x] test
 
     # Condition based on definition of 500miles conditions as defined for OBD2. Tags: atp.EnumerationLiteralIndex=2 xml.name=-500-MILES
-    _500MILES = "_500miles"
+    _500MILES = "-500-MILES"
     # Condition based on definition of "cold start" as defined for EU5+ Tags: atp.EnumerationLiteralIndex=0
     COLDSTART = "coldstart"
     # Conditions based on the "Cold start emission reduction strategy" denominator Tags: atp.EnumerationLiteralIndex=5

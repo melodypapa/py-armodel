@@ -520,6 +520,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SdClientConfig,
     VlanMembership,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
+    MacSecCipherSuiteConfig,
+    MacSecCryptoAlgoConfig,
+    MacSecGlobalKayProps,
+    MacSecKayParticipant,
+    MacSecLocalKayProps,
+    MacSecProps,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     ApplicationEndpoint,
@@ -8689,6 +8697,78 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalTimeValue(child_element, "PROPAGATION-DELAY", props.getPropagationDelay())
 
+    def writeMacSecGlobalKayProps(self, element: ET.Element, props: MacSecGlobalKayProps):
+        child_element = ET.SubElement(element, "MAC-SEC-GLOBAL-KAY-PROPS")
+        self.writeARElement(child_element, props)
+        ether_types = props.getBypassEtherTypes()
+        if len(ether_types) > 0:
+            wrapper = ET.SubElement(child_element, "BYPASS-ETHER-TYPES")
+            for value in ether_types:
+                self.setChildElementOptionalPositiveInteger(wrapper, "BYPASS-ETHER-TYPE", value)
+        vlans = props.getBypassVlans()
+        if len(vlans) > 0:
+            wrapper = ET.SubElement(child_element, "BYPASS-VLANS")
+            for value in vlans:
+                self.setChildElementOptionalPositiveInteger(wrapper, "BYPASS-VLAN", value)
+
+    def writeMacSecCipherSuiteConfig(self, element: ET.Element, config: MacSecCipherSuiteConfig):
+        child_element = ET.SubElement(element, "MAC-SEC-CIPHER-SUITE-CONFIG")
+        self.setChildElementOptionalString(child_element, "CIPHER-SUITE", config.getCipherSuite())
+        self.setChildElementOptionalPositiveInteger(child_element, "CIPHER-SUITE-PRIORITY", config.getCipherSuitePriority())
+
+    def writeMacSecCryptoAlgoConfig(self, element: ET.Element, config: MacSecCryptoAlgoConfig):
+        child_element = ET.SubElement(element, "MAC-SEC-CRYPTO-ALGO-CONFIG")
+        self.setChildElementOptionalLiteral(child_element, "CAPABILITY", config.getCapability())
+        cipher_configs = config.getCipherSuiteConfigs()
+        if len(cipher_configs) > 0:
+            wrapper = ET.SubElement(child_element, "CIPHER-SUITE-CONFIGS")
+            for cipher_config in cipher_configs:
+                self.writeMacSecCipherSuiteConfig(wrapper, cipher_config)
+        self.setChildElementOptionalLiteral(child_element, "CONFIDENTIALITY-OFFSET", config.getConfidentialityOffset())
+        self.setChildElementOptionalBooleanValue(child_element, "REPLAY-PROTECTION", config.getReplayProtection())
+        self.setChildElementOptionalPositiveInteger(child_element, "REPLAY-PROTECTION-WINDOW", config.getReplayProtectionWindow())
+
+    def writeMacSecKayParticipant(self, element: ET.Element, participant: MacSecKayParticipant):
+        child_element = ET.SubElement(element, "MAC-SEC-KAY-PARTICIPANT")
+        self.writeIdentifiable(child_element, participant)
+        self.setChildElementOptionalRefType(child_element, "CKN-REF", participant.getCkn())
+        config = participant.getCryptoAlgoConfig()
+        if config is not None:
+            algo_element = ET.SubElement(child_element, "CRYPTO-ALGO-CONFIG")
+            self.setChildElementOptionalLiteral(algo_element, "CAPABILITY", config.getCapability())
+            cipher_configs = config.getCipherSuiteConfigs()
+            if len(cipher_configs) > 0:
+                wrapper = ET.SubElement(algo_element, "CIPHER-SUITE-CONFIGS")
+                for cipher_config in cipher_configs:
+                    self.writeMacSecCipherSuiteConfig(wrapper, cipher_config)
+            self.setChildElementOptionalLiteral(algo_element, "CONFIDENTIALITY-OFFSET", config.getConfidentialityOffset())
+            self.setChildElementOptionalBooleanValue(algo_element, "REPLAY-PROTECTION", config.getReplayProtection())
+            self.setChildElementOptionalPositiveInteger(algo_element, "REPLAY-PROTECTION-WINDOW", config.getReplayProtectionWindow())
+        self.setChildElementOptionalRefType(child_element, "SAK-REF", participant.getSak())
+
+    def setMacSecLocalKayProps(self, element: ET.Element, key: str, props: MacSecLocalKayProps):
+        if props is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalLiteral(child_element, "DESTINATION-MAC-ADDRESS", props.getDestinationMacAddress())
+            self.setChildElementOptionalRefType(child_element, "GLOBAL-KAY-PROPS", props.getGlobalKayProps())
+            self.setChildElementOptionalPositiveInteger(child_element, "KEY-SERVER-PRIORITY", props.getKeyServerPriority())
+            refs = props.getMkaParticipant()
+            if len(refs) > 0:
+                refs_element = ET.SubElement(child_element, "MKA-PARTICIPANT-REFS")
+                for ref in refs:
+                    self.setChildElementOptionalRefType(refs_element, "MKA-PARTICIPANT-REF", ref)
+            self.setChildElementOptionalLiteral(child_element, "ROLE", props.getRole())
+            self.setChildElementOptionalLiteral(child_element, "SOURCE-MAC-ADDRESS", props.getSourceMacAddress())
+
+    def setMacSecProps(self, element: ET.Element, key: str, props: MacSecProps):
+        if props is not None:
+            child_element = ET.SubElement(element, key)
+            self.setChildElementOptionalBooleanValue(child_element, "AUTO-START", props.getAutoStart())
+            self.setMacSecLocalKayProps(child_element, "MAC-SEC-KAY-CONFIG", props.getMacSecKayConfig())
+            self.setChildElementOptionalLiteral(child_element, "ON-FAIL-PERMISSIVE-MODE", props.getOnFailPermissiveMode())
+            self.setChildElementOptionalTimeValue(child_element, "ON-FAIL-PERMISSIVE-MODE-TIMEOUT", props.getOnFailPermissiveModeTimeout())
+            self.setChildElementOptionalTimeValue(child_element, "SAK-REKEY-TIME-SPAN", props.getSakRekeyTimeSpan())
+
     def setCouplingPortDetails(self, element: ET.Element, key: str, details: CouplingPortDetails):
         if details is not None:
             child_element = ET.SubElement(element, key)
@@ -8788,6 +8868,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "CONNECTION-NEGOTIATION-BEHAVIOR", port.getConnectionNegotiationBehavior())
         self.setCouplingPortDetails(child_element, "COUPLING-PORT-DETAILS", port.getCouplingPortDetails())
         self.setPlcaProps(child_element, "PLCA-PROPS", port.getPlcaProps())
+        for props in port.getMacSecProps():
+            self.setMacSecProps(child_element, "MAC-SEC-PROPS", props)
         self.setChildElementOptionalLiteral(child_element, "COUPLING-PORT-ROLE", port.getCouplingPortRole())
         self.setChildElementOptionalRefType(child_element, "DEFAULT-VLAN-REF", port.getDefaultVlanRef())
         self.setChildElementOptionalLiteral(child_element, "MAC-LAYER-TYPE", port.getMacLayerType())

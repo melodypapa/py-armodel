@@ -72,7 +72,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
 
 ### Member types — sync FIRST (Rule 0016.5)
 
-- [x] SomeipSdClientServiceInstanceConfig (ARElement value type · Table F.117 · p.2059 · used by ConsumedServiceInstance.sdClientTimerConfig · source ServiceInstances.py · adds initialFindBehavior aggr InitialSdDelayConfig, priority attr, serviceFindTimeToLive attr) <!-- commit: fa198376 -->
+- [x] SomeipSdClientServiceInstanceConfig (ARElement value type · Table F.117 · p.2059 · used by ConsumedServiceInstance.sdClientTimerConfig · source ServiceInstances.py · adds initialFindBehavior aggr InitialSdDelayConfig, priority attr, serviceFindTimeToLive attr) — STAMPED R23-11 <!-- commit: fa198376 -->
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -82,7 +82,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [x] SomeipSdClientEventGroupTimingConfig (ARElement value type · Table 6.173 · p.1162 · used by ConsumedEventGroup.sdClientTimerConfig · source ServiceInstances.py · adds requestResponseDelay aggr RequestResponseDelay, subscribeEventgroupRetryDelay attr TimeValue, subscribeEventgroupRetryMax attr, timeToLive attr) · steps complete commit 0e472ca8 — STAMP DEFERRED (batch 9b pending)
+- [x] SomeipSdClientEventGroupTimingConfig (ARElement value type · Table 6.173 · p.1162 · used by ConsumedEventGroup.sdClientTimerConfig · source ServiceInstances.py · adds requestResponseDelay aggr RequestResponseDelay, subscribeEventgroupRetryDelay attr TimeValue, subscribeEventgroupRetryMax attr, timeToLive attr) · steps complete commit 0e472ca8 — STAMPED R23-11 — commit bae4ecae
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -92,7 +92,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [x] SomeipSdServerEventGroupTimingConfig (ARElement value type · Table 6.172 · p.1162 · used by EventHandler.sdServerEgTimingConfig · source ServiceInstances.py · adds requestResponseDelay aggr RequestResponseDelay) · steps complete commit 601f7bd5 — STAMP DEFERRED (batch 9b pending)
+- [x] SomeipSdServerEventGroupTimingConfig (ARElement value type · Table 6.172 · p.1162 · used by EventHandler.sdServerEgTimingConfig · source ServiceInstances.py · adds requestResponseDelay aggr RequestResponseDelay) · steps complete commit 601f7bd5 — STAMPED R23-11 — commit 412c6eb5
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -102,7 +102,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [x] SomeipServiceVersion (ARObject value type · Table F.118 · used by ConsumedServiceInstance.blacklistedVersion · source ServiceInstances.py · adds majorVersion, minorVersion) · steps complete commit 152f3113 — STAMP DEFERRED (batch 9b pending)
+- [x] SomeipServiceVersion (ARObject value type · Table F.118 · used by ConsumedServiceInstance.blacklistedVersion · source ServiceInstances.py · adds majorVersion, minorVersion) · steps complete commit 152f3113 — STAMPED R23-11 — commit 98f6f205
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -112,7 +112,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [x] DhcpServerConfiguration (value type · Table 3.79 · used by InfrastructureServices.dhcpServerConfiguration, VlanMembership.dhcpAddressAssignment) · steps complete commit ecfa6c40 — STAMP DEFERRED (batch 9b pending)
+- [x] DhcpServerConfiguration (value type · Table 3.79 · used by InfrastructureServices.dhcpServerConfiguration, VlanMembership.dhcpAddressAssignment) · steps complete commit ecfa6c40 — STAMPED R23-11 — commit 026d9fb4
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -122,7 +122,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [x] CouplingPortTrafficClassAssignment (value type · Table 3.75 · used by CouplingPortDetails.ethernetTrafficClassAssignments) · steps complete commit 30c86e62 — STAMP DEFERRED (batch 9b pending)
+- [x] CouplingPortTrafficClassAssignment (value type · Table 3.75 · used by CouplingPortDetails.ethernetTrafficClassAssignments) · steps complete commit 30c86e62 — STAMPED R23-11
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -132,7 +132,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [ ] CanXlProps (value type · existing Fibex4Can/CanTopology.py — MOVED from EthernetCommunication.py per Rule 0007: no CP table, CAN-XL domain, aggregated by CanControllerConfiguration · used by EthernetCommunicationConnector.canXlPropsRefs / apApplicationEndpoint) · steps complete commit 4169b432 — STAMP DEFERRED (batch 9b pending)
+- [x] CanXlProps (value type · existing Fibex4Can/CanTopology.py — MOVED from EthernetCommunication.py per Rule 0007: no CP table, CAN-XL domain, aggregated by CanControllerConfiguration · used by EthernetCommunicationConnector.canXlPropsRefs / apApplicationEndpoint) · steps complete commit 4169b432 — XSD verified (AUTOSAR_00052.xsd, Rule 0002 exclusion — no CP marker) — commit 112b2fac
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -142,7 +142,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [x] TagWithOptionalValue (value type · Table 6.159 (CP) / 4.76 (FO) · used by SdClientConfig.capabilityRecord, AbstractServiceInstance.capabilityRecords) · steps complete commit 5241d431 — STAMP DEFERRED (batch 9b pending)
+- [x] TagWithOptionalValue (value type · Table 6.159 (CP) / 4.76 (FO) · used by SdClientConfig.capabilityRecord, AbstractServiceInstance.capabilityRecords) · steps complete commit 5241d431 — STAMPED R23-11
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -155,7 +155,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
 
 ### Member types — ADDED 2026-08-25 after user review (docs/plan/check.md) — Rule 0016.4/0016.5: sync BEFORE their consumers
 
-- [x] Ipv4DhcpServerConfiguration (value type · Table 3.80 · p.132 · used by DhcpServerConfiguration.ipv4DhcpServerConfiguration · source EthernetTopology.py · resolves DhcpServerConfiguration stub deviation; attrs addressRangeLowerBound, addressRangeUpperBound, defaultGateway, defaultLeaseTime, dnsServerAddresses *, networkMask) — STAMP DEFERRED (batch 9b pending)
+- [x] Ipv4DhcpServerConfiguration (value type · Table 3.80 · p.132 · used by DhcpServerConfiguration.ipv4DhcpServerConfiguration · source EthernetTopology.py · resolves DhcpServerConfiguration stub deviation; attrs addressRangeLowerBound, addressRangeUpperBound, defaultGateway, defaultLeaseTime, dnsServerAddresses *, networkMask) — STAMPED R23-11
   - [x] Step 1 — Sync members & description from spec
     (Table 3.80 in markdown AUTOSAR_CP_TPS_SystemTemplate.md:3568–3575 + PDF p.132;
     Base ARObject+Describable → Describable; 6 attr rows incl. dnsServerAddress * with xml.namePlural=DNS-SERVER-ADDRESSES)
@@ -174,7 +174,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (tracker: new Ipv4DhcpServerConfiguration section, zero deviations; DhcpServerConfiguration stub row removed)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7270 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] Ipv6DhcpServerConfiguration (value type · Table 3.81 · p.132 · used by DhcpServerConfiguration.ipv6DhcpServerConfiguration · source EthernetTopology.py · resolves DhcpServerConfiguration stub deviation; same attr set as Ipv4 variant with Ip6AddressString types) — STAMP DEFERRED (batch 9b pending)
+- [x] Ipv6DhcpServerConfiguration (value type · Table 3.81 · p.132 · used by DhcpServerConfiguration.ipv6DhcpServerConfiguration · source EthernetTopology.py · resolves DhcpServerConfiguration stub deviation; same attr set as Ipv4 variant with Ip6AddressString types) — STAMPED R23-11
   - [x] Step 1 — Sync members & description from spec
     (Table 3.81 in markdown AUTOSAR_CP_TPS_SystemTemplate.md:3577–3616 + PDF p.132;
     Base ARObject+Describable → Describable; 6 attr rows, Ip6AddressString types)
@@ -434,16 +434,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (none; CouplingPort receiveActivity placeholder row resolved)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] MacSecProps (class · Table 3.118 · p.173 · used by CouplingPort.macSecProps (List) · source SystemTemplate/SecureCommunication — Table 3.118 Package row = M2::...::SystemTemplate::SecureCommunication (Rule 0007) · NOTE: own member closure — MacSecLocalKayProps, MacSecGlobalKayProps, MacSecFailPermissiveModeEnum etc. — to be resolved interactively in its own Phase 0)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] MacSecProps (class · Table 3.118 · p.173 · used by CouplingPort.macSecProps (List) · source SystemTemplate/SecureCommunication · **Phase 0 closure resolved 2026-08-27** — its member-type cluster is a sub-sync tracked in `docs/plan/sync-todo/MacSecProps.md` (10 classes, dependency-first). This row flips to `[x]` only after that sub-queue fully lands and `CouplingPort` is unblocked for stamping. Markdown Table 3.118 is GARBLED (mislabels MacSecLocalKayProps content); the PDF (pp.173–177) is authoritative.)
 - [x] PlcaProps (class · Table 3.117 · p.169 · used by CouplingPort.plcaProps · source EthernetTopology.py · resolves ARObject placeholder; attrs plcaLocalNodeId, plcaMaxBurstCount, plcaMaxBurstTimer) · steps complete commit a264fe14 — STAMP DEFERRED (batch 9b pending)
   - [x] Step 1 — Sync members & description from spec
     (Table 3.117 markdown AUTOSAR_CP_TPS_SystemTemplate.md:4580 + PDF p.169; Base ARObject; 3 attr rows)
@@ -911,7 +902,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
      four removed members documented per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass; globalTimeProps placeholder resolved once GlobalTimeCouplingPortProps landed)
-- [ ] CouplingPort (markdown SystemTemplate · Table 3.54 · p.110 · source Fibex4Ethernet/EthernetTopology.py · member of EthernetCluster.couplingPorts & EthernetCommunicationController.couplingPorts; adds couplingPortSpeed, vlanModifierRef → EthernetPhysicalChannel Ref) — UNSTAMPED: 6 of 7 member types landed 2026-08-26 (EthernetConnectionNegotiationEnum 3.55, CouplingPortRoleEnum F.38, EthernetMacLayerTypeEnum 3.56, EthernetPhysicalLayerTypeEnum 3.57, EthernetSwitchVlanIngressTagEnum 3.58, PlcaProps 3.117); MacSecProps (3.118) STILL MISSING — # Spec verified: blocked until it lands
+- [x] CouplingPort (markdown SystemTemplate · Table 3.54 · p.110 · source Fibex4Ethernet/EthernetTopology.py · member of EthernetCluster.couplingPorts & EthernetCommunicationController.couplingPorts; adds couplingPortSpeed, vlanModifierRef → EthernetPhysicalChannel Ref) — **STAMPED R23-11** — commit 2482fa9b: 6 of 7 member types landed 2026-08-26 (EthernetConnectionNegotiationEnum 3.55, CouplingPortRoleEnum F.38, EthernetMacLayerTypeEnum 3.56, EthernetPhysicalLayerTypeEnum 3.57, EthernetSwitchVlanIngressTagEnum 3.58, PlcaProps 3.117); MacSecProps (3.118) landed 2026-08-28 in its own sub-queue (a150ffd2) — # Spec verified: applied
   - [x] Step 1 — Sync members & description from spec
     (Table 3.54 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:2795–2825 + PDF p.110;
     Base → Identifiable; 14 attr rows incl. wakeupSleepOnDatalineConfig after caption;
@@ -929,10 +920,10 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker: six enum placeholders (EthernetConnectionNegotiationEnum 3.55, CouplingPortRoleEnum F.38, EthernetMacLayerTypeEnum 3.56,
      EthernetPhysicalLayerTypeEnum 3.57, EthernetSwitchVlanIngressTagEnum 3.58, EthernetWakeupSleepOnDatalineConfig 3.115 ref) +
      plcaProps placeholder — ALL RESOLVED 2026-08-26 (see Member types ADDED);
-     macSecProps ARObject placeholder REMAINS — MacSecProps (3.118) still queued;
+     macSecProps ARObject placeholder RESOLVED 2026-08-28 — MacSecProps (3.118) stamped R23-11 in its own sub-queue (commit a150ffd2);
      stale couplingPortSpeed note resolved; macAddressVlanAssignments removal recorded per Rule 0015)
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b/stamp BLOCKED — MacSecProps (3.118) still missing; # Spec verified: withheld (UNSTAMPED))
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a re-verified after MacSecProps landed 2026-08-28 — 60 targeted, 7863 unit, 1 integration, lint, black-check all pass; # Spec verified: R23-11 applied on 9b confirmation — commit 2482fa9b)
 - [x] EthernetCluster (markdown SystemTemplate · Table 3.47 · p.103 · source Fibex4Ethernet/EthernetTopology.py · adds couplingPorts to EthernetCluster; closes open items) — STAMP DEFERRED (batch 9b pending); CouplingPortConnection (Table 3.60) landed 2026-08-26, Step 9 unblocked
   - [x] Step 1 — Sync members & description from spec
     (Table 3.47 in markdown AUTOSAR_CP_TPS_SystemTemplate.md:2599–2620 + PDF p.103;

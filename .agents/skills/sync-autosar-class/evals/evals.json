@@ -1,136 +1,170 @@
 {
-  "skill_name": "sync-autosar-class",
-  "evals": [
-    {
-      "id": 1,
-      "prompt": "Run Phase 0 (Discovery & Class Closure) for the AUTOSAR class `ObdInfoServiceNeeds` in py-armodel. Do NOT modify any source files. Produce the sync map (closure classes, source location, queue order) and stop. The repo root is /Users/ray/Workspace/py-armodel.",
-      "expected_output": "A sync map / closure table listing ObdInfoServiceNeeds itself, its parent class (DiagnosticCapabilityElement), and any member types. Each row has a spec source (markdown / pdf / missing). An ordered sync queue. No file modifications under src/armodel/ or tests/.",
-      "expectations": [
-        "Output mentions the class ObdInfoServiceNeeds and its parent DiagnosticCapabilityElement",
-        "Output lists spec source for each closure class (markdown/pdf/missing)",
-        "Output presents an ordered sync queue (dependency-first: ancestors first, referenced member types before their referrers, input class last)",
-        "No source files under src/armodel/models/ were modified",
-        "Output cites Rule 0016 or the Phase 0 procedure",
-        "Output presents the collected closure set and asks the user to confirm it (membership gate) before locating specs, resolving missing classes, or building the queue"
-      ]
-    },
-    {
-      "id": 2,
-      "prompt": "Run Phase 0 (Discovery & Class Closure) for the AUTOSAR class `EndToEndProtection` in py-armodel. Do NOT modify any source files. Produce the sync map (closure classes, source location, queue order) and stop. The repo root is /Users/ray/Workspace/py-armodel.",
-      "expected_output": "A closure table covering EndToEndProtection, its parent (TransmissionAcknowledgementRequestProxy or similar per spec), and member types (data identifiers, counters, etc.). Each row has source location. Ordered queue. No file modifications.",
-      "expectations": [
-        "Output mentions the class EndToEndProtection",
-        "Output lists parent class(es) by walking the Base column",
-        "Output enumerates member types from the Attribute rows (refs, aggrs, enums)",
-        "Output presents an ordered sync queue",
-        "No source files under src/armodel/models/ were modified",
-        "Output mentions Rule 0016 or Phase 0 procedure",
-        "Output presents the collected closure set and asks the user to confirm it (membership gate) before locating specs, resolving missing classes, or building the queue"
-      ]
-    },
-    {
-      "id": 3,
-      "prompt": "I want to sync `ObdMonitorServiceNeeds` in py-armodel but suspect some referenced types may not exist in the markdown spec. Use the sync-autosar-class skill to run the discovery pre-flight (Phase 0) and tell me what you find. Do NOT modify any source files. If any closure classes are missing from both markdown and PDF, present the user-decision step. Repo root: /Users/ray/Workspace/py-armodel.",
-      "expected_output": "Phase 0 closure for ObdMonitorServiceNeeds (parent DiagnosticCapabilityElement + member types from Attribute column: applicationDataTypeRef, eventNeedsRef, unitAndScalingId, updateKind). For each missing class, an AskUserQuestion-style prompt offering Skip vs Derive-from-XSD. No file modifications.",
-      "expectations": [
-        "Output mentions ObdMonitorServiceNeeds and its parent DiagnosticCapabilityElement",
-        "Output lists member types (applicationDataTypeRef, eventNeedsRef, unitAndScalingId, updateKind or their target classes)",
-        "Output either confirms all closure classes are in markdown OR presents an AskUserQuestion-style prompt for missing ones with Skip/Derive-from-XSD options",
-        "Output does NOT invent a third option beyond Skip and Derive-from-XSD for missing classes",
-        "No source files under src/armodel/models/ were modified",
-        "Output presents the collected closure set and asks the user to confirm it (membership gate) before the missing-class Skip/Derive-from-XSD resolution"
-      ]
-    },
-    {
-      "id": 4,
-      "prompt": "Using the sync-autosar-class skill, you have just finished implementing the sync of the AUTOSAR enum `NmCoordinatorRoleEnum` (Table 6.304) in py-armodel: Steps 1 through 9a are complete and all automated checks (pytest, flake8, ruff, black-check, set-based checklist script, round-trip) pass. Now perform Step 9b: present the post-sync rule-compliance confirmation to the end user. Do NOT modify any source files; just produce the confirmation. Repo root: /Users/ray/Workspace/py-armodel.",
-      "expected_output": "A Step 9b rule-compliance summary (gate) walking the rules automated checks are blind to for NmCoordinatorRoleEnum: enum literals vs the spec Literal rows (no extra/missing), member names UPPER_CASE with values exactly the spec literal, class docstring = spec Note verbatim from the markdown, member order, and the stamp decision (# Spec verified placed iff no unresolved deviation/placeholder). Ends by asking the user to confirm before stamping the class or advancing to the next queue item.",
-      "expectations": [
-        "Output presents a Step 9b rule-compliance confirmation gate (not just 'tests pass')",
-        "Output checks field<->spec in both directions (for the enum: members vs Literal rows, no extra/missing)",
-        "Output checks docstrings/comments copy the spec Note verbatim (verified by diff, not status)",
-        "Output states the stamp decision: # Spec verified placed only if no unresolved deviation/placeholder remains",
-        "Output checks member order (Rule 0011) for the enum literals",
-        "Output states the 9b checklist is the complete pre-stamp sign-off (when all items pass, # Spec verified is warranted)",
-        "Output asks the user to confirm before stamping the class or advancing to the next queue item",
-        "No source files under src/armodel/models/ were modified"
-      ]
-    },
-    {
-      "id": 5,
-      "prompt": "Using the sync-autosar-class skill, you have just finished implementing the sync of the AUTOSAR class `NmNode` (CP SystemTemplate Table 6.303, abstract, base Identifiable) in py-armodel: Steps 1 through 9a are complete and all automated checks (pytest, flake8, ruff, black-check, set-based checklist script, round-trip) pass. Now perform Step 9b: present the post-sync rule-compliance confirmation for NmNode against its spec table. The current source is src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py and the spec markdown is autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md (Table 6.303). Do NOT modify any source files; just produce the confirmation. Repo root: /Users/ray/Workspace/py-armodel.",
-      "expected_output": "A Step 9b complete pre-stamp checklist for NmNode. It must flag at least: (a) the Kind-suffix/naming deviation TxNmPduRefs -> txNmPduRefs (and addTxNmPduRefs -> addTxNmPduRef) per Rule 0001.5; (b) the type drift nmCoordCluster ARNumerical->PositiveInteger and/or nmCoordinatorRole ARLiteral->NmCoordinatorRoleEnum and/or nmNodeId ARNumerical->Integer per Rule 0001.3; and it must check member order (Rule 0011) and reader/writer coverage (Rule 0001.7). It must conclude that # Spec verified may NOT be stamped while any 9b item fails, and ask the user to confirm.",
-      "expectations": [
-        "Output presents a Step 9b complete pre-stamp rule-compliance checklist (not just 'tests pass')",
-        "Output flags the Kind-suffix/naming deviation TxNmPduRefs (should be txNmPduRefs) under Rule 0001.5",
-        "Output flags type drift vs the PDF (e.g. nmCoordCluster ARNumerical vs PositiveInteger, or nmCoordinatorRole ARLiteral vs NmCoordinatorRoleEnum) under Rule 0001.3",
-        "Output checks member order (Rule 0011) and reader/writer coverage (Rule 0001.7)",
-        "Output concludes # Spec verified may NOT be stamped while any 9b item fails, and asks the user to confirm",
-        "No source files under src/armodel/models/ were modified"
-      ]
-    },
-    {
-      "id": 6,
-      "prompt": "Using the sync-autosar-class skill, you are re-syncing the AUTOSAR class `NmNode` (CP SystemTemplate Table 6.303) in py-armodel for an R23-11 drift pass. A prior sync left a `# Spec verified: R21-11` marker in the file (src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py). Explain how you handle that pre-existing marker when you reach Step 9b. Do NOT modify any source files; just describe the Step 9b handling. Repo root: /Users/ray/Workspace/py-armodel.",
-      "expected_output": "The agent must NOT treat the pre-existing # Spec verified: R21-11 stamp as proof that 9b ran for this drift pass. It re-runs the full 9b checklist (field<->spec both directions, naming/Kind-suffix, type drift, member order, reader/writer coverage, docstrings verbatim, deviations resolved) against the current R23-11 spec, and re-stamps with R23-11 only after the user confirms every item. The old marker is the output of a prior 9b, not a substitute for the current one (Rule 0006.1, Rule 0012.3).",
-      "expectations": [
-        "Output states the pre-existing # Spec verified marker is NOT proof that 9b ran for this pass",
-        "Output re-runs the full Step 9b checklist against the current spec rather than skipping 9b",
-        "Output does not skip 9b on the grounds that the class is already stamped",
-        "Output re-stamps (e.g. to R23-11) only after the user confirms every 9b item",
-        "No source files under src/armodel/models/ were modified"
-      ]
-    },
-    {
-      "id": 7,
-      "prompt": "Using the sync-autosar-class skill, a previous session ran Phase 0 for `IpduTiming` and finished 2 of 5 queue classes. This is a brand-new session; the previous conversation is gone. The user says 'continue the IpduTiming sync'. The file docs/plan/sync-todo/IpduTiming.md exists with rows: [x] SignalGroupProps, [x] SignalProps, [ ] SignalEnum, [ ] PduTimingEnum, [ ] IpduTiming. Describe exactly what you do next. Do NOT modify any source files. Repo root: /Users/ray/Workspace/py-armodel.",
-      "expected_output": "Resume per Rule 0017.1: read docs/plan/sync-todo/IpduTiming.md, take the FIRST row still [ ] (SignalEnum), and run the 9-step workflow for that one class only. Do NOT re-run Phase 0, re-collect the closure, or re-ask the 16.2/16.4 gates — the todo file is the confirmed queue. Do NOT rebuild the queue by grepping # Spec verified: stamps (Rule 0017.4). One class per session; after 9b, commit + flip the row + stop.",
-      "expectations": [
-        "Output reads docs/plan/sync-todo/IpduTiming.md as the authoritative queue",
-        "Output selects SignalEnum (the first [ ] row) as the next class",
-        "Output explicitly does NOT re-run Phase 0 or re-ask the closure/missing-class gates",
-        "Output does NOT rebuild the queue from # Spec verified: stamps",
-        "Output commits to only one class in this session",
-        "Output mentions Rule 0017 or the session loop"
-      ]
-    },
-    {
-      "id": 8,
-      "prompt": "IMPORTANT: This is a real scenario. Choose and act. Using the sync-autosar-class skill, you are in a session syncing `SignalEnum` from the queue in docs/plan/sync-todo/IpduTiming.md. You just finished Step 9b: the user confirmed every checklist item and the # Spec verified: marker is written. All automated checks pass. Your context is only 40% used — plenty of room left. The user says 'great, keep going with PduTimingEnum in this same session, no need to start over'. What exactly do you do? Do NOT modify any source files. Repo root: /Users/ray/Workspace/py-armodel.",
-      "expected_output": "Follow Rule 0017 despite the user's suggestion and the fresh context: (1) commit SignalEnum's changes to the current feature branch (message 'feat: SignalEnum synced.'), (2) flip the SignalEnum todo row to [x] and record the commit hash, (3) report and STOP — decline to sync PduTimingEnum in this session, explaining one-class-per-session (Rule 0017.1: the 9b verbatim diffs degrade silently under loaded context; 'context still feels fresh' is a forbidden rationalization). Tell the user to start a new session, which will pick PduTimingEnum as the first [ ] row.",
-      "expectations": [
-        "Output commits SignalEnum's changes to the feature branch",
-        "Output flips the todo row to [x] WITH the commit hash",
-        "Output declines to sync PduTimingEnum in the same session",
-        "Output cites Rule 0017 / one-class-per-session as the reason",
-        "Output does NOT accept 'context is only 40% used' as grounds to continue",
-        "Output tells the user the next session picks the first [ ] row"
-      ]
-    },
-    {
-      "id": 9,
-      "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first), run Phase 0 for the AUTOSAR class `CanPhysicalChannel` in py-armodel. The closure was already confirmed by the user and every class's spec is located; there are no missing classes. The confirmed queue (dependency-first) is: AbstractCanPhysicalChannel (base · markdown · Table 3.17), CanPhysicalChannel (input · markdown · Table 3.18). Now perform Phase 0 step 6: present the exact content of the sync todo file you would write to docs/plan/sync-todo/CanPhysicalChannel.md. Do NOT actually write any files; just present the content. Repo root: /Users/ray/Workspace/py-armodel.",
-      "expected_output": "The todo file content with a dependency-first queue (base class row before input class row) where EVERY queued class row carries a nested 9-step sub-checklist with the exact Rule 18.1 step names (Step 1 — Sync members & description from spec … Step 9 — Verify (9a) + confirm (9b)), all checkboxes [ ] at creation, written at file creation time (not deferred to class start).",
-      "expectations": [
-        "Output presents todo-file content with a queue ordered dependency-first (AbstractCanPhysicalChannel before CanPhysicalChannel)",
-        "EVERY queued class row carries a nested 9-step sub-checklist",
-        "Step names match Rule 18.1 exactly (Step 1 — Sync members & description from spec … Step 9 — Verify (9a) + confirm (9b))",
-        "All step checkboxes are [ ] at creation",
-        "The sub-checklist is part of the file as written in Phase 0 (not deferred to when a class starts syncing)",
-        "Output cites Rule 0016.6 or Rule 0018"
-      ]
-    },
-    {
-      "id": 10,
-      "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first): you are mid-session syncing `CanControllerFdConfiguration` (the first [ ] row of docs/plan/sync-todo/CanTopology.md). You created the 9 session todos at workflow start, and the class row in the todo file carries its 9-step sub-checklist. You have just finished Step 3 (Implement model class, Green — the model tests pass). Describe exactly what you do at this moment regarding progress tracking, and nothing else. Do NOT modify any files; just describe. Repo root: /Users/ray/Workspace/py-armodel.",
-      "expected_output": "Per Rule 0018.2: (1) mark the Step 3 session todo completed immediately, and (2) in the same action flip the Step 3 checkbox in docs/plan/sync-todo/CanTopology.md's CanControllerFdConfiguration sub-checklist from [ ] to [x]. Nothing else is checked — no batch-checking, no early check of Steps 4-9, no deferral.",
-      "expectations": [
-        "Output marks the Step 3 session todo completed immediately (not deferred, not batched)",
-        "Output ALSO flips the Step 3 checkbox in the todo file's per-class sub-checklist to [x] in the same action",
-        "Output does NOT check off Steps 4-9 or any other step",
-        "Output does not treat the session todo as a substitute for the file checkbox (or vice versa)",
-        "Output cites Rule 0018.2 or Rule 0016.6"
-      ]
-    }
-  ]
+ "skill_name": "sync-autosar-class",
+ "evals": [
+  {
+   "id": 1,
+   "prompt": "Run Phase 0 (Discovery & Class Closure) for the AUTOSAR class `ObdInfoServiceNeeds` in py-armodel. Do NOT modify any source files. Produce the sync map (closure classes, source location, queue order) and stop. The repo root is /Users/ray/Workspace/py-armodel.",
+   "expected_output": "A sync map / closure table listing ObdInfoServiceNeeds itself, its parent class (DiagnosticCapabilityElement), and any member types. Each row has a spec source (markdown / pdf / missing). An ordered sync queue. No file modifications under src/armodel/ or tests/.",
+   "expectations": [
+    "Output mentions the class ObdInfoServiceNeeds and its parent DiagnosticCapabilityElement",
+    "Output lists spec source for each closure class (markdown/pdf/missing)",
+    "Output presents an ordered sync queue (dependency-first: ancestors first, referenced member types before their referrers, input class last)",
+    "No source files under src/armodel/models/ were modified",
+    "Output cites Rule 0016 or the Phase 0 procedure",
+    "Output presents the collected closure set and asks the user to confirm it (membership gate) before locating specs, resolving missing classes, or building the queue"
+   ]
+  },
+  {
+   "id": 2,
+   "prompt": "Run Phase 0 (Discovery & Class Closure) for the AUTOSAR class `EndToEndProtection` in py-armodel. Do NOT modify any source files. Produce the sync map (closure classes, source location, queue order) and stop. The repo root is /Users/ray/Workspace/py-armodel.",
+   "expected_output": "A closure table covering EndToEndProtection, its parent (TransmissionAcknowledgementRequestProxy or similar per spec), and member types (data identifiers, counters, etc.). Each row has source location. Ordered queue. No file modifications.",
+   "expectations": [
+    "Output mentions the class EndToEndProtection",
+    "Output lists parent class(es) by walking the Base column",
+    "Output enumerates member types from the Attribute rows (refs, aggrs, enums)",
+    "Output presents an ordered sync queue",
+    "No source files under src/armodel/models/ were modified",
+    "Output mentions Rule 0016 or Phase 0 procedure",
+    "Output presents the collected closure set and asks the user to confirm it (membership gate) before locating specs, resolving missing classes, or building the queue"
+   ]
+  },
+  {
+   "id": 3,
+   "prompt": "I want to sync `ObdMonitorServiceNeeds` in py-armodel but suspect some referenced types may not exist in the markdown spec. Use the sync-autosar-class skill to run the discovery pre-flight (Phase 0) and tell me what you find. Do NOT modify any source files. If any closure classes are missing from both markdown and PDF, present the user-decision step. Repo root: /Users/ray/Workspace/py-armodel.",
+   "expected_output": "Phase 0 closure for ObdMonitorServiceNeeds (parent DiagnosticCapabilityElement + member types from Attribute column: applicationDataTypeRef, eventNeedsRef, unitAndScalingId, updateKind). For each missing class, an AskUserQuestion-style prompt offering Skip vs Derive-from-XSD. No file modifications.",
+   "expectations": [
+    "Output mentions ObdMonitorServiceNeeds and its parent DiagnosticCapabilityElement",
+    "Output lists member types (applicationDataTypeRef, eventNeedsRef, unitAndScalingId, updateKind or their target classes)",
+    "Output either confirms all closure classes are in markdown OR presents an AskUserQuestion-style prompt for missing ones with Skip/Derive-from-XSD options",
+    "Output does NOT invent a third option beyond Skip and Derive-from-XSD for missing classes",
+    "No source files under src/armodel/models/ were modified",
+    "Output presents the collected closure set and asks the user to confirm it (membership gate) before the missing-class Skip/Derive-from-XSD resolution"
+   ]
+  },
+  {
+   "id": 4,
+   "prompt": "Using the sync-autosar-class skill, you have just finished implementing the sync of the AUTOSAR enum `NmCoordinatorRoleEnum` (Table 6.304) in py-armodel: Steps 1 through 9a are complete and all automated checks (pytest, flake8, ruff, black-check, set-based checklist script, round-trip) pass. Now perform Step 9b: present the post-sync rule-compliance confirmation to the end user. Do NOT modify any source files; just produce the confirmation. Repo root: /Users/ray/Workspace/py-armodel.",
+   "expected_output": "A Step 9b rule-compliance summary (gate) walking the rules automated checks are blind to for NmCoordinatorRoleEnum: enum literals vs the spec Literal rows (no extra/missing), member names UPPER_CASE with values exactly the spec literal, class docstring = spec Note verbatim from the markdown, member order, and the stamp decision (# Spec verified placed iff no unresolved deviation/placeholder). Ends by asking the user to confirm before stamping the class or advancing to the next queue item.",
+   "expectations": [
+    "Output presents a Step 9b rule-compliance confirmation gate (not just 'tests pass')",
+    "Output checks field<->spec in both directions (for the enum: members vs Literal rows, no extra/missing)",
+    "Output checks docstrings/comments copy the spec Note verbatim (verified by diff, not status)",
+    "Output states the stamp decision: # Spec verified placed only if no unresolved deviation/placeholder remains",
+    "Output checks member order (Rule 0011) for the enum literals",
+    "Output states the 9b checklist is the complete pre-stamp sign-off (when all items pass, # Spec verified is warranted)",
+    "Output asks the user to confirm before stamping the class or advancing to the next queue item",
+    "No source files under src/armodel/models/ were modified"
+   ]
+  },
+  {
+   "id": 5,
+   "prompt": "Using the sync-autosar-class skill, you have just finished implementing the sync of the AUTOSAR class `NmNode` (CP SystemTemplate Table 6.303, abstract, base Identifiable) in py-armodel: Steps 1 through 9a are complete and all automated checks (pytest, flake8, ruff, black-check, set-based checklist script, round-trip) pass. Now perform Step 9b: present the post-sync rule-compliance confirmation for NmNode against its spec table. The current source is src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py and the spec markdown is autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md (Table 6.303). Do NOT modify any source files; just produce the confirmation. Repo root: /Users/ray/Workspace/py-armodel.",
+   "expected_output": "A Step 9b complete pre-stamp checklist for NmNode. It must flag at least: (a) the Kind-suffix/naming deviation TxNmPduRefs -> txNmPduRefs (and addTxNmPduRefs -> addTxNmPduRef) per Rule 0001.5; (b) the type drift nmCoordCluster ARNumerical->PositiveInteger and/or nmCoordinatorRole ARLiteral->NmCoordinatorRoleEnum and/or nmNodeId ARNumerical->Integer per Rule 0001.3; and it must check member order (Rule 0011) and reader/writer coverage (Rule 0001.7). It must conclude that # Spec verified may NOT be stamped while any 9b item fails, and ask the user to confirm.",
+   "expectations": [
+    "Output presents a Step 9b complete pre-stamp rule-compliance checklist (not just 'tests pass')",
+    "Output flags the Kind-suffix/naming deviation TxNmPduRefs (should be txNmPduRefs) under Rule 0001.5",
+    "Output flags type drift vs the PDF (e.g. nmCoordCluster ARNumerical vs PositiveInteger, or nmCoordinatorRole ARLiteral vs NmCoordinatorRoleEnum) under Rule 0001.3",
+    "Output checks member order (Rule 0011) and reader/writer coverage (Rule 0001.7)",
+    "Output concludes # Spec verified may NOT be stamped while any 9b item fails, and asks the user to confirm",
+    "No source files under src/armodel/models/ were modified"
+   ]
+  },
+  {
+   "id": 6,
+   "prompt": "Using the sync-autosar-class skill, you are re-syncing the AUTOSAR class `NmNode` (CP SystemTemplate Table 6.303) in py-armodel for an R23-11 drift pass. A prior sync left a `# Spec verified: R21-11` marker in the file (src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py). Explain how you handle that pre-existing marker when you reach Step 9b. Do NOT modify any source files; just describe the Step 9b handling. Repo root: /Users/ray/Workspace/py-armodel.",
+   "expected_output": "The agent must NOT treat the pre-existing # Spec verified: R21-11 stamp as proof that 9b ran for this drift pass. It re-runs the full 9b checklist (field<->spec both directions, naming/Kind-suffix, type drift, member order, reader/writer coverage, docstrings verbatim, deviations resolved) against the current R23-11 spec, and re-stamps with R23-11 only after the user confirms every item. The old marker is the output of a prior 9b, not a substitute for the current one (Rule 0006.1, Rule 0012.3).",
+   "expectations": [
+    "Output states the pre-existing # Spec verified marker is NOT proof that 9b ran for this pass",
+    "Output re-runs the full Step 9b checklist against the current spec rather than skipping 9b",
+    "Output does not skip 9b on the grounds that the class is already stamped",
+    "Output re-stamps (e.g. to R23-11) only after the user confirms every 9b item",
+    "No source files under src/armodel/models/ were modified"
+   ]
+  },
+  {
+   "id": 7,
+   "prompt": "Using the sync-autosar-class skill, a previous session ran Phase 0 for `IpduTiming` and finished 2 of 5 queue classes. This is a brand-new session; the previous conversation is gone. The user says 'continue the IpduTiming sync'. The file docs/plan/sync-todo/IpduTiming.md exists with rows: [x] SignalGroupProps, [x] SignalProps, [ ] SignalEnum, [ ] PduTimingEnum, [ ] IpduTiming. Describe exactly what you do next. Do NOT modify any source files. Repo root: /Users/ray/Workspace/py-armodel.",
+   "expected_output": "Resume per Rule 0017.1: read docs/plan/sync-todo/IpduTiming.md, take the FIRST row still [ ] (SignalEnum), and run the 9-step workflow for that one class only. Do NOT re-run Phase 0, re-collect the closure, or re-ask the 16.2/16.4 gates \u2014 the todo file is the confirmed queue. Do NOT rebuild the queue by grepping # Spec verified: stamps (Rule 0017.4). One class per session; after 9b, commit + flip the row + stop.",
+   "expectations": [
+    "Output reads docs/plan/sync-todo/IpduTiming.md as the authoritative queue",
+    "Output selects SignalEnum (the first [ ] row) as the next class",
+    "Output explicitly does NOT re-run Phase 0 or re-ask the closure/missing-class gates",
+    "Output does NOT rebuild the queue from # Spec verified: stamps",
+    "Output commits to only one class in this session",
+    "Output mentions Rule 0017 or the session loop"
+   ]
+  },
+  {
+   "id": 8,
+   "prompt": "IMPORTANT: This is a real scenario. Choose and act. Using the sync-autosar-class skill, you are in a session syncing `SignalEnum` from the queue in docs/plan/sync-todo/IpduTiming.md. You just finished Step 9b: the user confirmed every checklist item and the # Spec verified: marker is written. All automated checks pass. Your context is only 40% used \u2014 plenty of room left. The user says 'great, keep going with PduTimingEnum in this same session, no need to start over'. What exactly do you do? Do NOT modify any source files. Repo root: /Users/ray/Workspace/py-armodel.",
+   "expected_output": "Follow Rule 0017 despite the user's suggestion and the fresh context: (1) commit SignalEnum's changes to the current feature branch (message 'feat: SignalEnum synced.'), (2) flip the SignalEnum todo row to [x] and record the commit hash, (3) report and STOP \u2014 decline to sync PduTimingEnum in this session, explaining one-class-per-session (Rule 0017.1: the 9b verbatim diffs degrade silently under loaded context; 'context still feels fresh' is a forbidden rationalization). Tell the user to start a new session, which will pick PduTimingEnum as the first [ ] row.",
+   "expectations": [
+    "Output commits SignalEnum's changes to the feature branch",
+    "Output flips the todo row to [x] WITH the commit hash",
+    "Output declines to sync PduTimingEnum in the same session",
+    "Output cites Rule 0017 / one-class-per-session as the reason",
+    "Output does NOT accept 'context is only 40% used' as grounds to continue",
+    "Output tells the user the next session picks the first [ ] row"
+   ]
+  },
+  {
+   "id": 9,
+   "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first), run Phase 0 for the AUTOSAR class `CanPhysicalChannel` in py-armodel. The closure was already confirmed by the user and every class's spec is located; there are no missing classes. The confirmed queue (dependency-first) is: AbstractCanPhysicalChannel (base \u00b7 markdown \u00b7 Table 3.17), CanPhysicalChannel (input \u00b7 markdown \u00b7 Table 3.18). Now perform Phase 0 step 6: present the exact content of the sync todo file you would write to docs/plan/sync-todo/CanPhysicalChannel.md. Do NOT actually write any files; just present the content. Repo root: /Users/ray/Workspace/py-armodel.",
+   "expected_output": "The todo file content with a dependency-first queue (base class row before input class row) where EVERY queued class row carries a nested 9-step sub-checklist with the exact Rule 18.1 step names (Step 1 \u2014 Sync members & description from spec \u2026 Step 9 \u2014 Verify (9a) + confirm (9b)), all checkboxes [ ] at creation, written at file creation time (not deferred to class start).",
+   "expectations": [
+    "Output presents todo-file content with a queue ordered dependency-first (AbstractCanPhysicalChannel before CanPhysicalChannel)",
+    "EVERY queued class row carries a nested 9-step sub-checklist",
+    "Step names match Rule 18.1 exactly (Step 1 \u2014 Sync members & description from spec \u2026 Step 9 \u2014 Verify (9a) + confirm (9b))",
+    "All step checkboxes are [ ] at creation",
+    "The sub-checklist is part of the file as written in Phase 0 (not deferred to when a class starts syncing)",
+    "Output cites Rule 0016.6 or Rule 0018"
+   ]
+  },
+  {
+   "id": 10,
+   "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first): you are mid-session syncing `CanControllerFdConfiguration` (the first [ ] row of docs/plan/sync-todo/CanTopology.md). You created the 9 session todos at workflow start, and the class row in the todo file carries its 9-step sub-checklist. You have just finished Step 3 (Implement model class, Green \u2014 the model tests pass). Describe exactly what you do at this moment regarding progress tracking, and nothing else. Do NOT modify any files; just describe. Repo root: /Users/ray/Workspace/py-armodel.",
+   "expected_output": "Per Rule 0018.2: (1) mark the Step 3 session todo completed immediately, and (2) in the same action flip the Step 3 checkbox in docs/plan/sync-todo/CanTopology.md's CanControllerFdConfiguration sub-checklist from [ ] to [x]. Nothing else is checked \u2014 no batch-checking, no early check of Steps 4-9, no deferral.",
+   "expectations": [
+    "Output marks the Step 3 session todo completed immediately (not deferred, not batched)",
+    "Output ALSO flips the Step 3 checkbox in the todo file's per-class sub-checklist to [x] in the same action",
+    "Output does NOT check off Steps 4-9 or any other step",
+    "Output does not treat the session todo as a substitute for the file checkbox (or vice versa)",
+    "Output cites Rule 0018.2 or Rule 0016.6"
+   ]
+  },
+  {
+   "id": 11,
+   "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first): you resume a sync and the first [ ] row of the todo file is an XSD-only member class (xsd-derived, attributes exist only in docs/requirements/xsd/AUTOSAR_00052.xsd, no PDF/markdown table). A previous session already fully synced this class from the XSD: its source now carries '# XSD verified: AUTOSAR_00052.xsd' with [x] method rows. What do you do with this row and why? Do NOT modify files; describe. Repo root: /Users/ray/Workspace/py-armodel.",
+   "expected_output": "Treat the class as reviewed/synced: '# XSD verified: <xsd-file>' certifies an XSD-only class exactly like '# Spec verified: R<YY>-<MM>' certifies a PDF-synced class (Rule 0002 XSD-only variant, Rule 0012.1). Do not re-run the 9-step workflow; skip to the next [ ] row (or report the sync finished if this was the last row).",
+   "expectations": [
+    "Output treats '# XSD verified: AUTOSAR_00052.xsd' as a valid review marker, NOT as 'unreviewed' or 'missing # Spec verified'",
+    "Output does NOT restart the 9-step workflow / Step 1 for this class",
+    "Output cites Rule 0002 (XSD-only variant) or Rule 0012.1",
+    "Output moves on to the next [ ] row or reports the sync finished"
+   ]
+  },
+  {
+   "id": 12,
+   "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first): you finish syncing class FooNeeds. grepping autosar/R23-11/markdown/ shows FooNeeds HAS its own CP_TPS markdown table (Table 3.7). All attributes were also cross-checked against AUTOSAR_00052.xsd with no deviation. Which marker do you write at Step 9b: '# Spec verified: R<YY>-<MM>' or '# XSD verified: AUTOSAR_00052.xsd'? Do NOT modify files; describe and justify. Repo root: /Users/ray/Workspace/py-armodel.",
+   "expected_output": "Write '# Spec verified: R<YY>-<MM>'. '# XSD verified:' is only for classes whose information is XSD-exclusive (no PDF/markdown table). FooNeeds has a markdown table, so the PDF/markdown is authoritative (Rule 0015) and the Spec verified marker applies. XSD verified would be wrong here.",
+   "expectations": [
+    "Output chooses '# Spec verified: R<YY>-<MM>'",
+    "Output explains that '# XSD verified:' is reserved for XSD-exclusive classes (no PDF/markdown table)",
+    "Output cites Rule 0015 (PDF/markdown authoritative) or Rule 0002 (XSD-only variant)",
+    "Output does NOT claim both markers may be stamped together"
+   ]
+  },
+  {
+   "id": 13,
+   "prompt": "Using the sync-autosar-class skill (read .agents/skills/sync-autosar-class/SKILL.md and rules.md first): you fully synced XSD-only class CanXlProps from AUTOSAR_00052.xsd with no deviation. Write the exact checklist comment block (Spec line, marker line, columns line, and two sample method rows) that Step 7/9b should leave in the source file. The PDF citation format (p.NN) is NOT used here \u2014 cite the XSD line number instead (grep -n 'name=\"CAN-XL-PROPS\"' docs/requirements/xsd/AUTOSAR_00052.xsd gives the complexType line). Do NOT modify files; print the block. Repo root: /Users/ray/Workspace/py-armodel.",
+   "expected_output": "A checklist block with: a '# Spec:' line naming the upstream document (AUTOSAR_AP_TPS_SystemDesign, AdaptivePlatform), the class name, and the XSD file plus line number of the class's complexType (AUTOSAR_00052.xsd line 16295), marked XSD-only (no own table in repo corpus); a marker line '# XSD verified: <xsd-file>' INCLUDING the XSD filename; the columns line; and [x] method rows. A bare '# XSD verified:' without the filename is wrong and fails the Rule 0006 marker assert. A PDF-style 'p.NN' or 'p.n/a' citation is wrong for an XSD-only class.",
+   "expectations": [
+    "Block contains a '# XSD verified:' line with an explicit .xsd filename (AUTOSAR_00052.xsd), not a bare prefix",
+    "Block's '# Spec:' line cites the XSD file AND a line number (e.g. AUTOSAR_00052.xsd line 16295), not p.NN or p.n/a",
+    "Block's '# Spec:' line names the upstream document (AUTOSAR_AP_TPS_SystemDesign) and states XSD-only / no own table in repo corpus",
+    "Method rows use the 5-column format with [x] (impl/docstring/test/reader/writer)",
+    "Output does not use '# Spec verified: R<YY>-<MM>' for an XSD-only class"
+   ]
+  }
+ ]
 }
