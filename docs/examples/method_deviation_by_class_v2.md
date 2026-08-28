@@ -1483,7 +1483,7 @@ CanXlProps unconfirmed), ipV6PathMtuEnabled/ipV6PathMtuTimeout (atp.Status=remov
 |---|---|---|---|---|---|
 | `canXlConfigRef` | `Optional[RefType]` | `canXlConfig` | ``AbstractCan CommunicationController`` | ref | - |
 | `couplingPorts` | `List[CouplingPort]` | `couplingPort` | ``CouplingPort`` | aggr | singular spec member modelled per project convention (`createCouplingPort`/`getCouplingPorts`, wrapper COUPLING-PORTS) |
-| `macLayerType` | `Optional[ARLiteral]` | `macLayerType` | ``EthernetMacLayerType Enum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `macLayerType` | `Optional[EthernetMacLayerTypeEnum]` | `macLayerType` | ``EthernetMacLayerType Enum`` | attr | - |
 | `macUnicastAddress` | `Optional[ARLiteral]` | `macUnicast Address` | ``MacAddressString`` | attr | - |
 | `maximumReceiveBufferLength` | `Optional[Integer]` | `maximum ReceiveBuffer Length` | ``Integer`` | attr | - |
 | `maximumTransmitBufferLength` | `Optional[Integer]` | `maximum TransmitBuffer Length` | ``Integer`` | attr | - |
@@ -1666,17 +1666,17 @@ modelled for VlanMembership.dhcpAddressAssignment (Table 3.79).
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `connectionNegotiationBehavior` | `Optional[ARLiteral]` | `connectionNegotiation Behavior` | ``EthernetConnection NegotiationEnum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `connectionNegotiationBehavior` | `Optional[EthernetConnectionNegotiationEnum]` | `connectionNegotiation Behavior` | ``EthernetConnection NegotiationEnum`` | attr | - |
 | `couplingPortDetails` | `Optional[CouplingPortDetails]` | `couplingPort Details` | ``CouplingPortDetails`` | aggr | - |
-| `couplingPortRole` | `Optional[ARLiteral]` | `couplingPort Role` | ``CouplingPortRoleEnum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `couplingPortRole` | `Optional[CouplingPortRoleEnum]` | `couplingPort Role` | ``CouplingPortRoleEnum`` | attr | - |
 | `defaultVlanRef` | `Optional[RefType]` | `defaultVlan` | ``EthernetPhysical Channel`` | ref | ref-form naming per project convention |
-| `macLayerType` | `Optional[ARLiteral]` | `macLayerType` | ``EthernetMacLayerType Enum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `macLayerType` | `Optional[EthernetMacLayerTypeEnum]` | `macLayerType` | ``EthernetMacLayerType Enum`` | attr | - |
 | `macMulticastAddressRefs` | `List[RefType]` | `macMulticast Address` | ``MacMulticastGroup`` | ref | singular spec member modelled per project convention (`addMacMulticastAddressRef`/`getMacMulticastAddressRefs`, wrapper MAC-MULTICAST-ADDRESS-REFS) |
-| `macSecProps` | `List[ARObject]` | `macSecProps` | ``MacSecProps`` | aggr | referenced class `MacSecProps` not yet implemented; carried as an `ARObject` placeholder list with add/get accessors, reader/writer pending, full sync deferred (Rule 0001.10) |
-| `physicalLayerType` | `Optional[ARLiteral]` | `physicalLayer Type` | ``EthernetPhysicalLayer TypeEnum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
-| `plcaProps` | `Optional[ARObject]` | `plcaProps` | ``PlcaProps`` | aggr | referenced class `PlcaProps` not yet implemented; carried as an `ARObject` placeholder, reader/writer pending, full sync deferred (Rule 0001.10) |
+| `macSecProps` | `List[MacSecProps]` | `macSecProps` | ``MacSecProps`` | aggr | - |
+| `physicalLayerType` | `Optional[EthernetPhysicalLayerTypeEnum]` | `physicalLayer Type` | ``EthernetPhysicalLayer TypeEnum`` | attr | - |
+| `plcaProps` | `Optional[PlcaProps]` | `plcaProps` | ``PlcaProps`` | aggr | - |
 | `pncMappingRefs` | `List[RefType]` | `pncMapping` | ``PncMappingIdent`` | ref | singular spec member modelled per project convention (`addPncMappingRef`/`getPncMappingRefs`, wrapper PNC-MAPPING-REFS) |
-| `receiveActivity` | `Optional[ARLiteral]` | `receiveActivity` | ``EthernetSwitchVlan IngressTagEnum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `receiveActivity` | `Optional[EthernetSwitchVlanIngressTagEnum]` | `receiveActivity` | ``EthernetSwitchVlan IngressTagEnum`` | attr | - |
 | `vlanMemberships` | `List[VlanMembership]` | `vlan Membership` | ``VlanMembership`` | aggr | - |
 | `vlanModifierRef` | `Optional[RefType]` | `vlanModifier` | ``EthernetPhysical Channel`` | ref | ref-form naming per project convention (`getVlanModifierRef`/`setVlanModifierRef`) |
 | `wakeupSleepOnDatalineConfigRef` | `Optional[RefType]` | `wakeupSleep OnDataline Config` | ``EthernetWakeupSleep OnDatalineConfig`` | ref | - |

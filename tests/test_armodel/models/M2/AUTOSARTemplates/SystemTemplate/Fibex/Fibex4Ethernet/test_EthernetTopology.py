@@ -1264,10 +1264,22 @@ class TestPlcaProps:
 
     def test_none_no_op(self):
         props = PlcaProps()
-        value = PositiveInteger().setValue("7")
-        props.setPlcaLocalNodeId(value)
+        node_id = PositiveInteger().setValue("7")
+        props.setPlcaLocalNodeId(node_id)
         result = props.setPlcaLocalNodeId(None)
-        assert props.getPlcaLocalNodeId() == value
+        assert props.getPlcaLocalNodeId() == node_id
+        assert result == props
+
+        burst_count = PositiveInteger().setValue("4")
+        props.setPlcaMaxBurstCount(burst_count)
+        result = props.setPlcaMaxBurstCount(None)
+        assert props.getPlcaMaxBurstCount() == burst_count
+        assert result == props
+
+        burst_timer = PositiveInteger().setValue("20")
+        props.setPlcaMaxBurstTimer(burst_timer)
+        result = props.setPlcaMaxBurstTimer(None)
+        assert props.getPlcaMaxBurstTimer() == burst_timer
         assert result == props
 
 
