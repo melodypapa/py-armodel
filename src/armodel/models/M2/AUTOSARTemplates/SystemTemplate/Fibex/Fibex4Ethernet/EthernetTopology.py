@@ -1082,6 +1082,7 @@ class SdClientConfig(ARObject):
 
     # SdClientConfig method parity checklist (XSD-only class — obsolete, no R23-11 PDF table; Rule 0002:
     # attributes derived from the AUTOSAR_00052.xsd SD-CLIENT-CONFIG group; no # Spec line, no marker):
+    # XSD verified: AUTOSAR_00052.xsd
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addCapabilityRecord           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
