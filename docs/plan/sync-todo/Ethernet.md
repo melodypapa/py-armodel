@@ -801,7 +801,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker updated: naming deviations resolved to convention notes; stale logicAddress resolution recorded)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7318 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [ ] EventHandler (markdown SystemTemplate · Table 6.166 · p.492 · source Fibex4Ethernet/ServiceInstances.py · depends on SomeipSdServerEventGroupTimingConfig above; adds eventGroupIdentifier, eventMulticastAddress, pduActivationRoutingGroup, sdServerEgTimingConfig) — STAMP DEFERRED (batch 9b pending)
+- [x] EventHandler (markdown SystemTemplate · Table 6.166 · p.492 · source Fibex4Ethernet/ServiceInstances.py · depends on SomeipSdServerEventGroupTimingConfig above; adds eventGroupIdentifier, eventMulticastAddress, pduActivationRoutingGroup, sdServerEgTimingConfig) — STAMPED R23-11 <!-- commit: pending -->
   - [x] Step 1 — Sync members & description from spec
     (Table 6.166 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:13081–13105 + PDF p.492;
     Base → Identifiable; 8 attr rows; applicationEndpoint is atp.Status=removed since 4.4.0 and ABSENT from the
