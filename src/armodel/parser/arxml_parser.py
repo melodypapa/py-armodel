@@ -211,6 +211,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventBsw,
     TDEventBswModule,
     TDEventBswModuleTypeEnum,
+    TDEventBswModeDeclaration,
+    TDEventBswModeDeclarationTypeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
@@ -2316,6 +2318,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "TD-EVENT-BSW-MODULE":
                 event = TDEventBswModule(extension, short_name)
                 self.readTDEventBswModule(child_element, event)
+            elif tag_name == "TD-EVENT-BSW-MODE-DECLARATION":
+                event = TDEventBswModeDeclaration(extension, short_name)
+                self.readTDEventBswModeDeclaration(child_element, event)
             elif tag_name == "TD-EVENT-I-SIGNAL":
                 event = TDEventISignal(extension, short_name)
                 self.readTDEventISignal(child_element, event)
@@ -2429,6 +2434,17 @@ class ARXMLParser(AbstractARXMLParser):
             enum = TDEventBswModuleTypeEnum()
             enum.value = type_element.text
             event.setTdEventBswModuleType(enum)
+
+    def readTDEventBswModeDeclaration(self, element: ET.Element, event: TDEventBswModeDeclaration):
+        self.readTDEventBsw(element, event)
+        event.setEntryModeDeclarationRef(self.getChildElementOptionalRefType(element, "ENTRY-MODE-DECLARATION-REF"))
+        event.setExitModeDeclarationRef(self.getChildElementOptionalRefType(element, "EXIT-MODE-DECLARATION-REF"))
+        event.setModeDeclarationRef(self.getChildElementOptionalRefType(element, "MODE-DECLARATION-REF"))
+        type_element = self.find(element, "TD-EVENT-BSW-MODE-DECLARATION-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventBswModeDeclarationTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventBswModeDeclarationType(enum)
 
     def readTDEventSwcInternalBehaviorReference(self, element: ET.Element, event: TDEventSwcInternalBehaviorReference):
         self.readTDEventSwc(element, event)

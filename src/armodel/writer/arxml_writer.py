@@ -308,6 +308,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventBsw import (
     TDEventBsw,
     TDEventBswModule,
+    TDEventBswModeDeclaration,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
     ArbitraryEventTriggering,
@@ -3646,6 +3647,15 @@ class ARXMLWriter(AbstractARXMLWriter):
         if enum is not None:
             self.setChildElementOptionalLiteral(element, "TD-EVENT-BSW-MODULE-TYPE", enum)
 
+    def writeTDEventBswModeDeclaration(self, element: ET.Element, event: TDEventBswModeDeclaration):
+        self.writeTDEventBsw(element, event)
+        self.setChildElementOptionalRefType(element, "ENTRY-MODE-DECLARATION-REF", event.getEntryModeDeclarationRef())
+        self.setChildElementOptionalRefType(element, "EXIT-MODE-DECLARATION-REF", event.getExitModeDeclarationRef())
+        self.setChildElementOptionalRefType(element, "MODE-DECLARATION-REF", event.getModeDeclarationRef())
+        enum = event.getTdEventBswModeDeclarationType()
+        if enum is not None:
+            self.setChildElementOptionalLiteral(element, "TD-EVENT-BSW-MODE-DECLARATION-TYPE", enum)
+
     def writeTDEventOccurrenceExpression(self, element: ET.Element, expression: TDEventOccurrenceExpression):
         self.writeARObjectAttributes(element, expression)
         arguments = expression.getArguments()
@@ -6522,6 +6532,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(description, TDEventBswModule):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-BSW-MODULE")
                     self.writeTDEventBswModule(description_tag, description)
+                elif isinstance(description, TDEventBswModeDeclaration):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-BSW-MODE-DECLARATION")
+                    self.writeTDEventBswModeDeclaration(description_tag, description)
                 elif isinstance(description, TDEventISignal):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-I-SIGNAL")
                     self.writeTDEventISignal(description_tag, description)

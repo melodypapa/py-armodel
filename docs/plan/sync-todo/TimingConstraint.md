@@ -806,16 +806,16 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.44, p.75)
   - [x] Step 8 — Deviations: none blocking (constr_6860/6861 are validation-only)
   - [x] Step 9 — Verify (9a passed: 168 Timing tests green; ruff/black clean); 9b confirm + # Spec verified: R23-11 stamped
-- [ ] TDEventBswModeDeclaration (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.46 · entry/exitModeDeclaration + modeDeclaration refs (RefType); type enum (queued above); Base includes TDEventBsw (queued above))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventBswModeDeclaration (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.46, p.77 · entryModeDeclaration + exitModeDeclaration -> ModeDeclaration refs (RefType); modeDeclaration -> ModeDeclarationGroupPrototype ref (RefType); type enum (TDEventBswModeDeclarationTypeEnum, queued above); Base includes TDEventBsw (queued above)) · commit {COMMIT}
+  - [x] Step 1 — Sync members & description from spec (Table 3.46, p.77; markdown truncated, full attrs verified vs XSD TD-EVENT-BSW-MODE-DECLARATION; Base TDEventBsw; 4 attrs)
+  - [x] Step 2 — Write model class unit test (Red) — test_TDEventBswModeDeclaration.py (10 tests)
+  - [x] Step 3 — Implement model class (Green) — TDEventBswModeDeclaration(TDEventBsw); entry/exitModeDeclarationRef + modeDeclarationRef Optional[RefType] + tdEventBswModeDeclarationType Optional[enum] + get/set
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class + member notes verbatim from XSD Table 3.46
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — test_parser_tdevents_bswmodedeclaration.py / test_writer_tdevents_bswmodedeclaration.py
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTDEventBswModeDeclaration + 3 REFs + enum + dispatch in read/writeTimingDescriptions
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.46, p.77)
+  - [x] Step 8 — Deviations: none blocking (constr_6862/6863 validation-only; markdown table truncated, XSD authoritative)
+  - [x] Step 9 — Verify (9a passed: 178 Timing tests green; ruff/black clean); 9b confirm + # Spec verified: R23-11 stamped
 - [ ] TDEventComplex (member · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.48 · NO own attributes ("-" row verified at session start; occurrenceExpression comes from TimingDescriptionEvent base) · Base includes TimingDescriptionEvent (queued above))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

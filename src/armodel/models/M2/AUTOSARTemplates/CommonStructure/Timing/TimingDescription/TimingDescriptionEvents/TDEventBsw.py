@@ -154,3 +154,78 @@ class TDEventBswModule(TDEventBsw):
         if value is not None:
             self.tdEventBswModuleType = value
         return self
+
+
+class TDEventBswModeDeclaration(TDEventBsw):
+    """
+    This is used to describe timing events related to the mode communication on BSW level.
+    """
+
+    # TDEventBswModeDeclaration method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.46, p.77
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getEntryModeDeclarationRef            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setEntryModeDeclarationRef            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getExitModeDeclarationRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setExitModeDeclarationRef             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getModeDeclarationRef                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setModeDeclarationRef                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getTdEventBswModeDeclarationType      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setTdEventBswModeDeclarationType      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # Optional parameter which refines the scope of the TDEventBswModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall enter into the referenced ModeDeclaration.
+        self.entryModeDeclarationRef: Optional[RefType] = None
+
+        # Optional parameter which refines the scope of the TDEventBswModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall exit from the referenced ModeDeclaration.
+        self.exitModeDeclarationRef: Optional[RefType] = None
+
+        # The scope of this timing event.
+        self.modeDeclarationRef: Optional[RefType] = None
+
+        # The specific type of this timing event.
+        self.tdEventBswModeDeclarationType: Optional[TDEventBswModeDeclarationTypeEnum] = None
+
+    def getEntryModeDeclarationRef(self) -> Optional[RefType]:
+        """Optional parameter which refines the scope of the TDEventBswModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall enter into the referenced ModeDeclaration."""
+        return self.entryModeDeclarationRef
+
+    def setEntryModeDeclarationRef(self, value: Optional[RefType]) -> "TDEventBswModeDeclaration":
+        """Optional parameter which refines the scope of the TDEventBswModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall enter into the referenced ModeDeclaration. A None value is a no-op and does not overwrite an existing entryModeDeclarationRef."""
+        if value is not None:
+            self.entryModeDeclarationRef = value
+        return self
+
+    def getExitModeDeclarationRef(self) -> Optional[RefType]:
+        """Optional parameter which refines the scope of the TDEventBswModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall exit from the referenced ModeDeclaration."""
+        return self.exitModeDeclarationRef
+
+    def setExitModeDeclarationRef(self, value: Optional[RefType]) -> "TDEventBswModeDeclaration":
+        """Optional parameter which refines the scope of the TDEventBswModeDeclaration. If the parameter is set, the event occurs only if the mode declaration group prototype instance shall exit from the referenced ModeDeclaration. A None value is a no-op and does not overwrite an existing exitModeDeclarationRef."""
+        if value is not None:
+            self.exitModeDeclarationRef = value
+        return self
+
+    def getModeDeclarationRef(self) -> Optional[RefType]:
+        """The scope of this timing event."""
+        return self.modeDeclarationRef
+
+    def setModeDeclarationRef(self, value: Optional[RefType]) -> "TDEventBswModeDeclaration":
+        """The scope of this timing event. A None value is a no-op and does not overwrite an existing modeDeclarationRef."""
+        if value is not None:
+            self.modeDeclarationRef = value
+        return self
+
+    def getTdEventBswModeDeclarationType(self) -> Optional[TDEventBswModeDeclarationTypeEnum]:
+        """The specific type of this timing event."""
+        return self.tdEventBswModeDeclarationType
+
+    def setTdEventBswModeDeclarationType(self, value: Optional[TDEventBswModeDeclarationTypeEnum]) -> "TDEventBswModeDeclaration":
+        """The specific type of this timing event. A None value is a no-op and does not overwrite an existing tdEventBswModeDeclarationType."""
+        if value is not None:
+            self.tdEventBswModeDeclarationType = value
+        return self
