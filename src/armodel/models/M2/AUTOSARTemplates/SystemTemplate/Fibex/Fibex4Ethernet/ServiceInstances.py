@@ -515,6 +515,7 @@ class ServiceVersionAcceptanceKindEnum(AREnum):
 
     # ServiceVersionAcceptanceKindEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.113, p.2057
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on ConsumedServiceInstance.versionDrivenFindBehavior
 
