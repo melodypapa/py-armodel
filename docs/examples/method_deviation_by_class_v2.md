@@ -1514,7 +1514,7 @@ CanXlProps unconfirmed), ipV6PathMtuEnabled/ipV6PathMtuTimeout (atp.Status=remov
 | `couplingPortStructuralElements` | `List[CouplingPortStructuralElement]` | `couplingPort StructuralElement` | ``CouplingPortStructural Element`` | aggr | - |
 | `ethernetPriorityRegenerations` | `List[EthernetPriorityRegeneration]` | `ethernetPriority Regeneration` | ``EthernetPriority Regeneration`` (0..8) | aggr | - |
 | `ethernetTrafficClassAssignments` | `List[CouplingPortTrafficClassAssignment]` | `ethernetTraffic ClassAssignment` | ``CouplingPortTraffic ClassAssignment`` (0..8) | aggr | - |
-| `globalTimeProps` | `Optional[ARObject]` | `globalTimeProps` | ``GlobalTimeCoupling PortProps`` | aggr | referenced class `GlobalTimeCouplingPortProps` not yet implemented; carried as an `ARObject` placeholder, reader/writer pending, full sync deferred (Rule 0001.10) |
+| `globalTimeProps` | `Optional[GlobalTimeCouplingPortProps]` | `globalTimeProps` | ``GlobalTimeCoupling PortProps`` | aggr | - |
 | `lastEgressSchedulerRef` | `Optional[RefType]` | `lastEgressScheduler` | ``CouplingPortScheduler`` | ref | ref-form naming per project convention (`getLastEgressSchedulerRef`/`setLastEgressSchedulerRef`) |
 
 Removed members: `defaultTrafficClass`, `framePreemptionSupport`, `ratePolicies`, `vlanTranslationTables`
