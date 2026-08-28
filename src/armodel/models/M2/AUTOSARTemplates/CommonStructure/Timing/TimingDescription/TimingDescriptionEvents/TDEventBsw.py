@@ -109,3 +109,48 @@ class TDEventBswModeDeclarationTypeEnum(AREnum):
                 TDEventBswModeDeclarationTypeEnum.MODE_DECLARATION_SWITCH_INITIATED,
             )
         )
+
+
+class TDEventBswModule(TDEventBsw):
+    """
+    This is used to describe timing events related to the interaction between BSW modules.
+    """
+
+    # TDEventBswModule method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.44, p.75
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBswModuleEntryRef          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setBswModuleEntryRef          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getTdEventBswModuleType       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setTdEventBswModuleType       [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        # The scope of this timing event.
+        self.bswModuleEntryRef: Optional[RefType] = None
+
+        # The specific type of this timing event.
+        self.tdEventBswModuleType: Optional[TDEventBswModuleTypeEnum] = None
+
+    def getBswModuleEntryRef(self) -> Optional[RefType]:
+        """The scope of this timing event."""
+        return self.bswModuleEntryRef
+
+    def setBswModuleEntryRef(self, value: Optional[RefType]) -> "TDEventBswModule":
+        """The scope of this timing event. A None value is a no-op and does not overwrite an existing bswModuleEntryRef."""
+        if value is not None:
+            self.bswModuleEntryRef = value
+        return self
+
+    def getTdEventBswModuleType(self) -> Optional[TDEventBswModuleTypeEnum]:
+        """The specific type of this timing event."""
+        return self.tdEventBswModuleType
+
+    def setTdEventBswModuleType(self, value: Optional[TDEventBswModuleTypeEnum]) -> "TDEventBswModule":
+        """The specific type of this timing event. A None value is a no-op and does not overwrite an existing tdEventBswModuleType."""
+        if value is not None:
+            self.tdEventBswModuleType = value
+        return self

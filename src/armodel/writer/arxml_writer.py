@@ -307,6 +307,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventBsw import (
     TDEventBsw,
+    TDEventBswModule,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
     ArbitraryEventTriggering,
@@ -3638,6 +3639,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeTimingDescriptionEvent(element, event)
         self.setChildElementOptionalRefType(element, "BSW-MODULE-DESCRIPTION-REF", event.getBswModuleDescriptionRef())
 
+    def writeTDEventBswModule(self, element: ET.Element, event: TDEventBswModule):
+        self.writeTDEventBsw(element, event)
+        self.setChildElementOptionalRefType(element, "BSW-MODULE-ENTRY-REF", event.getBswModuleEntryRef())
+        enum = event.getTdEventBswModuleType()
+        if enum is not None:
+            self.setChildElementOptionalLiteral(element, "TD-EVENT-BSW-MODULE-TYPE", enum)
+
     def writeTDEventOccurrenceExpression(self, element: ET.Element, expression: TDEventOccurrenceExpression):
         self.writeARObjectAttributes(element, expression)
         arguments = expression.getArguments()
@@ -6511,6 +6519,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(description, TDEventBswInternalBehavior):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-BSW-INTERNAL-BEHAVIOR")
                     self.writeTDEventBswInternalBehavior(description_tag, description)
+                elif isinstance(description, TDEventBswModule):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-BSW-MODULE")
+                    self.writeTDEventBswModule(description_tag, description)
                 elif isinstance(description, TDEventISignal):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-I-SIGNAL")
                     self.writeTDEventISignal(description_tag, description)

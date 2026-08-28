@@ -209,6 +209,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventBsw import (
     TDEventBsw,
+    TDEventBswModule,
+    TDEventBswModuleTypeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
@@ -2311,6 +2313,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "TD-EVENT-BSW-INTERNAL-BEHAVIOR":
                 event = TDEventBswInternalBehavior(extension, short_name)
                 self.readTDEventBswInternalBehavior(child_element, event)
+            elif tag_name == "TD-EVENT-BSW-MODULE":
+                event = TDEventBswModule(extension, short_name)
+                self.readTDEventBswModule(child_element, event)
             elif tag_name == "TD-EVENT-I-SIGNAL":
                 event = TDEventISignal(extension, short_name)
                 self.readTDEventISignal(child_element, event)
@@ -2415,6 +2420,15 @@ class ARXMLParser(AbstractARXMLParser):
     def readTDEventBsw(self, element: ET.Element, event: TDEventBsw):
         self.readTimingDescriptionEvent(element, event)
         event.setBswModuleDescriptionRef(self.getChildElementOptionalRefType(element, "BSW-MODULE-DESCRIPTION-REF"))
+
+    def readTDEventBswModule(self, element: ET.Element, event: TDEventBswModule):
+        self.readTDEventBsw(element, event)
+        event.setBswModuleEntryRef(self.getChildElementOptionalRefType(element, "BSW-MODULE-ENTRY-REF"))
+        type_element = self.find(element, "TD-EVENT-BSW-MODULE-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventBswModuleTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventBswModuleType(enum)
 
     def readTDEventSwcInternalBehaviorReference(self, element: ET.Element, event: TDEventSwcInternalBehaviorReference):
         self.readTDEventSwc(element, event)

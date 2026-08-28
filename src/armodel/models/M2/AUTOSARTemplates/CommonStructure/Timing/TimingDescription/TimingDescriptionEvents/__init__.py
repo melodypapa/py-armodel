@@ -18,6 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventBsw import (  # noqa: F401
     TDEventBsw,
+    TDEventBswModule,
     TDEventBswModuleTypeEnum,
     TDEventBswModeDeclarationTypeEnum,
 )
@@ -61,6 +62,7 @@ __all__ = [
     "TDEventBswModeDeclarationTypeEnum",
     "TDEventBswModuleTypeEnum",
     "TDEventBsw",
+    "TDEventBswModule",
     "TDEventBswInternalBehaviorTypeEnum",
     "TDEventSwc",
     "TDEventSwcInternalBehavior",

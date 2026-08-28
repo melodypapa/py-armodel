@@ -796,16 +796,16 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table D.56, p.251)
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: 8 TDEventBsw tests green; ruff/black clean); 9b confirm + # Spec verified: R23-11 stamped
-- [ ] TDEventBswModule (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.44 · bswModuleEntry -> BswModuleEntry ref (RefType); type enum (queued above); Base includes TDEventBsw (queued above))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventBswModule (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.44, p.75 · bswModuleEntry -> BswModuleEntry ref (RefType); type enum (TDEventBswModuleTypeEnum, queued above); Base includes TDEventBsw (queued above)) · commit {COMMIT}
+  - [x] Step 1 — Sync members & description from spec (Table 3.44, p.75; Note verbatim; Base TDEventBsw; bswModuleEntry + tdEventBswModuleType)
+  - [x] Step 2 — Write model class unit test (Red) — test_TDEventBswModule.py (6 tests)
+  - [x] Step 3 — Implement model class (Green) — TDEventBswModule(TDEventBsw); bswModuleEntryRef Optional[RefType] + tdEventBswModuleType Optional[enum] + get/set
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class + member notes verbatim from Table 3.44
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — test_parser_tdevents_bswmodule.py / test_writer_tdevents_bswmodule.py
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTDEventBswModule + BSW-MODULE-ENTRY-REF + enum + dispatch in read/writeTimingDescriptions
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.44, p.75)
+  - [x] Step 8 — Deviations: none blocking (constr_6860/6861 are validation-only)
+  - [x] Step 9 — Verify (9a passed: 168 Timing tests green; ruff/black clean); 9b confirm + # Spec verified: R23-11 stamped
 - [ ] TDEventBswModeDeclaration (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.46 · entry/exitModeDeclaration + modeDeclaration refs (RefType); type enum (queued above); Base includes TDEventBsw (queued above))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
