@@ -806,7 +806,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.44, p.75)
   - [x] Step 8 — Deviations: none blocking (constr_6860/6861 are validation-only)
   - [x] Step 9 — Verify (9a passed: 168 Timing tests green; ruff/black clean); 9b confirm + # Spec verified: R23-11 stamped
-- [x] TDEventBswModeDeclaration (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.46, p.77 · entryModeDeclaration + exitModeDeclaration -> ModeDeclaration refs (RefType); modeDeclaration -> ModeDeclarationGroupPrototype ref (RefType); type enum (TDEventBswModeDeclarationTypeEnum, queued above); Base includes TDEventBsw (queued above)) · commit {COMMIT}
+- [x] TDEventBswModeDeclaration (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.46, p.77 · entryModeDeclaration + exitModeDeclaration -> ModeDeclaration refs (RefType); modeDeclaration -> ModeDeclarationGroupPrototype ref (RefType); type enum (TDEventBswModeDeclarationTypeEnum, queued above); Base includes TDEventBsw (queued above)) · commit d86c43fb
   - [x] Step 1 — Sync members & description from spec (Table 3.46, p.77; markdown truncated, full attrs verified vs XSD TD-EVENT-BSW-MODE-DECLARATION; Base TDEventBsw; 4 attrs)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventBswModeDeclaration.py (10 tests)
   - [x] Step 3 — Implement model class (Green) — TDEventBswModeDeclaration(TDEventBsw); entry/exitModeDeclarationRef + modeDeclarationRef Optional[RefType] + tdEventBswModeDeclarationType Optional[enum] + get/set
