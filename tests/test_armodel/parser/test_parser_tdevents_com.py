@@ -7,6 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventCom,
     TDEventCycleStart,
     TDEventFrClusterCycleStart,
+    TDEventTTCanCycleStart,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -91,3 +92,32 @@ class TestReadTDEventFrClusterCycleStart:
         element = ET.fromstring(f"<TD-EVENT-FR-CLUSTER-CYCLE-START xmlns='{NS}'><SHORT-NAME>FrCyc1</SHORT-NAME></TD-EVENT-FR-CLUSTER-CYCLE-START>")
         ARXMLParser().readTDEventFrClusterCycleStart(element, event)
         assert event.getFrClusterRef() is None
+
+
+class TestReadTDEventTTCanCycleStart:
+    def test_read_full(self):
+        AUTOSAR.getInstance().new()
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        parent = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        event = TDEventTTCanCycleStart(parent, "TtCyc1")
+        element = ET.fromstring(
+            f"<TD-EVENT-TT-CAN-CYCLE-START xmlns='{NS}'>"
+            "<SHORT-NAME>TtCyc1</SHORT-NAME>"
+            "<CYCLE-REPETITION>4</CYCLE-REPETITION>"
+            "<TT-CAN-CLUSTER-REF DEST='TTCAN-CLUSTER'>/AUTOSAR/TtCanCluster1</TT-CAN-CLUSTER-REF>"
+            "</TD-EVENT-TT-CAN-CYCLE-START>"
+        )
+        ARXMLParser().readTDEventTTCanCycleStart(element, event)
+        assert event.getShortName() == "TtCyc1"
+        assert event.getCycleRepetition().getValue() == 4
+        assert event.getTtCanClusterRef().getValue() == "/AUTOSAR/TtCanCluster1"
+        assert event.getTtCanClusterRef().getDest() == "TTCAN-CLUSTER"
+
+    def test_read_minimal(self):
+        AUTOSAR.getInstance().new()
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        parent = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        event = TDEventTTCanCycleStart(parent, "TtCyc1")
+        element = ET.fromstring(f"<TD-EVENT-TT-CAN-CYCLE-START xmlns='{NS}'><SHORT-NAME>TtCyc1</SHORT-NAME></TD-EVENT-TT-CAN-CYCLE-START>")
+        ARXMLParser().readTDEventTTCanCycleStart(element, event)
+        assert event.getTtCanClusterRef() is None

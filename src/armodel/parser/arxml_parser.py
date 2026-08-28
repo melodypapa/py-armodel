@@ -173,6 +173,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventCom,
     TDEventCycleStart,
     TDEventFrClusterCycleStart,
+    TDEventTTCanCycleStart,
     TDEventISignal,
     TDEventISignalTypeEnum,
     TDEventIPdu,
@@ -2220,6 +2221,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readTDEventCycleStart(element, event)
         event.setFrClusterRef(self.getChildElementOptionalRefType(element, "FR-CLUSTER-REF"))
 
+    def readTDEventTTCanCycleStart(self, element: ET.Element, event: "TDEventTTCanCycleStart"):
+        self.readTDEventCycleStart(element, event)
+        event.setTtCanClusterRef(self.getChildElementOptionalRefType(element, "TT-CAN-CLUSTER-REF"))
+
     def readTDEventISignal(self, element: ET.Element, event: "TDEventISignal"):
         self.readTDEventCom(element, event)
         event.setISignalRef(self.getChildElementOptionalRefType(element, "I-SIGNAL-REF"))
@@ -2311,6 +2316,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "TD-EVENT-FR-CLUSTER-CYCLE-START":
                 event = TDEventFrClusterCycleStart(extension, short_name)
                 self.readTDEventFrClusterCycleStart(child_element, event)
+            elif tag_name == "TD-EVENT-TT-CAN-CYCLE-START":
+                event = TDEventTTCanCycleStart(extension, short_name)
+                self.readTDEventTTCanCycleStart(child_element, event)
             else:
                 self.notImplemented("Unsupported TIMING-DESCRIPTIONS item <%s>" % tag_name)
                 continue

@@ -157,6 +157,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventCom,
     TDEventCycleStart,
     TDEventFrClusterCycleStart,
+    TDEventTTCanCycleStart,
     TDEventISignal,
     TDEventIPdu,
     TDEventFrame,
@@ -3510,6 +3511,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeTDEventCycleStart(element, event)
         self.setChildElementOptionalRefType(element, "FR-CLUSTER-REF", event.getFrClusterRef())
 
+    def writeTDEventTTCanCycleStart(self, element: ET.Element, event: "TDEventTTCanCycleStart"):
+        self.writeTDEventCycleStart(element, event)
+        self.setChildElementOptionalRefType(element, "TT-CAN-CLUSTER-REF", event.getTtCanClusterRef())
+
     def writeTDEventISignal(self, element: ET.Element, event: "TDEventISignal"):
         self.writeTDEventCom(element, event)
         self.setChildElementOptionalRefType(element, "I-SIGNAL-REF", event.getISignalRef())
@@ -6501,6 +6506,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(description, TDEventFrClusterCycleStart):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-FR-CLUSTER-CYCLE-START")
                     self.writeTDEventFrClusterCycleStart(description_tag, description)
+                elif isinstance(description, TDEventTTCanCycleStart):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-TT-CAN-CYCLE-START")
+                    self.writeTDEventTTCanCycleStart(description_tag, description)
 
     def writeSwcTiming(self, element: ET.Element, timing: SwcTiming):
         self.logger.debug("writeSWcTiming %s" % timing.getShortName())

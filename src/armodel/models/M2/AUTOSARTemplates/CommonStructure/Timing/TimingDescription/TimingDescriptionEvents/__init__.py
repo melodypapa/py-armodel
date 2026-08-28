@@ -42,6 +42,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventFrameEthernetTypeEnum,
     TDHeaderIdRange,
     TDEventFrClusterCycleStart,
+    TDEventTTCanCycleStart,
 )
 
 __all__ = [
@@ -74,4 +75,5 @@ __all__ = [
     "TDHeaderIdRange",
     "TDEventFrameEthernetTypeEnum",
     "TDEventFrClusterCycleStart",
+    "TDEventTTCanCycleStart",
 ]

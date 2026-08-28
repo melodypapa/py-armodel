@@ -7,6 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventCom,
     TDEventCycleStart,
     TDEventFrClusterCycleStart,
+    TDEventTTCanCycleStart,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Integer,
@@ -146,3 +147,51 @@ class TestWriteTDEventFrClusterCycleStart:
         element = ET.Element("TD-EVENT-FR-CLUSTER-CYCLE-START")
         ARXMLWriter().writeTDEventFrClusterCycleStart(element, event)
         assert element.find("FR-CLUSTER-REF") is None
+
+
+class TestWriteTDEventTTCanCycleStart:
+    def _parent(self):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        return document.createARPackage("AUTOSAR")
+
+    def test_write_tt_can_cluster_ref(self):
+        parent = self._parent()
+        event = TDEventTTCanCycleStart(parent, "TtCyc1")
+        event.setTtCanClusterRef(RefType().setValue("/AUTOSAR/TtCanCluster1").setDest("TTCAN-CLUSTER"))
+        element = ET.Element("TD-EVENT-TT-CAN-CYCLE-START")
+        ARXMLWriter().writeTDEventTTCanCycleStart(element, event)
+        ref = element.find("TT-CAN-CLUSTER-REF")
+        assert ref is not None
+        assert ref.text == "/AUTOSAR/TtCanCluster1"
+        assert ref.attrib["DEST"] == "TTCAN-CLUSTER"
+
+    def test_write_inherited_cycle_repetition(self):
+        parent = self._parent()
+        event = TDEventTTCanCycleStart(parent, "TtCyc1")
+        event.setCycleRepetition(Integer().setValue(4))
+        element = ET.Element("TD-EVENT-TT-CAN-CYCLE-START")
+        ARXMLWriter().writeTDEventTTCanCycleStart(element, event)
+        assert element.find("CYCLE-REPETITION").text == "4"
+
+    def test_write_roundtrip(self):
+        parent = self._parent()
+        event = TDEventTTCanCycleStart(parent, "TtCyc1")
+        event.setTtCanClusterRef(RefType().setValue("/AUTOSAR/TtCanCluster1").setDest("TTCAN-CLUSTER"))
+        event.setCycleRepetition(Integer().setValue(4))
+        element = ET.Element("TD-EVENT-TT-CAN-CYCLE-START", {"xmlns": NS})
+        ARXMLWriter().writeTDEventTTCanCycleStart(element, event)
+        reparsed_el = ET.fromstring(ET.tostring(element))
+        reparsed = TDEventTTCanCycleStart(parent, "TtCyc1")
+        ARXMLParser().readTDEventTTCanCycleStart(reparsed_el, reparsed)
+        assert reparsed.getTtCanClusterRef().getValue() == "/AUTOSAR/TtCanCluster1"
+        assert reparsed.getTtCanClusterRef().getDest() == "TTCAN-CLUSTER"
+        assert reparsed.getCycleRepetition().getValue() == 4
+
+    def test_write_empty(self):
+        parent = self._parent()
+        event = TDEventTTCanCycleStart(parent, "TtCyc1")
+        element = ET.Element("TD-EVENT-TT-CAN-CYCLE-START")
+        ARXMLWriter().writeTDEventTTCanCycleStart(element, event)
+        assert element.find("TT-CAN-CLUSTER-REF") is None
