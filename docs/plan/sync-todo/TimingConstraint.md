@@ -786,7 +786,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.42, p.73)
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: 425 Timing tests green; ruff/black clean); 9b confirm + # Spec verified: R23-11 stamped
-- [x] TDEventBsw (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.56, p.251 · abstract · bswModuleDescription 0..1 ref BswModuleDescription; Base includes TimingDescription/TimingDescriptionEvent (queued above)) · commit {COMMIT}
+- [x] TDEventBsw (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.56, p.251 · abstract · bswModuleDescription 0..1 ref BswModuleDescription; Base includes TimingDescription/TimingDescriptionEvent (queued above)) · commit 7fef5831
   - [x] Step 1 — Sync members & description from spec (Table D.56, p.251; Note verbatim; Base TimingDescriptionEvent; bswModuleDescription 0..1 ref)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventBsw.py (3 tests, concrete subclass for abstract)
   - [x] Step 3 — Implement model class (Green) — TDEventBsw(TimingDescriptionEvent) abstract (TypeError guard); bswModuleDescriptionRef Optional[RefType] + get/set
