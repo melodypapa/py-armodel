@@ -368,7 +368,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (none; CouplingPort connectionNegotiationBehavior placeholder row resolved)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] CouplingPortRoleEnum (enum · Table F.38 · p.2013 (obsolete appendix) · used by CouplingPort.couplingPortRole · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 <!-- commit: pending -->
+- [x] CouplingPortRoleEnum (enum · Table F.38 · p.2013 (obsolete appendix) · used by CouplingPort.couplingPortRole · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 <!-- commit: 2112c650 -->
    - [x] Step 1 — Sync members & description from spec
      (Table F.38 markdown AUTOSAR_CP_TPS_SystemTemplate.md:74377; PDF p.2013; obsolete appendix; literal index order verified)
   - [x] Step 2 — Write model class unit test (Red)
