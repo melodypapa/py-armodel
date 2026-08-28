@@ -796,7 +796,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table D.56, p.251)
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: 8 TDEventBsw tests green; ruff/black clean); 9b confirm + # Spec verified: R23-11 stamped
-- [x] TDEventBswModule (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.44, p.75 · bswModuleEntry -> BswModuleEntry ref (RefType); type enum (TDEventBswModuleTypeEnum, queued above); Base includes TDEventBsw (queued above)) · commit {COMMIT}
+- [x] TDEventBswModule (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.44, p.75 · bswModuleEntry -> BswModuleEntry ref (RefType); type enum (TDEventBswModuleTypeEnum, queued above); Base includes TDEventBsw (queued above)) · commit 2c77658d
   - [x] Step 1 — Sync members & description from spec (Table 3.44, p.75; Note verbatim; Base TDEventBsw; bswModuleEntry + tdEventBswModuleType)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventBswModule.py (6 tests)
   - [x] Step 3 — Implement model class (Green) — TDEventBswModule(TDEventBsw); bswModuleEntryRef Optional[RefType] + tdEventBswModuleType Optional[enum] + get/set
