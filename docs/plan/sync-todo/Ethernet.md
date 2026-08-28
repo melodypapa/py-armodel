@@ -368,9 +368,9 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (none; CouplingPort connectionNegotiationBehavior placeholder row resolved)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] CouplingPortRoleEnum (enum · Table F.38 (obsolete appendix) · used by CouplingPort.couplingPortRole · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMP DEFERRED (batch 9b pending)
-  - [x] Step 1 — Sync members & description from spec
-    (Table F.38 markdown AUTOSAR_CP_TPS_SystemTemplate.md:74377; obsolete appendix)
+- [x] CouplingPortRoleEnum (enum · Table F.38 · p.2013 (obsolete appendix) · used by CouplingPort.couplingPortRole · source EthernetTopology.py · resolves ARLiteral placeholder · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 <!-- commit: pending -->
+   - [x] Step 1 — Sync members & description from spec
+     (Table F.38 markdown AUTOSAR_CP_TPS_SystemTemplate.md:74377; PDF p.2013; obsolete appendix; literal index order verified)
   - [x] Step 2 — Write model class unit test (Red)
     (TestCouplingPortRoleEnum in test_EthernetTopology.py; Red confirmed)
   - [x] Step 3 — Implement model class (Green)
@@ -382,8 +382,8 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
     (none; CouplingPort couplingPortRole placeholder row resolved)
-  - [x] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
+   - [x] Step 9 — Verify (9a) + confirm (9b)
+     (full 9-step audit: page corrected to p.2013 and literal order corrected to EnumerationLiteralIndex; targeted verification pending after fix; 9b stamp DEFERRED pending user confirmation)
 - [x] EthernetMacLayerTypeEnum (enum · Table 3.56 · p.110 · used by CouplingPort.macLayerType AND EthernetCommunicationController.macLayerType · source EthernetTopology.py · resolves both ARLiteral placeholders · Steps 5/6 N/A if standalone enum) — STAMP DEFERRED (batch 9b pending)
   - [x] Step 1 — Sync members & description from spec
     (Table 3.56 markdown AUTOSAR_CP_TPS_SystemTemplate.md:2838 + PDF p.110)
