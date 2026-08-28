@@ -247,10 +247,11 @@ class TcpTp(TcpUdpConfig):
 
 
 class AbstractServiceInstance(Identifiable, ABC):
-    """It is possible to specify additional information about the AbstractServiceInstance with the Capability Record that allows to transport arbitrary configuration strings (key/value pairs). This allows to encode additional information like the name of a service or its configuration."""
+    """Provided and Consumed Ethernet Service Instances that are available at the ApplicationEndpoint."""
 
     # AbstractServiceInstance method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.158, p.477
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addCapabilityRecord             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
