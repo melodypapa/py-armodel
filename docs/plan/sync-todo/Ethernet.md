@@ -902,7 +902,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
      four removed members documented per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass; globalTimeProps placeholder resolved once GlobalTimeCouplingPortProps landed)
-- [ ] CouplingPort (markdown SystemTemplate · Table 3.54 · p.110 · source Fibex4Ethernet/EthernetTopology.py · member of EthernetCluster.couplingPorts & EthernetCommunicationController.couplingPorts; adds couplingPortSpeed, vlanModifierRef → EthernetPhysicalChannel Ref) — UNSTAMPED: 6 of 7 member types landed 2026-08-26 (EthernetConnectionNegotiationEnum 3.55, CouplingPortRoleEnum F.38, EthernetMacLayerTypeEnum 3.56, EthernetPhysicalLayerTypeEnum 3.57, EthernetSwitchVlanIngressTagEnum 3.58, PlcaProps 3.117); MacSecProps (3.118) landed 2026-08-28 in its own sub-queue (a150ffd2) — # Spec verified: unblocked
+- [x] CouplingPort (markdown SystemTemplate · Table 3.54 · p.110 · source Fibex4Ethernet/EthernetTopology.py · member of EthernetCluster.couplingPorts & EthernetCommunicationController.couplingPorts; adds couplingPortSpeed, vlanModifierRef → EthernetPhysicalChannel Ref) — **STAMPED R23-11** — commit 2482fa9b: 6 of 7 member types landed 2026-08-26 (EthernetConnectionNegotiationEnum 3.55, CouplingPortRoleEnum F.38, EthernetMacLayerTypeEnum 3.56, EthernetPhysicalLayerTypeEnum 3.57, EthernetSwitchVlanIngressTagEnum 3.58, PlcaProps 3.117); MacSecProps (3.118) landed 2026-08-28 in its own sub-queue (a150ffd2) — # Spec verified: applied
   - [x] Step 1 — Sync members & description from spec
     (Table 3.54 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:2795–2825 + PDF p.110;
     Base → Identifiable; 14 attr rows incl. wakeupSleepOnDatalineConfig after caption;
@@ -922,8 +922,8 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
      plcaProps placeholder — ALL RESOLVED 2026-08-26 (see Member types ADDED);
      macSecProps ARObject placeholder RESOLVED 2026-08-28 — MacSecProps (3.118) stamped R23-11 in its own sub-queue (commit a150ffd2);
      stale couplingPortSpeed note resolved; macAddressVlanAssignments removal recorded per Rule 0015)
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-    (9a re-verify pending after MacSecProps landed 2026-08-28 — MacSecProps (3.118) stamped a150ffd2; # Spec verified: to be applied on 9b confirmation)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a re-verified after MacSecProps landed 2026-08-28 — 60 targeted, 7863 unit, 1 integration, lint, black-check all pass; # Spec verified: R23-11 applied on 9b confirmation — commit 2482fa9b)
 - [x] EthernetCluster (markdown SystemTemplate · Table 3.47 · p.103 · source Fibex4Ethernet/EthernetTopology.py · adds couplingPorts to EthernetCluster; closes open items) — STAMP DEFERRED (batch 9b pending); CouplingPortConnection (Table 3.60) landed 2026-08-26, Step 9 unblocked
   - [x] Step 1 — Sync members & description from spec
     (Table 3.47 in markdown AUTOSAR_CP_TPS_SystemTemplate.md:2599–2620 + PDF p.103;
