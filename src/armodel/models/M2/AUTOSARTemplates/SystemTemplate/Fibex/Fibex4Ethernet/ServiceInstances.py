@@ -600,7 +600,8 @@ class TcpRoleEnum(AREnum):
     """
 
     # TcpRoleEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.135
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.135, p.2074
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on StaticSocketConnection.tcpRole
 
