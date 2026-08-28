@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventSwcInternalBehaviorTypeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventBswInternalBehavior import (  # noqa: F401
+    TDEventBswInternalBehavior,
     TDEventBswInternalBehaviorTypeEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventCom import (  # noqa: F401
@@ -63,6 +64,8 @@ __all__ = [
     "TDEventSwcInternalBehavior",
     "TDEventSwcInternalBehaviorReference",
     "TDEventSwcInternalBehaviorTypeEnum",
+    "TDEventBswInternalBehavior",
+    "TDEventBswInternalBehaviorTypeEnum",
     "TDEventISignalTypeEnum",
     "TDEventISignal",
     "TDEventCom",

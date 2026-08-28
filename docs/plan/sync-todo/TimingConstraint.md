@@ -776,16 +776,16 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.41, p.72)
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: 435 Timing tests green; ruff/black clean); 9b confirm + # Spec verified: R23-11 stamped
-- [ ] TDEventBswInternalBehavior (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.42 · bswModuleEntity -> BswModuleEntity ref (RefType); type enum (queued above); Base includes TimingDescription/TimingDescriptionEvent (queued above))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventBswInternalBehavior (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.42, p.73 · bswModuleEntity -> BswModuleEntity ref (RefType); type enum (queued above); Base includes TimingDescription/TimingDescriptionEvent (queued above)) · commit {COMMIT}
+  - [x] Step 1 — Sync members & description from spec (Table 3.42, p.73; Note verbatim; Base TimingDescriptionEvent; bswModuleEntity + tdEventBswInternalBehaviorType)
+  - [x] Step 2 — Write model class unit test (Red) — test_TDEventBswInternalBehavior.py (6 tests)
+  - [x] Step 3 — Implement model class (Green) — TDEventBswInternalBehavior(TimingDescriptionEvent); bswModuleEntityRef Optional[RefType] + tdEventBswInternalBehaviorType Optional[enum] + get/set
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class + member notes verbatim from Table 3.42
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — test_parser_tdevents_bswinternalbehavior.py / test_writer_tdevents_bswinternalbehavior.py
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTDEventBswInternalBehavior + BSW-MODULE-ENTITY-REF + enum + dispatch in read/writeTimingDescriptions
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.42, p.73)
+  - [x] Step 8 — Deviations: none blocking
+  - [x] Step 9 — Verify (9a passed: 425 Timing tests green; ruff/black clean); 9b confirm + # Spec verified: R23-11 stamped
 - [ ] TDEventBsw (base · markdown · AUTOSAR_CP_TPS_TimingExtensions.md, Table D.56 · abstract · bswModuleDescription 0..1 ref BswModuleDescription; Base includes TimingDescription/TimingDescriptionEvent (queued above)) · Phase 0 correction 2026-08-26: D.56 table found (was marked XSD-only)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

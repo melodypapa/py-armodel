@@ -203,6 +203,10 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventSwcInternalBehaviorReference,
     TDEventSwcInternalBehaviorTypeEnum,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventBswInternalBehavior import (
+    TDEventBswInternalBehavior,
+    TDEventBswInternalBehaviorTypeEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
@@ -2301,6 +2305,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "TD-EVENT-SWC-INTERNAL-BEHAVIOR-REFERENCE":
                 event = TDEventSwcInternalBehaviorReference(extension, short_name)
                 self.readTDEventSwcInternalBehaviorReference(child_element, event)
+            elif tag_name == "TD-EVENT-BSW-INTERNAL-BEHAVIOR":
+                event = TDEventBswInternalBehavior(extension, short_name)
+                self.readTDEventBswInternalBehavior(child_element, event)
             elif tag_name == "TD-EVENT-I-SIGNAL":
                 event = TDEventISignal(extension, short_name)
                 self.readTDEventISignal(child_element, event)
@@ -2392,6 +2399,15 @@ class ARXMLParser(AbstractARXMLParser):
             enum.value = type_element.text
             event.setTdEventSwcInternalBehaviorType(enum)
         event.setVariableAccessRef(self.getChildElementOptionalRefType(element, "VARIABLE-ACCESS-REF"))
+
+    def readTDEventBswInternalBehavior(self, element: ET.Element, event: TDEventBswInternalBehavior):
+        self.readTimingDescriptionEvent(element, event)
+        event.setBswModuleEntityRef(self.getChildElementOptionalRefType(element, "BSW-MODULE-ENTITY-REF"))
+        type_element = self.find(element, "TD-EVENT-BSW-INTERNAL-BEHAVIOR-TYPE")
+        if type_element is not None and type_element.text is not None:
+            enum = TDEventBswInternalBehaviorTypeEnum()
+            enum.value = type_element.text
+            event.setTdEventBswInternalBehaviorType(enum)
 
     def readTDEventSwcInternalBehaviorReference(self, element: ET.Element, event: TDEventSwcInternalBehaviorReference):
         self.readTDEventSwc(element, event)

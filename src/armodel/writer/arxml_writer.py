@@ -302,6 +302,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventSwcInternalBehavior,
     TDEventSwcInternalBehaviorReference,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventBswInternalBehavior import (
+    TDEventBswInternalBehavior,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.EventTriggeringConstraint import (
     ArbitraryEventTriggering,
     BurstPatternEventTriggering,
@@ -3621,6 +3624,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeTDEventSwc(element, event)
         self.setChildElementOptionalRefType(element, "REFERENCED-TD-EVENT-SWC-REF", event.getReferencedTDEventSwcRef())
 
+    def writeTDEventBswInternalBehavior(self, element: ET.Element, event: TDEventBswInternalBehavior):
+        self.writeTimingDescriptionEvent(element, event)
+        self.setChildElementOptionalRefType(element, "BSW-MODULE-ENTITY-REF", event.getBswModuleEntityRef())
+        enum = event.getTdEventBswInternalBehaviorType()
+        if enum is not None:
+            self.setChildElementOptionalLiteral(element, "TD-EVENT-BSW-INTERNAL-BEHAVIOR-TYPE", enum)
+
     def writeTDEventOccurrenceExpression(self, element: ET.Element, expression: TDEventOccurrenceExpression):
         self.writeARObjectAttributes(element, expression)
         arguments = expression.getArguments()
@@ -6491,6 +6501,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 elif isinstance(description, TDEventSwcInternalBehaviorReference):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-SWC-INTERNAL-BEHAVIOR-REFERENCE")
                     self.writeTDEventSwcInternalBehaviorReference(description_tag, description)
+                elif isinstance(description, TDEventBswInternalBehavior):
+                    description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-BSW-INTERNAL-BEHAVIOR")
+                    self.writeTDEventBswInternalBehavior(description_tag, description)
                 elif isinstance(description, TDEventISignal):
                     description_tag = ET.SubElement(descriptions_tag, "TD-EVENT-I-SIGNAL")
                     self.writeTDEventISignal(description_tag, description)
