@@ -248,7 +248,7 @@ row below and must sync BEFORE the class that references it. All rows below are 
     (none; ConsumedServiceInstance versionDrivenFindBehavior placeholder row resolved by the RE-FIX row)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7288 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] PduActivationRoutingGroup (Table 6.161 · p.489 · used by ConsumedEventGroup.pduActivationRoutingGroups AND AbstractServiceInstance.methodActivationRoutingGroup · Identifiable child → createXxx(short_name)) — STAMP DEFERRED (batch 9b pending); EventGroupControlTypeEnum (6.162) landed 2026-08-26, Step 9 unblocked
+- [x] PduActivationRoutingGroup (Table 6.161 · p.489 · used by ConsumedEventGroup.pduActivationRoutingGroups AND AbstractServiceInstance.methodActivationRoutingGroup · Identifiable child → createXxx(short_name)) — STAMPED R23-11 <!-- commit: pending -->
   - [x] Step 1 — Sync members & description from spec
     (Table 6.161 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:12976–13000 + PDF p.489;
     Base → Identifiable; 3 attr rows: eventGroupControlType attr, iPduIdentifierTcp/Udp * refs)
