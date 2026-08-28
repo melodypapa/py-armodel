@@ -1897,6 +1897,7 @@ class SocketAddress(Identifiable):
 
     # SocketAddress method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.118, p.453
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getAllowedIPv6ExtHeadersRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
