@@ -207,6 +207,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventBswInternalBehavior,
     TDEventBswInternalBehaviorTypeEnum,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventBsw import (
+    TDEventBsw,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.AgeConstraint import AgeConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import (
     EOCEventRef,
@@ -2408,6 +2411,10 @@ class ARXMLParser(AbstractARXMLParser):
             enum = TDEventBswInternalBehaviorTypeEnum()
             enum.value = type_element.text
             event.setTdEventBswInternalBehaviorType(enum)
+
+    def readTDEventBsw(self, element: ET.Element, event: TDEventBsw):
+        self.readTimingDescriptionEvent(element, event)
+        event.setBswModuleDescriptionRef(self.getChildElementOptionalRefType(element, "BSW-MODULE-DESCRIPTION-REF"))
 
     def readTDEventSwcInternalBehaviorReference(self, element: ET.Element, event: TDEventSwcInternalBehaviorReference):
         self.readTDEventSwc(element, event)

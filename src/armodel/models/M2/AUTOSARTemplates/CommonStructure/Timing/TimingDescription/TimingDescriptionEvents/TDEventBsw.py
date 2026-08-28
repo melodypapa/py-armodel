@@ -1,11 +1,50 @@
 """
+
 This module contains the BSW level timing description event classes
 (spec package CommonStructure::Timing::TimingDescription::TimingDescriptionEvents::TDEventBsw).
 """
 
+from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
+    RefType,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
+    TimingDescriptionEvent,
+)
+
+
+class TDEventBsw(TimingDescriptionEvent):
+    """
+    This is used to describe timing events related to BSW modules.
+    """
+
+    # TDEventBsw method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table D.56, p.251
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getBswModuleDescriptionRef        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setBswModuleDescriptionRef        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+
+    def __init__(self, parent, short_name):
+        if type(self) is TDEventBsw:
+            raise TypeError("TDEventBsw is an abstract class.")
+        super().__init__(parent, short_name)
+
+        # The scope of this timing event.
+        self.bswModuleDescriptionRef: Optional[RefType] = None
+
+    def getBswModuleDescriptionRef(self) -> Optional[RefType]:
+        """The scope of this timing event."""
+        return self.bswModuleDescriptionRef
+
+    def setBswModuleDescriptionRef(self, value: Optional[RefType]) -> "TDEventBsw":
+        """The scope of this timing event. A None value is a no-op and does not overwrite an existing bswModuleDescriptionRef."""
+        if value is not None:
+            self.bswModuleDescriptionRef = value
+        return self
 
 
 class TDEventBswModuleTypeEnum(AREnum):
