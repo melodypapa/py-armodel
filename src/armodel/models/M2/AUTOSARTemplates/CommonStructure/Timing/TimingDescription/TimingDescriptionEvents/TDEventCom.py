@@ -184,6 +184,39 @@ class TDEventCom(TimingDescriptionEvent, ABC):
         return self
 
 
+class TDEventCycleStart(TDEventCom, ABC):
+    """
+    This is the abstract parent class to describe timing events related to a point in time where a communication cycle starts. Via the attribute "cycleRepetition", a filtered view to the cycle start can be defined.
+    """
+
+    # TDEventCycleStart method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table 3.39, p.71
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCycleRepetition    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setCycleRepetition    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent, short_name):
+        if type(self) is TDEventCycleStart:
+            raise TypeError("TDEventCycleStart is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # The start of every <cycleRepetition> cycle is targeted by this event.
+        self.cycleRepetition: Optional[Integer] = None
+
+    def getCycleRepetition(self) -> Optional[Integer]:
+        """The start of every <cycleRepetition> cycle is targeted by this event."""
+        return self.cycleRepetition
+
+    def setCycleRepetition(self, value: Optional[Integer]) -> "TDEventCycleStart":
+        """The start of every <cycleRepetition> cycle is targeted by this event. A None value is a no-op and does not overwrite an existing cycleRepetition."""
+        if value is not None:
+            self.cycleRepetition = value
+        return self
+
+
 class TDEventISignal(TDEventCom):
     """
     This is used to describe timing events related to the exchange of I-Signals between COM and RTE.

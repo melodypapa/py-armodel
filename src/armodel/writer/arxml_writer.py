@@ -155,6 +155,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventCom import (
     TDEventCom,
+    TDEventCycleStart,
     TDEventISignal,
     TDEventIPdu,
     TDEventFrame,
@@ -3499,6 +3500,10 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeTDEventCom(self, element: ET.Element, event: "TDEventCom"):
         self.writeTimingDescriptionEvent(element, event)
         self.setChildElementOptionalRefType(element, "ECU-INSTANCE-REF", event.getEcuInstanceRef())
+
+    def writeTDEventCycleStart(self, element: ET.Element, event: "TDEventCycleStart"):
+        self.writeTDEventCom(element, event)
+        self.setChildElementOptionalIntegerValue(element, "CYCLE-REPETITION", event.getCycleRepetition())
 
     def writeTDEventISignal(self, element: ET.Element, event: "TDEventISignal"):
         self.writeTDEventCom(element, event)

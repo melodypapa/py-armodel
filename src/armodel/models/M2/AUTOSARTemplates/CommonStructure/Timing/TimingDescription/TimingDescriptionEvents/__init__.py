@@ -31,6 +31,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventCom import (  # noqa: F401
     TDEventCom,
+    TDEventCycleStart,
     TDEventISignal,
     TDEventISignalTypeEnum,
     TDEventIPdu,
@@ -63,6 +64,7 @@ __all__ = [
     "TDEventISignalTypeEnum",
     "TDEventISignal",
     "TDEventCom",
+    "TDEventCycleStart",
     "TDEventIPdu",
     "TDEventIPduTypeEnum",
     "TDEventFrame",

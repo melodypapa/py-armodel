@@ -746,16 +746,16 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] TDEventCycleStart (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.39 · abstract; cycleRepetition Integer attr; Base includes TDEventCom (queued above))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] TDEventCycleStart (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.39, p.71 · abstract; cycleRepetition -> Integer (0..1 attr); Base includes TDEventCom (queued above)) · commit 1507d059
+  - [x] Step 1 — Sync members & description from spec (Table 3.39, p.71; Note verbatim; cycleRepetition Integer 0..1)
+  - [x] Step 2 — Write model class unit test (Red) — test_TDEventCom.py (abstract guard, base, defaults, set/get None-noop)
+  - [x] Step 3 — Implement model class (Green) — TDEventCycleStart(TDEventCom, ABC) + TypeError guard; cycleRepetition Optional[Integer]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class + member notes verbatim from Table 3.39
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — test_parser_tdevents_com.py / test_writer_tdevents_com.py (CYCLE-REPETITION)
+  - [x] Step 6 — Update parser & writer (Green) — read/writeTDEventCycleStart (CYCLE-REPETITION), called by subclasses
+  - [x] Step 7 — Update checklist comment (# Spec: Table 3.39, p.71)
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a passed: 413 Timing tests green; ruff/black clean); 9b confirm + # Spec verified: R23-11 stamped
 - [ ] TDEventFrClusterCycleStart (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.40 · frCluster -> FlexrayCluster ref (RefType); Base includes TDEventCycleStart (queued above))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

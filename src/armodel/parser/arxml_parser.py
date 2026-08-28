@@ -171,6 +171,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventCom import (
     TDEventCom,
+    TDEventCycleStart,
     TDEventISignal,
     TDEventISignalTypeEnum,
     TDEventIPdu,
@@ -2209,6 +2210,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readTDEventCom(self, element: ET.Element, event: "TDEventCom"):
         self.readTimingDescriptionEvent(element, event)
         event.setEcuInstanceRef(self.getChildElementOptionalRefType(element, "ECU-INSTANCE-REF"))
+
+    def readTDEventCycleStart(self, element: ET.Element, event: "TDEventCycleStart"):
+        self.readTDEventCom(element, event)
+        event.setCycleRepetition(self.getChildElementOptionalIntegerValue(element, "CYCLE-REPETITION"))
 
     def readTDEventISignal(self, element: ET.Element, event: "TDEventISignal"):
         self.readTDEventCom(element, event)
