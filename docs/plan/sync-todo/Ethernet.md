@@ -978,7 +978,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker: networkEndpointRefs removal + all queue-note non-modelled members documented per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7356 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] SdClientConfig (no PDF table · p.870 source EthernetTopology.py · depends on TagWithOptionalValue above; fixes capabilityRecord type) — XSD VERIFIED: AUTOSAR_00052.xsd <!-- commit: pending -->
+- [x] SdClientConfig (no PDF table · p.870 source EthernetTopology.py · depends on TagWithOptionalValue above; fixes capabilityRecord type) — XSD VERIFIED: AUTOSAR_00052.xsd <!-- commit: 1799b461 -->
   - [x] Step 1 — Derive members from XSD SD-CLIENT-CONFIG group; Base ARObject; 6 members;
     "fixes capabilityRecord type" resolved: single TagWithOptionalValue field → List[TagWithOptionalValue]
     with addCapabilityRecord/getCapabilityRecords per Rule 0001.5
