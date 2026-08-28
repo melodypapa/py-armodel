@@ -13,7 +13,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock impor
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import TimingCondition, TimingExtensionResource
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import ExecutionOrderConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import TimingConstraint
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import TimingDescriptionEvent
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription import (
+    TimingDescription,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -26,6 +28,7 @@ class TimingExtension(ARElement, ABC):
 
     # TimingExtension method parity checklist:
     # Spec: AUTOSAR_CP_TPS_TimingExtensions.pdf, Table D.65, p.255
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addTimingClock                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -63,7 +66,7 @@ class TimingExtension(ARElement, ABC):
 
         # The timing descriptions that belong to a specific timing specification.
         # In order to support different timing description variants within a timing specification, the aggregation is marked with the stereotype "atpVariation".
-        self.timingDescriptions: List[TimingDescriptionEvent] = []
+        self.timingDescriptions: List[TimingDescription] = []
 
         # The timing constraints that belong to a specific timing specification in the role of a timing guarantee. In order to support different timing constraint variants within a timing specification, the aggregation is marked with the stereotype "atpVariation".
         self.timingGuarantees: List[TimingConstraint] = []
@@ -108,14 +111,14 @@ class TimingExtension(ARElement, ABC):
         """The timing condition specifies a specific condition."""
         return self.timingConditions
 
-    def addTimingDescription(self, value: Optional[TimingDescriptionEvent]) -> "TimingExtension":
+    def addTimingDescription(self, value: Optional[TimingDescription]) -> "TimingExtension":
         """The timing descriptions that belong to a specific timing specification. In order to support different timing description variants within a timing specification, the aggregation is marked with the stereotype "atpVariation". A None value is a no-op and does not append anything."""
         if value is not None:
             self.addElement(value)
             self.timingDescriptions.append(value)
         return self
 
-    def getTimingDescriptions(self) -> List[TimingDescriptionEvent]:
+    def getTimingDescriptions(self) -> List[TimingDescription]:
         """The timing descriptions that belong to a specific timing specification. In order to support different timing description variants within a timing specification, the aggregation is marked with the stereotype "atpVariation"."""
         return self.timingDescriptions
 
