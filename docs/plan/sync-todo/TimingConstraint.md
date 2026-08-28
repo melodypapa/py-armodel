@@ -766,7 +766,7 @@ Scope confirmed with user (Phase 0 gate, Rule 0016.2): the `CommonStructure::Tim
   - [x] Step 7 — Update checklist comment (# Spec: Table 3.40, p.71)
   - [x] Step 8 — Deviations: none blocking
   - [x] Step 9 — Verify (9a passed: 424 Timing tests green; ruff/black clean); 9b confirm + # Spec verified: R23-11 stamped
-- [x] TDEventTTCanCycleStart (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.41, p.72 · ttCanCluster -> TtcanCluster ref (RefType); Base includes TDEventCycleStart (queued above)) · commit {COMMIT}
+- [x] TDEventTTCanCycleStart (member · AUTOSAR_CP_TPS_TimingExtensions.md, Table 3.41, p.72 · ttCanCluster -> TtcanCluster ref (RefType); Base includes TDEventCycleStart (queued above)) · commit d6046443
   - [x] Step 1 — Sync members & description from spec (Table 3.41, p.72; Note verbatim; Base TDEventCycleStart; ttCanCluster 0..1 ref)
   - [x] Step 2 — Write model class unit test (Red) — test_TDEventTTCanCycleStart.py (5 tests)
   - [x] Step 3 — Implement model class (Green) — TDEventTTCanCycleStart(TDEventCycleStart); ttCanClusterRef Optional[RefType] + get/set
