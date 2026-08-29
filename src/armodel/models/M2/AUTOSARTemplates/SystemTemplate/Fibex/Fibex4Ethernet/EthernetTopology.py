@@ -2366,6 +2366,7 @@ class InfrastructureServices(ARObject):
 
     # InfrastructureServices method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.144, p.469
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getDoIpEntity                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
