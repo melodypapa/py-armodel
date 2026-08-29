@@ -33,7 +33,7 @@ stamps written in batch after user confirmation rounds.
 
 ### CommonStructure
 
-- [ ] ExclusiveArea (markdown · Table 5.16 · p.82 · source CommonStructure/InternalBehavior.py · member type of InternalBehavior.exclusiveArea — synced first per Rule 0016.5)
+- [x] ExclusiveArea (markdown · Table 5.16 · p.82 · source CommonStructure/InternalBehavior.py · member type of InternalBehavior.exclusiveArea — synced first per Rule 0016.5)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -42,7 +42,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none)
-  - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
+  - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit 610ad11cacb57120b6d65dd1b90117fe463972b3
 - [ ] InternalBehavior (markdown · Table 5.1 · p.65 · source CommonStructure/InternalBehavior.py · depends on ExclusiveArea above; adds missing constantMemory / constantValueMapping / exclusiveArea / exclusiveAreaNestingOrder members; member classes all exist)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
