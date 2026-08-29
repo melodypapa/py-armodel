@@ -542,7 +542,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanControllerXlConfiguration,
     CanControllerXlConfigurationRequirements,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
+    SoAdRoutingGroup,
+    SocketConnection,
+    SocketConnectionBundle,
+    SocketConnectionIpduIdentifier,
+    TcpOptionFilterList,
+    TcpOptionFilterSet,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
@@ -7556,10 +7563,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         if identifier is not None:
             child_element = ET.SubElement(element, "SOCKET-CONNECTION-IPDU-IDENTIFIER")
             self.setChildElementOptionalPositiveInteger(child_element, "HEADER-ID", identifier.getHeaderId())
+            self.setChildElementOptionalTimeValue(child_element, "PDU-COLLECTION-PDU-TIMEOUT", identifier.getPduCollectionPduTimeout())
             self.setChildElementOptionalLiteral(child_element, "PDU-COLLECTION-SEMANTICS", identifier.getPduCollectionSemantics())
             self.setChildElementOptionalLiteral(child_element, "PDU-COLLECTION-TRIGGER", identifier.getPduCollectionTrigger())
             self.setChildElementOptionalRefType(child_element, "PDU-REF", identifier.getPduRef())
             self.setChildElementOptionalRefType(child_element, "PDU-TRIGGERING-REF", identifier.getPduTriggeringRef())
+            routing_group_refs = identifier.getRoutingGroupRefs()
+            if len(routing_group_refs) > 0:
+                refs_element = ET.SubElement(child_element, "ROUTING-GROUP-REFS")
+                for ref in routing_group_refs:
+                    self.setChildElementOptionalRefType(refs_element, "ROUTING-GROUP-REF", ref)
 
     def setSocketConnectionPdus(self, element: ET.Element, key: str, pdus: List[SocketConnectionIpduIdentifier]):
         if len(pdus) > 0:
@@ -7591,7 +7604,34 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "SOCKET-CONNECTION-BUNDLE")
             self.writeReferrable(child_element, bundle)
             self.writeSocketConnectionBundleConnections(child_element, bundle)
+            self.setChildElementOptionalPositiveInteger(child_element, "DIFFERENTIATED-SERVICE-FIELD", bundle.getDifferentiatedServiceField())
+            self.setChildElementOptionalPositiveInteger(child_element, "FLOW-LABEL", bundle.getFlowLabel())
+            self.setChildElementOptionalBooleanValue(child_element, "PATH-MTU-DISCOVERY-ENABLED", bundle.getPathMtuDiscoveryEnabled())
+            self.setSocketConnectionPdus(child_element, "PDUS", bundle.getPdus())
             self.setChildElementOptionalRefType(child_element, "SERVER-PORT-REF", bundle.getServerPortRef())
+            self.setChildElementOptionalLiteral(child_element, "UDP-CHECKSUM-HANDLING", bundle.getUdpChecksumHandling())
+
+    def writeTcpOptionFilterSet(self, element: ET.Element, tcp_option_filter_set: TcpOptionFilterSet):
+        self.logger.debug("Write TcpOptionFilterSet <%s>" % tcp_option_filter_set.getShortName())
+        child_element = ET.SubElement(element, "TCP-OPTION-FILTER-SET")
+        self.writeIdentifiable(child_element, tcp_option_filter_set)
+        tcp_filter_lists = tcp_option_filter_set.getTcpOptionFilterLists()
+        if len(tcp_filter_lists) > 0:
+            lists_element = ET.SubElement(child_element, "TCP-OPTION-FILTER-LISTS")
+            for tcp_filter_list in tcp_filter_lists:
+                if isinstance(tcp_filter_list, TcpOptionFilterList):
+                    self.writeTcpOptionFilterList(lists_element, tcp_filter_list)
+                else:
+                    self.notImplemented("Unsupported TcpOptionFilterList <%s>" % type(tcp_filter_list))
+
+    def writeTcpOptionFilterList(self, element: ET.Element, tcp_filter_list: TcpOptionFilterList):
+        child_element = ET.SubElement(element, "TCP-OPTION-FILTER-LIST")
+        self.writeIdentifiable(child_element, tcp_filter_list)
+        allowed_tcp_options = tcp_filter_list.getAllowedTcpOptions()
+        if len(allowed_tcp_options) > 0:
+            options_element = ET.SubElement(child_element, "ALLOWED-TCP-OPTIONS")
+            for option in allowed_tcp_options:
+                self.setChildElementOptionalPositiveInteger(options_element, "ALLOWED-TCP-OPTION", option)
 
     def writeSoAdConfigConnectionBundles(self, element: ET.Element, config: SoAdConfig):
         bundles = config.getConnectionBundles()
@@ -10876,6 +10916,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
         elif isinstance(ar_element, SwcImplementation):
             self.writeSwcImplementation(element, ar_element)
+        elif isinstance(ar_element, TcpOptionFilterSet):
+            self.writeTcpOptionFilterSet(element, ar_element)
         elif isinstance(ar_element, CompositionSwComponentType):
             self.writeCompositionSwComponentType(element, ar_element)
         elif isinstance(ar_element, ApplicationPrimitiveDataType):

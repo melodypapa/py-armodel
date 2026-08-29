@@ -1,5 +1,5 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
     IPv6ExtHeaderFilterList,
     RuntimeAddressConfigurationEnum,
@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SocketConnectionBundle,
     SocketConnectionIpduIdentifier,
     TcpOptionFilterList,
+    TcpOptionFilterSet,
 )
 
 
@@ -180,6 +181,26 @@ class Test_Fibex4EthernetCommunication:
         # Test None is a no-op
         filter_list.addAllowedTcpOption(None)
         assert filter_list.getAllowedTcpOptions() == [2, 8]
+
+    def test_TcpOptionFilterSet(self):
+        """Test TcpOptionFilterSet class functionality (R4.3.1 Table 6.130, p.326)."""
+        parent = MockParent()
+        tcp_set = TcpOptionFilterSet(parent, "test_tcp_option_filter_set")
+
+        assert isinstance(tcp_set, ARElement)
+
+        # Test default values
+        assert tcp_set.getShortName() == "test_tcp_option_filter_set"
+        assert tcp_set.getTcpOptionFilterLists() == []
+
+        # Test creating filter lists (create appends; duplicate returns existing)
+        first = tcp_set.createTcpOptionFilterList("list1")
+        assert first.getShortName() == "list1"
+        assert tcp_set.getTcpOptionFilterLists() == [first]
+        duplicate = tcp_set.createTcpOptionFilterList("list1")
+        assert duplicate is first
+        second = tcp_set.createTcpOptionFilterList("list2")
+        assert tcp_set.getTcpOptionFilterLists() == [first, second]
 
     def test_SoAdRoutingGroup(self):
         """Test SoAdRoutingGroup class functionality."""

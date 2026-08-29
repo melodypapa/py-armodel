@@ -88,7 +88,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommun
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCluster
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, TcpOptionFilterSet
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     SomeipSdClientEventGroupTimingConfig,
@@ -1393,6 +1393,12 @@ class ARPackage(CollectableElement):
             group = SoAdRoutingGroup(self, short_name)
             self.addElement(group)
         return self.getElement(short_name, SoAdRoutingGroup)
+
+    def createTcpOptionFilterSet(self, short_name: str) -> TcpOptionFilterSet:
+        if not self.IsElementExists(short_name, TcpOptionFilterSet):
+            tcp_option_filter_set = TcpOptionFilterSet(self, short_name)
+            self.addElement(tcp_option_filter_set)
+        return self.getElement(short_name, TcpOptionFilterSet)
 
     def createCanXlProps(self, short_name: str) -> CanXlProps:
         if not self.IsElementExists(short_name, CanXlProps):

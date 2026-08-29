@@ -605,6 +605,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SocketConnection,
     SocketConnectionBundle,
     SocketConnectionIpduIdentifier,
+    TcpOptionFilterList,
+    TcpOptionFilterSet,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -7293,10 +7295,15 @@ class ARXMLParser(AbstractARXMLParser):
         if element is not None:
             identifier = SocketConnectionIpduIdentifier()
             identifier.setHeaderId(self.getChildElementOptionalPositiveInteger(element, "HEADER-ID"))
+            identifier.setPduCollectionPduTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-PDU-TIMEOUT"))
             identifier.setPduCollectionSemantics(self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-SEMANTICS"))
             identifier.setPduCollectionTrigger(self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-TRIGGER"))
             identifier.setPduRef(self.getChildElementOptionalRefType(element, "PDU-REF"))
             identifier.setPduTriggeringRef(self.getChildElementOptionalRefType(element, "PDU-TRIGGERING-REF"))
+            routing_group_refs = []
+            for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
+                routing_group_refs.append(ref)
+            identifier.setRoutingGroupRefs(routing_group_refs)
         return identifier
 
     def getSocketConnectionPdus(self, element: ET.Element) -> List[SocketConnectionIpduIdentifier]:
@@ -7331,7 +7338,35 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSocketConnectionBundle(self, element: ET.Element, bundle: SocketConnectionBundle):
         self.readSocketConnectionBundleConnections(element, bundle)
+        bundle.setDifferentiatedServiceField(self.getChildElementOptionalPositiveInteger(element, "DIFFERENTIATED-SERVICE-FIELD"))
+        bundle.setFlowLabel(self.getChildElementOptionalPositiveInteger(element, "FLOW-LABEL"))
+        bundle.setPathMtuDiscoveryEnabled(self.getChildElementOptionalBooleanValue(element, "PATH-MTU-DISCOVERY-ENABLED"))
+        bundle.setPdus(self.getSocketConnectionPdus(element))
         bundle.setServerPortRef(self.getChildElementOptionalRefType(element, "SERVER-PORT-REF"))
+        bundle.setUdpChecksumHandling(self.getChildElementOptionalLiteral(element, "UDP-CHECKSUM-HANDLING"))
+
+    def readTcpOptionFilterSet(self, element: ET.Element, tcp_option_filter_set: TcpOptionFilterSet):
+        self.logger.debug("Read TcpOptionFilterSet <%s>" % tcp_option_filter_set.getShortName())
+        self.readIdentifiable(element, tcp_option_filter_set)
+        self.getTcpOptionFilterLists(element, tcp_option_filter_set)
+
+    def getTcpOptionFilterLists(self, element: ET.Element, tcp_option_filter_set: TcpOptionFilterSet):
+        for child_element in self.findall(element, "TCP-OPTION-FILTER-LISTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TCP-OPTION-FILTER-LIST":
+                tcp_filter_list = tcp_option_filter_set.createTcpOptionFilterList(self.getShortName(child_element))
+                self.readTcpOptionFilterList(child_element, tcp_filter_list)
+            else:
+                self.notImplemented("Unsupported TcpOptionFilterList <%s>" % tag_name)
+
+    def readTcpOptionFilterList(self, element: ET.Element, tcp_filter_list: TcpOptionFilterList):
+        self.readIdentifiable(element, tcp_filter_list)
+        options_element = self.find(element, "ALLOWED-TCP-OPTIONS")
+        if options_element is not None:
+            for value in self.getChildElementNumericalValueList(options_element, "ALLOWED-TCP-OPTION"):
+                option = PositiveInteger()
+                option.setValue(str(int(value.getValue())))
+                tcp_filter_list.addAllowedTcpOption(option)
 
     def readSoAdConfigConnectionBundles(self, element: ET.Element, config: SoAdConfig):
         for child_element in self.findall(element, "CONNECTION-BUNDLES/*"):
@@ -11137,6 +11172,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SO-AD-ROUTING-GROUP":
                 group = parent.createSoAdRoutingGroup(self.getShortName(child_element))
                 self.readSoAdRoutingGroup(child_element, group)
+            elif tag_name == "TCP-OPTION-FILTER-SET":
+                tcp_option_filter_set = parent.createTcpOptionFilterSet(self.getShortName(child_element))
+                self.readTcpOptionFilterSet(child_element, tcp_option_filter_set)
             elif tag_name == "SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG":
                 config = parent.createSomeipSdClientServiceInstanceConfig(self.getShortName(child_element))
                 self.readSomeipSdClientServiceInstanceConfig(child_element, config)
