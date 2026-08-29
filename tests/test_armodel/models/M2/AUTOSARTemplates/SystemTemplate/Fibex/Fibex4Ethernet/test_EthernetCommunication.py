@@ -1,6 +1,7 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
+    IPv6ExtHeaderFilterList,
     RuntimeAddressConfigurationEnum,
     SoAdRoutingGroup,
     SocketConnection,
@@ -138,6 +139,26 @@ class Test_Fibex4EthernetCommunication:
         bundle.addBundledConnection(mock_conn)
         assert bundle.getBundledConnections() == [mock_conn]
         assert bundle == bundle.addBundledConnection(mock_conn)  # Test method chaining
+
+    def test_IPv6ExtHeaderFilterList(self):
+        """Test IPv6ExtHeaderFilterList class functionality (R4.3.1 Table 6.129, p.325)."""
+        parent = MockParent()
+        filter_list = IPv6ExtHeaderFilterList(parent, "test_ipv6_ext_header_filter_list")
+
+        assert isinstance(filter_list, Identifiable)
+
+        # Test default values
+        assert filter_list.getShortName() == "test_ipv6_ext_header_filter_list"
+        assert filter_list.getAllowedIPv6ExtHeaders() == []
+
+        # Test adding allowed IPv6 extension headers
+        assert filter_list == filter_list.addAllowedIPv6ExtHeader(6)  # Test method chaining
+        filter_list.addAllowedIPv6ExtHeader(43)
+        assert filter_list.getAllowedIPv6ExtHeaders() == [6, 43]
+
+        # Test None is a no-op
+        filter_list.addAllowedIPv6ExtHeader(None)
+        assert filter_list.getAllowedIPv6ExtHeaders() == [6, 43]
 
     def test_SoAdRoutingGroup(self):
         """Test SoAdRoutingGroup class functionality."""

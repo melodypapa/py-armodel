@@ -2,12 +2,12 @@
 # (M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Ethernet Communication).
 # Source: AUTOSAR_TPS_SystemTemplate (R4.3.1), Tables 6.118 (SocketConnectionBundle), 6.120
 # (SocketConnection), 6.121 (RuntimeAddressConfigurationEnum), 6.122 (SocketConnectionIpduIdentifier),
-# 6.125 (SoAdRoutingGroup).
+# 6.125 (SoAdRoutingGroup), 6.129 (IPv6ExtHeaderFilterList).
 
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Identifier, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
 
@@ -280,4 +280,37 @@ class SoAdRoutingGroup(FibexElement):
     def setEventGroupControlType(self, value):
         if value is not None:
             self.eventGroupControlType = value
+        return self
+
+
+class IPv6ExtHeaderFilterList(Identifiable):
+    """
+    White list for the filtering of IPv6 extension headers.
+    """
+
+    # IPv6ExtHeaderFilterList method parity checklist:
+    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.129, p.325
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] getAllowedIPv6ExtHeaders  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] addAllowedIPv6ExtHeader   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # (reader/writer N/A: consumed as ref target on SocketConnection.allowedIPv6ExtHeaders)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # IPv6 Extension Header type allowed by this filter.
+        self.allowedIPv6ExtHeaders: List[PositiveInteger] = []
+
+    def getAllowedIPv6ExtHeaders(self) -> List[PositiveInteger]:
+        """IPv6 Extension Header type allowed by this filter."""
+        return self.allowedIPv6ExtHeaders
+
+    def addAllowedIPv6ExtHeader(self, value: PositiveInteger) -> "IPv6ExtHeaderFilterList":
+        """
+        IPv6 Extension Header type allowed by this filter.
+        A None value is a no-op and does not extend allowedIPv6ExtHeaders.
+        """
+        if value is not None:
+            self.allowedIPv6ExtHeaders.append(value)
         return self
