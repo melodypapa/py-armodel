@@ -109,12 +109,13 @@ Verified symmetric end-to-end: the CAN controller family, the Ethernet controlle
 
 Each item: location, what violates which rule, impact.
 
-### D1 — `writeInternalTriggerOccurredEvent` is a `pass` stub (round-trip data loss)
+### D1 — `writeInternalTriggerOccurredEvent` is a `pass` stub (round-trip data loss) — FIXED
 
-- [arxml_writer.py:2782](../../src/armodel/writer/arxml_writer.py#L2782): `def writeInternalTriggerOccurredEvent(self, element, event: DataReceivedEvent): pass`
-- Violates §1.2 (a class-level writer must serialize its instance) and uses the **wrong type annotation** (`DataReceivedEvent` instead of `InternalTriggerOccurredEvent`).
-- It **is dispatched** by the SWC events writer (arxml_writer.py:2828), while the parser reads the event normally (arxml_parser.py:4063, dispatched at 4108 via `createInternalTriggerOccurredEvent(getShortName(...))`).
-- Impact: any SWC `INTERNAL-TRIGGER-OCCURRED-EVENT` is silently dropped on write — parse → write → re-parse loses the event.
+- [arxml_writer.py:2851](../../src/armodel/writer/arxml_writer.py#L2851): was `def writeInternalTriggerOccurredEvent(self, element, event: DataReceivedEvent): pass`
+- Violated §1.2 (a class-level writer must serialize its instance) and used the **wrong type annotation** (`DataReceivedEvent` instead of `InternalTriggerOccurredEvent`).
+- It **is dispatched** by the SWC events writer (arxml_writer.py:2896-2897), while the parser reads the event normally (arxml_parser.py:4471, dispatched via `readSwcInternalBehaviorEvents` tag dispatch).
+- Impact: any SWC `INTERNAL-TRIGGER-OCCURRED-EVENT` was silently dropped on write — parse → write → re-parse lost the event.
+- **Fix applied**: implemented the writer mirroring the parser and the sibling `writeAsynchronousServerCallReturnsEvent` — element creation → `setRTEEvent` → `EVENT-SOURCE-REF`; annotation corrected to `InternalTriggerOccurredEvent`. The writer test that previously *asserted the empty-output bug* (`assert len(parent) == 0`) now asserts the event and its `EVENT-SOURCE-REF` are emitted, plus a `None` no-op case and the dispatch assertion in `test_writeSwcInternalBehaviorEvents`.
 
 ### D2 — Parser `read*` methods that create elements
 

@@ -242,8 +242,17 @@ class TestWriterRteEvents:
     def test_writeInternalTriggerOccurredEvent(self, writer):
         behavior = _make_behavior()
         event = behavior.createInternalTriggerOccurredEvent("ito")
+        event.setEventSourceRef(_ref("/tp", "INTERNAL-TRIGGERING-POINT"))
         parent = _parent()
         writer.writeInternalTriggerOccurredEvent(parent, event)
+        evt = parent[0]
+        assert evt.tag == "INTERNAL-TRIGGER-OCCURRED-EVENT"
+        assert evt.find("EVENT-SOURCE-REF") is not None
+        assert evt.find("EVENT-SOURCE-REF").get("DEST") == "INTERNAL-TRIGGERING-POINT"
+
+    def test_writeInternalTriggerOccurredEvent_none(self, writer):
+        parent = _parent()
+        writer.writeInternalTriggerOccurredEvent(parent, None)
         assert len(parent) == 0
 
     def test_writeInitEvent(self, writer):
@@ -338,6 +347,7 @@ class TestWriterSwcInternalBehaviorEventsDispatch:
         assert "MODE-SWITCHED-ACK-EVENT" in tags
         assert "DATA-SEND-COMPLETED-EVENT" in tags
         assert "ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT" in tags
+        assert "INTERNAL-TRIGGER-OCCURRED-EVENT" in tags
 
     def test_dispatches_operation_and_data_events(self, writer):
         behavior = _make_behavior()
