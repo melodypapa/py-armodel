@@ -149,7 +149,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none; ctor fixed to (parent, short_name); BSW-INTERRUPT-EVENT reader/writer dispatch + factory added)
   - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit 2b830f3f
-- [ ] BswBackgroundEvent (markdown · Table 5.26 · p.89 · source BswModuleTemplate/BswBehavior.py · base chain out of scope)
+- [x] BswBackgroundEvent (markdown · Table 5.26 · p.89 · source BswModuleTemplate/BswBehavior.py · base chain out of scope)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -157,8 +157,8 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations (none; I/O dispatch already existed)
-  - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
+  - [x] Step 8 — Deviations (none; I/O dispatch already existed; ctor annotated to (parent: ARObject, short_name: str) in 9b for cluster consistency)
+  - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit acf1e772ac58e4bc125a34b70efcf27554b7267e
 - [ ] BswOsTaskExecutionEvent (markdown · Table 5.27 · p.89 · source BswModuleTemplate/BswBehavior.py · base chain out of scope)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
