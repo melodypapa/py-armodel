@@ -950,7 +950,7 @@ class ARXMLParser(AbstractARXMLParser):
     def __init__(self, options=None) -> None:
         super().__init__(options)
 
-    def getChildElementRxIdentifierRange(self, element: ET.Element, key: str) -> RxIdentifierRange:
+    def getRxIdentifierRange(self, element: ET.Element, key: str) -> RxIdentifierRange:
         child_element = self.find(element, key)
         range = None
         if child_element is not None:
@@ -959,7 +959,7 @@ class ARXMLParser(AbstractARXMLParser):
             range.setUpperCanId(self.getChildElementOptionalPositiveInteger(child_element, "UPPER-CAN-ID"))
         return range
 
-    def getChildElementJ1939NodeName(self, element: ET.Element, key: str) -> J1939NodeName:
+    def getJ1939NodeName(self, element: ET.Element, key: str) -> J1939NodeName:
         child_element = self.find(element, key)
         node_name = None
         if child_element is not None:
@@ -1000,11 +1000,11 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             sdg.createSdgCaption(self.getShortName(child_element))
 
-    def readSdgSdxRefs(self, element: ET.SubElement, contents: SdgContents):
+    def readSdgSdxRefs(self, element: ET.Element, contents: SdgContents):
         for ref in self.getChildElementRefTypeList(element, "SDX-REF"):
             contents.addSdxRef(ref)
 
-    def readSdgSdxfRefs(self, element: ET.SubElement, contents: SdgContents):
+    def readSdgSdxfRefs(self, element: ET.Element, contents: SdgContents):
         for ref in self.getChildElementRefTypeList(element, "SDXF"):
             contents.addSdxfRef(ref)
 
@@ -1100,7 +1100,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Modification <%s>" % tag_name)
 
     def readDocRevision(self, element: ET.Element, revision: DocRevision):
-        revision.setDate(self.getChildElementOptionalDataTime(element, "DATE"))
+        revision.setDate(self.getChildElementOptionalDateTime(element, "DATE"))
         revision.setIssuedBy(self.getChildElementOptionalLiteral(element, "ISSUED-BY"))
         revision.setRevisionLabel(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL"))
         revision.setRevisionLabelP1(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL-P-1"))
@@ -1133,17 +1133,23 @@ class ARXMLParser(AbstractARXMLParser):
             self.readAdminDataDocRevisions(child_element, admin_data)
         return admin_data
 
+    def getShortNameFragments(self, element: ET.Element, key: str) -> List[ShortNameFragment]:
+        fragments = []
+        for child_element in self.findall(element, "%s/SHORT-NAME-FRAGMENT" % key):
+            fragment = ShortNameFragment()
+            self.readARObjectAttributes(child_element, fragment)
+            role_element = self.find(child_element, "ROLE")
+            if role_element is not None:
+                fragment.setRole(role_element.text)
+            fragment.setFragment(self.getChildElementOptionalIdentifier(child_element, "FRAGMENT"))
+            fragments.append(fragment)
+        return fragments
+
     def readReferrable(self, element: ET.Element, referrable: Referrable):
         self.readARObjectAttributes(element, referrable)
 
         if isinstance(referrable, Referrable):
-            for child_element in self.findall(element, "SHORT-NAME-FRAGMENTS/SHORT-NAME-FRAGMENT"):
-                fragment = ShortNameFragment()
-                self.readARObjectAttributes(child_element, fragment)
-                role_element = self.find(child_element, "ROLE")
-                if role_element is not None:
-                    fragment.setRole(role_element.text)
-                fragment.setFragment(self.getChildElementOptionalIdentifier(child_element, "FRAGMENT"))
+            for fragment in self.getShortNameFragments(element, "SHORT-NAME-FRAGMENTS"):
                 referrable.addShortNameFragment(fragment)
 
     def readMultilanguageReferrable(self, element: ET.Element, referrable: MultilanguageReferrable):
@@ -1374,7 +1380,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported writing strategy <%s>" % tag_name)
 
-    def _readVariableAccesses(self, element: ET.Element, parent: RunnableEntity, key: str):
+    def readVariableAccesses(self, element: ET.Element, parent: RunnableEntity, key: str):
         for child_element in self.findall(element, "%s/VARIABLE-ACCESS" % key):
             short_name = self.getShortName(child_element)
 
@@ -4028,19 +4034,19 @@ class ARXMLParser(AbstractARXMLParser):
             document.addImplementationBehaviorMap(impl.getFullName(), behavior_ref.getValue())
 
     def readRunnableEntityDataReceivePointByArguments(self, element, parent: RunnableEntity):
-        self._readVariableAccesses(element, parent, "DATA-RECEIVE-POINT-BY-ARGUMENTS")
+        self.readVariableAccesses(element, parent, "DATA-RECEIVE-POINT-BY-ARGUMENTS")
 
     def readRunnableEntityDataReceivePointByValues(self, element: ET.Element, parent: RunnableEntity):
-        self._readVariableAccesses(element, parent, "DATA-RECEIVE-POINT-BY-VALUES")
+        self.readVariableAccesses(element, parent, "DATA-RECEIVE-POINT-BY-VALUES")
 
     def readRunnableEntityDataReadAccesses(self, element: ET.Element, parent: RunnableEntity):
-        self._readVariableAccesses(element, parent, "DATA-READ-ACCESSS")
+        self.readVariableAccesses(element, parent, "DATA-READ-ACCESSS")
 
     def readRunnableEntityDataWriteAccesses(self, element: ET.Element, parent: RunnableEntity):
-        self._readVariableAccesses(element, parent, "DATA-WRITE-ACCESSS")
+        self.readVariableAccesses(element, parent, "DATA-WRITE-ACCESSS")
 
     def readRunnableEntityDataSendPoints(self, element: ET.Element, parent: RunnableEntity):
-        self._readVariableAccesses(element, parent, "DATA-SEND-POINTS")
+        self.readVariableAccesses(element, parent, "DATA-SEND-POINTS")
 
     def getRunnableEntityArgument(self, element: ET.Element) -> RunnableEntityArgument:
         argument = RunnableEntityArgument()
@@ -4080,10 +4086,10 @@ class ARXMLParser(AbstractARXMLParser):
             self.readParameterAccess(child_element, parameter_access)
 
     def readRunnableEntityWrittenLocalVariables(self, element: ET.Element, parent: RunnableEntity):
-        self._readVariableAccesses(element, parent, "WRITTEN-LOCAL-VARIABLES")
+        self.readVariableAccesses(element, parent, "WRITTEN-LOCAL-VARIABLES")
 
     def readRunnableEntityReadLocalVariables(self, element: ET.Element, parent: RunnableEntity):
-        self._readVariableAccesses(element, parent, "READ-LOCAL-VARIABLES")
+        self.readVariableAccesses(element, parent, "READ-LOCAL-VARIABLES")
 
     def readROperationIRef(self, element: ET.Element, key: str, parent: ServerCallPoint):
         child_element = self.find(element, key)
@@ -6911,7 +6917,7 @@ class ARXMLParser(AbstractARXMLParser):
         triggering.setCanXlFrameTriggeringProps(self.getCanXlFrameTriggeringProps(element, "CAN-XL-FRAME-TRIGGERING-PROPS"))
         triggering.setIdentifier(self.getChildElementOptionalNumericalValue(element, "IDENTIFIER"))
         triggering.setJ1939requestable(self.getChildElementOptionalBooleanValue(element, "J-1939-REQUESTABLE"))
-        triggering.setRxIdentifierRange(self.getChildElementRxIdentifierRange(element, "RX-IDENTIFIER-RANGE"))
+        triggering.setRxIdentifierRange(self.getRxIdentifierRange(element, "RX-IDENTIFIER-RANGE"))
         triggering.setRxMask(self.getChildElementOptionalPositiveInteger(element, "RX-MASK"))
         triggering.setTxMask(self.getChildElementOptionalPositiveInteger(element, "TX-MASK"))
 
@@ -7426,7 +7432,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Connection Bundle <%s>" % tag_name)
 
-    def getTpPort(self, element: ET.SubElement, key: str) -> TpPort:
+    def getTpPort(self, element: ET.Element, key: str) -> TpPort:
         port = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -8152,7 +8158,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readHwDescriptionEntityHwCategoryRefs(element, entity)
         self.readHwDescriptionEntityHwAttributeValues(element, entity)
 
-    def readHwPinGroup(self, element: ET.SubElement, pin_group: HwPinGroup):
+    def readHwPinGroup(self, element: ET.Element, pin_group: HwPinGroup):
         self.readHwDescriptionEntity(element, pin_group)
 
     def readHwPin(self, element: ET.Element, hw_pin: HwPin):
@@ -8374,7 +8380,7 @@ class ARXMLParser(AbstractARXMLParser):
         nm_node.setNmCarWakeUpRxEnabled(self.getChildElementOptionalBooleanValue(element, "NM-CAR-WAKE-UP-RX-ENABLED"))
         nm_node.setNmMsgCycleOffset(self.getChildElementOptionalFloatValue(element, "NM-MSG-CYCLE-OFFSET"))
         nm_node.setNmMsgReducedTime(self.getChildElementOptionalFloatValue(element, "NM-MSG-REDUCED-TIME"))
-        nm_node.setNmRangeConfig(self.getChildElementRxIdentifierRange(element, "NM-RANGE-CONFIG"))
+        nm_node.setNmRangeConfig(self.getRxIdentifierRange(element, "NM-RANGE-CONFIG"))
 
     def readUdpNmNode(self, element: ET.Element, nm_node: UdpNmNode):
         self.logger.debug("Read UdpNmNode <%s>" % nm_node.getShortName())
@@ -8385,7 +8391,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read J1939NmNode <%s>" % nm_node.getShortName())
         self.readNmNode(element, nm_node)
         nm_node.setAddressConfigurationCapability(self.getChildElementOptionalLiteral(element, "ADDRESS-CONFIGURATION-CAPABILITY"))
-        nm_node.setNodeName(self.getChildElementJ1939NodeName(element, "NODE-NAME"))
+        nm_node.setNodeName(self.getJ1939NodeName(element, "NODE-NAME"))
 
     def readNmClusterNmNodes(self, element: ET.Element, cluster: NmCluster):
         self.logger.debug("readNmConfigNmNodes %s" % cluster.getShortName())
@@ -9602,7 +9608,7 @@ class ARXMLParser(AbstractARXMLParser):
         requirements.setMinSamplePoint(self.getChildElementOptionalFloatValue(element, "MIN-SAMPLE-POINT"))
         requirements.setMinSyncJumpWidth(self.getChildElementOptionalFloatValue(element, "MIN-SYNC-JUMP-WIDTH"))
 
-    def readAbstractCanCommunicationControllerCanControllerAttributes(self, element: ET.SubElement, controller: AbstractCanCommunicationController):
+    def readAbstractCanCommunicationControllerCanControllerAttributes(self, element: ET.Element, controller: AbstractCanCommunicationController):
         for child_element in self.findall(element, "CAN-CONTROLLER-ATTRIBUTES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "CAN-CONTROLLER-CONFIGURATION-REQUIREMENTS":

@@ -871,13 +871,13 @@ class ARXMLWriter(AbstractARXMLWriter):
 
         return sub_element
 
-    def setChildElementRxIdentifierRange(self, element: ET.Element, key: str, range: RxIdentifierRange):
+    def setRxIdentifierRange(self, element: ET.Element, key: str, range: RxIdentifierRange):
         if range is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalNumericalValue(child_element, "LOWER-CAN-ID", range.getLowerCanId())
             self.setChildElementOptionalNumericalValue(child_element, "UPPER-CAN-ID", range.getUpperCanId())
 
-    def setChildElementJ1939NodeName(self, element: ET.Element, key: str, node_name: J1939NodeName):
+    def setJ1939NodeName(self, element: ET.Element, key: str, node_name: J1939NodeName):
         if node_name is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalBooleanValue(child_element, "ARBITRARY-ADDRESS-CAPABLE", node_name.getArbitraryAddressCapable())
@@ -1151,14 +1151,14 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDocRevision(self, element: ET.Element, revision: DocRevision):
         if revision is not None:
             child_element = ET.SubElement(element, "DOC-REVISION")
-            # self.setChildElementOptionalDataTime(child_element, "DATE", revision.getDate())
+            # self.setChildElementOptionalDateTime(child_element, "DATE", revision.getDate())
             # self.setChildElementOptionalLiteral(child_element, "ISSUED-BY", revision.getIssuedBy())
             self.setChildElementOptionalRevisionLabelString(child_element, "REVISION-LABEL", revision.getRevisionLabel())
             self.setChildElementOptionalRevisionLabelString(child_element, "REVISION-LABEL-P-1", revision.getRevisionLabelP1())
             self.setChildElementOptionalRevisionLabelString(child_element, "REVISION-LABEL-P-2", revision.getRevisionLabelP2())
             self.setChildElementOptionalLiteral(child_element, "STATE", revision.getState())
             self.setChildElementOptionalLiteral(child_element, "ISSUED-BY", revision.getIssuedBy())
-            self.setChildElementOptionalDataTime(child_element, "DATE", revision.getDate())
+            self.setChildElementOptionalDateTime(child_element, "DATE", revision.getDate())
             self.writeDocRevisionModifications(child_element, revision)
 
     def writeAdminDataDocRevisions(self, element: ET.Element, admin_data: AdminData):
@@ -6735,7 +6735,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "NM-CAR-WAKE-UP-RX-ENABLED", nm_node.getNmCarWakeUpRxEnabled())
         self.setChildElementOptionalFloatValue(child_element, "NM-MSG-CYCLE-OFFSET", nm_node.getNmMsgCycleOffset())
         self.setChildElementOptionalFloatValue(child_element, "NM-MSG-REDUCED-TIME", nm_node.getNmMsgReducedTime())
-        self.setChildElementRxIdentifierRange(child_element, "NM-RANGE-CONFIG", nm_node.getNmRangeConfig())
+        self.setRxIdentifierRange(child_element, "NM-RANGE-CONFIG", nm_node.getNmRangeConfig())
 
     def writeUdpNmNode(self, element: ET.Element, nm_node: UdpNmNode):
         self.logger.debug("write UdpNmNode %s" % nm_node.getShortName())
@@ -6748,7 +6748,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "J-1939-NM-NODE")
         self.writeNmNode(child_element, nm_node)
         self.setChildElementOptionalLiteral(child_element, "ADDRESS-CONFIGURATION-CAPABILITY", nm_node.getAddressConfigurationCapability())
-        self.setChildElementJ1939NodeName(child_element, "NODE-NAME", nm_node.getNodeName())
+        self.setJ1939NodeName(child_element, "NODE-NAME", nm_node.getNodeName())
 
     def writeNmClusterNmNodes(self, element: ET.Element, parent: NmCluster):
         nodes = parent.getNmNodes()
@@ -7223,7 +7223,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(props_element, "VCID", props.getVcid())
         self.setChildElementOptionalNumericalValue(child_element, "IDENTIFIER", triggering.getIdentifier())
         self.setChildElementOptionalBooleanValue(child_element, "J-1939-REQUESTABLE", triggering.getJ1939requestable())
-        self.setChildElementRxIdentifierRange(child_element, "RX-IDENTIFIER-RANGE", triggering.getRxIdentifierRange())
+        self.setRxIdentifierRange(child_element, "RX-IDENTIFIER-RANGE", triggering.getRxIdentifierRange())
         self.setChildElementOptionalPositiveInteger(child_element, "RX-MASK", triggering.getRxMask())
         self.setChildElementOptionalPositiveInteger(child_element, "TX-MASK", triggering.getTxMask())
 
@@ -7573,9 +7573,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "DO-IP-ENTITY-ROLE", entity.getDoIpEntityRole())
 
-    def setTimeSynchronization(self, element: ET.Element, sync: TimeSynchronization):
+    def setTimeSynchronization(self, element: ET.Element, key: str, sync: TimeSynchronization):
         if sync is not None:
-            child_element = ET.SubElement(element, "TIME-SYNCHRONIZATION")
+            child_element = ET.SubElement(element, key)
             client = sync.getTimeSyncClient()
             if client is not None:
                 client_element = ET.SubElement(child_element, "TIME-SYNC-CLIENT")
@@ -7602,7 +7602,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if services is not None:
             child_element = ET.SubElement(element, key)
             self.setDoIpEntity(child_element, "DO-IP-ENTITY", services.getDoIpEntity())
-            self.setTimeSynchronization(child_element, services.getTimeSynchronization())
+            self.setTimeSynchronization(child_element, "TIME-SYNCHRONIZATION", services.getTimeSynchronization())
 
     def writeNetworkEndPoint(self, element: ET.Element, end_point: NetworkEndpoint):
         self.logger.debug("Set NetworkEndpoint %s" % end_point.getShortName())

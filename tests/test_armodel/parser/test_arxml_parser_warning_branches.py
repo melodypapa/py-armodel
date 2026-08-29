@@ -876,14 +876,14 @@ class TestAdditionalErrorBranches:
         assert result is not None
         assert result.getValue() == 42.0
 
-    def test_getChildElementOptionalDataTime_missing(self, parser):
-        """Test getChildElementOptionalDataTime with missing element."""
+    def test_getChildElementOptionalDateTime_missing(self, parser):
+        """Test getChildElementOptionalDateTime with missing element."""
         element = _snip("<SHORT-NAME>X</SHORT-NAME>")
-        result = parser.getChildElementOptionalDataTime(element, "MISSING")
+        result = parser.getChildElementOptionalDateTime(element, "MISSING")
         assert result is None
 
-    def test_getChildElementOptionalDataTime_present(self, parser):
-        """Test getChildElementOptionalDataTime with present element."""
+    def test_getChildElementOptionalDateTime_present(self, parser):
+        """Test getChildElementOptionalDateTime with present element."""
         element = _snip("<DT>2024-01-01T00:00:00Z</DT>")
-        result = parser.getChildElementOptionalDataTime(element, "DT")
+        result = parser.getChildElementOptionalDateTime(element, "DT")
         assert result is not None

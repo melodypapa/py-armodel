@@ -166,7 +166,7 @@ class AbstractARXMLParser(ABC):
                 literal.setValue(child_element.text)
         return literal
 
-    def getChildElementOptionalDataTime(self, element: ET.Element, key: str) -> DateTime:
+    def getChildElementOptionalDateTime(self, element: ET.Element, key: str) -> DateTime:
         return self.getChildElementOptionalLiteral(element, key)
 
     def getChildElementOptionalString(self, element: ET.Element, key: str) -> String:
