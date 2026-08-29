@@ -989,6 +989,20 @@ class BswEvent(AbstractEvent, ABC):
         return self
 
 
+class BswInterruptEvent(BswEvent):
+    """
+    This meta-class represents an event triggered by an interrupt.
+    """
+
+    # BswInterruptEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.24, p.88
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
 class BswOperationInvokedEvent(BswEvent):
     """
     Represents an event that is triggered when a BSW operation is invoked.
@@ -3232,7 +3246,6 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswInterruptEvent instance
         """
-        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswInterruptEvent import BswInterruptEvent
 
         if not self.IsElementExists(short_name):
             event = BswInterruptEvent(self, short_name)

@@ -4,10 +4,7 @@ AUTOSAR BswModuleTemplate.BswBehavior module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswEvent
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswInterruptEvent import (
-    BswInterruptEvent,
-)
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswEvent, BswInterruptEvent
 
 
 class TestBswInterruptEvent:

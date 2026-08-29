@@ -76,7 +76,7 @@ stamps written in batch after user confirmation rounds.
 
 ### BswBehavior leaves
 
-- [x] BswAsynchronousServerCallPoint (markdown · Table 5.13 · p.80 · source BswModuleTemplate/BswBehavior/__init__.py · ref target of BswAsynchronousServerCallResultPoint — synced first per Rule 0016.5)
+- [x] BswAsynchronousServerCallPoint (markdown · Table 5.13 · p.80 · source BswModuleTemplate/BswBehavior.py · ref target of BswAsynchronousServerCallResultPoint — synced first per Rule 0016.5)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -86,7 +86,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none)
   - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit 26fe43765bdf162dd781bf4483739d33927c2cee
-- [x] BswAsynchronousServerCallResultPoint (markdown · Table 5.14 · p.80 · source BswModuleTemplate/BswBehavior/__init__.py · depends on BswAsynchronousServerCallPoint above; adds missing asynchronousServerCallPointRef accessors; reader/writer dispatch for BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT added)
+- [x] BswAsynchronousServerCallResultPoint (markdown · Table 5.14 · p.80 · source BswModuleTemplate/BswBehavior.py · depends on BswAsynchronousServerCallPoint above; adds missing asynchronousServerCallPointRef accessors; reader/writer dispatch for BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT added)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -96,7 +96,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none)
   - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit 1427a555b789987b2090f654a670cecca7b3957e
-- [x] BswSchedulerNamePrefix (markdown · Table 5.20 · p.86 · source BswModuleTemplate/BswBehavior/__init__.py · moved from BswSchedulerNamePrefix.py leaf module into package __init__.py)
+- [x] BswSchedulerNamePrefix (markdown · Table 5.20 · p.86 · source BswModuleTemplate/BswBehavior.py · moved from BswSchedulerNamePrefix.py leaf module into BswBehavior.py per Rule 0007)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -106,7 +106,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (base fixed ARObject→ImplementationProps; fabricated prefix/getPrefix/setPrefix removed per Rule 0001.3; SCHEDULER-NAME-PREFIXS reader/writer wiring + createSchedulerNamePrefix factory added)
   - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit 2e4fbc0b8de5a228250e22a4c94cfaa9e39682f6
-- [x] BswDistinguishedPartition (markdown · Table 5.50 · p.118 · source BswModuleTemplate/BswBehavior/__init__.py · leaf)
+- [x] BswDistinguishedPartition (markdown · Table 5.50 · p.118 · source BswModuleTemplate/BswBehavior.py · leaf)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -119,7 +119,7 @@ stamps written in batch after user confirmation rounds.
 
 ### BswBehavior entities/events (bases out of scope, see note above)
 
-- [x] BswCalledEntity (markdown · Table 5.6 · p.74 · source BswModuleTemplate/BswBehavior/__init__.py · base BswModuleEntity out of scope)
+- [x] BswCalledEntity (markdown · Table 5.6 · p.74 · source BswModuleTemplate/BswBehavior.py · base BswModuleEntity out of scope)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -129,7 +129,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none; no own attributes, I/O via BswInternalBehavior entity dispatch already covered)
   - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit 80d341994ff0d50e42a54bef5556b2a59cf70929
-- [x] BswSchedulableEntity (markdown · Table 5.7 · p.75 · source BswModuleTemplate/BswBehavior/__init__.py · base BswModuleEntity out of scope)
+- [x] BswSchedulableEntity (markdown · Table 5.7 · p.75 · source BswModuleTemplate/BswBehavior.py · base BswModuleEntity out of scope)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -139,7 +139,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none; no own attributes, I/O via BswInternalBehavior entity dispatch already covered)
   - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit bd966456814d9066b5a62be0a9437a86323fed00
-- [ ] BswInterruptEvent (markdown · Table 5.24 · p.88 · source BswModuleTemplate/BswBehavior/BswInterruptEvent.py · base chain out of scope)
+- [ ] BswInterruptEvent (markdown · Table 5.24 · p.88 · source BswModuleTemplate/BswBehavior.py · base chain out of scope · leaf package consolidated from BswBehavior/__init__.py + BswInterruptEvent.py per Rule 0007)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -149,7 +149,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none; ctor fixed to (parent, short_name); BSW-INTERRUPT-EVENT reader/writer dispatch + factory added)
   - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
-- [ ] BswBackgroundEvent (markdown · Table 5.26 · p.89 · source BswModuleTemplate/BswBehavior/__init__.py · base chain out of scope)
+- [ ] BswBackgroundEvent (markdown · Table 5.26 · p.89 · source BswModuleTemplate/BswBehavior.py · base chain out of scope)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -159,7 +159,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none; I/O dispatch already existed)
   - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
-- [ ] BswOsTaskExecutionEvent (markdown · Table 5.27 · p.89 · source BswModuleTemplate/BswBehavior/__init__.py · base chain out of scope)
+- [ ] BswOsTaskExecutionEvent (markdown · Table 5.27 · p.89 · source BswModuleTemplate/BswBehavior.py · base chain out of scope)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)

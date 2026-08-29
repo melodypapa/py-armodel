@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswInternalTriggeringPoint,
     BswInternalTriggerOccurredEvent,
     BswInterruptEntity,
+    BswInterruptEvent,
     BswModeManagerErrorEvent,
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
@@ -38,7 +39,6 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswVariableAccess,
     RoleBasedBswModuleEntryAssignment,
 )
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswInterruptEvent import BswInterruptEvent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleDependency, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription

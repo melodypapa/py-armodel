@@ -160,11 +160,10 @@ from armodel.models.utils import *  # noqa: F403
 from armodel.models.utils.uuid_mgr import *  # noqa: F403
 
 # NOTE: Some classes in subdirectories with name collisions cannot be directly imported:
-# - BswBehavior/*.py files (6 classes)
 # - BswInterfaces/*.py files (3 classes)
 # - BswOverview/InstanceRefs/*.py files (1 class)
 # These are accessible via their full import paths, e.g.:
-# from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswInterruptEvent
+# from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswEntryRelationship
 
 # Define __all__ to enable re-export of wildcard imports
 # This collects all public names (not starting with _) for re-export
