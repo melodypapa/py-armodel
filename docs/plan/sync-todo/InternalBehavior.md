@@ -96,7 +96,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none)
   - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit 1427a555b789987b2090f654a670cecca7b3957e
-- [ ] BswSchedulerNamePrefix (markdown · Table 5.20 · p.86 · source BswModuleTemplate/BswBehavior/BswSchedulerNamePrefix.py · leaf)
+- [x] BswSchedulerNamePrefix (markdown · Table 5.20 · p.86 · source BswModuleTemplate/BswBehavior/__init__.py · moved from BswSchedulerNamePrefix.py leaf module into package __init__.py)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -105,7 +105,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (base fixed ARObject→ImplementationProps; fabricated prefix/getPrefix/setPrefix removed per Rule 0001.3; SCHEDULER-NAME-PREFIXS reader/writer wiring + createSchedulerNamePrefix factory added)
-  - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
+  - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit 2e4fbc0b8de5a228250e22a4c94cfaa9e39682f6
 - [ ] BswDistinguishedPartition (markdown · Table 5.50 · p.118 · source BswModuleTemplate/BswBehavior/__init__.py · leaf)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)

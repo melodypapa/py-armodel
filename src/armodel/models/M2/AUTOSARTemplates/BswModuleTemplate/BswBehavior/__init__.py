@@ -18,6 +18,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent, ApiPrincipleEnum, ExecutableEntity, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceDependency, ServiceNeeds
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -27,7 +28,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswSchedulerNamePrefix import BswSchedulerNamePrefix
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import IdentCaption
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
@@ -319,6 +319,22 @@ class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
         if value is not None:
             self.asynchronousServerCallPointRef = value
         return self
+
+
+class BswSchedulerNamePrefix(ImplementationProps):
+    """
+    A prefix to be used in names of generated code artifacts which make up the
+    interface of a BSW module to the BswScheduler.
+    """
+
+    # BswSchedulerNamePrefix method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.20, p.86
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class BswVariableAccess(Referrable):

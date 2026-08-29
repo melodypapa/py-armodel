@@ -4,9 +4,7 @@ AUTOSAR BswModuleTemplate.BswBehavior module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior.BswSchedulerNamePrefix import (
-    BswSchedulerNamePrefix,
-)
+from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import BswSchedulerNamePrefix
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier
 

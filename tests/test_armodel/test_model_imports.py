@@ -23,9 +23,8 @@ import armodel
 # Classes that cannot be imported directly due to name collisions
 # These are accessible via their full import paths instead
 KNOWN_NAME_COLLISION_CLASSES = {
-    # BswBehavior/*.py files (2 classes)
+    # BswBehavior/*.py files (1 class)
     "BswInterruptEvent",
-    "BswSchedulerNamePrefix",
     # BswInterfaces/*.py files (3 classes)
     "BswEntryRelationship",
     "BswEntryRelationshipEnum",
