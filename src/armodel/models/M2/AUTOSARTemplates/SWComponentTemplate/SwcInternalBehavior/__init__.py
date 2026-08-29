@@ -225,7 +225,7 @@ class RunnableEntity(ExecutableEntity):
         self.writtenLocalVariables: List[VariableAccess] = []
 
     def _createVariableAccess(self, short_name, variable_accesses: List[VariableAccess]):
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, VariableAccess):
             variable_access = VariableAccess(self, short_name)
             self.addElement(variable_access)
             variable_accesses.append(variable_access)
@@ -467,10 +467,10 @@ class RunnableEntity(ExecutableEntity):
         Returns:
             ParameterAccess: the created or existing ParameterAccess
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ParameterAccess):
             access = ParameterAccess(self, short_name)
             self.addElement(access)
-        return self.getElement(short_name)
+        return self.getElement(short_name, ParameterAccess)
 
     def createSynchronousServerCallPoint(self, short_name: str) -> SynchronousServerCallPoint:
         """
@@ -570,7 +570,7 @@ class RunnableEntity(ExecutableEntity):
         Returns:
             InternalTriggeringPoint: the created or existing InternalTriggeringPoint
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, InternalTriggeringPoint):
             point = InternalTriggeringPoint(self, short_name)
             self.addElement(point)
         return self.getElement(short_name, InternalTriggeringPoint)
@@ -655,7 +655,7 @@ class RunnableEntity(ExecutableEntity):
         Returns:
             ModeSwitchPoint: the created or existing ModeSwitchPoint
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ModeSwitchPoint):
             access = ModeSwitchPoint(self, short_name)
             self.addElement(access)
             self.modeSwitchPoints.append(access)
@@ -695,7 +695,7 @@ class RunnableEntity(ExecutableEntity):
         Returns:
             WaitPoint: the created or existing WaitPoint
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, WaitPoint):
             point = WaitPoint(self, short_name)
             self.addElement(point)
             self.waitPoints.append(point)
@@ -912,11 +912,11 @@ class SwcInternalBehavior(InternalBehavior):
 
     def createArTypedPerInstanceMemory(self, short_name: str) -> VariableDataPrototype:
         """Creates (or returns an existing) arTypedPerInstanceMemory registered to this behavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, VariableDataPrototype):
             prototype = VariableDataPrototype(self, short_name)
             self.addElement(prototype)
             self.arTypedPerInstanceMemories.append(prototype)
-        return self.getElement(short_name)
+        return self.getElement(short_name, VariableDataPrototype)
 
     def getExplicitInterRunnableVariables(self) -> List[VariableDataPrototype]:
         """Gets the explicitInterRunnableVariables owned by this behavior."""
@@ -924,11 +924,11 @@ class SwcInternalBehavior(InternalBehavior):
 
     def createExplicitInterRunnableVariable(self, short_name: str) -> VariableDataPrototype:
         """Creates (or returns an existing) explicitInterRunnableVariable registered to this behavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, VariableDataPrototype):
             prototype = VariableDataPrototype(self, short_name)
             self.addElement(prototype)
             self.explicitInterRunnableVariables.append(prototype)
-        return self.getElement(short_name)
+        return self.getElement(short_name, VariableDataPrototype)
 
     def getHandleTerminationAndRestart(self) -> Optional[ARLiteral]:
         """Gets handleTerminationAndRestart (stop/restart support of the AtomicSwComponentType)."""
@@ -950,11 +950,11 @@ class SwcInternalBehavior(InternalBehavior):
 
     def createImplicitInterRunnableVariable(self, short_name: str) -> VariableDataPrototype:
         """Creates (or returns an existing) implicitInterRunnableVariable registered to this behavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, VariableDataPrototype):
             prototype = VariableDataPrototype(self, short_name)
             self.addElement(prototype)
             self.implicitInterRunnableVariables.append(prototype)
-        return self.getElement(short_name)
+        return self.getElement(short_name, VariableDataPrototype)
 
     def getPerInstanceMemories(self) -> List[PerInstanceMemory]:
         """Gets the perInstanceMemory objects owned by this behavior."""
@@ -962,11 +962,11 @@ class SwcInternalBehavior(InternalBehavior):
 
     def createPerInstanceMemory(self, short_name: str) -> PerInstanceMemory:
         """Creates (or returns an existing) perInstanceMemory registered to this behavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, PerInstanceMemory):
             memory = PerInstanceMemory(self, short_name)
             self.addElement(memory)
             self.perInstanceMemories.append(memory)
-        return self.getElement(short_name)
+        return self.getElement(short_name, PerInstanceMemory)
 
     def getPerInstanceParameters(self) -> List[ParameterDataPrototype]:
         """Gets the perInstanceParameter objects owned by this behavior."""
@@ -974,11 +974,11 @@ class SwcInternalBehavior(InternalBehavior):
 
     def createPerInstanceParameter(self, short_name: str) -> ParameterDataPrototype:
         """Creates (or returns an existing) perInstanceParameter registered to this behavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ParameterDataPrototype):
             prototype = ParameterDataPrototype(self, short_name)
             self.addElement(prototype)
             self.perInstanceParameters.append(prototype)
-        return self.getElement(short_name)
+        return self.getElement(short_name, ParameterDataPrototype)
 
     def getSharedParameters(self) -> List[ParameterDataPrototype]:
         """Gets the sharedParameter objects owned by this behavior."""
@@ -986,11 +986,11 @@ class SwcInternalBehavior(InternalBehavior):
 
     def createSharedParameter(self, short_name: str) -> ParameterDataPrototype:
         """Creates (or returns an existing) sharedParameter registered to this behavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ParameterDataPrototype):
             memory = ParameterDataPrototype(self, short_name)
             self.addElement(memory)
             self.sharedParameters.append(memory)
-        return self.getElement(short_name)
+        return self.getElement(short_name, ParameterDataPrototype)
 
     def addPortAPIOption(self, value: Optional[PortAPIOption]) -> "SwcInternalBehavior":
         """
@@ -1049,77 +1049,77 @@ class SwcInternalBehavior(InternalBehavior):
 
     def createOperationInvokedEvent(self, short_name: str) -> OperationInvokedEvent:
         """Creates (or returns an existing) OperationInvokedEvent RTEEvent registered to this behavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, OperationInvokedEvent):
             event = OperationInvokedEvent(self, short_name)
             self.addElement(event)
         return self.getElement(short_name, OperationInvokedEvent)
 
     def createTimingEvent(self, short_name: str) -> TimingEvent:
         """Creates (or returns an existing) TimingEvent RTEEvent registered to this behavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, TimingEvent):
             event = TimingEvent(self, short_name)
             self.addElement(event)
         return self.getElement(short_name, TimingEvent)
 
     def createInitEvent(self, short_name: str) -> InitEvent:
         """Creates (or returns an existing) InitEvent RTEEvent registered to this behavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, InitEvent):
             event = InitEvent(self, short_name)
             self.addElement(event)
         return self.getElement(short_name, InitEvent)
 
     def createAsynchronousServerCallReturnsEvent(self, short_name: str) -> AsynchronousServerCallReturnsEvent:
         """Creates (or returns an existing) AsynchronousServerCallReturnsEvent RTEEvent registered to this behavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, AsynchronousServerCallReturnsEvent):
             event = AsynchronousServerCallReturnsEvent(self, short_name)
             self.addElement(event)
         return self.getElement(short_name, AsynchronousServerCallReturnsEvent)
 
     def createDataReceivedEvent(self, short_name: str) -> DataReceivedEvent:
         """Creates (or returns an existing) DataReceivedEvent RTEEvent registered to this behavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DataReceivedEvent):
             event = DataReceivedEvent(self, short_name)
             self.addElement(event)
         return self.getElement(short_name, DataReceivedEvent)
 
     def createSwcModeSwitchEvent(self, short_name: str) -> SwcModeSwitchEvent:
         """Creates (or returns an existing) SwcModeSwitchEvent RTEEvent registered to this behavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, SwcModeSwitchEvent):
             event = SwcModeSwitchEvent(self, short_name)
             self.addElement(event)
         return self.getElement(short_name, SwcModeSwitchEvent)
 
     def createInternalTriggerOccurredEvent(self, short_name: str) -> InternalTriggerOccurredEvent:
         """Creates (or returns an existing) InternalTriggerOccurredEvent RTEEvent registered to this behavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, InternalTriggerOccurredEvent):
             event = InternalTriggerOccurredEvent(self, short_name)
             self.addElement(event)
         return self.getElement(short_name, InternalTriggerOccurredEvent)
 
     def createModeSwitchedAckEvent(self, short_name: str) -> ModeSwitchedAckEvent:
         """Creates (or returns an existing) ModeSwitchedAckEvent RTEEvent registered to this behavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ModeSwitchedAckEvent):
             event = ModeSwitchedAckEvent(self, short_name)
             self.addElement(event)
         return self.getElement(short_name, ModeSwitchedAckEvent)
 
     def createBackgroundEvent(self, short_name: str) -> BackgroundEvent:
         """Creates (or returns an existing) BackgroundEvent RTEEvent registered to this behavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BackgroundEvent):
             event = BackgroundEvent(self, short_name)
             self.addElement(event)
         return self.getElement(short_name, BackgroundEvent)
 
     def createDataSendCompletedEvent(self, short_name: str) -> DataSendCompletedEvent:
         """Creates (or returns an existing) DataSendCompletedEvent RTEEvent registered to this behavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DataSendCompletedEvent):
             event = DataSendCompletedEvent(self, short_name)
             self.addElement(event)
         return self.getElement(short_name, DataSendCompletedEvent)
 
     def createSwcServiceDependency(self, short_name: str) -> SwcServiceDependency:
         """Creates (or returns an existing) SwcServiceDependency defining AUTOSAR Service requirements."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, SwcServiceDependency):
             event = SwcServiceDependency(self, short_name)
             self.addElement(event)
         return self.getElement(short_name, SwcServiceDependency)
@@ -1178,10 +1178,10 @@ class SwcInternalBehavior(InternalBehavior):
 
     def createRunnableEntity(self, short_name: str) -> RunnableEntity:
         """Creates (or returns an existing) RunnableEntity specified for this SwcInternalBehavior."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, RunnableEntity):
             runnable = RunnableEntity(self, short_name)
             self.addElement(runnable)
-        return self.getElement(short_name)
+        return self.getElement(short_name, RunnableEntity)
 
     def getRunnableEntities(self) -> List[RunnableEntity]:
         """Gets the RunnableEntity objects owned by this behavior, sorted by short name."""

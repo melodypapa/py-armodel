@@ -108,7 +108,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         return self
 
     def createImplementationDataTypeElement(self, short_name: str) -> "ImplementationDataTypeElement":
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ImplementationDataTypeElement):
             type_element = ImplementationDataTypeElement(self, short_name)
             self.addElement(type_element)
             self.subElements.append(type_element)
@@ -258,7 +258,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         Returns:
             The created ImplementationDataTypeElement instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ImplementationDataTypeElement):
             type_element = ImplementationDataTypeElement(self, short_name)
             self.addElement(type_element)
             self.subElements.append(type_element)
@@ -284,7 +284,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         Returns:
             The created SymbolProps instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, SymbolProps):
             symbol_props = SymbolProps(self, short_name)
             self.addElement(symbol_props)
             self.symbolProps = symbol_props

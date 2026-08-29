@@ -1717,11 +1717,11 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         """
         Collection of event groups provided by the Provided ServiceInstance Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=eventHandler.shortName, event Handler.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, EventHandler):
             instance = EventHandler(self, short_name)
             self.addElement(instance)
             self.eventHandlers.append(instance)
-        return self.getElement(short_name)
+        return self.getElement(short_name, EventHandler)
 
     def getInstanceIdentifier(self):
         """

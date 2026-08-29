@@ -131,8 +131,8 @@ class KeywordSet(AtpBlueprintable):
         Returns:
             The created Keyword instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, Keyword):
             keyword = Keyword(self, short_name)
             self.addElement(keyword)
             self.keywords.append(keyword)
-        return self.getElement(short_name)
+        return self.getElement(short_name, Keyword)

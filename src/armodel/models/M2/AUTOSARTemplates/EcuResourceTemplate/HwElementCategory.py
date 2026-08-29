@@ -85,11 +85,11 @@ class HwAttributeDef(Identifiable):
 
     def createHwAttributeLiteral(self, short_name: str) -> HwAttributeLiteralDef:
         """The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the Hw AttributeDef equals Enumeration."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, HwAttributeLiteralDef):
             literal_def = HwAttributeLiteralDef(self, short_name)
             self.addElement(literal_def)
             self.hwAttributeLiterals.append(literal_def)
-        return self.getElement(short_name)
+        return self.getElement(short_name, HwAttributeLiteralDef)
 
     def addHwAttributeLiteral(self, literal_def: HwAttributeLiteralDef) -> "HwAttributeDef":
         """The available EnumerationLiterals of the Enumeration definition. Only applicable if the category of the Hw AttributeDef equals Enumeration."""
@@ -161,8 +161,8 @@ class HwCategory(PackageableElement, AtpDefinition):
         Returns:
             The created HwAttributeDef instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, HwAttributeDef):
             pin_group = HwAttributeDef(self, short_name)
             self.addElement(pin_group)
             self.hwAttributeDefs.append(pin_group)
-        return self.getElement(short_name)
+        return self.getElement(short_name, HwAttributeDef)

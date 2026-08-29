@@ -520,7 +520,7 @@ class EndToEndProtectionSet(ARElement):
         Returns:
             EndToEndProtection: The created or existing element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, EndToEndProtection):
             protection = EndToEndProtection(self, short_name)
             self.addElement(protection)
         return self.getElement(short_name, EndToEndProtection)

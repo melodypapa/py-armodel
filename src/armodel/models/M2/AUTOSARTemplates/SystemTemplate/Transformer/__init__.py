@@ -968,21 +968,21 @@ class DataTransformationSet(ARElement):
         return self.dataTransformations
 
     def createDataTransformation(self, short_name: str) -> DataTransformation:
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DataTransformation):
             dfs = DataTransformation(self, short_name)
             self.addElement(dfs)
             self.dataTransformations.append(dfs)
-        return self.getElement(short_name)
+        return self.getElement(short_name, DataTransformation)
 
     def getTransformationTechnologies(self):
         return self.transformationTechnologies
 
     def createTransformationTechnology(self, short_name: str) -> TransformationTechnology:
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, TransformationTechnology):
             tech = TransformationTechnology(self, short_name)
             self.addElement(tech)
             self.transformationTechnologies.append(tech)
-        return self.getElement(short_name)
+        return self.getElement(short_name, TransformationTechnology)
 
 
 class CSTransformerErrorReactionEnum(AREnum):

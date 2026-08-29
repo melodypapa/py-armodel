@@ -290,11 +290,11 @@ class BswModuleEntry(AtpBlueprintable):
         Returns:
             The created SwServiceArg instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, SwServiceArg):
             arg = SwServiceArg(self, short_name)
             self.addElement(arg)
             self.arguments.append(arg)
-        return self.getElement(short_name)
+        return self.getElement(short_name, SwServiceArg)
 
     def getBswEntryKind(self) -> Optional[BswEntryKindEnum]:
         """
@@ -402,11 +402,11 @@ class BswModuleEntry(AtpBlueprintable):
         Returns:
             The created SwServiceArg instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, SwServiceArg):
             arg = SwServiceArg(self, short_name)
             self.addElement(arg)
             self.returnType = arg
-        return self.getElement(short_name)
+        return self.getElement(short_name, SwServiceArg)
 
     def getRole(self) -> Optional[Identifier]:
         """

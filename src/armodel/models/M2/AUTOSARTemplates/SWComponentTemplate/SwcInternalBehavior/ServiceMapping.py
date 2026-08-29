@@ -225,11 +225,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             NvBlockNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, NvBlockNeeds):
             needs = NvBlockNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, NvBlockNeeds)
 
     def createDiagnosticCommunicationManagerNeeds(self, short_name: str) -> DiagnosticCommunicationManagerNeeds:
         """
@@ -242,11 +242,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
             DiagnosticCommunicationManagerNeeds: The created or existing needs
                 element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DiagnosticCommunicationManagerNeeds):
             needs = DiagnosticCommunicationManagerNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, DiagnosticCommunicationManagerNeeds)
 
     def createDiagnosticRoutineNeeds(self, short_name: str) -> DiagnosticRoutineNeeds:
         """
@@ -258,11 +258,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             DiagnosticRoutineNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DiagnosticRoutineNeeds):
             needs = DiagnosticRoutineNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, DiagnosticRoutineNeeds)
 
     def createDiagnosticValueNeeds(self, short_name: str) -> DiagnosticValueNeeds:
         """
@@ -274,11 +274,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             DiagnosticValueNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DiagnosticValueNeeds):
             needs = DiagnosticValueNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, DiagnosticValueNeeds)
 
     def createDiagnosticEventNeeds(self, short_name: str) -> DiagnosticEventNeeds:
         """
@@ -290,11 +290,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             DiagnosticEventNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DiagnosticEventNeeds):
             needs = DiagnosticEventNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, DiagnosticEventNeeds)
 
     def createDiagnosticEventInfoNeeds(self, short_name: str) -> DiagnosticEventInfoNeeds:
         """
@@ -306,11 +306,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             DiagnosticEventInfoNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DiagnosticEventInfoNeeds):
             needs = DiagnosticEventInfoNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, DiagnosticEventInfoNeeds)
 
     def createCryptoServiceNeeds(self, short_name: str) -> CryptoServiceNeeds:
         """
@@ -322,11 +322,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             CryptoServiceNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, CryptoServiceNeeds):
             needs = CryptoServiceNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, CryptoServiceNeeds)
 
     def createEcuStateMgrUserNeeds(self, short_name: str) -> EcuStateMgrUserNeeds:
         """
@@ -338,11 +338,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             EcuStateMgrUserNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, EcuStateMgrUserNeeds):
             needs = EcuStateMgrUserNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, EcuStateMgrUserNeeds)
 
     def createDtcStatusChangeNotificationNeeds(self, short_name: str) -> DtcStatusChangeNotificationNeeds:
         """
@@ -355,11 +355,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
             DtcStatusChangeNotificationNeeds: The created or existing needs
                 element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DtcStatusChangeNotificationNeeds):
             needs = DtcStatusChangeNotificationNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, DtcStatusChangeNotificationNeeds)
 
     def createDiagnosticIoControlNeeds(self, short_name: str) -> DiagnosticIoControlNeeds:
         """
@@ -371,11 +371,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             DiagnosticIoControlNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DiagnosticIoControlNeeds):
             needs = DiagnosticIoControlNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, DiagnosticIoControlNeeds)
 
     def createDiagnosticEnableConditionNeeds(self, short_name: str) -> DiagnosticEnableConditionNeeds:
         """
@@ -387,11 +387,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             DiagnosticEnableConditionNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DiagnosticEnableConditionNeeds):
             needs = DiagnosticEnableConditionNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, DiagnosticEnableConditionNeeds)
 
     def createDiagnosticOperationCycleNeeds(self, short_name: str) -> DiagnosticOperationCycleNeeds:
         """
@@ -403,11 +403,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             DiagnosticOperationCycleNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DiagnosticOperationCycleNeeds):
             needs = DiagnosticOperationCycleNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, DiagnosticOperationCycleNeeds)
 
     def createDiagnosticStorageConditionNeeds(self, short_name: str) -> DiagnosticStorageConditionNeeds:
         """
@@ -419,11 +419,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             DiagnosticStorageConditionNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DiagnosticStorageConditionNeeds):
             needs = DiagnosticStorageConditionNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, DiagnosticStorageConditionNeeds)
 
     def createFunctionInhibitionAvailabilityNeeds(self, short_name: str) -> FunctionInhibitionAvailabilityNeeds:
         """
@@ -435,11 +435,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             FunctionInhibitionAvailabilityNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, FunctionInhibitionAvailabilityNeeds):
             needs = FunctionInhibitionAvailabilityNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, FunctionInhibitionAvailabilityNeeds)
 
     def createIndicatorStatusNeeds(self, short_name: str) -> IndicatorStatusNeeds:
         """
@@ -451,11 +451,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             IndicatorStatusNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, IndicatorStatusNeeds):
             needs = IndicatorStatusNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, IndicatorStatusNeeds)
 
     def createDltUserNeeds(self, short_name: str) -> DltUserNeeds:
         """
@@ -467,11 +467,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             DltUserNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DltUserNeeds):
             needs = DltUserNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, DltUserNeeds)
 
     def createComMgrUserNeeds(self, short_name: str) -> ComMgrUserNeeds:
         """
@@ -483,11 +483,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             ComMgrUserNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ComMgrUserNeeds):
             needs = ComMgrUserNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, ComMgrUserNeeds)
 
     def createErrorTracerNeeds(self, short_name: str) -> ErrorTracerNeeds:
         """
@@ -499,11 +499,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             ErrorTracerNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ErrorTracerNeeds):
             needs = ErrorTracerNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, ErrorTracerNeeds)
 
     def createObdInfoServiceNeeds(self, short_name: str) -> ObdInfoServiceNeeds:
         """
@@ -515,11 +515,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             ObdInfoServiceNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ObdInfoServiceNeeds):
             needs = ObdInfoServiceNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, ObdInfoServiceNeeds)
 
     def createObdMonitorServiceNeeds(self, short_name: str) -> ObdMonitorServiceNeeds:
         """
@@ -531,11 +531,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             ObdMonitorServiceNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ObdMonitorServiceNeeds):
             needs = ObdMonitorServiceNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, ObdMonitorServiceNeeds)
 
     def createObdPidServiceNeeds(self, short_name: str) -> ObdPidServiceNeeds:
         """
@@ -547,11 +547,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             ObdPidServiceNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ObdPidServiceNeeds):
             needs = ObdPidServiceNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, ObdPidServiceNeeds)
 
     def createObdControlServiceNeeds(self, short_name: str) -> ObdControlServiceNeeds:
         """
@@ -563,11 +563,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             ObdControlServiceNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ObdControlServiceNeeds):
             needs = ObdControlServiceNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, ObdControlServiceNeeds)
 
     def createObdRatioServiceNeeds(self, short_name: str) -> ObdRatioServiceNeeds:
         """
@@ -579,11 +579,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             ObdRatioServiceNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ObdRatioServiceNeeds):
             needs = ObdRatioServiceNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, ObdRatioServiceNeeds)
 
     def createObdRatioDenominatorNeeds(self, short_name: str) -> ObdRatioDenominatorNeeds:
         """
@@ -595,11 +595,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             ObdRatioDenominatorNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ObdRatioDenominatorNeeds):
             needs = ObdRatioDenominatorNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, ObdRatioDenominatorNeeds)
 
     def createDoIpRoutingActivationAuthenticationNeeds(self, short_name: str) -> DoIpRoutingActivationAuthenticationNeeds:
         """
@@ -611,11 +611,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             DoIpRoutingActivationAuthenticationNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DoIpRoutingActivationAuthenticationNeeds):
             needs = DoIpRoutingActivationAuthenticationNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, DoIpRoutingActivationAuthenticationNeeds)
 
     def createDoIpRoutingActivationConfirmationNeeds(self, short_name: str) -> DoIpRoutingActivationConfirmationNeeds:
         """
@@ -627,11 +627,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             DoIpRoutingActivationConfirmationNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DoIpRoutingActivationConfirmationNeeds):
             needs = DoIpRoutingActivationConfirmationNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, DoIpRoutingActivationConfirmationNeeds)
 
     def createSecureOnBoardCommunicationNeeds(self, short_name: str) -> SecureOnBoardCommunicationNeeds:
         """
@@ -643,11 +643,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             SecureOnBoardCommunicationNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, SecureOnBoardCommunicationNeeds):
             needs = SecureOnBoardCommunicationNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, SecureOnBoardCommunicationNeeds)
 
     def createIdsMgrNeeds(self, short_name: str) -> IdsMgrNeeds:
         """
@@ -659,11 +659,11 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         Returns:
             IdsMgrNeeds: The created or existing needs element
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, IdsMgrNeeds):
             needs = IdsMgrNeeds(self, short_name)
             self.addElement(needs)
             self.serviceNeeds = needs
-        return self.getElement(short_name)
+        return self.getElement(short_name, IdsMgrNeeds)
 
     def getNvBlockNeeds(self) -> List[NvBlockNeeds]:
         """

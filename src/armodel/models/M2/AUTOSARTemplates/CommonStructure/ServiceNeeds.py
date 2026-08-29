@@ -1789,11 +1789,11 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         Returns:
             The created DiagEventDebounceCounterBased instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, DiagEventDebounceCounterBased):
             algorithm = DiagEventDebounceCounterBased(self, short_name)
             self.addElement(algorithm)
             self.diagEventDebounceAlgorithm = algorithm
-        return self.getElement(short_name)
+        return self.getElement(short_name, DiagEventDebounceCounterBased)
 
     def createDiagEventDebounceMonitorInternal(self, short_name: str) -> DiagEventDebounceMonitorInternal:
         """
@@ -1805,11 +1805,11 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         Returns:
             The created DiagEventDebounceMonitorInternal instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, DiagEventDebounceMonitorInternal):
             algorithm = DiagEventDebounceMonitorInternal(self, short_name)
             self.addElement(algorithm)
             self.diagEventDebounceAlgorithm = algorithm
-        return self.getElement(short_name)
+        return self.getElement(short_name, DiagEventDebounceMonitorInternal)
 
     def createDiagEventDebounceTimeBased(self, short_name: str) -> DiagEventDebounceTimeBased:
         """
@@ -1821,11 +1821,11 @@ class DiagnosticEventNeeds(DiagnosticCapabilityElement):
         Returns:
             The created DiagEventDebounceTimeBased instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, DiagEventDebounceTimeBased):
             algorithm = DiagEventDebounceTimeBased(self, short_name)
             self.addElement(algorithm)
             self.diagEventDebounceAlgorithm = algorithm
-        return self.getElement(short_name)
+        return self.getElement(short_name, DiagEventDebounceTimeBased)
 
     def getInhibitingFidRef(self) -> Optional[RefType]:
         """
@@ -3095,11 +3095,11 @@ class ErrorTracerNeeds(ServiceNeeds):
         Returns:
             The created DevelopmentError instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DevelopmentError):
             failure = DevelopmentError(self, short_name)
             self.addElement(failure)
             self.tracedFailures.append(failure)
-        return self.getElement(short_name)
+        return self.getElement(short_name, DevelopmentError)
 
     def createRuntimeError(self, short_name: str) -> RuntimeError:
         """
@@ -3111,11 +3111,11 @@ class ErrorTracerNeeds(ServiceNeeds):
         Returns:
             The created RuntimeError instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, RuntimeError):
             failure = RuntimeError(self, short_name)
             self.addElement(failure)
             self.tracedFailures.append(failure)
-        return self.getElement(short_name)
+        return self.getElement(short_name, RuntimeError)
 
     def createTransientFault(self, short_name: str) -> TransientFault:
         """
@@ -3127,11 +3127,11 @@ class ErrorTracerNeeds(ServiceNeeds):
         Returns:
             The created TransientFault instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, TransientFault):
             failure = TransientFault(self, short_name)
             self.addElement(failure)
             self.tracedFailures.append(failure)
-        return self.getElement(short_name)
+        return self.getElement(short_name, TransientFault)
 
 
 class EventAcceptanceStatusEnum(AREnum):
@@ -4498,11 +4498,11 @@ class TransientFault(TracedFailure):
         Returns:
             The created PossibleErrorReaction instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, PossibleErrorReaction):
             reaction = PossibleErrorReaction(self, short_name)
             self.addElement(reaction)
             self.possibleErrorReactions.append(reaction)
-        return self.getElement(short_name)
+        return self.getElement(short_name, PossibleErrorReaction)
 
     def getPossibleErrorReactions(self) -> List[PossibleErrorReaction]:
         """

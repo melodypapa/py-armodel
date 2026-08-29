@@ -560,7 +560,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
         Returns:
             The created BswAsynchronousServerCallPoint instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswAsynchronousServerCallPoint):
             access = BswAsynchronousServerCallPoint(self, short_name)
             self.addElement(access)
             self.callPoints.append(access)
@@ -578,11 +578,11 @@ class BswModuleEntity(ExecutableEntity, ABC):
         Returns:
             The created BswAsynchronousServerCallResultPoint instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswAsynchronousServerCallResultPoint):
             access = BswAsynchronousServerCallResultPoint(self, short_name)
             self.addElement(access)
             self.callPoints.append(access)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswAsynchronousServerCallResultPoint)
 
     def createBswSynchronousServerCallPoint(self, short_name: str) -> BswSynchronousServerCallPoint:
         """
@@ -596,7 +596,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
         Returns:
             The created BswSynchronousServerCallPoint instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswSynchronousServerCallPoint):
             access = BswSynchronousServerCallPoint(self, short_name)
             self.addElement(access)
             self.callPoints.append(access)
@@ -623,7 +623,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
         Returns:
             The created BswVariableAccess instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswVariableAccess):
             access = BswVariableAccess(self, short_name)
             self.addElement(access)
             self.dataReceivePoints.append(access)
@@ -650,7 +650,7 @@ class BswModuleEntity(ExecutableEntity, ABC):
         Returns:
             The created BswVariableAccess instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswVariableAccess):
             access = BswVariableAccess(self, short_name)
             self.addElement(access)
             self.dataSendPoints.append(access)
@@ -2606,11 +2606,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswDistinguishedPartition instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswDistinguishedPartition):
             partition = BswDistinguishedPartition(self, short_name)
             self.addElement(partition)
             self.distinguishedPartitions.append(partition)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswDistinguishedPartition)
 
     def setDistinguishedPartitions(self, value):
         """
@@ -2670,11 +2670,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswInternalTriggeringPoint instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswInternalTriggeringPoint):
             entity = BswInternalTriggeringPoint(self, short_name)
             self.addElement(entity)
             self.internalTriggeringPoints.append(entity)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswInternalTriggeringPoint)
 
     def getInternalTriggeringPointPolicies(self):
         """
@@ -2841,11 +2841,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswSchedulerNamePrefix instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswSchedulerNamePrefix):
             prefix = BswSchedulerNamePrefix(self, short_name)
             self.addElement(prefix)
             self.schedulerNamePrefixes.append(prefix)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswSchedulerNamePrefix)
 
     def setSchedulerNamePrefixes(self, value):
         """
@@ -2999,11 +2999,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswCalledEntity instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswCalledEntity):
             entity = BswCalledEntity(self, short_name)
             self.addElement(entity)
             self.entities.append(entity)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswCalledEntity)
 
     def getBswCalledEntities(self) -> List[BswCalledEntity]:
         """
@@ -3024,11 +3024,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswSchedulableEntity instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswSchedulableEntity):
             entity = BswSchedulableEntity(self, short_name)
             self.addElement(entity)
             self.entities.append(entity)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswSchedulableEntity)
 
     def getBswSchedulableEntities(self) -> List[BswSchedulableEntity]:
         """
@@ -3049,11 +3049,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswInterruptEntity instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswInterruptEntity):
             entity = BswInterruptEntity(self, short_name)
             self.addElement(entity)
             self.entities.append(entity)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswInterruptEntity)
 
     def getBswInterruptEntities(self) -> List[BswInterruptEntity]:
         """
@@ -3083,11 +3083,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswModeSwitchEvent instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswModeSwitchEvent):
             event = BswModeSwitchEvent(self, short_name)
             self.addElement(event)
             self.events.append(event)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswModeSwitchEvent)
 
     def getBswModeSwitchEvents(self) -> List[BswModeSwitchEvent]:
         """
@@ -3108,11 +3108,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswTimingEvent instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswTimingEvent):
             event = BswTimingEvent(self, short_name)
             self.addElement(event)
             self.events.append(event)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswTimingEvent)
 
     def getBswTimingEvents(self) -> List[BswTimingEvent]:
         """
@@ -3133,11 +3133,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswDataReceivedEvent instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswDataReceivedEvent):
             event = BswDataReceivedEvent(self, short_name)
             self.addElement(event)
             self.events.append(event)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswDataReceivedEvent)
 
     def getBswDataReceivedEvents(self) -> List[BswDataReceivedEvent]:
         """
@@ -3158,11 +3158,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswInternalTriggerOccurredEvent instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswInternalTriggerOccurredEvent):
             event = BswInternalTriggerOccurredEvent(self, short_name)
             self.addElement(event)
             self.events.append(event)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswInternalTriggerOccurredEvent)
 
     def getBswInternalTriggerOccurredEvents(self) -> List[BswInternalTriggerOccurredEvent]:
         """
@@ -3183,11 +3183,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswExternalTriggerOccurredEvent instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswExternalTriggerOccurredEvent):
             event = BswExternalTriggerOccurredEvent(self, short_name)
             self.addElement(event)
             self.events.append(event)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswExternalTriggerOccurredEvent)
 
     def getBswOperationInvokedEvents(self) -> List[BswOperationInvokedEvent]:
         """
@@ -3208,11 +3208,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswOperationInvokedEvent instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswOperationInvokedEvent):
             event = BswOperationInvokedEvent(self, short_name)
             self.addElement(event)
             self.events.append(event)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswOperationInvokedEvent)
 
     def getBswExternalTriggerOccurredEvents(self) -> List[BswExternalTriggerOccurredEvent]:
         """
@@ -3233,11 +3233,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswBackgroundEvent instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswBackgroundEvent):
             event = BswBackgroundEvent(self, short_name)
             self.addElement(event)
             self.events.append(event)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswBackgroundEvent)
 
     def createBswInterruptEvent(self, short_name: str) -> BswEvent:
         """
@@ -3250,11 +3250,11 @@ class BswInternalBehavior(InternalBehavior):
             The created BswInterruptEvent instance
         """
 
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswInterruptEvent):
             event = BswInterruptEvent(self, short_name)
             self.addElement(event)
             self.events.append(event)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswInterruptEvent)
 
     def createBswOsTaskExecutionEvent(self, short_name: str) -> BswOsTaskExecutionEvent:
         """
@@ -3266,11 +3266,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswOsTaskExecutionEvent instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswOsTaskExecutionEvent):
             event = BswOsTaskExecutionEvent(self, short_name)
             self.addElement(event)
             self.events.append(event)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswOsTaskExecutionEvent)
 
     def getBswBackgroundEvents(self) -> List[BswBackgroundEvent]:
         """
@@ -3291,11 +3291,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswModeManagerErrorEvent instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswModeManagerErrorEvent):
             event = BswModeManagerErrorEvent(self, short_name)
             self.addElement(event)
             self.events.append(event)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswModeManagerErrorEvent)
 
     def getBswModeManagerErrorEvents(self) -> List[BswModeManagerErrorEvent]:
         """
@@ -3316,11 +3316,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswModeSwitchedAckEvent instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswModeSwitchedAckEvent):
             event = BswModeSwitchedAckEvent(self, short_name)
             self.addElement(event)
             self.events.append(event)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswModeSwitchedAckEvent)
 
     def getBswModeSwitchedAckEvents(self) -> List[BswModeSwitchedAckEvent]:
         """
@@ -3341,11 +3341,11 @@ class BswInternalBehavior(InternalBehavior):
         Returns:
             The created BswAsynchronousServerCallReturnsEvent instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, BswAsynchronousServerCallReturnsEvent):
             event = BswAsynchronousServerCallReturnsEvent(self, short_name)
             self.addElement(event)
             self.events.append(event)
-        return self.getElement(short_name)
+        return self.getElement(short_name, BswAsynchronousServerCallReturnsEvent)
 
     def getBswAsynchronousServerCallReturnsEvents(self) -> List[BswAsynchronousServerCallReturnsEvent]:
         """

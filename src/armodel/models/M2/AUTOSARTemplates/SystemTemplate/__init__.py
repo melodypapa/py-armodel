@@ -257,11 +257,11 @@ class SystemMapping(Identifiable):
         return self.ecuResourceMappings
 
     def createECUMapping(self, short_name: str) -> ECUMapping:
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, ECUMapping):
             mapping = ECUMapping(self, short_name)
             self.addElement(mapping)
             self.ecuResourceMappings.append(mapping)
-        return self.getElement(short_name)
+        return self.getElement(short_name, ECUMapping)
 
     def getJ1939ControllerApplicationToJ1939NmNodeMappings(self):
         return self.j1939ControllerApplicationToJ1939NmNodeMappings
@@ -358,11 +358,11 @@ class SystemMapping(Identifiable):
         return self.swImplMappings
 
     def createSwcToImplMapping(self, short_name: str) -> SwcToImplMapping:
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, SwcToImplMapping):
             mapping = SwcToImplMapping(self, short_name)
             self.addElement(mapping)
             self.swImplMappings.append(mapping)
-        return self.getElement(short_name)
+        return self.getElement(short_name, SwcToImplMapping)
 
     def getSwMappings(self):
         return self.swMappings
@@ -371,11 +371,11 @@ class SystemMapping(Identifiable):
         return list(sorted(filter(lambda a: isinstance(a, SwcToEcuMapping), self.elements), key=lambda o: o.short_name))
 
     def createSwcToEcuMapping(self, short_name: str) -> SwcToEcuMapping:
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, SwcToEcuMapping):
             mapping = SwcToEcuMapping(self, short_name)
             self.addElement(mapping)
             self.swMappings.append(mapping)
-        return self.getElement(short_name)
+        return self.getElement(short_name, SwcToEcuMapping)
 
     def getSystemSignalGroupToComResourceMappings(self):
         return self.systemSignalGroupToComResourceMappings
@@ -598,7 +598,7 @@ class System(AtpStructureElement):
         return list(sorted(filter(lambda a: isinstance(a, SystemMapping), self.elements), key=lambda o: o.short_name))
 
     def createSystemMapping(self, short_name) -> SystemMapping:
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, SystemMapping):
             mapping = SystemMapping(self, short_name)
             self.addElement(mapping)
         return self.getElement(short_name, SystemMapping)
@@ -621,11 +621,11 @@ class System(AtpStructureElement):
         return self.rootSoftwareComposition
 
     def createRootSoftwareComposition(self, short_name) -> RootSwCompositionPrototype:
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, RootSwCompositionPrototype):
             prototype = RootSwCompositionPrototype(self, short_name)
             self.addElement(prototype)
             self.rootSoftwareComposition = prototype
-        return self.getElement(short_name)
+        return self.getElement(short_name, RootSwCompositionPrototype)
 
     def getSwClusterRefs(self):
         return self.swClusterRefs

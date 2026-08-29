@@ -185,31 +185,31 @@ class PhysicalChannel(Identifiable, ABC):
         """
         One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, CanFrameTriggering):
             triggering = CanFrameTriggering(self, short_name)
             self.addElement(triggering)
             self.frameTriggerings.append(triggering)
-        return self.getElement(short_name)
+        return self.getElement(short_name, CanFrameTriggering)
 
     def createLinFrameTriggering(self, short_name: str) -> LinFrameTriggering:
         """
         One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, LinFrameTriggering):
             triggering = LinFrameTriggering(self, short_name)
             self.addElement(triggering)
             self.frameTriggerings.append(triggering)
-        return self.getElement(short_name)
+        return self.getElement(short_name, LinFrameTriggering)
 
     def createFlexrayFrameTriggering(self, short_name: str) -> FlexrayFrameTriggering:
         """
         One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, FlexrayFrameTriggering):
             triggering = FlexrayFrameTriggering(self, short_name)
             self.addElement(triggering)
             self.frameTriggerings.append(triggering)
-        return self.getElement(short_name)
+        return self.getElement(short_name, FlexrayFrameTriggering)
 
     def getISignalTriggerings(self) -> List[ISignalTriggering]:
         """
@@ -221,11 +221,11 @@ class PhysicalChannel(Identifiable, ABC):
         """
         One ISignalTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of ISignaltriggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.shortName, iSignal Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, ISignalTriggering):
             triggering = ISignalTriggering(self, short_name)
             self.addElement(triggering)
             self.iSignalTriggerings.append(triggering)
-        return self.getElement(short_name)
+        return self.getElement(short_name, ISignalTriggering)
 
     def getManagedPhysicalChannelRefs(self) -> List[RefType]:
         """
@@ -252,11 +252,11 @@ class PhysicalChannel(Identifiable, ABC):
         """
         One PduTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of I-Pdu triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.shortName, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, PduTriggering):
             triggering = PduTriggering(self, short_name)
             self.addElement(triggering)
             self.pduTriggerings.append(triggering)
-        return self.getElement(short_name)
+        return self.getElement(short_name, PduTriggering)
 
 
 class LinPhysicalChannel(PhysicalChannel):
@@ -291,11 +291,11 @@ class LinPhysicalChannel(PhysicalChannel):
         return self.scheduleTables
 
     def createLinScheduleTable(self, short_name: str) -> LinScheduleTable:
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, LinScheduleTable):
             end_point = LinScheduleTable(self, short_name)
             self.addElement(end_point)
             self.scheduleTables.append(end_point)
-        return self.getElement(short_name)
+        return self.getElement(short_name, LinScheduleTable)
 
 
 class VlanConfig(Identifiable):
@@ -353,11 +353,11 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def createNetworkEndPoint(self, short_name: str) -> "NetworkEndpoint":
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import NetworkEndpoint
 
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, NetworkEndpoint):
             end_point = NetworkEndpoint(self, short_name)
             self.addElement(end_point)
             self.networkEndpoints.append(end_point)
-        return self.getElement(short_name)
+        return self.getElement(short_name, NetworkEndpoint)
 
     def getSoAdConfig(self):
         return self.soAdConfig
@@ -370,11 +370,11 @@ class EthernetPhysicalChannel(PhysicalChannel):
         return self.vlan
 
     def createVlanConfig(self, short_name: str) -> VlanConfig:
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, VlanConfig):
             config = VlanConfig(self, short_name)
             self.vlan = config
             self.addElement(config)
-        return self.getElement(short_name)
+        return self.getElement(short_name, VlanConfig)
 
 
 class FlexrayChannelName(AREnum):
@@ -508,41 +508,41 @@ class CommunicationCluster(FibexElement, ABC):
         """
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanPhysicalChannel
 
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, CanPhysicalChannel):
             channel = CanPhysicalChannel(self, short_name)
             self.addElement(channel)
             self.physicalChannel.append(channel)
-        return self.getElement(short_name)
+        return self.getElement(short_name, CanPhysicalChannel)
 
     def createLinPhysicalChannel(self, short_name: str):
         """
         This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, LinPhysicalChannel):
             channel = LinPhysicalChannel(self, short_name)
             self.addElement(channel)
             self.physicalChannel.append(channel)
-        return self.getElement(short_name)
+        return self.getElement(short_name, LinPhysicalChannel)
 
     def createEthernetPhysicalChannel(self, short_name: str):
         """
         This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, EthernetPhysicalChannel):
             channel = EthernetPhysicalChannel(self, short_name)
             self.addElement(channel)
             self.physicalChannel.append(channel)
-        return self.getElement(short_name)
+        return self.getElement(short_name, EthernetPhysicalChannel)
 
     def createFlexrayPhysicalChannel(self, short_name: str):
         """
         This relationship defines which channel element belongs to which cluster. A channel shall be assigned to exactly one cluster, whereas a cluster may have one or more channels. Note: This atpSplitable property has no atp.Splitkey due to atpVariation (PropertySetPattern). Stereotypes: atpSplitable; atpVariation Tags: vh.latestBindingTime=systemDesignTime
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, FlexrayPhysicalChannel):
             channel = FlexrayPhysicalChannel(self, short_name)
             self.addElement(channel)
             self.physicalChannel.append(channel)
-        return self.getElement(short_name)
+        return self.getElement(short_name, FlexrayPhysicalChannel)
 
     def getProtocolName(self) -> Optional[String]:
         """

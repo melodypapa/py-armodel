@@ -323,7 +323,7 @@ class SenderReceiverInterface(DataInterface):
         return self
 
     def createDataElement(self, short_name) -> VariableDataPrototype:
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, VariableDataPrototype):
             data_element = VariableDataPrototype(self, short_name)
             self.addElement(data_element)
         return self.getElement(short_name, VariableDataPrototype)
@@ -570,7 +570,7 @@ class ClientServerOperation(AtpStructureElement):
         Returns:
             The created (or existing) ArgumentDataPrototype
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ArgumentDataPrototype):
             prototype = ArgumentDataPrototype(self, short_name)
             self.addElement(prototype)
             self.arguments.append(prototype)
@@ -686,7 +686,7 @@ class ClientServerInterface(PortInterface):
         Returns:
             The created (or existing) ClientServerOperation
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ClientServerOperation):
             operation = ClientServerOperation(self, short_name)
             self.addElement(operation)
             self.operations.append(operation)
@@ -712,7 +712,7 @@ class ClientServerInterface(PortInterface):
         Returns:
             The created (or existing) ApplicationError
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ApplicationError):
             error = ApplicationError(self, short_name)
             self.addElement(error)
             self.possibleErrors.append(error)
@@ -770,7 +770,7 @@ class ModeSwitchInterface(PortInterface):
         Returns:
             The created or existing ModeDeclarationGroupPrototype
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ModeDeclarationGroupPrototype):
             prototype = ModeDeclarationGroupPrototype(self, short_name)
             self.addElement(prototype)
         mode_group = self.getElement(short_name, ModeDeclarationGroupPrototype)
@@ -1285,11 +1285,11 @@ class ModeDeclarationMappingSet(AtpType):
         return self.modeDeclarationMappings
 
     def createModeDeclarationMapping(self, short_name: str) -> ModeDeclarationMapping:
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ModeDeclarationMapping):
             mapping = ModeDeclarationMapping(self, short_name)
             self.addElement(mapping)
             self.modeDeclarationMappings.append(mapping)
-        return self.getElement(short_name)
+        return self.getElement(short_name, ModeDeclarationMapping)
 
 
 class PortInterfaceMappingSet(AtpBlueprintable):
@@ -1310,32 +1310,32 @@ class PortInterfaceMappingSet(AtpBlueprintable):
         return self.portInterfaceMappings
 
     def createVariableAndParameterInterfaceMapping(self, short_name: str):
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, VariableAndParameterInterfaceMapping):
             mapping = VariableAndParameterInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
-        return self.getElement(short_name)
+        return self.getElement(short_name, VariableAndParameterInterfaceMapping)
 
     def createClientServerInterfaceMapping(self, short_name: str):
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ClientServerInterfaceMapping):
             mapping = ClientServerInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
-        return self.getElement(short_name)
+        return self.getElement(short_name, ClientServerInterfaceMapping)
 
     def createModeInterfaceMapping(self, short_name: str):
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ModeInterfaceMapping):
             mapping = ModeInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
-        return self.getElement(short_name)
+        return self.getElement(short_name, ModeInterfaceMapping)
 
     def createTriggerInterfaceMapping(self, short_name: str):
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, TriggerInterfaceMapping):
             mapping = TriggerInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
-        return self.getElement(short_name)
+        return self.getElement(short_name, TriggerInterfaceMapping)
 
 
 class TextTableMapping(ARObject):

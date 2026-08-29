@@ -175,7 +175,7 @@ class Frame(FibexElement, ABC):
         return self
 
     def createPduToFrameMapping(self, short_name: str) -> PduToFrameMapping:
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, PduToFrameMapping):
             mapping = PduToFrameMapping(self, short_name)
             self.addElement(mapping)
             self.pduToFrameMappings.append(mapping)
@@ -1067,7 +1067,7 @@ class NmPdu(Pdu):
         """
         This optional aggregation is used to describe NmUserData that is transmitted in the NmPdu. The counting of the startPosition starts at the beginning of the NmPdu regardless whether Cbv or Nid are used.
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ISignalToIPduMapping):
             mapping = ISignalToIPduMapping(self, short_name)
             self.addElement(mapping)
             self.iSignalToIPduMappings.append(mapping)
@@ -1267,7 +1267,7 @@ class ISignalIPdu(IPdu):
         """
         Definition of SignalToIPduMappings included in the Signal IPdu. atpVariation: The content of a PDU can be variable. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalToPduMapping.shortName, iSignalTo PduMapping.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ISignalToIPduMapping):
             mapping = ISignalToIPduMapping(self, short_name)
             self.addElement(mapping)
             self.iSignalToPduMappings.append(mapping)

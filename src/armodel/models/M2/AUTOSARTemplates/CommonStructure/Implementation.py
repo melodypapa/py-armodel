@@ -734,11 +734,11 @@ class Implementation(ARElement, ABC):
         Returns:
             The created Code instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, Code):
             code_descriptor = Code(self, short_name)
             self.addElement(code_descriptor)
             self.codeDescriptors.append(code_descriptor)
-        return self.getElement(short_name)
+        return self.getElement(short_name, Code)
 
     def getCompilers(self) -> List[Compiler]:
         """
@@ -759,11 +759,11 @@ class Implementation(ARElement, ABC):
         Returns:
             The created Compiler instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, Compiler):
             compiler = Compiler(self, short_name)
             self.addElement(compiler)
             self.compilers.append(compiler)
-        return self.getElement(short_name)
+        return self.getElement(short_name, Compiler)
 
     def getGeneratedArtifacts(self) -> List[DependencyOnArtifact]:
         """
@@ -785,11 +785,11 @@ class Implementation(ARElement, ABC):
         Returns:
             The created DependencyOnArtifact instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, DependencyOnArtifact):
             artifact = DependencyOnArtifact(self, short_name)
             self.addElement(artifact)
             self.generatedArtifacts.append(artifact)
-        return self.getElement(short_name)
+        return self.getElement(short_name, DependencyOnArtifact)
 
     def getHwElementRefs(self) -> List[RefType]:
         """
@@ -835,11 +835,11 @@ class Implementation(ARElement, ABC):
         Returns:
             The created Linker instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, Linker):
             linker = Linker(self, short_name)
             self.addElement(linker)
             self.linkers.append(linker)
-        return self.getElement(short_name)
+        return self.getElement(short_name, Linker)
 
     def getMcSupport(self) -> Optional[McSupportData]:
         """
@@ -908,11 +908,11 @@ class Implementation(ARElement, ABC):
         Returns:
             The created DependencyOnArtifact instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, DependencyOnArtifact):
             artifact = DependencyOnArtifact(self, short_name)
             self.addElement(artifact)
             self.requiredArtifacts.append(artifact)
-        return self.getElement(short_name)
+        return self.getElement(short_name, DependencyOnArtifact)
 
     def getRequiredGeneratorTools(self) -> List[DependencyOnArtifact]:
         """
@@ -934,11 +934,11 @@ class Implementation(ARElement, ABC):
         Returns:
             The created DependencyOnArtifact instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, DependencyOnArtifact):
             tool = DependencyOnArtifact(self, short_name)
             self.addElement(tool)
             self.requiredGeneratorTools.append(tool)
-        return self.getElement(short_name)
+        return self.getElement(short_name, DependencyOnArtifact)
 
     def getResourceConsumption(self) -> Optional[ResourceConsumption]:
         """
@@ -962,11 +962,11 @@ class Implementation(ARElement, ABC):
         """
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import ResourceConsumption
 
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, ResourceConsumption):
             consumption = ResourceConsumption(self, short_name)
             self.addElement(consumption)
             self.resourceConsumption = consumption
-        return self.getElement(short_name)
+        return self.getElement(short_name, ResourceConsumption)
 
     def getSwcBswMappingRef(self) -> Optional[RefType]:
         """
