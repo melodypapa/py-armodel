@@ -1516,11 +1516,16 @@ CanXlProps unconfirmed), ipV6PathMtuEnabled/ipV6PathMtuTimeout (atp.Status=remov
 | `ethernetTrafficClassAssignments` | `List[CouplingPortTrafficClassAssignment]` | `ethernetTraffic ClassAssignment` | ``CouplingPortTraffic ClassAssignment`` (0..8) | aggr | - |
 | `globalTimeProps` | `Optional[GlobalTimeCouplingPortProps]` | `globalTimeProps` | ``GlobalTimeCoupling PortProps`` | aggr | - |
 | `lastEgressSchedulerRef` | `Optional[RefType]` | `lastEgressScheduler` | ``CouplingPortScheduler`` | ref | ref-form naming per project convention (`getLastEgressSchedulerRef`/`setLastEgressSchedulerRef`) |
+| `ratePolicies` | `List[CouplingPortRatePolicy]` | `ratePolicy` | ``CouplingPortRatePolicy`` | aggr | - |
 
-Removed members: `defaultTrafficClass`, `framePreemptionSupport`, `ratePolicies`, `vlanTranslationTables`
-— all absent from the R23-11 Table 3.63 Attribute rows; `ratePolicies` exists in the XSD group but not in
-the table, the rest are absent from both. Fields/accessors removed in this pass
-(Rule 0015/the-table-wins).
+Removed members: `defaultTrafficClass`, `framePreemptionSupport`, `vlanTranslationTables`
+— all absent from the R23-11 Table 3.63 Attribute rows (page-split table; the `ratePolicy` row is on the
+second fragment). Fields/accessors removed in this pass (Rule 0015/the-table-wins).
+The `ratePolicy` member gap found at the 2026-08-29 9b re-check (the earlier sync dropped `ratePolicies`
+plural but never re-added `ratePolicy` singular) was resolved 2026-08-29: `CouplingPortRatePolicy`
+(Table 3.69) + `CouplingPortRatePolicyActionEnum` (Table 3.70) landed and `RATE-POLICYS` reader/writer
+wired at its XSD position; GLOBAL-TIME-PROPS ↔ LAST-EGRESS-SCHEDULER-REF emission order corrected to the
+XSD group sequence in the same pass.
 
 ## `SenderRecArrayTypeMapping`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 235  | **table:** Table 5.28

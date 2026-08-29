@@ -9805,8 +9805,8 @@ class ARXMLParser(AbstractARXMLParser):
             self.readCouplingPortDetailsCouplingPortStructuralElements(child_element, details)
             self.readCouplingPortDetailsEthernetPriorityRegenerations(child_element, details)
             self.readCouplingPortDetailsEthernetTrafficClassAssignments(child_element, details)
-            details.setLastEgressSchedulerRef(self.getChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF"))
             details.setGlobalTimeProps(self.getGlobalTimeProps(child_element, "GLOBAL-TIME-PROPS"))
+            details.setLastEgressSchedulerRef(self.getChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF"))
             self.readCouplingPortDetailsRatePolicys(child_element, details)
         return details
 

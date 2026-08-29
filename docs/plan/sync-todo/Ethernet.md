@@ -726,14 +726,35 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7316 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [x] CanXlProps NOT CONFIRMED by user (RESOLVED 2026-08-28: confirmed XSD verified per row 135 — source CanTopology.py:1084 carries `# XSD verified: AUTOSAR_00052.xsd`; canConfig is typed Optional[CanControllerConfiguration], a real class, not a placeholder, so no clarification needed)
-- [ ] CouplingPortDetails RE-FIX (2026-08-29 — after CouplingPortRatePolicy/ActionEnum land: add the missing ratePolicy member (Table 3.63, XSD RATE-POLICYS AUTOSAR_00052.xsd:23706) with reader/writer coverage, then re-run 9b — the class was left NOT STAMPED when the 2026-08-29 re-check failed on this gap)
-  - [ ] Step 1 — Spec re-check (Table 3.63 with the ratePolicy row; member classes landed)
-  - [ ] Step 2 — Model + round-trip tests for ratePolicy (Red)
-  - [ ] Step 3/4 — Model member added/retyped (RatePolicy list, guarded adder; verbatim Notes)
-  - [ ] Step 5/6 — Parser & writer wired (RATE-POLICYS wrapper in XSD order)
-  - [ ] Step 7 — Checklist comment updated
-  - [ ] Step 8 — Deviations (remove the recorded ratePolicy deviation once resolved)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — full 9b re-check, stamp only on pass
+- [x] CouplingPortDetails RE-FIX (2026-08-29 — after CouplingPortRatePolicy/ActionEnum land: add the missing ratePolicy member (Table 3.63, XSD RATE-POLICYS AUTOSAR_00052.xsd:23706) with reader/writer coverage, then re-run 9b — the class was left NOT STAMPED when the 2026-08-29 re-check failed on this gap) — STAMPED R23-11 — confirmed by user 2026-08-29
+  - [x] Step 1 — Spec re-check (Table 3.63 with the ratePolicy row; member classes landed)
+    (page-split markdown 3231–3250: 6 Attribute rows total — couplingPortStructuralElement, ethernetPriorityRegeneration
+     0..8, ethernetTrafficClassAssignment 0..8, globalTimeProps, lastEgressScheduler ref, ratePolicy * aggr;
+     all 6 modeled, member order = XSD group order; member classes CouplingPortRatePolicy/ActionEnum landed 2026-08-29;
+     open drift confirmed: writer/parser emitted LAST-EGRESS-SCHEDULER-REF before GLOBAL-TIME-PROPS vs XSD sequence)
+  - [x] Step 2 — Model + round-trip tests for ratePolicy (Red)
+    (model TestCouplingPortDetailsRatePolicys + writer test_coupling_port_rate_policy.py landed with the member
+     class session; NEW this pass: test_write_child_element_order_matches_xsd in test_coupling_port_details.py —
+     all 6 groups present, asserts XSD sequence; Red confirmed — GLOBAL-TIME-PROPS/LAST-EGRESS-SCHEDULER-REF swapped)
+  - [x] Step 3/4 — Model member added/retyped (RatePolicy list, guarded adder; verbatim Notes)
+    (landed with the CouplingPortRatePolicy session: ratePolicies List[CouplingPortRatePolicy] +
+     addRatePolicy (None no-op) + getRatePolicies; Note verbatim "Rate policies to be applied for this
+     CouplingPort." — re-verified verbatim this pass; no further model change needed)
+  - [x] Step 5/6 — Parser & writer wired (RATE-POLICYS wrapper in XSD order)
+    (RATE-POLICYS landed with the member class session at its XSD position; THIS pass fixed the flagged drift:
+     setCouplingPortDetails/getCouplingPortDetails now emit/read GLOBAL-TIME-PROPS before LAST-EGRESS-SCHEDULER-REF
+     per AUTOSAR_00052.xsd COUPLING-PORT-DETAILS group sequence; Green — 11/11 incl. the new order test)
+  - [x] Step 7 — Checklist comment updated
+    (15 rows, 1:1 with source order incl. addRatePolicy/getRatePolicies; reader/writer columns match the wiring;
+     no change needed for the order fix — internal wiring only)
+  - [x] Step 8 — Deviations (remove the recorded ratePolicy deviation once resolved)
+    (tracker v2 CouplingPortDetails section: ratePolicy row added with Deviation '-'; stale Removed-members note
+     corrected — ratePolicies/ratePolicy IS in the page-split table, removed list now defaultTrafficClass/
+     framePreemptionSupport/vlanTranslationTables only; resolution narrative recorded)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — full 9b re-check, stamp only on pass
+    (9a done 2026-08-29: pytest 8157 passed / 0 failed incl. integration round-trip, flake8+ruff clean,
+     black-check 777 files unchanged; 9b full re-check confirmed by user 2026-08-29 —
+     # Spec verified: R23-11 written; the input-class row below is STAMPED by this RE-FIX)
 
 ### Input ethernet classes — sync AFTER their member types (Rule 0016.5)
 
@@ -987,7 +1008,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
      trafficClassPreemptionSupport removal recorded per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a re-verified 2026-08-28 — targeted model+writer tests green, mutation Red proof passed; 9b confirmed by user — # Spec verified: R23-11 applied, commit 0ff430d4)
-- [x] CouplingPortDetails (markdown SystemTemplate · Table 3.63 · p.122 · source Fibex4Ethernet/EthernetTopology.py · depends on CouplingPortTrafficClassAssignment above; fixes ethernetPriorityRegeneration / ethernetTrafficClassAssignment member types) — **NOT STAMPED** — ratePolicy member gap (see Step 8/9 notes); GlobalTimeCouplingPortProps (Table 9.18) landed 2026-08-26, but 9b failed re-check 2026-08-29
+- [x] CouplingPortDetails (markdown SystemTemplate · Table 3.63 · p.122 · source Fibex4Ethernet/EthernetTopology.py · depends on CouplingPortTrafficClassAssignment above; fixes ethernetPriorityRegeneration / ethernetTrafficClassAssignment member types) — **STAMPED R23-11** — confirmed by user 2026-08-29 via the RE-FIX row (ratePolicy gap resolved, XSD emission order corrected, full 9b re-check passed)
   - [x] Step 1 — Sync members & description from spec
     (Table 3.63 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:3231–3248 + PDF p.122;
     Base ARObject; 5 attr rows; defaultTrafficClass/framePreemptionSupport/ratePolicies/vlanTranslationTables
@@ -1012,7 +1033,10 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b RE-CHECK 2026-08-29
      FAILED — spec deviation ratePolicy found; NOT stamped; user chose "skip it and check next" — class deferred,
-     next class is OrderedMaster (Table 6.148))
+     next class is OrderedMaster (Table 6.148)
+     RESOLVED 2026-08-29 by the CouplingPortDetails RE-FIX row above: ratePolicy member + reader/writer landed,
+     GLOBAL-TIME-PROPS/LAST-EGRESS-SCHEDULER-REF emission order corrected, full 9b re-check passed,
+     # Spec verified: R23-11 applied — user-confirmed)
 - [x] CouplingPort (markdown SystemTemplate · Table 3.54 · p.110 · source Fibex4Ethernet/EthernetTopology.py · member of EthernetCluster.couplingPorts & EthernetCommunicationController.couplingPorts; adds couplingPortSpeed, vlanModifierRef → EthernetPhysicalChannel Ref) — **STAMPED R23-11** — commit 2482fa9b: 6 of 7 member types landed 2026-08-26 (EthernetConnectionNegotiationEnum 3.55, CouplingPortRoleEnum F.38, EthernetMacLayerTypeEnum 3.56, EthernetPhysicalLayerTypeEnum 3.57, EthernetSwitchVlanIngressTagEnum 3.58, PlcaProps 3.117); MacSecProps (3.118) landed 2026-08-28 in its own sub-queue (a150ffd2) — # Spec verified: applied
   - [x] Step 1 — Sync members & description from spec
     (Table 3.54 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:2795–2825 + PDF p.110;

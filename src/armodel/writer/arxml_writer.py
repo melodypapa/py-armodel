@@ -9144,8 +9144,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCouplingPortDetailsCouplingPortStructuralElements(child_element, details)
             self.writeCouplingPortDetailsEthernetPriorityRegenerations(child_element, details)
             self.writeCouplingPortDetailsEthernetTrafficClassAssignments(child_element, details)
-            self.setChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF", details.getLastEgressSchedulerRef())
             self.setGlobalTimeProps(child_element, "GLOBAL-TIME-PROPS", details.getGlobalTimeProps())
+            self.setChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF", details.getLastEgressSchedulerRef())
             self.writeCouplingPortDetailsRatePolicys(child_element, details)
 
     def setDhcpServerConfiguration(self, element: ET.Element, key: str, config: DhcpServerConfiguration):
