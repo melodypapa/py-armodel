@@ -7,7 +7,7 @@ tests in test_arxml_parser_dispatch.py only route around.
 Focus areas (from coverage report on arxml_parser.py):
 - SDG / Sd / SdgCaption / SdgSdxRefs parsing (lines 250-323)
 - DocRevision / Modification parsing (lines 293-323)
-- _readVariableAccesses branching (lines 426-457)
+- readVariableAccesses branching (lines 426-457)
 """
 
 import logging
@@ -217,11 +217,11 @@ class TestJ1939NodeName:
         assert parser.getChildElementJ1939NodeName(element, "ABSENT") is None
 
 
-# ==================== _readVariableAccesses branching ====================
+# ==================== readVariableAccesses branching ====================
 
 
 class TestReadVariableAccessesBranches:
-    """Exercise each branch of _readVariableAccesses (arxml_parser.py:426)."""
+    """Exercise each branch of readVariableAccesses (arxml_parser.py:426)."""
 
     @pytest.fixture
     def runnable(self):
@@ -244,7 +244,7 @@ class TestReadVariableAccessesBranches:
             f"<{key}>" f"<VARIABLE-ACCESS>" f"<SHORT-NAME>va1</SHORT-NAME>" f"</VARIABLE-ACCESS>" f"</{key}>",
             root_tag=key,
         )
-        parser._readVariableAccesses(element, runnable, key)
+        parser.readVariableAccesses(element, runnable, key)
         # Each branch creates one variable access on the runnable.
         created = getattr(runnable, creator_attr)()
         assert len(created) == 1, f"{key} did not produce a variable access"
@@ -261,7 +261,7 @@ class TestReadVariableAccessesBranches:
             root_tag="ROOT",
         )
         with caplog.at_level(logging.ERROR):
-            p._readVariableAccesses(element, runnable, "BAD-KEY")
+            p.readVariableAccesses(element, runnable, "BAD-KEY")
         assert any("Unsupported Variable Access" in r.getMessage() for r in caplog.records)
 
 

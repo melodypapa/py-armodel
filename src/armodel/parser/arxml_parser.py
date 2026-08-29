@@ -1374,7 +1374,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported writing strategy <%s>" % tag_name)
 
-    def _readVariableAccesses(self, element: ET.Element, parent: RunnableEntity, key: str):
+    def readVariableAccesses(self, element: ET.Element, parent: RunnableEntity, key: str):
         for child_element in self.findall(element, "%s/VARIABLE-ACCESS" % key):
             short_name = self.getShortName(child_element)
 
@@ -4028,19 +4028,19 @@ class ARXMLParser(AbstractARXMLParser):
             document.addImplementationBehaviorMap(impl.getFullName(), behavior_ref.getValue())
 
     def readRunnableEntityDataReceivePointByArguments(self, element, parent: RunnableEntity):
-        self._readVariableAccesses(element, parent, "DATA-RECEIVE-POINT-BY-ARGUMENTS")
+        self.readVariableAccesses(element, parent, "DATA-RECEIVE-POINT-BY-ARGUMENTS")
 
     def readRunnableEntityDataReceivePointByValues(self, element: ET.Element, parent: RunnableEntity):
-        self._readVariableAccesses(element, parent, "DATA-RECEIVE-POINT-BY-VALUES")
+        self.readVariableAccesses(element, parent, "DATA-RECEIVE-POINT-BY-VALUES")
 
     def readRunnableEntityDataReadAccesses(self, element: ET.Element, parent: RunnableEntity):
-        self._readVariableAccesses(element, parent, "DATA-READ-ACCESSS")
+        self.readVariableAccesses(element, parent, "DATA-READ-ACCESSS")
 
     def readRunnableEntityDataWriteAccesses(self, element: ET.Element, parent: RunnableEntity):
-        self._readVariableAccesses(element, parent, "DATA-WRITE-ACCESSS")
+        self.readVariableAccesses(element, parent, "DATA-WRITE-ACCESSS")
 
     def readRunnableEntityDataSendPoints(self, element: ET.Element, parent: RunnableEntity):
-        self._readVariableAccesses(element, parent, "DATA-SEND-POINTS")
+        self.readVariableAccesses(element, parent, "DATA-SEND-POINTS")
 
     def getRunnableEntityArgument(self, element: ET.Element) -> RunnableEntityArgument:
         argument = RunnableEntityArgument()
@@ -4080,10 +4080,10 @@ class ARXMLParser(AbstractARXMLParser):
             self.readParameterAccess(child_element, parameter_access)
 
     def readRunnableEntityWrittenLocalVariables(self, element: ET.Element, parent: RunnableEntity):
-        self._readVariableAccesses(element, parent, "WRITTEN-LOCAL-VARIABLES")
+        self.readVariableAccesses(element, parent, "WRITTEN-LOCAL-VARIABLES")
 
     def readRunnableEntityReadLocalVariables(self, element: ET.Element, parent: RunnableEntity):
-        self._readVariableAccesses(element, parent, "READ-LOCAL-VARIABLES")
+        self.readVariableAccesses(element, parent, "READ-LOCAL-VARIABLES")
 
     def readROperationIRef(self, element: ET.Element, key: str, parent: ServerCallPoint):
         child_element = self.find(element, key)
