@@ -1584,23 +1584,16 @@ LOGIC-ADDRESSS wrapper is not part of the R23-11 table — NOT modeled per Rule 
 Queue note is stale. Bulk setters setConnections/setConnectionBundles were removed as non-spec-shaped.
 
 ## `SocketConnection`
-- **PDF:** n/a — obsolete class, no R23-11 table (Rel 4.4.0 System Template documentation); attributes derived from the XSD `SOCKET-CONNECTION` group in `docs/requirements/xsd/AUTOSAR_00052.xsd` (Rule 0002)
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetCommunication`
+- **PDF:** `AUTOSAR_TPS_SystemTemplate.pdf` (R4.3.1) | **page:** 319 (Table 6.120)
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Ethernet Communication`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetCommunication.py`
 
-| Name in source code | Type (source) | Member name (XSD) | Type (XSD) | Kind | Deviation |
+| Name in source code | Type (source) | Member name (spec) | Type (spec) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `autosarConnector` | `Optional[ARLiteral]` | `autosarConnector` | ``SoAdConnectorType`` | attr | XSD-only enum explicitly skipped per user confirmation; carried as generic `ARLiteral` (Rule 0001.10) |
-| `doIpSourceAddressRef` | `Optional[RefType]` | `doIpSourceAddressRef` | ``DoIpLogicAddress`` | ref | - |
-| `doIpTargetAddressRef` | `Optional[RefType]` | `doIpTargetAddressRef` | ``DoIpLogicAddress`` | ref | - |
-| `ident` | `Optional[TpConnectionIdent]` | `ident` | ``TpConnectionIdent`` | aggr | - |
-| `localPortRef` | `Optional[RefType]` | `localPortRef` | ``SocketAddress`` | ref | spec/XSD marks the reference obsolete (kept per XSD) |
-| `nPduRef` | `Optional[RefType]` | `nPduRef` | ``NpDu`` | ref | - |
-| `remotePortRef` | `Optional[RefType]` | `remotePortRef` | ``SocketAddress`` | ref | spec/XSD marks the reference obsolete (kept per XSD) |
-| `socketProtocol` | `Optional[ARLiteral]` | `socketProtocol` | ``SoAdProtocolType`` | attr | XSD-only enum explicitly skipped per user confirmation; carried as generic `ARLiteral` (Rule 0001.10) |
+| `runtimePortConfiguration` | `Optional[RuntimeAddressConfigurationEnum]` | `runtimePortConfiguration` | ``RuntimeAddressConfigurationEnum`` | attr | - (conforms R4.3.1 Table 6.120; enum per Table 6.121) |
+| `shortLabel` | `Optional[Identifier]` | `shortLabel` | ``Identifier`` | attr | - (conforms R4.3.1 Table 6.120) |
 
-Removed non-XSD member `pduSocketConnectionIpdus` (duplicate of `pdus`, unused outside the class).
-Base stays `Describable` per XSD complexType groups (AR-OBJECT + DESCRIBABLE).
+Base stays `Describable` per R4.3.1 Table 6.120 (DESCRIBABLE). The prior 19-member XSD-derived shape (incl. SoAdConnectorType/SoAdProtocolType `ARLiteral` placeholders) was dropped 2026-08-29 per Rule 0015 (PDF/markdown table wins, no fabrication).
 
 ## `SocketAddress`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 453

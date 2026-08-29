@@ -2788,20 +2788,16 @@ No deviations — Table 3.36 has no `Attribute` rows (all members inherited from
 | — *(missing)* | `—` | `associatedRtePluginRef` | `Ref (EcucContainerValue)` | Ref | missing |
 
 ## `SocketConnection`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 2057
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ObsoleteModel`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ObsoleteModel.py`
+- **PDF:** `AUTOSAR_TPS_SystemTemplate.pdf` (R4.3.1) | **page:** 319 (Table 6.120)
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Ethernet Communication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetCommunication.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `autosarConnector` | `Optional[ARLiteral]` | `autosarConnector` | `SoAdConnectorType` | attr | XSD-only enum explicitly skipped per user confirmation; carried as generic `ARLiteral` |
-| `doIpSourceAddressRef` | `Optional[RefType]` | `doIpSourceAddressRef` | `Ref (LogicAddress)` | Ref | resolved |
-| `doIpTargetAddressRef` | `Optional[RefType]` | `doIpTargetAddressRef` | `Ref (LogicAddress)` | Ref | resolved |
-| `ident` | `Optional[TpConnectionIdent]` | `ident` | `TpConnectionIdent` | aggr | resolved |
-| `localPortRef` | `Optional[RefType]` | `localPortRef` | `Ref (SocketAddress)` | Ref | resolved |
-| `nPduRef` | `Optional[RefType]` | `nPduRef` | `Ref (NPdu)` | Ref | resolved |
-| `remotePortRef` | `Optional[RefType]` | `remotePortRef` | `Ref (SocketAddress)` | Ref | resolved |
-| `socketProtocol` | `Optional[ARLiteral]` | `socketProtocol` | `SoAdProtocolType` | attr | XSD-only enum explicitly skipped per user confirmation; carried as generic `ARLiteral` |
+| `runtimePortConfiguration` | `Optional[RuntimeAddressConfigurationEnum]` | `runtimePortConfiguration` | `RuntimeAddressConfigurationEnum` | attr | - (conforms R4.3.1 Table 6.120; enum per Table 6.121) |
+| `shortLabel` | `Optional[Identifier]` | `shortLabel` | `Identifier` | attr | - (conforms R4.3.1 Table 6.120) |
+
+Base stays `Describable` per R4.3.1 Table 6.120 (DESCRIBABLE). The prior 19-member XSD-derived shape (incl. SoAdConnectorType/SoAdProtocolType `ARLiteral` placeholders) was dropped 2026-08-29 per Rule 0015 (PDF/markdown table wins, no fabrication).
 
 ## `SwcTiming`
 - **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 25

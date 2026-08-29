@@ -3309,19 +3309,12 @@ class TestSocketConnection:
         assert result == []
         assert any("Unsupported Pdu" in r.getMessage() for r in caplog.records)
 
-    def test_getSocketConnection_with_pdus(self, parser):
-        element = _snip(
-            "<CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST>true</CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST>"
-            "<PDUS>"
-            "<SOCKET-CONNECTION-IPDU-IDENTIFIER>"
-            "<SHORT-NAME>p</SHORT-NAME>"
-            '<TP-CONFIG-REF DEST="I-PDU-REF">/ipdu</TP-CONFIG-REF>'
-            "</SOCKET-CONNECTION-IPDU-IDENTIFIER>"
-            "</PDUS>"
-        )
+    def test_getSocketConnection_parses_r43_members(self, parser):
+        element = _snip("<RUNTIME-PORT-CONFIGURATION>sd</RUNTIME-PORT-CONFIGURATION>" "<SHORT-LABEL>conn</SHORT-LABEL>")
         result = parser.getSocketConnection(element)
         assert result is not None
-        assert len(result.getPdus()) == 1
+        assert result.getRuntimePortConfiguration().getValue() == "sd"
+        assert result.getShortLabel().getValue() == "conn"
 
     def test_readSocketConnectionBundleConnections_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import SocketConnectionBundle

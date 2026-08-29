@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARBoolean,
     ARLiteral,
     Float,
+    Identifier,
     Integer,
     PositiveInteger,
     RefType,
@@ -23,6 +24,12 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommun
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (  # noqa: E501
     CanPhysicalChannel,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (  # noqa: E501
+    RuntimeAddressConfigurationEnum,
+    SocketConnection,
+    SocketConnectionBundle,
+    SocketConnectionIpduIdentifier,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (  # noqa: E501  # noqa: E501
     DoIpEntity,
     InfrastructureServices,
@@ -32,11 +39,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     NetworkEndpoint,
     RequestResponseDelay,
     SdClientConfig,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import (  # noqa: E501
-    SocketConnection,
-    SocketConnectionBundle,
-    SocketConnectionIpduIdentifier,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (  # noqa: E501
     ApplicationEndpoint,
@@ -1154,29 +1156,13 @@ class TestWriteSocketConnection:
 
     def test_set_socket_connection_full(self, writer):
         conn = SocketConnection()
-        conn.setClientIpAddrFromConnectionRequest(_boolean("true"))
-        conn.setClientPortFromConnectionRequest(_boolean("false"))
-        conn.setClientPortRef(_ref("PORT", "/port"))
-        ident = SocketConnectionIpduIdentifier()
-        ident.setHeaderId(_pos_int("300"))
-        conn.addPdu(ident)
-        conn.setPduCollectionMaxBufferSize(_pos_int("1024"))
-        conn.setPduCollectionTimeout(_time("0.5"))
-        conn.setRuntimeIpAddressConfiguration(_literal("DYNAMIC"))
-        conn.setRuntimePortConfiguration(_literal("DYNAMIC"))
-        conn.setShortLabel(_literal("lbl"))
+        conn.setRuntimePortConfiguration(RuntimeAddressConfigurationEnum().setValue("sd"))
+        conn.setShortLabel(Identifier().setValue("lbl"))
         parent = _parent()
         writer.setSocketConnection(parent, conn)
         sc = parent.find("SOCKET-CONNECTION")
         assert sc is not None
-        assert sc.find("CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST").text == "true"
-        assert sc.find("CLIENT-PORT-FROM-CONNECTION-REQUEST").text == "false"
-        assert sc.find("CLIENT-PORT-REF") is not None
-        assert sc.find("PDUS") is not None
-        assert sc.find("PDU-COLLECTION-MAX-BUFFER-SIZE").text == "1024"
-        assert sc.find("PDU-COLLECTION-TIMEOUT").text == "0.5"
-        assert sc.find("RUNTIME-IP-ADDRESS-CONFIGURATION").text == "DYNAMIC"
-        assert sc.find("RUNTIME-PORT-CONFIGURATION").text == "DYNAMIC"
+        assert sc.find("RUNTIME-PORT-CONFIGURATION").text == "sd"
         assert sc.find("SHORT-LABEL").text == "lbl"
 
 

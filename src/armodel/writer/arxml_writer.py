@@ -542,7 +542,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanControllerXlConfiguration,
     CanControllerXlConfigurationRequirements,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
@@ -7573,28 +7573,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setSocketConnection(self, element: ET.Element, connection: SocketConnection):
         if connection is not None:
             child_element = ET.SubElement(element, "SOCKET-CONNECTION")
-            self.setChildElementOptionalRefType(child_element, "ALLOWED-I-PV-6-EXT-HEADERS-REF", connection.getAllowedIPv6ExtHeadersRef())
-            self.setChildElementOptionalRefType(child_element, "ALLOWED-TCP-OPTIONS-REF", connection.getAllowedTcpOptionsRef())
-            self.setChildElementOptionalLiteral(child_element, "AUTOSAR-CONNECTOR", connection.getAutosarConnector())
-            self.setChildElementOptionalBooleanValue(child_element, "CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST", connection.getClientIpAddrFromConnectionRequest())  # noqa E501
-            self.setChildElementOptionalBooleanValue(child_element, "CLIENT-PORT-FROM-CONNECTION-REQUEST", connection.getClientPortFromConnectionRequest())  # noqa E501
-            self.setChildElementOptionalRefType(child_element, "CLIENT-PORT-REF", connection.getClientPortRef())
-            self.setChildElementOptionalRefType(child_element, "DO-IP-SOURCE-ADDRESS-REF", connection.getDoIpSourceAddressRef())
-            self.setChildElementOptionalRefType(child_element, "DO-IP-TARGET-ADDRESS-REF", connection.getDoIpTargetAddressRef())
-            ident = connection.getIdent()
-            if ident is not None:
-                ident_element = ET.SubElement(child_element, "IDENT")
-                self.writeReferrable(ident_element, ident)
-            self.setChildElementOptionalRefType(child_element, "LOCAL-PORT-REF", connection.getLocalPortRef())
-            self.setChildElementOptionalRefType(child_element, "N-PDU-REF", connection.getNPduRef())
-            self.setSocketConnectionPdus(child_element, "PDUS", connection.getPdus())
-            self.setChildElementOptionalPositiveInteger(child_element, "PDU-COLLECTION-MAX-BUFFER-SIZE", connection.getPduCollectionMaxBufferSize())
-            self.setChildElementOptionalTimeValue(child_element, "PDU-COLLECTION-TIMEOUT", connection.getPduCollectionTimeout())
-            self.setChildElementOptionalRefType(child_element, "REMOTE-PORT-REF", connection.getRemotePortRef())
-            self.setChildElementOptionalLiteral(child_element, "RUNTIME-IP-ADDRESS-CONFIGURATION", connection.getRuntimeIpAddressConfiguration())
             self.setChildElementOptionalLiteral(child_element, "RUNTIME-PORT-CONFIGURATION", connection.getRuntimePortConfiguration())
             self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", connection.getShortLabel())
-            self.setChildElementOptionalLiteral(child_element, "SOCKET-PROTOCOL", connection.getSocketProtocol())
 
     def writeSocketConnectionBundleConnections(self, element: ET.Element, bundle: SocketConnectionBundle):
         connections = bundle.getBundledConnections()

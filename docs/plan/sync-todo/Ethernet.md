@@ -325,7 +325,7 @@ Retype-only gaps with no missing class are NOT queued: EthernetCommunicationCont
 ARLiteral but MacAddressString exists in PrimitiveTypes.py; legacy Ipv4Configuration.ipv4AddressSource/
 ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) — class not queued.)
 
-- [x] EventGroupControlTypeEnum (enum · Table 6.162 · p.489 · used by PduActivationRoutingGroup.eventGroupControlType AND SoAdRoutingGroup.eventGroupControlType (ObsoleteModel.py, untyped `# type:` comment) · source ServiceInstances.py · resolves both ARLiteral placeholders · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 <!-- commit: 27220004 -->
+- [x] EventGroupControlTypeEnum (enum · Table 6.162 · p.489 · used by PduActivationRoutingGroup.eventGroupControlType AND SoAdRoutingGroup.eventGroupControlType (EthernetCommunication.py, untyped `# type:` comment) · source ServiceInstances.py · resolves both ARLiteral placeholders · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 <!-- commit: 27220004 -->
   - [x] Step 1 — Sync members & description from spec
     (Table 6.162 markdown AUTOSAR_CP_TPS_SystemTemplate.md:13005 + PDF p.489; Package ServiceInstances; 4 literals)
   - [x] Step 2 — Write model class unit test (Red)
@@ -1017,26 +1017,48 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker: new SdClientConfig section, zero open deviations)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7360 passed, black/black-check/lint clean; marker N/A per Rule 0002)
-- [ ] SocketConnection (obsolete · Table F.116 · p.2057 · source Fibex4Ethernet/ObsoleteModel.py — MOVED from EthernetCommunication.py per Rule 0007: Table F.116 Package row = M2::...::Fibex4Ethernet::ObsoleteModel · adds autosarConnector, doIpSourceAddressRef/doIpTargetAddressRef, ident → TpConnectionIdent, localPortRef/remotePortRef → SocketAddress Ref, nPduRef, socketProtocol) — SYNCED AHEAD OF SoAdConfig (dependency-first, Rule 0016.5); CORRECTION (2026-08-26, Rule 0007 audit): a table DOES exist — Table F.116 in the R23-11 obsolete-model appendix — so this is NOT an XSD-only/Rel-4.4.0 class; the Rule 0002 XSD-exclusion note was stale and has been removed; the checklist keeps the XSD-derived rows for members the F-table lacks (Rule 0015) — UNSTAMPED: SoAdConnectorType/SoAdProtocolType explicitly SKIPPED per user confirmation; ARLiteral placeholders retained and deviations remain open; # Spec verified: withheld
-  - [x] Step 1 — Derive members from XSD SOCKET-CONNECTION group (AUTOSAR_00052.xsd); Base ARObject+DESCRIBABLE → stays Describable; 19 elements incl. 8 newly modelled
-  - [x] Step 2 — Model test rewritten to XSD shape (Red — new accessors missing)
-  - [x] Step 3 — Implement model class (Green)
-    (adds autosarConnector, doIpSource/TargetAddressRef, ident→TpConnectionIdent, localPortRef, nPduRef,
-    remotePortRef, socketProtocol; typed Optional/List fields, guarded setters, verbatim XSD Notes;
-    removed non-XSD pduSocketConnectionIpdus duplicate)
-  - [x] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5/6 — Reader/writer extended
-    (setSocketConnection/getSocketConnection cover all XSD children in group order incl. IDENT via writeReferrable/
-     readReferrable; SoAdConfig CONNECTIONS wrapper wired both sides)
-  - [x] Step 7 — Checklist comment (XSD-only form, all rows checked, no marker)
-  - [x] Step 8 — Deviations
-    (tracker section added; SoAdConnectorType/SoAdProtocolType enums carried as ARLiteral placeholders, Rule 0001.10)
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7318 passed, black/black-check/lint clean; 9b/stamp BLOCKED — SoAdConnectorType/SoAdProtocolType placeholders (XSD-only); # Spec verified: withheld (UNSTAMPED))
-    **DEFERRED 2026-08-28 (user decision):** Step 9 / stamp deferred to a later session — NOT a permanent
-    skip. Steps 1–8 stand as landed (source, tests, parser, writer, deviation tracker all in place); the
-    row stays `[ ]` and remains the queue's single open item. Re-entry point for the next session: run 9a
-    fresh, then the full 9b rule-compliance checklist, then decide the stamp. Open blocker unchanged:
-    SoAdConnectorType / SoAdProtocolType are XSD-only and were explicitly skipped per user confirmation,
-    so the ARLiteral placeholders and their deviation rows remain open and Rule 0008 still withholds
-    `# Spec verified:` until that decision is revisited.
+- [x] SocketConnection (obsolete · Table 6.120 · p.319 · **R4.3.1** · source Fibex4Ethernet/EthernetCommunication.py — R4.3.1 package = M2::...::Fibex4Ethernet::Ethernet Communication (relocated from ObsoleteModel.py per Rule 0007, 2026-08-29); 2 members: runtimePortConfiguration → RuntimeAddressConfigurationEnum (Table 6.121), shortLabel → Identifier) — RESYNCED to R4.3.1 per user decision (2026-08-29); the prior 19-member XSD-derived shape (incl. SoAdConnectorType/SoAdProtocolType ARLiteral placeholders) was dropped per Rule 0015 (PDF/markdown table wins, no fabrication); # Spec verified: withheld (not yet confirmed/spec-verified)
+  - [x] Step 1 — Derive members from R4.3.1 Table 6.120 (p.319): runtimePortConfiguration (RuntimeAddressConfigurationEnum, Table 6.121), shortLabel (Identifier); Base Describable
+  - [x] Step 2 — Model test rewritten to R4.3.1 shape (Red → Green)
+  - [x] Step 3 — Implement model class (Green): 2 members, guarded None-no-op setters, verbatim Notes
+  - [x] Step 4 — Sync docstrings (verbatim R4.3.1 Notes)
+  - [x] Step 5/6 — Reader/writer reduced to RUNTIME-PORT-CONFIGURATION + SHORT-LABEL (setSocketConnection/getSocketConnection)
+  - [x] Step 7 — Checklist comment (R4.3.1 Table 6.120 p.319, all rows checked)
+  - [x] Step 8 — Deviations: tracker updated; obsolete XSD-only members (SoAdConnectorType/SoAdProtocolType et al.) removed per Rule 0015
+  - [x] Step 9 — Verify (9a) + confirm (9b): pytest (EthernetCommunication/so_ad_config/frame_channel) passed, lint+black clean, integration round-trip passed; # Spec verified: withheld (not yet confirmed/spec-verified)
+- [x] RuntimeAddressConfigurationEnum (enum · Table 6.121 · p.320 · **R4.3.1** · source Fibex4Ethernet/EthernetCommunication.py — R4.3.1 package = M2::...::Fibex4Ethernet::Ethernet Communication (created this pass per Rule 0007, 2026-08-29); 2 literals: NONE="none" (atp.EnumerationValue=0), SD="sd" (atp.EnumerationValue=1); used by SocketConnection.runtimePortConfiguration) — created to support the SocketConnection R4.3.1 resync; # Spec verified: withheld (not yet confirmed/spec-verified)
+  - [x] Step 1 — Derive literals from R4.3.1 Table 6.121 (p.320): NONE (atp.EnumerationValue=0), SD (atp.EnumerationValue=1)
+  - [x] Step 2 — Enum unit test (Red → Green)
+  - [x] Step 3 — Implement enum (Green): AREnum subclass, literals NONE="none"/SD="sd", verbatim literal Descriptions
+  - [x] Step 4 — Sync docstrings (verbatim R4.3.1 Note + literal Descriptions)
+  - [x] Step 5/6 — N/A: standalone enum, no own XML element; round-tripped via SocketConnection.runtimePortConfiguration
+  - [x] Step 7 — Checklist comment (R4.3.1 Table 6.121 p.320, all rows checked)
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a) + confirm (9b): pytest (EthernetCommunication) passed, lint+black clean; # Spec verified: withheld (not yet confirmed/spec-verified)
+- [x] SocketConnectionIpduIdentifier (class · Table 6.122 · p.321 · **R4.3.1** · source Fibex4Ethernet/EthernetCommunication.py — R4.3.1 package = M2::...::Fibex4Ethernet::Ethernet Communication (relocated from ObsoleteModel.py per Rule 0007, 2026-08-29); 7 members: headerId (PositiveInteger), pduCollectionPduTimeout (TimeValue), pduCollectionSemantics, pduCollectionTrigger, pduRef (RefType), pduTriggeringRef (RefType), routingGroupRefs (List[RefType]); Base ARObject) — pre-existing EXIST type, relocated with the SocketConnection family; # Spec verified: withheld (not yet confirmed/spec-verified)
+  - [x] Step 1 — Derive members from R4.3.1 Table 6.122 (p.321); Base ARObject
+  - [x] Step 2 — Model test (Red → Green)
+  - [x] Step 3 — Implement model class (Green): 7 members, typed Optional/List fields, guarded setters
+  - [x] Step 4 — Sync docstrings
+  - [x] Step 5/6 — Reader/writer: getSocketConnectionPdus/setSocketConnectionPdus (used by SocketConnectionBundle.pdus)
+  - [x] Step 7 — Checklist comment
+  - [x] Step 8 — Deviations: none (pre-existing)
+  - [x] Step 9 — Verify (9a) + confirm (9b): pytest (frame_channel) passed, lint+black clean; # Spec verified: withheld (not yet confirmed/spec-verified)
+- [x] SocketConnectionBundle (class · Table 6.118 · p.316 · **R4.3.1** · source Fibex4Ethernet/EthernetCommunication.py — R4.3.1 package = M2::...::Fibex4Ethernet::Ethernet Communication (relocated from ObsoleteModel.py per Rule 0007, 2026-08-29); 7 members: bundledConnections (List[SocketConnection]), differentiatedServiceField (PositiveInteger), flowLabel (PositiveInteger), pathMtuDiscoveryEnabled (Boolean), pdus (List[SocketConnectionIpduIdentifier]), serverPortRef (RefType), udpChecksumHandling (UdpChecksumCalculationEnum); Base Referrable) — pre-existing EXIST type, relocated with the SocketConnection family; # Spec verified: withheld (not yet confirmed/spec-verified)
+  - [x] Step 1 — Derive members from R4.3.1 Table 6.118 (p.316); Base Referrable
+  - [x] Step 2 — Model test (Red → Green)
+  - [x] Step 3 — Implement model class (Green): 7 members, typed Optional/List fields, guarded setters/adders
+  - [x] Step 4 — Sync docstrings
+  - [x] Step 5/6 — Reader/writer: writeSocketConnectionBundleConnections / writeSocketConnectionBundle / readSocketConnectionBundleConnections + pdus
+  - [x] Step 7 — Checklist comment
+  - [x] Step 8 — Deviations: none (pre-existing)
+  - [x] Step 9 — Verify (9a) + confirm (9b): pytest (frame_channel) passed, lint+black clean; # Spec verified: withheld (not yet confirmed/spec-verified)
+- [x] SoAdRoutingGroup (class · Table 6.125 · p.323 · **R4.3.1** · source Fibex4Ethernet/EthernetCommunication.py — R4.3.1 package = M2::...::Fibex4Ethernet::Ethernet Communication (relocated from ObsoleteModel.py per Rule 0007, 2026-08-29); 1 member: eventGroupControlType (EventGroupControlTypeEnum); Base FibexElement) — pre-existing EXIST type, relocated with the SocketConnection family; # Spec verified: withheld (not yet confirmed/spec-verified)
+  - [x] Step 1 — Derive members from R4.3.1 Table 6.125 (p.323); Base FibexElement
+  - [x] Step 2 — Model test (Red → Green)
+  - [x] Step 3 — Implement model class (Green): 1 member eventGroupControlType (EventGroupControlTypeEnum), guarded None-no-op setter
+  - [x] Step 4 — Sync docstrings
+  - [x] Step 5/6 — Reader/writer: used by SoAdConfig / ServiceInstances routing-group refs
+  - [x] Step 7 — Checklist comment
+  - [x] Step 8 — Deviations: none (pre-existing)
+  - [x] Step 9 — Verify (9a) + confirm (9b): pytest (ARPackage/frame_channel) passed, lint+black clean; # Spec verified: withheld (not yet confirmed/spec-verified)
