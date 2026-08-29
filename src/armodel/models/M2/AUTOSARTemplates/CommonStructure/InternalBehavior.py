@@ -323,6 +323,7 @@ class InternalBehavior(AtpStructureElement, ABC):
 
     # InternalBehavior method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.1, p.65
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] createConstantMemory            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -448,7 +449,7 @@ class InternalBehavior(AtpStructureElement, ABC):
         Returns:
             List of ExclusiveArea instances
         """
-        return list(filter(lambda c: isinstance(c, ExclusiveArea), self.elements))
+        return self.exclusiveAreas
 
     def createExclusiveAreaNestingOrder(self, short_name: str) -> "ExclusiveAreaNestingOrder":
         """
@@ -473,7 +474,7 @@ class InternalBehavior(AtpStructureElement, ABC):
         Returns:
             List of ExclusiveAreaNestingOrder instances
         """
-        return list(filter(lambda c: isinstance(c, ExclusiveAreaNestingOrder), self.elements))
+        return self.exclusiveAreaNestingOrders
 
     def createStaticMemory(self, short_name: str) -> VariableDataPrototype:
         """
