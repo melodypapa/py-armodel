@@ -5,9 +5,8 @@ This test ensures that all model classes defined in the codebase can be
 imported from the top-level `armodel` module, confirming that wildcard imports
 are properly configured throughout the package structure.
 
-Known limitation: 4 classes in subdirectories with name collisions cannot be
-directly imported and are excluded from this test:
-- BswInterfaces/*.py files (3 classes)
+Known limitation: 1 class in a subdirectory with a name collision cannot be
+directly imported and is excluded from this test:
 - BswOverview/InstanceRefs/*.py files (1 class)
 """
 
@@ -22,10 +21,6 @@ import armodel
 # Classes that cannot be imported directly due to name collisions
 # These are accessible via their full import paths instead
 KNOWN_NAME_COLLISION_CLASSES = {
-    # BswInterfaces/*.py files (3 classes)
-    "BswEntryRelationship",
-    "BswEntryRelationshipEnum",
-    "BswEntryRelationshipSet",
     # BswOverview/InstanceRefs/*.py files (1 class)
     "ModeInBswModuleDescriptionInstanceRef",
 }
@@ -52,9 +47,6 @@ INTENTIONALLY_UNEXPORTED_MODULES = {
     "IdsmModuleInstantiation",
     "LatencyConstraintTypeEnum",
     "LatencyTimingConstraint",
-    "McDataAccessDetails",
-    "ModeErrorBehavior",
-    "ModeErrorReactionPolicyEnum",
     "ModeInBswInstanceRef",
     "ModeInSwcBswInstanceRef",
     "ModeInSwcInstanceRef",
@@ -66,9 +58,7 @@ INTENTIONALLY_UNEXPORTED_MODULES = {
     "StateDependentFirewall",
     "SynchronizationTimingConstraint",
     "SynchronizationTypeEnum",
-    "TimingCondition",
     "TimingConditionFormula",
-    "TimingExtensionResource",
     "TimingModeInstance",
     # Blueprint/Standardization - incomplete/experimental
     "BlueprintGenerator",
