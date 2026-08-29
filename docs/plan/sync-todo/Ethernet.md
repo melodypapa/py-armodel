@@ -976,7 +976,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
      REMOVED — IpAddressKeepEnum/Ipv6AddressSourceEnum implemented, Rule 0011, member types retyped)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7332 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] InfrastructureServices (markdown SystemTemplate · Table 6.144 · p.469 · source Fibex4Ethernet/EthernetTopology.py — MOVED from NetworkEndpoint.py per Rule 0007: Table 6.144 Package row = Fibex4Ethernet::EthernetTopology · depends on DhcpServerConfiguration above; adds dhcpServerConfiguration) — STAMP DEFERRED (batch 9b pending); OrderedMaster 6.148 / TimeSyncTechnologyEnum 6.149 / DoIpEntityRoleEnum 6.151 landed 2026-08-26, Step 9 unblocked
+- [x] InfrastructureServices (markdown SystemTemplate · Table 6.144 · p.469 · source Fibex4Ethernet/EthernetTopology.py — MOVED from NetworkEndpoint.py per Rule 0007: Table 6.144 Package row = Fibex4Ethernet::EthernetTopology · depends on DhcpServerConfiguration above; dhcpServerConfiguration REMOVED per Rule 0015) — STAMPED R23-11 — confirmed by user 2026-08-29 <!-- commit: 00154737 -->; OrderedMaster 6.148 / TimeSyncTechnologyEnum 6.149 / DoIpEntityRoleEnum 6.151 landed 2026-08-26
   - [x] Step 1 — Sync members & description from spec
     (Table 6.144 in markdown AUTOSAR_CP_TPS_SystemTemplate.md:12480–12490 + PDF p.469;
     Base ARObject; only 2 attr rows: doIpEntity aggr, timeSynchronization aggr;
@@ -995,7 +995,9 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
      timeSynchronization/doIpEntity inner-members deferral RESOLVED 2026-08-26 — OrderedMaster 6.148,
      TimeSyncTechnologyEnum 6.149, DoIpEntityRoleEnum 6.151 landed; placeholder deviation rows removed)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass; inner-member placeholders resolved once the member types landed)
+    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b RE-CHECK 2026-08-29
+     PASSED — spec Note/attrs verbatim, setDoIpEntity mutation Red proof (3 failed → restored), reader/writer
+     wiring + round-trip incl. empty-reader case green; stamped)
 - [x] CouplingPortFifo (markdown SystemTemplate · Table 3.68 · p.124 · source Fibex4Ethernet/EthernetTopology.py · fixes assignedTrafficClass type) — STAMPED R23-11 — confirmed by user 2026-08-28 <!-- commit: 0ff430d4 -->
   - [x] Step 1 — Sync members & description from spec
     (Table 3.68 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:3300–3312 + PDF p.124;
