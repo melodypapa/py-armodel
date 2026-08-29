@@ -2582,6 +2582,7 @@ class DoIpEntityRoleEnum(AREnum):
 
     # DoIpEntityRoleEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.151, p.471
+    # Spec verified: R23-11
     # (no methods) — enum value form serialized on DoIpEntity.doIpEntityRole
 
     # Network node is a DoIP gateway that accepts external connections. Tags: atp.EnumerationLiteralIndex=0
