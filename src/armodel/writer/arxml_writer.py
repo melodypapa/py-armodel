@@ -7573,9 +7573,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "DO-IP-ENTITY-ROLE", entity.getDoIpEntityRole())
 
-    def setTimeSynchronization(self, element: ET.Element, sync: TimeSynchronization):
+    def setTimeSynchronization(self, element: ET.Element, key: str, sync: TimeSynchronization):
         if sync is not None:
-            child_element = ET.SubElement(element, "TIME-SYNCHRONIZATION")
+            child_element = ET.SubElement(element, key)
             client = sync.getTimeSyncClient()
             if client is not None:
                 client_element = ET.SubElement(child_element, "TIME-SYNC-CLIENT")
@@ -7602,7 +7602,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if services is not None:
             child_element = ET.SubElement(element, key)
             self.setDoIpEntity(child_element, "DO-IP-ENTITY", services.getDoIpEntity())
-            self.setTimeSynchronization(child_element, services.getTimeSynchronization())
+            self.setTimeSynchronization(child_element, "TIME-SYNCHRONIZATION", services.getTimeSynchronization())
 
     def writeNetworkEndPoint(self, element: ET.Element, end_point: NetworkEndpoint):
         self.logger.debug("Set NetworkEndpoint %s" % end_point.getShortName())

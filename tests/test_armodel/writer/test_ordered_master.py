@@ -73,7 +73,7 @@ def _new_sync():
 class TestOrderedMasterRoundTrip:
     def test_round_trip_preserves_values(self, writer, parser):
         parent = ET.Element("PARENT")
-        writer.setTimeSynchronization(parent, _new_sync())
+        writer.setTimeSynchronization(parent, "TIME-SYNCHRONIZATION", _new_sync())
         inner = ET.tostring(parent).decode("utf-8")
         root = ET.fromstring("<AUTOSAR xmlns='%s'>%s</AUTOSAR>" % (NS, inner))
         parsed = parser.getTimeSynchronization(root[0], "TIME-SYNCHRONIZATION")
@@ -94,7 +94,7 @@ class TestOrderedMasterRoundTrip:
         sync = TimeSynchronization()
         sync.setTimeSyncClient(TimeSyncClientConfiguration())
         parent = ET.Element("PARENT")
-        writer.setTimeSynchronization(parent, sync)
+        writer.setTimeSynchronization(parent, "TIME-SYNCHRONIZATION", sync)
         inner = ET.tostring(parent).decode("utf-8")
         root = ET.fromstring("<AUTOSAR xmlns='%s'>%s</AUTOSAR>" % (NS, inner))
         parsed = parser.getTimeSynchronization(root[0], "TIME-SYNCHRONIZATION")
