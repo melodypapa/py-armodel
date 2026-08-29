@@ -7,6 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     SocketConnection,
     SocketConnectionBundle,
     SocketConnectionIpduIdentifier,
+    TcpOptionFilterList,
 )
 
 
@@ -159,6 +160,26 @@ class Test_Fibex4EthernetCommunication:
         # Test None is a no-op
         filter_list.addAllowedIPv6ExtHeader(None)
         assert filter_list.getAllowedIPv6ExtHeaders() == [6, 43]
+
+    def test_TcpOptionFilterList(self):
+        """Test TcpOptionFilterList class functionality (R4.3.1 Table 6.131, p.326)."""
+        parent = MockParent()
+        filter_list = TcpOptionFilterList(parent, "test_tcp_option_filter_list")
+
+        assert isinstance(filter_list, Identifiable)
+
+        # Test default values
+        assert filter_list.getShortName() == "test_tcp_option_filter_list"
+        assert filter_list.getAllowedTcpOptions() == []
+
+        # Test adding allowed TCP options
+        assert filter_list == filter_list.addAllowedTcpOption(2)  # Test method chaining
+        filter_list.addAllowedTcpOption(8)
+        assert filter_list.getAllowedTcpOptions() == [2, 8]
+
+        # Test None is a no-op
+        filter_list.addAllowedTcpOption(None)
+        assert filter_list.getAllowedTcpOptions() == [2, 8]
 
     def test_SoAdRoutingGroup(self):
         """Test SoAdRoutingGroup class functionality."""

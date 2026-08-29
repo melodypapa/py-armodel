@@ -2,7 +2,7 @@
 # (M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Ethernet Communication).
 # Source: AUTOSAR_TPS_SystemTemplate (R4.3.1), Tables 6.118 (SocketConnectionBundle), 6.120
 # (SocketConnection), 6.121 (RuntimeAddressConfigurationEnum), 6.122 (SocketConnectionIpduIdentifier),
-# 6.125 (SoAdRoutingGroup), 6.129 (IPv6ExtHeaderFilterList).
+# 6.125 (SoAdRoutingGroup), 6.129 (IPv6ExtHeaderFilterList), 6.131 (TcpOptionFilterList).
 
 from typing import List, Optional
 
@@ -313,4 +313,37 @@ class IPv6ExtHeaderFilterList(Identifiable):
         """
         if value is not None:
             self.allowedIPv6ExtHeaders.append(value)
+        return self
+
+
+class TcpOptionFilterList(Identifiable):
+    """
+    White list for the filtering of TCP options.
+    """
+
+    # TcpOptionFilterList method parity checklist:
+    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.131, p.326
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] getAllowedTcpOptions   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] addAllowedTcpOption    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # (reader/writer N/A: consumed as ref target on SocketConnection.allowedTcpOptions)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # TCP option kind allowed by this filter.
+        self.allowedTcpOptions: List[PositiveInteger] = []
+
+    def getAllowedTcpOptions(self) -> List[PositiveInteger]:
+        """TCP option kind allowed by this filter."""
+        return self.allowedTcpOptions
+
+    def addAllowedTcpOption(self, value: PositiveInteger) -> "TcpOptionFilterList":
+        """
+        TCP option kind allowed by this filter.
+        A None value is a no-op and does not extend allowedTcpOptions.
+        """
+        if value is not None:
+            self.allowedTcpOptions.append(value)
         return self
