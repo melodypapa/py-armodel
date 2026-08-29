@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortConnection,
     CouplingPortDetails,
     CouplingPortFifo,
+    CouplingPortRatePolicy,
     CouplingPortRatePolicyActionEnum,
     CouplingPortRoleEnum,
     CouplingPortScheduler,
@@ -1248,6 +1249,93 @@ class TestCouplingPortRatePolicyActionEnum:
         enum = CouplingPortRatePolicyActionEnum()
         assert enum.setValue(CouplingPortRatePolicyActionEnum.BLOCK_SOURCE) == enum
         assert enum.getValue() == "blockSource"
+
+
+class TestCouplingPortRatePolicy:
+    """Test cases for CouplingPortRatePolicy (Table 3.69, p.124)."""
+
+    def test_initialization(self):
+        policy = CouplingPortRatePolicy()
+        assert isinstance(policy, ARObject)
+        assert policy.getDataLength() is None
+        assert policy.getPolicyAction() is None
+        assert policy.getPriority() is None
+        assert policy.getTimeInterval() is None
+        assert policy.getVlanRefs() == []
+
+    def test_get_set_dataLength(self):
+        policy = CouplingPortRatePolicy()
+        value = PositiveInteger().setValue("1500")
+        result = policy.setDataLength(value)
+        assert policy.getDataLength() == value
+        assert result == policy
+
+    def test_get_set_policyAction(self):
+        policy = CouplingPortRatePolicy()
+        value = CouplingPortRatePolicyActionEnum().setValue(CouplingPortRatePolicyActionEnum.BLOCK_SOURCE)
+        result = policy.setPolicyAction(value)
+        assert policy.getPolicyAction() == value
+        assert result == policy
+
+    def test_get_set_priority(self):
+        policy = CouplingPortRatePolicy()
+        value = PositiveInteger().setValue("5")
+        result = policy.setPriority(value)
+        assert policy.getPriority() == value
+        assert result == policy
+
+    def test_get_set_timeInterval(self):
+        policy = CouplingPortRatePolicy()
+        value = TimeValue().setValue("0.01")
+        result = policy.setTimeInterval(value)
+        assert policy.getTimeInterval() == value
+        assert result == policy
+
+    def test_add_get_vLanRefs(self):
+        policy = CouplingPortRatePolicy()
+        ref = RefType()
+        ref.setValue("/Clusters/Eth/Vlan1")
+        result = policy.addVlanRef(ref)
+        assert policy.getVlanRefs() == [ref]
+        assert result == policy
+
+    def test_none_no_op(self):
+        policy = CouplingPortRatePolicy()
+        data_length = PositiveInteger().setValue("1500")
+        action = CouplingPortRatePolicyActionEnum().setValue(CouplingPortRatePolicyActionEnum.DROP_FRAME)
+        priority = PositiveInteger().setValue("5")
+        interval = TimeValue().setValue("0.01")
+        policy.setDataLength(data_length)
+        policy.setPolicyAction(action)
+        policy.setPriority(priority)
+        policy.setTimeInterval(interval)
+        result = policy.setDataLength(None)
+        policy.setPolicyAction(None)
+        policy.setPriority(None)
+        policy.setTimeInterval(None)
+        assert policy.getDataLength() == data_length
+        assert policy.getPolicyAction() == action
+        assert policy.getPriority() == priority
+        assert policy.getTimeInterval() == interval
+        assert result == policy
+
+
+class TestCouplingPortDetailsRatePolicys:
+    """Test cases for CouplingPortDetails.ratePolicy aggregation (Table 3.63, p.122)."""
+
+    def test_add_get_ratePolicies(self):
+        details = CouplingPortDetails()
+        policy = CouplingPortRatePolicy()
+        result = details.addRatePolicy(policy)
+        assert details.getRatePolicies() == [policy]
+        assert result == details
+
+    def test_add_ratePolicy_none_no_op(self):
+        details = CouplingPortDetails()
+        details.addRatePolicy(CouplingPortRatePolicy())
+        result = details.addRatePolicy(None)
+        assert len(details.getRatePolicies()) == 1
+        assert result == details
 
 
 class TestPlcaProps:

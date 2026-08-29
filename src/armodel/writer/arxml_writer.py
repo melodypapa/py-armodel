@@ -557,6 +557,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortConnection,
     CouplingPortDetails,
     CouplingPortFifo,
+    CouplingPortRatePolicy,
     CouplingPortScheduler,
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
@@ -9031,6 +9032,28 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported CouplingPortTrafficClassAssignment <%s>" % type(assignment))
 
+    def writeCouplingPortDetailsRatePolicys(self, element: ET.Element, details: CouplingPortDetails):
+        rate_policies = details.getRatePolicies()
+        if len(rate_policies) > 0:
+            child_element = ET.SubElement(element, "RATE-POLICYS")
+            for rate_policy in rate_policies:
+                if isinstance(rate_policy, CouplingPortRatePolicy):
+                    self.writeCouplingPortRatePolicy(child_element, rate_policy)
+                else:
+                    self.notImplemented("Unsupported CouplingPortRatePolicy <%s>" % type(rate_policy))
+
+    def writeCouplingPortRatePolicy(self, element: ET.Element, policy: CouplingPortRatePolicy):
+        child_element = ET.SubElement(element, "COUPLING-PORT-RATE-POLICY")
+        self.setChildElementOptionalPositiveInteger(child_element, "DATA-LENGTH", policy.getDataLength())
+        self.setChildElementOptionalLiteral(child_element, "POLICY-ACTION", policy.getPolicyAction())
+        self.setChildElementOptionalPositiveInteger(child_element, "PRIORITY", policy.getPriority())
+        self.setChildElementOptionalTimeValue(child_element, "TIME-INTERVAL", policy.getTimeInterval())
+        vlan_refs = policy.getVlanRefs()
+        if len(vlan_refs) > 0:
+            wrapper = ET.SubElement(child_element, "V-LAN-REFS")
+            for vlan_ref in vlan_refs:
+                self.setChildElementOptionalRefType(wrapper, "V-LAN-REF", vlan_ref)
+
     def setPlcaProps(self, element: ET.Element, key: str, props: PlcaProps):
         if props is not None:
             child_element = ET.SubElement(element, key)
@@ -9123,6 +9146,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeCouplingPortDetailsEthernetTrafficClassAssignments(child_element, details)
             self.setChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF", details.getLastEgressSchedulerRef())
             self.setGlobalTimeProps(child_element, "GLOBAL-TIME-PROPS", details.getGlobalTimeProps())
+            self.writeCouplingPortDetailsRatePolicys(child_element, details)
 
     def setDhcpServerConfiguration(self, element: ET.Element, key: str, config: DhcpServerConfiguration):
         if config is not None:

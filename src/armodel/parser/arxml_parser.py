@@ -615,6 +615,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortConnection,
     CouplingPortDetails,
     CouplingPortFifo,
+    CouplingPortRatePolicy,
     CouplingPortScheduler,
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
@@ -648,6 +649,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     ApplicationEndpoint,
+    CouplingPortRatePolicyActionEnum,
     CouplingPortRoleEnum,
     DoIpEntity,
     DoIpEntityRoleEnum,
@@ -9661,6 +9663,28 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported CouplingPortTrafficClassAssignment <%s>" % tag_name)
 
+    def readCouplingPortDetailsRatePolicys(self, element: ET.Element, details: CouplingPortDetails):
+        for child_element in self.findall(element, "RATE-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "COUPLING-PORT-RATE-POLICY":
+                rate_policy = CouplingPortRatePolicy()
+                self.readCouplingPortRatePolicy(child_element, rate_policy)
+                details.addRatePolicy(rate_policy)
+            else:
+                self.notImplemented("Unsupported CouplingPortRatePolicy <%s>" % tag_name)
+
+    def readCouplingPortRatePolicy(self, element: ET.Element, policy: CouplingPortRatePolicy):
+        policy.setDataLength(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH"))
+        literal = self.getChildElementOptionalLiteral(element, "POLICY-ACTION")
+        if literal is not None:
+            e = CouplingPortRatePolicyActionEnum()
+            e.setValue(literal.getValue())
+            policy.setPolicyAction(e)
+        policy.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
+        policy.setTimeInterval(self.getChildElementOptionalTimeValue(element, "TIME-INTERVAL"))
+        for ref in self.getChildElementRefTypeList(element, "V-LAN-REFS/V-LAN-REF"):
+            policy.addVlanRef(ref)
+
     def getPlcaProps(self, element: ET.Element, key: str) -> PlcaProps:
         props = None
         child_element = self.find(element, key)
@@ -9783,6 +9807,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readCouplingPortDetailsEthernetTrafficClassAssignments(child_element, details)
             details.setLastEgressSchedulerRef(self.getChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF"))
             details.setGlobalTimeProps(self.getGlobalTimeProps(child_element, "GLOBAL-TIME-PROPS"))
+            self.readCouplingPortDetailsRatePolicys(child_element, details)
         return details
 
     def getDhcpServerConfiguration(self, element: ET.Element, key: str) -> DhcpServerConfiguration:

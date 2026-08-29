@@ -612,16 +612,45 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a done 2026-08-29: pytest 8143 passed / 0 failed incl. integration round-trip, flake8+ruff clean,
      black-check 776 files unchanged; 9b confirmed by user 2026-08-29 — # Spec verified: R23-11 written)
-- [ ] CouplingPortRatePolicy (class · Table 3.69 · p.124 · used by CouplingPortDetails.ratePolicy (*, aggr — XSD RATE-POLICYS, AUTOSAR_00052.xsd:23706) · source EthernetTopology.py · Base ARObject; attrs dataLength (PositiveInteger 0..1), policyAction (CouplingPortRatePolicyActionEnum 0..1), priority (PositiveInteger 0..1), timeInterval (TimeValue 0..1), vLan (EthernetPhysicalChannel * ref) · constraints constr_5459/5460/5461 · resolves the ratePolicy member gap found at the CouplingPortDetails 9b re-check 2026-08-29)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] CouplingPortRatePolicy (class · Table 3.69 · p.124 · used by CouplingPortDetails.ratePolicy (*, aggr — XSD RATE-POLICYS, AUTOSAR_00052.xsd:23706) · source EthernetTopology.py · Base ARObject; attrs dataLength (PositiveInteger 0..1), policyAction (CouplingPortRatePolicyActionEnum 0..1), priority (PositiveInteger 0..1), timeInterval (TimeValue 0..1), vLan (EthernetPhysicalChannel * ref) · constraints constr_5459/5460/5461 · resolves the ratePolicy member gap found at the CouplingPortDetails 9b re-check 2026-08-29) — STAMPED R23-11 — confirmed by user 2026-08-29
+  - [x] Step 1 — Sync members & description from spec
+    (Table 3.69 markdown AUTOSAR_CP_TPS_SystemTemplate.md:3321–3341 + PDF p.124 via pdf_page.py;
+     Base ARObject (XSD complexType = AR-OBJECT group only); 5 attr rows = XSD COUPLING-PORT-RATE-POLICY group order
+     (DATA-LENGTH, POLICY-ACTION, PRIORITY, TIME-INTERVAL, V-LAN-REFS/V-LAN-REF); Aggregated by
+     CouplingPortDetails.ratePolicy — XSD RATE-POLICYS wrapper is the LAST child of the COUPLING-PORT-DETAILS group)
+  - [x] Step 2 — Write model class unit test (Red)
+    (TestCouplingPortRatePolicy + TestCouplingPortDetailsRatePolicys in test_EthernetTopology.py:
+     init defaults, get/set ×4, add/get vLanRefs, None-no-ops, consumer add/get; Red confirmed — ImportError at collection)
+  - [x] Step 3 — Implement model class (Green)
+    (ARObject subclass appended after CouplingPortRatePolicyActionEnum; 5 PEP 526 members in spec/XSD order;
+     guarded setters/adder returning self; consumer CouplingPortDetails gains ratePolicies list +
+     addRatePolicy/getRatePolicies; 67 passed in file)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    (fresh class: class docstring = Table 3.69 Note verbatim; per-attribute Notes verbatim → __init__ comments +
+     getter/setter docstrings, None-no-op sentences appended; consumer member Note verbatim
+     "Rate policies to be applied for this CouplingPort." — Table 3.63 page-split row, markdown ≡ XSD documentation)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+    (tests/test_armodel/writer/test_coupling_port_rate_policy.py: write_all_fields incl. child-element order +
+     empty-omits-wrapper + tmp-free round-trip asserting field values + reader_empty; Red confirmed — 2 failed /
+     2 passed, the empty cases passing trivially = the silent drop the tests catch)
+  - [x] Step 6 — Update parser & writer (Green)
+    (writer writeCouplingPortDetailsRatePolicys + writeCouplingPortRatePolicy wired last in setCouplingPortDetails
+     per XSD position; parser readCouplingPortDetailsRatePolicys + readCouplingPortRatePolicy wired into
+     getCouplingPortDetails; enum constructed reader-side; V-LAN-REFS via getChildElementRefTypeList wrapper-path;
+     7/7 writer-file tests pass)
+  - [x] Step 7 — Update checklist comment
+    (11 method rows source order; reader [x] on mutators, writer [x] on getters, [—] __init__;
+     CouplingPortDetails checklist gains addRatePolicy/getRatePolicies rows; marker deferred to 9b)
+  - [x] Step 8 — Deviations
+    (none for this class; member order = table/XSD order; vLan * ref → vLanRefs/addVlanRef/getVlanRefs per
+     Rule 0001.5 + repo Vlan camelCase precedent; no placeholders.
+     OPEN OBSERVATION for the CouplingPortDetails RE-FIX session: pre-existing set/getCouplingPortDetails emit/
+     read GLOBAL-TIME-PROPS after LAST-EGRESS-SCHEDULER-REF — XSD group order is GLOBAL-TIME-PROPS (4th) before
+     LAST-EGRESS-SCHEDULER-REF (5th); RATE-POLICYS correctly last either way — consumer-scope drift, not touched here)
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a done 2026-08-29: pytest 8156 passed / 0 failed incl. integration round-trip, flake8+ruff clean
+     after removing an unused writer import, black-check 777 files unchanged; 9b confirmed by user 2026-08-29 —
+     # Spec verified: R23-11 written)
 
 ## RE-FIX rows (user review docs/plan/check.md 2026-08-25 — consumers of the member types above; re-run after their member classes land)
 

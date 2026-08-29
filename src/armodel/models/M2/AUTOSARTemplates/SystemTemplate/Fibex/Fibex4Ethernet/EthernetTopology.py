@@ -352,6 +352,8 @@ class CouplingPortDetails(ARObject):
     # [x] setGlobalTimeProps                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getLastEgressSchedulerRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setLastEgressSchedulerRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addRatePolicy                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRatePolicies                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self):
         super().__init__()
@@ -370,6 +372,9 @@ class CouplingPortDetails(ARObject):
 
         # Defines which CouplingPortScheduler is the last in the egress port structure.
         self.lastEgressSchedulerRef: Optional[RefType] = None
+
+        # Rate policies to be applied for this CouplingPort.
+        self.ratePolicies: List[CouplingPortRatePolicy] = []
 
     def getCouplingPortStructuralElements(self) -> List[CouplingPortStructuralElement]:
         """Collects all the structural parts at which a CouplingPort may be configurable."""
@@ -435,6 +440,19 @@ class CouplingPortDetails(ARObject):
         if value is not None:
             self.lastEgressSchedulerRef = value
         return self
+
+    def addRatePolicy(self, value: Optional[CouplingPortRatePolicy]) -> "CouplingPortDetails":
+        """
+        Rate policies to be applied for this CouplingPort.
+        A None value is a no-op and does not append to ratePolicies.
+        """
+        if value is not None:
+            self.ratePolicies.append(value)
+        return self
+
+    def getRatePolicies(self) -> List[CouplingPortRatePolicy]:
+        """Rate policies to be applied for this CouplingPort."""
+        return self.ratePolicies
 
 
 class VlanMembership(ARObject):
@@ -2813,3 +2831,108 @@ class CouplingPortRatePolicyActionEnum(AREnum):
                 CouplingPortRatePolicyActionEnum.BLOCK_SOURCE,
             ]
         )
+
+
+class CouplingPortRatePolicy(ARObject):
+    """
+    Defines a rate policy on a CouplingPort.
+    """
+
+    # CouplingPortRatePolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.69, p.124
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDataLength       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDataLength       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPolicyAction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPolicyAction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPriority         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPriority         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeInterval     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimeInterval     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addVlanRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVlanRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Amount of data in bytes (excluding header information) that can be received to define the rate policy.
+        self.dataLength: Optional[PositiveInteger] = None
+
+        # Defines the action to be performed when this rate policy is violated.
+        self.policyAction: Optional[CouplingPortRatePolicyActionEnum] = None
+
+        # Defines the priority which this rate policy shall be limited on. If no priority is given this rate policy is not considering priority.
+        self.priority: Optional[PositiveInteger] = None
+
+        # Time interval used to define the base of the rate policy.
+        self.timeInterval: Optional[TimeValue] = None
+
+        # Defines the VLANs this rate policy shall be limited on. If no VLAN is given this rate policy is not considering VLAN tags.
+        self.vLanRefs: List[RefType] = []
+
+    def getDataLength(self) -> Optional[PositiveInteger]:
+        """Amount of data in bytes (excluding header information) that can be received to define the rate policy."""
+        return self.dataLength
+
+    def setDataLength(self, value: Optional[PositiveInteger]) -> "CouplingPortRatePolicy":
+        """
+        Amount of data in bytes (excluding header information) that can be received to define the rate policy.
+        A None value is a no-op and does not overwrite an existing dataLength.
+        """
+        if value is not None:
+            self.dataLength = value
+        return self
+
+    def getPolicyAction(self) -> Optional[CouplingPortRatePolicyActionEnum]:
+        """Defines the action to be performed when this rate policy is violated."""
+        return self.policyAction
+
+    def setPolicyAction(self, value: Optional[CouplingPortRatePolicyActionEnum]) -> "CouplingPortRatePolicy":
+        """
+        Defines the action to be performed when this rate policy is violated.
+        A None value is a no-op and does not overwrite an existing policyAction.
+        """
+        if value is not None:
+            self.policyAction = value
+        return self
+
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """Defines the priority which this rate policy shall be limited on. If no priority is given this rate policy is not considering priority."""
+        return self.priority
+
+    def setPriority(self, value: Optional[PositiveInteger]) -> "CouplingPortRatePolicy":
+        """
+        Defines the priority which this rate policy shall be limited on. If no priority is given this rate policy is not considering priority.
+        A None value is a no-op and does not overwrite an existing priority.
+        """
+        if value is not None:
+            self.priority = value
+        return self
+
+    def getTimeInterval(self) -> Optional[TimeValue]:
+        """Time interval used to define the base of the rate policy."""
+        return self.timeInterval
+
+    def setTimeInterval(self, value: Optional[TimeValue]) -> "CouplingPortRatePolicy":
+        """
+        Time interval used to define the base of the rate policy.
+        A None value is a no-op and does not overwrite an existing timeInterval.
+        """
+        if value is not None:
+            self.timeInterval = value
+        return self
+
+    def addVlanRef(self, value: Optional[RefType]) -> "CouplingPortRatePolicy":
+        """
+        Defines the VLANs this rate policy shall be limited on. If no VLAN is given this rate policy is not considering VLAN tags.
+        A None value is a no-op and does not append to vLanRefs.
+        """
+        if value is not None:
+            self.vLanRefs.append(value)
+        return self
+
+    def getVlanRefs(self) -> List[RefType]:
+        """Defines the VLANs this rate policy shall be limited on. If no VLAN is given this rate policy is not considering VLAN tags."""
+        return self.vLanRefs
