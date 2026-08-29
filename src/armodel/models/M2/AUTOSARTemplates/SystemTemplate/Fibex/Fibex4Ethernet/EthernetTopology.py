@@ -2180,6 +2180,7 @@ class OrderedMaster(ARObject):
 
     # OrderedMaster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.148, p.470
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
     # [x] getIndex                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
