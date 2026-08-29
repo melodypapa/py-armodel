@@ -339,6 +339,7 @@ class ConsumedEventGroup(Identifiable):
 
     # ConsumedEventGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.168, p.505
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getApplicationEndpointRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
