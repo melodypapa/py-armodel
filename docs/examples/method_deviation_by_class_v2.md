@@ -2,18 +2,18 @@
 
 Regenerated from the markdown class attribute tables of all 15 AUTOSAR spec
 pairs (`autosar/R23-11/markdown/*.md`, mirroring the R23-11 PDF attribute tables) against
-the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>`
-are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IRef`/
+the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>` or
+`# XSD verified: <xsd-file>` are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IRef`/
 `Refs`) is appended to the member name and recognised in matching. `variationPoint`/
 `shortLabel` are excluded as framework-level.
 
 - Py classes scanned: **1069**
 - Skipped (spec verified stamp): **410**
-- Classes with deviations: **274**
+- Classes with deviations: **185**
 - No spec table found (appendix): **133**
-- Missing accessors: **338**
-- Naming deviations: **40**
-- Type deviations (list/single multiplicity): **72**
+- Missing accessors: **199**
+- Naming deviations: **32**
+- Type deviations (list/single multiplicity): **52**
 
 ## `Implementation`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 621  | **table:** Table 8.1
@@ -63,19 +63,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `arTypedPerInstanceMemory` | ``VariableDataPrototype`` | aggr | missing |
-
-## `EcucModuleDef`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 32 | **table:** Table 2.2
-- **Package:** `M2::AUTOSARTemplates::ECUCParameterDefTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `apiServicePrefix` | `CIdentifier` | `apiServicePrefix` | ``CIdentifier`` | attr | — |
-| `containers` | `List[EcucContainerDef]` | `container` | ``EcucContainerDef`` | aggr | naming |
-| `postBuildVariantSupport` | `Boolean` | `postBuildVariantSupport` | ``Boolean`` | attr | — |
-| `refinedModuleDefRef` | `RefType` | `refinedModuleDef` | ``EcucModuleDef`` | ref | naming (Ref suffix) |
-| `supportedConfigVariants` | `List[EcucConfigurationVariantEnum]` | `supportedConfigVariant` | ``EcucConfiguration VariantEnum`` | attr | naming |
 
 ## `System`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
@@ -133,82 +120,10 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
-## `BswInterruptEvent`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswInterruptEvent`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/BswInterruptEvent.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `BswSchedulerNamePrefix`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —  | **table:** Table 5.21
-- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior::BswSchedulerNamePrefix`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/BswSchedulerNamePrefix.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `BswAsynchronousServerCallResultPoint`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `asynchronousServerCallPoint` | ``BswAsynchronous ServerCallPoint`` | ref | missing |
-
-## `BswDistinguishedPartition`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `BswCalledEntity`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `BswSchedulableEntity`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `BswBackgroundEvent`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —  | **table:** Table 5.27
-- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `BswOsTaskExecutionEvent`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
 ## `BswInternalBehavior`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 68  | **table:** Table 5.2
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior/__init__.py`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
 - **Deferred:** full sync (member policy classes missing; reader/writer partial)
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
@@ -245,27 +160,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `instance` | ``FlatInstanceDescriptor`` | aggr | missing |
 
-## `ExclusiveArea`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::InternalBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `InternalBehavior`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::InternalBehavior`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/InternalBehavior.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `constantMemory` | ``ParameterData Prototype`` | aggr | missing |
-| — *(missing)* | `—` | `constantValueMapping` | ``ConstantSpecification MappingSet`` | ref | missing |
-| — *(missing)* | `—` | `exclusiveArea` | ``ExclusiveArea`` | aggr | missing |
-| — *(missing)* | `—` | `exclusiveAreaNestingOrder` | ``ExclusiveAreaNesting Order`` | aggr | missing |
-
 ## `ServiceNeeds`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
@@ -274,15 +168,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `ServiceDependency`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —  | **table:** Table 12.2
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ServiceNeeds.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `assigneddatatype` | `—` | `assignedDataType` | ``RoleBasedDataType Assignment`` | aggr | type (spec one vs py list) |
 
 ## `DiagEventDebounceAlgorithm`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —  | **table:** Table 12.32
@@ -439,26 +324,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 |---|---|---|---|---|---|
 | `functionalrequestrefs` | `—` | `functionalRequest` | ``TpConnectionIdent`` | ref | type (spec many vs py single) |
 
-## `TpConnectionIdent`
-- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::TransportProtocols`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `PhysicalChannel`
-- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `commconnectorrefs` | `—` | `commConnector` | ``Communication Connector`` | ref | type (spec many vs py single) |
-| — *(missing)* | `—` | `frameTriggering` | ``FrameTriggering`` | aggr | missing |
-| — *(missing)* | `—` | `iSignalTriggering` | ``ISignalTriggering`` | aggr | missing |
-
 ## `EthernetPhysicalChannel`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
@@ -504,15 +369,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
-## `SwComponentPrototype`
-- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Composition`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Composition/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `typeTRef` | `RefType` | `type` | ``SwComponentType`` | tref | type (PDF SwComponentType vs py RefType) |
-
 ## `PPortPrototype`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
@@ -521,15 +377,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | `providedInterfaceTRef` | `TRefType` | `providedInterface` | ``PortInterface`` | tref | type (PDF PortInterface vs py TRefType) |
-
-## `AtpInstanceRef`
-- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::GenericStructure::AbstractStructure`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/AbstractStructure.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `atpContextElement(ordered)` | ``AtpPrototype`` | ref | missing |
 
 ## `DiagnosticCommonElement`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
@@ -549,127 +396,6 @@ are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IR
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `serviceInstance` | ``DiagnosticService Instance`` | ref | missing |
 
-## `AdminData`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
-- **Package:** `M2::MSR::AsamHdo::AdminData`
-- **Source:** `src/armodel/models/M2/MSR/AsamHdo/AdminData.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `docRevision(ordered)` | ``DocRevision`` | aggr | missing |
-
-## `EcucAddInfoParamValue`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 129
-- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
-
-No deviations — Table 2.52 single attribute (`value`, DocumentationBlock, 0..1, aggr) is modeled as `Optional[DocumentationBlock]` with a guarded chaining setter; parser (`getEcucAddInfoParamValue` via `getDocumentationBlock`) and writer (`setEcucAddInfoParamValue` via `writeDocumentationBlock`) coverage complete, including the `ECUC-ADD-INFO-PARAM-VALUE` branch in the `EcucContainerValue.parameterValue` dispatch.
-
-## `EcucTextualParamValue`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 127
-- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
-
-No deviations — `value` retyped to spec `VerbatimString` (Table 2.50) with the spec-typed reader/writer pair; earlier `type (PDF VerbatimString vs py ARLiteral)` row removed once fixed.
-
-## `EcucNumericalParamValue`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 128
-- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
-
-No deviations — `value` retyped to spec `Numerical` (Table 2.51) with the spec-typed reader/writer pair; earlier `type (PDF Numerical vs py ARNumerical)` row removed once fixed.
-
-## `EcucAbstractReferenceValue`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** 131
-- **Package:** `M2::AUTOSARTemplates::ECUCDescriptionTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCDescriptionTemplate.py`
-
-No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, dedicated typed list), `definition` (0..1 ref; ref target `EcucAbstractReferenceDef` modeled as `RefType` per project convention, Kind-`ref` Ref suffix applied per Rule 0001.5 → field `definitionRef`, accessors `getDefinitionRef`/`setDefinitionRef`), `isAutoValue` (0..1 attr retyped `ARBoolean` → `Optional[Boolean]`). Reader/writer coverage completed for all XML elements (`DEFINITION-REF`, `INDEX`, `ANNOTATIONS`, plus newly added `IS-AUTO-VALUE` read/write that was previously dropped); emission/read order aligned to sequenceOffset (-10/-5/+10/+20); earlier type rows removed once fixed.
-
-## `EcucValueConfigurationClass`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —  | **table:** Table 2.10
-- **Package:** `M2::AUTOSARTemplates::ECUCParameterDefTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `EcucEnumerationParamDef`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::ECUCParameterDefTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `literal` | ``EcucEnumerationLiteral Def`` | aggr | missing |
-
-## `EcucChoiceContainerDef`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::ECUCParameterDefTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `choice` | ``EcucParamConf ContainerDef`` | aggr | missing |
-
-## `EcucParamConfContainerDef`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::ECUCParameterDefTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `parameter` | ``EcucParameterDef`` | aggr | missing |
-| — *(missing)* | `—` | `reference` | ``EcucAbstractReference Def`` | aggr | missing |
-| — *(missing)* | `—` | `subContainer` | ``EcucContainerDef`` | aggr | missing |
-
-## `EcucAddInfoParamDef`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::ECUCParameterDefTemplate`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/ECUCParameterDefTemplate.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `Frame`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `pduToFrameMapping` | ``PduToFrameMapping`` | aggr | missing |
-
-## `NmPdu`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `iSignalToIPduMapping` | ``ISignalToIPduMapping`` | aggr | missing |
-
-## `NPdu`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `PduTriggering`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `ipduportrefs` | `—` | `iPduPort` | ``IPduPort`` | ref | type (spec many vs py single) |
-| `isignaltriggeringrefs` | `—` | `iSignalTriggering` | ``ISignalTriggering`` | ref | type (spec many vs py single) |
-
 ## `FrameTriggering`
 - **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
@@ -678,25 +404,6 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | `pdutriggeringrefs` | `—` | `pduTriggering` | ``PduTriggering`` | ref | type (spec many vs py single) |
-
-## `PredefinedVariant`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::GenericStructure::VariantHandling`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/VariantHandling/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `includedvariantrefs` | `—` | `includedVariant` | ``PredefinedVariant`` | ref | type (spec many vs py single) |
-| `swsystemconstantvaluesetrefs` | `—` | `swSystemconstantValueSet` | ``SwSystemconstant ValueSet`` | ref | type (spec many vs py single) |
-
-## `AnyInstanceRef`
-- **PDF:** `AUTOSAR_CP_TPS_ECUConfiguration.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::AnyInstanceRef`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/AnyInstanceRef.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `contextElement(ordered)` | ``AtpFeature`` | ref | missing |
 
 ## `HwAttributeValue`
 - **PDF:** `AUTOSAR_CP_TPS_ECUResourceTemplate.pdf`  | **page:** 16
@@ -746,46 +453,6 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 | `baseTypeRef` | `RefType` | `baseType` | ``SwBaseType`` | ref | type (PDF SwBaseType vs py RefType) |
 | `swGenericAxisParamTypeRef` | `RefType` | `swGenericAxisParamType` | ``SwGenericAxisParam Type`` | ref | type (PDF SwGenericAxisParam Type vs py RefType) |
 
-## `ReferenceValueSpecification`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 436
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Constants`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `referenceValue` | ``DataPrototype`` | ref | missing |
-
-## `NotAvailableValueSpecification`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 440
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Constants`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `defaultPattern` | ``PositiveInteger`` | attr | missing |
-
-## `ConstantSpecificationMapping`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 443  | **table:** Table 5.118
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Constants`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `applConstant` | ``ConstantSpecification`` | ref | missing |
-| — *(missing)* | `—` | `implConstant` | ``ConstantSpecification`` | ref | missing |
-
-## `RuleBasedAxisCont`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 464
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Constants`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `category` | `ARLiteral` | `category` | ``CalprmAxisCategory Enum`` | attr | type (PDF CalprmAxisCategory Enum vs py ARLiteral) |
-| `swArraysize` | `ValueList` | `swArraysize` | ``ValueList`` | aggr | type (spec one vs py list) |
-| `swAxisIndex` | `ARLiteral` | `swAxisIndex` | ``AxisIndexType`` | attr | type (PDF AxisIndexType vs py ARLiteral) |
-| `unitRef` | `RefType` | `unit` | ``Unit`` | ref | type (PDF Unit vs py RefType) |
-
 ## `CompositeRuleBasedValueSpecification`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 471
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::Constants`
@@ -806,27 +473,6 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `contextDataPrototype(ordered)` | ``ApplicationComposite ElementDataPrototype`` | ref | missing |
-
-## `ConsumedEventGroup`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 505  | **table:** Table 6.168
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `pduActivationRoutingGroups` | `List[PduActivationRoutingGroup]` | `pduActivationRoutingGroup` | ``PduActivationRoutingGroup`` | aggr | - (resolved 2026-08-26: `PduActivationRoutingGroup` (Table 6.161) implemented; reader/writer cover the PDU-ACTIVATION-ROUTING-GROUPS wrapper on ConsumedEventGroup) |
-| — *(missing)* | `—` | `instanceIdentifier` | ``PositiveInteger`` | attr | deprecated (atp.Status=removed since 4.4.0), not implemented — absent from the R23-11 Table 6.168 rendering; XSD-only remnant, not modeled per Rule 0015 |
-
-## `ConsumedServiceInstance`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 501  | **table:** Table 6.167
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `instanceIdentifier` | `Optional[AnyServiceInstanceId]` | `instanceIdentifier` | ``AnyServiceInstanceId`` | attr | - (RE-FIX 2026-08-26: String placeholder resolved, primitive now implemented) |
-| `minorVersion` | `Optional[AnyVersionString]` | `minorVersion` | ``AnyVersionString`` | attr | - (RE-FIX 2026-08-26: String placeholder resolved, primitive now implemented) |
-| `versionDrivenFindBehavior` | `Optional[ServiceVersionAcceptanceKindEnum]` | `versionDrivenFindBehavior` | ``ServiceVersionAcceptanceKindEnum`` | attr | - (RE-FIX 2026-08-26: ARLiteral placeholder resolved, enum now implemented) |
 
 ## `GeneralAnnotation`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 4.57
@@ -1437,15 +1083,6 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
-## `AbstractRuleBasedValueSpecification`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Constants`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Constants/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
 ## `CompositeRuleBasedValueArgument`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::Constants`
@@ -1454,78 +1091,6 @@ No deviations — Table 2.53 attributes modeled verbatim: `annotation` (* aggr, 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `EthernetCommunicationConnector`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 117  | **table:** Table 3.62
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `ethIpPropsRef` | `Optional[RefType]` | `ethIpProps` | ``EthIpProps`` | ref | ref-form naming per project convention (`getEthIpPropsRef`/`setEthIpPropsRef`) |
-| `maximumTransmissionUnit` | `Optional[PositiveInteger]` | `maximum TransmissionUnit` | ``PositiveInteger`` | attr | - |
-| `neighborCacheSize` | `Optional[PositiveInteger]` | `neighborCache Size` | ``PositiveInteger`` | attr | - |
-| `pathMtuEnabled` | `Optional[Boolean]` | `pathMtu Enabled` | ``Boolean`` | attr | - |
-| `pathMtuTimeout` | `Optional[TimeValue]` | `pathMtuTimeout` | ``TimeValue`` | attr | - |
-
-Removed member: `networkEndpointRefs` — atp.Status=removed since 4.3.1 and absent from the R23-11
-Table 3.62; field/accessors plus its NETWORK-ENDPOINT-REFS reader/writer wiring were removed in this
-pass (Rule 0015/the-table-wins). Queue-note members NOT modelled per Rule 0015 (no R23-11 table rows):
-apApplicationEndpoint (XSD AP-APPLICATION-ENDPOINTS, class not queued), canXlPropsRefs (XSD-only,
-CanXlProps unconfirmed), ipV6PathMtuEnabled/ipV6PathMtuTimeout (atp.Status=removed), pncFilterDataMask (absent).
-
-## `EthernetCommunicationController`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 116  | **table:** Table 3.61
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `canXlConfigRef` | `Optional[RefType]` | `canXlConfig` | ``AbstractCan CommunicationController`` | ref | - |
-| `couplingPorts` | `List[CouplingPort]` | `couplingPort` | ``CouplingPort`` | aggr | singular spec member modelled per project convention (`createCouplingPort`/`getCouplingPorts`, wrapper COUPLING-PORTS) |
-| `macLayerType` | `Optional[EthernetMacLayerTypeEnum]` | `macLayerType` | ``EthernetMacLayerType Enum`` | attr | - |
-| `macUnicastAddress` | `Optional[ARLiteral]` | `macUnicast Address` | ``MacAddressString`` | attr | - |
-| `maximumReceiveBufferLength` | `Optional[Integer]` | `maximum ReceiveBuffer Length` | ``Integer`` | attr | - |
-| `maximumTransmitBufferLength` | `Optional[Integer]` | `maximum TransmitBuffer Length` | ``Integer`` | attr | - |
-| `slaveActAsPassiveCommunicationSlave` | `Optional[Boolean]` | `slaveActAs Passive Communication Slave` | ``Boolean`` | attr | - |
-| `slaveQualifiedUnexpectedLinkDownTime` | `Optional[TimeValue]` | `slaveQualified UnexpectedLink DownTime` | ``TimeValue`` | attr | - |
-
-## `SdClientConfig`
-- **PDF:** n/a — obsolete class, no R23-11 table; attributes derived from the XSD `SD-CLIENT-CONFIG` group in `docs/requirements/xsd/AUTOSAR_00052.xsd` (Rule 0002)
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
-
-| Name in source code | Type (source) | Member name (XSD) | Type (XSD) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `capabilityRecords` | `List[TagWithOptionalValue]` | `capabilityRecord` | ``TagWithOptionalValue`` | aggr | singular spec member modelled per project convention (`addCapabilityRecord`/`getCapabilityRecords`, wrapper CAPABILITY-RECORDS); fixes the former single-object `capabilityRecord` field |
-| `clientServiceMajorVersion` | `Optional[PositiveInteger]` | `clientServiceMajorVersion` | ``PositiveInteger`` | attr | - |
-| `clientServiceMinorVersion` | `Optional[PositiveInteger]` | `clientServiceMinorVersion` | ``PositiveInteger`` | attr | - |
-| `initialFindBehavior` | `Optional[InitialSdDelayConfig]` | `initialFindBehavior` | ``InitialSdDelayConfig`` | aggr | - |
-| `requestResponseDelay` | `Optional[RequestResponseDelay]` | `requestResponseDelay` | ``RequestResponseDelay`` | aggr | - |
-| `ttl` | `Optional[PositiveInteger]` | `ttl` | ``PositiveInteger`` | attr | - |
-
-## `CouplingPortDetails`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 122  | **table:** Table 3.63
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `couplingPortStructuralElements` | `List[CouplingPortStructuralElement]` | `couplingPort StructuralElement` | ``CouplingPortStructural Element`` | aggr | - |
-| `ethernetPriorityRegenerations` | `List[EthernetPriorityRegeneration]` | `ethernetPriority Regeneration` | ``EthernetPriority Regeneration`` (0..8) | aggr | - |
-| `ethernetTrafficClassAssignments` | `List[CouplingPortTrafficClassAssignment]` | `ethernetTraffic ClassAssignment` | ``CouplingPortTraffic ClassAssignment`` (0..8) | aggr | - |
-| `globalTimeProps` | `Optional[GlobalTimeCouplingPortProps]` | `globalTimeProps` | ``GlobalTimeCoupling PortProps`` | aggr | - |
-| `lastEgressSchedulerRef` | `Optional[RefType]` | `lastEgressScheduler` | ``CouplingPortScheduler`` | ref | ref-form naming per project convention (`getLastEgressSchedulerRef`/`setLastEgressSchedulerRef`) |
-| `ratePolicies` | `List[CouplingPortRatePolicy]` | `ratePolicy` | ``CouplingPortRatePolicy`` | aggr | - |
-
-Removed members: `defaultTrafficClass`, `framePreemptionSupport`, `vlanTranslationTables`
-— all absent from the R23-11 Table 3.63 Attribute rows (page-split table; the `ratePolicy` row is on the
-second fragment). Fields/accessors removed in this pass (Rule 0015/the-table-wins).
-The `ratePolicy` member gap found at the 2026-08-29 9b re-check (the earlier sync dropped `ratePolicies`
-plural but never re-added `ratePolicy` singular) was resolved 2026-08-29: `CouplingPortRatePolicy`
-(Table 3.69) + `CouplingPortRatePolicyActionEnum` (Table 3.70) landed and `RATE-POLICYS` reader/writer
-wired at its XSD position; GLOBAL-TIME-PROPS ↔ LAST-EGRESS-SCHEDULER-REF emission order corrected to the
-XSD group sequence in the same pass.
 
 ## `SenderRecArrayTypeMapping`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 235  | **table:** Table 5.28
@@ -1564,177 +1129,6 @@ XSD group sequence in the same pass.
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | `modedeclarationref` | `—` | `modeDeclaration` | ``ModeDeclaration`` | ref | type (spec many vs py single) |
-
-## `LinConfigurationEntry`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 434  | **table:** Table 6.99
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py`
-
-No deviations — both Table 6.99 attributes are modeled: `assignedController` → field `assignedControllerRef` (`Optional[RefType]`, 0..1 ref; Kind-`ref` Ref suffix per Rule 0001.5) and `assignedLinSlaveConfig` → `assignedLinSlaveConfigRef`, each with guarded chaining setter, verbatim spec Notes and model tests. Reader/writer coverage is complete: the class is abstract with no own XML tag, so the refs round-trip through the concrete subclass dispatch (`readLinConfigurationEntry`/`writeLinConfigurationEntry` called from the `TABLE-ENTRYS` handlers for `AssignFrameId`, `UnassignFrameId`, `AssignFrameIdRange`, `AssignNad`, `ConditionalChangeNad`, `SaveConfigurationEntry`, `DataDumpEntry` — all implemented in this pass with their own spec tables 6.100-6.107, incl. member class `FramePid`; `messageId` on AssignFrameId/UnassignFrameId carries `atp.Status="removed"` in the XSD and is deliberately not modeled). Round-trip proven in `tests/test_armodel/writer/test_writer_lin_schedule_entries.py`.
-
-## `SoAdConfig`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 452
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `connections` | `List[SocketConnection]` | `connection` | ``SocketConnection`` | aggr | singular spec member modelled per project convention (`addConnection`/`getConnections`); spec Note marks the aggregation obsolete (kept, Table 6.117 wins) |
-| `connectionBundles` | `List[SocketConnectionBundle]` | `connectionBundle` | ``SocketConnection Bundle`` | aggr | singular spec member modelled per project convention (`createSocketConnectionBundle`/`getConnectionBundles`); spec Note marks the aggregation obsolete (kept) |
-| `socketAddresses` | `List[SocketAddress]` | `socketAddress` | ``SocketAddress`` | aggr | singular spec member modelled per project convention (`createSocketAddress`/`getSocketAddresses`) |
-
-Resolution of the queue note ("adds logicAddress ref"): Table 6.117 (markdown
-AUTOSAR_CP_TPS_SystemTemplate.md:11920–11937 + PDF p.452) has NO logicAddress row; the XSD-only
-LOGIC-ADDRESSS wrapper is not part of the R23-11 table — NOT modeled per Rule 0015/the-table-wins.
-Queue note is stale. Bulk setters setConnections/setConnectionBundles were removed as non-spec-shaped.
-
-## `SocketConnection`
-- **PDF:** `AUTOSAR_TPS_SystemTemplate.pdf` (R4.3.1) | **page:** 319 (Table 6.120)
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Ethernet Communication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetCommunication.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (spec) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `runtimePortConfiguration` | `Optional[RuntimeAddressConfigurationEnum]` | `runtimePortConfiguration` | ``RuntimeAddressConfigurationEnum`` | attr | - (conforms R4.3.1 Table 6.120; enum per Table 6.121) |
-| `shortLabel` | `Optional[Identifier]` | `shortLabel` | ``Identifier`` | attr | - (conforms R4.3.1 Table 6.120) |
-
-Base stays `Describable` per R4.3.1 Table 6.120 (DESCRIBABLE). The prior 19-member XSD-derived shape (incl. SoAdConnectorType/SoAdProtocolType `ARLiteral` placeholders) was dropped 2026-08-29 per Rule 0015 (PDF/markdown table wins, no fabrication).
-
-## `SocketAddress`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 453
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `staticSocketConnections` | `List[StaticSocketConnection]` | `staticSocketConnection` | ``StaticSocketConnection`` | aggr | - (resolved 2026-08-26: `StaticSocketConnection` (Table 6.201) implemented; reader/writer cover the STATIC-SOCKET-CONNECTIONS wrapper) |
-| `udpChecksumHandling` | `Optional[UdpChecksumCalculationEnum]` | `udpChecksumHandling` | ``UdpChecksumCalculationEnum`` | attr | - (resolved 2026-08-26: `UdpChecksumCalculationEnum` (Table 6.119) implemented as `AREnum`; reader constructs the enum from the element value) |
-
-Resolution of the queue context ("adds ipAddress"): Table 6.118 (markdown AUTOSAR_CP_TPS_SystemTemplate.md:11940–11969, page-split table; PDF p.453 per pdf_page.py) has NO ipAddress/portAddress rows; both are deprecated XSD-only elements ("This attribute is deprecated ... replaced by the aggregated NetworkEndpoint/ApplicationEndpoint"). Rule 0015/the-table-wins: NOT modeled — the pre-existing `portAddress` field/accessors plus its PORT-ADDRESS reader/writer coverage were removed in this pass; `ipAddress` was never modeled. Queue note is stale.
-
-## `ApplicationEndpoint`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 458
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(not implemented)* | `—` | `discoveryTechnology` | ``DISCOVERY-TECHNOLOGY`` (XSD-only) | attr | deprecated (atp.Status=removed), not implemented |
-| — *(not implemented)* | `—` | `remotingTechnology` | ``REMOTING-TECHNOLOGY`` (XSD-only) | attr | deprecated (atp.Status=removed), not implemented |
-| — *(not implemented)* | `—` | `serializationTechnologyRef` | ``SerializationTechnology`` REF (XSD-only) | ref | deprecated (atp.Status=removed), not implemented |
-
-Resolution of the three technology members (queue context): Table 6.124 (markdown AUTOSAR_CP_TPS_SystemTemplate.md:12091–12115 + PDF p.458 per pdf_page.py) has NO discoveryTechnology/remotingTechnology/serializationTechnologyRef rows; the XSD groups mark all three atp.Status="removed" (AUTOSAR_00052.xsd:3410/3452/3458). Rule 0015/the-table-wins: NOT modeled; the earlier "consumedServiceInstance missing" row was removed — it is implemented (`createConsumedServiceInstance`/`getConsumedServiceInstances`, dedicated typed list field).
-
-## `EthernetCluster`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 103  | **table:** Table 3.47
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `couplingPortConnections` | `List[CouplingPortConnection]` | `couplingPort Connection` | ``CouplingPortConnection`` | aggr | field renamed from the mislabelled `couplingPorts` |
-| `couplingPortStartupActiveTime` | `Optional[TimeValue]` | `couplingPort StartupActiveTime` | ``TimeValue`` | attr | - |
-| `couplingPortSwitchoffDelay` | `Optional[TimeValue]` | `couplingPort SwitchoffDelay` | ``TimeValue`` | attr | - |
-| `macMulticastGroups` | `List[MacMulticastGroup]` | `macMulticast Group` | ``MacMulticastGroup`` | aggr | - |
-
-Resolution of the queue note ("adds couplingPorts to EthernetCluster"): the spec aggregates
-**CouplingPortConnection** objects in the role `couplingPortConnection`, not CouplingPorts — the
-pre-existing mislabelled `couplingPorts` list was renamed accordingly; the CouplingPorts themselves
-are aggregated by CouplingElement / EthernetCommunicationController (Table 3.54 "Aggregated by").
-
-## `InfrastructureServices`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 469  | **table:** Table 6.144
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology` (modelled in NetworkEndpoint.py)
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/NetworkEndpoint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `doIpEntity` | `Optional[DoIpEntity]` | `doIpEntity` | ``DoIpEntity`` | aggr | - |
-| `timeSynchronization` | `Optional[TimeSynchronization]` | `timeSynchronization` | ``TimeSynchronization`` | aggr | reader/writer cover the aggregation role and TIME-SYNC-SERVER identity; inner members of `TimeSyncClientConfiguration`/`TimeSyncServerConfiguration` (ORDERED-MASTER-LIST etc.) pending those classes' own sync (Rule 0001.10) |
-
-Removed member: `dhcpServerConfiguration` — atp.Status=removed since 4.3.1 and absent from the
-R23-11 Table 6.144; field/accessors plus its DHCP-SERVER-CONFIGURATION reader/writer wiring on this
-class were removed in this pass (Rule 0015/the-table-wins). DhcpServerConfiguration itself remains
-modelled for VlanMembership.dhcpAddressAssignment (Table 3.79).
-
-## `CouplingPort`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 110  | **table:** Table 3.54
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `connectionNegotiationBehavior` | `Optional[EthernetConnectionNegotiationEnum]` | `connectionNegotiation Behavior` | ``EthernetConnection NegotiationEnum`` | attr | - |
-| `couplingPortDetails` | `Optional[CouplingPortDetails]` | `couplingPort Details` | ``CouplingPortDetails`` | aggr | - |
-| `couplingPortRole` | `Optional[CouplingPortRoleEnum]` | `couplingPort Role` | ``CouplingPortRoleEnum`` | attr | - |
-| `defaultVlanRef` | `Optional[RefType]` | `defaultVlan` | ``EthernetPhysical Channel`` | ref | ref-form naming per project convention |
-| `macLayerType` | `Optional[EthernetMacLayerTypeEnum]` | `macLayerType` | ``EthernetMacLayerType Enum`` | attr | - |
-| `macMulticastAddressRefs` | `List[RefType]` | `macMulticast Address` | ``MacMulticastGroup`` | ref | singular spec member modelled per project convention (`addMacMulticastAddressRef`/`getMacMulticastAddressRefs`, wrapper MAC-MULTICAST-ADDRESS-REFS) |
-| `macSecProps` | `List[MacSecProps]` | `macSecProps` | ``MacSecProps`` | aggr | - |
-| `physicalLayerType` | `Optional[EthernetPhysicalLayerTypeEnum]` | `physicalLayer Type` | ``EthernetPhysicalLayer TypeEnum`` | attr | - |
-| `plcaProps` | `Optional[PlcaProps]` | `plcaProps` | ``PlcaProps`` | aggr | - |
-| `pncMappingRefs` | `List[RefType]` | `pncMapping` | ``PncMappingIdent`` | ref | singular spec member modelled per project convention (`addPncMappingRef`/`getPncMappingRefs`, wrapper PNC-MAPPING-REFS) |
-| `receiveActivity` | `Optional[EthernetSwitchVlanIngressTagEnum]` | `receiveActivity` | ``EthernetSwitchVlan IngressTagEnum`` | attr | - |
-| `vlanMemberships` | `List[VlanMembership]` | `vlan Membership` | ``VlanMembership`` | aggr | - |
-| `vlanModifierRef` | `Optional[RefType]` | `vlanModifier` | ``EthernetPhysical Channel`` | ref | ref-form naming per project convention (`getVlanModifierRef`/`setVlanModifierRef`) |
-| `wakeupSleepOnDatalineConfigRef` | `Optional[RefType]` | `wakeupSleep OnDataline Config` | ``EthernetWakeupSleep OnDatalineConfig`` | ref | - |
-
-Removed member: `macAddressVlanAssignments` (typed `MacAddressVlanMembership`) — absent from the
-R23-11 Table 3.54 and the XSD COUPLING-PORT group; field/accessors removed in this pass
-(Rule 0015/the-table-wins). Queue note "adds couplingPortSpeed" is stale: COUPLING-PORT-SPEED exists
-in the XSD group but has NO row in the R23-11 table — NOT modeled per Rule 0015.
-
-## `CouplingPortFifo`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 124  | **table:** Table 3.68
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `assignedTrafficClasses` | `List[PositiveInteger]` | `assignedTrafficClass` | ``PositiveInteger`` (0..8) | attr | singular spec member modelled per project convention (`addAssignedTrafficClass`/`getAssignedTrafficClasses`, wrapper ASSIGNED-TRAFFIC-CLASSS) |
-| `minimumFifoLength` | `Optional[PositiveInteger]` | `minimumFifoLength` | ``PositiveInteger`` | attr | - |
-| `shaper` | `Optional[ARObject]` | `shaper` | ``CouplingPortAbstract Shaper`` | aggr | referenced abstract class `CouplingPortAbstractShaper` not yet implemented; carried as an `ARObject` placeholder, reader/writer pending, full sync deferred (Rule 0001.10) |
-
-Removed member: `trafficClassPreemptionSupport` — absent from the R23-11 Table 3.68 and the XSD
-COUPLING-PORT-FIFO group; field/accessors removed in this pass (Rule 0015/the-table-wins).
-
-## `Ipv6Configuration`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 466
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::NetworkEndpoint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/NetworkEndpoint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `dnsServerAddresses` | `List[Ip6AddressString]` | `dnsServerAddress` | ``Ip6AddressString`` | attr | - (resolved 2026-08-26: singular spec member with xml.namePlural=DNS-SERVER-ADDRESSES modelled per project convention — `getDnsServerAddresses`/`addDnsServerAddress` replacing the non-conventional bulk setter; wrapper element DNS-SERVER-ADDRESSES wired into reader/writer) |
-
-Resolution of the former missing row: dnsServerAddress is modelled and round-trips via the
-DNS-SERVER-ADDRESSES wrapper. Full sync 2026-08-26: all nine Attribute rows carry verbatim Notes,
-typed annotations, guarded setters and reader/writer coverage (Table 6.139).
-
-## `AbstractServiceInstance`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 477
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `methodActivationRoutingGroup` | `Optional[PduActivationRoutingGroup]` | `methodActivationRoutingGroup` | ``PduActivationRoutingGroup`` | aggr | - (resolved 2026-08-26: `PduActivationRoutingGroup` (Table 6.161) implemented and wired — reader/writer cover the METHOD-ACTIVATION-ROUTING-GROUPS wrapper on both ConsumedServiceInstance and ProvidedServiceInstance sides; model keeps 0..1 per Table 6.158 while XSD resolves the atpVariation to unbounded, first entry read / single entry written); earlier `routingGroupRefs` type row removed — ref-kind members are modeled as `List[RefType]` (DEST=`SO-AD-ROUTING-GROUP`) and round-trip via `ROUTING-GROUP-REFS/ROUTING-GROUP-REF`; spec Tags: atp.Status=obsolete on `routingGroup`, kept and round-tripped |
-
-## `EventHandler`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 492
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(removed)* | `—` | `applicationEndpoint` | ``ApplicationEndpoint`` | ref | atp.Status=removed since 4.4.0, absent from the R23-11 Table 6.166; pre-existing field/accessors/reader/writer removed in this pass (Rule 0015/the-table-wins) |
-| `eventGroupIdentifier` | `Optional[PositiveInteger]` | `eventGroupIdentifier` | ``PositiveInteger`` | attr | - (synced 2026-08-26) |
-| `eventMulticastAddressRef` | `Optional[RefType]` | `eventMulticastAddress` | ``ApplicationEndpoint`` | ref | - (synced 2026-08-26; serialized through EVENT-MULTICAST-ADDRESSS/APPLICATION-ENDPOINT-REF-CONDITIONAL) |
-| `pduActivationRoutingGroups` | `List[PduActivationRoutingGroup]` | `pduActivationRoutingGroup` | ``PduActivationRouting Group`` | aggr | - (synced 2026-08-26, class implemented per Table 6.161) |
-| `sdServerEgTimingConfigRef` | `Optional[RefType]` | `sdServerEgTimingConfig` | ``SomeipSdServerEvent GroupTimingConfig`` | ref | - (synced 2026-08-26; serialized through SD-SERVER-EG-TIMING-CONFIGS conditional wrapper) |
-
-Resolution of the former missing rows: all four members are now modelled with full reader/writer
-coverage against Table 6.166.
 
 ## `DoIpLogicTesterAddressProps`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 556
@@ -1825,15 +1219,6 @@ coverage against Table 6.166.
 
 ## `FlexrayNmNode`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 679  | **table:** Table 6.310
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::NetworkManagement`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `CanNmEcu`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 683  | **table:** Table 6.313
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::NetworkManagement`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py`
 
@@ -1945,15 +1330,6 @@ coverage against Table 6.166.
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
-## `BusspecificNmEcu`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 675  | **table:** Table 6.301
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::NetworkManagement`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py`
-
-No deviations — abstract base (`Base: ARObject`) with an empty attribute table; the
-class docstring is the verbatim spec Note, serialization covered polymorphically via
-the concrete subclasses in `read/writeBusDependentNmEcus`.
-
 ## `J1939NmEcu`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::NetworkManagement`
@@ -1983,17 +1359,6 @@ the concrete subclasses in `read/writeBusDependentNmEcus`.
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
-## `CanTpConfig`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::TransportProtocols`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `tpAddress` | ``CanTpAddress`` | aggr | missing |
-| — *(missing)* | `—` | `tpChannel` | ``CanTpChannel`` | aggr | missing |
-| — *(missing)* | `—` | `tpNode` | ``CanTpNode`` | aggr | missing |
-
 ## `DoIpTpConfig`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.205
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::TransportProtocols`
@@ -2002,13 +1367,6 @@ the concrete subclasses in `read/writeBusDependentNmEcus`.
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `doIpLogicAddress` | ``DoIpLogicAddress`` | aggr | missing |
-
-## `LinTpConfig`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 614  | **table:** Table 6.259
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::TransportProtocols`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/TransportProtocols.py`
-
-No deviations — the earlier `tpAddress`/`tpNode` missing rows were stale: all three Table 6.259 aggregations (`tpAddress` → `List[TpAddress]`, `tpConnection` → `List[LinTpConnection]`, `tpNode` → `List[LinTpNode]`) are dedicated typed lists with `create/add/get` accessors and full reader/writer coverage (`read/writeLinTpConfigTpAddresses/Connections/Nodes`). During re-sync two drift items in the member serialization were fixed: the writer emitted `DROP-NOT-REQUESTED-NAD` on the wrong parent element, and `LIN-TP-NODE`'s `MAX-NUMBER-OF-RESP-PENDING-FRAMES` (Table 6.260 Integer attr) was never read/written — both now round-trip with tests (incl. empty-wrapper case). Docstrings synced verbatim to the Table 6.259/6.260 Notes; member class `LinTpNode` synced and stamped in the same pass.
 
 ## `J1939SharedAddressCluster`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
@@ -2027,17 +1385,6 @@ No deviations — the earlier `tpAddress`/`tpNode` missing rows were stale: all 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `defaultValueElement` | ``DefaultValueElement`` | aggr | missing |
-
-## `ISignalTriggering`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 330  | **table:** Table 6.16
-- **Package (spec):** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex\FibexCore\CoreCommunication.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(removed)* | `—` | `isignalportrefs` | ``ISignalPort`` | ref | stale: model uses `List[RefType]` for the spec `*` multiplicity; no deviation |
-
-All three Table 6.16 attributes are modeled verbatim (`Optional[RefType]` for `iSignal`/`iSignalGroup` 0..1 refs, `List[RefType]` for `iSignalPort` * refs); reader/writer cover all of them.
 
 ## `StaticPart`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.74
@@ -2084,64 +1431,15 @@ All three Table 6.16 attributes are modeled verbatim (`Optional[RefType]` for `i
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
-## `AbstractCanPhysicalChannel`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 3.21
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `CanPhysicalChannel`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `IPduPort`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 304  | **table:** Table 6.3
-- **Package (spec):** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(removed)* | `—` | `keyId` | `PositiveInteger` | attr | deprecated (atp.Status=removed), not implemented |
-
-Relocated from `CoreTopology.py` to `CoreCommunication.py` per the spec Package row (Table 6.3 + XSD group comment). All four Table 6.3 attributes are modeled verbatim (`Optional`-typed); reader/writer now cover all of them, including the previously dropped `I-PDU-SIGNAL-PROCESSING` and `TIMESTAMP-RX-ACCEPTANCE-WINDOW`. `IPduSignalProcessingEnum` converted to `AREnum` per Table 6.4 (literals `deferred`/`immediate`) and relocated likewise.
-
-## `CommConnectorPort`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 303  | **table:** Table 6.1
-- **Package (spec):** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| location | `CoreCommunication.py` | — | — | — | spec package CoreTopology vs py CoreCommunication; structurally forced: its CoreCommunication subclasses (FramePort/IPduPort/ISignalPort per Tables 6.2/6.3/6.5) inherit it at class-definition time, and a CoreCommunication→CoreTopology edge would cycle with CoreTopology's required CommunicationCluster→FibexElement / triggering dependencies |
-
-Relocated together with its subclass family to keep the dependency graph acyclic; fields/docstrings/coverage unchanged since the R23-11 stamp.
-
 ## `FramePort`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.3
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py`
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreCommunication.py`
+- **Note:** the earlier `Package: …::FibexCore::CoreTopology` row was stale — the spec `Package` row of Table 6.3 is `…::CoreCommunication`; the class is a direct member of `CoreCommunication.py` together with its `CommConnectorPort` base (Rule 0007).
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `CommunicationConnector`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 3.5
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/FibexCore/CoreTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `ecuCommPortInstance` | ``CommConnectorPort`` | aggr | missing |
-| — *(missing)* | `—` | `pncFilterArrayMask(ordered)` | ``PositiveInteger`` | attr | missing |
 
 ## `AbstractEthernetFrame`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.229
@@ -2190,8 +1488,9 @@ Relocated together with its subclass family to keep the dependency graph acyclic
 
 ## `NetworkEndpointAddress`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::NetworkEndpoint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/NetworkEndpoint.py`
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+- **Note:** the earlier `Package: …::Fibex4Ethernet::NetworkEndpoint` / `Source: …/NetworkEndpoint.py` rows were stale — no such package exists in the R23-11 corpus and no such module exists in `src`; Table 6.135 puts the class in `EthernetTopology`.
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
@@ -2199,8 +1498,9 @@ Relocated together with its subclass family to keep the dependency graph acyclic
 
 ## `TimeSyncClientConfiguration`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.146
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::NetworkEndpoint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/NetworkEndpoint.py`
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+- **Note:** the earlier `Package: …::Fibex4Ethernet::NetworkEndpoint` / `Source: …/NetworkEndpoint.py` rows were stale — no such package exists in the R23-11 corpus and no such module exists in `src`; Table 6.146 puts the class in `EthernetTopology`.
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
@@ -2224,33 +1524,6 @@ Relocated together with its subclass family to keep the dependency graph acyclic
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
-## `CanFrame`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.110
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanCommunication.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `CanFrameTriggering`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.111
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanCommunication.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `absolutelyScheduledTiming` | ``TtcanAbsolutely ScheduledTiming`` | aggr | missing |
-
-## `AbstractCanCommunicationConnector`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 3.23
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Can/CanTopology.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
 ## `FlexrayFrame`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 6.80
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayCommunication`
@@ -2259,27 +1532,6 @@ Relocated together with its subclass family to keep the dependency graph acyclic
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `LinFrame`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 428  | **table:** Table 6.87
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py`
-
-No deviations — Table 6.87 contributes no own attributes (all members inherited via the `Frame` base chain); the abstract class carries the verbatim Note docstring, a fully-`[x]` checklist of its self-defined methods (`__init__`) and the R23-11 stamp. No own XML tag → reader/writer `[—]`; concrete frames (`LinUnconditionalFrame`) serialize through their own dispatch.
-
-## `LinUnconditionalFrame`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 429  | **table:** Table 6.90
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py`
-
-No deviations — Table 6.90 contributes no own attributes; verbatim Note docstring, `[x]` checklist, R23-11 stamp. Reader/writer dispatch existed already (`readLinUnconditionalFrame`/`writeLinUnconditionalFrame` + ARPackage factory).
-
-## `FreeFormatEntry`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 434  | **table:** Table 6.98
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Lin/LinCommunication.py`
-
-No deviations — Table 6.98 contributes no own attributes (earlier tracker row cited table id 6.99, which is `LinConfigurationEntry`; corrected). Verbatim Note docstring, `[x]` checklist of self-defined methods. Abstract with no own XML tag → reader/writer `[—]`; serialization goes through the concrete `FreeFormat` subclass (Table 6.108), which is now implemented together with the full `TABLE-ENTRYS` dispatch (see `LinConfigurationEntry` row).
 
 ## `DataTransformationSet`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 7.2
@@ -2313,318 +1565,6 @@ No deviations — Table 6.98 contributes no own attributes (earlier tracker row 
 | `elementrefs` | `—` | `element` | ``Identifiable`` | ref | type (spec many vs py single) |
 | `sourceelementrefs` | `—` | `sourceElement` | ``Identifiable`` | ref | type (spec many vs py single) |
 | — *(missing)* | `—` | `sourceInstance` | ``AtpFeature`` | iref | missing |
-
-## `SwcTiming`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 25
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::TimingExtensions`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/TimingExtensions.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `behavior` | ``SwcInternalBehavior`` | ref | missing |
-
-## `TimingCondition`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 35  | **table:** Table 3.7
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::TimingCondition`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/TimingCondition.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `timingConditionFormula` | ``TimingCondition Formula`` | aggr | missing |
-
-## `TimingExtensionResource`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 35
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::TimingExtensionResource`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/TimingExtensionResource.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `timingArgument` | ``AutosarOperation ArgumentInstance`` | aggr | missing |
-
-## `TimingModeInstance`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 37  | **table:** Table 3.11
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::TimingModeInstance`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/TimingModeInstance.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `modeInstance` | ``ModeInSwcBsw InstanceRef`` | aggr | missing |
-
-## `ModeInBswInstanceRef`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 38
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::ModeInBswInstanceRef`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/ModeInBswInstanceRef.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `contextBswImplementation` | ``BswImplementation`` | ref | missing |
-| — *(missing)* | `—` | `contextModeDeclarationGroupPrototype` | ``ModeDeclarationGroup Prototype`` | ref | missing |
-| — *(missing)* | `—` | `targetModeDeclaration` | ``ModeDeclaration`` | ref | missing |
-
-## `ModeInSwcInstanceRef`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 38
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingCondition::ModeInSwcInstanceRef`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/ModeInSwcInstanceRef.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `base` | ``SwComponentType`` | ref | missing |
-| — *(missing)* | `—` | `contextComponent` | ``SwComponent Prototype`` | ref | missing |
-| — *(missing)* | `—` | `contextModeDeclarationGroupPrototype` | ``ModeDeclarationGroup Prototype`` | ref | missing |
-| — *(missing)* | `—` | `contextPort` | ``PortPrototype`` | ref | missing |
-
-## `SynchronizationTimingConstraint`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 92  | **table:** Table 3.55
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/SynchronizationTiming.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `scope` | ``TimingDescriptionEvent Chain`` | ref | missing |
-| — *(missing)* | `—` | `scopeEvent` | ``TimingDescriptionEvent`` | ref | missing |
-| — *(missing)* | `—` | `synchronizationConstraintType` | ``SynchronizationType Enum`` | attr | missing |
-| — *(missing)* | `—` | `tolerance` | ``MultidimensionalTime`` | aggr | missing |
-
-## `LatencyTimingConstraint`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 95
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::LatencyTimingConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/LatencyTimingConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `latencyConstraintType` | ``LatencyConstraintType Enum`` | attr | missing |
-| — *(missing)* | `—` | `maximum` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `minimum` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `nominal` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `scope` | ``TimingDescriptionEvent Chain`` | ref | missing |
-
-## `EventTriggeringConstraint`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 100
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/EventTriggeringConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `event` | ``TimingDescriptionEvent`` | ref | missing |
-
-## `PeriodicEventTriggering`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 101
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/EventTriggeringConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `jitter` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `minimumInterArrivalTime` | ``MultidimensionalTime`` | aggr | missing |
-
-## `SporadicEventTriggering`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 105
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/EventTriggeringConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `jitter` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `maximumInterArrivalTime` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `minimumInterArrivalTime` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `period` | ``MultidimensionalTime`` | aggr | missing |
-
-## `ConcretePatternEventTriggering`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 106
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/EventTriggeringConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `offset` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `patternJitter` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `patternLength` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `patternPeriod` | ``MultidimensionalTime`` | aggr | missing |
-
-## `BurstPatternEventTriggering`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 109
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/EventTriggeringConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `maxNumberOfOccurrences` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `minimumInterArrivalTime` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `minNumberOfOccurrences` | ``PositiveInteger`` | attr | missing |
-| — *(missing)* | `—` | `patternJitter` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `patternLength` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `patternPeriod` | ``MultidimensionalTime`` | aggr | missing |
-
-## `ArbitraryEventTriggering`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 111
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/EventTriggeringConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `confidenceInterval` | ``ConfidenceInterval`` | aggr | missing |
-
-## `ConfidenceInterval`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 112
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::EventTriggeringConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/EventTriggeringConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `propability` | ``Float`` | attr | missing |
-
-## `OffsetTimingConstraint`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 114
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::OffsetConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/OffsetConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `maximum` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `minimum` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `source` | ``TimingDescriptionEvent`` | ref | missing |
-| — *(missing)* | `—` | `target` | ``TimingDescriptionEvent`` | ref | missing |
-
-## `AgeConstraint`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 115
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::AgeConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/AgeConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `maximum` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `minimum` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `scope` | ``TimingDescriptionEvent`` | ref | missing |
-
-## `ExecutionOrderConstraint`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 118
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/ExecutionOrderConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `baseComposition` | ``CompositionSw ComponentType`` | ref | missing |
-| — *(missing)* | `—` | `executionOrderConstraintType` | ``ExecutionOrder ConstraintTypeEnum`` | attr | missing |
-| — *(missing)* | `—` | `ignoreOrderAllowed` | ``Boolean`` | attr | missing |
-| — *(missing)* | `—` | `isEvent` | ``Boolean`` | attr | missing |
-| — *(missing)* | `—` | `orderedElement` | ``EOCExecutableEntity RefAbstract`` | aggr | missing |
-| — *(missing)* | `—` | `permitMultipleReferencesToEE` | ``Boolean`` | attr | missing |
-
-## `EOCExecutableEntityRefAbstract`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 119  | **table:** Table 3.70
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/ExecutionOrderConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `directSuccessor` | ``EOCExecutableEntity RefAbstract`` | ref | missing |
-
-## `EOCExecutableEntityRefGroup`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 119
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/ExecutionOrderConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `letDataExchangeParadigm` | ``LetDataExchange ParadigmEnum`` | attr | missing |
-| — *(missing)* | `—` | `letInterval` | ``TimingDescriptionEvent Chain`` | ref | missing |
-| — *(missing)* | `—` | `maxCycleRepetitions` | ``PositiveInteger`` | attr | missing |
-
-## `EOCEventRef`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 120
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/ExecutionOrderConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `bswModuleInstance` | ``BswImplementation`` | ref | missing |
-| — *(missing)* | `—` | `component` | ``SwComponent Prototype`` | iref | missing |
-| — *(missing)* | `—` | `successor` | ``EOCExecutableEntity RefAbstract`` | ref | missing |
-
-## `EOCExecutableEntityRef`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 120  | **table:** Table 3.72
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionOrderConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/ExecutionOrderConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `bswModuleInstance` | ``BswImplementation`` | ref | missing |
-| — *(missing)* | `—` | `component` | ``SwComponent Prototype`` | iref | missing |
-| — *(missing)* | `—` | `executable` | ``ExecutableEntity`` | ref | missing |
-
-## `ExecutionTimeConstraint`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 130  | **table:** Table 3.75
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::ExecutionTimeConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/ExecutionTimeConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `component` | ``SwComponent Prototype`` | iref | missing |
-| — *(missing)* | `—` | `executable` | ``ExecutableEntity`` | ref | missing |
-| — *(missing)* | `—` | `executionTimeType` | ``ExecutionTimeType Enum`` | attr | missing |
-| — *(missing)* | `—` | `maximum` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `minimum` | ``MultidimensionalTime`` | aggr | missing |
-
-## `SynchronizationPointConstraint`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 132
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationPointConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/SynchronizationPointConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `sourceEec` | ``EOCExecutableEntity RefGroup`` | ref | missing |
-| — *(missing)* | `—` | `sourceEvent` | ``AbstractEvent`` | ref | missing |
-| — *(missing)* | `—` | `targetEec` | ``EOCExecutableEntity RefGroup`` | ref | missing |
-| — *(missing)* | `—` | `targetEvent` | ``AbstractEvent`` | ref | missing |
-
-## `TDLETZoneClock`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 252
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock::TDLETZoneClock`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingClock/TDLETZoneClock.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `accuracyExt` | ``MultidimensionalTime`` | aggr | missing |
-| — *(missing)* | `—` | `accuracyInt` | ``MultidimensionalTime`` | aggr | missing |
-
-## `TimingClock`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 252
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock::TimingClock`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingClock/TimingClock.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `platformTimeBase` | ``GlobalTimeDomain`` | ref | missing |
-
-## `TimingClockSyncAccuracy`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 252
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingClock::TimingClockSyncAccuracy`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingClock/TimingClockSyncAccuracy.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `lower` | ``TimingClock`` | ref | missing |
-| — *(missing)* | `—` | `upper` | ``TimingClock`` | ref | missing |
-
-## `TimingConstraint`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 253
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::TimingConstraint`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/TimingConstraint.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `timingCondition` | ``TimingCondition`` | ref | missing |
-
-## `TimingExtension`
-- **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** 254
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::TimingExtensions`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingConstraint/TimingExtensions.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `timingClock` | ``TimingClock`` | aggr | missing |
-| — *(missing)* | `—` | `timingClockSyncAccuracy` | ``TimingClockSync Accuracy`` | aggr | missing |
-| — *(missing)* | `—` | `timingCondition` | ``TimingCondition`` | aggr | missing |
 
 ## `PortPrototypeBlueprint`
 - **PDF:** `AUTOSAR_CP_TPS_TimingExtensions.pdf`  | **page:** —
@@ -2705,15 +1645,6 @@ No deviations — Table 6.98 contributes no own attributes (earlier tracker row 
 | — *(missing)* | `—` | `frame` | ``FrameEnum`` | attr | missing |
 | `lGraphics` | `List[LGraphic]` | `lGraphic` | ``LGraphic`` | aggr | naming |
 
-## `Traceable`
-- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 312  | **table:** Table 9.29
-- **Package:** `M2::AUTOSARTemplates::CommonStructure::Timing::Traceable`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/Traceable.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `trace` | ``Traceable`` | ref | missing |
-
 ## `DocumentViewSelectable`
 - **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 340  | **table:** Table 9.78
 - **Package:** `M2::MSR::Documentation::TextModel::BlockElements::PaginationAndView`
@@ -2736,24 +1667,6 @@ No deviations — Table 6.98 contributes no own attributes (earlier tracker row 
 
 ## `AtpBlueprintable`
 - **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::GenericStructure::AbstractStructure`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/AbstractStructure.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
-## `AtpClassifier`
-- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** —  | **table:** Table 5.1
-- **Package:** `M2::AUTOSARTemplates::GenericStructure::AbstractStructure`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/AbstractStructure.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `atpFeature` | ``AtpFeature`` | aggr | missing |
-
-## `AtpFeature`
-- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** —  | **table:** Table 5.3
 - **Package:** `M2::AUTOSARTemplates::GenericStructure::AbstractStructure`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/AbstractStructure.py`
 
@@ -3022,96 +1935,141 @@ No deviations — Table 6.98 contributes no own attributes (earlier tracker row 
 - `EventOccurrenceKindEnum` (`M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming`)
 - `HwPinGroupContent` (`M2::AUTOSARTemplates::EcuResourceTemplate`)
 
-## `Ipv4DhcpServerConfiguration`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 132  | **table:** Table 3.80
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+## Appendix: Rule 0007 — package location & file shape deviations
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `addressRangeLowerBound` | `Optional[Ip4AddressString]` | `addressRangeLowerBound` | ``Ip4AddressString`` | attr | - |
-| `addressRangeUpperBound` | `Optional[Ip4AddressString]` | `addressRangeUpperBound` | ``Ip4AddressString`` | attr | - |
-| `defaultGateway` | `Optional[Ip4AddressString]` | `defaultGateway` | ``Ip4AddressString`` | attr | - |
-| `defaultLeaseTime` | `Optional[TimeValue]` | `defaultLeaseTime` | ``TimeValue`` | attr | - |
-| `dnsServerAddresses` | `List[Ip4AddressString]` | `dnsServerAddress` | ``Ip4AddressString`` | attr | singular spec member with xml.namePlural=DNS-SERVER-ADDRESSES modelled per project convention (`getDnsServerAddresses`/`addDnsServerAddress`, wrapper element DNS-SERVER-ADDRESSES) |
-| `networkMask` | `Optional[Ip4AddressString]` | `networkMask` | ``Ip4AddressString`` | attr | - |
+Audited 2026-08-29 against `.codebuddy/skills/sync-autosar-class/rules.md`, Rule 0007
+(*Package Location & File Shape*). Method: every `| Class …` row in
+`autosar/R23-11/markdown/*.md` paired with the `| Package …` row of the same spec header
+block — 1534 spec tables, 917 of those classes also defined in `src/armodel/models` — and the
+package implied by the defining module (`…/Pkg.py` or `…/Pkg/__init__.py` → `M2::…::Pkg`)
+compared against it. Spec package names are un-wrapped before comparing: the PDF conversion
+breaks long identifiers with a space (`Fibex4 Ethernet`, `TimingDescription Events`), which
+otherwise reads as a truncated package and produces false positives. Spot-verified against
+the spec tables of `CyclicTiming` (6.65), `Item` (9.9), `NetworkEndpointAddress` (6.135),
+`EcuInstance`, `IPv6ExtHeaderFilterList` and
+`PlatformModuleEthernetEndpointConfiguration`. 810 of the 917 compared classes sit in the
+module their spec package implies.
 
-Resolution of the former stub row: the placeholder stub recorded under `DhcpServerConfiguration`
-is fully synced against Table 3.80 (Base ARObject+Describable; all six Attribute rows modelled);
-the stub deviation row was removed.
+### A. Module does not match the spec `Package` row — 104 classes in 60 package pairs
 
-## `PduActivationRoutingGroup`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 489  | **table:** Table 6.161
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
+| Classes | Spec package | Package implied by the module | Deviation |
+|---|---|---|---|
+| `CyclicTiming`, `EventControlledTiming`, `ModeDrivenTransmissionModeCondition`, `TimeRangeType`, `TransmissionModeCondition`, `TransmissionModeDeclaration`, `TransmissionModeTiming`, `TriggerIPduSendCondition` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::Timing` | sibling package branch — class parked in a module of another package |
+| `GenericTp`, `TcpTp`, `TcpUdpConfig`, `TpPort`, `TransportProtocolConfiguration`, `UdpTp` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances` | sibling package branch — class parked in a module of another package |
+| `DefItem`, `DefList`, `IndentSample`, `Item`, `LabeledItem`, `LabeledList` | `M2::MSR::Documentation::BlockElements::ListElements` | `M2::MSR::Documentation::TextModel::BlockElements::ListElements` | sibling package branch — class parked in a module of another package |
+| `InnerDataPrototypeGroupInCompositionInstanceRef`, `InnerRunnableEntityGroupInCompositionInstanceRef`, `RunnableEntityInCompositionInstanceRef`, `VariableDataPrototypeInCompositionInstanceRef` | `M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef` | `M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRefs` | sibling package branch — class parked in a module of another package |
+| `MsrQueryArg`, `MsrQueryP1`, `MsrQueryP2`, `MsrQueryProps` | `M2::MSR::Documentation::MsrQuery` | `M2::MSR::Documentation::TextModel::MsrQuery` | sibling package branch — class parked in a module of another package |
+| `OperationInAtomicSwcInstanceRef`, `POperationInAtomicSwcInstanceRef`, `ROperationInAtomicSwcInstanceRef` | `M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs` | `M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs` | sibling package branch — class parked in a module of another package |
+| `AsynchronousServerCallPoint`, `AsynchronousServerCallResultPoint`, `SynchronousServerCallPoint` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior` | module is above the spec package — `ServerCall` level missing |
+| `DataPrototypeInClientServerInterfaceInstanceRef`, `DataPrototypeInSenderReceiverInterfaceInstanceRef`, `ImplementationDataTypeElementInPortInterfaceRef` | `M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef` | `M2::AUTOSARTemplates::SystemTemplate::Transformer` | module is above the spec package — `InstanceRef` level missing |
+| `StructuredReq`, `Traceable`, `TraceableText` | `M2::MSR::Documentation::BlockElements::RequirementsTracing` | `M2::MSR::Documentation::TextModel::BlockElements::RequirementsTracing` | sibling package branch — class parked in a module of another package |
+| `AtpBlueprintMapping`, `AtpBlueprintable` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure` | `M2::AUTOSARTemplates::GenericStructure::AbstractStructure` | sibling package branch — class parked in a module of another package |
+| `PortPrototypeBlueprint`, `PortPrototypeBlueprintInitValue` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::PortProtoypeBlueprint` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::PortPrototypeBlueprint` | sibling package branch — class parked in a module of another package |
+| `SwcTiming`, `TimingExtension` | `M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions` | `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::TimingExtensions` | sibling package branch — class parked in a module of another package |
+| `HwAttributeLiteralDef`, `HwAttributeValue` | `M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory` | `M2::AUTOSARTemplates::EcuResourceTemplate::HwAttributeValue` | sibling package branch — class parked in a module of another package |
+| `ARElement`, `PackageableElement` | `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage` | `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable` | sibling package branch — class parked in a module of another package |
+| `ArVariableInImplementationDataInstanceRef`, `AutosarParameterRef` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::InstanceRefsUsage` | sibling package branch — class parked in a module of another package |
+| `ParameterInAtomicSWCTypeInstanceRef`, `VariableInAtomicSWCTypeInstanceRef` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::InstanceRefsUsage` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::InstanceRefsUsage` | sibling package branch — class parked in a module of another package |
+| `EthernetPhysicalChannel`, `VlanConfig` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology` | sibling package branch — class parked in a module of another package |
+| `SoAdRoutingGroup`, `SocketConnection` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ObsoleteModel` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetCommunication` | sibling package branch — class parked in a module of another package |
+| `TcpOptionFilterList`, `TcpOptionFilterSet` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::TcpOptionFilterSet` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetCommunication` | sibling package branch — class parked in a module of another package |
+| `SwCalprmRefProxy`, `SwVariableRefProxy` | `M2::MSR::DataDictionary::DatadictionaryProxies` | `M2::MSR::DataDictionary::DataDefProperties` | sibling package branch — class parked in a module of another package |
+| `DocumentViewSelectable`, `Paginateable` | `M2::MSR::Documentation::BlockElements::PaginationAndView` | `M2::MSR::Documentation::TextModel::BlockElements::PaginationAndView` | sibling package branch — class parked in a module of another package |
+| `MsrQueryChapter`, `MsrQueryTopic1` | `M2::MSR::Documentation::MsrQuery` | `M2::MSR::Documentation::Chapters` | sibling package branch — class parked in a module of another package |
+| `ApplicationDeferredDataType` | `M2::AUTOSARTemplates::AbstractPlatform` | `M2::AUTOSARTemplates::AbstractPlatform::ApplicationDeferredDataType` | class-named submodule inside its own package — Rule 0007 anti-pattern |
+| `ApplicationInterface` | `M2::AUTOSARTemplates::AbstractPlatform` | `M2::AUTOSARTemplates::AbstractPlatform::ApplicationInterface` | class-named submodule inside its own package — Rule 0007 anti-pattern |
+| `Field` | `M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign::PortInterface` | `M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign::PortInterface::Field` | class-named submodule inside its own package — Rule 0007 anti-pattern |
+| `PlatformModuleEthernetEndpointConfiguration` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::AdaptiveModuleImplementation` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::AdaptiveModule::PlatformModuleEthernetEndpointConfiguration` | sibling package branch — class parked in a module of another package |
+| `CryptoKeySlot` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment::CryptoKeySlot` | class-named submodule inside its own package — Rule 0007 anti-pattern |
+| `FirewallRule` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall::FirewallRule` | class-named submodule inside its own package — Rule 0007 anti-pattern |
+| `FirewallRuleProps` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall::FirewallRuleProps` | class-named submodule inside its own package — Rule 0007 anti-pattern |
+| `StateDependentFirewall` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall::StateDependentFirewall` | class-named submodule inside its own package — Rule 0007 anti-pattern |
+| `IdsPlatformInstantiation` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem::IdsPlatformInstantiation` | class-named submodule inside its own package — Rule 0007 anti-pattern |
+| `IdsmModuleInstantiation` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem::IdsmModuleInstantiation` | class-named submodule inside its own package — Rule 0007 anti-pattern |
+| `AtpBlueprint` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure::AtpBlueprint` | class-named submodule inside its own package — Rule 0007 anti-pattern |
+| `BlueprintGenerator` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintGenerator` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintGenerator::BlueprintGenerator` | class-named submodule inside its own package — Rule 0007 anti-pattern |
+| `BlueprintMappingSet` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintMapping` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintMapping::BlueprintMappingSet` | class-named submodule inside its own package — Rule 0007 anti-pattern |
+| `TimingConstraint` | `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint` | `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::TimingConstraint` | class-named submodule inside its own package — Rule 0007 anti-pattern |
+| `SynchronizationTimingConstraint` | `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming` | `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTimingConstraint` | sibling package branch — class parked in a module of another package |
+| `TDEventSLLETPort` | `M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescriptionEvents::TDEventSLLET` | `M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescriptionEvents::TDEventSLLETPort` | sibling package branch — class parked in a module of another package |
+| `DiagnosticCommonElement` | `M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics` | `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonElement` | sibling package branch — class parked in a module of another package |
+| `BswServiceDependencyIdent` | `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping` | `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior` | sibling package branch — class parked in a module of another package |
+| `CollectableElement` | `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection` | `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable` | sibling package branch — class parked in a module of another package |
+| `GeneralAnnotation` | `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::GeneralAnnotation` | `M2::MSR::Documentation::Annotation` | sibling package branch — class parked in a module of another package |
+| `AtpDefinition` | `M2::AUTOSARTemplates::GenericStructure::RolesAndRights` | `M2::AUTOSARTemplates::GenericStructure::RolesAndRights::AtpDefinition` | class-named submodule inside its own package — Rule 0007 anti-pattern |
+| `SwComponentType` | `M2::AUTOSARTemplates::SWComponentTemplate::Components` | `M2::AUTOSARTemplates::SWComponentTemplate::SwComponentType` | sibling package branch — class parked in a module of another package |
+| `ExternalTriggeringPointIdent` | `M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::Trigger` | sibling package branch — class parked in a module of another package |
+| `AutosarVariableRef` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AutosarVariableRef` | sibling package branch — class parked in a module of another package |
+| `RunnableEntityArgument` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RunnableEntity` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior` | module is above the spec package — `RunnableEntity` level missing |
+| `RoleBasedDataTypeAssignment` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping` | `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds` | sibling package branch — class parked in a module of another package |
+| `DoIpTpConnection` | `M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection` | `M2::AUTOSARTemplates::SystemTemplate::TransportProtocols` | sibling package branch — class parked in a module of another package |
+| `EndToEndProtectionISignalIPdu` | `M2::AUTOSARTemplates::SystemTemplate::EndToEndProtection` | `M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection` | sibling package branch — class parked in a module of another package |
+| `CanClusterBusOffRecovery` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology` | sibling package branch — class parked in a module of another package |
+| `IPv6ExtHeaderFilterList` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::IPv6HeaderFilterList` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetCommunication` | sibling package branch — class parked in a module of another package |
+| `RequestResponseDelay` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology` | sibling package branch — class parked in a module of another package |
+| `FlexrayPhysicalChannel` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology` | sibling package branch — class parked in a module of another package |
+| `LinPhysicalChannel` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology` | sibling package branch — class parked in a module of another package |
+| `FibexElement` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication` | module is nested below the spec package — `CoreCommunication` |
+| `CommConnectorPort` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication` | sibling package branch — class parked in a module of another package |
+| `EcuInstance` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::EcuInstance` | sibling package branch — class parked in a module of another package |
+| `SwcToEcuMapping` | `M2::AUTOSARTemplates::SystemTemplate::SWmapping` | `M2::AUTOSARTemplates::SystemTemplate` | module is above the spec package — `SWmapping` level missing |
+| `Note` | `M2::MSR::Documentation::BlockElements::Note` | `M2::MSR::Documentation::TextModel::BlockElements::Note` | sibling package branch — class parked in a module of another package |
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `eventGroupControlType` | `Optional[ARLiteral]` | `eventGroupControlType` | ``EventGroupControlTypeEnum`` | attr | referenced enum `EventGroupControlTypeEnum` (Table F.114) not yet implemented as `AREnum`; round-tripped as a generic `ARLiteral` (same pattern as SoAdRoutingGroup.eventGroupControlType), switch to the enum when it lands (Rule 0001.10) |
-| `iPduIdentifierTcpRefs` | `List[RefType]` | `iPduIdentifierTcp` | ``SoConIPduIdentifier`` | ref | singular spec member modelled per project convention (`getIPduIdentifierTcpRefs`/`addIPduIdentifierTcpRef`, wrapper element I-PDU-IDENTIFIER-TCP-REFS); ref target class not required for RefType round-trip |
-| `iPduIdentifierUdpRefs` | `List[RefType]` | `iPduIdentifierUdp` | ``SoConIPduIdentifier`` | ref | singular spec member modelled per project convention (`getIPduIdentifierUdpRefs`/`addIPduIdentifierUdpRef`, wrapper element I-PDU-IDENTIFIER-UDP-REFS); ref target class not required for RefType round-trip |
+`PortProtoypeBlueprint` is the spec's own spelling; the module uses the corrected
+`PortPrototypeBlueprint` — the location is the deviation, not the spelling.
 
-## `StaticSocketConnection`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 544  | **table:** Table 6.201
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/ServiceInstances.py`
+### B. Case-only package/module mismatch — 3 classes
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `iPduIdentifierRefs` | `List[RefType]` | `iPduIdentifier` | ``SoConIPduIdentifier`` | ref | singular spec member modelled per project convention (`getIPduIdentifierRefs`/`addIPduIdentifierRef`); serialized through the XSD-only atpVariation wrapper I-PDU-IDENTIFIERS/SO-CON-I-PDU-IDENTIFIER-REF-CONDITIONAL/SO-CON-I-PDU-IDENTIFIER-REF |
-| `remoteAddressRef` | `Optional[RefType]` | `remoteAddress` | ``SocketAddress`` | ref | ref-form naming per project convention (`getRemoteAddressRef`/`setRemoteAddressRef`); serialized through the XSD-only atpVariation wrapper REMOTE-ADDRESSS/SOCKET-ADDRESS-REF-CONDITIONAL/SOCKET-ADDRESS-REF |
-| `tcpConnectTimeout` | `Optional[TimeValue]` | `tcpConnectTimeout` | ``TimeValue`` | attr | - |
-| `tcpRole` | `Optional[ARLiteral]` | `tcpRole` | ``TcpRoleEnum`` | attr | referenced enum `TcpRoleEnum` not yet implemented as `AREnum`; round-tripped as a generic `ARLiteral`, switch to the enum when it lands (Rule 0001.10) |
+| Class | Spec package | Package implied by the module |
+|---|---|---|
+| `AbstractDoIpLogicAddressProps` | `M2::AUTOSARTemplates::SystemTemplate::DoIP` | `M2::AUTOSARTemplates::SystemTemplate::DoIp` |
+| `DoIpLogicTargetAddressProps` | `M2::AUTOSARTemplates::SystemTemplate::DoIP` | `M2::AUTOSARTemplates::SystemTemplate::DoIp` |
+| `DoIpLogicTesterAddressProps` | `M2::AUTOSARTemplates::SystemTemplate::DoIP` | `M2::AUTOSARTemplates::SystemTemplate::DoIp` |
 
-Consumer note: the `SocketAddress.staticSocketConnections` ARObject placeholder row is resolved by the
-SocketAddress RE-FIX row (retype to `List[StaticSocketConnection]` + reader/writer wiring).
+The spec writes `DoIP`, the module is `DoIp.py`. Identical on a case-insensitive
+filesystem, a real import break on a case-sensitive one.
 
-## `Ipv6DhcpServerConfiguration`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 132  | **table:** Table 3.81
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+### C. Leaf packages hosting their classes in `__init__.py` — 17 packages
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `addressRangeLowerBound` | `Optional[Ip6AddressString]` | `addressRangeLowerBound` | ``Ip6AddressString`` | attr | - |
-| `addressRangeUpperBound` | `Optional[Ip6AddressString]` | `addressRangeUpperBound` | ``Ip6AddressString`` | attr | - |
-| `defaultGateway` | `Optional[Ip6AddressString]` | `defaultGateway` | ``Ip6AddressString`` | attr | - |
-| `defaultLeaseTime` | `Optional[TimeValue]` | `defaultLeaseTime` | ``TimeValue`` | attr | - |
-| `dnsServerAddresses` | `List[Ip6AddressString]` | `dnsServerAddress` | ``Ip6AddressString`` | attr | singular spec member with xml.namePlural=DNS-SERVER-ADDRESSES modelled per project convention (`getDnsServerAddresses`/`addDnsServerAddress`, wrapper element DNS-SERVER-ADDRESSES) |
-| `networkMask` | `Optional[Ip6AddressString]` | `networkMask` | ``Ip6AddressString`` | attr | - |
+No subpackage directory, so Rule 0007's default shape is `Pkg.py`, not `Pkg/__init__.py`
+(the rule also allows splitting a large package into submodules, so each case needs a
+judgement call — listed as candidates, not confirmed violations).
 
-Resolution of the former stub row: the placeholder stub recorded under `DhcpServerConfiguration`
-is fully synced against Table 3.81 (Base ARObject+Describable; all six Attribute rows modelled);
-the stub deviation row was removed.
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface` — 28 classes
+- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Constants` — 23 classes
+- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer` — 21 classes
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components` — 16 classes
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes` — 13 classes
+- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport` — 12 classes
+- `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/VariantHandling/AttributeValueVariationPoints` — 10 classes
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Composition` — 8 classes
+- `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate` — 8 classes
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior` — 7 classes
+- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/ExecutionTime` — 6 classes
+- `src/armodel/models/M2/AUTOSARTemplates/AutosarTopLevelStructure` — 4 classes
+- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior` — 3 classes
+- `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/DocumentationOnM1` — 2 classes
+- `src/armodel/models/M2/MSR/Documentation/BlockElements` — 1 class
+- `src/armodel/models/M2/MSR/Documentation/TextModel/BlockElements` — 1 class
+- `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/InstanceRefs` — 1 class
 
-## `DhcpServerConfiguration`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 131  | **table:** Table 3.79
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetTopology.py`
+### D. `X/` beside `X.py` (shadowing leftovers) — 3
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `DhcpServerConfiguration` | `ARObject` | `DhcpServerConfiguration` | ``ARObject`` | - | Spec Table 3.79 heading says `DhcpServerConfiguration` but its `Class` row is `Ipv4DhcpServerConfiguration`; the class is modelled per the XSD `DHCP-SERVER-CONFIGURATION` complexType which aggregates `IPV-4-DHCP-SERVER-CONFIGURATION` and `IPV-6-DHCP-SERVER-CONFIGURATION` (also see `Aggregated by` rows in Tables 3.80/3.81). RE-FIX 2026-08-26: base corrected Describable→ARObject per Table 3.79 Base row + XSD groups |
-| `ipv4DhcpServerConfiguration` | `Optional[Ipv4DhcpServerConfiguration]` | `ipv4DhcpServerConfiguration` | ``Ipv4DhcpServerConfiguration`` | aggr | derived from cross-table `Aggregated by` (Table 3.80); Note cell: "Configuration of a IPv4 DHCP server that runs on the network endpoint." |
-| `ipv6DhcpServerConfiguration` | `Optional[Ipv6DhcpServerConfiguration]` | `ipv6DhcpServerConfiguration` | ``Ipv6DhcpServerConfiguration`` | aggr | derived from cross-table `Aggregated by` (Table 3.81); Note cell: "Configuration of a IPv6 DHCP server that runs on the network endpoint." |
+- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingClock/`
+- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/`
+- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingDescription/TimingDescriptionEvents/TDEventVfb/`
 
-Resolution of the former Ipv4/Ipv6 stub rows: both member classes are now fully synced
-(Tables 3.80/3.81); their stub deviation rows were removed.
-RE-FIX 2026-08-26: class docstring + member docstrings rewritten to the full verbatim
-Table 3.79 Notes; base corrected to ARObject.
+Per PEP 420 the file wins, so nothing in them is dead code today, but Rule 0007 treats every
+such pair as a live shadowing signal; all three hold nothing but `__pycache__`.
 
-## `CanXlProps`
-- **PDF:** `AUTOSAR_AP_TPS_SystemDesign (AdaptivePlatform)`  | **page:** n/a  | **table:** CAN-XL-PROPS (AUTOSAR_00052.xsd)
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetCommunication`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetCommunication.py`
+### E. Top-level export chain — 26 synced classes
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `CanXlProps` | `ARElement` | `CanXlProps` | ``ARObject , Referrable , MultilanguageReferrable , Identifiable , CollectableElement , PackageableElement , ARElement , UploadablePackageElement , UploadableDesignElement`` | - | no verbatim markdown/PDF table; spec derived from XSD `CAN-XL-PROPS` complexType (AdaptivePlatform). Registered as a top-level serializable ARElement (package dispatch in `ARPackage` + writer `writeARPackageElement`). |
-| `canBaudrate` | `Optional[PositiveInteger]` | `canBaudrate` | ``POSITIVE-INTEGER`` | attr | verbatim `Note` from XSD |
-| `canConfig` | `Optional[CanControllerConfiguration]` | `canConfig` | ``CAN-CONTROLLER-CONFIGURATION`` | aggr | referenced class `CanControllerConfiguration` (AUTOSAR_CP_TPS_SystemTemplate Table 3.14) not yet implemented; modeled as a placeholder `ARObject` subclass (`CanControllerConfiguration`), full sync deferred (Rule 0001.10) |
-| `canFdBaudrate` | `Optional[PositiveInteger]` | `canFdBaudrate` | ``POSITIVE-INTEGER`` | attr | verbatim `Note` from XSD |
-| `canFdConfig` | `Optional[CanControllerFdConfiguration]` | `canFdConfig` | ``CAN-CONTROLLER-FD-CONFIGURATION`` | aggr | verbatim `Note` from XSD |
-| `canXlBaudrate` | `Optional[PositiveInteger]` | `canXlBaudrate` | ``POSITIVE-INTEGER`` | attr | verbatim `Note` from XSD |
-| `canXlConfig` | `Optional[CanControllerXlConfiguration]` | `canXlConfig` | ``CAN-CONTROLLER-XL-CONFIGURATION`` | aggr | verbatim `Note` from XSD |
-| `canXlConfigReqs` | `Optional[CanControllerXlConfigurationRequirements]` | `canXlConfigReqs` | ``CAN-CONTROLLER-XL-CONFIGURATION-REQUIREMENTS`` | aggr | verbatim `Note` from XSD |
+Rule 0007: a synced class must be importable as `armodel.<ClassName>` and must be dropped
+from `INTENTIONALLY_UNEXPORTED_MODULES` in `tests/test_armodel/test_model_imports.py`. These
+carry a `# Spec verified:`/`# XSD verified:` marker and are still listed there:
+
+- `AgeConstraint`, `ArbitraryEventTriggering`, `BlueprintGenerator`, `BurstPatternEventTriggering`, `ConcretePatternEventTriggering`, `ConfidenceInterval`, `EventOccurrenceKindEnum`, `EventTriggeringConstraint`, `LatencyConstraintTypeEnum`, `LatencyTimingConstraint`, `McDataAccessDetails`, `ModeErrorBehavior`, `ModeErrorReactionPolicyEnum`, `ModeInBswInstanceRef`, `ModeInSwcBswInstanceRef`, `ModeInSwcInstanceRef`, `ModeTransition`, `OffsetTimingConstraint`, `PeriodicEventTriggering`, `SporadicEventTriggering`, `SynchronizationTimingConstraint`, `SynchronizationTypeEnum`, `TimingCondition`, `TimingConditionFormula`, `TimingExtensionResource`, `TimingModeInstance`
+
+`KNOWN_NAME_COLLISION_CLASSES` holds 4 entries; 3 of them are stale — `BswEntryRelationship`, `BswEntryRelationshipEnum`, `BswEntryRelationshipSet` import fine
+today (they live in `BswInterfaces.py` and no `BswInterfaces/` directory exists any more),
+so only 1 entry is a real export gap: `ModeInBswModuleDescriptionInstanceRef`.
