@@ -516,7 +516,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (9a 2026-08-28: pytest 8132 passed / 0 failed incl. integration round-trip, lint clean, parity script CLASSES untested=0; 9b confirmed by user 2026-08-28 — marker written)
     **Full 9-step re-sync (no marker, so steps 1–8 re-verified, not trusted):** implementation, docstrings, checklist and tests were already spec-correct for Table 9.18 — Base ARObject, single attr propagationDelay (TimeValue, 0..1), PEP 526, guarded setter, all texts verbatim, reader/writer cover PROPAGATION-DELAY (the only XSD child) and are wired into CouplingPortDetails both sides. No source change. Load-bearing proof by mutation: removing the None guard fails TestGlobalTimeCouplingPortProps.test_none_no_op; removing the writer PROPAGATION-DELAY line fails test_write_all_fields; removing the reader line fails the round-trip test — all 3 failed under mutation, pass restored.
     **Deviation tracker:** the `globalTimeProps` row in the CouplingPortDetails section was stale (`Optional[ARObject]`, "not yet implemented"); retyped to `Optional[GlobalTimeCouplingPortProps]` with Deviation = '-' (Rule 0014).
-- [x] CouplingPortAbstractShaper (abstract class · no own table (abstract; XSD-derived per Rule 0002, no marker) · used by CouplingPortFifo.shaper · source EthernetTopology.py · resolves ARObject placeholder; subclasses CouplingPortFifo/CouplingPortScheduler-style shapers reference it in Base) · steps complete commit 042e9a8c — STAMP DEFERRED (batch 9b pending; no marker applicable per Rule 0002)
+- [x] CouplingPortAbstractShaper (abstract class · no own table (abstract; XSD-derived per Rule 0002, no marker) · used by CouplingPortFifo.shaper · source EthernetTopology.py · resolves ARObject placeholder; subclasses CouplingPortFifo/CouplingPortScheduler-style shapers reference it in Base) · steps complete commit 042e9a8c — CLOSED 2026-08-29 — confirmed by user (XSD-only: NO `# Spec verified:` marker applicable per Rule 0002; 9b re-check passed — shaper tests green)
   - [x] Step 1 — Sync members & description from spec
     (XSD-derived abstract base per Rule 0002; no PDF table)
   - [x] Step 2 — Write model class unit test (Red)
@@ -532,7 +532,8 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 8 — Deviations
     (none; CouplingPortFifo shaper placeholder row resolved)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
+    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b RE-CHECK 2026-08-29
+     PASSED — shaper dispatch + round-trip tests green (6 passed); CLOSED as XSD-only, no marker per Rule 0002)
 - [x] OrderedMaster (class · Table 6.148 · p.470 · used by TimeSyncClientConfiguration.orderedMasters (untyped `[]` placeholder) — member of the InfrastructureServices.timeSynchronization chain · source EthernetTopology.py · resolves placeholder; consumer class NOT queued (framework), but InfrastructureServices is UNSTAMPED until this lands) · steps complete commit 96d42032 — STAMPED R23-11 — confirmed by user 2026-08-29 <!-- commit: 5d624502 -->
   - [x] Step 1 — Sync members & description from spec
     (Table 6.148 markdown AUTOSAR_CP_TPS_SystemTemplate.md:12552 + PDF p.470)
