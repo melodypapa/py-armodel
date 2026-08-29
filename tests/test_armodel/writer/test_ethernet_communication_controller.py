@@ -6,7 +6,7 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Integer, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Integer, MacAddressString, RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
     EthernetCommunicationController,
@@ -63,6 +63,12 @@ def _literal(value):
     return literal
 
 
+def _mac(value):
+    mac = MacAddressString()
+    mac.setValue(value)
+    return mac
+
+
 def _bool(value):
     b = Boolean()
     b.setValue(value)
@@ -75,7 +81,7 @@ def _full_controller():
     port = controller.createCouplingPort("CP1")
     port.setMacLayerType(_literal("ethernet"))
     controller.setMacLayerType(_literal("ethernet"))
-    controller.setMacUnicastAddress(_literal("00:1B:44:11:3A:B7"))
+    controller.setMacUnicastAddress(_mac("00:1B:44:11:3A:B7"))
     controller.setMaximumReceiveBufferLength(_int(1500))
     controller.setMaximumTransmitBufferLength(_int(1500))
     controller.setSlaveActAsPassiveCommunicationSlave(_bool("true"))
@@ -119,6 +125,7 @@ class TestEthernetCommunicationControllerRoundTrip:
         assert isinstance(ports[0], CouplingPort)
         assert ports[0].getShortName() == "CP1"
         assert recovered.getMacLayerType().getValue() == "ethernet"
+        assert isinstance(recovered.getMacUnicastAddress(), MacAddressString)
         assert recovered.getMacUnicastAddress().getValue() == "00:1B:44:11:3A:B7"
         assert recovered.getMaximumReceiveBufferLength().getValue() == 1500
         assert recovered.getMaximumTransmitBufferLength().getValue() == 1500

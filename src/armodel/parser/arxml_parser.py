@@ -9965,7 +9965,11 @@ class ARXMLParser(AbstractARXMLParser):
                 e = EthernetMacLayerTypeEnum()
                 e.setValue(mac_layer_type.getValue())
                 controller.setMacLayerType(e)
-            controller.setMacUnicastAddress(self.getChildElementOptionalLiteral(child_element, "MAC-UNICAST-ADDRESS"))
+            mac_unicast_literal = self.getChildElementOptionalLiteral(child_element, "MAC-UNICAST-ADDRESS")
+            if mac_unicast_literal is not None:
+                mac_unicast = MacAddressString()
+                mac_unicast.setValue(mac_unicast_literal.getValue())
+                controller.setMacUnicastAddress(mac_unicast)
             controller.setMaximumReceiveBufferLength(self.getChildElementOptionalIntegerValue(child_element, "MAXIMUM-RECEIVE-BUFFER-LENGTH"))
             controller.setMaximumTransmitBufferLength(self.getChildElementOptionalIntegerValue(child_element, "MAXIMUM-TRANSMIT-BUFFER-LENGTH"))
             controller.setSlaveActAsPassiveCommunicationSlave(self.getChildElementOptionalBooleanValue(child_element, "SLAVE-ACT-AS-PASSIVE-COMMUNICATION-SLAVE"))

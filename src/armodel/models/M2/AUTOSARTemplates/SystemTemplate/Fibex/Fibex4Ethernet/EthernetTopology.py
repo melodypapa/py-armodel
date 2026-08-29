@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Integer,
     Ip4AddressString,
     Ip6AddressString,
+    MacAddressString,
     PositiveInteger,
     RefType,
     String,
@@ -789,6 +790,7 @@ class EthernetCommunicationController(CommunicationController):
 
     # EthernetCommunicationController method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.61, p.116
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getCanXlConfigRef                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -821,7 +823,7 @@ class EthernetCommunicationController(CommunicationController):
         self.macLayerType: Optional[EthernetMacLayerTypeEnum] = None
 
         # Media Access Control address (MAC address) that uniquely identifies each EthernetCommunication Controller in the network.
-        self.macUnicastAddress: Optional[ARLiteral] = None
+        self.macUnicastAddress: Optional[MacAddressString] = None
 
         # Determines the maximum receive buffer length (frame length) in bytes.
         self.maximumReceiveBufferLength: Optional[Integer] = None
@@ -835,63 +837,107 @@ class EthernetCommunicationController(CommunicationController):
         # This attribute specifies time when an unexpected link down is evaluated as link down and indicated to the AUTOSAR communication stack.
         self.slaveQualifiedUnexpectedLinkDownTime: Optional[TimeValue] = None
 
-    def getCanXlConfigRef(self):
+    def getCanXlConfigRef(self) -> Optional[RefType]:
+        """If the Ethernet frames handled by this Ethernet CommunicationController are to be tunneled through CAN XL, then this reference shall refer to the Abstract CanCommunicationController that aggregates the Can ControllerXlConfiguration of the physical CAN XL channel to be used for tunneling."""
         return self.canXlConfigRef
 
-    def setCanXlConfigRef(self, value):
-        self.canXlConfigRef = value
+    def setCanXlConfigRef(self, value: Optional[RefType]) -> "EthernetCommunicationController":
+        """
+        If the Ethernet frames handled by this Ethernet CommunicationController are to be tunneled through CAN XL, then this reference shall refer to the Abstract CanCommunicationController that aggregates the Can ControllerXlConfiguration of the physical CAN XL channel to be used for tunneling.
+        A None value is a no-op and does not overwrite an existing canXlConfigRef.
+        """
+        if value is not None:
+            self.canXlConfigRef = value
         return self
 
-    def getCouplingPorts(self):
+    def getCouplingPorts(self) -> List[CouplingPort]:
+        """Optional CouplingPort that can be used to connect the ECU to a CouplingElement (e.g. a switch)."""
         return self.couplingPorts
 
     def createCouplingPort(self, short_name: str) -> CouplingPort:
+        """Optional CouplingPort that can be used to connect the ECU to a CouplingElement (e.g. a switch)."""
         if short_name not in self.elements:
             group = CouplingPort(self, short_name)
             self.addElement(group)
             self.couplingPorts.append(group)
         return self.getElement(short_name)
 
-    def getMacLayerType(self):
+    def getMacLayerType(self) -> Optional[EthernetMacLayerTypeEnum]:
+        """Specifies the mac layer type of the ethernet controller."""
         return self.macLayerType
 
-    def setMacLayerType(self, value):
-        self.macLayerType = value
+    def setMacLayerType(self, value: Optional[EthernetMacLayerTypeEnum]) -> "EthernetCommunicationController":
+        """
+        Specifies the mac layer type of the ethernet controller.
+        A None value is a no-op and does not overwrite an existing macLayerType.
+        """
+        if value is not None:
+            self.macLayerType = value
         return self
 
-    def getMacUnicastAddress(self):
+    def getMacUnicastAddress(self) -> Optional[MacAddressString]:
+        """Media Access Control address (MAC address) that uniquely identifies each EthernetCommunication Controller in the network."""
         return self.macUnicastAddress
 
-    def setMacUnicastAddress(self, value):
-        self.macUnicastAddress = value
+    def setMacUnicastAddress(self, value: Optional[MacAddressString]) -> "EthernetCommunicationController":
+        """
+        Media Access Control address (MAC address) that uniquely identifies each EthernetCommunication Controller in the network.
+        A None value is a no-op and does not overwrite an existing macUnicastAddress.
+        """
+        if value is not None:
+            self.macUnicastAddress = value
         return self
 
-    def getMaximumReceiveBufferLength(self):
+    def getMaximumReceiveBufferLength(self) -> Optional[Integer]:
+        """Determines the maximum receive buffer length (frame length) in bytes."""
         return self.maximumReceiveBufferLength
 
-    def setMaximumReceiveBufferLength(self, value):
-        self.maximumReceiveBufferLength = value
+    def setMaximumReceiveBufferLength(self, value: Optional[Integer]) -> "EthernetCommunicationController":
+        """
+        Determines the maximum receive buffer length (frame length) in bytes.
+        A None value is a no-op and does not overwrite an existing maximumReceiveBufferLength.
+        """
+        if value is not None:
+            self.maximumReceiveBufferLength = value
         return self
 
-    def getMaximumTransmitBufferLength(self):
+    def getMaximumTransmitBufferLength(self) -> Optional[Integer]:
+        """Determines the maximum transmit buffer length (frame length) in bytes."""
         return self.maximumTransmitBufferLength
 
-    def setMaximumTransmitBufferLength(self, value):
-        self.maximumTransmitBufferLength = value
+    def setMaximumTransmitBufferLength(self, value: Optional[Integer]) -> "EthernetCommunicationController":
+        """
+        Determines the maximum transmit buffer length (frame length) in bytes.
+        A None value is a no-op and does not overwrite an existing maximumTransmitBufferLength.
+        """
+        if value is not None:
+            self.maximumTransmitBufferLength = value
         return self
 
-    def getSlaveActAsPassiveCommunicationSlave(self):
+    def getSlaveActAsPassiveCommunicationSlave(self) -> Optional[Boolean]:
+        """This attribute specifies if the EcuInstance is acting as a passive communication slave on the connected Physical Channel. This is used for EthernetCommunication Controllers that use Ethernet hardware which supports wake-up and sleep on the network (e.g. Open Alliance TC10 compliant Ethernet hardware)."""
         return self.slaveActAsPassiveCommunicationSlave
 
-    def setSlaveActAsPassiveCommunicationSlave(self, value):
-        self.slaveActAsPassiveCommunicationSlave = value
+    def setSlaveActAsPassiveCommunicationSlave(self, value: Optional[Boolean]) -> "EthernetCommunicationController":
+        """
+        This attribute specifies if the EcuInstance is acting as a passive communication slave on the connected Physical Channel. This is used for EthernetCommunication Controllers that use Ethernet hardware which supports wake-up and sleep on the network (e.g. Open Alliance TC10 compliant Ethernet hardware).
+        A None value is a no-op and does not overwrite an existing slaveActAsPassiveCommunicationSlave.
+        """
+        if value is not None:
+            self.slaveActAsPassiveCommunicationSlave = value
         return self
 
-    def getSlaveQualifiedUnexpectedLinkDownTime(self):
+    def getSlaveQualifiedUnexpectedLinkDownTime(self) -> Optional[TimeValue]:
+        """This attribute specifies time when an unexpected link down is evaluated as link down and indicated to the AUTOSAR communication stack."""
         return self.slaveQualifiedUnexpectedLinkDownTime
 
-    def setSlaveQualifiedUnexpectedLinkDownTime(self, value):
-        self.slaveQualifiedUnexpectedLinkDownTime = value
+    def setSlaveQualifiedUnexpectedLinkDownTime(self, value: Optional[TimeValue]) -> "EthernetCommunicationController":
+        """
+        This attribute specifies time when an unexpected link down is evaluated as link down and indicated to the AUTOSAR communication stack.
+        A None value is a no-op and does not overwrite an existing slaveQualifiedUnexpectedLinkDownTime.
+        """
+        if value is not None:
+            self.slaveQualifiedUnexpectedLinkDownTime = value
         return self
 
 
