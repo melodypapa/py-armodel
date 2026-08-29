@@ -76,7 +76,36 @@ Audit result (static scan of all model setters whose parameter is a short-name c
 
 Borderline case: `setRootSwCompositionPrototype(ARElement)` on the `AUTOSAR` root — the root **is** a find-traversal container, but the prototype is field-stored and therefore not `find()`-reachable. Harmless today (nothing references it by path), but it is the one place where the "collected child must go through `addElement`" rule has a real target.
 
-## 3. Deviations Found
+## 3. Inheritance Chaining in Parser & Writer
+
+AUTOSAR model classes form a hierarchy (e.g. `EthernetCommunicationController` → `CommunicationController` → `Identifiable` → `MultilanguageReferrable` → `Referrable`). Both parser and writer must serialize every level of that hierarchy exactly once.
+
+### 3.1 The standard writer chain
+
+For a class `C(P)` serialized as element `TAG`:
+
+1. **Element creation** — `writeC(element, instance)` creates its own element: `child = ET.SubElement(element, "TAG")`. The caller owns the parent element.
+2. **Root chain** — `writeIdentifiable(child, instance)` → `writeMultilanguageReferrable()` → `writeReferrable()`, emitting SHORT-NAME / SHORT-NAME-FRAGMENTS / LONG-NAME, then CATEGORY, DESC / PARENT-REF / INTRODUCTION, ADMIN-DATA, VARIATION-POINT.
+3. **Parent field fragments** — if the parent class defines fields of its own (e.g. `writeCommunicationController` writes WAKE-UP-BY-CONTROLLER-SUPPORTED, [writer:8897](../../src/armodel/writer/arxml_writer.py#L8897)), the derived writer calls the parent's writer before its own fields.
+4. **Own fields** — in XSD/spec order.
+
+Invariant: *element creation → root chain → parent fragments → own fields*. Example: `writeCanCommunicationController` → `writeIdentifiable` → (conditional) → `writeAbstractCanCommunicationController` → `writeCommunicationController` → CAN attributes ([writer:8994-9030](../../src/armodel/writer/arxml_writer.py#L8994)).
+
+### 3.2 The standard parser chain
+
+Mirror image of the writer: `readC(element, instance)` calls `readIdentifiable` (→ `readMultilanguageReferrable` → `readReferrable`), then navigates into the variant/conditional wrapper when the XSD wraps derived fields (e.g. `CAN-COMMUNICATION-CONTROLLER-VARIANTS/CAN-COMMUNICATION-CONTROLLER-CONDITIONAL`, [parser:9619-9624](../../src/armodel/parser/arxml_parser.py#L9619)), then calls the parent-class reader and reads own fields via mutators. Deep chains are preserved: `readCouplingPortFifo` → `readCouplingPortSchedulerCouplingPortStructuralElement` (parent) → `readIdentifiable` ([parser:9629-9636](../../src/armodel/parser/arxml_parser.py#L9629)).
+
+### 3.3 Polymorphic dispatch
+
+- **Writer**: isinstance chains at the container level — `writePPortComSpec` ([writer:1297-1311](../../src/armodel/writer/arxml_writer.py#L1297)), `writeEcuInstanceCommControllers` ([writer:9348](../../src/armodel/writer/arxml_writer.py#L9348)), `writeEthernetCommunicationControllerCouplingPorts` ([writer:9323](../../src/armodel/writer/arxml_writer.py#L9323)), communication-connector ports ([writer:8880-8895](../../src/armodel/writer/arxml_writer.py#L8880)). Unknown types hit `notImplemented` (warning, not exception).
+- **Parser**: XML tag-name dispatch that mirrors the writer branch-for-branch — `readEcuInstanceCommControllers` ([parser:10090-10107](../../src/armodel/parser/arxml_parser.py#L10090)), coupling ports ([parser:9985](../../src/armodel/parser/arxml_parser.py#L9985)), communication connectors ([parser:10154-10169](../../src/armodel/parser/arxml_parser.py#L10154)). Unknown tags hit `notImplemented`.
+- **Symmetry requirement**: every isinstance branch in a writer must have a tag-name counterpart in the parser, and vice versa.
+
+### 3.4 Audit result (2026-08-29)
+
+Verified symmetric end-to-end: the CAN controller family, the Ethernet controller family ([writer:9333-9346](../../src/armodel/writer/arxml_writer.py#L9333) ↔ [parser:9988-9995](../../src/armodel/parser/arxml_parser.py#L9988)), the communication-connector family, and the CouplingPort FIFO family. Chain ordering is structurally consistent (intermediate readers such as `readAbstractCanCommunicationController` deliberately skip `readIdentifiable` because the caller has already processed it on the outer element). Deviations found: D9.
+
+## 4. Deviations Found
 
 Each item: location, what violates which rule, impact.
 
@@ -140,11 +169,15 @@ Should be `getRxIdentifierRange`/`setRxIdentifierRange`, `getJ1939NodeName`/`set
 - Verified by [test_same_short_name_different_type.py](../../tests/integration_tests/test_same_short_name_different_type.py): an ARXML containing an `I-SIGNAL-TRIGGERING` and a `PDU-TRIGGERING` sharing one short name under one `ETHERNET-PHYSICAL-CHANNEL` survives load -> save -> load; same short name with different types coexist and return distinct instances, same type returns the existing instance, side-lists stay singleton. Full unit suite, lint, and black-check pass.
 - **Rule going forward:** every new `create<Name>()` factory method must guard with `IsElementExists(short_name, <ConstructedType>)` and fall back via `getElement(short_name, <ConstructedType>)`; never guard against `self.elements` directly and never wrap `addElement` in a `hasattr(..., "getShortName")` check.
 
+### D9 — Wrong type annotation `ET.SubElement` (writer, §3)
+
+- [writeAbstractCanCommunicationControllerCanControllerAttributes](../../src/armodel/writer/arxml_writer.py#L8994) annotates its parameter as `element: ET.SubElement`. `ET.SubElement` is a *function* (a factory for elements), not a type — the annotation should be `ET.Element`. Cosmetic (annotation only; runtime unaffected).
+
 ### Related-but-previously-reported
 
 The dedicated review `arxml_parser_code_review.md` already documents parser-side defects (stub readers, cross-wired names, dead code, etc.); the items above cover only the naming/short-name conventions defined in this document.
 
-## 4. Scan Methodology (for reproducibility)
+## 5. Scan Methodology (for reproducibility)
 
 1. Enumerate `def` methods per file; group by prefix (`read*`/`write*`/`get*`/`set*`/`getChildElement*`/`setChildElement*`/other).
 2. Build the static class graph from model sources; `Referrable`-reachability defines the short-name class set.
