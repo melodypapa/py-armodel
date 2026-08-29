@@ -45,10 +45,17 @@ marked STAMP DEFERRED pending batch 9b confirmation. `SocketConnection` remains 
 markers remain deferred pending the batch confirmation pass.
 (resume = first class row still `[ ]`; all class rows `[x]` = sync finished)
 
-**2026-08-28 — queue status: 52 of 53 class rows `[x]`; the single remaining row is `SocketConnection`,
-DEFERRED (not skipped) by user decision.** Steps 1–8 landed in earlier sessions; only Step 9 (9a verify +
-9b confirm + stamp) is open, and it is blocked by the XSD-only SoAdConnectorType/SoAdProtocolType
-placeholders (Rule 0008). Next session: take the SocketConnection row and run Step 9 from 9a.
+**2026-08-29 — queue status: ALL 60 class rows `[x]` — SYNC FINISHED.** Final sessions: the
+SocketConnection R4.3.1 resync family (EthernetCommunication.py), then the missing member-type
+closure classes IPv6ExtHeaderFilterList (Table 6.129, parser/writer N/A — XSD-absent in both
+releases) and TcpOptionFilterList (Table 6.131, parser/writer wired via the new TcpOptionFilterSet
+Table 6.130 per user request), plus completion of the SocketConnectionIpduIdentifier /
+SocketConnectionBundle wiring per the R4.3.1 XSD groups. All `# Spec verified:` markers remain
+WITHHELD pending the batch 9b confirmation pass (standing queue policy). One open spec question for
+a future pass: R4.3.1 markdown Table 6.120 lists only 2 SocketConnection attributes while the
+R4.3.1 XSD SOCKET-CONNECTION group carries the full member set (incl. ALLOWED-I-PV-6-EXT-HEADERS-REF
+/ ALLOWED-TCP-OPTIONS-REF) — the markdown conversion dropped the continuation rows of the
+figure-split table; the model currently follows the markdown table (Rule 0015).
 
 Closure confirmed by user 2026-08-23: queue the 17 input classes + their missing member-type classes;
 framework bases (ARObject…Identifiable, CommunicationCluster/Controller/Connector, Referrable,
@@ -1022,19 +1029,28 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 2 — Model test (Red → Green)
   - [x] Step 3 — Implement model class (Green): allowedIPv6ExtHeaders list, guarded add, verbatim Note
   - [x] Step 4 — Sync docstrings (verbatim R4.3.1 Note)
-  - [x] Step 5/6 — N/A (consumed as ref value on SocketConnection.allowedIPv6ExtHeaders)
+  - [x] Step 5/6 — N/A (class absent from BOTH the R4.3.1 and R23-11 XSDs — markdown-only class, no element names exist to wire without fabrication; documented 2026-08-29)
   - [x] Step 7 — Checklist comment
   - [x] Step 8 — Deviations: none
   - [x] Step 9 — Verify (9a) + confirm (9b): pytest 8126 passed + 2 integration, lint+black clean; 9b user-confirmed; # Spec verified: withheld (pending batch 9b pass)
-- [ ] TcpOptionFilterList (class · Table 6.131 · p.326 · **R4.3.1** · source Fibex4Ethernet/EthernetCommunication.py — R4.3.1 package = M2::...::Fibex4Ethernet::Ethernet Communication; 1 attribute: allowedTcpOption (PositiveInteger, 1..*); Base Identifiable — most-derived of the table chain ARObject/Identifiable/MultilanguageReferrable/Referrable) — missing class (closure of SocketConnection resync, 2026-08-29); # Spec verified: withheld
+- [x] TcpOptionFilterList (class · Table 6.131 · p.326 · **R4.3.1** · source Fibex4Ethernet/EthernetCommunication.py — R4.3.1 package = M2::...::Fibex4Ethernet::Ethernet Communication; 1 attribute: allowedTcpOption (PositiveInteger, 1..*); Base Identifiable — most-derived of the table chain ARObject/Identifiable/MultilanguageReferrable/Referrable) — missing class (closure of SocketConnection resync, 2026-08-29); parser/writer wired 2026-08-29 per user request (TCP-OPTION-FILTER-LIST inside TcpOptionFilterSet, names per R4.3.1 AUTOSAR_00044.xsd); # Spec verified: withheld (pending batch 9b pass) <!-- commit: 6ba017a4 -->
   - [x] Step 1 — Derive member from R4.3.1 Table 6.131 (p.326): allowedTcpOption (PositiveInteger, 1..*); Base Identifiable
   - [x] Step 2 — Model test (Red → Green)
   - [x] Step 3 — Implement model class (Green): allowedTcpOptions list, guarded add, verbatim Note
   - [x] Step 4 — Sync docstrings (verbatim R4.3.1 Note)
-  - [x] Step 5/6 — N/A (consumed as ref value on SocketConnection.allowedTcpOptions)
+  - [x] Step 5/6 — Reader/writer wired 2026-08-29 (was N/A): TCP-OPTION-FILTER-LIST serialized within TcpOptionFilterSet; ALLOWED-TCP-OPTIONS/ALLOWED-TCP-OPTION per XSD; round-trip tests assert field values (tests/test_armodel/writer/test_tcp_option_filter_set.py)
   - [x] Step 7 — Checklist comment
   - [x] Step 8 — Deviations: none
-  - [ ] Step 9 — Verify (9a) + confirm (9b): pytest passed, lint+black clean; # Spec verified: withheld
+  - [x] Step 9 — Verify (9a) + confirm (9b): pytest 8131 passed + 2 integration, lint+black clean; 9b user-confirmed (incl. wiring delta); # Spec verified: withheld (pending batch 9b pass)
+- [x] TcpOptionFilterSet (class · Table 6.130 · p.326 · **R4.3.1** · source Fibex4Ethernet/EthernetCommunication.py — R4.3.1 package = M2::...::Fibex4Ethernet::Ethernet Communication; 1 attribute: tcpOptionFilterList (TcpOptionFilterList, *, aggr, "Collection of white lists for the filtering of TCP options."); Base ARElement — most-derived of the table chain incl. CollectableElement/PackageableElement) — created 2026-08-29 per user request to host TcpOptionFilterList serialization (atp.recommendedPackage=TcpOptionFilterSets; element names per R4.3.1 AUTOSAR_00044.xsd); # Spec verified: withheld (pending batch 9b pass) <!-- commit: ee6ddaa3 -->
+  - [x] Step 1 — Derive member from R4.3.1 Table 6.130 (p.326): tcpOptionFilterList (TcpOptionFilterList, *, aggr); Base ARElement
+  - [x] Step 2 — Model test (Red → Green): createTcpOptionFilterList appends, duplicate returns existing
+  - [x] Step 3 — Implement model class (Green): ARElement subclass, dedicated typed list, registry-based create
+  - [x] Step 4 — Sync docstrings (verbatim R4.3.1 Note)
+  - [x] Step 5/6 — Reader/writer: package-level TCP-OPTION-FILTER-SET dispatch (readARPackageElements/writeARPackageElement); round-trip full + empty-wrapper cases
+  - [x] Step 7 — Checklist comment
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a) + confirm (9b): pytest 8131 passed + 2 integration, lint+black clean; 9b user-confirmed; # Spec verified: withheld (pending batch 9b pass)
 - [x] SocketConnection (obsolete · Table 6.120 · p.319 · **R4.3.1** · source Fibex4Ethernet/EthernetCommunication.py — R4.3.1 package = M2::...::Fibex4Ethernet::Ethernet Communication (relocated from ObsoleteModel.py per Rule 0007, 2026-08-29); 2 members: runtimePortConfiguration → RuntimeAddressConfigurationEnum (Table 6.121), shortLabel → Identifier) — RESYNCED to R4.3.1 per user decision (2026-08-29); the prior 19-member XSD-derived shape (incl. SoAdConnectorType/SoAdProtocolType ARLiteral placeholders) was dropped per Rule 0015 (PDF/markdown table wins, no fabrication); # Spec verified: withheld (not yet confirmed/spec-verified)
   - [x] Step 1 — Derive members from R4.3.1 Table 6.120 (p.319): runtimePortConfiguration (RuntimeAddressConfigurationEnum, Table 6.121), shortLabel (Identifier); Base Describable
   - [x] Step 2 — Model test rewritten to R4.3.1 shape (Red → Green)
@@ -1058,7 +1074,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 2 — Model test (Red → Green)
   - [x] Step 3 — Implement model class (Green): 7 members, typed Optional/List fields, guarded setters
   - [x] Step 4 — Sync docstrings
-  - [x] Step 5/6 — Reader/writer: getSocketConnectionPdus/setSocketConnectionPdus (used by SocketConnectionBundle.pdus)
+  - [x] Step 5/6 — Reader/writer: getSocketConnectionPdus/setSocketConnectionPdus (used by SocketConnectionBundle.pdus); wiring completed 2026-08-29: PDU-COLLECTION-PDU-TIMEOUT + ROUTING-GROUP-REFS/ROUTING-GROUP-REF (names per R4.3.1 AUTOSAR_00044.xsd)
   - [x] Step 7 — Checklist comment
   - [x] Step 8 — Deviations: none (pre-existing)
   - [x] Step 9 — Verify (9a) + confirm (9b): pytest (frame_channel) passed, lint+black clean; # Spec verified: withheld (not yet confirmed/spec-verified)
@@ -1067,7 +1083,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 2 — Model test (Red → Green)
   - [x] Step 3 — Implement model class (Green): 7 members, typed Optional/List fields, guarded setters/adders
   - [x] Step 4 — Sync docstrings
-  - [x] Step 5/6 — Reader/writer: writeSocketConnectionBundleConnections / writeSocketConnectionBundle / readSocketConnectionBundleConnections + pdus
+  - [x] Step 5/6 — Reader/writer: writeSocketConnectionBundleConnections / writeSocketConnectionBundle / readSocketConnectionBundleConnections + pdus; wiring completed 2026-08-29: DIFFERENTIATED-SERVICE-FIELD, FLOW-LABEL, PATH-MTU-DISCOVERY-ENABLED, PDUS, UDP-CHECKSUM-HANDLING (names per R4.3.1 AUTOSAR_00044.xsd); round-trip asserts field values (test_so_ad_config.py)
   - [x] Step 7 — Checklist comment
   - [x] Step 8 — Deviations: none (pre-existing)
   - [x] Step 9 — Verify (9a) + confirm (9b): pytest (frame_channel) passed, lint+black clean; # Spec verified: withheld (not yet confirmed/spec-verified)
