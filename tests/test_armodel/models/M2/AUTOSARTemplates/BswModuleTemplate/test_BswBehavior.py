@@ -1972,12 +1972,12 @@ class TestBswServiceDependency:
     def test_add_assigned_data_type_none_is_noop(self):
         dependency = BswServiceDependency()
         data_type = RoleBasedDataTypeAssignment()
-        dependency.addAssignedDataType(data_type)
+        dependency.setAssignedDataType(data_type)
 
-        result = dependency.addAssignedDataType(None)
+        result = dependency.setAssignedDataType(None)
 
         assert result == dependency
-        assert dependency.getAssignedDataTypes() == [data_type]
+        assert dependency.getAssignedDataType() == data_type
 
     def test_get_set_ident(self):
         dependency = BswServiceDependency()

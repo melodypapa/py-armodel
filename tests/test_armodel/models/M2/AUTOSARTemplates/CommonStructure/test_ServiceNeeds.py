@@ -610,22 +610,22 @@ class TestServiceDependency:
 
         assert service_dep is not None
         assert service_dep.getShortName() == "TestServiceDependency"
-        assert service_dep.assignedDataTypes == []
+        assert service_dep.assignedDataType is None
         assert service_dep.diagnosticRelevance is None
         assert service_dep.symbolicNameProps is None
 
     def test_get_assigned_data_types(self):
-        """Test getAssignedDataTypes method"""
+        """Test getAssignedDataType method"""
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
 
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         service_dep = SwcServiceDependency(ar_root, "TestServiceDependency")
 
-        assert service_dep.getAssignedDataTypes() == []
+        assert service_dep.getAssignedDataType() is None
 
     def test_add_assigned_data_type(self):
-        """Test addAssignedDataType method"""
+        """Test setAssignedDataType method"""
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
 
         parent = AUTOSAR.getInstance()
@@ -637,9 +637,9 @@ class TestServiceDependency:
 
         data_type = MockDataTypeAssignment()
 
-        result = service_dep.addAssignedDataType(data_type)
+        result = service_dep.setAssignedDataType(data_type)
         assert result is service_dep
-        assert service_dep.getAssignedDataTypes() == [data_type]
+        assert service_dep.getAssignedDataType() == data_type
 
     def test_get_set_diagnostic_relevance(self):
         """Test getDiagnosticRelevance and setDiagnosticRelevance methods"""

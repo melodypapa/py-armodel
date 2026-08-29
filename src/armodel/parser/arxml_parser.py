@@ -1451,7 +1451,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "ASSIGNED-DATA-TYPES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ROLE-BASED-DATA-TYPE-ASSIGNMENT":
-                dependency.addAssignedDataType(self.getRoleBasedDataTypeAssignment(child_element))
+                dependency.setAssignedDataType(self.getRoleBasedDataTypeAssignment(child_element))
             else:
                 self.notImplemented("Unsupported assigned data type <%s>" % tag_name)
         dependency.setDiagnosticRelevance(self.getChildElementOptionalLiteral(element, "DIAGNOSTIC-RELEVANCE"))
@@ -1630,7 +1630,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "ASSIGNED-DATA-TYPES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ROLE-BASED-DATA-TYPE-ASSIGNMENT":
-                dependency.addAssignedDataType(self.getRoleBasedDataTypeAssignment(child_element))
+                dependency.setAssignedDataType(self.getRoleBasedDataTypeAssignment(child_element))
             else:
                 self.notImplemented("Unsupported assigned data type <%s>" % tag_name)
         self.readBswServiceDependencyAssignedData(element, dependency)

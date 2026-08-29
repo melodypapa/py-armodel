@@ -3109,11 +3109,11 @@ class TestRoleBasedDataTypeAssignment:
             root_tag="SERVICE-DEPENDENCY",
         )
         parser.readServiceDependency(element, dep)
-        assigned = dep.getAssignedDataTypes()
-        assert len(assigned) == 1
-        assert assigned[0].getRole().getValue() == "r"
-        assert assigned[0].getUsedImplementationDataTypeRef().getValue() == "/dt/Impl"
-        assert assigned[0].getUsedImplementationDataTypeRef().getDest() == "IMPLEMENTATION-DATA-TYPE"
+        assigned = dep.getAssignedDataType()
+        assert assigned is not None
+        assert assigned.getRole().getValue() == "r"
+        assert assigned.getUsedImplementationDataTypeRef().getValue() == "/dt/Impl"
+        assert assigned.getUsedImplementationDataTypeRef().getDest() == "IMPLEMENTATION-DATA-TYPE"
 
     def test_readServiceDependency_with_diagnostic_relevance(self, parser):
         from armodel.models import SwcServiceDependency

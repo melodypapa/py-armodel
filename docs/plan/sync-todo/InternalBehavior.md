@@ -63,7 +63,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none; setter None-guard added, writer now uses getters)
   - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit d28752b5382ac1acea8c81d55dfe701f87f75ea9
-- [ ] ServiceDependency (markdown · Table 12.1 · p.225 · source CommonStructure/ServiceNeeds.py · depends on RoleBasedDataTypeAssignment above; fixes `assigneddatatype` → `assignedDataType`; ServiceDiagnosticRelevanceEnum stub filled with isNotRelevant/isRelevant; DIAGNOSTIC-RELEVANCE reader/writer added)
+- [x] ServiceDependency (markdown · Table 12.1 · p.225 · source CommonStructure/ServiceNeeds.py · depends on RoleBasedDataTypeAssignment above; fixes `assigneddatatype` → `assignedDataType`; ServiceDiagnosticRelevanceEnum stub filled with isNotRelevant/isRelevant; DIAGNOSTIC-RELEVANCE reader/writer added)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -71,8 +71,8 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations (none)
-  - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
+  - [x] Step 8 — Deviations (assignedDataType multiplicity corrected to 0..1 in 9b)
+  - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit c990532058437c2b995e06ba29b11573f54736e1
 
 ### BswBehavior leaves
 

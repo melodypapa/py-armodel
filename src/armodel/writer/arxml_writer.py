@@ -3439,14 +3439,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(child_element, "USED-IMPLEMENTATION-DATA-TYPE-REF", assignment.getUsedImplementationDataTypeRef())
 
     def writeServiceDependencyAssignedDataType(self, element: ET.Element, dependency: ServiceDependency):
-        assigned_data = dependency.getAssignedDataTypes()
-        if len(assigned_data) > 0:
+        assigned_data = dependency.getAssignedDataType()
+        if assigned_data is not None:
             child_element = ET.SubElement(element, "ASSIGNED-DATA-TYPES")
-            for data in assigned_data:
-                if isinstance(data, RoleBasedDataTypeAssignment):
-                    self.writeRoleBasedDataTypeAssignment(child_element, data)
-                else:
-                    self.notImplemented("Unsupported Assigned Data <%s>" % type(data))
+            if isinstance(assigned_data, RoleBasedDataTypeAssignment):
+                self.writeRoleBasedDataTypeAssignment(child_element, assigned_data)
+            else:
+                self.notImplemented("Unsupported Assigned Data <%s>" % type(assigned_data))
 
     def writeServiceDependency(self, element: ET.Element, dependency: ServiceDependency):
         self.writeIdentifiable(element, dependency)

@@ -625,10 +625,11 @@ class ServiceDependency(ARObject, ABC):
 
     # ServiceDependency method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.1, p.225
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addAssignedDataType          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAssignedDataTypes         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAssignedDataType          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getAssignedDataType         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] getDiagnosticRelevance       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setDiagnosticRelevance       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getSymbolicNameProps         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -640,7 +641,7 @@ class ServiceDependency(ARObject, ABC):
         super().__init__()
 
         # This is the role of the assignment data type in the given context. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=assignedDataType, assignedDataType.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-        self.assignedDataTypes: List[RoleBasedDataTypeAssignment] = []
+        self.assignedDataType: Optional[RoleBasedDataTypeAssignment] = None
 
         # If this attribute indicates a relevance for diagnostics then the integrator has a much easier time identifying the candidates for the configuration of the diagnostic stack. Example: identification of mode conditions (e.g. communication between application and BswM) relevant for the Dcm.
         self.diagnosticRelevance: Optional[ServiceDiagnosticRelevanceEnum] = None
@@ -648,28 +649,28 @@ class ServiceDependency(ARObject, ABC):
         # This attribute can be taken to contribute to the creation of symbolic name values.
         self.symbolicNameProps: Optional["SymbolicNameProps"] = None
 
-    def getAssignedDataTypes(self) -> List[RoleBasedDataTypeAssignment]:
+    def getAssignedDataType(self) -> Optional[RoleBasedDataTypeAssignment]:
         """
         This is the role of the assignment data type in the given context. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=assignedDataType, assignedDataType.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
 
         Returns:
-            List of RoleBasedDataTypeAssignment instances
+            The RoleBasedDataTypeAssignment instance
         """
-        return self.assignedDataTypes
+        return self.assignedDataType
 
-    def addAssignedDataType(self, value: Optional[RoleBasedDataTypeAssignment]) -> "ServiceDependency":
+    def setAssignedDataType(self, value: Optional[RoleBasedDataTypeAssignment]) -> "ServiceDependency":
         """
         This is the role of the assignment data type in the given context. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=assignedDataType, assignedDataType.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-        Only adds the value if it is not None.
+        Only sets the value if it is not None.
 
         Args:
-            value: The role-based data type assignment to add
+            value: The role-based data type assignment to set
 
         Returns:
             self for method chaining
         """
         if value is not None:
-            self.assignedDataTypes.append(value)
+            self.assignedDataType = value
         return self
 
     def getDiagnosticRelevance(self) -> Optional[ServiceDiagnosticRelevanceEnum]:
