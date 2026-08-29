@@ -157,28 +157,28 @@ class TestRevisionParsing:
 
 
 class TestRxIdentifierRange:
-    def test_getChildElementRxIdentifierRange(self, parser):
+    def test_getRxIdentifierRange(self, parser):
         # The method does find(element, "RX-IDENTIFIER-RANGE"), so element
         # must be the parent wrapper containing <RX-IDENTIFIER-RANGE>.
         element = _snip(
             "<RX-IDENTIFIER-RANGE>" "<LOWER-CAN-ID>0x100</LOWER-CAN-ID>" "<UPPER-CAN-ID>0x1FF</UPPER-CAN-ID>" "</RX-IDENTIFIER-RANGE>",
             root_tag="PARENT",
         )
-        rng = parser.getChildElementRxIdentifierRange(element, "RX-IDENTIFIER-RANGE")
+        rng = parser.getRxIdentifierRange(element, "RX-IDENTIFIER-RANGE")
         assert rng is not None
         assert rng.getLowerCanId().getValue() == 256
         assert rng.getUpperCanId().getValue() == 511
 
-    def test_getChildElementRxIdentifierRange_missing_returns_None(self, parser):
+    def test_getRxIdentifierRange_missing_returns_None(self, parser):
         element = _snip("<X/>")
-        assert parser.getChildElementRxIdentifierRange(element, "ABSENT") is None
+        assert parser.getRxIdentifierRange(element, "ABSENT") is None
 
 
 # ==================== J1939NodeName ====================
 
 
 class TestJ1939NodeName:
-    def test_getChildElementJ1939NodeName(self, parser):
+    def test_getJ1939NodeName(self, parser):
         element = _snip(
             "<NODE-NAME>"
             "<ARBITRARY-ADDRESS-CAPABLE>true</ARBITRARY-ADDRESS-CAPABLE>"
@@ -193,7 +193,7 @@ class TestJ1939NodeName:
             "</NODE-NAME>",
             root_tag="PARENT",
         )
-        node_name = parser.getChildElementJ1939NodeName(element, "NODE-NAME")
+        node_name = parser.getJ1939NodeName(element, "NODE-NAME")
         assert isinstance(node_name, J1939NodeName)
         assert node_name.getArbitraryAddressCapable().getValue() is True
         assert node_name.getEcuInstance().getValue() == 1
@@ -205,16 +205,16 @@ class TestJ1939NodeName:
         assert node_name.getVehicleSystem().getValue() == 7
         assert node_name.getVehicleSystemInstance().getValue() == 8
 
-    def test_getChildElementJ1939NodeName_empty(self, parser):
+    def test_getJ1939NodeName_empty(self, parser):
         element = _snip("<NODE-NAME></NODE-NAME>", root_tag="PARENT")
-        node_name = parser.getChildElementJ1939NodeName(element, "NODE-NAME")
+        node_name = parser.getJ1939NodeName(element, "NODE-NAME")
         assert isinstance(node_name, J1939NodeName)
         assert node_name.getArbitraryAddressCapable() is None
         assert node_name.getEcuInstance() is None
 
-    def test_getChildElementJ1939NodeName_missing_returns_None(self, parser):
+    def test_getJ1939NodeName_missing_returns_None(self, parser):
         element = _snip("<X/>")
-        assert parser.getChildElementJ1939NodeName(element, "ABSENT") is None
+        assert parser.getJ1939NodeName(element, "ABSENT") is None
 
 
 # ==================== readVariableAccesses branching ====================

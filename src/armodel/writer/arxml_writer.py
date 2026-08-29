@@ -871,13 +871,13 @@ class ARXMLWriter(AbstractARXMLWriter):
 
         return sub_element
 
-    def setChildElementRxIdentifierRange(self, element: ET.Element, key: str, range: RxIdentifierRange):
+    def setRxIdentifierRange(self, element: ET.Element, key: str, range: RxIdentifierRange):
         if range is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalNumericalValue(child_element, "LOWER-CAN-ID", range.getLowerCanId())
             self.setChildElementOptionalNumericalValue(child_element, "UPPER-CAN-ID", range.getUpperCanId())
 
-    def setChildElementJ1939NodeName(self, element: ET.Element, key: str, node_name: J1939NodeName):
+    def setJ1939NodeName(self, element: ET.Element, key: str, node_name: J1939NodeName):
         if node_name is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalBooleanValue(child_element, "ARBITRARY-ADDRESS-CAPABLE", node_name.getArbitraryAddressCapable())
@@ -6735,7 +6735,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "NM-CAR-WAKE-UP-RX-ENABLED", nm_node.getNmCarWakeUpRxEnabled())
         self.setChildElementOptionalFloatValue(child_element, "NM-MSG-CYCLE-OFFSET", nm_node.getNmMsgCycleOffset())
         self.setChildElementOptionalFloatValue(child_element, "NM-MSG-REDUCED-TIME", nm_node.getNmMsgReducedTime())
-        self.setChildElementRxIdentifierRange(child_element, "NM-RANGE-CONFIG", nm_node.getNmRangeConfig())
+        self.setRxIdentifierRange(child_element, "NM-RANGE-CONFIG", nm_node.getNmRangeConfig())
 
     def writeUdpNmNode(self, element: ET.Element, nm_node: UdpNmNode):
         self.logger.debug("write UdpNmNode %s" % nm_node.getShortName())
@@ -6748,7 +6748,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "J-1939-NM-NODE")
         self.writeNmNode(child_element, nm_node)
         self.setChildElementOptionalLiteral(child_element, "ADDRESS-CONFIGURATION-CAPABILITY", nm_node.getAddressConfigurationCapability())
-        self.setChildElementJ1939NodeName(child_element, "NODE-NAME", nm_node.getNodeName())
+        self.setJ1939NodeName(child_element, "NODE-NAME", nm_node.getNodeName())
 
     def writeNmClusterNmNodes(self, element: ET.Element, parent: NmCluster):
         nodes = parent.getNmNodes()
@@ -7223,7 +7223,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalPositiveInteger(props_element, "VCID", props.getVcid())
         self.setChildElementOptionalNumericalValue(child_element, "IDENTIFIER", triggering.getIdentifier())
         self.setChildElementOptionalBooleanValue(child_element, "J-1939-REQUESTABLE", triggering.getJ1939requestable())
-        self.setChildElementRxIdentifierRange(child_element, "RX-IDENTIFIER-RANGE", triggering.getRxIdentifierRange())
+        self.setRxIdentifierRange(child_element, "RX-IDENTIFIER-RANGE", triggering.getRxIdentifierRange())
         self.setChildElementOptionalPositiveInteger(child_element, "RX-MASK", triggering.getRxMask())
         self.setChildElementOptionalPositiveInteger(child_element, "TX-MASK", triggering.getTxMask())
 

@@ -950,7 +950,7 @@ class ARXMLParser(AbstractARXMLParser):
     def __init__(self, options=None) -> None:
         super().__init__(options)
 
-    def getChildElementRxIdentifierRange(self, element: ET.Element, key: str) -> RxIdentifierRange:
+    def getRxIdentifierRange(self, element: ET.Element, key: str) -> RxIdentifierRange:
         child_element = self.find(element, key)
         range = None
         if child_element is not None:
@@ -959,7 +959,7 @@ class ARXMLParser(AbstractARXMLParser):
             range.setUpperCanId(self.getChildElementOptionalPositiveInteger(child_element, "UPPER-CAN-ID"))
         return range
 
-    def getChildElementJ1939NodeName(self, element: ET.Element, key: str) -> J1939NodeName:
+    def getJ1939NodeName(self, element: ET.Element, key: str) -> J1939NodeName:
         child_element = self.find(element, key)
         node_name = None
         if child_element is not None:
@@ -6911,7 +6911,7 @@ class ARXMLParser(AbstractARXMLParser):
         triggering.setCanXlFrameTriggeringProps(self.getCanXlFrameTriggeringProps(element, "CAN-XL-FRAME-TRIGGERING-PROPS"))
         triggering.setIdentifier(self.getChildElementOptionalNumericalValue(element, "IDENTIFIER"))
         triggering.setJ1939requestable(self.getChildElementOptionalBooleanValue(element, "J-1939-REQUESTABLE"))
-        triggering.setRxIdentifierRange(self.getChildElementRxIdentifierRange(element, "RX-IDENTIFIER-RANGE"))
+        triggering.setRxIdentifierRange(self.getRxIdentifierRange(element, "RX-IDENTIFIER-RANGE"))
         triggering.setRxMask(self.getChildElementOptionalPositiveInteger(element, "RX-MASK"))
         triggering.setTxMask(self.getChildElementOptionalPositiveInteger(element, "TX-MASK"))
 
@@ -8374,7 +8374,7 @@ class ARXMLParser(AbstractARXMLParser):
         nm_node.setNmCarWakeUpRxEnabled(self.getChildElementOptionalBooleanValue(element, "NM-CAR-WAKE-UP-RX-ENABLED"))
         nm_node.setNmMsgCycleOffset(self.getChildElementOptionalFloatValue(element, "NM-MSG-CYCLE-OFFSET"))
         nm_node.setNmMsgReducedTime(self.getChildElementOptionalFloatValue(element, "NM-MSG-REDUCED-TIME"))
-        nm_node.setNmRangeConfig(self.getChildElementRxIdentifierRange(element, "NM-RANGE-CONFIG"))
+        nm_node.setNmRangeConfig(self.getRxIdentifierRange(element, "NM-RANGE-CONFIG"))
 
     def readUdpNmNode(self, element: ET.Element, nm_node: UdpNmNode):
         self.logger.debug("Read UdpNmNode <%s>" % nm_node.getShortName())
@@ -8385,7 +8385,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.logger.debug("Read J1939NmNode <%s>" % nm_node.getShortName())
         self.readNmNode(element, nm_node)
         nm_node.setAddressConfigurationCapability(self.getChildElementOptionalLiteral(element, "ADDRESS-CONFIGURATION-CAPABILITY"))
-        nm_node.setNodeName(self.getChildElementJ1939NodeName(element, "NODE-NAME"))
+        nm_node.setNodeName(self.getJ1939NodeName(element, "NODE-NAME"))
 
     def readNmClusterNmNodes(self, element: ET.Element, cluster: NmCluster):
         self.logger.debug("readNmConfigNmNodes %s" % cluster.getShortName())

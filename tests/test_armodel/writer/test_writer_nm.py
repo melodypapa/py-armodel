@@ -272,7 +272,7 @@ class TestWriteJ1939NodeName:
         node_name.setVehicleSystem(_set_int_text(7))
         node_name.setVehicleSystemInstance(_set_int_text(8))
         parent = _parent()
-        writer.setChildElementJ1939NodeName(parent, "NODE-NAME", node_name)
+        writer.setJ1939NodeName(parent, "NODE-NAME", node_name)
         child = parent.find("NODE-NAME")
         assert child is not None
         assert child.find("ARBITRARY-ADDRESS-CAPABLE").text == "true"
@@ -287,7 +287,7 @@ class TestWriteJ1939NodeName:
 
     def test_none_produces_no_element(self, writer):
         parent = _parent()
-        writer.setChildElementJ1939NodeName(parent, "NODE-NAME", None)
+        writer.setJ1939NodeName(parent, "NODE-NAME", None)
         assert parent.find("NODE-NAME") is None
 
 
