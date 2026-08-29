@@ -2544,11 +2544,12 @@ class EthernetSwitchVlanIngressTagEnum(AREnum):
 
 class TimeSyncTechnologyEnum(AREnum):
     """
-    Defines the time synchronization technology used.
+    Timesynchronization. Server/Client configuration.
     """
 
     # TimeSyncTechnologyEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.149, p.471
+    # Spec verified: R23-11
     # (no methods) — enum value form serialized on consuming attribute
 
     # Ethernet AVB compliant IEEE802.1AS Precision Time Protocol Tags: atp.EnumerationLiteralIndex=0
