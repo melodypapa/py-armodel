@@ -1,14 +1,14 @@
 """
-This module contains tests for the DocumentationBlock module in MSR.Documentation.TextModel.BlockElements.
+This module contains tests for the DocumentationBlock module in MSR.Documentation.BlockElements.
 """
 
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefList, LabeledList
+from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note
+from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import StructuredReq, TraceableText
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryP2
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList, DefList, LabeledList
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import Note
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import StructuredReq, TraceableText
-from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryP2
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph, MultiLanguageVerbatim
 
 

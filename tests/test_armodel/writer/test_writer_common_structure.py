@@ -45,11 +45,11 @@ from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
     MlFigure,
 )
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import (  # noqa: E501
+    ARList,
+)
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
     DocumentationBlock,
-)
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import (  # noqa: E501
-    ARList,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LLongName,

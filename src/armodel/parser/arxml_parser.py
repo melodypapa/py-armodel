@@ -900,26 +900,25 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     ChapterContent,
     ChapterModel,
     ChapterOrMsrQuery,
-    MsrQueryChapter,
-    MsrQueryTopic1,
     PredefinedChapter,
     Topic1,
     TopicContent,
     TopicContentOrMsrQuery,
     TopicOrMsrQuery,
 )
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryTopic1
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import Note, NoteTypeEnum
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import (
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
+from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note, NoteTypeEnum
+from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     StructuredReq,
     Traceable,
     TraceableText,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim
-from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.parser.abstract_arxml_parser import AbstractARXMLParser
 

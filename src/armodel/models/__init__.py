@@ -10,8 +10,11 @@ from armodel.models.M2.MSR.Documentation import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.Annotation import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.TextModel import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import *  # noqa: F403
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import *  # noqa: F403
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import *  # noqa: F403
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import *  # noqa: F403
+from armodel.models.M2.MSR.Documentation.BlockElements.Note import *  # noqa: F403
+from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import *  # noqa: F403
+from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import *  # noqa: F403
+from armodel.models.M2.MSR.Documentation.MsrQuery import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import *  # noqa: F403
@@ -152,7 +155,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TimingDescriptionEvent,
     TimingDescriptionEventChain,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import Traceable  # noqa: F401
 
 # Additional DiagnosticExtract imports
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract import *  # noqa: F403

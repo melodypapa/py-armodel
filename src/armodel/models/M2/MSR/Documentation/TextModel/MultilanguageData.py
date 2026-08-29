@@ -6,7 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph, LPlainText
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LVerbatim
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import Paginateable
+from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
 
 

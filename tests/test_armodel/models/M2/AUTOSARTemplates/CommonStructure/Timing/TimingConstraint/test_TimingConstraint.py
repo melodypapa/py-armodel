@@ -7,7 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import (
+from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     Traceable,
 )
 

@@ -1,8 +1,8 @@
 """
-This module contains tests for the ListElements module in MSR.Documentation.TextModel.BlockElements.
+This module contains tests for the ListElements module in MSR.Documentation.BlockElements.
 """
 
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import (
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import (
     ARList,
     DefItem,
     DefList,

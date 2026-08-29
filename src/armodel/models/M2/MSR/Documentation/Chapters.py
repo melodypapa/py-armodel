@@ -14,9 +14,10 @@ from typing import TYPE_CHECKING, List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
-from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryP1, MsrQueryProps
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryP1
 
 if TYPE_CHECKING:
+    from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryTopic1
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
@@ -488,100 +489,6 @@ class Topic1(Identifiable):
             The content of the topic
         """
         return self.topicContent
-
-
-class MsrQueryChapter(ARObject):
-    """
-    This meta-class represents the ability to express a query which yields a set of chapters as a result.
-    """
-
-    # MsrQueryChapter method parity checklist:
-    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.84, p.343
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setMsrQueryProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMsrQueryProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [ ] setMsrQueryResultChapter  [x] impl  [ ] docstring  [ ] test  [ ] reader  [ ] writer
-    # [ ] getMsrQueryResultChapter  [x] impl  [ ] docstring  [ ] test  [ ] reader  [ ] writer
-    #
-    # NOTE: msrQueryResultChapter (MsrQueryResultChapter, 0..1, aggr) is not modeled
-    # yet — the MsrQueryResultChapter class is a deferred placeholder (Rule 0001.10);
-    # the stamp is omitted until the real type lands.
-
-    def __init__(self):
-        super().__init__()
-
-        # This is argument and properties of the chapter query.
-        self.msrQueryProps: Optional[MsrQueryProps] = None
-
-    def setMsrQueryProps(self, value: Optional[MsrQueryProps]) -> "MsrQueryChapter":
-        """
-        This is argument and properties of the chapter query.
-
-        A None value is a no-op and does not overwrite an existing msrQueryProps.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.msrQueryProps = value
-        return self
-
-    def getMsrQueryProps(self) -> Optional[MsrQueryProps]:
-        """
-        This is argument and properties of the chapter query.
-
-        Returns:
-            The argument and properties of the chapter query
-        """
-        return self.msrQueryProps
-
-
-class MsrQueryTopic1(ARObject):
-    """
-    This meta-class represents the ability to specify a query which yields a set of topics as a result.
-    """
-
-    # MsrQueryTopic1 method parity checklist:
-    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.83, p.343
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setMsrQueryProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMsrQueryProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [ ] setMsrQueryResultTopic1  [x] impl  [ ] docstring  [ ] test  [ ] reader  [ ] writer
-    # [ ] getMsrQueryResultTopic1  [x] impl  [ ] docstring  [ ] test  [ ] reader  [ ] writer
-    #
-    # NOTE: msrQueryResultTopic1 (MsrQueryResultTopic1, 0..1, aggr) is not modeled
-    # yet — the MsrQueryResultTopic1 class is a deferred placeholder (Rule 0001.10);
-    # the stamp is omitted until the real type lands.
-
-    def __init__(self):
-        super().__init__()
-
-        # This is argument and properties of the topic query.
-        self.msrQueryProps: Optional[MsrQueryProps] = None
-
-    def setMsrQueryProps(self, value: Optional[MsrQueryProps]) -> "MsrQueryTopic1":
-        """
-        This is argument and properties of the topic query.
-
-        A None value is a no-op and does not overwrite an existing msrQueryProps.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.msrQueryProps = value
-        return self
-
-    def getMsrQueryProps(self) -> Optional[MsrQueryProps]:
-        """
-        This is argument and properties of the topic query.
-
-        Returns:
-            The argument and properties of the topic query
-        """
-        return self.msrQueryProps
 
 
 class TopicContent(ARObject):

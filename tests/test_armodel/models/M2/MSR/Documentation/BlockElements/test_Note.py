@@ -1,7 +1,7 @@
-"""This module contains tests for the Note module in MSR.Documentation.TextModel.BlockElements."""
+"""This module contains tests for the Note module in MSR.Documentation.BlockElements."""
 
+from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note, NoteTypeEnum
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import Note, NoteTypeEnum
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 
 

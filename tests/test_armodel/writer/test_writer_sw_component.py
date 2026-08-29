@@ -85,14 +85,12 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     ChapterContent,
     ChapterModel,
     ChapterOrMsrQuery,
-    MsrQueryChapter,
-    MsrQueryTopic1,
     Topic1,
     TopicContent,
     TopicContentOrMsrQuery,
     TopicOrMsrQuery,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryP1
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryP1, MsrQueryTopic1
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 

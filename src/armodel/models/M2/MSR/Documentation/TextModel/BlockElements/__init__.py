@@ -4,16 +4,16 @@ from typing import List, Optional
 
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import MlFigure as MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula as MlFormula
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import ARList as ARList
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import DefList as DefList
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.ListElements import LabeledList as LabeledList
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import Note as Note
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.Note import NoteTypeEnum as NoteTypeEnum
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import StructuredReq as StructuredReq
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import TraceableText as TraceableText
-from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryArg as MsrQueryArg
-from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryProps as MsrQueryProps
-from armodel.models.M2.MSR.Documentation.TextModel.MsrQuery import MsrQueryP2 as MsrQueryP2
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList as ARList
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import DefList as DefList
+from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import LabeledList as LabeledList
+from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note as Note
+from armodel.models.M2.MSR.Documentation.BlockElements.Note import NoteTypeEnum as NoteTypeEnum
+from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import StructuredReq as StructuredReq
+from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import TraceableText as TraceableText
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg as MsrQueryArg
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryProps as MsrQueryProps
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryP2 as MsrQueryP2
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageParagraph
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageVerbatim as MultiLanguageVerbatim
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
