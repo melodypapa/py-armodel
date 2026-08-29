@@ -1095,7 +1095,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker: couplingPortConnections ARObject placeholder — CouplingPortConnection Table 3.60 landed 2026-08-26 (see Member types ADDED), placeholder row removed)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a re-verified 2026-08-28 — targeted model+writer tests green, mutation Red proof passed; 9b confirmed by user — # Spec verified: R23-11 applied, commit 0ff430d4)
-- [x] EthernetCommunicationController (markdown SystemTemplate · Table 3.61 · p.116 · source Fibex4Ethernet/EthernetTopology.py · closes open items) — STAMP DEFERRED (batch 9b pending); EthernetMacLayerTypeEnum (Table 3.56) landed 2026-08-26, Step 9 unblocked
+- [x] EthernetCommunicationController (markdown SystemTemplate · Table 3.61 · p.116 · source Fibex4Ethernet/EthernetTopology.py · closes open items) — STAMPED R23-11 — confirmed by user 2026-08-29 <!-- commit: 1977d6aa -->; 9b RE-CHECK found accessors without docstrings/hints/guards + macUnicastAddress typed ARLiteral → fixed in same commit (verbatim docstrings, None-guards, retype to MacAddressString per Table 3.61, reader constructs value object, round-trip isinstance assert)
   - [x] Step 1 — Sync members & description from spec
     (Table 3.61 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:2974–3011 + PDF p.116;
     Base → CommunicationController; 8 attr rows incl. slaveQualifiedUnexpectedLinkDownTime after caption;
@@ -1111,7 +1111,10 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 8 — Deviations
     (tracker: new section, macLayerType ARLiteral placeholder — EthernetMacLayerTypeEnum Table 3.56 landed 2026-08-26 (see Member types ADDED), placeholder row removed)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass; macLayerType placeholder resolved once EthernetMacLayerTypeEnum landed)
+    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b RE-CHECK 2026-08-29
+     PASSED — 8 attr rows verbatim; accessor docstrings/hints/guards added, macUnicastAddress retyped
+     ARLiteral→MacAddressString with reader value-object construction and round-trip isinstance assert;
+     mutation Red proof 3 failed→restored; stamped)
 - [x] EthernetCommunicationConnector (markdown SystemTemplate · Table 3.62 · p.117 · source Fibex4Ethernet/EthernetTopology.py · depends on CanXlProps above; adds apApplicationEndpoint, canXlPropsRefs, ipV6PathMtuEnabled, ipV6PathMtuTimeout, pncFilterDataMask, unicastNetworkEndpointRefs → NetworkEndpoint Ref) — STAMPED R23-11 <!-- commit: ccfd3365 -->
   - [x] Step 1 — Sync members & description from spec
     (Table 3.62 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:3020–3040 + PDF p.117;
