@@ -119,7 +119,7 @@ stamps written in batch after user confirmation rounds.
 
 ### BswBehavior entities/events (bases out of scope, see note above)
 
-- [ ] BswCalledEntity (markdown · Table 5.6 · p.74 · source BswModuleTemplate/BswBehavior/__init__.py · base BswModuleEntity out of scope)
+- [x] BswCalledEntity (markdown · Table 5.6 · p.74 · source BswModuleTemplate/BswBehavior/__init__.py · base BswModuleEntity out of scope)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -128,7 +128,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none; no own attributes, I/O via BswInternalBehavior entity dispatch already covered)
-  - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
+  - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit 80d341994ff0d50e42a54bef5556b2a59cf70929
 - [ ] BswSchedulableEntity (markdown · Table 5.7 · p.75 · source BswModuleTemplate/BswBehavior/__init__.py · base BswModuleEntity out of scope)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
