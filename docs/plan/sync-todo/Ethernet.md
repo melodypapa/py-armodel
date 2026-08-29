@@ -56,6 +56,11 @@ a future pass: R4.3.1 markdown Table 6.120 lists only 2 SocketConnection attribu
 R4.3.1 XSD SOCKET-CONNECTION group carries the full member set (incl. ALLOWED-I-PV-6-EXT-HEADERS-REF
 / ALLOWED-TCP-OPTIONS-REF) — the markdown conversion dropped the continuation rows of the
 figure-split table; the model currently follows the markdown table (Rule 0015).
+**2026-08-29 — queue REOPENED (ratePolicy closure, Phase 0 re-run):** the CouplingPortDetails 9b
+re-check failure exposed two missing member-type classes, `CouplingPortRatePolicy` (Table 3.69,
+p.124) and `CouplingPortRatePolicyActionEnum` (Table 3.70, p.125) — closure confirmed by user
+2026-08-29; rows added below (dependency-first: enum → class → CouplingPortDetails RE-FIX).
+The sync is finished again only when these rows and the RE-FIX are all `[x]`.
 
 Closure confirmed by user 2026-08-23: queue the 17 input classes + their missing member-type classes;
 framework bases (ARObject…Identifiable, CommunicationCluster/Controller/Connector, Referrable,
@@ -575,8 +580,48 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
     (none; DoIpEntity doIpEntityRole `# type:` placeholder resolved)
+   - [x] Step 9 — Verify (9a) + confirm (9b)
+     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
+
+### Member types — ADDED 2026-08-29 (ratePolicy closure — CouplingPortDetails 9b re-check failure) — Rule 0016.4/0016.5: sync BEFORE the consumer RE-FIX
+
+- [x] CouplingPortRatePolicyActionEnum (enum · Table 3.70 · p.125 · used by CouplingPortRatePolicy.policyAction · source EthernetTopology.py · literals dropFrame (atp.EnumerationLiteralIndex=0), blockSource (atp.EnumerationLiteralIndex=1) · Steps 5/6 N/A if standalone enum) — STAMPED R23-11 — confirmed by user 2026-08-29
+  - [x] Step 1 — Sync members & description from spec
+    (Table 3.70 markdown AUTOSAR_CP_TPS_SystemTemplate.md:3343 + PDF p.125 via pdf_page.py;
+     Package Fibex4Ethernet::EthernetTopology; Note verbatim; display order blockSource/dropFrame differs from
+     atp.EnumerationLiteralIndex (dropFrame=0, blockSource=1) — member list follows EnumerationLiteralIndex
+     per the EthernetMacLayerTypeEnum convention)
+  - [x] Step 2 — Write model class unit test (Red)
+    (TestCouplingPortRatePolicyActionEnum in test_EthernetTopology.py: test_enum_values + test_instantiation
+     setValue round-trip; Red confirmed — ImportError at collection)
+  - [x] Step 3 — Implement model class (Green)
+    (AREnum subclass appended to EthernetTopology.py after GlobalTimeCouplingPortProps; literals
+     DROP_FRAME="dropFrame" / BLOCK_SOURCE="blockSource" with verbatim Descriptions as member comments)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+    (fresh class: class docstring = Table 3.70 Note verbatim; literal comments = full Descriptions verbatim
+     incl. Tags tails; no stale docstrings existed; __init__ carries no docstring per AREnum convention)
+  - [x] Step 5 — Write reader/writer round-trip test (N/A — standalone enum, no own XML element;
+    round-tripped via the consuming class CouplingPortRatePolicy.policyAction — next queued row)
+  - [x] Step 6 — Update parser & writer (N/A — same reason as Step 5)
+  - [x] Step 7 — Update checklist comment
+    (Spec line Table 3.70 p.125 without marker; Columns line; "(no methods) — enum value form serialized on
+     CouplingPortRatePolicy.policyAction"; marker deferred to 9b)
+  - [x] Step 8 — Deviations
+    (none — 2 literals, EnumerationLiteralIndex order, verbatim Descriptions, Package placement per Rule 0007;
+     consumer CouplingPortDetails ratePolicy gap is resolved by its own RE-FIX row, not a deviation of this enum)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
+    (9a done 2026-08-29: pytest 8143 passed / 0 failed incl. integration round-trip, flake8+ruff clean,
+     black-check 776 files unchanged; 9b confirmed by user 2026-08-29 — # Spec verified: R23-11 written)
+- [ ] CouplingPortRatePolicy (class · Table 3.69 · p.124 · used by CouplingPortDetails.ratePolicy (*, aggr — XSD RATE-POLICYS, AUTOSAR_00052.xsd:23706) · source EthernetTopology.py · Base ARObject; attrs dataLength (PositiveInteger 0..1), policyAction (CouplingPortRatePolicyActionEnum 0..1), priority (PositiveInteger 0..1), timeInterval (TimeValue 0..1), vLan (EthernetPhysicalChannel * ref) · constraints constr_5459/5460/5461 · resolves the ratePolicy member gap found at the CouplingPortDetails 9b re-check 2026-08-29)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 
 ## RE-FIX rows (user review docs/plan/check.md 2026-08-25 — consumers of the member types above; re-run after their member classes land)
 
@@ -652,6 +697,14 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7316 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
 - [x] CanXlProps NOT CONFIRMED by user (RESOLVED 2026-08-28: confirmed XSD verified per row 135 — source CanTopology.py:1084 carries `# XSD verified: AUTOSAR_00052.xsd`; canConfig is typed Optional[CanControllerConfiguration], a real class, not a placeholder, so no clarification needed)
+- [ ] CouplingPortDetails RE-FIX (2026-08-29 — after CouplingPortRatePolicy/ActionEnum land: add the missing ratePolicy member (Table 3.63, XSD RATE-POLICYS AUTOSAR_00052.xsd:23706) with reader/writer coverage, then re-run 9b — the class was left NOT STAMPED when the 2026-08-29 re-check failed on this gap)
+  - [ ] Step 1 — Spec re-check (Table 3.63 with the ratePolicy row; member classes landed)
+  - [ ] Step 2 — Model + round-trip tests for ratePolicy (Red)
+  - [ ] Step 3/4 — Model member added/retyped (RatePolicy list, guarded adder; verbatim Notes)
+  - [ ] Step 5/6 — Parser & writer wired (RATE-POLICYS wrapper in XSD order)
+  - [ ] Step 7 — Checklist comment updated
+  - [ ] Step 8 — Deviations (remove the recorded ratePolicy deviation once resolved)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — full 9b re-check, stamp only on pass
 
 ### Input ethernet classes — sync AFTER their member types (Rule 0016.5)
 

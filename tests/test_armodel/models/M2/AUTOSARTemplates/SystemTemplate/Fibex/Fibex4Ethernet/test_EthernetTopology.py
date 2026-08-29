@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortConnection,
     CouplingPortDetails,
     CouplingPortFifo,
+    CouplingPortRatePolicyActionEnum,
     CouplingPortRoleEnum,
     CouplingPortScheduler,
     CouplingPortStructuralElement,
@@ -1230,6 +1231,23 @@ class TestDoIpEntityRoleEnum:
         assert DoIpEntityRoleEnum.EDGE_NODE == "edgeNode"
         assert DoIpEntityRoleEnum.GATEWAY == "gateway"
         assert DoIpEntityRoleEnum.NODE == "node"
+
+
+class TestCouplingPortRatePolicyActionEnum:
+    """Test cases for CouplingPortRatePolicyActionEnum (Table 3.70, p.125)."""
+
+    def test_enum_values(self):
+        assert list(CouplingPortRatePolicyActionEnum().getEnumValues()) == [
+            "dropFrame",
+            "blockSource",
+        ]
+        assert CouplingPortRatePolicyActionEnum.DROP_FRAME == "dropFrame"
+        assert CouplingPortRatePolicyActionEnum.BLOCK_SOURCE == "blockSource"
+
+    def test_instantiation(self):
+        enum = CouplingPortRatePolicyActionEnum()
+        assert enum.setValue(CouplingPortRatePolicyActionEnum.BLOCK_SOURCE) == enum
+        assert enum.getValue() == "blockSource"
 
 
 class TestPlcaProps:

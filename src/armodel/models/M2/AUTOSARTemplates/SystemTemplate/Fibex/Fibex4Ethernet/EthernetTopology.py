@@ -2787,3 +2787,29 @@ class GlobalTimeCouplingPortProps(ARObject):
         if value is not None:
             self.propagationDelay = value
         return self
+
+
+class CouplingPortRatePolicyActionEnum(AREnum):
+    """
+    Defines the action to be performed when a rate policy is violated.
+    """
+
+    # CouplingPortRatePolicyActionEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.70, p.125
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on CouplingPortRatePolicy.policyAction
+
+    # If the rate policy is violated the frame shall be dropped. Tags: atp.EnumerationLiteralIndex=0
+    DROP_FRAME = "dropFrame"
+
+    # If the rate policy is violated the CouplingPort this CouplingPortRatePolicy is defined on shall block all frames from the MAC-Address the violation was caused by. Tags: atp.EnumerationLiteralIndex=1
+    BLOCK_SOURCE = "blockSource"
+
+    def __init__(self):
+        super().__init__(
+            [
+                CouplingPortRatePolicyActionEnum.DROP_FRAME,
+                CouplingPortRatePolicyActionEnum.BLOCK_SOURCE,
+            ]
+        )
