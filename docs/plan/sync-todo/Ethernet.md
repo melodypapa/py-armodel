@@ -659,7 +659,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
 
 ## RE-FIX rows (user review docs/plan/check.md 2026-08-25 — consumers of the member types above; re-run after their member classes land)
 
-- [x] DhcpServerConfiguration RE-FIX (class docstring partial + member docstrings incorrect per user; full verbatim Notes incl. Tables 3.80/3.81 aggregation roles once Ipv4/Ipv6 subclasses are real) — STAMP DEFERRED (batch 9b pending)
+- [x] DhcpServerConfiguration RE-FIX (class docstring partial + member docstrings incorrect per user; full verbatim Notes incl. Tables 3.80/3.81 aggregation roles once Ipv4/Ipv6 subclasses are real) — STAMPED R23-11 — confirmed by user 2026-08-29 <!-- commit: f6774f2f -->
   - [x] Step 1 — Sync members & description from spec
     (Table 3.79 re-verified: Note "Defines the configuration of DHCP servers that are running on the network
     endpoint. It is possible that an Ipv4DhcpServer and an Ipv6DhcpServer run on the same Ecu."; Base row = ARObject only;
@@ -673,7 +673,9 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 8 — Deviations
     (tracker updated: base corrected Describable→ARObject per Table 3.79 + XSD; aggr rows now cite verbatim Notes)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7306 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
+    (9a automated verification only — pytest 7306 passed, black/black-check/lint clean; 9b RE-CHECK 2026-08-29
+     PASSED — class + member docstrings verified verbatim against Table 3.79 Note row/column, setIpv6 guard
+     mutation Red proof, 17 tests green; stamped)
 - [x] ConsumedServiceInstance RE-FIX (member types incorrect per user: retype instanceIdentifier → AnyServiceInstanceId, minorVersion → AnyVersionString, versionDrivenFindBehavior → ServiceVersionAcceptanceKindEnum once those classes land; remove resolved deviation rows) — STAMPED R23-11 — confirmed by user 2026-08-29 <!-- commit: d6f50ab2 (with parent class stamp) -->
   - [x] Step 1 — Spec re-check (Table 6.167 unchanged; member types now real)
   - [x] Step 2 — Retype round-trip assertions (Red)
