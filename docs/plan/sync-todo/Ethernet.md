@@ -691,7 +691,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker: three placeholder rows resolved and annotated; no open deviations left for this class)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7306 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] ConsumedEventGroup RE-FIX (missing member class per user: type pduActivationRoutingGroups → List[PduActivationRoutingGroup] with reader/writer coverage once it lands; remove resolved deviation row) — STAMP DEFERRED (batch 9b pending)
+- [x] ConsumedEventGroup RE-FIX (missing member class per user: type pduActivationRoutingGroups → List[PduActivationRoutingGroup] with reader/writer coverage once it lands; remove resolved deviation row) — STAMPED R23-11 — confirmed by user 2026-08-29 <!-- commit: d5d43106 (with parent class stamp) -->
   - [x] Step 1 — Spec re-check (Table 6.168 unchanged; PduActivationRoutingGroup landed)
   - [x] Step 2 — Reader/writer coverage tests (Red)
     (test_consumed_event_group.py: write + round-trip of PDU-ACTIVATION-ROUTING-GROUPS wrapper;
@@ -711,7 +711,8 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker: both placeholder rows resolved and annotated; XSD unbounded-vs-PDF 0..1 note recorded on
     methodActivationRoutingGroup row, Rule 0015 table-wins)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7313 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
+    (9a automated verification only — pytest 7313 passed, black/black-check/lint clean; 9b RE-CHECK 2026-08-29
+     PASSED — PduActivationRoutingGroup aggr reader/writer coverage re-verified; stamped)
 - [x] SocketAddress RE-FIX (type staticSocketConnections → List[StaticSocketConnection], udpChecksumHandling → UdpChecksumCalculationEnum once they land; remove resolved deviation rows) — STAMPED R23-11 <!-- commit: 2abee405 -->
   - [x] Step 1 — Spec re-check (Tables 6.118/6.119/6.201 unchanged; member classes landed)
   - [x] Step 2 — Retype round-trip tests (Red)
@@ -763,7 +764,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
 
 ### Input ethernet classes — sync AFTER their member types (Rule 0016.5)
 
-- [x] ConsumedEventGroup (markdown SoftwareComponentTemplate · Table 6.168 · p.978 · source Fibex4Ethernet/ServiceInstances.py · depends on SomeipSdClientEventGroupTimingConfig above; sdClientTimerConfig is a ref to it; adds instanceIdentifier) · steps complete commit d17132bf — STAMP DEFERRED (batch 9b pending); RE-FIX queued: type pduActivationRoutingGroups → List[PduActivationRoutingGroup]
+- [x] ConsumedEventGroup (markdown SoftwareComponentTemplate · Table 6.168 · p.978 · source Fibex4Ethernet/ServiceInstances.py · depends on SomeipSdClientEventGroupTimingConfig above; sdClientTimerConfig is a ref to it; adds instanceIdentifier) · steps complete commit d17132bf — STAMPED R23-11 — confirmed by user 2026-08-29 <!-- commit: d5d43106 -->; RE-FIX resolved (pduActivationRoutingGroups → List[PduActivationRoutingGroup], stamped same commit)
   NOTE: Table 6.168 verified in AUTOSAR_CP_TPS_SystemTemplate.md + PDF pp.504–505 — the table has NO
   instanceIdentifier row; the XSD marks it atp.Status="removed" since 4.4.0, so it was NOT modeled
   (Rule 0015 / "the table wins"). Queue note above is stale.
@@ -777,7 +778,12 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
+    (none open; RE-FIX resolved — pduActivationRoutingGroups typed List[PduActivationRoutingGroup] with
+     reader/writer coverage)
   - [x] Step 9 — Verify (9a) + confirm (9b)
+    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b RE-CHECK 2026-08-29
+     PASSED — 9 attr rows verbatim incl. page-split eventMulticastAddress Note, setPriority mutation Red proof,
+     reader/writer 9-member wiring in spec order, 21 tests green; stamped)
 - [x] ConsumedServiceInstance (markdown SoftwareComponentTemplate · Table 6.167 · p.980 · source Fibex4Ethernet/ServiceInstances.py · base AbstractServiceInstance below; depends on SomeipSdClientServiceInstanceConfig / SomeipServiceVersion above; adds blacklistedVersion, eventMulticastSubscriptionAddress, sdClientTimerConfig refs) · steps complete commit 7f27fb60 — STAMP DEFERRED (batch 9b pending)
   NOTE: Table 6.167 verified in AUTOSAR_CP_TPS_SystemTemplate.md:13252–13262 + PDF p.501 (pdf_page.py
   authoritative) — the SoftwareComponentTemplate citation above was stale; Base row includes
