@@ -674,7 +674,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker updated: base corrected Describable→ARObject per Table 3.79 + XSD; aggr rows now cite verbatim Notes)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7306 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
-- [x] ConsumedServiceInstance RE-FIX (member types incorrect per user: retype instanceIdentifier → AnyServiceInstanceId, minorVersion → AnyVersionString, versionDrivenFindBehavior → ServiceVersionAcceptanceKindEnum once those classes land; remove resolved deviation rows) — STAMP DEFERRED (batch 9b pending)
+- [x] ConsumedServiceInstance RE-FIX (member types incorrect per user: retype instanceIdentifier → AnyServiceInstanceId, minorVersion → AnyVersionString, versionDrivenFindBehavior → ServiceVersionAcceptanceKindEnum once those classes land; remove resolved deviation rows) — STAMPED R23-11 — confirmed by user 2026-08-29 <!-- commit: d6f50ab2 (with parent class stamp) -->
   - [x] Step 1 — Spec re-check (Table 6.167 unchanged; member types now real)
   - [x] Step 2 — Retype round-trip assertions (Red)
     (test_consumed_service_instance.py: isinstance asserts for the three retyped members; Red confirmed —
@@ -690,7 +690,8 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 8 — Deviations
     (tracker: three placeholder rows resolved and annotated; no open deviations left for this class)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7306 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
+    (9a automated verification only — pytest 7306 passed, black/black-check/lint clean; 9b RE-CHECK 2026-08-29
+     PASSED — three retyped members re-verified on reader/writer sides; stamped)
 - [x] ConsumedEventGroup RE-FIX (missing member class per user: type pduActivationRoutingGroups → List[PduActivationRoutingGroup] with reader/writer coverage once it lands; remove resolved deviation row) — STAMPED R23-11 — confirmed by user 2026-08-29 <!-- commit: d5d43106 (with parent class stamp) -->
   - [x] Step 1 — Spec re-check (Table 6.168 unchanged; PduActivationRoutingGroup landed)
   - [x] Step 2 — Reader/writer coverage tests (Red)
@@ -784,7 +785,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b RE-CHECK 2026-08-29
      PASSED — 9 attr rows verbatim incl. page-split eventMulticastAddress Note, setPriority mutation Red proof,
      reader/writer 9-member wiring in spec order, 21 tests green; stamped)
-- [x] ConsumedServiceInstance (markdown SoftwareComponentTemplate · Table 6.167 · p.980 · source Fibex4Ethernet/ServiceInstances.py · base AbstractServiceInstance below; depends on SomeipSdClientServiceInstanceConfig / SomeipServiceVersion above; adds blacklistedVersion, eventMulticastSubscriptionAddress, sdClientTimerConfig refs) · steps complete commit 7f27fb60 — STAMP DEFERRED (batch 9b pending)
+- [x] ConsumedServiceInstance (markdown SoftwareComponentTemplate · Table 6.167 · p.980 · source Fibex4Ethernet/ServiceInstances.py · base AbstractServiceInstance below; depends on SomeipSdClientServiceInstanceConfig / SomeipServiceVersion above; adds blacklistedVersion, eventMulticastSubscriptionAddress, sdClientTimerConfig refs) · steps complete commit 7f27fb60 — STAMPED R23-11 — confirmed by user 2026-08-29 <!-- commit: d6f50ab2 -->; RE-FIX resolved (instanceIdentifier/minorVersion/versionDrivenFindBehavior retyped, stamped same commit)
   NOTE: Table 6.167 verified in AUTOSAR_CP_TPS_SystemTemplate.md:13252–13262 + PDF p.501 (pdf_page.py
   authoritative) — the SoftwareComponentTemplate citation above was stale; Base row includes
   AbstractServiceInstance; 14 Attribute rows across two page blocks.
@@ -801,7 +802,9 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7223 passed, black/black-check/lint clean,
-    checklist==methods 1:1 source order, verbatim Note diff OK; 9b stamp DEFERRED to batch pass)
+    checklist==methods 1:1 source order, verbatim Note diff OK; 9b RE-CHECK 2026-08-29 PASSED — 14 attr rows
+    verbatim, RE-FIX retypes re-verified on both reader/writer sides, setInstanceIdentifier mutation Red proof,
+    19 tests green; stamped)
 - [x] AbstractServiceInstance (markdown SystemTemplate · Table 6.158 · p.477 · source Fibex4Ethernet/ServiceInstances.py · base of ConsumedServiceInstance / ProvidedServiceInstance; depends on TagWithOptionalValue above; fixes methodActivationRoutingGroup & routingGroupRefs member types) · steps complete commit 9b0023ed — STAMPED R23-11 <!-- commit: 2feb31c6 -->
   NOTE: Table 6.158 verified in AUTOSAR_CP_TPS_SystemTemplate.md:12736–12752 + PDF p.477 (pdf_page.py
   authoritative). No explicit Base row in the table — XSD group ABSTRACT-SERVICE-INSTANCE is
