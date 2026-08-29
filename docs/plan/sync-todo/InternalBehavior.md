@@ -129,7 +129,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none; no own attributes, I/O via BswInternalBehavior entity dispatch already covered)
   - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit 80d341994ff0d50e42a54bef5556b2a59cf70929
-- [ ] BswSchedulableEntity (markdown · Table 5.7 · p.75 · source BswModuleTemplate/BswBehavior/__init__.py · base BswModuleEntity out of scope)
+- [x] BswSchedulableEntity (markdown · Table 5.7 · p.75 · source BswModuleTemplate/BswBehavior/__init__.py · base BswModuleEntity out of scope)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -138,7 +138,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none; no own attributes, I/O via BswInternalBehavior entity dispatch already covered)
-  - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
+  - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit bd966456814d9066b5a62be0a9437a86323fed00
 - [ ] BswInterruptEvent (markdown · Table 5.24 · p.88 · source BswModuleTemplate/BswBehavior/BswInterruptEvent.py · base chain out of scope)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
