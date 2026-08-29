@@ -987,16 +987,16 @@ class NmConfig(FibexElement):
         self.nmIfEcus: List[NmEcu] = []
 
     def createCanNmCluster(self, short_name: str):  # type: (str) -> CanNmCluster
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, CanNmCluster):
             cluster = CanNmCluster(self, short_name)
             self.addElement(cluster)
-        return self.getElement(short_name)
+        return self.getElement(short_name, CanNmCluster)
 
     def createUdpNmCluster(self, short_name: str):  # type: (str) -> UdpNmCluster
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, UdpNmCluster):
             cluster = UdpNmCluster(self, short_name)
             self.addElement(cluster)
-        return self.getElement(short_name)
+        return self.getElement(short_name, UdpNmCluster)
 
     def getCanNmClusters(self):  # type: () -> List[CanNmCluster]
         return list(sorted(filter(lambda a: isinstance(a, CanNmCluster), self.elements), key=lambda o: o.short_name))
@@ -1018,11 +1018,11 @@ class NmConfig(FibexElement):
         return self.nmIfEcus
 
     def createNmEcu(self, short_name: str) -> NmEcu:
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, NmEcu):
             cluster = NmEcu(self, short_name)
             self.addElement(cluster)
             self.nmIfEcus.append(cluster)
-        return self.getElement(short_name)
+        return self.getElement(short_name, NmEcu)
 
 
 class NmCluster(Identifiable, ABC):
@@ -1096,25 +1096,25 @@ class NmCluster(Identifiable, ABC):
         return self
 
     def createCanNmNode(self, short_name: str) -> CanNmNode:
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, CanNmNode):
             node = CanNmNode(self, short_name)
             self.addElement(node)
             self.nmNodes.append(node)
-        return self.getElement(short_name)
+        return self.getElement(short_name, CanNmNode)
 
     def readUdpNmNode(self, short_name: str) -> UdpNmNode:
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, UdpNmNode):
             node = UdpNmNode(self, short_name)
             self.addElement(node)
             self.nmNodes.append(node)
-        return self.getElement(short_name)
+        return self.getElement(short_name, UdpNmNode)
 
     def createJ1939NmNode(self, short_name: str) -> J1939NmNode:
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, J1939NmNode):
             node = J1939NmNode(self, short_name)
             self.addElement(node)
             self.nmNodes.append(node)
-        return self.getElement(short_name)
+        return self.getElement(short_name, J1939NmNode)
 
     def getCanNmNodes(self) -> List[CanNmNode]:
         return list(sorted(filter(lambda a: isinstance(a, CanNmNode), self.elements), key=lambda o: o.short_name))

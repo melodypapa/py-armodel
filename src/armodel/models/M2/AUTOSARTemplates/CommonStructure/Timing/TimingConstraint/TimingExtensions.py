@@ -89,7 +89,7 @@ class TimingExtension(ARElement, ABC):
 
     def createTimingClockSyncAccuracy(self, short_name: str) -> TimingClockSyncAccuracy:
         """A list of accuracies - which may be used to specify synchronizations from one model clock to another model clock."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, TimingClockSyncAccuracy):
             accuracy = TimingClockSyncAccuracy(self, short_name)
             self.addElement(accuracy)
             self.timingClockSyncAccuracies.append(accuracy)
@@ -101,7 +101,7 @@ class TimingExtension(ARElement, ABC):
 
     def createTimingCondition(self, short_name: str) -> TimingCondition:
         """The timing condition specifies a specific condition."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, TimingCondition):
             condition = TimingCondition(self, short_name)
             self.addElement(condition)
             self.timingConditions.append(condition)
@@ -155,7 +155,7 @@ class TimingExtension(ARElement, ABC):
         return self.timingResource
 
     def createExecutionOrderConstraint(self, short_name: str) -> ExecutionOrderConstraint:
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ExecutionOrderConstraint):
             constraint = ExecutionOrderConstraint(self, short_name)
             self.addElement(constraint)
             self.timingRequirements.append(constraint)

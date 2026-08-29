@@ -307,11 +307,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created AnalyzedExecutionTime instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, AnalyzedExecutionTime):
             execution_time = AnalyzedExecutionTime(self, short_name)
             self.addElement(execution_time)
             self.executionTimes.append(execution_time)
-        return self.getElement(short_name)
+        return self.getElement(short_name, AnalyzedExecutionTime)
 
     def createMeasuredExecutionTime(self, short_name: str) -> MeasuredExecutionTime:
         """
@@ -323,11 +323,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created MeasuredExecutionTime instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, MeasuredExecutionTime):
             execution_time = MeasuredExecutionTime(self, short_name)
             self.addElement(execution_time)
             self.executionTimes.append(execution_time)
-        return self.getElement(short_name)
+        return self.getElement(short_name, MeasuredExecutionTime)
 
     def createRoughEstimateOfExecutionTime(self, short_name: str) -> RoughEstimateOfExecutionTime:
         """
@@ -339,11 +339,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created RoughEstimateOfExecutionTime instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, RoughEstimateOfExecutionTime):
             execution_time = RoughEstimateOfExecutionTime(self, short_name)
             self.addElement(execution_time)
             self.executionTimes.append(execution_time)
-        return self.getElement(short_name)
+        return self.getElement(short_name, RoughEstimateOfExecutionTime)
 
     def createSimulatedExecutionTime(self, short_name: str) -> SimulatedExecutionTime:
         """
@@ -355,11 +355,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created SimulatedExecutionTime instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, SimulatedExecutionTime):
             execution_time = SimulatedExecutionTime(self, short_name)
             self.addElement(execution_time)
             self.executionTimes.append(execution_time)
-        return self.getElement(short_name)
+        return self.getElement(short_name, SimulatedExecutionTime)
 
     def getExecutionTimes(self) -> List[ExecutionTime]:
         """
@@ -382,11 +382,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created MeasuredHeapUsage instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, MeasuredHeapUsage):
             heap_usage = MeasuredHeapUsage(self, short_name)
             self.addElement(heap_usage)
             self.heapUsages.append(heap_usage)
-        return self.getElement(short_name)
+        return self.getElement(short_name, MeasuredHeapUsage)
 
     def createRoughEstimateHeapUsage(self, short_name: str) -> RoughEstimateHeapUsage:
         """
@@ -398,11 +398,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created RoughEstimateHeapUsage instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, RoughEstimateHeapUsage):
             heap_usage = RoughEstimateHeapUsage(self, short_name)
             self.addElement(heap_usage)
             self.heapUsages.append(heap_usage)
-        return self.getElement(short_name)
+        return self.getElement(short_name, RoughEstimateHeapUsage)
 
     def createWorstCaseHeapUsage(self, short_name: str) -> WorstCaseHeapUsage:
         """
@@ -414,11 +414,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created WorstCaseHeapUsage instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, WorstCaseHeapUsage):
             heap_usage = WorstCaseHeapUsage(self, short_name)
             self.addElement(heap_usage)
             self.heapUsages.append(heap_usage)
-        return self.getElement(short_name)
+        return self.getElement(short_name, WorstCaseHeapUsage)
 
     def getHeapUsages(self) -> List[HeapUsage]:
         """
@@ -439,11 +439,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created MemorySection instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, MemorySection):
             section = MemorySection(self, short_name)
             self.addElement(section)
             self.memorySections.append(section)
-        return self.getElement(short_name)
+        return self.getElement(short_name, MemorySection)
 
     def getMemorySections(self) -> List[MemorySection]:
         """
@@ -476,11 +476,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created SectionNamePrefix instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, SectionNamePrefix):
             prefix = SectionNamePrefix(self, short_name)
             self.addElement(prefix)
             self.sectionNamePrefixes.append(prefix)
-        return self.getElement(short_name)
+        return self.getElement(short_name, SectionNamePrefix)
 
     def getSectionNamePrefixes(self) -> List[SectionNamePrefix]:
         """
@@ -501,11 +501,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created MeasuredStackUsage instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, MeasuredStackUsage):
             section = MeasuredStackUsage(self, short_name)
             self.addElement(section)
             self.stackUsages.append(section)
-        return self.getElement(short_name)
+        return self.getElement(short_name, MeasuredStackUsage)
 
     def createRoughEstimateStackUsage(self, short_name: str) -> RoughEstimateStackUsage:
         """
@@ -517,11 +517,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created RoughEstimateStackUsage instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, RoughEstimateStackUsage):
             section = RoughEstimateStackUsage(self, short_name)
             self.addElement(section)
             self.stackUsages.append(section)
-        return self.getElement(short_name)
+        return self.getElement(short_name, RoughEstimateStackUsage)
 
     def createWorstCaseStackUsage(self, short_name: str) -> WorstCaseStackUsage:
         """
@@ -533,11 +533,11 @@ class ResourceConsumption(Identifiable):
         Returns:
             The created WorstCaseStackUsage instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, WorstCaseStackUsage):
             section = WorstCaseStackUsage(self, short_name)
             self.addElement(section)
             self.stackUsages.append(section)
-        return self.getElement(short_name)
+        return self.getElement(short_name, WorstCaseStackUsage)
 
     def getStackUsages(self) -> List[StackUsage]:
         """

@@ -174,55 +174,55 @@ class EcuInstance(FibexElement):
         return list(sorted(filter(lambda a: isinstance(a, CommunicationController), self.elements), key=lambda o: o.short_name))
 
     def createCanCommunicationController(self, short_name: str) -> CanCommunicationController:
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, CanCommunicationController):
             controller = CanCommunicationController(self, short_name)
             self.addElement(controller)
-        return self.getElement(short_name)
+        return self.getElement(short_name, CanCommunicationController)
 
     def createEthernetCommunicationController(self, short_name: str) -> EthernetCommunicationController:
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, EthernetCommunicationController):
             controller = EthernetCommunicationController(self, short_name)
             self.addElement(controller)
-        return self.getElement(short_name)
+        return self.getElement(short_name, EthernetCommunicationController)
 
     def createLinMaster(self, short_name: str) -> LinMaster:
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, LinMaster):
             controller = LinMaster(self, short_name)
             self.addElement(controller)
-        return self.getElement(short_name)
+        return self.getElement(short_name, LinMaster)
 
     def createFlexrayCommunicationController(self, short_name: str) -> FlexrayCommunicationController:
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, FlexrayCommunicationController):
             controller = FlexrayCommunicationController(self, short_name)
             self.addElement(controller)
-        return self.getElement(short_name)
+        return self.getElement(short_name, FlexrayCommunicationController)
 
     def getConnectors(self):
         return list(sorted(filter(lambda a: isinstance(a, CommunicationConnector), self.elements), key=lambda o: o.short_name))
 
     def createCanCommunicationConnector(self, short_name: str) -> CanCommunicationConnector:
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, CanCommunicationConnector):
             connector = CanCommunicationConnector(self, short_name)
             self.addElement(connector)
-        return self.getElement(short_name)
+        return self.getElement(short_name, CanCommunicationConnector)
 
     def createEthernetCommunicationConnector(self, short_name: str) -> EthernetCommunicationConnector:
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, EthernetCommunicationConnector):
             connector = EthernetCommunicationConnector(self, short_name)
             self.addElement(connector)
-        return self.getElement(short_name)
+        return self.getElement(short_name, EthernetCommunicationConnector)
 
     def createLinCommunicationConnector(self, short_name: str) -> LinCommunicationConnector:
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, LinCommunicationConnector):
             connector = LinCommunicationConnector(self, short_name)
             self.addElement(connector)
-        return self.getElement(short_name)
+        return self.getElement(short_name, LinCommunicationConnector)
 
     def createFlexrayCommunicationConnector(self, short_name: str) -> FlexrayCommunicationConnector:
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, FlexrayCommunicationConnector):
             connector = FlexrayCommunicationConnector(self, short_name)
             self.addElement(connector)
-        return self.getElement(short_name)
+        return self.getElement(short_name, FlexrayCommunicationConnector)
 
     def getDltConfig(self):
         return self.dltConfig

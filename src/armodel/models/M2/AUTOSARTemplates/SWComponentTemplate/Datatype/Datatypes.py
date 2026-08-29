@@ -183,7 +183,7 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
         Returns:
             The newly created or existing ApplicationArrayElement instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ApplicationArrayElement):
             array_element = ApplicationArrayElement(self, short_name)
             self.addElement(array_element)
             self.element = array_element
@@ -207,7 +207,7 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
         self.record_elements: List[ApplicationRecordElement] = []
 
     def createApplicationRecordElement(self, short_name: str) -> ApplicationRecordElement:
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ApplicationRecordElement):
             record_element = ApplicationRecordElement(self, short_name)
             self.addElement(record_element)
             self.record_elements.append(record_element)

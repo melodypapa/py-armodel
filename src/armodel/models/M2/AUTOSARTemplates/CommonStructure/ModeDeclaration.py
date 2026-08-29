@@ -317,7 +317,7 @@ class ModeDeclarationGroup(AtpType):
         Returns:
             The created ModeDeclaration instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ModeDeclaration):
             spec = ModeDeclaration(self, short_name)
             self.addElement(spec)
         return self.getElement(short_name, ModeDeclaration)
@@ -389,7 +389,7 @@ class ModeDeclarationGroup(AtpType):
         Returns:
             The created ModeTransition instance
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, ModeTransition):
             spec = ModeTransition(self, short_name)
             self.addElement(spec)
             self.modeTransitions.append(spec)

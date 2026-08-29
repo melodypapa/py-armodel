@@ -208,11 +208,11 @@ class FlatMap(AtpBlueprintable):
         Returns:
             The created FlatInstanceDescriptor instance
         """
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, FlatInstanceDescriptor):
             element = FlatInstanceDescriptor(self, short_name)
             self.addElement(element)
             self.instances.append(element)
-        return self.getElement(short_name)
+        return self.getElement(short_name, FlatInstanceDescriptor)
 
 
 class AliasNameAssignment(ARObject):

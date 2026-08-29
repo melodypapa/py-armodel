@@ -131,11 +131,11 @@ class EthernetCluster(CommunicationCluster):
 
     def createMacMulticastGroup(self, short_name: str) -> MacMulticastGroup:
         """MacMulticastGroup that is defined for the Subnet (EthernetCluster)."""
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, MacMulticastGroup):
             group = MacMulticastGroup(self, short_name)
             self.addElement(group)
             self.macMulticastGroups.append(group)
-        return self.getElement(short_name)
+        return self.getElement(short_name, MacMulticastGroup)
 
     def getMacMulticastGroups(self) -> List[MacMulticastGroup]:
         """MacMulticastGroup that is defined for the Subnet (EthernetCluster)."""
@@ -855,11 +855,11 @@ class EthernetCommunicationController(CommunicationController):
 
     def createCouplingPort(self, short_name: str) -> CouplingPort:
         """Optional CouplingPort that can be used to connect the ECU to a CouplingElement (e.g. a switch)."""
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, CouplingPort):
             group = CouplingPort(self, short_name)
             self.addElement(group)
             self.couplingPorts.append(group)
-        return self.getElement(short_name)
+        return self.getElement(short_name, CouplingPort)
 
     def getMacLayerType(self) -> Optional[EthernetMacLayerTypeEnum]:
         """Specifies the mac layer type of the ethernet controller."""

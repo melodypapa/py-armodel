@@ -434,7 +434,7 @@ class EcucContainerValue(Identifiable, EcucIndexableValue):
 
     def createSubContainer(self, short_name: str) -> "EcucContainerValue":
         """Aggregates all sub-containers within this container. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=subContainer.shortName, sub Container.variationPoint.shortLabel vh.latestBindingTime=postBuild"""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, EcucContainerValue):
             container_value = EcucContainerValue(self, short_name)
             self.addElement(container_value)
             self.subContainers.append(container_value)
@@ -493,7 +493,7 @@ class EcucModuleConfigurationValues(ARElement):
 
     def createContainer(self, short_name: str) -> EcucContainerValue:
         """Aggregates all containers that belong to this module configuration. atpVariation: [RS_ECUC_00078] Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=container.shortName, container.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.sequenceOffset=10"""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, EcucContainerValue):
             container = EcucContainerValue(self, short_name)
             self.addElement(container)
             self.containers.append(container)

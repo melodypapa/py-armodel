@@ -123,11 +123,9 @@ class CryptoKeySlot(Identifiable):
 
     def createKeySlotContent(self, short_name: str) -> CryptoKeySlotContent:
         """Creates and adds a keySlotContent to this CryptoKeySlot."""
-        if short_name not in self.elements:
+        if not self.IsElementExists(short_name, CryptoKeySlotContent):
             new_element = CryptoKeySlotContent(self, short_name)
-            # Only call addElement if child has getShortName method (Referrable subclasses)
-            if hasattr(new_element, "getShortName"):
-                self.addElement(new_element)
+            self.addElement(new_element)
             self.keySlotContents.append(new_element)
         return new_element
 

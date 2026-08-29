@@ -419,7 +419,7 @@ class CompositionSwComponentType(SwComponentType):
         Returns:
             The created or existing SwComponentPrototype
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, SwComponentPrototype):
             prototype = SwComponentPrototype(self, short_name)
             self.addElement(prototype)
             self.components.append(prototype)
@@ -445,7 +445,7 @@ class CompositionSwComponentType(SwComponentType):
         Returns:
             The created or existing AssemblySwConnector
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, AssemblySwConnector):
             connector = AssemblySwConnector(self, short_name)
             self.addElement(connector)
             self.connectors.append(connector)
@@ -462,7 +462,7 @@ class CompositionSwComponentType(SwComponentType):
         Returns:
             The created or existing DelegationSwConnector
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, DelegationSwConnector):
             connector = DelegationSwConnector(self, short_name)
             self.addElement(connector)
             self.connectors.append(connector)
@@ -479,7 +479,7 @@ class CompositionSwComponentType(SwComponentType):
         Returns:
             The created or existing PassThroughSwConnector
         """
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, PassThroughSwConnector):
             connector = PassThroughSwConnector(self, short_name)
             self.addElement(connector)
             self.connectors.append(connector)

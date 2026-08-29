@@ -394,7 +394,7 @@ class TimingExtensionResource(Identifiable):
 
     def createTimingArgument(self, short_name: str) -> AutosarOperationArgumentInstance:
         """This refers to an instance reference of an argument of an operation call."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, AutosarOperationArgumentInstance):
             argument = AutosarOperationArgumentInstance(self, short_name)
             self.addElement(argument)
             self.timingArguments.append(argument)
@@ -406,7 +406,7 @@ class TimingExtensionResource(Identifiable):
 
     def createTimingMode(self, short_name: str) -> TimingModeInstance:
         """This refers to an instance reference of a mode declaration."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, TimingModeInstance):
             mode = TimingModeInstance(self, short_name)
             self.addElement(mode)
             self.timingModes.append(mode)
@@ -418,7 +418,7 @@ class TimingExtensionResource(Identifiable):
 
     def createTimingVariable(self, short_name: str) -> AutosarVariableInstance:
         """This refers to an instance reference of a variable."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, AutosarVariableInstance):
             variable = AutosarVariableInstance(self, short_name)
             self.addElement(variable)
             self.timingVariables.append(variable)

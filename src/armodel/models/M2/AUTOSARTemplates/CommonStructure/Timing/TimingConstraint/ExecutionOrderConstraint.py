@@ -292,7 +292,7 @@ class ExecutionOrderConstraint(TimingConstraint):
 
     def createEOCEventRef(self, short_name: str) -> "EOCEventRef":
         """This aggregation represents an unordered collection of references to RunnableEntities which shall be considered in the ExecutionOrderConstraint. The role does not imply that the collection of references itself shall be ordered."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, EOCEventRef):
             event_ref = EOCEventRef(self, short_name)
             self.addElement(event_ref)
             self.orderedElements.append(event_ref)
@@ -300,7 +300,7 @@ class ExecutionOrderConstraint(TimingConstraint):
 
     def createEOCExecutableEntityRef(self, short_name: str) -> EOCExecutableEntityRef:
         """This aggregation represents an unordered collection of references to RunnableEntities which shall be considered in the ExecutionOrderConstraint. The role does not imply that the collection of references itself shall be ordered."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, EOCExecutableEntityRef):
             entity_ref = EOCExecutableEntityRef(self, short_name)
             self.addElement(entity_ref)
             self.orderedElements.append(entity_ref)
@@ -308,7 +308,7 @@ class ExecutionOrderConstraint(TimingConstraint):
 
     def createEOCExecutableEntityRefGroup(self, short_name: str) -> "EOCExecutableEntityRefGroup":
         """This aggregation represents an unordered collection of references to RunnableEntities which shall be considered in the ExecutionOrderConstraint. The role does not imply that the collection of references itself shall be ordered."""
-        if not self.IsElementExists(short_name):
+        if not self.IsElementExists(short_name, EOCExecutableEntityRefGroup):
             entity_ref_group = EOCExecutableEntityRefGroup(self, short_name)
             self.addElement(entity_ref_group)
             self.orderedElements.append(entity_ref_group)
