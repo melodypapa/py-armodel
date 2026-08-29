@@ -2848,8 +2848,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setRTEEvent(child_element, event)
             self.setRVariableInAtomicSwcInstanceRef(child_element, event.dataIRef)
 
-    def writeInternalTriggerOccurredEvent(self, element: ET.Element, event: DataReceivedEvent):
-        pass
+    def writeInternalTriggerOccurredEvent(self, element: ET.Element, event: InternalTriggerOccurredEvent):
+        if event is not None:
+            child_element = ET.SubElement(element, "INTERNAL-TRIGGER-OCCURRED-EVENT")
+            self.setRTEEvent(child_element, event)
+            self.setChildElementOptionalRefType(child_element, "EVENT-SOURCE-REF", event.getEventSourceRef())
 
     def writeInitEvent(self, element: ET.Element, event: InitEvent):
         if event is not None:
@@ -8991,7 +8994,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalFloatValue(child_element, "MIN-SAMPLE-POINT", requirements.getMinSamplePoint())
             self.setChildElementOptionalFloatValue(child_element, "MIN-SYNC-JUMP-WIDTH", requirements.getMinSyncJumpWidth())
 
-    def writeAbstractCanCommunicationControllerCanControllerAttributes(self, element: ET.SubElement, controller: AbstractCanCommunicationController):
+    def writeAbstractCanCommunicationControllerCanControllerAttributes(self, element: ET.Element, controller: AbstractCanCommunicationController):
         attributes = controller.getCanControllerAttributes()
         if attributes is not None:
             child_element = ET.SubElement(element, "CAN-CONTROLLER-ATTRIBUTES")
