@@ -1133,17 +1133,23 @@ class ARXMLParser(AbstractARXMLParser):
             self.readAdminDataDocRevisions(child_element, admin_data)
         return admin_data
 
+    def getShortNameFragments(self, element: ET.Element, key: str) -> List[ShortNameFragment]:
+        fragments = []
+        for child_element in self.findall(element, "%s/SHORT-NAME-FRAGMENT" % key):
+            fragment = ShortNameFragment()
+            self.readARObjectAttributes(child_element, fragment)
+            role_element = self.find(child_element, "ROLE")
+            if role_element is not None:
+                fragment.setRole(role_element.text)
+            fragment.setFragment(self.getChildElementOptionalIdentifier(child_element, "FRAGMENT"))
+            fragments.append(fragment)
+        return fragments
+
     def readReferrable(self, element: ET.Element, referrable: Referrable):
         self.readARObjectAttributes(element, referrable)
 
         if isinstance(referrable, Referrable):
-            for child_element in self.findall(element, "SHORT-NAME-FRAGMENTS/SHORT-NAME-FRAGMENT"):
-                fragment = ShortNameFragment()
-                self.readARObjectAttributes(child_element, fragment)
-                role_element = self.find(child_element, "ROLE")
-                if role_element is not None:
-                    fragment.setRole(role_element.text)
-                fragment.setFragment(self.getChildElementOptionalIdentifier(child_element, "FRAGMENT"))
+            for fragment in self.getShortNameFragments(element, "SHORT-NAME-FRAGMENTS"):
                 referrable.addShortNameFragment(fragment)
 
     def readMultilanguageReferrable(self, element: ET.Element, referrable: MultilanguageReferrable):
