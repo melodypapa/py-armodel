@@ -7326,6 +7326,20 @@ class ARXMLParser(AbstractARXMLParser):
                 enum_value.setValue(runtime_port_configuration.getValue())
                 connection.setRuntimePortConfiguration(enum_value)
             connection.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
+            connection.setAllowedIPv6ExtHeadersRef(self.getChildElementOptionalRefType(element, "ALLOWED-I-PV-6-EXT-HEADERS-REF"))
+            connection.setAllowedTcpOptionsRef(self.getChildElementOptionalRefType(element, "ALLOWED-TCP-OPTIONS-REF"))
+            connection.setClientIpAddrFromConnectionRequest(self.getChildElementOptionalBooleanValue(element, "CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST"))
+            connection.setClientPortRef(self.getChildElementOptionalRefType(element, "CLIENT-PORT-REF"))
+            connection.setClientPortFromConnectionRequest(self.getChildElementOptionalBooleanValue(element, "CLIENT-PORT-FROM-CONNECTION-REQUEST"))
+            for pdu in self.getSocketConnectionPdus(element):
+                connection.addPdu(pdu)
+            connection.setPduCollectionMaxBufferSize(self.getChildElementOptionalPositiveInteger(element, "PDU-COLLECTION-MAX-BUFFER-SIZE"))
+            connection.setPduCollectionTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-TIMEOUT"))
+            runtime_ip_address_configuration = self.getChildElementOptionalLiteral(element, "RUNTIME-IP-ADDRESS-CONFIGURATION")
+            if runtime_ip_address_configuration is not None:
+                ip_enum = RuntimeAddressConfigurationEnum()
+                ip_enum.setValue(runtime_ip_address_configuration.getValue())
+                connection.setRuntimeIpAddressConfiguration(ip_enum)
         return connection
 
     def readSocketConnectionBundleConnections(self, element: ET.Element, bundle: SocketConnectionBundle):

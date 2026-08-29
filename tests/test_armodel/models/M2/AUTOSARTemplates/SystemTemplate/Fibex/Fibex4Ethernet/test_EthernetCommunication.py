@@ -21,14 +21,74 @@ class Test_Fibex4EthernetCommunication:
     """Test cases for Fibex4Ethernet Communication classes."""
 
     def test_SocketConnection(self):
-        """Test SocketConnection class functionality (R4.3.1 Table 6.120, p.319)."""
+        """Test SocketConnection class functionality (R4.3.1 Table 6.120, p.319; member set per R4.3.1 AUTOSAR_00044.xsd SOCKET-CONNECTION group)."""
         connection = SocketConnection()
 
         assert isinstance(connection, Describable)
 
         # Test default values
+        assert connection.getAllowedIPv6ExtHeadersRef() is None
+        assert connection.getAllowedTcpOptionsRef() is None
+        assert connection.getClientIpAddrFromConnectionRequest() is None
+        assert connection.getClientPortFromConnectionRequest() is None
+        assert connection.getClientPortRef() is None
+        assert connection.getPdus() == []
+        assert connection.getPduCollectionMaxBufferSize() is None
+        assert connection.getPduCollectionTimeout() is None
+        assert connection.getRuntimeIpAddressConfiguration() is None
         assert connection.getRuntimePortConfiguration() is None
         assert connection.getShortLabel() is None
+
+        # Test reference setters/getters with method chaining and None no-op
+        result = connection.setAllowedIPv6ExtHeadersRef("/Pkgs/IPv6List")
+        assert connection.getAllowedIPv6ExtHeadersRef() == "/Pkgs/IPv6List"
+        assert result == connection
+        connection.setAllowedIPv6ExtHeadersRef(None)
+        assert connection.getAllowedIPv6ExtHeadersRef() == "/Pkgs/IPv6List"  # None no-op
+
+        result = connection.setAllowedTcpOptionsRef("/Pkgs/TcpList")
+        assert connection.getAllowedTcpOptionsRef() == "/Pkgs/TcpList"
+        assert result == connection
+
+        result = connection.setClientPortRef("/Sock/SA1")
+        assert connection.getClientPortRef() == "/Sock/SA1"
+        assert result == connection
+
+        # Test boolean setters/getters
+        result = connection.setClientIpAddrFromConnectionRequest(True)
+        assert connection.getClientIpAddrFromConnectionRequest() is True
+        assert result == connection
+        connection.setClientIpAddrFromConnectionRequest(None)
+        assert connection.getClientIpAddrFromConnectionRequest() is True  # None no-op
+
+        result = connection.setClientPortFromConnectionRequest(False)
+        assert connection.getClientPortFromConnectionRequest() is False
+        assert result == connection
+
+        # Test pdu aggregation
+        pdu = SocketConnectionIpduIdentifier()
+        assert connection == connection.addPdu(pdu)
+        assert connection.getPdus() == [pdu]
+        connection.addPdu(None)
+        assert connection.getPdus() == [pdu]  # None no-op
+
+        # Test numerical/time setters/getters
+        result = connection.setPduCollectionMaxBufferSize(1024)
+        assert connection.getPduCollectionMaxBufferSize() == 1024
+        assert result == connection
+
+        result = connection.setPduCollectionTimeout("10ms")
+        assert connection.getPduCollectionTimeout() == "10ms"
+        assert result == connection
+
+        # Test runtime enum setters/getters
+        ip_enum = RuntimeAddressConfigurationEnum()
+        ip_enum.setValue("sd")
+        result = connection.setRuntimeIpAddressConfiguration(ip_enum)
+        assert connection.getRuntimeIpAddressConfiguration() is ip_enum
+        assert result == connection
+        connection.setRuntimeIpAddressConfiguration(None)
+        assert connection.getRuntimeIpAddressConfiguration() is ip_enum  # None no-op
 
         # Test shortLabel setter/getter with method chaining
         result = connection.setShortLabel("label")

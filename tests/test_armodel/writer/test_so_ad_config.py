@@ -80,6 +80,12 @@ def _ref(value):
     return ref
 
 
+def _identifier(header_id):
+    identifier = SocketConnectionIpduIdentifier()
+    identifier.setHeaderId(_positive(header_id))
+    return identifier
+
+
 def _write_and_parse(writer, parser, config):
     parent = ET.Element("ETHERNET-PHYSICAL-CHANNEL")
     writer.writeSoAdConfig(parent, "SO-AD-CONFIG", config)
@@ -117,6 +123,44 @@ class TestSoAdConfigRoundTrip:
         assert node.find("CONNECTIONS/SOCKET-CONNECTION/SHORT-LABEL").text == "label"
         assert node.find("CONNECTION-BUNDLES/SOCKET-CONNECTION-BUNDLE/SHORT-NAME").text == "Bundle1"
         assert node.find("SOCKET-ADDRESSS/SOCKET-ADDRESS/SHORT-NAME").text == "SA1"
+
+    def test_round_trip_connection_members(self, writer, parser):
+        config = SoAdConfig()
+        connection = SocketConnection()
+        connection.setAllowedIPv6ExtHeadersRef(_ref("/Pkgs/IPv6List"))
+        connection.setAllowedTcpOptionsRef(_ref("/Pkgs/TcpList"))
+        connection.setClientIpAddrFromConnectionRequest(_boolean(True))
+        connection.setClientPortFromConnectionRequest(_boolean(False))
+        connection.setClientPortRef(_ref("/Sock/SA1"))
+        connection.addPdu(_identifier(4660))
+        connection.setPduCollectionMaxBufferSize(_positive(1024))
+        timeout = TimeValue()
+        timeout.setValue(0.5)
+        connection.setPduCollectionTimeout(timeout)
+        connection.setRuntimeIpAddressConfiguration(RuntimeAddressConfigurationEnum().setValue("none"))
+        connection.setRuntimePortConfiguration(RuntimeAddressConfigurationEnum().setValue("sd"))
+        connection.setShortLabel(Identifier().setValue("Conn1"))
+        config.addConnection(connection)
+
+        parsed = _write_and_parse(writer, parser, config)
+
+        connections = parsed.getConnections()
+        assert len(connections) == 1
+        re_connection = connections[0]
+        assert isinstance(re_connection, SocketConnection)
+        assert re_connection.getAllowedIPv6ExtHeadersRef().getValue() == "/Pkgs/IPv6List"
+        assert re_connection.getAllowedTcpOptionsRef().getValue() == "/Pkgs/TcpList"
+        assert re_connection.getClientIpAddrFromConnectionRequest().getValue() is True
+        assert re_connection.getClientPortFromConnectionRequest().getValue() is False
+        assert re_connection.getClientPortRef().getValue() == "/Sock/SA1"
+        pdus = re_connection.getPdus()
+        assert len(pdus) == 1
+        assert int(pdus[0].getHeaderId().getValue()) == 4660
+        assert int(re_connection.getPduCollectionMaxBufferSize().getValue()) == 1024
+        assert float(re_connection.getPduCollectionTimeout().getValue()) == 0.5
+        assert re_connection.getRuntimeIpAddressConfiguration().getValue() == "none"
+        assert re_connection.getRuntimePortConfiguration().getValue() == "sd"
+        assert re_connection.getShortLabel().getValue() == "Conn1"
 
     def test_round_trip_bundle_and_pdus(self, writer, parser):
         config = SoAdConfig()

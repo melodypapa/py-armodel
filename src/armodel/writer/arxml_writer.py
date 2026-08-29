@@ -7588,6 +7588,15 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "SOCKET-CONNECTION")
             self.setChildElementOptionalLiteral(child_element, "RUNTIME-PORT-CONFIGURATION", connection.getRuntimePortConfiguration())
             self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", connection.getShortLabel())
+            self.setChildElementOptionalRefType(child_element, "ALLOWED-I-PV-6-EXT-HEADERS-REF", connection.getAllowedIPv6ExtHeadersRef())
+            self.setChildElementOptionalRefType(child_element, "ALLOWED-TCP-OPTIONS-REF", connection.getAllowedTcpOptionsRef())
+            self.setChildElementOptionalBooleanValue(child_element, "CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST", connection.getClientIpAddrFromConnectionRequest())
+            self.setChildElementOptionalRefType(child_element, "CLIENT-PORT-REF", connection.getClientPortRef())
+            self.setChildElementOptionalBooleanValue(child_element, "CLIENT-PORT-FROM-CONNECTION-REQUEST", connection.getClientPortFromConnectionRequest())
+            self.setSocketConnectionPdus(child_element, "PDUS", connection.getPdus())
+            self.setChildElementOptionalPositiveInteger(child_element, "PDU-COLLECTION-MAX-BUFFER-SIZE", connection.getPduCollectionMaxBufferSize())
+            self.setChildElementOptionalTimeValue(child_element, "PDU-COLLECTION-TIMEOUT", connection.getPduCollectionTimeout())
+            self.setChildElementOptionalLiteral(child_element, "RUNTIME-IP-ADDRESS-CONFIGURATION", connection.getRuntimeIpAddressConfiguration())
 
     def writeSocketConnectionBundleConnections(self, element: ET.Element, bundle: SocketConnectionBundle):
         connections = bundle.getBundledConnections()
