@@ -159,7 +159,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none; I/O dispatch already existed; ctor annotated to (parent: ARObject, short_name: str) in 9b for cluster consistency)
   - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit acf1e772ac58e4bc125a34b70efcf27554b7267e
-- [ ] BswOsTaskExecutionEvent (markdown · Table 5.27 · p.89 · source BswModuleTemplate/BswBehavior.py · base chain out of scope)
+- [x] BswOsTaskExecutionEvent (markdown · Table 5.27 · p.89 · source BswModuleTemplate/BswBehavior.py · base chain out of scope)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -167,5 +167,24 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 5 — Write reader/writer round-trip test (Red)
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations (none; BSW-OS-TASK-EXECUTION-EVENT reader/writer dispatch + factory added)
-  - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
+  - [x] Step 8 — Deviations (none; BSW-OS-TASK-EXECUTION-EVENT reader/writer dispatch + factory added; ctor annotated to (parent: ARObject, short_name: str) in 9b for cluster consistency)
+  - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit 584344d2e4b56dfaf5595c93ea6d8b9183624268
+
+## Completion
+
+All 13 queued classes are synced and carry the `# Spec verified: R23-11` stamp.
+
+Rule 0007 pass over the whole queue (2026-08-29): `BswBehavior` is a leaf package,
+so its classes were consolidated from `BswBehavior/__init__.py` plus the forbidden
+class-named submodule `BswBehavior/BswInterruptEvent.py` into a single
+`BswModuleTemplate/BswBehavior.py`. The 4 CommonStructure classes were confirmed
+compliant as-is — their spec package tails (`InternalBehavior`, `ServiceNeeds`) are
+leaf packages, so `InternalBehavior.py` / `ServiceNeeds.py` are the correct shape.
+
+Outstanding, deliberately NOT fixed (outside this queue's scope):
+- `BswInternalBehavior` getters (15, e.g. `getBswBackgroundEvents`,
+  `getBswCalledEntities`) use `filter(lambda a: isinstance(a, X), self.elements)` —
+  the Rule 0004 anti-pattern. `BswInternalBehavior` is not a queued class; the same
+  pattern was fixed for `InternalBehavior` during this sync.
+- 1 remaining unannotated ctor in BswBehavior.py: `BswExternalTriggerOccurredEvent`
+  (not a queued class).
