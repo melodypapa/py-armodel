@@ -24,9 +24,7 @@ class TestReadTDEventSLLET:
         AUTOSAR.getInstance().setARRelease("R23-11")
         parent = AUTOSAR.getInstance().createARPackage("AUTOSAR")
         event = _ConcreteTDEventSLLET(parent, "SLLET1")
-        element = ET.fromstring(
-            f"<TD-EVENT-SLLET xmlns='{NS}'>" "<SHORT-NAME>SLLET1</SHORT-NAME>" "</TD-EVENT-SLLET>"
-        )
+        element = ET.fromstring(f"<TD-EVENT-SLLET xmlns='{NS}'>" "<SHORT-NAME>SLLET1</SHORT-NAME>" "</TD-EVENT-SLLET>")
         ARXMLParser().readTDEventSLLET(element, event)
         assert event.getShortName() == "SLLET1"
 
@@ -37,12 +35,7 @@ class TestReadTDEventSLLETPort:
         AUTOSAR.getInstance().setARRelease("R23-11")
         parent = AUTOSAR.getInstance().createARPackage("AUTOSAR")
         event = TDEventSLLETPort(parent, "SLLETPort1")
-        element = ET.fromstring(
-            f"<TD-EVENT-SLLET-PORT xmlns='{NS}'>"
-            "<SHORT-NAME>SLLETPort1</SHORT-NAME>"
-            "<PORT-REF DEST='PORT-PROTOTYPE'>/Path/To/Port</PORT-REF>"
-            "</TD-EVENT-SLLET-PORT>"
-        )
+        element = ET.fromstring(f"<TD-EVENT-SLLET-PORT xmlns='{NS}'>" "<SHORT-NAME>SLLETPort1</SHORT-NAME>" "<PORT-REF DEST='PORT-PROTOTYPE'>/Path/To/Port</PORT-REF>" "</TD-EVENT-SLLET-PORT>")
         ARXMLParser().readTDEventSLLETPort(element, event)
         assert event.getShortName() == "SLLETPort1"
         assert event.getPortRef() is not None
@@ -54,9 +47,7 @@ class TestReadTDEventSLLETPort:
         AUTOSAR.getInstance().setARRelease("R23-11")
         parent = AUTOSAR.getInstance().createARPackage("AUTOSAR")
         event = TDEventSLLETPort(parent, "SLLETPort1")
-        element = ET.fromstring(
-            f"<TD-EVENT-SLLET-PORT xmlns='{NS}'>" "<SHORT-NAME>SLLETPort1</SHORT-NAME>" "</TD-EVENT-SLLET-PORT>"
-        )
+        element = ET.fromstring(f"<TD-EVENT-SLLET-PORT xmlns='{NS}'>" "<SHORT-NAME>SLLETPort1</SHORT-NAME>" "</TD-EVENT-SLLET-PORT>")
         ARXMLParser().readTDEventSLLETPort(element, event)
         assert event.getShortName() == "SLLETPort1"
         assert event.getPortRef() is None

@@ -80,8 +80,12 @@ risks fabricating fields when a referenced class turns out to be missing mid-syn
    This membership gate is distinct from the missing-class resolution gate in
    step 4.
 3. **Locate spec source** for each closure class: markdown first
-   (`grep "Table N.M: K" autosar/R23-11/markdown/*_TPS_*.md`), then PDF, then mark
-   `missing`.
+   (`grep "Table N.M: K" autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md`), then the
+   R23-11 PDF, then the **R4.3.1 fallback** (`grep "Table N.M: K"
+   autosar/R4.3.1/markdown/AUTOSAR_TPS_*.md` — pre-split naming, no platform
+   prefix), then mark `missing`. A class found **only** in the R4.3.1 corpus syncs
+   end-to-end against R4.3.1: marker `# Spec verified: R4.3.1` and `release = R4.3.1`
+   on every checklist row (Rules 0002 / 0012.1 / 0016.3).
 4. **Resolve missing classes (interactive, batched)**: present one
    `AskUserQuestion` listing every class not in markdown or PDF. Per class, the
    user picks **Skip** (deviation row + placeholder) or **Derive from XSD**
@@ -92,7 +96,7 @@ risks fabricating fields when a referenced class turns out to be missing mid-syn
    queued classes reference (`Base` or `Attribute` member type) is queued
    **before** its dependents; deepest ancestors first, ties keep spec-row order,
    input class last. A dependent must never precede the class it references.
-   Skip classes already stamped `# Spec verified: R<YY>-<MM>` unless extending
+   Skip classes already stamped `# Spec verified: <RELEASE>` unless extending
    or drift (Rule 0012.3).
    **"Exists" is not a stamp** — a member type that exists but is a stub (no marker,
    or fields/literals don't match its own table) is queued for the same pass like a
@@ -146,8 +150,11 @@ session** (Rule 0017).
 ## The stamp is the review gate
 
 A class counts as **reviewed/synced ONLY** when its source carries the
-`# Spec verified: R<YY>-<MM>` marker — or, for an XSD-only class, the
-`# XSD verified: <xsd-file>` marker (Step 8 / Rule 0012.1). These markers are the
+`# Spec verified: <RELEASE>` marker — or, for an XSD-only class, the
+`# XSD verified: <xsd-file>` marker (Step 8 / Rule 0012.1). `<RELEASE>` is the release
+of the corpus the class was synced from — `R23-11` (the `CP_TPS`/`FO_TPS` corpus) or
+`R4.3.1` (the pre-split corpus, used when the class has no R23-11 table — the
+Rule 0016.3 fallback). These markers are the
 provenance signal — nothing else (a fully-`[x]` checklist, passing tests, or a clean
 round-trip) certifies a class as reviewed.
 
@@ -161,12 +168,12 @@ round-trip) certifies a class as reviewed.
   cross-check is the gate, in both directions).
 - **Exception — no own spec table (XSD-only class):** a class whose attributes exist
   **only** in an XSD (no PDF/markdown table) legitimately carries no `# Spec verified:
-  R<YY>-<MM>` marker. When fully synced from the XSD with **no deviation**, it carries
+  <RELEASE>` marker. When fully synced from the XSD with **no deviation**, it carries
   **`# XSD verified: <xsd-file>`** (e.g. `# XSD verified: AUTOSAR_00052.xsd`) with
   method rows `[x]` — treat it like a `Spec verified` class. Rows stay all-`[ ]` only
   if the class was **not** yet synced. `XSD verified` replaces `Spec verified` **only**
   when the class's information is XSD-exclusive; if a PDF/markdown table exists, use
-  `# Spec verified: R<YY>-<MM>` (PDF authoritative, Rule 0015). It is *not*
+  `# Spec verified: <RELEASE>` (PDF authoritative, Rule 0015). It is *not*
   "unreviewed" — confirm the exception before treating a marker-less class as
   sync-from-scratch.
 
@@ -180,11 +187,11 @@ round-trip) certifies a class as reviewed.
 | model test | `tests/test_armodel/models/M2/AUTOSARTemplates/<pkg>/test_<ClassName>.py` → `class Test<ClassName>` — pairs 1:1 with source `<ClassName>.py` (Step 2) |
 | parser test | `tests/test_armodel/parser/test_*.py` → `class Test*` (load with `ARXMLParser`, assert model fields; Step 5) |
 | writer test | `tests/test_armodel/writer/test_*.py` → `class Test*` (set → save → reload round-trip; Step 5) |
-| spec markdown | `grep "Table N.M: <ClassName>" autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` — **primary source for all text**: `Note` (→ docstrings), `Attribute`/`Base`, `Table N.M` id, table name (via filename). Covers **both** `CP_TPS` (Classic) and `FO_TPS` (Foundation) |
-| spec PDF | `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf` — **opened only to read the page number** (`p.NN`); the markdown carries no page numbers |
-| page-number script | `python .codebuddy/skills/sync-autosar-class/pdf_page.py <ClassName> [--pdf PATH] [--table <N.M>]` — finds `Table N.M: <ClassName>` across `autosar/R23-11/pdf/` and prints `p.NN` (cached per-PDF index; `--refresh` rescans). Use it in Steps 1/4 whenever the `# Spec:` line needs `p.NN` |
+| spec markdown | `grep "Table N.M: <ClassName>" autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` — **primary source for all text**: `Note` (→ docstrings), `Attribute`/`Base`, `Table N.M` id, table name (via filename). Covers **both** `CP_TPS` (Classic) and `FO_TPS` (Foundation); a class with **no** R23-11 table falls back to `grep ... autosar/R4.3.1/markdown/AUTOSAR_TPS_*.md` (pre-split naming — no `CP_`/`FO_` prefix; Rule 0016.3) |
+| spec PDF | `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf` (R4.3.1 fallback: `autosar/R4.3.1/pdf/AUTOSAR_TPS_*.pdf`) — **opened only to read the page number** (`p.NN`); the markdown carries no page numbers |
+| page-number script | `python .codebuddy/skills/sync-autosar-class/pdf_page.py <ClassName> [--pdf PATH] [--table <N.M>]` — finds `Table N.M: <ClassName>` across every `autosar/R*/pdf/` corpus (R23-11, R4.3.1) and prints `p.NN` (cached per-PDF index; `--refresh` rescans). Use it in Steps 1/4 whenever the `# Spec:` line needs `p.NN` |
 | deviation records | the project deviation tracker (format in *Rule 0014*) |
-| XSD ground truth | `docs/requirements/xsd/` |
+| XSD ground truth | per synced release: `autosar/R23-11/xsd/AUTOSAR_00052.xsd` · `autosar/R4.3.1/xsd/AUTOSAR_00044.xsd` |
 
 ### The 9-step workflow (TDD, per class)
 
@@ -214,7 +221,7 @@ as each step finishes (*Rule 0018*).
 - **4** — **Wipe first, then rewrite.** Remove **all** existing docstrings — the class docstring, every method docstring (`__init__`, getters, setters, `create*`/`add*`), and every inline `__init__` member comment — so no stale wording survives a re-sync on renamed/removed/overlooked members (*Rule 0012.2.3*); keep the code, the `# Spec:` checklist block, and placeholder comments. Then copy the spec `Note` **verbatim from the markdown** into the **class docstring** (the class-level `Note` — **not** into `__init__`, which has no docstring), inline `__init__` **comments**, and getter/setter docstrings (page number via `pdf_page.py`, above); guarded setters append the None-no-op sentence. `__init__` members are declared as **PEP 526 annotated assignments** directly under their note comment — `self.foo: Optional[T] = None` / `self.foo: List[T] = []` — **never** a trailing `# type:` comment (*Rule 0003*).
 - **5** — Reader/writer tests live in **their own folders** (`tests/test_armodel/parser/`, `.../writer/`, both `class Test*`), not the per-class mirror. Assert **field values**, not just `len(...) == n`; add an empty-wrapper-list case.
 - **6** — Reader populates via mutators (`readXxx`→`set/create/addXxx`), writer reads via getters (`writeXxx`→`getXxx`); cover wrapper lists + polymorphic five-place dispatch; **no chained mutator calls**. All types form matched name pairs across layers — model `setX`/`getX`, structure `readX`/`writeX`, element `getX`/`setX`, leaf `getChildElementOptional<T>`/`setChildElementOptional<T>` (*Rule 0013.2*); a cross pair (`setX1` ↔ `getX2`) is incorrect.
-- **7** — One row per method, source order, all `[x]`, 5-column format below. Writes the `# Spec:` line + method rows **only** — the `# Spec verified:` marker is added in Step 9b, never here.
+- **7** — One row per method, source order, all `[x]`, 6-column format below (the last column is the per-row `release`). Writes the `# Spec:` line + method rows **only** — the `# Spec verified:` marker is added in Step 9b, never here.
 - **8** — Record deviations; the `# Spec verified:` marker (added in 9b) is **withheld** while any placeholder/deviation remains; report the Step-3 referenced classes here.
 - **9** — **(9a automated)** `pytest` + `flake8` + `ruff check` + `black-check` + the set-based script + a lossless integration round-trip (`npm run flake8` / `ruff-check` / `black-check` are the cross-platform forms). **Stop on any failure.** **(9b confirm — gate)** then present the **complete pre-stamp** rule-compliance checklist covering every check automation is blind to — element kind + every spec attr modeled (*0001.1*), most-derived base (*0001.2*), no fabrication/flattening + PDF-typed fields (*0001.3*), **Kind-suffix naming** `ref`→Ref/Refs·`tref`→TRef·`iref`→IRef/IRefs + singular `*`→plural (*0001.5*), create/set/add shape (*0001.6*), **reader+writer coverage** for every kept attr (*0001.7*), **member order** (*0011*), docstrings = spec `Note` **verbatim by diff** (*0012* **and** *0001.4* — every attribute's inline `__init__` comment + getter docstring + setter docstring must be the spec `Note` copied verbatim, not a "Gets/Sets the…" paraphrase or a truncated summary that drops the spec's full sentence), deviations resolved/removed (*0014*), stamp decision (*0012.1*) — and get explicit user confirmation; **when all pass, write the `# Spec verified:` marker in this step (9b)** — never in Step 4/7/8. Fix & re-present on any failure (*Rule 0006.1* has the full checklist). **Then finish the class per Rule 0017**: commit to the feature branch, flip the todo row to `[x]` with the commit hash, and stop the session (or, if all rows are `[x]`, report the sync complete).
 
@@ -226,37 +233,55 @@ as each step finishes (*Rule 0018*).
   class and round-tripped there (*Rules 0010–0011*).
 - **No own spec table (XSD-only class, e.g. a concrete `<name>InstanceRef`)** — Step 1
   derives attributes from the XSD group, not a PDF table; the checklist stays all `[ ]`
-  with no `# Spec verified: R<YY>-<MM>` marker (*Rule 0002*). When fully synced from
+  with no `# Spec verified: <RELEASE>` marker (*Rule 0002*). When fully synced from
   the XSD with no deviation, record provenance with `# XSD verified: <xsd-file>` (e.g.
   `# XSD verified: AUTOSAR_00052.xsd`) and flip method rows to `[x]`; `# XSD verified:`
   is used **instead of** `# Spec verified:` only when no PDF/markdown table exists for
   the class (*Rule 0002*).
 
-## The 5-column checklist (Rule 0002)
+## The 6-column checklist (Rule 0002)
 
 ```
 # ClassName method parity checklist:
 # Spec: AUTOSAR_<Platform>_TPS_<Template>.pdf, Table X.Y, p.NN
-# Spec verified: R<YY>-<MM>
-# Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-# [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-# [x] createFoo    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-# [x] getFoos      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-# [x] setBar       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-# [x] getBar       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+# Spec verified: <RELEASE>
+# Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+# [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+# [x] createFoo    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+# [x] getFoos      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+# [x] setBar       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+# [x] getBar       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 ```
+
+The `release` column records the AUTOSAR release whose spec table supplied that row's
+text — `R23-11`, or `R4.3.1` for a fallback class:
+
+```
+# CanTpChannelModeType method parity checklist:
+# Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.200, p.389
+# Spec verified: R4.3.1
+# Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+# [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+# [x] setAddressingFormat [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+# [x] getAddressingFormat [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+```
+
+Checklists stamped before the `release` column existed gain it on their next
+sync/drift pass (Rule 0012.3).
 
 **XSD-only class (no PDF/markdown table) — `# XSD verified:` variant.** Use
 `# XSD verified: <xsd-file>` (e.g. `# XSD verified: AUTOSAR_00052.xsd`) **instead of**
-`# Spec verified: R<YY>-<MM>`. "No PDF/markdown table" means no `Class`/`Enumeration`
-table in the repo's `autosar/R23-11` corpus (`CP_TPS`/`FO_TPS`) — an
+`# Spec verified: <RELEASE>`. "No PDF/markdown table" means no `Class`/`Enumeration`
+table in the synced release's corpus (`autosar/R23-11` `CP_TPS`/`FO_TPS`, or
+`autosar/R4.3.1` — checked only after the R23-11 lookup fails, Rule 0016.3) — an
 Adaptive-Platform class whose upstream document is outside the corpus (e.g.
 `CAN-XL-PROPS`, upstream `AUTOSAR_AP_TPS_SystemDesign`) counts as XSD-only; name the
 upstream document in the `# Spec:` line when known (omit it for e.g. a concrete
 `<name>InstanceRef` backed only by an XSD group). In place of a PDF page (`p.NN`),
 cite the class's **XSD line number** — the `<xsd:complexType … name="…">` line (or
 the `<xsd:group …>` line for a group-only class), found with
-`grep -n 'name="<CLASS-NAME>"' docs/requirements/xsd/<xsd-file>`. Apply it only
+`grep -n 'name="<CLASS-NAME>"' autosar/<release>/xsd/<xsd-file>` (e.g.
+`autosar/R23-11/xsd/AUTOSAR_00052.xsd`). Apply it only
 when there is no PDF/markdown table for the class; cross-check every attribute against
 the XSD first, and withhold the marker if any deviation remains (Rule 0001.9):
 
@@ -264,17 +289,25 @@ the XSD first, and withhold the marker if any deviation remains (Rule 0001.9):
 # ClassName method parity checklist:
 # Spec: AUTOSAR_AP_TPS_SystemDesign (AdaptivePlatform), class CAN-XL-PROPS, AUTOSAR_00052.xsd line 16295 (XSD-only; no own table in repo corpus)
 # XSD verified: AUTOSAR_00052.xsd
-# Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-# [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-# [x] setFoo       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-# [x] getFoo       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+# Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+# [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+# [x] setFoo       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+# [x] getFoo       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 ```
 
+The `release` column carries the release of the XSD used (`AUTOSAR_00052.xsd` →
+`R23-11`, `AUTOSAR_00044.xsd` → `R4.3.1`).
+
 **Citation source:** the `# Spec:` table name, `Table N.M` id, and `Note` text come from
-the **markdown** (`autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` — covers `CP_TPS` and `FO_TPS`);
+the **markdown** (`autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` — covers `CP_TPS` and `FO_TPS`;
+a class with no R23-11 table cites the R4.3.1 fallback corpus `autosar/R4.3.1/markdown/...`,
+Rule 0016.3);
 only the `p.NN` **page** is read from the **PDF** (`autosar/R23-11/pdf/...` — look it up with
 `pdf_page.py <ClassName>`) — the markdown carries no page numbers. In the `# Spec:` line,
-`<Platform>` is `CP` (Classic) or `FO` (Foundation), taken from the spec markdown filename.
+`<Platform>` is `CP` (Classic) or `FO` (Foundation), taken from the spec markdown filename
+(R4.3.1 filenames carry no platform segment — `AUTOSAR_TPS_<Template>.pdf`). The
+`<RELEASE>` in the marker and every row's `release` column record the corpus the text
+was actually read from — `R23-11` or `R4.3.1`, never mixed up.
 
 `reader [x]` on the **mutator** row (reader's `readXxx` calls `setXxx`/`createXxx`/
 `addXxx`); `writer [x]` on the **getter** row (writer's `writeXxx` calls `getXxx`);
@@ -284,6 +317,12 @@ detail: *Rule 0002*.
 
 ## Common Mistakes / Red Flags — STOP
 
+- **Routing a no-R23-11-table class to Skip/XSD-only without checking the R4.3.1 corpus** —
+  the fallback (`autosar/R4.3.1/markdown/AUTOSAR_TPS_*.md`) is a **mandatory** locate-spec
+  step before `missing` is declared (*Rule 0016.3*).
+- **Syncing from the R4.3.1 corpus but stamping `R23-11`** (or vice versa), or leaving the
+  per-row `release` column off — the marker and every row's release must record the corpus
+  that actually supplied the text (*Rules 0002 / 0012.1*).
 - **Implementing before the test** (model 2→3, reader/writer 5→6).
 - **`getXxxs()` filtering the `elements` registry by `isinstance`** — use a dedicated
   typed list field (*Rule 0004*).
@@ -359,6 +398,7 @@ detail: *Rule 0002*.
 
 | Rationalization | Reality |
 |---|---|
+| "No R23-11 table ⇒ skip it or treat it as XSD-only" | Check the R4.3.1 corpus first (*Rule 0016.3*); a class with an R4.3.1 table is neither skipped nor XSD-only — it syncs from R4.3.1 with marker `# Spec verified: R4.3.1`. |
 | "Simple model — I'll implement then test" | A test written after mirrors the code, not the spec. Step 2 first. |
 | "Reader/writer first, round-trip test after" | No failing round-trip ⇒ can't see dropped elements. Step 5 first. |
 | "It's just docstrings, skip Step 4" | Drift is silent; the marker then certifies wrong wording (*Rule 0012*). |
@@ -379,6 +419,6 @@ detail: *Rule 0002*.
 
 - **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0018*.
 - Coding standards: `docs/development/coding_rules.md`.
-- Spec markdown (primary — source of all text: `Note`, `Table N.M` id, table name): `autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`).
-- Spec PDFs (opened only for the `p.NN` page number): `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf`.
-- XSD ground truth: `docs/requirements/xsd/`.
+- Spec markdown (primary — source of all text: `Note`, `Table N.M` id, table name): `autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`); R4.3.1 corpus: `autosar/R4.3.1/markdown/` (pre-split naming — no platform prefix; `TPS`/`RS`/`TR`).
+- Spec PDFs (opened only for the `p.NN` page number): `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf`; R4.3.1: `autosar/R4.3.1/pdf/`.
+- XSD ground truth (per release): `autosar/R23-11/xsd/AUTOSAR_00052.xsd`, `autosar/R4.3.1/xsd/AUTOSAR_00044.xsd`.

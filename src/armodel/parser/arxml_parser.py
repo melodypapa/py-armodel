@@ -576,7 +576,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecRecordElementMapping,
     SenderRecRecordTypeMapping,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection, TpConnectionIdent
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection, TpConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import ECUMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
     CanAddressingModeType,
@@ -599,7 +599,15 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanControllerXlConfiguration,
     CanControllerXlConfigurationRequirements,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup, SocketConnection, SocketConnectionBundle, SocketConnectionIpduIdentifier
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
+    RuntimeAddressConfigurationEnum,
+    SoAdRoutingGroup,
+    SocketConnection,
+    SocketConnectionBundle,
+    SocketConnectionIpduIdentifier,
+    TcpOptionFilterList,
+    TcpOptionFilterSet,
+)
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
@@ -607,6 +615,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortConnection,
     CouplingPortDetails,
     CouplingPortFifo,
+    CouplingPortRatePolicy,
     CouplingPortScheduler,
     CouplingPortStructuralElement,
     CouplingPortTrafficClassAssignment,
@@ -640,6 +649,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication impor
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanControllerConfiguration, CanXlProps
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     ApplicationEndpoint,
+    CouplingPortRatePolicyActionEnum,
     CouplingPortRoleEnum,
     DoIpEntity,
     DoIpEntityRoleEnum,
@@ -7287,10 +7297,15 @@ class ARXMLParser(AbstractARXMLParser):
         if element is not None:
             identifier = SocketConnectionIpduIdentifier()
             identifier.setHeaderId(self.getChildElementOptionalPositiveInteger(element, "HEADER-ID"))
+            identifier.setPduCollectionPduTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-PDU-TIMEOUT"))
             identifier.setPduCollectionSemantics(self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-SEMANTICS"))
             identifier.setPduCollectionTrigger(self.getChildElementOptionalLiteral(element, "PDU-COLLECTION-TRIGGER"))
             identifier.setPduRef(self.getChildElementOptionalRefType(element, "PDU-REF"))
             identifier.setPduTriggeringRef(self.getChildElementOptionalRefType(element, "PDU-TRIGGERING-REF"))
+            routing_group_refs = []
+            for ref in self.getChildElementRefTypeList(element, "ROUTING-GROUP-REFS/ROUTING-GROUP-REF"):
+                routing_group_refs.append(ref)
+            identifier.setRoutingGroupRefs(routing_group_refs)
         return identifier
 
     def getSocketConnectionPdus(self, element: ET.Element) -> List[SocketConnectionIpduIdentifier]:
@@ -7307,29 +7322,26 @@ class ARXMLParser(AbstractARXMLParser):
         connection = None
         if element is not None:
             connection = SocketConnection()
+            runtime_port_configuration = self.getChildElementOptionalLiteral(element, "RUNTIME-PORT-CONFIGURATION")
+            if runtime_port_configuration is not None:
+                enum_value = RuntimeAddressConfigurationEnum()
+                enum_value.setValue(runtime_port_configuration.getValue())
+                connection.setRuntimePortConfiguration(enum_value)
+            connection.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
             connection.setAllowedIPv6ExtHeadersRef(self.getChildElementOptionalRefType(element, "ALLOWED-I-PV-6-EXT-HEADERS-REF"))
             connection.setAllowedTcpOptionsRef(self.getChildElementOptionalRefType(element, "ALLOWED-TCP-OPTIONS-REF"))
-            connection.setAutosarConnector(self.getChildElementOptionalLiteral(element, "AUTOSAR-CONNECTOR"))
             connection.setClientIpAddrFromConnectionRequest(self.getChildElementOptionalBooleanValue(element, "CLIENT-IP-ADDR-FROM-CONNECTION-REQUEST"))
+            connection.setClientPortRef(self.getChildElementOptionalRefType(element, "CLIENT-PORT-REF"))
             connection.setClientPortFromConnectionRequest(self.getChildElementOptionalBooleanValue(element, "CLIENT-PORT-FROM-CONNECTION-REQUEST"))
-            connection.setClientPortRef(self.getChildElementOptionalRefType(element, "CLIENT-PORT-REF"))  # NOQA E501
-            connection.setDoIpSourceAddressRef(self.getChildElementOptionalRefType(element, "DO-IP-SOURCE-ADDRESS-REF"))
-            connection.setDoIpTargetAddressRef(self.getChildElementOptionalRefType(element, "DO-IP-TARGET-ADDRESS-REF"))
-            ident_element = self.find(element, "IDENT")
-            if ident_element is not None:
-                connection.setIdent(TpConnectionIdent(None, self.getShortName(ident_element)))
-                self.readReferrable(ident_element, connection.getIdent())
-            connection.setLocalPortRef(self.getChildElementOptionalRefType(element, "LOCAL-PORT-REF"))
-            connection.setNPduRef(self.getChildElementOptionalRefType(element, "N-PDU-REF"))
             for pdu in self.getSocketConnectionPdus(element):
                 connection.addPdu(pdu)
             connection.setPduCollectionMaxBufferSize(self.getChildElementOptionalPositiveInteger(element, "PDU-COLLECTION-MAX-BUFFER-SIZE"))
             connection.setPduCollectionTimeout(self.getChildElementOptionalTimeValue(element, "PDU-COLLECTION-TIMEOUT"))
-            connection.setRemotePortRef(self.getChildElementOptionalRefType(element, "REMOTE-PORT-REF"))
-            connection.setRuntimeIpAddressConfiguration(self.getChildElementOptionalLiteral(element, "RUNTIME-IP-ADDRESS-CONFIGURATION"))
-            connection.setRuntimePortConfiguration(self.getChildElementOptionalLiteral(element, "RUNTIME-PORT-CONFIGURATION"))
-            connection.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
-            connection.setSocketProtocol(self.getChildElementOptionalLiteral(element, "SOCKET-PROTOCOL"))
+            runtime_ip_address_configuration = self.getChildElementOptionalLiteral(element, "RUNTIME-IP-ADDRESS-CONFIGURATION")
+            if runtime_ip_address_configuration is not None:
+                ip_enum = RuntimeAddressConfigurationEnum()
+                ip_enum.setValue(runtime_ip_address_configuration.getValue())
+                connection.setRuntimeIpAddressConfiguration(ip_enum)
         return connection
 
     def readSocketConnectionBundleConnections(self, element: ET.Element, bundle: SocketConnectionBundle):
@@ -7342,7 +7354,35 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSocketConnectionBundle(self, element: ET.Element, bundle: SocketConnectionBundle):
         self.readSocketConnectionBundleConnections(element, bundle)
+        bundle.setDifferentiatedServiceField(self.getChildElementOptionalPositiveInteger(element, "DIFFERENTIATED-SERVICE-FIELD"))
+        bundle.setFlowLabel(self.getChildElementOptionalPositiveInteger(element, "FLOW-LABEL"))
+        bundle.setPathMtuDiscoveryEnabled(self.getChildElementOptionalBooleanValue(element, "PATH-MTU-DISCOVERY-ENABLED"))
+        bundle.setPdus(self.getSocketConnectionPdus(element))
         bundle.setServerPortRef(self.getChildElementOptionalRefType(element, "SERVER-PORT-REF"))
+        bundle.setUdpChecksumHandling(self.getChildElementOptionalLiteral(element, "UDP-CHECKSUM-HANDLING"))
+
+    def readTcpOptionFilterSet(self, element: ET.Element, tcp_option_filter_set: TcpOptionFilterSet):
+        self.logger.debug("Read TcpOptionFilterSet <%s>" % tcp_option_filter_set.getShortName())
+        self.readIdentifiable(element, tcp_option_filter_set)
+        self.getTcpOptionFilterLists(element, tcp_option_filter_set)
+
+    def getTcpOptionFilterLists(self, element: ET.Element, tcp_option_filter_set: TcpOptionFilterSet):
+        for child_element in self.findall(element, "TCP-OPTION-FILTER-LISTS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TCP-OPTION-FILTER-LIST":
+                tcp_filter_list = tcp_option_filter_set.createTcpOptionFilterList(self.getShortName(child_element))
+                self.readTcpOptionFilterList(child_element, tcp_filter_list)
+            else:
+                self.notImplemented("Unsupported TcpOptionFilterList <%s>" % tag_name)
+
+    def readTcpOptionFilterList(self, element: ET.Element, tcp_filter_list: TcpOptionFilterList):
+        self.readIdentifiable(element, tcp_filter_list)
+        options_element = self.find(element, "ALLOWED-TCP-OPTIONS")
+        if options_element is not None:
+            for value in self.getChildElementNumericalValueList(options_element, "ALLOWED-TCP-OPTION"):
+                option = PositiveInteger()
+                option.setValue(str(int(value.getValue())))
+                tcp_filter_list.addAllowedTcpOption(option)
 
     def readSoAdConfigConnectionBundles(self, element: ET.Element, config: SoAdConfig):
         for child_element in self.findall(element, "CONNECTION-BUNDLES/*"):
@@ -7840,12 +7880,12 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported assigned data type <%s>" % tag_name)
 
     def readCouplingPortConnection(self, element: ET.Element, connection: CouplingPortConnection):
-        connection.setFirstPort(self.getChildElementOptionalRefType(element, "FIRST-PORT-REF"))
+        connection.setFirstPortRef(self.getChildElementOptionalRefType(element, "FIRST-PORT-REF"))
         for ref in self.getChildElementRefTypeList(element, "NODE-PORTS/COUPLING-PORT-REF-CONDITIONAL/COUPLING-PORT-REF"):
-            connection.addNodePort(ref)
+            connection.addNodePortRef(ref)
         connection.setPlcaLocalNodeCount(self.getChildElementOptionalPositiveInteger(element, "PLCA-LOCAL-NODE-COUNT"))
         connection.setPlcaTransmitOpportunityTimer(self.getChildElementOptionalPositiveInteger(element, "PLCA-TRANSMIT-OPPORTUNITY-TIMER"))
-        connection.setSecondPort(self.getChildElementOptionalRefType(element, "SECOND-PORT-REF"))
+        connection.setSecondPortRef(self.getChildElementOptionalRefType(element, "SECOND-PORT-REF"))
 
     def readEthernetClusterCouplingPortConnections(self, element: ET.Element, cluster: EthernetCluster):
         for child_element in self.findall(element, "COUPLING-PORT-CONNECTIONS/*"):
@@ -9623,6 +9663,28 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported CouplingPortTrafficClassAssignment <%s>" % tag_name)
 
+    def readCouplingPortDetailsRatePolicys(self, element: ET.Element, details: CouplingPortDetails):
+        for child_element in self.findall(element, "RATE-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "COUPLING-PORT-RATE-POLICY":
+                rate_policy = CouplingPortRatePolicy()
+                self.readCouplingPortRatePolicy(child_element, rate_policy)
+                details.addRatePolicy(rate_policy)
+            else:
+                self.notImplemented("Unsupported CouplingPortRatePolicy <%s>" % tag_name)
+
+    def readCouplingPortRatePolicy(self, element: ET.Element, policy: CouplingPortRatePolicy):
+        policy.setDataLength(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH"))
+        literal = self.getChildElementOptionalLiteral(element, "POLICY-ACTION")
+        if literal is not None:
+            e = CouplingPortRatePolicyActionEnum()
+            e.setValue(literal.getValue())
+            policy.setPolicyAction(e)
+        policy.setPriority(self.getChildElementOptionalPositiveInteger(element, "PRIORITY"))
+        policy.setTimeInterval(self.getChildElementOptionalTimeValue(element, "TIME-INTERVAL"))
+        for ref in self.getChildElementRefTypeList(element, "V-LAN-REFS/V-LAN-REF"):
+            policy.addVlanRef(ref)
+
     def getPlcaProps(self, element: ET.Element, key: str) -> PlcaProps:
         props = None
         child_element = self.find(element, key)
@@ -9743,8 +9805,9 @@ class ARXMLParser(AbstractARXMLParser):
             self.readCouplingPortDetailsCouplingPortStructuralElements(child_element, details)
             self.readCouplingPortDetailsEthernetPriorityRegenerations(child_element, details)
             self.readCouplingPortDetailsEthernetTrafficClassAssignments(child_element, details)
-            details.setLastEgressSchedulerRef(self.getChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF"))
             details.setGlobalTimeProps(self.getGlobalTimeProps(child_element, "GLOBAL-TIME-PROPS"))
+            details.setLastEgressSchedulerRef(self.getChildElementOptionalRefType(child_element, "LAST-EGRESS-SCHEDULER-REF"))
+            self.readCouplingPortDetailsRatePolicys(child_element, details)
         return details
 
     def getDhcpServerConfiguration(self, element: ET.Element, key: str) -> DhcpServerConfiguration:
@@ -9902,7 +9965,11 @@ class ARXMLParser(AbstractARXMLParser):
                 e = EthernetMacLayerTypeEnum()
                 e.setValue(mac_layer_type.getValue())
                 controller.setMacLayerType(e)
-            controller.setMacUnicastAddress(self.getChildElementOptionalLiteral(child_element, "MAC-UNICAST-ADDRESS"))
+            mac_unicast_literal = self.getChildElementOptionalLiteral(child_element, "MAC-UNICAST-ADDRESS")
+            if mac_unicast_literal is not None:
+                mac_unicast = MacAddressString()
+                mac_unicast.setValue(mac_unicast_literal.getValue())
+                controller.setMacUnicastAddress(mac_unicast)
             controller.setMaximumReceiveBufferLength(self.getChildElementOptionalIntegerValue(child_element, "MAXIMUM-RECEIVE-BUFFER-LENGTH"))
             controller.setMaximumTransmitBufferLength(self.getChildElementOptionalIntegerValue(child_element, "MAXIMUM-TRANSMIT-BUFFER-LENGTH"))
             controller.setSlaveActAsPassiveCommunicationSlave(self.getChildElementOptionalBooleanValue(child_element, "SLAVE-ACT-AS-PASSIVE-COMMUNICATION-SLAVE"))
@@ -11148,6 +11215,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SO-AD-ROUTING-GROUP":
                 group = parent.createSoAdRoutingGroup(self.getShortName(child_element))
                 self.readSoAdRoutingGroup(child_element, group)
+            elif tag_name == "TCP-OPTION-FILTER-SET":
+                tcp_option_filter_set = parent.createTcpOptionFilterSet(self.getShortName(child_element))
+                self.readTcpOptionFilterSet(child_element, tcp_option_filter_set)
             elif tag_name == "SOME-IP-SD-CLIENT-SERVICE-INSTANCE-CONFIG":
                 config = parent.createSomeipSdClientServiceInstanceConfig(self.getShortName(child_element))
                 self.readSomeipSdClientServiceInstanceConfig(child_element, config)

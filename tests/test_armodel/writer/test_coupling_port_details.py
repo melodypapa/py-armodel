@@ -10,8 +10,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPortDetails,
     CouplingPortFifo,
+    CouplingPortRatePolicy,
+    CouplingPortRatePolicyActionEnum,
     CouplingPortScheduler,
     CouplingPortTrafficClassAssignment,
+    GlobalTimeCouplingPortProps,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -115,3 +118,25 @@ class TestCouplingPortDetailsRoundTrip:
         assert parsed.getCouplingPortStructuralElements() == []
         assert parsed.getEthernetTrafficClassAssignments() == []
         assert parsed.getLastEgressSchedulerRef() is None
+
+
+class TestCouplingPortDetailsElementOrder:
+    def test_write_child_element_order_matches_xsd(self, writer):
+        details = _new_details()
+        details.setGlobalTimeProps(GlobalTimeCouplingPortProps())
+        rate_policy = CouplingPortRatePolicy()
+        rate_policy.setPolicyAction(CouplingPortRatePolicyActionEnum().setValue(CouplingPortRatePolicyActionEnum.DROP_FRAME))
+        details.addRatePolicy(rate_policy)
+
+        parent = ET.Element("PARENT")
+        writer.setCouplingPortDetails(parent, "COUPLING-PORT-DETAILS", details)
+        node = parent.find("COUPLING-PORT-DETAILS")
+        # AUTOSAR_00052.xsd group COUPLING-PORT-DETAILS sequence
+        assert [child.tag for child in node] == [
+            "COUPLING-PORT-STRUCTURAL-ELEMENTS",
+            "ETHERNET-PRIORITY-REGENERATIONS",
+            "ETHERNET-TRAFFIC-CLASS-ASSIGNMENTS",
+            "GLOBAL-TIME-PROPS",
+            "LAST-EGRESS-SCHEDULER-REF",
+            "RATE-POLICYS",
+        ]

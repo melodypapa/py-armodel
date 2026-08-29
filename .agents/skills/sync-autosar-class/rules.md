@@ -8,7 +8,11 @@ Self-contained rule reference for syncing any AUTOSAR model class in py-armodel.
 - mirrored test: `tests/test_armodel/models/M2/AUTOSARTemplates/<package>/test_<ClassName>.py`
 - spec table: the class's attribute table (markdown
   `autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (covers `CP_TPS` + `FO_TPS`), derived from PDF
-  `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf`, XSD `docs/requirements/xsd/`). **All text** —
+  `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf`; a class with no R23-11 table uses the
+  R4.3.1 corpus (Rule 0016.3 fallback): `autosar/R4.3.1/markdown|pdf/AUTOSAR_TPS_*.md`
+  (no platform prefix), XSD
+  `autosar/<release>/xsd/<schema>.xsd` — `R23-11` → `AUTOSAR_00052.xsd`, `R4.3.1` →
+  `AUTOSAR_00044.xsd`). **All text** —
   `Note`, `Attribute`, `Base`, the `Table N.M` id, and the table name (from the markdown
   filename) — **is read from the markdown**; the **PDF is opened only for the page
   number** (`p.NN`), because the markdown carries no page numbers.
@@ -316,34 +320,61 @@ all agree; Rule 0001.3). Do not stop at the field default:
 
 ## Rule 0002 — Method Parity Checklist *(formerly Rule 2)*
 
-A comment block at the top of the class lists every method with five columns:
-`impl`, `docstring`, `test`, `reader`, `writer`. Each must be `[x]`. The `# Spec:` line
-and the method rows are written in **Step 7**; the `# Spec verified: R<YY>-<MM>` marker is
+A comment block at the top of the class lists every method with six columns:
+`impl`, `docstring`, `test`, `reader`, `writer`, `release`. The first five must be
+`[x]` (`[—]` where no XML element applies); `release` records the AUTOSAR release whose
+spec table supplied that row's text — `R23-11` normally, `R4.3.1` for a Rule 0016.3
+fallback class. The `# Spec:` line
+and the method rows are written in **Step 7**; the `# Spec verified: <RELEASE>` marker is
 added in **Step 9b** (after the user confirms every rule-compliance item) — never in
-Step 7. The block's final form (marker present only once 9b has passed):
+Step 7. The block's final form (marker present only once 9b has passed;
+`<RELEASE>` = the release of the corpus the table came from):
 
 ```
 # ClassName method parity checklist:
 # Spec: AUTOSAR_<Platform>_TPS_<Template>.pdf, Table X.Y, p.NN
-# Spec verified: R<YY>-<MM>
-# Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-# [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-# [x] createFoo    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-# [x] getFoos      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-# [x] setBar       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-# [x] getBar       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+# Spec verified: <RELEASE>
+# Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+# [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+# [x] createFoo    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+# [x] getFoos      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+# [x] setBar       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+# [x] getBar       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 ```
+
+**R4.3.1-fallback class (no R23-11 table) — `# Spec verified: R4.3.1`.** When the class
+has no `Class`/`Enumeration` table anywhere in the R23-11 corpus but one exists in
+`autosar/R4.3.1/markdown/AUTOSAR_TPS_*.md` (Rule 0016.3 fallback), sync it
+**end-to-end against the R4.3.1 release**: read `Note`/`Attribute`/`Base` from the
+R4.3.1 markdown, take `p.NN` from the R4.3.1 PDF (R4.3.1 filenames carry no `CP_`/`FO_`
+platform segment), stamp `# Spec verified: R4.3.1`, and set every row's `release`
+column to `R4.3.1`:
+
+```
+# CanTpChannelModeType method parity checklist:
+# Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.200, p.389
+# Spec verified: R4.3.1
+# Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+# [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+# [x] setAddressingFormat [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+# [x] getAddressingFormat [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+```
+
+Checklists stamped before the `release` column existed are grandfathered until their
+next sync/drift pass (Rule 0012.3), which adds it.
 
 - **XSD-only class — `# XSD verified:` variant.** When a class's information exists
   **solely** in an XSD (no PDF/markdown `Class`/`Enumeration` table **in the repo's
-  `autosar/R23-11` corpus** (`CP_TPS`/`FO_TPS`) — e.g. an Adaptive-Platform class such
+  `autosar/R23-11` corpus** (`CP_TPS`/`FO_TPS`; `autosar/R4.3.1` per the Rule 0016.3
+  sync) — e.g. an Adaptive-Platform class such
   as `CAN-XL-PROPS` whose upstream document is outside the corpus, or a concrete
   `<name>InstanceRef` backed only by an XSD group), use `# XSD verified:
-  <xsd-file>` **instead of** `# Spec verified: R<YY>-<MM>`. The `# Spec:` line names
+  <xsd-file>` **instead of** `# Spec verified: <RELEASE>`. The `# Spec:` line names
   the upstream document when known (`AUTOSAR_AP_TPS_SystemDesign (AdaptivePlatform)`)
   and — in place of a PDF page `p.NN` — cites the class's **XSD line number** (the
   `<xsd:complexType … name="…">` line, or the `<xsd:group …>` line for a group-only
-  class; find it with `grep -n 'name="<CLASS-NAME>"' docs/requirements/xsd/<xsd-file>`).
+  class; find it with `grep -n 'name="<CLASS-NAME>"'
+  autosar/<release>/xsd/<xsd-file>` — e.g. `autosar/R23-11/xsd/AUTOSAR_00052.xsd`).
   The marker records the XSD provenance where the stamp would go; method rows may be
   `[x]` once the class is fully synced from the XSD:
 
@@ -351,15 +382,18 @@ Step 7. The block's final form (marker present only once 9b has passed):
   # ClassName method parity checklist:
   # Spec: AUTOSAR_AP_TPS_SystemDesign (AdaptivePlatform), class CAN-XL-PROPS, AUTOSAR_00052.xsd line 16295 (XSD-only; no own table in repo corpus)
   # XSD verified: AUTOSAR_00052.xsd
-  # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-  # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-  # [x] setFoo       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-  # [x] getFoo       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+  # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+  # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+  # [x] setFoo       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+  # [x] getFoo       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
   ```
+
+  The `release` column carries the release of the XSD used (`AUTOSAR_00052.xsd` →
+  `R23-11`, `AUTOSAR_00044.xsd` → `R4.3.1`).
 
   `# XSD verified:` is used **only** when there is **no** PDF/markdown table in the
   repo corpus for the class; if a table exists, you MUST use
-  `# Spec verified: R<YY>-<MM>` (the PDF is authoritative, Rule 0015). Before stamping
+  `# Spec verified: <RELEASE>` (the PDF is authoritative, Rule 0015). Before stamping
   `# XSD verified:`, **cross-check every attribute against the XSD first** — if any
   attribute cannot be resolved from the XSD, or conflicts with a PDF table, it is a
   deviation and the `XSD verified` marker is **withheld** (Rule 0001.9). `XSD verified`
@@ -385,21 +419,23 @@ Step 7. The block's final form (marker present only once 9b has passed):
   `FO_TPS`); only the **`p.NN` page number** is read from the **PDF**
   (`autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf`) — the markdown carries no page numbers. In
   `AUTOSAR_<Platform>_TPS_<Template>.pdf`, `<Platform>` is `CP` (Classic) or `FO`
-  (Foundation), from the spec markdown filename. Cite the header-row page
+  (Foundation), from the spec markdown filename (a Rule 0016.3 fallback sync reads
+  `autosar/R4.3.1/markdown|pdf/AUTOSAR_TPS_*.md`; those filenames carry no platform
+  segment — `AUTOSAR_TPS_<Template>.pdf`). Cite the header-row page
   (where `Class <Name>` first appears), in format `Table X.Y, p.NN`. A class rendered in >1 PDF
   cites the PDF its sibling family uses. For the enum attribute type, cite the PDF that
   renders the enum's own `Enumeration` table (independent of the class's PDF).
 - **Exception — no own spec table (XSD-only class):** a class whose attributes exist
   **only** in an XSD (no PDF/markdown table — e.g. a concrete `<name>InstanceRef`, or
   an Adaptive-Platform class such as `CAN-XL-PROPS` from `AUTOSAR_00052.xsd`) carries
-  **no** `# Spec verified: R<YY>-<MM>` marker. When the class is **fully synced from
+  **no** `# Spec verified: <RELEASE>` marker. When the class is **fully synced from
   the XSD with no deviation**, record provenance with **`# XSD verified: <xsd-file>`**
   placed where the `# Spec verified:` stamp would go (and the `# Spec:` line names the
   XSD source); method rows may be `[x]` to reflect completed implementation. Rows stay
   all-`[ ]` only when the class has **not** yet been synced (no provenance recorded
   yet). `XSD verified` replaces `Spec verified` **only** when the class's information
   is XSD-exclusive — if a PDF/markdown table exists, use `# Spec verified:
-  R<YY>-<MM>` (PDF is authoritative, Rule 0015). An empty-attribute-rendering class
+  <RELEASE>` (PDF is authoritative, Rule 0015). An empty-attribute-rendering class
   (own table, all attrs inherited) is **not** this exception — it has the line, the
   `Spec verified` marker, and `[x]` rows for the methods it defines.
 - **Field-to-spec cross-check (both directions):** walk each model field → spec (catches
@@ -590,14 +626,14 @@ Step 9 has two phases. **9a** is the automated verification above (pytest, flake
 ruff, black-check, the set-based checklist-vs-methods script, and the lossless
 integration round-trip) — stop on any failure. **9b** is a human confirmation gate
 that runs **after** 9a passes and **before** the class is stamped
-`# Spec verified: R<YY>-<MM>` or the next queue item starts.
+`# Spec verified: <RELEASE>` or the next queue item starts.
 
 Automated checks are blind to most spec-sync rules — a fully-`[x]` checklist,
 passing tests, and a clean round-trip do **not** certify a class (Rule 0012.1). 9b
 is the **complete pre-stamp sign-off**: present, for the just-synced class, a
 rule-compliance checklist covering every automation-blind item below, and get the
 end user's explicit confirmation. When every item passes, the `# Spec verified:
-R<YY>-<MM>` stamp is warranted.
+<RELEASE>` stamp is warranted.
 
 - **Rule 0001.1 (element kind & membership)** — spec table is `Class` (not
   `Enumeration`); every spec `Attribute` row has a field + accessor pair.
@@ -655,9 +691,13 @@ R<YY>-<MM>` stamp is warranted.
 - **Rule 0014 (deviations resolved)** — every `naming`/`type`/`missing` deviation row
   is fixed and **removed**; only accepted deviations remain (`atpDerived`,
   `deprecated (atp.Status=removed)`, `added convenience property`).
-- **Stamp decision (Rule 0012.1)** — `# Spec verified: R<YY>-<MM>` is placed **iff**
+- **Stamp decision (Rule 0012.1)** — `# Spec verified: <RELEASE>` is placed **iff**
   no non-`atpDerived`/non-convenience deviation or Rule 0001.10 placeholder remains;
   otherwise the `# Spec:` line stays without the stamp.
+- **Release provenance (Rule 0002 / 0016.3)** — the checklist carries the per-row
+  `release` column, and its values plus the `<RELEASE>` in the marker record the corpus
+  the spec text was actually read from (`R23-11`, or `R4.3.1` for a fallback class) —
+  never stamp `R23-11` on a class synced from the R4.3.1 corpus, or vice versa.
 
 The `# Spec verified:` marker is the **output** of 9b — written only after the user
 confirms every item above. A marker that already exists in the file (from a prior
@@ -785,8 +825,11 @@ string values (`MEMBER = "member_value"`).
 
 The class-level `Note` lives in the **class docstring**; per-attribute `Note`s live in
 inline `__init__` **comments** and getter/setter docstrings — all copied **verbatim from
-the markdown table** (`autosar/R23-11/markdown/*.md`), never summarized, paraphrased, or
-rephrased, and staying synced across AUTOSAR upgrades. **`__init__` has no docstring** —
+the markdown table** of the class's spec corpus (`autosar/R23-11/markdown/*.md`, or
+`autosar/R4.3.1/markdown/AUTOSAR_TPS_*.md` for a Rule 0016.3 fallback class — the
+release is recorded in the marker and the per-row `release` column), never summarized,
+paraphrased, or rephrased, and staying synced across AUTOSAR upgrades. **`__init__` has
+no docstring** —
 do not write the class `Note` into an `__init__` docstring (0012.2.4, 0012.2.5.2). The PDF
 (`autosar/R23-11/pdf/*.pdf`) is opened **only to read the page number** for the `p.NN` citation;
 all `Note`/`Attribute`/`Base` text (and the `Table N.M` id) comes from the markdown. Sync
@@ -798,12 +841,15 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
 
 ### 0012.1 Versioning
 
-- The `# Spec verified: R<YY>-<MM>` marker sits immediately after the `# Spec:` line
-  (`R23-11` = Nov 2023). It is **written in Step 9b** (after the user confirms), not in
+- The `# Spec verified: <RELEASE>` marker sits immediately after the `# Spec:` line.
+  `<RELEASE>` is the release of the corpus the class was synced from — `R23-11`
+  (`CP_TPS`/`FO_TPS` corpus, Nov 2023) or `R4.3.1` (pre-split corpus, Rule 0016.3
+  fallback: no R23-11 table anywhere). It is **written in Step 9b** (after the user
+  confirms), not in
   Step 4/7/8 — a file that hasn't passed 9b carries the `# Spec:` line and method rows
   but no marker. Verify during every sync pass.
 - **The marker is the single review gate.** A class is reviewed/synced iff its source
-  carries `# Spec verified: R<YY>-<MM>`; a fully-`[x]` checklist, passing tests, or a
+  carries `# Spec verified: <RELEASE>`; a fully-`[x]` checklist, passing tests, or a
   clean round-trip do **not** by themselves certify a class. **No marker ⇒ sync from
   the beginning** — run the full 9-step workflow (SKILL.md), trusting no pre-existing
   field/checklist/docstring (Rule 0001.3 shape-3 detector; Rule 0002 field-to-spec
@@ -816,13 +862,13 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
   the real type lands. (Rule 0006's `assert` allows a `# Spec:` line with no stamp when a
   placeholder comment is present.)
 - **Exception — no own spec table (XSD-only class):** a class whose attributes exist
-  **only** in the XSD (no PDF/markdown table) carries no `# Spec verified: R<YY>-<MM>`
+  **only** in the XSD (no PDF/markdown table) carries no `# Spec verified: <RELEASE>`
   marker. When fully synced from the XSD with no deviation, record provenance with
   **`# XSD verified: <xsd-file>`** (e.g. `# XSD verified: AUTOSAR_00052.xsd`) placed
   where the marker would go; method rows may be `[x]`. Rows stay all-`[ ]` only when
   the class has **not** yet been synced (no provenance recorded yet). `XSD verified`
   replaces `Spec verified` **only** when information is XSD-exclusive; if a PDF/markdown
-  table exists, use `# Spec verified: R<YY>-<MM>` (PDF is authoritative, Rule 0015).
+  table exists, use `# Spec verified: <RELEASE>` (PDF is authoritative, Rule 0015).
   An empty-attribute-rendering class (own table, attrs inherited) is **not** this
   exception — it gets the `Spec verified` marker and `[x]` rows.
 
@@ -1109,14 +1155,22 @@ user adds is ordered as a member type.
 
 For each class K in the closure:
 
-1. `grep "Table N.M: K" autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`).
+1. `grep "Table N.M: K" autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` +
+   `FO_TPS`).
 2. Found → record `source = markdown`, capture `Table N.M` id, table name, `Note`,
    `Attribute` rows, `Base` column.
-3. Not found in markdown → open `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf` (search via `pypdf`)
+3. Not found in R23-11 markdown → open `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf` (search via `pypdf`)
    for K's table.
 4. Found in PDF only → record `source = pdf` and re-extract via the same markdown
    convention; if the PDF is the only carrier, mark `source = pdf-only`.
-5. Not found in markdown **and** not found in PDF → record `source = missing`.
+5. **Not found in the R23-11 corpus → fall back to the R4.3.1 corpus:**
+   `grep "Table N.M: K" autosar/R4.3.1/markdown/AUTOSAR_TPS_*.md` (pre-split naming —
+   no `CP_`/`FO_` platform prefix). Found → record `source = R4.3.1 markdown`; not
+   found there → check `autosar/R4.3.1/pdf/` the same way. K then syncs **end-to-end
+   against R4.3.1**: `p.NN` from the R4.3.1 PDF, marker `# Spec verified: R4.3.1`, and
+   `release = R4.3.1` on every checklist row (Rule 0002 / Rule 0012.1). K is **not**
+   `missing` and **not** XSD-only.
+6. Not found in either corpus → record `source = missing`.
 
 ### 16.4 Missing-class resolution (interactive, batched)
 
@@ -1130,11 +1184,12 @@ Per missing class, two mutually-exclusive options:
   tracker (Rule 0014) with reason `class not in markdown/PDF — skipped per user`.
   Any attribute of C that references it uses a placeholder (Rule 0001.10) and the
   `# Spec:` line stays without the stamp.
-- **Derive from XSD** — read `docs/requirements/xsd/` for K's complexType. K is
-  then synced as an XSD-only class: no `# Spec verified: R<YY>-<MM>` marker
+- **Derive from XSD** — read `autosar/<release>/xsd/<schema>.xsd` (`R23-11` →
+  `AUTOSAR_00052.xsd`, `R4.3.1` → `AUTOSAR_00044.xsd`) for K's complexType. K is
+  then synced as an XSD-only class: no `# Spec verified: <RELEASE>` marker
   (Rule 0002 / Rule 0012.1 exception). The `# Spec:` line names the upstream document
   when known and cites the XSD file **and line number** (`grep -n 'name="<K>"'
-  docs/requirements/xsd/<xsd-file>`), and once K is fully synced from the XSD with no
+  autosar/<release>/xsd/<xsd-file>`), and once K is fully synced from the XSD with no
   deviation it carries
   `# XSD verified: <xsd-file>` (e.g. `# XSD verified: AUTOSAR_00052.xsd`) with
   method rows `[x]`; checklist rows stay all-`[ ]` only if K was not yet synced.
@@ -1168,7 +1223,7 @@ the member type would not exist when the dependent's Step 3 needs it, inviting
 fabrication (Rule 0001.10). If dependency order and spec-row order conflict,
 dependency order wins.
 
-Skip classes that already carry `# Spec verified: R<YY>-<MM>` **unless** the spec
+Skip classes that already carry `# Spec verified: <RELEASE>` **unless** the spec
 changed (Rule 0012.3 drift) or the class is being extended — those re-enter the
 queue at Step 1.
 
@@ -1200,7 +1255,7 @@ Input class: <InputClassName> · Generated: <YYYY-MM-DD> · Queue order = row or
 (resume = first class row still `[ ]`; all class rows `[x]` = sync finished)
 
 ## Queue (dependency-first)
-- [ ] ParentK (base · markdown · Table A.B)
+- [ ] ParentK (base · R23-11 markdown · Table A.B)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -1212,7 +1267,8 @@ Input class: <InputClassName> · Generated: <YYYY-MM-DD> · Queue order = row or
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [x] ParentJ (base · markdown · Table C.D · commit abc1234)
 - [ ] MemberK (member · xsd-derived · XSD-only → `# XSD verified:` once synced (16.4))
-- [ ] C (input · markdown · Table X.Y)
+- [ ] LegacyK (member · R4.3.1 markdown · Table 6.200 → marker `R4.3.1` (16.3 fallback))
+- [ ] C (input · R23-11 markdown · Table X.Y)
 
 ## Not queued (16.4 decisions)
 - MemberK2 — Skip per user; deviation row recorded (Rule 0014).
@@ -1220,10 +1276,11 @@ Input class: <InputClassName> · Generated: <YYYY-MM-DD> · Queue order = row or
 
 - One **class row** per queued class, in 16.5 order (dependency-first: deepest
   ancestor first, referenced member types before their referrers, input class
-  last), with role · source · table · notes in the parentheses. The parenthetical
+  last), with role · source (release + carrier) · table · notes in the parentheses. The parenthetical
   notes carry what later sessions need: `enum` (Steps 5/6 N/A — round-trip via
   the consuming class), `XSD-only` (no marker until synced, then
-  `# XSD verified: <xsd-file>` — 16.4), `drift R<YY>-<MM>` (re-opened
+  `# XSD verified: <xsd-file>` — 16.4), `R4.3.1 markdown` (16.3 fallback —
+  no R23-11 table; marker and per-row release = `R4.3.1`), `drift <RELEASE>` (re-opened
   row), and the commit hash once finished.
 - **Every queued class row carries a 9-step sub-checklist** — the exact step
   names from Rule 18.1, all `[ ]`, **written when the file is first created in
@@ -1238,7 +1295,7 @@ Input class: <InputClassName> · Generated: <YYYY-MM-DD> · Queue order = row or
   Classes resolved **Skip** in 16.4 never get a queue row —
   they are listed under "Not queued" so the decision survives session death.
 - Already-stamped classes skipped by 16.5 are not queued either; list them under
-  "Not queued" with "already stamped `# Spec verified: R<YY>-<MM>`".
+  "Not queued" with "already stamped `# Spec verified: <RELEASE>`".
 - The Phase 0 session **ends** after writing this file. Every 9-step run happens
   in its own fresh session (Rule 0017).
 
@@ -1270,7 +1327,7 @@ state (queue, Skip/XSD decisions) is lost the moment a session dies.
   makes a fresh session cost near zero (16.6); explain that and stop.
 - **Drift/extension exception:** to re-sync a class whose row is already `[x]`
   (Rule 0012.3 drift or an extension), the user must say so explicitly; reset
-  that row to `[ ]` with a `drift R<YY>-<MM>` note, then sync it in a fresh
+  that row to `[ ]` with a `drift <RELEASE>` note, then sync it in a fresh
   session.
 
 ### 17.2 Finish — commit, then mark `[x]`

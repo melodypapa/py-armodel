@@ -19,6 +19,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     CouplingPortConnection,
     CouplingPortDetails,
     CouplingPortFifo,
+    CouplingPortRatePolicy,
+    CouplingPortRatePolicyActionEnum,
     CouplingPortRoleEnum,
     CouplingPortScheduler,
     CouplingPortStructuralElement,
@@ -1232,6 +1234,110 @@ class TestDoIpEntityRoleEnum:
         assert DoIpEntityRoleEnum.NODE == "node"
 
 
+class TestCouplingPortRatePolicyActionEnum:
+    """Test cases for CouplingPortRatePolicyActionEnum (Table 3.70, p.125)."""
+
+    def test_enum_values(self):
+        assert list(CouplingPortRatePolicyActionEnum().getEnumValues()) == [
+            "dropFrame",
+            "blockSource",
+        ]
+        assert CouplingPortRatePolicyActionEnum.DROP_FRAME == "dropFrame"
+        assert CouplingPortRatePolicyActionEnum.BLOCK_SOURCE == "blockSource"
+
+    def test_instantiation(self):
+        enum = CouplingPortRatePolicyActionEnum()
+        assert enum.setValue(CouplingPortRatePolicyActionEnum.BLOCK_SOURCE) == enum
+        assert enum.getValue() == "blockSource"
+
+
+class TestCouplingPortRatePolicy:
+    """Test cases for CouplingPortRatePolicy (Table 3.69, p.124)."""
+
+    def test_initialization(self):
+        policy = CouplingPortRatePolicy()
+        assert isinstance(policy, ARObject)
+        assert policy.getDataLength() is None
+        assert policy.getPolicyAction() is None
+        assert policy.getPriority() is None
+        assert policy.getTimeInterval() is None
+        assert policy.getVlanRefs() == []
+
+    def test_get_set_dataLength(self):
+        policy = CouplingPortRatePolicy()
+        value = PositiveInteger().setValue("1500")
+        result = policy.setDataLength(value)
+        assert policy.getDataLength() == value
+        assert result == policy
+
+    def test_get_set_policyAction(self):
+        policy = CouplingPortRatePolicy()
+        value = CouplingPortRatePolicyActionEnum().setValue(CouplingPortRatePolicyActionEnum.BLOCK_SOURCE)
+        result = policy.setPolicyAction(value)
+        assert policy.getPolicyAction() == value
+        assert result == policy
+
+    def test_get_set_priority(self):
+        policy = CouplingPortRatePolicy()
+        value = PositiveInteger().setValue("5")
+        result = policy.setPriority(value)
+        assert policy.getPriority() == value
+        assert result == policy
+
+    def test_get_set_timeInterval(self):
+        policy = CouplingPortRatePolicy()
+        value = TimeValue().setValue("0.01")
+        result = policy.setTimeInterval(value)
+        assert policy.getTimeInterval() == value
+        assert result == policy
+
+    def test_add_get_vLanRefs(self):
+        policy = CouplingPortRatePolicy()
+        ref = RefType()
+        ref.setValue("/Clusters/Eth/Vlan1")
+        result = policy.addVlanRef(ref)
+        assert policy.getVlanRefs() == [ref]
+        assert result == policy
+
+    def test_none_no_op(self):
+        policy = CouplingPortRatePolicy()
+        data_length = PositiveInteger().setValue("1500")
+        action = CouplingPortRatePolicyActionEnum().setValue(CouplingPortRatePolicyActionEnum.DROP_FRAME)
+        priority = PositiveInteger().setValue("5")
+        interval = TimeValue().setValue("0.01")
+        policy.setDataLength(data_length)
+        policy.setPolicyAction(action)
+        policy.setPriority(priority)
+        policy.setTimeInterval(interval)
+        result = policy.setDataLength(None)
+        policy.setPolicyAction(None)
+        policy.setPriority(None)
+        policy.setTimeInterval(None)
+        assert policy.getDataLength() == data_length
+        assert policy.getPolicyAction() == action
+        assert policy.getPriority() == priority
+        assert policy.getTimeInterval() == interval
+        assert result == policy
+
+
+class TestCouplingPortDetailsRatePolicys:
+    """Test cases for CouplingPortDetails.ratePolicy aggregation (Table 3.63, p.122)."""
+
+    def test_add_get_ratePolicies(self):
+        details = CouplingPortDetails()
+        policy = CouplingPortRatePolicy()
+        result = details.addRatePolicy(policy)
+        assert details.getRatePolicies() == [policy]
+        assert result == details
+
+    def test_add_ratePolicy_none_no_op(self):
+        details = CouplingPortDetails()
+        details.addRatePolicy(CouplingPortRatePolicy())
+        result = details.addRatePolicy(None)
+        assert len(details.getRatePolicies()) == 1
+        assert result == details
+
+
 class TestPlcaProps:
     """Test cases for PlcaProps (Table 3.117, p.169)."""
 
@@ -1264,10 +1370,22 @@ class TestPlcaProps:
 
     def test_none_no_op(self):
         props = PlcaProps()
-        value = PositiveInteger().setValue("7")
-        props.setPlcaLocalNodeId(value)
+        node_id = PositiveInteger().setValue("7")
+        props.setPlcaLocalNodeId(node_id)
         result = props.setPlcaLocalNodeId(None)
-        assert props.getPlcaLocalNodeId() == value
+        assert props.getPlcaLocalNodeId() == node_id
+        assert result == props
+
+        burst_count = PositiveInteger().setValue("4")
+        props.setPlcaMaxBurstCount(burst_count)
+        result = props.setPlcaMaxBurstCount(None)
+        assert props.getPlcaMaxBurstCount() == burst_count
+        assert result == props
+
+        burst_timer = PositiveInteger().setValue("20")
+        props.setPlcaMaxBurstTimer(burst_timer)
+        result = props.setPlcaMaxBurstTimer(None)
+        assert props.getPlcaMaxBurstTimer() == burst_timer
         assert result == props
 
 
@@ -1276,39 +1394,39 @@ class TestCouplingPortConnection:
 
     def test_initialization(self):
         connection = CouplingPortConnection()
-        assert connection.getFirstPort() is None
-        assert connection.getNodePorts() == []
+        assert connection.getFirstPortRef() is None
+        assert connection.getNodePortRefs() == []
         assert connection.getPlcaLocalNodeCount() is None
         assert connection.getPlcaTransmitOpportunityTimer() is None
-        assert connection.getSecondPort() is None
+        assert connection.getSecondPortRef() is None
 
     def test_get_set_first_port(self):
         connection = CouplingPortConnection()
         ref = RefType().setValue("/Ether/CouplingPort/CP1")
-        result = connection.setFirstPort(ref)
-        assert connection.getFirstPort() == ref
+        result = connection.setFirstPortRef(ref)
+        assert connection.getFirstPortRef() == ref
         assert result == connection
 
     def test_get_set_second_port(self):
         connection = CouplingPortConnection()
         ref = RefType().setValue("/Ether/CouplingPort/CP2")
-        result = connection.setSecondPort(ref)
-        assert connection.getSecondPort() == ref
+        result = connection.setSecondPortRef(ref)
+        assert connection.getSecondPortRef() == ref
         assert result == connection
 
     def test_add_node_ports(self):
         connection = CouplingPortConnection()
         ref1 = RefType().setValue("/Ether/CouplingPort/CP1")
         ref2 = RefType().setValue("/Ether/CouplingPort/CP3")
-        result = connection.addNodePort(ref1)
-        connection.addNodePort(ref2)
-        assert connection.getNodePorts() == [ref1, ref2]
+        result = connection.addNodePortRef(ref1)
+        connection.addNodePortRef(ref2)
+        assert connection.getNodePortRefs() == [ref1, ref2]
         assert result == connection
 
     def test_add_node_port_none_no_op(self):
         connection = CouplingPortConnection()
-        result = connection.addNodePort(None)
-        assert connection.getNodePorts() == []
+        result = connection.addNodePortRef(None)
+        assert connection.getNodePortRefs() == []
         assert result == connection
 
     def test_get_set_plca_local_node_count(self):
@@ -1323,6 +1441,33 @@ class TestCouplingPortConnection:
         value = PositiveInteger().setValue("100")
         result = connection.setPlcaTransmitOpportunityTimer(value)
         assert connection.getPlcaTransmitOpportunityTimer() == value
+        assert result == connection
+
+    def test_none_no_op(self):
+        connection = CouplingPortConnection()
+
+        first = RefType().setValue("/Ether/CouplingPort/CP1")
+        connection.setFirstPortRef(first)
+        result = connection.setFirstPortRef(None)
+        assert connection.getFirstPortRef() == first
+        assert result == connection
+
+        second = RefType().setValue("/Ether/CouplingPort/CP2")
+        connection.setSecondPortRef(second)
+        result = connection.setSecondPortRef(None)
+        assert connection.getSecondPortRef() == second
+        assert result == connection
+
+        count = PositiveInteger().setValue("4")
+        connection.setPlcaLocalNodeCount(count)
+        result = connection.setPlcaLocalNodeCount(None)
+        assert connection.getPlcaLocalNodeCount() == count
+        assert result == connection
+
+        timer = PositiveInteger().setValue("100")
+        connection.setPlcaTransmitOpportunityTimer(timer)
+        result = connection.setPlcaTransmitOpportunityTimer(None)
+        assert connection.getPlcaTransmitOpportunityTimer() == timer
         assert result == connection
 
 

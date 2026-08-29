@@ -1,14 +1,41 @@
-# This module contains AUTOSAR System Template obsolete-model classes for Ethernet
-# (M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ObsoleteModel).
-# Source: AUTOSAR_CP_TPS_SystemTemplate, Tables F.115 (SoAdRoutingGroup) and F.116 (SocketConnection).
+# This module contains AUTOSAR System Template Ethernet Communication classes for Fibex4Ethernet
+# (M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Ethernet Communication).
+# Source: AUTOSAR_TPS_SystemTemplate (R4.3.1), Tables 6.118 (SocketConnectionBundle), 6.120
+# (SocketConnection), 6.121 (RuntimeAddressConfigurationEnum), 6.122 (SocketConnectionIpduIdentifier),
+# 6.125 (SoAdRoutingGroup), 6.129 (IPv6ExtHeaderFilterList), 6.130 (TcpOptionFilterSet),
+# 6.131 (TcpOptionFilterList).
 
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Identifier, PositiveInteger, RefType, TimeValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnectionIdent
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Identifier, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FibexElement
+
+
+class RuntimeAddressConfigurationEnum(AREnum):
+    """
+    This enumeration defines the protocol to be used to obtain the address information.
+    """
+
+    # RuntimeAddressConfigurationEnum method parity checklist:
+    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.121, p.320
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on SocketConnection.runtimePortConfiguration
+
+    # Static configuration is used to obtain the address information. Tags: atp.EnumerationValue=0
+    NONE = "none"
+
+    # AUTOSAR Service Discovery is used to obtain the address information. Tags: atp.EnumerationValue=1
+    SD = "sd"
+
+    def __init__(self):
+        super().__init__(
+            [
+                RuntimeAddressConfigurationEnum.NONE,
+                RuntimeAddressConfigurationEnum.SD,
+            ]
+        )
 
 
 class SocketConnection(Describable):
@@ -17,47 +44,32 @@ class SocketConnection(Describable):
     """
 
     # SocketConnection method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table F.116 (obsolete-model appendix), package
-    # M2::...::Fibex4Ethernet::ObsoleteModel; attributes cross-checked against the AUTOSAR_00052.xsd
-    # SOCKET-CONNECTION group (Rule 0015 — the F-table lacks rows for the XSD-only members):
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getAllowedIPv6ExtHeadersRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAllowedIPv6ExtHeadersRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAllowedTcpOptionsRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAllowedTcpOptionsRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getAutosarConnector                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setAutosarConnector                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getClientIpAddrFromConnectionRequest  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setClientIpAddrFromConnectionRequest  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getClientPortFromConnectionRequest    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setClientPortFromConnectionRequest    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getClientPortRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setClientPortRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDoIpSourceAddressRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDoIpSourceAddressRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDoIpTargetAddressRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDoIpTargetAddressRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIdent                              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIdent                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLocalPortRef                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setLocalPortRef                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNPduRef                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setNPduRef                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPdus                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addPdu                                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPduCollectionMaxBufferSize         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPduCollectionMaxBufferSize         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getPduCollectionTimeout               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setPduCollectionTimeout               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRemotePortRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRemotePortRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRuntimeIpAddressConfiguration      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRuntimeIpAddressConfiguration      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRuntimePortConfiguration           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRuntimePortConfiguration           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getShortLabel                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setShortLabel                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.120, p.318-319 (full 11-row table, spans the page break; element names and removed-member exclusion per the R4.3.1 AUTOSAR_00044.xsd SOCKET-CONNECTION group, atp.Status="removed" members excluded; member order = PDF table order in model, checklist, reader and writer)
+    # Spec verified: R4.3.1
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] getAllowedIPv6ExtHeadersRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setAllowedIPv6ExtHeadersRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getAllowedTcpOptionsRef               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setAllowedTcpOptionsRef               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getClientIpAddrFromConnectionRequest  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setClientIpAddrFromConnectionRequest  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getClientPortRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setClientPortRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getClientPortFromConnectionRequest    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setClientPortFromConnectionRequest    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getPdus                               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] addPdu                                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getPduCollectionMaxBufferSize         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setPduCollectionMaxBufferSize         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getPduCollectionTimeout               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setPduCollectionTimeout               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getRuntimeIpAddressConfiguration      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setRuntimeIpAddressConfiguration      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getRuntimePortConfiguration           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setRuntimePortConfiguration           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getShortLabel                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setShortLabel                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self):
         super().__init__()
@@ -68,35 +80,17 @@ class SocketConnection(Describable):
         # Reference to a list of TCP options allowed for this SocketConnection.
         self.allowedTcpOptionsRef: Optional[RefType] = None
 
-        # This attribute is deprecated and will be removed in future.
-        self.autosarConnector: Optional[ARLiteral] = None
-
         # If set to true the Server "learns" the client IP address on connection request. This means that the statically configured IP Address of the related client shall be ignored. If set to false the Server only accepts statically configured IP address, e.g. 192.168.1.2. This means that the statically configured IP Address of the Client shall be used.
         self.clientIpAddrFromConnectionRequest: Optional[Boolean] = None
-
-        # If set to true the Server "learns" the client Port on connection request. This means that the statically configured Port of the related client shall be ignored. If set to false the Server only accepts statically configured Port. This means that the statically configured Port of the Client shall be used.
-        self.clientPortFromConnectionRequest: Optional[Boolean] = None
 
         # Client Port for TCP/UDP connection in an abstract communication sense. The client is the major requester of the communication. Please note that the client may also produce data.
         self.clientPortRef: Optional[RefType] = None
 
-        # The logical DoIP address of the source entity. This optional reference shall only be used for DoIP (Diagnosis over IP).
-        self.doIpSourceAddressRef: Optional[RefType] = None
-
-        # The logical DoIP address of the target entity. This optional reference shall only be used for DoIP (Diagnosis over IP).
-        self.doIpTargetAddressRef: Optional[RefType] = None
-
-        # This adds the ability to become referrable to SocketConnection.
-        self.ident: Optional[TpConnectionIdent] = None
-
-        # This reference is obsolete and will be removed in the future. The serverPort reference in SocketConnectionBundle shall be used instead. Old description: Local Port for TCP/UDP connection.
-        self.localPortRef: Optional[RefType] = None
-
-        # Reference to data packets that are transmitted over Ethernet. Each data packet can contain multiple IPdus.
-        self.nPduRef: Optional[RefType] = None
+        # If set to true the Server "learns" the client Port on connection request. This means that the statically configured Port of the related client shall be ignored. If set to false the Server only accepts statically configured Port. This means that the statically configured Port of the Client shall be used.
+        self.clientPortFromConnectionRequest: Optional[Boolean] = None
 
         # PDUs handed over by the PDU Router (Transmission over the Ethernet) or PDUs handed over by SoAd (Reception over Ethernet). Multiple IPdus can be transmitted over one socket connection.
-        self.pdus: List[SocketConnectionIpduIdentifier] = []
+        self.pdus: List["SocketConnectionIpduIdentifier"] = []
 
         # Defines the maximum buffer size in Byte which shall be filled before a socket with Pdu collection enabled shall be transmitted to the lower layer.
         self.pduCollectionMaxBufferSize: Optional[PositiveInteger] = None
@@ -104,20 +98,14 @@ class SocketConnection(Describable):
         # Defines the time in seconds which shall pass before a socket with Pdu collection enabled shall be transmitted to the lower layer after the first Pdu has been put into the socket buffer.
         self.pduCollectionTimeout: Optional[TimeValue] = None
 
-        # This reference is obsolete and will be removed in the future. The clientPort reference shall be used instead. Old description: Remote Port for TCP/UDP connection. May be different for each Frame or use the same remote port. In second case headerId attribute needs to be considered.
-        self.remotePortRef: Optional[RefType] = None
-
         # This attribute determines which protocol is used by the client to obtain the IP Address information. If this attribute is not set to none the value determines the service used by the client to obtain the IP Address information for the SocketConnection. If this attribute is set to none the client used the statically configured IP Address information.
-        self.runtimeIpAddressConfiguration: Optional[ARLiteral] = None
+        self.runtimeIpAddressConfiguration: Optional[RuntimeAddressConfigurationEnum] = None
 
         # This attribute determines which protocol is used by the client to obtain the Port information. If this attribute is not set to none the value determines the service used by the client to obtain the Port information for the SocketConnection. If this attribute is set to none the client uses the statically configured Port information.
-        self.runtimePortConfiguration: Optional[ARLiteral] = None
+        self.runtimePortConfiguration: Optional[RuntimeAddressConfigurationEnum] = None
 
         # This attribute specifies an identifying shortName for the SocketConnection. It shall be unique within its context.
         self.shortLabel: Optional[Identifier] = None
-
-        # This attribute is deprecated and will be removed in future.
-        self.socketProtocol: Optional[ARLiteral] = None
 
     def getAllowedIPv6ExtHeadersRef(self) -> Optional[RefType]:
         """Reference to a list of IPv6 Extension Headers allowed for this SocketConnection. If no list is referenced all IPv6 Extension Headers are allowed and processed."""
@@ -145,43 +133,17 @@ class SocketConnection(Describable):
             self.allowedTcpOptionsRef = value
         return self
 
-    def getAutosarConnector(self) -> Optional[ARLiteral]:
-        """This attribute is deprecated and will be removed in future."""
-        return self.autosarConnector
-
-    def setAutosarConnector(self, value: Optional[ARLiteral]) -> "SocketConnection":
-        """
-        This attribute is deprecated and will be removed in future.
-        A None value is a no-op and does not overwrite an existing autosarConnector.
-        """
-        if value is not None:
-            self.autosarConnector = value
-        return self
-
     def getClientIpAddrFromConnectionRequest(self) -> Optional[Boolean]:
-        """If set to true the Server \"learns\" the client IP address on connection request. This means that the statically configured IP Address of the related client shall be ignored. If set to false the Server only accepts statically configured IP address, e.g. 192.168.1.2. This means that the statically configured IP Address of the Client shall be used."""
+        """If set to true the Server "learns" the client IP address on connection request. This means that the statically configured IP Address of the related client shall be ignored. If set to false the Server only accepts statically configured IP address, e.g. 192.168.1.2. This means that the statically configured IP Address of the Client shall be used."""
         return self.clientIpAddrFromConnectionRequest
 
     def setClientIpAddrFromConnectionRequest(self, value: Optional[Boolean]) -> "SocketConnection":
         """
-        If set to true the Server \"learns\" the client IP address on connection request. This means that the statically configured IP Address of the related client shall be ignored. If set to false the Server only accepts statically configured IP address, e.g. 192.168.1.2. This means that the statically configured IP Address of the Client shall be used.
+        If set to true the Server "learns" the client IP address on connection request. This means that the statically configured IP Address of the related client shall be ignored. If set to false the Server only accepts statically configured IP address, e.g. 192.168.1.2. This means that the statically configured IP Address of the Client shall be used.
         A None value is a no-op and does not overwrite an existing clientIpAddrFromConnectionRequest.
         """
         if value is not None:
             self.clientIpAddrFromConnectionRequest = value
-        return self
-
-    def getClientPortFromConnectionRequest(self) -> Optional[Boolean]:
-        """If set to true the Server \"learns\" the client Port on connection request. This means that the statically configured Port of the related client shall be ignored. If set to false the Server only accepts statically configured Port. This means that the statically configured Port of the Client shall be used."""
-        return self.clientPortFromConnectionRequest
-
-    def setClientPortFromConnectionRequest(self, value: Optional[Boolean]) -> "SocketConnection":
-        """
-        If set to true the Server \"learns\" the client Port on connection request. This means that the statically configured Port of the related client shall be ignored. If set to false the Server only accepts statically configured Port. This means that the statically configured Port of the Client shall be used.
-        A None value is a no-op and does not overwrite an existing clientPortFromConnectionRequest.
-        """
-        if value is not None:
-            self.clientPortFromConnectionRequest = value
         return self
 
     def getClientPortRef(self) -> Optional[RefType]:
@@ -197,69 +159,17 @@ class SocketConnection(Describable):
             self.clientPortRef = value
         return self
 
-    def getDoIpSourceAddressRef(self) -> Optional[RefType]:
-        """The logical DoIP address of the source entity. This optional reference shall only be used for DoIP (Diagnosis over IP)."""
-        return self.doIpSourceAddressRef
+    def getClientPortFromConnectionRequest(self) -> Optional[Boolean]:
+        """If set to true the Server "learns" the client Port on connection request. This means that the statically configured Port of the related client shall be ignored. If set to false the Server only accepts statically configured Port. This means that the statically configured Port of the Client shall be used."""
+        return self.clientPortFromConnectionRequest
 
-    def setDoIpSourceAddressRef(self, value: Optional[RefType]) -> "SocketConnection":
+    def setClientPortFromConnectionRequest(self, value: Optional[Boolean]) -> "SocketConnection":
         """
-        The logical DoIP address of the source entity. This optional reference shall only be used for DoIP (Diagnosis over IP).
-        A None value is a no-op and does not overwrite an existing doIpSourceAddressRef.
+        If set to true the Server "learns" the client Port on connection request. This means that the statically configured Port of the related client shall be ignored. If set to false the Server only accepts statically configured Port. This means that the statically configured Port of the Client shall be used.
+        A None value is a no-op and does not overwrite an existing clientPortFromConnectionRequest.
         """
         if value is not None:
-            self.doIpSourceAddressRef = value
-        return self
-
-    def getDoIpTargetAddressRef(self) -> Optional[RefType]:
-        """The logical DoIP address of the target entity. This optional reference shall only be used for DoIP (Diagnosis over IP)."""
-        return self.doIpTargetAddressRef
-
-    def setDoIpTargetAddressRef(self, value: Optional[RefType]) -> "SocketConnection":
-        """
-        The logical DoIP address of the target entity. This optional reference shall only be used for DoIP (Diagnosis over IP).
-        A None value is a no-op and does not overwrite an existing doIpTargetAddressRef.
-        """
-        if value is not None:
-            self.doIpTargetAddressRef = value
-        return self
-
-    def getIdent(self) -> Optional[TpConnectionIdent]:
-        """This adds the ability to become referrable to SocketConnection."""
-        return self.ident
-
-    def setIdent(self, value: Optional[TpConnectionIdent]) -> "SocketConnection":
-        """
-        This adds the ability to become referrable to SocketConnection.
-        A None value is a no-op and does not overwrite an existing ident.
-        """
-        if value is not None:
-            self.ident = value
-        return self
-
-    def getLocalPortRef(self) -> Optional[RefType]:
-        """This reference is obsolete and will be removed in the future. The serverPort reference in SocketConnectionBundle shall be used instead. Old description: Local Port for TCP/UDP connection."""
-        return self.localPortRef
-
-    def setLocalPortRef(self, value: Optional[RefType]) -> "SocketConnection":
-        """
-        This reference is obsolete and will be removed in the future. The serverPort reference in SocketConnectionBundle shall be used instead. Old description: Local Port for TCP/UDP connection.
-        A None value is a no-op and does not overwrite an existing localPortRef.
-        """
-        if value is not None:
-            self.localPortRef = value
-        return self
-
-    def getNPduRef(self) -> Optional[RefType]:
-        """Reference to data packets that are transmitted over Ethernet. Each data packet can contain multiple IPdus."""
-        return self.nPduRef
-
-    def setNPduRef(self, value: Optional[RefType]) -> "SocketConnection":
-        """
-        Reference to data packets that are transmitted over Ethernet. Each data packet can contain multiple IPdus.
-        A None value is a no-op and does not overwrite an existing nPduRef.
-        """
-        if value is not None:
-            self.nPduRef = value
+            self.clientPortFromConnectionRequest = value
         return self
 
     def getPdus(self) -> List["SocketConnectionIpduIdentifier"]:
@@ -269,7 +179,7 @@ class SocketConnection(Describable):
     def addPdu(self, value: Optional["SocketConnectionIpduIdentifier"]) -> "SocketConnection":
         """
         PDUs handed over by the PDU Router (Transmission over the Ethernet) or PDUs handed over by SoAd (Reception over Ethernet). Multiple IPdus can be transmitted over one socket connection.
-        A None value is a no-op and does not append to pdus.
+        A None value is a no-op and does not extend pdus.
         """
         if value is not None:
             self.pdus.append(value)
@@ -301,24 +211,11 @@ class SocketConnection(Describable):
             self.pduCollectionTimeout = value
         return self
 
-    def getRemotePortRef(self) -> Optional[RefType]:
-        """This reference is obsolete and will be removed in the future. The clientPort reference shall be used instead. Old description: Remote Port for TCP/UDP connection. May be different for each Frame or use the same remote port. In second case headerId attribute needs to be considered."""
-        return self.remotePortRef
-
-    def setRemotePortRef(self, value: Optional[RefType]) -> "SocketConnection":
-        """
-        This reference is obsolete and will be removed in the future. The clientPort reference shall be used instead. Old description: Remote Port for TCP/UDP connection. May be different for each Frame or use the same remote port. In second case headerId attribute needs to be considered.
-        A None value is a no-op and does not overwrite an existing remotePortRef.
-        """
-        if value is not None:
-            self.remotePortRef = value
-        return self
-
-    def getRuntimeIpAddressConfiguration(self) -> Optional[ARLiteral]:
+    def getRuntimeIpAddressConfiguration(self) -> Optional[RuntimeAddressConfigurationEnum]:
         """This attribute determines which protocol is used by the client to obtain the IP Address information. If this attribute is not set to none the value determines the service used by the client to obtain the IP Address information for the SocketConnection. If this attribute is set to none the client used the statically configured IP Address information."""
         return self.runtimeIpAddressConfiguration
 
-    def setRuntimeIpAddressConfiguration(self, value: Optional[ARLiteral]) -> "SocketConnection":
+    def setRuntimeIpAddressConfiguration(self, value: Optional[RuntimeAddressConfigurationEnum]) -> "SocketConnection":
         """
         This attribute determines which protocol is used by the client to obtain the IP Address information. If this attribute is not set to none the value determines the service used by the client to obtain the IP Address information for the SocketConnection. If this attribute is set to none the client used the statically configured IP Address information.
         A None value is a no-op and does not overwrite an existing runtimeIpAddressConfiguration.
@@ -327,11 +224,11 @@ class SocketConnection(Describable):
             self.runtimeIpAddressConfiguration = value
         return self
 
-    def getRuntimePortConfiguration(self) -> Optional[ARLiteral]:
+    def getRuntimePortConfiguration(self) -> Optional[RuntimeAddressConfigurationEnum]:
         """This attribute determines which protocol is used by the client to obtain the Port information. If this attribute is not set to none the value determines the service used by the client to obtain the Port information for the SocketConnection. If this attribute is set to none the client uses the statically configured Port information."""
         return self.runtimePortConfiguration
 
-    def setRuntimePortConfiguration(self, value: Optional[ARLiteral]) -> "SocketConnection":
+    def setRuntimePortConfiguration(self, value: Optional[RuntimeAddressConfigurationEnum]) -> "SocketConnection":
         """
         This attribute determines which protocol is used by the client to obtain the Port information. If this attribute is not set to none the value determines the service used by the client to obtain the Port information for the SocketConnection. If this attribute is set to none the client uses the statically configured Port information.
         A None value is a no-op and does not overwrite an existing runtimePortConfiguration.
@@ -351,19 +248,6 @@ class SocketConnection(Describable):
         """
         if value is not None:
             self.shortLabel = value
-        return self
-
-    def getSocketProtocol(self) -> Optional[ARLiteral]:
-        """This attribute is deprecated and will be removed in future."""
-        return self.socketProtocol
-
-    def setSocketProtocol(self, value: Optional[ARLiteral]) -> "SocketConnection":
-        """
-        This attribute is deprecated and will be removed in future.
-        A None value is a no-op and does not overwrite an existing socketProtocol.
-        """
-        if value is not None:
-            self.socketProtocol = value
         return self
 
 
@@ -561,3 +445,104 @@ class SoAdRoutingGroup(FibexElement):
         if value is not None:
             self.eventGroupControlType = value
         return self
+
+
+class IPv6ExtHeaderFilterList(Identifiable):
+    """
+    White list for the filtering of IPv6 extension headers.
+    """
+
+    # IPv6ExtHeaderFilterList method parity checklist:
+    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.129, p.325
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] getAllowedIPv6ExtHeaders  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] addAllowedIPv6ExtHeader   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # (reader/writer N/A: consumed as ref target on SocketConnection.allowedIPv6ExtHeaders)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # IPv6 Extension Header type allowed by this filter.
+        self.allowedIPv6ExtHeaders: List[PositiveInteger] = []
+
+    def getAllowedIPv6ExtHeaders(self) -> List[PositiveInteger]:
+        """IPv6 Extension Header type allowed by this filter."""
+        return self.allowedIPv6ExtHeaders
+
+    def addAllowedIPv6ExtHeader(self, value: PositiveInteger) -> "IPv6ExtHeaderFilterList":
+        """
+        IPv6 Extension Header type allowed by this filter.
+        A None value is a no-op and does not extend allowedIPv6ExtHeaders.
+        """
+        if value is not None:
+            self.allowedIPv6ExtHeaders.append(value)
+        return self
+
+
+class TcpOptionFilterList(Identifiable):
+    """
+    White list for the filtering of TCP options.
+    """
+
+    # TcpOptionFilterList method parity checklist:
+    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.131, p.326
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] getAllowedTcpOptions   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] addAllowedTcpOption    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # (serialized as TCP-OPTION-FILTER-LIST within TcpOptionFilterSet, R4.3.1 AUTOSAR_00044.xsd)
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # TCP option kind allowed by this filter.
+        self.allowedTcpOptions: List[PositiveInteger] = []
+
+    def getAllowedTcpOptions(self) -> List[PositiveInteger]:
+        """TCP option kind allowed by this filter."""
+        return self.allowedTcpOptions
+
+    def addAllowedTcpOption(self, value: PositiveInteger) -> "TcpOptionFilterList":
+        """
+        TCP option kind allowed by this filter.
+        A None value is a no-op and does not extend allowedTcpOptions.
+        """
+        if value is not None:
+            self.allowedTcpOptions.append(value)
+        return self
+
+
+class TcpOptionFilterSet(ARElement):
+    """
+    Set of TcpOptionFilterLists. Tags: atp.recommendedPackage=TcpOptionFilterSets
+    """
+
+    # TcpOptionFilterSet method parity checklist:
+    # Spec: AUTOSAR_TPS_SystemTemplate.pdf (R4.3.1), Table 6.130, p.326
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R4.3.1
+    # [x] createTcpOptionFilterList  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getTcpOptionFilterLists    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Collection of white lists for the filtering of TCP options.
+        self.tcpOptionFilterLists: List[TcpOptionFilterList] = []
+
+    def createTcpOptionFilterList(self, short_name: str) -> TcpOptionFilterList:
+        """
+        Collection of white lists for the filtering of TCP options.
+        Creates and appends a new TcpOptionFilterList; an existing list with the same
+        short name is returned unchanged.
+        """
+        if not self.IsElementExists(short_name, TcpOptionFilterList):
+            tcp_filter_list = TcpOptionFilterList(self, short_name)
+            self.addElement(tcp_filter_list)
+            self.tcpOptionFilterLists.append(tcp_filter_list)
+        return self.getElement(short_name, TcpOptionFilterList)
+
+    def getTcpOptionFilterLists(self) -> List[TcpOptionFilterList]:
+        """Collection of white lists for the filtering of TCP options."""
+        return self.tcpOptionFilterLists

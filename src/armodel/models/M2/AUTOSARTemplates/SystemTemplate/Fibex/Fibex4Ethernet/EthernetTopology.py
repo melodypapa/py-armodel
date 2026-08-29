@@ -7,11 +7,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
-    ARLiteral,
     Boolean,
     Integer,
     Ip4AddressString,
     Ip6AddressString,
+    MacAddressString,
     PositiveInteger,
     RefType,
     String,
@@ -63,6 +63,7 @@ class EthernetCluster(CommunicationCluster):
 
     # EthernetCluster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.47, p.103
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addCouplingPortConnection         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -195,6 +196,7 @@ class CouplingPortFifo(CouplingPortStructuralElement):
 
     # CouplingPortFifo method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.68, p.124
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] addAssignedTrafficClass      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -337,6 +339,7 @@ class CouplingPortDetails(ARObject):
 
     # CouplingPortDetails method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.63, p.122
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getCouplingPortStructuralElements   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -350,6 +353,8 @@ class CouplingPortDetails(ARObject):
     # [x] setGlobalTimeProps                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getLastEgressSchedulerRef           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setLastEgressSchedulerRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addRatePolicy                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getRatePolicies                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self):
         super().__init__()
@@ -368,6 +373,9 @@ class CouplingPortDetails(ARObject):
 
         # Defines which CouplingPortScheduler is the last in the egress port structure.
         self.lastEgressSchedulerRef: Optional[RefType] = None
+
+        # Rate policies to be applied for this CouplingPort.
+        self.ratePolicies: List[CouplingPortRatePolicy] = []
 
     def getCouplingPortStructuralElements(self) -> List[CouplingPortStructuralElement]:
         """Collects all the structural parts at which a CouplingPort may be configurable."""
@@ -433,6 +441,19 @@ class CouplingPortDetails(ARObject):
         if value is not None:
             self.lastEgressSchedulerRef = value
         return self
+
+    def addRatePolicy(self, value: Optional[CouplingPortRatePolicy]) -> "CouplingPortDetails":
+        """
+        Rate policies to be applied for this CouplingPort.
+        A None value is a no-op and does not append to ratePolicies.
+        """
+        if value is not None:
+            self.ratePolicies.append(value)
+        return self
+
+    def getRatePolicies(self) -> List[CouplingPortRatePolicy]:
+        """Rate policies to be applied for this CouplingPort."""
+        return self.ratePolicies
 
 
 class VlanMembership(ARObject):
@@ -768,6 +789,7 @@ class EthernetCommunicationController(CommunicationController):
 
     # EthernetCommunicationController method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.61, p.116
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getCanXlConfigRef                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -800,7 +822,7 @@ class EthernetCommunicationController(CommunicationController):
         self.macLayerType: Optional[EthernetMacLayerTypeEnum] = None
 
         # Media Access Control address (MAC address) that uniquely identifies each EthernetCommunication Controller in the network.
-        self.macUnicastAddress: Optional[ARLiteral] = None
+        self.macUnicastAddress: Optional[MacAddressString] = None
 
         # Determines the maximum receive buffer length (frame length) in bytes.
         self.maximumReceiveBufferLength: Optional[Integer] = None
@@ -814,63 +836,107 @@ class EthernetCommunicationController(CommunicationController):
         # This attribute specifies time when an unexpected link down is evaluated as link down and indicated to the AUTOSAR communication stack.
         self.slaveQualifiedUnexpectedLinkDownTime: Optional[TimeValue] = None
 
-    def getCanXlConfigRef(self):
+    def getCanXlConfigRef(self) -> Optional[RefType]:
+        """If the Ethernet frames handled by this Ethernet CommunicationController are to be tunneled through CAN XL, then this reference shall refer to the Abstract CanCommunicationController that aggregates the Can ControllerXlConfiguration of the physical CAN XL channel to be used for tunneling."""
         return self.canXlConfigRef
 
-    def setCanXlConfigRef(self, value):
-        self.canXlConfigRef = value
+    def setCanXlConfigRef(self, value: Optional[RefType]) -> "EthernetCommunicationController":
+        """
+        If the Ethernet frames handled by this Ethernet CommunicationController are to be tunneled through CAN XL, then this reference shall refer to the Abstract CanCommunicationController that aggregates the Can ControllerXlConfiguration of the physical CAN XL channel to be used for tunneling.
+        A None value is a no-op and does not overwrite an existing canXlConfigRef.
+        """
+        if value is not None:
+            self.canXlConfigRef = value
         return self
 
-    def getCouplingPorts(self):
+    def getCouplingPorts(self) -> List[CouplingPort]:
+        """Optional CouplingPort that can be used to connect the ECU to a CouplingElement (e.g. a switch)."""
         return self.couplingPorts
 
     def createCouplingPort(self, short_name: str) -> CouplingPort:
+        """Optional CouplingPort that can be used to connect the ECU to a CouplingElement (e.g. a switch)."""
         if short_name not in self.elements:
             group = CouplingPort(self, short_name)
             self.addElement(group)
             self.couplingPorts.append(group)
         return self.getElement(short_name)
 
-    def getMacLayerType(self):
+    def getMacLayerType(self) -> Optional[EthernetMacLayerTypeEnum]:
+        """Specifies the mac layer type of the ethernet controller."""
         return self.macLayerType
 
-    def setMacLayerType(self, value):
-        self.macLayerType = value
+    def setMacLayerType(self, value: Optional[EthernetMacLayerTypeEnum]) -> "EthernetCommunicationController":
+        """
+        Specifies the mac layer type of the ethernet controller.
+        A None value is a no-op and does not overwrite an existing macLayerType.
+        """
+        if value is not None:
+            self.macLayerType = value
         return self
 
-    def getMacUnicastAddress(self):
+    def getMacUnicastAddress(self) -> Optional[MacAddressString]:
+        """Media Access Control address (MAC address) that uniquely identifies each EthernetCommunication Controller in the network."""
         return self.macUnicastAddress
 
-    def setMacUnicastAddress(self, value):
-        self.macUnicastAddress = value
+    def setMacUnicastAddress(self, value: Optional[MacAddressString]) -> "EthernetCommunicationController":
+        """
+        Media Access Control address (MAC address) that uniquely identifies each EthernetCommunication Controller in the network.
+        A None value is a no-op and does not overwrite an existing macUnicastAddress.
+        """
+        if value is not None:
+            self.macUnicastAddress = value
         return self
 
-    def getMaximumReceiveBufferLength(self):
+    def getMaximumReceiveBufferLength(self) -> Optional[Integer]:
+        """Determines the maximum receive buffer length (frame length) in bytes."""
         return self.maximumReceiveBufferLength
 
-    def setMaximumReceiveBufferLength(self, value):
-        self.maximumReceiveBufferLength = value
+    def setMaximumReceiveBufferLength(self, value: Optional[Integer]) -> "EthernetCommunicationController":
+        """
+        Determines the maximum receive buffer length (frame length) in bytes.
+        A None value is a no-op and does not overwrite an existing maximumReceiveBufferLength.
+        """
+        if value is not None:
+            self.maximumReceiveBufferLength = value
         return self
 
-    def getMaximumTransmitBufferLength(self):
+    def getMaximumTransmitBufferLength(self) -> Optional[Integer]:
+        """Determines the maximum transmit buffer length (frame length) in bytes."""
         return self.maximumTransmitBufferLength
 
-    def setMaximumTransmitBufferLength(self, value):
-        self.maximumTransmitBufferLength = value
+    def setMaximumTransmitBufferLength(self, value: Optional[Integer]) -> "EthernetCommunicationController":
+        """
+        Determines the maximum transmit buffer length (frame length) in bytes.
+        A None value is a no-op and does not overwrite an existing maximumTransmitBufferLength.
+        """
+        if value is not None:
+            self.maximumTransmitBufferLength = value
         return self
 
-    def getSlaveActAsPassiveCommunicationSlave(self):
+    def getSlaveActAsPassiveCommunicationSlave(self) -> Optional[Boolean]:
+        """This attribute specifies if the EcuInstance is acting as a passive communication slave on the connected Physical Channel. This is used for EthernetCommunication Controllers that use Ethernet hardware which supports wake-up and sleep on the network (e.g. Open Alliance TC10 compliant Ethernet hardware)."""
         return self.slaveActAsPassiveCommunicationSlave
 
-    def setSlaveActAsPassiveCommunicationSlave(self, value):
-        self.slaveActAsPassiveCommunicationSlave = value
+    def setSlaveActAsPassiveCommunicationSlave(self, value: Optional[Boolean]) -> "EthernetCommunicationController":
+        """
+        This attribute specifies if the EcuInstance is acting as a passive communication slave on the connected Physical Channel. This is used for EthernetCommunication Controllers that use Ethernet hardware which supports wake-up and sleep on the network (e.g. Open Alliance TC10 compliant Ethernet hardware).
+        A None value is a no-op and does not overwrite an existing slaveActAsPassiveCommunicationSlave.
+        """
+        if value is not None:
+            self.slaveActAsPassiveCommunicationSlave = value
         return self
 
-    def getSlaveQualifiedUnexpectedLinkDownTime(self):
+    def getSlaveQualifiedUnexpectedLinkDownTime(self) -> Optional[TimeValue]:
+        """This attribute specifies time when an unexpected link down is evaluated as link down and indicated to the AUTOSAR communication stack."""
         return self.slaveQualifiedUnexpectedLinkDownTime
 
-    def setSlaveQualifiedUnexpectedLinkDownTime(self, value):
-        self.slaveQualifiedUnexpectedLinkDownTime = value
+    def setSlaveQualifiedUnexpectedLinkDownTime(self, value: Optional[TimeValue]) -> "EthernetCommunicationController":
+        """
+        This attribute specifies time when an unexpected link down is evaluated as link down and indicated to the AUTOSAR communication stack.
+        A None value is a no-op and does not overwrite an existing slaveQualifiedUnexpectedLinkDownTime.
+        """
+        if value is not None:
+            self.slaveQualifiedUnexpectedLinkDownTime = value
         return self
 
 
@@ -2159,6 +2225,7 @@ class OrderedMaster(ARObject):
 
     # OrderedMaster method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.148, p.470
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
     # [x] getIndex                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
@@ -2344,6 +2411,7 @@ class InfrastructureServices(ARObject):
 
     # InfrastructureServices method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.144, p.469
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getDoIpEntity                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -2459,24 +2527,26 @@ class EthernetPhysicalLayerTypeEnum(AREnum):
 
     # EthernetPhysicalLayerTypeEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.57, p.111
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on CouplingPort.physicalLayerType
 
-    # Ethernet Standard (IEEE 802.3ab) to support 1Gbit/s over 4 twisted pairs. Tags: atp.EnumerationLiteralIndex=6
+    # Ethernet Standard (IEEE 802.3ab) to support 1Gbit/s over 4 twisted pairs. Tags: atp.EnumerationLiteralIndex=6 xml.name=1000BASE-T
     _1000BASE_T = "1000BASE-T"
 
-    # Ethernet Standard (IEEE 802.3bp) to support 1Gbit/s over a single twisted pair cable. Tags: atp.EnumerationLiteralIndex=8
+    # Ethernet Standard (IEEE 802.3bp) to support 1Gbit/s over a single twisted pair cable. Tags: atp.EnumerationLiteralIndex=8 xml.name=1000BASE-T1
     _1000BASE_T1 = "1000BASE-T1"
 
-    # Ethernet Standard (IEEE 802.3bw) to support 100Mbit/s over a single twisted pair cable. 100BASE-T1 is the IEEE Standardized version of BroadRReach. Tags: atp.EnumerationLiteralIndex=7
+    # Ethernet Standard (IEEE 802.3bw) to support 100Mbit/s over a single twisted pair cable. 100BASE-T1 is the IEEE Standardized version of BroadRReach. Tags: atp.EnumerationLiteralIndex=7 xml.name=100BASE-T1
     _100BASE_T1 = "100BASE-T1"
 
-    # Ethernet Standard (IEEE 802.3u) to support 100Mbit/s over two twisted pairs. Tags: atp.EnumerationLiteralIndex=5
+    # Ethernet Standard (IEEE 802.3u) to support 100Mbit/s over two twisted pairs. Tags: atp.EnumerationLiteralIndex=5 xml.name=100BASE-TX
     _100BASE_TX = "100BASE-TX"
 
-    # Physical layer interface 10BASE-T1S (10Mbit/s, 2 pairs). Used for automotive. Tags: atp.EnumerationLiteralIndex=10
+    # Physical layer interface 10BASE-T1S (10Mbit/s, 2 pairs). Used for automotive. Tags: atp.EnumerationLiteralIndex=10 atp.Status=draft xml.name=10BASE-T1S
     _10BASE_T1S = "10BASE-T1S"
 
-    # Ethernet Standard (IEEE 802.11p) to support wireless communication in vehicular environments. Tags: atp.EnumerationLiteralIndex=9
+    # Ethernet Standard (IEEE 802.11p) to support wireless communication in vehicular environments. Tags: atp.EnumerationLiteralIndex=9 xml.name=IEEE802-11P
     I_EEE802_11P = "IEEE802-11P"
 
     def __init__(self):
@@ -2499,6 +2569,8 @@ class EthernetSwitchVlanIngressTagEnum(AREnum):
 
     # EthernetSwitchVlanIngressTagEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.58, p.111
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # (no methods) — enum value form serialized on CouplingPort.receiveActivity
 
     # Forward with the same VLAN as received. Also untagged frames will be forwarded as untagged. Tags: atp.EnumerationLiteralIndex=0
@@ -2518,11 +2590,12 @@ class EthernetSwitchVlanIngressTagEnum(AREnum):
 
 class TimeSyncTechnologyEnum(AREnum):
     """
-    Defines the time synchronization technology used.
+    Timesynchronization. Server/Client configuration.
     """
 
     # TimeSyncTechnologyEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.149, p.471
+    # Spec verified: R23-11
     # (no methods) — enum value form serialized on consuming attribute
 
     # Ethernet AVB compliant IEEE802.1AS Precision Time Protocol Tags: atp.EnumerationLiteralIndex=0
@@ -2555,6 +2628,7 @@ class DoIpEntityRoleEnum(AREnum):
 
     # DoIpEntityRoleEnum method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.151, p.471
+    # Spec verified: R23-11
     # (no methods) — enum value form serialized on DoIpEntity.doIpEntityRole
 
     # Network node is a DoIP gateway that accepts external connections. Tags: atp.EnumerationLiteralIndex=0
@@ -2583,6 +2657,7 @@ class PlcaProps(ARObject):
 
     # PlcaProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.117, p.169
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getPlcaLocalNodeId             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -2646,32 +2721,33 @@ class PlcaProps(ARObject):
 
 class CouplingPortConnection(ARObject):
     """
-    Connection between two CouplingPorts (firstPort and secondPort).
+    Connection between two CouplingPorts (firstPort and secondPort) or between a collection of Ports that are all referenced by the portCollection reference.
     """
 
     # CouplingPortConnection method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.60, p.113
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFirstPort                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFirstPort                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNodePorts                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addNodePort                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getFirstPortRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setFirstPortRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getNodePortRefs                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addNodePortRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getPlcaLocalNodeCount          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setPlcaLocalNodeCount          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getPlcaTransmitOpportunityTimer [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setPlcaTransmitOpportunityTimer [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecondPort                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecondPort                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSecondPortRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSecondPortRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
 
         # Reference to the first CouplingPort that is connected via the CouplingPortConnection.
-        self.firstPort: Optional[RefType] = None
+        self.firstPortRef: Optional[RefType] = None
 
         # Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild
-        self.nodePorts: List[RefType] = []
+        self.nodePortRefs: List[RefType] = []
 
         # Defines the number of communication participants in case 10BASE-T1S and the nodePort reference is used.
         self.plcaLocalNodeCount: Optional[PositiveInteger] = None
@@ -2680,32 +2756,32 @@ class CouplingPortConnection(ARObject):
         self.plcaTransmitOpportunityTimer: Optional[PositiveInteger] = None
 
         # Reference to the second CouplingPort that is connected via the CouplingPortConnection.
-        self.secondPort: Optional[RefType] = None
+        self.secondPortRef: Optional[RefType] = None
 
-    def getFirstPort(self) -> Optional[RefType]:
+    def getFirstPortRef(self) -> Optional[RefType]:
         """Reference to the first CouplingPort that is connected via the CouplingPortConnection."""
-        return self.firstPort
+        return self.firstPortRef
 
-    def setFirstPort(self, value: Optional[RefType]) -> "CouplingPortConnection":
+    def setFirstPortRef(self, value: Optional[RefType]) -> "CouplingPortConnection":
         """
         Reference to the first CouplingPort that is connected via the CouplingPortConnection.
-        A None value is a no-op and does not overwrite an existing firstPort.
+        A None value is a no-op and does not overwrite an existing firstPortRef.
         """
         if value is not None:
-            self.firstPort = value
+            self.firstPortRef = value
         return self
 
-    def getNodePorts(self) -> List[RefType]:
+    def getNodePortRefs(self) -> List[RefType]:
         """Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild"""
-        return self.nodePorts
+        return self.nodePortRefs
 
-    def addNodePort(self, value: Optional[RefType]) -> "CouplingPortConnection":
+    def addNodePortRef(self, value: Optional[RefType]) -> "CouplingPortConnection":
         """
         Reference to a number of CouplingPorts that are connected via the CouplingPortConnection. This reference shall be used to describe a 10BASE-T1S topology architecture where several CouplingPorts of EthernetCommunicationControllers are connected via one CouplingPortConnection. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=nodePort.couplingPort, nodePort.variation Point.shortLabel vh.latestBindingTime=postBuild
-        A None value is a no-op and does not append to nodePorts.
+        A None value is a no-op and does not append to nodePortRefs.
         """
         if value is not None:
-            self.nodePorts.append(value)
+            self.nodePortRefs.append(value)
         return self
 
     def getPlcaLocalNodeCount(self) -> Optional[PositiveInteger]:
@@ -2734,17 +2810,17 @@ class CouplingPortConnection(ARObject):
             self.plcaTransmitOpportunityTimer = value
         return self
 
-    def getSecondPort(self) -> Optional[RefType]:
+    def getSecondPortRef(self) -> Optional[RefType]:
         """Reference to the second CouplingPort that is connected via the CouplingPortConnection."""
-        return self.secondPort
+        return self.secondPortRef
 
-    def setSecondPort(self, value: Optional[RefType]) -> "CouplingPortConnection":
+    def setSecondPortRef(self, value: Optional[RefType]) -> "CouplingPortConnection":
         """
         Reference to the second CouplingPort that is connected via the CouplingPortConnection.
-        A None value is a no-op and does not overwrite an existing secondPort.
+        A None value is a no-op and does not overwrite an existing secondPortRef.
         """
         if value is not None:
-            self.secondPort = value
+            self.secondPortRef = value
         return self
 
 
@@ -2755,6 +2831,7 @@ class GlobalTimeCouplingPortProps(ARObject):
 
     # GlobalTimeCouplingPortProps method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 9.18, p.875
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getPropagationDelay            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -2778,3 +2855,134 @@ class GlobalTimeCouplingPortProps(ARObject):
         if value is not None:
             self.propagationDelay = value
         return self
+
+
+class CouplingPortRatePolicyActionEnum(AREnum):
+    """
+    Defines the action to be performed when a rate policy is violated.
+    """
+
+    # CouplingPortRatePolicyActionEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.70, p.125
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # (no methods) — enum value form serialized on CouplingPortRatePolicy.policyAction
+
+    # If the rate policy is violated the frame shall be dropped. Tags: atp.EnumerationLiteralIndex=0
+    DROP_FRAME = "dropFrame"
+
+    # If the rate policy is violated the CouplingPort this CouplingPortRatePolicy is defined on shall block all frames from the MAC-Address the violation was caused by. Tags: atp.EnumerationLiteralIndex=1
+    BLOCK_SOURCE = "blockSource"
+
+    def __init__(self):
+        super().__init__(
+            [
+                CouplingPortRatePolicyActionEnum.DROP_FRAME,
+                CouplingPortRatePolicyActionEnum.BLOCK_SOURCE,
+            ]
+        )
+
+
+class CouplingPortRatePolicy(ARObject):
+    """
+    Defines a rate policy on a CouplingPort.
+    """
+
+    # CouplingPortRatePolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.69, p.124
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getDataLength       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setDataLength       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPolicyAction     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPolicyAction     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getPriority         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setPriority         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeInterval     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setTimeInterval     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] addVlanRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getVlanRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+
+    def __init__(self):
+        super().__init__()
+
+        # Amount of data in bytes (excluding header information) that can be received to define the rate policy.
+        self.dataLength: Optional[PositiveInteger] = None
+
+        # Defines the action to be performed when this rate policy is violated.
+        self.policyAction: Optional[CouplingPortRatePolicyActionEnum] = None
+
+        # Defines the priority which this rate policy shall be limited on. If no priority is given this rate policy is not considering priority.
+        self.priority: Optional[PositiveInteger] = None
+
+        # Time interval used to define the base of the rate policy.
+        self.timeInterval: Optional[TimeValue] = None
+
+        # Defines the VLANs this rate policy shall be limited on. If no VLAN is given this rate policy is not considering VLAN tags.
+        self.vLanRefs: List[RefType] = []
+
+    def getDataLength(self) -> Optional[PositiveInteger]:
+        """Amount of data in bytes (excluding header information) that can be received to define the rate policy."""
+        return self.dataLength
+
+    def setDataLength(self, value: Optional[PositiveInteger]) -> "CouplingPortRatePolicy":
+        """
+        Amount of data in bytes (excluding header information) that can be received to define the rate policy.
+        A None value is a no-op and does not overwrite an existing dataLength.
+        """
+        if value is not None:
+            self.dataLength = value
+        return self
+
+    def getPolicyAction(self) -> Optional[CouplingPortRatePolicyActionEnum]:
+        """Defines the action to be performed when this rate policy is violated."""
+        return self.policyAction
+
+    def setPolicyAction(self, value: Optional[CouplingPortRatePolicyActionEnum]) -> "CouplingPortRatePolicy":
+        """
+        Defines the action to be performed when this rate policy is violated.
+        A None value is a no-op and does not overwrite an existing policyAction.
+        """
+        if value is not None:
+            self.policyAction = value
+        return self
+
+    def getPriority(self) -> Optional[PositiveInteger]:
+        """Defines the priority which this rate policy shall be limited on. If no priority is given this rate policy is not considering priority."""
+        return self.priority
+
+    def setPriority(self, value: Optional[PositiveInteger]) -> "CouplingPortRatePolicy":
+        """
+        Defines the priority which this rate policy shall be limited on. If no priority is given this rate policy is not considering priority.
+        A None value is a no-op and does not overwrite an existing priority.
+        """
+        if value is not None:
+            self.priority = value
+        return self
+
+    def getTimeInterval(self) -> Optional[TimeValue]:
+        """Time interval used to define the base of the rate policy."""
+        return self.timeInterval
+
+    def setTimeInterval(self, value: Optional[TimeValue]) -> "CouplingPortRatePolicy":
+        """
+        Time interval used to define the base of the rate policy.
+        A None value is a no-op and does not overwrite an existing timeInterval.
+        """
+        if value is not None:
+            self.timeInterval = value
+        return self
+
+    def addVlanRef(self, value: Optional[RefType]) -> "CouplingPortRatePolicy":
+        """
+        Defines the VLANs this rate policy shall be limited on. If no VLAN is given this rate policy is not considering VLAN tags.
+        A None value is a no-op and does not append to vLanRefs.
+        """
+        if value is not None:
+            self.vLanRefs.append(value)
+        return self
+
+    def getVlanRefs(self) -> List[RefType]:
+        """Defines the VLANs this rate policy shall be limited on. If no VLAN is given this rate policy is not considering VLAN tags."""
+        return self.vLanRefs

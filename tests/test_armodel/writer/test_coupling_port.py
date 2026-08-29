@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
     CouplingPort,
     CouplingPortDetails,
+    PlcaProps,
     VlanMembership,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
@@ -151,6 +152,7 @@ class TestWriteCouplingPort:
         assert len(mc_refs) == 1
         pnc_refs = node.findall("PNC-MAPPING-REFS/PNC-MAPPING-REF")
         assert len(pnc_refs) == 1
+        assert node.find("PHYSICAL-LAYER-TYPE").text == "100BaseT1"
         assert node.find("RECEIVE-ACTIVITY").text == "receiveActivityUntagged"
         assert node.find("VLAN-MEMBERSHIPS/VLAN-MEMBERSHIP") is not None
         assert node.find("VLAN-MODIFIER-REF").text == "/Ether/PhysicalChannel/Vlan2"
@@ -179,6 +181,35 @@ class TestWriteCouplingPort:
         assert mac_sec.find("ON-FAIL-PERMISSIVE-MODE-TIMEOUT").text == "30.0"
         assert mac_sec.find("SAK-REKEY-TIME-SPAN").text == "3600.0"
 
+    def test_write_child_element_order_matches_xsd(self, writer):
+        port = _new_port()
+        port.setPlcaProps(PlcaProps())
+        port.addMacSecProps(_new_mac_sec_props())
+        parent = ET.Element("PARENT")
+        writer.writeCouplingPort(parent, port)
+
+        node = parent.find("COUPLING-PORT")
+        # AUTOSAR_00052.xsd group COUPLING-PORT sequence; COUPLING-PORT-SPEED is
+        # atp.Status=removed and VARIATION-POINT is framework-owned, so neither is modelled.
+        xsd_order = [
+            "CONNECTION-NEGOTIATION-BEHAVIOR",
+            "COUPLING-PORT-DETAILS",
+            "COUPLING-PORT-ROLE",
+            "DEFAULT-VLAN-REF",
+            "MAC-LAYER-TYPE",
+            "MAC-MULTICAST-ADDRESS-REFS",
+            "MAC-SEC-PROPS",
+            "PHYSICAL-LAYER-TYPE",
+            "PLCA-PROPS",
+            "PNC-MAPPING-REFS",
+            "RECEIVE-ACTIVITY",
+            "VLAN-MEMBERSHIPS",
+            "VLAN-MODIFIER-REF",
+            "WAKEUP-SLEEP-ON-DATALINE-CONFIG-REF",
+        ]
+        emitted = [child.tag for child in node if child.tag in xsd_order]
+        assert emitted == xsd_order
+
 
 class TestCouplingPortRoundTrip:
     def test_round_trip_preserves_all_values(self, writer, parser, tmp_path):
@@ -200,6 +231,7 @@ class TestCouplingPortRoundTrip:
         assert recovered.getMacLayerType().getValue() == "ethernet"
         assert recovered.getMacMulticastAddressRefs()[0].getValue() == "/Ether/MacMulticastGroup/MMG1"
         assert recovered.getPncMappingRefs()[0].getValue() == "/System/PncMapping/PM1"
+        assert recovered.getPhysicalLayerType().getValue() == "100BaseT1"
         assert recovered.getReceiveActivity().getValue() == "receiveActivityUntagged"
         assert len(recovered.getVlanMemberships()) == 1
         assert recovered.getVlanModifierRef().getValue() == "/Ether/PhysicalChannel/Vlan2"

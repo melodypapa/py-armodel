@@ -1483,7 +1483,7 @@ CanXlProps unconfirmed), ipV6PathMtuEnabled/ipV6PathMtuTimeout (atp.Status=remov
 |---|---|---|---|---|---|
 | `canXlConfigRef` | `Optional[RefType]` | `canXlConfig` | ``AbstractCan CommunicationController`` | ref | - |
 | `couplingPorts` | `List[CouplingPort]` | `couplingPort` | ``CouplingPort`` | aggr | singular spec member modelled per project convention (`createCouplingPort`/`getCouplingPorts`, wrapper COUPLING-PORTS) |
-| `macLayerType` | `Optional[ARLiteral]` | `macLayerType` | ``EthernetMacLayerType Enum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `macLayerType` | `Optional[EthernetMacLayerTypeEnum]` | `macLayerType` | ``EthernetMacLayerType Enum`` | attr | - |
 | `macUnicastAddress` | `Optional[ARLiteral]` | `macUnicast Address` | ``MacAddressString`` | attr | - |
 | `maximumReceiveBufferLength` | `Optional[Integer]` | `maximum ReceiveBuffer Length` | ``Integer`` | attr | - |
 | `maximumTransmitBufferLength` | `Optional[Integer]` | `maximum TransmitBuffer Length` | ``Integer`` | attr | - |
@@ -1514,13 +1514,18 @@ CanXlProps unconfirmed), ipV6PathMtuEnabled/ipV6PathMtuTimeout (atp.Status=remov
 | `couplingPortStructuralElements` | `List[CouplingPortStructuralElement]` | `couplingPort StructuralElement` | ``CouplingPortStructural Element`` | aggr | - |
 | `ethernetPriorityRegenerations` | `List[EthernetPriorityRegeneration]` | `ethernetPriority Regeneration` | ``EthernetPriority Regeneration`` (0..8) | aggr | - |
 | `ethernetTrafficClassAssignments` | `List[CouplingPortTrafficClassAssignment]` | `ethernetTraffic ClassAssignment` | ``CouplingPortTraffic ClassAssignment`` (0..8) | aggr | - |
-| `globalTimeProps` | `Optional[ARObject]` | `globalTimeProps` | ``GlobalTimeCoupling PortProps`` | aggr | referenced class `GlobalTimeCouplingPortProps` not yet implemented; carried as an `ARObject` placeholder, reader/writer pending, full sync deferred (Rule 0001.10) |
+| `globalTimeProps` | `Optional[GlobalTimeCouplingPortProps]` | `globalTimeProps` | ``GlobalTimeCoupling PortProps`` | aggr | - |
 | `lastEgressSchedulerRef` | `Optional[RefType]` | `lastEgressScheduler` | ``CouplingPortScheduler`` | ref | ref-form naming per project convention (`getLastEgressSchedulerRef`/`setLastEgressSchedulerRef`) |
+| `ratePolicies` | `List[CouplingPortRatePolicy]` | `ratePolicy` | ``CouplingPortRatePolicy`` | aggr | - |
 
-Removed members: `defaultTrafficClass`, `framePreemptionSupport`, `ratePolicies`, `vlanTranslationTables`
-— all absent from the R23-11 Table 3.63 Attribute rows; `ratePolicies` exists in the XSD group but not in
-the table, the rest are absent from both. Fields/accessors removed in this pass
-(Rule 0015/the-table-wins).
+Removed members: `defaultTrafficClass`, `framePreemptionSupport`, `vlanTranslationTables`
+— all absent from the R23-11 Table 3.63 Attribute rows (page-split table; the `ratePolicy` row is on the
+second fragment). Fields/accessors removed in this pass (Rule 0015/the-table-wins).
+The `ratePolicy` member gap found at the 2026-08-29 9b re-check (the earlier sync dropped `ratePolicies`
+plural but never re-added `ratePolicy` singular) was resolved 2026-08-29: `CouplingPortRatePolicy`
+(Table 3.69) + `CouplingPortRatePolicyActionEnum` (Table 3.70) landed and `RATE-POLICYS` reader/writer
+wired at its XSD position; GLOBAL-TIME-PROPS ↔ LAST-EGRESS-SCHEDULER-REF emission order corrected to the
+XSD group sequence in the same pass.
 
 ## `SenderRecArrayTypeMapping`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 235  | **table:** Table 5.28
@@ -1584,23 +1589,16 @@ LOGIC-ADDRESSS wrapper is not part of the R23-11 table — NOT modeled per Rule 
 Queue note is stale. Bulk setters setConnections/setConnectionBundles were removed as non-spec-shaped.
 
 ## `SocketConnection`
-- **PDF:** n/a — obsolete class, no R23-11 table (Rel 4.4.0 System Template documentation); attributes derived from the XSD `SOCKET-CONNECTION` group in `docs/requirements/xsd/AUTOSAR_00052.xsd` (Rule 0002)
-- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetCommunication`
+- **PDF:** `AUTOSAR_TPS_SystemTemplate.pdf` (R4.3.1) | **page:** 319 (Table 6.120)
+- **Package:** `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::Ethernet Communication`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Fibex/Fibex4Ethernet/EthernetCommunication.py`
 
-| Name in source code | Type (source) | Member name (XSD) | Type (XSD) | Kind | Deviation |
+| Name in source code | Type (source) | Member name (spec) | Type (spec) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `autosarConnector` | `Optional[ARLiteral]` | `autosarConnector` | ``SoAdConnectorType`` | attr | XSD-only enum explicitly skipped per user confirmation; carried as generic `ARLiteral` (Rule 0001.10) |
-| `doIpSourceAddressRef` | `Optional[RefType]` | `doIpSourceAddressRef` | ``DoIpLogicAddress`` | ref | - |
-| `doIpTargetAddressRef` | `Optional[RefType]` | `doIpTargetAddressRef` | ``DoIpLogicAddress`` | ref | - |
-| `ident` | `Optional[TpConnectionIdent]` | `ident` | ``TpConnectionIdent`` | aggr | - |
-| `localPortRef` | `Optional[RefType]` | `localPortRef` | ``SocketAddress`` | ref | spec/XSD marks the reference obsolete (kept per XSD) |
-| `nPduRef` | `Optional[RefType]` | `nPduRef` | ``NpDu`` | ref | - |
-| `remotePortRef` | `Optional[RefType]` | `remotePortRef` | ``SocketAddress`` | ref | spec/XSD marks the reference obsolete (kept per XSD) |
-| `socketProtocol` | `Optional[ARLiteral]` | `socketProtocol` | ``SoAdProtocolType`` | attr | XSD-only enum explicitly skipped per user confirmation; carried as generic `ARLiteral` (Rule 0001.10) |
+| `runtimePortConfiguration` | `Optional[RuntimeAddressConfigurationEnum]` | `runtimePortConfiguration` | ``RuntimeAddressConfigurationEnum`` | attr | - (conforms R4.3.1 Table 6.120; enum per Table 6.121) |
+| `shortLabel` | `Optional[Identifier]` | `shortLabel` | ``Identifier`` | attr | - (conforms R4.3.1 Table 6.120) |
 
-Removed non-XSD member `pduSocketConnectionIpdus` (duplicate of `pdus`, unused outside the class).
-Base stays `Describable` per XSD complexType groups (AR-OBJECT + DESCRIBABLE).
+Base stays `Describable` per R4.3.1 Table 6.120 (DESCRIBABLE). The prior 19-member XSD-derived shape (incl. SoAdConnectorType/SoAdProtocolType `ARLiteral` placeholders) was dropped 2026-08-29 per Rule 0015 (PDF/markdown table wins, no fabrication).
 
 ## `SocketAddress`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 453
@@ -1634,7 +1632,7 @@ Resolution of the three technology members (queue context): Table 6.124 (markdow
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `couplingPortConnections` | `List[ARObject]` | `couplingPort Connection` | ``CouplingPortConnection`` | aggr | referenced class `CouplingPortConnection` not yet implemented; carried as an `ARObject` placeholder list with add/get accessors, reader/writer pending, full sync deferred (Rule 0001.10); field renamed from the mislabelled `couplingPorts` |
+| `couplingPortConnections` | `List[CouplingPortConnection]` | `couplingPort Connection` | ``CouplingPortConnection`` | aggr | field renamed from the mislabelled `couplingPorts` |
 | `couplingPortStartupActiveTime` | `Optional[TimeValue]` | `couplingPort StartupActiveTime` | ``TimeValue`` | attr | - |
 | `couplingPortSwitchoffDelay` | `Optional[TimeValue]` | `couplingPort SwitchoffDelay` | ``TimeValue`` | attr | - |
 | `macMulticastGroups` | `List[MacMulticastGroup]` | `macMulticast Group` | ``MacMulticastGroup`` | aggr | - |
@@ -1666,17 +1664,17 @@ modelled for VlanMembership.dhcpAddressAssignment (Table 3.79).
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `connectionNegotiationBehavior` | `Optional[ARLiteral]` | `connectionNegotiation Behavior` | ``EthernetConnection NegotiationEnum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `connectionNegotiationBehavior` | `Optional[EthernetConnectionNegotiationEnum]` | `connectionNegotiation Behavior` | ``EthernetConnection NegotiationEnum`` | attr | - |
 | `couplingPortDetails` | `Optional[CouplingPortDetails]` | `couplingPort Details` | ``CouplingPortDetails`` | aggr | - |
-| `couplingPortRole` | `Optional[ARLiteral]` | `couplingPort Role` | ``CouplingPortRoleEnum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `couplingPortRole` | `Optional[CouplingPortRoleEnum]` | `couplingPort Role` | ``CouplingPortRoleEnum`` | attr | - |
 | `defaultVlanRef` | `Optional[RefType]` | `defaultVlan` | ``EthernetPhysical Channel`` | ref | ref-form naming per project convention |
-| `macLayerType` | `Optional[ARLiteral]` | `macLayerType` | ``EthernetMacLayerType Enum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `macLayerType` | `Optional[EthernetMacLayerTypeEnum]` | `macLayerType` | ``EthernetMacLayerType Enum`` | attr | - |
 | `macMulticastAddressRefs` | `List[RefType]` | `macMulticast Address` | ``MacMulticastGroup`` | ref | singular spec member modelled per project convention (`addMacMulticastAddressRef`/`getMacMulticastAddressRefs`, wrapper MAC-MULTICAST-ADDRESS-REFS) |
-| `macSecProps` | `List[ARObject]` | `macSecProps` | ``MacSecProps`` | aggr | referenced class `MacSecProps` not yet implemented; carried as an `ARObject` placeholder list with add/get accessors, reader/writer pending, full sync deferred (Rule 0001.10) |
-| `physicalLayerType` | `Optional[ARLiteral]` | `physicalLayer Type` | ``EthernetPhysicalLayer TypeEnum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
-| `plcaProps` | `Optional[ARObject]` | `plcaProps` | ``PlcaProps`` | aggr | referenced class `PlcaProps` not yet implemented; carried as an `ARObject` placeholder, reader/writer pending, full sync deferred (Rule 0001.10) |
+| `macSecProps` | `List[MacSecProps]` | `macSecProps` | ``MacSecProps`` | aggr | - |
+| `physicalLayerType` | `Optional[EthernetPhysicalLayerTypeEnum]` | `physicalLayer Type` | ``EthernetPhysicalLayer TypeEnum`` | attr | - |
+| `plcaProps` | `Optional[PlcaProps]` | `plcaProps` | ``PlcaProps`` | aggr | - |
 | `pncMappingRefs` | `List[RefType]` | `pncMapping` | ``PncMappingIdent`` | ref | singular spec member modelled per project convention (`addPncMappingRef`/`getPncMappingRefs`, wrapper PNC-MAPPING-REFS) |
-| `receiveActivity` | `Optional[ARLiteral]` | `receiveActivity` | ``EthernetSwitchVlan IngressTagEnum`` | attr | referenced enum not yet implemented as `AREnum`; carried as generic `ARLiteral` (Rule 0001.10) |
+| `receiveActivity` | `Optional[EthernetSwitchVlanIngressTagEnum]` | `receiveActivity` | ``EthernetSwitchVlan IngressTagEnum`` | attr | - |
 | `vlanMemberships` | `List[VlanMembership]` | `vlan Membership` | ``VlanMembership`` | aggr | - |
 | `vlanModifierRef` | `Optional[RefType]` | `vlanModifier` | ``EthernetPhysical Channel`` | ref | ref-form naming per project convention (`getVlanModifierRef`/`setVlanModifierRef`) |
 | `wakeupSleepOnDatalineConfigRef` | `Optional[RefType]` | `wakeupSleep OnDataline Config` | ``EthernetWakeupSleep OnDatalineConfig`` | ref | - |

@@ -54,12 +54,12 @@ def _pos_int(text):
 
 def _new_connection():
     connection = CouplingPortConnection()
-    connection.setFirstPort(_ref("/Ether/CouplingPort/CP1"))
-    connection.addNodePort(_ref("/Ether/CouplingPort/CP3"))
-    connection.addNodePort(_ref("/Ether/CouplingPort/CP4"))
+    connection.setFirstPortRef(_ref("/Ether/CouplingPort/CP1"))
+    connection.addNodePortRef(_ref("/Ether/CouplingPort/CP3"))
+    connection.addNodePortRef(_ref("/Ether/CouplingPort/CP4"))
     connection.setPlcaLocalNodeCount(_pos_int("4"))
     connection.setPlcaTransmitOpportunityTimer(_pos_int("100"))
-    connection.setSecondPort(_ref("/Ether/CouplingPort/CP2"))
+    connection.setSecondPortRef(_ref("/Ether/CouplingPort/CP2"))
     return connection
 
 
@@ -71,11 +71,23 @@ class TestWriteCouplingPortConnection:
         node = parent.find("COUPLING-PORT-CONNECTION")
         assert node is not None
         assert node.find("FIRST-PORT-REF").text == "/Ether/CouplingPort/CP1"
-        node_ports = node.findall("NODE-PORTS/COUPLING-PORT-REF-CONDITIONAL/COUPLING-PORT-REF")
-        assert len(node_ports) == 2
+        assert [r.text for r in node.findall("NODE-PORTS/COUPLING-PORT-REF-CONDITIONAL/COUPLING-PORT-REF")] == [
+            "/Ether/CouplingPort/CP3",
+            "/Ether/CouplingPort/CP4",
+        ]
         assert node.find("PLCA-LOCAL-NODE-COUNT").text == "4"
         assert node.find("PLCA-TRANSMIT-OPPORTUNITY-TIMER").text == "100"
         assert node.find("SECOND-PORT-REF").text == "/Ether/CouplingPort/CP2"
+
+    def test_write_empty_node_ports(self, writer):
+        parent = ET.Element("PARENT")
+        connection = CouplingPortConnection()
+        connection.setFirstPortRef(_ref("/Ether/CouplingPort/CP1"))
+        writer.writeCouplingPortConnection(parent, connection)
+
+        node = parent.find("COUPLING-PORT-CONNECTION")
+        assert node.find("FIRST-PORT-REF").text == "/Ether/CouplingPort/CP1"
+        assert node.find("NODE-PORTS") is None
 
 
 class TestCouplingPortConnectionRoundTrip:
@@ -91,22 +103,22 @@ class TestCouplingPortConnectionRoundTrip:
         recovered = CouplingPortConnection()
         parser.readCouplingPortConnection(tree.getroot()[0][0], recovered)
 
-        assert recovered.getFirstPort().getValue() == "/Ether/CouplingPort/CP1"
-        assert [r.getValue() for r in recovered.getNodePorts()] == ["/Ether/CouplingPort/CP3", "/Ether/CouplingPort/CP4"]
+        assert recovered.getFirstPortRef().getValue() == "/Ether/CouplingPort/CP1"
+        assert [r.getValue() for r in recovered.getNodePortRefs()] == ["/Ether/CouplingPort/CP3", "/Ether/CouplingPort/CP4"]
         assert recovered.getPlcaLocalNodeCount().getValue() == 4
         assert recovered.getPlcaTransmitOpportunityTimer().getValue() == 100
-        assert recovered.getSecondPort().getValue() == "/Ether/CouplingPort/CP2"
+        assert recovered.getSecondPortRef().getValue() == "/Ether/CouplingPort/CP2"
 
     def test_reader_empty_fields(self, parser):
         element = ET.fromstring("<COUPLING-PORT-CONNECTION xmlns='%s'></COUPLING-PORT-CONNECTION>" % NS)
         recovered = CouplingPortConnection()
         parser.readCouplingPortConnection(element, recovered)
 
-        assert recovered.getFirstPort() is None
-        assert recovered.getNodePorts() == []
+        assert recovered.getFirstPortRef() is None
+        assert recovered.getNodePortRefs() == []
         assert recovered.getPlcaLocalNodeCount() is None
         assert recovered.getPlcaTransmitOpportunityTimer() is None
-        assert recovered.getSecondPort() is None
+        assert recovered.getSecondPortRef() is None
 
 
 def _wrap(element: ET.Element) -> ET.Element:

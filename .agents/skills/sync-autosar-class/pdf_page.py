@@ -6,13 +6,13 @@ read the `p.NN` page used in the `# Spec:` checklist line. This script locates t
 spec table header (`Table N.M: ClassName`) in the PDF(s) and prints the page number.
 
 Usage:
-  python pdf_page.py <ClassName>                 # search all autosar/R23-11/pdf/*.pdf
+  python pdf_page.py <ClassName>                 # search every autosar/R*/pdf/*.pdf (R23-11, R4.3.1, ...)
   python pdf_page.py <ClassName> --pdf PATH      # search a single PDF
   python pdf_page.py --table 13.24 [--pdf PATH]  # search by table id instead
   python pdf_page.py <ClassName> --refresh       # ignore the cached index
 
 Output (one line per match):
-  <pdf filename> | Table <N.M>: <ClassName> | p.<page>
+  <release>/<pdf filename> | Table <N.M>: <ClassName> | p.<page>
 
 A per-PDF text index is cached in `.pdf_table_cache.json` next to this script,
 keyed by the PDF's mtime, so repeated lookups do not re-scan the PDFs.
@@ -27,7 +27,7 @@ import re
 import sys
 
 CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".pdf_table_cache.json")
-DEFAULT_PDF_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "autosar", "R23-11", "pdf")
+AUTOSAR_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "autosar")
 
 
 def _pypdf_text(reader, page_index):
@@ -85,9 +85,18 @@ def collect_pdfs(explicit_pdf=None):
         if os.path.exists(explicit_pdf):
             return [explicit_pdf]
         sys.exit("error: PDF not found: %s" % explicit_pdf)
-    if not os.path.isdir(DEFAULT_PDF_DIR):
-        sys.exit("error: default PDF dir not found: %s" % DEFAULT_PDF_DIR)
-    return sorted(os.path.join(DEFAULT_PDF_DIR, f) for f in os.listdir(DEFAULT_PDF_DIR) if f.endswith(".pdf"))
+    pdf_dirs = []
+    if os.path.isdir(AUTOSAR_DIR):
+        for release in sorted(os.listdir(AUTOSAR_DIR)):
+            pdf_dir = os.path.join(AUTOSAR_DIR, release, "pdf")
+            if os.path.isdir(pdf_dir):
+                pdf_dirs.append(pdf_dir)
+    if not pdf_dirs:
+        sys.exit("error: no autosar/R*/pdf directory found under %s" % AUTOSAR_DIR)
+    pdfs = []
+    for pdf_dir in pdf_dirs:
+        pdfs.extend(sorted(os.path.join(pdf_dir, f) for f in os.listdir(pdf_dir) if f.endswith(".pdf")))
+    return pdfs
 
 
 def main():
@@ -108,16 +117,16 @@ def main():
         for tid, (cls, page, title) in tables.items():
             if args.by_table:
                 if tid == args.name:
-                    matches.append((os.path.basename(pdf), title, page))
+                    matches.append((pdf, title, page))
             else:
                 if cls == args.name:
-                    matches.append((os.path.basename(pdf), title, page))
+                    matches.append((pdf, title, page))
 
     if not matches:
-        sys.exit("no spec table found for %r in %s" % (args.name, ", ".join(os.path.basename(p) for p in pdfs)))
+        sys.exit("no spec table found for %r in %s" % (args.name, ", ".join(os.path.relpath(p, AUTOSAR_DIR) for p in pdfs)))
 
-    for pdf_name, title, page in matches:
-        print("%s | %s | p.%d" % (pdf_name, title, page))
+    for pdf_path, title, page in matches:
+        print("%s/%s | %s | p.%d" % (os.path.basename(os.path.dirname(os.path.dirname(pdf_path))), os.path.basename(pdf_path), title, page))
 
 
 if __name__ == "__main__":

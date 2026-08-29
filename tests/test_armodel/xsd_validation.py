@@ -3,14 +3,14 @@
 The AUTOSAR_00046.xsd schema imports the W3C ``xml.xsd`` namespace schema,
 which is not shipped alongside it. We therefore install a custom
 ``etree.Resolver`` that maps relative ``import``/``include`` filenames to the
-sibling ``docs/requirements/xsd/`` directory, so lxml can resolve ``xml.xsd``.
+sibling ``autosar/R4.4.0/xsd/`` directory, so lxml can resolve ``xml.xsd``.
 """
 
 import os
 
 from lxml import etree
 
-XSD_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "docs", "requirements", "xsd")
+XSD_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "autosar", "R4.4.0", "xsd")
 XSD_PATH = os.path.join(XSD_DIR, "AUTOSAR_00046.xsd")
 
 
