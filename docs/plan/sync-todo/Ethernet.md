@@ -551,7 +551,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b RE-CHECK 2026-08-29
      PASSED — spec match, mutation Red proof, reader/writer XSD order, 7 targeted tests green; stamped)
-- [x] TimeSyncTechnologyEnum (enum · Table 6.149 · p.471 · used by TimeSyncClientConfiguration.timeSyncTechnology AND TimeSyncServerConfiguration.timeSyncTechnology (`# type:` placeholders) — member of the InfrastructureServices.timeSynchronization chain · source EthernetTopology.py · Steps 5/6 N/A if standalone enum) · steps complete commit 7fd728a6 — STAMP DEFERRED (batch 9b pending)
+- [x] TimeSyncTechnologyEnum (enum · Table 6.149 · p.471 · used by TimeSyncClientConfiguration.timeSyncTechnology AND TimeSyncServerConfiguration.timeSyncTechnology (`# type:` placeholders) — member of the InfrastructureServices.timeSynchronization chain · source EthernetTopology.py · Steps 5/6 N/A if standalone enum) · steps complete commit 7fd728a6 — STAMPED R23-11 — confirmed by user 2026-08-29 <!-- commit: 9f978289 -->
   - [x] Step 1 — Sync members & description from spec
     (Table 6.149 markdown AUTOSAR_CP_TPS_SystemTemplate.md:12567 + PDF p.471)
   - [x] Step 2 — Write model class unit test (Red)
@@ -566,7 +566,9 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 8 — Deviations
     (none; TimeSyncClient/ServerConfiguration timeSyncTechnology `# type:` placeholders resolved)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass)
+    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b RE-CHECK 2026-08-29
+     PASSED — 4 literals in spec order w/ xml.name values, mutation Red proof, reader/writer value-form wiring
+     on client+server confirmed; stamped)
 - [x] DoIpEntityRoleEnum (enum · Table 6.151 · p.471 · used by DoIpEntity.doIpEntityRole (`# type:` placeholder) — member of the InfrastructureServices.doIpEntity chain · source EthernetTopology.py · Steps 5/6 N/A if standalone enum) · steps complete commit 70387e1b — STAMP DEFERRED (batch 9b pending)
   - [x] Step 1 — Sync members & description from spec
     (Table 6.151 markdown AUTOSAR_CP_TPS_SystemTemplate.md:12589 + PDF p.471)
