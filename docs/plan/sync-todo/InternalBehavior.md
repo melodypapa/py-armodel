@@ -76,7 +76,7 @@ stamps written in batch after user confirmation rounds.
 
 ### BswBehavior leaves
 
-- [ ] BswAsynchronousServerCallPoint (markdown · Table 5.13 · p.80 · source BswModuleTemplate/BswBehavior/__init__.py · ref target of BswAsynchronousServerCallResultPoint — synced first per Rule 0016.5)
+- [x] BswAsynchronousServerCallPoint (markdown · Table 5.13 · p.80 · source BswModuleTemplate/BswBehavior/__init__.py · ref target of BswAsynchronousServerCallResultPoint — synced first per Rule 0016.5)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -85,7 +85,7 @@ stamps written in batch after user confirmation rounds.
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations (none)
-  - [ ] Step 9 — Verify (9a) ✓ · confirm (9b) deferred — stamp pending batch confirmation
+  - [x] Step 9 — Verify (9a) ✓ · confirm (9b) ✓ · stamp R23-11 written · commit 26fe43765bdf162dd781bf4483739d33927c2cee
 - [ ] BswAsynchronousServerCallResultPoint (markdown · Table 5.14 · p.80 · source BswModuleTemplate/BswBehavior/__init__.py · depends on BswAsynchronousServerCallPoint above; adds missing asynchronousServerCallPointRef accessors; reader/writer dispatch for BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT added)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
