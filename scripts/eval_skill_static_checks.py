@@ -34,7 +34,7 @@ def collect_referenced_rules() -> Dict[str, int]:
 
 def check_continuity(top_level: List[str]) -> List[str]:
     findings: List[str] = []
-    expected = [f"{n:04d}" for n in range(1, 17)]
+    expected = [f"{n:04d}" for n in range(1, 19)]
     if top_level != expected:
         findings.append(f"top-level rule list is {top_level}, expected {expected}")
     seen = set()

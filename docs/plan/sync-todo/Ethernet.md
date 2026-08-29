@@ -898,7 +898,7 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
      trafficClassPreemptionSupport removal recorded per Rule 0015)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a re-verified 2026-08-28 — targeted model+writer tests green, mutation Red proof passed; 9b confirmed by user — # Spec verified: R23-11 applied, commit 0ff430d4)
-- [x] CouplingPortDetails (markdown SystemTemplate · Table 3.63 · p.122 · source Fibex4Ethernet/EthernetTopology.py · depends on CouplingPortTrafficClassAssignment above; fixes ethernetPriorityRegeneration / ethernetTrafficClassAssignment member types) — STAMP DEFERRED (batch 9b pending); GlobalTimeCouplingPortProps (Table 9.18) landed 2026-08-26, Step 9 unblocked
+- [x] CouplingPortDetails (markdown SystemTemplate · Table 3.63 · p.122 · source Fibex4Ethernet/EthernetTopology.py · depends on CouplingPortTrafficClassAssignment above; fixes ethernetPriorityRegeneration / ethernetTrafficClassAssignment member types) — **NOT STAMPED** — ratePolicy member gap (see Step 8/9 notes); GlobalTimeCouplingPortProps (Table 9.18) landed 2026-08-26, but 9b failed re-check 2026-08-29
   - [x] Step 1 — Sync members & description from spec
     (Table 3.63 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:3231–3248 + PDF p.122;
     Base ARObject; 5 attr rows; defaultTrafficClass/framePreemptionSupport/ratePolicies/vlanTranslationTables
@@ -914,9 +914,16 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
     (tracker: globalTimeProps ARObject placeholder — GlobalTimeCouplingPortProps Table 9.18 queued 2026-08-26 (see Member types ADDED);
-     four removed members documented per Rule 0015)
+     four removed members documented per Rule 0015;
+     **NEW 2026-08-29 re-check: ratePolicy member MISSING** — Table 3.63 + PDF p.122 + XSD RATE-POLICYS
+     (AUTOSAR_00052.xsd:23706) define ratePolicy → CouplingPortRatePolicy (*, aggr); earlier sync dropped
+     ratePolicies (plural) as "absent from table" but never re-added ratePolicy (singular); type classes
+     CouplingPortRatePolicy (Table 3.69) + CouplingPortRatePolicyActionEnum (Table 3.70) absent from codebase —
+     queued to Member types ADDED, consumer kept unstamped per user 2026-08-29)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b stamp DEFERRED to batch pass; globalTimeProps placeholder resolved once GlobalTimeCouplingPortProps landed)
+    (9a automated verification only — pytest 7406 passed, black/black-check/lint clean; 9b RE-CHECK 2026-08-29
+     FAILED — spec deviation ratePolicy found; NOT stamped; user chose "skip it and check next" — class deferred,
+     next class is OrderedMaster (Table 6.148))
 - [x] CouplingPort (markdown SystemTemplate · Table 3.54 · p.110 · source Fibex4Ethernet/EthernetTopology.py · member of EthernetCluster.couplingPorts & EthernetCommunicationController.couplingPorts; adds couplingPortSpeed, vlanModifierRef → EthernetPhysicalChannel Ref) — **STAMPED R23-11** — commit 2482fa9b: 6 of 7 member types landed 2026-08-26 (EthernetConnectionNegotiationEnum 3.55, CouplingPortRoleEnum F.38, EthernetMacLayerTypeEnum 3.56, EthernetPhysicalLayerTypeEnum 3.57, EthernetSwitchVlanIngressTagEnum 3.58, PlcaProps 3.117); MacSecProps (3.118) landed 2026-08-28 in its own sub-queue (a150ffd2) — # Spec verified: applied
   - [x] Step 1 — Sync members & description from spec
     (Table 3.54 page-split in markdown AUTOSAR_CP_TPS_SystemTemplate.md:2795–2825 + PDF p.110;

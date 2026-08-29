@@ -798,6 +798,22 @@ class TestAbstractAUTOSAR:
         assert result == autosar
         assert "AUTOSAR_4-0-3.xsd" in autosar.schema_location
 
+    def test_set_ar_release_4_3_1(self):
+        """Test the setARRelease method with release 4.3.1."""
+        autosar = AbstractAUTOSAR()
+
+        result = autosar.setARRelease("4.3.1")
+        assert result == autosar
+        assert "AUTOSAR_00044.xsd" in autosar.schema_location
+
+    def test_set_ar_release_4_4_0(self):
+        """Test the setARRelease method with release 4.4.0."""
+        autosar = AbstractAUTOSAR()
+
+        result = autosar.setARRelease("4.4.0")
+        assert result == autosar
+        assert "AUTOSAR_00046.xsd" in autosar.schema_location
+
     def test_set_ar_release_invalid(self):
         """Test the setARRelease method with invalid release."""
         autosar = AbstractAUTOSAR()
