@@ -555,7 +555,12 @@ class TestRoleBasedDataTypeAssignment:
 
         assert assignment.getRole() is None
 
-        assignment.setRole("TestRole")
+        result = assignment.setRole("TestRole")
+        assert result is assignment  # Method chaining
+        assert assignment.getRole() == "TestRole"
+
+        # None is a no-op
+        assignment.setRole(None)
         assert assignment.getRole() == "TestRole"
 
     def test_get_set_used_implementation_data_type_ref(self):
@@ -564,11 +569,13 @@ class TestRoleBasedDataTypeAssignment:
 
         assert assignment.getUsedImplementationDataTypeRef() is None
 
-        class MockRefType:
-            pass
+        ref_type = RefType().setValue("/AutosarTypes/ImplDataType")
+        result = assignment.setUsedImplementationDataTypeRef(ref_type)
+        assert result is assignment  # Method chaining
+        assert assignment.getUsedImplementationDataTypeRef() == ref_type
 
-        ref_type = MockRefType()
-        assignment.setUsedImplementationDataTypeRef(ref_type)
+        # None is a no-op
+        assignment.setUsedImplementationDataTypeRef(None)
         assert assignment.getUsedImplementationDataTypeRef() == ref_type
 
 
@@ -576,8 +583,15 @@ class TestServiceDiagnosticRelevanceEnum:
     def test_initialization(self):
         """Test ServiceDiagnosticRelevanceEnum initialization"""
         enum = ServiceDiagnosticRelevanceEnum()
+        assert enum.IS_NOT_RELEVANT == "isNotRelevant"
+        assert enum.IS_RELEVANT == "isRelevant"
+        assert "isNotRelevant" in enum.getEnumValues()
+        assert "isRelevant" in enum.getEnumValues()
 
-        assert enum.enumValues == []
+    def test_enum_values(self):
+        """Test ServiceDiagnosticRelevanceEnum literal values"""
+        assert ServiceDiagnosticRelevanceEnum.IS_NOT_RELEVANT == "isNotRelevant"
+        assert ServiceDiagnosticRelevanceEnum.IS_RELEVANT == "isRelevant"
 
 
 class TestServiceDependency:
@@ -596,22 +610,22 @@ class TestServiceDependency:
 
         assert service_dep is not None
         assert service_dep.getShortName() == "TestServiceDependency"
-        assert service_dep.assignedDataTypes == []
+        assert service_dep.assignedDataType is None
         assert service_dep.diagnosticRelevance is None
         assert service_dep.symbolicNameProps is None
 
     def test_get_assigned_data_types(self):
-        """Test getAssignedDataTypes method"""
+        """Test getAssignedDataType method"""
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
 
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         service_dep = SwcServiceDependency(ar_root, "TestServiceDependency")
 
-        assert service_dep.getAssignedDataTypes() == []
+        assert service_dep.getAssignedDataType() is None
 
     def test_add_assigned_data_type(self):
-        """Test addAssignedDataType method"""
+        """Test setAssignedDataType method"""
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
 
         parent = AUTOSAR.getInstance()
@@ -623,9 +637,9 @@ class TestServiceDependency:
 
         data_type = MockDataTypeAssignment()
 
-        result = service_dep.addAssignedDataType(data_type)
+        result = service_dep.setAssignedDataType(data_type)
         assert result is service_dep
-        assert service_dep.getAssignedDataTypes() == [data_type]
+        assert service_dep.getAssignedDataType() == data_type
 
     def test_get_set_diagnostic_relevance(self):
         """Test getDiagnosticRelevance and setDiagnosticRelevance methods"""
@@ -637,9 +651,13 @@ class TestServiceDependency:
 
         assert service_dep.getDiagnosticRelevance() is None
 
-        enum_val = ServiceDiagnosticRelevanceEnum()
+        enum_val = ServiceDiagnosticRelevanceEnum.IS_RELEVANT
         result = service_dep.setDiagnosticRelevance(enum_val)
         assert result is service_dep
+        assert service_dep.getDiagnosticRelevance() == enum_val
+
+        # None is a no-op
+        service_dep.setDiagnosticRelevance(None)
         assert service_dep.getDiagnosticRelevance() == enum_val
 
     def test_get_set_symbolic_name_props(self):

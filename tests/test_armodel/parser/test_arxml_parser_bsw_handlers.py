@@ -582,14 +582,48 @@ class TestExecutableEntityAndInternalBehaviorHandlers:
             "<EXCLUSIVE-AREAS>"
             "<EXCLUSIVE-AREA><SHORT-NAME>ea1</SHORT-NAME></EXCLUSIVE-AREA>"
             "</EXCLUSIVE-AREAS>"
+            "<CONSTANT-VALUE-MAPPING-REFS>"
+            "<CONSTANT-VALUE-MAPPING-REF DEST='CONSTANT-SPECIFICATION-MAPPING-SET'>/cvm</CONSTANT-VALUE-MAPPING-REF>"
+            "</CONSTANT-VALUE-MAPPING-REFS>"
             "<DATA-TYPE-MAPPING-REFS>"
             "<DATA-TYPE-MAPPING-REF DEST='DATA-TYPE-MAPPING-SET'>/m</DATA-TYPE-MAPPING-REF>"
             "</DATA-TYPE-MAPPING-REFS>",
             root_tag="BH",
         )
         parser.readInternalBehavior(element, behavior)
-        assert len(behavior.getExclusiveAreas()) == 1
-        assert len(behavior.getDataTypeMappingRefs()) == 1
+        areas = behavior.getExclusiveAreas()
+        assert len(areas) == 1
+        assert areas[0].getShortName() == "ea1"
+        assert areas[0].getParent() is behavior
+        cvm_refs = behavior.getConstantValueMappingRefs()
+        assert len(cvm_refs) == 1
+        assert cvm_refs[0].getValue() == "/cvm"
+        assert cvm_refs[0].getDest() == "CONSTANT-SPECIFICATION-MAPPING-SET"
+        dtm_refs = behavior.getDataTypeMappingRefs()
+        assert len(dtm_refs) == 1
+        assert dtm_refs[0].getValue() == "/m"
+
+    def test_readInternalBehavior_exclusive_areas_empty_wrapper(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<SHORT-NAME>bh</SHORT-NAME>" "<EXCLUSIVE-AREAS>" "</EXCLUSIVE-AREAS>",
+            root_tag="BH",
+        )
+        parser.readInternalBehavior(element, behavior)
+        assert behavior.getExclusiveAreas() == []
+
+    def test_readInternalBehavior_constant_value_mapping_refs_empty_wrapper(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<SHORT-NAME>bh</SHORT-NAME>" "<CONSTANT-VALUE-MAPPING-REFS>" "</CONSTANT-VALUE-MAPPING-REFS>",
+            root_tag="BH",
+        )
+        parser.readInternalBehavior(element, behavior)
+        assert behavior.getConstantValueMappingRefs() == []
 
     def test_readInternalBehavior_exclusive_area_nesting_orders(self, parser):
         from armodel.models import BswInternalBehavior
@@ -741,6 +775,38 @@ class TestBswModuleEntityHandlers:
         parser.readBswModuleEntityCallPoints(element, entity)
         assert len(entity.getCallPoints()) == 1
 
+    def test_readBswAsynchronousServerCallResultPoint_sets_ref(self, parser):
+        from armodel.models import BswAsynchronousServerCallResultPoint
+
+        point = BswAsynchronousServerCallResultPoint(parent=_autosar_root(), short_name="rp")
+        element = _snip(
+            "<SHORT-NAME>rp</SHORT-NAME>" "<ASYNCHRONOUS-SERVER-CALL-POINT-REF DEST='BSW-ASYNCHRONOUS-SERVER-CALL-POINT'>/acp</ASYNCHRONOUS-SERVER-CALL-POINT-REF>",
+            root_tag="BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT",
+        )
+        parser.readBswAsynchronousServerCallResultPoint(element, point)
+        assert point.getAsynchronousServerCallPointRef().getValue() == "/acp"
+        assert point.getAsynchronousServerCallPointRef().getDest() == "BSW-ASYNCHRONOUS-SERVER-CALL-POINT"
+
+    def test_readBswModuleEntityCallPoints_result_point(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        entity = behavior.createBswSchedulableEntity("e")
+        element = _snip(
+            "<CALL-POINTS>"
+            "<BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT>"
+            "<SHORT-NAME>rp</SHORT-NAME>"
+            "<ASYNCHRONOUS-SERVER-CALL-POINT-REF DEST='BSW-ASYNCHRONOUS-SERVER-CALL-POINT'>/acp</ASYNCHRONOUS-SERVER-CALL-POINT-REF>"
+            "</BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT>"
+            "</CALL-POINTS>",
+            root_tag="ENTITY",
+        )
+        parser.readBswModuleEntityCallPoints(element, entity)
+        points = entity.getCallPoints()
+        assert len(points) == 1
+        assert points[0].getShortName() == "rp"
+        assert points[0].getAsynchronousServerCallPointRef().getValue() == "/acp"
+
     def test_readBswModuleEntityCallPoints_sync(self, parser):
         from armodel.models import BswInternalBehavior
 
@@ -880,6 +946,90 @@ class TestBswEntityDispatch:
         with caplog.at_level(logging.ERROR):
             warning_parser.readBswInternalBehaviorEntities(element, behavior)
         assert any("Unsupported BswModuleEntity" in r.getMessage() for r in caplog.records)
+
+    def test_readBswInternalBehavior_scheduler_name_prefixes(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<SCHEDULER-NAME-PREFIXS>"
+            "<BSW-SCHEDULER-NAME-PREFIX><SHORT-NAME>p1</SHORT-NAME><SYMBOL>SchM_pre_</SYMBOL></BSW-SCHEDULER-NAME-PREFIX>"
+            "<BSW-SCHEDULER-NAME-PREFIX><SHORT-NAME>p2</SHORT-NAME></BSW-SCHEDULER-NAME-PREFIX>"
+            "</SCHEDULER-NAME-PREFIXS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehavior(element, behavior)
+        prefixes = behavior.getSchedulerNamePrefixes()
+        assert len(prefixes) == 2
+        assert prefixes[0].getShortName() == "p1"
+        assert prefixes[0].getSymbol().getValue() == "SchM_pre_"
+        assert prefixes[1].getSymbol() is None
+
+    def test_readBswInternalBehavior_scheduler_name_prefixes_empty_wrapper(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<SCHEDULER-NAME-PREFIXS>" "</SCHEDULER-NAME-PREFIXS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehavior(element, behavior)
+        assert behavior.getSchedulerNamePrefixes() == []
+
+    def test_readBswInternalBehavior_distinguished_partitions(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<DISTINGUISHED-PARTITIONS>"
+            "<BSW-DISTINGUISHED-PARTITION><SHORT-NAME>master</SHORT-NAME></BSW-DISTINGUISHED-PARTITION>"
+            "<BSW-DISTINGUISHED-PARTITION><SHORT-NAME>satellite</SHORT-NAME></BSW-DISTINGUISHED-PARTITION>"
+            "</DISTINGUISHED-PARTITIONS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehavior(element, behavior)
+        partitions = behavior.getDistinguishedPartitions()
+        assert len(partitions) == 2
+        assert partitions[0].getShortName() == "master"
+        assert partitions[1].getShortName() == "satellite"
+        assert partitions[0].getParent() is behavior
+
+    def test_readBswInternalBehavior_distinguished_partitions_empty_wrapper(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<DISTINGUISHED-PARTITIONS>" "</DISTINGUISHED-PARTITIONS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehavior(element, behavior)
+        assert behavior.getDistinguishedPartitions() == []
+
+    def test_readBswInternalBehaviorEvents_interrupt_event(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<EVENTS>" "<BSW-INTERRUPT-EVENT><SHORT-NAME>ie1</SHORT-NAME></BSW-INTERRUPT-EVENT>" "</EVENTS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorEvents(element, behavior)
+        events = behavior.getBswEvents()
+        assert len(events) == 1
+        assert events[0].getShortName() == "ie1"
+
+    def test_readBswInternalBehaviorEvents_os_task_execution_event(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<EVENTS>" "<BSW-OS-TASK-EXECUTION-EVENT><SHORT-NAME>ote1</SHORT-NAME></BSW-OS-TASK-EXECUTION-EVENT>" "</EVENTS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorEvents(element, behavior)
+        events = behavior.getBswEvents()
+        assert len(events) == 1
+        assert events[0].getShortName() == "ote1"
 
 
 # ==================== BSW Events ====================

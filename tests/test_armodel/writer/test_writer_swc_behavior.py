@@ -377,12 +377,43 @@ class TestWriterInternalBehavior:
         areas = parent.find("EXCLUSIVE-AREAS")
         assert areas is not None
         assert areas[0].tag == "EXCLUSIVE-AREA"
+        assert areas[0].find("SHORT-NAME").text == "ea1"
+
+    def test_writeExclusiveAreas_multiple(self, writer):
+        behavior = _make_behavior()
+        behavior.createExclusiveArea("ea1")
+        behavior.createExclusiveArea("ea2")
+        parent = _parent()
+        writer.writeExclusiveAreas(parent, behavior)
+        areas = parent.find("EXCLUSIVE-AREAS")
+        names = [a.find("SHORT-NAME").text for a in areas.findall("EXCLUSIVE-AREA")]
+        assert names == ["ea1", "ea2"]
 
     def test_writeExclusiveAreas_empty(self, writer):
         behavior = _make_behavior()
         parent = _parent()
         writer.writeExclusiveAreas(parent, behavior)
         assert parent.find("EXCLUSIVE-AREAS") is None
+
+    def test_writeConstantValueMappingRefs(self, writer):
+        behavior = _make_behavior()
+        behavior.addConstantValueMappingRef(_ref("/cvm1", "CONSTANT-SPECIFICATION-MAPPING-SET"))
+        behavior.addConstantValueMappingRef(_ref("/cvm2", "CONSTANT-SPECIFICATION-MAPPING-SET"))
+        parent = _parent()
+        writer.writeInternalBehaviorConstantValueMappingRefs(parent, behavior)
+        refs_tag = parent.find("CONSTANT-VALUE-MAPPING-REFS")
+        assert refs_tag is not None
+        refs = refs_tag.findall("CONSTANT-VALUE-MAPPING-REF")
+        assert len(refs) == 2
+        assert refs[0].text == "/cvm1"
+        assert refs[0].get("DEST") == "CONSTANT-SPECIFICATION-MAPPING-SET"
+        assert refs[1].text == "/cvm2"
+
+    def test_writeConstantValueMappingRefs_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeInternalBehaviorConstantValueMappingRefs(parent, behavior)
+        assert parent.find("CONSTANT-VALUE-MAPPING-REFS") is None
 
     def test_writeExclusiveAreaNestingOrders(self, writer):
         behavior = _make_behavior()
@@ -1043,14 +1074,17 @@ class TestWriterServiceDependency:
         elem = parent.find("ROLE-BASED-DATA-TYPE-ASSIGNMENT")
         assert elem is not None
         assert elem.find("ROLE").text == "role1"
-        assert elem.find("USED-IMPLEMENTATION-DATA-TYPE-REF") is not None
+        ref_elem = elem.find("USED-IMPLEMENTATION-DATA-TYPE-REF")
+        assert ref_elem is not None
+        assert ref_elem.text == "/idt"
+        assert ref_elem.get("DEST") == "IMPLEMENTATION-DATA-TYPE"
 
     def test_writeServiceDependencyAssignedDataType(self, writer):
         behavior = _make_behavior()
         dep = behavior.createSwcServiceDependency("dep1")
         a = RoleBasedDataTypeAssignment()
         a.setRole(_literal("role1"))
-        dep.addAssignedDataType(a)
+        dep.setAssignedDataType(a)
         parent = _parent()
         writer.writeServiceDependencyAssignedDataType(parent, dep)
         adt = parent.find("ASSIGNED-DATA-TYPES")
@@ -1069,11 +1103,21 @@ class TestWriterServiceDependency:
         dep = behavior.createSwcServiceDependency("dep1")
         a = RoleBasedDataTypeAssignment()
         a.setRole(_literal("r1"))
-        dep.addAssignedDataType(a)
+        dep.setAssignedDataType(a)
+        dep.setDiagnosticRelevance(_literal("isRelevant"))
         parent = _parent()
         writer.writeServiceDependency(parent, dep)
         assert parent.find("SHORT-NAME").text == "dep1"
         assert parent.find("ASSIGNED-DATA-TYPES") is not None
+        assert parent.find("DIAGNOSTIC-RELEVANCE").text == "isRelevant"
+        assert parent.find("SYMBOLIC-NAME-PROPS") is None
+
+    def test_writeServiceDependency_no_diagnostic_relevance(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        parent = _parent()
+        writer.writeServiceDependency(parent, dep)
+        assert parent.find("DIAGNOSTIC-RELEVANCE") is None
 
     def test_writeRoleBasedDataAssignment(self, writer):
         a = RoleBasedDataAssignment()
@@ -1152,7 +1196,7 @@ class TestWriterServiceDependency:
         dep = behavior.createSwcServiceDependency("dep1")
         a = RoleBasedDataTypeAssignment()
         a.setRole(_literal("r1"))
-        dep.addAssignedDataType(a)
+        dep.setAssignedDataType(a)
         parent = _parent()
         writer.writeSwcServiceDependency(parent, dep)
         ssd = parent.find("SWC-SERVICE-DEPENDENCY")

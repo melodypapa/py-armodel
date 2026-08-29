@@ -5,9 +5,8 @@ This test ensures that all model classes defined in the codebase can be
 imported from the top-level `armodel` module, confirming that wildcard imports
 are properly configured throughout the package structure.
 
-Known limitation: 6 classes in subdirectories with name collisions cannot be
+Known limitation: 4 classes in subdirectories with name collisions cannot be
 directly imported and are excluded from this test:
-- BswBehavior/*.py files (2 classes)
 - BswInterfaces/*.py files (3 classes)
 - BswOverview/InstanceRefs/*.py files (1 class)
 """
@@ -23,9 +22,6 @@ import armodel
 # Classes that cannot be imported directly due to name collisions
 # These are accessible via their full import paths instead
 KNOWN_NAME_COLLISION_CLASSES = {
-    # BswBehavior/*.py files (2 classes)
-    "BswInterruptEvent",
-    "BswSchedulerNamePrefix",
     # BswInterfaces/*.py files (3 classes)
     "BswEntryRelationship",
     "BswEntryRelationshipEnum",

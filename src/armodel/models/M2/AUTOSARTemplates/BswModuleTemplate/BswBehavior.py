@@ -18,6 +18,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRefs import ModeInBswModuleDescriptionInstanceRef
 
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent, ApiPrincipleEnum, ExecutableEntity, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceDependency, ServiceNeeds
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -85,44 +86,36 @@ class BswModuleCallPoint(Referrable, ABC):
 
 class BswAsynchronousServerCallPoint(BswModuleCallPoint):
     """
-    Represents an asynchronous server call point in a BSW module.
-    This call point is used when the server operation is executed asynchronously.
+    Represents an asynchronous procedure call point via the BSW Scheduler.
     """
 
     # BswAsynchronousServerCallPoint method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getCalledEntryRef            [x] impl  [x] docstring  [ ] test
-    # [x] setCalledEntryRef            [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.13, p.80
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCalledEntryRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCalledEntryRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswAsynchronousServerCallPoint with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this call point
-            short_name: The unique short name of this call point
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the entry that is called by this asynchronous call point
-        self.calledEntryRef: RefType = None
+        # The entry to be called.
+        self.calledEntryRef: Optional[RefType] = None
 
-    def getCalledEntryRef(self):
+    def getCalledEntryRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the entry that is called by this call point.
-
-        Returns:
-            Reference to the called entry
+        The entry to be called.
         """
         return self.calledEntryRef
 
-    def setCalledEntryRef(self, value):
+    def setCalledEntryRef(self, value: Optional[RefType]) -> "BswAsynchronousServerCallPoint":
         """
-        Sets the reference to the entry that is called by this call point.
+        The entry to be called.
         Only sets the value if it is not None.
 
         Args:
-            value: The entry reference to set
+            value: The reference to the entry to be called
 
         Returns:
             self for method chaining
@@ -288,25 +281,60 @@ class BswSynchronousServerCallPoint(BswModuleCallPoint):
 
 class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
     """
-    Represents a result point for an asynchronous server call in a BSW module.
-    This defines where the result of the asynchronous call is handled.
+    The callback point for an BswAsynchronousServerCallPoint i.e. the point at
+    which the result can be retrieved from the BSW Scheduler.
     """
 
     # BswAsynchronousServerCallResultPoint method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.14, p.80
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getAsynchronousServerCallPointRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setAsynchronousServerCallPointRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswAsynchronousServerCallResultPoint with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this call point
-            short_name: The unique short name of this call point
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the asynchronous server call point
-        self.asynchronousServerCallPointRef: RefType = None
+        # The call point invoking the call to which the result belongs.
+        self.asynchronousServerCallPointRef: Optional[RefType] = None
+
+    def getAsynchronousServerCallPointRef(self) -> Optional[RefType]:
+        """
+        The call point invoking the call to which the result belongs.
+        """
+        return self.asynchronousServerCallPointRef
+
+    def setAsynchronousServerCallPointRef(self, value: Optional[RefType]) -> "BswAsynchronousServerCallResultPoint":
+        """
+        The call point invoking the call to which the result belongs.
+        Only sets the value if it is not None.
+
+        Args:
+            value: The reference to the call point invoking the call
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.asynchronousServerCallPointRef = value
+        return self
+
+
+class BswSchedulerNamePrefix(ImplementationProps):
+    """
+    A prefix to be used in names of generated code artifacts which make up the
+    interface of a BSW module to the BswScheduler.
+    """
+
+    # BswSchedulerNamePrefix method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.20, p.86
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class BswVariableAccess(Referrable):
@@ -392,16 +420,12 @@ class BswDistinguishedPartition(Referrable):
     """
 
     # BswDistinguishedPartition method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.50, p.118
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswDistinguishedPartition with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this distinguished partition
-            short_name: The unique short name of this distinguished partition
-        """
         super().__init__(parent, short_name)
 
 
@@ -541,6 +565,24 @@ class BswModuleEntity(ExecutableEntity, ABC):
             self.addElement(access)
             self.callPoints.append(access)
         return self.getElement(short_name, BswAsynchronousServerCallPoint)
+
+    def createBswAsynchronousServerCallResultPoint(self, short_name: str) -> "BswAsynchronousServerCallResultPoint":
+        """
+        Creates and adds a BswAsynchronousServerCallResultPoint to the call
+        points used in the code of this entity. Returns the existing call point
+        if the short name is already present.
+
+        Args:
+            short_name: The short name for the new result point
+
+        Returns:
+            The created BswAsynchronousServerCallResultPoint instance
+        """
+        if not self.IsElementExists(short_name):
+            access = BswAsynchronousServerCallResultPoint(self, short_name)
+            self.addElement(access)
+            self.callPoints.append(access)
+        return self.getElement(short_name)
 
     def createBswSynchronousServerCallPoint(self, short_name: str) -> BswSynchronousServerCallPoint:
         """
@@ -713,41 +755,33 @@ class BswModuleEntity(ExecutableEntity, ABC):
 
 class BswCalledEntity(BswModuleEntity):
     """
-    Represents a BSW module entity that can be called by other entities.
-    This is typically used for BSW service functions that can be invoked.
+    BSW module entity which is designed to be called from another BSW module
+    or cluster.
     """
 
     # BswCalledEntity method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.6, p.74
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswCalledEntity with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this entity
-            short_name: The unique short name of this entity
-        """
         super().__init__(parent, short_name)
 
 
 class BswSchedulableEntity(BswModuleEntity):
     """
-    Represents a BSW module entity that can be scheduled for execution.
-    This is typically used for BSW functions that can be scheduled by the OS.
+    BSW module entity, which is designed for control by the BSW Scheduler. It
+    may for example implement a so-called "main" function.
     """
 
     # BswSchedulableEntity method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.7, p.75
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswSchedulableEntity with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this entity
-            short_name: The unique short name of this entity
-        """
         super().__init__(parent, short_name)
 
 
@@ -953,6 +987,21 @@ class BswEvent(AbstractEvent, ABC):
         if value is not None:
             self.startsOnEventRef = value
         return self
+
+
+class BswInterruptEvent(BswEvent):
+    """
+    This meta-class represents an event triggered by an interrupt.
+    """
+
+    # BswInterruptEvent method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.24, p.88
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
 
 
 class BswOperationInvokedEvent(BswEvent):
@@ -1707,41 +1756,38 @@ class BswModeReceiverPolicy(ARObject):
 
 class BswBackgroundEvent(BswScheduleEvent):
     """
-    Represents a background event in a BSW module.
-    This event runs in the background, typically with lower priority.
+    A recurring BswEvent which is used to perform background activities. It is
+    similar to a BswTimingEvent but has no fixed time period and is activated
+    only with low priority.
     """
 
     # BswBackgroundEvent method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.26, p.89
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
-    def __init__(self, parent, short_name):
-        """
-        Initializes the BswBackgroundEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class BswOsTaskExecutionEvent(BswScheduleEvent):
     """
-    Represents an OS task execution event in a BSW module.
-    This event is triggered when an OS task is executed.
+    This BswEvent is supposed to execute BswSchedulableEntitys which have to
+    react on the execution of specific OsTasks. Therefore, this event is
+    unconditionally raised whenever the OsTask on which it is mapped is
+    executed. The main use case for this event is scheduling of Runnables of
+    Complex Drivers which have to react on task executions.
+    Tags: atp.Status=draft
     """
 
     # BswOsTaskExecutionEvent method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.27, p.89
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
 
-    def __init__(self, parent, short_name):
-        """
-        Initializes the BswOsTaskExecutionEvent with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this event
-            short_name: The unique short name of this event
-        """
+    def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
@@ -2548,6 +2594,24 @@ class BswInternalBehavior(InternalBehavior):
         """
         return self.distinguishedPartitions
 
+    def createDistinguishedPartition(self, short_name: str) -> BswDistinguishedPartition:
+        """
+        Creates and adds a BswDistinguishedPartition to this behavior's
+        distinguished partitions. Returns the existing partition if the short
+        name is already present.
+
+        Args:
+            short_name: The short name for the new distinguished partition
+
+        Returns:
+            The created BswDistinguishedPartition instance
+        """
+        if not self.IsElementExists(short_name):
+            partition = BswDistinguishedPartition(self, short_name)
+            self.addElement(partition)
+            self.distinguishedPartitions.append(partition)
+        return self.getElement(short_name)
+
     def setDistinguishedPartitions(self, value):
         """
         Sets the list of BSW distinguished partitions.
@@ -2756,7 +2820,7 @@ class BswInternalBehavior(InternalBehavior):
             self.releasedTriggerPolicies = value
         return self
 
-    def getSchedulerNamePrefixes(self):
+    def getSchedulerNamePrefixes(self) -> List["BswSchedulerNamePrefix"]:
         """
         Gets the list of BSW scheduler name prefixes.
 
@@ -2764,6 +2828,24 @@ class BswInternalBehavior(InternalBehavior):
             List of BswSchedulerNamePrefix instances
         """
         return self.schedulerNamePrefixes
+
+    def createSchedulerNamePrefix(self, short_name: str) -> "BswSchedulerNamePrefix":
+        """
+        Creates and adds a BswSchedulerNamePrefix to this behavior's scheduler
+        name prefixes. Returns the existing prefix if the short name is already
+        present.
+
+        Args:
+            short_name: The short name for the new scheduler name prefix
+
+        Returns:
+            The created BswSchedulerNamePrefix instance
+        """
+        if not self.IsElementExists(short_name):
+            prefix = BswSchedulerNamePrefix(self, short_name)
+            self.addElement(prefix)
+            self.schedulerNamePrefixes.append(prefix)
+        return self.getElement(short_name)
 
     def setSchedulerNamePrefixes(self, value):
         """
@@ -3153,6 +3235,39 @@ class BswInternalBehavior(InternalBehavior):
         """
         if not self.IsElementExists(short_name):
             event = BswBackgroundEvent(self, short_name)
+            self.addElement(event)
+            self.events.append(event)
+        return self.getElement(short_name)
+
+    def createBswInterruptEvent(self, short_name: str) -> BswEvent:
+        """
+        Creates and adds a BswInterruptEvent to this internal behavior.
+
+        Args:
+            short_name: The short name for the new interrupt event
+
+        Returns:
+            The created BswInterruptEvent instance
+        """
+
+        if not self.IsElementExists(short_name):
+            event = BswInterruptEvent(self, short_name)
+            self.addElement(event)
+            self.events.append(event)
+        return self.getElement(short_name)
+
+    def createBswOsTaskExecutionEvent(self, short_name: str) -> BswOsTaskExecutionEvent:
+        """
+        Creates and adds a BswOsTaskExecutionEvent to this internal behavior.
+
+        Args:
+            short_name: The short name for the new OS task execution event
+
+        Returns:
+            The created BswOsTaskExecutionEvent instance
+        """
+        if not self.IsElementExists(short_name):
+            event = BswOsTaskExecutionEvent(self, short_name)
             self.addElement(event)
             self.events.append(event)
         return self.getElement(short_name)

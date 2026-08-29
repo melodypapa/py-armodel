@@ -3101,11 +3101,32 @@ class TestRoleBasedDataTypeAssignment:
 
         dep = SwcServiceDependency(parent=_autosar_root(), short_name="Dep")
         element = _snip(
-            "<ASSIGNED-DATA-TYPES>" "<ROLE-BASED-DATA-TYPE-ASSIGNMENT>" "<ROLE>r</ROLE>" "</ROLE-BASED-DATA-TYPE-ASSIGNMENT>" "</ASSIGNED-DATA-TYPES>",
+            "<ASSIGNED-DATA-TYPES>"
+            "<ROLE-BASED-DATA-TYPE-ASSIGNMENT>"
+            "<ROLE>r</ROLE>"
+            "<USED-IMPLEMENTATION-DATA-TYPE-REF DEST='IMPLEMENTATION-DATA-TYPE'>/dt/Impl</USED-IMPLEMENTATION-DATA-TYPE-REF>"
+            "</ROLE-BASED-DATA-TYPE-ASSIGNMENT>"
+            "</ASSIGNED-DATA-TYPES>",
             root_tag="SERVICE-DEPENDENCY",
         )
         parser.readServiceDependency(element, dep)
-        assert len(dep.getAssignedDataTypes()) == 1
+        assigned = dep.getAssignedDataType()
+        assert assigned is not None
+        assert assigned.getRole().getValue() == "r"
+        assert assigned.getUsedImplementationDataTypeRef().getValue() == "/dt/Impl"
+        assert assigned.getUsedImplementationDataTypeRef().getDest() == "IMPLEMENTATION-DATA-TYPE"
+
+    def test_readServiceDependency_with_diagnostic_relevance(self, parser):
+        from armodel.models import SwcServiceDependency
+
+        dep = SwcServiceDependency(parent=_autosar_root(), short_name="Dep")
+        element = _snip(
+            "<DIAGNOSTIC-RELEVANCE>isRelevant</DIAGNOSTIC-RELEVANCE>",
+            root_tag="SERVICE-DEPENDENCY",
+        )
+        parser.readServiceDependency(element, dep)
+        assert dep.getDiagnosticRelevance() is not None
+        assert dep.getDiagnosticRelevance().getValue() == "isRelevant"
 
     def test_readServiceDependency_unsupported_warns(self, warning_parser, caplog):
         from armodel.models import SwcServiceDependency

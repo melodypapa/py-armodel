@@ -49,6 +49,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRe
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds, RoleBasedDataAssignment, RoleBasedDataTypeAssignment, SymbolicNameProps
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, Identifier, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 
@@ -220,6 +221,25 @@ class TestBswAsynchronousServerCallResultPoint:
         async_result_point = BswAsynchronousServerCallResultPoint(ar_root, "test_async_result")
 
         assert async_result_point.short_name == "test_async_result"
+        assert async_result_point.getAsynchronousServerCallPointRef() is None
+
+    def test_get_set_asynchronous_server_call_point_ref(self):
+        """get/set round-trip, chaining, None is a no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        result_point = BswAsynchronousServerCallResultPoint(ar_root, "test_async_result")
+
+        ref = RefType().setValue("/CP/async_call_point")
+        ref.setDest("BSW-ASYNCHRONOUS-SERVER-CALL-POINT")
+        result = result_point.setAsynchronousServerCallPointRef(ref)
+
+        assert result is result_point
+        assert result_point.getAsynchronousServerCallPointRef() == ref
+
+        # None is a no-op
+        result = result_point.setAsynchronousServerCallPointRef(None)
+        assert result is result_point
+        assert result_point.getAsynchronousServerCallPointRef() == ref
 
 
 class TestBswVariableAccess:
@@ -474,6 +494,9 @@ class TestBswCalledEntity:
         entity = BswCalledEntity(ar_root, "test_called_entity")
 
         assert entity.short_name == "test_called_entity"
+        assert entity.getShortName() == "test_called_entity"
+        assert isinstance(entity, BswModuleEntity)
+        assert entity.getParent() is ar_root
 
 
 class TestBswSchedulableEntity:
@@ -485,6 +508,9 @@ class TestBswSchedulableEntity:
         entity = BswSchedulableEntity(ar_root, "test_schedulable_entity")
 
         assert entity.short_name == "test_schedulable_entity"
+        assert entity.getShortName() == "test_schedulable_entity"
+        assert isinstance(entity, BswModuleEntity)
+        assert entity.getParent() is ar_root
 
 
 class TestBswInterruptCategory:
@@ -1079,6 +1105,9 @@ class TestBswBackgroundEvent:
         event = BswBackgroundEvent(ar_root, "test_background_event")
 
         assert event.short_name == "test_background_event"
+        assert event.getShortName() == "test_background_event"
+        assert isinstance(event, BswScheduleEvent)
+        assert event.getParent() is ar_root
 
 
 class TestBswOsTaskExecutionEvent:
@@ -1090,6 +1119,9 @@ class TestBswOsTaskExecutionEvent:
         event = BswOsTaskExecutionEvent(ar_root, "test_os_task_event")
 
         assert event.short_name == "test_os_task_event"
+        assert event.getShortName() == "test_os_task_event"
+        assert isinstance(event, BswScheduleEvent)
+        assert event.getParent() is ar_root
 
 
 class TestBswExternalTriggerOccurredEvent:
@@ -1820,6 +1852,23 @@ class TestBswDistinguishedPartition:
         partition = BswDistinguishedPartition(ar_root, "test_partition")
 
         assert partition.short_name == "test_partition"
+        assert partition.getShortName() == "test_partition"
+        assert partition.getParent() is ar_root
+
+    def test_no_own_attributes_beyond_referrable(self):
+        """BswDistinguishedPartition has no spec attributes of its own (Table 5.50)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+
+        class ReferrableProbe(Referrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        probe = ReferrableProbe(ar_root, "probe")
+        partition = BswDistinguishedPartition(ar_root, "test_partition")
+
+        own = set(vars(partition)) - set(vars(probe))
+        assert own == set()
 
 
 class TestBswServiceDependencyIdent:
@@ -1923,12 +1972,12 @@ class TestBswServiceDependency:
     def test_add_assigned_data_type_none_is_noop(self):
         dependency = BswServiceDependency()
         data_type = RoleBasedDataTypeAssignment()
-        dependency.addAssignedDataType(data_type)
+        dependency.setAssignedDataType(data_type)
 
-        result = dependency.addAssignedDataType(None)
+        result = dependency.setAssignedDataType(None)
 
         assert result == dependency
-        assert dependency.getAssignedDataTypes() == [data_type]
+        assert dependency.getAssignedDataType() == data_type
 
     def test_get_set_ident(self):
         dependency = BswServiceDependency()

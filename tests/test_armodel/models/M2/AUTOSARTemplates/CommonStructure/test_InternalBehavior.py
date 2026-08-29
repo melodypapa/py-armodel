@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import 
     InternalBehavior,
     ReentrancyLevelEnum,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
 
 
@@ -59,13 +60,30 @@ class TestApiPrincipleEnum:
 
 class TestExclusiveArea:
     def test_initialization(self):
-        """Test ExclusiveArea initialization"""
+        """Test ExclusiveArea initialization with Identifiable base and no own attributes."""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         exclusive_area = ExclusiveArea(ar_root, "TestExclusiveArea")
 
         assert exclusive_area is not None
+        assert isinstance(exclusive_area, Identifiable)
         assert exclusive_area.getShortName() == "TestExclusiveArea"
+        assert exclusive_area.getParent() is ar_root
+
+    def test_no_own_attributes_beyond_identifiable(self):
+        """ExclusiveArea has no spec attributes of its own (Table 5.16)."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class IdentifiableProbe(Identifiable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        probe = IdentifiableProbe(ar_root, "Probe")
+        exclusive_area = ExclusiveArea(ar_root, "TestExclusiveArea")
+
+        own = set(vars(exclusive_area)) - set(vars(probe))
+        assert own == set()
 
 
 class TestExecutableEntity:
@@ -490,6 +508,45 @@ class TestInternalBehavior:
         # Note: getConstantMemories returns elements in insertion order, not sorted by default
         assert memories[0] == constant_memory1
         assert memories[1] == constant_memory2
+
+    def test_add_constant_value_mapping_ref(self):
+        """Test addConstantValueMappingRef appends refs, returns self, None is a no-op."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteInternalBehavior(InternalBehavior):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
+
+        ref1 = RefType().setValue("ConstantMapping1")
+        ref2 = RefType().setValue("ConstantMapping2")
+
+        result = internal_behavior.addConstantValueMappingRef(ref1)
+        assert result is internal_behavior  # Method chaining
+        internal_behavior.addConstantValueMappingRef(ref2)
+
+        refs = internal_behavior.getConstantValueMappingRefs()
+        assert len(refs) == 2
+        assert refs[0] == ref1
+        assert refs[1] == ref2
+
+        # None is a no-op
+        internal_behavior.addConstantValueMappingRef(None)
+        assert len(internal_behavior.getConstantValueMappingRefs()) == 2
+
+    def test_get_constant_value_mapping_refs(self):
+        """Test getConstantValueMappingRefs returns an empty list initially."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteInternalBehavior(InternalBehavior):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        internal_behavior = ConcreteInternalBehavior(ar_root, "TestInternalBehavior")
+        assert internal_behavior.getConstantValueMappingRefs() == []
 
     def test_add_data_type_mapping_ref(self):
         """Test addDataTypeMappingRef method"""

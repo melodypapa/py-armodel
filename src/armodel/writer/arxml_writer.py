@@ -5,17 +5,22 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswApiOptions,
     BswAsynchronousServerCallPoint,
+    BswAsynchronousServerCallResultPoint,
     BswAsynchronousServerCallReturnsEvent,
     BswBackgroundEvent,
     BswCalledEntity,
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
+    BswDistinguishedPartition,
+    BswOsTaskExecutionEvent,
+    BswSchedulerNamePrefix,
     BswEvent,
     BswExternalTriggerOccurredEvent,
     BswInternalBehavior,
     BswInternalTriggeringPoint,
     BswInternalTriggerOccurredEvent,
     BswInterruptEntity,
+    BswInterruptEvent,
     BswModeManagerErrorEvent,
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
@@ -2924,6 +2929,13 @@ class ARXMLWriter(AbstractARXMLWriter):
                     for ref in refs:
                         self.setChildElementOptionalRefType(refs_tag, "EXCLUSIVE-AREA-REF", ref)
 
+    def writeInternalBehaviorConstantValueMappingRefs(self, element: ET.Element, behavior: InternalBehavior):
+        refs = behavior.getConstantValueMappingRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "CONSTANT-VALUE-MAPPING-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "CONSTANT-VALUE-MAPPING-REF", ref)
+
     def writeDataTypeMappingRefs(self, element: ET.Element, behavior: InternalBehavior):
         refs = behavior.getDataTypeMappingRefs()
         if len(refs) > 0:
@@ -2942,6 +2954,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeInternalBehavior(self, element: ET.Element, behavior: InternalBehavior):
         self.writeIdentifiable(element, behavior)
         self.writeSwcInternalBehaviorParameterDataPrototypes(element, "CONSTANT-MEMORYS", behavior.getConstantMemories())
+        self.writeInternalBehaviorConstantValueMappingRefs(element, behavior)
         self.writeDataTypeMappingRefs(element, behavior)
         self.writeExclusiveAreas(element, behavior)
         self.writeExclusiveAreaNestingOrders(element, behavior)
@@ -4104,22 +4117,22 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeRoleBasedDataTypeAssignment(self, element: ET.Element, assignment: RoleBasedDataTypeAssignment):
         child_element = ET.SubElement(element, "ROLE-BASED-DATA-TYPE-ASSIGNMENT")
-        self.setChildElementOptionalLiteral(child_element, "ROLE", assignment.role)
-        self.setChildElementOptionalRefType(child_element, "USED-IMPLEMENTATION-DATA-TYPE-REF", assignment.usedImplementationDataTypeRef)
+        self.setChildElementOptionalLiteral(child_element, "ROLE", assignment.getRole())
+        self.setChildElementOptionalRefType(child_element, "USED-IMPLEMENTATION-DATA-TYPE-REF", assignment.getUsedImplementationDataTypeRef())
 
     def writeServiceDependencyAssignedDataType(self, element: ET.Element, dependency: ServiceDependency):
-        assigned_data = dependency.getAssignedDataTypes()
-        if len(assigned_data) > 0:
+        assigned_data = dependency.getAssignedDataType()
+        if assigned_data is not None:
             child_element = ET.SubElement(element, "ASSIGNED-DATA-TYPES")
-            for data in assigned_data:
-                if isinstance(data, RoleBasedDataTypeAssignment):
-                    self.writeRoleBasedDataTypeAssignment(child_element, data)
-                else:
-                    self.notImplemented("Unsupported Assigned Data <%s>" % type(data))
+            if isinstance(assigned_data, RoleBasedDataTypeAssignment):
+                self.writeRoleBasedDataTypeAssignment(child_element, assigned_data)
+            else:
+                self.notImplemented("Unsupported Assigned Data <%s>" % type(assigned_data))
 
     def writeServiceDependency(self, element: ET.Element, dependency: ServiceDependency):
         self.writeIdentifiable(element, dependency)
         self.writeServiceDependencyAssignedDataType(element, dependency)
+        self.setChildElementOptionalLiteral(element, "DIAGNOSTIC-RELEVANCE", dependency.getDiagnosticRelevance())
         self.writeSymbolicNameProps(element, dependency)
 
     def writeSymbolicNameProps(self, element: ET.Element, dependency: ServiceDependency):
@@ -5602,6 +5615,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswModuleCallPoint(child_element, point)
         self.setChildElementOptionalRefType(child_element, "CALLED-ENTRY-REF", point.getCalledEntryRef())
 
+    def writeBswAsynchronousServerCallResultPoint(self, element: ET.Element, point: BswAsynchronousServerCallResultPoint):
+        child_element = ET.SubElement(element, "BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT")
+        self.writeBswModuleCallPoint(child_element, point)
+        self.setChildElementOptionalRefType(child_element, "ASYNCHRONOUS-SERVER-CALL-POINT-REF", point.getAsynchronousServerCallPointRef())
+
     def writeBswSynchronousServerCallPoint(self, element: ET.Element, point: BswSynchronousServerCallPoint):
         child_element = ET.SubElement(element, "BSW-SYNCHRONOUS-SERVER-CALL-POINT")
         self.writeBswModuleCallPoint(child_element, point)
@@ -5612,9 +5630,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         if len(points) > 0:
             child_element = ET.SubElement(element, "CALL-POINTS")
             for point in points:
-                if isinstance(point, BswAsynchronousServerCallPoint):
+                if isinstance(point, BswAsynchronousServerCallResultPoint):
+                    self.writeBswAsynchronousServerCallResultPoint(child_element, point)
+                elif isinstance(point, BswAsynchronousServerCallPoint):
                     self.writeBswAsynchronousServerCallPoint(child_element, point)
-                elif isinstance(point, BswModuleCallPoint):
+                elif isinstance(point, BswSynchronousServerCallPoint):
                     self.writeBswSynchronousServerCallPoint(child_element, point)
                 else:
                     self.notImplemented("Unsupported Call Point <%s>" % type(point))
@@ -5691,6 +5711,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "BSW-BACKGROUND-EVENT")
         self.writeBswScheduleEvent(child_element, event)
 
+    def writeBswInterruptEvent(self, element: ET.Element, event):
+        self.logger.debug("Write BswInterruptEvent <%s>" % event.getShortName())
+        child_element = ET.SubElement(element, "BSW-INTERRUPT-EVENT")
+        self.writeBswEvent(child_element, event)
+
+    def writeBswOsTaskExecutionEvent(self, element: ET.Element, event: BswOsTaskExecutionEvent):
+        self.logger.debug("Write BswOsTaskExecutionEvent <%s>" % event.getShortName())
+        child_element = ET.SubElement(element, "BSW-OS-TASK-EXECUTION-EVENT")
+        self.writeBswScheduleEvent(child_element, event)
+
     def writeBswInternalTriggerOccurredEvent(self, element: ET.Element, event: BswInternalTriggerOccurredEvent):
         self.logger.debug("Write BswInternalTriggerOccurredEvent <%s>" % event.getShortName())
         child_element = ET.SubElement(element, "BSW-INTERNAL-TRIGGER-OCCURRED-EVENT")
@@ -5755,6 +5785,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeBswTimingEvent(child_element, event)
                 elif isinstance(event, BswBackgroundEvent):
                     self.writeBswBackgroundEvent(child_element, event)
+                elif isinstance(event, BswOsTaskExecutionEvent):
+                    self.writeBswOsTaskExecutionEvent(child_element, event)
+                elif isinstance(event, BswInterruptEvent):
+                    self.writeBswInterruptEvent(child_element, event)
                 elif isinstance(event, BswInternalTriggerOccurredEvent):
                     self.writeBswInternalTriggerOccurredEvent(child_element, event)
                 elif isinstance(event, BswExternalTriggerOccurredEvent):
@@ -5849,7 +5883,31 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswInternalBehaviorModeSenderPolicy(child_element, behavior)
         self.writeBswInternalBehaviorIncludedModeDeclarationGroupSets(child_element, behavior)
         self.writeBswInternalBehaviorReceptionPolicies(child_element, behavior)
+        self.writeBswInternalBehaviorSchedulerNamePrefixes(child_element, behavior)
+        self.writeBswInternalBehaviorDistinguishedPartitions(child_element, behavior)
         self.writeBswInternalBehaviorServiceDependencies(child_element, behavior)
+
+    def writeBswInternalBehaviorSchedulerNamePrefixes(self, element: ET.Element, behavior: BswInternalBehavior):
+        prefixes = behavior.getSchedulerNamePrefixes()
+        if len(prefixes) > 0:
+            prefixes_tag = ET.SubElement(element, "SCHEDULER-NAME-PREFIXS")
+            for prefix in prefixes:
+                if isinstance(prefix, BswSchedulerNamePrefix):
+                    child = ET.SubElement(prefixes_tag, "BSW-SCHEDULER-NAME-PREFIX")
+                    self.writeImplementationProps(child, prefix)
+                else:
+                    self.notImplemented("Unsupported Scheduler Name Prefix <%s>" % type(prefix))
+
+    def writeBswInternalBehaviorDistinguishedPartitions(self, element: ET.Element, behavior: BswInternalBehavior):
+        partitions = behavior.getDistinguishedPartitions()
+        if len(partitions) > 0:
+            partitions_tag = ET.SubElement(element, "DISTINGUISHED-PARTITIONS")
+            for partition in partitions:
+                if isinstance(partition, BswDistinguishedPartition):
+                    child = ET.SubElement(partitions_tag, "BSW-DISTINGUISHED-PARTITION")
+                    self.writeReferrable(child, partition)
+                else:
+                    self.notImplemented("Unsupported Distinguished Partition <%s>" % type(partition))
 
     def writeBswModuleDescriptionInternalBehaviors(self, element: ET.Element, desc: BswModuleDescription):
         behaviors = desc.getInternalBehaviors()

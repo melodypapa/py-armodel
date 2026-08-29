@@ -6,6 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswApiOptions,
     BswAsynchronousServerCallPoint,
+    BswAsynchronousServerCallResultPoint,
     BswAsynchronousServerCallReturnsEvent,
     BswBackgroundEvent,
     BswCalledEntity,
@@ -1590,12 +1591,19 @@ class ARXMLParser(AbstractARXMLParser):
     def readInternalBehavior(self, element: ET.Element, behavior: InternalBehavior):
         self.readIdentifiable(element, behavior)
         self.readInternalBehaviorConstantMemories(element, behavior)
+        self.readInternalBehaviorConstantValueMappingRefs(element, behavior)
         for child_element in self.findall(element, "EXCLUSIVE-AREAS/EXCLUSIVE-AREA"):
             short_name = self.getShortName(child_element)
             behavior.createExclusiveArea(short_name)
         self.readExclusiveAreaNestingOrders(element, behavior)
         self.readDataTypeMappingRefs(element, behavior)
         self.readInternalBehaviorStaticMemories(element, behavior)
+
+    def readInternalBehaviorConstantValueMappingRefs(self, element: ET.Element, behavior: InternalBehavior):
+        child_element = self.find(element, "CONSTANT-VALUE-MAPPING-REFS")
+        if child_element is not None:
+            for ref in self.getChildElementRefTypeList(child_element, "CONSTANT-VALUE-MAPPING-REF"):
+                behavior.addConstantValueMappingRef(ref)
 
     def readExclusiveAreaNestingOrders(self, element: ET.Element, behavior: InternalBehavior):
         for child_element in self.findall(element, "EXCLUSIVE-AREA-NESTING-ORDERS/EXCLUSIVE-AREA-NESTING-ORDER"):
@@ -1636,9 +1644,10 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "ASSIGNED-DATA-TYPES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ROLE-BASED-DATA-TYPE-ASSIGNMENT":
-                dependency.addAssignedDataType(self.getRoleBasedDataTypeAssignment(child_element))
+                dependency.setAssignedDataType(self.getRoleBasedDataTypeAssignment(child_element))
             else:
                 self.notImplemented("Unsupported assigned data type <%s>" % tag_name)
+        dependency.setDiagnosticRelevance(self.getChildElementOptionalLiteral(element, "DIAGNOSTIC-RELEVANCE"))
         self.readSymbolicNameProps(element, dependency)
 
     def getBswServiceDependencyIdent(self, element: ET.Element, dependency: BswServiceDependency) -> BswServiceDependencyIdent:
@@ -1814,7 +1823,7 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "ASSIGNED-DATA-TYPES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "ROLE-BASED-DATA-TYPE-ASSIGNMENT":
-                dependency.addAssignedDataType(self.getRoleBasedDataTypeAssignment(child_element))
+                dependency.setAssignedDataType(self.getRoleBasedDataTypeAssignment(child_element))
             else:
                 self.notImplemented("Unsupported assigned data type <%s>" % tag_name)
         self.readBswServiceDependencyAssignedData(element, dependency)
@@ -3094,6 +3103,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswModuleCallPoint(element, point)
         point.setCalledEntryRef(self.getChildElementOptionalRefType(element, "CALLED-ENTRY-REF"))
 
+    def readBswAsynchronousServerCallResultPoint(self, element: ET.Element, point: BswAsynchronousServerCallResultPoint):
+        self.readBswModuleCallPoint(element, point)
+        point.setAsynchronousServerCallPointRef(self.getChildElementOptionalRefType(element, "ASYNCHRONOUS-SERVER-CALL-POINT-REF"))
+
     def readBswSynchronousServerCallPoint(self, element: ET.Element, point: BswSynchronousServerCallPoint):
         self.readBswModuleCallPoint(element, point)
         point.setCalledEntryRef(self.getChildElementOptionalRefType(element, "CALLED-ENTRY-REF"))
@@ -3104,6 +3117,9 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "BSW-ASYNCHRONOUS-SERVER-CALL-POINT":
                 point = entity.createBswAsynchronousServerCallPoint(self.getShortName(child_element))
                 self.readBswAsynchronousServerCallPoint(child_element, point)
+            elif tag_name == "BSW-ASYNCHRONOUS-SERVER-CALL-RESULT-POINT":
+                point = entity.createBswAsynchronousServerCallResultPoint(self.getShortName(child_element))
+                self.readBswAsynchronousServerCallResultPoint(child_element, point)
             elif tag_name == "BSW-SYNCHRONOUS-SERVER-CALL-POINT":
                 point = entity.createBswSynchronousServerCallPoint(self.getShortName(child_element))
                 self.readBswSynchronousServerCallPoint(child_element, point)
@@ -3195,6 +3211,12 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "BSW-ASYNCHRONOUS-SERVER-CALL-RETURNS-EVENT":
                 event = behavior.createBswAsynchronousServerCallReturnsEvent(self.getShortName(child_element))
                 self.readBswAsynchronousServerCallReturnsEvent(child_element, event)
+            elif tag_name == "BSW-INTERRUPT-EVENT":
+                event = behavior.createBswInterruptEvent(self.getShortName(child_element))
+                self.readBswEvent(child_element, event)
+            elif tag_name == "BSW-OS-TASK-EXECUTION-EVENT":
+                event = behavior.createBswOsTaskExecutionEvent(self.getShortName(child_element))
+                self.readBswEvent(child_element, event)
             else:
                 self.notImplemented("Unsupported BswModuleEntity <%s>" % tag_name)
 
@@ -3254,7 +3276,18 @@ class ARXMLParser(AbstractARXMLParser):
         for group_set in self.getIncludedModeDeclarationGroupSets(element):
             behavior.addIncludedModeDeclarationGroupSet(group_set)
         self.readBswInternalBehaviorReceptionPolicies(element, behavior)
+        self.readBswInternalBehaviorSchedulerNamePrefixes(element, behavior)
+        self.readBswInternalBehaviorDistinguishedPartitions(element, behavior)
         self.readBswInternalBehaviorServiceDependencies(element, behavior)
+
+    def readBswInternalBehaviorSchedulerNamePrefixes(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "SCHEDULER-NAME-PREFIXS/BSW-SCHEDULER-NAME-PREFIX"):
+            prefix = behavior.createSchedulerNamePrefix(self.getShortName(child_element))
+            self.readImplementationProps(child_element, prefix)
+
+    def readBswInternalBehaviorDistinguishedPartitions(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "DISTINGUISHED-PARTITIONS/BSW-DISTINGUISHED-PARTITION"):
+            behavior.createDistinguishedPartition(self.getShortName(child_element))
 
     def readBswModuleDescriptionBswInternalBehaviors(self, element: ET.Element, desc: BswModuleDescription):
         for child_element in self.findall(element, "INTERNAL-BEHAVIORS/*"):
