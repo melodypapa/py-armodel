@@ -1017,6 +1017,24 @@ ipAddressKeepBehavior (Ipv4AddressSourceEnum 6.137 / IpAddressKeepEnum 6.138) �
     (tracker: new SdClientConfig section, zero open deviations)
   - [x] Step 9 — Verify (9a) + confirm (9b)
     (9a automated verification only — pytest 7360 passed, black/black-check/lint clean; marker N/A per Rule 0002)
+- [x] IPv6ExtHeaderFilterList (class · Table 6.129 · p.325 · **R4.3.1** · source Fibex4Ethernet/EthernetCommunication.py — R4.3.1 package = M2::...::Fibex4Ethernet::Ethernet Communication; 1 attribute: allowedIPv6ExtHeader (PositiveInteger, 1..*); Base Identifiable — most-derived of the table chain ARObject/Identifiable/MultilanguageReferrable/Referrable) — queued as missing class (closure of SocketConnection resync, 2026-08-29); NOTE: R23-11 has a same-named headerless Table 6.121 fragment tied to the SocketAddress cluster; the queue targets the R4.3.1 table per the 2026-08-29 family decision; # Spec verified: withheld (pending batch 9b pass) <!-- commit: dec0081e -->
+  - [x] Step 1 — Derive member from R4.3.1 Table 6.129 (p.325): allowedIPv6ExtHeader (PositiveInteger, 1..*); Base Identifiable (most-derived of the table's chain)
+  - [x] Step 2 — Model test (Red → Green)
+  - [x] Step 3 — Implement model class (Green): allowedIPv6ExtHeaders list, guarded add, verbatim Note
+  - [x] Step 4 — Sync docstrings (verbatim R4.3.1 Note)
+  - [x] Step 5/6 — N/A (consumed as ref value on SocketConnection.allowedIPv6ExtHeaders)
+  - [x] Step 7 — Checklist comment
+  - [x] Step 8 — Deviations: none
+  - [x] Step 9 — Verify (9a) + confirm (9b): pytest 8126 passed + 2 integration, lint+black clean; 9b user-confirmed; # Spec verified: withheld (pending batch 9b pass)
+- [ ] TcpOptionFilterList (class · Table 6.131 · p.326 · **R4.3.1** · source Fibex4Ethernet/EthernetCommunication.py — R4.3.1 package = M2::...::Fibex4Ethernet::Ethernet Communication; 1 attribute: allowedTcpOption (PositiveInteger, 1..*); Base Identifiable — most-derived of the table chain ARObject/Identifiable/MultilanguageReferrable/Referrable) — missing class (closure of SocketConnection resync, 2026-08-29); # Spec verified: withheld
+  - [ ] Step 1 — Derive member from R4.3.1 Table 6.131 (p.326): allowedTcpOption (PositiveInteger, 1..*); Base Identifiable
+  - [ ] Step 2 — Model test (Red → Green)
+  - [ ] Step 3 — Implement model class (Green): allowedTcpOptions list, guarded add, verbatim Note
+  - [ ] Step 4 — Sync docstrings (verbatim R4.3.1 Note)
+  - [ ] Step 5/6 — N/A (consumed as ref value on SocketConnection.allowedTcpOptions)
+  - [ ] Step 7 — Checklist comment
+  - [ ] Step 8 — Deviations: none
+  - [ ] Step 9 — Verify (9a) + confirm (9b): pytest passed, lint+black clean; # Spec verified: withheld
 - [x] SocketConnection (obsolete · Table 6.120 · p.319 · **R4.3.1** · source Fibex4Ethernet/EthernetCommunication.py — R4.3.1 package = M2::...::Fibex4Ethernet::Ethernet Communication (relocated from ObsoleteModel.py per Rule 0007, 2026-08-29); 2 members: runtimePortConfiguration → RuntimeAddressConfigurationEnum (Table 6.121), shortLabel → Identifier) — RESYNCED to R4.3.1 per user decision (2026-08-29); the prior 19-member XSD-derived shape (incl. SoAdConnectorType/SoAdProtocolType ARLiteral placeholders) was dropped per Rule 0015 (PDF/markdown table wins, no fabrication); # Spec verified: withheld (not yet confirmed/spec-verified)
   - [x] Step 1 — Derive members from R4.3.1 Table 6.120 (p.319): runtimePortConfiguration (RuntimeAddressConfigurationEnum, Table 6.121), shortLabel (Identifier); Base Describable
   - [x] Step 2 — Model test rewritten to R4.3.1 shape (Red → Green)
