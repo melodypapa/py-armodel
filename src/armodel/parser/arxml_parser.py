@@ -1000,11 +1000,11 @@ class ARXMLParser(AbstractARXMLParser):
         if child_element is not None:
             sdg.createSdgCaption(self.getShortName(child_element))
 
-    def readSdgSdxRefs(self, element: ET.SubElement, contents: SdgContents):
+    def readSdgSdxRefs(self, element: ET.Element, contents: SdgContents):
         for ref in self.getChildElementRefTypeList(element, "SDX-REF"):
             contents.addSdxRef(ref)
 
-    def readSdgSdxfRefs(self, element: ET.SubElement, contents: SdgContents):
+    def readSdgSdxfRefs(self, element: ET.Element, contents: SdgContents):
         for ref in self.getChildElementRefTypeList(element, "SDXF"):
             contents.addSdxfRef(ref)
 
@@ -7426,7 +7426,7 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Connection Bundle <%s>" % tag_name)
 
-    def getTpPort(self, element: ET.SubElement, key: str) -> TpPort:
+    def getTpPort(self, element: ET.Element, key: str) -> TpPort:
         port = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -8152,7 +8152,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readHwDescriptionEntityHwCategoryRefs(element, entity)
         self.readHwDescriptionEntityHwAttributeValues(element, entity)
 
-    def readHwPinGroup(self, element: ET.SubElement, pin_group: HwPinGroup):
+    def readHwPinGroup(self, element: ET.Element, pin_group: HwPinGroup):
         self.readHwDescriptionEntity(element, pin_group)
 
     def readHwPin(self, element: ET.Element, hw_pin: HwPin):
@@ -9602,7 +9602,7 @@ class ARXMLParser(AbstractARXMLParser):
         requirements.setMinSamplePoint(self.getChildElementOptionalFloatValue(element, "MIN-SAMPLE-POINT"))
         requirements.setMinSyncJumpWidth(self.getChildElementOptionalFloatValue(element, "MIN-SYNC-JUMP-WIDTH"))
 
-    def readAbstractCanCommunicationControllerCanControllerAttributes(self, element: ET.SubElement, controller: AbstractCanCommunicationController):
+    def readAbstractCanCommunicationControllerCanControllerAttributes(self, element: ET.Element, controller: AbstractCanCommunicationController):
         for child_element in self.findall(element, "CAN-CONTROLLER-ATTRIBUTES/*"):
             tag_name = self.getTagName(child_element)
             if tag_name == "CAN-CONTROLLER-CONFIGURATION-REQUIREMENTS":
