@@ -205,13 +205,13 @@ class TestAbstractARXMLWriter:
         assert child.text == "1.0.0"
 
     def test_set_child_element_optional_date_time(self):
-        """Test setChildElementOptionalDataTime"""
+        """Test setChildElementOptionalDateTime"""
         writer = ConcreteARXMLWriter()
         parent = ET.Element("parent")
         datetime = DateTime()
         datetime.setValue("2024-01-01T00:00:00")
 
-        writer.setChildElementOptionalDataTime(parent, "test-datetime", datetime)
+        writer.setChildElementOptionalDateTime(parent, "test-datetime", datetime)
         assert len(parent) == 1
         child = parent.find("test-datetime")
         assert child.text == "2024-01-01T00:00:00"

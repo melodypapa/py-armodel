@@ -1100,7 +1100,7 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Modification <%s>" % tag_name)
 
     def readDocRevision(self, element: ET.Element, revision: DocRevision):
-        revision.setDate(self.getChildElementOptionalDataTime(element, "DATE"))
+        revision.setDate(self.getChildElementOptionalDateTime(element, "DATE"))
         revision.setIssuedBy(self.getChildElementOptionalLiteral(element, "ISSUED-BY"))
         revision.setRevisionLabel(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL"))
         revision.setRevisionLabelP1(self.getChildElementOptionalRevisionLabelString(element, "REVISION-LABEL-P-1"))
