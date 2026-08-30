@@ -14,9 +14,48 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     StorageConditionStatusEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment, SwcServiceDependency
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
+
+
+class TestRoleBasedDataTypeAssignment:
+    def test_initialization(self):
+        """Test RoleBasedDataTypeAssignment initialization"""
+        assignment = RoleBasedDataTypeAssignment()
+
+        assert assignment is not None
+        assert assignment.role is None
+        assert assignment.usedImplementationDataTypeRef is None
+
+    def test_get_set_role(self):
+        """Test getRole and setRole methods"""
+        assignment = RoleBasedDataTypeAssignment()
+
+        assert assignment.getRole() is None
+
+        result = assignment.setRole("TestRole")
+        assert result is assignment  # Method chaining
+        assert assignment.getRole() == "TestRole"
+
+        # None is a no-op
+        assignment.setRole(None)
+        assert assignment.getRole() == "TestRole"
+
+    def test_get_set_used_implementation_data_type_ref(self):
+        """Test getUsedImplementationDataTypeRef and setUsedImplementationDataTypeRef methods"""
+        assignment = RoleBasedDataTypeAssignment()
+
+        assert assignment.getUsedImplementationDataTypeRef() is None
+
+        ref_type = RefType().setValue("/AutosarTypes/ImplDataType")
+        result = assignment.setUsedImplementationDataTypeRef(ref_type)
+        assert result is assignment  # Method chaining
+        assert assignment.getUsedImplementationDataTypeRef() == ref_type
+
+        # None is a no-op
+        assignment.setUsedImplementationDataTypeRef(None)
+        assert assignment.getUsedImplementationDataTypeRef() == ref_type
 
 
 class TestRoleBasedPortAssignment:

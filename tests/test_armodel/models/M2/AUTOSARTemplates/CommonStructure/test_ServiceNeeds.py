@@ -66,7 +66,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     PossibleErrorReaction,
     RamBlockStatusControlEnum,
     RoleBasedDataAssignment,
-    RoleBasedDataTypeAssignment,
     RuntimeError,
     SecureOnBoardCommunicationNeeds,
     ServiceDependency,
@@ -538,45 +537,6 @@ class TestNvBlockNeeds:
         enum_val = NvBlockNeedsWritingPriorityEnum.HIGH
         nv_block.setWritingPriority(enum_val)
         assert nv_block.getWritingPriority() == enum_val
-
-
-class TestRoleBasedDataTypeAssignment:
-    def test_initialization(self):
-        """Test RoleBasedDataTypeAssignment initialization"""
-        assignment = RoleBasedDataTypeAssignment()
-
-        assert assignment is not None
-        assert assignment.role is None
-        assert assignment.usedImplementationDataTypeRef is None
-
-    def test_get_set_role(self):
-        """Test getRole and setRole methods"""
-        assignment = RoleBasedDataTypeAssignment()
-
-        assert assignment.getRole() is None
-
-        result = assignment.setRole("TestRole")
-        assert result is assignment  # Method chaining
-        assert assignment.getRole() == "TestRole"
-
-        # None is a no-op
-        assignment.setRole(None)
-        assert assignment.getRole() == "TestRole"
-
-    def test_get_set_used_implementation_data_type_ref(self):
-        """Test getUsedImplementationDataTypeRef and setUsedImplementationDataTypeRef methods"""
-        assignment = RoleBasedDataTypeAssignment()
-
-        assert assignment.getUsedImplementationDataTypeRef() is None
-
-        ref_type = RefType().setValue("/AutosarTypes/ImplDataType")
-        result = assignment.setUsedImplementationDataTypeRef(ref_type)
-        assert result is assignment  # Method chaining
-        assert assignment.getUsedImplementationDataTypeRef() == ref_type
-
-        # None is a no-op
-        assignment.setUsedImplementationDataTypeRef(None)
-        assert assignment.getUsedImplementationDataTypeRef() == ref_type
 
 
 class TestServiceDiagnosticRelevanceEnum:

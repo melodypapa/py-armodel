@@ -7,13 +7,16 @@ services such as NV block management, diagnostic services, cryptographic service
 from __future__ import annotations
 
 from abc import ABC
-from typing import List, Optional
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import AutosarParameterRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
+from typing import List, Optional, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, AREnum, Boolean, ARLiteral
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, AREnum, Boolean, ARLiteral
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DiagRequirementIdString, Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String, TimeValue
@@ -513,77 +516,6 @@ class NvBlockNeeds(ServiceNeeds):
 
     def setWritingPriority(self, value):
         self.writingPriority = value
-        return self
-
-
-class RoleBasedDataTypeAssignment(ARObject):
-    """
-    This class specifies an assignment of a role to a particular data type of
-    a software component (or in the BswModuleBehavior of a module or cluster)
-    in the context of an AUTOSAR Service. With this assignment, the role of
-    the data type can be mapped to a specific ServiceNeeds element, so that a
-    tool is able to create the correct access.
-    """
-
-    # RoleBasedDataTypeAssignment method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.5, p.227
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getRole                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRole                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUsedImplementationDataTypeRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUsedImplementationDataTypeRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-
-    def __init__(self):
-        super().__init__()
-
-        # This is the role of the associated data type in the given context.
-        self.role: Optional[Identifier] = None
-
-        # This represents the associated ImplementationDataType.
-        self.usedImplementationDataTypeRef: Optional[RefType] = None
-
-    def getRole(self) -> Optional[Identifier]:
-        """
-        This is the role of the associated data type in the given context.
-        """
-        return self.role
-
-    def setRole(self, value: Optional[Identifier]) -> "RoleBasedDataTypeAssignment":
-        """
-        This is the role of the associated data type in the given context.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The role of the associated data type
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.role = value
-        return self
-
-    def getUsedImplementationDataTypeRef(self) -> Optional[RefType]:
-        """
-        This represents the associated ImplementationDataType.
-        """
-        return self.usedImplementationDataTypeRef
-
-    def setUsedImplementationDataTypeRef(self, value: Optional[RefType]) -> "RoleBasedDataTypeAssignment":
-        """
-        This represents the associated ImplementationDataType.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The reference to the associated ImplementationDataType
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.usedImplementationDataTypeRef = value
         return self
 
 

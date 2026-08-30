@@ -74,3 +74,49 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
         """
         self.timeout = value
         return self
+
+
+class AsynchronousServerCallResultPoint(AbstractAccessPoint):
+    # AsynchronousServerCallResultPoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getAsynchronousServerCallPointRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setAsynchronousServerCallPointRef [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.asynchronousServerCallPointRef = None  # type: RefType
+
+    def getAsynchronousServerCallPointRef(self):
+        return self.asynchronousServerCallPointRef
+
+    def setAsynchronousServerCallPointRef(self, value):
+        self.asynchronousServerCallPointRef = value
+        return self
+
+
+class AsynchronousServerCallPoint(ServerCallPoint):
+    # AsynchronousServerCallPoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
+class SynchronousServerCallPoint(ServerCallPoint):
+    # SynchronousServerCallPoint method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCalledFromWithinExclusiveAreaRef [x] impl  [ ] docstring  [ ] test
+    # [ ] setCalledFromWithinExclusiveAreaRef [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.calledFromWithinExclusiveAreaRef = None  # type: RefType
+
+    def getCalledFromWithinExclusiveAreaRef(self):
+        return self.calledFromWithinExclusiveAreaRef
+
+    def setCalledFromWithinExclusiveAreaRef(self, value):
+        self.calledFromWithinExclusiveAreaRef = value
+        return self

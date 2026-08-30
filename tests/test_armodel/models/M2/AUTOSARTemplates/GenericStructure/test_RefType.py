@@ -14,8 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.Instance
     PPortInCompositionInstanceRef,
     RPortInCompositionInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import ArVariableInImplementationDataInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArVariableInImplementationDataInstanceRef, AutosarVariableRef
 
 
 class TestARRef:

@@ -13,7 +13,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagEventDebounceTimeBased,
     MaxCommModeEnum,
     RoleBasedDataAssignment,
-    RoleBasedDataTypeAssignment,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
     ARBoolean,
@@ -35,17 +34,17 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     RunnableEntityArgument,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import AutosarVariableRef  # noqa E501
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (  # noqa E501
+    AutosarParameterRef,  # noqa E501
+    AutosarVariableRef,  # noqa E501
     ParameterAccess,
     VariableAccess,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet  # noqa E501
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import (  # noqa E501
-    AutosarParameterRef,
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefsUsage import (  # noqa E501
     ParameterInAtomicSWCTypeInstanceRef,
     VariableInAtomicSWCTypeInstanceRef,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet  # noqa E501
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import (  # noqa E501
     IncludedModeDeclarationGroupSet,
     ModeAccessPoint,
@@ -55,6 +54,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     PortDefinedArgumentValue,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import (  # noqa E501
+    RoleBasedDataTypeAssignment,
     RoleBasedPortAssignment,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import (  # noqa E501

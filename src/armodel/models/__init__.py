@@ -59,7 +59,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior 
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import *  # noqa: F403
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstanceRefsUsage import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefsUsage import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PerInstanceMemory import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import *  # noqa: F403
@@ -70,6 +70,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.EndToEndProtection import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import *  # noqa: F403
@@ -197,7 +198,6 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import *  # noqa: F403
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import *  # noqa: F403
 
 # Additional SystemTemplate imports

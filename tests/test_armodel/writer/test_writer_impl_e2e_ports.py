@@ -37,12 +37,12 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototy
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import (  # noqa: E501
     EndToEndDescription,
-    EndToEndProtectionISignalIPdu,
     EndToEndProtectionVariablePrototype,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import (  # noqa: E501
     SwcImplementation,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.EndToEndProtection import EndToEndProtectionISignalIPdu  # noqa: E501
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (  # noqa: E501
     VariableDataPrototypeInSystemInstanceRef,
 )
