@@ -10,7 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicatio
     DataPrototypeGroup,
     RunnableEntityGroup,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRefs import (
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRef import (
     InnerRunnableEntityGroupInCompositionInstanceRef,
     RunnableEntityInCompositionInstanceRef,
     VariableDataPrototypeInCompositionInstanceRef,

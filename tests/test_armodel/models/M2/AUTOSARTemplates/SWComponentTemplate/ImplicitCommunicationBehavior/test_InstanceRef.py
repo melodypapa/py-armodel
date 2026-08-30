@@ -6,7 +6,7 @@ Tests cover all classes and methods in the InstanceRefs.py file to achieve
 """
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRefs import (
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior.InstanceRef import (
     InnerDataPrototypeGroupInCompositionInstanceRef,
     InnerRunnableEntityGroupInCompositionInstanceRef,
     RunnableEntityInCompositionInstanceRef,
