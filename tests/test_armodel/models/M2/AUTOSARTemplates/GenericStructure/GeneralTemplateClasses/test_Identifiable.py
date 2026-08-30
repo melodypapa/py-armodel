@@ -9,7 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultilanguageLongName
 
 
 class TestReferrable:
@@ -207,10 +207,7 @@ class TestMultilanguageReferrable:
         except TypeError:
             pass  # Expected behavior
 
-    def test_get_set_long_name(self):
-        """
-        Test getLongName and setLongName methods.
-        """
+    def _make_obj(self):
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
 
@@ -218,15 +215,39 @@ class TestMultilanguageReferrable:
             def __init__(self, parent, short_name):
                 super().__init__(parent, short_name)
 
-        obj = ConcreteMultilanguageReferrable(ar_root, "TestName")
+        return ConcreteMultilanguageReferrable(ar_root, "TestName")
 
-        # Initially should be None
+    def test_initialization_default_none(self):
+        """
+        Test that longName is None by default.
+        """
+        obj = self._make_obj()
         assert obj.getLongName() is None
 
-        # Set a long name
-        long_name = MultiLanguageOverviewParagraph()
+    def test_get_set_long_name(self):
+        """
+        Test getLongName and setLongName round-trip and chaining.
+        """
+        obj = self._make_obj()
+
+        long_name = MultilanguageLongName()
+        result = obj.setLongName(long_name)
+        assert result is obj  # method chaining
+        assert obj.getLongName() is long_name
+
+    def test_set_long_name_none_is_noop(self):
+        """
+        Test that setLongName(None) does not overwrite an existing longName.
+        """
+        obj = self._make_obj()
+
+        long_name = MultilanguageLongName()
         obj.setLongName(long_name)
         assert obj.getLongName() is long_name
+
+        result = obj.setLongName(None)
+        assert result is obj  # method chaining with None
+        assert obj.getLongName() is long_name  # None is a no-op
 
 
 class TestIdentifiable:

@@ -1118,8 +1118,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMultilanguageReferrable(self, element: ET.Element, referrable: MultilanguageReferrable):
         self.writeReferrable(element, referrable)
-        if referrable.longName is not None:
-            self.setMultiLongName(element, "LONG-NAME", referrable.longName)
+        if referrable.getLongName() is not None:
+            self.setMultiLongName(element, "LONG-NAME", referrable.getLongName())
 
     def setCaption(self, element: ET.Element, key: str, caption: Caption):
         if caption is not None:

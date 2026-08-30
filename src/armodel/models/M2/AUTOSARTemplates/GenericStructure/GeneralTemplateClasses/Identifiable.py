@@ -185,14 +185,16 @@ class ShortNameFragment(ARObject):
 
 class MultilanguageReferrable(Referrable, ABC):
     """
-    Abstract class for referrable elements that support multilingual text.
-    This class extends Referrable with multilingual support functionality.
+    Instances of this class can be referred to by their identifier (while adhering to namespace borders). They also may have a longName. But they are not considered to contribute substantially to the overall structure of an AUTOSAR description. In particular it does not contain other Referrables.
     """
 
     # MultilanguageReferrable method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getLongName                  [x] impl  [x] docstring  [ ] test
-    # [ ] setLongName                  [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.11, p.64
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLongName   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLongName   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is MultilanguageReferrable:
@@ -200,21 +202,19 @@ class MultilanguageReferrable(Referrable, ABC):
 
         super().__init__(parent, short_name)
 
-        # self._parent = parent
+        # This specifies the long name of the object. Long name is targeted to human readers and acts like a headline.
         self.longName: Optional[MultilanguageLongName] = None
 
     def getLongName(self) -> Optional[MultilanguageLongName]:
         """
-        Gets the long name of this multilingual referrable element.
-
-        Returns:
-            MultilanguageLongName representing the long name, or None if not set
+        This specifies the long name of the object. Long name is targeted to human readers and acts like a headline.
         """
         return self.longName
 
-    def setLongName(self, value: MultilanguageLongName):
+    def setLongName(self, value: Optional["MultilanguageLongName"]) -> "MultilanguageReferrable":
         """
-        Sets the long name of this multilingual referrable element.
+        This specifies the long name of the object. Long name is targeted to human readers and acts like a headline.
+        A None value is a no-op and does not overwrite an existing longName.
 
         Args:
             value: The long name to set
@@ -222,7 +222,8 @@ class MultilanguageReferrable(Referrable, ABC):
         Returns:
             self for method chaining
         """
-        self.longName = value
+        if value is not None:
+            self.longName = value
         return self
 
 
