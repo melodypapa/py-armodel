@@ -1937,139 +1937,20 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 
 ## Appendix: Rule 0007 — package location & file shape deviations
 
-Audited 2026-08-29 against `.codebuddy/skills/sync-autosar-class/rules.md`, Rule 0007
-(*Package Location & File Shape*). Method: every `| Class …` row in
-`autosar/R23-11/markdown/*.md` paired with the `| Package …` row of the same spec header
-block — 1534 spec tables, 917 of those classes also defined in `src/armodel/models` — and the
-package implied by the defining module (`…/Pkg.py` or `…/Pkg/__init__.py` → `M2::…::Pkg`)
-compared against it. Spec package names are un-wrapped before comparing: the PDF conversion
-breaks long identifiers with a space (`Fibex4 Ethernet`, `TimingDescription Events`), which
-otherwise reads as a truncated package and produces false positives. Spot-verified against
-the spec tables of `CyclicTiming` (6.65), `Item` (9.9), `NetworkEndpointAddress` (6.135),
-`EcuInstance`, `IPv6ExtHeaderFilterList` and
-`PlatformModuleEthernetEndpointConfiguration`. 810 of the 917 compared classes sit in the
-module their spec package implies.
+Remediated 2026-08-30 (see `docs/plan/2026-08-30-rule-0007-package-location-remediation.md`).
 
-### A. Module does not match the spec `Package` row — 104 classes in 60 package pairs
+### Status
 
-| Classes | Spec package | Package implied by the module | Deviation |
-|---|---|---|---|
-| `CyclicTiming`, `EventControlledTiming`, `ModeDrivenTransmissionModeCondition`, `TimeRangeType`, `TransmissionModeCondition`, `TransmissionModeDeclaration`, `TransmissionModeTiming`, `TriggerIPduSendCondition` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication::Timing` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::Timing` | sibling package branch — class parked in a module of another package |
-| `GenericTp`, `TcpTp`, `TcpUdpConfig`, `TpPort`, `TransportProtocolConfiguration`, `UdpTp` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances` | sibling package branch — class parked in a module of another package |
-| `DefItem`, `DefList`, `IndentSample`, `Item`, `LabeledItem`, `LabeledList` | `M2::MSR::Documentation::BlockElements::ListElements` | `M2::MSR::Documentation::TextModel::BlockElements::ListElements` | sibling package branch — class parked in a module of another package |
-| `InnerDataPrototypeGroupInCompositionInstanceRef`, `InnerRunnableEntityGroupInCompositionInstanceRef`, `RunnableEntityInCompositionInstanceRef`, `VariableDataPrototypeInCompositionInstanceRef` | `M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRef` | `M2::AUTOSARTemplates::SWComponentTemplate::ImplicitCommunicationBehavior::InstanceRefs` | sibling package branch — class parked in a module of another package |
-| `MsrQueryArg`, `MsrQueryP1`, `MsrQueryP2`, `MsrQueryProps` | `M2::MSR::Documentation::MsrQuery` | `M2::MSR::Documentation::TextModel::MsrQuery` | sibling package branch — class parked in a module of another package |
-| `OperationInAtomicSwcInstanceRef`, `POperationInAtomicSwcInstanceRef`, `ROperationInAtomicSwcInstanceRef` | `M2::AUTOSARTemplates::SWComponentTemplate::Components::InstanceRefs` | `M2::AUTOSARTemplates::SWComponentTemplate::Composition::InstanceRefs` | sibling package branch — class parked in a module of another package |
-| `AsynchronousServerCallPoint`, `AsynchronousServerCallResultPoint`, `SynchronousServerCallPoint` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServerCall` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior` | module is above the spec package — `ServerCall` level missing |
-| `DataPrototypeInClientServerInterfaceInstanceRef`, `DataPrototypeInSenderReceiverInterfaceInstanceRef`, `ImplementationDataTypeElementInPortInterfaceRef` | `M2::AUTOSARTemplates::SystemTemplate::Transformer::InstanceRef` | `M2::AUTOSARTemplates::SystemTemplate::Transformer` | module is above the spec package — `InstanceRef` level missing |
-| `StructuredReq`, `Traceable`, `TraceableText` | `M2::MSR::Documentation::BlockElements::RequirementsTracing` | `M2::MSR::Documentation::TextModel::BlockElements::RequirementsTracing` | sibling package branch — class parked in a module of another package |
-| `AtpBlueprintMapping`, `AtpBlueprintable` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure` | `M2::AUTOSARTemplates::GenericStructure::AbstractStructure` | sibling package branch — class parked in a module of another package |
-| `PortPrototypeBlueprint`, `PortPrototypeBlueprintInitValue` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::PortProtoypeBlueprint` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintDedicated::PortPrototypeBlueprint` | sibling package branch — class parked in a module of another package |
-| `SwcTiming`, `TimingExtension` | `M2::AUTOSARTemplates::CommonStructure::Timing::TimingExtensions` | `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::TimingExtensions` | sibling package branch — class parked in a module of another package |
-| `HwAttributeLiteralDef`, `HwAttributeValue` | `M2::AUTOSARTemplates::EcuResourceTemplate::HwElementCategory` | `M2::AUTOSARTemplates::EcuResourceTemplate::HwAttributeValue` | sibling package branch — class parked in a module of another package |
-| `ARElement`, `PackageableElement` | `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage` | `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable` | sibling package branch — class parked in a module of another package |
-| `ArVariableInImplementationDataInstanceRef`, `AutosarParameterRef` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::InstanceRefsUsage` | sibling package branch — class parked in a module of another package |
-| `ParameterInAtomicSWCTypeInstanceRef`, `VariableInAtomicSWCTypeInstanceRef` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements::InstanceRefsUsage` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::InstanceRefsUsage` | sibling package branch — class parked in a module of another package |
-| `EthernetPhysicalChannel`, `VlanConfig` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology` | sibling package branch — class parked in a module of another package |
-| `SoAdRoutingGroup`, `SocketConnection` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ObsoleteModel` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetCommunication` | sibling package branch — class parked in a module of another package |
-| `TcpOptionFilterList`, `TcpOptionFilterSet` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::TcpOptionFilterSet` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetCommunication` | sibling package branch — class parked in a module of another package |
-| `SwCalprmRefProxy`, `SwVariableRefProxy` | `M2::MSR::DataDictionary::DatadictionaryProxies` | `M2::MSR::DataDictionary::DataDefProperties` | sibling package branch — class parked in a module of another package |
-| `DocumentViewSelectable`, `Paginateable` | `M2::MSR::Documentation::BlockElements::PaginationAndView` | `M2::MSR::Documentation::TextModel::BlockElements::PaginationAndView` | sibling package branch — class parked in a module of another package |
-| `MsrQueryChapter`, `MsrQueryTopic1` | `M2::MSR::Documentation::MsrQuery` | `M2::MSR::Documentation::Chapters` | sibling package branch — class parked in a module of another package |
-| `ApplicationDeferredDataType` | `M2::AUTOSARTemplates::AbstractPlatform` | `M2::AUTOSARTemplates::AbstractPlatform::ApplicationDeferredDataType` | class-named submodule inside its own package — Rule 0007 anti-pattern |
-| `ApplicationInterface` | `M2::AUTOSARTemplates::AbstractPlatform` | `M2::AUTOSARTemplates::AbstractPlatform::ApplicationInterface` | class-named submodule inside its own package — Rule 0007 anti-pattern |
-| `Field` | `M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign::PortInterface` | `M2::AUTOSARTemplates::AdaptivePlatform::ApplicationDesign::PortInterface::Field` | class-named submodule inside its own package — Rule 0007 anti-pattern |
-| `PlatformModuleEthernetEndpointConfiguration` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::AdaptiveModuleImplementation` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::AdaptiveModule::PlatformModuleEthernetEndpointConfiguration` | sibling package branch — class parked in a module of another package |
-| `CryptoKeySlot` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::CryptoDeployment::CryptoKeySlot` | class-named submodule inside its own package — Rule 0007 anti-pattern |
-| `FirewallRule` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall::FirewallRule` | class-named submodule inside its own package — Rule 0007 anti-pattern |
-| `FirewallRuleProps` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall::FirewallRuleProps` | class-named submodule inside its own package — Rule 0007 anti-pattern |
-| `StateDependentFirewall` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall::StateDependentFirewall` | class-named submodule inside its own package — Rule 0007 anti-pattern |
-| `IdsPlatformInstantiation` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem::IdsPlatformInstantiation` | class-named submodule inside its own package — Rule 0007 anti-pattern |
-| `IdsmModuleInstantiation` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem` | `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::IntrusionDetectionSystem::IdsmModuleInstantiation` | class-named submodule inside its own package — Rule 0007 anti-pattern |
-| `AtpBlueprint` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure::AtpBlueprint` | class-named submodule inside its own package — Rule 0007 anti-pattern |
-| `BlueprintGenerator` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintGenerator` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintGenerator::BlueprintGenerator` | class-named submodule inside its own package — Rule 0007 anti-pattern |
-| `BlueprintMappingSet` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintMapping` | `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::BlueprintMapping::BlueprintMappingSet` | class-named submodule inside its own package — Rule 0007 anti-pattern |
-| `TimingConstraint` | `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint` | `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::TimingConstraint` | class-named submodule inside its own package — Rule 0007 anti-pattern |
-| `SynchronizationTimingConstraint` | `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTiming` | `M2::AUTOSARTemplates::CommonStructure::Timing::TimingConstraint::SynchronizationTimingConstraint` | sibling package branch — class parked in a module of another package |
-| `TDEventSLLETPort` | `M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescriptionEvents::TDEventSLLET` | `M2::AUTOSARTemplates::CommonStructure::Timing::TimingDescription::TimingDescriptionEvents::TDEventSLLETPort` | sibling package branch — class parked in a module of another package |
-| `DiagnosticCommonElement` | `M2::AUTOSARTemplates::DiagnosticExtract::CommonDiagnostics` | `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticCommonElement` | sibling package branch — class parked in a module of another package |
-| `BswServiceDependencyIdent` | `M2::AUTOSARTemplates::DiagnosticExtract::DiagnosticMapping::ServiceMapping` | `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior` | sibling package branch — class parked in a module of another package |
-| `CollectableElement` | `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ElementCollection` | `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable` | sibling package branch — class parked in a module of another package |
-| `GeneralAnnotation` | `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::GeneralAnnotation` | `M2::MSR::Documentation::Annotation` | sibling package branch — class parked in a module of another package |
-| `AtpDefinition` | `M2::AUTOSARTemplates::GenericStructure::RolesAndRights` | `M2::AUTOSARTemplates::GenericStructure::RolesAndRights::AtpDefinition` | class-named submodule inside its own package — Rule 0007 anti-pattern |
-| `SwComponentType` | `M2::AUTOSARTemplates::SWComponentTemplate::Components` | `M2::AUTOSARTemplates::SWComponentTemplate::SwComponentType` | sibling package branch — class parked in a module of another package |
-| `ExternalTriggeringPointIdent` | `M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::Trigger` | sibling package branch — class parked in a module of another package |
-| `AutosarVariableRef` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::DataElements` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::AutosarVariableRef` | sibling package branch — class parked in a module of another package |
-| `RunnableEntityArgument` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::RunnableEntity` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior` | module is above the spec package — `RunnableEntity` level missing |
-| `RoleBasedDataTypeAssignment` | `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior::ServiceMapping` | `M2::AUTOSARTemplates::CommonStructure::ServiceNeeds` | sibling package branch — class parked in a module of another package |
-| `DoIpTpConnection` | `M2::AUTOSARTemplates::SystemTemplate::DiagnosticConnection` | `M2::AUTOSARTemplates::SystemTemplate::TransportProtocols` | sibling package branch — class parked in a module of another package |
-| `EndToEndProtectionISignalIPdu` | `M2::AUTOSARTemplates::SystemTemplate::EndToEndProtection` | `M2::AUTOSARTemplates::SWComponentTemplate::EndToEndProtection` | sibling package branch — class parked in a module of another package |
-| `CanClusterBusOffRecovery` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Can::CanTopology` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology` | sibling package branch — class parked in a module of another package |
-| `IPv6ExtHeaderFilterList` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::IPv6HeaderFilterList` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetCommunication` | sibling package branch — class parked in a module of another package |
-| `RequestResponseDelay` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::ServiceInstances` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Ethernet::EthernetTopology` | sibling package branch — class parked in a module of another package |
-| `FlexrayPhysicalChannel` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Flexray::FlexrayTopology` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology` | sibling package branch — class parked in a module of another package |
-| `LinPhysicalChannel` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::Fibex4Lin::LinTopology` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology` | sibling package branch — class parked in a module of another package |
-| `FibexElement` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication` | module is nested below the spec package — `CoreCommunication` |
-| `CommConnectorPort` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreCommunication` | sibling package branch — class parked in a module of another package |
-| `EcuInstance` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::CoreTopology` | `M2::AUTOSARTemplates::SystemTemplate::Fibex::FibexCore::EcuInstance` | sibling package branch — class parked in a module of another package |
-| `SwcToEcuMapping` | `M2::AUTOSARTemplates::SystemTemplate::SWmapping` | `M2::AUTOSARTemplates::SystemTemplate` | module is above the spec package — `SWmapping` level missing |
-| `Note` | `M2::MSR::Documentation::BlockElements::Note` | `M2::MSR::Documentation::TextModel::BlockElements::Note` | sibling package branch — class parked in a module of another package |
+- **A. Module does not match the spec `Package` row** — RESOLVED for 102 of 104
+  classes. Remaining accepted deviation: `PortPrototypeBlueprint` /
+  `PortPrototypeBlueprintInitValue` live in `…::BlueprintDedicated::PortPrototypeBlueprint`
+  (corrected spelling); the spec package is spelled `PortProtoypeBlueprint` (spec typo).
+- **B. Case-only package/module mismatch** — RESOLVED (`SystemTemplate/DoIP.py`).
+- **C. Leaf packages hosting classes in `__init__.py`** — OPEN (candidates only;
+  judgement calls deferred to a follow-up plan).
+- **D. `X/` beside `X.py`** — RESOLVED earlier (commit 86764353); verified gone.
+- **E. Top-level export chain** — RESOLVED: the 26 synced classes are importable as
+  `armodel.<ClassName>` and dropped from `INTENTIONALLY_UNEXPORTED_MODULES`;
+  3 stale `BswEntryRelationship*` entries removed from `KNOWN_NAME_COLLISION_CLASSES`.
+  Remaining real export gap: `ModeInBswModuleDescriptionInstanceRef` (depends on C).
 
-`PortProtoypeBlueprint` is the spec's own spelling; the module uses the corrected
-`PortPrototypeBlueprint` — the location is the deviation, not the spelling.
-
-### B. Case-only package/module mismatch — 3 classes
-
-| Class | Spec package | Package implied by the module |
-|---|---|---|
-| `AbstractDoIpLogicAddressProps` | `M2::AUTOSARTemplates::SystemTemplate::DoIP` | `M2::AUTOSARTemplates::SystemTemplate::DoIp` |
-| `DoIpLogicTargetAddressProps` | `M2::AUTOSARTemplates::SystemTemplate::DoIP` | `M2::AUTOSARTemplates::SystemTemplate::DoIp` |
-| `DoIpLogicTesterAddressProps` | `M2::AUTOSARTemplates::SystemTemplate::DoIP` | `M2::AUTOSARTemplates::SystemTemplate::DoIp` |
-
-The spec writes `DoIP`, the module is `DoIp.py`. Identical on a case-insensitive
-filesystem, a real import break on a case-sensitive one.
-
-### C. Leaf packages hosting their classes in `__init__.py` — 17 packages
-
-No subpackage directory, so Rule 0007's default shape is `Pkg.py`, not `Pkg/__init__.py`
-(the rule also allows splitting a large package into submodules, so each case needs a
-judgement call — listed as candidates, not confirmed violations).
-
-- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface` — 28 classes
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Constants` — 23 classes
-- `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/Transformer` — 21 classes
-- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components` — 16 classes
-- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ApplicationAttributes` — 13 classes
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/MeasurementCalibrationSupport/RptSupport` — 12 classes
-- `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/VariantHandling/AttributeValueVariationPoints` — 10 classes
-- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Composition` — 8 classes
-- `src/armodel/models/M2/AUTOSARTemplates/EcuResourceTemplate` — 8 classes
-- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/SwcInternalBehavior` — 7 classes
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/ResourceConsumption/ExecutionTime` — 6 classes
-- `src/armodel/models/M2/AUTOSARTemplates/AutosarTopLevelStructure` — 4 classes
-- `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/ImplicitCommunicationBehavior` — 3 classes
-- `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/DocumentationOnM1` — 2 classes
-- `src/armodel/models/M2/MSR/Documentation/BlockElements` — 1 class
-- `src/armodel/models/M2/MSR/Documentation/TextModel/BlockElements` — 1 class
-- `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswOverview/InstanceRefs` — 1 class
-
-### D. `X/` beside `X.py` (shadowing leftovers) — 3
-
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingClock/`
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingCondition/`
-- `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Timing/TimingDescription/TimingDescriptionEvents/TDEventVfb/`
-
-Per PEP 420 the file wins, so nothing in them is dead code today, but Rule 0007 treats every
-such pair as a live shadowing signal; all three hold nothing but `__pycache__`.
-
-### E. Top-level export chain — 26 synced classes
-
-Rule 0007: a synced class must be importable as `armodel.<ClassName>` and must be dropped
-from `INTENTIONALLY_UNEXPORTED_MODULES` in `tests/test_armodel/test_model_imports.py`. These
-carry a `# Spec verified:`/`# XSD verified:` marker and are still listed there:
-
-- `AgeConstraint`, `ArbitraryEventTriggering`, `BlueprintGenerator`, `BurstPatternEventTriggering`, `ConcretePatternEventTriggering`, `ConfidenceInterval`, `EventOccurrenceKindEnum`, `EventTriggeringConstraint`, `LatencyConstraintTypeEnum`, `LatencyTimingConstraint`, `McDataAccessDetails`, `ModeErrorBehavior`, `ModeErrorReactionPolicyEnum`, `ModeInBswInstanceRef`, `ModeInSwcBswInstanceRef`, `ModeInSwcInstanceRef`, `ModeTransition`, `OffsetTimingConstraint`, `PeriodicEventTriggering`, `SporadicEventTriggering`, `SynchronizationTimingConstraint`, `SynchronizationTypeEnum`, `TimingCondition`, `TimingConditionFormula`, `TimingExtensionResource`, `TimingModeInstance`
-
-`KNOWN_NAME_COLLISION_CLASSES` holds 4 entries; 3 of them are stale — `BswEntryRelationship`, `BswEntryRelationshipEnum`, `BswEntryRelationshipSet` import fine
-today (they live in `BswInterfaces.py` and no `BswInterfaces/` directory exists any more),
-so only 1 entry is a real export gap: `ModeInBswModuleDescriptionInstanceRef`.
