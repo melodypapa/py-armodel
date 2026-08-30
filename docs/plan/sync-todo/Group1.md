@@ -25,22 +25,89 @@ Input: `Group 1 — Framework & core, PortInterface basics` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — none (stale "missing" tracker row replaced with resolved entry)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ARPackage` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.1)
-  - [x] Step 1 — Sync members & description from spec
-    - Spec facts (extracted 2026-08-30, PDF-confirmed): Table 4.1 spans **p.53–54** (summary rows p.53, attribute rows + caption p.54). NOTE: in this markdown/PDF, table **content precedes its caption**; Table 4.3 (ARElement) is split across p.54–55 with the caption sitting mid-table.
-    - Note (verbatim, for Step 4): "AUTOSAR package, allowing to create top level packages to structure the contained ARElements. ARPackages are open sets. This means that in a file based description system multiple files can be used to partially describe the contents of a package. This is an extended version of MSR's SW-SYSTEM."
-    - Base (flattened): ARObject, AtpBlueprint, AtpBlueprintable, CollectableElement, Identifiable, MultilanguageReferrable, Referrable. Since PackageableElement is NOT in the list but AtpBlueprintable IS, and per Tables E.10/E.11 both AtpBlueprint and AtpBlueprintable have Base = ARObject, Identifiable, MultilanguageReferrable, Referrable (no PackageableElement) — direct bases ≈ {AtpBlueprint, AtpBlueprintable, CollectableElement}. Current code has `ARPackage(CollectableElement)` only → Step 3 must decide whether to add AtpBlueprint/AtpBlueprintable mixins (check their attribute blueprintPolicy / blueprintColor impact).
-    - Attributes: `arPackage` (ARPackage, *, aggr) / `element` (PackageableElement, *, aggr) / `referenceBase` (ReferenceBase, *, aggr) — implemented via createARPackage/getARPackages, addElement/getElement, addReferenceBase/referenceBases.
-    - ARElement confirmation (user gate): ARElement = Table 4.3 (content p.54 + p.55 subclasses block, caption p.55); Note/Base/no-own-attributes all match the stamped implementation — ARElement sync confirmed correct, no changes needed.
+- [ ] `ReferenceBase` (member type of `ARPackage.referenceBase` · Rule 0016.4 stub — blocks ARPackage 9b stamp per Rules 0001.10/0012.1 · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.14, p.72)
+  - Spec facts (extracted 2026-08-30): defined in `ARPackage.py` (same file); Package = ...GeneralTemplateClasses::ARPackage; Base = **ARObject only** (no Referrable → `__init__(self)`); Aggregated by = ARPackage.referenceBase.
+    - Note (verbatim, for Step 4): "This meta-class establishes a basis for relative references. Reference bases are identified by the short Label which shall be unique in the current package."
+    - Attributes (Table 4.14 order): `globalElement` (ReferrableSubtypesEnum, *, attr) / `globalInPackage` (ARPackage, *, ref) / `isDefault` (Boolean, 1, attr, atp.Status=obsolete — keep) / `package` (ARPackage, 0..1, ref) / `shortLabel` (Identifier, 1, attr).
+    - R4.3.1 Table 4.5 (p.55) additionally spec'd `isGlobal` + `baseIsThisPackage` — both absent from Table 4.14 and `atp.Status="removed"` in AUTOSAR_00052.xsd xsd:group REFERENCE-BASE (l.96385 IS-GLOBAL / l.96394 BASE-IS-THIS-PACKAGE); **19/29 integration fixtures still carry `<IS-GLOBAL>`/`<BASE-IS-THIS-PACKAGE>`** (legacy AI-spec files). Step 8 decision: keep as accepted deviations ("deprecated (atp.Status=removed in R23-11; spec'd R4.3.1 Table 4.5), kept for integration-fixture round-trip", rows release R4.3.1) vs strict removal (stamped-class precedent: CalibrationParameter/LinCommunication — but silently strips legacy data on rewrite; round-trip test compares models, would not catch the loss).
+  - Known deviations to fix in this sync: (a) `packageRef: Optional[List[RefType]]` → `Optional[RefType]` (spec `package` is 0..1; parser/writer already single-ref — annotation-only fix); (b) `globalInPackageRefs` + `globalElements` have **no reader/writer** (wrappers GLOBAL-IN-PACKAGE-REFS/GLOBAL-IN-PACKAGE-REF + GLOBAL-ELEMENTS/GLOBAL-ELEMENT; Rule 0001.7 silent drop; enum-literal list helper needed for GLOBAL-ELEMENT); (c) setters `setIsDefault/setIsGlobal/setBaseIsThisPackage/setPackageRef/setShortLabel` missing None guards (Rule 0004); (d) field `self.BaseIsThisPackage` → `self.baseIsThisPackage`; (e) checklist is legacy 4-col with test column all `[ ]` (model tests already exist test_ARPackage.py:16-120) → 6-col rewrite; (f) member order → Table 4.14 displayed order (reader/writer keep XSD sequenceOffset order: SHORT-LABEL 10 … PACKAGE-REF 30).
+  - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
   - [ ] Step 5 — Write reader/writer round-trip test (Red)
   - [ ] Step 6 — Update parser & writer (Green)
   - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations (incl. isGlobal/baseIsThisPackage decision above)
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `MultilanguageReferrable` (heritage-chain parent of Identifiable · unstamped Rule 0001.10 stub · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.11, content md l.1777–1793)
+  - Spec facts (extracted 2026-08-30): Package = ...GeneralTemplateClasses::Identifiable; abstract; Base = ARObject, Referrable → direct base **Referrable** (stamped ✓) — code `MultilanguageReferrable(Referrable, ABC)` (Identifiable.py:186) heritage **CORRECT**; Subclasses include Identifiable, Caption, SdgCaption, Traceable, TraceReferrable.
+    - Note (fetch full text from md l.1778 in Step 1): "Instances of this class can be referred to by their identifier (while adhering to namespace borders). They also may have a longName. But they are not considered to contribute substanti[ally]…"
+    - Attributes: `longName` (MultilanguageLongName, 0..1, aggr) — code field/accessor pair exists (getLongName/setLongName).
+  - Known deviations to fix in this sync: legacy 4-col checklist with `[ ]` test/docstring rows and no `# Spec:` line/stamp → full 6-col rewrite; setLongName missing None guard (Rule 0004); docstrings are paraphrases not verbatim Note (Rule 0012).
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — covered via consuming class round-trips (LONG-NAME read/write already shared); confirm in-step
+  - [ ] Step 6 — Update parser & writer (Green) — N/A candidate: LONG-NAME handled by shared readMultilanguageLongName/writeIdentifiable helpers; confirm in-step
+  - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `AUTOSAR` (tracker input · R4.3.1 markdown · AUTOSAR_TPS_ARXMLSerializationRules · Table 1.1 (multiple tables — resolve in per-class Phase 0))
+- [ ] `Identifiable` (heritage-chain parent of CollectableElement/AtpBlueprint/AtpBlueprintable/ARPackage · unstamped Rule 0001.10 stub · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.4, content md l.1650–1695)
+  - Spec facts (extracted 2026-08-30): abstract; Base = ARObject, MultilanguageReferrable, Referrable → direct base **MultilanguageReferrable** (queued above) — code `Identifiable(MultilanguageReferrable, ABC)` (Identifiable.py:229) heritage **CORRECT**; Subclasses explicitly list ARPackage, CollectableElement, PackageableElement, AtpBlueprint, AtpBlueprintable.
+    - Attributes (Table 4.4 displayed order): `adminData` (AdminData, 0..1, aggr) / `annotation` (Annotation, *, aggr) / `category` (CategoryString, 0..1, attr) / `desc` (MultiLanguageOverviewParagraph, 0..1, aggr) / `introduction` (DocumentationBlock, 0..1, aggr) / `uuid` (String, 0..1, attr).
+  - Known deviations to fix in this sync: (a) duplicate `elements`/`element_mappings` registry in `__init__` (Identifiable.py:258-259 — CollectableElement infra; ARPackage's getElement override reaches it; remove after CollectableElement sync or verify consumers); (b) spec `uuid` (String, 0..1, attr) lives on ARObject as "internal extension" (ARObject checklist note) — reconcile ownership: document deviation or relocate accessor; (c) `variationPoint` carried with documented deviation comment (keep); (d) no `# Spec:` line/stamp for this class (only Referrable l.27 and Describable l.517 in the same file are stamped) → 6-col checklist rewrite.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — inherited members serialized via shared readIdentifiable/writeIdentifiable; confirm in-step
+  - [ ] Step 6 — Update parser & writer (Green) — N/A candidate: shared helpers unchanged; confirm in-step
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations (incl. uuid ownership decision)
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `CollectableElement` (direct spec base of ARPackage + PackageableElement · Rule 0016.4 wrong-base stub — prerequisite for the ARPackage heritage fix · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 13.3, class table body md l.10589+)
+  - Spec facts (extracted 2026-08-30): Package = ...GeneralTemplateClasses::ElementCollection; **Base = ARObject, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base = Identifiable**; Subclasses = {ARPackage, PackageableElement}; **no own Attribute rows**.
+  - Deviation: code has `CollectableElement(ARObject, ABC)` + `__init__(self)` (ElementCollection.py:16/31) — skips the Referrable→MultilanguageReferrable→Identifiable chain. Fix: re-parent to `Identifiable`, `__init__(self, parent, short_name)`; `elements`/`element_mappings` registry stays (codebase infra; spec `element` aggregation belongs to ARPackage Table 4.1 and is shared by design).
+  - Downstream fixes unlocked (do together with ARPackage Step 9): (1) **ARPackage drops its manually flattened Referrable/Identifiable members** (parent, short_name, longName, annotations, adminData, category, introduction, desc — currently duplicated to compensate; Rule 0001.3 relocation) and calls `super().__init__(parent, short_name)`; (2) ARPackage `__init__` double-init cleanup (`CollectableElement.__init__(self)` + explicit `ARObject.__init__(self)` with stale comment — CollectableElement *does* call super().__init__(), so ARObject.__init__ runs twice); (3) `PackageableElement` re-parent — own drift row directly below (Table 4.2 Base closure names CollectableElement as most-derived); (4) `AbstractAUTOSAR` re-check in its own queued sync — AUTOSAR spec Base = **ARObject** (R4.3.1 ARXMLSerializationRules Table 1.1), code has AbstractAUTOSAR(CollectableElement).
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A candidate: no own attributes/no own XML element (registry infra); confirm in-step
+  - [ ] Step 6 — Update parser & writer (Green) — N/A candidate: same reason
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `PackageableElement` (child of CollectableElement · STAMPED R23-11 — **drift pass only** per Rule 0012.3: heritage fix · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.2, p.54)
+  - Drift scope (no member re-sync — Table 4.2 has no own Attribute rows): re-parent `PackageableElement(Identifiable, ABC)` → `PackageableElement(CollectableElement, ABC)` (ARPackage.py:22) — Table 4.2 Base closure = {ARObject, CollectableElement, Identifiable, MultilanguageReferrable, Referrable} names **CollectableElement** as most-derived. Run AFTER the CollectableElement row above lands; `super().__init__(parent, short_name)` forwarding unchanged (CollectableElement now forwards to Identifiable). Re-run ARElement/Collection round-trips to confirm no parser/writer dispatch change (readIdentifiable/writeIdentifiable shared; inherited members reached through inheritance).
+  - [ ] Step 1 — Confirm drift scope from Table 4.2 (members unchanged)
+  - [ ] Step 2 — Adjust model unit test (base-relationship asserts)
+  - [ ] Step 3 — Re-parent to CollectableElement (Green)
+  - [ ] Step 4 — Docstrings unchanged (no own members)
+  - [ ] Step 5 — Re-run reader/writer round-trip (inherited members)
+  - [ ] Step 6 — Parser/writer unchanged (confirm no dispatch edit needed)
+  - [ ] Step 7 — Update checklist comment (base note)
+  - [ ] Step 8 — Deviations — none expected (heritage fix only)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — re-stamp after drift per Rule 0012.3
+- [ ] `ARPackage` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.1)
+  - Heritage check (2026-08-30, spec-verified): Table 4.1 Base closure = {ARObject, AtpBlueprint, AtpBlueprintable, CollectableElement, Identifiable, MultilanguageReferrable, Referrable} → direct parallel branches = {AtpBlueprint (C.12: →Identifiable), AtpBlueprintable (C.14: →Identifiable), CollectableElement (13.3: →Identifiable)}. **`ARPackage(CollectableElement)` single role-matching branch = CORRECT per Rule 0001.2** (blueprint chains rightly not multi-inherited; blueprintPolicy etc. deferred to AtpBlueprint/AtpBlueprintable syncs). WRONG underneath: CollectableElement(ARObject) skips Identifiable (see CollectableElement row above) — that is why ARPackage carries 8 flattened Referrable/Identifiable members; strip them after the CollectableElement re-parent, before 9b. AtpBlueprint(Identifiable) in code ✓ (C.12). Note: AtpBlueprintable(PackageableElement) in code is over-derived vs C.14 Base=Identifiable → fix in its own queued sync.
+  - [x] Step 1 — Sync members & description from spec
+    - Spec facts (extracted 2026-08-30, PDF-confirmed): Table 4.1 spans **p.53–54** (summary rows p.53, attribute rows + caption p.54). NOTE: in this markdown/PDF, table **content precedes its caption**; Table 4.3 (ARElement) is split across p.54–55 with the caption sitting mid-table.
+    - Note (verbatim, for Step 4): "AUTOSAR package, allowing to create top level packages to structure the contained ARElements. ARPackages are open sets. This means that in a file based description system multiple files can be used to partially describe the contents of a package. This is an extended version of MSR's SW-SYSTEM."
+    - Base (flattened): ARObject, AtpBlueprint, AtpBlueprintable, CollectableElement, Identifiable, MultilanguageReferrable, Referrable. Since PackageableElement is NOT in the list but AtpBlueprintable IS, and per Tables E.10/E.11 both AtpBlueprint and AtpBlueprintable have Base = ARObject, Identifiable, MultilanguageReferrable, Referrable (no PackageableElement) — direct bases ≈ {AtpBlueprint, AtpBlueprintable, CollectableElement}. Current code has `ARPackage(CollectableElement)` only → Step 3 must decide whether to add AtpBlueprint/AtpBlueprintable mixins (check their attribute blueprintPolicy / blueprintColor impact).
+    - Attributes: `arPackage` (ARPackage, *, aggr) / `element` (PackageableElement, *, aggr) / `referenceBase` (ReferenceBase, *, aggr) — implemented via createARPackage/getARPackages, addElement/getElement, addReferenceBase/referenceBases.
+    - ARElement confirmation (user gate): ARElement = Table 4.3 (content p.54 + p.55 subclasses block, caption p.55); Note/Base/no-own-attributes all match the stamped implementation — ARElement sync confirmed correct, no changes needed.
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — stale tracker rows (arPackage "missing", element "type") replaced with resolved entries; ARPackage-own rows clean. **Open blockers recorded (2026-08-30 correction): `referenceBase` member type `ReferenceBase` is a Rule 0001.10 stub (queued above) and base class `CollectableElement` has wrong Python base (queued above) — `# Spec verified:` withheld until both land** (Rule 0012.1)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — run AFTER all rows above (ReferenceBase + heritage chain MultilanguageReferrable → Identifiable → CollectableElement + PackageableElement drift); includes stripping ARPackage's flattened Identifiable members (now inherited via the fixed chain), the double-init cleanup, and the adapted set-based check (193 methods vs 6 checklist rows — ~187 create*/getter convenience factories intentionally excluded per checklist comment)
+- [ ] `AUTOSAR` (tracker input · R4.3.1 markdown · AUTOSAR_TPS_ARXMLSerializationRules · Table 1.1 (multiple tables — resolve in per-class Phase 0) · **heritage check**: spec Base = **ARObject** (Table 1.1) but code has `AbstractAUTOSAR(CollectableElement)` — after the CollectableElement re-parent lands, decide in Step 3: keep for elements-registry reuse (documented deviation) or restructure)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -110,7 +177,19 @@ Input: `Group 1 — Framework & core, PortInterface basics` of `docs/examples/sy
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `AtpBlueprintable` (tracker input · R4.3.1 markdown · AUTOSAR_TPS_StandardizationTemplate · Table 4.3)
+- [ ] `AtpBlueprint` (heritage mixin branch of ARPackage (Table 4.1 Base) · unstamped (has `# Spec:` line, no marker) · R4.3.1 markdown · AUTOSAR_TPS_StandardizationTemplate · Table 4.2 · R23-11 renders Table C.12 · code cites CP_TPS_BSWModuleDescriptionTemplate Table D.11, p.305 — pick one citation in Step 1)
+  - Spec facts (extracted 2026-08-30): abstract; Base = ARObject, Identifiable, MultilanguageReferrable, Referrable → direct base **Identifiable** (queued above) — code `AtpBlueprint(Identifiable, ABC)` (AbstractBlueprintStructure/__init__.py:43) heritage **CORRECT**; own attribute `blueprintPolicy` (BlueprintPolicy, aggr); Subclasses explicitly list ARPackage.
+  - Note: ARPackage's 9b does NOT block on this row (blueprint mixin attrs not modeled on ARPackage by design — Rule 0001.2 single-branch selection, documented in ARPackage checklist comment).
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `AtpBlueprintable` (tracker input · R4.3.1 markdown · AUTOSAR_TPS_StandardizationTemplate · Table 4.3 · **heritage fix**: re-parent `AtpBlueprintable(PackageableElement)` → `(Identifiable)` — Base = ARObject, Identifiable, MultilanguageReferrable, Referrable (no PackageableElement/CollectableElement in its chain); do AFTER the Identifiable row above)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
