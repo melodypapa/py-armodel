@@ -71,6 +71,8 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DoIP import *  # noqa: F4
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.EndToEndProtection import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer.InstanceRef import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.ECUResourceMapping import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.RteEventToOsTaskMapping import *  # noqa: F403
