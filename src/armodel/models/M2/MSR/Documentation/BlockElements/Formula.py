@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from armodel.models.M2.MSR.Documentation.BlockElements import Caption
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import LGraphic
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.PaginationAndView import Paginateable
+from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguagePlainText, MultiLanguageVerbatim
 
 

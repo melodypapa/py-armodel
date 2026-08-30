@@ -1,6 +1,5 @@
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
@@ -20,85 +19,25 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARBoolean,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import (
+    AsynchronousServerCallPoint,
+    AsynchronousServerCallResultPoint,
+    ServerCallPoint,
+    SynchronousServerCallPoint,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RunnableEntity import RunnableEntityArgument
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import (
     IncludedModeDeclarationGroupSet as IncludedModeDeclarationGroupSet,
     ModeAccessPoint,
+    ModeSwitchPoint,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeSwitchPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import (
     ExternalTriggeringPoint,
-    ExternalTriggeringPointIdent as ExternalTriggeringPointIdent,
     InternalTriggeringPoint,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
-
-
-class RunnableEntityArgument(ARObject):
-    # RunnableEntityArgument method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSymbol                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setSymbol                    [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        super().__init__()
-
-        self.symbol = None  # type: ARLiteral
-
-    def getSymbol(self):
-        return self.symbol
-
-    def setSymbol(self, value):
-        self.symbol = value
-        return self
-
-
-class AsynchronousServerCallResultPoint(AbstractAccessPoint):
-    # AsynchronousServerCallResultPoint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAsynchronousServerCallPointRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setAsynchronousServerCallPointRef [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.asynchronousServerCallPointRef = None  # type: RefType
-
-    def getAsynchronousServerCallPointRef(self):
-        return self.asynchronousServerCallPointRef
-
-    def setAsynchronousServerCallPointRef(self, value):
-        self.asynchronousServerCallPointRef = value
-        return self
-
-
-class AsynchronousServerCallPoint(ServerCallPoint):
-    # AsynchronousServerCallPoint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-
-class SynchronousServerCallPoint(ServerCallPoint):
-    # SynchronousServerCallPoint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCalledFromWithinExclusiveAreaRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setCalledFromWithinExclusiveAreaRef [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        super().__init__(parent, short_name)
-
-        self.calledFromWithinExclusiveAreaRef = None  # type: RefType
-
-    def getCalledFromWithinExclusiveAreaRef(self):
-        return self.calledFromWithinExclusiveAreaRef
-
-    def setCalledFromWithinExclusiveAreaRef(self, value):
-        self.calledFromWithinExclusiveAreaRef = value
-        return self
 
 
 class RunnableEntity(ExecutableEntity):

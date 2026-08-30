@@ -270,3 +270,15 @@ class RptExecutableEntityProperties(ARObject):
         if value is not None:
             self.rptServicePoint = value
         return self
+
+
+class ExternalTriggeringPointIdent(IdentCaption):
+    """
+    Identification of an external triggering point.
+    """
+
+    # ExternalTriggeringPointIdent method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)

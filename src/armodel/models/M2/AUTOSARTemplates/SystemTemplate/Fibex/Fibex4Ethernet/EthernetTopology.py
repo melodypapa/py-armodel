@@ -18,7 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, PhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import MacSecProps
 
@@ -26,6 +26,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
         ConsumedServiceInstance,
         ProvidedServiceInstance,
+        RequestResponseDelay,
         TransportProtocolConfiguration,
     )
 
@@ -1042,43 +1043,6 @@ class EthernetCommunicationConnector(CommunicationConnector):
         """
         if value is not None:
             self.pathMtuTimeout = value
-        return self
-
-
-class RequestResponseDelay(ARObject):
-    """
-    Defines the delay constraints for request-response communication
-    patterns in service-oriented architectures, specifying minimum
-    and maximum acceptable response times.
-    """
-
-    # RequestResponseDelay method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getMaxValue                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setMaxValue                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getMinValue                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setMinValue                  [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        super().__init__()
-
-        self.maxValue = None  # type: TimeValue
-        self.minValue = None  # type: TimeValue
-
-    def getMaxValue(self):
-        return self.maxValue
-
-    def setMaxValue(self, value):
-        if value is not None:
-            self.maxValue = value
-        return self
-
-    def getMinValue(self):
-        return self.minValue
-
-    def setMinValue(self, value):
-        if value is not None:
-            self.minValue = value
         return self
 
 
@@ -2986,3 +2950,313 @@ class CouplingPortRatePolicy(ARObject):
     def getVlanRefs(self) -> List[RefType]:
         """Defines the VLANs this rate policy shall be limited on. If no VLAN is given this rate policy is not considering VLAN tags."""
         return self.vLanRefs
+
+
+class TransportProtocolConfiguration(ARObject, ABC):
+    """
+    Abstract base class for transport protocol configurations,
+    defining the common properties and behavior for different
+    transport protocols (TCP, UDP, etc.) used in service-oriented
+    communication.
+    """
+
+    # TransportProtocolConfiguration method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.125
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        if type(self) is TransportProtocolConfiguration:
+            raise TypeError("TransportProtocolConfiguration is an abstract class.")
+
+        super().__init__()
+
+
+class GenericTp(TransportProtocolConfiguration):
+    """
+    Defines generic transport protocol configuration properties,
+    including address and technology specifications for custom
+    transport protocol implementations.
+    """
+
+    # GenericTp method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.126
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpAddress                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setTpAddress                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getTpTechnology              [x] impl  [ ] docstring  [ ] test
+    # [ ] setTpTechnology              [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        super().__init__()
+
+        self.tpAddress: String = None
+        self.tpTechnology: String = None
+
+    def getTpAddress(self):
+        return self.tpAddress
+
+    def setTpAddress(self, value):
+        self.tpAddress = value
+        return self
+
+    def getTpTechnology(self):
+        return self.tpTechnology
+
+    def setTpTechnology(self, value):
+        self.tpTechnology = value
+        return self
+
+
+class TcpUdpConfig(TransportProtocolConfiguration, ABC):
+    """
+    Abstract base class for TCP and UDP transport protocol configurations,
+    defining common properties for both connection-oriented and
+    connectionless transport protocols.
+    """
+
+    # TcpUdpConfig method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.127
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        if type(self) is TcpUdpConfig:
+            raise TypeError("TcpUdpConfig is an abstract class.")
+
+        super().__init__()
+
+
+class TpPort(ARObject):
+    """
+    Defines properties for a transport protocol port, including
+    port number and dynamic assignment capabilities for network
+    communication endpoints.
+    """
+
+    # TpPort method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.133
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getDynamicallyAssigned       [x] impl  [ ] docstring  [ ] test
+    # [ ] setDynamicallyAssigned       [x] impl  [ ] docstring  [ ] test
+    # [ ] getPortNumber                [x] impl  [ ] docstring  [ ] test
+    # [ ] setPortNumber                [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        super().__init__()
+
+        self.dynamicallyAssigned: Boolean = None
+        self.portNumber: PositiveInteger = None
+
+    def getDynamicallyAssigned(self):
+        return self.dynamicallyAssigned
+
+    def setDynamicallyAssigned(self, value):
+        self.dynamicallyAssigned = value
+        return self
+
+    def getPortNumber(self):
+        return self.portNumber
+
+    def setPortNumber(self, value):
+        self.portNumber = value
+        return self
+
+
+class UdpTp(TcpUdpConfig):
+    """
+    Defines UDP (User Datagram Protocol) transport protocol configuration,
+    specifying UDP-specific port configuration for unreliable but fast
+    datagram-based communication services.
+    """
+
+    # UdpTp method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.128
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getUdpTpPort                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setUdpTpPort                 [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        super().__init__()
+
+        self.udpTpPort: TpPort = None
+
+    def getUdpTpPort(self):
+        return self.udpTpPort
+
+    def setUdpTpPort(self, value):
+        self.udpTpPort = value
+        return self
+
+
+class TcpTp(TcpUdpConfig):
+    """
+    Defines TCP (Transmission Control Protocol) transport protocol configuration,
+    specifying TCP-specific properties such as keep-alive settings, retransmission
+    timeouts, and flow control parameters for reliable connection-oriented communication.
+    """
+
+    # TcpTp method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.129
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getKeepAliveInterval         [x] impl  [ ] docstring  [ ] test
+    # [ ] setKeepAliveInterval         [x] impl  [ ] docstring  [ ] test
+    # [ ] getKeepAliveProbesMax        [x] impl  [ ] docstring  [ ] test
+    # [ ] setKeepAliveProbesMax        [x] impl  [ ] docstring  [ ] test
+    # [ ] getKeepAlives                [x] impl  [ ] docstring  [ ] test
+    # [ ] setKeepAlives                [x] impl  [ ] docstring  [ ] test
+    # [ ] getKeepAliveTime             [x] impl  [ ] docstring  [ ] test
+    # [ ] setKeepAliveTime             [x] impl  [ ] docstring  [ ] test
+    # [ ] getNaglesAlgorithm           [x] impl  [ ] docstring  [ ] test
+    # [ ] setNaglesAlgorithm           [x] impl  [ ] docstring  [ ] test
+    # [ ] getReceiveWindowMin          [x] impl  [ ] docstring  [ ] test
+    # [ ] setReceiveWindowMin          [x] impl  [ ] docstring  [ ] test
+    # [ ] getTcpRetransmissionTimeout  [x] impl  [ ] docstring  [ ] test
+    # [ ] setTcpRetransmissionTimeout  [x] impl  [ ] docstring  [ ] test
+    # [ ] getTcpTpPort                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setTcpTpPort                 [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        super().__init__()
+
+        self.keepAliveInterval: TimeValue = None
+        self.keepAliveProbesMax: PositiveInteger = None
+        self.keepAlives: Boolean = None
+        self.keepAliveTime: TimeValue = None
+        self.naglesAlgorithm: Boolean = None
+        self.receiveWindowMin: PositiveInteger = None
+        self.tcpRetransmissionTimeout: TimeValue = None
+        self.tcpTpPort: TpPort = None
+
+    def getKeepAliveInterval(self):
+        return self.keepAliveInterval
+
+    def setKeepAliveInterval(self, value):
+        self.keepAliveInterval = value
+        return self
+
+    def getKeepAliveProbesMax(self):
+        return self.keepAliveProbesMax
+
+    def setKeepAliveProbesMax(self, value):
+        self.keepAliveProbesMax = value
+        return self
+
+    def getKeepAlives(self):
+        return self.keepAlives
+
+    def setKeepAlives(self, value):
+        self.keepAlives = value
+        return self
+
+    def getKeepAliveTime(self):
+        return self.keepAliveTime
+
+    def setKeepAliveTime(self, value):
+        self.keepAliveTime = value
+        return self
+
+    def getNaglesAlgorithm(self):
+        return self.naglesAlgorithm
+
+    def setNaglesAlgorithm(self, value):
+        self.naglesAlgorithm = value
+        return self
+
+    def getReceiveWindowMin(self):
+        return self.receiveWindowMin
+
+    def setReceiveWindowMin(self, value):
+        self.receiveWindowMin = value
+        return self
+
+    def getTcpRetransmissionTimeout(self):
+        return self.tcpRetransmissionTimeout
+
+    def setTcpRetransmissionTimeout(self, value):
+        self.tcpRetransmissionTimeout = value
+        return self
+
+    def getTcpTpPort(self):
+        return self.tcpTpPort
+
+    def setTcpTpPort(self, value):
+        self.tcpTpPort = value
+        return self
+
+
+class VlanConfig(Identifiable):
+    """
+    Defines Virtual LAN (VLAN) configuration properties,
+    specifying VLAN identifiers for network segmentation
+    and traffic management in Ethernet communication.
+    """
+
+    # VlanConfig method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getVlanIdentifier            [x] impl  [ ] docstring  [ ] test
+    # [ ] setVlanIdentifier            [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.vlanIdentifier: PositiveInteger = None
+
+    def getVlanIdentifier(self):
+        return self.vlanIdentifier
+
+    def setVlanIdentifier(self, value):
+        if value is not None:
+            self.vlanIdentifier = value
+        return self
+
+
+class EthernetPhysicalChannel(PhysicalChannel):
+    """
+    Represents an Ethernet physical channel in the communication system,
+    defining Ethernet-specific properties including network endpoints,
+    Socket Adaptor (SoAd) configuration, and VLAN settings.
+    """
+
+    # EthernetPhysicalChannel method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getNetworkEndpoints          [x] impl  [ ] docstring  [ ] test
+    # [ ] createNetworkEndPoint        [x] impl  [ ] docstring  [ ] test
+    # [ ] getSoAdConfig                [x] impl  [ ] docstring  [ ] test
+    # [ ] setSoAdConfig                [x] impl  [ ] docstring  [ ] test
+    # [ ] getVlan                      [x] impl  [ ] docstring  [ ] test
+    # [ ] createVlanConfig             [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.networkEndpoints: List[NetworkEndpoint] = []
+        self.soAdConfig = None
+        self.vlan: VlanConfig = None
+
+    def getNetworkEndpoints(self):
+        return self.networkEndpoints
+
+    def createNetworkEndPoint(self, short_name: str) -> "NetworkEndpoint":
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import NetworkEndpoint
+
+        if not self.IsElementExists(short_name, NetworkEndpoint):
+            end_point = NetworkEndpoint(self, short_name)
+            self.addElement(end_point)
+            self.networkEndpoints.append(end_point)
+        return self.getElement(short_name, NetworkEndpoint)
+
+    def getSoAdConfig(self):
+        return self.soAdConfig
+
+    def setSoAdConfig(self, value):
+        self.soAdConfig = value
+        return self
+
+    def getVlan(self):
+        return self.vlan
+
+    def createVlanConfig(self, short_name: str) -> VlanConfig:
+        if not self.IsElementExists(short_name, VlanConfig):
+            config = VlanConfig(self, short_name)
+            self.vlan = config
+            self.addElement(config)
+        return self.getElement(short_name, VlanConfig)

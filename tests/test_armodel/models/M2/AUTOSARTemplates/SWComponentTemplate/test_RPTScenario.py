@@ -1,6 +1,23 @@
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptEnablerImplTypeEnum, RptExecutionControlEnum, RptPreparationEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import RptExecutableEntityProperties, RptImplPolicy, RptServicePointEnum
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ExternalTriggeringPointIdent, IdentCaption, RptExecutableEntityProperties, RptImplPolicy, RptServicePointEnum
+
+
+class TestExternalTriggeringPointIdent:
+    """Test class for ExternalTriggeringPointIdent class."""
+
+    def test_external_triggering_point_ident_initialization(self):
+        """Test ExternalTriggeringPointIdent initialization."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        ident = ExternalTriggeringPointIdent(ar_root, "TestExternalTriggeringPointIdent")
+
+        assert ident.parent == ar_root
+        assert ident.short_name == "TestExternalTriggeringPointIdent"
+        # ExternalTriggeringPointIdent inherits from IdentCaption, which doesn't have returnValueProvision
+        # That attribute is only on InternalTriggeringPoint (which inherits from AbstractAccessPoint)
+        assert isinstance(ident, IdentCaption)
 
 
 class TestRptImplPolicy:

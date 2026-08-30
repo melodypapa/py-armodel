@@ -1227,3 +1227,73 @@ class CanXlProps(ARElement):
         if value is not None:
             self.canXlConfigReqs = value
         return self
+
+
+class CanClusterBusOffRecovery(ARObject):
+    """
+    Defines bus off recovery properties for CAN clusters,
+    specifying timing and counter configurations for
+    CAN controller recovery after bus off conditions.
+    """
+
+    # CanClusterBusOffRecovery method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBorCounterL1ToL2          [x] impl  [ ] docstring  [ ] test
+    # [ ] setBorCounterL1ToL2          [x] impl  [ ] docstring  [ ] test
+    # [ ] getBorTimeL1                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setBorTimeL1                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getBorTimeL2                 [x] impl  [ ] docstring  [ ] test
+    # [ ] setBorTimeL2                 [x] impl  [ ] docstring  [ ] test
+    # [ ] getBorTimeTxEnsured          [x] impl  [ ] docstring  [ ] test
+    # [ ] setBorTimeTxEnsured          [x] impl  [ ] docstring  [ ] test
+    # [ ] getMainFunctionPeriod        [x] impl  [ ] docstring  [ ] test
+    # [ ] setMainFunctionPeriod        [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        super().__init__()
+
+        self.borCounterL1ToL2: PositiveInteger = None
+        self.borTimeL1: TimeValue = None
+        self.borTimeL2: TimeValue = None
+        self.borTimeTxEnsured: TimeValue = None
+        self.mainFunctionPeriod: TimeValue = None
+
+    def getBorCounterL1ToL2(self):
+        return self.borCounterL1ToL2
+
+    def setBorCounterL1ToL2(self, value):
+        if value is not None:
+            self.borCounterL1ToL2 = value
+        return self
+
+    def getBorTimeL1(self):
+        return self.borTimeL1
+
+    def setBorTimeL1(self, value):
+        if value is not None:
+            self.borTimeL1 = value
+        return self
+
+    def getBorTimeL2(self):
+        return self.borTimeL2
+
+    def setBorTimeL2(self, value):
+        if value is not None:
+            self.borTimeL2 = value
+        return self
+
+    def getBorTimeTxEnsured(self):
+        return self.borTimeTxEnsured
+
+    def setBorTimeTxEnsured(self, value):
+        if value is not None:
+            self.borTimeTxEnsured = value
+        return self
+
+    def getMainFunctionPeriod(self):
+        return self.mainFunctionPeriod
+
+    def setMainFunctionPeriod(self, value):
+        if value is not None:
+            self.mainFunctionPeriod = value
+        return self

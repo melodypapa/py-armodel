@@ -5,7 +5,6 @@ Tests cover all classes and methods in the Trigger.py file to achieve 100% test 
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PTriggerInAtomicSwcTypeInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import IdentCaption
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import ExternalTriggeringPoint, ExternalTriggeringPointIdent, InternalTriggeringPoint
 
 
@@ -34,22 +33,6 @@ class TestInternalTriggeringPoint:
         sw_impl_policy = SwImplPolicyEnum()
         trigger_point.setSwImplPolicy(sw_impl_policy)
         assert trigger_point.getSwImplPolicy() == sw_impl_policy
-
-
-class TestExternalTriggeringPointIdent:
-    """Test class for ExternalTriggeringPointIdent class."""
-
-    def test_external_triggering_point_ident_initialization(self):
-        """Test ExternalTriggeringPointIdent initialization."""
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        ident = ExternalTriggeringPointIdent(ar_root, "TestExternalTriggeringPointIdent")
-
-        assert ident.parent == ar_root
-        assert ident.short_name == "TestExternalTriggeringPointIdent"
-        # ExternalTriggeringPointIdent inherits from IdentCaption, which doesn't have returnValueProvision
-        # That attribute is only on InternalTriggeringPoint (which inherits from AbstractAccessPoint)
-        assert isinstance(ident, IdentCaption)
 
 
 class TestExternalTriggeringPoint:

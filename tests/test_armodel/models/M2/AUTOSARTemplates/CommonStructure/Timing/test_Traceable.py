@@ -9,7 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     RefType,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import (
+from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     Traceable,
 )
 from armodel.parser.arxml_parser import ARXMLParser
@@ -97,7 +97,7 @@ class TestTraceable:
         assert obj2.getTraceRefs()[0].getDest() is None
 
     def test_traceable_text_reuses_base(self):
-        from armodel.models.M2.MSR.Documentation.TextModel.BlockElements.RequirementsTracing import (
+        from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
             TraceableText,
         )
 

@@ -1,8 +1,10 @@
 # This module contains AUTOSAR System Template classes for service instances
 # It defines consumed and provided service instances, application endpoints, and SOAD configurations
 
+from __future__ import annotations
+
 from abc import ABC
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AnyServiceInstanceId,
@@ -11,239 +13,17 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     PositiveInteger,
     RefType,
-    String,
     TimeValue,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import ApplicationEndpoint, RequestResponseDelay, SdClientConfig
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import ApplicationEndpoint, SdClientConfig
 
-
-class TransportProtocolConfiguration(ARObject, ABC):
-    """
-    Abstract base class for transport protocol configurations,
-    defining the common properties and behavior for different
-    transport protocols (TCP, UDP, etc.) used in service-oriented
-    communication.
-    """
-
-    # TransportProtocolConfiguration method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        if type(self) is TransportProtocolConfiguration:
-            raise TypeError("TransportProtocolConfiguration is an abstract class.")
-
-        super().__init__()
-
-
-class GenericTp(TransportProtocolConfiguration):
-    """
-    Defines generic transport protocol configuration properties,
-    including address and technology specifications for custom
-    transport protocol implementations.
-    """
-
-    # GenericTp method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpAddress                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTpAddress                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getTpTechnology              [x] impl  [ ] docstring  [ ] test
-    # [ ] setTpTechnology              [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        super().__init__()
-
-        self.tpAddress: String = None
-        self.tpTechnology: String = None
-
-    def getTpAddress(self):
-        return self.tpAddress
-
-    def setTpAddress(self, value):
-        self.tpAddress = value
-        return self
-
-    def getTpTechnology(self):
-        return self.tpTechnology
-
-    def setTpTechnology(self, value):
-        self.tpTechnology = value
-        return self
-
-
-class TcpUdpConfig(TransportProtocolConfiguration, ABC):
-    """
-    Abstract base class for TCP and UDP transport protocol configurations,
-    defining common properties for both connection-oriented and
-    connectionless transport protocols.
-    """
-
-    # TcpUdpConfig method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        if type(self) is TcpUdpConfig:
-            raise TypeError("TcpUdpConfig is an abstract class.")
-
-        super().__init__()
-
-
-class TpPort(ARObject):
-    """
-    Defines properties for a transport protocol port, including
-    port number and dynamic assignment capabilities for network
-    communication endpoints.
-    """
-
-    # TpPort method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDynamicallyAssigned       [x] impl  [ ] docstring  [ ] test
-    # [ ] setDynamicallyAssigned       [x] impl  [ ] docstring  [ ] test
-    # [ ] getPortNumber                [x] impl  [ ] docstring  [ ] test
-    # [ ] setPortNumber                [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        super().__init__()
-
-        self.dynamicallyAssigned: Boolean = None
-        self.portNumber: PositiveInteger = None
-
-    def getDynamicallyAssigned(self):
-        return self.dynamicallyAssigned
-
-    def setDynamicallyAssigned(self, value):
-        self.dynamicallyAssigned = value
-        return self
-
-    def getPortNumber(self):
-        return self.portNumber
-
-    def setPortNumber(self, value):
-        self.portNumber = value
-        return self
-
-
-class UdpTp(TcpUdpConfig):
-    """
-    Defines UDP (User Datagram Protocol) transport protocol configuration,
-    specifying UDP-specific port configuration for unreliable but fast
-    datagram-based communication services.
-    """
-
-    # UdpTp method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getUdpTpPort                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setUdpTpPort                 [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        super().__init__()
-
-        self.udpTpPort: TpPort = None
-
-    def getUdpTpPort(self):
-        return self.udpTpPort
-
-    def setUdpTpPort(self, value):
-        self.udpTpPort = value
-        return self
-
-
-class TcpTp(TcpUdpConfig):
-    """
-    Defines TCP (Transmission Control Protocol) transport protocol configuration,
-    specifying TCP-specific properties such as keep-alive settings, retransmission
-    timeouts, and flow control parameters for reliable connection-oriented communication.
-    """
-
-    # TcpTp method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getKeepAliveInterval         [x] impl  [ ] docstring  [ ] test
-    # [ ] setKeepAliveInterval         [x] impl  [ ] docstring  [ ] test
-    # [ ] getKeepAliveProbesMax        [x] impl  [ ] docstring  [ ] test
-    # [ ] setKeepAliveProbesMax        [x] impl  [ ] docstring  [ ] test
-    # [ ] getKeepAlives                [x] impl  [ ] docstring  [ ] test
-    # [ ] setKeepAlives                [x] impl  [ ] docstring  [ ] test
-    # [ ] getKeepAliveTime             [x] impl  [ ] docstring  [ ] test
-    # [ ] setKeepAliveTime             [x] impl  [ ] docstring  [ ] test
-    # [ ] getNaglesAlgorithm           [x] impl  [ ] docstring  [ ] test
-    # [ ] setNaglesAlgorithm           [x] impl  [ ] docstring  [ ] test
-    # [ ] getReceiveWindowMin          [x] impl  [ ] docstring  [ ] test
-    # [ ] setReceiveWindowMin          [x] impl  [ ] docstring  [ ] test
-    # [ ] getTcpRetransmissionTimeout  [x] impl  [ ] docstring  [ ] test
-    # [ ] setTcpRetransmissionTimeout  [x] impl  [ ] docstring  [ ] test
-    # [ ] getTcpTpPort                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTcpTpPort                 [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        super().__init__()
-
-        self.keepAliveInterval: TimeValue = None
-        self.keepAliveProbesMax: PositiveInteger = None
-        self.keepAlives: Boolean = None
-        self.keepAliveTime: TimeValue = None
-        self.naglesAlgorithm: Boolean = None
-        self.receiveWindowMin: PositiveInteger = None
-        self.tcpRetransmissionTimeout: TimeValue = None
-        self.tcpTpPort: TpPort = None
-
-    def getKeepAliveInterval(self):
-        return self.keepAliveInterval
-
-    def setKeepAliveInterval(self, value):
-        self.keepAliveInterval = value
-        return self
-
-    def getKeepAliveProbesMax(self):
-        return self.keepAliveProbesMax
-
-    def setKeepAliveProbesMax(self, value):
-        self.keepAliveProbesMax = value
-        return self
-
-    def getKeepAlives(self):
-        return self.keepAlives
-
-    def setKeepAlives(self, value):
-        self.keepAlives = value
-        return self
-
-    def getKeepAliveTime(self):
-        return self.keepAliveTime
-
-    def setKeepAliveTime(self, value):
-        self.keepAliveTime = value
-        return self
-
-    def getNaglesAlgorithm(self):
-        return self.naglesAlgorithm
-
-    def setNaglesAlgorithm(self, value):
-        self.naglesAlgorithm = value
-        return self
-
-    def getReceiveWindowMin(self):
-        return self.receiveWindowMin
-
-    def setReceiveWindowMin(self, value):
-        self.receiveWindowMin = value
-        return self
-
-    def getTcpRetransmissionTimeout(self):
-        return self.tcpRetransmissionTimeout
-
-    def setTcpRetransmissionTimeout(self, value):
-        self.tcpRetransmissionTimeout = value
-        return self
-
-    def getTcpTpPort(self):
-        return self.tcpTpPort
-
-    def setTcpTpPort(self, value):
-        self.tcpTpPort = value
-        return self
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SocketConnection
 
 
 class AbstractServiceInstance(Identifiable, ABC):
@@ -2191,3 +1971,41 @@ class SoAdConfig(ARObject):
     def getSocketAddresses(self) -> List[SocketAddress]:
         """Collection of SoAdAddresses."""
         return self.socketAddresses
+
+
+class RequestResponseDelay(ARObject):
+    """
+    Defines the delay constraints for request-response communication
+    patterns in service-oriented architectures, specifying minimum
+    and maximum acceptable response times.
+    """
+
+    # RequestResponseDelay method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf (R23-11), Table 6.171
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getMaxValue                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setMaxValue                  [x] impl  [ ] docstring  [ ] test
+    # [ ] getMinValue                  [x] impl  [ ] docstring  [ ] test
+    # [ ] setMinValue                  [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        super().__init__()
+
+        self.maxValue = None  # type: TimeValue
+        self.minValue = None  # type: TimeValue
+
+    def getMaxValue(self):
+        return self.maxValue
+
+    def setMaxValue(self, value):
+        if value is not None:
+            self.maxValue = value
+        return self
+
+    def getMinValue(self):
+        return self.minValue
+
+    def setMinValue(self, value):
+        if value is not None:
+            self.minValue = value
+        return self
