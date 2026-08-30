@@ -164,6 +164,13 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TimingDescriptionEvent,
     TimingDescriptionEventChain,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingCondition import (  # noqa: F401
+    ModeInBswInstanceRef,
+    ModeInSwcBswInstanceRef,
+    ModeInSwcInstanceRef,
+    TimingConditionFormula,
+    TimingModeInstance,
+)
 
 # Additional DiagnosticExtract imports
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract import *  # noqa: F403

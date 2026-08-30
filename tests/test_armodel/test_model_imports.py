@@ -29,37 +29,18 @@ KNOWN_NAME_COLLISION_CLASSES = {
 # These are either incomplete, experimental, or for internal use only
 INTENTIONALLY_UNEXPORTED_MODULES = {
     # AdaptivePlatform - incomplete/experimental AUTOSAR Adaptive Platform support
-    "AgeConstraint",
     "ApplicationDeferredDataType",
     "ApplicationInterface",
-    "ArbitraryEventTriggering",
-    "BurstPatternEventTriggering",
-    "ConcretePatternEventTriggering",
-    "ConfidenceInterval",
     "CryptoKeySlot",
     "CryptoKeySlotContent",
-    "EventOccurrenceKindEnum",
-    "EventTriggeringConstraint",
     "Field",
     "FirewallRule",
     "FirewallRuleProps",
     "IdsPlatformInstantiation",
     "IdsmModuleInstantiation",
-    "LatencyConstraintTypeEnum",
-    "LatencyTimingConstraint",
-    "ModeInBswInstanceRef",
-    "ModeInSwcBswInstanceRef",
-    "ModeInSwcInstanceRef",
     "ModeTransition",
-    "OffsetTimingConstraint",
-    "PeriodicEventTriggering",
     "PlatformModuleEthernetEndpointConfiguration",
-    "SporadicEventTriggering",
     "StateDependentFirewall",
-    "SynchronizationTimingConstraint",
-    "SynchronizationTypeEnum",
-    "TimingConditionFormula",
-    "TimingModeInstance",
 }
 
 
