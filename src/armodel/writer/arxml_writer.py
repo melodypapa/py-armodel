@@ -33,12 +33,12 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswSchedulableEntity,
     BswScheduleEvent,
     BswServiceDependency,
-    BswServiceDependencyIdent,
     BswSynchronousServerCallPoint,
     BswTimingEvent,
     BswVariableAccess,
     RoleBasedBswModuleEntryAssignment,
 )
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleClientServerEntry, BswModuleDependency, BswModuleEntry
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription

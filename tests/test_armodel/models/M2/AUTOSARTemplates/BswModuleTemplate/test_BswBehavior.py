@@ -39,7 +39,6 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswSchedulableEntity,
     BswScheduleEvent,
     BswServiceDependency,
-    BswServiceDependencyIdent,
     BswSynchronousServerCallPoint,
     BswTimingEvent,
     BswVariableAccess,
@@ -49,6 +48,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview.InstanceRe
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ApiPrincipleEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds, RoleBasedDataAssignment, SymbolicNameProps
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, Identifier, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment
@@ -1870,17 +1870,6 @@ class TestBswDistinguishedPartition:
 
         own = set(vars(partition)) - set(vars(probe))
         assert own == set()
-
-
-class TestBswServiceDependencyIdent:
-    """Test cases for BswServiceDependencyIdent class - allows a non-Referrable BswServiceDependency to become the target of a reference."""
-
-    def test_initialization(self):
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        ident = BswServiceDependencyIdent(ar_root, "test_ident")
-
-        assert ident.short_name == "test_ident"
 
 
 class TestRoleBasedBswModuleEntryAssignment:

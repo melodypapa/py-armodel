@@ -4,7 +4,7 @@ AUTOSAR DiagnosticExtract module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticCommonElement import (
+from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.CommonDiagnostics import (
     DiagnosticCommonElement,
 )
 
