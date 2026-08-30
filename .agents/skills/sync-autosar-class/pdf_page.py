@@ -14,8 +14,9 @@ Usage:
 Output (one line per match):
   <release>/<pdf filename> | Table <N.M>: <ClassName> | p.<page>
 
-A per-PDF text index is cached in `.pdf_table_cache.json` next to this script,
-keyed by the PDF's mtime, so repeated lookups do not re-scan the PDFs.
+A per-PDF text index is cached in `.pdf_table_cache.json` at the repo root (shared by
+every copy of this script), keyed by the PDF's mtime, so repeated lookups do not
+re-scan the PDFs.
 """
 
 from __future__ import annotations
@@ -26,7 +27,8 @@ import os
 import re
 import sys
 
-CACHE_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".pdf_table_cache.json")
+_REPO_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..")
+CACHE_FILE = os.path.join(_REPO_ROOT, ".pdf_table_cache.json")
 AUTOSAR_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "autosar")
 
 
@@ -45,7 +47,7 @@ def scan_pdf(pdf_path):
         text = _pypdf_text(reader, i)
         if "Table" not in text:
             continue
-        for m in re.finditer(r"Table\s+(\d+\.\d+)\s*:\s*([A-Za-z0-9]+)", text):
+        for m in re.finditer(r"Table\s+(\d+\.\d+)\s*:\s*([A-Za-z0-9][A-Za-z0-9_\-]*)", text):
             tid, cls = m.group(1), m.group(2)
             if tid not in tables:
                 tables[tid] = [cls, i + 1, "Table %s: %s" % (tid, cls)]

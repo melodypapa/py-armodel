@@ -50,7 +50,7 @@
     "Output checks field<->spec in both directions (for the enum: members vs Literal rows, no extra/missing)",
     "Output checks docstrings/comments copy the spec Note verbatim (verified by diff, not status)",
     "Output states the stamp decision: # Spec verified placed only if no unresolved deviation/placeholder remains",
-    "Output checks member order (Rule 0011) for the enum literals",
+    "Output checks member order (Rule 0001.11) for the enum literals",
     "Output states the 9b checklist is the complete pre-stamp sign-off (when all items pass, # Spec verified is warranted)",
     "Output asks the user to confirm before stamping the class or advancing to the next queue item",
     "No source files under src/armodel/models/ were modified"
@@ -59,12 +59,12 @@
   {
    "id": 5,
    "prompt": "Using the sync-autosar-class skill, you have just finished implementing the sync of the AUTOSAR class `NmNode` (CP SystemTemplate Table 6.303, abstract, base Identifiable) in py-armodel: Steps 1 through 9a are complete and all automated checks (pytest, flake8, ruff, black-check, set-based checklist script, round-trip) pass. Now perform Step 9b: present the post-sync rule-compliance confirmation for NmNode against its spec table. The current source is src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/NetworkManagement.py and the spec markdown is autosar/R23-11/markdown/AUTOSAR_CP_TPS_SystemTemplate.md (Table 6.303). Do NOT modify any source files; just produce the confirmation. Repo root: /Users/ray/Workspace/py-armodel.",
-   "expected_output": "A Step 9b complete pre-stamp checklist for NmNode. It must flag at least: (a) the Kind-suffix/naming deviation TxNmPduRefs -> txNmPduRefs (and addTxNmPduRefs -> addTxNmPduRef) per Rule 0001.5; (b) the type drift nmCoordCluster ARNumerical->PositiveInteger and/or nmCoordinatorRole ARLiteral->NmCoordinatorRoleEnum and/or nmNodeId ARNumerical->Integer per Rule 0001.3; and it must check member order (Rule 0011) and reader/writer coverage (Rule 0001.7). It must conclude that # Spec verified may NOT be stamped while any 9b item fails, and ask the user to confirm.",
+   "expected_output": "A Step 9b complete pre-stamp checklist for NmNode. It must flag at least: (a) the Kind-suffix/naming deviation TxNmPduRefs -> txNmPduRefs (and addTxNmPduRefs -> addTxNmPduRef) per Rule 0001.5; (b) the type drift nmCoordCluster ARNumerical->PositiveInteger and/or nmCoordinatorRole ARLiteral->NmCoordinatorRoleEnum and/or nmNodeId ARNumerical->Integer per Rule 0001.3; and it must check member order (Rule 0001.11) and reader/writer coverage (Rule 0001.7). It must conclude that # Spec verified may NOT be stamped while any 9b item fails, and ask the user to confirm.",
    "expectations": [
     "Output presents a Step 9b complete pre-stamp rule-compliance checklist (not just 'tests pass')",
     "Output flags the Kind-suffix/naming deviation TxNmPduRefs (should be txNmPduRefs) under Rule 0001.5",
     "Output flags type drift vs the PDF (e.g. nmCoordCluster ARNumerical vs PositiveInteger, or nmCoordinatorRole ARLiteral vs NmCoordinatorRoleEnum) under Rule 0001.3",
-    "Output checks member order (Rule 0011) and reader/writer coverage (Rule 0001.7)",
+    "Output checks member order (Rule 0001.11) and reader/writer coverage (Rule 0001.7)",
     "Output concludes # Spec verified may NOT be stamped while any 9b item fails, and asks the user to confirm",
     "No source files under src/armodel/models/ were modified"
    ]
