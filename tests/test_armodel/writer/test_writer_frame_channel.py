@@ -668,7 +668,7 @@ class TestWritePduTriggering:
         assert ptt.find("SEC-OC-CRYPTO-MAPPING-REF").text == "/map"
 
     def test_write_pdu_triggering_roundtrip(self, writer):
-        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.Timing import TriggerIPduSendCondition
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import TriggerIPduSendCondition
         from armodel.parser.arxml_parser import ARXMLParser
 
         NS = "http://autosar.org/schema/r4.0"

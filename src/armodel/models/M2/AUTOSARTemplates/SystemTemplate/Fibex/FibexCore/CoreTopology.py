@@ -1,27 +1,33 @@
+from __future__ import annotations
+
 from abc import ABC
 from typing import TYPE_CHECKING, List, Optional
 
 if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanPhysicalChannel
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import NetworkEndpoint
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinScheduleTable
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector, CanCommunicationController
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationConnector, EthernetCommunicationController
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationConnector, FlexrayCommunicationController
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector, LinMaster
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+        CommunicationDirectionType,
+        FramePort,
+        FrameTriggering,
+        IPduPort,
+        ISignalPort,
+        ISignalTriggering,
+        PduTriggering,
+    )
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, RefType, String, TimeValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering, LinScheduleTable
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
-    CommConnectorPort,
-    FibexElement,
-    FramePort,
-    FrameTriggering,
-    IPduPort,
-    ISignalPort,
-    ISignalTriggering,
-    PduTriggering,
-)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 
 
 class CommunicationCycle(ARObject, ABC):
@@ -185,6 +191,8 @@ class PhysicalChannel(Identifiable, ABC):
         """
         One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrameTriggering
+
         if not self.IsElementExists(short_name, CanFrameTriggering):
             triggering = CanFrameTriggering(self, short_name)
             self.addElement(triggering)
@@ -195,6 +203,8 @@ class PhysicalChannel(Identifiable, ABC):
         """
         One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinFrameTriggering
+
         if not self.IsElementExists(short_name, LinFrameTriggering):
             triggering = LinFrameTriggering(self, short_name)
             self.addElement(triggering)
@@ -205,6 +215,8 @@ class PhysicalChannel(Identifiable, ABC):
         """
         One frame triggering is defined for exactly one channel. Channels may have assigned an arbitrary number of frame triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=frameTriggering.shortName, frame Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrameTriggering
+
         if not self.IsElementExists(short_name, FlexrayFrameTriggering):
             triggering = FlexrayFrameTriggering(self, short_name)
             self.addElement(triggering)
@@ -221,6 +233,8 @@ class PhysicalChannel(Identifiable, ABC):
         """
         One ISignalTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of ISignaltriggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=iSignalTriggering.shortName, iSignal Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalTriggering
+
         if not self.IsElementExists(short_name, ISignalTriggering):
             triggering = ISignalTriggering(self, short_name)
             self.addElement(triggering)
@@ -252,6 +266,8 @@ class PhysicalChannel(Identifiable, ABC):
         """
         One PduTriggering is defined for exactly one channel. Channels may have assigned an arbitrary number of I-Pdu triggerings. atpVariation: If signals/PDUs/frames are variable, the corresponding triggerings shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=pduTriggering.shortName, pdu Triggering.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import PduTriggering
+
         if not self.IsElementExists(short_name, PduTriggering):
             triggering = PduTriggering(self, short_name)
             self.addElement(triggering)
@@ -291,6 +307,8 @@ class LinPhysicalChannel(PhysicalChannel):
         return self.scheduleTables
 
     def createLinScheduleTable(self, short_name: str) -> LinScheduleTable:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinScheduleTable
+
         if not self.IsElementExists(short_name, LinScheduleTable):
             end_point = LinScheduleTable(self, short_name)
             self.addElement(end_point)
@@ -900,6 +918,8 @@ class CommunicationConnector(Identifiable, ABC):
         """
         An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import FramePort
+
         if self.getElement(short_name) is None:
             port = FramePort(self, short_name)
             self.addElement(port)
@@ -910,6 +930,8 @@ class CommunicationConnector(Identifiable, ABC):
         """
         An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import IPduPort
+
         if self.getElement(short_name) is None:
             port = IPduPort(self, short_name)
             self.addElement(port)
@@ -920,6 +942,8 @@ class CommunicationConnector(Identifiable, ABC):
         """
         An ECUs reception or send ports. atpVariation: If signals/PDUs/frames are variable, the corresponding ports shall be variable, too. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=ecuCommPortInstance.shortName, ecu CommPortInstance.variationPoint.shortLabel vh.latestBindingTime=postBuild
         """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalPort
+
         if self.getElement(short_name) is None:
             port = ISignalPort(self, short_name)
             self.addElement(port)
@@ -954,4 +978,382 @@ class CommunicationConnector(Identifiable, ABC):
         """
         if value is not None:
             self.pncGatewayType = value
+        return self
+
+
+class CommConnectorPort(Identifiable, ABC):
+    """
+    The Ecu communication relationship defines which signals, Pdus and frames are actually received and transmitted by this ECU. For each signal, Pdu or Frame that is transmitted or received and used by the Ecu an association between an ISignalPort, IPduPort or FramePort with the corresponding Triggering shall be created. An ISignalPort shall be created only if the corresponding signal is handled by COM (RTE or Signal Gateway). If a Pdu Gateway ECU only routes the Pdu without being interested in the content only a FramePort and an IPduPort needs to be created.
+
+    [constr_9103] Existence of communicationDirection: For each CommConnectorPort, the attribute communicationDirection shall exist at the time when the System Description is complete.
+    """
+
+    # CommConnectorPort method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.1, p.303
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [x] getCommunicationDirection    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCommunicationDirection    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is CommConnectorPort:
+            raise TypeError("CommConnectorPort is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # Communication Direction of the Connector Port (input or output Port).
+        self.communicationDirection: Optional[CommunicationDirectionType] = None
+
+    def getCommunicationDirection(self) -> Optional[CommunicationDirectionType]:
+        """
+        Communication Direction of the Connector Port (input or output Port).
+        """
+        return self.communicationDirection
+
+    def setCommunicationDirection(self, value: Optional[CommunicationDirectionType]) -> "CommConnectorPort":
+        """
+        Communication Direction of the Connector Port (input or output Port).
+        A None value is a no-op and does not overwrite an existing communicationDirection.
+        """
+        if value is not None:
+            self.communicationDirection = value
+        return self
+
+
+class EcuInstance(FibexElement):
+    """
+    ECUInstances are used to define the ECUs used in the topology.
+    The type of the ECU is defined by a reference to an ECU specified
+    with the ECU resource description.
+    """
+
+    # EcuInstance method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 3.1, pp.50-52
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # [x] getAssociatedComIPduGroupRefs [x] impl  [x] docstring  [x] test
+    # [x] addAssociatedComIPduGroupRef [x] impl  [x] docstring  [x] test
+    # [x] getAssociatedConsumedProvidedServiceInstanceGroupRefs [x] impl  [x] docstring  [x] test
+    # [x] addAssociatedConsumedProvidedServiceInstanceGroupRef [x] impl  [x] docstring  [x] test
+    # [x] getAssociatedPdurIPduGroupRefs [x] impl  [x] docstring  [x] test
+    # [x] addAssociatedPdurIPduGroupRef [x] impl  [x] docstring  [x] test
+    # [x] getChannelSynchronousWakeup  [x] impl  [x] docstring  [x] test
+    # [x] setChannelSynchronousWakeup  [x] impl  [x] docstring  [x] test
+    # [x] getClientIdRange             [x] impl  [x] docstring  [x] test
+    # [x] setClientIdRange             [x] impl  [x] docstring  [x] test
+    # [x] getComConfigurationGwTimeBase [x] impl  [x] docstring  [x] test
+    # [x] setComConfigurationGwTimeBase [x] impl  [x] docstring  [x] test
+    # [x] getComConfigurationRxTimeBase [x] impl  [x] docstring  [x] test
+    # [x] setComConfigurationRxTimeBase [x] impl  [x] docstring  [x] test
+    # [x] getComConfigurationTxTimeBase [x] impl  [x] docstring  [x] test
+    # [x] setComConfigurationTxTimeBase [x] impl  [x] docstring  [x] test
+    # [x] getComEnableMDTForCyclicTransmission [x] impl  [x] docstring  [x] test
+    # [x] setComEnableMDTForCyclicTransmission [x] impl  [x] docstring  [x] test
+    # [x] getCommControllers           [x] impl  [x] docstring  [x] test
+    # [x] createCanCommunicationController [x] impl  [x] docstring  [x] test
+    # [x] createEthernetCommunicationController [x] impl  [x] docstring  [x] test
+    # [x] createLinMaster              [x] impl  [x] docstring  [x] test
+    # [x] createFlexrayCommunicationController [x] impl  [x] docstring  [x] test
+    # [x] getConnectors                [x] impl  [x] docstring  [x] test
+    # [x] createCanCommunicationConnector [x] impl  [x] docstring  [x] test
+    # [x] createEthernetCommunicationConnector [x] impl  [x] docstring  [x] test
+    # [x] createLinCommunicationConnector [x] impl  [x] docstring  [x] test
+    # [x] createFlexrayCommunicationConnector [x] impl  [x] docstring  [x] test
+    # [x] getDltConfig                 [x] impl  [x] docstring  [x] test
+    # [x] setDltConfig                 [x] impl  [x] docstring  [x] test
+    # [x] getDoIpConfig                [x] impl  [x] docstring  [x] test
+    # [x] setDoIpConfig                [x] impl  [x] docstring  [x] test
+    # [x] getEcuTaskProxyRefs          [x] impl  [x] docstring  [x] test
+    # [x] addEcuTaskProxyRef           [x] impl  [x] docstring  [x] test
+    # [x] getEthSwitchPortGroupDerivation [x] impl  [x] docstring  [x] test
+    # [x] setEthSwitchPortGroupDerivation [x] impl  [x] docstring  [x] test
+    # [x] getFirewallRuleRefs          [x] impl  [x] docstring  [x] test
+    # [x] addFirewallRuleRef           [x] impl  [x] docstring  [x] test
+    # [x] getPartitions                [x] impl  [x] docstring  [x] test
+    # [x] addPartition                 [x] impl  [x] docstring  [x] test
+    # [x] getPncNmRequest              [x] impl  [x] docstring  [x] test
+    # [x] setPncNmRequest              [x] impl  [x] docstring  [x] test
+    # [x] getPncPrepareSleepTimer      [x] impl  [x] docstring  [x] test
+    # [x] setPncPrepareSleepTimer      [x] impl  [x] docstring  [x] test
+    # [x] getPncSynchronousWakeup      [x] impl  [x] docstring  [x] test
+    # [x] setPncSynchronousWakeup      [x] impl  [x] docstring  [x] test
+    # [x] getPnResetTime               [x] impl  [x] docstring  [x] test
+    # [x] setPnResetTime               [x] impl  [x] docstring  [x] test
+    # [x] getSleepModeSupported        [x] impl  [x] docstring  [x] test
+    # [x] setSleepModeSupported        [x] impl  [x] docstring  [x] test
+    # [x] getTcpIpIcmpPropsRef         [x] impl  [x] docstring  [x] test
+    # [x] setTcpIpIcmpPropsRef         [x] impl  [x] docstring  [x] test
+    # [x] getTcpIpPropsRef             [x] impl  [x] docstring  [x] test
+    # [x] setTcpIpPropsRef             [x] impl  [x] docstring  [x] test
+    # [x] getV2xSupported              [x] impl  [x] docstring  [x] test
+    # [x] setV2xSupported              [x] impl  [x] docstring  [x] test
+    # [x] getWakeUpOverBusSupported    [x] impl  [x] docstring  [x] test
+    # [x] setWakeUpOverBusSupported    [x] impl  [x] docstring  [x] test
+
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+        self.associatedComIPduGroupRefs: List[RefType] = []
+        self.associatedConsumedProvidedServiceInstanceGroupRefs: List[RefType] = []
+        self.associatedPdurIPduGroupRefs: List[RefType] = []
+        self.channelSynchronousWakeup: Boolean = None
+        self.clientIdRange = None
+        self.comConfigurationGwTimeBase: TimeValue = None
+        self.comConfigurationRxTimeBase: TimeValue = None
+        self.comConfigurationTxTimeBase: TimeValue = None
+        self.comEnableMDTForCyclicTransmission: Boolean = None
+        self.commControllers: List[CommunicationController] = []
+        self.connectors: List[CommunicationConnector] = []
+        self.dltConfig = None
+        self.doIpConfig = None
+        self.ecuTaskProxyRefs: List[RefType] = []
+        self.ethSwitchPortGroupDerivation: Boolean = None
+        self.firewallRuleRefs: List[RefType] = []
+        self.partitions = []
+        self.pncNmRequest: Boolean = None
+        self.pncPrepareSleepTimer: TimeValue = None
+        self.pncSynchronousWakeup: Boolean = None
+        self.pnResetTime: TimeValue = None
+        self.sleepModeSupported: Boolean = None
+        self.tcpIpIcmpPropsRef: RefType = None
+        self.tcpIpPropsRef: RefType = None
+        self.v2xSupported = None
+        self.wakeUpOverBusSupported: Boolean = None
+
+    def getAssociatedComIPduGroupRefs(self):
+        return self.associatedComIPduGroupRefs
+
+    def addAssociatedComIPduGroupRef(self, value):
+        self.associatedComIPduGroupRefs.append(value)
+        return self
+
+    def getAssociatedConsumedProvidedServiceInstanceGroupRefs(self):
+        return self.associatedConsumedProvidedServiceInstanceGroupRefs
+
+    def addAssociatedConsumedProvidedServiceInstanceGroupRef(self, value):
+        self.associatedConsumedProvidedServiceInstanceGroupRefs.append(value)
+        return self
+
+    def getAssociatedPdurIPduGroupRefs(self):
+        return self.associatedPdurIPduGroupRefs
+
+    def addAssociatedPdurIPduGroupRef(self, value):
+        self.associatedPdurIPduGroupRefs.append(value)
+        return self
+
+    def getChannelSynchronousWakeup(self):
+        return self.channelSynchronousWakeup
+
+    def setChannelSynchronousWakeup(self, value):
+        self.channelSynchronousWakeup = value
+        return self
+
+    def getClientIdRange(self):
+        return self.clientIdRange
+
+    def setClientIdRange(self, value):
+        self.clientIdRange = value
+        return self
+
+    def getComConfigurationGwTimeBase(self):
+        return self.comConfigurationGwTimeBase
+
+    def setComConfigurationGwTimeBase(self, value):
+        self.comConfigurationGwTimeBase = value
+        return self
+
+    def getComConfigurationRxTimeBase(self):
+        return self.comConfigurationRxTimeBase
+
+    def setComConfigurationRxTimeBase(self, value):
+        self.comConfigurationRxTimeBase = value
+        return self
+
+    def getComConfigurationTxTimeBase(self):
+        return self.comConfigurationTxTimeBase
+
+    def setComConfigurationTxTimeBase(self, value):
+        self.comConfigurationTxTimeBase = value
+        return self
+
+    def getComEnableMDTForCyclicTransmission(self):
+        return self.comEnableMDTForCyclicTransmission
+
+    def setComEnableMDTForCyclicTransmission(self, value):
+        self.comEnableMDTForCyclicTransmission = value
+        return self
+
+    def getCommControllers(self):
+        return list(sorted(filter(lambda a: isinstance(a, CommunicationController), self.elements), key=lambda o: o.short_name))
+
+    def createCanCommunicationController(self, short_name: str) -> CanCommunicationController:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationController
+
+        if not self.IsElementExists(short_name, CanCommunicationController):
+            controller = CanCommunicationController(self, short_name)
+            self.addElement(controller)
+        return self.getElement(short_name, CanCommunicationController)
+
+    def createEthernetCommunicationController(self, short_name: str) -> EthernetCommunicationController:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationController
+
+        if not self.IsElementExists(short_name, EthernetCommunicationController):
+            controller = EthernetCommunicationController(self, short_name)
+            self.addElement(controller)
+        return self.getElement(short_name, EthernetCommunicationController)
+
+    def createLinMaster(self, short_name: str) -> LinMaster:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinMaster
+
+        if not self.IsElementExists(short_name, LinMaster):
+            controller = LinMaster(self, short_name)
+            self.addElement(controller)
+        return self.getElement(short_name, LinMaster)
+
+    def createFlexrayCommunicationController(self, short_name: str) -> FlexrayCommunicationController:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationController
+
+        if not self.IsElementExists(short_name, FlexrayCommunicationController):
+            controller = FlexrayCommunicationController(self, short_name)
+            self.addElement(controller)
+        return self.getElement(short_name, FlexrayCommunicationController)
+
+    def getConnectors(self):
+        return list(sorted(filter(lambda a: isinstance(a, CommunicationConnector), self.elements), key=lambda o: o.short_name))
+
+    def createCanCommunicationConnector(self, short_name: str) -> CanCommunicationConnector:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanCommunicationConnector
+
+        if not self.IsElementExists(short_name, CanCommunicationConnector):
+            connector = CanCommunicationConnector(self, short_name)
+            self.addElement(connector)
+        return self.getElement(short_name, CanCommunicationConnector)
+
+    def createEthernetCommunicationConnector(self, short_name: str) -> EthernetCommunicationConnector:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCommunicationConnector
+
+        if not self.IsElementExists(short_name, EthernetCommunicationConnector):
+            connector = EthernetCommunicationConnector(self, short_name)
+            self.addElement(connector)
+        return self.getElement(short_name, EthernetCommunicationConnector)
+
+    def createLinCommunicationConnector(self, short_name: str) -> LinCommunicationConnector:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCommunicationConnector
+
+        if not self.IsElementExists(short_name, LinCommunicationConnector):
+            connector = LinCommunicationConnector(self, short_name)
+            self.addElement(connector)
+        return self.getElement(short_name, LinCommunicationConnector)
+
+    def createFlexrayCommunicationConnector(self, short_name: str) -> FlexrayCommunicationConnector:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCommunicationConnector
+
+        if not self.IsElementExists(short_name, FlexrayCommunicationConnector):
+            connector = FlexrayCommunicationConnector(self, short_name)
+            self.addElement(connector)
+        return self.getElement(short_name, FlexrayCommunicationConnector)
+
+    def getDltConfig(self):
+        return self.dltConfig
+
+    def setDltConfig(self, value):
+        self.dltConfig = value
+        return self
+
+    def getDoIpConfig(self):
+        return self.doIpConfig
+
+    def setDoIpConfig(self, value):
+        self.doIpConfig = value
+        return self
+
+    def getEcuTaskProxyRefs(self):
+        return self.ecuTaskProxyRefs
+
+    def addEcuTaskProxyRef(self, value):
+        self.ecuTaskProxyRefs.append(value)
+        return self
+
+    def getEthSwitchPortGroupDerivation(self):
+        return self.ethSwitchPortGroupDerivation
+
+    def setEthSwitchPortGroupDerivation(self, value):
+        self.ethSwitchPortGroupDerivation = value
+        return self
+
+    def getFirewallRuleRefs(self):
+        return self.firewallRuleRefs
+
+    def addFirewallRuleRef(self, value):
+        self.firewallRuleRefs.append(value)
+        return self
+
+    def getPartitions(self):
+        return self.partitions
+
+    def addPartition(self, value):
+        self.partitions.append(value)
+        return self
+
+    def getPncNmRequest(self):
+        return self.pncNmRequest
+
+    def setPncNmRequest(self, value):
+        self.pncNmRequest = value
+        return self
+
+    def getPncPrepareSleepTimer(self):
+        return self.pncPrepareSleepTimer
+
+    def setPncPrepareSleepTimer(self, value):
+        self.pncPrepareSleepTimer = value
+        return self
+
+    def getPncSynchronousWakeup(self):
+        return self.pncSynchronousWakeup
+
+    def setPncSynchronousWakeup(self, value):
+        self.pncSynchronousWakeup = value
+        return self
+
+    def getPnResetTime(self):
+        return self.pnResetTime
+
+    def setPnResetTime(self, value):
+        self.pnResetTime = value
+        return self
+
+    def getSleepModeSupported(self):
+        return self.sleepModeSupported
+
+    def setSleepModeSupported(self, value):
+        self.sleepModeSupported = value
+        return self
+
+    def getTcpIpIcmpPropsRef(self):
+        return self.tcpIpIcmpPropsRef
+
+    def setTcpIpIcmpPropsRef(self, value):
+        self.tcpIpIcmpPropsRef = value
+        return self
+
+    def getTcpIpPropsRef(self):
+        return self.tcpIpPropsRef
+
+    def setTcpIpPropsRef(self, value):
+        self.tcpIpPropsRef = value
+        return self
+
+    def getV2xSupported(self):
+        return self.v2xSupported
+
+    def setV2xSupported(self, value):
+        self.v2xSupported = value
+        return self
+
+    def getWakeUpOverBusSupported(self):
+        return self.wakeUpOverBusSupported
+
+    def setWakeUpOverBusSupported(self, value):
+        self.wakeUpOverBusSupported = value
         return self
