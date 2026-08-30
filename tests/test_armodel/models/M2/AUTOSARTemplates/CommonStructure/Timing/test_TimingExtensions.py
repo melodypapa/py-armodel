@@ -15,7 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint import (
     ExecutionTimeConstraint,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import (
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import (
     SwcTiming,
     TimingExtension,
 )

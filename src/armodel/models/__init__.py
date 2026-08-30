@@ -141,7 +141,6 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventBsw import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventComplex import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSLLET import *  # noqa: F403
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSLLETPort import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventSwcInternalBehavior import (  # noqa: F401
     TDEventSwc,
     TDEventSwcInternalBehavior,
@@ -152,8 +151,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventCom import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import ComponentInCompositionInstanceRef  # noqa: F401
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionOrderConstraint import *  # noqa: F403
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import *  # noqa: F403
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingExtensions import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.ExecutionTimeConstraint import ExecutionTimeConstraint, ExecutionTimeTypeEnum  # noqa: F401
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationPointConstraint import SynchronizationPointConstraint  # noqa: F401
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock, TimingClock, TimingClockSyncAccuracy  # noqa: F401

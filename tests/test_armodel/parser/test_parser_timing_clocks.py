@@ -6,7 +6,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingClock import TDLETZoneClock, TimingClockSyncAccuracy
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.TimingConstraint import (
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import (
     TimingConstraint,
 )
 from armodel.parser.arxml_parser import ARXMLParser
