@@ -10,13 +10,11 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     PPortPrototype,
     PRPortPrototype,
     RPortPrototype,
+    SwComponentType,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import ConsistencyNeeds
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
     SwComponentDocumentation,
-)
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import (
-    SwComponentType,
 )
 
 

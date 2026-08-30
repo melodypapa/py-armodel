@@ -23,16 +23,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     TimeValue,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (  # noqa E501
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (  # noqa E501  # noqa E501
     PModeGroupInAtomicSwcInstanceRef,
+    POperationInAtomicSwcInstanceRef,
     PTriggerInAtomicSwcTypeInstanceRef,
     RModeGroupInAtomicSWCInstanceRef,
     RModeInAtomicSwcInstanceRef,
-    RVariableInAtomicSwcInstanceRef,
-)
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (  # noqa E501
-    POperationInAtomicSwcInstanceRef,
     ROperationInAtomicSwcInstanceRef,
+    RVariableInAtomicSwcInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     RunnableEntityArgument,

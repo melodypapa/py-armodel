@@ -50,6 +50,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import *  # noqa: F403
@@ -196,7 +197,6 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import *  # noqa: F403
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwComponentType import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AutosarVariableRef import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import *  # noqa: F403
 

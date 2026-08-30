@@ -473,10 +473,12 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (
     InstanceEventInCompositionInstanceRef,
-    POperationInAtomicSwcInstanceRef,
     PPortInCompositionInstanceRef,
-    ROperationInAtomicSwcInstanceRef,
     RPortInCompositionInstanceRef,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
+    POperationInAtomicSwcInstanceRef,
+    ROperationInAtomicSwcInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     ApplicationCompositeElementDataPrototype,
