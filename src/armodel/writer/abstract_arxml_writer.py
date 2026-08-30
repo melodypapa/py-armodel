@@ -67,9 +67,15 @@ class AbstractARXMLWriter(ABC):
             raise NotImplementedError(error_msg)
 
     def writeARObjectAttributes(self, element: ET.Element, ar_obj: ARObject):
-        if ar_obj.timestamp is not None:
-            # self.logger.debug("Timestamp: %s" % ar_obj.timestamp)
-            element.attrib["T"] = ar_obj.timestamp
+        if isinstance(ar_obj, ARObject):
+            if ar_obj.getChecksum() is not None:
+                element.attrib["S"] = ar_obj.getChecksum().getValue()
+            if ar_obj.getTimestamp() is not None:
+                element.attrib["T"] = ar_obj.getTimestamp().getValue()
+        else:
+            # The ARType hierarchy carries the timestamp as a plain string (duck-typed)
+            if ar_obj.timestamp is not None:
+                element.attrib["T"] = ar_obj.timestamp
         if ar_obj.uuid is not None:
             # self.logger.debug("UUID: %s" % ar_obj.uuid)
             element.attrib["UUID"] = ar_obj.uuid

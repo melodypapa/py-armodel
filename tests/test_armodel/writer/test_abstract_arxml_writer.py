@@ -94,7 +94,9 @@ class TestAbstractARXMLWriter:
         writer = ConcreteARXMLWriter()
         parent = ET.Element("parent")
         ar_obj = ConcreteTestARObject(None, "TestObj")
-        ar_obj.timestamp = "2024-01-01T00:00:00"
+        timestamp = DateTime()
+        timestamp.setValue("2024-01-01T00:00:00")
+        ar_obj.setTimestamp(timestamp)
 
         writer.writeARObjectAttributes(parent, ar_obj)
         assert parent.attrib["T"] == "2024-01-01T00:00:00"
@@ -114,7 +116,9 @@ class TestAbstractARXMLWriter:
         writer = ConcreteARXMLWriter()
         parent = ET.Element("parent")
         ar_obj = ConcreteTestARObject(None, "TestObj")
-        ar_obj.timestamp = "2024-01-01T00:00:00"
+        timestamp = DateTime()
+        timestamp.setValue("2024-01-01T00:00:00")
+        ar_obj.setTimestamp(timestamp)
         ar_obj.uuid = "12345678-1234-1234-1234-123456789012"
 
         writer.writeARObjectAttributes(parent, ar_obj)

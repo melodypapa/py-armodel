@@ -2928,7 +2928,7 @@ class TestReadTransformationISignalProps:
             f"<END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL " f"xmlns='{NS}' T='2024-01-01T00:00:00' UUID='abc-123'>" f"</END-TO-END-TRANSFORMATION-I-SIGNAL-PROPS-CONDITIONAL>"
         )
         parser.readTransformationISignalProps(element, props)
-        assert props.timestamp == "2024-01-01T00:00:00"
+        assert props.getTimestamp().getValue() == "2024-01-01T00:00:00"
         assert props.uuid == "abc-123"
 
     def test_without_arobject_attributes(self, parser):

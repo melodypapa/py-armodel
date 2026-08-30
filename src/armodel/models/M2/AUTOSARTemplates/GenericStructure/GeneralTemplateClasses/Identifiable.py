@@ -503,38 +503,6 @@ class Identifiable(MultilanguageReferrable, ABC):
         return self.annotations
 
 
-class PackageableElement(Identifiable, ABC):
-    """
-    This meta-class specifies the ability to be a member of an AUTOSAR package.
-    """
-
-    # PackageableElement method parity checklist:
-    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.2, p.54
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-
-    def __init__(self, parent: ARObject, short_name: str):
-        if type(self) is PackageableElement:
-            raise TypeError("PackageableElement is an abstract class.")
-        super().__init__(parent, short_name)
-
-
-class ARElement(PackageableElement, ABC):
-    """
-    Abstract class for AUTOSAR elements.
-    This class represents the basic structure for all AUTOSAR model elements.
-    """
-
-    # ARElement method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        if type(self) is ARElement:
-            raise TypeError("ARElement is an abstract class.")
-        super().__init__(parent, short_name)
-
-
 # Initialize the CommonStructure package before any import that transitively touches
 # AbstractStructure: AbstractStructure's own import of AbstractBlueprintStructure requires
 # the CommonStructure package to be present in sys.modules (Task 15 bootstrap-cycle fix).

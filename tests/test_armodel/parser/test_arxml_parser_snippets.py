@@ -282,7 +282,7 @@ class TestReadMethods:
         )
         ar_obj = Modification()
         parser.readARObjectAttributes(element, ar_obj)
-        assert ar_obj.timestamp == "2023-01-01T00:00:00+08:00"
+        assert ar_obj.getTimestamp().getValue() == "2023-01-01T00:00:00+08:00"
 
     def test_readARObjectAttributes_with_uuid(self, parser):
         """Test readARObjectAttributes with UUID attribute."""

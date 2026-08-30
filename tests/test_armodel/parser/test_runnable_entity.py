@@ -130,7 +130,7 @@ class TestRunnableEntity:
 
         written_var = runnable_entity.getWrittenLocalVariables()[0]
         assert written_var.getShortName() == "CurrentCounterValue4"
-        assert written_var.getAccessedVariableRef().timestamp == "2020-08-03T07:59:25+02:00"
+        assert written_var.getAccessedVariableRef().getTimestamp().getValue() == "2020-08-03T07:59:25+02:00"
         assert written_var.getAccessedVariableRef().getLocalVariableRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
         assert written_var.getAccessedVariableRef().getLocalVariableRef().getValue() == "/DemoApplication/SwComponentTypes/SWC_CyclicCounter/IB_SWC_CyclicCounter/CurrentCounterValue"
 

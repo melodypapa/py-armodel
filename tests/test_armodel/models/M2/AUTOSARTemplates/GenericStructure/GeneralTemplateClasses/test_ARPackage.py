@@ -794,6 +794,10 @@ class TestPackageableElement:
 class TestARElement:
     """
     Test class for ARElement functionality.
+
+    Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.3, p.55
+    ARElement is an abstract class without own attributes; all members are
+    inherited from the base chain (PackageableElement -> Identifiable -> ...).
     """
 
     def test_abstract_initialization(self):
@@ -807,3 +811,30 @@ class TestARElement:
             assert False, "ARElement should not be instantiable"
         except TypeError:
             pass  # Expected behavior
+
+    def test_concrete_subclass_initialization(self):
+        """
+        Test that a concrete ARElement subclass initializes the base chain.
+        """
+
+        class ConcreteARElement(ARElement):
+            pass
+
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        obj = ConcreteARElement(ar_root, "TestElement")
+
+        assert obj.getShortName() == "TestElement"
+        assert obj.parent is ar_root
+
+    def test_inheritance_chain(self):
+        """
+        Test that ARElement derives from PackageableElement (most-derived base)
+        and the transitive base chain of Table 4.3.
+        """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
+        assert issubclass(ARElement, PackageableElement)
+        assert issubclass(ARElement, Identifiable)
+        assert issubclass(ARElement, ARObject)

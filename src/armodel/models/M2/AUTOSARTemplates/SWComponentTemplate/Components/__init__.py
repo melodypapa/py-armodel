@@ -3,11 +3,9 @@ from __future__ import annotations
 from abc import ABC
 from typing import List, Optional, TYPE_CHECKING
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement, AtpType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor, NvBlockDescriptor
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     ARElement as ARElement,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -35,11 +33,17 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttribute
 )
 
 if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
+        InnerPortGroupInCompositionInstanceRef,
+    )
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import (
         ConsistencyNeeds,
     )
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
         SwComponentDocumentation,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
+        SwcInternalBehavior,
     )
 
 
@@ -829,6 +833,8 @@ class AtomicSwComponentType(SwComponentType, ABC):
         Returns:
             The created (or existing) SwcInternalBehavior
         """
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SwcInternalBehavior
+
         if not self.IsElementExists(short_name, SwcInternalBehavior):
             behavior = SwcInternalBehavior(self, short_name)
             self.addElement(behavior)

@@ -2,7 +2,7 @@ import logging
 import re
 import xml.etree.ElementTree as ET
 from abc import ABC
-from typing import List
+from typing import List, Optional
 
 from colorama import Fore
 
@@ -110,7 +110,7 @@ class AbstractARXMLParser(ABC):
             results.append(literal)
         return results
 
-    def getChildElementOptionalLiteral(self, element: ET.Element, key: str) -> ARLiteral:
+    def getChildElementOptionalLiteral(self, element: ET.Element, key: str) -> Optional[ARLiteral]:
         child_element = self.find(element, key)
         literal = None
         if child_element is not None:
@@ -354,24 +354,23 @@ class AbstractARXMLParser(ABC):
         return None
 
     def readARObjectAttributes(self, element: ET.Element, ar_object: ARObject):
-        ar_object.timestamp = self.readElementOptionalAttrib(element, "T")  # read the timestamp
+        if isinstance(ar_object, ARObject):
+            checksum = self.readElementOptionalAttrib(element, "S")  # read the checksum
+            if checksum is not None:
+                checksum_value = String()
+                checksum_value.setValue(checksum)
+                ar_object.setChecksum(checksum_value)
+            timestamp = self.readElementOptionalAttrib(element, "T")  # read the timestamp
+            if timestamp is not None:
+                timestamp_value = DateTime()
+                timestamp_value.setValue(timestamp)
+                ar_object.setTimestamp(timestamp_value)
+        else:
+            # The ARType hierarchy carries the timestamp as a plain string (duck-typed)
+            ar_object.timestamp = self.readElementOptionalAttrib(element, "T")
         ar_object.uuid = self.readElementOptionalAttrib(element, "UUID")  # read the uuid
 
         AUTOSAR.getInstance().addARObject(ar_object)
-
-        # if ar_object.timestamp is not None:
-        #    self.logger.debug("Timestamp: %s" % ar_object.timestamp)
-
-        """
-        if ar_object.uuid is not None:
-            instance = AUTOSAR.getInstance()
-            old_ar_object = instance.getARObjectByUUID(ar_object.uuid)
-            if old_ar_object is not None:
-                self.logger.warning(Fore.YELLOW + "Duplicate UUID <%s> / type <%s>" % (ar_object.uuid, type(old_ar_object)) + Fore.WHITE)
-            else:
-                instance.addARObject(ar_object)
-            # self.logger.debug("UUID: %s" % ar_object.uuid)
-        """
 
     def getAUTOSARInfo(self, element: ET.Element, document: AUTOSAR):
         key = "{http://www.w3.org/2001/XMLSchema-instance}schemaLocation"

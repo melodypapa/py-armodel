@@ -231,6 +231,7 @@ class DataTypeMap(ARObject):
     # [ ] setImplementationDataTypeRef [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
+        super().__init__()
 
         self.applicationDataTypeRef: RefType = None
         self.implementationDataTypeRef: RefType = None
