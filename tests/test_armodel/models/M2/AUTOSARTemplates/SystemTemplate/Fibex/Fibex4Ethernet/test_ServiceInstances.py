@@ -4,16 +4,25 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType, String, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnection, SocketConnectionBundle
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import ApplicationEndpoint, SdClientConfig
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import SocketConnectionBundle
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+    ApplicationEndpoint,
+    GenericTp,
+    InitialSdDelayConfig,
+    SdClientConfig,
+    TcpTp,
+    TcpUdpConfig,
+    TpPort,
+    TransportProtocolConfiguration,
+    UdpTp,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SocketConnection
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     AbstractServiceInstance,
     ConsumedEventGroup,
     ConsumedServiceInstance,
     EventGroupControlTypeEnum,
     EventHandler,
-    GenericTp,
-    InitialSdDelayConfig,
     PduActivationRoutingGroup,
     ProvidedServiceInstance,
     RequestResponseDelay,
@@ -27,12 +36,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SomeipServiceVersion,
     StaticSocketConnection,
     TcpRoleEnum,
-    TcpTp,
-    TcpUdpConfig,
-    TpPort,
-    TransportProtocolConfiguration,
     UdpChecksumCalculationEnum,
-    UdpTp,
 )
 
 

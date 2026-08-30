@@ -3,7 +3,7 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Float, Integer, PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveUnlimitedInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, PhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationController
 
 
@@ -1334,4 +1334,30 @@ class FlexrayFifoConfiguration(ARObject):
         A None value is a no-op and does not overwrite an existing msgIdMatch."""
         if value is not None:
             self.msgIdMatch = value
+        return self
+
+
+class FlexrayPhysicalChannel(PhysicalChannel):
+    """
+    Represents a FlexRay physical channel in the communication system,
+    defining FlexRay-specific properties including channel name
+    designation for dual-channel FlexRay communication.
+    """
+
+    # FlexrayPhysicalChannel method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getChannelName               [x] impl  [ ] docstring  [ ] test
+    # [ ] setChannelName               [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.channelName = None  # type: FlexrayChannelName
+
+    def getChannelName(self):
+        return self.channelName
+
+    def setChannelName(self, value):
+        if value is not None:
+            self.channelName = value
         return self

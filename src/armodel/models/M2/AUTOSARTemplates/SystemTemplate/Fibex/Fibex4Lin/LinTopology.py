@@ -4,8 +4,8 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Integer, PositiveInteger, RefType, String, TimeValue
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinErrorResponse
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, CommunicationController
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinErrorResponse, LinScheduleTable
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CommunicationCluster, CommunicationConnector, CommunicationController, PhysicalChannel
 
 
 class LinSlaveConfigIdent(Referrable):
@@ -484,3 +484,44 @@ class LinCluster(CommunicationCluster):
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+
+class LinPhysicalChannel(PhysicalChannel):
+    """
+    Represents a LIN physical channel in the communication system,
+    defining LIN-specific properties including bus idle timeout
+    and schedule tables for LIN network communication.
+    """
+
+    # LinPhysicalChannel method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getBusIdleTimeoutPeriod      [x] impl  [ ] docstring  [ ] test
+    # [ ] setBusIdleTimeoutPeriod      [x] impl  [ ] docstring  [ ] test
+    # [ ] getScheduleTables            [x] impl  [ ] docstring  [ ] test
+    # [ ] createLinScheduleTable       [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        self.busIdleTimeoutPeriod: TimeValue = None
+        self.scheduleTables: List[LinScheduleTable] = []
+
+    def getBusIdleTimeoutPeriod(self):
+        return self.busIdleTimeoutPeriod
+
+    def setBusIdleTimeoutPeriod(self, value):
+        if value is not None:
+            self.busIdleTimeoutPeriod = value
+        return self
+
+    def getScheduleTables(self):
+        return self.scheduleTables
+
+    def createLinScheduleTable(self, short_name: str) -> LinScheduleTable:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinScheduleTable
+
+        if not self.IsElementExists(short_name, LinScheduleTable):
+            end_point = LinScheduleTable(self, short_name)
+            self.addElement(end_point)
+            self.scheduleTables.append(end_point)
+        return self.getElement(short_name, LinScheduleTable)

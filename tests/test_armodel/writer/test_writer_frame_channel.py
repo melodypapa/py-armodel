@@ -22,37 +22,41 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommun
     RxIdentifierRange,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (  # noqa: E501
+    CanClusterBusOffRecovery,
     CanPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (  # noqa: E501
     RuntimeAddressConfigurationEnum,
-    SocketConnection,
     SocketConnectionBundle,
     SocketConnectionIpduIdentifier,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (  # noqa: E501  # noqa: E501
     DoIpEntity,
+    EthernetPhysicalChannel,
+    GenericTp,
     InfrastructureServices,
     InitialSdDelayConfig,
     Ipv6AddressSourceEnum,
     Ipv6Configuration,
     NetworkEndpoint,
-    RequestResponseDelay,
     SdClientConfig,
+    TcpTp,
+    TpPort,
+    UdpTp,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import (  # noqa: E501
+    SocketConnection,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (  # noqa: E501
     ApplicationEndpoint,
     ConsumedEventGroup,
     ConsumedServiceInstance,
     EventHandler,
-    GenericTp,
     ProvidedServiceInstance,
+    RequestResponseDelay,
     SdServerConfig,
     SoAdConfig,
     SocketAddress,
-    TcpTp,
-    TpPort,
-    UdpTp,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (  # noqa: E501
     FlexrayAbsolutelyScheduledTiming,
@@ -62,13 +66,14 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.Flexr
     FlexrayCluster,
     FlexrayFifoConfiguration,
     FlexrayFifoRange,
+    FlexrayPhysicalChannel,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (  # noqa: E501
     ApplicationEntry,
     LinFrameTriggering,
     LinScheduleTable,
 )
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCluster
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCluster, LinPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ttcan.TtcanCommunication import TtcanAbsolutelyScheduledTiming
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (  # noqa: E501
     ByteOrderEnum,
@@ -78,11 +83,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommu
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (  # noqa: E501
     CanCluster,
-    CanClusterBusOffRecovery,
     CycleRepetition,
-    EthernetPhysicalChannel,
-    FlexrayPhysicalChannel,
-    LinPhysicalChannel,
 )
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter

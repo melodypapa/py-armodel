@@ -49,7 +49,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     NetworkEndpoint,
     NetworkEndpointAddress,
     PlcaProps,
-    RequestResponseDelay,
     SdClientConfig,
     TimeSyncClientConfiguration,
     TimeSynchronization,
@@ -57,6 +56,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     TimeSyncTechnologyEnum,
     VlanMembership,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 
 
 class MockParent(ARObject):

@@ -548,12 +548,16 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     CanControllerXlConfigurationRequirements,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
-    SoAdRoutingGroup,
-    SocketConnection,
     SocketConnectionBundle,
     SocketConnectionIpduIdentifier,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpOptionFilterSet import (
     TcpOptionFilterList,
     TcpOptionFilterSet,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import (
+    SoAdRoutingGroup,
+    SocketConnection,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
@@ -577,10 +581,10 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     Ipv4DhcpServerConfiguration,
     Ipv6DhcpServerConfiguration,
     MacMulticastGroup,
-    RequestResponseDelay,
     SdClientConfig,
     VlanMembership,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import RequestResponseDelay
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.SecureCommunication import (
     MacSecCipherSuiteConfig,
     MacSecCryptoAlgoConfig,
@@ -599,13 +603,17 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Ethe
     NetworkEndpointAddress,
     TimeSyncClientConfiguration,
     TimeSynchronization,
+    GenericTp,
+    TcpTp,
+    TpPort,
+    TransportProtocolConfiguration,
+    UdpTp,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
     AbstractServiceInstance,
     ConsumedEventGroup,
     ConsumedServiceInstance,
     EventHandler,
-    GenericTp,
     PduActivationRoutingGroup,
     ProvidedServiceInstance,
     SdServerConfig,
@@ -616,10 +624,6 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.Serv
     SomeipSdClientServiceInstanceConfig,
     SomeipSdServerEventGroupTimingConfig,
     SomeipServiceVersion,
-    TcpTp,
-    TpPort,
-    TransportProtocolConfiguration,
-    UdpTp,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayAbsolutelyScheduledTiming, FlexrayFrame, FlexrayFrameTriggering
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
@@ -699,20 +703,20 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopolo
     AbstractCanPhysicalChannel,
     CanPhysicalChannel,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanClusterBusOffRecovery
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
     AbstractCanCluster,
     CanCluster,
-    CanClusterBusOffRecovery,
     CommunicationCluster,
     CommunicationConnector,
     CommunicationController,
     CommunicationCycle,
     CycleRepetition,
-    EthernetPhysicalChannel,
-    FlexrayPhysicalChannel,
-    LinPhysicalChannel,
     PhysicalChannel,
 )
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinPhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetPhysicalChannel
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayPhysicalChannel
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication.Timing import (
     CyclicTiming,

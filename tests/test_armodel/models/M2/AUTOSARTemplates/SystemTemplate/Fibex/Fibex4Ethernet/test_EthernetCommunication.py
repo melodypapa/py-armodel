@@ -1,12 +1,16 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import ARElement, Describable, Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetCommunication import (
-    IPv6ExtHeaderFilterList,
     RuntimeAddressConfigurationEnum,
-    SoAdRoutingGroup,
-    SocketConnection,
     SocketConnectionBundle,
     SocketConnectionIpduIdentifier,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.IPv6HeaderFilterList import IPv6ExtHeaderFilterList
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import (
+    SoAdRoutingGroup,
+    SocketConnection,
+)
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpOptionFilterSet import (
     TcpOptionFilterList,
     TcpOptionFilterSet,
 )
