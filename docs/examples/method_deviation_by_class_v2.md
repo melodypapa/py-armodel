@@ -1711,14 +1711,20 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
 ## `ARObject`
-- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 192
 - **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ArObject`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ArObject.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `checksum` | ``String`` | attr | missing |
-| — *(missing)* | `—` | `timestamp` | ``DateTime`` | attr | missing |
+| `checksum` | `Optional[String]` | `checksum` | `String` | attr | resolved (2026-08-30 sync: accessors + S attribute read/write added) |
+| `timestamp` | `Optional[DateTime]` | `timestamp` | `DateTime` | attr | resolved (2026-08-30 sync: accessors + T attribute typed conversion added) |
+
+- **Note:** `parent`, `uuid` and `getTagName` are py-armodel internal infrastructure members with no
+  AUTOSAR meta-class counterpart (structural link / UUID duplicate-check extension / parser helper),
+  kept as-is per the same decision as `CollectableElement`. `uuid` is round-tripped as the `UUID`
+  XML attribute by the abstract parser/writer; `checksum`/`timestamp` round-trip as the XSD global
+  attributes `S`/`T` (AUTOSAR_00052.xsd lines 4901/4907).
 
 ## `CollectableElement`
 - **PDF:** — *(no spec counterpart)*

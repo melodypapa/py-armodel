@@ -955,7 +955,7 @@ class ARXMLParser(AbstractARXMLParser):
     def __init__(self, options=None) -> None:
         super().__init__(options)
 
-    def getRxIdentifierRange(self, element: ET.Element, key: str) -> RxIdentifierRange:
+    def getRxIdentifierRange(self, element: ET.Element, key: str) -> Optional[RxIdentifierRange]:
         child_element = self.find(element, key)
         range = None
         if child_element is not None:
@@ -964,7 +964,7 @@ class ARXMLParser(AbstractARXMLParser):
             range.setUpperCanId(self.getChildElementOptionalPositiveInteger(child_element, "UPPER-CAN-ID"))
         return range
 
-    def getJ1939NodeName(self, element: ET.Element, key: str) -> J1939NodeName:
+    def getJ1939NodeName(self, element: ET.Element, key: str) -> Optional[J1939NodeName]:
         child_element = self.find(element, key)
         node_name = None
         if child_element is not None:
@@ -5179,7 +5179,7 @@ class ARXMLParser(AbstractARXMLParser):
         access.setAccessedVariableRef(self.getAutosarVariableRef(element, "ACCESSED-VARIABLE"))
         access.setScope(self.getChildElementOptionalLiteral(element, "SCOPE"))
 
-    def getTransformationComSpecProps(self, element: ET.Element) -> TransformationComSpecProps:
+    def getTransformationComSpecProps(self, element: ET.Element) -> Optional[TransformationComSpecProps]:
         child = self.find(element, "*")
         if child is None:
             return None
@@ -5195,7 +5195,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.notImplemented("Unsupported TransformationComSpecProps <%s>" % tag_name)
         return None
 
-    def getSwValues(self, element: ET.Element, key: str) -> SwValues:
+    def getSwValues(self, element: ET.Element, key: str) -> Optional[SwValues]:
         child_element = self.find(element, key)
         if child_element is None:
             return None
@@ -5211,7 +5211,7 @@ class ARXMLParser(AbstractARXMLParser):
             sw_values.addVtf(self.getNumericalOrText(vtf_element))
         return sw_values
 
-    def getValueGroup(self, element: ET.Element, key: str) -> ValueGroup:
+    def getValueGroup(self, element: ET.Element, key: str) -> Optional[ValueGroup]:
         value_group = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -5234,7 +5234,7 @@ class ARXMLParser(AbstractARXMLParser):
                 value_group.setVgContents(contents)
         return value_group
 
-    def getValueList(self, element: ET.Element, key: str) -> ValueList:
+    def getValueList(self, element: ET.Element, key: str) -> Optional[ValueList]:
         value_list = None
         child_element = self.find(element, key)
         if child_element is not None:
@@ -5248,7 +5248,7 @@ class ARXMLParser(AbstractARXMLParser):
                     value_list.addVf(vf)
         return value_list
 
-    def getSwValueCont(self, element: ET.Element) -> SwValueCont:
+    def getSwValueCont(self, element: ET.Element) -> Optional[SwValueCont]:
         cont = None
         child_element = self.find(element, "SW-VALUE-CONT")
         if child_element is not None:

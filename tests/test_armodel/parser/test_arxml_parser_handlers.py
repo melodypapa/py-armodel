@@ -264,7 +264,7 @@ class TestAdminDataAndReferrableHandlers:
         elem = ET.fromstring(f"<ELEM xmlns='{NS}' UUID='abc' T='2024-01-01T00:00:00'/>")
         parser.readReferrable(elem, obj)
         assert obj.uuid == "abc"
-        assert obj.timestamp == "2024-01-01T00:00:00"
+        assert obj.getTimestamp().getValue() == "2024-01-01T00:00:00"
 
     def test_readMultilanguageReferrable_sets_longName(self, parser):
         # Use a concrete MultilanguageReferrable subclass (Unit extends ARElement
