@@ -4,7 +4,7 @@ in the AUTOSAR GenericStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, ARPackage, PackageableElement, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, ReferrableSubtypesEnum, RefType
 
 
@@ -771,3 +771,39 @@ class TestARPackage:
         sri_types = package.getSenderReceiverInterfaces()
         assert len(sri_types) == 1
         assert sri_types[0].getShortName() == "SRI"
+
+
+class TestPackageableElement:
+    """
+    Test class for PackageableElement functionality.
+    """
+
+    def test_abstract_initialization(self):
+        """
+        Test that PackageableElement cannot be instantiated directly (abstract class).
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        try:
+            _obj = PackageableElement(ar_root, "TestPackageableElement")
+            assert False, "PackageableElement should not be instantiable"
+        except TypeError:
+            pass  # Expected behavior
+
+
+class TestARElement:
+    """
+    Test class for ARElement functionality.
+    """
+
+    def test_abstract_initialization(self):
+        """
+        Test that ARElement cannot be instantiated directly (abstract class).
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        try:
+            _obj = ARElement(ar_root, "TestARElement")
+            assert False, "ARElement should not be instantiable"
+        except TypeError:
+            pass  # Expected behavior

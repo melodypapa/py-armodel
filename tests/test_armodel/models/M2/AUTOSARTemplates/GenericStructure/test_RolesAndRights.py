@@ -4,7 +4,7 @@ in the AUTOSAR GenericStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDefinition import AtpDefinition
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AtpDefinition
 
 
 class TestAtpDefinition:

@@ -1,10 +1,12 @@
 """
-This module contains the AtpDefinition abstract class for AUTOSAR models
-in the GenericStructure module.
+RolesAndRights module for AUTOSAR M2 models.
 """
 
 from abc import ABC
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
+__all__ = ["AtpDefinition"]
 
 
 class AtpDefinition(Identifiable, ABC):

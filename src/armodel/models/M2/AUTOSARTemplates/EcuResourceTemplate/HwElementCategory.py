@@ -11,13 +11,15 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
     PackageableElement,
 )
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import (
     HwAttributeLiteralDef,
 )
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights.AtpDefinition import (
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import (
     AtpDefinition,
 )
 
