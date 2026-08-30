@@ -6,18 +6,286 @@ primary organizational unit for grouping related AUTOSAR model elements such as
 components, interfaces, data types, and other packages.
 """
 
+from __future__ import annotations
 from typing import Dict, List, Optional, Any
 from typing import TYPE_CHECKING
 
-if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
+from abc import ABC
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (  # noqa: F401
-    ARElement,
-    Identifiable,
-    PackageableElement,
-    Referrable,
-)
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
+        Collection,
+    )
+
+    # Names re-exported lazily at runtime via _LAZY_IMPORTS; imported here only
+    # so that deferred annotations (PEP 563) resolve for static analysis.
+    from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import (
+        BswImplementation,
+    )
+    from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import (
+        BswModuleEntry,
+    )
+    from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import (
+        BswModuleDescription,
+    )
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
+        ConstantSpecification,
+    )
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import (
+        FlatMap,
+    )
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
+        Implementation,
+    )
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
+        ImplementationDataType,
+    )
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import (
+        McGroup,
+    )
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import (
+        McFunction,
+    )
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
+        ModeDeclarationGroup,
+    )
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import (
+        SignalServiceTranslationPropsSet,
+    )
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import (
+        PortPrototypeBlueprint,
+    )
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import (
+        KeywordSet,
+    )
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import (
+        SwcBswMapping,
+    )
+    from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import (
+        SwcTiming,
+    )
+    from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import (
+        DiagnosticServiceTable,
+    )
+    from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
+        EcucModuleConfigurationValues,
+        EcucValueCollection,
+    )
+    from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
+        EcucDefinitionCollection,
+        EcucDestinationUriDefSet,
+        EcucModuleDef,
+    )
+    from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import (
+        HwElement,
+    )
+    from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import (
+        HwCategory,
+        HwType,
+    )
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import (
+        Documentation,
+    )
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import (
+        LifeCycleInfoSet,
+    )
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
+        PostBuildVariantCriterion,
+        PredefinedVariant,
+        SwSystemconstantValueSet,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
+        ApplicationSwComponentType,
+        AtomicSwComponentType,
+        ComplexDeviceDriverSwComponentType,
+        EcuAbstractionSwComponentType,
+        NvBlockSwComponentType,
+        SensorActuatorSwComponentType,
+        ServiceProxySwComponentType,
+        ServiceSwComponentType,
+        SwComponentType,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
+        CompositionSwComponentType,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
+        ApplicationArrayDataType,
+        ApplicationDataType,
+        ApplicationPrimitiveDataType,
+        ApplicationRecordDataType,
+        DataTypeMappingSet,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import (
+        EndToEndProtectionSet,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import (
+        ConsistencyNeeds,
+        DataPrototypeGroup,
+        RunnableEntityGroup,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+        ClientServerInterface,
+        ModeDeclarationMappingSet,
+        ModeSwitchInterface,
+        NvDataInterface,
+        ParameterInterface,
+        PortInterfaceMappingSet,
+        SenderReceiverInterface,
+        TriggerInterface,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import (
+        SwcImplementation,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate import (
+        System,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import (
+        DiagnosticConnection,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import (
+        CanFrame,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import (
+        CanXlProps,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import (
+        GenericEthernetFrame,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import (
+        EthernetCluster,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import (
+        SoAdRoutingGroup,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
+        SomeipSdClientEventGroupTimingConfig,
+        SomeipSdClientServiceInstanceConfig,
+        SomeipSdServerEventGroupTimingConfig,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpOptionFilterSet import (
+        TcpOptionFilterSet,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import (
+        FlexrayFrame,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import (
+        FlexrayCluster,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import (
+        LinUnconditionalFrame,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import (
+        LinCluster,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import (
+        Gateway,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import (
+        DcmIPdu,
+        GeneralPurposeIPdu,
+        GeneralPurposePdu,
+        ISignal,
+        ISignalGroup,
+        ISignalIPdu,
+        ISignalIPduGroup,
+        MultiplexedIPdu,
+        NPdu,
+        NmPdu,
+        SecureCommunicationPropsSet,
+        SecuredIPdu,
+        SystemSignal,
+        SystemSignalGroup,
+        UserDefinedIPdu,
+        UserDefinedPdu,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import (
+        CanCluster,
+        EcuInstance,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
+        NmConfig,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
+        DataTransformationSet,
+        E2EProfileCompatibilityProps,
+    )
+    from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import (
+        CanTpConfig,
+        DoIpTpConfig,
+        LinTpConfig,
+    )
+    from armodel.models.M2.MSR.AsamHdo.AdminData import (
+        AdminData,
+    )
+    from armodel.models.M2.MSR.AsamHdo.BaseTypes import (
+        SwBaseType,
+    )
+    from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
+        CompuMethod,
+    )
+    from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
+        DataConstr,
+    )
+    from armodel.models.M2.MSR.AsamHdo.Units import (
+        PhysicalDimension,
+        Unit,
+    )
+    from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import (
+        SwAddrMethod,
+    )
+    from armodel.models.M2.MSR.DataDictionary.RecordLayout import (
+        SwRecordLayout,
+    )
+    from armodel.models.M2.MSR.DataDictionary.SystemConstant import (
+        SwSystemconst,
+    )
+    from armodel.models.M2.MSR.Documentation.Annotation import (
+        Annotation,
+    )
+    from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
+        DocumentationBlock,
+    )
+    from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (
+        MultiLanguageOverviewParagraph,
+        MultilanguageLongName,
+    )
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+
+
+class PackageableElement(Identifiable, ABC):
+    """
+    This meta-class specifies the ability to be a member of an AUTOSAR package.
+    """
+
+    # PackageableElement method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.2, p.54
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is PackageableElement:
+            raise TypeError("PackageableElement is an abstract class.")
+        super().__init__(parent, short_name)
+
+
+class ARElement(PackageableElement, ABC):
+    """
+    An element that can be defined stand-alone, i.e. without being part of another element (except for packages of course).
+    """
+
+    # ARElement method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.3, p.55
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is ARElement:
+            raise TypeError("ARElement is an abstract class.")
+        super().__init__(parent, short_name)
+
 
 # Initialize the CommonStructure package before any import that transitively touches
 # AbstractStructure: AbstractStructure's own import of AbstractBlueprintStructure requires
@@ -27,97 +295,256 @@ import armodel.models.M2.AUTOSARTemplates.CommonStructure  # noqa: F401,E402
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement  # noqa: E402
 
 
-from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
-from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation
-from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
-from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
-    PostBuildVariantCriterion,
-    PredefinedVariant,
-    SwSystemconstantValueSet,
-)
+# Element-class names are re-exported lazily (PEP 562) so that `from ARPackage import X`
+# and wildcard imports keep working; each element module imports ARElement from this
+# module, so eager imports here would create a 2-ring deadlock.
+from importlib import import_module as _import_module  # noqa: E402
 
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SensorActuatorSwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import (
-    ConsistencyNeeds,
-    DataPrototypeGroup,
-    RunnableEntityGroup,
-)
-from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
-from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
-from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
-from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
-from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
-from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout
+_LAZY_IMPORTS = {
+    "AdminData": "armodel.models.M2.MSR.AsamHdo.AdminData",
+    "Annotation": "armodel.models.M2.MSR.Documentation.Annotation",
+    "ApplicationArrayDataType": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes",
+    "ApplicationDataType": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes",
+    "ApplicationPrimitiveDataType": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes",
+    "ApplicationRecordDataType": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes",
+    "ApplicationSwComponentType": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components",
+    "AtomicSwComponentType": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components",
+    "BswImplementation": "armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation",
+    "BswModuleDescription": "armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview",
+    "BswModuleEntry": "armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces",
+    "CanCluster": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology",
+    "CanFrame": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication",
+    "CanTpConfig": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols",
+    "CanXlProps": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology",
+    "ClientServerInterface": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface",
+    "ComplexDeviceDriverSwComponentType": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components",
+    "CompositionSwComponentType": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition",
+    "CompuMethod": "armodel.models.M2.MSR.AsamHdo.ComputationMethod",
+    "ConsistencyNeeds": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior",
+    "ConstantSpecification": "armodel.models.M2.AUTOSARTemplates.CommonStructure",
+    "DataConstr": "armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints",
+    "DataPrototypeGroup": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior",
+    "DataTransformationSet": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer",
+    "DataTypeMappingSet": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes",
+    "DcmIPdu": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+    "DiagnosticConnection": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection",
+    "DiagnosticServiceTable": "armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution",
+    "DoIpTpConfig": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols",
+    "Documentation": "armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1",
+    "DocumentationBlock": "armodel.models.M2.MSR.Documentation.TextModel.BlockElements",
+    "E2EProfileCompatibilityProps": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer",
+    "EcuAbstractionSwComponentType": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components",
+    "EcuInstance": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology",
+    "EcucDefinitionCollection": "armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate",
+    "EcucDestinationUriDefSet": "armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate",
+    "EcucModuleConfigurationValues": "armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate",
+    "EcucModuleDef": "armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate",
+    "EcucValueCollection": "armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate",
+    "EndToEndProtectionSet": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection",
+    "EthernetCluster": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology",
+    "FlatMap": "armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap",
+    "FlexrayCluster": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology",
+    "FlexrayFrame": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication",
+    "Gateway": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform",
+    "GeneralPurposeIPdu": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+    "GeneralPurposePdu": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+    "GenericEthernetFrame": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame",
+    "HwCategory": "armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory",
+    "HwElement": "armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate",
+    "HwType": "armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory",
+    "ISignal": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+    "ISignalGroup": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+    "ISignalIPdu": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+    "ISignalIPduGroup": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+    "Implementation": "armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation",
+    "ImplementationDataType": "armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes",
+    "KeywordSet": "armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword",
+    "LifeCycleInfoSet": "armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles",
+    "LinCluster": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology",
+    "LinTpConfig": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols",
+    "LinUnconditionalFrame": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication",
+    "McFunction": "armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport",
+    "McGroup": "armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups",
+    "ModeDeclarationGroup": "armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration",
+    "ModeDeclarationMappingSet": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface",
+    "ModeSwitchInterface": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface",
+    "MultiLanguageOverviewParagraph": "armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData",
+    "MultilanguageLongName": "armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData",
+    "MultiplexedIPdu": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+    "NPdu": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+    "NmConfig": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement",
+    "NmPdu": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+    "NvBlockSwComponentType": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components",
+    "NvDataInterface": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface",
+    "ParameterInterface": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface",
+    "PhysicalDimension": "armodel.models.M2.MSR.AsamHdo.Units",
+    "PortInterfaceMappingSet": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface",
+    "PortPrototypeBlueprint": "armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint",
+    "PostBuildVariantCriterion": "armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling",
+    "PredefinedVariant": "armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling",
+    "RunnableEntityGroup": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior",
+    "SecureCommunicationPropsSet": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+    "SecuredIPdu": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+    "SenderReceiverInterface": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface",
+    "SensorActuatorSwComponentType": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components",
+    "ServiceProxySwComponentType": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components",
+    "ServiceSwComponentType": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components",
+    "SignalServiceTranslationPropsSet": "armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation",
+    "SoAdRoutingGroup": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel",
+    "SomeipSdClientEventGroupTimingConfig": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances",
+    "SomeipSdClientServiceInstanceConfig": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances",
+    "SomeipSdServerEventGroupTimingConfig": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances",
+    "SwAddrMethod": "armodel.models.M2.MSR.DataDictionary.AuxillaryObjects",
+    "SwBaseType": "armodel.models.M2.MSR.AsamHdo.BaseTypes",
+    "SwComponentType": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components",
+    "SwRecordLayout": "armodel.models.M2.MSR.DataDictionary.RecordLayout",
+    "SwSystemconst": "armodel.models.M2.MSR.DataDictionary.SystemConstant",
+    "SwSystemconstantValueSet": "armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling",
+    "SwcBswMapping": "armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping",
+    "SwcImplementation": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation",
+    "SwcTiming": "armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions",
+    "System": "armodel.models.M2.AUTOSARTemplates.SystemTemplate",
+    "SystemSignal": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+    "SystemSignalGroup": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+    "TcpOptionFilterSet": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpOptionFilterSet",
+    "TriggerInterface": "armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface",
+    "Unit": "armodel.models.M2.MSR.AsamHdo.Units",
+    "UserDefinedIPdu": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+    "UserDefinedPdu": "armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication",
+}
 
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
-from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
-from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import McFunction
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import SignalServiceTranslationPropsSet
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming
-from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
-from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues, EcucValueCollection
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement
-from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDefinitionCollection, EcucDestinationUriDefSet, EcucModuleDef
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwCategory, HwType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, RefType, ReferrableSubtypesEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType, SwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType, AtomicSwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ComplexDeviceDriverSwComponentType, EcuAbstractionSwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import NvBlockSwComponentType, ServiceProxySwComponentType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType, ApplicationDataType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType, ApplicationRecordDataType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface, ModeDeclarationMappingSet, ModeSwitchInterface
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterfaceMappingSet, SenderReceiverInterface, TriggerInterface
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import NvDataInterface, ParameterInterface
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu, GeneralPurposeIPdu, GeneralPurposePdu, ISignal
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalGroup, ISignalIPdu, ISignalIPduGroup, MultiplexedIPdu
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import NPdu, NmPdu, SecureCommunicationPropsSet, SecuredIPdu
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal, SystemSignalGroup, UserDefinedIPdu, UserDefinedPdu
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CanCluster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinUnconditionalFrame
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCluster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpOptionFilterSet import TcpOptionFilterSet
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanXlProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import (
-    SomeipSdClientEventGroupTimingConfig,
-    SomeipSdClientServiceInstanceConfig,
-    SomeipSdServerEventGroupTimingConfig,
-)
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrame
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import DataTransformationSet, E2EProfileCompatibilityProps
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig, DoIpTpConfig, LinTpConfig
+def __getattr__(name):
+    module_path = _LAZY_IMPORTS.get(name)
+    if module_path is None:
+        raise AttributeError("module %r has no attribute %r" % (__name__, name))
+    value = getattr(_import_module(module_path), name)
+    globals()[name] = value
+    return value
+
+
+__all__ = [
+    "AdminData",
+    "Annotation",
+    "ApplicationArrayDataType",
+    "ApplicationDataType",
+    "ApplicationPrimitiveDataType",
+    "ApplicationRecordDataType",
+    "ApplicationSwComponentType",
+    "AtomicSwComponentType",
+    "BswImplementation",
+    "BswModuleDescription",
+    "BswModuleEntry",
+    "CanCluster",
+    "CanFrame",
+    "CanTpConfig",
+    "CanXlProps",
+    "ClientServerInterface",
+    "ComplexDeviceDriverSwComponentType",
+    "CompositionSwComponentType",
+    "CompuMethod",
+    "ConsistencyNeeds",
+    "ConstantSpecification",
+    "DataConstr",
+    "DataPrototypeGroup",
+    "DataTransformationSet",
+    "DataTypeMappingSet",
+    "DcmIPdu",
+    "DiagnosticConnection",
+    "DiagnosticServiceTable",
+    "DoIpTpConfig",
+    "Documentation",
+    "DocumentationBlock",
+    "E2EProfileCompatibilityProps",
+    "EcuAbstractionSwComponentType",
+    "EcuInstance",
+    "EcucDefinitionCollection",
+    "EcucDestinationUriDefSet",
+    "EcucModuleConfigurationValues",
+    "EcucModuleDef",
+    "EcucValueCollection",
+    "EndToEndProtectionSet",
+    "EthernetCluster",
+    "FlatMap",
+    "FlexrayCluster",
+    "FlexrayFrame",
+    "Gateway",
+    "GeneralPurposeIPdu",
+    "GeneralPurposePdu",
+    "GenericEthernetFrame",
+    "HwCategory",
+    "HwElement",
+    "HwType",
+    "ISignal",
+    "ISignalGroup",
+    "ISignalIPdu",
+    "ISignalIPduGroup",
+    "Implementation",
+    "ImplementationDataType",
+    "KeywordSet",
+    "LifeCycleInfoSet",
+    "LinCluster",
+    "LinTpConfig",
+    "LinUnconditionalFrame",
+    "McFunction",
+    "McGroup",
+    "ModeDeclarationGroup",
+    "ModeDeclarationMappingSet",
+    "ModeSwitchInterface",
+    "MultiLanguageOverviewParagraph",
+    "MultilanguageLongName",
+    "MultiplexedIPdu",
+    "NPdu",
+    "NmConfig",
+    "NmPdu",
+    "NvBlockSwComponentType",
+    "NvDataInterface",
+    "ParameterInterface",
+    "PhysicalDimension",
+    "PortInterfaceMappingSet",
+    "PortPrototypeBlueprint",
+    "PostBuildVariantCriterion",
+    "PredefinedVariant",
+    "RunnableEntityGroup",
+    "SecureCommunicationPropsSet",
+    "SecuredIPdu",
+    "SenderReceiverInterface",
+    "SensorActuatorSwComponentType",
+    "ServiceProxySwComponentType",
+    "ServiceSwComponentType",
+    "SignalServiceTranslationPropsSet",
+    "SoAdRoutingGroup",
+    "SomeipSdClientEventGroupTimingConfig",
+    "SomeipSdClientServiceInstanceConfig",
+    "SomeipSdServerEventGroupTimingConfig",
+    "SwAddrMethod",
+    "SwBaseType",
+    "SwComponentType",
+    "SwRecordLayout",
+    "SwSystemconst",
+    "SwSystemconstantValueSet",
+    "SwcBswMapping",
+    "SwcImplementation",
+    "SwcTiming",
+    "System",
+    "SystemSignal",
+    "SystemSignalGroup",
+    "TcpOptionFilterSet",
+    "TriggerInterface",
+    "Unit",
+    "UserDefinedIPdu",
+    "UserDefinedPdu",
+    "ARElement",
+    "ARPackage",
+    "PackageableElement",
+    "ReferenceBase",
+]
+
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString  # noqa: E402,F401
+
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, RefType, ReferrableSubtypesEnum  # noqa: E402
 
 
 class ReferenceBase(ARObject):
@@ -149,6 +576,7 @@ class ReferenceBase(ARObject):
         Initializes a ReferenceBase instance with default values for
         package reference properties.
         """
+
         super().__init__()
 
         # List of global elements that can be referenced
@@ -518,7 +946,10 @@ class ARPackage(CollectableElement):
             parent: The parent ARObject that contains this package
             short_name: The unique identifier for this package within its parent
         """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
         # Initialize CollectableElement (which inherits from ARObject)
+
         CollectableElement.__init__(self)
         # Explicitly initialize ARObject attributes since CollectableElement doesn't call super().__init__()
         ARObject.__init__(self)
@@ -677,6 +1108,8 @@ class ARPackage(CollectableElement):
         Returns:
             self for method chaining
         """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
+
         if isinstance(value, str):
             self.category = CategoryString().setValue(value)
         else:
@@ -772,6 +1205,8 @@ class ARPackage(CollectableElement):
         return CollectableElement.getElement(self, short_name, type)
 
     def createEcuAbstractionSwComponentType(self, short_name: str) -> EcuAbstractionSwComponentType:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import EcuAbstractionSwComponentType
+
         if not self.IsElementExists(short_name, EcuAbstractionSwComponentType):
             sw_component = EcuAbstractionSwComponentType(self, short_name)
             self.addElement(sw_component)
@@ -792,42 +1227,56 @@ class ARPackage(CollectableElement):
         Returns:
             The newly created or existing ApplicationSwComponentType instance
         """
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ApplicationSwComponentType
+
         if not self.IsElementExists(short_name, ApplicationSwComponentType):
             sw_component = ApplicationSwComponentType(self, short_name)
             self.addElement(sw_component)
         return self.getElement(short_name, ApplicationSwComponentType)
 
     def createComplexDeviceDriverSwComponentType(self, short_name: str) -> ComplexDeviceDriverSwComponentType:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ComplexDeviceDriverSwComponentType
+
         if not self.IsElementExists(short_name, ComplexDeviceDriverSwComponentType):
             sw_component = ComplexDeviceDriverSwComponentType(self, short_name)
             self.addElement(sw_component)
         return self.getElement(short_name, ComplexDeviceDriverSwComponentType)
 
     def createServiceSwComponentType(self, short_name: str) -> ServiceSwComponentType:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceSwComponentType
+
         if not self.IsElementExists(short_name, ServiceSwComponentType):
             sw_component = ServiceSwComponentType(self, short_name)
             self.addElement(sw_component)
         return self.getElement(short_name, ServiceSwComponentType)
 
     def createSensorActuatorSwComponentType(self, short_name: str) -> SensorActuatorSwComponentType:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SensorActuatorSwComponentType
+
         if not self.IsElementExists(short_name, SensorActuatorSwComponentType):
             sw_component = SensorActuatorSwComponentType(self, short_name)
             self.addElement(sw_component)
         return self.getElement(short_name, SensorActuatorSwComponentType)
 
     def createNvBlockSwComponentType(self, short_name: str) -> NvBlockSwComponentType:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import NvBlockSwComponentType
+
         if not self.IsElementExists(short_name, NvBlockSwComponentType):
             sw_component = NvBlockSwComponentType(self, short_name)
             self.addElement(sw_component)
         return self.getElement(short_name, NvBlockSwComponentType)
 
     def createServiceProxySwComponentType(self, short_name: str) -> ServiceProxySwComponentType:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ServiceProxySwComponentType
+
         if not self.IsElementExists(short_name, ServiceProxySwComponentType):
             sw_component = ServiceProxySwComponentType(self, short_name)
             self.addElement(sw_component)
         return self.getElement(short_name, ServiceProxySwComponentType)
 
     def createCompositionSwComponentType(self, short_name: str) -> CompositionSwComponentType:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
+
         if not self.IsElementExists(short_name, CompositionSwComponentType):
             sw_component = CompositionSwComponentType(self, short_name)
             self.addElement(sw_component)
@@ -848,54 +1297,72 @@ class ARPackage(CollectableElement):
         Returns:
             The newly created or existing SenderReceiverInterface instance
         """
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SenderReceiverInterface
+
         if not self.IsElementExists(short_name, SenderReceiverInterface):
             sr_interface = SenderReceiverInterface(self, short_name)
             self.addElement(sr_interface)
         return self.getElement(short_name, SenderReceiverInterface)
 
     def createParameterInterface(self, short_name: str) -> ParameterInterface:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ParameterInterface
+
         if not self.IsElementExists(short_name, ParameterInterface):
             sr_interface = ParameterInterface(self, short_name)
             self.addElement(sr_interface)
         return self.getElement(short_name, ParameterInterface)
 
     def createNvDataInterface(self, short_name: str) -> NvDataInterface:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import NvDataInterface
+
         if not self.IsElementExists(short_name, NvDataInterface):
             nv_interface = NvDataInterface(self, short_name)
             self.addElement(nv_interface)
         return self.getElement(short_name, NvDataInterface)
 
     def createGenericEthernetFrame(self, short_name: str) -> GenericEthernetFrame:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetFrame import GenericEthernetFrame
+
         if not self.IsElementExists(short_name, GenericEthernetFrame):
             frame = GenericEthernetFrame(self, short_name)
             self.addElement(frame)
         return self.getElement(short_name, GenericEthernetFrame)
 
     def createLifeCycleInfoSet(self, short_name: str) -> LifeCycleInfoSet:
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfoSet
+
         if not self.IsElementExists(short_name, LifeCycleInfoSet):
             set = LifeCycleInfoSet(self, short_name)
             self.addElement(set)
         return self.getElement(short_name, LifeCycleInfoSet)
 
     def createDocumentation(self, short_name: str) -> Documentation:
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation
+
         if not self.IsElementExists(short_name, Documentation):
             documentation = Documentation(self, short_name)
             self.addElement(documentation)
         return self.getElement(short_name, Documentation)
 
     def createClientServerInterface(self, short_name: str) -> ClientServerInterface:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface
+
         if not self.IsElementExists(short_name, ClientServerInterface):
             cs_interface = ClientServerInterface(self, short_name)
             self.addElement(cs_interface)
         return self.getElement(short_name, ClientServerInterface)
 
     def createApplicationPrimitiveDataType(self, short_name: str) -> ApplicationPrimitiveDataType:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType
+
         if not self.IsElementExists(short_name, ApplicationPrimitiveDataType):
             data_type = ApplicationPrimitiveDataType(self, short_name)
             self.addElement(data_type)
         return self.getElement(short_name, ApplicationPrimitiveDataType)
 
     def createApplicationRecordDataType(self, short_name: str) -> ApplicationPrimitiveDataType:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationRecordDataType
+
         if not self.IsElementExists(short_name, ApplicationRecordDataType):
             data_type = ApplicationRecordDataType(self, short_name)
             self.addElement(data_type)
@@ -916,24 +1383,32 @@ class ARPackage(CollectableElement):
         Returns:
             The newly created or existing ImplementationDataType instance
         """
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
+
         if not self.IsElementExists(short_name, ImplementationDataType):
             data_type = ImplementationDataType(self, short_name)
             self.addElement(data_type)
         return self.getElement(short_name, ImplementationDataType)
 
     def createSwBaseType(self, short_name: str) -> SwBaseType:
+        from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
+
         if not self.IsElementExists(short_name, SwBaseType):
             base_type = SwBaseType(self, short_name)
             self.addElement(base_type)
         return self.getElement(short_name, SwBaseType)
 
     def createDataTypeMappingSet(self, short_name: str) -> DataTypeMappingSet:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
+
         if not self.IsElementExists(short_name, DataTypeMappingSet):
             mapping_set = DataTypeMappingSet(self, short_name)
             self.addElement(mapping_set)
         return self.getElement(short_name, DataTypeMappingSet)
 
     def createCompuMethod(self, short_name: str) -> CompuMethod:
+        from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
+
         if not self.IsElementExists(short_name, CompuMethod):
             compu_method = CompuMethod(self, short_name)
             self.addElement(compu_method)
@@ -954,30 +1429,40 @@ class ARPackage(CollectableElement):
         Returns:
             The newly created or existing BswModuleDescription instance
         """
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
+
         if not self.IsElementExists(short_name, BswModuleDescription):
             desc = BswModuleDescription(self, short_name)
             self.addElement(desc)
         return self.getElement(short_name, BswModuleDescription)
 
     def createBswModuleEntry(self, short_name: str) -> BswModuleEntry:
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
+
         if not self.IsElementExists(short_name, BswModuleEntry):
             entry = BswModuleEntry(self, short_name)
             self.addElement(entry)
         return self.getElement(short_name, BswModuleEntry)
 
     def createBswImplementation(self, short_name: str) -> BswImplementation:
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
+
         if not self.IsElementExists(short_name, BswImplementation):
             impl = BswImplementation(self, short_name)
             self.addElement(impl)
         return self.getElement(short_name, BswImplementation)
 
     def createSwcImplementation(self, short_name: str) -> SwcImplementation:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
+
         if not self.IsElementExists(short_name, SwcImplementation):
             impl = SwcImplementation(self, short_name)
             self.addElement(impl)
         return self.getElement(short_name, SwcImplementation)
 
     def createSwcBswMapping(self, short_name: str) -> SwcBswMapping:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping
+
         if not self.IsElementExists(short_name, SwcBswMapping):
             mapping = SwcBswMapping(self, short_name)
             self.addElement(mapping)
@@ -994,6 +1479,8 @@ class ARPackage(CollectableElement):
         Returns:
             The created (or existing) McFunction
         """
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import McFunction
+
         if not self.IsElementExists(short_name, McFunction):
             func = McFunction(self, short_name)
             self.addElement(func)
@@ -1010,150 +1497,200 @@ class ARPackage(CollectableElement):
         Returns:
             The created (or existing) McGroup
         """
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup
+
         if not self.IsElementExists(short_name, McGroup):
             group = McGroup(self, short_name)
             self.addElement(group)
         return self.getElement(short_name, McGroup)
 
     def createConstantSpecification(self, short_name: str) -> ConstantSpecification:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification
+
         if not self.IsElementExists(short_name, ConstantSpecification):
             spec = ConstantSpecification(self, short_name)
             self.addElement(spec)
         return self.getElement(short_name, ConstantSpecification)
 
     def createDataConstr(self, short_name: str) -> DataConstr:
+        from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
+
         if not self.IsElementExists(short_name, DataConstr):
             constr = DataConstr(self, short_name)
             self.addElement(constr)
         return self.getElement(short_name, DataConstr)
 
     def createUnit(self, short_name: str) -> Unit:
+        from armodel.models.M2.MSR.AsamHdo.Units import Unit
+
         if not self.IsElementExists(short_name, Unit):
             unit = Unit(self, short_name)
             self.addElement(unit)
         return self.getElement(short_name, Unit)
 
     def createEndToEndProtectionSet(self, short_name: str) -> EndToEndProtectionSet:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.EndToEndProtection import EndToEndProtectionSet
+
         if not self.IsElementExists(short_name, EndToEndProtectionSet):
             e2d_set = EndToEndProtectionSet(self, short_name)
             self.addElement(e2d_set)
         return self.getElement(short_name, EndToEndProtectionSet)
 
     def createApplicationArrayDataType(self, short_name: str) -> ApplicationArrayDataType:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType
+
         if not self.IsElementExists(short_name, ApplicationArrayDataType):
             data_type = ApplicationArrayDataType(self, short_name)
             self.addElement(data_type)
         return self.getElement(short_name, ApplicationArrayDataType)
 
     def createSwRecordLayout(self, short_name: str) -> SwRecordLayout:
+        from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout
+
         if not self.IsElementExists(short_name, SwRecordLayout):
             layout = SwRecordLayout(self, short_name)
             self.addElement(layout)
         return self.getElement(short_name, SwRecordLayout)
 
     def createSwAddrMethod(self, short_name: str) -> SwAddrMethod:
+        from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
+
         if not self.IsElementExists(short_name, SwAddrMethod):
             method = SwAddrMethod(self, short_name)
             self.addElement(method)
         return self.getElement(short_name, SwAddrMethod)
 
     def createTriggerInterface(self, short_name: str) -> TriggerInterface:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TriggerInterface
+
         if not self.IsElementExists(short_name, TriggerInterface):
             trigger_interface = TriggerInterface(self, short_name)
             self.addElement(trigger_interface)
         return self.getElement(short_name, TriggerInterface)
 
     def createDataPrototypeGroup(self, short_name: str) -> DataPrototypeGroup:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import DataPrototypeGroup
+
         if not self.IsElementExists(short_name, DataPrototypeGroup):
             data_group = DataPrototypeGroup(self, short_name)
             self.addElement(data_group)
         return self.getElement(short_name, DataPrototypeGroup)
 
     def createRunnableEntityGroup(self, short_name: str) -> RunnableEntityGroup:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import RunnableEntityGroup
+
         if not self.IsElementExists(short_name, RunnableEntityGroup):
             runnable_group = RunnableEntityGroup(self, short_name)
             self.addElement(runnable_group)
         return self.getElement(short_name, RunnableEntityGroup)
 
     def createConsistencyNeeds(self, short_name: str) -> ConsistencyNeeds:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicationBehavior import ConsistencyNeeds
+
         if not self.IsElementExists(short_name, ConsistencyNeeds):
             consistency_needs = ConsistencyNeeds(self, short_name)
             self.addElement(consistency_needs)
         return self.getElement(short_name, ConsistencyNeeds)
 
     def createModeDeclarationGroup(self, short_name: str) -> ModeDeclarationGroup:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup
+
         if not self.IsElementExists(short_name, ModeDeclarationGroup):
             group = ModeDeclarationGroup(self, short_name)
             self.addElement(group)
         return self.getElement(short_name, ModeDeclarationGroup)
 
     def createModeSwitchInterface(self, short_name: str) -> ModeSwitchInterface:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ModeSwitchInterface
+
         if not self.IsElementExists(short_name, ModeSwitchInterface):
             switch_interface = ModeSwitchInterface(self, short_name)
             self.addElement(switch_interface)
         return self.getElement(short_name, ModeSwitchInterface)
 
     def createSwcTiming(self, short_name: str) -> SwcTiming:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming
+
         if not self.IsElementExists(short_name, SwcTiming):
             timing = SwcTiming(self, short_name)
             self.addElement(timing)
         return self.getElement(short_name, SwcTiming)
 
     def createLinCluster(self, short_name: str) -> LinCluster:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCluster
+
         if not self.IsElementExists(short_name, LinCluster):
             cluster = LinCluster(self, short_name)
             self.addElement(cluster)
         return self.getElement(short_name, LinCluster)
 
     def createCanCluster(self, short_name: str) -> CanCluster:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CanCluster
+
         if not self.IsElementExists(short_name, CanCluster):
             cluster = CanCluster(self, short_name)
             self.addElement(cluster)
         return self.getElement(short_name, CanCluster)
 
     def createLinUnconditionalFrame(self, short_name: str) -> LinUnconditionalFrame:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinUnconditionalFrame
+
         if not self.IsElementExists(short_name, LinUnconditionalFrame):
             frame = LinUnconditionalFrame(self, short_name)
             self.addElement(frame)
         return self.getElement(short_name, LinUnconditionalFrame)
 
     def createNmPdu(self, short_name: str) -> NmPdu:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import NmPdu
+
         if not self.IsElementExists(short_name, NmPdu):
             element = NmPdu(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, NmPdu)
 
     def createNPdu(self, short_name: str) -> NPdu:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import NPdu
+
         if not self.IsElementExists(short_name, NPdu):
             element = NPdu(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, NPdu)
 
     def createDcmIPdu(self, short_name: str) -> DcmIPdu:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu
+
         if not self.IsElementExists(short_name, DcmIPdu):
             element = DcmIPdu(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, DcmIPdu)
 
     def createSecuredIPdu(self, short_name: str) -> SecuredIPdu:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SecuredIPdu
+
         if not self.IsElementExists(short_name, SecuredIPdu):
             element = SecuredIPdu(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, SecuredIPdu)
 
     def createNmConfig(self, short_name: str) -> NmConfig:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig
+
         if not self.IsElementExists(short_name, NmConfig):
             element = NmConfig(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, NmConfig)
 
     def createCanTpConfig(self, short_name: str) -> CanTpConfig:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig
+
         if not self.IsElementExists(short_name, CanTpConfig):
             element = CanTpConfig(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, CanTpConfig)
 
     def createLinTpConfig(self, short_name: str) -> LinTpConfig:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import LinTpConfig
+
         if not self.IsElementExists(short_name, LinTpConfig):
             element = LinTpConfig(self, short_name)
             self.addElement(element)
@@ -1173,6 +1710,8 @@ class ARPackage(CollectableElement):
         Returns:
             The newly created or existing CanFrame instance
         """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame
+
         if not self.IsElementExists(short_name, CanFrame):
             element = CanFrame(self, short_name)
             self.addElement(element)
@@ -1193,18 +1732,24 @@ class ARPackage(CollectableElement):
         Returns:
             The newly created or existing EcuInstance instance
         """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
+
         if not self.IsElementExists(short_name, EcuInstance):
             element = EcuInstance(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, EcuInstance)
 
     def createGateway(self, short_name: str) -> Gateway:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway
+
         if not self.IsElementExists(short_name, Gateway):
             element = Gateway(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, Gateway)
 
     def createISignal(self, short_name: str) -> ISignal:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignal
+
         if not self.IsElementExists(short_name, ISignal):
             element = ISignal(self, short_name)
             self.addElement(element)
@@ -1225,126 +1770,168 @@ class ARPackage(CollectableElement):
         Returns:
             The newly created or existing SystemSignal instance
         """
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal
+
         if not self.IsElementExists(short_name, SystemSignal):
             element = SystemSignal(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, SystemSignal)
 
     def createSystemSignalGroup(self, short_name: str) -> SystemSignalGroup:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignalGroup
+
         if not self.IsElementExists(short_name, SystemSignalGroup):
             element = SystemSignalGroup(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, SystemSignalGroup)
 
     def createSignalServiceTranslationPropsSet(self, short_name: str) -> SignalServiceTranslationPropsSet:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import SignalServiceTranslationPropsSet
+
         if not self.IsElementExists(short_name, SignalServiceTranslationPropsSet):
             element = SignalServiceTranslationPropsSet(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, SignalServiceTranslationPropsSet)
 
     def createISignalIPdu(self, short_name: str) -> ISignalIPdu:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalIPdu
+
         if not self.IsElementExists(short_name, ISignalIPdu):
             element = ISignalIPdu(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, ISignalIPdu)
 
     def createEcucValueCollection(self, short_name: str) -> EcucValueCollection:
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucValueCollection
+
         if not self.IsElementExists(short_name, EcucValueCollection):
             element = EcucValueCollection(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, EcucValueCollection)
 
     def createEcucModuleConfigurationValues(self, short_name: str) -> EcucModuleConfigurationValues:
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues
+
         if not self.IsElementExists(short_name, EcucModuleConfigurationValues):
             element = EcucModuleConfigurationValues(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, EcucModuleConfigurationValues)
 
     def createEcucModuleDef(self, short_name: str) -> EcucModuleDef:
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucModuleDef
+
         if not self.IsElementExists(short_name, EcucModuleDef):
             element = EcucModuleDef(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, EcucModuleDef)
 
     def createEcucDefinitionCollection(self, short_name: str) -> EcucDefinitionCollection:
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDefinitionCollection
+
         if not self.IsElementExists(short_name, EcucDefinitionCollection):
             element = EcucDefinitionCollection(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, EcucDefinitionCollection)
 
     def createEcucDestinationUriDefSet(self, short_name: str) -> EcucDestinationUriDefSet:
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDestinationUriDefSet
+
         if not self.IsElementExists(short_name, EcucDestinationUriDefSet):
             element = EcucDestinationUriDefSet(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, EcucDestinationUriDefSet)
 
     def createSwSystemConst(self, short_name: str) -> SwSystemconst:
+        from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
+
         if not self.IsElementExists(short_name, SwSystemconst):
             element = SwSystemconst(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, SwSystemconst)
 
     def createSwSystemconstantValueSet(self, short_name: str) -> SwSystemconstantValueSet:
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstantValueSet
+
         if not self.IsElementExists(short_name, SwSystemconstantValueSet):
             element = SwSystemconstantValueSet(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, SwSystemconstantValueSet)
 
     def createPredefinedVariant(self, short_name: str) -> PredefinedVariant:
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import PredefinedVariant
+
         if not self.IsElementExists(short_name, PredefinedVariant):
             element = PredefinedVariant(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, PredefinedVariant)
 
     def createPostBuildVariantCriterion(self, short_name: str) -> PostBuildVariantCriterion:
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import PostBuildVariantCriterion
+
         if not self.IsElementExists(short_name, PostBuildVariantCriterion):
             element = PostBuildVariantCriterion(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, PostBuildVariantCriterion)
 
     def createPhysicalDimension(self, short_name: str) -> PhysicalDimension:
+        from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension
+
         if not self.IsElementExists(short_name, PhysicalDimension):
             element = PhysicalDimension(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, PhysicalDimension)
 
     def createISignalGroup(self, short_name: str) -> ISignalGroup:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalGroup
+
         if not self.IsElementExists(short_name, ISignalGroup):
             element = ISignalGroup(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, ISignalGroup)
 
     def createISignalIPduGroup(self, short_name: str) -> ISignalIPduGroup:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalIPduGroup
+
         if not self.IsElementExists(short_name, ISignalIPduGroup):
             element = ISignalIPduGroup(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, ISignalIPduGroup)
 
     def createSystem(self, short_name: str) -> System:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System
+
         if not self.IsElementExists(short_name, System):
             element = System(self, short_name)
             self.addElement(element)
         return self.getElement(short_name, System)
 
     def createFlatMap(self, short_name: str) -> FlatMap:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap
+
         if not self.IsElementExists(short_name, FlatMap):
             map = FlatMap(self, short_name)
             self.addElement(map)
         return self.getElement(short_name, FlatMap)
 
     def createPortInterfaceMappingSet(self, short_name: str) -> PortInterfaceMappingSet:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import PortInterfaceMappingSet
+
         if not self.IsElementExists(short_name, PortInterfaceMappingSet):
             map_set = PortInterfaceMappingSet(self, short_name)
             self.addElement(map_set)
         return self.getElement(short_name, PortInterfaceMappingSet)
 
     def createEthernetCluster(self, short_name: str) -> EthernetCluster:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import EthernetCluster
+
         if not self.IsElementExists(short_name, EthernetCluster):
             cluster = EthernetCluster(self, short_name)
             self.addElement(cluster)
         return self.getElement(short_name, EthernetCluster)
 
     def createDiagnosticConnection(self, short_name: str) -> DiagnosticConnection:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import DiagnosticConnection
+
         if not self.IsElementExists(short_name, DiagnosticConnection):
             connection = DiagnosticConnection(self, short_name)
             self.addElement(connection)
@@ -1365,126 +1952,168 @@ class ARPackage(CollectableElement):
         Returns:
             The newly created or existing DiagnosticServiceTable instance
         """
+        from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
+
         if not self.IsElementExists(short_name, DiagnosticServiceTable):
             table = DiagnosticServiceTable(self, short_name)
             self.addElement(table)
         return self.getElement(short_name, DiagnosticServiceTable)
 
     def createMultiplexedIPdu(self, short_name: str) -> MultiplexedIPdu:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import MultiplexedIPdu
+
         if not self.IsElementExists(short_name, MultiplexedIPdu):
             ipdu = MultiplexedIPdu(self, short_name)
             self.addElement(ipdu)
         return self.getElement(short_name, MultiplexedIPdu)
 
     def createUserDefinedIPdu(self, short_name: str) -> UserDefinedIPdu:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import UserDefinedIPdu
+
         if not self.IsElementExists(short_name, UserDefinedIPdu):
             ipdu = UserDefinedIPdu(self, short_name)
             self.addElement(ipdu)
         return self.getElement(short_name, UserDefinedIPdu)
 
     def createUserDefinedPdu(self, short_name: str) -> UserDefinedPdu:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import UserDefinedPdu
+
         if not self.IsElementExists(short_name, UserDefinedPdu):
             pdu = UserDefinedPdu(self, short_name)
             self.addElement(pdu)
         return self.getElement(short_name, UserDefinedPdu)
 
     def createGeneralPurposeIPdu(self, short_name: str) -> GeneralPurposeIPdu:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import GeneralPurposeIPdu
+
         if not self.IsElementExists(short_name, GeneralPurposeIPdu):
             i_pdu = GeneralPurposeIPdu(self, short_name)
             self.addElement(i_pdu)
         return self.getElement(short_name, GeneralPurposeIPdu)
 
     def createGeneralPurposePdu(self, short_name: str) -> GeneralPurposePdu:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import GeneralPurposePdu
+
         if not self.IsElementExists(short_name, GeneralPurposePdu):
             pdu = GeneralPurposePdu(self, short_name)
             self.addElement(pdu)
         return self.getElement(short_name, GeneralPurposePdu)
 
     def createSecureCommunicationPropsSet(self, short_name: str) -> SecureCommunicationPropsSet:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SecureCommunicationPropsSet
+
         if not self.IsElementExists(short_name, SecureCommunicationPropsSet):
             props_set = SecureCommunicationPropsSet(self, short_name)
             self.addElement(props_set)
         return self.getElement(short_name, SecureCommunicationPropsSet)
 
     def createSoAdRoutingGroup(self, short_name: str) -> SoAdRoutingGroup:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SoAdRoutingGroup
+
         if not self.IsElementExists(short_name, SoAdRoutingGroup):
             group = SoAdRoutingGroup(self, short_name)
             self.addElement(group)
         return self.getElement(short_name, SoAdRoutingGroup)
 
     def createTcpOptionFilterSet(self, short_name: str) -> TcpOptionFilterSet:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.TcpOptionFilterSet import TcpOptionFilterSet
+
         if not self.IsElementExists(short_name, TcpOptionFilterSet):
             tcp_option_filter_set = TcpOptionFilterSet(self, short_name)
             self.addElement(tcp_option_filter_set)
         return self.getElement(short_name, TcpOptionFilterSet)
 
     def createCanXlProps(self, short_name: str) -> CanXlProps:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanTopology import CanXlProps
+
         if not self.IsElementExists(short_name, CanXlProps):
             can_xl_props = CanXlProps(self, short_name)
             self.addElement(can_xl_props)
         return self.getElement(short_name, CanXlProps)
 
     def createSomeipSdClientServiceInstanceConfig(self, short_name: str) -> SomeipSdClientServiceInstanceConfig:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SomeipSdClientServiceInstanceConfig
+
         if not self.IsElementExists(short_name, SomeipSdClientServiceInstanceConfig):
             config = SomeipSdClientServiceInstanceConfig(self, short_name)
             self.addElement(config)
         return self.getElement(short_name, SomeipSdClientServiceInstanceConfig)
 
     def createSomeipSdClientEventGroupTimingConfig(self, short_name: str) -> SomeipSdClientEventGroupTimingConfig:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SomeipSdClientEventGroupTimingConfig
+
         if not self.IsElementExists(short_name, SomeipSdClientEventGroupTimingConfig):
             config = SomeipSdClientEventGroupTimingConfig(self, short_name)
             self.addElement(config)
         return self.getElement(short_name, SomeipSdClientEventGroupTimingConfig)
 
     def createSomeipSdServerEventGroupTimingConfig(self, short_name: str) -> SomeipSdServerEventGroupTimingConfig:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ServiceInstances import SomeipSdServerEventGroupTimingConfig
+
         if not self.IsElementExists(short_name, SomeipSdServerEventGroupTimingConfig):
             config = SomeipSdServerEventGroupTimingConfig(self, short_name)
             self.addElement(config)
         return self.getElement(short_name, SomeipSdServerEventGroupTimingConfig)
 
     def createDoIpTpConfig(self, short_name: str) -> DoIpTpConfig:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import DoIpTpConfig
+
         if not self.IsElementExists(short_name, DoIpTpConfig):
             tp_config = DoIpTpConfig(self, short_name)
             self.addElement(tp_config)
         return self.getElement(short_name, DoIpTpConfig)
 
     def createHwElement(self, short_name: str) -> HwElement:
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement
+
         if not self.IsElementExists(short_name, HwElement):
             hw_element = HwElement(self, short_name)
             self.addElement(hw_element)
         return self.getElement(short_name, HwElement)
 
     def createHwCategory(self, short_name: str) -> HwCategory:
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwCategory
+
         if not self.IsElementExists(short_name, HwCategory):
             hw_category = HwCategory(self, short_name)
             self.addElement(hw_category)
         return self.getElement(short_name, HwCategory)
 
     def createHwType(self, short_name: str) -> HwType:
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwType
+
         if not self.IsElementExists(short_name, HwType):
             hw_category = HwType(self, short_name)
             self.addElement(hw_category)
         return self.getElement(short_name, HwType)
 
     def createFlexrayFrame(self, short_name: str) -> FlexrayFrame:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrame
+
         if not self.IsElementExists(short_name, FlexrayFrame):
             frame = FlexrayFrame(self, short_name)
             self.addElement(frame)
         return self.getElement(short_name, FlexrayFrame)
 
     def createFlexrayCluster(self, short_name: str) -> FlexrayCluster:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayTopology import FlexrayCluster
+
         if not self.IsElementExists(short_name, FlexrayCluster):
             frame = FlexrayCluster(self, short_name)
             self.addElement(frame)
         return self.getElement(short_name, FlexrayCluster)
 
     def createDataTransformationSet(self, short_name: str) -> DataTransformationSet:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import DataTransformationSet
+
         if not self.IsElementExists(short_name, DataTransformationSet):
             transform_set = DataTransformationSet(self, short_name)
             self.addElement(transform_set)
         return self.getElement(short_name, DataTransformationSet)
 
     def createE2EProfileCompatibilityProps(self, short_name: str) -> E2EProfileCompatibilityProps:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import E2EProfileCompatibilityProps
+
         if not self.IsElementExists(short_name, E2EProfileCompatibilityProps):
             props = E2EProfileCompatibilityProps(self, short_name)
             self.addElement(props)
@@ -1499,81 +2128,127 @@ class ARPackage(CollectableElement):
         return self.getElement(short_name, Collection)
 
     def createKeywordSet(self, short_name: str) -> KeywordSet:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet
+
         if not self.IsElementExists(short_name, KeywordSet):
             keyword_set = KeywordSet(self, short_name)
             self.addElement(keyword_set)
         return self.getElement(short_name, KeywordSet)
 
     def createPortPrototypeBlueprint(self, short_name: str) -> PortPrototypeBlueprint:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
+
         if not self.IsElementExists(short_name, PortPrototypeBlueprint):
             keyword_set = PortPrototypeBlueprint(self, short_name)
             self.addElement(keyword_set)
         return self.getElement(short_name, PortPrototypeBlueprint)
 
     def createModeDeclarationMappingSet(self, short_name: str) -> ModeDeclarationMappingSet:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ModeDeclarationMappingSet
+
         if not self.IsElementExists(short_name, ModeDeclarationMappingSet):
             mapping_set = ModeDeclarationMappingSet(self, short_name)
             self.addElement(mapping_set)
         return self.getElement(short_name, ModeDeclarationMappingSet)
 
     def getApplicationPrimitiveDataTypes(self) -> List[ApplicationPrimitiveDataType]:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationPrimitiveDataType
+
         return list(sorted(filter(lambda a: isinstance(a, ApplicationPrimitiveDataType), self.elements), key=lambda o: o.short_name))
 
     def getApplicationDataType(self) -> List[ApplicationDataType]:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType
+
         return list(sorted(filter(lambda a: isinstance(a, ApplicationDataType), self.elements), key=lambda o: o.short_name))
 
     def getImplementationDataTypes(self) -> List[ImplementationDataType]:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType
+
         return list(sorted(filter(lambda a: isinstance(a, ImplementationDataType), self.elements), key=lambda o: o.short_name))
 
     def getSwBaseTypes(self) -> List[SwBaseType]:
+        from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
+
         return list(filter(lambda a: isinstance(a, SwBaseType), self.elements))
 
     def getSwComponentTypes(self) -> List[SwComponentType]:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SwComponentType
+
         return list(filter(lambda a: isinstance(a, SwComponentType), self.elements))
 
     def getSensorActuatorSwComponentType(self) -> List[SensorActuatorSwComponentType]:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SensorActuatorSwComponentType
+
         return list(filter(lambda a: isinstance(a, SensorActuatorSwComponentType), self.elements))
 
     def getAtomicSwComponentTypes(self) -> List[AtomicSwComponentType]:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType
+
         return list(filter(lambda a: isinstance(a, AtomicSwComponentType), self.elements))
 
     def getCompositionSwComponentTypes(self) -> List[CompositionSwComponentType]:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
+
         return list(filter(lambda a: isinstance(a, CompositionSwComponentType), self.elements))
 
     def getComplexDeviceDriverSwComponentTypes(self) -> List[ComplexDeviceDriverSwComponentType]:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import ComplexDeviceDriverSwComponentType
+
         return list(sorted(filter(lambda a: isinstance(a, ComplexDeviceDriverSwComponentType), self.elements), key=lambda a: a.short_name))
 
     def getSenderReceiverInterfaces(self) -> List[SenderReceiverInterface]:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SenderReceiverInterface
+
         return list(sorted(filter(lambda a: isinstance(a, SenderReceiverInterface), self.elements), key=lambda a: a.short_name))
 
     def getParameterInterfaces(self) -> List[ParameterInterface]:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ParameterInterface
+
         return list(sorted(filter(lambda a: isinstance(a, ParameterInterface), self.elements), key=lambda a: a.short_name))
 
     def getClientServerInterfaces(self) -> List[ClientServerInterface]:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerInterface
+
         return list(sorted(filter(lambda a: isinstance(a, ClientServerInterface), self.elements), key=lambda a: a.short_name))
 
     def getDataTypeMappingSets(self) -> List[DataTypeMappingSet]:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMappingSet
+
         return list(sorted(filter(lambda a: isinstance(a, DataTypeMappingSet), self.elements), key=lambda a: a.short_name))
 
     def getCompuMethods(self) -> List[CompuMethod]:
+        from armodel.models.M2.MSR.AsamHdo.ComputationMethod import CompuMethod
+
         return list(filter(lambda a: isinstance(a, CompuMethod), self.elements))
 
     def getBswModuleDescriptions(self) -> List[BswModuleDescription]:
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription
+
         return list(filter(lambda a: isinstance(a, BswModuleDescription), self.elements))
 
     def getBswModuleEntries(self) -> List[BswModuleEntry]:
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry
+
         return list(filter(lambda a: isinstance(a, BswModuleEntry), self.elements))
 
     def getBswImplementations(self) -> List[BswImplementation]:
+        from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation
+
         return list(filter(lambda a: isinstance(a, BswImplementation), self.elements))
 
     def getSwcImplementations(self) -> List[SwcImplementation]:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
+
         return list(filter(lambda a: isinstance(a, SwcImplementation), self.elements))
 
     def getImplementations(self) -> List[Implementation]:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
+
         return list(filter(lambda a: isinstance(a, Implementation), self.elements))
 
     def getSwcBswMappings(self) -> List[SwcBswMapping]:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping
+
         return list(filter(lambda a: isinstance(a, SwcBswMapping), self.elements))
 
     def getMcFunctions(self) -> List[McFunction]:
@@ -1583,6 +2258,8 @@ class ARPackage(CollectableElement):
         Returns:
             List of McFunction instances
         """
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport import McFunction
+
         return list(filter(lambda a: isinstance(a, McFunction), self.elements))
 
     def getMcGroups(self) -> List[McGroup]:
@@ -1592,96 +2269,158 @@ class ARPackage(CollectableElement):
         Returns:
             List of McGroup instances
         """
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup
+
         return list(filter(lambda a: isinstance(a, McGroup), self.elements))
 
     def getConstantSpecifications(self) -> List[ConstantSpecification]:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification
+
         return list(filter(lambda a: isinstance(a, ConstantSpecification), self.elements))
 
     def getDataConstrs(self) -> List[DataConstr]:
+        from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import DataConstr
+
         return list(filter(lambda a: isinstance(a, DataConstr), self.elements))
 
     def getUnits(self) -> List[Unit]:
+        from armodel.models.M2.MSR.AsamHdo.Units import Unit
+
         return list(filter(lambda a: isinstance(a, Unit), self.elements))
 
     def getApplicationArrayDataTypes(self) -> List[ApplicationArrayDataType]:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationArrayDataType
+
         return list(sorted(filter(lambda a: isinstance(a, ApplicationArrayDataType), self.elements), key=lambda a: a.short_name))
 
     def getSwRecordLayouts(self) -> List[SwRecordLayout]:
+        from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout
+
         return list(sorted(filter(lambda a: isinstance(a, SwRecordLayout), self.elements), key=lambda a: a.short_name))
 
     def getSwAddrMethods(self) -> List[SwAddrMethod]:
+        from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
+
         return list(sorted(filter(lambda a: isinstance(a, SwAddrMethod), self.elements), key=lambda a: a.short_name))
 
     def getTriggerInterfaces(self) -> List[TriggerInterface]:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import TriggerInterface
+
         return list(sorted(filter(lambda a: isinstance(a, TriggerInterface), self.elements), key=lambda a: a.short_name))
 
     def getModeDeclarationGroups(self) -> List[ModeDeclarationGroup]:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeDeclarationGroup
+
         return list(sorted(filter(lambda a: isinstance(a, ModeDeclarationGroup), self.elements), key=lambda a: a.short_name))
 
     def getModeSwitchInterfaces(self) -> List[ModeSwitchInterface]:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ModeSwitchInterface
+
         return list(sorted(filter(lambda a: isinstance(a, ModeSwitchInterface), self.elements), key=lambda a: a.short_name))
 
     def getSwcTimings(self) -> List[SwcTiming]:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming
+
         return list(sorted(filter(lambda a: isinstance(a, SwcTiming), self.elements), key=lambda a: a.short_name))
 
     def getLinClusters(self) -> List[LinCluster]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinTopology import LinCluster
+
         return list(sorted(filter(lambda a: isinstance(a, LinCluster), self.elements), key=lambda a: a.short_name))
 
     def getCanClusters(self) -> List[CanCluster]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import CanCluster
+
         return list(sorted(filter(lambda a: isinstance(a, CanCluster), self.elements), key=lambda a: a.short_name))
 
     def getLinUnconditionalFrames(self) -> List[LinUnconditionalFrame]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Lin.LinCommunication import LinUnconditionalFrame
+
         return list(sorted(filter(lambda a: isinstance(a, LinUnconditionalFrame), self.elements), key=lambda a: a.short_name))
 
     def getNmPdus(self) -> List[NmPdu]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import NmPdu
+
         return list(sorted(filter(lambda a: isinstance(a, NmPdu), self.elements), key=lambda a: a.short_name))
 
     def getNPdus(self) -> List[NPdu]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import NPdu
+
         return list(sorted(filter(lambda a: isinstance(a, NPdu), self.elements), key=lambda a: a.short_name))
 
     def getDcmIPdus(self) -> List[DcmIPdu]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import DcmIPdu
+
         return list(sorted(filter(lambda a: isinstance(a, DcmIPdu), self.elements), key=lambda a: a.short_name))
 
     def getSecuredIPdus(self) -> List[SecuredIPdu]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SecuredIPdu
+
         return list(sorted(filter(lambda a: isinstance(a, SecuredIPdu), self.elements), key=lambda a: a.short_name))
 
     def getNmConfigs(self) -> List[NmConfig]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import NmConfig
+
         return list(sorted(filter(lambda a: isinstance(a, NmConfig), self.elements), key=lambda a: a.short_name))
 
     def getCanTpConfigs(self) -> List[CanTpConfig]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.TransportProtocols import CanTpConfig
+
         return list(sorted(filter(lambda a: isinstance(a, CanTpConfig), self.elements), key=lambda a: a.short_name))
 
     def getCanFrames(self) -> List[CanFrame]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import CanFrame
+
         return list(sorted(filter(lambda a: isinstance(a, CanFrame), self.elements), key=lambda a: a.short_name))
 
     def getEcuInstances(self) -> List[EcuInstance]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreTopology import EcuInstance
+
         return list(sorted(filter(lambda a: isinstance(a, EcuInstance), self.elements), key=lambda a: a.short_name))
 
     def getGateways(self) -> List[Gateway]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Multiplatform import Gateway
+
         return list(sorted(filter(lambda a: isinstance(a, Gateway), self.elements), key=lambda a: a.short_name))
 
     def getISignals(self) -> List[ISignal]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignal
+
         return list(sorted(filter(lambda a: isinstance(a, ISignal), self.elements), key=lambda a: a.short_name))
 
     def getEcucValueCollections(self) -> List[EcucValueCollection]:
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucValueCollection
+
         return list(sorted(filter(lambda a: isinstance(a, EcucValueCollection), self.elements), key=lambda a: a.short_name))
 
     def getEcucModuleConfigurationValues(self) -> List[EcucModuleConfigurationValues]:
+        from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import EcucModuleConfigurationValues
+
         return list(sorted(filter(lambda a: isinstance(a, EcucModuleConfigurationValues), self.elements), key=lambda a: a.short_name))
 
     def getEcucModuleDefs(self) -> List[EcucModuleDef]:
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucModuleDef
+
         return list(sorted(filter(lambda a: isinstance(a, EcucModuleDef), self.elements), key=lambda a: a.short_name))
 
     def getEcucDefinitionCollections(self) -> List[EcucDefinitionCollection]:
+        from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucDefinitionCollection
+
         return list(sorted(filter(lambda a: isinstance(a, EcucDefinitionCollection), self.elements), key=lambda a: a.short_name))
 
     def getSwSystemConsts(self) -> List[SwSystemconst]:
+        from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
+
         return list(sorted(filter(lambda a: isinstance(a, SwSystemconst), self.elements), key=lambda a: a.short_name))
 
     def getSwSystemconstantValueSets(self) -> List[SwSystemconstantValueSet]:
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import SwSystemconstantValueSet
+
         return list(sorted(filter(lambda a: isinstance(a, SwSystemconstantValueSet), self.elements), key=lambda a: a.short_name))
 
     def getPredefinedVariants(self) -> List[PredefinedVariant]:
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import PredefinedVariant
+
         return list(
             sorted(
                 filter(lambda a: isinstance(a, PredefinedVariant), self.elements),
@@ -1690,6 +2429,8 @@ class ARPackage(CollectableElement):
         )
 
     def getPostBuildVariantCriterions(self) -> List[PostBuildVariantCriterion]:
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import PostBuildVariantCriterion
+
         return list(
             sorted(
                 filter(lambda a: isinstance(a, PostBuildVariantCriterion), self.elements),
@@ -1698,33 +2439,53 @@ class ARPackage(CollectableElement):
         )
 
     def getEcucPhysicalDimensions(self) -> List[PhysicalDimension]:
+        from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension
+
         return list(sorted(filter(lambda a: isinstance(a, PhysicalDimension), self.elements), key=lambda a: a.short_name))
 
     def getISignalGroups(self) -> List[ISignalGroup]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalGroup
+
         return list(sorted(filter(lambda a: isinstance(a, ISignalGroup), self.elements), key=lambda a: a.short_name))
 
     def getSystemSignals(self) -> List[SystemSignal]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignal
+
         return list(sorted(filter(lambda a: isinstance(a, SystemSignal), self.elements), key=lambda a: a.short_name))
 
     def getSystemSignalGroups(self) -> List[SystemSignalGroup]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import SystemSignalGroup
+
         return list(sorted(filter(lambda a: isinstance(a, SystemSignalGroup), self.elements), key=lambda a: a.short_name))
 
     def getISignalIPdus(self) -> List[ISignalIPdu]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import ISignalIPdu
+
         return list(sorted(filter(lambda a: isinstance(a, ISignalIPdu), self.elements), key=lambda a: a.short_name))
 
     def getSystems(self) -> List[System]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate import System
+
         return list(sorted(filter(lambda a: isinstance(a, System), self.elements), key=lambda a: a.short_name))
 
     def getHwElements(self) -> List[HwElement]:
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwElement
+
         return list(sorted(filter(lambda a: isinstance(a, HwElement), self.elements), key=lambda a: a.short_name))
 
     def getHwCategories(self) -> List[HwCategory]:
+        from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwCategory
+
         return list(sorted(filter(lambda a: isinstance(a, HwCategory), self.elements), key=lambda a: a.short_name))
 
     def getFlexrayFrames(self) -> List[FlexrayFrame]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Flexray.FlexrayCommunication import FlexrayFrame
+
         return list(sorted(filter(lambda a: isinstance(a, FlexrayFrame), self.elements), key=lambda a: a.short_name))
 
     def getDataTransformationSets(self) -> List[DataTransformationSet]:
+        from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import DataTransformationSet
+
         return list(sorted(filter(lambda a: isinstance(a, DataTransformationSet), self.elements), key=lambda a: a.short_name))
 
     def getCollections(self) -> List["Collection"]:
@@ -1733,12 +2494,18 @@ class ARPackage(CollectableElement):
         return list(sorted(filter(lambda a: isinstance(a, Collection), self.elements), key=lambda a: a.short_name))
 
     def getKeywordSets(self) -> List[KeywordSet]:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import KeywordSet
+
         return list(sorted(filter(lambda a: isinstance(a, KeywordSet), self.elements), key=lambda a: a.short_name))
 
     def getPortPrototypeBlueprints(self) -> List[PortPrototypeBlueprint]:
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint
+
         return list(sorted(filter(lambda a: isinstance(a, PortPrototypeBlueprint), self.elements), key=lambda a: a.short_name))
 
     def getModeDeclarationMappingSets(self) -> List[ModeDeclarationMappingSet]:
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ModeDeclarationMappingSet
+
         return list(sorted(filter(lambda a: isinstance(a, ModeDeclarationMappingSet), self.elements), key=lambda a: a.short_name))
 
     def getReferenceBases(self):

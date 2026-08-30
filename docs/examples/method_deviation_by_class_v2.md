@@ -112,13 +112,13 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 | `asynchronousServerCallPointRef` | `RefType` | `asynchronousServerCallPoint` | ``AsynchronousServer CallPoint`` | ref | type (PDF AsynchronousServer CallPoint vs py RefType) |
 
 ## `ARElement`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py`
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 55  | **table:** Table 4.3
+- **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
+| — *(no own members)* | `—` | — | — | - | none (2026-08-30 sync: Table 4.3 has no Attribute rows — abstract marker class; all members inherited from the PackageableElement chain) |
 
 ## `BswInternalBehavior`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 68  | **table:** Table 5.2

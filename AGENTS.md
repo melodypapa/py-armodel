@@ -11,11 +11,17 @@
 **Lint:** `npm run lint` — runs flake8 syntax checks (E9, F63, F7, F82) **and** ruff (`ruff check src tests scripts`, E/F/W/I rules per `[tool.ruff]` in pyproject.toml). Always use this; do not run flake8 alone
 - CI also runs: `--max-complexity=10 --max-line-length=127` (warnings, exit-zero)
 - **Exclude `build/`** from lint (generated code)
+- **Do NOT re-sort imports in `src/armodel/models/**`, `parser/arxml_parser.py`, `writer/arxml_writer.py`** — ruff's I001 is intentionally disabled there (`[tool.ruff.lint.per-file-ignores]` in pyproject.toml) because import order avoids circular imports; auto-fixing it triggers ImportError at package load
 - **Black formatter:** `npm run black` — formats code with 200 character line length
 - **Black check:** `npm run black-check` — checks code formatting without modifying files
 
 **Build:** `python -m build` (requires `pip install build`)
 **Dev install:** `pip install -e .`
+
+**Environment (uv):** The repo is uv-managed — `uv.lock` and a uv-managed `.venv` (Python 3.11) exist. The `pytest` extra (`pytest`, `pytest-cov`, `pyyaml`) and `lint` extra (`ruff`, `black`) are in `pyproject.toml`.
+- `uv sync --extra pytest` — create/update `.venv` with test deps (plain `pip install -e .` does NOT install pytest)
+- `uv run pytest ...` or `uv run python scripts/run_tests.py` — run inside `.venv` without activating
+- Or `source .venv/bin/activate` first; do not commit changes to `.venv`
 
 ## Critical: AUTOSAR Version MUST Be Set
 
