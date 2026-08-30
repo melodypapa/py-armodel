@@ -3,13 +3,12 @@ This module contains classes for representing AUTOSAR data elements
 in software component internal behavior templates.
 """
 
-from typing import List, Optional, TYPE_CHECKING
+from typing import List, Optional
 
-if TYPE_CHECKING:
-    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefsUsage import (
-        ParameterInAtomicSWCTypeInstanceRef,
-        VariableInAtomicSWCTypeInstanceRef,
-    )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefsUsage import (
+    ParameterInAtomicSWCTypeInstanceRef,
+    VariableInAtomicSWCTypeInstanceRef,
+)
 
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject

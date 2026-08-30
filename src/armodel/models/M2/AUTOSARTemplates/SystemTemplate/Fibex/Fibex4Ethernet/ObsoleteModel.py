@@ -76,10 +76,10 @@ class SocketConnection(Describable):
         self.pduCollectionTimeout: Optional[TimeValue] = None
 
         # This attribute determines which protocol is used by the client to obtain the IP Address information. If this attribute is not set to none the value determines the service used by the client to obtain the IP Address information for the SocketConnection. If this attribute is set to none the client used the statically configured IP Address information.
-        self.runtimeIpAddressConfiguration: Optional[RuntimeAddressConfigurationEnum] = None
+        self.runtimeIpAddressConfiguration: Optional["RuntimeAddressConfigurationEnum"] = None
 
         # This attribute determines which protocol is used by the client to obtain the Port information. If this attribute is not set to none the value determines the service used by the client to obtain the Port information for the SocketConnection. If this attribute is set to none the client uses the statically configured Port information.
-        self.runtimePortConfiguration: Optional[RuntimeAddressConfigurationEnum] = None
+        self.runtimePortConfiguration: Optional["RuntimeAddressConfigurationEnum"] = None
 
         # This attribute specifies an identifying shortName for the SocketConnection. It shall be unique within its context.
         self.shortLabel: Optional[Identifier] = None
@@ -188,11 +188,11 @@ class SocketConnection(Describable):
             self.pduCollectionTimeout = value
         return self
 
-    def getRuntimeIpAddressConfiguration(self) -> Optional[RuntimeAddressConfigurationEnum]:
+    def getRuntimeIpAddressConfiguration(self) -> Optional["RuntimeAddressConfigurationEnum"]:
         """This attribute determines which protocol is used by the client to obtain the IP Address information. If this attribute is not set to none the value determines the service used by the client to obtain the IP Address information for the SocketConnection. If this attribute is set to none the client used the statically configured IP Address information."""
         return self.runtimeIpAddressConfiguration
 
-    def setRuntimeIpAddressConfiguration(self, value: Optional[RuntimeAddressConfigurationEnum]) -> "SocketConnection":
+    def setRuntimeIpAddressConfiguration(self, value: Optional["RuntimeAddressConfigurationEnum"]) -> "SocketConnection":
         """
         This attribute determines which protocol is used by the client to obtain the IP Address information. If this attribute is not set to none the value determines the service used by the client to obtain the IP Address information for the SocketConnection. If this attribute is set to none the client used the statically configured IP Address information.
         A None value is a no-op and does not overwrite an existing runtimeIpAddressConfiguration.
@@ -201,11 +201,11 @@ class SocketConnection(Describable):
             self.runtimeIpAddressConfiguration = value
         return self
 
-    def getRuntimePortConfiguration(self) -> Optional[RuntimeAddressConfigurationEnum]:
+    def getRuntimePortConfiguration(self) -> Optional["RuntimeAddressConfigurationEnum"]:
         """This attribute determines which protocol is used by the client to obtain the Port information. If this attribute is not set to none the value determines the service used by the client to obtain the Port information for the SocketConnection. If this attribute is set to none the client uses the statically configured Port information."""
         return self.runtimePortConfiguration
 
-    def setRuntimePortConfiguration(self, value: Optional[RuntimeAddressConfigurationEnum]) -> "SocketConnection":
+    def setRuntimePortConfiguration(self, value: Optional["RuntimeAddressConfigurationEnum"]) -> "SocketConnection":
         """
         This attribute determines which protocol is used by the client to obtain the Port information. If this attribute is not set to none the value determines the service used by the client to obtain the Port information for the SocketConnection. If this attribute is set to none the client uses the statically configured Port information.
         A None value is a no-op and does not overwrite an existing runtimePortConfiguration.
