@@ -9,7 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultilanguageLongName
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
 
 
 class TestReferrable:
@@ -252,8 +252,17 @@ class TestMultilanguageReferrable:
 
 class TestIdentifiable:
     """
-    Test class for Identifiable functionality.
+    Test class for Identifiable functionality (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 4.4).
     """
+
+    class ConcreteIdentifiable(Identifiable):
+        def __init__(self, parent, short_name):
+            super().__init__(parent, short_name)
+
+    def _make_obj(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return TestIdentifiable.ConcreteIdentifiable(ar_root, "TestName")
 
     def test_abstract_initialization(self):
         """
@@ -267,110 +276,88 @@ class TestIdentifiable:
         except TypeError:
             pass  # Expected behavior
 
+    def test_initialization_defaults(self):
+        """
+        All spec attributes default to None (or empty list for the annotation aggregation).
+        """
+        obj = self._make_obj()
+
+        assert obj.getAdminData() is None
+        assert obj.getAnnotations() == []
+        assert obj.getCategory() is None
+        assert obj.getDesc() is None
+        assert obj.getIntroduction() is None
+        assert obj.getUuid() is None
+        assert obj.getVariationPoint() is None
+
     def test_get_set_admin_data(self):
         """
-        Test getAdminData and setAdminData methods.
+        Round-trips adminData; None is a no-op.
         """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
+        obj = self._make_obj()
 
-        class ConcreteIdentifiable(Identifiable):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        obj = ConcreteIdentifiable(ar_root, "TestName")
-
-        # Initially should be None
         assert obj.getAdminData() is None
 
-        # Set admin data
         admin_data = AdminData()
-        obj.setAdminData(admin_data)
+        assert obj.setAdminData(admin_data) is obj
+        assert obj.getAdminData() is admin_data
+
+        obj.setAdminData(None)
         assert obj.getAdminData() is admin_data
 
     def test_remove_admin_data(self):
         """
-        Test removeAdminData method.
+        removeAdminData clears the adminData member.
         """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
+        obj = self._make_obj()
 
-        class ConcreteIdentifiable(Identifiable):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        obj = ConcreteIdentifiable(ar_root, "TestName")
-
-        # Set admin data
         admin_data = AdminData()
         obj.setAdminData(admin_data)
         assert obj.getAdminData() is admin_data
 
-        # Remove admin data
         obj.removeAdminData()
         assert obj.getAdminData() is None
 
     def test_get_set_desc(self):
         """
-        Test getDesc and setDesc methods.
+        Round-trips desc; None is a no-op.
         """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
+        obj = self._make_obj()
 
-        class ConcreteIdentifiable(Identifiable):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        obj = ConcreteIdentifiable(ar_root, "TestName")
-
-        # Initially should be None
         assert obj.getDesc() is None
 
-        # Set description
         desc = MultiLanguageOverviewParagraph()
-        obj.setDesc(desc)
+        assert obj.setDesc(desc) is obj
+        assert obj.getDesc() is desc
+
+        obj.setDesc(None)
         assert obj.getDesc() is desc
 
     def test_get_set_introduction(self):
         """
-        Test getIntroduction and setIntroduction methods.
+        Round-trips introduction; None is a no-op.
         """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
+        obj = self._make_obj()
 
-        class ConcreteIdentifiable(Identifiable):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        obj = ConcreteIdentifiable(ar_root, "TestName")
-
-        # Initially should be None
         assert obj.getIntroduction() is None
 
-        # Set introduction
         intro = DocumentationBlock()
-        obj.setIntroduction(intro)
+        assert obj.setIntroduction(intro) is obj
+        assert obj.getIntroduction() is intro
+
+        obj.setIntroduction(None)
         assert obj.getIntroduction() is intro
 
     def test_add_get_annotations(self):
         """
-        Test addAnnotation and getAnnotations methods.
+        addAnnotation appends and returns self for chaining; getAnnotations returns the list.
         """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
+        obj = self._make_obj()
 
-        class ConcreteIdentifiable(Identifiable):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        obj = ConcreteIdentifiable(ar_root, "TestName")
-
-        # Initially should be empty
         assert obj.getAnnotations() == []
 
-        # Add an annotation
         annotation = Annotation()
-        obj.addAnnotation(annotation)
+        assert obj.addAnnotation(annotation) is obj
 
         annotations = obj.getAnnotations()
         assert len(annotations) == 1
@@ -378,32 +365,55 @@ class TestIdentifiable:
 
     def test_get_set_category(self):
         """
-        Test getCategory and setCategory methods.
+        Round-trips category as a CategoryString (or a plain string that is converted); None is a no-op.
         """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
+        obj = self._make_obj()
 
-        class ConcreteIdentifiable(Identifiable):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        obj = ConcreteIdentifiable(ar_root, "TestName")
-
-        # Initially should be None
         assert obj.getCategory() is None
 
-        # Set category as string (should be converted)
         obj.setCategory("TestCategory")
         category = obj.getCategory()
         assert category is not None
         assert category.getValue() == "TestCategory"
 
-        # Set category as object
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
-
         category_obj = CategoryString().setValue("NewCategory")
-        obj.setCategory(category_obj)
+        assert obj.setCategory(category_obj) is obj
         assert obj.getCategory() is category_obj
+
+        obj.setCategory(None)
+        assert obj.getCategory() is category_obj
+
+    def test_get_set_uuid(self):
+        """
+        Round-trips uuid (Table 4.4 attribute, owned by Identifiable); None is a no-op.
+        """
+        obj = self._make_obj()
+
+        assert obj.getUuid() is None
+
+        uuid = "DCE:2fac1234-31f8-11b4-a222-08002b34c003"
+        assert obj.setUuid(uuid) is obj
+        assert obj.getUuid() == uuid
+
+        obj.setUuid(None)
+        assert obj.getUuid() == uuid
+
+    def test_get_set_variation_point(self):
+        """
+        Round-trips variationPoint (kept deviation member); None is a no-op.
+        """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+
+        obj = self._make_obj()
+
+        assert obj.getVariationPoint() is None
+
+        vp = VariationPoint()
+        assert obj.setVariationPoint(vp) is obj
+        assert obj.getVariationPoint() is vp
+
+        obj.setVariationPoint(None)
+        assert obj.getVariationPoint() is vp
 
 
 class TestDescribable:

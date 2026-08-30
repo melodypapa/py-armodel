@@ -7,7 +7,7 @@ components, interfaces, data types, and other packages.
 """
 
 from __future__ import annotations
-from typing import Dict, List, Optional, Any
+from typing import Dict, List, Optional
 from typing import TYPE_CHECKING
 
 from abc import ABC
@@ -19,10 +19,11 @@ if TYPE_CHECKING:
     from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 
 
-class PackageableElement(Identifiable, ABC):
+class PackageableElement(CollectableElement, ABC):
     """
     This meta-class specifies the ability to be a member of an AUTOSAR package.
     """
@@ -32,6 +33,10 @@ class PackageableElement(Identifiable, ABC):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    #
+    # Heritage fix (Rule 0001.2): Table 4.2 Base closure names CollectableElement as the
+    # most-derived direct base, so PackageableElement re-parents from Identifiable to
+    # CollectableElement. __init__ still forwards (parent, short_name) up the chain.
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PackageableElement:
@@ -60,8 +65,6 @@ class ARElement(PackageableElement, ABC):
 # AbstractStructure: AbstractStructure's own import of AbstractBlueprintStructure requires
 # the CommonStructure package to be present in sys.modules (Task 15 bootstrap-cycle fix).
 import armodel.models.M2.AUTOSARTemplates.CommonStructure  # noqa: F401,E402
-
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement  # noqa: E402
 
 # Names NOT eagerly imported at the end of this module (import-time 2-rings) are
 # re-exported lazily via PEP 562; `from ARPackage import X` and wildcard imports
@@ -381,216 +384,15 @@ class ARPackage(CollectableElement):
     # and checklist.
 
     def __init__(self, parent: ARObject, short_name: str):
-        # Initialize CollectableElement (which inherits from ARObject)
-
-        CollectableElement.__init__(self)
-        # Explicitly initialize ARObject attributes since CollectableElement doesn't call super().__init__()
-        ARObject.__init__(self)
-
-        # Referrable attributes (added directly since ARPackage doesn't inherit from Referrable)
-        self.parent = parent
-        self.short_name = short_name
-
-        # Identifiable attributes (added directly since ARPackage doesn't inherit from Identifiable)
-        self.longName: Optional[MultilanguageLongName] = None
-        self.annotations: List[Annotation] = []
-        self.adminData: Optional[AdminData] = None
-        self.category: Optional[CategoryString] = None
-        self.introduction: Optional[DocumentationBlock] = None
-        self.desc: Optional[MultiLanguageOverviewParagraph] = None
+        # Referrable/Identifiable members (parent, short_name, longName, annotations,
+        # adminData, category, introduction, desc, uuid, variationPoint) and the
+        # element-collection registry are inherited from CollectableElement -> Identifiable.
+        super().__init__(parent, short_name)
 
         # This represents a sub package within an ARPackage, thus allowing for an unlimited package hierarchy.
         self.arPackages: Dict[str, "ARPackage"] = {}
         # This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references.
         self.referenceBases: List[ReferenceBase] = []
-
-    @property
-    def shortName(self) -> str:
-        """str: The short name of this ARPackage."""
-        return self.short_name
-
-    @shortName.setter
-    def shortName(self, value: str):
-        self.short_name = value
-
-    def getShortName(self) -> str:
-        """
-        Gets the short name of this ARPackage.
-
-        Returns:
-            The short name of this ARPackage
-        """
-        return self.short_name
-
-    def getParent(self) -> ARObject:
-        """
-        Gets the parent of this ARPackage.
-
-        Returns:
-            The parent ARObject
-        """
-        return self.parent
-
-    @property
-    def full_name(self) -> str:
-        """
-        str: The full name of this ARPackage, including the parent's full name.
-        """
-        return self.parent.full_name + "/" + self.short_name
-
-    def getFullName(self) -> str:
-        """
-        Gets the full name of this ARPackage, including the parent's full name.
-
-        Returns:
-            The full name of this ARPackage
-        """
-        return self.full_name
-
-    def getLongName(self) -> Optional[MultilanguageLongName]:
-        """
-        Gets the long name of this ARPackage.
-
-        Returns:
-            MultilanguageLongName representing the long name, or None if not set
-        """
-        return self.longName
-
-    def setLongName(self, value: MultilanguageLongName) -> "ARPackage":
-        """
-        Sets the long name of this ARPackage.
-
-        Args:
-            value: The long name to set
-
-        Returns:
-            self for method chaining
-        """
-        self.longName = value
-        return self
-
-    def getAdminData(self) -> Optional[AdminData]:
-        """
-        Gets the administrative data for this ARPackage.
-
-        Returns:
-            AdminData instance, or None if not set
-        """
-        return self.adminData
-
-    def setAdminData(self, value: AdminData) -> "ARPackage":
-        """
-        Sets the administrative data for this ARPackage.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The administrative data to set
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.adminData = value
-        return self
-
-    def removeAdminData(self) -> None:
-        """
-        Removes the administrative data for this ARPackage.
-        """
-        self.adminData = None
-
-    def getDesc(self) -> Optional[MultiLanguageOverviewParagraph]:
-        """
-        Gets the description for this ARPackage.
-
-        Returns:
-            MultiLanguageOverviewParagraph instance, or None if not set
-        """
-        return self.desc
-
-    def setDesc(self, value: MultiLanguageOverviewParagraph) -> "ARPackage":
-        """
-        Sets the description for this ARPackage.
-
-        Args:
-            value: The description to set
-
-        Returns:
-            self for method chaining
-        """
-        self.desc = value
-        return self
-
-    def getCategory(self) -> Optional[CategoryString]:
-        """
-        Gets the category for this ARPackage.
-
-        Returns:
-            CategoryString instance, or None if not set
-        """
-        return self.category
-
-    def setCategory(self, value: Any) -> "ARPackage":
-        """
-        Sets the category for this ARPackage.
-        If the value is a string, it will be converted to a CategoryString.
-
-        Args:
-            value: The category to set
-
-        Returns:
-            self for method chaining
-        """
-
-        if isinstance(value, str):
-            self.category = CategoryString().setValue(value)
-        else:
-            self.category = value
-        return self
-
-    def getIntroduction(self) -> Optional[DocumentationBlock]:
-        """
-        Gets the introduction documentation for this ARPackage.
-
-        Returns:
-            DocumentationBlock instance, or None if not set
-        """
-        return self.introduction
-
-    def setIntroduction(self, value: DocumentationBlock) -> "ARPackage":
-        """
-        Sets the introduction documentation for this ARPackage.
-
-        Args:
-            value: The introduction documentation to set
-
-        Returns:
-            self for method chaining
-        """
-        self.introduction = value
-        return self
-
-    def addAnnotation(self, annotation: Annotation) -> "ARPackage":
-        """
-        Adds an annotation to this ARPackage.
-
-        Args:
-            annotation: The annotation to add
-
-        Returns:
-            self for method chaining
-        """
-        self.annotations.append(annotation)
-        return self
-
-    def getAnnotations(self) -> List[Annotation]:
-        """
-        Gets the list of annotations for this ARPackage.
-
-        Returns:
-            List of Annotation instances
-        """
-        return self.annotations
 
     def getARPackages(self) -> List["ARPackage"]:
         """
@@ -1927,3 +1729,12 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (  #
     MultiLanguageOverviewParagraph,
     MultilanguageLongName,
 )
+
+# Bind Collection's real base (ARElement) now that this module is fully defined. Collection is
+# declared in ElementCollection with a placeholder base to avoid an import cycle: ElementCollection
+# is imported for CollectableElement at class-definition time (PackageableElement re-parents to
+# CollectableElement), and Collection's spec base ARElement lives here, so binding it here keeps
+# both modules importable. After this, isinstance(coll, ARElement) holds.
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection  # noqa: E402
+
+Collection.__bases__ = (ARElement,)

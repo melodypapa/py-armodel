@@ -365,10 +365,21 @@ class AbstractARXMLParser(ABC):
                 timestamp_value = DateTime()
                 timestamp_value.setValue(timestamp)
                 ar_object.setTimestamp(timestamp_value)
+            # The uuid attribute (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 4.4)
+            # is carried on ARObject (see ArObject.py: "uuid" internal member) so that
+            # every AUTOSAR object can be registered with the UUID manager. It is read
+            # here (rather than in readIdentifiable) so that it is populated *before* the
+            # object is registered with the UUID manager via addARObject() below.
+            uuid_value = self.readElementOptionalAttrib(element, "UUID")
+            if uuid_value is not None and isinstance(ar_object, ARObject):
+                ar_object.setUuid(uuid_value)
         else:
-            # The ARType hierarchy carries the timestamp as a plain string (duck-typed)
+            # The ARType hierarchy (AUTOSAR primitive types) carries the timestamp as a
+            # plain string and owns its own separate uuid attribute (PrimitiveTypes).
             ar_object.timestamp = self.readElementOptionalAttrib(element, "T")
-        ar_object.uuid = self.readElementOptionalAttrib(element, "UUID")  # read the uuid
+            uuid_value = self.readElementOptionalAttrib(element, "UUID")
+            if uuid_value is not None:
+                ar_object.uuid = uuid_value
 
         AUTOSAR.getInstance().addARObject(ar_object)
 

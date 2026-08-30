@@ -229,52 +229,72 @@ class MultilanguageReferrable(Referrable, ABC):
 
 class Identifiable(MultilanguageReferrable, ABC):
     """
-    Abstract class for identifiable elements in AUTOSAR models.
-    This class combines multilingual referrable functionality with element collection capabilities.
+    Instances of this class can be referred to by their identifier (within the namespace borders). In addition to this, Identifiables are objects which contribute significantly to the overall structure of an AUTOSAR description. In particular, Identifiables might contain Identifiables.
     """
 
     # Identifiable method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTotalElement              [x] impl  [x] docstring  [ ] test
-    # [ ] removeElement                [x] impl  [x] docstring  [ ] test
-    # [ ] getElements                  [x] impl  [x] docstring  [ ] test
-    # [ ] addElement                   [x] impl  [x] docstring  [ ] test
-    # [ ] getElement                   [x] impl  [x] docstring  [ ] test
-    # [ ] IsElementExists              [x] impl  [x] docstring  [ ] test
-    # [ ] getAdminData                 [x] impl  [x] docstring  [ ] test
-    # [ ] setAdminData                 [x] impl  [x] docstring  [ ] test
-    # [x] removeAdminData              [x] impl  [x] docstring  [x] test
-    # [ ] getDesc                      [x] impl  [x] docstring  [ ] test
-    # [ ] setDesc                      [x] impl  [x] docstring  [ ] test
-    # [ ] getCategory                  [x] impl  [x] docstring  [ ] test
-    # [ ] setCategory                  [x] impl  [x] docstring  [ ] test
-    # [ ] getIntroduction              [x] impl  [x] docstring  [ ] test
-    # [ ] setIntroduction              [x] impl  [x] docstring  [ ] test
-    # [ ] addAnnotation                [x] impl  [x] docstring  [ ] test
-    # [ ] getAnnotations               [x] impl  [x] docstring  [ ] test
-    # [x] getVariationPoint            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVariationPoint            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.4, p.61
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAdminData       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAdminData       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] removeAdminData    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAnnotation      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAnnotations     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getCategory        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCategory        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDesc            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDesc            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIntroduction    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntroduction    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUuid            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (inherited from ARObject; owned there as internal extension — see Group1.md Work order, uuid-last step)
+    # [x] setUuid            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  (inherited from ARObject)
+    # [x] getVariationPoint  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariationPoint  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (collection infra kept on Identifiable: getTotalElement, removeElement, getElements, addElement, getElement, IsElementExists — shared with CollectableElement because some direct subclasses, e.g. Fibex PhysicalChannel, are not CollectableElement; deviation, not a Table 4.4 attribute)
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Identifiable:
             raise TypeError("Identifiable is an abstract class.")
 
-        MultilanguageReferrable.__init__(self, parent, short_name)
+        super().__init__(parent, short_name)
 
+        # This represents the administrative data for the identifiable object.
+        self.adminData: Optional[AdminData] = None
+
+        # Possibility to provide additional notes while defining a model element (e.g. the ECU Configuration Parameter Values). These are not intended as documentation but are mere design notes.
+        self.annotations: List[Annotation] = []
+
+        # The category is a keyword that specializes the semantics of the Identifiable. It affects the expected existence of attributes and the applicability of constraints.
+        self.category: Optional[CategoryString] = None
+
+        # This represents a general but brief (one paragraph) description what the object in question is about. It is only one paragraph! Desc is intended to be collected into overview tables. This property helps a human reader to identify the object in question. More elaborate documentation, (in particular how the object is built or is used) should go to "introduction".
+        self.desc: Optional[MultiLanguageOverviewParagraph] = None
+
+        # This represents more information about how the object in question is built or is used. Therefore it is a DocumentationBlock.
+        self.introduction: Optional[DocumentationBlock] = None
+
+        # Structural variation point of this element (kept deviation: VARIATION-POINT element; not a Table 4.4 attribute).
+        self.variationPoint: Optional[VariationPoint] = None
+
+        # Element collection registry (shared infra, also owned by CollectableElement; kept on Identifiable because some direct subclasses, e.g. Fibex PhysicalChannel, are not CollectableElement).
         self.elements: List[Referrable] = []
         self.element_mappings: Dict[str, List[Referrable]] = {}
 
-        self.annotations: List[Annotation] = []
-        self.adminData: Optional[AdminData] = None
-        self.category: Optional[CategoryString] = None
-        self.introduction: Optional[DocumentationBlock] = None
-        self.desc: Optional[MultiLanguageOverviewParagraph] = None
-        # Structural variation point attached to this element (pattern: aggregation,
-        # TPS_GST 7.6; XSD group AR:VARIATION-POINT, AUTOSAR_00046.xsd:99470).
-        # Deviation: spec also allows variation points on non-Identifiable elements
-        # (reference pattern, property set pattern); only the Identifiable
-        # aggregation pattern is supported.
-        self.variationPoint: Optional["VariationPoint"] = None
+    def getUuid(self) -> Optional[str]:
+        """
+        The purpose of this attribute is to provide a globally unique identifier for an instance of a meta-class. The values of this attribute should be globally unique strings prefixed by the type of identifier. For example, to include a DCE UUID as defined by The Open Group, the UUID would be preceded by "DCE:". The values of this attribute may be used to support merging of different AUTOSAR models. The form of the UUID (Universally Unique Identifier) is taken from a standard defined by the Open Group (was Open Software Foundation). This standard is widely used, including by Microsoft for COM (GUIDs) and by many companies for DCE, which is based on CORBA. The method for generating these 128-bit IDs is published in the standard and the effectiveness and uniqueness of the IDs is not in practice disputed. If the id namespace is omitted, DCE is assumed. An example is "DCE:2fac1234-31f8-11b4-a222-08002b34c003". The uuid attribute has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the timestamp.
+        """
+        return self.uuid
+
+    def setUuid(self, value: Optional[str]) -> "Identifiable":
+        """
+        The purpose of this attribute is to provide a globally unique identifier for an instance of a meta-class. The values of this attribute should be globally unique strings prefixed by the type of identifier. For example, to include a DCE UUID as defined by The Open Group, the UUID would be preceded by "DCE:". The values of this attribute may be used to support merging of different AUTOSAR models. The form of the UUID (Universally Unique Identifier) is taken from a standard defined by the Open Group (was Open Software Foundation). This standard is widely used, including by Microsoft for COM (GUIDs) and by many companies for DCE, which is based on CORBA. The method for generating these 128-bit IDs is published in the standard and the effectiveness and uniqueness of the IDs is not in practice disputed. If the id namespace is omitted, DCE is assumed. An example is "DCE:2fac1234-31f8-11b4-a222-08002b34c003". The uuid attribute has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the timestamp. A None value is a no-op and does not overwrite an existing uuid.
+        """
+        if value is not None:
+            self.uuid = value
+        return self
 
     def getTotalElement(self) -> int:
         """
@@ -368,23 +388,13 @@ class Identifiable(MultilanguageReferrable, ABC):
 
     def getAdminData(self) -> Optional[AdminData]:
         """
-        Gets the administrative data for this identifiable element.
-
-        Returns:
-            AdminData instance, or None if not set
+        This represents the administrative data for the identifiable object.
         """
         return self.adminData
 
-    def setAdminData(self, value: AdminData):
+    def setAdminData(self, value: Optional[AdminData]):
         """
-        Sets the administrative data for this identifiable element.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The administrative data to set
-
-        Returns:
-            self for method chaining
+        This represents the administrative data for the identifiable object. A None value is a no-op and does not overwrite an existing adminData.
         """
         if value is not None:
             self.adminData = value
@@ -398,24 +408,16 @@ class Identifiable(MultilanguageReferrable, ABC):
 
     def getDesc(self) -> Optional[MultiLanguageOverviewParagraph]:
         """
-        Gets the description for this identifiable element.
-
-        Returns:
-            MultiLanguageOverviewParagraph instance, or None if not set
+        This represents a general but brief (one paragraph) description what the object in question is about. It is only one paragraph! Desc is intended to be collected into overview tables. This property helps a human reader to identify the object in question. More elaborate documentation, (in particular how the object is built or is used) should go to "introduction".
         """
         return self.desc
 
-    def setDesc(self, value: MultiLanguageOverviewParagraph):
+    def setDesc(self, value: Optional[MultiLanguageOverviewParagraph]):
         """
-        Sets the description for this identifiable element.
-
-        Args:
-            value: The description to set
-
-        Returns:
-            self for method chaining
+        This represents a general but brief (one paragraph) description what the object in question is about. It is only one paragraph! Desc is intended to be collected into overview tables. This property helps a human reader to identify the object in question. More elaborate documentation, (in particular how the object is built or is used) should go to "introduction". A None value is a no-op and does not overwrite an existing desc.
         """
-        self.desc = value
+        if value is not None:
+            self.desc = value
         return self
 
     def getVariationPoint(self) -> Optional["VariationPoint"]:
@@ -435,71 +437,47 @@ class Identifiable(MultilanguageReferrable, ABC):
 
     def getCategory(self) -> Optional[CategoryString]:
         """
-        Gets the category for this identifiable element.
-
-        Returns:
-            CategoryString instance, or None if not set
+        The category is a keyword that specializes the semantics of the Identifiable. It affects the expected existence of attributes and the applicability of constraints.
         """
         return self.category
 
     def setCategory(self, value: Union[CategoryString, str]):
         """
-        Sets the category for this identifiable element.
-        If the value is a string, it will be converted to a CategoryString.
-
-        Args:
-            value: The category to set
-
-        Returns:
-            self for method chaining
+        The category is a keyword that specializes the semantics of the Identifiable. It affects the expected existence of attributes and the applicability of constraints. A None value is a no-op and does not overwrite an existing category.
         """
-        if isinstance(value, str):
-            self.category = CategoryString().setValue(value)
-        else:
-            self.category = value
+        if value is not None:
+            if isinstance(value, str):
+                self.category = CategoryString().setValue(value)
+            else:
+                self.category = value
         return self
 
     def getIntroduction(self) -> Optional[DocumentationBlock]:
         """
-        Gets the introduction documentation for this identifiable element.
-
-        Returns:
-            DocumentationBlock instance, or None if not set
+        This represents more information about how the object in question is built or is used. Therefore it is a DocumentationBlock.
         """
         return self.introduction
 
-    def setIntroduction(self, value: DocumentationBlock):
+    def setIntroduction(self, value: Optional[DocumentationBlock]):
         """
-        Sets the introduction documentation for this identifiable element.
-
-        Args:
-            value: The introduction documentation to set
-
-        Returns:
-            self for method chaining
+        This represents more information about how the object in question is built or is used. Therefore it is a DocumentationBlock. A None value is a no-op and does not overwrite an existing introduction.
         """
-        self.introduction = value
+        if value is not None:
+            self.introduction = value
+        return self
         return self
 
     def addAnnotation(self, annotation: Annotation):
         """
-        Adds an annotation to this identifiable element.
-
-        Args:
-            annotation: The annotation to add
-
-        Returns:
-            self for method chaining
+        Possibility to provide additional notes while defining a model element (e.g. the ECU Configuration Parameter Values). These are not intended as documentation but are mere design notes. A None value is a no-op and does not append anything.
         """
-        self.annotations.append(annotation)
+        if annotation is not None:
+            self.annotations.append(annotation)
         return self
 
     def getAnnotations(self) -> List[Annotation]:
         """
-        Gets the list of annotations for this identifiable element.
-
-        Returns:
-            List of Annotation instances
+        Possibility to provide additional notes while defining a model element (e.g. the ECU Configuration Parameter Values). These are not intended as documentation but are mere design notes.
         """
         return self.annotations
 
