@@ -12,7 +12,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
 )
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator.BlueprintGenerator import BlueprintGenerator
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import BlueprintGenerator
 
 
 class PostBuildVariantCriterion(ARElement):

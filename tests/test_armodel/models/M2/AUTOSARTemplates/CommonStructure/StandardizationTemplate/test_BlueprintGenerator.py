@@ -3,7 +3,7 @@ Tests for the BlueprintGenerator class in the
 AUTOSAR CommonStructure.StandardizationTemplate.BlueprintGenerator module.
 """
 
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator.BlueprintGenerator import (
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import (
     BlueprintGenerator,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (

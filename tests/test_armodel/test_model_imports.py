@@ -60,9 +60,6 @@ INTENTIONALLY_UNEXPORTED_MODULES = {
     "SynchronizationTypeEnum",
     "TimingConditionFormula",
     "TimingModeInstance",
-    # Blueprint/Standardization - incomplete/experimental
-    "BlueprintGenerator",
-    "BlueprintMappingSet",
 }
 
 

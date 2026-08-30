@@ -1,7 +1,10 @@
 from typing import Optional
+
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import VerbatimString
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
+
+__all__ = ["BlueprintGenerator"]
 
 
 class BlueprintGenerator(ARObject):

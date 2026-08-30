@@ -44,6 +44,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Memo
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.Keyword import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import *  # noqa: F403
@@ -115,7 +117,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.Formula import *  # noqa:
 from armodel.models.M2.MSR.Documentation.Chapters import *  # noqa: F403
 
 # Additional CommonStructure imports
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure.AtpBlueprint import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription.TimingDescriptionEvents.TDEventOccurrenceExpression import (  # noqa: F401
     AutosarOperationArgumentInstance,
     AutosarVariableInstance,
