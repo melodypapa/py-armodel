@@ -332,7 +332,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValueConfigurationClass,
 )
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwElementConnector, HwPin, HwPinConnector, HwPinGroup, HwPinGroupConnector
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
@@ -885,15 +885,14 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     CompuGenericMath,
     SwBitRepresentation,
     SwCalibrationAccessEnum,
-    SwCalprmRefProxy,
     SwDataDefProps,
     SwDataDependency,
     SwDataDependencyArgs,
     SwPointerTargetProps,
     SwTextProps,
-    SwVariableRefProxy,
     ValueList,
 )
+from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, SwRecordLayoutGroup, SwRecordLayoutGroupContent, SwRecordLayoutV
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst

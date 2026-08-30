@@ -6,12 +6,14 @@ Hardware elements define the physical components of ECUs including pins, pin gro
 and connections between hardware elements.
 """
 
-from typing import List, Optional
+from typing import TYPE_CHECKING, List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Referrable
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
+
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 
 
 class HwDescriptionEntity(Referrable):
@@ -36,7 +38,7 @@ class HwDescriptionEntity(Referrable):
         super().__init__(parent, short_name)
 
         # This aggregation represents a particular hardware attribute value.
-        self.hwAttributeValues: List[HwAttributeValue] = []
+        self.hwAttributeValues: List["HwAttributeValue"] = []
 
         # One of the associations representing one particular category of the hardware entity.
         self.hwCategoryRefs: List[RefType] = []
@@ -44,7 +46,7 @@ class HwDescriptionEntity(Referrable):
         # This association is used to assign an optional HwType which contains the common attribute values for all occurences of this HwDescriptionEntity. Note that Hw Types can not be redefined and therefore shall not have a hwType reference.
         self.hwTypeRef: Optional[RefType] = None
 
-    def addHwAttributeValue(self, value: HwAttributeValue):
+    def addHwAttributeValue(self, value: "HwAttributeValue"):
         """
         This aggregation represents a particular hardware attribute value.
 
@@ -57,7 +59,7 @@ class HwDescriptionEntity(Referrable):
             self.hwAttributeValues.append(value)
         return self
 
-    def getHwAttributeValues(self) -> List[HwAttributeValue]:
+    def getHwAttributeValues(self) -> List["HwAttributeValue"]:
         """
         This aggregation represents a particular hardware attribute value.
 

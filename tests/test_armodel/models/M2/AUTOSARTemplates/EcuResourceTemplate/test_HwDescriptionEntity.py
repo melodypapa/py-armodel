@@ -4,7 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import (
     HwDescriptionEntity,
     HwElement,
 )
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import HwAttributeValue
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 

@@ -6,6 +6,7 @@ from armodel.models.M2.MSR.AsamHdo.SpecialData import *  # noqa: F403
 from armodel.models.M2.MSR.AsamHdo.Units import *  # noqa: F403
 from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import *  # noqa: F403
 from armodel.models.M2.MSR.DataDictionary import *  # noqa: F403
+from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.Annotation import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.TextModel import *  # noqa: F403
@@ -173,7 +174,7 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.Serv
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import *  # noqa: F403
 
 # Additional EcuResourceTemplate imports
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwAttributeValue import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import *  # noqa: F403
 
 # GenericStructure imports
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import *  # noqa: F403
