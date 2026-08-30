@@ -381,6 +381,38 @@ class TestARPackage:
         result = package.getReferenceBases()
         assert result == [ref_base]
 
+    def test_get_ar_packages_sorted(self):
+        """
+        Test getARPackages returns sub-packages sorted by short name
+        (ARPackage.arPackage aggregation, Table 4.1).
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        package = ARPackage(ar_root, "TestPackage")
+
+        # Create sub-packages out of alphabetical order
+        package.createARPackage("Zeta")
+        package.createARPackage("Alpha")
+        package.createARPackage("Mid")
+
+        result = package.getARPackages()
+        assert [p.getShortName() for p in result] == ["Alpha", "Mid", "Zeta"]
+
+    def test_add_reference_base_none_no_op(self):
+        """
+        Test addReferenceBase ignores a None value (None no-op convention,
+        ARPackage.referenceBase aggregation, Table 4.1).
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        package = ARPackage(ar_root, "TestPackage")
+
+        result = package.addReferenceBase(None)
+        assert result is package  # method chaining still holds
+        assert package.getReferenceBases() == []
+
     def test_add_reference_base(self):
         """
         Test addReferenceBase method.

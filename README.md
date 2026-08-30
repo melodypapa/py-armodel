@@ -195,6 +195,20 @@ writer.save("output.arxml", doc)
 
 ## 1.9. Heritage 
 
+```                                                                                                                                                
+   ARObject (6.1)                                                                                                                                   
+   └── Referrable (4.x)                                                                                                                             
+       └── MultilanguageReferrable (4.x)                                                                                                            
+           └── Identifiable (4.x)                                                                                                                   
+               ├── CollectableElement (13.3)                                                                                                        
+               │   ├── ARPackage (4.1)  [+ AtpBlueprint, AtpBlueprintable mixins]                                                                   
+               │   └── PackageableElement (4.2)                                                                                                     
+               │       └── ARElement (4.3)                                                                                                          
+               │           └── Collection (13.1)                                                                                                    
+               ├── AtpBlueprint (C.12)                                                                                                              
+               └── AtpBlueprintable (C.14)                                                                                                          
+```                                                         
+
 ```
 - ARObject
   - Referrable

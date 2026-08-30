@@ -35,14 +35,15 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 | `create*` methods | — | `-` | ``-`` | - | guard `if short_name not in self.elements` compares str against ARObject list (always truthy) — duplicate element created on repeated same-name call |
 
 ## `ARPackage`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 300
+- **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 53  | **table:** Table 4.1
 - **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::ARPackage`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/ARPackage.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `arPackage` | ``ARPackage`` | aggr | missing |
-| `element` | `—` | `element` | ``PackageableElement`` | aggr | type (spec many vs py single) |
+| `createARPackage`/`getARPackages` | `Dict[str, ARPackage]` | `arPackage` | ``ARPackage`` | aggr | none (2026-08-30 sync: stale "missing" row replaced — implemented via short-name-keyed registry, create-or-return + plural getter, per Table 4.1) |
+| `elements` (inherited CollectableElement) | `List[Referrable]` | `element` | ``PackageableElement`` | aggr | none (2026-08-30 sync: stale "type" row replaced — spec-many carried by the inherited elements list; ARPackage.getElement override) |
+| `referenceBases` | `List[ReferenceBase]` | `referenceBase` | ``ReferenceBase`` | aggr | none (2026-08-30 sync: dedicated typed list per Table 4.1; writer IS-GLOBAL cross-pair bug fixed) |
 
 ## `AUTOSAR`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 301

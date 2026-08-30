@@ -11224,7 +11224,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(bases_tag, "REFERENCE-BASE")
                 self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", base.getShortLabel())
                 self.setChildElementOptionalBooleanValue(child_element, "IS-DEFAULT", base.getIsDefault())
-                self.setChildElementOptionalBooleanValue(child_element, "IS-GLOBAL", base.getIsDefault())
+                self.setChildElementOptionalBooleanValue(child_element, "IS-GLOBAL", base.getIsGlobal())
                 self.setChildElementOptionalBooleanValue(child_element, "BASE-IS-THIS-PACKAGE", base.getBaseIsThisPackage())
                 self.setChildElementOptionalRefType(child_element, "PACKAGE-REF", base.getPackageRef())
 
