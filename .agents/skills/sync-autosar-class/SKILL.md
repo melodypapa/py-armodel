@@ -5,7 +5,7 @@ author: melodypapa
 repository: https://github.com/melodypapa/py-armodel
 license: MIT
 metadata:
-  version: "1.9.1"
+  version: "1.9.2"
   keywords:
     - AUTOSAR
     - model-class
@@ -47,7 +47,7 @@ document = AUTOSAR.getInstance()
 document.setARRelease('R23-11')
 ```
 
-Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0018*); this skill is
+Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0019*); this skill is
 self-contained (no external rules document). Each step below points into `rules.md` for
 the detail — do not re-derive it here.
 
@@ -123,7 +123,10 @@ session** (Rule 0017).
 - **One class per session.** Never sync two classes in one session, even when the
   context still feels fresh — the 9b verbatim-diff work degrades silently under a
   loaded context. After a class finishes (below), stop and tell the user to start
-  a new session.
+  a new session. Sole exception — **autonomous mode (Rule 0017.5)**: when the user
+  asks the sync to run automatically, the orchestrator chains classes via isolated
+  per-class subagents and skips only the between-class pause; the 9b confirmation
+  stays mandatory for every class, in every mode.
 - **Mirror the 9 steps into the session todo list (Rule 0018).** After taking the
   `[ ]` row and before Step 1, create **9 session todos — one per workflow step**
   (`Step 1 — Sync members & description from spec` … `Step 9 — Verify (9a) +
@@ -189,7 +192,7 @@ round-trip) certifies a class as reviewed.
 | writer test | `tests/test_armodel/writer/test_*.py` → `class Test*` (set → save → reload round-trip; Step 5) |
 | spec markdown | `grep "Table N.M: <ClassName>" autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` — **primary source for all text**: `Note` (→ docstrings), `Attribute`/`Base`, `Table N.M` id, table name (via filename). Covers **both** `CP_TPS` (Classic) and `FO_TPS` (Foundation); a class with **no** R23-11 table falls back to `grep ... autosar/R4.3.1/markdown/AUTOSAR_TPS_*.md` (pre-split naming — no `CP_`/`FO_` prefix; Rule 0016.3) |
 | spec PDF | `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf` (R4.3.1 fallback: `autosar/R4.3.1/pdf/AUTOSAR_TPS_*.pdf`) — **opened only to read the page number** (`p.NN`); the markdown carries no page numbers |
-| page-number script | `python .codebuddy/skills/sync-autosar-class/pdf_page.py <ClassName> [--pdf PATH] [--table <N.M>]` — finds `Table N.M: <ClassName>` across every `autosar/R*/pdf/` corpus (R23-11, R4.3.1) and prints `p.NN` (cached per-PDF index; `--refresh` rescans). Use it in Steps 1/4 whenever the `# Spec:` line needs `p.NN` |
+| page-number script | `python .claude/skills/sync-autosar-class/pdf_page.py <ClassName>` — **the only way to get `p.NN`**. Scans every `autosar/R*/pdf/*.pdf` (R23-11, R4.3.1, R4.4.0, …) and prints one line per match: `<release>/<pdf> | Table N.M: <ClassName> | p.<page>`. `--pdf PATH` searches one PDF (any path); `--table <N.M>` searches by table id; the per-PDF index is cached (`.pdf_table_cache.json` at the repo root, keyed by the PDF's mtime) and `--refresh` rebuilds it after corpus updates. Use it in Steps 1/4 whenever the `# Spec:` line needs `p.NN` |
 | deviation records | the project deviation tracker (format in *Rule 0014*) |
 | XSD ground truth | per synced release: `autosar/R23-11/xsd/AUTOSAR_00052.xsd` · `autosar/R4.3.1/xsd/AUTOSAR_00044.xsd` |
 
@@ -215,7 +218,7 @@ as each step finishes (*Rule 0018*).
 
 **Essence per step** (full detail in `rules.md`):
 
-- **1** — Extract `Note`/`Base`/`Attribute` rows in displayed order; confirm Class-vs-Enumeration header. Run `python .codebuddy/skills/sync-autosar-class/pdf_page.py <ClassName>` for the `p.NN` page (the PDF is opened only for the page number). *Rule 0015* arbitrates XSD-vs-PDF/markdown attribute conflicts (the PDF/markdown table wins — model nothing the PDF lacks).
+- **1** — Extract `Note`/`Base`/`Attribute` rows in displayed order; confirm Class-vs-Enumeration header. Run `python .claude/skills/sync-autosar-class/pdf_page.py <ClassName>` for the `p.NN` page (the PDF is opened only for the page number — always via the script). *Rule 0015* arbitrates XSD-vs-PDF/markdown attribute conflicts (the PDF/markdown table wins — model nothing the PDF lacks).
 - **2** — `test_initialization` (defaults), `test_get_set_*` (round-trip + **None no-op**), `create*`/`add*` (append, duplicate returns existing). Abstract class → test `__init__` + base accessors via a concrete subclass.
 - **3** — Most-derived base from the `Base` chain; dedicated typed-list fields for `*` `aggr` (never registry filters); `createXxx` only for `Referrable` children; collect referenced missing classes and report in Step 8 (don't block). Enum (`AREnum`) → literals, not accessors.
 - **4** — **Wipe first, then rewrite.** Remove **all** existing docstrings — the class docstring, every method docstring (`__init__`, getters, setters, `create*`/`add*`), and every inline `__init__` member comment — so no stale wording survives a re-sync on renamed/removed/overlooked members (*Rule 0012.2.3*); keep the code, the `# Spec:` checklist block, and placeholder comments. Then copy the spec `Note` **verbatim from the markdown** into the **class docstring** (the class-level `Note` — **not** into `__init__`, which has no docstring), inline `__init__` **comments**, and getter/setter docstrings (page number via `pdf_page.py`, above); guarded setters append the None-no-op sentence. `__init__` members are declared as **PEP 526 annotated assignments** directly under their note comment — `self.foo: Optional[T] = None` / `self.foo: List[T] = []` — **never** a trailing `# type:` comment (*Rule 0003*).
@@ -223,7 +226,7 @@ as each step finishes (*Rule 0018*).
 - **6** — Reader populates via mutators (`readXxx`→`set/create/addXxx`), writer reads via getters (`writeXxx`→`getXxx`); cover wrapper lists + polymorphic five-place dispatch; **no chained mutator calls**. All types form matched name pairs across layers — model `setX`/`getX`, structure `readX`/`writeX`, element `getX`/`setX`, leaf `getChildElementOptional<T>`/`setChildElementOptional<T>` (*Rule 0013.2*); a cross pair (`setX1` ↔ `getX2`) is incorrect.
 - **7** — One row per method, source order, all `[x]`, 6-column format below (the last column is the per-row `release`). Writes the `# Spec:` line + method rows **only** — the `# Spec verified:` marker is added in Step 9b, never here.
 - **8** — Record deviations; the `# Spec verified:` marker (added in 9b) is **withheld** while any placeholder/deviation remains; report the Step-3 referenced classes here.
-- **9** — **(9a automated)** `pytest` + `flake8` + `ruff check` + `black-check` + the set-based script + a lossless integration round-trip (`npm run flake8` / `ruff-check` / `black-check` are the cross-platform forms). **Stop on any failure.** **(9b confirm — gate)** then present the **complete pre-stamp** rule-compliance checklist covering every check automation is blind to — element kind + every spec attr modeled (*0001.1*), most-derived base (*0001.2*), no fabrication/flattening + PDF-typed fields (*0001.3*), **Kind-suffix naming** `ref`→Ref/Refs·`tref`→TRef·`iref`→IRef/IRefs + singular `*`→plural (*0001.5*), create/set/add shape (*0001.6*), **reader+writer coverage** for every kept attr (*0001.7*), **member order** (*0011*), docstrings = spec `Note` **verbatim by diff** (*0012* **and** *0001.4* — every attribute's inline `__init__` comment + getter docstring + setter docstring must be the spec `Note` copied verbatim, not a "Gets/Sets the…" paraphrase or a truncated summary that drops the spec's full sentence), deviations resolved/removed (*0014*), stamp decision (*0012.1*) — and get explicit user confirmation; **when all pass, write the `# Spec verified:` marker in this step (9b)** — never in Step 4/7/8. Fix & re-present on any failure (*Rule 0006.1* has the full checklist). **Then finish the class per Rule 0017**: commit to the feature branch, flip the todo row to `[x]` with the commit hash, and stop the session (or, if all rows are `[x]`, report the sync complete).
+- **9** — **(9a automated)** `pytest` + `flake8` + `ruff check` + `black-check` + the set-based script + a lossless integration round-trip (`npm run flake8` / `ruff-check` / `black-check` are the cross-platform forms). **Stop on any failure.** **(9b confirm — gate)** then present the **complete pre-stamp** rule-compliance checklist covering every check automation is blind to — element kind + every spec attr modeled (*0001.1*), most-derived base (*0001.2*), no fabrication/flattening + PDF-typed fields (*0001.3*), **Kind-suffix naming** `ref`→Ref/Refs·`tref`→TRef·`iref`→IRef/IRefs + singular `*`→plural (*0001.5*), create/set/add shape (*0001.6*), **reader+writer coverage** for every kept attr (*0001.7*), **member order** (*0001.11*), docstrings = spec `Note` **verbatim by diff** (*0012* **and** *0001.4* — every attribute's inline `__init__` comment + getter docstring + setter docstring must be the spec `Note` copied verbatim, not a "Gets/Sets the…" paraphrase or a truncated summary that drops the spec's full sentence), deviations resolved/removed (*0014*), stamp decision (*0012.1*) — and get explicit user confirmation; **when all pass, write the `# Spec verified:` marker in this step (9b)** — never in Step 4/7/8. Fix & re-present on any failure (*Rule 0006.1* has the full checklist). **Then finish the class per Rule 0017**: commit to the feature branch, flip the todo row to `[x]` with the commit hash, and stop the session (or, if all rows are `[x]`, report the sync complete).
 
 **Workflow adaptations** (which steps still apply):
 
@@ -446,7 +449,7 @@ detail: *Rule 0002*.
 
 ## References
 
-- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0018*.
+- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0019*.
 - Coding standards: `docs/development/coding_rules.md`.
 - Spec markdown (primary — source of all text: `Note`, `Table N.M` id, table name): `autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`); R4.3.1 corpus: `autosar/R4.3.1/markdown/` (pre-split naming — no platform prefix; `TPS`/`RS`/`TR`).
 - Spec PDFs (opened only for the `p.NN` page number): `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf`; R4.3.1: `autosar/R4.3.1/pdf/`.

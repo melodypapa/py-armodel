@@ -3,8 +3,9 @@
 Self-contained rule reference for syncing any AUTOSAR model class in py-armodel.
 `ClassName` denotes the class under check:
 
-- source: `src/armodel/models/M2/AUTOSARTemplates/<package>/<ClassName>.py`
-  (or `<package>/<ClassName>/__init__.py`)
+- source: `src/armodel/models/M2/AUTOSARTemplates/<package>/<Pkg>.py`
+  (leaf package → file named after the package tail; non-leaf package →
+  `<package>/__init__.py`; never a class-named submodule — Rule 0007)
 - mirrored test: `tests/test_armodel/models/M2/AUTOSARTemplates/<package>/test_<ClassName>.py`
 - spec table: the class's attribute table (markdown
   `autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (covers `CP_TPS` + `FO_TPS`), derived from PDF
@@ -15,7 +16,10 @@ Self-contained rule reference for syncing any AUTOSAR model class in py-armodel.
   `AUTOSAR_00044.xsd`). **All text** —
   `Note`, `Attribute`, `Base`, the `Table N.M` id, and the table name (from the markdown
   filename) — **is read from the markdown**; the **PDF is opened only for the page
-  number** (`p.NN`), because the markdown carries no page numbers.
+  number** (`p.NN`), because the markdown carries no page numbers — look it up with the
+  page-number script `python .claude/skills/sync-autosar-class/pdf_page.py <ClassName>`
+  (`--pdf PATH` for a single PDF, `--table N.M` by table id, `--refresh` to rescan;
+  Rule 0012.2.1).
 
 **IDs:** rules carry contiguous 4-digit IDs (`Rule 0001` …). Each notes its former
 number for traceability. The 9-step workflow in `SKILL.md` references these IDs.
@@ -414,7 +418,7 @@ next sync/drift pass (Rule 0012.3), which adds it.
 - Every row fully `[x]` (impl **and** docstring **and** test **and** reader/writer as
   applicable); a `[ ]` whose obligation is actually done is stale — cross it. A row is
   `[x]` only when all obligations are complete and verified.
-- Rows in **source order** matching the methods (Rule 0011).
+- Rows in **source order** matching the methods (Rule 0001.11).
 - The `# Spec:` line names the correct PDF/table/page — the table name and the `Table
   N.M` id are read from the **markdown** (`autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md`, `CP_TPS` or
   `FO_TPS`); only the **`p.NN` page number** is read from the **PDF**
@@ -594,9 +598,9 @@ python -m pytest tests/test_armodel/models/M2/AUTOSARTemplates/<package>/test_<C
 # Step 5 reader/writer tests live in their own folders — run the files you touched:
 #   tests/test_armodel/parser/test_<feature>.py   and   tests/test_armodel/writer/test_writer_<feature>.py
 python -m pytest tests/test_armodel/parser/ tests/test_armodel/writer/ -q
-PATH=".venv/Scripts:$PATH" flake8 --exclude=.venv,build --select=E9,F63,F7,F82 \
+flake8 --exclude=.venv,build --select=E9,F63,F7,F82 \
   src/armodel/models/M2/AUTOSARTemplates/<package>/<ClassName>.py
-PATH=".venv/Scripts:$PATH" ruff check \
+ruff check \
   src/armodel/models/M2/AUTOSARTemplates/<package>/<ClassName>.py
 npm run ruff-check && npm run black-check
 ```
@@ -622,7 +626,7 @@ assert not untested, f"methods without test coverage: {untested}"
 # Marker check — run AFTER Step 9b (the marker is written there on user-confirmation;
 # during 9a it is legitimately absent).
 if "# Spec:" in src and "not yet implemented" not in src and "carried as a" not in src:
-    assert re.search(r"# Spec verified: R\d\d-\d\d|# XSD verified: \S+\.xsd", src), "missing # Spec verified / # XSD verified (with XSD filename) marker"
+    assert re.search(r"# Spec verified: (R\d\d-\d\d|R4\.3\.1)|# XSD verified: \S+\.xsd", src), "missing # Spec verified / # XSD verified (with XSD filename) marker"
 ```
 
 ### 0006.1 Post-sync rule-compliance confirmation (gate)
@@ -664,7 +668,7 @@ end user's explicit confirmation. When every item passes, the `# Spec verified:
   existence is not evidence a given aggregator calls it). The names also form the
   matched pairs of **Rule 0013.2** at every layer — a cross pair (`setX1` ↔ `getX2`)
   fails this check.
-- **Rule 0011 (member order)** — fields, accessor groups, and checklist rows are in
+- **Rule 0001.11 (member order)** — fields, accessor groups, and checklist rows are in
   displayed PDF row order.
 - **Rule 0012 (docstrings & comments)** — checked **one by one for every member**
   (walk the Rule 0012.2 per-attribute loop): the class docstring, then for **each**
@@ -896,10 +900,13 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
    carries `# Spec: … <xsd-file> line <NNNN> (XSD-only; …)` and
    `# XSD verified: <xsd-file>` (Rule 0002) and the workflow is done — treat it like a
    `Spec verified` class. Otherwise continue.
-1. Locate the spec table in the **markdown** (`grep "Table N.M: <ClassName>
-   autosar/R23-11/markdown/*.md`) — its `Note`/`Attribute`/`Base` text and the `Table N.M` id are
-   the extraction source; then read **only the page number** from the **PDF** via `pypdf`
-   (matching the printed footer) for the `p.NN` citation.
+1. Locate the spec table in the **markdown** (`grep "Table N.M: <ClassName>" autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md`) — its `Note`/`Attribute`/`Base` text and the `Table N.M` id are
+   the extraction source; then read **only the page number** for the `p.NN` citation with the
+   page-number script: `python .claude/skills/sync-autosar-class/pdf_page.py <ClassName>`
+   (prints one line per match: `<release>/<pdf> | Table N.M: <ClassName> | p.<page>`; scan every
+   `autosar/R*/pdf/*.pdf` by default, or pass `--pdf <path>` to search one PDF and `--table <N.M>`
+   to search by table id; the per-PDF index is cached in `.pdf_table_cache.json` at the repo root,
+   keyed by the PDF's mtime — run with `--refresh` after replacing corpus PDFs).
 2. Add the `# Spec:` citation line (the `# Spec verified:` marker is **not** added here —
    it is written in Step 9b after the user confirms).
 3. **Wipe ALL existing docstrings & member comments first.** Before writing any new
@@ -921,7 +928,7 @@ is one ordered procedure per class (Rule 0006's mechanical check only confirms t
 5. **Per-attribute loop** (all five, per attribute, before the next):
    1. Referenced type must exist and be synced before typing (Rule 0010/0011); its
       `# Spec:` cites its **own** table, independent of the owning class.
-2. Inline `__init__` **comment** (not a docstring — `__init__` has no docstring): the
+   2. Inline `__init__` **comment** (not a docstring — `__init__` has no docstring): the
        attribute's `Note` (markdown) semantic sentence, copied verbatim (drop
        `Stereotypes:`/`Tags:` tail); append any `constr_*` wording + id. The member is
        then declared **directly below the comment** as a PEP 526 annotated assignment —
@@ -1177,7 +1184,7 @@ For each class K in the closure:
    `FO_TPS`).
 2. Found → record `source = markdown`, capture `Table N.M` id, table name, `Note`,
    `Attribute` rows, `Base` column.
-3. Not found in R23-11 markdown → open `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf` (search via `pypdf`)
+3. Not found in R23-11 markdown → search the PDFs with the page-number script (`python .claude/skills/sync-autosar-class/pdf_page.py <ClassName>` — it scans `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf`)
    for K's table.
 4. Found in PDF only → record `source = pdf` and re-extract via the same markdown
    convention; if the PDF is the only carrier, mark `source = pdf-only`.
@@ -1392,6 +1399,28 @@ row exists.
 - Marking `[x]` without a commit hash, or deferring commits to the end (17.2).
 - Re-running Phase 0 when the todo file already exists (17.1).
 
+### 17.5 Autonomous mode — chaining classes
+
+When the user asks the sync to run **automatically** (e.g. "continue the sync
+automatically", "do the remaining classes in one go"), automation relaxes exactly
+**one** thing: the **between-class session pause** (17.1). Everything else is
+unchanged:
+
+- **9b stays mandatory for every class, in every mode.** Present the complete 9b
+  checklist to the user and wait for explicit confirmation before writing
+  `# Spec verified:` — automation never self-stamps from subagent evidence
+  (user correction, 2026-08-21).
+- **Chaining = isolated per-class subagents.** The orchestrator dispatches one
+  subagent per class — a fresh context each, which is what preserves 17.1's
+  no-degradation property — applies the subagent's result, then presents 9b to
+  the user itself. The orchestrator session never runs a second class's 9-step
+  workflow in its own context.
+- After the user confirms 9b for a class: write the stamp, do the 17.2 commit,
+  flip the todo row to `[x]` with the hash, then dispatch the next class
+  **without** asking the user to start a new session.
+- Any subagent failure, missing confirmation, or unanswered gate **stops the
+  chain** — never skip or defer a gate to keep the loop moving.
+
 ## Rule 0018 — Step-level session todos (per class)
 
 While running the 9-step workflow, mirror the steps into the **session todo
@@ -1523,8 +1552,8 @@ column; all other rows stay `<TARGET>`:
 
 (R4.3.1 markdown tables render table bodies **before** their captions — the body rows
 for `Table N.M` may sit under the preceding caption; verify Class/Package/Note rows
-belong to the class before copying, and take page numbers from the older PDF via
-`pypdf`.)
+belong to the class before copying, and take page numbers from the older PDF with
+`python .claude/skills/sync-autosar-class/pdf_page.py <ClassName> --pdf autosar/R4.3.1/pdf/<name>.pdf`.)
 
 **Deviation (Rule 0014) — accepted reason code:**
 `legacy (<OLDER> Table N.M, pp.X-Y); removed in <TARGET>` — one row per merged
