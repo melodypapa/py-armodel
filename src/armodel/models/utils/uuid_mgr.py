@@ -17,12 +17,16 @@ class UUIDMgr:
         self.uuid_object_mappings = {}  # type: Dict[str, List[ARObject]]
 
     def addObject(self, obj: ARObject):
-        if obj.uuid is None:
+        # The uuid attribute (Table 4.4) is carried on ARObject (see ArObject.py:
+        # "uuid" internal member) so that every AUTOSAR object can be registered with
+        # the UUID manager. Only objects that actually carry a uuid are tracked.
+        uuid = obj.getUuid() if isinstance(obj, ARObject) else None
+        if uuid is None:
             return
-        if obj.uuid not in self.uuid_object_mappings:
-            self.uuid_object_mappings[obj.uuid] = []
+        if uuid not in self.uuid_object_mappings:
+            self.uuid_object_mappings[uuid] = []
 
-        uuid_obj_list = self.uuid_object_mappings[obj.uuid]
+        uuid_obj_list = self.uuid_object_mappings[uuid]
         uuid_obj_list.append(obj)
 
     def getObjects(self, uuid: str):

@@ -75,6 +75,9 @@ class TestReferenceBase:
     def test_get_set_is_global(self):
         """
         Test get/set methods for isGlobal flag.
+
+        Spec (R4.3.1): AUTOSAR_TPS_GenericStructureTemplate.pdf, Table 4.5, pp.54-55
+        Attribute removed in R23-11 (absent from Table 4.14) — kept as optional legacy deviation.
         """
         obj = ReferenceBase()
 
@@ -88,14 +91,17 @@ class TestReferenceBase:
 
     def test_get_set_base_is_this_package(self):
         """
-        Test get/set methods for BaseIsThisPackage flag.
+        Test get/set methods for baseIsThisPackage flag.
+
+        Spec (R4.3.1): AUTOSAR_TPS_GenericStructureTemplate.pdf, Table 4.5, pp.54-55
+        Attribute removed in R23-11 (absent from Table 4.14) — kept as optional legacy deviation.
         """
         obj = ReferenceBase()
 
         # Test initial value
         assert obj.getBaseIsThisPackage() is None
 
-        # Test setting BaseIsThisPackage
+        # Test setting baseIsThisPackage
         result = obj.setBaseIsThisPackage(Boolean().setValue(True))
         assert result is obj  # Verify method chaining
         assert obj.getBaseIsThisPackage().value is True
@@ -103,19 +109,47 @@ class TestReferenceBase:
     def test_get_set_package_ref(self):
         """
         Test get/set methods for package references.
+
+        Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.14, p.72
+        package is 0..1 — a single optional reference, not a list.
         """
         obj = ReferenceBase()
 
         # Test initial value
         assert obj.getPackageRef() is None
 
-        # Test setting package ref list
-        ref1 = RefType().setValue("/Package1")
-        ref2 = RefType().setValue("/Package2")
-        ref_list = [ref1, ref2]
-        result = obj.setPackageRef(ref_list)
+        # Test setting package ref
+        ref = RefType().setValue("/Package/Element")
+        result = obj.setPackageRef(ref)
         assert result is obj  # Verify method chaining
-        assert obj.getPackageRef() == ref_list
+        assert obj.getPackageRef() == ref
+
+        # None is a no-op (Rule 0004)
+        obj.setPackageRef(None)
+        assert obj.getPackageRef() == ref
+
+    def test_setter_none_no_op_guards(self):
+        """
+        Test that value setters treat None as a no-op (Rule 0004).
+        """
+        obj = ReferenceBase()
+        obj.setIsDefault(Boolean().setValue(True))
+        obj.setIsGlobal(Boolean().setValue(True))
+        obj.setBaseIsThisPackage(Boolean().setValue(True))
+        obj.setPackageRef(RefType().setValue("/Pkg"))
+        obj.setShortLabel(Identifier().setValue("L1"))
+
+        obj.setIsDefault(None)
+        obj.setIsGlobal(None)
+        obj.setBaseIsThisPackage(None)
+        obj.setPackageRef(None)
+        obj.setShortLabel(None)
+
+        assert obj.getIsDefault().value is True
+        assert obj.getIsGlobal().value is True
+        assert obj.getBaseIsThisPackage().value is True
+        assert obj.getPackageRef().getValue() == "/Pkg"
+        assert obj.getShortLabel().getValue() == "L1"
 
     def test_get_set_short_label(self):
         """

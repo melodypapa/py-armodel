@@ -72,13 +72,19 @@ class AbstractARXMLWriter(ABC):
                 element.attrib["S"] = ar_obj.getChecksum().getValue()
             if ar_obj.getTimestamp() is not None:
                 element.attrib["T"] = ar_obj.getTimestamp().getValue()
+            # The uuid attribute (Table 4.4) is carried on ARObject (see ArObject.py:
+            # "uuid" internal member) so that every AUTOSAR object can be serialized.
+            if isinstance(ar_obj, ARObject):
+                uuid_value = ar_obj.getUuid()
+                if uuid_value is not None:
+                    element.attrib["UUID"] = uuid_value
         else:
-            # The ARType hierarchy carries the timestamp as a plain string (duck-typed)
+            # The ARType hierarchy (AUTOSAR primitive types) carries the timestamp as a
+            # plain string and owns its own separate uuid attribute (PrimitiveTypes).
             if ar_obj.timestamp is not None:
                 element.attrib["T"] = ar_obj.timestamp
-        if ar_obj.uuid is not None:
-            # self.logger.debug("UUID: %s" % ar_obj.uuid)
-            element.attrib["UUID"] = ar_obj.uuid
+            if ar_obj.uuid is not None:
+                element.attrib["UUID"] = ar_obj.uuid
 
     """
     def setChildElementOptionalValue(self, element: ET.Element, key: str, value: str):

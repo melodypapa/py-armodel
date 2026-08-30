@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Boolean,
     Identifier,
+    ReferrableSubtypesEnum,
     RefType,
 )
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -66,3 +67,37 @@ class TestWriteReferenceBases:
         writer.writeReferenceBases(element, [])
 
         assert element.find("REFERENCE-BASES") is None
+
+    def test_write_global_elements_and_in_package_refs(self):
+        """
+        Test that GLOBAL-ELEMENTS and GLOBAL-IN-PACKAGE-REFS are written.
+
+        Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.14, p.72
+        XSD sequence: SHORT-LABEL, IS-DEFAULT, GLOBAL-IN-PACKAGE-REFS, GLOBAL-ELEMENTS, PACKAGE-REF
+        """
+        writer = _make_writer()
+        element = ET.Element("AR-PACKAGE")
+
+        base = ReferenceBase()
+        base.setShortLabel(Identifier().setValue("globals"))
+        base.addGlobalInPackageRef(RefType().setValue("/AUTOSAR/TestPackage").setDest("AR-PACKAGE"))
+        base.addGlobalElement(ReferrableSubtypesEnum().setValue("TRACEABLE"))
+        base.addGlobalElement(ReferrableSubtypesEnum().setValue("CHAPTER"))
+
+        writer.writeReferenceBases(element, [base])
+
+        base_tag = element.find("REFERENCE-BASES").find("REFERENCE-BASE")
+
+        in_package_refs_tag = base_tag.find("GLOBAL-IN-PACKAGE-REFS")
+        assert in_package_refs_tag is not None
+        refs = in_package_refs_tag.findall("GLOBAL-IN-PACKAGE-REF")
+        assert len(refs) == 1
+        assert refs[0].text == "/AUTOSAR/TestPackage"
+        assert refs[0].attrib["DEST"] == "AR-PACKAGE"
+
+        global_elements_tag = base_tag.find("GLOBAL-ELEMENTS")
+        assert global_elements_tag is not None
+        elements = global_elements_tag.findall("GLOBAL-ELEMENT")
+        assert len(elements) == 2
+        assert elements[0].text == "TRACEABLE"
+        assert elements[1].text == "CHAPTER"

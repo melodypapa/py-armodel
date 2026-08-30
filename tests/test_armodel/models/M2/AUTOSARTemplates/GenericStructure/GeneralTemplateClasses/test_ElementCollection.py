@@ -31,8 +31,8 @@ class TestCollectableElement:
         """
 
         class ConcreteCollectableElement(CollectableElement):
-            def __init__(self):
-                super().__init__()
+            def __init__(self, parent=None, short_name="test"):
+                super().__init__(parent, short_name)
 
         obj = ConcreteCollectableElement()
         assert obj.getTotalElement() == 0
@@ -55,8 +55,8 @@ class TestCollectableElement:
         """
 
         class ConcreteCollectableElement(CollectableElement):
-            def __init__(self):
-                super().__init__()
+            def __init__(self, parent=None, short_name="test"):
+                super().__init__(parent, short_name)
 
         obj = ConcreteCollectableElement()
 
@@ -84,8 +84,8 @@ class TestCollectableElement:
         """
 
         class ConcreteCollectableElement(CollectableElement):
-            def __init__(self):
-                super().__init__()
+            def __init__(self, parent=None, short_name="test"):
+                super().__init__(parent, short_name)
 
         obj = ConcreteCollectableElement()
 
@@ -117,8 +117,8 @@ class TestCollectableElement:
         """
 
         class ConcreteCollectableElement(CollectableElement):
-            def __init__(self):
-                super().__init__()
+            def __init__(self, parent=None, short_name="test"):
+                super().__init__(parent, short_name)
 
         obj = ConcreteCollectableElement()
 
@@ -142,8 +142,8 @@ class TestCollectableElement:
         """
 
         class ConcreteCollectableElement(CollectableElement):
-            def __init__(self):
-                super().__init__()
+            def __init__(self, parent=None, short_name="test"):
+                super().__init__(parent, short_name)
 
         obj = ConcreteCollectableElement()
 
@@ -170,8 +170,8 @@ class TestCollectableElement:
         """
 
         class ConcreteCollectableElement(CollectableElement):
-            def __init__(self):
-                super().__init__()
+            def __init__(self, parent=None, short_name="test"):
+                super().__init__(parent, short_name)
 
         obj = ConcreteCollectableElement()
 
@@ -200,8 +200,8 @@ class TestCollectableElement:
         """
 
         class ConcreteCollectableElement(CollectableElement):
-            def __init__(self):
-                super().__init__()
+            def __init__(self, parent=None, short_name="test"):
+                super().__init__(parent, short_name)
 
         obj = ConcreteCollectableElement()
 
@@ -235,8 +235,8 @@ class TestCollectableElement:
         """
 
         class ConcreteCollectableElement(CollectableElement):
-            def __init__(self):
-                super().__init__()
+            def __init__(self, parent=None, short_name="test"):
+                super().__init__(parent, short_name)
 
         obj = ConcreteCollectableElement()
 
@@ -253,8 +253,8 @@ class TestCollectableElement:
         """
 
         class ConcreteCollectableElement(CollectableElement):
-            def __init__(self):
-                super().__init__()
+            def __init__(self, parent=None, short_name="test"):
+                super().__init__(parent, short_name)
 
         obj = ConcreteCollectableElement()
 
@@ -331,8 +331,8 @@ class TestCollectableElement:
         """
 
         class ConcreteCollectableElement(CollectableElement):
-            def __init__(self):
-                super().__init__()
+            def __init__(self, parent=None, short_name="test"):
+                super().__init__(parent, short_name)
 
         obj = ConcreteCollectableElement()
 
@@ -360,8 +360,8 @@ class TestCollectableElement:
         """
 
         class ConcreteCollectableElement(CollectableElement):
-            def __init__(self):
-                super().__init__()
+            def __init__(self, parent=None, short_name="test"):
+                super().__init__(parent, short_name)
 
         obj = ConcreteCollectableElement()
 

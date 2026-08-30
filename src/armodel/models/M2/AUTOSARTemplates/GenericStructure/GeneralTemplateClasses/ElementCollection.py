@@ -3,39 +3,50 @@ This module contains classes for representing AUTOSAR element collections
 in the GenericStructure module.
 """
 
-from abc import ABC
-from typing import Dict, List, Optional
+from __future__ import annotations
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
+from abc import ABC
+from typing import List, Optional, TYPE_CHECKING
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, NameToken, RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import AutoCollectEnum
 
+if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 
-class CollectableElement(ARObject, ABC):
+
+class CollectableElement(Identifiable, ABC):
     """
     Abstract class for elements that can collect other referrable elements.
     This class provides functionality for managing collections of elements with lookup capabilities.
+
+    Spec base chain (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 13.3): most-derived
+    direct base is Identifiable. CollectableElement therefore re-parents to Identifiable so
+    that Referrable/Identifiable members (parent, short_name, longName, adminData, annotations,
+    category, introduction, desc, uuid, variationPoint) and the element-collection registry
+    (elements / element_mappings) are inherited rather than flattened. Direct subclasses that
+    are not themselves CollectableElement (e.g. Fibex PhysicalChannel) keep the registry via
+    Identifiable.
     """
 
     # CollectableElement method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [x] getTotalElement              [x] impl  [x] docstring  [x] test
-    # [x] removeElement                [x] impl  [x] docstring  [x] test
-    # [ ] getElements                  [x] impl  [x] docstring  [ ] test
-    # [ ] addElement                   [x] impl  [x] docstring  [ ] test
-    # [ ] getElement                   [x] impl  [x] docstring  [ ] test
-    # [x] IsElementExists              [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 13.3, p. (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTotalElement              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] removeElement                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getElements                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addElement                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getElement                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] IsElementExists              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    def __init__(self):
+    def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CollectableElement:
             raise TypeError("CollectableElement is an abstract class.")
 
-        super().__init__()
-
-        self.elements: List[Referrable] = []
-        self.element_mappings: Dict[str, List[Referrable]] = {}
+        super().__init__(parent, short_name)
 
     def getTotalElement(self) -> int:
         """
@@ -129,10 +140,7 @@ class CollectableElement(ARObject, ABC):
         return False
 
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement  # noqa: E402
-
-
-class Collection(ARElement):
+class Collection(Identifiable):
     """
     Represents a collection of elements in AUTOSAR models.
     This class defines the structure for organizing and managing collections of AUTOSAR elements.

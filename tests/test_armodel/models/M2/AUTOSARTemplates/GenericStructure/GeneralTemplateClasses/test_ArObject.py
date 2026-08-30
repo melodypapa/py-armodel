@@ -34,7 +34,6 @@ class TestARObject:
         assert obj.getChecksum() is None
         assert obj.getTimestamp() is None
         assert obj.parent is None
-        assert obj.uuid is None
 
     def test_get_set_checksum(self):
         """

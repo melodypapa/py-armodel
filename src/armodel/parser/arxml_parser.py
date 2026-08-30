@@ -357,6 +357,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     PositiveInteger,
     PrimitiveIdentifier,
     RefType,
+    ReferrableSubtypesEnum,
     SectionInitializationPolicyType,
     String,
     VerbatimString,
@@ -11412,6 +11413,12 @@ class ARXMLParser(AbstractARXMLParser):
             base.setIsDefault(self.getChildElementOptionalBooleanValue(child_element, "IS-DEFAULT"))
             base.setIsGlobal(self.getChildElementOptionalBooleanValue(child_element, "IS-GLOBAL"))
             base.setBaseIsThisPackage(self.getChildElementOptionalBooleanValue(child_element, "BASE-IS-THIS-PACKAGE"))
+            for global_in_package_ref in self.getChildElementRefTypeList(child_element, "GLOBAL-IN-PACKAGE-REFS/GLOBAL-IN-PACKAGE-REF"):
+                base.addGlobalInPackageRef(global_in_package_ref)
+            for global_element in self.findall(child_element, "GLOBAL-ELEMENTS/GLOBAL-ELEMENT"):
+                literal = ReferrableSubtypesEnum()
+                literal.setValue(global_element.text)
+                base.addGlobalElement(literal)
             base.setPackageRef(self.getChildElementOptionalRefType(child_element, "PACKAGE-REF"))
             parent.addReferenceBase(base)
 

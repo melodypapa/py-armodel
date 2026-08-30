@@ -99,7 +99,11 @@ class AbstractAUTOSAR(CollectableElement):
     # [ ] setARRelease                 [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
-        super().__init__()
+        # Deviation (Group1.md, AUTOSAR row): spec base of the top-level model is
+        # ARObject, but the code reuses CollectableElement for the element-collection
+        # registry. CollectableElement now requires (parent, short_name); the root has
+        # no real parent, so we forward None / "" and inherit the Identifiable chain.
+        super().__init__(None, "")
 
         self.release_xsd_mappings = {
             "4.0.3": "AUTOSAR_4-0-3.xsd",
@@ -155,7 +159,7 @@ class AbstractAUTOSAR(CollectableElement):
         return ""
 
     def clear(self):
-        CollectableElement.__init__(self)
+        CollectableElement.__init__(self, self.parent, self.short_name)
 
         self.schema_location = None
         self._appl_impl_type_maps = {}

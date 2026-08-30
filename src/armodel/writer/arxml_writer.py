@@ -1118,8 +1118,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMultilanguageReferrable(self, element: ET.Element, referrable: MultilanguageReferrable):
         self.writeReferrable(element, referrable)
-        if referrable.longName is not None:
-            self.setMultiLongName(element, "LONG-NAME", referrable.longName)
+        if referrable.getLongName() is not None:
+            self.setMultiLongName(element, "LONG-NAME", referrable.getLongName())
 
     def setCaption(self, element: ET.Element, key: str, caption: Caption):
         if caption is not None:
@@ -11226,6 +11226,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalBooleanValue(child_element, "IS-DEFAULT", base.getIsDefault())
                 self.setChildElementOptionalBooleanValue(child_element, "IS-GLOBAL", base.getIsGlobal())
                 self.setChildElementOptionalBooleanValue(child_element, "BASE-IS-THIS-PACKAGE", base.getBaseIsThisPackage())
+                global_in_package_refs = base.getGlobalInPackageRefs()
+                if len(global_in_package_refs) > 0:
+                    refs_tag = ET.SubElement(child_element, "GLOBAL-IN-PACKAGE-REFS")
+                    for ref in global_in_package_refs:
+                        self.setChildElementOptionalRefType(refs_tag, "GLOBAL-IN-PACKAGE-REF", ref)
+                global_elements = base.getGlobalElements()
+                if len(global_elements) > 0:
+                    elements_tag = ET.SubElement(child_element, "GLOBAL-ELEMENTS")
+                    for global_element in global_elements:
+                        self.setChildElementOptionalLiteral(elements_tag, "GLOBAL-ELEMENT", global_element)
                 self.setChildElementOptionalRefType(child_element, "PACKAGE-REF", base.getPackageRef())
 
     def writeMcFunction(self, element: ET.Element, func: McFunction):
