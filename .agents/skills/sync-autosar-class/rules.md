@@ -324,7 +324,8 @@ A comment block at the top of the class lists every method with six columns:
 `impl`, `docstring`, `test`, `reader`, `writer`, `release`. The first five must be
 `[x]` (`[—]` where no XML element applies); `release` records the AUTOSAR release whose
 spec table supplied that row's text — `R23-11` normally, `R4.3.1` for a Rule 0016.3
-fallback class. The `# Spec:` line
+fallback class, and per-row `<OLDER>` for attributes merged from an older corpus under
+Rule 0019 (a class may then carry mixed per-row releases; see Rule 0019). The `# Spec:` line
 and the method rows are written in **Step 7**; the `# Spec verified: <RELEASE>` marker is
 added in **Step 9b** (after the user confirms every rule-compliance item) — never in
 Step 7. The block's final form (marker present only once 9b has passed;
@@ -424,7 +425,11 @@ next sync/drift pass (Rule 0012.3), which adds it.
   segment — `AUTOSAR_TPS_<Template>.pdf`). Cite the header-row page
   (where `Class <Name>` first appears), in format `Table X.Y, p.NN`. A class rendered in >1 PDF
   cites the PDF its sibling family uses. For the enum attribute type, cite the PDF that
-  renders the enum's own `Enumeration` table (independent of the class's PDF).
+  renders the enum's own `Enumeration` table (independent of the class's PDF). A class
+  with attributes merged from an older corpus (Rule 0019) carries **one `# Spec:` line
+  per corpus** in the unified format `# Spec: <RELEASE>/<pdf name>, Table N.M, pages
+  (RELEASE)` — e.g. `# Spec: R4.3.1/AUTOSAR_TPS_GenericStructureTemplate.pdf, Table 4.5,
+  pp.54-55 (R4.3.1)` — in addition to the target-release line.
 - **Exception — no own spec table (XSD-only class):** a class whose attributes exist
   **only** in an XSD (no PDF/markdown table — e.g. a concrete `<name>InstanceRef`, or
   an Adaptive-Platform class such as `CAN-XL-PROPS` from `AUTOSAR_00052.xsd`) carries
@@ -688,9 +693,20 @@ end user's explicit confirmation. When every item passes, the `# Spec verified:
   wipe-and-rewrite). This applies to **every** class in the sync queue, including
   member types that are not yet stamped: their docstrings must still be verbatim
   before the consuming class is stamped.
+- **Rule 0007 (package location & file shape)** — the class lives in the module matching
+  its spec `Package` row tail; the file shape is correct (leaf package → `Pkg.py`,
+  non-leaf → `__init__.py`); no class-named submodule (`ClassName.py` anti-pattern); no
+  `X.py` + `X/` shadowing pair; consumers (parser, writer, tests) import it from the
+  defining package via explicit imports (no new `import *`); `armodel.<ClassName>`
+  resolves at runtime (top-level export chain intact); the class was not added to
+  `INTENTIONALLY_UNEXPORTED_MODULES` or `KNOWN_NAME_COLLISION_CLASSES`. The automation
+  never checks location conventions — verify by Glob/Grep plus a runtime import check
+  during 9b. (ReferenceBase, 2026-08: stamped-then-caught — the user had to request this
+  check manually, so it is now an explicit gate item.)
 - **Rule 0014 (deviations resolved)** — every `naming`/`type`/`missing` deviation row
   is fixed and **removed**; only accepted deviations remain (`atpDerived`,
-  `deprecated (atp.Status=removed)`, `added convenience property`).
+  `deprecated (atp.Status=removed)`, `added convenience property`,
+  user-confirmed `legacy (<OLDER> Table N.M, pp.X-Y); removed in <TARGET>` per Rule 0019).
 - **Stamp decision (Rule 0012.1)** — `# Spec verified: <RELEASE>` is placed **iff**
   no non-`atpDerived`/non-convenience deviation or Rule 0001.10 placeholder remains;
   otherwise the `# Spec:` line stays without the stamp.
@@ -1056,7 +1072,9 @@ tracker. Each class entry has a header and a deviation table:
   - `naming` — base-name mismatch. **To-fix**: rename and **remove** the row.
   - `atpDerived`, `deprecated (atp.Status=removed), not implemented`,
     `present in XSD, absent from PDF table rendering; kept …`,
-    `removed upstream: …; not modeled`, `added convenience property`.
+    `removed upstream: …; not modeled`, `added convenience property`,
+    `legacy (<OLDER> Table N.M, pp.X-Y); removed in <TARGET>` — Rule 0019 merged
+    legacy attribute; accepted once user-confirmed at 9b.
 - **Stale rows are removed, not left:** a `naming`/`type`/`missing` row for a member that
   is now correctly implemented is removed in the same pass. A surviving such row means
   the field-to-spec cross-check has not actually been done.
@@ -1171,6 +1189,11 @@ For each class K in the closure:
    `release = R4.3.1` on every checklist row (Rule 0002 / Rule 0012.1). K is **not**
    `missing` and **not** XSD-only.
 6. Not found in either corpus → record `source = missing`.
+
+> **Class-scoped only.** The fallback switches the *whole class* to R4.3.1. If the
+> class **has** a target-release table but individual attributes exist only in the
+> older corpus, do **not** switch the class — apply **Rule 0019** (cross-release
+> legacy attribute merge) to those attributes instead.
 
 ### 16.4 Missing-class resolution (interactive, batched)
 
@@ -1449,3 +1472,76 @@ exists to enforce.
 - Checking off a step todo "because 9b will re-verify it anyway" — 9b verifies
   the class against the rules; the step todos verify the workflow was actually
   walked, step by step.
+
+---
+
+## Rule 0019 — Cross-release legacy attribute merge (combine case) *(added after the ReferenceBase sync)*
+
+The Rule 0016.3 R4.3.1 fallback is **class-scoped** (fires only when the class has no
+table in the target corpus). This rule covers the **attribute-scoped** variant: the
+class has a target-release table (so it does **not** qualify for 16.3), but one or more
+of its legacy attributes are absent from that table while being documented — with full
+`Note` text — in an older verified corpus (e.g. R4.3.1).
+
+**Trigger — all three must hold:**
+
+1. The attribute is absent from the target release's PDF/markdown table (its PDF
+   `Attribute` column, Rule 0001.3) — typically the XSD still carries it with
+   `atp.Status="removed"`.
+2. The attribute **is** documented in an older verified corpus table (e.g.
+   `autosar/R4.3.1/markdown/AUTOSAR_TPS_*.md`, class's older `Table N.M`).
+3. Removing it would break the lossless integration round-trip (Rule 0013) over
+   fixtures that carry the element — and **integration fixtures must never be edited**
+   to make a merge or removal pass (user constraint, applies project-wide).
+
+**Decision — merge, do not remove:** keep the attribute as an **optional legacy
+member**: field `Optional[T]` (Rules 0001.4/0003), getter/setter pair, full reader and
+writer coverage. Reader/writer treat it as optional (obsolete ⇒ optional): absent XML
+elements are a no-op on read, unset fields emit nothing on write. Docstrings and inline
+comments are copied **verbatim from the older corpus's table `Note`s** (Rules
+0012.2.5.2–5.4 apply unchanged — drop `Tags:`/`Stereotypes:` tails).
+
+**Checklist (Rule 0002) — dual `# Spec:` citation lines in unified format.** One line
+per corpus, identical shape — `# Spec: <RELEASE>/<pdf name>, Table N.M, pages (RELEASE)`
+— the release directory prefix and the trailing `(RELEASE)` tag distinguish the lines;
+the class's own marker stays `# Spec verified: <TARGET>` (the class table is the target
+corpus). Rows supplied by the older corpus carry `release = <OLDER>` in the per-row
+column; all other rows stay `<TARGET>`:
+
+```
+# ReferenceBase method parity checklist:
+# Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.14, p.72 (R23-11)
+# Spec: R4.3.1/AUTOSAR_TPS_GenericStructureTemplate.pdf, Table 4.5, pp.54-55 (R4.3.1)
+# Spec verified: R23-11
+# Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+# [x] getIsGlobal           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+# [x] setIsGlobal           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+# [x] getBaseIsThisPackage  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+# [x] setBaseIsThisPackage  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+# ...all other rows carry release R23-11...
+```
+
+(R4.3.1 markdown tables render table bodies **before** their captions — the body rows
+for `Table N.M` may sit under the preceding caption; verify Class/Package/Note rows
+belong to the class before copying, and take page numbers from the older PDF via
+`pypdf`.)
+
+**Deviation (Rule 0014) — accepted reason code:**
+`legacy (<OLDER> Table N.M, pp.X-Y); removed in <TARGET>` — one row per merged
+attribute. This code is **accepted** (like `atpDerived`): it does not block the
+`# Spec verified: <TARGET>` stamp, **provided** the end user explicitly confirmed the
+merge at the 9b gate (Rule 0006.1) — an unconfirmed merge blocks the stamp like any
+other unresolved deviation. Record the fixture constraint and the XSD
+`atp.Status="removed"` evidence in the deviation row.
+
+**Precedence over Rule 0015:** Rule 0015 governs attributes with **no** PDF/markdown
+basis anywhere (XSD-only → remove, not modeled). Rule 0019 governs attributes with an
+**older-corpus PDF/markdown basis** (spec basis exists → merge). When both could seem
+to apply, the presence of a spec table in a verified corpus decides: Rule 0019 wins.
+
+**Forbidden workarounds:**
+- Editing integration fixture `.arxml` files to make a strict-removal round-trip pass.
+- Syncing the whole class "end-to-end" against the older corpus because one attribute
+  lives there (class has a target table — 16.3 does not apply).
+- Omitting the older corpus's `# Spec:` line, or stamping `# Spec verified: R4.3.1`
+  on a class whose table is the target corpus.

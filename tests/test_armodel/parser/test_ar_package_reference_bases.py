@@ -108,3 +108,45 @@ class TestReadReferenceBases:
         parser.readReferenceBases(element, package)
 
         assert package.getReferenceBases() == []
+
+    def test_read_global_elements_and_in_package_refs(self, parser):
+        """
+        Test that GLOBAL-ELEMENTS and GLOBAL-IN-PACKAGE-REFS are populated.
+
+        Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.14, p.72
+        globalElement (ReferrableSubtypesEnum, *) and globalInPackage (ARPackage, *)
+        XSD sequence: SHORT-LABEL, IS-DEFAULT, GLOBAL-IN-PACKAGE-REFS, GLOBAL-ELEMENTS, PACKAGE-REF
+        """
+        package = _make_package()
+        element = ET.fromstring(
+            f"""<AR-PACKAGE xmlns='{NS}'>
+                <REFERENCE-BASES>
+                    <REFERENCE-BASE>
+                        <SHORT-LABEL>globals</SHORT-LABEL>
+                        <GLOBAL-IN-PACKAGE-REFS>
+                            <GLOBAL-IN-PACKAGE-REF DEST='AR-PACKAGE'>/AUTOSAR/TestPackage</GLOBAL-IN-PACKAGE-REF>
+                            <GLOBAL-IN-PACKAGE-REF DEST='AR-PACKAGE'>/AUTOSAR/Other</GLOBAL-IN-PACKAGE-REF>
+                        </GLOBAL-IN-PACKAGE-REFS>
+                        <GLOBAL-ELEMENTS>
+                            <GLOBAL-ELEMENT>TRACEABLE</GLOBAL-ELEMENT>
+                            <GLOBAL-ELEMENT>CHAPTER</GLOBAL-ELEMENT>
+                        </GLOBAL-ELEMENTS>
+                    </REFERENCE-BASE>
+                </REFERENCE-BASES>
+            </AR-PACKAGE>"""
+        )
+
+        parser.readReferenceBases(element, package)
+
+        base = package.getReferenceBases()[0]
+
+        global_elements = base.getGlobalElements()
+        assert len(global_elements) == 2
+        assert global_elements[0].getValue() == "TRACEABLE"
+        assert global_elements[1].getValue() == "CHAPTER"
+
+        global_in_package_refs = base.getGlobalInPackageRefs()
+        assert len(global_in_package_refs) == 2
+        assert global_in_package_refs[0].getValue() == "/AUTOSAR/TestPackage"
+        assert global_in_package_refs[0].getDest() == "AR-PACKAGE"
+        assert global_in_package_refs[1].getValue() == "/AUTOSAR/Other"

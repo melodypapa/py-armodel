@@ -269,6 +269,28 @@ text — `R23-11`, or `R4.3.1` for a fallback class:
 Checklists stamped before the `release` column existed gain it on their next
 sync/drift pass (Rule 0012.3).
 
+**Combine case — legacy attribute from an older corpus (Rule 0019).** If the class
+**has** a target-release table but an individual attribute is absent from it while
+documented in an older verified corpus (e.g. R4.3.1), do **not** switch the class and
+do **not** remove the attribute: merge it as an optional legacy member (full
+reader/writer coverage, docstrings verbatim from the older table) with **one `# Spec:`
+line per corpus** in the unified format `# Spec: <RELEASE>/<pdf name>, Table N.M, pages
+(RELEASE)`, mixed per-row `release` values, and an accepted
+`legacy (<OLDER> Table N.M, pp.X-Y); removed in <TARGET>` deviation row — subject to
+explicit user confirmation at 9b. Never edit integration fixtures to force either
+outcome:
+
+```
+# ReferenceBase method parity checklist:
+# Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.14, p.72 (R23-11)
+# Spec: R4.3.1/AUTOSAR_TPS_GenericStructureTemplate.pdf, Table 4.5, pp.54-55 (R4.3.1)
+# Spec verified: R23-11
+# Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+# [x] getIsGlobal           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+# [x] setIsGlobal           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+# ...all other rows carry release R23-11...
+```
+
 **XSD-only class (no PDF/markdown table) — `# XSD verified:` variant.** Use
 `# XSD verified: <xsd-file>` (e.g. `# XSD verified: AUTOSAR_00052.xsd`) **instead of**
 `# Spec verified: <RELEASE>`. "No PDF/markdown table" means no `Class`/`Enumeration`
@@ -323,6 +345,11 @@ detail: *Rule 0002*.
 - **Syncing from the R4.3.1 corpus but stamping `R23-11`** (or vice versa), or leaving the
   per-row `release` column off — the marker and every row's release must record the corpus
   that actually supplied the text (*Rules 0002 / 0012.1*).
+- **Removing a legacy attribute that is documented in an older verified corpus while
+  integration fixtures carry its element** — that is the combine case: merge it per
+  *Rule 0019* (optional member, dual `# Spec:` lines, `legacy (…)` accepted deviation).
+  The class-scoped 16.3 fallback does **not** apply, and fixture `.arxml` files are
+  never edited to force a removal.
 - **Implementing before the test** (model 2→3, reader/writer 5→6).
 - **`getXxxs()` filtering the `elements` registry by `isinstance`** — use a dedicated
   typed list field (*Rule 0004*).
@@ -347,7 +374,8 @@ detail: *Rule 0002*.
 - **Stamping `# Spec verified:` (or advancing to the next class) straight after the
   automated checks pass** — Step 9b is a confirmation gate for the rules automation is
   blind to (field↔spec both directions, verbatim docstrings, no fabrication/flattening,
-  reader+writer coverage, member order); present the summary and get user sign-off first
+  reader+writer coverage, member order, **package location & file shape per Rule 0007**);
+  present the summary and get user sign-off first
   (*Rule 0006.1*).
 - **Trusting a pre-existing `# Spec verified:` stamp and skipping 9b** — the marker is
   the *output* of 9b, not a substitute for it; on any re-sync/drift pass, re-run the full
@@ -399,6 +427,7 @@ detail: *Rule 0002*.
 | Rationalization | Reality |
 |---|---|
 | "No R23-11 table ⇒ skip it or treat it as XSD-only" | Check the R4.3.1 corpus first (*Rule 0016.3*); a class with an R4.3.1 table is neither skipped nor XSD-only — it syncs from R4.3.1 with marker `# Spec verified: R4.3.1`. |
+| "Attribute absent from the R23-11 table ⇒ remove it / edit the fixtures" | If the attribute is documented in an older verified corpus and fixtures carry its element, that is the combine case (*Rule 0019*): merge as optional legacy member with dual `# Spec:` lines and the accepted `legacy (…)` deviation — and never edit fixture `.arxml` files. |
 | "Simple model — I'll implement then test" | A test written after mirrors the code, not the spec. Step 2 first. |
 | "Reader/writer first, round-trip test after" | No failing round-trip ⇒ can't see dropped elements. Step 5 first. |
 | "It's just docstrings, skip Step 4" | Drift is silent; the marker then certifies wrong wording (*Rule 0012*). |

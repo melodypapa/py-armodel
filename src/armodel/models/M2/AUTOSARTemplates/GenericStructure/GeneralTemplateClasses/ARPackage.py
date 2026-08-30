@@ -208,203 +208,148 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class ReferenceBase(ARObject):
     """
-    Represents a reference base in AUTOSAR models. Reference bases define
-    how elements in one package can reference elements in other packages.
-    They are used to establish relationships between different AUTOSAR packages.
+    This meta-class establishes a basis for relative references. Reference bases are identified by the short Label which shall be unique in the current package.
     """
 
     # ReferenceBase method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [ ] getGlobalElements            [x] impl  [x] docstring  [ ] test
-    # [ ] addGlobalElement             [x] impl  [x] docstring  [ ] test
-    # [ ] getGlobalInPackageRefs       [x] impl  [x] docstring  [ ] test
-    # [ ] addGlobalInPackageRef        [x] impl  [x] docstring  [ ] test
-    # [ ] getIsDefault                 [x] impl  [x] docstring  [ ] test
-    # [ ] setIsDefault                 [x] impl  [x] docstring  [ ] test
-    # [ ] getIsGlobal                  [x] impl  [x] docstring  [ ] test
-    # [ ] setIsGlobal                  [x] impl  [x] docstring  [ ] test
-    # [ ] getBaseIsThisPackage         [x] impl  [x] docstring  [ ] test
-    # [ ] setBaseIsThisPackage         [x] impl  [x] docstring  [ ] test
-    # [ ] getPackageRef                [x] impl  [x] docstring  [ ] test
-    # [ ] setPackageRef                [x] impl  [x] docstring  [ ] test
-    # [ ] getShortLabel                [x] impl  [x] docstring  [ ] test
-    # [ ] setShortLabel                [x] impl  [x] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.14, p.72 (R23-11)
+    # Spec: R4.3.1/AUTOSAR_TPS_GenericStructureTemplate.pdf, Table 4.5, pp.54-55 (R4.3.1)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getGlobalElements      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addGlobalElement       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGlobalInPackageRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addGlobalInPackageRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsDefault           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsDefault           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPackageRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPackageRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShortLabel          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShortLabel          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIsGlobal           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setIsGlobal           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getBaseIsThisPackage  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setBaseIsThisPackage  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
 
     def __init__(self):
-        """
-        Initializes a ReferenceBase instance with default values for
-        package reference properties.
-        """
-
         super().__init__()
 
-        # List of global elements that can be referenced
+        # This attribute represents a meta-class for which the global referencing is supported via this reference base.
         self.globalElements: List[ReferrableSubtypesEnum] = []
-        # List of global references within the package
+
+        # This represents the ability to express that global elements live in various packages which do not have a common ancestor package. Packages mentioned by Reference Base.globalInPackage are used in addition to the one in ReferenceBase.package.
         self.globalInPackageRefs: List[RefType] = []
-        # Flag indicating if this reference base is the default
+
+        # This attribute denotes if the current ReferenceBase is the default. Note that there can only be one default reference base within a package.
         self.isDefault: Optional[Boolean] = None
-        # Flag indicating if this reference base is global
-        self.isGlobal: Optional[Boolean] = None
-        # Flag indicating if this reference base belongs to the current package
-        self.BaseIsThisPackage: Optional[Boolean] = None
-        # List of package references
-        self.packageRef: Optional[List[RefType]] = None
-        # Short label for this reference base
+
+        # This association specifies the basis of all relative references with the base equals shortLabel.
+        self.packageRef: Optional[RefType] = None
+
+        # This is the name of the reference base. By this name, particular references can denote the applicable base.
         self.shortLabel: Optional[Identifier] = None
+
+        # This indicates that the target of the applicable reference can be resolved via the non-qualified shortName. This requires that the shortName of the target is unique within the package referenced in the reference base. The default is false. Note that the reference base also maintains a list of elements which may be referenced using a "global Reference".
+        self.isGlobal: Optional[Boolean] = None
+
+        # This indicates that this base is established by the current package. In this case the association "package" can be derived as the qualified shortName of the enclosing package. If the value of baseIsThisPackage is set to true then one of the following must be true: • target of the association "package" must be the enclosing package. • association "package" is omitted.
+        self.baseIsThisPackage: Optional[Boolean] = None
 
     def getGlobalElements(self) -> List[ReferrableSubtypesEnum]:
         """
-        Returns the list of global elements that can be referenced.
-
-        Returns:
-            List of global elements that can be referenced
+        This attribute represents a meta-class for which the global referencing is supported via this reference base.
         """
         return self.globalElements
 
     def addGlobalElement(self, value: ReferrableSubtypesEnum) -> "ReferenceBase":
         """
-        Adds a global element to the list of referenceable elements.
-
-        Args:
-            value: The element to add to the list of global elements
-
-        Returns:
-            Reference to this ReferenceBase instance (for method chaining)
+        This attribute represents a meta-class for which the global referencing is supported via this reference base.
         """
         self.globalElements.append(value)
         return self
 
     def getGlobalInPackageRefs(self) -> List[RefType]:
         """
-        Returns the list of global references within the package.
-
-        Returns:
-            List of global references within the package
+        This represents the ability to express that global elements live in various packages which do not have a common ancestor package. Packages mentioned by Reference Base.globalInPackage are used in addition to the one in ReferenceBase.package.
         """
         return self.globalInPackageRefs
 
     def addGlobalInPackageRef(self, value: RefType) -> "ReferenceBase":
         """
-        Adds a global reference to the package.
-
-        Args:
-            value: The reference to add to the list of global in-package references
-
-        Returns:
-            Reference to this ReferenceBase instance (for method chaining)
+        This represents the ability to express that global elements live in various packages which do not have a common ancestor package. Packages mentioned by Reference Base.globalInPackage are used in addition to the one in ReferenceBase.package.
         """
         self.globalInPackageRefs.append(value)
         return self
 
     def getIsDefault(self) -> Optional[Boolean]:
         """
-        Returns whether this reference base is the default.
-
-        Returns:
-            Boolean indicating if this is the default reference base (or None)
+        This attribute denotes if the current ReferenceBase is the default. Note that there can only be one default reference base within a package.
         """
         return self.isDefault
 
-    def setIsDefault(self, value: Boolean) -> "ReferenceBase":
+    def setIsDefault(self, value: Optional[Boolean]) -> "ReferenceBase":
         """
-        Sets whether this reference base is the default.
-
-        Args:
-            value: Boolean indicating if this should be the default reference base
-
-        Returns:
-            Reference to this ReferenceBase instance (for method chaining)
+        This attribute denotes if the current ReferenceBase is the default. Note that there can only be one default reference base within a package. A None value is a no-op and does not overwrite an existing isDefault.
         """
-        self.isDefault = value
+        if value is not None:
+            self.isDefault = value
         return self
 
-    def getIsGlobal(self) -> Optional[Boolean]:
+    def getPackageRef(self) -> Optional[RefType]:
         """
-        Returns whether this reference base is global.
-
-        Returns:
-            Boolean indicating if this is a global reference base (or None)
-        """
-        return self.isGlobal
-
-    def setIsGlobal(self, value: Boolean) -> "ReferenceBase":
-        """
-        Sets whether this reference base is global.
-
-        Args:
-            value: Boolean indicating if this should be a global reference base
-
-        Returns:
-            Reference to this ReferenceBase instance (for method chaining)
-        """
-        self.isGlobal = value
-        return self
-
-    def getBaseIsThisPackage(self) -> Optional[Boolean]:
-        """
-        Returns whether this reference base belongs to the current package.
-
-        Returns:
-            Boolean indicating if this reference base belongs to the current package (or None)
-        """
-        return self.BaseIsThisPackage
-
-    def setBaseIsThisPackage(self, value: Boolean) -> "ReferenceBase":
-        """
-        Sets whether this reference base belongs to the current package.
-
-        Args:
-            value: Boolean indicating if this reference base belongs to the current package
-
-        Returns:
-            Reference to this ReferenceBase instance (for method chaining)
-        """
-        self.BaseIsThisPackage = value
-        return self
-
-    def getPackageRef(self) -> Optional[List[RefType]]:
-        """
-        Returns the list of package references.
-
-        Returns:
-            List of package references (or None)
+        This association specifies the basis of all relative references with the base equals shortLabel.
         """
         return self.packageRef
 
-    def setPackageRef(self, value: List[RefType]) -> "ReferenceBase":
+    def setPackageRef(self, value: Optional[RefType]) -> "ReferenceBase":
         """
-        Sets the list of package references.
-
-        Args:
-            value: List of package references to set
-
-        Returns:
-            Reference to this ReferenceBase instance (for method chaining)
+        This association specifies the basis of all relative references with the base equals shortLabel. A None value is a no-op and does not overwrite an existing packageRef.
         """
-        self.packageRef = value
+        if value is not None:
+            self.packageRef = value
         return self
 
     def getShortLabel(self) -> Optional[Identifier]:
         """
-        Returns the short label for this reference base.
-
-        Returns:
-            Short label identifier (or None)
+        This is the name of the reference base. By this name, particular references can denote the applicable base.
         """
         return self.shortLabel
 
-    def setShortLabel(self, value: Identifier) -> "ReferenceBase":
+    def setShortLabel(self, value: Optional[Identifier]) -> "ReferenceBase":
         """
-        Sets the short label for this reference base.
-
-        Args:
-            value: The identifier to use as the short label
-
-        Returns:
-            Reference to this ReferenceBase instance (for method chaining)
+        This is the name of the reference base. By this name, particular references can denote the applicable base. A None value is a no-op and does not overwrite an existing shortLabel.
         """
-        self.shortLabel = value
+        if value is not None:
+            self.shortLabel = value
+        return self
+
+    def getIsGlobal(self) -> Optional[Boolean]:
+        """
+        This indicates that the target of the applicable reference can be resolved via the non-qualified shortName. This requires that the shortName of the target is unique within the package referenced in the reference base. The default is false. Note that the reference base also maintains a list of elements which may be referenced using a "global Reference".
+        """
+        return self.isGlobal
+
+    def setIsGlobal(self, value: Optional[Boolean]) -> "ReferenceBase":
+        """
+        This indicates that the target of the applicable reference can be resolved via the non-qualified shortName. This requires that the shortName of the target is unique within the package referenced in the reference base. The default is false. Note that the reference base also maintains a list of elements which may be referenced using a "global Reference". A None value is a no-op and does not overwrite an existing isGlobal.
+        """
+        if value is not None:
+            self.isGlobal = value
+        return self
+
+    def getBaseIsThisPackage(self) -> Optional[Boolean]:
+        """
+        This indicates that this base is established by the current package. In this case the association "package" can be derived as the qualified shortName of the enclosing package. If the value of baseIsThisPackage is set to true then one of the following must be true: • target of the association "package" must be the enclosing package. • association "package" is omitted.
+        """
+        return self.baseIsThisPackage
+
+    def setBaseIsThisPackage(self, value: Optional[Boolean]) -> "ReferenceBase":
+        """
+        This indicates that this base is established by the current package. In this case the association "package" can be derived as the qualified shortName of the enclosing package. If the value of baseIsThisPackage is set to true then one of the following must be true: • target of the association "package" must be the enclosing package. • association "package" is omitted. A None value is a no-op and does not overwrite an existing baseIsThisPackage.
+        """
+        if value is not None:
+            self.baseIsThisPackage = value
         return self
 
 
