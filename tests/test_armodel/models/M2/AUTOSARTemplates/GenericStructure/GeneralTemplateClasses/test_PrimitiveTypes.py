@@ -68,20 +68,17 @@ class TestARType:
         # Verify basic properties
         assert obj is not None
         assert obj.timestamp is None
-        assert obj.uuid is None
         assert obj._value is None
 
-    def test_timestamp_and_uuid(self):
+    def test_timestamp(self):
         """
-        Test timestamp and uuid attributes in ARType.
+        Test the timestamp attribute in ARType (uuid is owned by Identifiable).
         """
         obj = ARType()
 
         # Test setting values
         obj.timestamp = "2023-01-01"
-        obj.uuid = "test-uuid"
         assert obj.timestamp == "2023-01-01"
-        assert obj.uuid == "test-uuid"
 
     def test_value_methods(self):
         """

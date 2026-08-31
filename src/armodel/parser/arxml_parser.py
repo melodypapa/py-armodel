@@ -7281,7 +7281,7 @@ class ARXMLParser(AbstractARXMLParser):
             configuration.setDefaultRouter(self.getChildElementOptionalLiteral(element, "DEFAULT-ROUTER"))
             for address in self.findall(element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
                 literal = ARLiteral()
-                self.readARObjectAttributes(address, literal)
+                self.readARTypeAttributes(address, literal)
                 literal.setValue(address.text)
                 configuration.addDnsServerAddress(literal)
             configuration.setEnableAnycast(self.getChildElementOptionalBooleanValue(element, "ENABLE-ANYCAST"))
@@ -9755,7 +9755,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readReferrable(element, assignment)
         for child_element in self.findall(element, "PRIORITY"):
             priority = PositiveInteger()
-            self.readARObjectAttributes(child_element, priority)
+            self.readARTypeAttributes(child_element, priority)
             priority.setValue(child_element.text)
             assignment.addPriority(priority)
         assignment.setTrafficClass(self.getChildElementOptionalPositiveInteger(element, "TRAFFIC-CLASS"))
@@ -9937,7 +9937,7 @@ class ARXMLParser(AbstractARXMLParser):
             config.setDefaultLeaseTime(self.getChildElementOptionalTimeValue(child_element, "DEFAULT-LEASE-TIME"))
             for address in self.findall(child_element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
                 literal = ARLiteral()
-                self.readARObjectAttributes(address, literal)
+                self.readARTypeAttributes(address, literal)
                 literal.setValue(address.text)
                 config.addDnsServerAddress(literal)
             config.setNetworkMask(self.getChildElementOptionalLiteral(child_element, "NETWORK-MASK"))
@@ -9987,7 +9987,7 @@ class ARXMLParser(AbstractARXMLParser):
             config.setDefaultLeaseTime(self.getChildElementOptionalTimeValue(child_element, "DEFAULT-LEASE-TIME"))
             for address in self.findall(child_element, "DNS-SERVER-ADDRESSES/DNS-SERVER-ADDRESS"):
                 literal = ARLiteral()
-                self.readARObjectAttributes(address, literal)
+                self.readARTypeAttributes(address, literal)
                 literal.setValue(address.text)
                 config.addDnsServerAddress(literal)
             config.setNetworkMask(self.getChildElementOptionalLiteral(child_element, "NETWORK-MASK"))

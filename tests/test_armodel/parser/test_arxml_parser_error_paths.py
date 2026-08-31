@@ -394,9 +394,10 @@ class TestReadARObjectAttributes:
         root = _snip('<X T="t1" UUID="u1"/>')
         element = parser.find(root, "X")
         obj = ARLiteral()
-        parser.readARObjectAttributes(element, obj)
+        # ARType primitives carry only T per the XSD; uuid is owned by
+        # Identifiable and read by readIdentifiable (see the uuid move).
+        parser.readARTypeAttributes(element, obj)
         assert obj.timestamp == "t1"
-        assert obj.uuid == "u1"
 
     def test_handles_missing_attributes(self, parser):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
@@ -404,9 +405,8 @@ class TestReadARObjectAttributes:
         root = _snip("<X/>")
         element = parser.find(root, "X")
         obj = ARLiteral()
-        parser.readARObjectAttributes(element, obj)
+        parser.readARTypeAttributes(element, obj)
         assert obj.timestamp is None
-        assert obj.uuid is None
 
 
 # ==================== getAUTOSARInfo ====================
@@ -453,7 +453,6 @@ class TestAdditionalBranchCoverage:
         literal = parser.getChildElementOptionalLiteral(element, "NAME")
         assert literal is not None
         assert literal.timestamp == "ts"
-        assert literal.uuid == "uid"
 
     def test_getChildElementOptionalFloatValue_with_value(self, parser):
         element = _snip("<VAL>3.14159</VAL>")
@@ -616,9 +615,10 @@ class TestAdditionalBranchCoverage:
         AUTOSAR.getInstance().setARRelease("R23-11")
         element = ET.fromstring(f"<ROOT xmlns='{NS}' T='timestamp' UUID='unique-id'/>")
         obj = ARLiteral()
-        parser.readARObjectAttributes(element, obj)
+        # ARType primitives carry only T per the XSD; uuid is owned by
+        # Identifiable and read by readIdentifiable (see the uuid move).
+        parser.readARTypeAttributes(element, obj)
         assert obj.timestamp == "timestamp"
-        assert obj.uuid == "unique-id"
 
     def test_getChildElementFloatValueList_empty(self, parser):
         element = _snip("<CONTAINER></CONTAINER>")

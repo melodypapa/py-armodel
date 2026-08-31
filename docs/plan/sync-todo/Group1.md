@@ -711,15 +711,21 @@ HW UUIDs survive before making the move.
   are now the real implementations; `ARObject` no longer declares uuid.
 - Parser: uuid read and the UUID-manager registration both live in
   `readIdentifiable` (uuid is set *before* `addARObject()` — the ordering trap
-  preserved); `readARObjectAttributes` reads only S/T for ARObject objects and
-  T/UUID for ARType primitives. Verified: no parse path reaches an
-  Identifiable-derived object without `readIdentifiable` (all 11
+  preserved). The generic reader was then split per object name:
+  `readARObjectAttributes` (ARObject: S/T via mutators) and
+  `readARTypeAttributes` (ARType primitives: T as plain string). XSD check
+  (AUTOSAR_00052.xsd): primitives reference only the AR-OBJECT attributeGroup
+  (S/T) — the uuid attribute exists only in IDENTIFIABLE, so the legacy
+  `ARType.uuid` field was removed from PrimitiveTypes.py and no uuid handling
+  remains in any read/write attributes method. Verified: no parse path reaches
+  an Identifiable-derived object without `readIdentifiable` (all 11
   `readReferrable`/`readMultilanguageReferrable` bypass classes are
-  Referrable/MultilanguageReferrable).
-- Writer: `writeARObjectAttributes` no longer emits UUID for ARObject objects
-  (ARType primitives keep their own `uuid`, PrimitiveTypes.py); `writeIdentifiable`
-  emits it **after** the S/T chain call to preserve the historical attribute
-  order S, T, UUID (byte-level round-trip requirement).
+  Referrable/MultilanguageReferrable); all 16 parser ARType call sites and all
+  6 writer ARType call sites now use the ARType-specific methods.
+- Writer: same split — `writeARObjectAttributes` (ARObject: S/T) and
+  `writeARTypeAttributes` (ARType: T); `writeIdentifiable` emits UUID **after**
+  the S/T chain call to preserve the historical attribute order S, T, UUID
+  (byte-level round-trip requirement).
 - `UUIDMgr.addObject` keys on `isinstance(obj, Identifiable)`.
 - Stale comments updated (AbstractBlueprintStructure docstring, ARPackage ctor
   comment, both `test_ar_object_attributes.py` module docstrings,
