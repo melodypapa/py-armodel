@@ -1322,6 +1322,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         if iref is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-REF", iref.getRootDataPrototypeRef())
+            for ref in iref.getContextDataPrototypeRefs():
+                self.setChildElementOptionalRefType(child_element, "CONTEXT-DATA-PROTOTYPE-REF", ref)
             self.setChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF", iref.getTargetDataPrototypeRef())
         return iref
 

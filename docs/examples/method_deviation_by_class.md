@@ -2051,9 +2051,7 @@ Class not in markdown/PDF — skipped per user (enumeration `XmlSpaceEnum` has n
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface::InstanceRefs`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/InstanceRefs.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `contextDataPrototypeRef` | `—` | `contextDataPrototypeRef` | `Ref (ApplicationCompositeElementDataPrototype)` | Ref | type (spec many vs py single) |
+No deviations (synced to R23-11 Table D.17, p.953 — `contextDataPrototype` now a typed `List[RefType]` matching the spec `*` multiplicity).
 
 ## `ConsumedEventGroup`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 978

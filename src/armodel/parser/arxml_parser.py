@@ -5129,12 +5129,14 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, data_type)
         self.readBaseTypeDirectDefinition(element, data_type.getBaseTypeDefinition())
 
-    def getApplicationCompositeElementInPortInterfaceInstanceRef(self, element: ET.Element, key: str) -> ApplicationCompositeElementInPortInterfaceInstanceRef:
+    def getApplicationCompositeElementInPortInterfaceInstanceRef(self, element: ET.Element, key: str) -> ApplicationCompositeElementInPortInterfaceInstanceRef:  # noqa E501
         child_element = self.find(element, key)
         iref = None
         if child_element is not None:
             iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
             iref.setRootDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-REF"))
+            for ref in self.getChildElementRefTypeList(child_element, "CONTEXT-DATA-PROTOTYPE-REF"):
+                iref.addContextDataPrototypeRef(ref)
             iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF"))
         return iref
 
