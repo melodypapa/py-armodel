@@ -68,7 +68,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `RPortPrototype` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.5)
+- [x] `RPortPrototype` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.5) — commit `2cd6f3c4`
   - [x] Step 1 — Sync members & description from spec — Note: "Component port requiring a certain port interface."; mayBeUnconnected (Boolean 0..1 attr), requiredInterface (PortInterface 0..1 tref); markdown table sits above the title line
   - [x] Step 2 — Write model class unit test (Red) — TestRPortPrototype: 3 failed (docstring, None guards)
   - [x] Step 3 — Implement model class (Green) — Optional annotations, None no-op guards, verbatim docstrings
