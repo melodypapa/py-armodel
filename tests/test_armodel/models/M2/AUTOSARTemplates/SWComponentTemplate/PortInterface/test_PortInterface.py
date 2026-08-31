@@ -5,6 +5,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import Serv
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
@@ -15,11 +16,15 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ClientServerInterfaceMapping,
     ClientServerOperation,
     DataInterface,
+    ModeInterfaceMapping,
     NvDataInterface,
     ParameterInterface,
     PortInterface,
     PortInterfaceMapping,
+    PortInterfaceMappingSet,
     SenderReceiverInterface,
+    TriggerInterfaceMapping,
+    VariableAndParameterInterfaceMapping,
 )
 
 
@@ -286,3 +291,71 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         service_kind2 = ServiceProviderEnum().setValue(ServiceProviderEnum.DEFAULT_ERROR_TRACER)
         pi.setServiceKind(service_kind2)
         assert pi.getServiceKind() is service_kind2
+
+
+class TestPortInterfaceMappingSet:
+    """
+    Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.19, p.119 (R23-11)
+    portInterfaceMapping is a * aggr of PortInterfaceMapping (concrete subclasses).
+    """
+
+    def test_initialization(self):
+        obj = PortInterfaceMappingSet(AUTOSAR.getInstance(), "pim_set")
+
+        assert obj.parent == AUTOSAR.getInstance()
+        assert obj.short_name == "pim_set"
+        assert obj.getPortInterfaceMappings() == []
+
+        # Base chain (Table 4.19): most-derived model base = ARElement
+        assert isinstance(obj, ARElement)
+        assert isinstance(obj, ARObject)
+        assert isinstance(obj, Identifiable)
+        assert isinstance(obj, MultilanguageReferrable)
+        assert isinstance(obj, Referrable)
+
+    def test_create_mappings(self):
+        ar_root = AUTOSAR.getInstance()
+        obj = PortInterfaceMappingSet(ar_root, "pim_set")
+
+        cs = obj.createClientServerInterfaceMapping("cs_mapping")
+        assert isinstance(cs, ClientServerInterfaceMapping)
+        assert cs.parent is obj
+        assert cs.short_name == "cs_mapping"
+
+        vp = obj.createVariableAndParameterInterfaceMapping("vp_mapping")
+        assert isinstance(vp, VariableAndParameterInterfaceMapping)
+
+        mode = obj.createModeInterfaceMapping("mode_mapping")
+        assert isinstance(mode, ModeInterfaceMapping)
+
+        trig = obj.createTriggerInterfaceMapping("trig_mapping")
+        assert isinstance(trig, TriggerInterfaceMapping)
+
+        mappings = obj.getPortInterfaceMappings()
+        assert len(mappings) == 4
+        assert mappings[0] is cs
+        assert mappings[1] is vp
+        assert mappings[2] is mode
+        assert mappings[3] is trig
+
+    def test_create_duplicate_returns_existing(self):
+        ar_root = AUTOSAR.getInstance()
+        obj = PortInterfaceMappingSet(ar_root, "pim_set")
+
+        first = obj.createClientServerInterfaceMapping("cs_mapping")
+        second = obj.createClientServerInterfaceMapping("cs_mapping")
+        assert second is first
+        assert len(obj.getPortInterfaceMappings()) == 1
+
+    def test_polymorphic_list(self):
+        """
+        All created mappings are PortInterfaceMapping subtypes (Table 4.20 abstract base).
+        """
+        ar_root = AUTOSAR.getInstance()
+        obj = PortInterfaceMappingSet(ar_root, "pim_set")
+
+        obj.createClientServerInterfaceMapping("cs_mapping")
+        obj.createVariableAndParameterInterfaceMapping("vp_mapping")
+
+        for mapping in obj.getPortInterfaceMappings():
+            assert isinstance(mapping, PortInterfaceMapping)

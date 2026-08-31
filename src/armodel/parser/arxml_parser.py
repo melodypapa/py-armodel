@@ -275,7 +275,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventOccurrenceExpressionFormula,
     VariableInComponentInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucAbstractReferenceValue,
@@ -535,6 +535,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ParameterInterface,
     PortInterface,
     PortInterfaceMappingSet,
+    TriggerInterfaceMapping,
     SenderReceiverInterface,
     SubElementMapping,
     TextTableMapping,
@@ -11031,6 +11032,20 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, mapping)
         self.readModeInterfaceMappingModeMapping(element, mapping)
 
+    def readTriggerInterfaceMappingTriggerMappings(self, element: ET.Element, mapping: TriggerInterfaceMapping):
+        trigger_mappings = []
+        for child_element in self.findall(element, "TRIGGER-MAPPINGS/TRIGGER-MAPPING"):
+            trigger_mapping = TriggerMapping()
+            trigger_mapping.setFirstTriggerRef(self.getChildElementOptionalRefType(child_element, "FIRST-TRIGGER-REF"))
+            trigger_mapping.setSecondTriggerRef(self.getChildElementOptionalRefType(child_element, "SECOND-TRIGGER-REF"))
+            trigger_mappings.append(trigger_mapping)
+        mapping.setTriggerMapping(trigger_mappings)
+
+    def readTriggerInterfaceMapping(self, element: ET.Element, mapping: TriggerInterfaceMapping):
+        # self.logger.debug("Read TriggerInterfaceMapping %s" % mapping.getShortName())
+        self.readIdentifiable(element, mapping)
+        self.readTriggerInterfaceMappingTriggerMappings(element, mapping)
+
     def readPortInterfaceMappings(self, element: ET.Element, mapping_set: PortInterfaceMappingSet):
         for child_element in self.findall(element, "PORT-INTERFACE-MAPPINGS/*"):
             tag_name = self.getTagName(child_element)
@@ -11043,6 +11058,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "MODE-INTERFACE-MAPPING":
                 mapping = mapping_set.createModeInterfaceMapping(self.getShortName(child_element))
                 self.readModeInterfaceMapping(child_element, mapping)
+            elif tag_name == "TRIGGER-INTERFACE-MAPPING":
+                mapping = mapping_set.createTriggerInterfaceMapping(self.getShortName(child_element))
+                self.readTriggerInterfaceMapping(child_element, mapping)
             else:
                 self.notImplemented("Unsupported PortInterfaceMapping <%s>" % tag_name)
 

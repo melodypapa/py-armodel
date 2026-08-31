@@ -480,6 +480,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ParameterInterface,
     PortInterface,
     PortInterfaceMappingSet,
+    TriggerInterfaceMapping,
     SenderReceiverInterface,
     SubElementMapping,
     TextTableMapping,
@@ -9795,6 +9796,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(child_element, mapping)
             self.writeModeInterfaceMappingModeMapping(child_element, mapping)
 
+    def writeTriggerInterfaceMappingTriggerMappings(self, element: ET.Element, mapping: TriggerInterfaceMapping):
+        trigger_mappings = mapping.getTriggerMapping()
+        if len(trigger_mappings) > 0:
+            child_element = ET.SubElement(element, "TRIGGER-MAPPINGS")
+            for trigger_mapping in trigger_mappings:
+                mapping_element = ET.SubElement(child_element, "TRIGGER-MAPPING")
+                self.setChildElementOptionalRefType(mapping_element, "FIRST-TRIGGER-REF", trigger_mapping.getFirstTriggerRef())
+                self.setChildElementOptionalRefType(mapping_element, "SECOND-TRIGGER-REF", trigger_mapping.getSecondTriggerRef())
+
+    def writeTriggerInterfaceMapping(self, element: ET.Element, mapping: TriggerInterfaceMapping):
+        # self.logger.debug("Write TriggerInterfaceMapping %s" % mapping.getShortName())
+        if mapping is not None:
+            child_element = ET.SubElement(element, "TRIGGER-INTERFACE-MAPPING")
+            self.writeIdentifiable(child_element, mapping)
+            self.writeTriggerInterfaceMappingTriggerMappings(child_element, mapping)
+
     def writePortInterfaceMappings(self, element: ET.Element, mapping_set: PortInterfaceMappingSet):
         mappings = mapping_set.getPortInterfaceMappings()
         if len(mappings) > 0:
@@ -9806,6 +9823,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeClientServerInterfaceMapping(child_element, mapping)
                 elif isinstance(mapping, ModeInterfaceMapping):
                     self.writeModeInterfaceMapping(child_element, mapping)
+                elif isinstance(mapping, TriggerInterfaceMapping):
+                    self.writeTriggerInterfaceMapping(child_element, mapping)
                 else:
                     self.notImplemented("Unsupported PortInterfaceMapping <%s>" % type(mapping))
 

@@ -1300,45 +1300,71 @@ class ModeDeclarationMappingSet(AtpType):
         return self.getElement(short_name, ModeDeclarationMapping)
 
 
-class PortInterfaceMappingSet(AtpBlueprintable):
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement  # noqa: E402
+
+
+class PortInterfaceMappingSet(ARElement):
+    """
+    Specifies a set of (one or more) PortInterfaceMappings.
+    """
+
     # PortInterfaceMappingSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getPortInterfaceMappings     [x] impl  [ ] docstring  [ ] test
-    # [ ] createVariableAndParameterInterfaceMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] createClientServerInterfaceMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] createModeInterfaceMapping   [x] impl  [ ] docstring  [ ] test
-    # [ ] createTriggerInterfaceMapping [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.19, p.119 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPortInterfaceMappings                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createVariableAndParameterInterfaceMapping [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createClientServerInterfaceMapping         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createModeInterfaceMapping                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createTriggerInterfaceMapping              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.portInterfaceMappings = []  # type: List[PortInterfaceMapping]
+        # Specifies one PortInterfaceMapping to support the connection of Ports typed by two different PortInterfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
+        self.portInterfaceMappings: List[PortInterfaceMapping] = []
 
-    def getPortInterfaceMappings(self):
+    def getPortInterfaceMappings(self) -> List[PortInterfaceMapping]:
+        """
+        Specifies one PortInterfaceMapping to support the connection of Ports typed by two different PortInterfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
+        """
         return self.portInterfaceMappings
 
-    def createVariableAndParameterInterfaceMapping(self, short_name: str):
+    def createVariableAndParameterInterfaceMapping(self, short_name: str) -> VariableAndParameterInterfaceMapping:
+        """
+        Specifies one PortInterfaceMapping to support the connection of Ports typed by two different PortInterfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
+        """
         if not self.IsElementExists(short_name, VariableAndParameterInterfaceMapping):
             mapping = VariableAndParameterInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
         return self.getElement(short_name, VariableAndParameterInterfaceMapping)
 
-    def createClientServerInterfaceMapping(self, short_name: str):
+    def createClientServerInterfaceMapping(self, short_name: str) -> ClientServerInterfaceMapping:
+        """
+        Specifies one PortInterfaceMapping to support the connection of Ports typed by two different PortInterfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
+        """
         if not self.IsElementExists(short_name, ClientServerInterfaceMapping):
             mapping = ClientServerInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
         return self.getElement(short_name, ClientServerInterfaceMapping)
 
-    def createModeInterfaceMapping(self, short_name: str):
+    def createModeInterfaceMapping(self, short_name: str) -> ModeInterfaceMapping:
+        """
+        Specifies one PortInterfaceMapping to support the connection of Ports typed by two different PortInterfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
+        """
         if not self.IsElementExists(short_name, ModeInterfaceMapping):
             mapping = ModeInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
         return self.getElement(short_name, ModeInterfaceMapping)
 
-    def createTriggerInterfaceMapping(self, short_name: str):
+    def createTriggerInterfaceMapping(self, short_name: str) -> TriggerInterfaceMapping:
+        """
+        Specifies one PortInterfaceMapping to support the connection of Ports typed by two different PortInterfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
+        """
         if not self.IsElementExists(short_name, TriggerInterfaceMapping):
             mapping = TriggerInterfaceMapping(self, short_name)
             self.addElement(mapping)
