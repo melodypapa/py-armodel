@@ -1643,6 +1643,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         prototype_tag = ET.SubElement(ports_tag, "R-PORT-PROTOTYPE")
         self.writeIdentifiable(prototype_tag, prototype)
         self.setAbstractRequiredPortPrototype(prototype_tag, prototype)
+        self.setChildElementOptionalBooleanValue(prototype_tag, "MAY-BE-UNCONNECTED", prototype.getMayBeUnconnected())
         self.setChildElementOptionalRefType(prototype_tag, "REQUIRED-INTERFACE-TREF", prototype.getRequiredInterfaceTRef())
         self.setPortPrototype(prototype_tag, prototype)
 

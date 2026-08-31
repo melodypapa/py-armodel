@@ -5,6 +5,7 @@ AUTOSAR SWComponentTemplate module.
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARBoolean,
     RefType,
     TRefType,
 )
@@ -157,3 +158,42 @@ class TestPPortPrototype:
         assert obj.getProvidedInterfaceTRef() == tref
         obj.setProvidedInterfaceTRef(None)
         assert obj.getProvidedInterfaceTRef() == tref
+
+
+class TestRPortPrototype:
+    """
+    Test class for RPortPrototype functionality (Table 3.5).
+    """
+
+    def _create_prototype(self) -> RPortPrototype:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return RPortPrototype(ar_root, "TestRPort")
+
+    def test_initialization(self):
+        obj = self._create_prototype()
+        assert obj.getShortName() == "TestRPort"
+        assert obj.getMayBeUnconnected() is None
+        assert obj.getRequiredInterfaceTRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert RPortPrototype.__doc__.strip() == "Component port requiring a certain port interface."
+
+    def test_get_set_mayBeUnconnected(self):
+        obj = self._create_prototype()
+        value = ARBoolean()
+        value.setValue(False)
+        assert obj.setMayBeUnconnected(value) is obj
+        assert obj.getMayBeUnconnected() == value
+        obj.setMayBeUnconnected(None)
+        assert obj.getMayBeUnconnected() == value
+
+    def test_get_set_requiredInterfaceTRef(self):
+        obj = self._create_prototype()
+        tref = TRefType()
+        tref.setValue("/AUTOSAR/SomeInterface")
+        tref.setDest("SENDER-RECEIVER-INTERFACE")
+        assert obj.setRequiredInterfaceTRef(tref) is obj
+        assert obj.getRequiredInterfaceTRef() == tref
+        obj.setRequiredInterfaceTRef(None)
+        assert obj.getRequiredInterfaceTRef() == tref

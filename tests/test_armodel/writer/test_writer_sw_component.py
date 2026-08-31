@@ -908,6 +908,17 @@ class TestSwComponentTypeRoundTrip:
         p_com_spec.setDataElementRef(_ref())
         p_port.addProvidedComSpec(p_com_spec)
         app.createRPortPrototype("RPort")
+        r_port = app.createRPortPrototype("RPort2")
+        r_tref = TRefType()
+        r_tref.setValue("/If/SR")
+        r_tref.setDest("SENDER-RECEIVER-INTERFACE")
+        r_port.setRequiredInterfaceTRef(r_tref)
+        r_may_be_unconnected = ARBoolean()
+        r_may_be_unconnected.setValue(True)
+        r_port.setMayBeUnconnected(r_may_be_unconnected)
+        r_com_spec = ClientComSpec()
+        r_com_spec.setOperationRef(_ref(dest="CLIENT-SERVER-OPERATION"))
+        r_port.addRequiredComSpec(r_com_spec)
         app.createPRPortPrototype("PRPort")
         app.createPortGroup("PG")
         app.addSwcMappingConstraintRef(_ref("/Mapping/Const1"))
@@ -928,7 +939,7 @@ class TestSwComponentTypeRoundTrip:
         swc = reloaded.find("/Swcs/App")
         assert swc is not None
         assert swc.getShortName() == "App"
-        assert len(swc.getPorts()) == 3
+        assert len(swc.getPorts()) == 4
         assert len(swc.getPPortPrototypes()) == 1
         reloaded_p_port = swc.getPPortPrototypes()[0]
         assert reloaded_p_port.getShortName() == "PPort"
@@ -936,7 +947,13 @@ class TestSwComponentTypeRoundTrip:
         assert reloaded_p_port.getProvidedInterfaceTRef().getDest() == "SENDER-RECEIVER-INTERFACE"
         assert len(reloaded_p_port.getProvidedComSpecs()) == 1
         assert reloaded_p_port.getProvidedComSpecs()[0].getDataElementRef().getValue() == "/Pkg/Elem"
-        assert len(swc.getRPortPrototypes()) == 1
+        assert len(swc.getRPortPrototypes()) == 2
+        reloaded_r_port = next(p for p in swc.getRPortPrototypes() if p.getShortName() == "RPort2")
+        assert reloaded_r_port.getRequiredInterfaceTRef().getValue() == "/If/SR"
+        assert reloaded_r_port.getRequiredInterfaceTRef().getDest() == "SENDER-RECEIVER-INTERFACE"
+        assert reloaded_r_port.getMayBeUnconnected().getValue() is True
+        assert len(reloaded_r_port.getRequiredComSpecs()) == 1
+        assert reloaded_r_port.getRequiredComSpecs()[0].getOperationRef().getValue() == "/Pkg/Elem"
         assert len(swc.getPRPortPrototypes()) == 1
         assert len(swc.getPortGroups()) == 1
         assert [r.getValue() for r in swc.getSwcMappingConstraintsRefs()] == ["/Mapping/Const1", "/Mapping/Const2"]
