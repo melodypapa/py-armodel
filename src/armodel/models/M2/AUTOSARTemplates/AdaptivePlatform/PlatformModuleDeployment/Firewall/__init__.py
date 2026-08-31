@@ -4,7 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 
-__all__ = ["FirewallRule", "FirewallRuleProps", "StateDependentFirewall", "DataLinkLayerRule"]
+__all__ = ["FirewallRule", "FirewallRuleProps", "StateDependentFirewall", "DataLinkLayerRule", "DdsRule"]
 
 
 class FirewallRule(ARElement):
@@ -227,6 +227,214 @@ class DataLinkLayerRule(ARObject):
             self for method chaining
         """
         self.vlanPriority = value
+        return self
+
+
+class DdsRule(ARObject):
+    """Configuration of a DDS firewall rule"""
+
+    # DdsRule method parity checklist:
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (markdown-minimal sync: members modeled from the R23-11 SystemTemplate markdown
+    #  BSW-parameter-mapping section — attribute names + Notes only; types and
+    #  cardinality not specified by the markdown are deviations (Optional[str]);
+    #  no `# Spec verified:` / `# XSD verified:` stamp)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getAppId                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setAppId                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getHostId                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setHostId                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getInstanceId                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setInstanceId                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getMajorProtocolVersion      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setMajorProtocolVersion      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getMinorProtocolVersion      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setMinorProtocolVersion      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getProductId                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setProductId                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getReaderEntityId            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setReaderEntityId            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getSubmessageType            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setSubmessageType            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getVendorId                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setVendorId                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getWriterEntityId            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setWriterEntityId            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        """
+        Initializes the DdsRule with default (None) values.
+        """
+        super().__init__()
+        self.appId: Optional[str] = None
+        self.hostId: Optional[str] = None
+        self.instanceId: Optional[str] = None
+        self.majorProtocolVersion: Optional[str] = None
+        self.minorProtocolVersion: Optional[str] = None
+        self.productId: Optional[str] = None
+        self.readerEntityId: Optional[str] = None
+        self.submessageType: Optional[str] = None
+        self.vendorId: Optional[str] = None
+        self.writerEntityId: Optional[str] = None
+
+    def getAppId(self) -> Optional[str]:
+        """
+        Filter for DDSI-RTPS messages in which the appId in the DDSI-RTPS header and the INFO_DST (0x0E) submessage matches.
+        """
+        return self.appId
+
+    def setAppId(self, value: Optional[str]):
+        """
+        Sets the appId filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.appId = value
+        return self
+
+    def getHostId(self) -> Optional[str]:
+        """
+        Filter for DDSI-RTPS messages in which the hostId in the DDSI-RTPS header and the INFO_DST (0x0E) submessage matches.
+        """
+        return self.hostId
+
+    def setHostId(self, value: Optional[str]):
+        """
+        Sets the hostId filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.hostId = value
+        return self
+
+    def getInstanceId(self) -> Optional[str]:
+        """
+        Filter for DDSI-RTPS messages in which the instanceId in the DDSI-RTPS header and the INFO_DST (0x0E) submessage matches.
+        """
+        return self.instanceId
+
+    def setInstanceId(self, value: Optional[str]):
+        """
+        Sets the instanceId filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.instanceId = value
+        return self
+
+    def getMajorProtocolVersion(self) -> Optional[str]:
+        """
+        Filter for DDSI-RTPS messages in which the majorProtocolVersion in the DDSI-RTPS header matches.
+        """
+        return self.majorProtocolVersion
+
+    def setMajorProtocolVersion(self, value: Optional[str]):
+        """
+        Sets the majorProtocolVersion filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.majorProtocolVersion = value
+        return self
+
+    def getMinorProtocolVersion(self) -> Optional[str]:
+        """
+        Filter for DDSI-RTPS messages in which the minorProtocolVersion in the DDSI-RTPS header matches.
+        """
+        return self.minorProtocolVersion
+
+    def setMinorProtocolVersion(self, value: Optional[str]):
+        """
+        Sets the minorProtocolVersion filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.minorProtocolVersion = value
+        return self
+
+    def getProductId(self) -> Optional[str]:
+        """
+        Filter for DDSI-RTPS messages in which the productId in the DDSI-RTPS header matches.
+        """
+        return self.productId
+
+    def setProductId(self, value: Optional[str]):
+        """
+        Sets the productId filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.productId = value
+        return self
+
+    def getReaderEntityId(self) -> Optional[str]:
+        """
+        Filter for DDSI-RTPS messages in which the readerEntityID in a DDSI-RTPS submessage matches
+        """
+        return self.readerEntityId
+
+    def setReaderEntityId(self, value: Optional[str]):
+        """
+        Sets the readerEntityId filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.readerEntityId = value
+        return self
+
+    def getSubmessageType(self) -> Optional[str]:
+        """
+        Defines the allowed submessage type in the DDSI-RTPS message
+        """
+        return self.submessageType
+
+    def setSubmessageType(self, value: Optional[str]):
+        """
+        Sets the submessageType filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.submessageType = value
+        return self
+
+    def getVendorId(self) -> Optional[str]:
+        """
+        Filter for DDSI-RTPS messages in which the vendorId in the DDSI-RTPS header matches.
+        """
+        return self.vendorId
+
+    def setVendorId(self, value: Optional[str]):
+        """
+        Sets the vendorId filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.vendorId = value
+        return self
+
+    def getWriterEntityId(self) -> Optional[str]:
+        """
+        Filter for DDSI-RTPS messages in which the writerEntityID in a DDSI-RTPS submessage matches
+        """
+        return self.writerEntityId
+
+    def setWriterEntityId(self, value: Optional[str]):
+        """
+        Sets the writerEntityId filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.writerEntityId = value
         return self
 
 
