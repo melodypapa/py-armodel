@@ -2,11 +2,12 @@ from typing import List
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 
 __all__ = ["FirewallRule", "FirewallRuleProps", "StateDependentFirewall"]
 
 
-class FirewallRule(ARObject):
+class FirewallRule(ARElement):
     """
     Represents a firewall rule in AUTOSAR Adaptive Platform PlatformModuleDeployment.
     Defines rules for firewall configuration in adaptive platform modules.
@@ -19,11 +20,15 @@ class FirewallRule(ARObject):
     # [ ] addSrcRef                    [x] impl  [x] docstring  [ ] test
     # [ ] getSrcRefs                   [x] impl  [x] docstring  [ ] test
 
-    def __init__(self):
+    def __init__(self, parent, short_name: str):
         """
-        Initializes the FirewallRule with default values.
+        Initializes the FirewallRule with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this element
+            short_name: The short name of this element
         """
-        super().__init__()
+        super().__init__(parent, short_name)
         self.destRefs: List[RefType] = []
         self.srcRefs: List[RefType] = []
 
@@ -163,7 +168,7 @@ class FirewallRuleProps(ARObject):
         return self
 
 
-class StateDependentFirewall(ARObject):
+class StateDependentFirewall(ARElement):
     """
     Represents a state-dependent firewall in AUTOSAR Adaptive Platform PlatformModuleDeployment.
     Defines firewall rules that depend on system states.
@@ -176,11 +181,15 @@ class StateDependentFirewall(ARObject):
     # [ ] getStateRef                  [x] impl  [x] docstring  [ ] test
     # [ ] setStateRef                  [x] impl  [x] docstring  [ ] test
 
-    def __init__(self):
+    def __init__(self, parent, short_name: str):
         """
-        Initializes the StateDependentFirewall with default values.
+        Initializes the StateDependentFirewall with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this element
+            short_name: The short name of this element
         """
-        super().__init__()
+        super().__init__(parent, short_name)
         self.firewallRules: List[RefType] = []
         self.stateRef: RefType = None
 

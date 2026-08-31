@@ -8159,7 +8159,11 @@ class ARXMLParser(AbstractARXMLParser):
             entity.addHwAttributeValue(attribute_value)
 
     def readHwDescriptionEntity(self, element: ET.Element, entity: HwDescriptionEntity):
-        self.readReferrable(element, entity)
+        # HwDescriptionEntity itself is Referrable-only (ECUResourceTemplate Table 2.1), but it is
+        # abstract and every concrete subclass (HwElement, HwType, HwPin, HwPinGroup) is an
+        # Identifiable per its own spec Base — so the shared reader walks the Identifiable chain
+        # and picks up UUID/DESC/CATEGORY/ADMIN-DATA/INTRODUCTION (Rule 0013.1).
+        self.readIdentifiable(element, entity)
         entity.setHwTypeRef(self.getChildElementOptionalRefType(element, "HW-TYPE-REF"))
         self.readHwDescriptionEntityHwCategoryRefs(element, entity)
         self.readHwDescriptionEntityHwAttributeValues(element, entity)
@@ -8259,7 +8263,9 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readHwType(self, element: ET.Element, type: HwType):
         self.logger.debug("Read HwType <%s>" % type.getShortName())
-        self.readReferrable(element, type)
+        # HW-TYPE references the AR:HW-DESCRIPTION-ENTITY group (AUTOSAR_00052.xsd l.66369), so
+        # the HwDescriptionEntity aggregations are read here too (previously bypassed).
+        self.readHwDescriptionEntity(element, type)
 
     def readPduToFrameMappings(self, element: ET.Element, parent: Frame):
         for child_element in self.findall(element, "PDU-TO-FRAME-MAPPINGS/PDU-TO-FRAME-MAPPING"):

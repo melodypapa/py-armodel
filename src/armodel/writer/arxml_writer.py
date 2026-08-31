@@ -10574,7 +10574,10 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeHwAttributeValue(child_element, attribute_value)
 
     def writeHwDescriptionEntity(self, element: ET.Element, entity: HwDescriptionEntity):
-        self.writeReferrable(element, entity)
+        # Mirror of readHwDescriptionEntity: every concrete subclass is an Identifiable, so the
+        # shared writer walks the Identifiable chain and emits UUID/DESC/CATEGORY/ADMIN-DATA/
+        # INTRODUCTION (Rule 0013.2 matched pair).
+        self.writeIdentifiable(element, entity)
         self.setChildElementOptionalRefType(element, "HW-TYPE-REF", entity.getHwTypeRef())
         self.writeHwDescriptionEntityHwCategoryRefs(element, entity)
         self.writeHwDescriptionEntityHwAttributeValues(element, entity)
@@ -10701,7 +10704,8 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeHwType(self, element: ET.Element, type: HwType):
         self.logger.debug("Write HwType <%s>" % type.getShortName())
         child_element = ET.SubElement(element, "HW-TYPE")
-        self.writeReferrable(child_element, type)
+        # Matched pair of readHwType: emit the HwDescriptionEntity aggregations too.
+        self.writeHwDescriptionEntity(child_element, type)
 
     def writeLinCommunicationController(self, element: ET.Element, controller: LinCommunicationController):
         self.writeCommunicationController(element, controller)

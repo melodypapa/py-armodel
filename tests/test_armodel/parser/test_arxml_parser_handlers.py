@@ -304,6 +304,14 @@ class TestAdminDataAndReferrableHandlers:
         parser.readIdentifiable(element, obj)
         assert len(obj.getAnnotations()) == 1
 
+    def test_readIdentifiable_empty_annotations_wrapper(self, parser):
+        from armodel.models import Unit
+
+        obj = Unit(parent=_autosar_root(), short_name="u")
+        element = _snip("<ANNOTATIONS/>", root_tag="ELEM")
+        parser.readIdentifiable(element, obj)
+        assert obj.getAnnotations() == []
+
     def test_readARElement_delegates_to_readIdentifiable(self, parser):
         from armodel.models import Unit
 

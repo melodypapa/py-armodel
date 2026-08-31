@@ -5,6 +5,9 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
 
 ## Queue (dependency-first)
 
+> **Moved:** `ConstantSpecificationMappingSet` — wrong-heritage uuid-move blocker — moved into `Group1.md` ahead of the `Identifiable` row
+> (dependency-first: the uuid move cannot run until they derive from `Identifiable`).
+
 - [ ] `PortInterfaceMappingSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.19 · after `PortInterfaceMapping` (Group 1))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

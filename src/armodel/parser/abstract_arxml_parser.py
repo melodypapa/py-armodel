@@ -370,6 +370,9 @@ class AbstractARXMLParser(ABC):
             # every AUTOSAR object can be registered with the UUID manager. It is read
             # here (rather than in readIdentifiable) so that it is populated *before* the
             # object is registered with the UUID manager via addARObject() below.
+            # Moving uuid to Identifiable (its spec owner) is deferred until the
+            # wrong-heritage classes listed in docs/plan/sync-todo/Group1.md
+            # ("uuid move work order") derive from Identifiable — see that work order.
             uuid_value = self.readElementOptionalAttrib(element, "UUID")
             if uuid_value is not None and isinstance(ar_object, ARObject):
                 ar_object.setUuid(uuid_value)

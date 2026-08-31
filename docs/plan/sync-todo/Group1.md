@@ -54,19 +54,124 @@ Input: `Group 1 — Framework & core, PortInterface basics` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — none (legacy 4-col checklist → 6-col; setLongName None guard added; paraphrased docstrings → verbatim spec Note; writer now calls getLongName for parity)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8191 tests pass, ruff/black clean, integration round-trip pass; 9b user-confirmed: Rules 0001/0002/0003/0007/0011/0012/0014 pass; stamped `# Spec verified: R23-11` (commit: 7c7157a0)
-- [ ] `Identifiable` (heritage-chain parent of CollectableElement/AtpBlueprint/AtpBlueprintable/ARPackage · unstamped Rule 0001.10 stub · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.4, content md l.1650–1695)
-  - Spec facts (extracted 2026-08-30): abstract; Base = ARObject, MultilanguageReferrable, Referrable → direct base **MultilanguageReferrable** (queued above) — code `Identifiable(MultilanguageReferrable, ABC)` (Identifiable.py:229) heritage **CORRECT**; Subclasses explicitly list ARPackage, CollectableElement, PackageableElement, AtpBlueprint, AtpBlueprintable.
-    - Attributes (Table 4.4 displayed order): `adminData` (AdminData, 0..1, aggr) / `annotation` (Annotation, *, aggr) / `category` (CategoryString, 0..1, attr) / `desc` (MultiLanguageOverviewParagraph, 0..1, aggr) / `introduction` (DocumentationBlock, 0..1, aggr) / `uuid` (String, 0..1, attr).
-  - Known deviations to fix in this sync: (a) duplicate `elements`/`element_mappings` registry in `__init__` (Identifiable.py:258-259 — CollectableElement infra; ARPackage's getElement override reaches it; remove after CollectableElement sync or verify consumers); (b) **uuid ownership RESOLVED (uuid-last step)** — uuid is intentionally carried on `ARObject` (see `ArObject.py` "uuid" internal member, getUuid/setUuid); `readARObjectAttributes` / `UUIDMgr.addObject` / `writeARObjectAttributes` now key on `isinstance(obj, ARObject)` so every AUTOSAR object can be registered/serialized with the UUID manager. Spec `uuid` (Table 4.4) is an IDENTIFIABLE attributeGroup but is modeled as an ARObject internal extension by design; (c) `variationPoint` carried with documented deviation comment (keep); (d) no `# Spec:` line/stamp for this class (only Referrable l.27 and Describable l.517 in the same file are stamped) → 6-col checklist rewrite.
+## Wrong-heritage classes (uuid-move blockers) — queued ahead of `Identifiable`
+
+Dependency-first: each of these must derive from `Identifiable` before the uuid move
+in the work order below can run, so they precede the `Identifiable` row.
+
+- [ ] `HwPin` (R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.7 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARObject, HwDescriptionEntity, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base Identifiable; code was `HwPin(HwDescriptionEntity)` (Referrable-only))
+  - [x] Step 1 — Sync members & description from spec — Table 2.7 — Base = ARObject, HwDescriptionEntity, Identifiable, MultilanguageReferrable, Referrable (verified); XSD HW-PIN complexType references AR:IDENTIFIABLE
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — `class HwPin(Identifiable, HwDescriptionEntity)` (EcuResourceTemplate/__init__.py:117) — MRO HwPin→Identifiable→MultilanguageReferrable→HwDescriptionEntity→Referrable→ARObject
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by tests/test_armodel/parser/test_hw_description_entity.py (heritage + Identifiable-member regression)
+  - [x] Step 6 — Update parser & writer (Green) — readHwPin → readHwDescriptionEntity → readIdentifiable; writeHwPin → writeHwDescriptionEntity → writeIdentifiable
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `HwPinGroup` (R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.5 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARObject, HwDescriptionEntity, Identifiable, MultilanguageReferrable, Referrable; code was `HwPinGroup(HwDescriptionEntity)` — 1 live UUID in CanSystem.arxml (CAN1))
+  - [x] Step 1 — Sync members & description from spec — Table 2.5 — Base verified; XSD HW-PIN-GROUP references AR:IDENTIFIABLE (l.66185)
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — `class HwPinGroup(Identifiable, HwDescriptionEntity)` (EcuResourceTemplate/__init__.py:267)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — UUID regression test added (DCE:470adf34-a7c8-470b-9d3b-b843e01fa9a9)
+  - [x] Step 6 — Update parser & writer (Green) — readHwPinGroup/writeHwPinGroup go through the Identifiable chain
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `HwType` (R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.3 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable; code was `HwType(HwDescriptionEntity)` — 1 live UUID in CanSystem.arxml (AnalogInType))
+  - [x] Step 1 — Sync members & description from spec — Table 2.3 — Base = ARElement, ARObject, CollectableElement, HwDescriptionEntity, Identifiable, MultilanguageReferrable, PackageableElement, Referrable; XSD HW-TYPE references AR:IDENTIFIABLE (l.66373) and AR:HW-DESCRIPTION-ENTITY (l.66369)
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — `class HwType(ARElement, HwDescriptionEntity)` (EcuResourceTemplate/HwElementCategory.py:25)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — UUID regression test added (DCE:f73f677c-1389-4425-83f8-921d567b2ad4)
+  - [x] Step 6 — Update parser & writer (Green) — readHwType now calls readHwDescriptionEntity (was readReferrable — HW-TYPE-REF/HW-CATEGORY-REFS/HW-ATTRIBUTE-VALUES were silently dropped); writeHwType → writeHwDescriptionEntity
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `HwElement` (R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.4 · after `HwType` (ref `hwType`) and `HwPinGroup` (aggr `hwPinGroup`) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable; code was `HwElement(HwDescriptionEntity)` — 3 live UUIDs in CanSystem.arxml (AI_KL15, AI_KL30, DemoECU))
+  - [x] Step 1 — Sync members & description from spec — Table 2.4 — Base verified; XSD HW-ELEMENT references AR:IDENTIFIABLE (l.65901)
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — `class HwElement(ARElement, HwDescriptionEntity)` (EcuResourceTemplate/__init__.py:534)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — UUID/DESC/CATEGORY/ADMIN-DATA/INTRODUCTION regression test added (DemoECU)
+  - [x] Step 6 — Update parser & writer (Green) — readHwElement/writeHwElement go through the Identifiable chain
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `FirewallRule` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.236 · after `FirewallActionEnum` · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable; code was `FirewallRule(ARObject)` (AdaptivePlatform/PlatformModuleDeployment/Firewall/__init__.py:9))
+  - [x] Step 1 — Sync members & description from spec — Table 6.236 Base row verified; XSD FIREWALL-RULE reaches AR:IDENTIFIABLE
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — `class FirewallRule(ARElement)`; `__init__(self, parent, short_name)` + `super().__init__(parent, short_name)` (2026-08-31)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — test___init__.py construction sites updated to `FirewallRule(_parent(), "TestFirewallRule")` (10 tests pass; no reader/writer test possible until the class is serialized)
+  - [ ] Step 6 — Update parser & writer (Green) — N/A for now: no readFirewallRule/writeFirewallRule exists (class is not serialized)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `StateDependentFirewall` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.234 · after `FirewallRule` (aggr `firewallRuleProps`) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable; code was `StateDependentFirewall(ARObject)` (Firewall/__init__.py:166))
+  - [x] Step 1 — Sync members & description from spec — Table 6.234 Base row verified; XSD STATE-DEPENDENT-FIREWALL reaches AR:IDENTIFIABLE
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — `class StateDependentFirewall(ARElement)`; `__init__(self, parent, short_name)` (2026-08-31)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — test___init__.py construction sites updated to `StateDependentFirewall(_parent(), "TestStateDependentFirewall")` (10 tests pass; no reader/writer test possible until the class is serialized)
+  - [ ] Step 6 — Update parser & writer (Green) — N/A for now: class is not serialized
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `BlueprintMappingSet` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 3.1 · after `AtpBlueprintMapping` (aggr `blueprintMap`) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable; code has `BlueprintMappingSet(ARObject)` (CommonStructure/StandardizationTemplate/BlueprintMapping.py:8) — also carries a fabricated `mappings: List[str]` that Table 3.1 does not list (`blueprintMap` : AtpBlueprintMapping, *, aggr))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) — inherited members serialized via shared readIdentifiable/writeIdentifiable; confirm in-step
-  - [ ] Step 6 — Update parser & writer (Green) — N/A candidate: shared helpers unchanged; confirm in-step
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
   - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations (incl. uuid ownership decision)
+  - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ConstantSpecificationMappingSet` (R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.119 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable; code has `ConstantSpecificationMappingSet(ARObject)` (CommonStructure/Constants/__init__.py:804))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `StructuredReq` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.31 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARObject, DocumentViewSelectable, Identifiable, MultilanguageReferrable, Paginateable, Referrable, Traceable; code has `StructuredReq(ARObject)` (MSR/Documentation/BlockElements/RequirementsTracing.py:123). NB: `Traceable` is currently `Traceable(Identifiable)` although Table E.x gives Base = ARObject, MultilanguageReferrable, Referrable — decide in Step 3 whether the Identifiable mixin lands here or on Traceable; check whether STRUCTURED-REQ carries SHORT-NAME in the XSD before adding it)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `TraceableText` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.30 · after `StructuredReq` (same Base closure) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: code has `TraceableText(ARObject)` (RequirementsTracing.py:58))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Identifiable` (heritage-chain parent of CollectableElement/AtpBlueprint/AtpBlueprintable/ARPackage · carries a `# Spec verified: R23-11` stamp that has NOT passed 9b — treat as unverified · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.4, content md l.1650–1695)
+  - Spec facts (extracted 2026-08-30): abstract; Base = ARObject, MultilanguageReferrable, Referrable → direct base **MultilanguageReferrable** (queued above) — code `Identifiable(MultilanguageReferrable, ABC)` (Identifiable.py:229) heritage **CORRECT**; Subclasses explicitly list ARPackage, CollectableElement, PackageableElement, AtpBlueprint, AtpBlueprintable.
+    - Attributes (Table 4.4 displayed order): `adminData` (AdminData, 0..1, aggr) / `annotation` (Annotation, *, aggr) / `category` (CategoryString, 0..1, attr) / `desc` (MultiLanguageOverviewParagraph, 0..1, aggr) / `introduction` (DocumentationBlock, 0..1, aggr) / `uuid` (String, 0..1, attr).
+  - Known deviations to fix in this sync: (a) duplicate `elements`/`element_mappings` registry in `__init__` (Identifiable.py:258-259 — CollectableElement infra; ARPackage's getElement override reaches it; remove after CollectableElement sync or verify consumers); (b) **uuid ownership RESOLVED (uuid-last step)** — uuid is intentionally carried on `ARObject` (see `ArObject.py` "uuid" internal member, getUuid/setUuid); `readARObjectAttributes` / `UUIDMgr.addObject` / `writeARObjectAttributes` now key on `isinstance(obj, ARObject)` so every AUTOSAR object can be registered/serialized with the UUID manager. Spec `uuid` (Table 4.4) is an IDENTIFIABLE attributeGroup but is modeled as an ARObject internal extension by design; (c) `variationPoint` carried with documented deviation comment (keep); (d) no `# Spec:` line/stamp for this class (only Referrable l.27 and Describable l.517 in the same file are stamped) → 6-col checklist rewrite.
+  - [x] Step 1 — Sync members & description from spec (Table 4.4 body md l.1664–1693, caption l.1688; PDF p.61 confirmed via pdf_page.py; Class=Identifiable (abstract) ✓; Base = ARObject, MultilanguageReferrable, Referrable → most-derived direct base **MultilanguageReferrable** ✓ current heritage correct (Identifiable.py:230); 6 attrs in displayed order with verbatim Notes captured: adminData / annotation / category / desc / introduction / uuid)
+  - [x] Step 2 — Write model class unit test (Red) — test_Identifiable.py TestIdentifiable: added test_add_annotation_none_is_noop, test_element_registry_round_trip, test_remove_element_unknown_short_name_raises (37 tests pass); the pre-existing suite already covered init defaults, get/set round-trips, None no-ops and abstract instantiation
+  - [x] Step 3 — Implement model class (Green) — heritage unchanged (Identifiable(MultilanguageReferrable, ABC) ✓ most-derived spec base); methods reordered into Table 4.4 displayed order (adminData → annotation → category → desc → introduction → uuid, then the kept infra registry, then variationPoint) per Rule 0001.11; dead duplicate `return self` in setIntroduction removed; return annotations added to setAdminData/setCategory/setDesc/setIntroduction/removeAdminData/addAnnotation (Rule 0003); elements/element_mappings registry kept as documented infra (deviation (a))
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — verified by diff (Rule 0012.2.6): class docstring + all 6 inline member comments + all 12 accessor docstrings diffed verbatim against md Table 4.4; one Rule 0001.4 deviation found and fixed in 3 places — the desc Note reads "how the object is built or used" in both the markdown (l.1682) and AUTOSAR_00052.xsd l.67753, while the code said "is built or is used"
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — parser test_arxml_parser_handlers.py: test_readIdentifiable_populates_category_desc_admin / _with_annotation / _empty_annotations_wrapper (empty-wrapper case added this pass) + test_ar_object_attributes.py (uuid on a concrete Identifiable); writer test_identifiable.py: field-value asserts + empty-optional case + write→re-parse→assert round-trip
+  - [x] Step 6 — Update parser & writer (Green) — no dispatch change needed (readIdentifiable/writeIdentifiable already cover all six attributes incl. the ANNOTATIONS wrapper); the two uuid comments in abstract_arxml_parser.py / abstract_arxml_writer.py now point at the uuid-move work order, and the stale "owned by Identifiable" docstring in parser/test_ar_object_attributes.py was corrected (12 reader/writer tests pass)
+  - [x] Step 7 — Update checklist comment — 6-col rows now 1:1 with the 22 methods in source order (verified by script): 6 spec attributes in Table 4.4 order + 6 element-collection infra rows in an "Internal members" block (cf. the ARObject precedent) + variationPoint in a "Kept deviation member" block; uuid rows annotated with the ARObject-owner deferral
+  - [x] Step 8 — Deviations (incl. uuid ownership decision) — (a) elements/element_mappings registry: kept as documented infra, now with explicit checklist rows (removal deferred to the CollectableElement row below, which owns the duplicated methods); (b) uuid ownership: **DEFERRED by user decision** — stays on ARObject until the 10 wrong-heritage classes derive from Identifiable; work order recorded in the "uuid move work order" section of this file and in the `ARObject` section of docs/examples/method_deviation_by_class_v2.md; (c) variationPoint: framework-level, excluded by the tracker preamble → not a stamp blocker; no `naming`/`type`/`missing` deviation row remains
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — **PAUSED 2026-08-31 by user decision**: steps 1-8 done and 9a passed (8212 unit tests, 130-file integration round-trip, ruff/flake8/black clean), but the user reordered the work — finish the wrong-heritage rows above → move uuid in the ARObject parse/write → only then run 9b and stamp. Do NOT stamp before that.
 - [ ] `CollectableElement` (direct spec base of ARPackage + PackageableElement · Rule 0016.4 wrong-base stub — prerequisite for the ARPackage heritage fix · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 13.3, class table body md l.10589+)
   - Spec facts (extracted 2026-08-30): Package = ...GeneralTemplateClasses::ElementCollection; **Base = ARObject, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base = Identifiable**; Subclasses = {ARPackage, PackageableElement}; **no own Attribute rows**.
   - Deviation: code has `CollectableElement(ARObject, ABC)` + `__init__(self)` (ElementCollection.py:16/31) — skips the Referrable→MultilanguageReferrable→Identifiable chain. Fix: re-parent to `Identifiable`, `__init__(self, parent, short_name)`; `elements`/`element_mappings` registry stays (codebase infra; spec `element` aggregation belongs to ARPackage Table 4.1 and is shared by design).
@@ -200,16 +305,6 @@ Input: `Group 1 — Framework & core, PortInterface basics` of `docs/examples/sy
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `AtpBlueprintMapping` (tracker input · R4.3.1 markdown · AUTOSAR_TPS_StandardizationTemplate · Table 4.4)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `BlueprintMappingSet` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 3.1 (multiple tables — resolve in per-class Phase 0) · after `AtpBlueprintMapping` (aggr `blueprintMap`))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -387,3 +482,79 @@ _(none)_
 ## Not queued
 
 _(none)_
+
+---
+
+## uuid move work order (ARObject → Identifiable) — DEFERRED
+
+**Decision (2026-08-31, user):** `uuid` stays on `ARObject` for now; the move runs
+*after* every class below derives from `Identifiable`. Fix the wrong heritage first.
+
+### Why it is not on Identifiable yet
+
+- Ground truth: `AUTOSAR_00052.xsd` defines `UUID` exactly once, inside the
+  `IDENTIFIABLE` attributeGroup (l.67791–67803). The `AR-OBJECT` attributeGroup
+  carries only `S`/`T` (l.4900–4913). 1136 complexTypes reach `IDENTIFIABLE`.
+  Table 4.4 lists `uuid` under Identifiable — so the two ARObject rows are
+  fabricated w.r.t. Table 6.1 and the move is the spec-correct end state.
+- Today: field + accessors on `ArObject.py:55/85-97`; `Identifiable.py` only
+  re-declares `getUuid`/`setUuid` as pass-throughs; `readARObjectAttributes`
+  (abstract_arxml_parser.py:373) / `writeARObjectAttributes`
+  (abstract_arxml_writer.py:77) / `UUIDMgr.addObject` (uuid_mgr.py:23) all key on
+  `isinstance(obj, ARObject)`.
+
+### Blockers — 10 classes whose XSD type reaches IDENTIFIABLE but which are not Identifiable in the model
+
+All ten rows now live in the "Wrong-heritage classes" section above (ahead of `Identifiable`).
+
+| Class | Spec table | Live UUIDs in fixtures | Heritage fix (2026-08-31) |
+|---|---|---|---|
+| `HwPin` | ECUResourceTemplate Table 2.7 | 0 observed | **DONE** — `(Identifiable, HwDescriptionEntity)` |
+| `HwPinGroup` | ECUResourceTemplate Table 2.5 | 1 (CanSystem.arxml) | **DONE** — `(Identifiable, HwDescriptionEntity)` |
+| `HwType` | ECUResourceTemplate Table 2.3 | 1 (CanSystem.arxml) | **DONE** — `(ARElement, HwDescriptionEntity)` |
+| `HwElement` | ECUResourceTemplate Table 2.4 | 3 (CanSystem.arxml) | **DONE** — `(ARElement, HwDescriptionEntity)` |
+| `FirewallRule` | SystemTemplate Table 6.236 | 0 observed | **DONE** — `(ARElement)`; construction sites + tests updated |
+| `StateDependentFirewall` | SystemTemplate Table 6.234 | 0 observed | **DONE** — `(ARElement)`; construction sites + tests updated |
+| `BlueprintMappingSet` | FO GenericStructure Table 3.1 | 0 observed | not started |
+| `ConstantSpecificationMappingSet` | SWCT Table 5.119 | 0 observed | not started |
+| `StructuredReq` | FO GenericStructure Table 9.31 | 0 observed | not started — check XSD SHORT-NAME first |
+| `TraceableText` | FO GenericStructure Table 9.30 | 0 observed | not started — check XSD SHORT-NAME first |
+
+Progress: 6 of 10 complete; the 5 UUIDs that were at risk now round-trip
+(verified: parse CanSystem.arxml → write → re-parse, all 5 present).
+
+All ten were cross-checked in both directions: model class → XSD complexType
+(`CamelCase → UPPER-DASH`) reaches `IDENTIFIABLE`, and the spec `Base` row names
+`Identifiable` in every case. 471 other non-Identifiable ARObject classes have no
+IDENTIFIABLE XSD type and are unaffected.
+
+### Why the test suite will not catch the regression
+
+`tests/integration_tests/test_roundtrip.py` compares **models**
+(parse → write → re-parse), so a UUID dropped at first parse is absent from both
+sides and the suite stays green. Add an explicit regression test asserting the 5
+HW UUIDs survive before making the move.
+
+### The move itself (run only when all ten rows are `[x]`)
+
+1. `Identifiable.__init__`: declare `self.uuid: Optional[str] = None` in Table 4.4
+   order (after `introduction`); the existing `getUuid`/`setUuid` become the real
+   implementation instead of pass-throughs.
+2. `ArObject.py`: drop the field, both accessors, the two checklist rows and the
+   internal-member note; ARObject is a re-sync/drift pass (Rule 0012.3).
+3. Parser **ordering trap**: `readARObjectAttributes` sits at the *bottom* of the
+   chain (`readIdentifiable → readMultilanguageReferrable → readReferrable →
+   readARObjectAttributes`) and `AUTOSAR.addARObject()` registers the object there.
+   Moving the read into `readIdentifiable` naively registers *before* the uuid is
+   set, breaking `getARObjectByUUID` and duplicate detection. Either guard the read
+   at the current site with `isinstance(ar_object, Identifiable)` (check for an
+   import cycle first) or move the registration to the end of `readIdentifiable`.
+4. Writer: move the UUID emission from `writeARObjectAttributes` to
+   `writeIdentifiable` (order-safe).
+5. `UUIDMgr.addObject`: key on `isinstance(obj, Identifiable)`.
+6. Update the stale comments that say ARObject carries uuid:
+   `AbstractBlueprintStructure/__init__.py:106`, `ARPackage.py:388`,
+   `tests/test_armodel/parser/test_ar_object_attributes.py` module docstring, and
+   the `ARObject` section of `docs/examples/method_deviation_by_class_v2.md`.
+7. Move the uuid cases out of `parser/test_ar_object_attributes.py` +
+   `writer/test_ar_object_attributes.py` into the Identifiable-level tests.

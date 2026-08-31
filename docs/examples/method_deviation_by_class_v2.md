@@ -1726,6 +1726,14 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
   kept as-is per the same decision as `CollectableElement`. `uuid` is round-tripped as the `UUID`
   XML attribute by the abstract parser/writer; `checksum`/`timestamp` round-trip as the XSD global
   attributes `S`/`T` (AUTOSAR_00052.xsd lines 4901/4907).
+- **uuid ownership (2026-08-31):** `uuid` is spec'd on `Identifiable`
+  (AUTOSAR_FO_TPS_GenericStructureTemplate Table 4.4) and the XSD defines it inside the
+  `IDENTIFIABLE` attributeGroup (AUTOSAR_00052.xsd l.67791-67803), not in `AR-OBJECT`
+  (l.4900-4913). It nevertheless stays on `ARObject` **by user decision** until the ten
+  wrong-heritage classes listed in the "uuid move work order" section of
+  `docs/plan/sync-todo/Group1.md` derive from `Identifiable` — moving it earlier silently
+  drops the UUIDs those classes carry (5 live UUIDs in the integration fixtures; the
+  model-vs-model round-trip comparison cannot detect the loss).
 
 ## `CollectableElement`
 - **PDF:** — *(no spec counterpart)*

@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifiable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
     PackageableElement,
 )
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity
@@ -22,7 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import (
 )
 
 
-class HwType(HwDescriptionEntity):
+class HwType(ARElement, HwDescriptionEntity):
     """
     Represents a hardware type in AUTOSAR hardware descriptions.
     This class defines the basic structure for hardware types.

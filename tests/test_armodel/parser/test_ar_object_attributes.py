@@ -1,7 +1,10 @@
 """
 Tests for reading ARObject XML attributes (S checksum, T timestamp) — Table 6.1.
-The uuid attribute (Table 4.4) is owned by Identifiable, not ARObject, and is
-tested on a concrete Identifiable subclass below.
+The uuid attribute belongs to Identifiable per Table 4.4, but it is deliberately
+carried on ARObject until the wrong-heritage classes listed in
+docs/plan/sync-todo/Group1.md ("uuid move work order") derive from Identifiable;
+it is exercised here on a concrete Identifiable subclass, which reaches the same
+setUuid through inheritance.
 """
 
 import xml.etree.ElementTree as ET

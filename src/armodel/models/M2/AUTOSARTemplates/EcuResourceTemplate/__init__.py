@@ -10,7 +10,8 @@ from typing import TYPE_CHECKING, List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, String
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
@@ -113,7 +114,7 @@ class HwDescriptionEntity(Referrable):
         return self
 
 
-class HwPin(HwDescriptionEntity):
+class HwPin(Identifiable, HwDescriptionEntity):
     """
     This meta-class represents the possibility to describe a hardware pin.
     """
@@ -263,7 +264,7 @@ class HwPinGroupContent(ARObject):
         return self
 
 
-class HwPinGroup(HwDescriptionEntity):
+class HwPinGroup(Identifiable, HwDescriptionEntity):
     """
     Represents a group of hardware pins in AUTOSAR hardware descriptions.
     This class defines collections of related hardware pins with associated content.
@@ -530,7 +531,7 @@ class HwElementConnector(Describable):
         return self.hwPinGroupConnections
 
 
-class HwElement(HwDescriptionEntity):
+class HwElement(ARElement, HwDescriptionEntity):
     """
     Represents a hardware element in AUTOSAR hardware descriptions.
     This class defines complete hardware components with connections, pin groups, and nested elements.

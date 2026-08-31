@@ -5,6 +5,9 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
 
 ## Queue (dependency-first)
 
+> **Moved:** `StructuredReq`, `TraceableText` — wrong-heritage uuid-move blockers — moved into `Group1.md` ahead of the `Identifiable` row
+> (dependency-first: the uuid move cannot run until they derive from `Identifiable`).
+
 - [ ] `RecordValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.112)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
