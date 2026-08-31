@@ -25,7 +25,6 @@ class ARType(ABC):
 
     def __init__(self) -> None:
         self.timestamp: Optional[str] = None
-        self.uuid: Optional[str] = None
         self._value: Optional[Any] = None
 
     @property

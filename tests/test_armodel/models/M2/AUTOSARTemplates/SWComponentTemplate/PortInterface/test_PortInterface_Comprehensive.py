@@ -34,10 +34,10 @@ class TestApplicationCompositeElementInPortInterfaceInstanceRef:
     def test_application_composite_element_in_port_interface_instance_ref_initialization(self):
         """Test ApplicationCompositeElementInPortInterfaceInstanceRef initialization and methods."""
         instance_ref = ApplicationCompositeElementInPortInterfaceInstanceRef()
-        assert instance_ref.baseRef is None
-        assert instance_ref.contextDataPrototypeRef is None
-        assert instance_ref.rootDataPrototypeRef is None
-        assert instance_ref.targetDataPrototypeRef is None
+        assert instance_ref.getBaseRef() is None
+        assert instance_ref.getContextDataPrototypeRefs() == []
+        assert instance_ref.getRootDataPrototypeRef() is None
+        assert instance_ref.getTargetDataPrototypeRef() is None
 
         # Test setters and getters
         base_ref = RefType()
@@ -47,8 +47,8 @@ class TestApplicationCompositeElementInPortInterfaceInstanceRef:
 
         context_ref = RefType()
         context_ref.setValue("/Test/Context")
-        instance_ref.setContextDataPrototypeRef(context_ref)
-        assert instance_ref.getContextDataPrototypeRef() == context_ref
+        instance_ref.addContextDataPrototypeRef(context_ref)
+        assert instance_ref.getContextDataPrototypeRefs() == [context_ref]
 
         root_ref = RefType()
         root_ref.setValue("/Test/Root")

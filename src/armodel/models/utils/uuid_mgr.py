@@ -1,4 +1,4 @@
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 
 class UUIDMgr:
@@ -14,13 +14,12 @@ class UUIDMgr:
     # [ ] getDuplicateUUIDs            [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
-        self.uuid_object_mappings = {}  # type: Dict[str, List[ARObject]]
+        self.uuid_object_mappings = {}  # type: Dict[str, List[Identifiable]]
 
-    def addObject(self, obj: ARObject):
-        # The uuid attribute (Table 4.4) is carried on ARObject (see ArObject.py:
-        # "uuid" internal member) so that every AUTOSAR object can be registered with
-        # the UUID manager. Only objects that actually carry a uuid are tracked.
-        uuid = obj.getUuid() if isinstance(obj, ARObject) else None
+    def addObject(self, obj: Identifiable):
+        # The uuid attribute (Table 4.4) is owned by Identifiable. Only objects
+        # that derive from Identifiable and actually carry a uuid are tracked.
+        uuid = obj.getUuid() if isinstance(obj, Identifiable) else None
         if uuid is None:
             return
         if uuid not in self.uuid_object_mappings:

@@ -51,11 +51,11 @@ class TestDocumentationBlockRoundTrip:
         l1_trace.setValue("trace paragraph")
         trace_paragraph.addL1(l1_trace)
         trace_text.addP(trace_paragraph)
-        trace = TraceableText()
+        trace = TraceableText(None, "TraceableText")
         trace.setText(trace_text)
         intro.setTrace(trace)
 
-        structured_req = StructuredReq()
+        structured_req = StructuredReq(None, "StructuredReq")
         structured_req.setDate(String().setValue("2023-11-01"))
         structured_req.setImportance(String().setValue("high"))
         structured_req.setIssuedBy(String().setValue("AUTOSAR"))

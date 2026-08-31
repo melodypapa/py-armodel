@@ -248,11 +248,22 @@ class Identifiable(MultilanguageReferrable, ABC):
     # [x] setDesc            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getIntroduction    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setIntroduction    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getUuid            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (inherited from ARObject; owned there as internal extension — see Group1.md Work order, uuid-last step)
-    # [x] setUuid            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  (inherited from ARObject)
+    # [x] getUuid            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (Table 4.4 attribute; uuid move landed per docs/plan/sync-todo/Group1.md work order)
+    # [x] setUuid            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Internal members (no spec counterpart — element-collection infra, cf. the CollectableElement
+    # decision in docs/examples/method_deviation_by_class_v2.md). Owned here because some direct
+    # subclasses, e.g. Fibex PhysicalChannel, are not CollectableElement:
+    # [x] getTotalElement    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] removeElement      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getElements        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addElement         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getElement         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] IsElementExists    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Kept deviation member (VARIATION-POINT element; not a Table 4.4 attribute):
     # [x] getVariationPoint  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setVariationPoint  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # (collection infra kept on Identifiable: getTotalElement, removeElement, getElements, addElement, getElement, IsElementExists — shared with CollectableElement because some direct subclasses, e.g. Fibex PhysicalChannel, are not CollectableElement; deviation, not a Table 4.4 attribute)
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Identifiable:
@@ -269,11 +280,14 @@ class Identifiable(MultilanguageReferrable, ABC):
         # The category is a keyword that specializes the semantics of the Identifiable. It affects the expected existence of attributes and the applicability of constraints.
         self.category: Optional[CategoryString] = None
 
-        # This represents a general but brief (one paragraph) description what the object in question is about. It is only one paragraph! Desc is intended to be collected into overview tables. This property helps a human reader to identify the object in question. More elaborate documentation, (in particular how the object is built or is used) should go to "introduction".
+        # This represents a general but brief (one paragraph) description what the object in question is about. It is only one paragraph! Desc is intended to be collected into overview tables. This property helps a human reader to identify the object in question. More elaborate documentation, (in particular how the object is built or used) should go to "introduction".
         self.desc: Optional[MultiLanguageOverviewParagraph] = None
 
         # This represents more information about how the object in question is built or is used. Therefore it is a DocumentationBlock.
         self.introduction: Optional[DocumentationBlock] = None
+
+        # The purpose of this attribute is to provide a globally unique identifier for an instance of a meta-class.
+        self.uuid: Optional[str] = None
 
         # Structural variation point of this element (kept deviation: VARIATION-POINT element; not a Table 4.4 attribute).
         self.variationPoint: Optional[VariationPoint] = None
@@ -281,6 +295,85 @@ class Identifiable(MultilanguageReferrable, ABC):
         # Element collection registry (shared infra, also owned by CollectableElement; kept on Identifiable because some direct subclasses, e.g. Fibex PhysicalChannel, are not CollectableElement).
         self.elements: List[Referrable] = []
         self.element_mappings: Dict[str, List[Referrable]] = {}
+
+    def getAdminData(self) -> Optional[AdminData]:
+        """
+        This represents the administrative data for the identifiable object.
+        """
+        return self.adminData
+
+    def setAdminData(self, value: Optional[AdminData]) -> "Identifiable":
+        """
+        This represents the administrative data for the identifiable object. A None value is a no-op and does not overwrite an existing adminData.
+        """
+        if value is not None:
+            self.adminData = value
+        return self
+
+    def removeAdminData(self) -> None:
+        """
+        Removes the administrative data for this identifiable element.
+        """
+        self.adminData = None
+
+    def addAnnotation(self, annotation: Optional[Annotation]) -> "Identifiable":
+        """
+        Possibility to provide additional notes while defining a model element (e.g. the ECU Configuration Parameter Values). These are not intended as documentation but are mere design notes. A None value is a no-op and does not append anything.
+        """
+        if annotation is not None:
+            self.annotations.append(annotation)
+        return self
+
+    def getAnnotations(self) -> List[Annotation]:
+        """
+        Possibility to provide additional notes while defining a model element (e.g. the ECU Configuration Parameter Values). These are not intended as documentation but are mere design notes.
+        """
+        return self.annotations
+
+    def getCategory(self) -> Optional[CategoryString]:
+        """
+        The category is a keyword that specializes the semantics of the Identifiable. It affects the expected existence of attributes and the applicability of constraints.
+        """
+        return self.category
+
+    def setCategory(self, value: Union[CategoryString, str]) -> "Identifiable":
+        """
+        The category is a keyword that specializes the semantics of the Identifiable. It affects the expected existence of attributes and the applicability of constraints. A None value is a no-op and does not overwrite an existing category.
+        """
+        if value is not None:
+            if isinstance(value, str):
+                self.category = CategoryString().setValue(value)
+            else:
+                self.category = value
+        return self
+
+    def getDesc(self) -> Optional[MultiLanguageOverviewParagraph]:
+        """
+        This represents a general but brief (one paragraph) description what the object in question is about. It is only one paragraph! Desc is intended to be collected into overview tables. This property helps a human reader to identify the object in question. More elaborate documentation, (in particular how the object is built or used) should go to "introduction".
+        """
+        return self.desc
+
+    def setDesc(self, value: Optional[MultiLanguageOverviewParagraph]) -> "Identifiable":
+        """
+        This represents a general but brief (one paragraph) description what the object in question is about. It is only one paragraph! Desc is intended to be collected into overview tables. This property helps a human reader to identify the object in question. More elaborate documentation, (in particular how the object is built or used) should go to "introduction". A None value is a no-op and does not overwrite an existing desc.
+        """
+        if value is not None:
+            self.desc = value
+        return self
+
+    def getIntroduction(self) -> Optional[DocumentationBlock]:
+        """
+        This represents more information about how the object in question is built or is used. Therefore it is a DocumentationBlock.
+        """
+        return self.introduction
+
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> "Identifiable":
+        """
+        This represents more information about how the object in question is built or is used. Therefore it is a DocumentationBlock. A None value is a no-op and does not overwrite an existing introduction.
+        """
+        if value is not None:
+            self.introduction = value
+        return self
 
     def getUuid(self) -> Optional[str]:
         """
@@ -305,7 +398,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return len(self.elements)
 
-    def removeElement(self, short_name: str, type=None):
+    def removeElement(self, short_name: str, type=None) -> None:
         """
         Removes an element from this collection.
 
@@ -332,15 +425,12 @@ class Identifiable(MultilanguageReferrable, ABC):
         """
         return self.elements
 
-    def addElement(self, element: Referrable):
+    def addElement(self, element: Referrable) -> None:
         """
         Adds an element to this collection.
 
         Args:
             element: The element to add
-
-        Returns:
-            self for method chaining
         """
         short_name = element.getShortName()
         if not self.IsElementExists(short_name, type(element)):
@@ -386,40 +476,6 @@ class Identifiable(MultilanguageReferrable, ABC):
             return any(isinstance(a, type) for a in self.element_mappings[short_name])
         return False
 
-    def getAdminData(self) -> Optional[AdminData]:
-        """
-        This represents the administrative data for the identifiable object.
-        """
-        return self.adminData
-
-    def setAdminData(self, value: Optional[AdminData]):
-        """
-        This represents the administrative data for the identifiable object. A None value is a no-op and does not overwrite an existing adminData.
-        """
-        if value is not None:
-            self.adminData = value
-        return self
-
-    def removeAdminData(self):
-        """
-        Removes the administrative data for this identifiable element.
-        """
-        self.adminData = None
-
-    def getDesc(self) -> Optional[MultiLanguageOverviewParagraph]:
-        """
-        This represents a general but brief (one paragraph) description what the object in question is about. It is only one paragraph! Desc is intended to be collected into overview tables. This property helps a human reader to identify the object in question. More elaborate documentation, (in particular how the object is built or is used) should go to "introduction".
-        """
-        return self.desc
-
-    def setDesc(self, value: Optional[MultiLanguageOverviewParagraph]):
-        """
-        This represents a general but brief (one paragraph) description what the object in question is about. It is only one paragraph! Desc is intended to be collected into overview tables. This property helps a human reader to identify the object in question. More elaborate documentation, (in particular how the object is built or is used) should go to "introduction". A None value is a no-op and does not overwrite an existing desc.
-        """
-        if value is not None:
-            self.desc = value
-        return self
-
     def getVariationPoint(self) -> Optional["VariationPoint"]:
         """
         Returns the structural variation point of this element, if any.
@@ -434,52 +490,6 @@ class Identifiable(MultilanguageReferrable, ABC):
         if value is not None:
             self.variationPoint = value
         return self
-
-    def getCategory(self) -> Optional[CategoryString]:
-        """
-        The category is a keyword that specializes the semantics of the Identifiable. It affects the expected existence of attributes and the applicability of constraints.
-        """
-        return self.category
-
-    def setCategory(self, value: Union[CategoryString, str]):
-        """
-        The category is a keyword that specializes the semantics of the Identifiable. It affects the expected existence of attributes and the applicability of constraints. A None value is a no-op and does not overwrite an existing category.
-        """
-        if value is not None:
-            if isinstance(value, str):
-                self.category = CategoryString().setValue(value)
-            else:
-                self.category = value
-        return self
-
-    def getIntroduction(self) -> Optional[DocumentationBlock]:
-        """
-        This represents more information about how the object in question is built or is used. Therefore it is a DocumentationBlock.
-        """
-        return self.introduction
-
-    def setIntroduction(self, value: Optional[DocumentationBlock]):
-        """
-        This represents more information about how the object in question is built or is used. Therefore it is a DocumentationBlock. A None value is a no-op and does not overwrite an existing introduction.
-        """
-        if value is not None:
-            self.introduction = value
-        return self
-        return self
-
-    def addAnnotation(self, annotation: Annotation):
-        """
-        Possibility to provide additional notes while defining a model element (e.g. the ECU Configuration Parameter Values). These are not intended as documentation but are mere design notes. A None value is a no-op and does not append anything.
-        """
-        if annotation is not None:
-            self.annotations.append(annotation)
-        return self
-
-    def getAnnotations(self) -> List[Annotation]:
-        """
-        Possibility to provide additional notes while defining a model element (e.g. the ECU Configuration Parameter Values). These are not intended as documentation but are mere design notes.
-        """
-        return self.annotations
 
 
 # Initialize the CommonStructure package before any import that transitively touches

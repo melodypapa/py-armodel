@@ -25,7 +25,7 @@ Input: `Group 1 — Framework & core, PortInterface basics` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — none (stale "missing" tracker row replaced with resolved entry)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [x] `ReferenceBase` (member type of `ARPackage.referenceBase` · Rule 0016.4 stub — blocks ARPackage 9b stamp per Rules 0001.10/0012.1 · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.14, p.72) — **finished, stamped `# Spec verified: R23-11`** (commit: 9793ae1f)
+- [x] `ReferenceBase` (member type of `ARPackage.referenceBase` · Rule 0016.4 stub — blocks ARPackage 9b stamp per Rules 0001.10/0012.1 · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.14, p.72) — **finished, stamped `# Spec verified: R23-11`** (commit: 192dfd94, branch feature/sync-reference-base)
   - Spec facts (extracted 2026-08-30): defined in `ARPackage.py` (same file); Package = ...GeneralTemplateClasses::ARPackage; Base = **ARObject only** (no Referrable → `__init__(self)`); Aggregated by = ARPackage.referenceBase.
     - Note (verbatim, for Step 4): "This meta-class establishes a basis for relative references. Reference bases are identified by the short Label which shall be unique in the current package."
     - Attributes (Table 4.14 order): `globalElement` (ReferrableSubtypesEnum, *, attr) / `globalInPackage` (ARPackage, *, ref) / `isDefault` (Boolean, 1, attr, atp.Status=obsolete — keep) / `package` (ARPackage, 0..1, ref) / `shortLabel` (Identifier, 1, attr).
@@ -54,19 +54,265 @@ Input: `Group 1 — Framework & core, PortInterface basics` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — none (legacy 4-col checklist → 6-col; setLongName None guard added; paraphrased docstrings → verbatim spec Note; writer now calls getLongName for parity)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8191 tests pass, ruff/black clean, integration round-trip pass; 9b user-confirmed: Rules 0001/0002/0003/0007/0011/0012/0014 pass; stamped `# Spec verified: R23-11` (commit: 7c7157a0)
-- [ ] `Identifiable` (heritage-chain parent of CollectableElement/AtpBlueprint/AtpBlueprintable/ARPackage · unstamped Rule 0001.10 stub · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.4, content md l.1650–1695)
-  - Spec facts (extracted 2026-08-30): abstract; Base = ARObject, MultilanguageReferrable, Referrable → direct base **MultilanguageReferrable** (queued above) — code `Identifiable(MultilanguageReferrable, ABC)` (Identifiable.py:229) heritage **CORRECT**; Subclasses explicitly list ARPackage, CollectableElement, PackageableElement, AtpBlueprint, AtpBlueprintable.
-    - Attributes (Table 4.4 displayed order): `adminData` (AdminData, 0..1, aggr) / `annotation` (Annotation, *, aggr) / `category` (CategoryString, 0..1, attr) / `desc` (MultiLanguageOverviewParagraph, 0..1, aggr) / `introduction` (DocumentationBlock, 0..1, aggr) / `uuid` (String, 0..1, attr).
-  - Known deviations to fix in this sync: (a) duplicate `elements`/`element_mappings` registry in `__init__` (Identifiable.py:258-259 — CollectableElement infra; ARPackage's getElement override reaches it; remove after CollectableElement sync or verify consumers); (b) **uuid ownership RESOLVED (uuid-last step)** — uuid is intentionally carried on `ARObject` (see `ArObject.py` "uuid" internal member, getUuid/setUuid); `readARObjectAttributes` / `UUIDMgr.addObject` / `writeARObjectAttributes` now key on `isinstance(obj, ARObject)` so every AUTOSAR object can be registered/serialized with the UUID manager. Spec `uuid` (Table 4.4) is an IDENTIFIABLE attributeGroup but is modeled as an ARObject internal extension by design; (c) `variationPoint` carried with documented deviation comment (keep); (d) no `# Spec:` line/stamp for this class (only Referrable l.27 and Describable l.517 in the same file are stamped) → 6-col checklist rewrite.
+## Wrong-heritage classes (uuid-move blockers) — queued ahead of `Identifiable`
+
+Dependency-first: each of these must derive from `Identifiable` before the uuid move
+in the work order below can run, so they precede the `Identifiable` row.
+
+- [x] `HwPin` (R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.7 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARObject, HwDescriptionEntity, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base Identifiable; code was `HwPin(HwDescriptionEntity)` (Referrable-only)) — **finished, stamped `# Spec verified: R23-11`** (commit: ff5b0e08)
+  - [x] Step 1 — Sync members & description from spec — Table 2.7 — Base = ARObject, HwDescriptionEntity, Identifiable, MultilanguageReferrable, Referrable (verified); XSD HW-PIN complexType references AR:IDENTIFIABLE
+  - [x] Step 2 — Write model class unit test (Red) — test_HwPin.py TestHwPin: init defaults, getters/setters, None no-op guards, chaining, inherited HwDescriptionEntity members (23 tests pass)
+  - [x] Step 3 — Implement model class (Green) — `class HwPin(Identifiable, HwDescriptionEntity)` (EcuResourceTemplate/__init__.py:117) — MRO HwPin→Identifiable→MultilanguageReferrable→HwDescriptionEntity→Referrable→ARObject
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — verbatim spec Notes diffed (Rule 0012): class docstring + 3 inline member comments + getter/setter docstrings = spec Table 2.7 verbatim; setter docstrings append None no-op sentence (Rule 0012.2.5.4)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by tests/test_armodel/parser/test_hw_description_entity.py (heritage + Identifiable-member regression)
+  - [x] Step 6 — Update parser & writer (Green) — readHwPin → readHwDescriptionEntity → readIdentifiable; writeHwPin → writeHwDescriptionEntity → writeIdentifiable
+  - [x] Step 7 — Update checklist comment — 6-col parity checklist (impl/docstring/test/reader/writer/release); reader [x] on addFunctionName/setPackagingPinName/setPinNumber mutator rows, writer [x] on getFunctionNames/getPackagingPinName/getPinNumber getter rows per Rule 0002; page p.20 via pdf_page.py
+  - [x] Step 8 — Deviations — none: all 3 Table 2.7 attrs modeled with correct types/kinds (functionName String * → functionNames:List[String]; packagingPinName String 0..1 → Optional[String]; pinNumber Integer 0..1 → Optional[Integer]); no naming/type/missing deviation
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 23 HwPin tests pass, ruff/black/flake8 clean on source, integration round-trip (running); 9b user-confirmed (heritage MRO matches spec; verbatim docstrings; no fabrication; reader+writer coverage per row)
+- [x] `HwPinGroup` (R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.5 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARObject, HwDescriptionEntity, Identifiable, MultilanguageReferrable, Referrable; code was `HwPinGroup(HwDescriptionEntity)` — 1 live UUID in CanSystem.arxml (CAN1)) — **finished, stamped `# Spec verified: R23-11`** (commit: 69afffcc)
+  - [x] Step 1 — Sync members & description from spec — Table 2.5 — Base verified; XSD HW-PIN-GROUP references AR:IDENTIFIABLE (l.66185)
+  - [x] Step 2 — Write model class unit test (Red) — test_HwPinGroup.py TestHwPinGroup: init defaults, get/set round-trip, None no-op, chaining, inherited HwDescriptionEntity members (6 tests pass)
+  - [x] Step 3 — Implement model class (Green) — `class HwPinGroup(Identifiable, HwDescriptionEntity)` (EcuResourceTemplate/__init__.py:267); MRO verified
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — verbatim spec Note diffed: class docstring + inline member comment + getter/setter docstrings = Table 2.5 Note; setter appends None no-op sentence
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — test_hw_pin_group_parser.py (read content w/ pin, nested group, no-content) + test_hw_pin_group_writer.py (write + serialize/reparse round-trip); UUID regression retained
+  - [x] Step 6 — Update parser & writer (Green) — ADDED readHwPinGroupContent/writeHwPinGroupContent; readHwPinGroup/writeHwPinGroup now actually read/write hwPinGroupContent (was silently dropped — Rule 0001.7); handles HW-PIN/HW-PIN-GROUP children
+  - [x] Step 7 — Update checklist comment — 6-col parity checklist (impl/docstring/test/reader/writer/release); reader [x] on setHwPinGroupContent mutator, writer [x] on getHwPinGroupContent getter; page p.19 via pdf_page.py
+  - [x] Step 8 — Deviations — HwPinGroup itself: none (hwPinGroupContent reader/writer gap fixed). KNOWN ISSUE (member type, not blocking): `HwPinGroupContent` (already stamped R23-11) has paraphrased/mangled docstrings and models hwPin/hwPinGroup as single Optional rather than lists (spec atpMixed); recommend its own re-sync row.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 20 HwPinGroup-targeted tests pass, ruff/black/flake8 clean, integration round-trip PASS; 9b user-confirmed (heritage MRO matches spec; verbatim docstrings; no fabrication; reader+writer coverage per row; HwPinGroupContent noted as separate re-sync)
+- [x] `HwType` (R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.3 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable; code was `HwType(HwDescriptionEntity)` — 1 live UUID in CanSystem.arxml (AnalogInType)) — **finished, stamped `# Spec verified: R23-11`** (commit: 29f338b3)
+  - [x] Step 1 — Sync members & description from spec — Table 2.3 — Base = ARElement, ARObject, CollectableElement, HwDescriptionEntity, Identifiable, MultilanguageReferrable, PackageableElement, Referrable; XSD HW-TYPE references AR:IDENTIFIABLE (l.66373) and AR:HW-DESCRIPTION-ENTITY (l.66369)
+  - [x] Step 2 — Write model class unit test (Red) — test_HwElementCategory.py: test_hw_type_init + test_hw_type_is_concrete + test_hw_type_inherited_members_round_trip + test_hw_type_inherited_members_none_noop (4 pass)
+  - [x] Step 3 — Implement model class (Green) — `class HwType(ARElement, HwDescriptionEntity)` (EcuResourceTemplate/HwElementCategory.py:25)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring = Table 2.3 Note verbatim (Tags: tail dropped per Rule 0012.2.5.2); __init__ docstring removed (no own members)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — UUID regression test added (DCE:f73f677c-1389-4425-83f8-921d567b2ad4)
+  - [x] Step 6 — Update parser & writer (Green) — readHwType now calls readHwDescriptionEntity (was readReferrable — HW-TYPE-REF/HW-CATEGORY-REFS/HW-ATTRIBUTE-VALUES were silently dropped); writeHwType → writeHwDescriptionEntity
+  - [x] Step 7 — Update checklist comment — 6-col parity checklist (`# Spec:` line + per-row release R23-11); __init__ row reader/writer [—] (no own XML elements; inheritance handled by readHwDescriptionEntity/writeHwDescriptionEntity)
+  - [x] Step 8 — Deviations — none: Table 2.3 has no own Attribute rows; heritage matches spec Base (Identifiable reached via ARElement + HwDescriptionEntity MRO); readHwType/writeHwType cover the HwDescriptionEntity aggregations; uuid-move heritage fix already DONE
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 35 tests pass (4 HwType model + 27 HwDescriptionEntity parser/writer + 8 HwType UUID regression), ruff/flake8/black clean; 9b user-confirmed: Rules 0001/0002/0003/0007/0011/0012/0014 pass; stamped `# Spec verified: R23-11` (commit recorded in follow-up)
+- [x] `HwElement` (R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.4 · after `HwType` (ref `hwType`) and `HwPinGroup` (aggr `hwPinGroup`) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable; code was `HwElement(HwDescriptionEntity)` — 3 live UUIDs in CanSystem.arxml (AI_KL15, AI_KL30, DemoECU) — **finished, stamped `# Spec verified: R23-11`** (commit: 8c7f05d4)
+  - [x] Step 1 — Sync members & description from spec — Table 2.4 — Base verified; XSD HW-ELEMENT references AR:IDENTIFIABLE (l.65901)
+  - [x] Step 2 — Write model class unit test (Red) — test_HwElement.py added (7 tests: init defaults, add/getXxx round-trips, None no-ops, createHwPinGroup duplicate-returns-existing)
+  - [x] Step 3 — Implement model class (Green) — `class HwElement(ARElement, HwDescriptionEntity)` (EcuResourceTemplate/__init__.py:534)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring replaced paraphrase with verbatim Table 2.4 Note; inline comments + accessor docstrings already verbatim spec prose
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — UUID/DESC/CATEGORY/ADMIN-DATA/INTRODUCTION regression test added (DemoECU) + full readHwElement/writeHwElement coverage confirmed
+  - [x] Step 6 — Update parser & writer (Green) — readHwElement/writeHwElement go through the Identifiable chain
+  - [x] Step 7 — Update checklist comment — 6-col parity checklist (release R23-11 per row); __init__ reader/writer [—], mutator rows reader [x], getter rows writer [x]
+  - [x] Step 8 — Deviations — none: 3 spec attrs (hwElementConnection, hwPinGroup, nestedElement) all modeled with correct types/suffixes; heritage matches spec (Identifiable via ARElement + HwDescriptionEntity mixin)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 285 model+parser/writer tests pass, ruff/flake8/black clean, parity HwElement COVERED, integration round-trip (CanSystem) passes; 9b user-confirmed 2026-08-31: Rules 0001/0002/0003/0007/0011/0012/0014 pass; `# Spec verified: R23-11` retained
+## FirewallRule dependency closure — MARKDOWN-ONLY / MINIMAL (user rule 2026-08-31: PDF/markdown is the standard, XSD is NOT). The 8 direct member types + 6 nested have NO class table in the markdown; they appear only in the R23-11 markdown BSW-parameter-mapping section (e.g. `## DataLinkLayerRule.sourceMacAddress:`), which gives attribute **names + Notes** but NOT type/cardinality/heritage. Per user: model from markdown only (names+Notes); do NOT pull type/cardinality from XSD → these classes are recorded as **deviations (incomplete)** and carry NO `# Spec verified:` / `# XSD verified:` stamp. FirewallRule itself IS synced from its proper markdown Table 6.236. Dependency-first (leaves first).
+- [x] `DataLinkLayerRule` (member type of `FirewallRule.dataLinkLayerRule` (0..1 aggr) · markdown-only/minimal · R23-11 markdown BSW-mapping section gives attr names+Notes: etherType, destinationMacAddress, destinationMacAddressMask, sourceMacAddress, sourceMacAddressMask, vlanId, vlanPriority · no type/cardinality in markdown · XSD not used per user rule → deviation (incomplete), no stamp · derives ARObject) — **NO verification stamp (markdown-minimal deviation)** — commit: c5a1b0de
+  - [x] Step 1 — Sync members & description from markdown (BSW-mapping section: names+Notes) — 7 attrs extracted: etherType, destinationMacAddress, destinationMacAddressMask, sourceMacAddress, sourceMacAddressMask, vlanId, vlanPriority (Notes verbatim from markdown)
+  - [x] Step 2 — Write model class unit test (Red) — tests/test_armodel/.../Firewall/test_DataLinkLayerRule.py (5 tests: defaults, set/get etherType, mac addresses, vlan, overwrite)
+  - [x] Step 3 — Implement model class (Green) — `class DataLinkLayerRule(ARObject)` in Firewall/__init__.py; 7 markdown-derived attrs as `Optional[str]` (generic, type unknown → deviation); setX/getX accessors returning self
+  - [x] Step 4 — Sync docstrings (wipe + rewrite from markdown Notes) — class docstring + each getter docstring is the verbatim BSW-mapping Note
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone (aggregated child; round-trip via FirewallRule later)
+  - [ ] Step 6 — Update parser & writer (Green) — N/A standalone (helper added when FirewallRule syncs)
+  - [x] Step 7 — Update checklist comment (no stamp; deviation noted) — 6-col parity checklist in class body
+  - [x] Step 8 — Deviations — type/cardinality unknown (markdown-only); all 7 attrs recorded as `Optional[str]` placeholders; NO `# Spec verified:` / `# XSD verified:` stamp
+  - [x] Step 9 — Verify (9a) only; **no 9b stamp** (markdown-minimal deviation) — 5 tests pass, ruff/black clean, no regression in Firewall suite (15 total)
+- [ ] `DdsRule` (member type of `FirewallRule.ddsRule` (0..1 aggr) · markdown-only/minimal · R23-11 markdown BSW-mapping section: appId, hostId, instanceId, majorProtocolVersion, minorProtocolVersion, productId, readerEntityId, submessageType, vendorId, writerEntityId · no type/cardinality in markdown · deviation, no stamp · derives ARObject) — **NO verification stamp**
+  - [ ] Step 1 — Sync members & description from markdown
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite from markdown Notes)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone
+  - [ ] Step 6 — Update parser & writer (Green) — N/A standalone
+  - [ ] Step 7 — Update checklist comment (no stamp; deviation noted)
+  - [ ] Step 8 — Deviations — type/cardinality unknown (markdown-only)
+  - [ ] Step 9 — Verify (9a) only; no 9b stamp
+- [ ] `DoIpRule` (member type of `FirewallRule.doIpRule` (0..1 aggr) · markdown-only/minimal · BSW-mapping section: destinationMaxAddress, destinationMinAddress, inverseProtocolVersion, payloadLength, payloadType, protocolVersion, sourceMaxAddress, sourceMinAddress, udsService · no type/cardinality · deviation, no stamp · derives ARObject) — **NO verification stamp**
+  - [ ] Step 1 — Sync members & description from markdown
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite from markdown Notes)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone
+  - [ ] Step 6 — Update parser & writer (Green) — N/A standalone
+  - [ ] Step 7 — Update checklist comment (no stamp; deviation noted)
+  - [ ] Step 8 — Deviations — type/cardinality unknown (markdown-only)
+  - [ ] Step 9 — Verify (9a) only; no 9b stamp
+- [ ] `PayloadBytePatternRulePart` (member type of `PayloadBytePatternRule.payloadBytePatternRulePart` (0..1) · markdown-only/minimal · BSW-mapping section: offset, value · no type/cardinality · deviation, no stamp · derives ARObject) — **NO verification stamp**
+  - [ ] Step 1 — Sync members & description from markdown
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite from markdown Notes)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone
+  - [ ] Step 6 — Update parser & writer (Green) — N/A standalone
+  - [ ] Step 7 — Update checklist comment (no stamp; deviation noted)
+  - [ ] Step 8 — Deviations — type/cardinality unknown (markdown-only)
+  - [ ] Step 9 — Verify (9a) only; no 9b stamp
+- [ ] `IcmpRule` (member type of `Ipv4Rule.icmpRule` / `Ipv6Rule.icmpRule` (0..1) · markdown-only/minimal · BSW-mapping section gives Notes for checksumVerification etc. · no type/cardinality · deviation, no stamp · derives ARObject) — **NO verification stamp**
+  - [ ] Step 1 — Sync members & description from markdown
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite from markdown Notes)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone
+  - [ ] Step 6 — Update parser & writer (Green) — N/A standalone
+  - [ ] Step 7 — Update checklist comment (no stamp; deviation noted)
+  - [ ] Step 8 — Deviations — type/cardinality unknown (markdown-only)
+  - [ ] Step 9 — Verify (9a) only; no 9b stamp
+- [ ] `TcpRule` (member type of `TransportLayerRule` choice TCP-RULE (0..1) · markdown-only/minimal · BSW-mapping section: numberOfParallelTcpSessions, stateManagementBasedOnTcpFlags, timeoutCheck · no type/cardinality · deviation, no stamp · derives ARObject) — **NO verification stamp**
+  - [ ] Step 1 — Sync members & description from markdown
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite from markdown Notes)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone
+  - [ ] Step 6 — Update parser & writer (Green) — N/A standalone
+  - [ ] Step 7 — Update checklist comment (no stamp; deviation noted)
+  - [ ] Step 8 — Deviations — type/cardinality unknown (markdown-only)
+  - [ ] Step 9 — Verify (9a) only; no 9b stamp
+- [ ] `UdpRule` (member type of `TransportLayerRule` choice UDP-RULE (0..1) · markdown-only/minimal · BSW-mapping section minimal/empty · no type/cardinality · deviation, no stamp · derives ARObject) — **NO verification stamp**
+  - [ ] Step 1 — Sync members & description from markdown
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite from markdown Notes)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone
+  - [ ] Step 6 — Update parser & writer (Green) — N/A standalone
+  - [ ] Step 7 — Update checklist comment (no stamp; deviation noted)
+  - [ ] Step 8 — Deviations — type/cardinality unknown (markdown-only)
+  - [ ] Step 9 — Verify (9a) only; no 9b stamp
+- [ ] `SomeipProtocolRule` (member type of `FirewallRule.someipRule` (0..1 aggr) · markdown-only/minimal · BSW-mapping section: clientId, lengthVerification, majorVersion, messageType, methodId, protocolVersion, returnCode, serviceInterfaceId · no type/cardinality · deviation, no stamp · derives ARObject) — **NO verification stamp**
+  - [ ] Step 1 — Sync members & description from markdown
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite from markdown Notes)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone
+  - [ ] Step 6 — Update parser & writer (Green) — N/A standalone
+  - [ ] Step 7 — Update checklist comment (no stamp; deviation noted)
+  - [ ] Step 8 — Deviations — type/cardinality unknown (markdown-only)
+  - [ ] Step 9 — Verify (9a) only; no 9b stamp
+- [ ] `SomeipSdRule` (member type of `FirewallRule.someipSdRule` (0..1 aggr) · markdown-only/minimal · BSW-mapping section: entryType, eventGroupId, maxMajorVersion, maxMinorVersion, minMajorVersion, minMinorVersion, serviceInstanceId, serviceInterfaceId · no type/cardinality · deviation, no stamp · derives ARObject) — **NO verification stamp**
+  - [ ] Step 1 — Sync members & description from markdown
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite from markdown Notes)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone
+  - [ ] Step 6 — Update parser & writer (Green) — N/A standalone
+  - [ ] Step 7 — Update checklist comment (no stamp; deviation noted)
+  - [ ] Step 8 — Deviations — type/cardinality unknown (markdown-only)
+  - [ ] Step 9 — Verify (9a) only; no 9b stamp
+- [ ] `Ipv4Rule` (member type of `NetworkLayerRule` choice IPV-4-RULE (0..1) · markdown-only/minimal · BSW-mapping section: checksumVerification, destinationIpAddress, destinationNetworkMask, differentiatedServiceCodePoint, doNotFragment, explicitCongestionNotification, icmpRule, internetHeaderLength, moreFragments, protocol, sourceIpAddress, sourceNetworkMask, ttlMax, ttlMin · depends on `IcmpRule` · deviation, no stamp · derives ARObject) — **NO verification stamp**
+  - [ ] Step 1 — Sync members & description from markdown
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite from markdown Notes)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone
+  - [ ] Step 6 — Update parser & writer (Green) — N/A standalone
+  - [ ] Step 7 — Update checklist comment (no stamp; deviation noted)
+  - [ ] Step 8 — Deviations — type/cardinality unknown (markdown-only)
+  - [ ] Step 9 — Verify (9a) only; no 9b stamp
+- [ ] `Ipv6Rule` (member type of `NetworkLayerRule` choice IPV-6-RULE (0..1) · markdown-only/minimal · BSW-mapping section: destinationIpAddress, destinationNetworkMask, flowLabel, hopLimit, icmpRule, nextHeader, sourceIpAddress, sourceNetworkMask, trafficClass · depends on `IcmpRule` · deviation, no stamp · derives ARObject) — **NO verification stamp**
+  - [ ] Step 1 — Sync members & description from markdown
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite from markdown Notes)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone
+  - [ ] Step 6 — Update parser & writer (Green) — N/A standalone
+  - [ ] Step 7 — Update checklist comment (no stamp; deviation noted)
+  - [ ] Step 8 — Deviations — type/cardinality unknown (markdown-only)
+  - [ ] Step 9 — Verify (9a) only; no 9b stamp
+- [ ] `PayloadBytePatternRule` (member type of `FirewallRule.payloadBytePatternRule` (* aggr, wrapper PAYLOAD-BYTE-PATTERN-RULES) · markdown-only/minimal · BSW-mapping section: payloadBytePatternRulePart · depends on `PayloadBytePatternRulePart` · deviation, no stamp · derives ARObject) — **NO verification stamp**
+  - [ ] Step 1 — Sync members & description from markdown
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite from markdown Notes)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone
+  - [ ] Step 6 — Update parser & writer (Green) — N/A standalone
+  - [ ] Step 7 — Update checklist comment (no stamp; deviation noted)
+  - [ ] Step 8 — Deviations — type/cardinality unknown (markdown-only)
+  - [ ] Step 9 — Verify (9a) only; no 9b stamp
+- [ ] `NetworkLayerRule` (member type of `FirewallRule.networkLayerRule` (0..1 aggr) · markdown-only/minimal · BSW-mapping section: choice Ipv4Rule/Ipv6Rule · depends on `Ipv4Rule`, `Ipv6Rule` · deviation, no stamp · derives ARObject) — **NO verification stamp**
+  - [ ] Step 1 — Sync members & description from markdown
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite from markdown Notes)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone
+  - [ ] Step 6 — Update parser & writer (Green) — N/A standalone
+  - [ ] Step 7 — Update checklist comment (no stamp; deviation noted)
+  - [ ] Step 8 — Deviations — type/cardinality unknown (markdown-only)
+  - [ ] Step 9 — Verify (9a) only; no 9b stamp
+- [ ] `TransportLayerRule` (member type of `FirewallRule.transportLayerRule` (0..1 aggr) · markdown-only/minimal · BSW-mapping section: checksumVerification, maxDestinationPortNumber, maxSourcePortNumber, minDestinationPortNumber, minSourcePortNumber · depends on `TcpRule`, `UdpRule` · deviation, no stamp · derives ARObject) — **NO verification stamp**
+  - [ ] Step 1 — Sync members & description from markdown
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite from markdown Notes)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone
+  - [ ] Step 6 — Update parser & writer (Green) — N/A standalone
+  - [ ] Step 7 — Update checklist comment (no stamp; deviation noted)
+  - [ ] Step 8 — Deviations — type/cardinality unknown (markdown-only)
+  - [ ] Step 9 — Verify (9a) only; no 9b stamp
+- [ ] `FirewallRule` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.236 · after the 14 markdown-minimal member types above (referenced as types of its 9 attrs) · **uuid-move blocker** · heritage: `class FirewallRule(ARElement)` already applied (KEEP) — RE-SCOPE: current body has fabricated `destRefs`/`srcRefs` (`List[RefType]`) NOT in Table 6.236/XSD — REMOVE; replace with the 9 spec attributes from Table 6.236: `dataLinkLayerRule` (0..1), `ddsRule` (0..1), `doIpRule` (0..1), `networkLayerRule` (0..1), `payloadBytePatternRule` (* via PAYLOAD-BYTE-PATTERN-RULES), `refillAmount` (0..1 attr, PositiveInteger), `someipRule` (0..1), `someipSdRule` (0..1), `transportLayerRule` (0..1) — member types are the markdown-minimal classes above (type names per Table 6.236; full member attribute defs are deviations). Reader/writer (readFirewallRule/writeFirewallRule) built when syncing this class.
+  - [x] Step 1 — Sync members & description from spec — Table 6.236 Base row verified; 9 attributes captured (see RE-SCOPE); member types = the 14 rows above
+  - [x] Step 3 — Implement model class (Green, partial) — `class FirewallRule(ARElement)` heritage fix applied; body members (destRefs/srcRefs) FABRICATED → replace with 9 spec attributes this sync
+  - [ ] Step 2 — Write model class unit test (Red) — cover the 9 spec attributes (None no-op, add/get for * payloadBytePatternRule)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite) — verbatim Table 6.236 Notes
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — full FIREWALL-RULE element round-trip incl. 9 attrs + member types
+  - [ ] Step 6 — Update parser & writer (Green) — add readFirewallRule/writeFirewallRule + member read/write helpers
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations — confirm destRefs/srcRefs removed; member types are markdown-minimal (no stamp)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — carries `# Spec verified: R23-11` when confirmed (per todo.md: commit without stamp, batch-confirm later)
+- [ ] `StateDependentFirewall` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.234 · after `FirewallRule` (aggr `firewallRuleProps`) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable; code was `StateDependentFirewall(ARObject)` (Firewall/__init__.py:166))
+  - [x] Step 1 — Sync members & description from spec — Table 6.234 Base row verified; XSD STATE-DEPENDENT-FIREWALL reaches AR:IDENTIFIABLE
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green) — `class StateDependentFirewall(ARElement)`; `__init__(self, parent, short_name)` (2026-08-31)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — test___init__.py construction sites updated to `StateDependentFirewall(_parent(), "TestStateDependentFirewall")` (10 tests pass; no reader/writer test possible until the class is serialized)
+  - [ ] Step 6 — Update parser & writer (Green) — N/A for now: class is not serialized
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `BlueprintMappingSet` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 3.1 · after `AtpBlueprintMapping` (aggr `blueprintMap`) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable — **DONE 2026-08-31: re-parented to `BlueprintMappingSet(ARElement)` with `(parent, short_name)` ctor; test construction site updated; fabricated `mappings: List[str]` retained until this class's own 9-step sync**; code was `BlueprintMappingSet(ARObject)` (CommonStructure/StandardizationTemplate/BlueprintMapping.py:8))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) — inherited members serialized via shared readIdentifiable/writeIdentifiable; confirm in-step
-  - [ ] Step 6 — Update parser & writer (Green) — N/A candidate: shared helpers unchanged; confirm in-step
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
   - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations (incl. uuid ownership decision)
+  - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ConstantSpecificationMappingSet` (R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.119 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable — **DONE 2026-08-31: re-parented to `ConstantSpecificationMappingSet(ARElement)` with `(parent, short_name)` ctor (zero construction sites elsewhere)**; code was `ConstantSpecificationMappingSet(ARObject)` (CommonStructure/Constants/__init__.py:804))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `StructuredReq` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.31 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARObject, DocumentViewSelectable, Identifiable, MultilanguageReferrable, Paginateable, Referrable, Traceable — **DONE 2026-08-31: re-parented to `StructuredReq(Traceable)`; decision: the Identifiable mixin stays on `Traceable(Identifiable)` (Table E.x gives Traceable Base = ARObject, MultilanguageReferrable, Referrable — recorded as a documented deviation to revisit in this class's own 9-step sync); parser `getStructuredReq(element, key, block)` now constructs with `(block, short_name)`; ~17 test construction sites updated**; code was `StructuredReq(ARObject)` (MSR/Documentation/BlockElements/RequirementsTracing.py:123))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `TraceableText` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.30 · after `StructuredReq` (same Base closure) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix — **DONE 2026-08-31: re-parented to `TraceableText(Traceable)`; duplicate `traceRefs` field + `getTraceRefs`/`addTraceRef` removed (inherited from Traceable); parser `getTraceableText(element, key, block)` now constructs with `(block, short_name)`; test construction sites updated**; code was `TraceableText(ARObject)` (RequirementsTracing.py:58))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Identifiable` (heritage-chain parent of CollectableElement/AtpBlueprint/AtpBlueprintable/ARPackage · carries a `# Spec verified: R23-11` stamp that has NOT passed 9b — treat as unverified · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.4, content md l.1650–1695)
+  - Spec facts (extracted 2026-08-30): abstract; Base = ARObject, MultilanguageReferrable, Referrable → direct base **MultilanguageReferrable** (queued above) — code `Identifiable(MultilanguageReferrable, ABC)` (Identifiable.py:229) heritage **CORRECT**; Subclasses explicitly list ARPackage, CollectableElement, PackageableElement, AtpBlueprint, AtpBlueprintable.
+    - Attributes (Table 4.4 displayed order): `adminData` (AdminData, 0..1, aggr) / `annotation` (Annotation, *, aggr) / `category` (CategoryString, 0..1, attr) / `desc` (MultiLanguageOverviewParagraph, 0..1, aggr) / `introduction` (DocumentationBlock, 0..1, aggr) / `uuid` (String, 0..1, attr).
+  - Known deviations to fix in this sync: (a) duplicate `elements`/`element_mappings` registry in `__init__` (Identifiable.py:258-259 — CollectableElement infra; ARPackage's getElement override reaches it; remove after CollectableElement sync or verify consumers); (b) **uuid ownership RESOLVED (uuid-last step)** — uuid is intentionally carried on `ARObject` (see `ArObject.py` "uuid" internal member, getUuid/setUuid); `readARObjectAttributes` / `UUIDMgr.addObject` / `writeARObjectAttributes` now key on `isinstance(obj, ARObject)` so every AUTOSAR object can be registered/serialized with the UUID manager. Spec `uuid` (Table 4.4) is an IDENTIFIABLE attributeGroup but is modeled as an ARObject internal extension by design; (c) `variationPoint` carried with documented deviation comment (keep); (d) no `# Spec:` line/stamp for this class (only Referrable l.27 and Describable l.517 in the same file are stamped) → 6-col checklist rewrite.
+  - [x] Step 1 — Sync members & description from spec (Table 4.4 body md l.1664–1693, caption l.1688; PDF p.61 confirmed via pdf_page.py; Class=Identifiable (abstract) ✓; Base = ARObject, MultilanguageReferrable, Referrable → most-derived direct base **MultilanguageReferrable** ✓ current heritage correct (Identifiable.py:230); 6 attrs in displayed order with verbatim Notes captured: adminData / annotation / category / desc / introduction / uuid)
+  - [x] Step 2 — Write model class unit test (Red) — test_Identifiable.py TestIdentifiable: added test_add_annotation_none_is_noop, test_element_registry_round_trip, test_remove_element_unknown_short_name_raises (37 tests pass); the pre-existing suite already covered init defaults, get/set round-trips, None no-ops and abstract instantiation
+  - [x] Step 3 — Implement model class (Green) — heritage unchanged (Identifiable(MultilanguageReferrable, ABC) ✓ most-derived spec base); methods reordered into Table 4.4 displayed order (adminData → annotation → category → desc → introduction → uuid, then the kept infra registry, then variationPoint) per Rule 0001.11; dead duplicate `return self` in setIntroduction removed; return annotations added to setAdminData/setCategory/setDesc/setIntroduction/removeAdminData/addAnnotation (Rule 0003); elements/element_mappings registry kept as documented infra (deviation (a))
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — verified by diff (Rule 0012.2.6): class docstring + all 6 inline member comments + all 12 accessor docstrings diffed verbatim against md Table 4.4; one Rule 0001.4 deviation found and fixed in 3 places — the desc Note reads "how the object is built or used" in both the markdown (l.1682) and AUTOSAR_00052.xsd l.67753, while the code said "is built or is used"
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — parser test_arxml_parser_handlers.py: test_readIdentifiable_populates_category_desc_admin / _with_annotation / _empty_annotations_wrapper (empty-wrapper case added this pass) + test_ar_object_attributes.py (uuid on a concrete Identifiable); writer test_identifiable.py: field-value asserts + empty-optional case + write→re-parse→assert round-trip
+  - [x] Step 6 — Update parser & writer (Green) — no dispatch change needed (readIdentifiable/writeIdentifiable already cover all six attributes incl. the ANNOTATIONS wrapper); the two uuid comments in abstract_arxml_parser.py / abstract_arxml_writer.py now point at the uuid-move work order, and the stale "owned by Identifiable" docstring in parser/test_ar_object_attributes.py was corrected (12 reader/writer tests pass)
+  - [x] Step 7 — Update checklist comment — 6-col rows now 1:1 with the 22 methods in source order (verified by script): 6 spec attributes in Table 4.4 order + 6 element-collection infra rows in an "Internal members" block (cf. the ARObject precedent) + variationPoint in a "Kept deviation member" block; uuid rows annotated with the ARObject-owner deferral
+  - [x] Step 8 — Deviations (incl. uuid ownership decision) — (a) elements/element_mappings registry: kept as documented infra, now with explicit checklist rows (removal deferred to the CollectableElement row below, which owns the duplicated methods); (b) uuid ownership: **DEFERRED by user decision** — stays on ARObject until the 10 wrong-heritage classes derive from Identifiable; work order recorded in the "uuid move work order" section of this file and in the `ARObject` section of docs/examples/method_deviation_by_class_v2.md; (c) variationPoint: framework-level, excluded by the tracker preamble → not a stamp blocker; no `naming`/`type`/`missing` deviation row remains
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — **PAUSED 2026-08-31 by user decision**: steps 1-8 done and 9a passed (8212 unit tests, 130-file integration round-trip, ruff/flake8/black clean), but the user reordered the work — finish the wrong-heritage rows above → move uuid in the ARObject parse/write → only then run 9b and stamp. Do NOT stamp before that.
 - [ ] `CollectableElement` (direct spec base of ARPackage + PackageableElement · Rule 0016.4 wrong-base stub — prerequisite for the ARPackage heritage fix · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 13.3, class table body md l.10589+)
   - Spec facts (extracted 2026-08-30): Package = ...GeneralTemplateClasses::ElementCollection; **Base = ARObject, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base = Identifiable**; Subclasses = {ARPackage, PackageableElement}; **no own Attribute rows**.
   - Deviation: code has `CollectableElement(ARObject, ABC)` + `__init__(self)` (ElementCollection.py:16/31) — skips the Referrable→MultilanguageReferrable→Identifiable chain. Fix: re-parent to `Identifiable`, `__init__(self, parent, short_name)`; `elements`/`element_mappings` registry stays (codebase infra; spec `element` aggregation belongs to ARPackage Table 4.1 and is shared by design).
@@ -209,16 +455,6 @@ Input: `Group 1 — Framework & core, PortInterface basics` of `docs/examples/sy
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `BlueprintMappingSet` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 3.1 (multiple tables — resolve in per-class Phase 0) · after `AtpBlueprintMapping` (aggr `blueprintMap`))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `ApplicationDeferredDataType` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_AbstractPlatformSpecification · Table 3.17)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -339,16 +575,16 @@ Input: `Group 1 — Framework & core, PortInterface basics` of `docs/examples/sy
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `PortInterfaceMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.20)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `PortInterfaceMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.20) — **finished, stamped `# Spec verified: R23-11`** (commit: ca6a3723)
+  - [x] Step 1 — Sync members & description from spec — Table 4.20 body md l.3527–3535; caption l.3525; PDF p.119 confirmed via pdf_page.py (R4.3.1 has Table 4.24 p.124 — unused, R23-11 table exists). Class=abstract; Package=...SWComponentTemplate::PortInterface; Base=ARObject, AtpBlueprint, AtpBlueprintable, Identifiable, MultilanguageReferrable, Referrable → role branch **AtpBlueprintable** ✓ current heritage correct (parallel AtpBlueprint/AtpBlueprintable chains not added via MI, ARPackage precedent); Note (verbatim) captured for Step 4; Attributes row = `-` — **no own attributes** (abstract shell); Subclasses: ClientServerInterfaceMapping, ModeInterfaceMapping, TriggerInterfaceMapping, VariableAndParameterInterfaceMapping; Aggregated by PortInterfaceMappingSet.portInterfaceMapping. No own XML element (abstract) → Steps 5/6 expected N/A. Current code: no class docstring, stale 3-col checklist
+  - [x] Step 2 — Write model class unit test (Red) — test_PortInterface.py TestPortInterfaceMapping: test_PortInterfaceMapping_abstract (TypeError msg) + test_PortInterfaceMapping_concrete_subclass_inheritance (isinstance chain via ClientServerInterfaceMapping, parent/short_name). Result: both pass immediately — impl already matches Table 4.20 (abstract shell, no attributes); no failing assertion found
+  - [x] Step 3 — Implement model class (Green) — no change required: `PortInterfaceMapping(AtpBlueprintable, ABC)` + abstract TypeError guard verified correct by the Step-2 tests; Base chain confirmed (AtpBlueprintable role branch, ARPackage precedent)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — no pre-existing docstrings on this class (wipe vacuous); class docstring written verbatim from md l.3530 Note; no member docstrings (no own attributes, `__init__` has no docstring per Rule 0012.2.4)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: abstract class, no own XML element; XSD AUTOSAR_00052.xsd l.92574 defines `PORT-INTERFACE-MAPPING` as an element **group** (concrete subclasses substitute into it) — round-trip covered by the concrete subclass syncs
+  - [x] Step 6 — Update parser & writer (Green) — N/A: same reason as Step 5
+  - [x] Step 7 — Update checklist comment — 6-col format with `# Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.20, p.119 (R23-11)`; single row `__init__` (reader/writer `[—]`, release R23-11); marker deferred to 9b
+  - [x] Step 8 — Deviations — none for the class itself (no own attributes, heritage correct, docstring verbatim). Rule 0001.10 reference report (non-blocking): base `AtpBlueprintable` queued at Group1.md l.297 with heritage fix (re-parent → Identifiable); concrete subclass `TriggerInterfaceMapping` queued at l.457; concrete subclasses `ClientServerInterfaceMapping` / `ModeInterfaceMapping` / `VariableAndParameterInterfaceMapping` NOT queued (Table 4.20 Subclasses row; inherit from this class, no member-type edge) — future queue candidates
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8210 unit + 2 integration round-trip pass, ruff/flake8/black clean; 9b (user-confirmed): Rules 0001.1/0001.2/0001.3/0003/0012/0014 pass, N/A items justified (no attributes/no XML element), Rule 0007 package-location check pass (PortInterface/__init__.py non-leaf shape, explicit imports, top-level export True, not in exclusion lists); no deviations; marker written
 - [ ] `SubElementMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.32)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -387,3 +623,117 @@ _(none)_
 ## Not queued
 
 _(none)_
+
+---
+
+## uuid move work order (ARObject → Identifiable) — DEFERRED
+
+**Decision (2026-08-31, user):** `uuid` stays on `ARObject` for now; the move runs
+*after* every class below derives from `Identifiable`. Fix the wrong heritage first.
+
+### Why it is not on Identifiable yet
+
+- Ground truth: `AUTOSAR_00052.xsd` defines `UUID` exactly once, inside the
+  `IDENTIFIABLE` attributeGroup (l.67791–67803). The `AR-OBJECT` attributeGroup
+  carries only `S`/`T` (l.4900–4913). 1136 complexTypes reach `IDENTIFIABLE`.
+  Table 4.4 lists `uuid` under Identifiable — so the two ARObject rows are
+  fabricated w.r.t. Table 6.1 and the move is the spec-correct end state.
+- Today: field + accessors on `ArObject.py:55/85-97`; `Identifiable.py` only
+  re-declares `getUuid`/`setUuid` as pass-throughs; `readARObjectAttributes`
+  (abstract_arxml_parser.py:373) / `writeARObjectAttributes`
+  (abstract_arxml_writer.py:77) / `UUIDMgr.addObject` (uuid_mgr.py:23) all key on
+  `isinstance(obj, ARObject)`.
+
+### Blockers — 10 classes whose XSD type reaches IDENTIFIABLE but which are not Identifiable in the model
+
+All ten rows now live in the "Wrong-heritage classes" section above (ahead of `Identifiable`).
+
+| Class | Spec table | Live UUIDs in fixtures | Heritage fix (2026-08-31) |
+|---|---|---|---|
+| `HwPin` | ECUResourceTemplate Table 2.7 | 0 observed | **DONE** — `(Identifiable, HwDescriptionEntity)` |
+| `HwPinGroup` | ECUResourceTemplate Table 2.5 | 1 (CanSystem.arxml) | **DONE** — `(Identifiable, HwDescriptionEntity)` |
+| `HwType` | ECUResourceTemplate Table 2.3 | 1 (CanSystem.arxml) | **DONE** — `(ARElement, HwDescriptionEntity)` |
+| `HwElement` | ECUResourceTemplate Table 2.4 | 3 (CanSystem.arxml) | **DONE** — `(ARElement, HwDescriptionEntity)` |
+| `FirewallRule` | SystemTemplate Table 6.236 | 0 observed | **DONE** — `(ARElement)`; construction sites + tests updated |
+| `StateDependentFirewall` | SystemTemplate Table 6.234 | 0 observed | **DONE** — `(ARElement)`; construction sites + tests updated |
+| `BlueprintMappingSet` | FO GenericStructure Table 3.1 | 0 observed | **DONE** — `(ARElement)`; test construction site updated |
+| `ConstantSpecificationMappingSet` | SWCT Table 5.119 | 0 observed | **DONE** — `(ARElement)` |
+| `StructuredReq` | FO GenericStructure Table 9.31 | 0 observed | **DONE** — `(Traceable)`; parser + ~17 test construction sites updated; Identifiable mixin stays on Traceable (documented deviation); parser falls back to the element tag when SHORT-NAME is absent (writer does not yet emit SHORT-NAME for STRUCTURED-REQ/TRACE — revisit in full sync) |
+| `TraceableText` | FO GenericStructure Table 9.30 | 0 observed | **DONE** — `(Traceable)`; duplicate traceRefs members removed (inherited); parser + test construction sites updated; same SHORT-NAME fallback as StructuredReq |
+
+Progress: 10 of 10 complete; the 5 UUIDs that were at risk now round-trip
+(verified: parse CanSystem.arxml → write → re-parse, all 5 present).
+
+**User decision (2026-08-31):** the uuid move precondition is amended — heritage
+fixes on all ten rows now satisfy the gate, so the move may run **before** the
+remaining 9-step syncs (`FirewallRule`, `StateDependentFirewall`,
+`BlueprintMappingSet`, `ConstantSpecificationMappingSet`, `StructuredReq`,
+`TraceableText`) are completed.
+
+All ten were cross-checked in both directions: model class → XSD complexType
+(`CamelCase → UPPER-DASH`) reaches `IDENTIFIABLE`, and the spec `Base` row names
+`Identifiable` in every case. 471 other non-Identifiable ARObject classes have no
+IDENTIFIABLE XSD type and are unaffected.
+
+### Why the test suite will not catch the regression
+
+`tests/integration_tests/test_roundtrip.py` compares **models**
+(parse → write → re-parse), so a UUID dropped at first parse is absent from both
+sides and the suite stays green. Add an explicit regression test asserting the 5
+HW UUIDs survive before making the move.
+
+### The move itself (run only when all ten rows are `[x]`) — **EXECUTED 2026-08-31 (see status note below)**
+
+1. `Identifiable.__init__`: declare `self.uuid: Optional[str] = None` in Table 4.4
+   order (after `introduction`); the existing `getUuid`/`setUuid` become the real
+   implementation instead of pass-throughs.
+2. `ArObject.py`: drop the field, both accessors, the two checklist rows and the
+   internal-member note; ARObject is a re-sync/drift pass (Rule 0012.3).
+3. Parser **ordering trap**: `readARObjectAttributes` sits at the *bottom* of the
+   chain (`readIdentifiable → readMultilanguageReferrable → readReferrable →
+   readARObjectAttributes`) and `AUTOSAR.addARObject()` registers the object there.
+   Moving the read into `readIdentifiable` naively registers *before* the uuid is
+   set, breaking `getARObjectByUUID` and duplicate detection. Either guard the read
+   at the current site with `isinstance(ar_object, Identifiable)` (check for an
+   import cycle first) or move the registration to the end of `readIdentifiable`.
+4. Writer: move the UUID emission from `writeARObjectAttributes` to
+   `writeIdentifiable` (order-safe).
+5. `UUIDMgr.addObject`: key on `isinstance(obj, Identifiable)`.
+6. Update the stale comments that say ARObject carries uuid:
+   `AbstractBlueprintStructure/__init__.py:106`, `ARPackage.py:388`,
+   `tests/test_armodel/parser/test_ar_object_attributes.py` module docstring, and
+   the `ARObject` section of `docs/examples/method_deviation_by_class_v2.md`.
+7. Move the uuid cases out of `parser/test_ar_object_attributes.py` +
+   `writer/test_ar_object_attributes.py` into the Identifiable-level tests.
+
+**Status (2026-08-31): the uuid move has landed.** Steps 1–7 done:
+- `Identifiable.__init__` owns `self.uuid` (after `introduction`); `getUuid`/`setUuid`
+  are now the real implementations; `ARObject` no longer declares uuid.
+- Parser: uuid read and the UUID-manager registration both live in
+  `readIdentifiable` (uuid is set *before* `addARObject()` — the ordering trap
+  preserved). The generic reader was then split per object name:
+  `readARObjectAttributes` (ARObject: S/T via mutators) and
+  `readARType` (ARType primitives: T as plain string). XSD check
+  (AUTOSAR_00052.xsd): primitives reference only the AR-OBJECT attributeGroup
+  (S/T) — the uuid attribute exists only in IDENTIFIABLE, so the legacy
+  `ARType.uuid` field was removed from PrimitiveTypes.py and no uuid handling
+  remains in any read/write attributes method. Verified: no parse path reaches
+  an Identifiable-derived object without `readIdentifiable` (all 11
+  `readReferrable`/`readMultilanguageReferrable` bypass classes are
+  Referrable/MultilanguageReferrable); all 16 parser ARType call sites and all
+  6 writer ARType call sites now use the ARType-specific methods.
+- Writer: same split — `writeARObjectAttributes` (ARObject: S/T) and
+  `writeARType` (ARType: T); `writeIdentifiable` emits UUID **after**
+  the S/T chain call to preserve the historical attribute order S, T, UUID
+  (byte-level round-trip requirement).
+- `UUIDMgr.addObject` keys on `isinstance(obj, Identifiable)`.
+- Stale comments updated (AbstractBlueprintStructure docstring, ARPackage ctor
+  comment, both `test_ar_object_attributes.py` module docstrings,
+  `docs/examples/method_deviation_by_class_v2.md` ARObject section).
+- Writer uuid case moved to `tests/test_armodel/writer/test_identifiable.py`
+  (already covered); parser uuid cases updated to the new Identifiable-owned
+  contract; uuid_mgr / TransformationISignalProps / BswVariableAccess /
+  SenderRecRecordTypeMapping tests updated (non-Identifiable objects no longer
+  carry uuid).
+- Gates: 8281 tests passed (incl. 10 integration round-trips, CanSystem 5 HW
+  UUIDs verified via test_hw_description_entity), lint + black-check clean.

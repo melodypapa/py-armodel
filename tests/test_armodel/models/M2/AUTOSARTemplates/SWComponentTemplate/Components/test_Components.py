@@ -5,6 +5,7 @@ This module contains tests for the Components subdirectory in SWComponentTemplat
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, CIdentifier, RefType, TRefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     ClientServerAnnotation,
@@ -44,15 +45,6 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import C
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
     """Test class for Components module classes."""
-
-    def test_SymbolProps(self):
-        """Test SymbolProps class."""
-        document = AUTOSAR.getInstance()
-        ar_root = document.createARPackage("AUTOSAR")
-        symbol_props = SymbolProps(ar_root, "TestSymbol")
-
-        assert symbol_props.parent == ar_root
-        assert symbol_props.short_name == "TestSymbol"
 
     def test_PortPrototype(self):
         """Test PortPrototype class."""
@@ -741,3 +733,56 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         mapping_ref.setValue("/Test/Mapping")
         swc.addDataTypeMappingRef(mapping_ref)
         assert mapping_ref in swc.getDataTypeMappingRefs()
+
+
+class TestSymbolProps:
+    """
+    Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.21, p.288 (R23-11)
+    """
+
+    # Table 5.21 Note, verbatim
+    NOTE = (
+        "This meta-class represents the ability to attach with the symbol attribute a "
+        "symbolic name that is conform to C language requirements to another meta-class, "
+        "e.g. AtomicSwComponentType, that is a potential subject to a name clash on the "
+        "level of RTE source code."
+    )
+
+    def _make(self) -> SymbolProps:
+        document = AUTOSAR.getInstance()
+        document.new()
+        ar_root = document.createARPackage("AUTOSAR")
+        return SymbolProps(ar_root, "TestSymbol")
+
+    def test_initialization(self):
+        """
+        Test that SymbolProps is a concrete ImplementationProps subclass with an
+        inherited (None) symbol and no own fields.
+        """
+        symbol_props = self._make()
+
+        assert symbol_props.parent is not None
+        assert symbol_props.short_name == "TestSymbol"
+        assert isinstance(symbol_props, ImplementationProps)
+        assert symbol_props.getSymbol() is None
+
+    def test_inherited_symbol_round_trip(self):
+        """
+        Test that the symbol attribute (inherited from ImplementationProps, Table 5.20)
+        round-trips and that None is a no-op.
+        """
+        symbol_props = self._make()
+
+        symbol = CIdentifier()
+        symbol.setValue("TestSymbol_C")
+        assert symbol_props.setSymbol(symbol) is symbol_props
+        assert symbol_props.getSymbol() is symbol
+
+        symbol_props.setSymbol(None)
+        assert symbol_props.getSymbol() is symbol
+
+    def test_class_docstring_verbatim(self):
+        """
+        Test that the class docstring is the Table 5.21 Note copied verbatim.
+        """
+        assert (SymbolProps.__doc__ or "").strip() == self.NOTE

@@ -3,6 +3,13 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     FirewallRuleProps,
     StateDependentFirewall,
 )
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+
+
+def _parent():
+    """Return a package to use as the parent of an Identifiable under test."""
+    return AUTOSAR.getInstance().createARPackage("AUTOSAR")
+
 
 """
 This module contains tests for the FirewallRule class in the
@@ -16,17 +23,17 @@ class TestFirewallRule:
     """
 
     def test_initialization(self):
-        obj = FirewallRule()
+        obj = FirewallRule(_parent(), "TestFirewallRule")
         assert obj.getDestRefs() == []
         assert obj.getSrcRefs() == []
 
     def test_dest_refs(self):
-        obj = FirewallRule()
+        obj = FirewallRule(_parent(), "TestFirewallRule")
         assert obj.addDestRef("dest") is obj
         assert obj.getDestRefs() == ["dest"]
 
     def test_src_refs(self):
-        obj = FirewallRule()
+        obj = FirewallRule(_parent(), "TestFirewallRule")
         assert obj.addSrcRef("src") is obj
         assert obj.getSrcRefs() == ["src"]
 
@@ -76,16 +83,16 @@ class TestStateDependentFirewall:
     """
 
     def test_initialization(self):
-        obj = StateDependentFirewall()
+        obj = StateDependentFirewall(_parent(), "TestStateDependentFirewall")
         assert obj.getFirewallRules() == []
         assert obj.getStateRef() is None
 
     def test_firewall_rules(self):
-        obj = StateDependentFirewall()
+        obj = StateDependentFirewall(_parent(), "TestStateDependentFirewall")
         assert obj.addFirewallRule("rule") is obj
         assert obj.getFirewallRules() == ["rule"]
 
     def test_set_state_ref(self):
-        obj = StateDependentFirewall()
+        obj = StateDependentFirewall(_parent(), "TestStateDependentFirewall")
         assert obj.setStateRef("state") is obj
         assert obj.getStateRef() == "state"

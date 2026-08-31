@@ -1,11 +1,12 @@
 from typing import List
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 __all__ = ["BlueprintMappingSet"]
 
 
-class BlueprintMappingSet(ARObject):
+class BlueprintMappingSet(ARElement):
     """
     Represents a set of blueprint mappings in AUTOSAR.
     Defines a collection of blueprint mappings.
@@ -16,11 +17,11 @@ class BlueprintMappingSet(ARObject):
     # [ ] addMapping                   [x] impl  [x] docstring  [ ] test
     # [ ] getMappings                  [x] impl  [x] docstring  [ ] test
 
-    def __init__(self):
+    def __init__(self, parent: ARObject, short_name: str):
         """
         Initializes the BlueprintMappingSet with default values.
         """
-        super().__init__()
+        super().__init__(parent, short_name)
         self.mappings: List[str] = []
 
     def addMapping(self, mapping: str):

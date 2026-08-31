@@ -2929,7 +2929,10 @@ class TestReadTransformationISignalProps:
         )
         parser.readTransformationISignalProps(element, props)
         assert props.getTimestamp().getValue() == "2024-01-01T00:00:00"
-        assert props.uuid == "abc-123"
+        # Since the uuid move (Group1.md work order), uuid is owned by Identifiable;
+        # EndToEndTransformationISignalProps is a plain ARObject so the UUID
+        # attribute is not stored.
+        assert not hasattr(props, "uuid")
 
     def test_without_arobject_attributes(self, parser):
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
@@ -2944,7 +2947,7 @@ class TestReadTransformationISignalProps:
         )
         parser.readTransformationISignalProps(element, props)
         assert props.timestamp is None
-        assert props.uuid is None
+        assert not hasattr(props, "uuid")
 
 
 class TestReadEndToEndTransformationISignalPropsDataIds:

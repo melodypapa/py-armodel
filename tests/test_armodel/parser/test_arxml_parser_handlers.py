@@ -263,7 +263,10 @@ class TestAdminDataAndReferrableHandlers:
         _element = _snip("", root_tag="ELEM")
         elem = ET.fromstring(f"<ELEM xmlns='{NS}' UUID='abc' T='2024-01-01T00:00:00'/>")
         parser.readReferrable(elem, obj)
-        assert obj.uuid == "abc"
+        # Since the uuid move (Group1.md work order), uuid is owned by Identifiable;
+        # BswVariableAccess is a Referrable (not Identifiable) so the UUID attribute
+        # is not stored, while T still round-trips.
+        assert not hasattr(obj, "uuid")
         assert obj.getTimestamp().getValue() == "2024-01-01T00:00:00"
 
     def test_readMultilanguageReferrable_sets_longName(self, parser):
@@ -303,6 +306,14 @@ class TestAdminDataAndReferrableHandlers:
         )
         parser.readIdentifiable(element, obj)
         assert len(obj.getAnnotations()) == 1
+
+    def test_readIdentifiable_empty_annotations_wrapper(self, parser):
+        from armodel.models import Unit
+
+        obj = Unit(parent=_autosar_root(), short_name="u")
+        element = _snip("<ANNOTATIONS/>", root_tag="ELEM")
+        parser.readIdentifiable(element, obj)
+        assert obj.getAnnotations() == []
 
     def test_readARElement_delegates_to_readIdentifiable(self, parser):
         from armodel.models import Unit

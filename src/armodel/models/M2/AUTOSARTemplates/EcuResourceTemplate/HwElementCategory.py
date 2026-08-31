@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifiable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
+    ARElement,
     PackageableElement,
 )
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity
@@ -22,23 +23,18 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import (
 )
 
 
-class HwType(HwDescriptionEntity):
+class HwType(ARElement, HwDescriptionEntity):
     """
-    Represents a hardware type in AUTOSAR hardware descriptions.
-    This class defines the basic structure for hardware types.
+    This represents the ability to describe Hardware types on an abstract level. The particular types of hardware are distinguished by the category. This category determines the applicable attributes. The possible categories and attributes are defined in HwCategory.
     """
 
     # HwType method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.3, p.17
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the HwType with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this hardware type
-            short_name: The unique short name of this hardware type
-        """
         super().__init__(parent, short_name)
 
 

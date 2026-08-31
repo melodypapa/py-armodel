@@ -233,59 +233,105 @@ class InvalidationPolicy(ARObject):
 
 
 class MetaDataItem(ARObject):
+    """
+    This meta-class represents a single meta-data item.
+    """
+
     # MetaDataItem method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getLength                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setLength                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getMetaDataItemType          [x] impl  [ ] docstring  [ ] test
-    # [ ] setMetaDataItemType          [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.4, p.98 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLength            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLength            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMetaDataItemType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMetaDataItemType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.length: PositiveInteger = None
-        self.metaDataItemType: TextValueSpecification = None
+        # This attribute determines the length of the MetaDataItem at run-time.
+        self.length: Optional[PositiveInteger] = None
 
-    def getLength(self):
+        # This aggregation contributes the specification of the concrete meta-data item type.
+        self.metaDataItemType: Optional[TextValueSpecification] = None
+
+    def getLength(self) -> Optional[PositiveInteger]:
+        """
+        This attribute determines the length of the MetaDataItem at run-time.
+        """
         return self.length
 
-    def setLength(self, value):
-        self.length = value
+    def setLength(self, value: Optional[PositiveInteger]) -> "MetaDataItem":
+        """
+        This attribute determines the length of the MetaDataItem at run-time. A None value is a no-op and does not overwrite an existing length.
+        """
+        if value is not None:
+            self.length = value
         return self
 
-    def getMetaDataItemType(self):
+    def getMetaDataItemType(self) -> Optional[TextValueSpecification]:
+        """
+        This aggregation contributes the specification of the concrete meta-data item type.
+        """
         return self.metaDataItemType
 
-    def setMetaDataItemType(self, value):
-        self.metaDataItemType = value
+    def setMetaDataItemType(self, value: Optional[TextValueSpecification]) -> "MetaDataItem":
+        """
+        This aggregation contributes the specification of the concrete meta-data item type. A None value is a no-op and does not overwrite an existing metaDataItemType.
+        """
+        if value is not None:
+            self.metaDataItemType = value
         return self
 
 
 class MetaDataItemSet(ARObject):
+    """
+    This meta-class represents the ability to define a set of meta-data items to be used in SenderReceiver Interfaces.
+    """
+
     # MetaDataItemSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataElementRefs           [x] impl  [ ] docstring  [ ] test
-    # [ ] addDataElementRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getMetaDataItems             [x] impl  [ ] docstring  [ ] test
-    # [ ] addMetaDataItem              [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.5, p.99 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataElementRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDataElementRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMetaDataItems    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addMetaDataItem     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # This reference identifies the dataElement for which the ordered list of meta-data items is defined.
         self.dataElementRefs: List[RefType] = []
+
+        # This aggregation represents the ordered definition of meta-data items.
         self.metaDataItems: List[MetaDataItem] = []
 
-    def getDataElementRefs(self):
+    def getDataElementRefs(self) -> List[RefType]:
+        """
+        This reference identifies the dataElement for which the ordered list of meta-data items is defined.
+        """
         return self.dataElementRefs
 
-    def addDataElementRef(self, value):
+    def addDataElementRef(self, value: RefType):
+        """
+        This reference identifies the dataElement for which the ordered list of meta-data items is defined.
+        """
         self.dataElementRefs.append(value)
         return self
 
-    def getMetaDataItems(self):
+    def getMetaDataItems(self) -> List[MetaDataItem]:
+        """
+        This aggregation represents the ordered definition of meta-data items.
+        """
         return self.metaDataItems
 
-    def addMetaDataItem(self, value):
+    def addMetaDataItem(self, value: MetaDataItem):
+        """
+        This aggregation represents the ordered definition of meta-data items.
+        """
         self.metaDataItems.append(value)
         return self
 
@@ -791,8 +837,15 @@ class ModeSwitchInterface(PortInterface):
 
 
 class PortInterfaceMapping(AtpBlueprintable, ABC):
+    """
+    Specifies one PortInterfaceMapping to support the connection of Ports typed by two different Port Interfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
+    """
+
     # PortInterfaceMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.20, p.119 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PortInterfaceMapping:
@@ -1293,45 +1346,71 @@ class ModeDeclarationMappingSet(AtpType):
         return self.getElement(short_name, ModeDeclarationMapping)
 
 
-class PortInterfaceMappingSet(AtpBlueprintable):
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement  # noqa: E402
+
+
+class PortInterfaceMappingSet(ARElement):
+    """
+    Specifies a set of (one or more) PortInterfaceMappings.
+    """
+
     # PortInterfaceMappingSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getPortInterfaceMappings     [x] impl  [ ] docstring  [ ] test
-    # [ ] createVariableAndParameterInterfaceMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] createClientServerInterfaceMapping [x] impl  [ ] docstring  [ ] test
-    # [ ] createModeInterfaceMapping   [x] impl  [ ] docstring  [ ] test
-    # [ ] createTriggerInterfaceMapping [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.19, p.119 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPortInterfaceMappings                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createVariableAndParameterInterfaceMapping [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createClientServerInterfaceMapping         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createModeInterfaceMapping                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createTriggerInterfaceMapping              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.portInterfaceMappings = []  # type: List[PortInterfaceMapping]
+        # Specifies one PortInterfaceMapping to support the connection of Ports typed by two different PortInterfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
+        self.portInterfaceMappings: List[PortInterfaceMapping] = []
 
-    def getPortInterfaceMappings(self):
+    def getPortInterfaceMappings(self) -> List[PortInterfaceMapping]:
+        """
+        Specifies one PortInterfaceMapping to support the connection of Ports typed by two different PortInterfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
+        """
         return self.portInterfaceMappings
 
-    def createVariableAndParameterInterfaceMapping(self, short_name: str):
+    def createVariableAndParameterInterfaceMapping(self, short_name: str) -> VariableAndParameterInterfaceMapping:
+        """
+        Specifies one PortInterfaceMapping to support the connection of Ports typed by two different PortInterfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
+        """
         if not self.IsElementExists(short_name, VariableAndParameterInterfaceMapping):
             mapping = VariableAndParameterInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
         return self.getElement(short_name, VariableAndParameterInterfaceMapping)
 
-    def createClientServerInterfaceMapping(self, short_name: str):
+    def createClientServerInterfaceMapping(self, short_name: str) -> ClientServerInterfaceMapping:
+        """
+        Specifies one PortInterfaceMapping to support the connection of Ports typed by two different PortInterfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
+        """
         if not self.IsElementExists(short_name, ClientServerInterfaceMapping):
             mapping = ClientServerInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
         return self.getElement(short_name, ClientServerInterfaceMapping)
 
-    def createModeInterfaceMapping(self, short_name: str):
+    def createModeInterfaceMapping(self, short_name: str) -> ModeInterfaceMapping:
+        """
+        Specifies one PortInterfaceMapping to support the connection of Ports typed by two different PortInterfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
+        """
         if not self.IsElementExists(short_name, ModeInterfaceMapping):
             mapping = ModeInterfaceMapping(self, short_name)
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
         return self.getElement(short_name, ModeInterfaceMapping)
 
-    def createTriggerInterfaceMapping(self, short_name: str):
+    def createTriggerInterfaceMapping(self, short_name: str) -> TriggerInterfaceMapping:
+        """
+        Specifies one PortInterfaceMapping to support the connection of Ports typed by two different PortInterfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
+        """
         if not self.IsElementExists(short_name, TriggerInterfaceMapping):
             mapping = TriggerInterfaceMapping(self, short_name)
             self.addElement(mapping)

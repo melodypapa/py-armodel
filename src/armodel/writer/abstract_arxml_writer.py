@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARFloat,
     ARLiteral,
     ARNumerical,
+    ARType,
     DateTime,
     Identifier,
     Integer,
@@ -66,25 +67,22 @@ class AbstractARXMLWriter(ABC):
         else:
             raise NotImplementedError(error_msg)
 
-    def writeARObjectAttributes(self, element: ET.Element, ar_obj: ARObject):
-        if isinstance(ar_obj, ARObject):
-            if ar_obj.getChecksum() is not None:
-                element.attrib["S"] = ar_obj.getChecksum().getValue()
-            if ar_obj.getTimestamp() is not None:
-                element.attrib["T"] = ar_obj.getTimestamp().getValue()
-            # The uuid attribute (Table 4.4) is carried on ARObject (see ArObject.py:
-            # "uuid" internal member) so that every AUTOSAR object can be serialized.
-            if isinstance(ar_obj, ARObject):
-                uuid_value = ar_obj.getUuid()
-                if uuid_value is not None:
-                    element.attrib["UUID"] = uuid_value
-        else:
-            # The ARType hierarchy (AUTOSAR primitive types) carries the timestamp as a
-            # plain string and owns its own separate uuid attribute (PrimitiveTypes).
-            if ar_obj.timestamp is not None:
-                element.attrib["T"] = ar_obj.timestamp
-            if ar_obj.uuid is not None:
-                element.attrib["UUID"] = ar_obj.uuid
+    def writeARObject(self, element: ET.Element, ar_obj: ARObject):
+        if ar_obj.getChecksum() is not None:
+            element.attrib["S"] = ar_obj.getChecksum().getValue()
+        if ar_obj.getTimestamp() is not None:
+            element.attrib["T"] = ar_obj.getTimestamp().getValue()
+        # The uuid attribute (Table 4.4) is owned by Identifiable (see
+        # Identifiable.py) and is emitted by writeIdentifiable.
+
+    def writeARType(self, element: ET.Element, ar_type: ARType):
+        # The ARType hierarchy (AUTOSAR primitive types) carries the timestamp as a
+        # plain string. Per the XSD (AUTOSAR_00052.xsd, AR-OBJECT attributeGroup)
+        # primitives carry only S/T — the uuid attribute lives in the IDENTIFIABLE
+        # attributeGroup and is emitted by writeIdentifiable (see the uuid move in
+        # docs/plan/sync-todo/Group1.md).
+        if ar_type.timestamp is not None:
+            element.attrib["T"] = ar_type.timestamp
 
     """
     def setChildElementOptionalValue(self, element: ET.Element, key: str, value: str):
@@ -96,7 +94,7 @@ class AbstractARXMLWriter(ABC):
     def setChildElementOptionalNumericalValue(self, element: ET.Element, key: str, numerical: ARNumerical):
         if numerical is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARObjectAttributes(child_element, numerical)
+            self.writeARType(child_element, numerical)
             if numerical.getShortLabel() is not None:
                 child_element.attrib["SHORT-LABEL"] = numerical.getShortLabel()
             if numerical._text is not None:
@@ -134,7 +132,7 @@ class AbstractARXMLWriter(ABC):
     def setChildElementOptionalFloatValue(self, element: ET.Element, key: str, value: ARFloat):
         if value is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARObjectAttributes(child_element, value)
+            self.writeARType(child_element, value)
             child_element.text = value.getText()
 
     def setChildElementOptionalTimeValue(self, element: ET.Element, key: str, value: TimeValue):
@@ -143,28 +141,28 @@ class AbstractARXMLWriter(ABC):
     def setChildElementOptionalBooleanValue(self, element: ET.Element, key: str, value: ARBoolean) -> ET.Element:
         if value is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARObjectAttributes(child_element, value)
+            self.writeARType(child_element, value)
             child_element.text = value.getText()
         return element
 
     def setChildElementOptionalLiteral(self, element: ET.Element, key: str, value: ARLiteral) -> ET.Element:
         if value is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARObjectAttributes(child_element, value)
+            self.writeARType(child_element, value)
             child_element.text = value.getText()
         return element
 
     def setChildElementOptionalNumerical(self, element: ET.Element, key: str, value: Numerical) -> ET.Element:
         if value is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARObjectAttributes(child_element, value)
+            self.writeARType(child_element, value)
             child_element.text = value.getText()
         return element
 
     def setChildElementOptionalIdentifier(self, element: ET.Element, key: str, value: Identifier) -> ET.Element:
         if value is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARObjectAttributes(child_element, value)
+            self.writeARType(child_element, value)
             child_element.text = value.getText()
         return element
 

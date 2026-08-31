@@ -363,6 +363,17 @@ class TestIdentifiable:
         assert len(annotations) == 1
         assert annotations[0] is annotation
 
+    def test_add_annotation_none_is_noop(self):
+        """
+        addAnnotation(None) does not append anything and still returns self for chaining.
+        """
+        obj = self._make_obj()
+
+        annotation = Annotation()
+        obj.addAnnotation(annotation)
+        assert obj.addAnnotation(None) is obj
+        assert obj.getAnnotations() == [annotation]
+
     def test_get_set_category(self):
         """
         Round-trips category as a CategoryString (or a plain string that is converted); None is a no-op.
@@ -397,6 +408,53 @@ class TestIdentifiable:
 
         obj.setUuid(None)
         assert obj.getUuid() == uuid
+
+    def test_element_registry_round_trip(self):
+        """
+        The element-collection registry owned by Identifiable (framework infra, not a
+        Table 4.4 attribute): addElement registers by short name, the lookup helpers
+        agree with it, and removeElement drops it again.
+        """
+        obj = self._make_obj()
+
+        class ConcreteReferrable(Referrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        element = ConcreteReferrable(ar_root, "TestElement")
+
+        assert obj.getTotalElement() == 0
+        assert obj.getElements() == []
+        assert obj.IsElementExists("TestElement") is False
+        assert obj.getElement("TestElement") is None
+
+        obj.addElement(element)
+        assert obj.getTotalElement() == 1
+        assert obj.getElements() == [element]
+        assert obj.IsElementExists("TestElement") is True
+        assert obj.getElement("TestElement") is element
+
+        # Adding the same short name + type twice does not duplicate the entry.
+        obj.addElement(element)
+        assert obj.getTotalElement() == 1
+
+        obj.removeElement("TestElement")
+        assert obj.getTotalElement() == 0
+        assert obj.getElements() == []
+
+    def test_remove_element_unknown_short_name_raises(self):
+        """
+        removeElement raises KeyError for a short name that was never registered.
+        """
+        obj = self._make_obj()
+
+        try:
+            obj.removeElement("NonExistent")
+            assert False, "removeElement should raise KeyError for an unknown short name"
+        except KeyError:
+            pass
 
     def test_get_set_variation_point(self):
         """

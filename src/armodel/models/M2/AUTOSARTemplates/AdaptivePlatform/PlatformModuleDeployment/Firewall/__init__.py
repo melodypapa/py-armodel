@@ -1,12 +1,13 @@
-from typing import List
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 
-__all__ = ["FirewallRule", "FirewallRuleProps", "StateDependentFirewall"]
+__all__ = ["FirewallRule", "FirewallRuleProps", "StateDependentFirewall", "DataLinkLayerRule"]
 
 
-class FirewallRule(ARObject):
+class FirewallRule(ARElement):
     """
     Represents a firewall rule in AUTOSAR Adaptive Platform PlatformModuleDeployment.
     Defines rules for firewall configuration in adaptive platform modules.
@@ -19,11 +20,15 @@ class FirewallRule(ARObject):
     # [ ] addSrcRef                    [x] impl  [x] docstring  [ ] test
     # [ ] getSrcRefs                   [x] impl  [x] docstring  [ ] test
 
-    def __init__(self):
+    def __init__(self, parent, short_name: str):
         """
-        Initializes the FirewallRule with default values.
+        Initializes the FirewallRule with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this element
+            short_name: The short name of this element
         """
-        super().__init__()
+        super().__init__(parent, short_name)
         self.destRefs: List[RefType] = []
         self.srcRefs: List[RefType] = []
 
@@ -70,6 +75,159 @@ class FirewallRule(ARObject):
             List of source references
         """
         return self.srcRefs
+
+
+class DataLinkLayerRule(ARObject):
+    """
+    Data link layer filter rule of a FirewallRule.
+
+    Members are modeled from the R23-11 SystemTemplate markdown
+    BSW-parameter-mapping section (attribute names + Notes only);
+    attribute types and cardinality are not specified by the markdown
+    and are recorded as deviations (markdown-minimal sync).
+    """
+
+    # DataLinkLayerRule method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getEtherType                 [x] impl  [x] docstring  [ ] test
+    # [ ] setEtherType                 [x] impl  [x] docstring  [ ] test
+    # [ ] getDestinationMacAddress     [x] impl  [x] docstring  [ ] test
+    # [ ] setDestinationMacAddress     [x] impl  [x] docstring  [ ] test
+    # [ ] getDestinationMacAddressMask [x] impl  [x] docstring  [ ] test
+    # [ ] setDestinationMacAddressMask [x] impl  [x] docstring  [ ] test
+    # [ ] getSourceMacAddress          [x] impl  [x] docstring  [ ] test
+    # [ ] setSourceMacAddress          [x] impl  [x] docstring  [ ] test
+    # [ ] getSourceMacAddressMask      [x] impl  [x] docstring  [ ] test
+    # [ ] setSourceMacAddressMask      [x] impl  [x] docstring  [ ] test
+    # [ ] getVlanId                    [x] impl  [x] docstring  [ ] test
+    # [ ] setVlanId                    [x] impl  [x] docstring  [ ] test
+    # [ ] getVlanPriority              [x] impl  [x] docstring  [ ] test
+    # [ ] setVlanPriority              [x] impl  [x] docstring  [ ] test
+
+    def __init__(self):
+        """
+        Initializes the DataLinkLayerRule with default (None) values.
+        """
+        super().__init__()
+        self.etherType: Optional[str] = None
+        self.destinationMacAddress: Optional[str] = None
+        self.destinationMacAddressMask: Optional[str] = None
+        self.sourceMacAddress: Optional[str] = None
+        self.sourceMacAddressMask: Optional[str] = None
+        self.vlanId: Optional[str] = None
+        self.vlanPriority: Optional[str] = None
+
+    def getEtherType(self) -> Optional[str]:
+        """
+        Filter to match packets based on the EtherType field in the Ethernet frame. The EtherType is used to indicate which protocol is encapsulated in the payload of the frame.
+        """
+        return self.etherType
+
+    def setEtherType(self, value: Optional[str]):
+        """
+        Sets the EtherType filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.etherType = value
+        return self
+
+    def getDestinationMacAddress(self) -> Optional[str]:
+        """
+        Filter to match packets with the destination MAC address.
+        """
+        return self.destinationMacAddress
+
+    def setDestinationMacAddress(self, value: Optional[str]):
+        """
+        Sets the destination MAC address filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.destinationMacAddress = value
+        return self
+
+    def getDestinationMacAddressMask(self) -> Optional[str]:
+        """
+        Filter to match packets with the destination MAC address range. The destinationMacAddress with the destinationMacAddress Mask defines the MAC address range.
+        """
+        return self.destinationMacAddressMask
+
+    def setDestinationMacAddressMask(self, value: Optional[str]):
+        """
+        Sets the destination MAC address mask filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.destinationMacAddressMask = value
+        return self
+
+    def getSourceMacAddress(self) -> Optional[str]:
+        """
+        Filter to match packets with the source MAC address.
+        """
+        return self.sourceMacAddress
+
+    def setSourceMacAddress(self, value: Optional[str]):
+        """
+        Sets the source MAC address filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.sourceMacAddress = value
+        return self
+
+    def getSourceMacAddressMask(self) -> Optional[str]:
+        """
+        Filter to match packets with the source MAC address range. The sourceMacAddress with the sourceMacAddressMask defines the MAC address range.
+        """
+        return self.sourceMacAddressMask
+
+    def setSourceMacAddressMask(self, value: Optional[str]):
+        """
+        Sets the source MAC address mask filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.sourceMacAddressMask = value
+        return self
+
+    def getVlanId(self) -> Optional[str]:
+        """
+        Filter of packets with a specific VlanId.
+        """
+        return self.vlanId
+
+    def setVlanId(self, value: Optional[str]):
+        """
+        Sets the VLAN ID filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.vlanId = value
+        return self
+
+    def getVlanPriority(self) -> Optional[str]:
+        """
+        Filter of packets with a specific Vlan priority.
+        """
+        return self.vlanPriority
+
+    def setVlanPriority(self, value: Optional[str]):
+        """
+        Sets the VLAN priority filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.vlanPriority = value
+        return self
 
 
 class FirewallRuleProps(ARObject):
@@ -163,7 +321,7 @@ class FirewallRuleProps(ARObject):
         return self
 
 
-class StateDependentFirewall(ARObject):
+class StateDependentFirewall(ARElement):
     """
     Represents a state-dependent firewall in AUTOSAR Adaptive Platform PlatformModuleDeployment.
     Defines firewall rules that depend on system states.
@@ -176,11 +334,15 @@ class StateDependentFirewall(ARObject):
     # [ ] getStateRef                  [x] impl  [x] docstring  [ ] test
     # [ ] setStateRef                  [x] impl  [x] docstring  [ ] test
 
-    def __init__(self):
+    def __init__(self, parent, short_name: str):
         """
-        Initializes the StateDependentFirewall with default values.
+        Initializes the StateDependentFirewall with a parent and short name.
+
+        Args:
+            parent: The parent ARObject that contains this element
+            short_name: The short name of this element
         """
-        super().__init__()
+        super().__init__(parent, short_name)
         self.firewallRules: List[RefType] = []
         self.stateRef: RefType = None
 

@@ -10,7 +10,8 @@ from typing import TYPE_CHECKING, List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, String
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
@@ -113,7 +114,7 @@ class HwDescriptionEntity(Referrable):
         return self
 
 
-class HwPin(HwDescriptionEntity):
+class HwPin(Identifiable, HwDescriptionEntity):
     """
     This meta-class represents the possibility to describe a hardware pin.
     """
@@ -121,16 +122,16 @@ class HwPin(HwDescriptionEntity):
     # HwPin method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.7, p.20
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createFunctionName           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] addFunctionName              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getFunctionNames             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setFunctionNames             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getPackagingPinName          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setPackagingPinName          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getPinNumber                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setPinNumber                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createFunctionName   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addFunctionName      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFunctionNames     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunctionNames     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPackagingPinName  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPackagingPinName  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPinNumber         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPinNumber         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
@@ -263,51 +264,35 @@ class HwPinGroupContent(ARObject):
         return self
 
 
-class HwPinGroup(HwDescriptionEntity):
+class HwPinGroup(Identifiable, HwDescriptionEntity):
     """
-    Represents a group of hardware pins in AUTOSAR hardware descriptions.
-    This class defines collections of related hardware pins with associated content.
-
-    Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.5, p.19
-    Spec verified: R23-11
-    Note: Represents a grouping of pins with optional content (HwPin or HwPinGroup).
+    This meta-class represents the ability to describe groups of pins which are used to connect hardware elements. This group acts as a bundle of pins. Thereby they allow to describe high level connections. Pin groups can even be nested.
     """
 
     # HwPinGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.5, p.19
     # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getHwPinGroupContent         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setHwPinGroupContent         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHwPinGroupContent    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHwPinGroupContent    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the HwPinGroup with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this hardware pin group
-            short_name: The unique short name of this hardware pin group
-        """
         super().__init__(parent, short_name)
 
+        # This aggregation describes the contained pins/pin groups.
         self.hwPinGroupContent: Optional[HwPinGroupContent] = None
 
     def getHwPinGroupContent(self) -> Optional[HwPinGroupContent]:
         """
-        Gets the pin group content for this hardware pin group.
-
-        Returns:
-            HwPinGroupContent instance, or None if not set
+        This aggregation describes the contained pins/pin groups.
         """
         return self.hwPinGroupContent
 
     def setHwPinGroupContent(self, value: HwPinGroupContent):
         """
-        Sets the pin group content for this hardware pin group.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The pin group content to set
+        This aggregation describes the contained pins/pin groups.
+        A None value is a no-op and does not overwrite an existing hwPinGroupContent.
 
         Returns:
             self for method chaining
@@ -530,23 +515,22 @@ class HwElementConnector(Describable):
         return self.hwPinGroupConnections
 
 
-class HwElement(HwDescriptionEntity):
+class HwElement(ARElement, HwDescriptionEntity):
     """
-    Represents a hardware element in AUTOSAR hardware descriptions.
-    This class defines complete hardware components with connections, pin groups, and nested elements.
+    This represents the ability to describe Hardware Elements on an instance level. The particular types of hardware are distinguished by the category. This category determines the applicable attributes. The possible categories and attributes are defined in HwCategory.
     """
 
     # HwElement method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.4, p.18
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addHwElementConnection       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwElementConnections      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createHwPinGroup             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwPinGroups               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addNestedElementRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNestedElementRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addHwElementConnection  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwElementConnections [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createHwPinGroup        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwPinGroups          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addNestedElementRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNestedElementRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)

@@ -5,6 +5,9 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
 
 ## Queue (dependency-first)
 
+> **Moved:** `HwPin`, `HwPinGroup`, `HwType`, `HwElement`, `FirewallRule`, `StateDependentFirewall` — wrong-heritage uuid-move blockers — moved into `Group1.md` ahead of the `Identifiable` row
+> (dependency-first: the uuid move cannot run until they derive from `Identifiable`).
+
 - [ ] `HwAttributeDef` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.13 · *(existing member)*)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -36,16 +39,6 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `HwAttributeLiteralDef` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.14)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `HwType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.3)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -105,27 +98,7 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `FirewallRule` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.236 · after `FirewallActionEnum`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `FirewallRuleProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.235 · after `FirewallRule` (refs `matchingEgressRule`/`matchingIngressRule`))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `StateDependentFirewall` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.234 · after `FirewallRuleProps` (aggr `firewallRuleProps`))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

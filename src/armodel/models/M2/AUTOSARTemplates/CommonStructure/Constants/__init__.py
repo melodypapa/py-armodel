@@ -801,7 +801,7 @@ class ConstantSpecificationMapping(ARObject):
         return self
 
 
-class ConstantSpecificationMappingSet(ARObject):
+class ConstantSpecificationMappingSet(ARElement):
     """
     Represents a set of constant specification mappings.
     """
@@ -811,8 +811,8 @@ class ConstantSpecificationMappingSet(ARObject):
     # [ ] addMapping                   [x] impl  [ ] docstring  [ ] test
     # [ ] getMappings                  [x] impl  [ ] docstring  [ ] test
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
         self.mappings = []
 
     def addMapping(self, mapping):

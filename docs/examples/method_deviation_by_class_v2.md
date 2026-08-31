@@ -1721,11 +1721,25 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 | `checksum` | `Optional[String]` | `checksum` | `String` | attr | resolved (2026-08-30 sync: accessors + S attribute read/write added) |
 | `timestamp` | `Optional[DateTime]` | `timestamp` | `DateTime` | attr | resolved (2026-08-30 sync: accessors + T attribute typed conversion added) |
 
-- **Note:** `parent`, `uuid` and `getTagName` are py-armodel internal infrastructure members with no
-  AUTOSAR meta-class counterpart (structural link / UUID duplicate-check extension / parser helper),
-  kept as-is per the same decision as `CollectableElement`. `uuid` is round-tripped as the `UUID`
-  XML attribute by the abstract parser/writer; `checksum`/`timestamp` round-trip as the XSD global
+- **Note:** `parent` and `getTagName` are py-armodel internal infrastructure members with no
+  AUTOSAR meta-class counterpart (structural link / parser helper), kept as-is per the same
+  decision as `CollectableElement`. `checksum`/`timestamp` round-trip as the XSD global
   attributes `S`/`T` (AUTOSAR_00052.xsd lines 4901/4907).
+- **uuid ownership (resolved 2026-08-31):** `uuid` is spec'd on `Identifiable`
+  (AUTOSAR_FO_TPS_GenericStructureTemplate Table 4.4) and the XSD defines it inside the
+  `IDENTIFIABLE` attributeGroup (AUTOSAR_00052.xsd l.67791-67803), not in `AR-OBJECT`
+  (l.4900-4913). The uuid move has **landed**: the field and its accessors now live on
+  `Identifiable`, the parser reads it inside `readIdentifiable` (together with the
+  UUID-manager registration), and the writer emits it in `writeIdentifiable`. This
+  ARObject section no longer carries a `uuid` deviation row.
+- **ARType heritage (user decision 2026-08-31):** per TPS_GST_00091 all AUTOSAR
+  meta-classes — including the PrimitiveTypes "Primitive" rows — inherit from ARObject,
+  so primitives are ARObjects but not Identifiables (S/T yes, UUID no). py-armodel keeps
+  `ARType(ABC)` as a deliberate lightweight value-object hierarchy (plain-string
+  `timestamp`, no parent/checksum machinery); it does **not** derive from ARObject.
+  Consequence: the parser/writer have dedicated `readARType` /
+  `writeARType` (T only, no uuid) alongside `readARObjectAttributes` /
+  `writeARObjectAttributes` (S/T). User decision: keep this split, do not unify.
 
 ## `CollectableElement`
 - **PDF:** — *(no spec counterpart)*
