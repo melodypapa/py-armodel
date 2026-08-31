@@ -108,7 +108,7 @@ in the work order below can run, so they precede the `Identifiable` row.
   - [x] Step 6 — Update parser & writer (Green) — writeFirewallRule (ARPackageElement dispatch + FIREWALL-RULE element, XSD group order) + readFirewallRule + ARPackage.createFirewallRule (+ __all__, eager import in ARPackage.py)
   - [x] Step 7 — Update checklist comment — 6-col parity checklist all [x] ([—] for one-sided reader/writer on optional attrs)
   - [x] Step 8 — Deviations — destRefs/srcRefs removed; the 6 rule member types (DoIpRule, NetworkLayerRule, PayloadBytePatternRule, SomeipProtocolRule, SomeipSdRule, TransportLayerRule) modeled as empty ARObject placeholders (member attribute defs skipped per user decision 2026-08-31 — no Class table); payloadBytePatternRule ordering/collection semantics verified in round-trip
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8295 tests pass, ruff/flake8 clean, black clean; `# Spec verified: R23-11` stamped
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8295 tests pass, ruff/flake8 clean, black clean; **unstamped** per user decision 2026-08-31 (member placeholder classes not fully synced — stamp deferred to batch confirmation)
 - [ ] `StateDependentFirewall` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.234 · after `FirewallRule` (aggr `firewallRuleProps`) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable; code was `StateDependentFirewall(ARObject)` (Firewall/__init__.py:166))
   - [x] Step 1 — Sync members & description from spec — Table 6.234 Base row verified; XSD STATE-DEPENDENT-FIREWALL reaches AR:IDENTIFIABLE
   - [ ] Step 2 — Write model class unit test (Red)

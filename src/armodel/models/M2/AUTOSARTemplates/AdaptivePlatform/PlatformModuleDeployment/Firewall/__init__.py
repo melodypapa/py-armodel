@@ -24,7 +24,6 @@ class FirewallRule(ARElement):
 
     # FirewallRule method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.236, p.585 (R23-11)
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (markdown-minimal deviation: the 8 rule member classes carry no Class table in the
     #  PDF/markdown corpus — DataLinkLayerRule/DdsRule synced markdown-minimal, the other
