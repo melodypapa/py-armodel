@@ -709,10 +709,13 @@ HW UUIDs survive before making the move.
 **Status (2026-08-31): the uuid move has landed.** Steps 1–7 done:
 - `Identifiable.__init__` owns `self.uuid` (after `introduction`); `getUuid`/`setUuid`
   are now the real implementations; `ARObject` no longer declares uuid.
-- Parser: uuid read stays at the bottom of `readARObjectAttributes` under an
-  `isinstance(ar_object, Identifiable)` guard (step-3 option A — no import cycle,
-  parser already imports models), so it is still populated before the
-  `addARObject()` registration.
+- Parser: uuid read and the UUID-manager registration both live in
+  `readIdentifiable` (uuid is set *before* `addARObject()` — the ordering trap
+  preserved); `readARObjectAttributes` reads only S/T for ARObject objects and
+  T/UUID for ARType primitives. Verified: no parse path reaches an
+  Identifiable-derived object without `readIdentifiable` (all 11
+  `readReferrable`/`readMultilanguageReferrable` bypass classes are
+  Referrable/MultilanguageReferrable).
 - Writer: `writeARObjectAttributes` no longer emits UUID for ARObject objects
   (ARType primitives keep their own `uuid`, PrimitiveTypes.py); `writeIdentifiable`
   emits it **after** the S/T chain call to preserve the historical attribute

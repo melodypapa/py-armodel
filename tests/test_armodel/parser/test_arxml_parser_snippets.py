@@ -288,12 +288,11 @@ class TestReadMethods:
         """Test readARObjectAttributes with UUID attribute.
 
         Since the uuid move (Group1.md work order), uuid is owned by
-        Identifiable: the attribute is stored on Identifiable objects and
-        ignored on plain ARObject subclasses (e.g. Modification).
+        Identifiable: readARObjectAttributes reads only S/T (the uuid read and
+        UUID-manager registration live in readIdentifiable), so the attribute is
+        ignored on plain ARObject subclasses (e.g. Modification) and on
+        Identifiable instances passing through this method directly.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
-            Identifiable,
-        )
         from armodel.models.M2.MSR.AsamHdo.AdminData import Modification
 
         element = ET.fromstring(
@@ -302,18 +301,23 @@ class TestReadMethods:
         </ELEMENT>"""
         )
 
+        ar_obj = Modification()
+        parser.readARObjectAttributes(element, ar_obj)
+        assert not hasattr(ar_obj, "uuid")
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+            Identifiable,
+        )
+
         class ConcreteIdentifiable(Identifiable):
             def __init__(self):
                 AUTOSAR.getInstance().new()
                 parent = AUTOSAR.getInstance().createARPackage("AUTOSAR")
                 super().__init__(parent, "TestIdentifiable")
 
-        ar_obj = Modification()
-        parser.readARObjectAttributes(element, ar_obj)
-        assert not hasattr(ar_obj, "uuid")
-
+        ident_element = ET.fromstring(f"""<IDENT xmlns='{NS}' UUID="12345678-1234-1234-1234-123456789012"/>""")
         identifiable = ConcreteIdentifiable()
-        parser.readARObjectAttributes(element, identifiable)
+        parser.readIdentifiable(ident_element, identifiable)
         assert identifiable.getUuid() == "12345678-1234-1234-1234-123456789012"
 
     def test_getAdminData_present(self, parser):

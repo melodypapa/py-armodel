@@ -1,10 +1,9 @@
 """
 Tests for reading ARObject XML attributes (S checksum, T timestamp) — Table 6.1.
-The uuid attribute (Table 4.4) is owned by Identifiable; it is read inside
-readARObjectAttributes under an Identifiable isinstance guard (so that it is
-populated before the UUID-manager registration at the end of that method — see
-the ordering trap in docs/plan/sync-todo/Group1.md "uuid move work order"),
-and is exercised here on a concrete Identifiable subclass.
+The uuid attribute (Table 4.4) is owned by Identifiable and is read inside
+readIdentifiable (together with the UUID-manager registration — see the
+ordering trap in docs/plan/sync-todo/Group1.md "uuid move work order"), so the
+uuid cases below exercise readIdentifiable on a concrete Identifiable subclass.
 """
 
 import xml.etree.ElementTree as ET
@@ -48,7 +47,7 @@ class TestReadARObjectAttributes:
         element = ET.Element("SHORT-NAME", {"UUID": "uuid-1"})
 
         obj = ConcreteIdentifiable()
-        parser.readARObjectAttributes(element, obj)
+        parser.readIdentifiable(element, obj)
 
         assert obj.getUuid() == "uuid-1"
 
@@ -67,7 +66,7 @@ class TestReadARObjectAttributes:
         element = ET.Element("SHORT-NAME")
 
         obj = ConcreteIdentifiable()
-        parser.readARObjectAttributes(element, obj)
+        parser.readIdentifiable(element, obj)
 
         assert obj.getUuid() is None
 

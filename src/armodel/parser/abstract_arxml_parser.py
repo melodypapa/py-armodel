@@ -8,7 +8,6 @@ from colorama import Fore
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARFloat,
     ARLiteral,
@@ -366,15 +365,6 @@ class AbstractARXMLParser(ABC):
                 timestamp_value = DateTime()
                 timestamp_value.setValue(timestamp)
                 ar_object.setTimestamp(timestamp_value)
-            # The uuid attribute (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 4.4)
-            # is owned by Identifiable (see Identifiable.py). It is still read here —
-            # the bottom of the readIdentifiable chain — so that it is populated
-            # *before* the object is registered with the UUID manager via
-            # addARObject() below (see the ordering trap in Group1.md "uuid move
-            # work order" step 3).
-            uuid_value = self.readElementOptionalAttrib(element, "UUID")
-            if uuid_value is not None and isinstance(ar_object, Identifiable):
-                ar_object.setUuid(uuid_value)
         else:
             # The ARType hierarchy (AUTOSAR primitive types) carries the timestamp as a
             # plain string and owns its own separate uuid attribute (PrimitiveTypes).
@@ -382,8 +372,6 @@ class AbstractARXMLParser(ABC):
             uuid_value = self.readElementOptionalAttrib(element, "UUID")
             if uuid_value is not None:
                 ar_object.uuid = uuid_value
-
-        AUTOSAR.getInstance().addARObject(ar_object)
 
     def getAUTOSARInfo(self, element: ET.Element, document: AUTOSAR):
         key = "{http://www.w3.org/2001/XMLSchema-instance}schemaLocation"
