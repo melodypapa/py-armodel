@@ -5386,6 +5386,7 @@ class ARXMLParser(AbstractARXMLParser):
         # self.logger.debug("Read RPortPrototype %s" % prototype.getShortName())
         self.readIdentifiable(element, prototype)
         self.readAbstractRequiredPortPrototype(element, prototype)
+        prototype.setMayBeUnconnected(self.getChildElementOptionalBooleanValue(element, "MAY-BE-UNCONNECTED"))
         prototype.setRequiredInterfaceTRef(self.getChildElementOptionalRefType(element, "REQUIRED-INTERFACE-TREF"))
         self.readPortPrototype(element, prototype)
 

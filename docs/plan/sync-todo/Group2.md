@@ -69,15 +69,15 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `RPortPrototype` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.5)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Note: "Component port requiring a certain port interface."; mayBeUnconnected (Boolean 0..1 attr), requiredInterface (PortInterface 0..1 tref); markdown table sits above the title line
+  - [x] Step 2 — Write model class unit test (Red) — TestRPortPrototype: 3 failed (docstring, None guards)
+  - [x] Step 3 — Implement model class (Green) — Optional annotations, None no-op guards, verbatim docstrings
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — REQUIRED-INTERFACE-TREF + REQUIRED-COM-SPECS already green; MAY-BE-UNCONNECTED added
+  - [x] Step 6 — Update parser & writer (Green) — added MAY-BE-UNCONNECTED parse/write (was silently dropped)
+  - [x] Step 7 — Update checklist comment — 6-col, 5 rows
+  - [x] Step 8 — Deviations — existing RPortPrototype entry accurate (Boolean vs ARBoolean, PortInterface vs TRefType)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 8293 tests / ruff / black green; Rule 0007 passed
 - [ ] `PRPortPrototype` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.7)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

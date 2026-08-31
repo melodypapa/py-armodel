@@ -698,13 +698,13 @@ class PPortPrototype(AbstractProvidedPortPrototype):
         # The interface that this port provides. Stereotypes: isOfType
         self.providedInterfaceTRef: Optional[TRefType] = None
 
-    def getProvidedInterfaceTRef(self):
+    def getProvidedInterfaceTRef(self) -> Optional[TRefType]:
         """
         The interface that this port provides. Stereotypes: isOfType
         """
         return self.providedInterfaceTRef
 
-    def setProvidedInterfaceTRef(self, value: Optional[TRefType]):
+    def setProvidedInterfaceTRef(self, value: Optional[TRefType]) -> "PPortPrototype":
         """
         The interface that this port provides. Stereotypes: isOfType
         """
@@ -714,31 +714,55 @@ class PPortPrototype(AbstractProvidedPortPrototype):
 
 
 class RPortPrototype(AbstractRequiredPortPrototype):
+    """
+    Component port requiring a certain port interface.
+    """
+
     # RPortPrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getMayBeUnconnected          [x] impl  [ ] docstring  [ ] test
-    # [ ] setMayBeUnconnected          [x] impl  [ ] docstring  [ ] test
-    # [ ] getRequiredInterfaceTRef     [x] impl  [ ] docstring  [ ] test
-    # [ ] setRequiredInterfaceTRef     [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.5, p.68 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getMayBeUnconnected             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setMayBeUnconnected             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRequiredInterfaceTRef        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setRequiredInterfaceTRef        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.mayBeUnconnected = None  # type: ARBoolean
-        self.requiredInterfaceTRef = None  # type: TRefType
+        # If set to true, this attribute indicates that the enclosing RPortPrototype may be left unconnected and that this aspect has explicitly been considered in the software-component's design.
+        self.mayBeUnconnected: Optional[ARBoolean] = None
 
-    def getMayBeUnconnected(self):
+        # The interface that this port requires. Stereotypes: isOfType
+        self.requiredInterfaceTRef: Optional[TRefType] = None
+
+    def getMayBeUnconnected(self) -> Optional[ARBoolean]:
+        """
+        If set to true, this attribute indicates that the enclosing RPortPrototype may be left unconnected and that this aspect has explicitly been considered in the software-component's design.
+        """
         return self.mayBeUnconnected
 
-    def setMayBeUnconnected(self, value):
-        self.mayBeUnconnected = value
+    def setMayBeUnconnected(self, value: Optional[ARBoolean]) -> "RPortPrototype":
+        """
+        If set to true, this attribute indicates that the enclosing RPortPrototype may be left unconnected and that this aspect has explicitly been considered in the software-component's design.
+        """
+        if value is not None:
+            self.mayBeUnconnected = value
         return self
 
-    def getRequiredInterfaceTRef(self):
+    def getRequiredInterfaceTRef(self) -> Optional[TRefType]:
+        """
+        The interface that this port requires. Stereotypes: isOfType
+        """
         return self.requiredInterfaceTRef
 
-    def setRequiredInterfaceTRef(self, value):
-        self.requiredInterfaceTRef = value
+    def setRequiredInterfaceTRef(self, value: Optional[TRefType]) -> "RPortPrototype":
+        """
+        The interface that this port requires. Stereotypes: isOfType
+        """
+        if value is not None:
+            self.requiredInterfaceTRef = value
         return self
 
 
