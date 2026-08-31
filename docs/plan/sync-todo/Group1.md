@@ -111,14 +111,14 @@ in the work order below can run, so they precede the `Identifiable` row.
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8295 tests pass, ruff/flake8 clean, black clean; **unstamped** per user decision 2026-08-31 (member placeholder classes not fully synced — stamp deferred to batch confirmation)
 - [ ] `StateDependentFirewall` (R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.234 · after `FirewallRule` (aggr `firewallRuleProps`) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable; code was `StateDependentFirewall(ARObject)` (Firewall/__init__.py:166))
   - [x] Step 1 — Sync members & description from spec — Table 6.234 Base row verified; XSD STATE-DEPENDENT-FIREWALL reaches AR:IDENTIFIABLE
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green) — `class StateDependentFirewall(ARElement)`; `__init__(self, parent, short_name)` (2026-08-31)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red) — test___init__.py construction sites updated to `StateDependentFirewall(_parent(), "TestStateDependentFirewall")` (10 tests pass; no reader/writer test possible until the class is serialized)
-  - [ ] Step 6 — Update parser & writer (Green) — N/A for now: class is not serialized
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 2 — Write model class unit test (Red) — 13 tests: init defaults (3 attrs), defaultAction FirewallActionEnum get/set, firewallRuleProps add/get x2, firewallStateModeDeclarationRef add/get, verbatim class docstring
+  - [x] Step 3 — Implement model class (Green) — `class StateDependentFirewall(ARElement)`; fabricated firewallRules/stateRef replaced with 3 spec attributes (defaultAction + firewallRuleProps aggr + firewallStateModeDeclaration ref); `ARPackage.createStateDependentFirewall` added (2026-08-31)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — verbatim Table 6.234 Notes (class note + 3 attr notes)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — TestStateDependentFirewallReadWrite.test_round_trip (write→parse→assert: DEFAULT-ACTION enum + FIREWALL-RULE-PROPSS wrapper + matchingEgressRuleRef + FIREWALL-STATE-MODE-DECLARATION-REFS) — Red confirmed (writeStateDependentFirewall/readStateDependentFirewall missing)
+  - [x] Step 6 — Update parser & writer (Green) — writeStateDependentFirewall/writeFirewallRuleProps + readStateDependentFirewall/readFirewallRuleProps + ARPackageElement dispatch (STATE-DEPENDENT-FIREWALL)
+  - [x] Step 7 — Update checklist comment — 6-col parity checklist all [x] ([—] for one-sided reader/writer)
+  - [x] Step 8 — Deviations — AP-variant firewallState (XSD FIREWALL-STATE-IREFS, iref type FIREWALL-STATE-IN-FIRWALL-STATE-SWITCH-INTERFACE-INSTANCE-REF) not modeled (Table 6.234 CP lists only firewallStateModeDeclaration); documented in checklist
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8307 tests pass, ruff/flake8 clean, black clean; **unstamped** per user decision 2026-08-31 (batch confirmation deferred)
 - [ ] `BlueprintMappingSet` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 3.1 · after `AtpBlueprintMapping` (aggr `blueprintMap`) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable — **DONE 2026-08-31: re-parented to `BlueprintMappingSet(ARElement)` with `(parent, short_name)` ctor; test construction site updated; fabricated `mappings: List[str]` retained until this class's own 9-step sync**; code was `BlueprintMappingSet(ARObject)` (CommonStructure/StandardizationTemplate/BlueprintMapping.py:8))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

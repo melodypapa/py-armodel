@@ -1,10 +1,11 @@
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger, RefType
 
 __all__ = [
+    "FirewallActionEnum",
     "FirewallRule",
     "FirewallRuleProps",
     "StateDependentFirewall",
@@ -672,162 +673,167 @@ class DdsRule(ARObject):
         return self
 
 
-class FirewallRuleProps(ARObject):
-    """
-    Represents firewall rule properties in AUTOSAR Adaptive Platform PlatformModuleDeployment.
-    Defines properties for firewall rule configuration.
-    """
+class FirewallActionEnum(AREnum):
+    """List of actions that the Firewall is able to perform."""
 
-    # FirewallRuleProps method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getAllowAny                  [x] impl  [x] docstring  [ ] test
-    # [ ] setAllowAny                  [x] impl  [x] docstring  [ ] test
-    # [ ] getDirection                 [x] impl  [x] docstring  [ ] test
-    # [ ] setDirection                 [x] impl  [x] docstring  [ ] test
-    # [ ] getProtocol                  [x] impl  [x] docstring  [ ] test
-    # [ ] setProtocol                  [x] impl  [x] docstring  [ ] test
+    # FirewallActionEnum method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.235 attr type (XSD-only enumeration)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Firewall blocks the communication Tags: atp.EnumerationLiteralIndex=0
+    BLOCK = "BLOCK"
+
+    # Firewall allows the communication Tags: atp.EnumerationLiteralIndex=1
+    ALLOW = "ALLOW"
 
     def __init__(self):
-        """
-        Initializes the FirewallRuleProps with default values.
-        """
+        super().__init__(
+            (
+                FirewallActionEnum.BLOCK,
+                FirewallActionEnum.ALLOW,
+            )
+        )
+
+
+class FirewallRuleProps(ARObject):
+    """Firewall rule that is defined by an action that is performed if the referenced pattern matches."""
+
+    # FirewallRuleProps method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.235, p.584 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getAction                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAction                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addMatchingEgressRuleRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMatchingEgressRuleRefs    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addMatchingIngressRuleRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMatchingIngressRuleRefs   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
         super().__init__()
-        self.allowAny: bool = None
-        self.direction: str = None
-        self.protocol: str = None
+        self.action: Optional[FirewallActionEnum] = None
+        self.matchingEgressRuleRefs: List[RefType] = []
+        self.matchingIngressRuleRefs: List[RefType] = []
 
-    def getAllowAny(self) -> bool:
+    def getAction(self) -> Optional[FirewallActionEnum]:
         """
-        Gets the allowAny flag.
-
-        Returns:
-            Boolean value indicating if any traffic is allowed
+        Action that is performed by the firewall if the matching Rule is fulfilled.
         """
-        return self.allowAny
+        return self.action
 
-    def setAllowAny(self, value: bool):
+    def setAction(self, value: Optional[FirewallActionEnum]):
         """
-        Sets the allowAny flag.
-
-        Args:
-            value: Boolean value to set
+        Sets the action value.
 
         Returns:
             self for method chaining
         """
-        self.allowAny = value
+        if value is not None:
+            self.action = value
         return self
 
-    def getDirection(self) -> str:
+    def addMatchingEgressRuleRef(self, value: RefType):
         """
-        Gets the direction of the firewall rule.
-
-        Returns:
-            String representing the direction
-        """
-        return self.direction
-
-    def setDirection(self, value: str):
-        """
-        Sets the direction of the firewall rule.
-
-        Args:
-            value: String value to set
+        This element defines an egress rule expression against which the network traffic is matched.
 
         Returns:
             self for method chaining
         """
-        self.direction = value
+        self.matchingEgressRuleRefs.append(value)
         return self
 
-    def getProtocol(self) -> str:
+    def getMatchingEgressRuleRefs(self) -> List[RefType]:
         """
-        Gets the protocol of the firewall rule.
-
-        Returns:
-            String representing the protocol
+        This element defines an egress rule expression against which the network traffic is matched.
         """
-        return self.protocol
+        return self.matchingEgressRuleRefs
 
-    def setProtocol(self, value: str):
+    def addMatchingIngressRuleRef(self, value: RefType):
         """
-        Sets the protocol of the firewall rule.
-
-        Args:
-            value: String value to set
+        This element defines an ingress rule expression against which the network traffic is matched.
 
         Returns:
             self for method chaining
         """
-        self.protocol = value
+        self.matchingIngressRuleRefs.append(value)
         return self
+
+    def getMatchingIngressRuleRefs(self) -> List[RefType]:
+        """
+        This element defines an ingress rule expression against which the network traffic is matched.
+        """
+        return self.matchingIngressRuleRefs
 
 
 class StateDependentFirewall(ARElement):
-    """
-    Represents a state-dependent firewall in AUTOSAR Adaptive Platform PlatformModuleDeployment.
-    Defines firewall rules that depend on system states.
-    """
+    """Firewall rules that are defined in a firewall state"""
 
     # StateDependentFirewall method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] addFirewallRule              [x] impl  [x] docstring  [ ] test
-    # [ ] getFirewallRules             [x] impl  [x] docstring  [ ] test
-    # [ ] getStateRef                  [x] impl  [x] docstring  [ ] test
-    # [ ] setStateRef                  [x] impl  [x] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.234, p.584 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # Deviation: the AP-variant firewallState reference (XSD FIREWALL-STATE-IREFS,
+    #  iref type FIREWALL-STATE-IN-FIRWALL-STATE-SWITCH-INTERFACE-INSTANCE-REF) is not
+    #  modeled — Table 6.234 (CP) only lists firewallStateModeDeclaration
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getDefaultAction                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultAction                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addFirewallRuleProps              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getFirewallRuleProps              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addFirewallStateModeDeclarationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getFirewallStateModeDeclarationRefs [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the StateDependentFirewall with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this element
-            short_name: The short name of this element
-        """
         super().__init__(parent, short_name)
-        self.firewallRules: List[RefType] = []
-        self.stateRef: RefType = None
+        self.defaultAction: Optional[FirewallActionEnum] = None
+        self.firewallRuleProps: List["FirewallRuleProps"] = []
+        self.firewallStateModeDeclarationRefs: List[RefType] = []
 
-    def addFirewallRule(self, ref: RefType):
+    def getDefaultAction(self) -> Optional[FirewallActionEnum]:
         """
-        Adds a firewall rule reference to this state-dependent firewall.
+        This attribute defines a defaultAction in case that the VehicleMode is not yet set.
+        """
+        return self.defaultAction
 
-        Args:
-            ref: The firewall rule reference to add
+    def setDefaultAction(self, value: Optional[FirewallActionEnum]):
+        """
+        Sets the defaultAction value.
 
         Returns:
             self for method chaining
         """
-        self.firewallRules.append(ref)
+        if value is not None:
+            self.defaultAction = value
         return self
 
-    def getFirewallRules(self) -> List[RefType]:
+    def addFirewallRuleProps(self, value: "FirewallRuleProps"):
         """
-        Gets the list of firewall rule references.
-
-        Returns:
-            List of firewall rule references
-        """
-        return self.firewallRules
-
-    def getStateRef(self) -> RefType:
-        """
-        Gets the state reference.
-
-        Returns:
-            Reference to the state
-        """
-        return self.stateRef
-
-    def setStateRef(self, value: RefType):
-        """
-        Sets the state reference.
-
-        Args:
-            value: The state reference to set
+        Collection of firewall rules that apply in the vehicle mode
 
         Returns:
             self for method chaining
         """
-        self.stateRef = value
+        self.firewallRuleProps.append(value)
         return self
+
+    def getFirewallRuleProps(self) -> List["FirewallRuleProps"]:
+        """
+        Collection of firewall rules that apply in the vehicle mode
+        """
+        return self.firewallRuleProps
+
+    def addFirewallStateModeDeclarationRef(self, value: RefType):
+        """
+        Reference to firewall states in which the Firewall is active. If one of the referenced ModeDeclarations is the current firewall state then the firewall rule shall be considered as active.
+
+        Returns:
+            self for method chaining
+        """
+        self.firewallStateModeDeclarationRefs.append(value)
+        return self
+
+    def getFirewallStateModeDeclarationRefs(self) -> List[RefType]:
+        """
+        Reference to firewall states in which the Firewall is active. If one of the referenced ModeDeclarations is the current firewall state then the firewall rule shall be considered as active.
+        """
+        return self.firewallStateModeDeclarationRefs

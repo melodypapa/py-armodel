@@ -128,6 +128,7 @@ __all__ = [
     "EndToEndProtectionSet",
     "EthernetCluster",
     "FirewallRule",
+    "StateDependentFirewall",
     "FlatMap",
     "FlexrayCluster",
     "FlexrayFrame",
@@ -690,6 +691,23 @@ class ARPackage(CollectableElement):
             rule = FirewallRule(self, short_name)
             self.addElement(rule)
         return self.getElement(short_name, FirewallRule)
+
+    def createStateDependentFirewall(self, short_name: str) -> StateDependentFirewall:
+        """
+        Creates a StateDependentFirewall element in this package.
+        If a firewall with the given short name already exists, it is returned instead.
+
+        Args:
+            short_name: The unique short name of the firewall
+
+        Returns:
+            The created (or existing) StateDependentFirewall
+        """
+
+        if not self.IsElementExists(short_name, StateDependentFirewall):
+            firewall = StateDependentFirewall(self, short_name)
+            self.addElement(firewall)
+        return self.getElement(short_name, StateDependentFirewall)
 
     def createMcFunction(self, short_name: str) -> McFunction:
         """
@@ -1608,7 +1626,7 @@ class ARPackage(CollectableElement):
 # Element-class names are re-exported eagerly. Every models/ module that imports
 # from this module only needs ARElement/PackageableElement, which are defined above,
 # so partial-module initialization resolves the cycle without lazy machinery.
-from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule, StateDependentFirewall  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription  # noqa: E402

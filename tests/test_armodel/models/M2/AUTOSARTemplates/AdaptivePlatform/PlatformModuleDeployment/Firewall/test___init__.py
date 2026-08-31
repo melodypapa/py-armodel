@@ -1,9 +1,11 @@
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import (
+    FirewallActionEnum,
     FirewallRule,
     FirewallRuleProps,
     StateDependentFirewall,
 )
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
 def _parent():
@@ -42,31 +44,56 @@ AUTOSAR AdaptivePlatform.PlatformModuleDeployment.Firewall module.
 """
 
 
+class TestFirewallActionEnum:
+    """
+    Test class for FirewallActionEnum (XSD-only enumeration, Table 6.234/6.235 attribute type).
+    """
+
+    def test_literals(self):
+        assert FirewallActionEnum.BLOCK == "BLOCK"
+        assert FirewallActionEnum.ALLOW == "ALLOW"
+        obj = FirewallActionEnum()
+        assert obj.setValue(FirewallActionEnum.BLOCK) is obj
+        assert obj.getValue() == "BLOCK"
+
+    def test_class_docstring_is_spec_verbatim(self):
+        assert FirewallActionEnum.__doc__ == "List of actions that the Firewall is able to perform."
+
+
 class TestFirewallRuleProps:
     """
-    Test class for FirewallRuleProps functionality.
+    Test class for FirewallRuleProps functionality (Table 6.235).
     """
 
     def test_defaults(self):
         obj = FirewallRuleProps()
-        assert obj.getAllowAny() is None
-        assert obj.getDirection() is None
-        assert obj.getProtocol() is None
+        assert obj.getAction() is None
+        assert obj.getMatchingEgressRuleRefs() == []
+        assert obj.getMatchingIngressRuleRefs() == []
 
-    def test_set_get_allow_any(self):
+    def test_set_get_action(self):
         obj = FirewallRuleProps()
-        assert obj.setAllowAny(True) is obj
-        assert obj.getAllowAny() is True
+        assert obj.setAction(FirewallActionEnum().setValue(FirewallActionEnum.BLOCK)) is obj
+        assert obj.getAction() is not None and obj.getAction().getValue() == FirewallActionEnum.BLOCK
+        obj.setAction(None)
+        assert obj.getAction() is not None and obj.getAction().getValue() == FirewallActionEnum.BLOCK
 
-    def test_set_get_direction(self):
+    def test_add_get_matching_egress_rule_refs(self):
         obj = FirewallRuleProps()
-        assert obj.setDirection("IN") is obj
-        assert obj.getDirection() == "IN"
+        ref = RefType()
+        ref.setValue("/AUTOSAR/FirewallRules/Rule")
+        assert obj.addMatchingEgressRuleRef(ref) is obj
+        assert obj.getMatchingEgressRuleRefs() == [ref]
 
-    def test_set_get_protocol(self):
+    def test_add_get_matching_ingress_rule_refs(self):
         obj = FirewallRuleProps()
-        assert obj.setProtocol("TCP") is obj
-        assert obj.getProtocol() == "TCP"
+        ref = RefType()
+        ref.setValue("/AUTOSAR/FirewallRules/Rule")
+        assert obj.addMatchingIngressRuleRef(ref) is obj
+        assert obj.getMatchingIngressRuleRefs() == [ref]
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert FirewallRuleProps.__doc__ == "Firewall rule that is defined by an action that is performed if the referenced pattern matches."
 
 
 """
@@ -77,20 +104,37 @@ AUTOSAR AdaptivePlatform.PlatformModuleDeployment.Firewall module.
 
 class TestStateDependentFirewall:
     """
-    Test class for StateDependentFirewall functionality.
+    Test class for StateDependentFirewall functionality (Table 6.234).
     """
 
     def test_initialization(self):
         obj = StateDependentFirewall(_parent(), "TestStateDependentFirewall")
-        assert obj.getFirewallRules() == []
-        assert obj.getStateRef() is None
+        assert obj.getShortName() == "TestStateDependentFirewall"
+        assert obj.getDefaultAction() is None
+        assert obj.getFirewallRuleProps() == []
+        assert obj.getFirewallStateModeDeclarationRefs() == []
 
-    def test_firewall_rules(self):
+    def test_set_get_default_action(self):
         obj = StateDependentFirewall(_parent(), "TestStateDependentFirewall")
-        assert obj.addFirewallRule("rule") is obj
-        assert obj.getFirewallRules() == ["rule"]
+        assert obj.setDefaultAction(FirewallActionEnum().setValue(FirewallActionEnum.ALLOW)) is obj
+        assert obj.getDefaultAction() is not None and obj.getDefaultAction().getValue() == FirewallActionEnum.ALLOW
+        obj.setDefaultAction(None)
+        assert obj.getDefaultAction() is not None and obj.getDefaultAction().getValue() == FirewallActionEnum.ALLOW
 
-    def test_set_state_ref(self):
+    def test_add_get_firewall_rule_props(self):
         obj = StateDependentFirewall(_parent(), "TestStateDependentFirewall")
-        assert obj.setStateRef("state") is obj
-        assert obj.getStateRef() == "state"
+        props1 = FirewallRuleProps()
+        props2 = FirewallRuleProps()
+        assert obj.addFirewallRuleProps(props1) is obj
+        assert obj.addFirewallRuleProps(props2) is obj
+        assert obj.getFirewallRuleProps() == [props1, props2]
+
+    def test_add_get_firewall_state_mode_declaration_refs(self):
+        obj = StateDependentFirewall(_parent(), "TestStateDependentFirewall")
+        ref = RefType()
+        ref.setValue("/AUTOSAR/Modes/State")
+        assert obj.addFirewallStateModeDeclarationRef(ref) is obj
+        assert obj.getFirewallStateModeDeclarationRefs() == [ref]
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert StateDependentFirewall.__doc__ == "Firewall rules that are defined in a firewall state"

@@ -2,7 +2,7 @@ import xml.etree.cElementTree as ET
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule, FirewallRuleProps, StateDependentFirewall
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswApiOptions,
     BswAsynchronousServerCallPoint,
@@ -11289,6 +11289,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeRunnableEntityGroup(element, ar_element)
         elif isinstance(ar_element, FirewallRule):
             self.writeFirewallRule(element, ar_element)
+        elif isinstance(ar_element, StateDependentFirewall):
+            self.writeStateDependentFirewall(element, ar_element)
         elif isinstance(ar_element, ConsistencyNeeds):
             self.writeConsistencyNeeds(element, ar_element)
         else:
@@ -11319,6 +11321,36 @@ class ARXMLWriter(AbstractARXMLWriter):
             ET.SubElement(rule_tag, "SOMEIP-SD-RULE")
         if rule.getTransportLayerRule() is not None:
             ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
+
+    def writeStateDependentFirewall(self, element: ET.Element, firewall: StateDependentFirewall):
+        self.logger.debug("Write StateDependentFirewall %s" % firewall.getShortName())
+        firewall_tag = ET.SubElement(element, "STATE-DEPENDENT-FIREWALL")
+        self.writeIdentifiable(firewall_tag, firewall)
+        self.setChildElementOptionalLiteral(firewall_tag, "DEFAULT-ACTION", firewall.getDefaultAction())
+        rule_props = firewall.getFirewallRuleProps()
+        if len(rule_props) > 0:
+            props_tag = ET.SubElement(firewall_tag, "FIREWALL-RULE-PROPSS")
+            for props in rule_props:
+                self.writeFirewallRuleProps(props_tag, props)
+        mode_refs = firewall.getFirewallStateModeDeclarationRefs()
+        if len(mode_refs) > 0:
+            refs_tag = ET.SubElement(firewall_tag, "FIREWALL-STATE-MODE-DECLARATION-REFS")
+            for ref in mode_refs:
+                self.setChildElementOptionalRefType(refs_tag, "FIREWALL-STATE-MODE-DECLARATION-REF", ref)
+
+    def writeFirewallRuleProps(self, props_tag: ET.Element, props: FirewallRuleProps):
+        props_element = ET.SubElement(props_tag, "FIREWALL-RULE-PROPS")
+        self.setChildElementOptionalLiteral(props_element, "ACTION", props.getAction())
+        egress_refs = props.getMatchingEgressRuleRefs()
+        if len(egress_refs) > 0:
+            refs_tag = ET.SubElement(props_element, "MATCHING-EGRESS-RULE-REFS")
+            for ref in egress_refs:
+                self.setChildElementOptionalRefType(refs_tag, "MATCHING-EGRESS-RULE-REF", ref)
+        ingress_refs = props.getMatchingIngressRuleRefs()
+        if len(ingress_refs) > 0:
+            refs_tag = ET.SubElement(props_element, "MATCHING-INGRESS-RULE-REFS")
+            for ref in ingress_refs:
+                self.setChildElementOptionalRefType(refs_tag, "MATCHING-INGRESS-RULE-REF", ref)
 
     def writeReferenceBases(self, element: ET.Element, bases: List[ReferenceBase]):
         self.logger.debug("Write ReferenceBases")

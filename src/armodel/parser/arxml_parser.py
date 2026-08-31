@@ -7,11 +7,14 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     DataLinkLayerRule,
     DdsRule,
     DoIpRule,
+    FirewallActionEnum,
     FirewallRule,
+    FirewallRuleProps,
     NetworkLayerRule,
     PayloadBytePatternRule,
     SomeipProtocolRule,
     SomeipSdRule,
+    StateDependentFirewall,
     TransportLayerRule,
 )
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
@@ -11426,6 +11429,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "FIREWALL-RULE":
                 rule = parent.createFirewallRule(self.getShortName(child_element))
                 self.readFirewallRule(child_element, rule)
+            elif tag_name == "STATE-DEPENDENT-FIREWALL":
+                firewall = parent.createStateDependentFirewall(self.getShortName(child_element))
+                self.readStateDependentFirewall(child_element, firewall)
             elif tag_name == "MC-FUNCTION":
                 func = parent.createMcFunction(self.getShortName(child_element))
                 self.readMcFunction(child_element, func)
@@ -11462,6 +11468,35 @@ class ARXMLParser(AbstractARXMLParser):
         child = self.find(element, "TRANSPORT-LAYER-RULE")
         if child is not None:
             rule.setTransportLayerRule(TransportLayerRule())
+
+    def readStateDependentFirewall(self, element: ET.Element, firewall: StateDependentFirewall):
+        self.readIdentifiable(element, firewall)
+        default_action = self.getChildElementOptionalLiteral(element, "DEFAULT-ACTION")
+        if default_action is not None:
+            firewall.setDefaultAction(FirewallActionEnum().setValue(default_action.getValue()))
+        props_parent = self.find(element, "FIREWALL-RULE-PROPSS")
+        if props_parent is not None:
+            for props_element in self.findall(props_parent, "FIREWALL-RULE-PROPS"):
+                props = FirewallRuleProps()
+                self.readFirewallRuleProps(props_element, props)
+                firewall.addFirewallRuleProps(props)
+        refs_parent = self.find(element, "FIREWALL-STATE-MODE-DECLARATION-REFS")
+        if refs_parent is not None:
+            for ref in self.getChildElementRefTypeList(refs_parent, "FIREWALL-STATE-MODE-DECLARATION-REF"):
+                firewall.addFirewallStateModeDeclarationRef(ref)
+
+    def readFirewallRuleProps(self, element: ET.Element, props: FirewallRuleProps):
+        action = self.getChildElementOptionalLiteral(element, "ACTION")
+        if action is not None:
+            props.setAction(FirewallActionEnum().setValue(action.getValue()))
+        egress_refs_parent = self.find(element, "MATCHING-EGRESS-RULE-REFS")
+        if egress_refs_parent is not None:
+            for ref in self.getChildElementRefTypeList(egress_refs_parent, "MATCHING-EGRESS-RULE-REF"):
+                props.addMatchingEgressRuleRef(ref)
+        ingress_refs_parent = self.find(element, "MATCHING-INGRESS-RULE-REFS")
+        if ingress_refs_parent is not None:
+            for ref in self.getChildElementRefTypeList(ingress_refs_parent, "MATCHING-INGRESS-RULE-REF"):
+                props.addMatchingIngressRuleRef(ref)
 
     def readMcFunction(self, element: ET.Element, func: McFunction):
         self.readIdentifiable(element, func)
