@@ -67,7 +67,7 @@ class AbstractARXMLWriter(ABC):
         else:
             raise NotImplementedError(error_msg)
 
-    def writeARObjectAttributes(self, element: ET.Element, ar_obj: ARObject):
+    def writeARObject(self, element: ET.Element, ar_obj: ARObject):
         if ar_obj.getChecksum() is not None:
             element.attrib["S"] = ar_obj.getChecksum().getValue()
         if ar_obj.getTimestamp() is not None:
@@ -75,7 +75,7 @@ class AbstractARXMLWriter(ABC):
         # The uuid attribute (Table 4.4) is owned by Identifiable (see
         # Identifiable.py) and is emitted by writeIdentifiable.
 
-    def writeARTypeAttributes(self, element: ET.Element, ar_type: ARType):
+    def writeARType(self, element: ET.Element, ar_type: ARType):
         # The ARType hierarchy (AUTOSAR primitive types) carries the timestamp as a
         # plain string. Per the XSD (AUTOSAR_00052.xsd, AR-OBJECT attributeGroup)
         # primitives carry only S/T — the uuid attribute lives in the IDENTIFIABLE
@@ -94,7 +94,7 @@ class AbstractARXMLWriter(ABC):
     def setChildElementOptionalNumericalValue(self, element: ET.Element, key: str, numerical: ARNumerical):
         if numerical is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARTypeAttributes(child_element, numerical)
+            self.writeARType(child_element, numerical)
             if numerical.getShortLabel() is not None:
                 child_element.attrib["SHORT-LABEL"] = numerical.getShortLabel()
             if numerical._text is not None:
@@ -132,7 +132,7 @@ class AbstractARXMLWriter(ABC):
     def setChildElementOptionalFloatValue(self, element: ET.Element, key: str, value: ARFloat):
         if value is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARTypeAttributes(child_element, value)
+            self.writeARType(child_element, value)
             child_element.text = value.getText()
 
     def setChildElementOptionalTimeValue(self, element: ET.Element, key: str, value: TimeValue):
@@ -141,28 +141,28 @@ class AbstractARXMLWriter(ABC):
     def setChildElementOptionalBooleanValue(self, element: ET.Element, key: str, value: ARBoolean) -> ET.Element:
         if value is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARTypeAttributes(child_element, value)
+            self.writeARType(child_element, value)
             child_element.text = value.getText()
         return element
 
     def setChildElementOptionalLiteral(self, element: ET.Element, key: str, value: ARLiteral) -> ET.Element:
         if value is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARTypeAttributes(child_element, value)
+            self.writeARType(child_element, value)
             child_element.text = value.getText()
         return element
 
     def setChildElementOptionalNumerical(self, element: ET.Element, key: str, value: Numerical) -> ET.Element:
         if value is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARTypeAttributes(child_element, value)
+            self.writeARType(child_element, value)
             child_element.text = value.getText()
         return element
 
     def setChildElementOptionalIdentifier(self, element: ET.Element, key: str, value: Identifier) -> ET.Element:
         if value is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARTypeAttributes(child_element, value)
+            self.writeARType(child_element, value)
             child_element.text = value.getText()
         return element
 

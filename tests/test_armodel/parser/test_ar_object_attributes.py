@@ -35,7 +35,7 @@ class TestReadARObjectAttributes:
         element = ET.Element("SHORT-NAME", {"S": "checksum-1", "T": "2009-07-23T13:38:00Z", "UUID": "uuid-1"})
 
         obj = ConcreteARObject()
-        parser.readARObjectAttributes(element, obj)
+        parser.readARObject(element, obj)
 
         assert obj.getChecksum() is not None
         assert obj.getChecksum().getValue() == "checksum-1"
@@ -56,7 +56,7 @@ class TestReadARObjectAttributes:
         element = ET.Element("SHORT-NAME")
 
         obj = ConcreteARObject()
-        parser.readARObjectAttributes(element, obj)
+        parser.readARObject(element, obj)
 
         assert obj.getChecksum() is None
         assert obj.getTimestamp() is None
@@ -75,7 +75,7 @@ class TestReadARObjectAttributes:
         element = ET.Element("SHORT-NAME", {"S": "only-checksum"})
 
         obj = ConcreteARObject()
-        parser.readARObjectAttributes(element, obj)
+        parser.readARObject(element, obj)
 
         assert obj.getChecksum().getValue() == "only-checksum"
         assert obj.getTimestamp() is None

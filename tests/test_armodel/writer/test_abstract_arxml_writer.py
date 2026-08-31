@@ -98,7 +98,7 @@ class TestAbstractARXMLWriter:
         timestamp.setValue("2024-01-01T00:00:00")
         ar_obj.setTimestamp(timestamp)
 
-        writer.writeARObjectAttributes(parent, ar_obj)
+        writer.writeARObject(parent, ar_obj)
         assert parent.attrib["T"] == "2024-01-01T00:00:00"
 
     def test_write_ar_object_attributes_with_uuid(self):
@@ -112,7 +112,7 @@ class TestAbstractARXMLWriter:
         ar_obj = ConcreteTestARObject(None, "TestObj")
         ar_obj.setUuid("12345678-1234-1234-1234-123456789012")
 
-        writer.writeARObjectAttributes(parent, ar_obj)
+        writer.writeARObject(parent, ar_obj)
         assert "UUID" not in parent.attrib
 
     def test_write_ar_object_attributes_with_both(self):
@@ -125,7 +125,7 @@ class TestAbstractARXMLWriter:
         ar_obj.setTimestamp(timestamp)
         ar_obj.setUuid("12345678-1234-1234-1234-123456789012")
 
-        writer.writeARObjectAttributes(parent, ar_obj)
+        writer.writeARObject(parent, ar_obj)
         assert parent.attrib["T"] == "2024-01-01T00:00:00"
         assert "UUID" not in parent.attrib
 
@@ -135,7 +135,7 @@ class TestAbstractARXMLWriter:
         parent = ET.Element("parent")
         ar_obj = ConcreteTestARObject(None, "TestObj")
 
-        writer.writeARObjectAttributes(parent, ar_obj)
+        writer.writeARObject(parent, ar_obj)
         assert "T" not in parent.attrib
         assert "UUID" not in parent.attrib
 

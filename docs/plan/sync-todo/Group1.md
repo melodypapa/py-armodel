@@ -713,7 +713,7 @@ HW UUIDs survive before making the move.
   `readIdentifiable` (uuid is set *before* `addARObject()` — the ordering trap
   preserved). The generic reader was then split per object name:
   `readARObjectAttributes` (ARObject: S/T via mutators) and
-  `readARTypeAttributes` (ARType primitives: T as plain string). XSD check
+  `readARType` (ARType primitives: T as plain string). XSD check
   (AUTOSAR_00052.xsd): primitives reference only the AR-OBJECT attributeGroup
   (S/T) — the uuid attribute exists only in IDENTIFIABLE, so the legacy
   `ARType.uuid` field was removed from PrimitiveTypes.py and no uuid handling
@@ -723,7 +723,7 @@ HW UUIDs survive before making the move.
   Referrable/MultilanguageReferrable); all 16 parser ARType call sites and all
   6 writer ARType call sites now use the ARType-specific methods.
 - Writer: same split — `writeARObjectAttributes` (ARObject: S/T) and
-  `writeARTypeAttributes` (ARType: T); `writeIdentifiable` emits UUID **after**
+  `writeARType` (ARType: T); `writeIdentifiable` emits UUID **after**
   the S/T chain call to preserve the historical attribute order S, T, UUID
   (byte-level round-trip requirement).
 - `UUIDMgr.addObject` keys on `isinstance(obj, Identifiable)`.

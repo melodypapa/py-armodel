@@ -1737,8 +1737,8 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
   so primitives are ARObjects but not Identifiables (S/T yes, UUID no). py-armodel keeps
   `ARType(ABC)` as a deliberate lightweight value-object hierarchy (plain-string
   `timestamp`, no parent/checksum machinery); it does **not** derive from ARObject.
-  Consequence: the parser/writer have dedicated `readARTypeAttributes` /
-  `writeARTypeAttributes` (T only, no uuid) alongside `readARObjectAttributes` /
+  Consequence: the parser/writer have dedicated `readARType` /
+  `writeARType` (T only, no uuid) alongside `readARObjectAttributes` /
   `writeARObjectAttributes` (S/T). User decision: keep this split, do not unify.
 
 ## `CollectableElement`

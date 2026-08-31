@@ -396,7 +396,7 @@ class TestReadARObjectAttributes:
         obj = ARLiteral()
         # ARType primitives carry only T per the XSD; uuid is owned by
         # Identifiable and read by readIdentifiable (see the uuid move).
-        parser.readARTypeAttributes(element, obj)
+        parser.readARType(element, obj)
         assert obj.timestamp == "t1"
 
     def test_handles_missing_attributes(self, parser):
@@ -405,7 +405,7 @@ class TestReadARObjectAttributes:
         root = _snip("<X/>")
         element = parser.find(root, "X")
         obj = ARLiteral()
-        parser.readARTypeAttributes(element, obj)
+        parser.readARType(element, obj)
         assert obj.timestamp is None
 
 
@@ -617,7 +617,7 @@ class TestAdditionalBranchCoverage:
         obj = ARLiteral()
         # ARType primitives carry only T per the XSD; uuid is owned by
         # Identifiable and read by readIdentifiable (see the uuid move).
-        parser.readARTypeAttributes(element, obj)
+        parser.readARType(element, obj)
         assert obj.timestamp == "timestamp"
 
     def test_getChildElementFloatValueList_empty(self, parser):

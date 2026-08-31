@@ -37,7 +37,7 @@ class TestWriteARObjectAttributes:
         obj.setChecksum(checksum)
         obj.setTimestamp(timestamp)
 
-        writer.writeARObjectAttributes(element, obj)
+        writer.writeARObject(element, obj)
 
         assert element.attrib["S"] == "checksum-1"
         assert element.attrib["T"] == "2009-07-23T13:38:00Z"
@@ -48,7 +48,7 @@ class TestWriteARObjectAttributes:
         element = ET.Element("SHORT-NAME")
 
         obj = ConcreteARObject()
-        writer.writeARObjectAttributes(element, obj)
+        writer.writeARObject(element, obj)
 
         assert "S" not in element.attrib
         assert "T" not in element.attrib
@@ -58,7 +58,7 @@ class TestWriteARObjectAttributes:
         writer = _make_writer()
         element = ET.Element("SHORT-NAME")
 
-        writer.writeARObjectAttributes(element, ConcreteARObject())
+        writer.writeARObject(element, ConcreteARObject())
 
         assert "S" not in element.attrib
         assert "T" not in element.attrib
@@ -73,7 +73,7 @@ class TestWriteARObjectAttributes:
         timestamp.setValue("2009-07-23")
         obj.setTimestamp(timestamp)
 
-        writer.writeARObjectAttributes(element, obj)
+        writer.writeARObject(element, obj)
 
         assert element.attrib["T"] == "2009-07-23"
         assert "S" not in element.attrib
