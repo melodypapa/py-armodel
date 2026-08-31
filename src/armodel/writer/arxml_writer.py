@@ -3,6 +3,15 @@ from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule, FirewallRuleProps, StateDependentFirewall
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
+    AtpBlueprintMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortInterfaceBlueprint import (
+    PortInterfaceBlueprintMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping import (
+    BlueprintMappingSet,
+)
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswApiOptions,
     BswAsynchronousServerCallPoint,
@@ -11289,6 +11298,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeRunnableEntityGroup(element, ar_element)
         elif isinstance(ar_element, FirewallRule):
             self.writeFirewallRule(element, ar_element)
+        elif isinstance(ar_element, BlueprintMappingSet):
+            self.writeBlueprintMappingSet(element, ar_element)
         elif isinstance(ar_element, StateDependentFirewall):
             self.writeStateDependentFirewall(element, ar_element)
         elif isinstance(ar_element, ConsistencyNeeds):
@@ -11321,6 +11332,29 @@ class ARXMLWriter(AbstractARXMLWriter):
             ET.SubElement(rule_tag, "SOMEIP-SD-RULE")
         if rule.getTransportLayerRule() is not None:
             ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
+
+    def writeBlueprintMappingSet(self, element: ET.Element, blueprint_mapping_set: BlueprintMappingSet):
+        self.logger.debug("Write BlueprintMappingSet %s" % blueprint_mapping_set.getShortName())
+        blueprint_mapping_set_tag = ET.SubElement(element, "BLUEPRINT-MAPPING-SET")
+        self.writeIdentifiable(blueprint_mapping_set_tag, blueprint_mapping_set)
+        blueprint_maps = blueprint_mapping_set.getBlueprintMaps()
+        if len(blueprint_maps) > 0:
+            blueprint_maps_tag = ET.SubElement(blueprint_mapping_set_tag, "BLUEPRINT-MAPS")
+            for blueprint_map in blueprint_maps:
+                if isinstance(blueprint_map, PortInterfaceBlueprintMapping):
+                    blueprint_map_tag = ET.SubElement(blueprint_maps_tag, "PORT-INTERFACE-BLUEPRINT-MAPPING")
+                    self.writePortInterfaceBlueprintMapping(blueprint_map_tag, blueprint_map)
+                else:
+                    blueprint_map_tag = ET.SubElement(blueprint_maps_tag, "BLUEPRINT-MAPPING")
+                    self.writeAtpBlueprintMapping(blueprint_map_tag, blueprint_map)
+
+    def writeAtpBlueprintMapping(self, element: ET.Element, blueprint_map: AtpBlueprintMapping):
+        self.writeARObject(element, blueprint_map)
+
+    def writePortInterfaceBlueprintMapping(self, element: ET.Element, blueprint_map: PortInterfaceBlueprintMapping):
+        self.writeAtpBlueprintMapping(element, blueprint_map)
+        self.setChildElementOptionalRefType(element, "PORT-INTERFACE-BLUEPRINT-REF", blueprint_map.getPortInterfaceBlueprintRef())
+        self.setChildElementOptionalRefType(element, "DERIVED-PORT-INTERFACE-REF", blueprint_map.getDerivedPortInterfaceRef())
 
     def writeStateDependentFirewall(self, element: ET.Element, firewall: StateDependentFirewall):
         self.logger.debug("Write StateDependentFirewall %s" % firewall.getShortName())

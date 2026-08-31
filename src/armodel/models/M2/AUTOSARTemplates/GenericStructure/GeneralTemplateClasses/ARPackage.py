@@ -97,6 +97,7 @@ __all__ = [
     "BswImplementation",
     "BswModuleDescription",
     "BswModuleEntry",
+    "BlueprintMappingSet",
     "CanCluster",
     "CanFrame",
     "CanTpConfig",
@@ -691,6 +692,29 @@ class ARPackage(CollectableElement):
             rule = FirewallRule(self, short_name)
             self.addElement(rule)
         return self.getElement(short_name, FirewallRule)
+
+    def createBlueprintMappingSet(self, short_name: str) -> BlueprintMappingSet:
+        """
+        Creates a BlueprintMappingSet element in this package.
+        If a set with the given short name already exists, it is returned instead.
+
+        Args:
+            short_name: The unique short name of the set
+
+        Returns:
+            The created (or existing) BlueprintMappingSet
+        """
+
+        if not self.IsElementExists(short_name, BlueprintMappingSet):
+            blueprint_mapping_set = BlueprintMappingSet(self, short_name)
+            self.addElement(blueprint_mapping_set)
+        return self.getElement(short_name, BlueprintMappingSet)
+
+    def getBlueprintMappingSets(self) -> List[BlueprintMappingSet]:
+        """
+        This represents a container of mappings between "actual" model elements and the "blueprint" that has been taken for their creation.
+        """
+        return list(filter(lambda a: isinstance(a, BlueprintMappingSet), self.elements))
 
     def createStateDependentFirewall(self, short_name: str) -> StateDependentFirewall:
         """
@@ -1632,6 +1656,9 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import B
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping import (  # noqa: E402
+    BlueprintMappingSet,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup  # noqa: E402

@@ -17,6 +17,16 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     StateDependentFirewall,
     TransportLayerRule,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
+    AtpBlueprintMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortInterfaceBlueprint import (
+    PortInterfaceBlueprintMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping import (
+    BlueprintMapping,
+    BlueprintMappingSet,
+)
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswApiOptions,
     BswAsynchronousServerCallPoint,
@@ -11429,6 +11439,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "FIREWALL-RULE":
                 rule = parent.createFirewallRule(self.getShortName(child_element))
                 self.readFirewallRule(child_element, rule)
+            elif tag_name == "BLUEPRINT-MAPPING-SET":
+                blueprint_mapping_set = parent.createBlueprintMappingSet(self.getShortName(child_element))
+                self.readBlueprintMappingSet(child_element, blueprint_mapping_set)
             elif tag_name == "STATE-DEPENDENT-FIREWALL":
                 firewall = parent.createStateDependentFirewall(self.getShortName(child_element))
                 self.readStateDependentFirewall(child_element, firewall)
@@ -11468,6 +11481,29 @@ class ARXMLParser(AbstractARXMLParser):
         child = self.find(element, "TRANSPORT-LAYER-RULE")
         if child is not None:
             rule.setTransportLayerRule(TransportLayerRule())
+
+    def readBlueprintMappingSet(self, element: ET.Element, blueprint_mapping_set: BlueprintMappingSet):
+        self.readIdentifiable(element, blueprint_mapping_set)
+        maps_parent = self.find(element, "BLUEPRINT-MAPS")
+        if maps_parent is not None:
+            for map_element in list(maps_parent):
+                tag_name = self.getTagName(map_element)
+                if tag_name == "BLUEPRINT-MAPPING":
+                    blueprint_map = BlueprintMapping()
+                    self.readAtpBlueprintMapping(map_element, blueprint_map)
+                    blueprint_mapping_set.addBlueprintMap(blueprint_map)
+                elif tag_name == "PORT-INTERFACE-BLUEPRINT-MAPPING":
+                    blueprint_map = PortInterfaceBlueprintMapping()
+                    self.readPortInterfaceBlueprintMapping(map_element, blueprint_map)
+                    blueprint_mapping_set.addBlueprintMap(blueprint_map)
+
+    def readAtpBlueprintMapping(self, element: ET.Element, blueprint_map: AtpBlueprintMapping):
+        self.readARObject(element, blueprint_map)
+
+    def readPortInterfaceBlueprintMapping(self, element: ET.Element, blueprint_map: PortInterfaceBlueprintMapping):
+        self.readAtpBlueprintMapping(element, blueprint_map)
+        blueprint_map.setPortInterfaceBlueprintRef(self.getChildElementOptionalRefType(element, "PORT-INTERFACE-BLUEPRINT-REF"))
+        blueprint_map.setDerivedPortInterfaceRef(self.getChildElementOptionalRefType(element, "DERIVED-PORT-INTERFACE-REF"))
 
     def readStateDependentFirewall(self, element: ET.Element, firewall: StateDependentFirewall):
         self.readIdentifiable(element, firewall)

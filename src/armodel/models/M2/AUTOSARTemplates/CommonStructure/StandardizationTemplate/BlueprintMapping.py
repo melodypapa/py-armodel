@@ -1,47 +1,52 @@
-from typing import List
+from typing import List, Optional
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
+    AtpBlueprintMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
-__all__ = ["BlueprintMappingSet"]
+__all__ = ["BlueprintMappingSet", "BlueprintMapping"]
+
+
+class BlueprintMapping(AtpBlueprintMapping):
+    """
+    This meta-class represents the ability to map two an object and its blueprint.
+    """
+
+    def __init__(self):
+        super().__init__()
 
 
 class BlueprintMappingSet(ARElement):
     """
-    Represents a set of blueprint mappings in AUTOSAR.
-    Defines a collection of blueprint mappings.
+    This represents a container of mappings between "actual" model elements and the "blueprint" that has been taken for their creation.
     """
 
     # BlueprintMappingSet method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] addMapping                   [x] impl  [x] docstring  [ ] test
-    # [ ] getMappings                  [x] impl  [x] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 3.1, p.48 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addBlueprintMap      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBlueprintMaps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BlueprintMappingSet with default values.
-        """
         super().__init__(parent, short_name)
-        self.mappings: List[str] = []
 
-    def addMapping(self, mapping: str):
+        # This represents a particular blueprint map in the set.
+        self.blueprintMaps: List[AtpBlueprintMapping] = []
+
+    def addBlueprintMap(self, value: Optional[AtpBlueprintMapping]) -> "BlueprintMappingSet":
         """
-        Adds a mapping to this set.
-
-        Args:
-            mapping: The mapping to add
-
-        Returns:
-            self for method chaining
+        This represents a particular blueprint map in the set. A None value is a no-op and is not added.
         """
-        self.mappings.append(mapping)
+        if value is not None:
+            self.blueprintMaps.append(value)
         return self
 
-    def getMappings(self) -> List[str]:
+    def getBlueprintMaps(self) -> List[AtpBlueprintMapping]:
         """
-        Gets the list of mappings.
-
-        Returns:
-            List of mappings
+        This represents a particular blueprint map in the set.
         """
-        return self.mappings
+        return self.blueprintMaps
