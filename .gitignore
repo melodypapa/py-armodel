@@ -83,6 +83,3 @@ uv.lock
 .codebuddy
 # pdf_page.py per-PDF table cache
 .pdf_table_cache.json
-# Large AUTOSAR reference docs (markdown/PDF) are not tracked
-autosar/R4.3.1/markdown/
-autosar/R4.3.1/pdf/
