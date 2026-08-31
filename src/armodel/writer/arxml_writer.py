@@ -2,6 +2,7 @@ import xml.etree.cElementTree as ET
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswApiOptions,
     BswAsynchronousServerCallPoint,
@@ -11286,10 +11287,38 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDataPrototypeGroup(element, ar_element)
         elif isinstance(ar_element, RunnableEntityGroup):
             self.writeRunnableEntityGroup(element, ar_element)
+        elif isinstance(ar_element, FirewallRule):
+            self.writeFirewallRule(element, ar_element)
         elif isinstance(ar_element, ConsistencyNeeds):
             self.writeConsistencyNeeds(element, ar_element)
         else:
             self.notImplemented("Unsupported Elements of ARPackage <%s>" % type(ar_element))
+
+    def writeFirewallRule(self, element: ET.Element, rule: FirewallRule):
+        self.logger.debug("Write FirewallRule %s" % rule.getShortName())
+        rule_tag = ET.SubElement(element, "FIREWALL-RULE")
+        self.writeIdentifiable(rule_tag, rule)
+        self.setChildElementOptionalPositiveInteger(rule_tag, "BUCKET-SIZE", rule.getBucketSize())
+        if rule.getDataLinkLayerRule() is not None:
+            ET.SubElement(rule_tag, "DATA-LINK-LAYER-RULE")
+        if rule.getDdsRule() is not None:
+            ET.SubElement(rule_tag, "DDS-RULE")
+        if rule.getDoIpRule() is not None:
+            ET.SubElement(rule_tag, "DO-IP-RULE")
+        if rule.getNetworkLayerRule() is not None:
+            ET.SubElement(rule_tag, "NETWORK-LAYER-RULE")
+        payload_rules = rule.getPayloadBytePatternRules()
+        if len(payload_rules) > 0:
+            rules_tag = ET.SubElement(rule_tag, "PAYLOAD-BYTE-PATTERN-RULES")
+            for _ in payload_rules:
+                ET.SubElement(rules_tag, "PAYLOAD-BYTE-PATTERN-RULE")
+        self.setChildElementOptionalPositiveInteger(rule_tag, "REFILL-AMOUNT", rule.getRefillAmount())
+        if rule.getSomeipRule() is not None:
+            ET.SubElement(rule_tag, "SOMEIP-RULE")
+        if rule.getSomeipSdRule() is not None:
+            ET.SubElement(rule_tag, "SOMEIP-SD-RULE")
+        if rule.getTransportLayerRule() is not None:
+            ET.SubElement(rule_tag, "TRANSPORT-LAYER-RULE")
 
     def writeReferenceBases(self, element: ET.Element, bases: List[ReferenceBase]):
         self.logger.debug("Write ReferenceBases")

@@ -98,7 +98,7 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `FirewallRuleProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.235 · after `FirewallRule` (refs `matchingEgressRule`/`matchingIngressRule`))
+- [ ] `FirewallRuleProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.235, p.584 (pdf_page.py verified) · after `FirewallRule` (ref target of its `matchingEgressRule`/`matchingIngressRule`) · spec facts (extracted 2026-08-31 from markdown l.15333-15342): Note = "Firewall rule that is defined by an action that is performed if the referenced pattern matches."; Base = ARObject; Aggregated by = StateDependentFirewall.firewallRuleProps (* aggr); 3 attributes: `action` (FirewallActionEnum, 0..1, attr — "Action that is performed by the firewall if the matching Rule is fulfilled."), `matchingEgressRule` (ordered) (FirewallRule, *, ref — "This element defines an egress rule expression against which the network traffic is matched."), `matchingIngressRule` (ordered) (FirewallRule, *, ref — "This element defines an ingress rule expression against which the network traffic is matched."))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

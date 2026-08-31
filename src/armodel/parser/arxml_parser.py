@@ -3,6 +3,17 @@ import xml.etree.ElementTree as ET
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import (
+    DataLinkLayerRule,
+    DdsRule,
+    DoIpRule,
+    FirewallRule,
+    NetworkLayerRule,
+    PayloadBytePatternRule,
+    SomeipProtocolRule,
+    SomeipSdRule,
+    TransportLayerRule,
+)
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswApiOptions,
     BswAsynchronousServerCallPoint,
@@ -11412,6 +11423,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "NV-DATA-INTERFACE":
                 interface = parent.createNvDataInterface(self.getShortName(child_element))
                 self.readNvDataInterface(child_element, interface)
+            elif tag_name == "FIREWALL-RULE":
+                rule = parent.createFirewallRule(self.getShortName(child_element))
+                self.readFirewallRule(child_element, rule)
             elif tag_name == "MC-FUNCTION":
                 func = parent.createMcFunction(self.getShortName(child_element))
                 self.readMcFunction(child_element, func)
@@ -11420,6 +11434,34 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readMcGroup(child_element, group)
             else:
                 self.notImplemented("Unsupported Element type of ARPackage <%s>" % tag_name)
+
+    def readFirewallRule(self, element: ET.Element, rule: FirewallRule):
+        self.readIdentifiable(element, rule)
+        rule.setBucketSize(self.getChildElementOptionalPositiveInteger(element, "BUCKET-SIZE"))
+        child = self.find(element, "DATA-LINK-LAYER-RULE")
+        if child is not None:
+            rule.setDataLinkLayerRule(DataLinkLayerRule())
+        child = self.find(element, "DDS-RULE")
+        if child is not None:
+            rule.setDdsRule(DdsRule())
+        child = self.find(element, "DO-IP-RULE")
+        if child is not None:
+            rule.setDoIpRule(DoIpRule())
+        child = self.find(element, "NETWORK-LAYER-RULE")
+        if child is not None:
+            rule.setNetworkLayerRule(NetworkLayerRule())
+        for _ in self.findall(element, "PAYLOAD-BYTE-PATTERN-RULES/PAYLOAD-BYTE-PATTERN-RULE"):
+            rule.addPayloadBytePatternRule(PayloadBytePatternRule())
+        rule.setRefillAmount(self.getChildElementOptionalPositiveInteger(element, "REFILL-AMOUNT"))
+        child = self.find(element, "SOMEIP-RULE")
+        if child is not None:
+            rule.setSomeipRule(SomeipProtocolRule())
+        child = self.find(element, "SOMEIP-SD-RULE")
+        if child is not None:
+            rule.setSomeipSdRule(SomeipSdRule())
+        child = self.find(element, "TRANSPORT-LAYER-RULE")
+        if child is not None:
+            rule.setTransportLayerRule(TransportLayerRule())
 
     def readMcFunction(self, element: ET.Element, func: McFunction):
         self.readIdentifiable(element, func)

@@ -24,18 +24,16 @@ class TestFirewallRule:
 
     def test_initialization(self):
         obj = FirewallRule(_parent(), "TestFirewallRule")
-        assert obj.getDestRefs() == []
-        assert obj.getSrcRefs() == []
-
-    def test_dest_refs(self):
-        obj = FirewallRule(_parent(), "TestFirewallRule")
-        assert obj.addDestRef("dest") is obj
-        assert obj.getDestRefs() == ["dest"]
-
-    def test_src_refs(self):
-        obj = FirewallRule(_parent(), "TestFirewallRule")
-        assert obj.addSrcRef("src") is obj
-        assert obj.getSrcRefs() == ["src"]
+        assert obj.getBucketSize() is None
+        assert obj.getDataLinkLayerRule() is None
+        assert obj.getDdsRule() is None
+        assert obj.getDoIpRule() is None
+        assert obj.getNetworkLayerRule() is None
+        assert obj.getPayloadBytePatternRules() == []
+        assert obj.getRefillAmount() is None
+        assert obj.getSomeipRule() is None
+        assert obj.getSomeipSdRule() is None
+        assert obj.getTransportLayerRule() is None
 
 
 """

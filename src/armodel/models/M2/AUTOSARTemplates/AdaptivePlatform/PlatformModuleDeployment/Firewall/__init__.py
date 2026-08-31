@@ -1,80 +1,315 @@
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 
-__all__ = ["FirewallRule", "FirewallRuleProps", "StateDependentFirewall", "DataLinkLayerRule", "DdsRule"]
+__all__ = [
+    "FirewallRule",
+    "FirewallRuleProps",
+    "StateDependentFirewall",
+    "DataLinkLayerRule",
+    "DdsRule",
+    "DoIpRule",
+    "NetworkLayerRule",
+    "PayloadBytePatternRule",
+    "SomeipProtocolRule",
+    "SomeipSdRule",
+    "TransportLayerRule",
+]
 
 
 class FirewallRule(ARElement):
-    """
-    Represents a firewall rule in AUTOSAR Adaptive Platform PlatformModuleDeployment.
-    Defines rules for firewall configuration in adaptive platform modules.
-    """
+    """Firewall Rule that defines the control information in individual packets."""
 
     # FirewallRule method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] addDestRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] getDestRefs                  [x] impl  [x] docstring  [ ] test
-    # [ ] addSrcRef                    [x] impl  [x] docstring  [ ] test
-    # [ ] getSrcRefs                   [x] impl  [x] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.236, p.585 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (markdown-minimal deviation: the 8 rule member classes carry no Class table in the
+    #  PDF/markdown corpus — DataLinkLayerRule/DdsRule synced markdown-minimal, the other
+    #  6 are attribute-name placeholders; full member attribute defs remain a deviation)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getBucketSize                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBucketSize                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataLinkLayerRule         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataLinkLayerRule         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsRule                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsRule                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDoIpRule                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDoIpRule                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkLayerRule          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkLayerRule          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addPayloadBytePatternRule    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPayloadBytePatternRules   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRefillAmount              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRefillAmount              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSomeipRule                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSomeipRule                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSomeipSdRule              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSomeipSdRule              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransportLayerRule        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransportLayerRule        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the FirewallRule with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this element
-            short_name: The short name of this element
-        """
         super().__init__(parent, short_name)
-        self.destRefs: List[RefType] = []
-        self.srcRefs: List[RefType] = []
+        self.bucketSize: Optional[PositiveInteger] = None
+        self.dataLinkLayerRule: Optional["DataLinkLayerRule"] = None
+        self.ddsRule: Optional["DdsRule"] = None
+        self.doIpRule: Optional["DoIpRule"] = None
+        self.networkLayerRule: Optional["NetworkLayerRule"] = None
+        self.payloadBytePatternRules: List["PayloadBytePatternRule"] = []
+        self.refillAmount: Optional[PositiveInteger] = None
+        self.someipRule: Optional["SomeipProtocolRule"] = None
+        self.someipSdRule: Optional["SomeipSdRule"] = None
+        self.transportLayerRule: Optional["TransportLayerRule"] = None
 
-    def addDestRef(self, ref: RefType):
+    def getBucketSize(self) -> Optional[PositiveInteger]:
         """
-        Adds a destination reference to this firewall rule.
+        This attribute defines the capacity of the queue for rate limitation (leaky-bucket Algorithm).
+        """
+        return self.bucketSize
 
-        Args:
-            ref: The destination reference to add
+    def setBucketSize(self, value: Optional[PositiveInteger]):
+        """
+        Sets the bucketSize value.
 
         Returns:
             self for method chaining
         """
-        self.destRefs.append(ref)
+        if value is not None:
+            self.bucketSize = value
         return self
 
-    def getDestRefs(self) -> List[RefType]:
+    def getDataLinkLayerRule(self) -> Optional["DataLinkLayerRule"]:
         """
-        Gets the list of destination references.
-
-        Returns:
-            List of destination references
+        Configuration of rules on the Data Link Layer
         """
-        return self.destRefs
+        return self.dataLinkLayerRule
 
-    def addSrcRef(self, ref: RefType):
+    def setDataLinkLayerRule(self, value: Optional["DataLinkLayerRule"]):
         """
-        Adds a source reference to this firewall rule.
-
-        Args:
-            ref: The source reference to add
+        Sets the dataLinkLayerRule aggregation.
 
         Returns:
             self for method chaining
         """
-        self.srcRefs.append(ref)
+        if value is not None:
+            self.dataLinkLayerRule = value
         return self
 
-    def getSrcRefs(self) -> List[RefType]:
+    def getDdsRule(self) -> Optional["DdsRule"]:
         """
-        Gets the list of source references.
+        Configuration of firewall rules for DDS.
+        """
+        return self.ddsRule
+
+    def setDdsRule(self, value: Optional["DdsRule"]):
+        """
+        Sets the ddsRule aggregation.
 
         Returns:
-            List of source references
+            self for method chaining
         """
-        return self.srcRefs
+        if value is not None:
+            self.ddsRule = value
+        return self
+
+    def getDoIpRule(self) -> Optional["DoIpRule"]:
+        """
+        Configuration of firewall rules for DoIP messages
+        """
+        return self.doIpRule
+
+    def setDoIpRule(self, value: Optional["DoIpRule"]):
+        """
+        Sets the doIpRule aggregation.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.doIpRule = value
+        return self
+
+    def getNetworkLayerRule(self) -> Optional["NetworkLayerRule"]:
+        """
+        Configuration of rules on the Network Layer
+        """
+        return self.networkLayerRule
+
+    def setNetworkLayerRule(self, value: Optional["NetworkLayerRule"]):
+        """
+        Sets the networkLayerRule aggregation.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.networkLayerRule = value
+        return self
+
+    def addPayloadBytePatternRule(self, value: "PayloadBytePatternRule"):
+        """
+        Configuration of generic firewall rules
+
+        Returns:
+            self for method chaining
+        """
+        self.payloadBytePatternRules.append(value)
+        return self
+
+    def getPayloadBytePatternRules(self) -> List["PayloadBytePatternRule"]:
+        """
+        Configuration of generic firewall rules
+        """
+        return self.payloadBytePatternRules
+
+    def getRefillAmount(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the output rate that describes how many packets leave the queue per second (leaky-bucket Algorithm).
+        """
+        return self.refillAmount
+
+    def setRefillAmount(self, value: Optional[PositiveInteger]):
+        """
+        Sets the refillAmount value.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.refillAmount = value
+        return self
+
+    def getSomeipRule(self) -> Optional["SomeipProtocolRule"]:
+        """
+        Configuration of firewall rules for SOME/IP messages
+        """
+        return self.someipRule
+
+    def setSomeipRule(self, value: Optional["SomeipProtocolRule"]):
+        """
+        Sets the someipRule aggregation.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.someipRule = value
+        return self
+
+    def getSomeipSdRule(self) -> Optional["SomeipSdRule"]:
+        """
+        Configuration of firewall rules for SOME/IP Service Discovery messages
+        """
+        return self.someipSdRule
+
+    def setSomeipSdRule(self, value: Optional["SomeipSdRule"]):
+        """
+        Sets the someipSdRule aggregation.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.someipSdRule = value
+        return self
+
+    def getTransportLayerRule(self) -> Optional["TransportLayerRule"]:
+        """
+        Configuration of rules on the Transport Layer
+        """
+        return self.transportLayerRule
+
+    def setTransportLayerRule(self, value: Optional["TransportLayerRule"]):
+        """
+        Sets the transportLayerRule aggregation.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.transportLayerRule = value
+        return self
+
+
+class DoIpRule(ARObject):
+    """Configuration of firewall rules for DoIP messages"""
+
+    # DoIpRule method parity checklist:
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (markdown-minimal placeholder: member attribute defs skipped per user decision
+    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
+class NetworkLayerRule(ARObject):
+    """Configuration of rules on the Network Layer"""
+
+    # NetworkLayerRule method parity checklist:
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (markdown-minimal placeholder: member attribute defs skipped per user decision
+    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
+class PayloadBytePatternRule(ARObject):
+    """Configuration of generic firewall rules"""
+
+    # PayloadBytePatternRule method parity checklist:
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (markdown-minimal placeholder: member attribute defs skipped per user decision
+    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
+class SomeipProtocolRule(ARObject):
+    """Configuration of firewall rules for SOME/IP messages"""
+
+    # SomeipProtocolRule method parity checklist:
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (markdown-minimal placeholder: member attribute defs skipped per user decision
+    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
+class SomeipSdRule(ARObject):
+    """Configuration of firewall rules for SOME/IP Service Discovery messages"""
+
+    # SomeipSdRule method parity checklist:
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (markdown-minimal placeholder: member attribute defs skipped per user decision
+    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
+class TransportLayerRule(ARObject):
+    """Configuration of rules on the Transport Layer"""
+
+    # TransportLayerRule method parity checklist:
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (markdown-minimal placeholder: member attribute defs skipped per user decision
+    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
 
 
 class DataLinkLayerRule(ARObject):
