@@ -767,6 +767,15 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
+## `PPortPrototype`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 3.6
+- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `providedInterfaceTRef` | `TRefType` | `providedInterface` | ``PortInterface`` | tref | type (PDF PortInterface vs py TRefType) |
+
 ## `RPortPrototype`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 3.5
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`

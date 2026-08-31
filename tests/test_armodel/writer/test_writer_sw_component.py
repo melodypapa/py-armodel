@@ -899,7 +899,14 @@ class TestSwComponentTypeRoundTrip:
         document.setARRelease("R23-11")
         pkg = document.createARPackage("Swcs")
         app = pkg.createApplicationSwComponentType("App")
-        app.createPPortPrototype("PPort")
+        p_port = app.createPPortPrototype("PPort")
+        p_tref = TRefType()
+        p_tref.setValue("/If/SR")
+        p_tref.setDest("SENDER-RECEIVER-INTERFACE")
+        p_port.setProvidedInterfaceTRef(p_tref)
+        p_com_spec = NonqueuedSenderComSpec()
+        p_com_spec.setDataElementRef(_ref())
+        p_port.addProvidedComSpec(p_com_spec)
         app.createRPortPrototype("RPort")
         app.createPRPortPrototype("PRPort")
         app.createPortGroup("PG")
@@ -923,6 +930,12 @@ class TestSwComponentTypeRoundTrip:
         assert swc.getShortName() == "App"
         assert len(swc.getPorts()) == 3
         assert len(swc.getPPortPrototypes()) == 1
+        reloaded_p_port = swc.getPPortPrototypes()[0]
+        assert reloaded_p_port.getShortName() == "PPort"
+        assert reloaded_p_port.getProvidedInterfaceTRef().getValue() == "/If/SR"
+        assert reloaded_p_port.getProvidedInterfaceTRef().getDest() == "SENDER-RECEIVER-INTERFACE"
+        assert len(reloaded_p_port.getProvidedComSpecs()) == 1
+        assert reloaded_p_port.getProvidedComSpecs()[0].getDataElementRef().getValue() == "/Pkg/Elem"
         assert len(swc.getRPortPrototypes()) == 1
         assert len(swc.getPRPortPrototypes()) == 1
         assert len(swc.getPortGroups()) == 1

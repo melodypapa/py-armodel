@@ -4,7 +4,10 @@ AUTOSAR SWComponentTemplate module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+    TRefType,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     PortGroup,
     PPortPrototype,
@@ -125,3 +128,32 @@ class TestSwComponentType:
         assert ref in obj.getUnitGroupRefs()
         obj.addUnitGroupRef(None)
         assert len(obj.getUnitGroupRefs()) == 1
+
+
+class TestPPortPrototype:
+    """
+    Test class for PPortPrototype functionality (Table 3.6).
+    """
+
+    def _create_prototype(self) -> PPortPrototype:
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return PPortPrototype(ar_root, "TestPPort")
+
+    def test_initialization(self):
+        obj = self._create_prototype()
+        assert obj.getShortName() == "TestPPort"
+        assert obj.getProvidedInterfaceTRef() is None
+
+    def test_class_docstring_is_spec_note_verbatim(self):
+        assert PPortPrototype.__doc__.strip() == "Component port providing a certain port interface."
+
+    def test_get_set_providedInterfaceTRef(self):
+        obj = self._create_prototype()
+        tref = TRefType()
+        tref.setValue("/AUTOSAR/SomeInterface")
+        tref.setDest("ASYNCHRONOUS-SERVER-CALL-RESULT-POINT")
+        assert obj.setProvidedInterfaceTRef(tref) is obj
+        assert obj.getProvidedInterfaceTRef() == tref
+        obj.setProvidedInterfaceTRef(None)
+        assert obj.getProvidedInterfaceTRef() == tref

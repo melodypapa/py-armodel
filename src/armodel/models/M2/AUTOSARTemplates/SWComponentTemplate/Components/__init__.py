@@ -680,21 +680,36 @@ class AbstractRequiredPortPrototype(PortPrototype):
 
 
 class PPortPrototype(AbstractProvidedPortPrototype):
+    """
+    Component port providing a certain port interface.
+    """
+
     # PPortPrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getProvidedInterfaceTRef     [x] impl  [ ] docstring  [ ] test
-    # [ ] setProvidedInterfaceTRef     [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.6, p.68 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getProvidedInterfaceTRef        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setProvidedInterfaceTRef        [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.providedInterfaceTRef = None  # type: TRefType
+        # The interface that this port provides. Stereotypes: isOfType
+        self.providedInterfaceTRef: Optional[TRefType] = None
 
     def getProvidedInterfaceTRef(self):
+        """
+        The interface that this port provides. Stereotypes: isOfType
+        """
         return self.providedInterfaceTRef
 
-    def setProvidedInterfaceTRef(self, value):
-        self.providedInterfaceTRef = value
+    def setProvidedInterfaceTRef(self, value: Optional[TRefType]):
+        """
+        The interface that this port provides. Stereotypes: isOfType
+        """
+        if value is not None:
+            self.providedInterfaceTRef = value
         return self
 
 
