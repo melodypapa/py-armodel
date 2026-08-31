@@ -38,10 +38,10 @@ def _build_value_group():
     vg.setLabel(label)
 
     contents = SwValues()
-    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Float
 
-    contents.addV(ARFloat().setValue(1.5))
-    contents.addV(ARFloat().setValue(2.5))
+    contents.addV(Float().setValue(1.5))
+    contents.addV(Float().setValue(2.5))
     vg.setVgContents(contents)
     return vg
 
@@ -83,11 +83,11 @@ def test_write_value_group_none_is_noop(writer):
 
 
 def test_write_sw_values_with_nested_vg_round_trip(writer):
-    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Float
     from armodel.parser.arxml_parser import ARXMLParser
 
     sw_values = SwValues()
-    sw_values.addV(ARFloat().setValue(0.0))
+    sw_values.addV(Float().setValue(0.0))
     sw_values.setVg(_build_value_group())
 
     parent = _parent()

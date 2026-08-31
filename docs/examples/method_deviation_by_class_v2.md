@@ -783,7 +783,7 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `mayBeUnconnected` | `ARBoolean` | `mayBeUnconnected` | ``Boolean`` | attr | type (PDF Boolean vs py ARBoolean) |
+| `mayBeUnconnected` | `Boolean` | `mayBeUnconnected` | ``Boolean`` | attr | — |
 | `requiredInterfaceTRef` | `TRefType` | `requiredInterface` | ``PortInterface`` | tref | type (PDF PortInterface vs py TRefType) |
 
 ## `PortGroup`
@@ -1887,7 +1887,6 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 - `XmlSpaceEnum` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Enumerations`)
 - `ARType` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
 - `ARNumerical` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
-- `ARFloat` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
 - `Float` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
 - `TimeValue` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
 - `ARLiteral` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
@@ -1895,8 +1894,6 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 - `AlignmentType` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
 - `CseCodeType` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
 - `ReferrableSubtypesEnum` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
-- `ARPositiveInteger` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
-- `ARBoolean` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
 - `NameToken` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
 - `PositiveInteger` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)
 - `PositiveUnlimitedInteger` (`M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::PrimitiveTypes`)

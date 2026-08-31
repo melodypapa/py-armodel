@@ -5,8 +5,8 @@ from typing import List, Optional, TYPE_CHECKING
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Describable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, ARNumerical, ARPositiveInteger, Boolean, ByteOrderEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, PositiveInteger, RefType, ARBoolean, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARLiteral, ARNumerical, PositiveInteger, Boolean, ByteOrderEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue, UnlimitedInteger
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
@@ -198,8 +198,8 @@ class ContainedIPduProps(ARObject):
         super().__init__()
 
         self.collectionSemantics: ARLiteral = None
-        self.headerIdLongHeader: ARPositiveInteger = None
-        self.headerIdShortHeader: ARPositiveInteger = None
+        self.headerIdLongHeader: PositiveInteger = None
+        self.headerIdShortHeader: PositiveInteger = None
         self.offset: ARNumerical = None
         self.timeout: ARNumerical = None
         self.trigger: ARLiteral = None
@@ -1737,7 +1737,7 @@ class SystemSignal(ARElement):
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
-        self.dynamicLength: ARBoolean = None
+        self.dynamicLength: Boolean = None
         self.physicalProps: SwDataDefProps = None
 
     def getDynamicLength(self):

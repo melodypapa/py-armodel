@@ -4,7 +4,7 @@ This module contains tests for the CalibrationParameter module in MSR.DataDictio
 
 import pytest
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, DisplayFormatString, MonotonyEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DisplayFormatString, Float, MonotonyEnum
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
     CalprmAxisCategoryEnum,
     SwCalprmAxis,
@@ -60,7 +60,7 @@ class TestSwCalprmAxisTypeProps:
                 super().__init__()
 
         props = ConcreteSwCalprmAxisTypeProps()
-        gradient = ARFloat()
+        gradient = Float()
         gradient.setValue(1.5)
         assert props.setMaxGradient(gradient) is props
         assert props.getMaxGradient() is gradient
@@ -88,7 +88,7 @@ class TestSwCalprmAxisTypeProps:
                 super().__init__()
 
         props = ConcreteSwCalprmAxisTypeProps()
-        gradient = ARFloat()
+        gradient = Float()
         gradient.setValue(1.5)
         props.setMaxGradient(gradient)
         monotony = MonotonyEnum()

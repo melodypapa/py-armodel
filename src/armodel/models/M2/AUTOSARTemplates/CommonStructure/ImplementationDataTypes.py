@@ -2,7 +2,7 @@ from abc import ABC
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, AREnum, ARLiteral, ARNumerical, NameToken, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, AREnum, ARLiteral, ARNumerical, NameToken, String
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import AutosarDataType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
@@ -55,7 +55,7 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
         self.arraySize: ARNumerical = None
         self.arraySizeHandling: ARLiteral = None
         self.arraySizeSemantics: ARLiteral = None
-        self.isOptional: ARBoolean = None
+        self.isOptional: Boolean = None
         self.subElements: List[ImplementationDataTypeElement] = []
         self.swDataDefProps: SwDataDefProps = None
 
@@ -182,7 +182,7 @@ class ImplementationDataType(AbstractImplementationDataType):
         # Indicates that the ImplementationDataType has been created with the
         # intention to define at least one element of the structure as
         # optional.
-        self.isStructWithOptionalElement: Optional[ARBoolean] = None
+        self.isStructWithOptionalElement: Optional[Boolean] = None
         # Specifies an element of an array, struct, or union data type.
         self.subElements: List[ImplementationDataTypeElement] = []
         # The SymbolProps for the ImplementationDataType.
@@ -217,18 +217,18 @@ class ImplementationDataType(AbstractImplementationDataType):
             self.dynamicArraySizeProfile = value
         return self
 
-    def getIsStructWithOptionalElement(self) -> Optional[ARBoolean]:
+    def getIsStructWithOptionalElement(self) -> Optional[Boolean]:
         """
         Gets the flag indicating whether the ImplementationDataType has been
         created with the intention to define at least one element of the
         structure as optional.
 
         Returns:
-            ARBoolean: The flag for optional elements in the structure
+            Boolean: The flag for optional elements in the structure
         """
         return self.isStructWithOptionalElement
 
-    def setIsStructWithOptionalElement(self, value: Optional[ARBoolean]) -> "ImplementationDataType":
+    def setIsStructWithOptionalElement(self, value: Optional[Boolean]) -> "ImplementationDataType":
         """
         Sets the flag indicating whether the ImplementationDataType has been
         created with the intention to define at least one element of the

@@ -6,7 +6,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, CIdentifier, RefType, TRefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, CIdentifier, RefType, TRefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     ClientServerAnnotation,
     DelegatedPortAnnotation,
@@ -176,7 +176,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         assert r_port.requiredInterfaceTRef is None
 
         # Test setters and getters
-        ar_bool = ARBoolean()
+        ar_bool = Boolean()
         ar_bool.setValue(True)
         r_port.setMayBeUnconnected(ar_bool)
         assert r_port.getMayBeUnconnected().getValue() is True

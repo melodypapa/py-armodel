@@ -6,8 +6,8 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
-    ARBoolean,
     ARLiteral,
+    Boolean,
     PositiveInteger,
     RefType,
     RevisionLabelString,
@@ -62,7 +62,7 @@ def _literal(value):
 
 
 def _bool(value):
-    b = ARBoolean()
+    b = Boolean()
     b.setValue(value)
     return b
 

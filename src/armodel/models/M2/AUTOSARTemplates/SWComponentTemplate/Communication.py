@@ -12,9 +12,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARPositiveInteger, Boolean
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TimeValue
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger, Boolean
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
@@ -976,7 +975,7 @@ class ReceiverComSpec(RPortComSpec, ABC):
         self.transformationComSpecProps: List[TransformationComSpecProps] = []
 
         # This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach.
-        self.usesEndToEndProtection: Optional[ARBoolean] = None
+        self.usesEndToEndProtection: Optional[Boolean] = None
 
     def addCompositeNetworkRepresentation(self, representation: CompositeNetworkRepresentation) -> "ReceiverComSpec":
         """
@@ -1143,13 +1142,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
         """
         return self.transformationComSpecProps
 
-    def getUsesEndToEndProtection(self) -> Optional[ARBoolean]:
+    def getUsesEndToEndProtection(self) -> Optional[Boolean]:
         """
         This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
         """
         return self.usesEndToEndProtection
 
-    def setUsesEndToEndProtection(self, value: Optional[ARBoolean]) -> "ReceiverComSpec":
+    def setUsesEndToEndProtection(self, value: Optional[Boolean]) -> "ReceiverComSpec":
         """
         This indicates whether the corresponding dataElement shall be transmitted using end-to-end protection. Caveat: The E2E wrapper approach involves technologies that are not subjected to the AUTOSAR standard and is superseded by the superior E2E transformer approach (which is fully standardized by AUTOSAR). Hence, new projects (without legacy constraints due to carry-over parts) shall use the fully standardized E2E transformer approach. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime
         A None value is a no-op and does not overwrite an existing usesEndToEndProtection.
@@ -1218,17 +1217,17 @@ class ModeSwitchSenderComSpec(PPortComSpec):
     def __init__(self):
         super().__init__()
 
-        self.enhancedModeApi: ARBoolean = None
+        self.enhancedModeApi: Boolean = None
         self.modeGroupRef: RefType = None
         self.modeSwitchedAck: ModeSwitchedAckRequest = None
-        self.queueLength: ARPositiveInteger = None
+        self.queueLength: PositiveInteger = None
 
     def getEnhancedModeApi(self):
         """
         Gets whether the enhanced mode API is enabled.
 
         Returns:
-            ARBoolean: True if enhanced mode API is enabled
+            Boolean: True if enhanced mode API is enabled
         """
         return self.enhancedModeApi
 
@@ -1297,7 +1296,7 @@ class ModeSwitchSenderComSpec(PPortComSpec):
         Gets the length of the mode switch queue.
 
         Returns:
-            ARPositiveInteger: The queue length
+            PositiveInteger: The queue length
         """
         return self.queueLength
 
@@ -1606,16 +1605,16 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
         self.aliveTimeout: Optional[TimeValue] = None
 
         # This attribute controls whether application code is entitled to check whether the value of the corresponding Variable DataPrototype has been updated.
-        self.enableUpdate: Optional[ARBoolean] = None
+        self.enableUpdate: Optional[Boolean] = None
 
         # The applicable filter algorithm for filtering the value of the corresponding dataElement.
         self.filter: Optional[DataFilter] = None
 
         # If this attribute is set to true, then the Rte_IStatus API shall exist. If the attribute does not exist or is set to false, then the Rte_IStatus API may still exist in response to the existence of further conditions.
-        self.handleDataStatus: Optional[ARBoolean] = None
+        self.handleDataStatus: Optional[Boolean] = None
 
         # This attribute specifies whether for the corresponding VariableDataPrototype the "never received" flag is available. If yes, the RTE is supposed to assume that initially the VariableDataPrototype has not been received before. After the first reception of the corresponding VariableDataPrototype the flag is cleared. • If the value of this attribute is set to "true" the flag is required. • If set to "false", the RTE shall not support the "never received" functionality for the corresponding Variable DataPrototype.
-        self.handleNeverReceived: Optional[ARBoolean] = None
+        self.handleNeverReceived: Optional[Boolean] = None
 
         # This attribute controls the behavior with respect to the handling of timeouts.
         self.handleTimeoutType: Optional["HandleTimeoutEnum"] = None
@@ -1641,13 +1640,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
             self.aliveTimeout = value
         return self
 
-    def getEnableUpdate(self) -> Optional[ARBoolean]:
+    def getEnableUpdate(self) -> Optional[Boolean]:
         """
         This attribute controls whether application code is entitled to check whether the value of the corresponding Variable DataPrototype has been updated.
         """
         return self.enableUpdate
 
-    def setEnableUpdate(self, value: Optional[ARBoolean]) -> "NonqueuedReceiverComSpec":
+    def setEnableUpdate(self, value: Optional[Boolean]) -> "NonqueuedReceiverComSpec":
         """
         This attribute controls whether application code is entitled to check whether the value of the corresponding Variable DataPrototype has been updated.
         A None value is a no-op and does not overwrite an existing enableUpdate.
@@ -1671,13 +1670,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
             self.filter = value
         return self
 
-    def getHandleDataStatus(self) -> Optional[ARBoolean]:
+    def getHandleDataStatus(self) -> Optional[Boolean]:
         """
         If this attribute is set to true, then the Rte_IStatus API shall exist. If the attribute does not exist or is set to false, then the Rte_IStatus API may still exist in response to the existence of further conditions.
         """
         return self.handleDataStatus
 
-    def setHandleDataStatus(self, value: Optional[ARBoolean]) -> "NonqueuedReceiverComSpec":
+    def setHandleDataStatus(self, value: Optional[Boolean]) -> "NonqueuedReceiverComSpec":
         """
         If this attribute is set to true, then the Rte_IStatus API shall exist. If the attribute does not exist or is set to false, then the Rte_IStatus API may still exist in response to the existence of further conditions.
         A None value is a no-op and does not overwrite an existing handleDataStatus.
@@ -1686,13 +1685,13 @@ class NonqueuedReceiverComSpec(ReceiverComSpec):
             self.handleDataStatus = value
         return self
 
-    def getHandleNeverReceived(self) -> Optional[ARBoolean]:
+    def getHandleNeverReceived(self) -> Optional[Boolean]:
         """
         This attribute specifies whether for the corresponding VariableDataPrototype the "never received" flag is available. If yes, the RTE is supposed to assume that initially the VariableDataPrototype has not been received before. After the first reception of the corresponding VariableDataPrototype the flag is cleared. • If the value of this attribute is set to "true" the flag is required. • If set to "false", the RTE shall not support the "never received" functionality for the corresponding Variable DataPrototype.
         """
         return self.handleNeverReceived
 
-    def setHandleNeverReceived(self, value: Optional[ARBoolean]) -> "NonqueuedReceiverComSpec":
+    def setHandleNeverReceived(self, value: Optional[Boolean]) -> "NonqueuedReceiverComSpec":
         """
         This attribute specifies whether for the corresponding VariableDataPrototype the "never received" flag is available. If yes, the RTE is supposed to assume that initially the VariableDataPrototype has not been received before. After the first reception of the corresponding VariableDataPrototype the flag is cleared. • If the value of this attribute is set to "true" the flag is required. • If set to "false", the RTE shall not support the "never received" functionality for the corresponding Variable DataPrototype.
         A None value is a no-op and does not overwrite an existing handleNeverReceived.
@@ -1760,14 +1759,14 @@ class QueuedReceiverComSpec(ReceiverComSpec):
     def __init__(self):
         super().__init__()
 
-        self.queueLength: ARPositiveInteger = None
+        self.queueLength: PositiveInteger = None
 
     def getQueueLength(self):
         """
         Gets the length of queue for received events.
 
         Returns:
-            ARPositiveInteger: The queue length
+            PositiveInteger: The queue length
         """
         return self.queueLength
 

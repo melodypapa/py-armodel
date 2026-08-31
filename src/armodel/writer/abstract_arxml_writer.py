@@ -9,12 +9,12 @@ from colorama import Fore
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARBoolean,
-    ARFloat,
     ARLiteral,
     ARNumerical,
     ARType,
+    Boolean,
     DateTime,
+    Float,
     Identifier,
     Integer,
     Numerical,
@@ -129,7 +129,7 @@ class AbstractARXMLWriter(ABC):
             if ref.value is not None:
                 child_tag.text = ref.value
 
-    def setChildElementOptionalFloatValue(self, element: ET.Element, key: str, value: ARFloat):
+    def setChildElementOptionalFloatValue(self, element: ET.Element, key: str, value: Float):
         if value is not None:
             child_element = ET.SubElement(element, key)
             self.writeARType(child_element, value)
@@ -138,7 +138,7 @@ class AbstractARXMLWriter(ABC):
     def setChildElementOptionalTimeValue(self, element: ET.Element, key: str, value: TimeValue):
         self.setChildElementOptionalFloatValue(element, key, value)
 
-    def setChildElementOptionalBooleanValue(self, element: ET.Element, key: str, value: ARBoolean) -> ET.Element:
+    def setChildElementOptionalBooleanValue(self, element: ET.Element, key: str, value: Boolean) -> ET.Element:
         if value is not None:
             child_element = ET.SubElement(element, key)
             self.writeARType(child_element, value)

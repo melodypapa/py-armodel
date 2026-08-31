@@ -3,7 +3,7 @@ This module contains tests for the Units module in MSR.AsamHdo.
 """
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Float, RefType
 from armodel.models.M2.MSR.AsamHdo.Units import (
     PhysicalDimension,
     SingleLanguageUnitNames,
@@ -151,7 +151,7 @@ class TestUnit:
     def test_unit_factor_si_to_unit_methods(self):
         """Test the factorSiToUnit getter and setter including None no-op."""
         unit = self._make()
-        factor = ARFloat()
+        factor = Float()
 
         result = unit.setFactorSiToUnit(factor)
         assert unit.getFactorSiToUnit() == factor
@@ -162,7 +162,7 @@ class TestUnit:
     def test_unit_offset_si_to_unit_methods(self):
         """Test the offsetSiToUnit getter and setter including None no-op."""
         unit = self._make()
-        offset = ARFloat()
+        offset = Float()
 
         result = unit.setOffsetSiToUnit(offset)
         assert unit.getOffsetSiToUnit() == offset

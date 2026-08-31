@@ -7,11 +7,10 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
-    ARBoolean,
-    ARFloat,
     ARLiteral,
     ARNumerical,
-    ARPositiveInteger,
+    Boolean,
+    Float,
     Integer,
     PositiveInteger,
     RefType,
@@ -92,7 +91,7 @@ def _ref(val="/path/ref", dest=None, base=None):
 
 
 def _bool(val=True):
-    b = ARBoolean()
+    b = Boolean()
     b.setValue(val)
     return b
 
@@ -122,13 +121,13 @@ def _pos_int(val=1):
 
 
 def _ar_pos_int(val=1):
-    i = ARPositiveInteger()
+    i = PositiveInteger()
     i.setValue(val)
     return i
 
 
 def _float(val=1.5):
-    f = ARFloat()
+    f = Float()
     f.setValue(val)
     return f
 

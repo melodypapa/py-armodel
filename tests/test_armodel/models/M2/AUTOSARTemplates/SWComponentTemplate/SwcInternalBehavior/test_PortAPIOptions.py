@@ -48,9 +48,9 @@ class TestPortAPIOption:
         assert port_api_option.transformerStatusForwarding is None
 
         # Test enableTakeAddress methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
 
-        enable_take = ARBoolean()
+        enable_take = Boolean()
         enable_take.setValue(True)
         port_api_option.setEnableTakeAddress(enable_take)
         assert port_api_option.getEnableTakeAddress() == enable_take
@@ -61,7 +61,7 @@ class TestPortAPIOption:
         assert port_api_option.getErrorHandling() == error_handling
 
         # Test indirectAPI methods
-        indirect_api = ARBoolean()
+        indirect_api = Boolean()
         indirect_api.setValue(False)
         port_api_option.setIndirectAPI(indirect_api)
         assert port_api_option.getIndirectAPI() == indirect_api

@@ -3,7 +3,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARObject,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARFloat,
+    Float,
     ARNumerical,
     RefType,
     ARLiteral,
@@ -200,10 +200,10 @@ class Unit(ARElement):
         self.displayName: Optional[SingleLanguageUnitNames] = None
 
         # This is the factor for the conversion from SI Units to units. The inverse is used for conversion from units to SI Units.
-        self.factorSiToUnit: Optional[ARFloat] = None
+        self.factorSiToUnit: Optional[Float] = None
 
         # This is the offset for the conversion from and to siUnits.
-        self.offsetSiToUnit: Optional[ARFloat] = None
+        self.offsetSiToUnit: Optional[Float] = None
 
         # This association represents the physical dimension to which the unit belongs to. Note that only values with units of the same physical dimensions might be converted.
         self.physicalDimensionRef: Optional[RefType] = None
@@ -222,13 +222,13 @@ class Unit(ARElement):
             self.displayName = value
         return self
 
-    def getFactorSiToUnit(self) -> Optional[ARFloat]:
+    def getFactorSiToUnit(self) -> Optional[Float]:
         """
         This is the factor for the conversion from SI Units to units. The inverse is used for conversion from units to SI Units.
         """
         return self.factorSiToUnit
 
-    def setFactorSiToUnit(self, value: Optional[ARFloat]) -> "Unit":
+    def setFactorSiToUnit(self, value: Optional[Float]) -> "Unit":
         """
         This is the factor for the conversion from SI Units to units. The inverse is used for conversion from units to SI Units. A None value is a no-op and does not overwrite an existing factorSiToUnit.
         """
@@ -236,13 +236,13 @@ class Unit(ARElement):
             self.factorSiToUnit = value
         return self
 
-    def getOffsetSiToUnit(self) -> Optional[ARFloat]:
+    def getOffsetSiToUnit(self) -> Optional[Float]:
         """
         This is the offset for the conversion from and to siUnits.
         """
         return self.offsetSiToUnit
 
-    def setOffsetSiToUnit(self, value: Optional[ARFloat]) -> "Unit":
+    def setOffsetSiToUnit(self, value: Optional[Float]) -> "Unit":
         """
         This is the offset for the conversion from and to siUnits. A None value is a no-op and does not overwrite an existing offsetSiToUnit.
         """

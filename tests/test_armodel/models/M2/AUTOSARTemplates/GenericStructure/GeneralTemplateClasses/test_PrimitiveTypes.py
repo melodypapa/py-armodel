@@ -9,13 +9,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AlignmentType,
     AnyServiceInstanceId,
     AnyVersionString,
-    ARBoolean,
     AREnum,
-    ARFloat,
     ArgumentDirectionEnum,
     ARLiteral,
     ARNumerical,
-    ARPositiveInteger,
     ARType,
     Boolean,
     ByteOrderEnum,
@@ -185,16 +182,16 @@ class TestARNumerical:
         assert numerical.getShortLabel() == "TestLabel"
 
 
-class TestARFloat:
+class TestFloat:
     """
-    Test class for ARFloat functionality.
+    Test class for Float functionality.
     """
 
     def test_initialization(self):
         """
-        Test ARFloat initialization.
+        Test Float initialization.
         """
-        ar_float = ARFloat()
+        ar_float = Float()
 
         # Verify basic properties
         assert ar_float is not None
@@ -205,7 +202,7 @@ class TestARFloat:
         """
         Test value property with float values.
         """
-        ar_float = ARFloat()
+        ar_float = Float()
 
         # Set float value
         ar_float.value = 42.5
@@ -216,7 +213,7 @@ class TestARFloat:
         """
         Test value property with integer values (should convert to float).
         """
-        ar_float = ARFloat()
+        ar_float = Float()
 
         # Set integer value
         ar_float.value = 42
@@ -227,29 +224,12 @@ class TestARFloat:
         """
         Test value property with string values.
         """
-        ar_float = ARFloat()
+        ar_float = Float()
 
         # Set string value that converts to float
         ar_float.value = "42.5"
         assert ar_float.value == 42.5
         assert str(ar_float) == "42.5"
-
-
-class TestFloat:
-    """
-    Test class for Float functionality.
-    """
-
-    def test_initialization(self):
-        """
-        Test Float initialization.
-        """
-        float_val = Float()
-
-        # Verify basic properties
-        assert float_val is not None
-        assert float_val._text is None
-        assert float_val._value is None
 
 
 class TestTimeValue:
@@ -527,164 +507,6 @@ class TestReferrableSubtypesEnum:
         assert enum._value is None
 
 
-class TestARPositiveInteger:
-    """
-    Test class for ARPositiveInteger functionality.
-    """
-
-    def test_initialization(self):
-        """
-        Test ARPositiveInteger initialization.
-        """
-        pos_int = ARPositiveInteger()
-
-        # Verify basic properties
-        assert pos_int is not None
-        assert pos_int.shortLabel is None
-        assert pos_int._text is None
-        assert pos_int._value is None
-
-    def test_value_property_positive(self):
-        """
-        Test value property with positive integer values.
-        """
-        pos_int = ARPositiveInteger()
-
-        # Set positive integer value
-        pos_int.value = 42
-        assert pos_int.value == 42
-        assert str(pos_int) == "42"
-
-    def test_value_property_string(self):
-        """
-        Test value property with string values.
-        """
-        pos_int = ARPositiveInteger()
-
-        # Set string value that converts to positive integer
-        pos_int.value = "42"
-        assert pos_int.value == 42
-        assert str(pos_int) == "42"
-
-    def test_negative_value_error(self):
-        """
-        Test that negative integer values raise an error.
-        """
-        pos_int = ARPositiveInteger()
-        try:
-            pos_int.value = -5
-            assert False, "Should raise ValueError for negative value"
-        except ValueError:
-            pass  # Expected behavior
-
-
-class TestARBoolean:
-    """
-    Test class for ARBoolean functionality.
-    """
-
-    def test_initialization(self):
-        """
-        Test ARBoolean initialization.
-        """
-        boolean = ARBoolean()
-
-        # Verify basic properties
-        assert boolean is not None
-        assert boolean._text is None
-        assert boolean._value is None
-
-    def test_value_property_bool(self):
-        """
-        Test value property with boolean values.
-        """
-        boolean = ARBoolean()
-
-        # Set boolean value
-        boolean.value = True
-        assert boolean.value is True
-        assert str(boolean) == "true"
-
-        boolean.value = False
-        assert boolean.value is False
-        assert str(boolean) == "false"
-
-    def test_value_property_int(self):
-        """
-        Test value property with integer values.
-        """
-        boolean = ARBoolean()
-
-        # Set integer value
-        boolean.value = 1
-        assert boolean.value is True
-        assert str(boolean) == "1"
-
-        boolean.value = 0
-        assert boolean.value is False
-        assert str(boolean) == "0"
-
-    def test_value_property_string(self):
-        """
-        Test value property with string values.
-        """
-        boolean = ARBoolean()
-
-        # Set string values that convert to boolean
-        boolean.value = "true"
-        assert boolean.value is True
-        assert str(boolean) == "true"
-
-        boolean.value = "false"
-        assert boolean.value is False
-        assert str(boolean) == "false"
-
-        boolean.value = "1"
-        assert boolean.value is True
-
-        boolean.value = "0"
-        assert boolean.value is False
-
-    def test_convert_number_to_boolean(self):
-        """
-        Test _convertNumberToBoolean method.
-        """
-        boolean = ARBoolean()
-
-        assert boolean._convertNumberToBoolean(0) is False
-        assert boolean._convertNumberToBoolean(1) is True
-        assert boolean._convertNumberToBoolean(42) is True
-
-    def test_convert_string_to_boolean(self):
-        """
-        Test _convertStringToBoolean method.
-        """
-        boolean = ARBoolean()
-
-        assert boolean._convertStringToBoolean("true") is True
-        assert boolean._convertStringToBoolean("TRUE") is True
-        assert boolean._convertStringToBoolean("1") is True
-        assert boolean._convertStringToBoolean("false") is False
-        assert boolean._convertStringToBoolean("FALSE") is False
-        assert boolean._convertStringToBoolean("0") is False
-
-
-class TestNameToken:
-    """
-    Test class for NameToken functionality.
-    """
-
-    def test_initialization(self):
-        """
-        Test NameToken initialization.
-        """
-        name_token = NameToken()
-
-        # Verify basic properties
-        assert name_token is not None
-        assert name_token._value is None
-
-
 class TestPositiveInteger:
     """
     Test class for PositiveInteger functionality.
@@ -701,6 +523,39 @@ class TestPositiveInteger:
         assert pos_int.shortLabel is None
         assert pos_int._text is None
         assert pos_int._value is None
+
+    def test_value_property_positive(self):
+        """
+        Test value property with positive integer values.
+        """
+        pos_int = PositiveInteger()
+
+        # Set positive integer value
+        pos_int.value = 42
+        assert pos_int.value == 42
+        assert str(pos_int) == "42"
+
+    def test_value_property_string(self):
+        """
+        Test value property with string values.
+        """
+        pos_int = PositiveInteger()
+
+        # Set string value that converts to positive integer
+        pos_int.value = "42"
+        assert pos_int.value == 42
+        assert str(pos_int) == "42"
+
+    def test_negative_value_error(self):
+        """
+        Test that negative integer values raise an error.
+        """
+        pos_int = PositiveInteger()
+        try:
+            pos_int.value = -5
+            assert False, "Should raise ValueError for negative value"
+        except ValueError:
+            pass  # Expected behavior
 
     def test_set_value_string(self):
         """Test setValue with decimal string round-trip and method chaining."""
@@ -731,6 +586,113 @@ class TestPositiveInteger:
         """Test that a negative value is rejected."""
         with pytest.raises(ValueError):
             PositiveInteger().setValue(-1)
+
+
+class TestBoolean:
+    """
+    Test class for Boolean functionality.
+    """
+
+    def test_initialization(self):
+        """
+        Test Boolean initialization.
+        """
+        boolean = Boolean()
+
+        # Verify basic properties
+        assert boolean is not None
+        assert boolean._text is None
+        assert boolean._value is None
+
+    def test_value_property_bool(self):
+        """
+        Test value property with boolean values.
+        """
+        boolean = Boolean()
+
+        # Set boolean value
+        boolean.value = True
+        assert boolean.value is True
+        assert str(boolean) == "true"
+
+        boolean.value = False
+        assert boolean.value is False
+        assert str(boolean) == "false"
+
+    def test_value_property_int(self):
+        """
+        Test value property with integer values.
+        """
+        boolean = Boolean()
+
+        # Set integer value
+        boolean.value = 1
+        assert boolean.value is True
+        assert str(boolean) == "1"
+
+        boolean.value = 0
+        assert boolean.value is False
+        assert str(boolean) == "0"
+
+    def test_value_property_string(self):
+        """
+        Test value property with string values.
+        """
+        boolean = Boolean()
+
+        # Set string values that convert to boolean
+        boolean.value = "true"
+        assert boolean.value is True
+        assert str(boolean) == "true"
+
+        boolean.value = "false"
+        assert boolean.value is False
+        assert str(boolean) == "false"
+
+        boolean.value = "1"
+        assert boolean.value is True
+
+        boolean.value = "0"
+        assert boolean.value is False
+
+    def test_convert_number_to_boolean(self):
+        """
+        Test _convertNumberToBoolean method.
+        """
+        boolean = Boolean()
+
+        assert boolean._convertNumberToBoolean(0) is False
+        assert boolean._convertNumberToBoolean(1) is True
+        assert boolean._convertNumberToBoolean(42) is True
+
+    def test_convert_string_to_boolean(self):
+        """
+        Test _convertStringToBoolean method.
+        """
+        boolean = Boolean()
+
+        assert boolean._convertStringToBoolean("true") is True
+        assert boolean._convertStringToBoolean("TRUE") is True
+        assert boolean._convertStringToBoolean("1") is True
+        assert boolean._convertStringToBoolean("false") is False
+        assert boolean._convertStringToBoolean("FALSE") is False
+        assert boolean._convertStringToBoolean("0") is False
+
+
+class TestNameToken:
+    """
+    Test class for NameToken functionality.
+    """
+
+    def test_initialization(self):
+        """
+        Test NameToken initialization.
+        """
+        name_token = NameToken()
+
+        # Verify basic properties
+        assert name_token is not None
+        assert name_token._value is None
 
 
 class TestIntervalTypeEnum:
@@ -1047,9 +1009,9 @@ class TestCIdentifier:
 
     def test_arfloat_unsupported_type(self):
         """
-        Test ARFloat with unsupported type to cover line 191.
+        Test Float with unsupported type to cover line 191.
         """
-        ar_float = ARFloat()
+        ar_float = Float()
 
         # Try to set value with unsupported type
         try:
@@ -1073,9 +1035,9 @@ class TestCIdentifier:
 
     def test_arpositiveinteger_unsupported_type(self):
         """
-        Test ARPositiveInteger with unsupported type to cover line 351.
+        Test PositiveInteger with unsupported type to cover line 351.
         """
-        pos_int = ARPositiveInteger()
+        pos_int = PositiveInteger()
 
         try:
             pos_int.value = object()  # object is not supported
@@ -1085,9 +1047,9 @@ class TestCIdentifier:
 
     def test_arboolean_unsupported_type(self):
         """
-        Test ARBoolean with unsupported type to cover line 413.
+        Test Boolean with unsupported type to cover line 413.
         """
-        boolean = ARBoolean()
+        boolean = Boolean()
 
         try:
             boolean.value = set([1, 2, 3])  # set is not supported
@@ -1097,9 +1059,9 @@ class TestCIdentifier:
 
     def test_arboolean_convert_string_to_boolean_invalid(self):
         """
-        Test ARBoolean _convertStringToBoolean with invalid string to cover line 395.
+        Test Boolean _convertStringToBoolean with invalid string to cover line 395.
         """
-        boolean = ARBoolean()
+        boolean = Boolean()
 
         # This should trigger the recursive call to convertNumberToBoolean with a string that needs to be converted to int first
         result = boolean._convertStringToBoolean("42")

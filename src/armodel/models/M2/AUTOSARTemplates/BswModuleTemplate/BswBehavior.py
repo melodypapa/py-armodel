@@ -22,7 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Im
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent, ApiPrincipleEnum, ExecutableEntity, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceDependency, ServiceNeeds
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARFloat, Boolean
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Float, Boolean
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, String, TimeValue, Identifier
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -1497,14 +1497,14 @@ class BswModeSwitchAckRequest(ARObject):
         super().__init__()
 
         # Timeout value for the mode switch acknowledgment
-        self.timeout: ARFloat = None
+        self.timeout: Float = None
 
     def getTimeout(self):
         """
         Gets the timeout value for the mode switch acknowledgment.
 
         Returns:
-            ARFloat representing the timeout value
+            Float representing the timeout value
         """
         return self.timeout
 

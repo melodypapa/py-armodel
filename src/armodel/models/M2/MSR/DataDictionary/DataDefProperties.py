@@ -7,7 +7,7 @@ from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     ARNumerical,
-    ARFloat,
+    Float,
     AlignmentType,
     Boolean,
     Identifier,
@@ -384,7 +384,7 @@ class SwDataDefProps(ARObject):
         self.displayPresentation: Optional[DisplayPresentationEnum] = None
 
         # This attribute can be used to define a value which is added to or subtracted from the value of a DataPrototype when using up/down keys while calibrating.
-        self.stepSize: Optional[ARFloat] = None
+        self.stepSize: Optional[Float] = None
 
         # This attribute is used to specify the dimensions of a value block (VAL_BLK) for the case that that value block has more than one dimension. The dimensions given in this attribute are ordered such that the first entry represents the first dimension, the second entry represents the second dimension, and so on. For one-dimensional value blocks the attribute swValueBlockSize shall be used and this attribute shall not exist.
         self.swValueBlockSizeMults: List[ARNumerical] = []
@@ -484,13 +484,13 @@ class SwDataDefProps(ARObject):
             self.displayPresentation = value
         return self
 
-    def getStepSize(self) -> Optional[ARFloat]:
+    def getStepSize(self) -> Optional[Float]:
         """
         This attribute can be used to define a value which is added to or subtracted from the value of a DataPrototype when using up/down keys while calibrating.
         """
         return self.stepSize
 
-    def setStepSize(self, value: Optional[ARFloat]) -> "SwDataDefProps":
+    def setStepSize(self, value: Optional[Float]) -> "SwDataDefProps":
         """
         This attribute can be used to define a value which is added to or subtracted from the value of a DataPrototype when using up/down keys while calibrating. A None value is a no-op and does not overwrite an existing stepSize.
         """

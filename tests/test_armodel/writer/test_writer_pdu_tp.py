@@ -9,8 +9,8 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import (
     AUTOSAR,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
-    ARBoolean,
     ARLiteral,
+    Boolean,
     Integer,
     PositiveInteger,
     RefType,
@@ -87,7 +87,7 @@ def _time(text):
 
 
 def _bool(text):
-    val = ARBoolean()
+    val = Boolean()
     val.setValue(text)
     return val
 

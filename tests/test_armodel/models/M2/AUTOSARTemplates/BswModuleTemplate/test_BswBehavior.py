@@ -50,7 +50,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import M
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds, RoleBasedDataAssignment, SymbolicNameProps
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARFloat, ARNumerical, Identifier, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Float, Identifier, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 
@@ -1005,7 +1005,7 @@ class TestBswModeSwitchAckRequest:
     def test_set_timeout(self):
         ack_request = BswModeSwitchAckRequest()
 
-        timeout = ARFloat()
+        timeout = Float()
         timeout.setValue(5.0)
         result = ack_request.setTimeout(timeout)
 

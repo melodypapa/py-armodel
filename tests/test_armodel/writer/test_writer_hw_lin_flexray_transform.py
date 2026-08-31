@@ -16,7 +16,6 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory im
     HwType,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
-    ARBoolean,
     ARLiteral,
     ARNumerical,
     Boolean,
@@ -88,7 +87,7 @@ def _literal(value):
 
 
 def _bool(value):
-    b = ARBoolean()
+    b = Boolean()
     b.setValue(value)
     return b
 

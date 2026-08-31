@@ -8,12 +8,12 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecific
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AlignmentType,
-    ARFloat,
     ARLiteral,
     ARNumerical,
     Boolean,
     CseCodeType,
     DisplayFormatString,
+    Float,
     Identifier,
     Integer,
     NativeDeclarationString,
@@ -50,7 +50,7 @@ class TestSwDataDefPropsRoundTrip:
         props.setAdditionalNativeTypeQualifier(NativeDeclarationString().setValue("volatile"))
         props.setSwInterpolationMethod(Identifier().setValue("linear"))
         props.setSwImplPolicy(SwImplPolicyEnum().setValue(SwImplPolicyEnum.STANDARD))
-        props.setStepSize(ARFloat().setValue("0.5"))
+        props.setStepSize(Float().setValue("0.5"))
         props.setSwIntendedResolution(ARNumerical().setValue("0.01"))
         props.setSwValueBlockSize(ARNumerical().setValue("10"))
         props.addSwValueBlockSizeMult(ARNumerical().setValue("2"))

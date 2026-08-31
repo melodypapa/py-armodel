@@ -4,7 +4,7 @@ This module contains application attribute classes for AUTOSAR software componen
 
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARBoolean, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, RefType
 from armodel.models.M2.MSR.Documentation.Annotation import GeneralAnnotation
 
 
@@ -167,7 +167,7 @@ class SenderReceiverAnnotation(GeneralAnnotation):
         super().__init__()
 
         # Flag whether this data element was not measured directly but instead was calculated from possibly several other measured or calculated values.
-        self.computed: Optional[ARBoolean] = None
+        self.computed: Optional[Boolean] = None
 
         # The instance of VariableDataPrototype annotated.
         self.dataElementRef: Optional[RefType] = None
@@ -178,22 +178,22 @@ class SenderReceiverAnnotation(GeneralAnnotation):
         # This attribute controls how data is processed according to the possible values of ProcessingKindEnum.
         self.processingKind: Optional[ProcessingKindEnum] = None
 
-    def getComputed(self) -> Optional[ARBoolean]:
+    def getComputed(self) -> Optional[Boolean]:
         """
         Gets the flag whether this data element was not measured directly but instead was calculated from possibly several other measured or calculated values.
 
         Returns:
-            ARBoolean flag, or None if not set
+            Boolean flag, or None if not set
         """
         return self.computed
 
-    def setComputed(self, value: Optional[ARBoolean]) -> "SenderReceiverAnnotation":
+    def setComputed(self, value: Optional[Boolean]) -> "SenderReceiverAnnotation":
         """
         Sets the flag whether this data element was not measured directly but instead was calculated from possibly several other measured or calculated values.
         A None value is a no-op and does not overwrite an existing value.
 
         Args:
-            value: The ARBoolean flag to set
+            value: The Boolean flag to set
 
         Returns:
             self for method chaining

@@ -13,8 +13,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    TRefType as TRefType,
-    ARBoolean as ARBoolean,
+    TRefType,
+    Boolean,
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import ClientComSpec, ModeSwitchReceiverComSpec, ModeSwitchSenderComSpec
@@ -732,18 +732,18 @@ class RPortPrototype(AbstractRequiredPortPrototype):
         super().__init__(parent, short_name)
 
         # If set to true, this attribute indicates that the enclosing RPortPrototype may be left unconnected and that this aspect has explicitly been considered in the software-component's design.
-        self.mayBeUnconnected: Optional[ARBoolean] = None
+        self.mayBeUnconnected: Optional[Boolean] = None
 
         # The interface that this port requires. Stereotypes: isOfType
         self.requiredInterfaceTRef: Optional[TRefType] = None
 
-    def getMayBeUnconnected(self) -> Optional[ARBoolean]:
+    def getMayBeUnconnected(self) -> Optional[Boolean]:
         """
         If set to true, this attribute indicates that the enclosing RPortPrototype may be left unconnected and that this aspect has explicitly been considered in the software-component's design.
         """
         return self.mayBeUnconnected
 
-    def setMayBeUnconnected(self, value: Optional[ARBoolean]) -> "RPortPrototype":
+    def setMayBeUnconnected(self, value: Optional[Boolean]) -> "RPortPrototype":
         """
         If set to true, this attribute indicates that the enclosing RPortPrototype may be left unconnected and that this aspect has explicitly been considered in the software-component's design.
         """

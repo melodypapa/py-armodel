@@ -20,7 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucValueCollection,
 )
 from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import EcucConfigurationVariantEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, Boolean, RefType, RevisionLabelString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, RevisionLabelString
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
 
@@ -96,7 +96,7 @@ class TestEcucModuleConfigurationValues:
 
     def test_set_post_build_variant_used(self):
         obj = _instantiate(EcucModuleConfigurationValues, "EcucModuleConfigurationValues")
-        value = ARBoolean().setValue(True)
+        value = Boolean().setValue(True)
         result = obj.setPostBuildVariantUsed(value)
         assert result is obj
         assert obj.getPostBuildVariantUsed() == value

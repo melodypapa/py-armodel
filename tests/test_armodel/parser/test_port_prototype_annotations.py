@@ -3,7 +3,7 @@
 import tempfile
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     ClientServerAnnotation,
     DataLimitKindEnum,
@@ -31,7 +31,7 @@ def _ref(value, dest):
 
 
 def _bool(value):
-    b = ARBoolean()
+    b = Boolean()
     b.setValue("true" if value else "false")
     return b
 

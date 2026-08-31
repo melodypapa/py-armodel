@@ -9,12 +9,12 @@ from colorama import Fore
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARFloat,
     ARLiteral,
     ARNumerical,
     ARType,
     Boolean,
     DateTime,
+    Float,
     Identifier,
     Integer,
     IntervalTypeEnum,
@@ -187,20 +187,20 @@ class AbstractARXMLParser(ABC):
             return True
         return False
 
-    def getChildElementOptionalFloatValue(self, element: ET.Element, key: str) -> ARFloat:
+    def getChildElementOptionalFloatValue(self, element: ET.Element, key: str) -> Float:
         child_element = self.find(element, key)
         float_value = None
         if (child_element is not None) and (child_element.text is not None):
-            float_value = ARFloat()
+            float_value = Float()
             self.readARType(child_element, float_value)
             float_value.setValue(child_element.text)
         return float_value
 
-    def getChildElementFloatValueList(self, element: ET.Element, key: str) -> ARFloat:
+    def getChildElementFloatValueList(self, element: ET.Element, key: str) -> Float:
         child_elements = self.findall(element, key)
         results = []
         for child_element in child_elements:
-            float_value = ARFloat()
+            float_value = Float()
             float_value.setValue(child_element.text)
             results.append(float_value)
         return results

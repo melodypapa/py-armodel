@@ -1,6 +1,6 @@
 """Tests for the PortPrototype annotation classes (ApplicationAttributes)."""
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ARLiteral, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     ClientServerAnnotation,
     DataLimitKindEnum,
@@ -32,7 +32,7 @@ def _literal(text="val"):
 
 
 def _bool(value=True):
-    b = ARBoolean()
+    b = Boolean()
     b.setValue("true" if value else "false")
     return b
 
