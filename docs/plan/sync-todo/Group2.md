@@ -49,14 +49,14 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 8 — Deviations — the recorded `type (spec many vs py single)` deviation for this class (docs/examples/method_deviation_by_class.md, `## ApplicationCompositeElementInPortInterfaceInstanceRef` block) is now RESOLVED: row removed, replaced with "No deviations" note (Rule 0014 to-fix done). NOTE: a STALE identical deviation row exists under a different class block (…DataElements::InstanceRefs / SwcInternalBehavior/InstanceRefsUsage.py, whose field is already a list) — out of scope for this class, flagged for that class's next sync pass. No remaining deviations for this class
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8263 tests passed incl. integration round-trip, ruff/flake8/black-check clean; 9b (user-confirmed 2026-08-31): Rules 0001.1–0001.7/0011/0012/0013/0014 pass; Rule 0007 package-location check pass (InstanceRefs.py leaf shape, current location correct); deviation resolved & removed; marker written
 - [ ] `SymbolProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.21)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec — Table 5.21 caption md l.8351, body l.8353–8360; PDF p.288 via pdf_page.py. Class=concrete; Package=...SWComponentTemplate::Components (non-leaf → Components/__init__.py ✓ current location); Base=ARObject, ImplementationProps, Referrable → most-derived **ImplementationProps** ✓ current base correct (abstract Table 5.20 p.287, already carries get/setSymbol + `symbol: Optional[CIdentifier]` + SYMBOL serialization in read/writeImplementationProps); Note verbatim captured (class docstring); Attribute row "-" → **no own fields** (previous class body already minimal-correct); Aggregated by AtomicSwComponentType.symbolProps + ImplementationDataType.symbolProps (+ namespace/eventSymbolName consumers) ✓ both main paths wired
+  - [x] Step 2 — Write model class unit test (Red) — test_Components.py: old inline test_SymbolProps method replaced by dedicated TestSymbolProps class (3 tests: init defaults + isinstance ImplementationProps; inherited symbol round-trip + None no-op; class docstring verbatim). RED confirmed: 1 FAILED (docstring None) + CIdentifier ctor misuse in test fixed (CIdentifier().setValue)
+  - [x] Step 3 — Implement model class (Green) — no field/method changes needed (zero-attribute class); GREEN: 35 passed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring = Table 5.21 Note verbatim (test-asserted with .strip()); no member docstrings existed (zero own members, nothing stale to wipe); checklist rewritten to 6-col
+  - [x] Step 5 — Write reader/writer round-trip test (Red→N/A) — new parser/ test_symbol_props.py (3 tests: SHORT-NAME + SYMBOL field values via readImplementationDataTypeSymbolProps; no-SYMBOL-PROPS → None; SYMBOL-PROPS without SYMBOL → symbol None) and writer/ test_symbol_props.py (3 tests: field values; no props → no element; props without symbol → no SYMBOL child). Coverage already existed (readSymbolProps↔writeSymbolProps wired to AtomicSwc + ImplementationDataType) → 6 passed immediately, no Red failure possible; zero parser/writer change needed (Rule 0018 N/A-with-evidence)
+  - [x] Step 6 — Update parser & writer (Green) — no change: matched name pairs already present (readSymbolProps→readImplementationProps mutators; writeSymbolProps→writeImplementationProps getters); GREEN: 6 passed
+  - [x] Step 7 — Update checklist comment — 6-col, single __init__ row ([—] reader / [—] writer: no own XML members; symbol rows live on the stamped base ImplementationProps Table 5.20 checklist) with `# Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.21, p.288 (R23-11)`; marker deferred to 9b
+  - [x] Step 8 — Deviations — none; no placeholders; no Step-3 referenced missing classes (member types: CIdentifier primitive only)
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `PPortPrototype` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.6)
   - [ ] Step 1 — Sync members & description from spec
