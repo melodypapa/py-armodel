@@ -12,16 +12,50 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ApplicationError,
     ArgumentDataPrototype,
     ClientServerInterface,
+    ClientServerInterfaceMapping,
     ClientServerOperation,
     DataInterface,
     NvDataInterface,
     ParameterInterface,
     PortInterface,
+    PortInterfaceMapping,
     SenderReceiverInterface,
 )
 
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
+
+    def test_PortInterfaceMapping_abstract(self):
+        """
+        PortInterfaceMapping is abstract (Table 4.20) — direct instantiation fails.
+
+        Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.20, p.119 (R23-11)
+        """
+        with pytest.raises(TypeError) as err:
+            PortInterfaceMapping(AUTOSAR.getInstance(), "PortInterfaceMapping")
+        assert str(err.value) == "PortInterfaceMapping is an abstract class."
+
+    def test_PortInterfaceMapping_concrete_subclass_inheritance(self):
+        """
+        Concrete subclasses derive from PortInterfaceMapping (Base chain:
+        ARObject, AtpBlueprint, AtpBlueprintable, Identifiable, MultilanguageReferrable,
+        Referrable — Python base = AtpBlueprintable role branch).
+
+        Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.20, p.119 (R23-11)
+        """
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        mapping = ClientServerInterfaceMapping(ar_root, "cs_mapping")
+
+        assert isinstance(mapping, ARObject)
+        assert isinstance(mapping, AtpBlueprintable)
+        assert isinstance(mapping, Identifiable)
+        assert isinstance(mapping, MultilanguageReferrable)
+        assert isinstance(mapping, Referrable)
+        assert isinstance(mapping, PortInterfaceMapping)
+
+        assert mapping.parent == ar_root
+        assert mapping.short_name == "cs_mapping"
 
     def test_PortInterface(self):
         with pytest.raises(TypeError) as err:

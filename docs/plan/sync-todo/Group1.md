@@ -25,7 +25,7 @@ Input: `Group 1 — Framework & core, PortInterface basics` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — none (stale "missing" tracker row replaced with resolved entry)
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [x] `ReferenceBase` (member type of `ARPackage.referenceBase` · Rule 0016.4 stub — blocks ARPackage 9b stamp per Rules 0001.10/0012.1 · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.14, p.72) — **finished, stamped `# Spec verified: R23-11`** (commit: 9793ae1f)
+- [x] `ReferenceBase` (member type of `ARPackage.referenceBase` · Rule 0016.4 stub — blocks ARPackage 9b stamp per Rules 0001.10/0012.1 · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.14, p.72) — **finished, stamped `# Spec verified: R23-11`** (commit: 192dfd94, branch feature/sync-reference-base)
   - Spec facts (extracted 2026-08-30): defined in `ARPackage.py` (same file); Package = ...GeneralTemplateClasses::ARPackage; Base = **ARObject only** (no Referrable → `__init__(self)`); Aggregated by = ARPackage.referenceBase.
     - Note (verbatim, for Step 4): "This meta-class establishes a basis for relative references. Reference bases are identified by the short Label which shall be unique in the current package."
     - Attributes (Table 4.14 order): `globalElement` (ReferrableSubtypesEnum, *, attr) / `globalInPackage` (ARPackage, *, ref) / `isDefault` (Boolean, 1, attr, atp.Status=obsolete — keep) / `package` (ARPackage, 0..1, ref) / `shortLabel` (Identifier, 1, attr).
@@ -434,16 +434,16 @@ in the work order below can run, so they precede the `Identifiable` row.
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `PortInterfaceMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.20)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `PortInterfaceMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.20) — **finished, stamped `# Spec verified: R23-11`** (commit: ca6a3723)
+  - [x] Step 1 — Sync members & description from spec — Table 4.20 body md l.3527–3535; caption l.3525; PDF p.119 confirmed via pdf_page.py (R4.3.1 has Table 4.24 p.124 — unused, R23-11 table exists). Class=abstract; Package=...SWComponentTemplate::PortInterface; Base=ARObject, AtpBlueprint, AtpBlueprintable, Identifiable, MultilanguageReferrable, Referrable → role branch **AtpBlueprintable** ✓ current heritage correct (parallel AtpBlueprint/AtpBlueprintable chains not added via MI, ARPackage precedent); Note (verbatim) captured for Step 4; Attributes row = `-` — **no own attributes** (abstract shell); Subclasses: ClientServerInterfaceMapping, ModeInterfaceMapping, TriggerInterfaceMapping, VariableAndParameterInterfaceMapping; Aggregated by PortInterfaceMappingSet.portInterfaceMapping. No own XML element (abstract) → Steps 5/6 expected N/A. Current code: no class docstring, stale 3-col checklist
+  - [x] Step 2 — Write model class unit test (Red) — test_PortInterface.py TestPortInterfaceMapping: test_PortInterfaceMapping_abstract (TypeError msg) + test_PortInterfaceMapping_concrete_subclass_inheritance (isinstance chain via ClientServerInterfaceMapping, parent/short_name). Result: both pass immediately — impl already matches Table 4.20 (abstract shell, no attributes); no failing assertion found
+  - [x] Step 3 — Implement model class (Green) — no change required: `PortInterfaceMapping(AtpBlueprintable, ABC)` + abstract TypeError guard verified correct by the Step-2 tests; Base chain confirmed (AtpBlueprintable role branch, ARPackage precedent)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — no pre-existing docstrings on this class (wipe vacuous); class docstring written verbatim from md l.3530 Note; no member docstrings (no own attributes, `__init__` has no docstring per Rule 0012.2.4)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: abstract class, no own XML element; XSD AUTOSAR_00052.xsd l.92574 defines `PORT-INTERFACE-MAPPING` as an element **group** (concrete subclasses substitute into it) — round-trip covered by the concrete subclass syncs
+  - [x] Step 6 — Update parser & writer (Green) — N/A: same reason as Step 5
+  - [x] Step 7 — Update checklist comment — 6-col format with `# Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.20, p.119 (R23-11)`; single row `__init__` (reader/writer `[—]`, release R23-11); marker deferred to 9b
+  - [x] Step 8 — Deviations — none for the class itself (no own attributes, heritage correct, docstring verbatim). Rule 0001.10 reference report (non-blocking): base `AtpBlueprintable` queued at Group1.md l.297 with heritage fix (re-parent → Identifiable); concrete subclass `TriggerInterfaceMapping` queued at l.457; concrete subclasses `ClientServerInterfaceMapping` / `ModeInterfaceMapping` / `VariableAndParameterInterfaceMapping` NOT queued (Table 4.20 Subclasses row; inherit from this class, no member-type edge) — future queue candidates
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8210 unit + 2 integration round-trip pass, ruff/flake8/black clean; 9b (user-confirmed): Rules 0001.1/0001.2/0001.3/0003/0012/0014 pass, N/A items justified (no attributes/no XML element), Rule 0007 package-location check pass (PortInterface/__init__.py non-leaf shape, explicit imports, top-level export True, not in exclusion lists); no deviations; marker written
 - [ ] `SubElementMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.32)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
