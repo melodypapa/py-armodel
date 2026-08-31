@@ -111,15 +111,15 @@ in the work order below can run, so they precede the `Identifiable` row.
   - [x] Step 8 — Deviations — type/cardinality unknown (markdown-only); all 7 attrs recorded as `Optional[str]` placeholders; NO `# Spec verified:` / `# XSD verified:` stamp
   - [x] Step 9 — Verify (9a) only; **no 9b stamp** (markdown-minimal deviation) — 5 tests pass, ruff/black clean, no regression in Firewall suite (15 total)
 - [ ] `DdsRule` (member type of `FirewallRule.ddsRule` (0..1 aggr) · markdown-only/minimal · R23-11 markdown BSW-mapping section: appId, hostId, instanceId, majorProtocolVersion, minorProtocolVersion, productId, readerEntityId, submessageType, vendorId, writerEntityId · no type/cardinality in markdown · deviation, no stamp · derives ARObject) — **NO verification stamp**
-  - [ ] Step 1 — Sync members & description from markdown
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite from markdown Notes)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone
-  - [ ] Step 6 — Update parser & writer (Green) — N/A standalone
-  - [ ] Step 7 — Update checklist comment (no stamp; deviation noted)
-  - [ ] Step 8 — Deviations — type/cardinality unknown (markdown-only)
-  - [ ] Step 9 — Verify (9a) only; no 9b stamp
+  - [x] Step 1 — Sync members & description from markdown — 10 attrs in markdown display order; class docstring = Template Description "Configuration of a DDS firewall rule" verbatim
+  - [x] Step 2 — Write model class unit test (Red) — tests/test_armodel/.../Firewall/test_DdsRule.py (6 tests: defaults, header ids, protocol versions, entity ids/submessageType, overwrite, docstring)
+  - [x] Step 3 — Implement model class (Green) — `class DdsRule(ARObject)` in Firewall/__init__.py; 10 markdown-derived attrs as `Optional[str]` (generic, type unknown → deviation); setX/getX accessors returning self
+  - [x] Step 4 — Sync docstrings (wipe + rewrite from markdown Notes) — class docstring + each getter docstring is the verbatim BSW-mapping Note (new class: no stale docstrings to wipe)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A standalone (aggregated child; round-trip via FirewallRule later)
+  - [x] Step 6 — Update parser & writer (Green) — N/A standalone (helper added when FirewallRule syncs)
+  - [x] Step 7 — Update checklist comment (no stamp; deviation noted) — 6-col parity checklist in class body
+  - [x] Step 8 — Deviations — type/cardinality unknown (markdown-only); all 10 attrs recorded as `Optional[str]` placeholders; NO `# Spec verified:` / `# XSD verified:` stamp
+  - [x] Step 9 — Verify (9a) only; **no 9b stamp** (markdown-minimal deviation) — 6 tests pass, Firewall suite 21 green, ruff/black clean, no regression
 - [ ] `DoIpRule` (member type of `FirewallRule.doIpRule` (0..1 aggr) · markdown-only/minimal · BSW-mapping section: destinationMaxAddress, destinationMinAddress, inverseProtocolVersion, payloadLength, payloadType, protocolVersion, sourceMaxAddress, sourceMinAddress, udsService · no type/cardinality · deviation, no stamp · derives ARObject) — **NO verification stamp**
   - [ ] Step 1 — Sync members & description from markdown
   - [ ] Step 2 — Write model class unit test (Red)
