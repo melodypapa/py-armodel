@@ -119,7 +119,7 @@ in the work order below can run, so they precede the `Identifiable` row.
   - [x] Step 6 — Update parser & writer (Green) — N/A standalone (helper added when FirewallRule syncs)
   - [x] Step 7 — Update checklist comment (no stamp; deviation noted) — 6-col parity checklist in class body
   - [x] Step 8 — Deviations — type/cardinality unknown (markdown-only); all 10 attrs recorded as `Optional[str]` placeholders; NO `# Spec verified:` / `# XSD verified:` stamp
-  - [x] Step 9 — Verify (9a) only; **no 9b stamp** (markdown-minimal deviation) — 6 tests pass, Firewall suite 21 green, ruff/black clean, no regression
+  - [x] Step 9 — Verify (9a) only; **no 9b stamp** (markdown-minimal deviation) — 6 tests pass, Firewall suite 21 green, ruff/black clean, no regression — **finished, unstamped (markdown-minimal deviation)** (commit: 86699dd2, branch feature/sync-dds-rule)
 - [ ] `DoIpRule` (member type of `FirewallRule.doIpRule` (0..1 aggr) · markdown-only/minimal · BSW-mapping section: destinationMaxAddress, destinationMinAddress, inverseProtocolVersion, payloadLength, payloadType, protocolVersion, sourceMaxAddress, sourceMinAddress, udsService · no type/cardinality · deviation, no stamp · derives ARObject) — **NO verification stamp**
   - [ ] Step 1 — Sync members & description from markdown
   - [ ] Step 2 — Write model class unit test (Red)
