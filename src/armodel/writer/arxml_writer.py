@@ -1191,6 +1191,11 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeIdentifiable(self, element: ET.Element, identifiable: Identifiable):
         self.writeMultilanguageReferrable(element, identifiable)
+        # Emitted after the S/T attributes (written by writeARObjectAttributes at the
+        # bottom of the chain) to keep the historical attribute order S, T, UUID.
+        uuid_value = identifiable.getUuid()
+        if uuid_value is not None:
+            element.attrib["UUID"] = uuid_value
         self.setAnnotations(element, identifiable.getAnnotations())
         self.setMultiLanguageOverviewParagraph(element, "DESC", identifiable.getDesc())
         self.setChildElementOptionalLiteral(element, "CATEGORY", identifiable.getCategory())

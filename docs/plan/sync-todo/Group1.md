@@ -682,7 +682,7 @@ IDENTIFIABLE XSD type and are unaffected.
 sides and the suite stays green. Add an explicit regression test asserting the 5
 HW UUIDs survive before making the move.
 
-### The move itself (run only when all ten rows are `[x]`)
+### The move itself (run only when all ten rows are `[x]`) — **EXECUTED 2026-08-31 (see status note below)**
 
 1. `Identifiable.__init__`: declare `self.uuid: Optional[str] = None` in Table 4.4
    order (after `introduction`); the existing `getUuid`/`setUuid` become the real
@@ -705,3 +705,26 @@ HW UUIDs survive before making the move.
    the `ARObject` section of `docs/examples/method_deviation_by_class_v2.md`.
 7. Move the uuid cases out of `parser/test_ar_object_attributes.py` +
    `writer/test_ar_object_attributes.py` into the Identifiable-level tests.
+
+**Status (2026-08-31): the uuid move has landed.** Steps 1–7 done:
+- `Identifiable.__init__` owns `self.uuid` (after `introduction`); `getUuid`/`setUuid`
+  are now the real implementations; `ARObject` no longer declares uuid.
+- Parser: uuid read stays at the bottom of `readARObjectAttributes` under an
+  `isinstance(ar_object, Identifiable)` guard (step-3 option A — no import cycle,
+  parser already imports models), so it is still populated before the
+  `addARObject()` registration.
+- Writer: `writeARObjectAttributes` no longer emits UUID for ARObject objects
+  (ARType primitives keep their own `uuid`, PrimitiveTypes.py); `writeIdentifiable`
+  emits it **after** the S/T chain call to preserve the historical attribute
+  order S, T, UUID (byte-level round-trip requirement).
+- `UUIDMgr.addObject` keys on `isinstance(obj, Identifiable)`.
+- Stale comments updated (AbstractBlueprintStructure docstring, ARPackage ctor
+  comment, both `test_ar_object_attributes.py` module docstrings,
+  `docs/examples/method_deviation_by_class_v2.md` ARObject section).
+- Writer uuid case moved to `tests/test_armodel/writer/test_identifiable.py`
+  (already covered); parser uuid cases updated to the new Identifiable-owned
+  contract; uuid_mgr / TransformationISignalProps / BswVariableAccess /
+  SenderRecRecordTypeMapping tests updated (non-Identifiable objects no longer
+  carry uuid).
+- Gates: 8281 tests passed (incl. 10 integration round-trips, CanSystem 5 HW
+  UUIDs verified via test_hw_description_entity), lint + black-check clean.

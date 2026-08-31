@@ -103,7 +103,7 @@ class AtpBlueprintMapping(ARObject, ABC):
         - BlueprintMapping (generic blueprint to implementation mapping)
 
     Attributes:
-        Inherits all attributes from ARObject including uuid and adminData.
+        Inherits all attributes from ARObject; uuid (Table 4.4) and adminData come from Identifiable.
     """
 
     # AtpBlueprintMapping method parity checklist:

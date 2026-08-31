@@ -8,6 +8,7 @@ from colorama import Fore
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARFloat,
     ARLiteral,
@@ -366,15 +367,13 @@ class AbstractARXMLParser(ABC):
                 timestamp_value.setValue(timestamp)
                 ar_object.setTimestamp(timestamp_value)
             # The uuid attribute (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 4.4)
-            # is carried on ARObject (see ArObject.py: "uuid" internal member) so that
-            # every AUTOSAR object can be registered with the UUID manager. It is read
-            # here (rather than in readIdentifiable) so that it is populated *before* the
-            # object is registered with the UUID manager via addARObject() below.
-            # Moving uuid to Identifiable (its spec owner) is deferred until the
-            # wrong-heritage classes listed in docs/plan/sync-todo/Group1.md
-            # ("uuid move work order") derive from Identifiable — see that work order.
+            # is owned by Identifiable (see Identifiable.py). It is still read here —
+            # the bottom of the readIdentifiable chain — so that it is populated
+            # *before* the object is registered with the UUID manager via
+            # addARObject() below (see the ordering trap in Group1.md "uuid move
+            # work order" step 3).
             uuid_value = self.readElementOptionalAttrib(element, "UUID")
-            if uuid_value is not None and isinstance(ar_object, ARObject):
+            if uuid_value is not None and isinstance(ar_object, Identifiable):
                 ar_object.setUuid(uuid_value)
         else:
             # The ARType hierarchy (AUTOSAR primitive types) carries the timestamp as a

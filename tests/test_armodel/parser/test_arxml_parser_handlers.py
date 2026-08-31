@@ -263,7 +263,10 @@ class TestAdminDataAndReferrableHandlers:
         _element = _snip("", root_tag="ELEM")
         elem = ET.fromstring(f"<ELEM xmlns='{NS}' UUID='abc' T='2024-01-01T00:00:00'/>")
         parser.readReferrable(elem, obj)
-        assert obj.uuid == "abc"
+        # Since the uuid move (Group1.md work order), uuid is owned by Identifiable;
+        # BswVariableAccess is a Referrable (not Identifiable) so the UUID attribute
+        # is not stored, while T still round-trips.
+        assert not hasattr(obj, "uuid")
         assert obj.getTimestamp().getValue() == "2024-01-01T00:00:00"
 
     def test_readMultilanguageReferrable_sets_longName(self, parser):

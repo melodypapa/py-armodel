@@ -7,15 +7,18 @@ This module tests the UUIDMgr class and its functionality including:
 - getDuplicateUUIDs method
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.utils.uuid_mgr import UUIDMgr
 
 
-class MockARObject(ARObject):
-    """Mock ARObject for testing purposes."""
+class MockIdentifiable(Identifiable):
+    """Mock Identifiable for testing purposes (only Identifiable objects are tracked)."""
 
     def __init__(self, uuid=None):
-        super().__init__()
+        AUTOSAR.getInstance().new()
+        parent = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+        super().__init__(parent, "MockIdentifiable")
         self.uuid = uuid
 
 
@@ -30,7 +33,7 @@ class TestUUIDMgr:
     def test_add_object_with_none_uuid(self):
         """Test that addObject handles objects with None uuid correctly."""
         uuid_mgr = UUIDMgr()
-        obj = MockARObject(uuid=None)
+        obj = MockIdentifiable(uuid=None)
         uuid_mgr.addObject(obj)
         # Should not add the object since uuid is None
         assert uuid_mgr.uuid_object_mappings == {}
@@ -39,7 +42,7 @@ class TestUUIDMgr:
         """Test that addObject adds objects with valid uuid correctly."""
         uuid_mgr = UUIDMgr()
         uuid_val = "test-uuid-123"
-        obj = MockARObject(uuid=uuid_val)
+        obj = MockIdentifiable(uuid=uuid_val)
 
         uuid_mgr.addObject(obj)
 
@@ -51,8 +54,8 @@ class TestUUIDMgr:
         """Test that multiple objects with same uuid are added to the same list."""
         uuid_mgr = UUIDMgr()
         uuid_val = "test-uuid-123"
-        obj1 = MockARObject(uuid=uuid_val)
-        obj2 = MockARObject(uuid=uuid_val)
+        obj1 = MockIdentifiable(uuid=uuid_val)
+        obj2 = MockIdentifiable(uuid=uuid_val)
 
         uuid_mgr.addObject(obj1)
         uuid_mgr.addObject(obj2)
@@ -67,8 +70,8 @@ class TestUUIDMgr:
         uuid_mgr = UUIDMgr()
         uuid1 = "test-uuid-1"
         uuid2 = "test-uuid-2"
-        obj1 = MockARObject(uuid=uuid1)
-        obj2 = MockARObject(uuid=uuid2)
+        obj1 = MockIdentifiable(uuid=uuid1)
+        obj2 = MockIdentifiable(uuid=uuid2)
 
         uuid_mgr.addObject(obj1)
         uuid_mgr.addObject(obj2)
@@ -84,7 +87,7 @@ class TestUUIDMgr:
         """Test that getObjects returns objects for existing uuid."""
         uuid_mgr = UUIDMgr()
         uuid_val = "test-uuid-123"
-        obj = MockARObject(uuid=uuid_val)
+        obj = MockIdentifiable(uuid=uuid_val)
 
         uuid_mgr.addObject(obj)
         result = uuid_mgr.getObjects(uuid_val)
@@ -110,8 +113,8 @@ class TestUUIDMgr:
         uuid_mgr = UUIDMgr()
         uuid1 = "test-uuid-1"
         uuid2 = "test-uuid-2"
-        obj1 = MockARObject(uuid=uuid1)
-        obj2 = MockARObject(uuid=uuid2)
+        obj1 = MockIdentifiable(uuid=uuid1)
+        obj2 = MockIdentifiable(uuid=uuid2)
 
         uuid_mgr.addObject(obj1)
         uuid_mgr.addObject(obj2)

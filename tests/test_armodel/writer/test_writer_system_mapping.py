@@ -221,11 +221,12 @@ class TestWriterSenderReceiverToSignalMapping:
 class TestWriterSenderRecCompositeTypeMapping:
     def test_writes_attributes(self, writer):
         mapping = SenderRecRecordTypeMapping()
-        mapping.uuid = "abc-123"
         parent = _parent()
         writer.writeSenderRecCompositeTypeMapping(parent, mapping)
         assert len(parent) == 0
-        assert parent.attrib.get("UUID") == "abc-123"
+        # Since the uuid move (Group1.md work order), SenderRecCompositeTypeMapping
+        # is a plain ARObject (spec Base = ARObject) and carries no UUID attribute.
+        assert "UUID" not in parent.attrib
 
 
 class TestWriterSenderRecRecordElementMapping:

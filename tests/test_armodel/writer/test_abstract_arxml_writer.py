@@ -102,28 +102,32 @@ class TestAbstractARXMLWriter:
         assert parent.attrib["T"] == "2024-01-01T00:00:00"
 
     def test_write_ar_object_attributes_with_uuid(self):
-        """Test writeARObjectAttributes with UUID"""
+        """Test writeARObjectAttributes does not emit UUID (owned by Identifiable).
+
+        Since the uuid move (Group1.md work order), the UUID attribute is emitted
+        by writeIdentifiable, not writeARObjectAttributes.
+        """
         writer = ConcreteARXMLWriter()
         parent = ET.Element("parent")
         ar_obj = ConcreteTestARObject(None, "TestObj")
-        ar_obj.uuid = "12345678-1234-1234-1234-123456789012"
+        ar_obj.setUuid("12345678-1234-1234-1234-123456789012")
 
         writer.writeARObjectAttributes(parent, ar_obj)
-        assert parent.attrib["UUID"] == "12345678-1234-1234-1234-123456789012"
+        assert "UUID" not in parent.attrib
 
     def test_write_ar_object_attributes_with_both(self):
-        """Test writeARObjectAttributes with both timestamp and UUID"""
+        """Test writeARObjectAttributes with timestamp; UUID stays out (Identifiable-owned)."""
         writer = ConcreteARXMLWriter()
         parent = ET.Element("parent")
         ar_obj = ConcreteTestARObject(None, "TestObj")
         timestamp = DateTime()
         timestamp.setValue("2024-01-01T00:00:00")
         ar_obj.setTimestamp(timestamp)
-        ar_obj.uuid = "12345678-1234-1234-1234-123456789012"
+        ar_obj.setUuid("12345678-1234-1234-1234-123456789012")
 
         writer.writeARObjectAttributes(parent, ar_obj)
         assert parent.attrib["T"] == "2024-01-01T00:00:00"
-        assert parent.attrib["UUID"] == "12345678-1234-1234-1234-123456789012"
+        assert "UUID" not in parent.attrib
 
     def test_write_ar_object_attributes_without_attributes(self):
         """Test writeARObjectAttributes without timestamp or UUID"""

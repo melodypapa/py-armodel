@@ -248,8 +248,8 @@ class Identifiable(MultilanguageReferrable, ABC):
     # [x] setDesc            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getIntroduction    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setIntroduction    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getUuid            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (Table 4.4 attribute; member owned by ARObject until the "uuid move work order" in docs/plan/sync-todo/Group1.md lands)
-    # [x] setUuid            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  (same owner note as getUuid)
+    # [x] getUuid            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (Table 4.4 attribute; uuid move landed per docs/plan/sync-todo/Group1.md work order)
+    # [x] setUuid            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     #
     # Internal members (no spec counterpart — element-collection infra, cf. the CollectableElement
     # decision in docs/examples/method_deviation_by_class_v2.md). Owned here because some direct
@@ -285,6 +285,9 @@ class Identifiable(MultilanguageReferrable, ABC):
 
         # This represents more information about how the object in question is built or is used. Therefore it is a DocumentationBlock.
         self.introduction: Optional[DocumentationBlock] = None
+
+        # The purpose of this attribute is to provide a globally unique identifier for an instance of a meta-class.
+        self.uuid: Optional[str] = None
 
         # Structural variation point of this element (kept deviation: VARIATION-POINT element; not a Table 4.4 attribute).
         self.variationPoint: Optional[VariationPoint] = None

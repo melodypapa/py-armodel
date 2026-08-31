@@ -285,7 +285,15 @@ class TestReadMethods:
         assert ar_obj.getTimestamp().getValue() == "2023-01-01T00:00:00+08:00"
 
     def test_readARObjectAttributes_with_uuid(self, parser):
-        """Test readARObjectAttributes with UUID attribute."""
+        """Test readARObjectAttributes with UUID attribute.
+
+        Since the uuid move (Group1.md work order), uuid is owned by
+        Identifiable: the attribute is stored on Identifiable objects and
+        ignored on plain ARObject subclasses (e.g. Modification).
+        """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+            Identifiable,
+        )
         from armodel.models.M2.MSR.AsamHdo.AdminData import Modification
 
         element = ET.fromstring(
@@ -293,9 +301,20 @@ class TestReadMethods:
             <SHORT-NAME>TestElement</SHORT-NAME>
         </ELEMENT>"""
         )
+
+        class ConcreteIdentifiable(Identifiable):
+            def __init__(self):
+                AUTOSAR.getInstance().new()
+                parent = AUTOSAR.getInstance().createARPackage("AUTOSAR")
+                super().__init__(parent, "TestIdentifiable")
+
         ar_obj = Modification()
         parser.readARObjectAttributes(element, ar_obj)
-        assert ar_obj.uuid == "12345678-1234-1234-1234-123456789012"
+        assert not hasattr(ar_obj, "uuid")
+
+        identifiable = ConcreteIdentifiable()
+        parser.readARObjectAttributes(element, identifiable)
+        assert identifiable.getUuid() == "12345678-1234-1234-1234-123456789012"
 
     def test_getAdminData_present(self, parser):
         """Test getAdminData with present ADMIN-DATA."""

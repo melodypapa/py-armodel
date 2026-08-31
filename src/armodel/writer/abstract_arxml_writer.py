@@ -72,15 +72,8 @@ class AbstractARXMLWriter(ABC):
                 element.attrib["S"] = ar_obj.getChecksum().getValue()
             if ar_obj.getTimestamp() is not None:
                 element.attrib["T"] = ar_obj.getTimestamp().getValue()
-            # The uuid attribute (Table 4.4) is carried on ARObject (see ArObject.py:
-            # "uuid" internal member) so that every AUTOSAR object can be serialized.
-            # Moving uuid to Identifiable (its spec owner) is deferred until the
-            # wrong-heritage classes listed in docs/plan/sync-todo/Group1.md
-            # ("uuid move work order") derive from Identifiable — see that work order.
-            if isinstance(ar_obj, ARObject):
-                uuid_value = ar_obj.getUuid()
-                if uuid_value is not None:
-                    element.attrib["UUID"] = uuid_value
+            # The uuid attribute (Table 4.4) is owned by Identifiable (see
+            # Identifiable.py) and is emitted by writeIdentifiable.
         else:
             # The ARType hierarchy (AUTOSAR primitive types) carries the timestamp as a
             # plain string and owns its own separate uuid attribute (PrimitiveTypes).
