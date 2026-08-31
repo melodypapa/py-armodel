@@ -1729,10 +1729,17 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
   (AUTOSAR_FO_TPS_GenericStructureTemplate Table 4.4) and the XSD defines it inside the
   `IDENTIFIABLE` attributeGroup (AUTOSAR_00052.xsd l.67791-67803), not in `AR-OBJECT`
   (l.4900-4913). The uuid move has **landed**: the field and its accessors now live on
-  `Identifiable`, the parser reads it inside `readARObjectAttributes` under an
-  `Identifiable` isinstance guard (so it is populated before UUID-manager registration —
-  the ordering trap in the Group1.md work order), and the writer emits it in
-  `writeIdentifiable`. This ARObject section no longer carries a `uuid` deviation row.
+  `Identifiable`, the parser reads it inside `readIdentifiable` (together with the
+  UUID-manager registration), and the writer emits it in `writeIdentifiable`. This
+  ARObject section no longer carries a `uuid` deviation row.
+- **ARType heritage (user decision 2026-08-31):** per TPS_GST_00091 all AUTOSAR
+  meta-classes — including the PrimitiveTypes "Primitive" rows — inherit from ARObject,
+  so primitives are ARObjects but not Identifiables (S/T yes, UUID no). py-armodel keeps
+  `ARType(ABC)` as a deliberate lightweight value-object hierarchy (plain-string
+  `timestamp`, no parent/checksum machinery); it does **not** derive from ARObject.
+  Consequence: the parser/writer have dedicated `readARTypeAttributes` /
+  `writeARTypeAttributes` (T only, no uuid) alongside `readARObjectAttributes` /
+  `writeARObjectAttributes` (S/T). User decision: keep this split, do not unify.
 
 ## `CollectableElement`
 - **PDF:** — *(no spec counterpart)*
