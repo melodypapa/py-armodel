@@ -31,6 +31,48 @@ def test_hw_type_init():
     assert hw_type.short_name == "test_hw_type"
 
 
+def test_hw_type_is_concrete():
+    """HwType must be instantiable although its base HwDescriptionEntity is abstract."""
+    parent = object()
+    hw_type = HwType(parent, "concrete_hw_type")
+    assert isinstance(hw_type, HwType)
+
+
+def test_hw_type_inherited_members_round_trip():
+    """
+    HwType inherits the HwDescriptionEntity aggregations/associations. Verify they
+    round-trip through a HwType instance (herit/marker-subclass behavior).
+    """
+    hw_type = HwType(None, "typed")
+
+    attr_value = HwAttributeValue()
+    attr_value.setHwAttributeDefRef("def_ref").setValue("v")
+    hw_type.addHwAttributeValue(attr_value)
+    assert hw_type.getHwAttributeValues() == [attr_value]
+
+    hw_type.addHwCategoryRef("cat_ref_a")
+    hw_type.addHwCategoryRef("cat_ref_b")
+    assert hw_type.getHwCategoryRefs() == ["cat_ref_a", "cat_ref_b"]
+
+    return_value = hw_type.setHwTypeRef("type_ref")
+    assert return_value == hw_type  # method chaining
+    assert hw_type.getHwTypeRef() == "type_ref"
+
+
+def test_hw_type_inherited_members_none_noop():
+    """Setters inherited from HwDescriptionEntity must ignore None (no-op)."""
+    hw_type = HwType(None, "typed")
+
+    original_refs = hw_type.getHwCategoryRefs()
+    hw_type.addHwCategoryRef(None)
+    assert hw_type.getHwCategoryRefs() == original_refs
+
+    hw_type.setHwTypeRef("type_ref")
+    original_type_ref = hw_type.getHwTypeRef()
+    hw_type.setHwTypeRef(None)
+    assert hw_type.getHwTypeRef() == original_type_ref
+
+
 def test_hw_attribute_def_init():
     """
     Test initialization of HwAttributeDef class.

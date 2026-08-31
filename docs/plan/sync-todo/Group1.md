@@ -79,16 +79,16 @@ in the work order below can run, so they precede the `Identifiable` row.
   - [x] Step 7 — Update checklist comment — 6-col parity checklist (impl/docstring/test/reader/writer/release); reader [x] on setHwPinGroupContent mutator, writer [x] on getHwPinGroupContent getter; page p.19 via pdf_page.py
   - [x] Step 8 — Deviations — HwPinGroup itself: none (hwPinGroupContent reader/writer gap fixed). KNOWN ISSUE (member type, not blocking): `HwPinGroupContent` (already stamped R23-11) has paraphrased/mangled docstrings and models hwPin/hwPinGroup as single Optional rather than lists (spec atpMixed); recommend its own re-sync row.
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 20 HwPinGroup-targeted tests pass, ruff/black/flake8 clean, integration round-trip PASS; 9b user-confirmed (heritage MRO matches spec; verbatim docstrings; no fabrication; reader+writer coverage per row; HwPinGroupContent noted as separate re-sync)
-- [ ] `HwType` (R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.3 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable; code was `HwType(HwDescriptionEntity)` — 1 live UUID in CanSystem.arxml (AnalogInType))
+- [x] `HwType` (R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.3 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable; code was `HwType(HwDescriptionEntity)` — 1 live UUID in CanSystem.arxml (AnalogInType)) — **finished, stamped `# Spec verified: R23-11`**
   - [x] Step 1 — Sync members & description from spec — Table 2.3 — Base = ARElement, ARObject, CollectableElement, HwDescriptionEntity, Identifiable, MultilanguageReferrable, PackageableElement, Referrable; XSD HW-TYPE references AR:IDENTIFIABLE (l.66373) and AR:HW-DESCRIPTION-ENTITY (l.66369)
-  - [ ] Step 2 — Write model class unit test (Red)
+  - [x] Step 2 — Write model class unit test (Red) — test_HwElementCategory.py: test_hw_type_init + test_hw_type_is_concrete + test_hw_type_inherited_members_round_trip + test_hw_type_inherited_members_none_noop (4 pass)
   - [x] Step 3 — Implement model class (Green) — `class HwType(ARElement, HwDescriptionEntity)` (EcuResourceTemplate/HwElementCategory.py:25)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring = Table 2.3 Note verbatim (Tags: tail dropped per Rule 0012.2.5.2); __init__ docstring removed (no own members)
   - [x] Step 5 — Write reader/writer round-trip test (Red) — UUID regression test added (DCE:f73f677c-1389-4425-83f8-921d567b2ad4)
   - [x] Step 6 — Update parser & writer (Green) — readHwType now calls readHwDescriptionEntity (was readReferrable — HW-TYPE-REF/HW-CATEGORY-REFS/HW-ATTRIBUTE-VALUES were silently dropped); writeHwType → writeHwDescriptionEntity
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 7 — Update checklist comment — 6-col parity checklist (`# Spec:` line + per-row release R23-11); __init__ row reader/writer [—] (no own XML elements; inheritance handled by readHwDescriptionEntity/writeHwDescriptionEntity)
+  - [x] Step 8 — Deviations — none: Table 2.3 has no own Attribute rows; heritage matches spec Base (Identifiable reached via ARElement + HwDescriptionEntity MRO); readHwType/writeHwType cover the HwDescriptionEntity aggregations; uuid-move heritage fix already DONE
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 35 tests pass (4 HwType model + 27 HwDescriptionEntity parser/writer + 8 HwType UUID regression), ruff/flake8/black clean; 9b user-confirmed: Rules 0001/0002/0003/0007/0011/0012/0014 pass; stamped `# Spec verified: R23-11` (commit recorded in follow-up)
 - [ ] `HwElement` (R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.4 · after `HwType` (ref `hwType`) and `HwPinGroup` (aggr `hwPinGroup`) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable; code was `HwElement(HwDescriptionEntity)` — 3 live UUIDs in CanSystem.arxml (AI_KL15, AI_KL30, DemoECU))
   - [x] Step 1 — Sync members & description from spec — Table 2.4 — Base verified; XSD HW-ELEMENT references AR:IDENTIFIABLE (l.65901)
   - [ ] Step 2 — Write model class unit test (Red)
