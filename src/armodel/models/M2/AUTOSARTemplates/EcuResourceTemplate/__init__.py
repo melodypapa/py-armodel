@@ -517,21 +517,20 @@ class HwElementConnector(Describable):
 
 class HwElement(ARElement, HwDescriptionEntity):
     """
-    Represents a hardware element in AUTOSAR hardware descriptions.
-    This class defines complete hardware components with connections, pin groups, and nested elements.
+    This represents the ability to describe Hardware Elements on an instance level. The particular types of hardware are distinguished by the category. This category determines the applicable attributes. The possible categories and attributes are defined in HwCategory.
     """
 
     # HwElement method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.4, p.18
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addHwElementConnection       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwElementConnections      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createHwPinGroup             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwPinGroups               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addNestedElementRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNestedElementRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addHwElementConnection  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwElementConnections [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createHwPinGroup        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwPinGroups          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addNestedElementRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNestedElementRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)

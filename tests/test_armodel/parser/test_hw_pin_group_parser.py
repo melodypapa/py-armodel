@@ -51,12 +51,7 @@ class TestReadHwPinGroupContent:
 
     def test_read_content_with_nested_pin_group(self):
         parser = ARXMLParser(options={"warning": True})
-        element = _snip(
-            "<SHORT-NAME>Group1</SHORT-NAME>"
-            "<HW-PIN-GROUP-CONTENT>"
-            "<HW-PIN-GROUP><SHORT-NAME>SubGroup</SHORT-NAME></HW-PIN-GROUP>"
-            "</HW-PIN-GROUP-CONTENT>"
-        )
+        element = _snip("<SHORT-NAME>Group1</SHORT-NAME>" "<HW-PIN-GROUP-CONTENT>" "<HW-PIN-GROUP><SHORT-NAME>SubGroup</SHORT-NAME></HW-PIN-GROUP>" "</HW-PIN-GROUP-CONTENT>")
         group = HwPinGroup(AUTOSAR.getInstance(), "Group1")
         parser.readHwPinGroup(element, group)
 
