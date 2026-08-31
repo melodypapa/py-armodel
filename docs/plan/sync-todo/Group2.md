@@ -76,7 +76,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 5 — Write reader/writer round-trip test (Red) — REQUIRED-INTERFACE-TREF + REQUIRED-COM-SPECS already green; MAY-BE-UNCONNECTED added
   - [x] Step 6 — Update parser & writer (Green) — added MAY-BE-UNCONNECTED parse/write (was silently dropped)
   - [x] Step 7 — Update checklist comment — 6-col, 5 rows
-  - [x] Step 8 — Deviations — existing RPortPrototype entry accurate (Boolean vs ARBoolean, PortInterface vs TRefType)
+  - [x] Step 8 — Deviations — requiredInterfaceTRef: TRefType vs PDF PortInterface; mayBeUnconnected deviation resolved by AR*→standard primitive rename
   - [x] Step 9 — Verify (9a) + confirm (9b) — 8293 tests / ruff / black green; Rule 0007 passed
 - [ ] `PRPortPrototype` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.7)
   - [ ] Step 1 — Sync members & description from spec
