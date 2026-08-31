@@ -122,16 +122,16 @@ class HwPin(Identifiable, HwDescriptionEntity):
     # HwPin method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.7, p.20
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] createFunctionName           [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] addFunctionName              [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getFunctionNames             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setFunctionNames             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getPackagingPinName          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setPackagingPinName          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getPinNumber                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setPinNumber                 [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createFunctionName   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addFunctionName      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFunctionNames     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFunctionNames     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPackagingPinName  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPackagingPinName  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPinNumber         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPinNumber         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
