@@ -69,16 +69,16 @@ in the work order below can run, so they precede the `Identifiable` row.
   - [x] Step 7 — Update checklist comment — 6-col parity checklist (impl/docstring/test/reader/writer/release); reader [x] on addFunctionName/setPackagingPinName/setPinNumber mutator rows, writer [x] on getFunctionNames/getPackagingPinName/getPinNumber getter rows per Rule 0002; page p.20 via pdf_page.py
   - [x] Step 8 — Deviations — none: all 3 Table 2.7 attrs modeled with correct types/kinds (functionName String * → functionNames:List[String]; packagingPinName String 0..1 → Optional[String]; pinNumber Integer 0..1 → Optional[Integer]); no naming/type/missing deviation
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 23 HwPin tests pass, ruff/black/flake8 clean on source, integration round-trip (running); 9b user-confirmed (heritage MRO matches spec; verbatim docstrings; no fabrication; reader+writer coverage per row)
-- [ ] `HwPinGroup` (R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.5 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARObject, HwDescriptionEntity, Identifiable, MultilanguageReferrable, Referrable; code was `HwPinGroup(HwDescriptionEntity)` — 1 live UUID in CanSystem.arxml (CAN1))
+- [x] `HwPinGroup` (R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.5 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARObject, HwDescriptionEntity, Identifiable, MultilanguageReferrable, Referrable; code was `HwPinGroup(HwDescriptionEntity)` — 1 live UUID in CanSystem.arxml (CAN1)) — **finished, stamped `# Spec verified: R23-11`** (commit: <TBD>)
   - [x] Step 1 — Sync members & description from spec — Table 2.5 — Base verified; XSD HW-PIN-GROUP references AR:IDENTIFIABLE (l.66185)
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [x] Step 3 — Implement model class (Green) — `class HwPinGroup(Identifiable, HwDescriptionEntity)` (EcuResourceTemplate/__init__.py:267)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [x] Step 5 — Write reader/writer round-trip test (Red) — UUID regression test added (DCE:470adf34-a7c8-470b-9d3b-b843e01fa9a9)
-  - [x] Step 6 — Update parser & writer (Green) — readHwPinGroup/writeHwPinGroup go through the Identifiable chain
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 2 — Write model class unit test (Red) — test_HwPinGroup.py TestHwPinGroup: init defaults, get/set round-trip, None no-op, chaining, inherited HwDescriptionEntity members (6 tests pass)
+  - [x] Step 3 — Implement model class (Green) — `class HwPinGroup(Identifiable, HwDescriptionEntity)` (EcuResourceTemplate/__init__.py:267); MRO verified
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — verbatim spec Note diffed: class docstring + inline member comment + getter/setter docstrings = Table 2.5 Note; setter appends None no-op sentence
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — test_hw_pin_group_parser.py (read content w/ pin, nested group, no-content) + test_hw_pin_group_writer.py (write + serialize/reparse round-trip); UUID regression retained
+  - [x] Step 6 — Update parser & writer (Green) — ADDED readHwPinGroupContent/writeHwPinGroupContent; readHwPinGroup/writeHwPinGroup now actually read/write hwPinGroupContent (was silently dropped — Rule 0001.7); handles HW-PIN/HW-PIN-GROUP children
+  - [x] Step 7 — Update checklist comment — 6-col parity checklist (impl/docstring/test/reader/writer/release); reader [x] on setHwPinGroupContent mutator, writer [x] on getHwPinGroupContent getter; page p.19 via pdf_page.py
+  - [x] Step 8 — Deviations — HwPinGroup itself: none (hwPinGroupContent reader/writer gap fixed). KNOWN ISSUE (member type, not blocking): `HwPinGroupContent` (already stamped R23-11) has paraphrased/mangled docstrings and models hwPin/hwPinGroup as single Optional rather than lists (spec atpMixed); recommend its own re-sync row.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 20 HwPinGroup-targeted tests pass, ruff/black/flake8 clean, integration round-trip PASS; 9b user-confirmed (heritage MRO matches spec; verbatim docstrings; no fabrication; reader+writer coverage per row; HwPinGroupContent noted as separate re-sync)
 - [ ] `HwType` (R23-11 markdown · AUTOSAR_CP_TPS_ECUResourceTemplate · Table 2.3 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable; code was `HwType(HwDescriptionEntity)` — 1 live UUID in CanSystem.arxml (AnalogInType))
   - [x] Step 1 — Sync members & description from spec — Table 2.3 — Base = ARElement, ARObject, CollectableElement, HwDescriptionEntity, Identifiable, MultilanguageReferrable, PackageableElement, Referrable; XSD HW-TYPE references AR:IDENTIFIABLE (l.66373) and AR:HW-DESCRIPTION-ENTITY (l.66369)
   - [ ] Step 2 — Write model class unit test (Red)

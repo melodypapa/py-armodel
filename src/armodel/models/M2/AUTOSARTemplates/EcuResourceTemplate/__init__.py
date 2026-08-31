@@ -266,49 +266,33 @@ class HwPinGroupContent(ARObject):
 
 class HwPinGroup(Identifiable, HwDescriptionEntity):
     """
-    Represents a group of hardware pins in AUTOSAR hardware descriptions.
-    This class defines collections of related hardware pins with associated content.
-
-    Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.5, p.19
-    Spec verified: R23-11
-    Note: Represents a grouping of pins with optional content (HwPin or HwPinGroup).
+    This meta-class represents the ability to describe groups of pins which are used to connect hardware elements. This group acts as a bundle of pins. Thereby they allow to describe high level connections. Pin groups can even be nested.
     """
 
     # HwPinGroup method parity checklist:
     # Spec: AUTOSAR_CP_TPS_ECUResourceTemplate.pdf, Table 2.5, p.19
     # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getHwPinGroupContent         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setHwPinGroupContent         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getHwPinGroupContent    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHwPinGroupContent    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the HwPinGroup with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this hardware pin group
-            short_name: The unique short name of this hardware pin group
-        """
         super().__init__(parent, short_name)
 
+        # This aggregation describes the contained pins/pin groups.
         self.hwPinGroupContent: Optional[HwPinGroupContent] = None
 
     def getHwPinGroupContent(self) -> Optional[HwPinGroupContent]:
         """
-        Gets the pin group content for this hardware pin group.
-
-        Returns:
-            HwPinGroupContent instance, or None if not set
+        This aggregation describes the contained pins/pin groups.
         """
         return self.hwPinGroupContent
 
     def setHwPinGroupContent(self, value: HwPinGroupContent):
         """
-        Sets the pin group content for this hardware pin group.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The pin group content to set
+        This aggregation describes the contained pins/pin groups.
+        A None value is a no-op and does not overwrite an existing hwPinGroupContent.
 
         Returns:
             self for method chaining

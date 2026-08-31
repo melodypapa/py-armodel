@@ -239,7 +239,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwElementConnector, HwPin, HwPinConnector, HwPinGroup, HwPinGroupConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwElementConnector, HwPin, HwPinConnector, HwPinGroup, HwPinGroupContent, HwPinGroupConnector
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
@@ -10586,6 +10586,18 @@ class ARXMLWriter(AbstractARXMLWriter):
         if pin_group is not None:
             child_element = ET.SubElement(element, "HW-PIN-GROUP")
             self.writeHwDescriptionEntity(child_element, pin_group)
+            content = pin_group.getHwPinGroupContent()
+            if content is not None:
+                self.writeHwPinGroupContent(child_element, content)
+
+    def writeHwPinGroupContent(self, parent: ET.Element, content: HwPinGroupContent):
+        content_element = ET.SubElement(parent, "HW-PIN-GROUP-CONTENT")
+        pin = content.getHwPin()
+        if pin is not None:
+            self.writeHwPin(content_element, pin)
+        child_group = content.getHwPinGroup()
+        if child_group is not None:
+            self.writeHwPinGroup(content_element, child_group)
 
     def writeHwPin(self, parent: ET.Element, hw_pin: HwPin):
         if hw_pin is not None:

@@ -331,7 +331,7 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValidationCondition,
     EcucValueConfigurationClass,
 )
-from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwElementConnector, HwPin, HwPinConnector, HwPinGroup, HwPinGroupConnector
+from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescriptionEntity, HwElement, HwElementConnector, HwPin, HwPinConnector, HwPinGroup, HwPinGroupContent, HwPinGroupConnector
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
@@ -8170,6 +8170,22 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readHwPinGroup(self, element: ET.Element, pin_group: HwPinGroup):
         self.readHwDescriptionEntity(element, pin_group)
+        content_element = self.find(element, "HW-PIN-GROUP-CONTENT")
+        if content_element is not None:
+            content = HwPinGroupContent()
+            self.readHwPinGroupContent(content_element, content)
+            pin_group.setHwPinGroupContent(content)
+
+    def readHwPinGroupContent(self, element: ET.Element, content: HwPinGroupContent):
+        for child_element in self.findall(element, "*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "HW-PIN":
+                pin = content.createHwPin(self.getShortName(child_element))
+                self.readHwPin(child_element, pin)
+            elif tag_name == "HW-PIN-GROUP":
+                child_group = HwPinGroup(content, self.getShortName(child_element))
+                self.readHwPinGroup(child_element, child_group)
+                content.setHwPinGroup(child_group)
 
     def readHwPin(self, element: ET.Element, hw_pin: HwPin):
         self.readHwDescriptionEntity(element, hw_pin)
