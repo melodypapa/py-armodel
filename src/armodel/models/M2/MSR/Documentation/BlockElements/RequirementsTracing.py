@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, List, Optional
 
 from abc import ABC
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
@@ -55,7 +54,7 @@ class Traceable(Identifiable, ABC):
         return self
 
 
-class TraceableText(ARObject):
+class TraceableText(Traceable):
     """
     This meta-class represents the ability to denote a traceable text item such as requirements etc. The following approach applies: shortName represents the tag for tracing, longName represents the head line, category represents the kind of the tagged text.
     """
@@ -67,17 +66,14 @@ class TraceableText(ARObject):
     # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getText          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setText          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTraceRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addTraceRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTraceRefs     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  (inherited from Traceable, Table 9.29)
+    # [x] addTraceRef      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  (inherited from Traceable, Table 9.29)
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent, short_name: str):
+        super().__init__(parent, short_name)
 
         # This represents the text to which the tag applies.
         self.text: Optional["DocumentationBlock"] = None
-
-        # This association represents the ability to trace to upstream requirements / constraints.
-        self.traceRefs: List[RefType] = []
 
     def getText(self) -> Optional["DocumentationBlock"]:
         """
@@ -99,28 +95,8 @@ class TraceableText(ARObject):
             self.text = value
         return self
 
-    def getTraceRefs(self) -> List[RefType]:
-        """
-        This association represents the ability to trace to upstream requirements / constraints.
 
-        Returns:
-            The upstream requirements / constraints references
-        """
-        return self.traceRefs
-
-    def addTraceRef(self, value: Optional[RefType]) -> "TraceableText":
-        """
-        This association represents the ability to trace to upstream requirements / constraints. A None value is a no-op and is not appended.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.traceRefs.append(value)
-        return self
-
-
-class StructuredReq(ARObject):
+class StructuredReq(Traceable):
     """
     This represents a structured requirement. This is intended for a case where specific requirements for features are collected. Note that this can be rendered as a labeled list.
     """
@@ -155,8 +131,8 @@ class StructuredReq(ARObject):
     # [x] getTestedItemRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] addTestedItemRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent, short_name: str):
+        super().__init__(parent, short_name)
 
         # This represents the date when the requirement was initiated.
         self.date: Optional[String] = None

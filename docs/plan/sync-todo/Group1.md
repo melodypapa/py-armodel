@@ -119,7 +119,7 @@ in the work order below can run, so they precede the `Identifiable` row.
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `BlueprintMappingSet` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 3.1 · after `AtpBlueprintMapping` (aggr `blueprintMap`) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable; code has `BlueprintMappingSet(ARObject)` (CommonStructure/StandardizationTemplate/BlueprintMapping.py:8) — also carries a fabricated `mappings: List[str]` that Table 3.1 does not list (`blueprintMap` : AtpBlueprintMapping, *, aggr))
+- [ ] `BlueprintMappingSet` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 3.1 · after `AtpBlueprintMapping` (aggr `blueprintMap`) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable — **DONE 2026-08-31: re-parented to `BlueprintMappingSet(ARElement)` with `(parent, short_name)` ctor; test construction site updated; fabricated `mappings: List[str]` retained until this class's own 9-step sync**; code was `BlueprintMappingSet(ARObject)` (CommonStructure/StandardizationTemplate/BlueprintMapping.py:8))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -129,7 +129,7 @@ in the work order below can run, so they precede the `Identifiable` row.
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ConstantSpecificationMappingSet` (R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.119 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable; code has `ConstantSpecificationMappingSet(ARObject)` (CommonStructure/Constants/__init__.py:804))
+- [ ] `ConstantSpecificationMappingSet` (R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.119 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARElement…Identifiable — **DONE 2026-08-31: re-parented to `ConstantSpecificationMappingSet(ARElement)` with `(parent, short_name)` ctor (zero construction sites elsewhere)**; code was `ConstantSpecificationMappingSet(ARObject)` (CommonStructure/Constants/__init__.py:804))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -139,7 +139,7 @@ in the work order below can run, so they precede the `Identifiable` row.
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `StructuredReq` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.31 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARObject, DocumentViewSelectable, Identifiable, MultilanguageReferrable, Paginateable, Referrable, Traceable; code has `StructuredReq(ARObject)` (MSR/Documentation/BlockElements/RequirementsTracing.py:123). NB: `Traceable` is currently `Traceable(Identifiable)` although Table E.x gives Base = ARObject, MultilanguageReferrable, Referrable — decide in Step 3 whether the Identifiable mixin lands here or on Traceable; check whether STRUCTURED-REQ carries SHORT-NAME in the XSD before adding it)
+- [ ] `StructuredReq` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.31 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARObject, DocumentViewSelectable, Identifiable, MultilanguageReferrable, Paginateable, Referrable, Traceable — **DONE 2026-08-31: re-parented to `StructuredReq(Traceable)`; decision: the Identifiable mixin stays on `Traceable(Identifiable)` (Table E.x gives Traceable Base = ARObject, MultilanguageReferrable, Referrable — recorded as a documented deviation to revisit in this class's own 9-step sync); parser `getStructuredReq(element, key, block)` now constructs with `(block, short_name)`; ~17 test construction sites updated**; code was `StructuredReq(ARObject)` (MSR/Documentation/BlockElements/RequirementsTracing.py:123))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -149,7 +149,7 @@ in the work order below can run, so they precede the `Identifiable` row.
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `TraceableText` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.30 · after `StructuredReq` (same Base closure) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: code has `TraceableText(ARObject)` (RequirementsTracing.py:58))
+- [ ] `TraceableText` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.30 · after `StructuredReq` (same Base closure) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix — **DONE 2026-08-31: re-parented to `TraceableText(Traceable)`; duplicate `traceRefs` field + `getTraceRefs`/`addTraceRef` removed (inherited from Traceable); parser `getTraceableText(element, key, block)` now constructs with `(block, short_name)`; test construction sites updated**; code was `TraceableText(ARObject)` (RequirementsTracing.py:58))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -515,13 +515,19 @@ All ten rows now live in the "Wrong-heritage classes" section above (ahead of `I
 | `HwElement` | ECUResourceTemplate Table 2.4 | 3 (CanSystem.arxml) | **DONE** — `(ARElement, HwDescriptionEntity)` |
 | `FirewallRule` | SystemTemplate Table 6.236 | 0 observed | **DONE** — `(ARElement)`; construction sites + tests updated |
 | `StateDependentFirewall` | SystemTemplate Table 6.234 | 0 observed | **DONE** — `(ARElement)`; construction sites + tests updated |
-| `BlueprintMappingSet` | FO GenericStructure Table 3.1 | 0 observed | not started |
-| `ConstantSpecificationMappingSet` | SWCT Table 5.119 | 0 observed | not started |
-| `StructuredReq` | FO GenericStructure Table 9.31 | 0 observed | not started — check XSD SHORT-NAME first |
-| `TraceableText` | FO GenericStructure Table 9.30 | 0 observed | not started — check XSD SHORT-NAME first |
+| `BlueprintMappingSet` | FO GenericStructure Table 3.1 | 0 observed | **DONE** — `(ARElement)`; test construction site updated |
+| `ConstantSpecificationMappingSet` | SWCT Table 5.119 | 0 observed | **DONE** — `(ARElement)` |
+| `StructuredReq` | FO GenericStructure Table 9.31 | 0 observed | **DONE** — `(Traceable)`; parser + ~17 test construction sites updated; Identifiable mixin stays on Traceable (documented deviation); parser falls back to the element tag when SHORT-NAME is absent (writer does not yet emit SHORT-NAME for STRUCTURED-REQ/TRACE — revisit in full sync) |
+| `TraceableText` | FO GenericStructure Table 9.30 | 0 observed | **DONE** — `(Traceable)`; duplicate traceRefs members removed (inherited); parser + test construction sites updated; same SHORT-NAME fallback as StructuredReq |
 
-Progress: 6 of 10 complete; the 5 UUIDs that were at risk now round-trip
+Progress: 10 of 10 complete; the 5 UUIDs that were at risk now round-trip
 (verified: parse CanSystem.arxml → write → re-parse, all 5 present).
+
+**User decision (2026-08-31):** the uuid move precondition is amended — heritage
+fixes on all ten rows now satisfy the gate, so the move may run **before** the
+remaining 9-step syncs (`FirewallRule`, `StateDependentFirewall`,
+`BlueprintMappingSet`, `ConstantSpecificationMappingSet`, `StructuredReq`,
+`TraceableText`) are completed.
 
 All ten were cross-checked in both directions: model class → XSD complexType
 (`CamelCase → UPPER-DASH`) reaches `IDENTIFIABLE`, and the spec `Base` row names

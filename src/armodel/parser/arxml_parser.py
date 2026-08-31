@@ -4684,21 +4684,25 @@ class ARXMLParser(AbstractARXMLParser):
         for trace_ref in self.findall(element, "TRACE-REFS/TRACE-REF"):
             traceable.addTraceRef(RefType().setValue(trace_ref.text))
 
-    def getTraceableText(self, element: ET.Element, key: str) -> TraceableText:
+    def getTraceableText(self, element: ET.Element, key: str, block: "DocumentationBlock" = None) -> TraceableText:
         traceable_text = None
         child_element = self.find(element, key)
         if child_element is not None:
-            traceable_text = TraceableText()
+            short_name_element = self.find(child_element, "SHORT-NAME")
+            short_name = short_name_element.text if short_name_element is not None else key
+            traceable_text = TraceableText(block, short_name)
             self.readARObjectAttributes(child_element, traceable_text)
             traceable_text.setText(self.getDocumentationBlock(child_element, "TEXT"))
             self.readTraceable(child_element, traceable_text)
         return traceable_text
 
-    def getStructuredReq(self, element: ET.Element, key: str) -> StructuredReq:
+    def getStructuredReq(self, element: ET.Element, key: str, block: "DocumentationBlock" = None) -> StructuredReq:
         structured_req = None
         child_element = self.find(element, key)
         if child_element is not None:
-            structured_req = StructuredReq()
+            short_name_element = self.find(child_element, "SHORT-NAME")
+            short_name = short_name_element.text if short_name_element is not None else key
+            structured_req = StructuredReq(block, short_name)
             self.readARObjectAttributes(child_element, structured_req)
             structured_req.setDate(self.getChildElementOptionalLiteral(child_element, "DATE"))
             structured_req.setImportance(self.getChildElementOptionalLiteral(child_element, "IMPORTANCE"))
@@ -4852,8 +4856,8 @@ class ARXMLParser(AbstractARXMLParser):
         block.setLabeledList(self.getLabeledList(element, "LABELED-LIST"))
         block.setMsrQueryP2(self.getMsrQueryP2(element, "MSR-QUERY-P2"))
         block.setNote(self.getNote(element, "NOTE"))
-        block.setStructuredReq(self.getStructuredReq(element, "STRUCTURED-REQ"))
-        block.setTrace(self.getTraceableText(element, "TRACE"))
+        block.setStructuredReq(self.getStructuredReq(element, "STRUCTURED-REQ", block))
+        block.setTrace(self.getTraceableText(element, "TRACE", block))
         block.setVerbatim(self.getMultiLanguageVerbatim(element, "VERBATIM"))
 
     def getDocumentationBlock(self, element: ET.Element, key: str) -> DocumentationBlock:

@@ -10,13 +10,13 @@ class TestTraceableText:
 
     def test_traceable_text_initialization(self):
         """Test that a TraceableText object can be initialized with default values."""
-        traceable_text = TraceableText()
+        traceable_text = TraceableText(None, "TraceableText")
         assert traceable_text.text is None
         assert traceable_text.traceRefs == []
 
     def test_traceable_text_text_methods(self):
         """Test the text getter and setter."""
-        traceable_text = TraceableText()
+        traceable_text = TraceableText(None, "TraceableText")
         text = DocumentationBlock()
 
         result = traceable_text.setText(text)
@@ -28,7 +28,7 @@ class TestTraceableText:
 
     def test_traceable_text_trace_refs_methods(self):
         """Test the traceRefs getter and addTraceRef."""
-        traceable_text = TraceableText()
+        traceable_text = TraceableText(None, "TraceableText")
         trace_ref = RefType()
 
         result = traceable_text.addTraceRef(trace_ref)
@@ -44,7 +44,7 @@ class TestStructuredReq:
 
     def test_structured_req_initialization(self):
         """Test that a StructuredReq object can be initialized with default values."""
-        structured_req = StructuredReq()
+        structured_req = StructuredReq(None, "StructuredReq")
         assert structured_req.date is None
         assert structured_req.importance is None
         assert structured_req.issuedBy is None
@@ -60,7 +60,7 @@ class TestStructuredReq:
 
     def test_structured_req_date_methods(self):
         """Test the date getter and setter."""
-        structured_req = StructuredReq()
+        structured_req = StructuredReq(None, "StructuredReq")
         date = String().setValue("2023-11-01")
 
         result = structured_req.setDate(date)
@@ -72,7 +72,7 @@ class TestStructuredReq:
 
     def test_structured_req_description_methods(self):
         """Test the description getter and setter."""
-        structured_req = StructuredReq()
+        structured_req = StructuredReq(None, "StructuredReq")
         description = DocumentationBlock()
 
         result = structured_req.setDescription(description)
@@ -84,7 +84,7 @@ class TestStructuredReq:
 
     def test_structured_req_importance_methods(self):
         """Test the importance getter and setter."""
-        structured_req = StructuredReq()
+        structured_req = StructuredReq(None, "StructuredReq")
         importance = String().setValue("high")
 
         result = structured_req.setImportance(importance)
@@ -96,7 +96,7 @@ class TestStructuredReq:
 
     def test_structured_req_issued_by_methods(self):
         """Test the issuedBy getter and setter."""
-        structured_req = StructuredReq()
+        structured_req = StructuredReq(None, "StructuredReq")
         issued_by = String().setValue("AUTOSAR")
 
         result = structured_req.setIssuedBy(issued_by)
@@ -108,7 +108,7 @@ class TestStructuredReq:
 
     def test_structured_req_type_methods(self):
         """Test the type getter and setter."""
-        structured_req = StructuredReq()
+        structured_req = StructuredReq(None, "StructuredReq")
         req_type = String().setValue("enhancement")
 
         result = structured_req.setType(req_type)
@@ -120,7 +120,7 @@ class TestStructuredReq:
 
     def test_structured_req_rationale_methods(self):
         """Test the rationale getter and setter."""
-        structured_req = StructuredReq()
+        structured_req = StructuredReq(None, "StructuredReq")
         rationale = DocumentationBlock()
 
         result = structured_req.setRationale(rationale)
@@ -132,7 +132,7 @@ class TestStructuredReq:
 
     def test_structured_req_dependencies_methods(self):
         """Test the dependencies getter and setter."""
-        structured_req = StructuredReq()
+        structured_req = StructuredReq(None, "StructuredReq")
         dependencies = DocumentationBlock()
 
         result = structured_req.setDependencies(dependencies)
@@ -144,7 +144,7 @@ class TestStructuredReq:
 
     def test_structured_req_use_case_methods(self):
         """Test the useCase getter and setter."""
-        structured_req = StructuredReq()
+        structured_req = StructuredReq(None, "StructuredReq")
         use_case = DocumentationBlock()
 
         result = structured_req.setUseCase(use_case)
@@ -156,7 +156,7 @@ class TestStructuredReq:
 
     def test_structured_req_conflicts_methods(self):
         """Test the conflicts getter and setter."""
-        structured_req = StructuredReq()
+        structured_req = StructuredReq(None, "StructuredReq")
         conflicts = DocumentationBlock()
 
         result = structured_req.setConflicts(conflicts)
@@ -168,7 +168,7 @@ class TestStructuredReq:
 
     def test_structured_req_supporting_material_methods(self):
         """Test the supportingMaterial getter and setter."""
-        structured_req = StructuredReq()
+        structured_req = StructuredReq(None, "StructuredReq")
         supporting_material = DocumentationBlock()
 
         result = structured_req.setSupportingMaterial(supporting_material)
@@ -180,7 +180,7 @@ class TestStructuredReq:
 
     def test_structured_req_remark_methods(self):
         """Test the remark getter and setter."""
-        structured_req = StructuredReq()
+        structured_req = StructuredReq(None, "StructuredReq")
         remark = DocumentationBlock()
 
         result = structured_req.setRemark(remark)
@@ -192,7 +192,7 @@ class TestStructuredReq:
 
     def test_structured_req_tested_item_refs_methods(self):
         """Test the testedItemRefs getter and addTestedItemRef."""
-        structured_req = StructuredReq()
+        structured_req = StructuredReq(None, "StructuredReq")
         tested_item_ref = RefType()
 
         result = structured_req.addTestedItemRef(tested_item_ref)
