@@ -53,15 +53,35 @@ class FirewallRule(ARElement):
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
+
+        # This attribute defines the capacity of the queue for rate limitation (leaky-bucket Algorithm). Tags: atp.Status=candidate
         self.bucketSize: Optional[PositiveInteger] = None
+
+        # Configuration of rules on the Data Link Layer Tags: atp.Status=candidate
         self.dataLinkLayerRule: Optional["DataLinkLayerRule"] = None
+
+        # Configuration of firewall rules for DDS. Tags: atp.Status=candidate
         self.ddsRule: Optional["DdsRule"] = None
+
+        # Configuration of firewall rules for DoIP messages Tags: atp.Status=candidate
         self.doIpRule: Optional["DoIpRule"] = None
+
+        # Configuration of rules on the Network Layer Tags: atp.Status=candidate
         self.networkLayerRule: Optional["NetworkLayerRule"] = None
+
+        # Configuration of generic firewall rules Tags: atp.Status=candidate
         self.payloadBytePatternRules: List["PayloadBytePatternRule"] = []
+
+        # This attribute defines the output rate that describes how many packets leave the queue per second (leaky-bucket Algorithm). Tags: atp.Status=candidate
         self.refillAmount: Optional[PositiveInteger] = None
+
+        # Configuration of firewall rules for SOME/IP messages Tags: atp.Status=candidate
         self.someipRule: Optional["SomeipProtocolRule"] = None
+
+        # Configuration of firewall rules for SOME/IP Service Discovery messages Tags: atp.Status=candidate
         self.someipSdRule: Optional["SomeipSdRule"] = None
+
+        # Configuration of rules on the Transport Layer Tags: atp.Status=candidate
         self.transportLayerRule: Optional["TransportLayerRule"] = None
 
     def getBucketSize(self) -> Optional[PositiveInteger]:
@@ -712,8 +732,14 @@ class FirewallRuleProps(ARObject):
 
     def __init__(self):
         super().__init__()
+
+        # Action that is performed by the firewall if the matching Rule is fulfilled.
         self.action: Optional[FirewallActionEnum] = None
+
+        # This element defines an egress rule expression against which the network traffic is matched.
         self.matchingEgressRuleRefs: List[RefType] = []
+
+        # This element defines an ingress rule expression against which the network traffic is matched.
         self.matchingIngressRuleRefs: List[RefType] = []
 
     def getAction(self) -> Optional[FirewallActionEnum]:
@@ -785,8 +811,14 @@ class StateDependentFirewall(ARElement):
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
+
+        # This attribute defines a defaultAction in case that the VehicleMode is not yet set.
         self.defaultAction: Optional[FirewallActionEnum] = None
+
+        # Collection of firewall rules that apply in the vehicle mode
         self.firewallRuleProps: List["FirewallRuleProps"] = []
+
+        # Reference to firewall states in which the Firewall is active. If one of the referenced ModeDeclarations is the current firewall state then the firewall rule shall be considered as active.
         self.firewallStateModeDeclarationRefs: List[RefType] = []
 
     def getDefaultAction(self) -> Optional[FirewallActionEnum]:
