@@ -101,7 +101,7 @@ class TestTraceable:
             TraceableText,
         )
 
-        tt = TraceableText()
+        tt = TraceableText(None, "TraceableText")
         ref = RefType()
         ref.setValue("/PKG/TARGET")
         tt.addTraceRef(ref)
@@ -111,7 +111,7 @@ class TestTraceable:
         assert elem.find("TRACE-REFS/TRACE-REF").text == "/PKG/TARGET"
 
         parsed = self._round_trip(elem)
-        tt2 = TraceableText()
+        tt2 = TraceableText(None, "TraceableText")
         ARXMLParser().readTraceable(parsed, tt2)
         assert len(tt2.getTraceRefs()) == 1
         assert tt2.getTraceRefs()[0].getValue() == "/PKG/TARGET"

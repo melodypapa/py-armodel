@@ -132,7 +132,7 @@ class TestDocumentationBlock:
     def test_documentation_block_structured_req_methods(self):
         """Test the structuredReq getter and setter."""
         documentation_block = DocumentationBlock()
-        structured_req = StructuredReq()
+        structured_req = StructuredReq(None, "StructuredReq")
 
         result = documentation_block.setStructuredReq(structured_req)
         assert documentation_block.getStructuredReq() == structured_req
@@ -144,7 +144,7 @@ class TestDocumentationBlock:
     def test_documentation_block_trace_methods(self):
         """Test the trace getter and setter."""
         documentation_block = DocumentationBlock()
-        trace = TraceableText()
+        trace = TraceableText(None, "TraceableText")
 
         result = documentation_block.setTrace(trace)
         assert documentation_block.getTrace() == trace

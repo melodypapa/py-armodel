@@ -275,7 +275,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingDescription
     TDEventOccurrenceExpressionFormula,
     VariableInComponentInstanceRef,
 )
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucAbstractReferenceValue,
@@ -527,6 +527,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     DataInterface,
     DataPrototypeMapping,
     InvalidationPolicy,
+    MetaDataItem,
+    MetaDataItemSet,
     ModeDeclarationMapping,
     ModeDeclarationMappingSet,
     ModeInterfaceMapping,
@@ -535,6 +537,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ParameterInterface,
     PortInterface,
     PortInterfaceMappingSet,
+    TriggerInterfaceMapping,
     SenderReceiverInterface,
     SubElementMapping,
     TextTableMapping,
@@ -4681,21 +4684,25 @@ class ARXMLParser(AbstractARXMLParser):
         for trace_ref in self.findall(element, "TRACE-REFS/TRACE-REF"):
             traceable.addTraceRef(RefType().setValue(trace_ref.text))
 
-    def getTraceableText(self, element: ET.Element, key: str) -> TraceableText:
+    def getTraceableText(self, element: ET.Element, key: str, block: "DocumentationBlock" = None) -> TraceableText:
         traceable_text = None
         child_element = self.find(element, key)
         if child_element is not None:
-            traceable_text = TraceableText()
+            short_name_element = self.find(child_element, "SHORT-NAME")
+            short_name = short_name_element.text if short_name_element is not None else key
+            traceable_text = TraceableText(block, short_name)
             self.readARObjectAttributes(child_element, traceable_text)
             traceable_text.setText(self.getDocumentationBlock(child_element, "TEXT"))
             self.readTraceable(child_element, traceable_text)
         return traceable_text
 
-    def getStructuredReq(self, element: ET.Element, key: str) -> StructuredReq:
+    def getStructuredReq(self, element: ET.Element, key: str, block: "DocumentationBlock" = None) -> StructuredReq:
         structured_req = None
         child_element = self.find(element, key)
         if child_element is not None:
-            structured_req = StructuredReq()
+            short_name_element = self.find(child_element, "SHORT-NAME")
+            short_name = short_name_element.text if short_name_element is not None else key
+            structured_req = StructuredReq(block, short_name)
             self.readARObjectAttributes(child_element, structured_req)
             structured_req.setDate(self.getChildElementOptionalLiteral(child_element, "DATE"))
             structured_req.setImportance(self.getChildElementOptionalLiteral(child_element, "IMPORTANCE"))
@@ -4849,8 +4856,8 @@ class ARXMLParser(AbstractARXMLParser):
         block.setLabeledList(self.getLabeledList(element, "LABELED-LIST"))
         block.setMsrQueryP2(self.getMsrQueryP2(element, "MSR-QUERY-P2"))
         block.setNote(self.getNote(element, "NOTE"))
-        block.setStructuredReq(self.getStructuredReq(element, "STRUCTURED-REQ"))
-        block.setTrace(self.getTraceableText(element, "TRACE"))
+        block.setStructuredReq(self.getStructuredReq(element, "STRUCTURED-REQ", block))
+        block.setTrace(self.getTraceableText(element, "TRACE", block))
         block.setVerbatim(self.getMultiLanguageVerbatim(element, "VERBATIM"))
 
     def getDocumentationBlock(self, element: ET.Element, key: str) -> DocumentationBlock:
@@ -5126,12 +5133,14 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, data_type)
         self.readBaseTypeDirectDefinition(element, data_type.getBaseTypeDefinition())
 
-    def getApplicationCompositeElementInPortInterfaceInstanceRef(self, element: ET.Element, key: str) -> ApplicationCompositeElementInPortInterfaceInstanceRef:
+    def getApplicationCompositeElementInPortInterfaceInstanceRef(self, element: ET.Element, key: str) -> ApplicationCompositeElementInPortInterfaceInstanceRef:  # noqa E501
         child_element = self.find(element, key)
         iref = None
         if child_element is not None:
             iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
             iref.setRootDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "ROOT-DATA-PROTOTYPE-REF"))
+            for ref in self.getChildElementRefTypeList(child_element, "CONTEXT-DATA-PROTOTYPE-REF"):
+                iref.addContextDataPrototypeRef(ref)
             iref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(child_element, "TARGET-DATA-PROTOTYPE-REF"))
         return iref
 
@@ -6050,12 +6059,33 @@ class ARXMLParser(AbstractARXMLParser):
             policy.data_element_ref = self.getChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF")
             policy.handle_invalid = self.getChildElementOptionalLiteral(child_element, "HANDLE-INVALID")
 
+    def readSenderReceiverInterfaceMetaDataItemSets(self, element: ET.Element, sr_interface: SenderReceiverInterface):
+        for child_element in self.findall(element, "META-DATA-ITEM-SETS/META-DATA-ITEM-SET"):
+            mapping_set = MetaDataItemSet()
+            self.readMetaDataItemSet(child_element, mapping_set)
+            sr_interface.addMetaDataItemSet(mapping_set)
+
+    def readMetaDataItemSet(self, element: ET.Element, mapping_set: MetaDataItemSet):
+        for ref in self.getChildElementRefTypeList(element, "DATA-ELEMENT-REFS/DATA-ELEMENT-REF"):
+            mapping_set.addDataElementRef(ref)
+        for child_element in self.findall(element, "META-DATA-ITEMS/META-DATA-ITEM"):
+            item = MetaDataItem()
+            self.readMetaDataItem(child_element, item)
+            mapping_set.addMetaDataItem(item)
+
+    def readMetaDataItem(self, element: ET.Element, item: MetaDataItem):
+        item.setLength(self.getChildElementOptionalPositiveInteger(element, "LENGTH"))
+        type_element = self.find(element, "META-DATA-ITEM-TYPE")
+        if type_element is not None:
+            item.setMetaDataItemType(self.getTextValueSpecification(type_element))
+
     def readSenderReceiverInterface(self, element, sr_interface: SenderReceiverInterface):
         self.logger.debug("Read SenderReceiverInterface <%s>" % sr_interface.getShortName())
         self.readIdentifiable(element, sr_interface)
         sr_interface.setIsService(self.getChildElementOptionalBooleanValue(element, "IS-SERVICE"))
         self.readSenderReceiverInterfaceDataElements(element, sr_interface)
         self.readSenderReceiverInterfaceInvalidationPolicies(element, sr_interface)
+        self.readSenderReceiverInterfaceMetaDataItemSets(element, sr_interface)
 
     def readArgumentDataPrototype(self, element: ET.Element, prototype: ArgumentDataPrototype):
         self.readAutosarDataPrototype(element, prototype)
@@ -11031,6 +11061,20 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, mapping)
         self.readModeInterfaceMappingModeMapping(element, mapping)
 
+    def readTriggerInterfaceMappingTriggerMappings(self, element: ET.Element, mapping: TriggerInterfaceMapping):
+        trigger_mappings = []
+        for child_element in self.findall(element, "TRIGGER-MAPPINGS/TRIGGER-MAPPING"):
+            trigger_mapping = TriggerMapping()
+            trigger_mapping.setFirstTriggerRef(self.getChildElementOptionalRefType(child_element, "FIRST-TRIGGER-REF"))
+            trigger_mapping.setSecondTriggerRef(self.getChildElementOptionalRefType(child_element, "SECOND-TRIGGER-REF"))
+            trigger_mappings.append(trigger_mapping)
+        mapping.setTriggerMapping(trigger_mappings)
+
+    def readTriggerInterfaceMapping(self, element: ET.Element, mapping: TriggerInterfaceMapping):
+        # self.logger.debug("Read TriggerInterfaceMapping %s" % mapping.getShortName())
+        self.readIdentifiable(element, mapping)
+        self.readTriggerInterfaceMappingTriggerMappings(element, mapping)
+
     def readPortInterfaceMappings(self, element: ET.Element, mapping_set: PortInterfaceMappingSet):
         for child_element in self.findall(element, "PORT-INTERFACE-MAPPINGS/*"):
             tag_name = self.getTagName(child_element)
@@ -11043,6 +11087,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "MODE-INTERFACE-MAPPING":
                 mapping = mapping_set.createModeInterfaceMapping(self.getShortName(child_element))
                 self.readModeInterfaceMapping(child_element, mapping)
+            elif tag_name == "TRIGGER-INTERFACE-MAPPING":
+                mapping = mapping_set.createTriggerInterfaceMapping(self.getShortName(child_element))
+                self.readTriggerInterfaceMapping(child_element, mapping)
             else:
                 self.notImplemented("Unsupported PortInterfaceMapping <%s>" % tag_name)
 

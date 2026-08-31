@@ -14,5 +14,5 @@ class TestBlueprintMappingSet:
     """
 
     def test_initialization(self):
-        obj = BlueprintMappingSet()
+        obj = BlueprintMappingSet(None, "BlueprintMappingSet")
         assert isinstance(obj, BlueprintMappingSet)

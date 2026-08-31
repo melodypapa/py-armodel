@@ -1,12 +1,14 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceProviderEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ApplicationError,
@@ -15,11 +17,17 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ClientServerInterfaceMapping,
     ClientServerOperation,
     DataInterface,
+    MetaDataItem,
+    MetaDataItemSet,
+    ModeInterfaceMapping,
     NvDataInterface,
     ParameterInterface,
     PortInterface,
     PortInterfaceMapping,
+    PortInterfaceMappingSet,
     SenderReceiverInterface,
+    TriggerInterfaceMapping,
+    VariableAndParameterInterfaceMapping,
 )
 
 
@@ -286,3 +294,169 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         service_kind2 = ServiceProviderEnum().setValue(ServiceProviderEnum.DEFAULT_ERROR_TRACER)
         pi.setServiceKind(service_kind2)
         assert pi.getServiceKind() is service_kind2
+
+
+class TestPortInterfaceMappingSet:
+    """
+    Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.19, p.119 (R23-11)
+    portInterfaceMapping is a * aggr of PortInterfaceMapping (concrete subclasses).
+    """
+
+    def test_initialization(self):
+        obj = PortInterfaceMappingSet(AUTOSAR.getInstance(), "pim_set")
+
+        assert obj.parent == AUTOSAR.getInstance()
+        assert obj.short_name == "pim_set"
+        assert obj.getPortInterfaceMappings() == []
+
+        # Base chain (Table 4.19): most-derived model base = ARElement
+        assert isinstance(obj, ARElement)
+        assert isinstance(obj, ARObject)
+        assert isinstance(obj, Identifiable)
+        assert isinstance(obj, MultilanguageReferrable)
+        assert isinstance(obj, Referrable)
+
+    def test_create_mappings(self):
+        ar_root = AUTOSAR.getInstance()
+        obj = PortInterfaceMappingSet(ar_root, "pim_set")
+
+        cs = obj.createClientServerInterfaceMapping("cs_mapping")
+        assert isinstance(cs, ClientServerInterfaceMapping)
+        assert cs.parent is obj
+        assert cs.short_name == "cs_mapping"
+
+        vp = obj.createVariableAndParameterInterfaceMapping("vp_mapping")
+        assert isinstance(vp, VariableAndParameterInterfaceMapping)
+
+        mode = obj.createModeInterfaceMapping("mode_mapping")
+        assert isinstance(mode, ModeInterfaceMapping)
+
+        trig = obj.createTriggerInterfaceMapping("trig_mapping")
+        assert isinstance(trig, TriggerInterfaceMapping)
+
+        mappings = obj.getPortInterfaceMappings()
+        assert len(mappings) == 4
+        assert mappings[0] is cs
+        assert mappings[1] is vp
+        assert mappings[2] is mode
+        assert mappings[3] is trig
+
+    def test_create_duplicate_returns_existing(self):
+        ar_root = AUTOSAR.getInstance()
+        obj = PortInterfaceMappingSet(ar_root, "pim_set")
+
+        first = obj.createClientServerInterfaceMapping("cs_mapping")
+        second = obj.createClientServerInterfaceMapping("cs_mapping")
+        assert second is first
+        assert len(obj.getPortInterfaceMappings()) == 1
+
+    def test_polymorphic_list(self):
+        """
+        All created mappings are PortInterfaceMapping subtypes (Table 4.20 abstract base).
+        """
+        ar_root = AUTOSAR.getInstance()
+        obj = PortInterfaceMappingSet(ar_root, "pim_set")
+
+        obj.createClientServerInterfaceMapping("cs_mapping")
+        obj.createVariableAndParameterInterfaceMapping("vp_mapping")
+
+        for mapping in obj.getPortInterfaceMappings():
+            assert isinstance(mapping, PortInterfaceMapping)
+
+
+class TestMetaDataItem:
+    """
+    Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.4, p.98 (R23-11)
+    length is a 0..1 attr (PositiveInteger); metaDataItemType is a 0..1 aggr (TextValueSpecification).
+    """
+
+    def test_initialization(self):
+        obj = MetaDataItem()
+
+        assert obj.getLength() is None
+        assert obj.getMetaDataItemType() is None
+
+        # Base chain (Table 4.4): most-derived model base = ARObject (no SHORT-NAME)
+        assert isinstance(obj, ARObject)
+        assert not isinstance(obj, Referrable)
+
+    def test_length_round_trip(self):
+        obj = MetaDataItem()
+
+        length = PositiveInteger().setValue(8)
+        assert obj.setLength(length) is obj
+        assert obj.getLength() is length
+
+    def test_length_none_no_op(self):
+        obj = MetaDataItem()
+        obj.setLength(PositiveInteger().setValue(8))
+
+        obj.setLength(None)
+
+        assert obj.getLength() is not None
+        assert obj.getLength().getValue() == 8
+
+    def test_meta_data_item_type_round_trip(self):
+        obj = MetaDataItem()
+
+        value_spec = TextValueSpecification()
+        assert obj.setMetaDataItemType(value_spec) is obj
+        assert obj.getMetaDataItemType() is value_spec
+
+    def test_meta_data_item_type_none_no_op(self):
+        obj = MetaDataItem()
+        obj.setMetaDataItemType(TextValueSpecification())
+
+        obj.setMetaDataItemType(None)
+
+        assert obj.getMetaDataItemType() is not None
+
+
+class TestMetaDataItemSet:
+    """
+    Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.5, p.99 (R23-11)
+    dataElement is a * ref (VariableDataPrototype); metaDataItem is a * ordered aggr of MetaDataItem.
+    """
+
+    def test_initialization(self):
+        obj = MetaDataItemSet()
+
+        assert obj.getDataElementRefs() == []
+        assert obj.getMetaDataItems() == []
+
+        # Base chain (Table 4.5): most-derived model base = ARObject (no SHORT-NAME)
+        assert isinstance(obj, ARObject)
+        assert not isinstance(obj, Referrable)
+
+    def test_add_data_element_refs(self):
+        obj = MetaDataItemSet()
+
+        ref1 = RefType()
+        ref1.setValue("/pkg/sr_iface/de1")
+        ref2 = RefType()
+        ref2.setValue("/pkg/sr_iface/de2")
+
+        assert obj.addDataElementRef(ref1) is obj
+        obj.addDataElementRef(ref2)
+
+        refs = obj.getDataElementRefs()
+        assert len(refs) == 2
+        assert refs[0] is ref1
+        assert refs[0].getValue() == "/pkg/sr_iface/de1"
+        assert refs[1] is ref2
+        assert refs[1].getValue() == "/pkg/sr_iface/de2"
+
+    def test_add_meta_data_items_ordered(self):
+        obj = MetaDataItemSet()
+
+        item1 = MetaDataItem()
+        item2 = MetaDataItem()
+
+        assert obj.addMetaDataItem(item1) is obj
+        obj.addMetaDataItem(item2)
+
+        items = obj.getMetaDataItems()
+        assert len(items) == 2
+        # Table 4.5 metaDataItem is ordered — insertion order is preserved
+        assert items[0] is item1
+        assert items[1] is item2
