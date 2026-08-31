@@ -5370,22 +5370,22 @@ class ARXMLParser(AbstractARXMLParser):
                 self.raiseError("Unsupported RequiredComSpec <%s>" % tag_name)
 
     def readAbstractRequiredPortPrototype(self, element: ET.Element, prototype: AbstractRequiredPortPrototype):
-        self.readProvidedComSpec(element, prototype)
+        self.readRequiredComSpec(element, prototype)
 
     def readPPortPrototype(self, element: ET.Element, prototype: PPortPrototype):
         # self.logger.debug("Read PPortPrototype %s" % prototype.getShortName())
         self.readIdentifiable(element, prototype)
-        self.readAbstractRequiredPortPrototype(element, prototype)
+        self.readAbstractProvidedPortPrototype(element, prototype)
         prototype.setProvidedInterfaceTRef(self.getChildElementOptionalRefType(element, "PROVIDED-INTERFACE-TREF"))
         self.readPortPrototype(element, prototype)
 
     def readAbstractProvidedPortPrototype(self, element: ET.Element, prototype: AbstractProvidedPortPrototype):
-        self.readRequiredComSpec(element, prototype)
+        self.readProvidedComSpec(element, prototype)
 
     def readRPortPrototype(self, element: ET.Element, prototype: RPortPrototype):
         # self.logger.debug("Read RPortPrototype %s" % prototype.getShortName())
         self.readIdentifiable(element, prototype)
-        self.readAbstractProvidedPortPrototype(element, prototype)
+        self.readAbstractRequiredPortPrototype(element, prototype)
         prototype.setRequiredInterfaceTRef(self.getChildElementOptionalRefType(element, "REQUIRED-INTERFACE-TREF"))
         self.readPortPrototype(element, prototype)
 
