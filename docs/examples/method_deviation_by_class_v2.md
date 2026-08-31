@@ -9,9 +9,9 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 
 - Py classes scanned: **1069**
 - Skipped (spec verified stamp): **410**
-- Classes with deviations: **185**
+- Classes with deviations: **184**
 - No spec table found (appendix): **133**
-- Missing accessors: **199**
+- Missing accessors: **196**
 - Naming deviations: **32**
 - Type deviations (list/single multiplicity): **52**
 
