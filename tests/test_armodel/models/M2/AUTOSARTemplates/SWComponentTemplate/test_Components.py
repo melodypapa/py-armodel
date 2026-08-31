@@ -254,9 +254,9 @@ class TestRPortPrototype:
         assert r_port.requiredInterfaceTRef is None
 
         # Test mayBeUnconnected methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
 
-        may_be_unconnected = ARBoolean()
+        may_be_unconnected = Boolean()
         may_be_unconnected.setValue(True)
         r_port.setMayBeUnconnected(may_be_unconnected)
         assert r_port.getMayBeUnconnected() == may_be_unconnected

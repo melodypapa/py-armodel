@@ -15,8 +15,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     RoleBasedDataAssignment,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
-    ARBoolean,
     ARLiteral,
+    Boolean,
     Integer,
     PositiveInteger,
     RefType,
@@ -106,7 +106,7 @@ def _time(value):
 
 
 def _bool(value):
-    b = ARBoolean()
+    b = Boolean()
     b.setValue(value)
     return b
 

@@ -11,8 +11,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ReferenceBase,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARBoolean,
     ARLiteral,
+    Boolean,
     RefType,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import PostBuildVariantCriterion
@@ -47,7 +47,7 @@ def _literal(text):
 
 
 def _boolean(val):
-    b = ARBoolean()
+    b = Boolean()
     b.setValue(val)
     return b
 

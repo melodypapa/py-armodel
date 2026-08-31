@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, List, Optional
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, ARFloat, DisplayFormatString, MonotonyEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Float, DisplayFormatString, MonotonyEnum
 
 if TYPE_CHECKING:
     from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
@@ -61,18 +61,18 @@ class SwCalprmAxisTypeProps(ARObject, ABC):
         super().__init__()
 
         # This attribute defines the maximum permissible gradient for an adjustable object (curve, map or cuboid) with respect to a specific axis. MaxGrad = maximum( absolute((Value i,k - Value i-1,k)/(Axis Point i - Axis Point i-1)) )
-        self.maxGradient: Optional[ARFloat] = None
+        self.maxGradient: Optional[Float] = None
 
         # This attribute specifies the monotony constraint for an adjustable object (curve, map or cuboid) with respect to a specific axis. This information can be used by MCD system to verify whether the monotony constraint is fulfilled and to prevent from changes violating the constraint.
         self.monotony: Optional[MonotonyEnum] = None
 
-    def getMaxGradient(self) -> Optional[ARFloat]:
+    def getMaxGradient(self) -> Optional[Float]:
         """
         This attribute defines the maximum permissible gradient for an adjustable object (curve, map or cuboid) with respect to a specific axis. MaxGrad = maximum( absolute((Value i,k - Value i-1,k)/(Axis Point i - Axis Point i-1)) )
         """
         return self.maxGradient
 
-    def setMaxGradient(self, value: Optional[ARFloat]) -> SwCalprmAxisTypeProps:
+    def setMaxGradient(self, value: Optional[Float]) -> SwCalprmAxisTypeProps:
         """
         This attribute defines the maximum permissible gradient for an adjustable object (curve, map or cuboid) with respect to a specific axis. MaxGrad = maximum( absolute((Value i,k - Value i-1,k)/(Axis Point i - Axis Point i-1)) ) A None value is a no-op and does not overwrite an existing maxGradient.
         """

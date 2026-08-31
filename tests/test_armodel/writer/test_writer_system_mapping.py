@@ -15,10 +15,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AnyInstanceRef,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
-    ARBoolean,
     ARLiteral,
     ARNumerical,
-    ARPositiveInteger,
+    Boolean,
+    PositiveInteger,
     RefType,
     RevisionLabelString,
 )
@@ -91,13 +91,13 @@ def _revision(value):
 
 
 def _boolean(val=True):
-    b = ARBoolean()
+    b = Boolean()
     b.setValue(val)
     return b
 
 
 def _positive_int(val=1):
-    i = ARPositiveInteger()
+    i = PositiveInteger()
     i.setValue(str(val))
     return i
 

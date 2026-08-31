@@ -8,7 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes 
     ImplementationDataType,
     ImplementationDataTypeElement,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ARLiteral, ARNumerical, Boolean, NameToken, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, NameToken, String
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
@@ -171,7 +171,7 @@ class TestImplementationDataTypeElement:
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         element = ImplementationDataTypeElement(ar_root, "TestElement")
-        test_value = ARBoolean().setValue(True)
+        test_value = Boolean().setValue(True)
         result = element.setIsOptional(test_value)
         assert result is element
         assert element.getIsOptional() == test_value
@@ -253,7 +253,7 @@ class TestImplementationDataTypeElement:
         element.setArraySize(ARNumerical().setValue(10))
         element.setArraySizeHandling(ARLiteral().setValue("HANDLING"))
         element.setArraySizeSemantics(ARLiteral().setValue("FIXED-SIZE"))
-        element.setIsOptional(ARBoolean().setValue(True))
+        element.setIsOptional(Boolean().setValue(True))
         element.setSwDataDefProps(SwDataDefProps())
 
         # Verify all properties are set

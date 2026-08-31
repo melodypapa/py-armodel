@@ -179,16 +179,18 @@ class ARNumerical(ARType):
         return self.shortLabel
 
 
-class ARFloat(ARNumerical):
+class Float(ARNumerical):
     """
-    Base class for floating-point AUTOSAR types.
-    This class provides functionality for floating-point values in AUTOSAR models.
+    An instance of Float is an element from the set of real numbers.
+
+    Tags:
+        * xml.xsd.customType=FLOAT
+        * xml.xsd.type=double
     """
 
-    # ARFloat method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Float method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test
     # [ ] value                        [x] impl  [x] docstring  [ ] test
-    # [ ] value                        [x] impl  [ ] docstring  [ ] test
     # [ ] __str__                      [x] impl  [ ] docstring  [ ] test
 
     def __init__(self) -> None:
@@ -220,22 +222,7 @@ class ARFloat(ARNumerical):
             return str(self._value)
 
 
-class Float(ARFloat):
-    """
-    An instance of Float is an element from the set of real numbers.
-    Tags:
-        * xml.xsd.customType=FLOAT
-        * xml.xsd.type=double
-    """
-
-    # Float method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-
-    def __init__(self):
-        super().__init__()
-
-
-class TimeValue(ARFloat):
+class TimeValue(Float):
     """
     This primitive type is taken for expressing time values. The numerical value is supposed to be interpreted
     in the physical unit second.
@@ -527,16 +514,22 @@ class ReferrableSubtypesEnum(ARLiteral):
         super().__init__()
 
 
-class ARPositiveInteger(ARNumerical):
+class PositiveInteger(ARNumerical):
     """
-    Base class for positive integer AUTOSAR types.
-    This class provides functionality for positive integer values in AUTOSAR models.
+    This is a positive integer which can be denoted in decimal, binary, octal and hexadecimal. The value is between 0 and 4294967295.
+
+    Tags:
+        * xml.xsd.customType=POSITIVE-INTEGER
+        * xml.xsd.pattern=0|[\\+]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
+        * xml.xsd.type=string
     """
 
-    # ARPositiveInteger method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
-    # [ ] value                        [x] impl  [x] docstring  [ ] test
-    # [ ] value                        [x] impl  [ ] docstring  [ ] test
+    # PositiveInteger method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.64, p.459
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # [ ] value                        [x] impl  [x] docstring  [ ] test  [—] reader  [—] writer
 
     def __init__(self) -> None:
         super().__init__()
@@ -559,18 +552,22 @@ class ARPositiveInteger(ARNumerical):
             raise ValueError("Unsupported Type <%s>", type(val))
 
 
-class ARBoolean(ARType):
+class Boolean(ARType):
     """
-    Base class for boolean AUTOSAR types.
-    This class provides functionality for boolean values in AUTOSAR models.
+    A Boolean value denotes a logical condition that is either 'true' or 'false'. It can be one of "0", "1", "true",
+    "false"
+
+    Tags:
+        * xml.xsd.customType=BOOLEAN
+        * xml.xsd.pattern=0|1|true|false
+        * xml.xsd.type=string
     """
 
-    # ARBoolean method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Boolean method parity checklist:
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
     # [x] _convertNumberToBoolean      [x] impl  [x] docstring  [x] test
     # [x] _convertStringToBoolean      [x] impl  [x] docstring  [x] test
     # [ ] value                        [x] impl  [x] docstring  [ ] test
-    # [ ] value                        [x] impl  [ ] docstring  [ ] test
     # [ ] __str__                      [x] impl  [ ] docstring  [ ] test
 
     def __init__(self) -> None:
@@ -659,27 +656,7 @@ class NameToken(ARLiteral):
         super().__init__()
 
 
-class PositiveInteger(ARPositiveInteger):
-    """
-    This is a positive integer which can be denoted in decimal, binary, octal and hexadecimal. The value is between 0 and 4294967295.
-
-    Tags:
-        * xml.xsd.customType=POSITIVE-INTEGER
-        * xml.xsd.pattern=0|[\\+]?[1-9][0-9]*|0[xX][0-9a-fA-F]+|0[bB][0-1]+|0[0-7]+
-        * xml.xsd.type=string
-    """
-
-    # PositiveInteger method parity checklist:
-    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.64, p.459
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-
-    def __init__(self):
-        super().__init__()
-
-
-class PositiveUnlimitedInteger(ARPositiveInteger):
+class PositiveUnlimitedInteger(PositiveInteger):
     r"""
     This is a positive unlimited integer which can be denoted in decimal, binary, octal and hexadecimal.
 
@@ -727,24 +704,6 @@ class UnlimitedInteger(Integer):
     """
 
     # UnlimitedInteger method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        super().__init__()
-
-
-class Boolean(ARBoolean):
-    """
-    A Boolean value denotes a logical condition that is either 'true' or 'false'. It can be one of "0", "1", "true",
-    "false"
-
-    Tags:
-        * xml.xsd.customType=BOOLEAN
-        * xml.xsd.pattern=0|1|true|false
-        * xml.xsd.type=string
-    """
-
-    # Boolean method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):

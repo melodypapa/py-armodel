@@ -5,7 +5,7 @@ in software component internal behavior templates.
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, RefType, TRefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, TRefType
 from typing import List
 
 
@@ -98,9 +98,9 @@ class PortAPIOption(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.enableTakeAddress: ARBoolean = None
+        self.enableTakeAddress: Boolean = None
         self.errorHandling = None
-        self.indirectAPI: ARBoolean = None
+        self.indirectAPI: Boolean = None
         self.portRef: RefType = None
         self.portArgValues: List["PortDefinedArgumentValue"] = []
         self.supportedFeatures = []
@@ -111,7 +111,7 @@ class PortAPIOption(ARObject):
         Gets whether the address-taking feature is enabled.
 
         Returns:
-            ARBoolean: True if address-taking is enabled
+            Boolean: True if address-taking is enabled
         """
         return self.enableTakeAddress
 
@@ -155,7 +155,7 @@ class PortAPIOption(ARObject):
         Gets whether indirect API is used.
 
         Returns:
-            ARBoolean: True if indirect API is used
+            Boolean: True if indirect API is used
         """
         return self.indirectAPI
 

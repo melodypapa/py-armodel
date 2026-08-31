@@ -24,9 +24,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     SymbolicNameProps,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
-    ARBoolean,
     ARLiteral,
     ARNumerical,
+    Boolean,
     CIdentifier,
     PositiveInteger,
     RefType,
@@ -71,7 +71,7 @@ def _literal(value):
 
 
 def _bool(value):
-    b = ARBoolean()
+    b = Boolean()
     b.setValue(value)
     return b
 
@@ -826,7 +826,7 @@ class TestWriterBswServiceDependency:
 
         dependency = BswServiceDependency()
         needs = DiagnosticIoControlNeeds(dependency, "needs")
-        needs.setFreezeCurrentStateSupported(ARBoolean().setValue(True))
+        needs.setFreezeCurrentStateSupported(Boolean().setValue(True))
         dependency.setServiceNeeds(needs)
 
         parent = _parent()

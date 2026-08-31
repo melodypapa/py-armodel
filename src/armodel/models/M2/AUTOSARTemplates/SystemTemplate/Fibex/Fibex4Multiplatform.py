@@ -3,7 +3,7 @@ from typing import List
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARPositiveInteger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 
 
@@ -211,7 +211,7 @@ class IPduMapping(ARObject):
         super().__init__()
 
         self.introduction: DocumentationBlock = None
-        self.pdurTpChunkSize: ARPositiveInteger = None
+        self.pdurTpChunkSize: PositiveInteger = None
         self.sourceIpduRef: RefType = None
         self.targetIPdu: TargetIPduRef = None
 

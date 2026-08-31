@@ -25,8 +25,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
     AlignmentType,
-    ARBoolean,
     ARLiteral,
+    Boolean,
     CIdentifier,
     Identifier,
     PositiveInteger,
@@ -703,7 +703,7 @@ class TestWriteSenderReceiverInterface:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         sr = pkg.createSenderReceiverInterface("SR")
-        is_service = ARBoolean()
+        is_service = Boolean()
         is_service.setValue("true")
         sr.setIsService(is_service)
         sr.createDataElement("Elem")

@@ -142,9 +142,9 @@ class TestRunnableEntity:
         assert runnable.writtenLocalVariables == []
 
         # Test canBeInvokedConcurrently methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
 
-        can_invoke = ARBoolean()
+        can_invoke = Boolean()
         can_invoke.setValue(True)
         runnable.setCanBeInvokedConcurrently(can_invoke)
         assert runnable.getCanBeInvokedConcurrently() == can_invoke

@@ -28,9 +28,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AutosarEngineeringObject,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARBoolean,
-    ARFloat,
     ARLiteral,
+    Boolean,
+    Float,
     Integer,
     PositiveInteger,
     RefType,
@@ -89,13 +89,13 @@ def _make_literal(text):
 
 
 def _make_bool(text):
-    val = ARBoolean()
+    val = Boolean()
     val.setValue(text)
     return val
 
 
 def _make_float(num, text):
-    val = ARFloat()
+    val = Float()
     val.setValue(num)
     val._text = text
     return val

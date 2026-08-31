@@ -15,8 +15,8 @@ from armodel.models.M2.AUTOSARTemplates.ECUCParameterDefTemplate import (
     EcucValueConfigurationClass,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa E501
-    ARBoolean,
     ARLiteral,
+    Boolean,
     CIdentifier,
     Float,
     IntervalTypeEnum,
@@ -63,7 +63,7 @@ def _literal(value):
 
 
 def _bool(value):
-    b = ARBoolean()
+    b = Boolean()
     b.setValue(value)
     return b
 

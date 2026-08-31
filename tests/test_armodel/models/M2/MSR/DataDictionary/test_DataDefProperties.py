@@ -7,10 +7,10 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AlignmentType,
-    ARFloat,
     ARNumerical,
     Boolean,
     DisplayFormatString,
+    Float,
     Identifier,
     Integer,
     NativeDeclarationString,
@@ -303,7 +303,7 @@ class TestSwDataDefProps:
 
     def test_sw_data_def_props_step_size_methods(self):
         sw_data_def_props = SwDataDefProps()
-        step_size = ARFloat().setValue("0.5")
+        step_size = Float().setValue("0.5")
         result = sw_data_def_props.setStepSize(step_size)
         assert sw_data_def_props.getStepSize() == step_size
         assert result == sw_data_def_props

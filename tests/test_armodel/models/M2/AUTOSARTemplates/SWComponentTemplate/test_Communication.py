@@ -7,7 +7,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean, ARPositiveInteger, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import (
     ClientComSpec,
     CompositeNetworkRepresentation,
@@ -172,7 +172,7 @@ class TestSenderComSpec:
         sender.setTransmissionProps(None)
         assert sender.getTransmissionProps() is transmission_props
 
-        uses_e2e = ARBoolean()
+        uses_e2e = Boolean()
         uses_e2e.setValue(True)
         assert sender.setUsesEndToEndProtection(uses_e2e) is sender
         assert sender.getUsesEndToEndProtection() is uses_e2e
@@ -304,7 +304,7 @@ class TestModeSwitchReceiverComSpec:
         assert receiver.supportsAsynchronousModeSwitch is None
 
         # Test setters and getters
-        api = ARBoolean()
+        api = Boolean()
         api.setValue(True)
         receiver.setEnhancedModeApi(api)
         assert receiver.getEnhancedModeApi() == api
@@ -314,7 +314,7 @@ class TestModeSwitchReceiverComSpec:
         receiver.setModeGroupRef(ref)
         assert receiver.getModeGroupRef() == ref
 
-        async_mode = ARBoolean()
+        async_mode = Boolean()
         async_mode.setValue(False)
         receiver.setSupportsAsynchronousModeSwitch(async_mode)
         assert receiver.getSupportsAsynchronousModeSwitch() == async_mode
@@ -414,7 +414,7 @@ class TestReceiverComSpec:
         receiver.setMaxNoNewOrRepeatedData(max_new)
         assert receiver.getMaxNoNewOrRepeatedData() == max_new
 
-        e2e = ARBoolean()
+        e2e = Boolean()
         e2e.setValue(True)
         receiver.setUsesEndToEndProtection(e2e)
         assert receiver.getUsesEndToEndProtection() == e2e
@@ -507,7 +507,7 @@ class TestModeSwitchSenderComSpec:
         assert sender.queueLength is None
 
         # Test setters and getters
-        api = ARBoolean()
+        api = Boolean()
         api.setValue(True)
         sender.setEnhancedModeApi(api)
         assert sender.getEnhancedModeApi() == api
@@ -521,7 +521,7 @@ class TestModeSwitchSenderComSpec:
         sender.setModeSwitchedAck(ack_request)
         assert sender.getModeSwitchedAck() == ack_request
 
-        queue_len = ARPositiveInteger()
+        queue_len = PositiveInteger()
         queue_len.setValue(5)
         sender.setQueueLength(queue_len)
         assert sender.getQueueLength() == queue_len
@@ -651,17 +651,17 @@ class TestEndToEndTransformationComSpecProps:
         assert e2e.windowSizeValid is None
 
         # Test setters and getters
-        clear_valid = ARBoolean()
+        clear_valid = Boolean()
         clear_valid.setValue(True)
         e2e.setClearFromValidToInvalid(clear_valid)
         assert e2e.getClearFromValidToInvalid() == clear_valid
 
-        disable_check = ARBoolean()
+        disable_check = Boolean()
         disable_check.setValue(False)
         e2e.setDisableEndToEndCheck(disable_check)
         assert e2e.getDisableEndToEndCheck() == disable_check
 
-        disable_sm = ARBoolean()
+        disable_sm = Boolean()
         disable_sm.setValue(True)
         e2e.setDisableEndToEndStateMachine(disable_sm)
         assert e2e.getDisableEndToEndStateMachine() == disable_sm
@@ -824,7 +824,7 @@ class TestNonqueuedReceiverComSpec:
         receiver.setAliveTimeout(alive_timeout)
         assert receiver.getAliveTimeout() == alive_timeout
 
-        enable_updated = ARBoolean()
+        enable_updated = Boolean()
         enable_updated.setValue(True)
         receiver.setEnableUpdate(enable_updated)
         assert receiver.getEnableUpdate() == enable_updated
@@ -835,12 +835,12 @@ class TestNonqueuedReceiverComSpec:
         receiver.setFilter(filter_value)
         assert receiver.getFilter() == filter_value
 
-        handle_data = ARBoolean()
+        handle_data = Boolean()
         handle_data.setValue(True)
         receiver.setHandleDataStatus(handle_data)
         assert receiver.getHandleDataStatus() == handle_data
 
-        handle_never = ARBoolean()
+        handle_never = Boolean()
         handle_never.setValue(False)
         receiver.setHandleNeverReceived(handle_never)
         assert receiver.getHandleNeverReceived() == handle_never
@@ -872,7 +872,7 @@ class TestNonqueuedReceiverComSpec:
     def test_enable_update_none_noop(self):
         """Test setEnableUpdate with None is a no-op."""
         receiver = NonqueuedReceiverComSpec()
-        enable = ARBoolean()
+        enable = Boolean()
         enable.setValue(True)
         receiver.setEnableUpdate(enable)
         receiver.setEnableUpdate(None)
@@ -935,7 +935,7 @@ class TestQueuedReceiverComSpec:
         assert receiver.queueLength is None
 
         # Test setters and getters
-        queue_len = ARPositiveInteger()
+        queue_len = PositiveInteger()
         queue_len.setValue(5)
         receiver.setQueueLength(queue_len)
         assert receiver.getQueueLength() == queue_len

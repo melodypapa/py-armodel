@@ -19,11 +19,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, ShortNameFragment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARFloat,
     ARLiteral,
     ARNumerical,
     DateTime,
     DisplayFormatString,
+    Float,
     Identifier,
     IntervalTypeEnum,
     Limit,
@@ -725,8 +725,8 @@ class TestARXMLWriterValueSpecMethods:
         parent = ET.Element("parent")
 
         value_spec = NumericalValueSpecification()
-        # Use ARFloat instead of Compu
-        float_val = ARFloat()
+        # Use Float instead of Compu
+        float_val = Float()
         float_val.setValue(123.45)
         float_val._text = "123.45"  # Set internal text representation
         value_spec.setValue(float_val)
@@ -949,7 +949,7 @@ class TestARXMLWriterSwCalprmAxisMethods:
     def _build_individual_axis(self) -> SwCalprmAxis:
         axis = SwCalprmAxis()
         props = SwAxisIndividual()
-        gradient = ARFloat()
+        gradient = Float()
         gradient.setValue(2.5)
         props.setMaxGradient(gradient)
         monotony = MonotonyEnum()
@@ -1080,7 +1080,7 @@ class TestARXMLWriterSwSystemconstantValueSetMethods:
         ref.setValue("/Constants/MySystemConstant")
         value.setSwSystemconstRef(ref)
 
-        num = ARFloat()
+        num = Float()
         num.setValue(42)
         num._text = "42"
         value.setValue(num)

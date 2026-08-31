@@ -14,9 +14,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
-    Boolean as Boolean,
-    RefType as RefType,
-    ARBoolean,
+    RefType,
+    Boolean,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import (
@@ -103,7 +102,7 @@ class RunnableEntity(ExecutableEntity):
 
         # If the value of this attribute is set to "true" the enclosing RunnableEntity can be invoked concurrently (even for one instance of the corresponding AtomicSwComponentType).
         # This implies that it is the responsibility of the implementation of the RunnableEntity to take care of this form of concurrency.
-        self.canBeInvokedConcurrently: ARBoolean = None
+        self.canBeInvokedConcurrently: Boolean = None
 
         # RunnableEntity has implicit read access to dataElement of a sender-receiver PortPrototype or nv data of a nv data PortPrototype.
         # The aggregation of dataReadAccess is subject to variability with the purpose to support the conditional existence of sender receiver ports or the variant existence of dataReadAccess in the implementation.
@@ -194,17 +193,17 @@ class RunnableEntity(ExecutableEntity):
             self.arguments.append(value)
         return self
 
-    def getCanBeInvokedConcurrently(self) -> Optional[ARBoolean]:
+    def getCanBeInvokedConcurrently(self) -> Optional[Boolean]:
         """
         If the value of this attribute is set to "true" the enclosing RunnableEntity can be invoked concurrently (even for one instance of the corresponding AtomicSwComponentType).
         This implies that it is the responsibility of the implementation of the RunnableEntity to take care of this form of concurrency.
 
         Returns:
-            Optional[ARBoolean]: The concurrency flag, or None if not set
+            Optional[Boolean]: The concurrency flag, or None if not set
         """
         return self.canBeInvokedConcurrently
 
-    def setCanBeInvokedConcurrently(self, value: Optional[ARBoolean]) -> "RunnableEntity":
+    def setCanBeInvokedConcurrently(self, value: Optional[Boolean]) -> "RunnableEntity":
         """
         If the value of this attribute is set to "true" the enclosing RunnableEntity can be invoked concurrently (even for one instance of the corresponding AtomicSwComponentType).
         This implies that it is the responsibility of the implementation of the RunnableEntity to take care of this form of concurrency.

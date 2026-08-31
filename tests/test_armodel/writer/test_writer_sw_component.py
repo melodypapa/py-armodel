@@ -16,11 +16,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (  # noqa: E501
-    ARBoolean,
-    ARFloat,
     ARLiteral,
     ARNumerical,
-    ARPositiveInteger,
+    Boolean,
+    Float,
+    PositiveInteger,
     RefType,
     String,
     TimeValue,
@@ -126,13 +126,13 @@ def _literal(text="val"):
 
 
 def _boolean(val=True):
-    b = ARBoolean()
+    b = Boolean()
     b.setValue(val)
     return b
 
 
 def _positive_int(val=1):
-    i = ARPositiveInteger()
+    i = PositiveInteger()
     i.setValue(val)
     return i
 
@@ -150,7 +150,7 @@ def _numerical(val=1):
 
 
 def _float(val=1.5):
-    f = ARFloat()
+    f = Float()
     f.setValue(val)
     return f
 
@@ -913,7 +913,7 @@ class TestSwComponentTypeRoundTrip:
         r_tref.setValue("/If/SR")
         r_tref.setDest("SENDER-RECEIVER-INTERFACE")
         r_port.setRequiredInterfaceTRef(r_tref)
-        r_may_be_unconnected = ARBoolean()
+        r_may_be_unconnected = Boolean()
         r_may_be_unconnected.setValue(True)
         r_port.setMayBeUnconnected(r_may_be_unconnected)
         r_com_spec = ClientComSpec()

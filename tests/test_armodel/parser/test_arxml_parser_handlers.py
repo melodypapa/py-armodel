@@ -523,7 +523,7 @@ class TestDataTypeAndValueSpecHandlers:
         element = _snip("<SW-ARRAYSIZE><V>4</V></SW-ARRAYSIZE>", root_tag="PARENT")
         value_list = parser.getValueList(element, "SW-ARRAYSIZE")
         assert value_list is not None
-        # ValueList stores a single V (ARFloat).
+        # ValueList stores a single V (Float).
         assert value_list.getV() is not None
         assert float(value_list.getV().getValue()) == 4.0
 

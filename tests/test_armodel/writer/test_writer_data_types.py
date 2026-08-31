@@ -19,9 +19,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     TextValueSpecification,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARFloat,
     ARLiteral,
     ARNumerical,
+    Float,
     Identifier,
     Integer,
     IntervalTypeEnum,
@@ -113,7 +113,7 @@ def _verbatim(text):
 
 
 def _float(text):
-    num = ARFloat()
+    num = Float()
     num.value = text
     return num
 

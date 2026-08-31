@@ -45,9 +45,9 @@ def _ref(value):
 
 
 def _bool(value):
-    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARBoolean
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
 
-    b = ARBoolean()
+    b = Boolean()
     b.setValue(value)
     return b
 

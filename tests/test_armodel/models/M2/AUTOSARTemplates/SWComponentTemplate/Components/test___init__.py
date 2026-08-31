@@ -5,7 +5,7 @@ AUTOSAR SWComponentTemplate module.
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARBoolean,
+    Boolean,
     RefType,
     TRefType,
 )
@@ -181,7 +181,7 @@ class TestRPortPrototype:
 
     def test_get_set_mayBeUnconnected(self):
         obj = self._create_prototype()
-        value = ARBoolean()
+        value = Boolean()
         value.setValue(False)
         assert obj.setMayBeUnconnected(value) is obj
         assert obj.getMayBeUnconnected() == value

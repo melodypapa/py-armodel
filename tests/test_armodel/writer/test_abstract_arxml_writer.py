@@ -7,13 +7,13 @@ import pytest
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARBoolean,
-    ARFloat,
     ARLiteral,
     ARNumerical,
-    ARPositiveInteger,
+    Boolean,
     DateTime,
+    Float,
     Integer,
+    PositiveInteger,
     RefType,
     RevisionLabelString,
     TimeValue,
@@ -191,7 +191,7 @@ class TestAbstractARXMLWriter:
         """Test setChildElementOptionalPositiveInteger"""
         writer = ConcreteARXMLWriter()
         parent = ET.Element("parent")
-        pos_int = ARPositiveInteger()
+        pos_int = PositiveInteger()
         pos_int.setValue(100)
         pos_int._text = "100"  # Set the text attribute used by writer
 
@@ -280,7 +280,7 @@ class TestAbstractARXMLWriter:
         """Test setChildElementOptionalFloatValue"""
         writer = ConcreteARXMLWriter()
         parent = ET.Element("parent")
-        float_val = ARFloat()
+        float_val = Float()
         float_val.setValue(3.14)
 
         writer.setChildElementOptionalFloatValue(parent, "test-float", float_val)
@@ -304,7 +304,7 @@ class TestAbstractARXMLWriter:
         """Test setChildElementOptionalBooleanValue with True"""
         writer = ConcreteARXMLWriter()
         parent = ET.Element("parent")
-        bool_val = ARBoolean()
+        bool_val = Boolean()
         bool_val.setValue(True)
 
         result = writer.setChildElementOptionalBooleanValue(parent, "test-bool", bool_val)
@@ -317,7 +317,7 @@ class TestAbstractARXMLWriter:
         """Test setChildElementOptionalBooleanValue with False"""
         writer = ConcreteARXMLWriter()
         parent = ET.Element("parent")
-        bool_val = ARBoolean()
+        bool_val = Boolean()
         bool_val.setValue(False)
 
         writer.setChildElementOptionalBooleanValue(parent, "test-bool", bool_val)

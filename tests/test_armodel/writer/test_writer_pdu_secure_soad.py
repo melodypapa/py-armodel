@@ -7,9 +7,9 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
-    ARBoolean,
     ARLiteral,
     ARNumerical,
+    Boolean,
     Integer,
     PositiveInteger,
     RefType,
@@ -77,7 +77,7 @@ def _pos_int(text):
 
 
 def _bool(text):
-    val = ARBoolean()
+    val = Boolean()
     val.setValue(text)
     return val
 
