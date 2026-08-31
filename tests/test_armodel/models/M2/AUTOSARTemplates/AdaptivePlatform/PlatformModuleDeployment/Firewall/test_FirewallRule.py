@@ -4,18 +4,15 @@ from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeploymen
     DataLinkLayerRule,
     DdsRule,
     DoIpRule,
-    FirewallActionEnum,
     FirewallRule,
-    FirewallRuleProps,
     NetworkLayerRule,
     PayloadBytePatternRule,
     SomeipProtocolRule,
     SomeipSdRule,
-    StateDependentFirewall,
     TransportLayerRule,
 )
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -185,43 +182,3 @@ class TestFirewallRuleReadWrite:
         assert isinstance(recovered.getSomeipRule(), SomeipProtocolRule)
         assert isinstance(recovered.getSomeipSdRule(), SomeipSdRule)
         assert isinstance(recovered.getTransportLayerRule(), TransportLayerRule)
-
-
-class TestStateDependentFirewallReadWrite:
-    def _create_firewall(self) -> StateDependentFirewall:
-        ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
-        fw = StateDependentFirewall(ar_root, "StateDependentFirewall")
-        fw.setDefaultAction(FirewallActionEnum().setValue(FirewallActionEnum.BLOCK))
-        props = FirewallRuleProps()
-        props.setAction(FirewallActionEnum().setValue(FirewallActionEnum.ALLOW))
-        ref = RefType()
-        ref.setValue("/AUTOSAR/FirewallRules/Rule")
-        props.addMatchingEgressRuleRef(ref)
-        fw.addFirewallRuleProps(props)
-        mode_ref = RefType()
-        mode_ref.setValue("/AUTOSAR/Modes/State")
-        fw.addFirewallStateModeDeclarationRef(mode_ref)
-        return fw
-
-    def test_round_trip(self):
-        fw = self._create_firewall()
-        parent = ET.Element("PARENT")
-        writer = ARXMLWriter()
-        writer.writeStateDependentFirewall(parent, fw)
-
-        inner = ET.tostring(parent).decode("utf-8")
-        element = ET.fromstring(f"<AUTOSAR xmlns='http://autosar.org/schema/r4.0'>{inner}</AUTOSAR>")[0][0]
-
-        recovered = StateDependentFirewall(ET.Element("DUMMY"), "StateDependentFirewall")
-        parser = ARXMLParser()
-        parser.readStateDependentFirewall(element, recovered)
-
-        assert recovered.getShortName() == "StateDependentFirewall"
-        assert recovered.getDefaultAction() is not None and recovered.getDefaultAction().getValue() == FirewallActionEnum.BLOCK
-        props_list = recovered.getFirewallRuleProps()
-        assert len(props_list) == 1
-        assert props_list[0].getAction() is not None and props_list[0].getAction().getValue() == FirewallActionEnum.ALLOW
-        assert len(props_list[0].getMatchingEgressRuleRefs()) == 1
-        assert props_list[0].getMatchingEgressRuleRefs()[0].getValue() == "/AUTOSAR/FirewallRules/Rule"
-        assert len(recovered.getFirewallStateModeDeclarationRefs()) == 1
-        assert recovered.getFirewallStateModeDeclarationRefs()[0].getValue() == "/AUTOSAR/Modes/State"

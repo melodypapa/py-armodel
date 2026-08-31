@@ -1158,17 +1158,6 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 |---|---|---|---|---|---|
 | `keyexchangeref` | `—` | `keyExchange` | ``CryptoServicePrimitive`` | ref | type (spec many vs py single) |
 
-## `StateDependentFirewall`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 583  | **table:** Table 6.234
-- **Package:** `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall::StateDependentFirewall`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/StateDependentFirewall.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `defaultAction` | ``FirewallActionEnum`` | attr | missing |
-| — *(missing)* | `—` | `firewallRuleProps(ordered)` | ``FirewallRuleProps`` | aggr | missing |
-| — *(missing)* | `—` | `firewallStateModeDeclaration` | ``ModeDeclaration`` | ref | missing |
-
 ## `FirewallRule`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 584
 - **Package:** `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall::FirewallRule`

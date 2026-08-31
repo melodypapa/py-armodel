@@ -798,16 +798,17 @@ class StateDependentFirewall(ARElement):
     # StateDependentFirewall method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.234, p.584 (R23-11)
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # Deviation: the AP-variant firewallState reference (XSD FIREWALL-STATE-IREFS,
-    #  iref type FIREWALL-STATE-IN-FIRWALL-STATE-SWITCH-INTERFACE-INSTANCE-REF) is not
-    #  modeled — Table 6.234 (CP) only lists firewallStateModeDeclaration
+    # Note: the XSD-only AP variant firewallState (FIREWALL-STATE-IREFS, iref type
+    #  FIREWALL-STATE-IN-FIRWALL-STATE-SWITCH-INTERFACE-INSTANCE-REF) is not modeled —
+    #  Rule 0015: the PDF/markdown table is authoritative and Table 6.234 (CP) lists
+    #  only firewallStateModeDeclaration
     # [x] __init__                          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
     # [x] getDefaultAction                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setDefaultAction                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addFirewallRuleProps              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] getFirewallRuleProps              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addFirewallStateModeDeclarationRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] getFirewallStateModeDeclarationRefs [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addFirewallRuleProps              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFirewallRuleProps              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addFirewallStateModeDeclarationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFirewallStateModeDeclarationRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
@@ -829,7 +830,7 @@ class StateDependentFirewall(ARElement):
 
     def setDefaultAction(self, value: Optional[FirewallActionEnum]):
         """
-        Sets the defaultAction value.
+        This attribute defines a defaultAction in case that the VehicleMode is not yet set. Only sets the value if it is not None.
 
         Returns:
             self for method chaining
