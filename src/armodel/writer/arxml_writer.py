@@ -472,6 +472,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ClientServerOperationMapping,
     DataInterface,
     DataPrototypeMapping,
+    MetaDataItem,
+    MetaDataItemSet,
     ModeDeclarationMapping,
     ModeDeclarationMappingSet,
     ModeInterfaceMapping,
@@ -5471,6 +5473,35 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF", policy.getDataElementRef())
                 self.setChildElementOptionalLiteral(child_element, "HANDLE-INVALID", policy.getHandleInvalid())
 
+    def writeSenderReceiverInterfaceMetaDataItemSets(self, element: ET.Element, sr_interface: SenderReceiverInterface):
+        mapping_sets = sr_interface.getMetaDataItemSets()
+        if len(mapping_sets) > 0:
+            sets_tag = ET.SubElement(element, "META-DATA-ITEM-SETS")
+            for mapping_set in mapping_sets:
+                self.writeMetaDataItemSet(sets_tag, mapping_set)
+
+    def writeMetaDataItemSet(self, element: ET.Element, mapping_set: MetaDataItemSet):
+        child_element = ET.SubElement(element, "META-DATA-ITEM-SET")
+        refs = mapping_set.getDataElementRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(child_element, "DATA-ELEMENT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "DATA-ELEMENT-REF", ref)
+        items = mapping_set.getMetaDataItems()
+        if len(items) > 0:
+            items_tag = ET.SubElement(child_element, "META-DATA-ITEMS")
+            for item in items:
+                self.writeMetaDataItem(items_tag, item)
+
+    def writeMetaDataItem(self, element: ET.Element, item: MetaDataItem):
+        child_element = ET.SubElement(element, "META-DATA-ITEM")
+        self.setChildElementOptionalPositiveInteger(child_element, "LENGTH", item.getLength())
+        value_spec = item.getMetaDataItemType()
+        if value_spec is not None:
+            type_element = ET.SubElement(child_element, "META-DATA-ITEM-TYPE")
+            self.writeValueSpecification(type_element, value_spec)
+            self.setChildElementOptionalLiteral(type_element, "VALUE", value_spec.getValue())
+
     def writeSenderReceiverInterface(self, element: ET.Element, sr_interface: SenderReceiverInterface):
         self.logger.debug("writeSenderReceiverInterface %s" % sr_interface.getShortName())
         child_element = ET.SubElement(element, "SENDER-RECEIVER-INTERFACE")
@@ -5478,6 +5509,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalBooleanValue(child_element, "IS-SERVICE", sr_interface.getIsService())
         self.writeSenderReceiverInterfaceDataElements(child_element, sr_interface)
         self.writeSenderReceiverInterfaceInvalidationPolicies(child_element, sr_interface)
+        self.writeSenderReceiverInterfaceMetaDataItemSets(child_element, sr_interface)
 
     def writeBswModuleDescriptionImplementedEntryRefs(self, element: ET.Element, desc: BswModuleDescription):
         refs = desc.getImplementedEntryRefs()

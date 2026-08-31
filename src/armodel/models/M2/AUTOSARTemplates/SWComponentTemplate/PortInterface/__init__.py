@@ -233,59 +233,105 @@ class InvalidationPolicy(ARObject):
 
 
 class MetaDataItem(ARObject):
+    """
+    This meta-class represents a single meta-data item.
+    """
+
     # MetaDataItem method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getLength                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setLength                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getMetaDataItemType          [x] impl  [ ] docstring  [ ] test
-    # [ ] setMetaDataItemType          [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.4, p.98 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLength            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLength            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMetaDataItemType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMetaDataItemType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.length: PositiveInteger = None
-        self.metaDataItemType: TextValueSpecification = None
+        # This attribute determines the length of the MetaDataItem at run-time.
+        self.length: Optional[PositiveInteger] = None
 
-    def getLength(self):
+        # This aggregation contributes the specification of the concrete meta-data item type.
+        self.metaDataItemType: Optional[TextValueSpecification] = None
+
+    def getLength(self) -> Optional[PositiveInteger]:
+        """
+        This attribute determines the length of the MetaDataItem at run-time.
+        """
         return self.length
 
-    def setLength(self, value):
-        self.length = value
+    def setLength(self, value: Optional[PositiveInteger]) -> "MetaDataItem":
+        """
+        This attribute determines the length of the MetaDataItem at run-time. A None value is a no-op and does not overwrite an existing length.
+        """
+        if value is not None:
+            self.length = value
         return self
 
-    def getMetaDataItemType(self):
+    def getMetaDataItemType(self) -> Optional[TextValueSpecification]:
+        """
+        This aggregation contributes the specification of the concrete meta-data item type.
+        """
         return self.metaDataItemType
 
-    def setMetaDataItemType(self, value):
-        self.metaDataItemType = value
+    def setMetaDataItemType(self, value: Optional[TextValueSpecification]) -> "MetaDataItem":
+        """
+        This aggregation contributes the specification of the concrete meta-data item type. A None value is a no-op and does not overwrite an existing metaDataItemType.
+        """
+        if value is not None:
+            self.metaDataItemType = value
         return self
 
 
 class MetaDataItemSet(ARObject):
+    """
+    This meta-class represents the ability to define a set of meta-data items to be used in SenderReceiver Interfaces.
+    """
+
     # MetaDataItemSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataElementRefs           [x] impl  [ ] docstring  [ ] test
-    # [ ] addDataElementRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getMetaDataItems             [x] impl  [ ] docstring  [ ] test
-    # [ ] addMetaDataItem              [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.5, p.99 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataElementRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDataElementRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMetaDataItems    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addMetaDataItem     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # This reference identifies the dataElement for which the ordered list of meta-data items is defined.
         self.dataElementRefs: List[RefType] = []
+
+        # This aggregation represents the ordered definition of meta-data items.
         self.metaDataItems: List[MetaDataItem] = []
 
-    def getDataElementRefs(self):
+    def getDataElementRefs(self) -> List[RefType]:
+        """
+        This reference identifies the dataElement for which the ordered list of meta-data items is defined.
+        """
         return self.dataElementRefs
 
-    def addDataElementRef(self, value):
+    def addDataElementRef(self, value: RefType):
+        """
+        This reference identifies the dataElement for which the ordered list of meta-data items is defined.
+        """
         self.dataElementRefs.append(value)
         return self
 
-    def getMetaDataItems(self):
+    def getMetaDataItems(self) -> List[MetaDataItem]:
+        """
+        This aggregation represents the ordered definition of meta-data items.
+        """
         return self.metaDataItems
 
-    def addMetaDataItem(self, value):
+    def addMetaDataItem(self, value: MetaDataItem):
+        """
+        This aggregation represents the ordered definition of meta-data items.
+        """
         self.metaDataItems.append(value)
         return self
 

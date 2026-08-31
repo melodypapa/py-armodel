@@ -527,6 +527,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     DataInterface,
     DataPrototypeMapping,
     InvalidationPolicy,
+    MetaDataItem,
+    MetaDataItemSet,
     ModeDeclarationMapping,
     ModeDeclarationMappingSet,
     ModeInterfaceMapping,
@@ -6051,12 +6053,33 @@ class ARXMLParser(AbstractARXMLParser):
             policy.data_element_ref = self.getChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF")
             policy.handle_invalid = self.getChildElementOptionalLiteral(child_element, "HANDLE-INVALID")
 
+    def readSenderReceiverInterfaceMetaDataItemSets(self, element: ET.Element, sr_interface: SenderReceiverInterface):
+        for child_element in self.findall(element, "META-DATA-ITEM-SETS/META-DATA-ITEM-SET"):
+            mapping_set = MetaDataItemSet()
+            self.readMetaDataItemSet(child_element, mapping_set)
+            sr_interface.addMetaDataItemSet(mapping_set)
+
+    def readMetaDataItemSet(self, element: ET.Element, mapping_set: MetaDataItemSet):
+        for ref in self.getChildElementRefTypeList(element, "DATA-ELEMENT-REFS/DATA-ELEMENT-REF"):
+            mapping_set.addDataElementRef(ref)
+        for child_element in self.findall(element, "META-DATA-ITEMS/META-DATA-ITEM"):
+            item = MetaDataItem()
+            self.readMetaDataItem(child_element, item)
+            mapping_set.addMetaDataItem(item)
+
+    def readMetaDataItem(self, element: ET.Element, item: MetaDataItem):
+        item.setLength(self.getChildElementOptionalPositiveInteger(element, "LENGTH"))
+        type_element = self.find(element, "META-DATA-ITEM-TYPE")
+        if type_element is not None:
+            item.setMetaDataItemType(self.getTextValueSpecification(type_element))
+
     def readSenderReceiverInterface(self, element, sr_interface: SenderReceiverInterface):
         self.logger.debug("Read SenderReceiverInterface <%s>" % sr_interface.getShortName())
         self.readIdentifiable(element, sr_interface)
         sr_interface.setIsService(self.getChildElementOptionalBooleanValue(element, "IS-SERVICE"))
         self.readSenderReceiverInterfaceDataElements(element, sr_interface)
         self.readSenderReceiverInterfaceInvalidationPolicies(element, sr_interface)
+        self.readSenderReceiverInterfaceMetaDataItemSets(element, sr_interface)
 
     def readArgumentDataPrototype(self, element: ET.Element, prototype: ArgumentDataPrototype):
         self.readAutosarDataPrototype(element, prototype)

@@ -1,13 +1,14 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceProviderEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ApplicationError,
@@ -16,6 +17,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ClientServerInterfaceMapping,
     ClientServerOperation,
     DataInterface,
+    MetaDataItem,
+    MetaDataItemSet,
     ModeInterfaceMapping,
     NvDataInterface,
     ParameterInterface,
@@ -359,3 +362,101 @@ class TestPortInterfaceMappingSet:
 
         for mapping in obj.getPortInterfaceMappings():
             assert isinstance(mapping, PortInterfaceMapping)
+
+
+class TestMetaDataItem:
+    """
+    Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.4, p.98 (R23-11)
+    length is a 0..1 attr (PositiveInteger); metaDataItemType is a 0..1 aggr (TextValueSpecification).
+    """
+
+    def test_initialization(self):
+        obj = MetaDataItem()
+
+        assert obj.getLength() is None
+        assert obj.getMetaDataItemType() is None
+
+        # Base chain (Table 4.4): most-derived model base = ARObject (no SHORT-NAME)
+        assert isinstance(obj, ARObject)
+        assert not isinstance(obj, Referrable)
+
+    def test_length_round_trip(self):
+        obj = MetaDataItem()
+
+        length = PositiveInteger().setValue(8)
+        assert obj.setLength(length) is obj
+        assert obj.getLength() is length
+
+    def test_length_none_no_op(self):
+        obj = MetaDataItem()
+        obj.setLength(PositiveInteger().setValue(8))
+
+        obj.setLength(None)
+
+        assert obj.getLength() is not None
+        assert obj.getLength().getValue() == 8
+
+    def test_meta_data_item_type_round_trip(self):
+        obj = MetaDataItem()
+
+        value_spec = TextValueSpecification()
+        assert obj.setMetaDataItemType(value_spec) is obj
+        assert obj.getMetaDataItemType() is value_spec
+
+    def test_meta_data_item_type_none_no_op(self):
+        obj = MetaDataItem()
+        obj.setMetaDataItemType(TextValueSpecification())
+
+        obj.setMetaDataItemType(None)
+
+        assert obj.getMetaDataItemType() is not None
+
+
+class TestMetaDataItemSet:
+    """
+    Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.5, p.99 (R23-11)
+    dataElement is a * ref (VariableDataPrototype); metaDataItem is a * ordered aggr of MetaDataItem.
+    """
+
+    def test_initialization(self):
+        obj = MetaDataItemSet()
+
+        assert obj.getDataElementRefs() == []
+        assert obj.getMetaDataItems() == []
+
+        # Base chain (Table 4.5): most-derived model base = ARObject (no SHORT-NAME)
+        assert isinstance(obj, ARObject)
+        assert not isinstance(obj, Referrable)
+
+    def test_add_data_element_refs(self):
+        obj = MetaDataItemSet()
+
+        ref1 = RefType()
+        ref1.setValue("/pkg/sr_iface/de1")
+        ref2 = RefType()
+        ref2.setValue("/pkg/sr_iface/de2")
+
+        assert obj.addDataElementRef(ref1) is obj
+        obj.addDataElementRef(ref2)
+
+        refs = obj.getDataElementRefs()
+        assert len(refs) == 2
+        assert refs[0] is ref1
+        assert refs[0].getValue() == "/pkg/sr_iface/de1"
+        assert refs[1] is ref2
+        assert refs[1].getValue() == "/pkg/sr_iface/de2"
+
+    def test_add_meta_data_items_ordered(self):
+        obj = MetaDataItemSet()
+
+        item1 = MetaDataItem()
+        item2 = MetaDataItem()
+
+        assert obj.addMetaDataItem(item1) is obj
+        obj.addMetaDataItem(item2)
+
+        items = obj.getMetaDataItems()
+        assert len(items) == 2
+        # Table 4.5 metaDataItem is ordered — insertion order is preserved
+        assert items[0] is item1
+        assert items[1] is item2
