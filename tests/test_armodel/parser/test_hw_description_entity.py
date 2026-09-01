@@ -69,7 +69,7 @@ class TestReadHwIdentifiableMembers:
         obj = HwElement(AUTOSAR.getInstance(), "DemoECU")
         parser.readHwElement(element, obj)
 
-        assert obj.getUuid() == "DCE:9cbf9b19-2b21-4e71-b42a-0050d0871226"
+        assert obj.getUuid().getValue() == "DCE:9cbf9b19-2b21-4e71-b42a-0050d0871226"
         assert obj.getDesc() is not None
         assert obj.getCategory().getValue() == "ECU"
         assert obj.getAdminData() is not None
@@ -87,7 +87,7 @@ class TestReadHwIdentifiableMembers:
         obj = HwType(AUTOSAR.getInstance(), "AnalogInType")
         parser.readHwType(element, obj)
 
-        assert obj.getUuid() == "DCE:f73f677c-1389-4425-83f8-921d567b2ad4"
+        assert obj.getUuid().getValue() == "DCE:f73f677c-1389-4425-83f8-921d567b2ad4"
 
     def test_read_hw_pin_group_uuid(self):
         parser = ARXMLParser(options={"warning": True})
@@ -100,7 +100,7 @@ class TestReadHwIdentifiableMembers:
         obj = HwPinGroup(AUTOSAR.getInstance(), "CAN1")
         parser.readHwPinGroup(element, obj)
 
-        assert obj.getUuid() == "DCE:470adf34-a7c8-470b-9d3b-b843e01fa9a9"
+        assert obj.getUuid().getValue() == "DCE:470adf34-a7c8-470b-9d3b-b843e01fa9a9"
 
     def test_hw_description_entity_members_still_read(self):
         """Re-parenting must not drop the HwDescriptionEntity aggregations."""

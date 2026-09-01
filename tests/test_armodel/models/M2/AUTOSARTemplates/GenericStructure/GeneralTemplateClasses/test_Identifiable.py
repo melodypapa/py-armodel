@@ -5,7 +5,7 @@ in the AUTOSAR GenericStructure module.
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, String
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -402,12 +402,12 @@ class TestIdentifiable:
 
         assert obj.getUuid() is None
 
-        uuid = "DCE:2fac1234-31f8-11b4-a222-08002b34c003"
+        uuid = String().setValue("DCE:2fac1234-31f8-11b4-a222-08002b34c003")
         assert obj.setUuid(uuid) is obj
-        assert obj.getUuid() == uuid
+        assert obj.getUuid() is uuid
 
         obj.setUuid(None)
-        assert obj.getUuid() == uuid
+        assert obj.getUuid() is uuid
 
     def test_element_registry_round_trip(self):
         """

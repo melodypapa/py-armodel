@@ -1215,10 +1215,9 @@ class ARXMLParser(AbstractARXMLParser):
 
         identifiable.setAdminData(self.getAdminData(element, "ADMIN-DATA"))
 
-        if isinstance(identifiable, Identifiable):
-            variation_point_element = self.find(element, "VARIATION-POINT")
-            if variation_point_element is not None:
-                identifiable.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            identifiable.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
 
         # The uuid attribute (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 4.4) is
         # owned by Identifiable. It is read here and populated *before* the object is
@@ -1227,7 +1226,9 @@ class ARXMLParser(AbstractARXMLParser):
         # in docs/plan/sync-todo/Group1.md "uuid move work order" step 3).
         uuid_value = self.readElementOptionalAttrib(element, "UUID")
         if uuid_value is not None:
-            identifiable.setUuid(uuid_value)
+            uuid = String()
+            uuid.setValue(uuid_value)
+            identifiable.setUuid(uuid)
         AUTOSAR.getInstance().addARObject(identifiable)
 
     def readARElement(self, element: ET.Element, ar_element: ARElement):

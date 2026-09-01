@@ -1213,13 +1213,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         # bottom of the chain) to keep the historical attribute order S, T, UUID.
         uuid_value = identifiable.getUuid()
         if uuid_value is not None:
-            element.attrib["UUID"] = uuid_value
+            element.attrib["UUID"] = uuid_value.getValue()
         self.setAnnotations(element, identifiable.getAnnotations())
         self.setMultiLanguageOverviewParagraph(element, "DESC", identifiable.getDesc())
         self.setChildElementOptionalLiteral(element, "CATEGORY", identifiable.getCategory())
         self.writeDocumentationBlock(element, "INTRODUCTION", identifiable.getIntroduction())
         self.setAdminData(element, identifiable.getAdminData())
-        if write_variation_point and isinstance(identifiable, Identifiable):
+        if write_variation_point:
             self.writeVariationPoint(element, identifiable.getVariationPoint())
 
     def writeARElement(self, parent: ET.Element, ar_element: ARElement):
