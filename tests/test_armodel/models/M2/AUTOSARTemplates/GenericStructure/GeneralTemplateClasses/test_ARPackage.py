@@ -205,8 +205,7 @@ class TestARPackage:
         assert package.getARPackages() == []
 
         # Add a sub-package
-        sub_package = ARPackage(package, "SubPackage")
-        package.arPackages["SubPackage"] = sub_package
+        sub_package = package.createARPackage("SubPackage")
 
         # Should return the sub-package
         result = package.getARPackages()
@@ -251,8 +250,7 @@ class TestARPackage:
         assert package.getElement("NonExistent") is None
 
         # Add a sub-package
-        sub_package = ARPackage(package, "SubPackage")
-        package.arPackages["SubPackage"] = sub_package
+        sub_package = package.createARPackage("SubPackage")
 
         # Should be able to get the sub-package
         result = package.getElement("SubPackage")

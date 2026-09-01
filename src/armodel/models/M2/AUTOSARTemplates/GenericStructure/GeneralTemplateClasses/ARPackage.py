@@ -7,7 +7,7 @@ components, interfaces, data types, and other packages.
 """
 
 from __future__ import annotations
-from typing import Dict, List, Optional
+from typing import List, Optional
 from typing import TYPE_CHECKING
 
 from abc import ABC
@@ -362,7 +362,8 @@ class ARPackage(CollectableElement):
     """
 
     # ARPackage method parity checklist:
-    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.1, p.53
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.1, p.54
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getARPackages     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -376,9 +377,10 @@ class ARPackage(CollectableElement):
     # AtpBlueprint/AtpBlueprintable are not added via Python multiple inheritance
     # (their own syncs are queued in Group1).
     # Referrable/Identifiable members (parent, short_name, longName, annotations,
-    # adminData, category, introduction, desc) are carried directly because the
-    # Python base is CollectableElement; they belong to the Identifiable/Referrable
-    # checklists.
+    # adminData, category, introduction, desc, uuid, variationPoint) are inherited
+    # from the CollectableElement -> Identifiable -> ... -> ARObject chain; they
+    # belong to the Identifiable/Referrable checklists, not to ARPackage.
+    # ARPackage.__init__ adds only arPackages + referenceBases and calls super().__init__.
     # Convenience factory accessors (createXxx/getXxxs) are pre-existing API for the
     # element aggregation; each concrete element class carries its own spec table
     # and checklist.
@@ -390,7 +392,7 @@ class ARPackage(CollectableElement):
         super().__init__(parent, short_name)
 
         # This represents a sub package within an ARPackage, thus allowing for an unlimited package hierarchy.
-        self.arPackages: Dict[str, "ARPackage"] = {}
+        self.arPackages: List["ARPackage"] = []
         # This denotes the reference bases for the package. This is the basis for all relative references within the package. The base needs to be selected according to the base attribute within the references.
         self.referenceBases: List[ReferenceBase] = []
 
@@ -401,7 +403,7 @@ class ARPackage(CollectableElement):
         Returns:
             List of ARPackage instances sorted by short name
         """
-        return list(sorted(self.arPackages.values(), key=lambda a: a.short_name))
+        return list(sorted(self.arPackages, key=lambda a: a.short_name))
         # return list(filter(lambda e: isinstance(e, ARPackage), self.elements))
 
     def createARPackage(self, short_name: str) -> "ARPackage":
@@ -414,10 +416,12 @@ class ARPackage(CollectableElement):
         Returns:
             The newly created or existing ARPackage instance
         """
-        if short_name not in self.arPackages:
-            ar_package = ARPackage(self, short_name)
-            self.arPackages[short_name] = ar_package
-        return self.arPackages[short_name]
+        for ar_package in self.arPackages:
+            if ar_package.short_name == short_name:
+                return ar_package
+        ar_package = ARPackage(self, short_name)
+        self.arPackages.append(ar_package)
+        return ar_package
 
     def getElement(self, short_name: str, type=None) -> Referrable:
         """
@@ -431,8 +435,9 @@ class ARPackage(CollectableElement):
             The element with the specified name and type, or None if not found
         """
         if type is ARPackage or type is None:
-            if short_name in self.arPackages:
-                return self.arPackages[short_name]
+            for ar_package in self.arPackages:
+                if ar_package.short_name == short_name:
+                    return ar_package
         return Identifiable.getElement(self, short_name, type)
 
     def createEcuAbstractionSwComponentType(self, short_name: str) -> EcuAbstractionSwComponentType:
