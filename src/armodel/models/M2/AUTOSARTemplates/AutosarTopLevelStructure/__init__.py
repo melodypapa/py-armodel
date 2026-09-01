@@ -9,7 +9,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import Document
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
@@ -183,7 +183,7 @@ class AbstractAUTOSAR(CollectableElement):
     def getElement(self, short_name: str) -> Referrable:
         if short_name in self.arPackages:
             return self.arPackages[short_name]
-        return CollectableElement.getElement(self, short_name)
+        return Identifiable.getElement(self, short_name)
 
     def getARPackages(self) -> List[ARPackage]:
         return list(sorted(self.arPackages.values(), key=lambda a: a.short_name))

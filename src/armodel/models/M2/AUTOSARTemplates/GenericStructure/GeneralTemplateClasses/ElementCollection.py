@@ -8,7 +8,7 @@ from __future__ import annotations
 from abc import ABC
 from typing import List, Optional, TYPE_CHECKING
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, NameToken, RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import AutoCollectEnum
@@ -19,125 +19,20 @@ if TYPE_CHECKING:
 
 class CollectableElement(Identifiable, ABC):
     """
-    Abstract class for elements that can collect other referrable elements.
-    This class provides functionality for managing collections of elements with lookup capabilities.
-
-    Spec base chain (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 13.3): most-derived
-    direct base is Identifiable. CollectableElement therefore re-parents to Identifiable so
-    that Referrable/Identifiable members (parent, short_name, longName, adminData, annotations,
-    category, introduction, desc, uuid, variationPoint) and the element-collection registry
-    (elements / element_mappings) are inherited rather than flattened. Direct subclasses that
-    are not themselves CollectableElement (e.g. Fibex PhysicalChannel) keep the registry via
-    Identifiable.
+    This meta-class specifies the ability to be part of a specific AUTOSAR collection of ARPackages or ARElements. The scope of collection has been extended beyond CollectableElement with Revision 4.0.3. For compatibility reasons the name of this meta Class was not changed.
     """
 
     # CollectableElement method parity checklist:
-    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 13.3, p. (R23-11)
+    # Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 13.3, p.399 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getTotalElement              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] removeElement                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getElements                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addElement                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getElement                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] IsElementExists              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is CollectableElement:
             raise TypeError("CollectableElement is an abstract class.")
 
         super().__init__(parent, short_name)
-
-    def getTotalElement(self) -> int:
-        """
-        Gets the total number of elements in this collection.
-
-        Returns:
-            The count of elements in the collection
-        """
-        # return len(list(filter(lambda a: not isinstance(a, ARPackage) , self.elements)))
-        return len(self.elements)
-
-    def removeElement(self, short_name: str, type=None):
-        """
-        Removes an element from this collection.
-
-        Args:
-            short_name: The short name of the element to remove
-            type: The type of element to remove (optional)
-        """
-        if short_name not in self.element_mappings:
-            raise KeyError("Invalid key <%s> for removing element" % short_name)
-        if type is None:
-            item = self.element_mappings[short_name][0]
-        else:
-            item = next(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
-        if item is not None:
-            self.elements.remove(item)
-            self.element_mappings[short_name].remove(item)
-
-    def getElements(self) -> List[Referrable]:
-        """
-        Gets the list of elements in this collection.
-
-        Returns:
-            List of Referrable instances
-        """
-        return self.elements
-
-    def addElement(self, element: Referrable):
-        """
-        Adds an element to this collection.
-
-        Args:
-            element: The element to add
-
-        Returns:
-            self for method chaining
-        """
-        short_name = element.getShortName()
-        if not self.IsElementExists(short_name, type(element)):
-            self.elements.append(element)
-            if short_name not in self.element_mappings:
-                self.element_mappings[short_name] = []
-            self.element_mappings[short_name].append(element)
-
-    def getElement(self, short_name: str, type=None) -> Optional[Referrable]:
-        """
-        Gets an element from this collection by short name and type.
-
-        Args:
-            short_name: The short name of the element to find
-            type: The type of element to find (optional)
-
-        Returns:
-            The found Referrable instance, or None if not found
-        """
-        if short_name not in self.element_mappings:
-            return None
-        if type is not None:
-            result = list(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
-            if len(result) == 0:
-                return None
-            return result[0]
-        return self.element_mappings[short_name][0]
-
-    def IsElementExists(self, short_name: str, type=None) -> bool:
-        """
-        Checks if an element with the specified short name and type exists in this collection.
-
-        Args:
-            short_name: The short name of the element to check
-            type: The type of element to check (optional)
-
-        Returns:
-            True if the element exists, False otherwise
-        """
-        if type is None:
-            return short_name in self.element_mappings
-        if short_name in self.element_mappings:
-            return any(isinstance(a, type) for a in self.element_mappings[short_name])
-        return False
 
 
 class Collection(Identifiable):

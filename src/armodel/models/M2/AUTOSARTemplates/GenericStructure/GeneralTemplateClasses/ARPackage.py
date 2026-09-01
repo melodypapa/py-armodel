@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 
 
@@ -437,7 +437,7 @@ class ARPackage(CollectableElement):
         if type is ARPackage or type is None:
             if short_name in self.arPackages:
                 return self.arPackages[short_name]
-        return CollectableElement.getElement(self, short_name, type)
+        return Identifiable.getElement(self, short_name, type)
 
     def createEcuAbstractionSwComponentType(self, short_name: str) -> EcuAbstractionSwComponentType:
 
