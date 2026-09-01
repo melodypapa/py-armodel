@@ -6,9 +6,10 @@ from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, RefType, String
 
 if TYPE_CHECKING:
+    from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import StandardNameEnum
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
@@ -103,42 +104,40 @@ class StructuredReq(Traceable):
 
     # StructuredReq method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.31, p.314
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getDate                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDate                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getImportance          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setImportance          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIssuedBy            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setIssuedBy            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getType                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setType                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDescription         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDescription         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRationale           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRationale           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDependencies        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDependencies        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUseCase             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUseCase             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getConflicts           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setConflicts           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSupportingMaterial  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSupportingMaterial  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRemark              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRemark              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTestedItemRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addTestedItemRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDate                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDate                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAppliesTos          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addAppliesTo           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getImportance          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setImportance          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIssuedBy            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIssuedBy            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getType                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setType                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDescription         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDescription         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRationale           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRationale           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDependencies        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDependencies        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUseCase             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUseCase             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConflicts           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConflicts           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupportingMaterial  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupportingMaterial  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRemark              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRemark              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTestedItemRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTestedItemRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
         # This represents the date when the requirement was initiated.
-        self.date: Optional[String] = None
-
-        # This allows to represent the importance of the requirement.
-        self.importance: Optional[String] = None
+        self.date: Optional[DateTime] = None
 
         # This represents the person, organization or authority which issued the requirement.
         self.issuedBy: Optional[String] = None
@@ -146,16 +145,22 @@ class StructuredReq(Traceable):
         # This attribute allows to denote the type of requirement to denote for example is it an "enhancement", "new feature" etc.
         self.type: Optional[String] = None
 
+        # This allows to represent the importance of the requirement.
+        self.importance: Optional[String] = None
+
         # This represents the general description of the requirement.
         self.description: Optional["DocumentationBlock"] = None
 
         # This represents the rationale of the requirement.
         self.rationale: Optional["DocumentationBlock"] = None
 
-        # This represents an informal specification of dependencies.
+        # This attribute represents the platform the requirement is assigned to.
+        self.appliesTo: List[StandardNameEnum] = []
+
+        # This represents an informal specification of dependencies. Note that upstream tracing should be formalized in the property trace provided by the superclass Traceable.
         self.dependencies: Optional["DocumentationBlock"] = None
 
-        # This describes the relevant use cases.
+        # This describes the relevant use cases. Note that formal references to use cases should be done in the trace relation.
         self.useCase: Optional["DocumentationBlock"] = None
 
         # This represents an informal specification of conflicts.
@@ -170,7 +175,7 @@ class StructuredReq(Traceable):
         # This association represents the ability to trace on the same specification level.
         self.testedItemRefs: List[RefType] = []
 
-    def getDate(self) -> Optional[String]:
+    def getDate(self) -> Optional[DateTime]:
         """
         This represents the date when the requirement was initiated.
 
@@ -179,7 +184,7 @@ class StructuredReq(Traceable):
         """
         return self.date
 
-    def setDate(self, value: Optional[String]) -> "StructuredReq":
+    def setDate(self, value: Optional[DateTime]) -> "StructuredReq":
         """
         This represents the date when the requirement was initiated. A None value is a no-op and does not overwrite an existing date.
 
@@ -188,6 +193,26 @@ class StructuredReq(Traceable):
         """
         if value is not None:
             self.date = value
+        return self
+
+    def getAppliesTos(self) -> List[StandardNameEnum]:
+        """
+        This attribute represents the platform the requirement is assigned to.
+
+        Returns:
+            The platforms the requirement is assigned to
+        """
+        return self.appliesTo
+
+    def addAppliesTo(self, value: Optional[StandardNameEnum]) -> "StructuredReq":
+        """
+        This attribute represents the platform the requirement is assigned to. A None value is a no-op and is not appended.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.appliesTo.append(value)
         return self
 
     def getImportance(self) -> Optional[String]:

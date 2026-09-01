@@ -2227,6 +2227,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(child_element, "TYPE", structured_req.getType())
             self.writeDocumentationBlock(child_element, "DESCRIPTION", structured_req.getDescription())
             self.writeDocumentationBlock(child_element, "RATIONALE", structured_req.getRationale())
+            applies_to = structured_req.getAppliesTos()
+            if len(applies_to) > 0:
+                applies_to_tag = ET.SubElement(child_element, "APPLIES-TO-DEPENDENCIES")
+                for value in applies_to:
+                    applies_to_element = ET.SubElement(applies_to_tag, "APPLIES-TO")
+                    applies_to_element.text = value.getValue()
             self.writeDocumentationBlock(child_element, "DEPENDENCIES", structured_req.getDependencies())
             self.writeDocumentationBlock(child_element, "USE-CASE", structured_req.getUseCase())
             self.writeDocumentationBlock(child_element, "CONFLICTS", structured_req.getConflicts())

@@ -1,6 +1,7 @@
 """This module contains tests for the RequirementsTracing module."""
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import StandardNameEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, RefType, String
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import StructuredReq, TraceableText
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
@@ -46,6 +47,7 @@ class TestStructuredReq:
         """Test that a StructuredReq object can be initialized with default values."""
         structured_req = StructuredReq(None, "StructuredReq")
         assert structured_req.date is None
+        assert structured_req.appliesTo == []
         assert structured_req.importance is None
         assert structured_req.issuedBy is None
         assert structured_req.type is None
@@ -61,7 +63,7 @@ class TestStructuredReq:
     def test_structured_req_date_methods(self):
         """Test the date getter and setter."""
         structured_req = StructuredReq(None, "StructuredReq")
-        date = String().setValue("2023-11-01")
+        date = DateTime().setValue("2023-11-01")
 
         result = structured_req.setDate(date)
         assert structured_req.getDate() == date
@@ -69,6 +71,18 @@ class TestStructuredReq:
 
         structured_req.setDate(None)
         assert structured_req.getDate() == date
+
+    def test_structured_req_applies_to_methods(self):
+        """Test the appliesTo getter and addAppliesTo."""
+        structured_req = StructuredReq(None, "StructuredReq")
+        applies_to = StandardNameEnum().setValue("AP")
+
+        result = structured_req.addAppliesTo(applies_to)
+        assert structured_req.getAppliesTos() == [applies_to]
+        assert result == structured_req
+
+        structured_req.addAppliesTo(None)
+        assert structured_req.getAppliesTos() == [applies_to]
 
     def test_structured_req_description_methods(self):
         """Test the description getter and setter."""

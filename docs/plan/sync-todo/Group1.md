@@ -150,16 +150,26 @@ in the work order below can run, so they precede the `Identifiable` row.
   - [x] Step 7 — Update checklist comment — 6-col parity checklist in class body (all [x]; `[—]` reader on getter row / writer on mutator row; `__init__` both `[—]`); `# Spec:` line cites R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.119, p.445 (R23-11); per-row release R23-11; `# Spec verified:` marker deferred to 9b
   - [x] Step 8 — Deviations — none for the class itself: heritage = most-derived spec base ARElement (Table 5.119 Base closure) ✓; single attr `mapping` (* aggr) → `mappings: List[ConstantSpecificationMapping]` + addMapping/getMappings per Rule 0001.5/0001.6; docstrings verbatim (md line-wrap artifact in attr Note normalized to XSD l.22294 wording — documented Step 4); reader+writer coverage complete. Referenced classes (Rule 0001.10 report): member type `ConstantSpecificationMapping` stamped R23-11 (Table 5.118) ✓; base `ARElement` stamped (Table 4.3) ✓ — no missing classes. Side effect recorded: ConstantSpecificationMapping's previously-dead reader/writer helpers are now wired via this class's reader/writer (its stamped checklist reader/writer [x] rows were false until now — no fabrication in this class's own scope)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8360 tests pass (unit + integration round-trip), flake8/ruff clean, black clean; verbatim docstring diff programmatic (class Note ×1, attr Note ×5, no Tags tail, PEP 526, no `# type:`); 9b user-confirmed 2026-09-01: Rules 0001.1/0001.2/0001.3/0001.5/0001.6/0001.7/0001.11/0001.4/0012/0014/0007 pass, no deviations → `# Spec verified: R23-11` written (commit: 8e5acbb2)
+- [x] `StandardNameEnum` (R23-11 markdown · AUTOSAR_FO_TPS_StandardizationTemplate · Table 2.1 · member type of `StructuredReq.appliesTo` · `AREnum`) — **finished, stamped `# Spec verified: R23-11`**
+   - [x] Step 1 — Sync members & description from spec
+   - [x] Step 2 — Write model class unit test (Red)
+   - [x] Step 3 — Implement model class (Green)
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: standalone AREnum is serialized by consuming StructuredReq
+   - [x] Step 6 — Update parser & writer (Green) — N/A: standalone AREnum has no own XML element
+   - [x] Step 7 — Update checklist comment
+   - [x] Step 8 — Deviations — Rule 0007 package location corrected: class moved from `MSR.Documentation.BlockElements.RequirementsTracing` to `AUTOSARTemplates.GenericStructure.DocumentationOnM1`; no model/spec deviations
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: focused tests, lint, and Black clean; 9b user-confirmed: Rule 0007 package and test locations corrected, five literals and order match Table 2.1, standalone AREnum N/A reader/writer coverage, no deviations → `# Spec verified: R23-11` written
 - [ ] `StructuredReq` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.31 · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix: spec Base = ARObject, DocumentViewSelectable, Identifiable, MultilanguageReferrable, Paginateable, Referrable, Traceable — **DONE 2026-08-31: re-parented to `StructuredReq(Traceable)`; decision: the Identifiable mixin stays on `Traceable(Identifiable)` (Table E.x gives Traceable Base = ARObject, MultilanguageReferrable, Referrable — recorded as a documented deviation to revisit in this class's own 9-step sync); parser `getStructuredReq(element, key, block)` now constructs with `(block, short_name)`; ~17 test construction sites updated**; code was `StructuredReq(ARObject)` (MSR/Documentation/BlockElements/RequirementsTracing.py:123))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 1 — Sync members & description from spec
+   - [x] Step 2 — Write model class unit test (Red)
+   - [x] Step 3 — Implement model class (Green)
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)
+   - [x] Step 5 — Write reader/writer round-trip test (Red)
+   - [x] Step 6 — Update parser & writer (Green)
+   - [x] Step 7 — Update checklist comment
+   - [x] Step 8 — Deviations — StandardNameEnum model class is unavailable; appliesTo is represented by String literals.
+   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `TraceableText` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.30 · after `StructuredReq` (same Base closure) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix — **DONE 2026-08-31: re-parented to `TraceableText(Traceable)`; duplicate `traceRefs` field + `getTraceRefs`/`addTraceRef` removed (inherited from Traceable); parser `getTraceableText(element, key, block)` now constructs with `(block, short_name)`; test construction sites updated**; code was `TraceableText(ARObject)` (RequirementsTracing.py:58))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

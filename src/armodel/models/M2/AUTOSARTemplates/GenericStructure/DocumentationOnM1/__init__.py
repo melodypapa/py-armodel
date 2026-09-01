@@ -6,8 +6,35 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import MultilanguageReferrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, RefType
 from armodel.models.M2.MSR.Documentation.Chapters import PredefinedChapter
+
+
+class StandardNameEnum(AREnum):
+    """
+    This enumeration lists all allowed standard abbreviations.
+    """
+
+    # StandardNameEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table 2.1, p.35
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on StructuredReq.appliesTo
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This values represents the Adaptive Platform. Tags: atp.EnumerationLiteralIndex=0
+    AP = "AP"
+    # This Value represents the Classic Platform. Tags: atp.EnumerationLiteralIndex=1
+    CP = "CP"
+    # This values represents the Foundation. Tags: atp.EnumerationLiteralIndex=2
+    FO = "FO"
+    # This Values represents the Testing of the Adaptive Platform. Tags: atp.EnumerationLiteralIndex=3
+    TA = "TA"
+    # This values represents the Testing of the Classic Platform. Tags: atp.EnumerationLiteralIndex=4
+    TC = "TC"
+
+    def __init__(self):
+        super().__init__((StandardNameEnum.AP, StandardNameEnum.CP, StandardNameEnum.FO, StandardNameEnum.TA, StandardNameEnum.TC))
 
 
 class Documentation(ARElement):

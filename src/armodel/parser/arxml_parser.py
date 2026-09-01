@@ -378,6 +378,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AnyVersionString,
     ARLiteral,
     Boolean,
+    DateTime,
     IntervalTypeEnum,
     MacAddressString,
     NameToken,
@@ -4742,12 +4743,18 @@ class ARXMLParser(AbstractARXMLParser):
             short_name = short_name_element.text if short_name_element is not None else key
             structured_req = StructuredReq(block, short_name)
             self.readARObject(child_element, structured_req)
-            structured_req.setDate(self.getChildElementOptionalLiteral(child_element, "DATE"))
+            date = self.getChildElementOptionalLiteral(child_element, "DATE")
+            if date is not None:
+                structured_req.setDate(DateTime().setValue(date.getValue()))
             structured_req.setImportance(self.getChildElementOptionalLiteral(child_element, "IMPORTANCE"))
             structured_req.setIssuedBy(self.getChildElementOptionalLiteral(child_element, "ISSUED-BY"))
             structured_req.setType(self.getChildElementOptionalLiteral(child_element, "TYPE"))
             structured_req.setDescription(self.getDocumentationBlock(child_element, "DESCRIPTION"))
             structured_req.setRationale(self.getDocumentationBlock(child_element, "RATIONALE"))
+            for applies_to in self.findall(child_element, "APPLIES-TO-DEPENDENCIES/APPLIES-TO"):
+                from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import StandardNameEnum
+
+                structured_req.addAppliesTo(StandardNameEnum().setValue(applies_to.text))
             structured_req.setDependencies(self.getDocumentationBlock(child_element, "DEPENDENCIES"))
             structured_req.setUseCase(self.getDocumentationBlock(child_element, "USE-CASE"))
             structured_req.setConflicts(self.getDocumentationBlock(child_element, "CONFLICTS"))
