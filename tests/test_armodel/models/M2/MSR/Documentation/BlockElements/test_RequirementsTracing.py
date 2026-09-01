@@ -10,6 +10,13 @@ from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import Document
 class TestTraceableText:
     """Test class for TraceableText class."""
 
+    def test_traceable_text_matches_table_note(self):
+        assert TraceableText.__doc__.strip() == (
+            "This meta-class represents the ability to denote a traceable text item such as requirements etc. "
+            "The following approach applies: shortName represents the tag for tracing, longName represents the head line, "
+            "category represents the kind of the tagged text (see [constr_2540])"
+        )
+
     def test_traceable_text_initialization(self):
         """Test that a TraceableText object can be initialized with default values."""
         traceable_text = TraceableText(None, "TraceableText")

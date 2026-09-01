@@ -170,16 +170,16 @@ in the work order below can run, so they precede the `Identifiable` row.
    - [x] Step 7 — Update checklist comment
    - [x] Step 8 — Deviations — none: `appliesTo`/`conflicts`/`variationPoint` gap closed (variationPoint was missing; now inherited from `Identifiable` and serialized via the shared `readIdentifiable`/`writeIdentifiable` + `readTraceable`/`writeTraceable` helpers instead of only `readARObject`/`writeARObject`); `TESTED-ITEM-REF` `DEST` attribute round-trip fixed (reader was overwriting the ref value with `DEST`, writer was dropping `DEST` entirely); class member/accessor/checklist order corrected to the markdown/PDF **displayed** row order (Rule 0001.11) — `appliesTo, conflicts, date, dependencies, description, importance, issuedBy, rationale, remark, supportingMaterial, testedItem, type, useCase` — while reader/writer XML order follows XSD `sequenceOffset`; `StandardNameEnum` is available and stamped R23-11 (stale "unavailable" deviation removed).
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 20 focused tests pass, ruff/flake8/black clean; 9b user-confirmed 2026-09-01: heritage, member order (class = markdown display order, XML = XSD sequenceOffset), reader+writer coverage incl. `variationPoint`/`DEST`, verbatim docstrings, no deviations → `# Spec verified: R23-11` written
-- [ ] `TraceableText` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.30 · after `StructuredReq` (same Base closure) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix — **DONE 2026-08-31: re-parented to `TraceableText(Traceable)`; duplicate `traceRefs` field + `getTraceRefs`/`addTraceRef` removed (inherited from Traceable); parser `getTraceableText(element, key, block)` now constructs with `(block, short_name)`; test construction sites updated**; code was `TraceableText(ARObject)` (RequirementsTracing.py:58))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `TraceableText` (R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.30, p.313 · after `StructuredReq` (same Base closure) · **uuid-move blocker — see the "uuid move work order" section below** · heritage fix — **DONE 2026-08-31: re-parented to `TraceableText(Traceable)`; duplicate `traceRefs` field + `getTraceRefs`/`addTraceRef` removed (inherited from Traceable); parser `getTraceableText(element, key, block)` now constructs with `(block, short_name)`; test construction sites updated**; code was `TraceableText(ARObject)` (RequirementsTracing.py:58)) — **finished, stamped `# Spec verified: R23-11`** (commit recorded below)
+   - [x] Step 1 — Sync members & description from spec — Table 9.30 confirms concrete `TraceableText`, direct base `Traceable`, and own aggregation `text: DocumentationBlock` (1)
+   - [x] Step 2 — Write model class unit test (Red) — exact Table 9.30 class note assertion
+   - [x] Step 3 — Implement model class (Green) — existing `TraceableText(Traceable)` shape retained
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class note corrected to verbatim Table 9.30 wording; setter None no-op wording aligned
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — added `TEXT` reader coverage and exposed dropped `TRACE-REF` attributes
+   - [x] Step 6 — Update parser & writer (Green) — `readTraceable`/`writeTraceable` now preserve `BASE`, `DEST`, and value
+   - [x] Step 7 — Update checklist comment — six-column parity checklist with R23-11 release rows
+   - [x] Step 8 — Deviations — none; inherited trace references remain owned by `Traceable`
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 8367 tests pass, 29 integration round trips pass, lint/Black clean; 9b user-confirmed 2026-09-01: field/base/order/docstring/API/reader-writer checks pass → `# Spec verified: R23-11` written
 - [ ] `Identifiable` (heritage-chain parent of CollectableElement/AtpBlueprint/AtpBlueprintable/ARPackage · carries a `# Spec verified: R23-11` stamp that has NOT passed 9b — treat as unverified · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.4, content md l.1650–1695)
   - Spec facts (extracted 2026-08-30): abstract; Base = ARObject, MultilanguageReferrable, Referrable → direct base **MultilanguageReferrable** (queued above) — code `Identifiable(MultilanguageReferrable, ABC)` (Identifiable.py:229) heritage **CORRECT**; Subclasses explicitly list ARPackage, CollectableElement, PackageableElement, AtpBlueprint, AtpBlueprintable.
     - Attributes (Table 4.4 displayed order): `adminData` (AdminData, 0..1, aggr) / `annotation` (Annotation, *, aggr) / `category` (CategoryString, 0..1, attr) / `desc` (MultiLanguageOverviewParagraph, 0..1, aggr) / `introduction` (DocumentationBlock, 0..1, aggr) / `uuid` (String, 0..1, attr).

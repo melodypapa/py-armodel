@@ -4721,7 +4721,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTraceable(self, element: ET.Element, traceable: Traceable):
         for trace_ref in self.findall(element, "TRACE-REFS/TRACE-REF"):
-            traceable.addTraceRef(RefType().setValue(trace_ref.text))
+            ref = RefType().setValue(trace_ref.text)
+            if "BASE" in trace_ref.attrib:
+                ref.setBase(trace_ref.attrib["BASE"])
+            if "DEST" in trace_ref.attrib:
+                ref.setDest(trace_ref.attrib["DEST"])
+            traceable.addTraceRef(ref)
 
     def getTraceableText(self, element: ET.Element, key: str, block: "DocumentationBlock" = None) -> TraceableText:
         traceable_text = None

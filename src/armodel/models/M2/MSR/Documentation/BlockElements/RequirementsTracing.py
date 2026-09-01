@@ -57,18 +57,18 @@ class Traceable(Identifiable, ABC):
 
 class TraceableText(Traceable):
     """
-    This meta-class represents the ability to denote a traceable text item such as requirements etc. The following approach applies: shortName represents the tag for tracing, longName represents the head line, category represents the kind of the tagged text.
+    This meta-class represents the ability to denote a traceable text item such as requirements etc. The following approach applies: shortName represents the tag for tracing, longName represents the head line, category represents the kind of the tagged text (see [constr_2540])
     """
 
     # TraceableText method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.30, p.313
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getText          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setText          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTraceRefs     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  (inherited from Traceable, Table 9.29)
-    # [x] addTraceRef      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  (inherited from Traceable, Table 9.29)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getText          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setText          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTraceRefs     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (inherited from Traceable, Table 9.29)
+    # [x] addTraceRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  (inherited from Traceable, Table 9.29)
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
@@ -87,7 +87,7 @@ class TraceableText(Traceable):
 
     def setText(self, value: Optional["DocumentationBlock"]) -> "TraceableText":
         """
-        This represents the text to which the tag applies. A None value is a no-op and does not overwrite an existing text.
+        This represents the text to which the tag applies. A None value is a no-op and is not set.
 
         Returns:
             self for method chaining

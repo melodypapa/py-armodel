@@ -1047,6 +1047,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             refs_tag = ET.SubElement(element, "TRACE-REFS")
             for trace_ref in trace_refs:
                 ref_tag = ET.SubElement(refs_tag, "TRACE-REF")
+                if trace_ref.getBase() is not None:
+                    ref_tag.attrib["BASE"] = trace_ref.getBase()
+                if trace_ref.getDest() is not None:
+                    ref_tag.attrib["DEST"] = trace_ref.getDest()
                 ref_tag.text = trace_ref.getValue()
 
     def setShortNameFragment(self, element: ET.Element, fragment: ShortNameFragment):
