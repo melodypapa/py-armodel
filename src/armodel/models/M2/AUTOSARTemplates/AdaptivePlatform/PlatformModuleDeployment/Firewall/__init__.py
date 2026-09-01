@@ -1,80 +1,335 @@
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, PositiveInteger, RefType
 
-__all__ = ["FirewallRule", "FirewallRuleProps", "StateDependentFirewall", "DataLinkLayerRule"]
+__all__ = [
+    "FirewallActionEnum",
+    "FirewallRule",
+    "FirewallRuleProps",
+    "StateDependentFirewall",
+    "DataLinkLayerRule",
+    "DdsRule",
+    "DoIpRule",
+    "NetworkLayerRule",
+    "PayloadBytePatternRule",
+    "SomeipProtocolRule",
+    "SomeipSdRule",
+    "TransportLayerRule",
+]
 
 
 class FirewallRule(ARElement):
-    """
-    Represents a firewall rule in AUTOSAR Adaptive Platform PlatformModuleDeployment.
-    Defines rules for firewall configuration in adaptive platform modules.
-    """
+    """Firewall Rule that defines the control information in individual packets."""
 
     # FirewallRule method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] addDestRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] getDestRefs                  [x] impl  [x] docstring  [ ] test
-    # [ ] addSrcRef                    [x] impl  [x] docstring  [ ] test
-    # [ ] getSrcRefs                   [x] impl  [x] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.236, p.585 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (markdown-minimal deviation: the 8 rule member classes carry no Class table in the
+    #  PDF/markdown corpus — DataLinkLayerRule/DdsRule synced markdown-minimal, the other
+    #  6 are attribute-name placeholders; full member attribute defs remain a deviation)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getBucketSize                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBucketSize                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataLinkLayerRule         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataLinkLayerRule         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDdsRule                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDdsRule                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDoIpRule                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDoIpRule                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNetworkLayerRule          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNetworkLayerRule          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addPayloadBytePatternRule    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPayloadBytePatternRules   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getRefillAmount              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRefillAmount              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSomeipRule                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSomeipRule                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSomeipSdRule              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSomeipSdRule              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransportLayerRule        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransportLayerRule        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the FirewallRule with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this element
-            short_name: The short name of this element
-        """
         super().__init__(parent, short_name)
-        self.destRefs: List[RefType] = []
-        self.srcRefs: List[RefType] = []
 
-    def addDestRef(self, ref: RefType):
+        # This attribute defines the capacity of the queue for rate limitation (leaky-bucket Algorithm). Tags: atp.Status=candidate
+        self.bucketSize: Optional[PositiveInteger] = None
+
+        # Configuration of rules on the Data Link Layer Tags: atp.Status=candidate
+        self.dataLinkLayerRule: Optional["DataLinkLayerRule"] = None
+
+        # Configuration of firewall rules for DDS. Tags: atp.Status=candidate
+        self.ddsRule: Optional["DdsRule"] = None
+
+        # Configuration of firewall rules for DoIP messages Tags: atp.Status=candidate
+        self.doIpRule: Optional["DoIpRule"] = None
+
+        # Configuration of rules on the Network Layer Tags: atp.Status=candidate
+        self.networkLayerRule: Optional["NetworkLayerRule"] = None
+
+        # Configuration of generic firewall rules Tags: atp.Status=candidate
+        self.payloadBytePatternRules: List["PayloadBytePatternRule"] = []
+
+        # This attribute defines the output rate that describes how many packets leave the queue per second (leaky-bucket Algorithm). Tags: atp.Status=candidate
+        self.refillAmount: Optional[PositiveInteger] = None
+
+        # Configuration of firewall rules for SOME/IP messages Tags: atp.Status=candidate
+        self.someipRule: Optional["SomeipProtocolRule"] = None
+
+        # Configuration of firewall rules for SOME/IP Service Discovery messages Tags: atp.Status=candidate
+        self.someipSdRule: Optional["SomeipSdRule"] = None
+
+        # Configuration of rules on the Transport Layer Tags: atp.Status=candidate
+        self.transportLayerRule: Optional["TransportLayerRule"] = None
+
+    def getBucketSize(self) -> Optional[PositiveInteger]:
         """
-        Adds a destination reference to this firewall rule.
+        This attribute defines the capacity of the queue for rate limitation (leaky-bucket Algorithm).
+        """
+        return self.bucketSize
 
-        Args:
-            ref: The destination reference to add
+    def setBucketSize(self, value: Optional[PositiveInteger]):
+        """
+        Sets the bucketSize value.
 
         Returns:
             self for method chaining
         """
-        self.destRefs.append(ref)
+        if value is not None:
+            self.bucketSize = value
         return self
 
-    def getDestRefs(self) -> List[RefType]:
+    def getDataLinkLayerRule(self) -> Optional["DataLinkLayerRule"]:
         """
-        Gets the list of destination references.
-
-        Returns:
-            List of destination references
+        Configuration of rules on the Data Link Layer
         """
-        return self.destRefs
+        return self.dataLinkLayerRule
 
-    def addSrcRef(self, ref: RefType):
+    def setDataLinkLayerRule(self, value: Optional["DataLinkLayerRule"]):
         """
-        Adds a source reference to this firewall rule.
-
-        Args:
-            ref: The source reference to add
+        Sets the dataLinkLayerRule aggregation.
 
         Returns:
             self for method chaining
         """
-        self.srcRefs.append(ref)
+        if value is not None:
+            self.dataLinkLayerRule = value
         return self
 
-    def getSrcRefs(self) -> List[RefType]:
+    def getDdsRule(self) -> Optional["DdsRule"]:
         """
-        Gets the list of source references.
+        Configuration of firewall rules for DDS.
+        """
+        return self.ddsRule
+
+    def setDdsRule(self, value: Optional["DdsRule"]):
+        """
+        Sets the ddsRule aggregation.
 
         Returns:
-            List of source references
+            self for method chaining
         """
-        return self.srcRefs
+        if value is not None:
+            self.ddsRule = value
+        return self
+
+    def getDoIpRule(self) -> Optional["DoIpRule"]:
+        """
+        Configuration of firewall rules for DoIP messages
+        """
+        return self.doIpRule
+
+    def setDoIpRule(self, value: Optional["DoIpRule"]):
+        """
+        Sets the doIpRule aggregation.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.doIpRule = value
+        return self
+
+    def getNetworkLayerRule(self) -> Optional["NetworkLayerRule"]:
+        """
+        Configuration of rules on the Network Layer
+        """
+        return self.networkLayerRule
+
+    def setNetworkLayerRule(self, value: Optional["NetworkLayerRule"]):
+        """
+        Sets the networkLayerRule aggregation.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.networkLayerRule = value
+        return self
+
+    def addPayloadBytePatternRule(self, value: "PayloadBytePatternRule"):
+        """
+        Configuration of generic firewall rules
+
+        Returns:
+            self for method chaining
+        """
+        self.payloadBytePatternRules.append(value)
+        return self
+
+    def getPayloadBytePatternRules(self) -> List["PayloadBytePatternRule"]:
+        """
+        Configuration of generic firewall rules
+        """
+        return self.payloadBytePatternRules
+
+    def getRefillAmount(self) -> Optional[PositiveInteger]:
+        """
+        This attribute defines the output rate that describes how many packets leave the queue per second (leaky-bucket Algorithm).
+        """
+        return self.refillAmount
+
+    def setRefillAmount(self, value: Optional[PositiveInteger]):
+        """
+        Sets the refillAmount value.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.refillAmount = value
+        return self
+
+    def getSomeipRule(self) -> Optional["SomeipProtocolRule"]:
+        """
+        Configuration of firewall rules for SOME/IP messages
+        """
+        return self.someipRule
+
+    def setSomeipRule(self, value: Optional["SomeipProtocolRule"]):
+        """
+        Sets the someipRule aggregation.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.someipRule = value
+        return self
+
+    def getSomeipSdRule(self) -> Optional["SomeipSdRule"]:
+        """
+        Configuration of firewall rules for SOME/IP Service Discovery messages
+        """
+        return self.someipSdRule
+
+    def setSomeipSdRule(self, value: Optional["SomeipSdRule"]):
+        """
+        Sets the someipSdRule aggregation.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.someipSdRule = value
+        return self
+
+    def getTransportLayerRule(self) -> Optional["TransportLayerRule"]:
+        """
+        Configuration of rules on the Transport Layer
+        """
+        return self.transportLayerRule
+
+    def setTransportLayerRule(self, value: Optional["TransportLayerRule"]):
+        """
+        Sets the transportLayerRule aggregation.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.transportLayerRule = value
+        return self
+
+
+class DoIpRule(ARObject):
+    """Configuration of firewall rules for DoIP messages"""
+
+    # DoIpRule method parity checklist:
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (markdown-minimal placeholder: member attribute defs skipped per user decision
+    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
+class NetworkLayerRule(ARObject):
+    """Configuration of rules on the Network Layer"""
+
+    # NetworkLayerRule method parity checklist:
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (markdown-minimal placeholder: member attribute defs skipped per user decision
+    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
+class PayloadBytePatternRule(ARObject):
+    """Configuration of generic firewall rules"""
+
+    # PayloadBytePatternRule method parity checklist:
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (markdown-minimal placeholder: member attribute defs skipped per user decision
+    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
+class SomeipProtocolRule(ARObject):
+    """Configuration of firewall rules for SOME/IP messages"""
+
+    # SomeipProtocolRule method parity checklist:
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (markdown-minimal placeholder: member attribute defs skipped per user decision
+    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
+class SomeipSdRule(ARObject):
+    """Configuration of firewall rules for SOME/IP Service Discovery messages"""
+
+    # SomeipSdRule method parity checklist:
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (markdown-minimal placeholder: member attribute defs skipped per user decision
+    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
+class TransportLayerRule(ARObject):
+    """Configuration of rules on the Transport Layer"""
+
+    # TransportLayerRule method parity checklist:
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (markdown-minimal placeholder: member attribute defs skipped per user decision
+    #  2026-08-31 — no Class table in the PDF/markdown corpus; no stamp)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
 
 
 class DataLinkLayerRule(ARObject):
@@ -230,162 +485,388 @@ class DataLinkLayerRule(ARObject):
         return self
 
 
-class FirewallRuleProps(ARObject):
-    """
-    Represents firewall rule properties in AUTOSAR Adaptive Platform PlatformModuleDeployment.
-    Defines properties for firewall rule configuration.
-    """
+class DdsRule(ARObject):
+    """Configuration of a DDS firewall rule"""
 
-    # FirewallRuleProps method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getAllowAny                  [x] impl  [x] docstring  [ ] test
-    # [ ] setAllowAny                  [x] impl  [x] docstring  [ ] test
-    # [ ] getDirection                 [x] impl  [x] docstring  [ ] test
-    # [ ] setDirection                 [x] impl  [x] docstring  [ ] test
-    # [ ] getProtocol                  [x] impl  [x] docstring  [ ] test
-    # [ ] setProtocol                  [x] impl  [x] docstring  [ ] test
+    # DdsRule method parity checklist:
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (markdown-minimal sync: members modeled from the R23-11 SystemTemplate markdown
+    #  BSW-parameter-mapping section — attribute names + Notes only; types and
+    #  cardinality not specified by the markdown are deviations (Optional[str]);
+    #  no `# Spec verified:` / `# XSD verified:` stamp)
+    # [ ] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getAppId                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setAppId                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getHostId                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setHostId                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getInstanceId                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setInstanceId                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getMajorProtocolVersion      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setMajorProtocolVersion      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getMinorProtocolVersion      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setMinorProtocolVersion      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getProductId                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setProductId                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getReaderEntityId            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setReaderEntityId            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getSubmessageType            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setSubmessageType            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getVendorId                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setVendorId                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] getWriterEntityId            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [ ] setWriterEntityId            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         """
-        Initializes the FirewallRuleProps with default values.
+        Initializes the DdsRule with default (None) values.
         """
         super().__init__()
-        self.allowAny: bool = None
-        self.direction: str = None
-        self.protocol: str = None
+        self.appId: Optional[str] = None
+        self.hostId: Optional[str] = None
+        self.instanceId: Optional[str] = None
+        self.majorProtocolVersion: Optional[str] = None
+        self.minorProtocolVersion: Optional[str] = None
+        self.productId: Optional[str] = None
+        self.readerEntityId: Optional[str] = None
+        self.submessageType: Optional[str] = None
+        self.vendorId: Optional[str] = None
+        self.writerEntityId: Optional[str] = None
 
-    def getAllowAny(self) -> bool:
+    def getAppId(self) -> Optional[str]:
         """
-        Gets the allowAny flag.
-
-        Returns:
-            Boolean value indicating if any traffic is allowed
+        Filter for DDSI-RTPS messages in which the appId in the DDSI-RTPS header and the INFO_DST (0x0E) submessage matches.
         """
-        return self.allowAny
+        return self.appId
 
-    def setAllowAny(self, value: bool):
+    def setAppId(self, value: Optional[str]):
         """
-        Sets the allowAny flag.
-
-        Args:
-            value: Boolean value to set
-
-        Returns:
-            self for method chaining
-        """
-        self.allowAny = value
-        return self
-
-    def getDirection(self) -> str:
-        """
-        Gets the direction of the firewall rule.
-
-        Returns:
-            String representing the direction
-        """
-        return self.direction
-
-    def setDirection(self, value: str):
-        """
-        Sets the direction of the firewall rule.
-
-        Args:
-            value: String value to set
+        Sets the appId filter value.
 
         Returns:
             self for method chaining
         """
-        self.direction = value
+        self.appId = value
         return self
 
-    def getProtocol(self) -> str:
+    def getHostId(self) -> Optional[str]:
         """
-        Gets the protocol of the firewall rule.
-
-        Returns:
-            String representing the protocol
+        Filter for DDSI-RTPS messages in which the hostId in the DDSI-RTPS header and the INFO_DST (0x0E) submessage matches.
         """
-        return self.protocol
+        return self.hostId
 
-    def setProtocol(self, value: str):
+    def setHostId(self, value: Optional[str]):
         """
-        Sets the protocol of the firewall rule.
-
-        Args:
-            value: String value to set
+        Sets the hostId filter value.
 
         Returns:
             self for method chaining
         """
-        self.protocol = value
+        self.hostId = value
         return self
+
+    def getInstanceId(self) -> Optional[str]:
+        """
+        Filter for DDSI-RTPS messages in which the instanceId in the DDSI-RTPS header and the INFO_DST (0x0E) submessage matches.
+        """
+        return self.instanceId
+
+    def setInstanceId(self, value: Optional[str]):
+        """
+        Sets the instanceId filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.instanceId = value
+        return self
+
+    def getMajorProtocolVersion(self) -> Optional[str]:
+        """
+        Filter for DDSI-RTPS messages in which the majorProtocolVersion in the DDSI-RTPS header matches.
+        """
+        return self.majorProtocolVersion
+
+    def setMajorProtocolVersion(self, value: Optional[str]):
+        """
+        Sets the majorProtocolVersion filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.majorProtocolVersion = value
+        return self
+
+    def getMinorProtocolVersion(self) -> Optional[str]:
+        """
+        Filter for DDSI-RTPS messages in which the minorProtocolVersion in the DDSI-RTPS header matches.
+        """
+        return self.minorProtocolVersion
+
+    def setMinorProtocolVersion(self, value: Optional[str]):
+        """
+        Sets the minorProtocolVersion filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.minorProtocolVersion = value
+        return self
+
+    def getProductId(self) -> Optional[str]:
+        """
+        Filter for DDSI-RTPS messages in which the productId in the DDSI-RTPS header matches.
+        """
+        return self.productId
+
+    def setProductId(self, value: Optional[str]):
+        """
+        Sets the productId filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.productId = value
+        return self
+
+    def getReaderEntityId(self) -> Optional[str]:
+        """
+        Filter for DDSI-RTPS messages in which the readerEntityID in a DDSI-RTPS submessage matches
+        """
+        return self.readerEntityId
+
+    def setReaderEntityId(self, value: Optional[str]):
+        """
+        Sets the readerEntityId filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.readerEntityId = value
+        return self
+
+    def getSubmessageType(self) -> Optional[str]:
+        """
+        Defines the allowed submessage type in the DDSI-RTPS message
+        """
+        return self.submessageType
+
+    def setSubmessageType(self, value: Optional[str]):
+        """
+        Sets the submessageType filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.submessageType = value
+        return self
+
+    def getVendorId(self) -> Optional[str]:
+        """
+        Filter for DDSI-RTPS messages in which the vendorId in the DDSI-RTPS header matches.
+        """
+        return self.vendorId
+
+    def setVendorId(self, value: Optional[str]):
+        """
+        Sets the vendorId filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.vendorId = value
+        return self
+
+    def getWriterEntityId(self) -> Optional[str]:
+        """
+        Filter for DDSI-RTPS messages in which the writerEntityID in a DDSI-RTPS submessage matches
+        """
+        return self.writerEntityId
+
+    def setWriterEntityId(self, value: Optional[str]):
+        """
+        Sets the writerEntityId filter value.
+
+        Returns:
+            self for method chaining
+        """
+        self.writerEntityId = value
+        return self
+
+
+class FirewallActionEnum(AREnum):
+    """List of actions that the Firewall is able to perform."""
+
+    # FirewallActionEnum method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.235 attr type (XSD-only enumeration)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Firewall blocks the communication Tags: atp.EnumerationLiteralIndex=0
+    BLOCK = "BLOCK"
+
+    # Firewall allows the communication Tags: atp.EnumerationLiteralIndex=1
+    ALLOW = "ALLOW"
+
+    def __init__(self):
+        super().__init__(
+            (
+                FirewallActionEnum.BLOCK,
+                FirewallActionEnum.ALLOW,
+            )
+        )
+
+
+class FirewallRuleProps(ARObject):
+    """Firewall rule that is defined by an action that is performed if the referenced pattern matches."""
+
+    # FirewallRuleProps method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.235, p.584 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getAction                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAction                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addMatchingEgressRuleRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMatchingEgressRuleRefs    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addMatchingIngressRuleRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMatchingIngressRuleRefs   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Action that is performed by the firewall if the matching Rule is fulfilled.
+        self.action: Optional[FirewallActionEnum] = None
+
+        # This element defines an egress rule expression against which the network traffic is matched.
+        self.matchingEgressRuleRefs: List[RefType] = []
+
+        # This element defines an ingress rule expression against which the network traffic is matched.
+        self.matchingIngressRuleRefs: List[RefType] = []
+
+    def getAction(self) -> Optional[FirewallActionEnum]:
+        """
+        Action that is performed by the firewall if the matching Rule is fulfilled.
+        """
+        return self.action
+
+    def setAction(self, value: Optional[FirewallActionEnum]):
+        """
+        Sets the action value.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.action = value
+        return self
+
+    def addMatchingEgressRuleRef(self, value: RefType):
+        """
+        This element defines an egress rule expression against which the network traffic is matched.
+
+        Returns:
+            self for method chaining
+        """
+        self.matchingEgressRuleRefs.append(value)
+        return self
+
+    def getMatchingEgressRuleRefs(self) -> List[RefType]:
+        """
+        This element defines an egress rule expression against which the network traffic is matched.
+        """
+        return self.matchingEgressRuleRefs
+
+    def addMatchingIngressRuleRef(self, value: RefType):
+        """
+        This element defines an ingress rule expression against which the network traffic is matched.
+
+        Returns:
+            self for method chaining
+        """
+        self.matchingIngressRuleRefs.append(value)
+        return self
+
+    def getMatchingIngressRuleRefs(self) -> List[RefType]:
+        """
+        This element defines an ingress rule expression against which the network traffic is matched.
+        """
+        return self.matchingIngressRuleRefs
 
 
 class StateDependentFirewall(ARElement):
-    """
-    Represents a state-dependent firewall in AUTOSAR Adaptive Platform PlatformModuleDeployment.
-    Defines firewall rules that depend on system states.
-    """
+    """Firewall rules that are defined in a firewall state"""
 
     # StateDependentFirewall method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] addFirewallRule              [x] impl  [x] docstring  [ ] test
-    # [ ] getFirewallRules             [x] impl  [x] docstring  [ ] test
-    # [ ] getStateRef                  [x] impl  [x] docstring  [ ] test
-    # [ ] setStateRef                  [x] impl  [x] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.234, p.584 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # Note: the XSD-only AP variant firewallState (FIREWALL-STATE-IREFS, iref type
+    #  FIREWALL-STATE-IN-FIRWALL-STATE-SWITCH-INTERFACE-INSTANCE-REF) is not modeled —
+    #  Rule 0015: the PDF/markdown table is authoritative and Table 6.234 (CP) lists
+    #  only firewallStateModeDeclaration
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getDefaultAction                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDefaultAction                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addFirewallRuleProps              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFirewallRuleProps              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addFirewallStateModeDeclarationRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFirewallStateModeDeclarationRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent, short_name: str):
-        """
-        Initializes the StateDependentFirewall with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this element
-            short_name: The short name of this element
-        """
         super().__init__(parent, short_name)
-        self.firewallRules: List[RefType] = []
-        self.stateRef: RefType = None
 
-    def addFirewallRule(self, ref: RefType):
+        # This attribute defines a defaultAction in case that the VehicleMode is not yet set.
+        self.defaultAction: Optional[FirewallActionEnum] = None
+
+        # Collection of firewall rules that apply in the vehicle mode
+        self.firewallRuleProps: List["FirewallRuleProps"] = []
+
+        # Reference to firewall states in which the Firewall is active. If one of the referenced ModeDeclarations is the current firewall state then the firewall rule shall be considered as active.
+        self.firewallStateModeDeclarationRefs: List[RefType] = []
+
+    def getDefaultAction(self) -> Optional[FirewallActionEnum]:
         """
-        Adds a firewall rule reference to this state-dependent firewall.
+        This attribute defines a defaultAction in case that the VehicleMode is not yet set.
+        """
+        return self.defaultAction
 
-        Args:
-            ref: The firewall rule reference to add
+    def setDefaultAction(self, value: Optional[FirewallActionEnum]):
+        """
+        This attribute defines a defaultAction in case that the VehicleMode is not yet set. Only sets the value if it is not None.
 
         Returns:
             self for method chaining
         """
-        self.firewallRules.append(ref)
+        if value is not None:
+            self.defaultAction = value
         return self
 
-    def getFirewallRules(self) -> List[RefType]:
+    def addFirewallRuleProps(self, value: "FirewallRuleProps"):
         """
-        Gets the list of firewall rule references.
-
-        Returns:
-            List of firewall rule references
-        """
-        return self.firewallRules
-
-    def getStateRef(self) -> RefType:
-        """
-        Gets the state reference.
-
-        Returns:
-            Reference to the state
-        """
-        return self.stateRef
-
-    def setStateRef(self, value: RefType):
-        """
-        Sets the state reference.
-
-        Args:
-            value: The state reference to set
+        Collection of firewall rules that apply in the vehicle mode
 
         Returns:
             self for method chaining
         """
-        self.stateRef = value
+        self.firewallRuleProps.append(value)
         return self
+
+    def getFirewallRuleProps(self) -> List["FirewallRuleProps"]:
+        """
+        Collection of firewall rules that apply in the vehicle mode
+        """
+        return self.firewallRuleProps
+
+    def addFirewallStateModeDeclarationRef(self, value: RefType):
+        """
+        Reference to firewall states in which the Firewall is active. If one of the referenced ModeDeclarations is the current firewall state then the firewall rule shall be considered as active.
+
+        Returns:
+            self for method chaining
+        """
+        self.firewallStateModeDeclarationRefs.append(value)
+        return self
+
+    def getFirewallStateModeDeclarationRefs(self) -> List[RefType]:
+        """
+        Reference to firewall states in which the Firewall is active. If one of the referenced ModeDeclarations is the current firewall state then the firewall rule shall be considered as active.
+        """
+        return self.firewallStateModeDeclarationRefs

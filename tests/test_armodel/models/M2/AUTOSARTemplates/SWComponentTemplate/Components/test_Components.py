@@ -6,6 +6,9 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, CIdentifier, RefType, TRefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     ClientServerAnnotation,
@@ -40,6 +43,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     SwComponentType,
     SymbolProps,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import CompositionSwComponentType
 
 
@@ -193,7 +197,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
 
         assert isinstance(pr_port.providedComSpecs, list)
         assert isinstance(pr_port.requiredComSpecs, list)
-        assert pr_port.providedRequiredInterface is None
+        assert pr_port.providedRequiredInterfaceTRef is None
 
         # Test adding com specs
         # Use concrete implementations instead of abstract class
@@ -207,38 +211,62 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         pr_port.addRequiredComSpec(required_spec)
         assert required_spec in pr_port.getRequiredComSpecs()
 
-        # Test getProvidedRequiredInterface to cover line 225
-        assert pr_port.getProvidedRequiredInterface() is None
+        # Test getProvidedRequiredInterfaceTRef
+        assert pr_port.getProvidedRequiredInterfaceTRef() is None
 
-        # Test setProvidedRequiredInterface to cover lines 228-229
-        pr_port.setProvidedRequiredInterface("test_interface")
-        assert pr_port.getProvidedRequiredInterface() == "test_interface"
-        assert pr_port == pr_port.setProvidedRequiredInterface("test_interface")
+        # Test setProvidedRequiredInterfaceTRef
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
+
+        tref = TRefType()
+        tref.setValue("test_interface")
+        pr_port.setProvidedRequiredInterfaceTRef(tref)
+        assert pr_port.getProvidedRequiredInterfaceTRef() == tref
+        assert pr_port.getProvidedRequiredInterfaceTRef().getValue() == "test_interface"
+        assert pr_port == pr_port.setProvidedRequiredInterfaceTRef(tref)
 
     def test_PortGroup(self):
-        """Test PortGroup class."""
+        """Test PortGroup class against spec Table 4.94."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         port_group = PortGroup(ar_root, "TestPortGroup")
 
-        assert port_group._inner_group_iref == []
-        assert port_group._outer_port_ref == []
+        # Defaults
+        assert port_group.innerGroupIRefs == []
+        assert port_group.outerPortRefs == []
 
-        # Test adding inner group IRefs
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
+        # Inheritance chain
+        assert isinstance(port_group, Referrable)
+        assert isinstance(port_group, AtpStructureElement)
+        assert isinstance(port_group, ARObject)
 
+        # Class docstring is the spec Note verbatim
+        assert port_group.__doc__ is not None
+        assert port_group.__doc__.strip() == (
+            "Group of ports which share a common functionality , e.g. need specific network resources. "
+            "This information shall be available on the VFB level in order to delegate it properly via compositions. "
+            "When propagated into the ECU extract, this information is used as input for the configuration of Services "
+            "like the Communication Manager. A PortGroup is defined locally in a component (which can be a composition) "
+            'and refers to the "outer" ports belonging to the group as well as to the "inner" groups which propagate '
+            "this group into the components which are part of a composition. A PortGroup within an atomic SWC cannot "
+            "be linked to inner groups."
+        )
+
+        # innerGroup
         iref = InnerPortGroupInCompositionInstanceRef()
-        port_group.addInnerGroupIRef(iref)
+        returned = port_group.addInnerGroupIRef(iref)
+        assert returned is port_group
         assert iref in port_group.getInnerGroupIRefs()
+        assert "Links a PortGroup in a composition to another PortGroup" in port_group.getInnerGroupIRefs.__doc__
 
-        # Test adding outer port refs
+        # outerPort
         ref = RefType()
-        port_group.addOuterPortRef(ref)
+        returned = port_group.addOuterPortRef(ref)
+        assert returned is port_group
         assert ref in port_group.getOuterPortRefs()
+        assert "Outer PortPrototype of this AtomicSwComponentType" in port_group.getOuterPortRefs.__doc__
 
     def test_SwComponentType_abstract(self):
         """Test that SwComponentType is abstract."""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
@@ -255,7 +283,6 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
 
     def test_AtomicSwComponentType_abstract(self):
         """Test that AtomicSwComponentType is abstract."""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
@@ -373,7 +400,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         com_spec_no_ref = NonqueuedSenderComSpec()
         com_spec_no_ref.dataElementRef = None
         with pytest.raises(ValueError) as exc_info:
-            provided_port._validateRPortComSpec(com_spec_no_ref)
+            provided_port._validateProvidedComSpec(com_spec_no_ref)
         assert "operation of NonqueuedSenderComSpec is invalid" in str(exc_info.value)
 
         # Test NonqueuedSenderComSpec with invalid dest
@@ -383,7 +410,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         ref.dest = "INVALID-DEST"
         com_spec_invalid_dest.dataElementRef = ref
         with pytest.raises(ValueError) as exc_info:
-            provided_port._validateRPortComSpec(com_spec_invalid_dest)
+            provided_port._validateProvidedComSpec(com_spec_invalid_dest)
         assert "Invalid operation dest of NonqueuedSenderComSpec" in str(exc_info.value)
 
         # Test unsupported com spec type
@@ -393,7 +420,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
 
         unsupported_spec = UnsupportedComSpec()
         with pytest.raises(ValueError) as exc_info:
-            provided_port._validateRPortComSpec(unsupported_spec)
+            provided_port._validateProvidedComSpec(unsupported_spec)
         assert "Unsupported com spec" in str(exc_info.value)
 
     def test_Validate_RPortComSpec_Errors(self):
@@ -409,7 +436,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         client_ref.dest = "INVALID-DEST"
         client_spec.operationRef = client_ref
         with pytest.raises(ValueError) as exc_info:
-            required_port._validateRPortComSpec(client_spec)
+            required_port._validateRequiredComSpec(client_spec)
         assert "Invalid operation dest of ClientComSpec." in str(exc_info.value)
 
         # Test NonqueuedReceiverComSpec with invalid dest
@@ -419,7 +446,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         receiver_ref.dest = "INVALID-DEST"
         receiver_spec.dataElementRef = receiver_ref
         with pytest.raises(ValueError) as exc_info:
-            required_port._validateRPortComSpec(receiver_spec)
+            required_port._validateRequiredComSpec(receiver_spec)
         assert "Invalid date element dest of NonqueuedReceiverComSpec." in str(exc_info.value)
 
         # Test ParameterRequireComSpec with invalid dest
@@ -429,7 +456,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         param_ref.dest = "INVALID-DEST"
         param_spec.parameterRef = param_ref
         with pytest.raises(ValueError) as exc_info:
-            required_port._validateRPortComSpec(param_spec)
+            required_port._validateRequiredComSpec(param_spec)
         assert "Invalid parameter dest of ParameterRequireComSpec." in str(exc_info.value)
 
         # Test unsupported RPortComSpec type
@@ -439,7 +466,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
 
         unsupported_spec = UnsupportedRPortComSpec()
         with pytest.raises(ValueError) as exc_info:
-            required_port._validateRPortComSpec(unsupported_spec)
+            required_port._validateRequiredComSpec(unsupported_spec)
         assert "Unsupported RPortComSpec" in str(exc_info.value)
 
     def test_getNonqueuedSenderComSpecs(self):
@@ -703,7 +730,6 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         assert port_group in swc.getPortGroups()
 
         # Test port group methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
 
         iref = InnerPortGroupInCompositionInstanceRef()
         port_group.addInnerGroupIRef(iref)

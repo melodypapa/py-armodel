@@ -304,10 +304,21 @@ all agree; Rule 0001.3). Do not stop at the field default:
 
 ### 1.11 Member order follows the PDF
 
-- Fields, accessor methods, and checklist rows are declared in the **displayed PDF row
-  order** (top-to-bottom), not alphabetical or file-of-creation. `sequenceOffset` is a
-  secondary signal; the displayed order wins when they diverge. The reader/writer still
-  emit XML elements in XSD `sequenceOffset` order regardless of Python member order.
+- **Two independent orders exist — never merge them:**
+  1. **Class member order** (fields, accessor methods, checklist rows) follows the
+     **markdown/PDF table's displayed row order** (top-to-bottom, page-by-page for
+     split tables), taken exactly as rendered — **even when that rendered order is
+     alphabetical or otherwise doesn't match `sequenceOffset`**. Do not "correct" the
+     displayed order using `sequenceOffset` — `sequenceOffset` is not a signal for
+     class member order at all.
+  2. **Reader/writer XML element order** follows the XSD `sequenceOffset` order,
+     independent of the Python member order above.
+  Reordering class members to match `sequenceOffset` (because the markdown table
+  looked alphabetical, e.g. a page-split table whose rows render as
+  `appliesTo, conflicts, date, dependencies, description, importance, issuedBy,
+  rationale, remark, supportingMaterial, testedItem, type, useCase`) is a **Rule
+  0001.11 violation** — the markdown order is still the displayed order, alphabetical
+  render or not.
 - **Group accessors per attribute, in spec row order** — one attribute's accessor pair(s)
   are contiguous, then the next attribute's. Grouping by method kind (all `create*` then
   all `get*`) is a violation even when every method is present. The set-based check is

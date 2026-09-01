@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
@@ -47,7 +48,7 @@ def _populated() -> ConcreteIdentifiable:
     obj.setDesc(MultiLanguageOverviewParagraph())
     obj.setIntroduction(DocumentationBlock())
     obj.setVariationPoint(VariationPoint())
-    obj.setUuid("DCE:2fac1234-31f8-11b4-a222-08002b34c003")
+    obj.setUuid(String().setValue("DCE:2fac1234-31f8-11b4-a222-08002b34c003"))
     return obj
 
 
@@ -102,7 +103,7 @@ class TestRoundTripIdentifiable:
         dst = ConcreteIdentifiable()
         parser.readIdentifiable(reparsed, dst)
 
-        assert dst.getUuid() == src.getUuid()
+        assert dst.getUuid().getValue() == src.getUuid().getValue()
         assert dst.getCategory() is not None
         assert dst.getCategory().getValue() == "TestCategory"
         assert dst.getAdminData() is not None

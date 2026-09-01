@@ -98,16 +98,16 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `FirewallRuleProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.235 · after `FirewallRule` (refs `matchingEgressRule`/`matchingIngressRule`))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `FirewallRuleProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.235, p.584 (pdf_page.py verified) · after `FirewallRule` (ref target of its `matchingEgressRule`/`matchingIngressRule`) · spec facts (extracted 2026-08-31 from markdown l.15333-15342): Note = "Firewall rule that is defined by an action that is performed if the referenced pattern matches."; Base = ARObject; Aggregated by = StateDependentFirewall.firewallRuleProps (* aggr); 3 attributes: `action` (FirewallActionEnum, 0..1, attr — "Action that is performed by the firewall if the matching Rule is fulfilled."), `matchingEgressRule` (ordered) (FirewallRule, *, ref — "This element defines an egress rule expression against which the network traffic is matched."), `matchingIngressRule` (ordered) (FirewallRule, *, ref — "This element defines an ingress rule expression against which the network traffic is matched."))
+  - [x] Step 1 — Sync members & description from spec — DONE with StateDependentFirewall batch 2026-08-31 (dependency-first: StateDependentFirewall.firewallRuleProps requires this class)
+  - [x] Step 2 — Write model class unit test (Red) — test___init__.py TestFirewallRuleProps: defaults, action get/set, matchingEgressRuleRef/IngressRuleRef add/get, verbatim docstring
+  - [x] Step 3 — Implement model class (Green) — fabricated allowAny/direction/protocol replaced with 3 spec attributes
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — verbatim Table 6.235 Notes
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by TestStateDependentFirewallReadWrite.test_round_trip (FIREWALL-RULE-PROPS written inside FIREWALL-RULE-PROPSS wrapper)
+  - [x] Step 6 — Update parser & writer (Green) — writeFirewallRuleProps/readFirewallRuleProps (ACTION + MATCHING-EGRESS-RULE-REFS + MATCHING-INGRESS-RULE-REFS)
+  - [x] Step 7 — Update checklist comment — 6-col parity checklist all [x]
+  - [x] Step 8 — Deviations — none beyond FirewallActionEnum derivation (see below)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8307 tests pass, ruff/flake8 clean, black clean; **unstamped** per user decision 2026-08-31 (batch confirmation deferred)
 - [ ] `IdsPlatformInstantiation` (tracker input · no R23-11/R4.3.1 table found → XSD-only candidate (confirm in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -231,7 +231,7 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
 
 ## Pending 16.4 resolution (NEW — not in src)
 
-- `FirewallActionEnum` — not in `src` (NEW) · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist)
+- [x] `FirewallActionEnum` — not in `src` (NEW) → **Derive-from-XSD DONE 2026-08-31** (XSD FIREWALL-ACTION-ENUM complexType: literals BLOCK index 0 "Firewall blocks the communication" / ALLOW index 1 "Firewall allows the communication"; AREnum subclass in Firewall/__init__.py, `# XSD` spec line in checklist; unstamped per user decision 2026-08-31)
 - `CommunicationControllerMapping` — not in `src` (NEW) · R23-11 markdown · Table 3.134 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist)
 - `HwPortMapping` — not in `src` (NEW) · R23-11 markdown · Table 3.135 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist)
 - `DiagnosticServiceInstance` — not in `src` (NEW) · R23-11 markdown · Table 4.26 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist)

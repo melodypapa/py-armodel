@@ -40,7 +40,6 @@ INTENTIONALLY_UNEXPORTED_MODULES = {
     "IdsmModuleInstantiation",
     "ModeTransition",
     "PlatformModuleEthernetEndpointConfiguration",
-    "StateDependentFirewall",
 }
 
 

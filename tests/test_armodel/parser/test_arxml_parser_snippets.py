@@ -318,7 +318,7 @@ class TestReadMethods:
         ident_element = ET.fromstring(f"""<IDENT xmlns='{NS}' UUID="12345678-1234-1234-1234-123456789012"/>""")
         identifiable = ConcreteIdentifiable()
         parser.readIdentifiable(ident_element, identifiable)
-        assert identifiable.getUuid() == "12345678-1234-1234-1234-123456789012"
+        assert identifiable.getUuid().getValue() == "12345678-1234-1234-1234-123456789012"
 
     def test_getAdminData_present(self, parser):
         """Test getAdminData with present ADMIN-DATA."""

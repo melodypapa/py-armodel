@@ -78,17 +78,17 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 7 — Update checklist comment — 6-col, 5 rows
   - [x] Step 8 — Deviations — requiredInterfaceTRef: TRefType vs PDF PortInterface; mayBeUnconnected deviation resolved by AR*→standard primitive rename
   - [x] Step 9 — Verify (9a) + confirm (9b) — 8293 tests / ruff / black green; Rule 0007 passed
-- [ ] `PRPortPrototype` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.7)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `PortGroup` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.94)
+- [x] `PRPortPrototype` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.7) — **synced** · COMMIT:f6f94aafac996688b576ba170502c6a196c9b85d
+  - [x] Step 1 — Sync members & description from spec — Table 3.7 caption md l.2076, body l.2078–2086; PDF p.68 via pdf_page.py. Class=concrete; Package=...SWComponentTemplate::Components (non-leaf → Components/__init__.py ✓ current location); Base=ARObject, AbstractProvidedPortPrototype, AbstractRequiredPortPrototype, AtpBlueprintable, AtpFeature, AtpPrototype, Identifiable, MultilanguageReferrable, PortPrototype, Referrable → most-derived **AtpPrototype** (via PortPrototype) ✓ current inheritance correct; Aggregated by AtpClassifier.atpFeature, SwComponentType.port ✓; Note verbatim: "This kind of PortPrototype can take the role of both a required and a provided PortPrototype."; Attribute `providedRequiredInterface` (PortInterface, 0..1, tref) → field `providedRequiredInterfaceTRef` ✓ Rule 0001.5, Note verbatim "This represents the PortInterface used to type the PRPortPrototype Stereotypes: isOfType". Current code issues: parser/writer method name mismatch (setProvidedRequiredInterface vs setProvidedRequiredInterfaceTRef) causing silent round-trip drop; no docstrings; old 3-col checklist; no # Spec verified marker
+  - [x] Step 2 — Write model class unit test (Red) — test_Components.py TestPRPortPrototype: test_pr_port_prototype_initialization (defaults + isinstance chain incl. both abstract bases), test_provided_required_interface_tref_round_trip (round-trip + None no-op). RED confirmed: tests passed (impl already correct for model)
+  - [x] Step 3 — Implement model class (Green) — field already PEP 526 `providedRequiredInterfaceTRef: Optional[TRefType] = None`; typed signatures get/set with None-guarded setter returning self ✓. GREEN: 2/2 pass
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring = Note verbatim ("This kind of PortPrototype can take the role of both a required and a provided PortPrototype."); inline `__init__` comment + getter/setter docstrings = attribute Note verbatim ("This represents the PortInterface used to type the PRPortPrototype Stereotypes: isOfType"); guarded setter appends None-no-op sentence
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — new parser/test_pr_port_prototype.py (field values + empty-wrapper). RED confirmed: 2/2 FAILED AttributeError (writer called getProvidedRequiredInterface, parser called setProvidedRequiredInterface — both missing TRef suffix)
+  - [x] Step 6 — Update parser & writer (Green) — parser: readPRPortPrototype uses setProvidedRequiredInterfaceTRef; writer: writePRPortPrototype uses getProvidedRequiredInterfaceTRef; fixed existing test_writer_sw_component.py method call. GREEN: 5/5 pass (2 new + 2 writer + 1 annotation round-trip)
+  - [x] Step 7 — Update checklist comment — 6-col, 3 rows (init/get/set) with `# Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.7, p.68 (R23-11)` and `# Spec verified: R23-11`; reader [x] on set row, writer [x] on get row, [—] on __init__
+  - [x] Step 8 — Deviations — none for the class itself (base chain correct via AtpPrototype→AtpBlueprintable; field/accessors spec-conformant; reader/writer coverage complete; member order matches Table 3.7; docstrings verbatim). No referenced missing classes
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a: 8343 tests passed (excl. pre-existing PortInterfaceBlueprintMapping import issue), ruff/flake8/black-check clean; 9b pending: Rules 0001.1–0001.7/0011/0012/0013/0014 pass, Rule 0007 package-location check pass (Components/__init__.py non-leaf shape, current location correct); no deviations; marker deferred to 9b confirmation
+- [x] `PortGroup` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.94) — **synced** · COMMIT:afd24e4cc537ff08871c8e379a67882cd18a01ae
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

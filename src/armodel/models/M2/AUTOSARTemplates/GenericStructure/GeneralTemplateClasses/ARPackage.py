@@ -97,6 +97,7 @@ __all__ = [
     "BswImplementation",
     "BswModuleDescription",
     "BswModuleEntry",
+    "BlueprintMappingSet",
     "CanCluster",
     "CanFrame",
     "CanTpConfig",
@@ -107,6 +108,7 @@ __all__ = [
     "CompuMethod",
     "ConsistencyNeeds",
     "ConstantSpecification",
+    "ConstantSpecificationMappingSet",
     "DataConstr",
     "DataPrototypeGroup",
     "DataTransformationSet",
@@ -127,6 +129,8 @@ __all__ = [
     "EcucValueCollection",
     "EndToEndProtectionSet",
     "EthernetCluster",
+    "FirewallRule",
+    "StateDependentFirewall",
     "FlatMap",
     "FlexrayCluster",
     "FlexrayFrame",
@@ -672,6 +676,86 @@ class ARPackage(CollectableElement):
             mapping = SwcBswMapping(self, short_name)
             self.addElement(mapping)
         return self.getElement(short_name, SwcBswMapping)
+
+    def createFirewallRule(self, short_name: str) -> FirewallRule:
+        """
+        Creates a FirewallRule element in this package.
+        If a rule with the given short name already exists, it is returned instead.
+
+        Args:
+            short_name: The unique short name of the rule
+
+        Returns:
+            The created (or existing) FirewallRule
+        """
+
+        if not self.IsElementExists(short_name, FirewallRule):
+            rule = FirewallRule(self, short_name)
+            self.addElement(rule)
+        return self.getElement(short_name, FirewallRule)
+
+    def createBlueprintMappingSet(self, short_name: str) -> BlueprintMappingSet:
+        """
+        Creates a BlueprintMappingSet element in this package.
+        If a set with the given short name already exists, it is returned instead.
+
+        Args:
+            short_name: The unique short name of the set
+
+        Returns:
+            The created (or existing) BlueprintMappingSet
+        """
+
+        if not self.IsElementExists(short_name, BlueprintMappingSet):
+            blueprint_mapping_set = BlueprintMappingSet(self, short_name)
+            self.addElement(blueprint_mapping_set)
+        return self.getElement(short_name, BlueprintMappingSet)
+
+    def getBlueprintMappingSets(self) -> List[BlueprintMappingSet]:
+        """
+        This represents a container of mappings between "actual" model elements and the "blueprint" that has been taken for their creation.
+        """
+        return list(filter(lambda a: isinstance(a, BlueprintMappingSet), self.elements))
+
+    def createConstantSpecificationMappingSet(self, short_name: str) -> ConstantSpecificationMappingSet:
+        """
+        Creates a ConstantSpecificationMappingSet element in this package.
+        If a set with the given short name already exists, it is returned instead.
+
+        Args:
+            short_name: The unique short name of the set
+
+        Returns:
+            The created (or existing) ConstantSpecificationMappingSet
+        """
+
+        if not self.IsElementExists(short_name, ConstantSpecificationMappingSet):
+            constant_specification_mapping_set = ConstantSpecificationMappingSet(self, short_name)
+            self.addElement(constant_specification_mapping_set)
+        return self.getElement(short_name, ConstantSpecificationMappingSet)
+
+    def getConstantSpecificationMappingSets(self) -> List[ConstantSpecificationMappingSet]:
+        """
+        This meta-class represents the ability to map two ConstantSpecifications to each others. One Constant Specification is supposed to be described in the application domain and the other should be described in the implementation domain.
+        """
+        return list(filter(lambda a: isinstance(a, ConstantSpecificationMappingSet), self.elements))
+
+    def createStateDependentFirewall(self, short_name: str) -> StateDependentFirewall:
+        """
+        Creates a StateDependentFirewall element in this package.
+        If a firewall with the given short name already exists, it is returned instead.
+
+        Args:
+            short_name: The unique short name of the firewall
+
+        Returns:
+            The created (or existing) StateDependentFirewall
+        """
+
+        if not self.IsElementExists(short_name, StateDependentFirewall):
+            firewall = StateDependentFirewall(self, short_name)
+            self.addElement(firewall)
+        return self.getElement(short_name, StateDependentFirewall)
 
     def createMcFunction(self, short_name: str) -> McFunction:
         """
@@ -1590,11 +1674,16 @@ class ARPackage(CollectableElement):
 # Element-class names are re-exported eagerly. Every models/ module that imports
 # from this module only needs ARElement/PackageableElement, which are defined above,
 # so partial-module initialization resolves the cycle without lazy machinery.
+from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule, StateDependentFirewall  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation import BswImplementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ConstantSpecificationMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping import (  # noqa: E402
+    BlueprintMappingSet,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup  # noqa: E402

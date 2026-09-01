@@ -22,6 +22,7 @@ class UUIDMgr:
         uuid = obj.getUuid() if isinstance(obj, Identifiable) else None
         if uuid is None:
             return
+        uuid = uuid.getValue()
         if uuid not in self.uuid_object_mappings:
             self.uuid_object_mappings[uuid] = []
 

@@ -6,7 +6,7 @@ in the GenericStructure module.
 from __future__ import annotations
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, String
 from abc import ABC
 from typing import Dict, List, Optional, TYPE_CHECKING, Union
 
@@ -234,7 +234,6 @@ class Identifiable(MultilanguageReferrable, ABC):
 
     # Identifiable method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.4, p.61
-    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAdminData       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -248,7 +247,7 @@ class Identifiable(MultilanguageReferrable, ABC):
     # [x] setDesc            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getIntroduction    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setIntroduction    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getUuid            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (Table 4.4 attribute; uuid move landed per docs/plan/sync-todo/Group1.md work order)
+    # [x] getUuid            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setUuid            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     #
     # Internal members (no spec counterpart — element-collection infra, cf. the CollectableElement
@@ -262,6 +261,10 @@ class Identifiable(MultilanguageReferrable, ABC):
     # [x] IsElementExists    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     #
     # Kept deviation member (VARIATION-POINT element; not a Table 4.4 attribute):
+    # carried here as framework infra so readIdentifiable/writeIdentifiable round-trip
+    # VARIATION-POINT for every identifiable element; the XSD (AUTOSAR_00052.xsd)
+    # declares VARIATION-POINT individually on 335 atpVariation classes, not in the
+    # IDENTIFIABLE group. Stamp withheld until the per-class placement is resolved.
     # [x] getVariationPoint  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setVariationPoint  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
@@ -286,8 +289,8 @@ class Identifiable(MultilanguageReferrable, ABC):
         # This represents more information about how the object in question is built or is used. Therefore it is a DocumentationBlock.
         self.introduction: Optional[DocumentationBlock] = None
 
-        # The purpose of this attribute is to provide a globally unique identifier for an instance of a meta-class.
-        self.uuid: Optional[str] = None
+        # The purpose of this attribute is to provide a globally unique identifier for an instance of a meta-class. The values of this attribute should be globally unique strings prefixed by the type of identifier. For example, to include a DCE UUID as defined by The Open Group, the UUID would be preceded by "DCE:". The values of this attribute may be used to support merging of different AUTOSAR models. The form of the UUID (Universally Unique Identifier) is taken from a standard defined by the Open Group (was Open Software Foundation). This standard is widely used, including by Microsoft for COM (GUIDs) and by many companies for DCE, which is based on CORBA. The method for generating these 128-bit IDs is published in the standard and the effectiveness and uniqueness of the IDs is not in practice disputed. If the id namespace is omitted, DCE is assumed. An example is "DCE:2fac1234-31f8-11b4-a222-08002b34c003". The uuid attribute has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the timestamp.
+        self.uuid: Optional[String] = None
 
         # Structural variation point of this element (kept deviation: VARIATION-POINT element; not a Table 4.4 attribute).
         self.variationPoint: Optional[VariationPoint] = None
@@ -375,13 +378,13 @@ class Identifiable(MultilanguageReferrable, ABC):
             self.introduction = value
         return self
 
-    def getUuid(self) -> Optional[str]:
+    def getUuid(self) -> Optional[String]:
         """
         The purpose of this attribute is to provide a globally unique identifier for an instance of a meta-class. The values of this attribute should be globally unique strings prefixed by the type of identifier. For example, to include a DCE UUID as defined by The Open Group, the UUID would be preceded by "DCE:". The values of this attribute may be used to support merging of different AUTOSAR models. The form of the UUID (Universally Unique Identifier) is taken from a standard defined by the Open Group (was Open Software Foundation). This standard is widely used, including by Microsoft for COM (GUIDs) and by many companies for DCE, which is based on CORBA. The method for generating these 128-bit IDs is published in the standard and the effectiveness and uniqueness of the IDs is not in practice disputed. If the id namespace is omitted, DCE is assumed. An example is "DCE:2fac1234-31f8-11b4-a222-08002b34c003". The uuid attribute has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the timestamp.
         """
         return self.uuid
 
-    def setUuid(self, value: Optional[str]) -> "Identifiable":
+    def setUuid(self, value: Optional[String]) -> "Identifiable":
         """
         The purpose of this attribute is to provide a globally unique identifier for an instance of a meta-class. The values of this attribute should be globally unique strings prefixed by the type of identifier. For example, to include a DCE UUID as defined by The Open Group, the UUID would be preceded by "DCE:". The values of this attribute may be used to support merging of different AUTOSAR models. The form of the UUID (Universally Unique Identifier) is taken from a standard defined by the Open Group (was Open Software Foundation). This standard is widely used, including by Microsoft for COM (GUIDs) and by many companies for DCE, which is based on CORBA. The method for generating these 128-bit IDs is published in the standard and the effectiveness and uniqueness of the IDs is not in practice disputed. If the id namespace is omitted, DCE is assumed. An example is "DCE:2fac1234-31f8-11b4-a222-08002b34c003". The uuid attribute has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the timestamp. A None value is a no-op and does not overwrite an existing uuid.
         """

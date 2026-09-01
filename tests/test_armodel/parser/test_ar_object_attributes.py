@@ -49,7 +49,7 @@ class TestReadARObjectAttributes:
         obj = ConcreteIdentifiable()
         parser.readIdentifiable(element, obj)
 
-        assert obj.getUuid() == "uuid-1"
+        assert obj.getUuid().getValue() == "uuid-1"
 
     def test_read_attributes_absent(self):
         parser = ARXMLParser(options={"warning": True})

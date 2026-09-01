@@ -9,6 +9,7 @@ This module tests the UUIDMgr class and its functionality including:
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 from armodel.models.utils.uuid_mgr import UUIDMgr
 
 
@@ -19,7 +20,10 @@ class MockIdentifiable(Identifiable):
         AUTOSAR.getInstance().new()
         parent = AUTOSAR.getInstance().createARPackage("AUTOSAR")
         super().__init__(parent, "MockIdentifiable")
-        self.uuid = uuid
+        if uuid is not None:
+            uuid_value = String()
+            uuid_value.setValue(uuid)
+            self.setUuid(uuid_value)
 
 
 class TestUUIDMgr:

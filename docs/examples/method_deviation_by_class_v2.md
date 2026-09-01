@@ -9,9 +9,9 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 
 - Py classes scanned: **1069**
 - Skipped (spec verified stamp): **410**
-- Classes with deviations: **185**
+- Classes with deviations: **184**
 - No spec table found (appendix): **133**
-- Missing accessors: **199**
+- Missing accessors: **196**
 - Naming deviations: **32**
 - Type deviations (list/single multiplicity): **52**
 
@@ -787,14 +787,13 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 | `requiredInterfaceTRef` | `TRefType` | `requiredInterface` | ``PortInterface`` | tref | type (PDF PortInterface vs py TRefType) |
 
 ## `PortGroup`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 203 (R23-11, Table 4.94)
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `_inner_group_iref` | `List[InnerPortGroupInCompositionInstanceRef]` | `innerGroup` | ``PortGroup`` | iref | type (PDF PortGroup vs py List[InnerPortGroupInCompositionInstanceRef]) |
-| `_outer_port_ref` | `List[RefType]` | `outerPort` | ``PortPrototype`` | ref | type (PDF PortPrototype vs py List[RefType]) |
+| — | — | — | — | — | No deviations (synced R23-11 Table 4.94) |
 
 ## `ArVariableInImplementationDataInstanceRef`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
@@ -1157,17 +1156,6 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | `keyexchangeref` | `—` | `keyExchange` | ``CryptoServicePrimitive`` | ref | type (spec many vs py single) |
-
-## `StateDependentFirewall`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 583  | **table:** Table 6.234
-- **Package:** `M2::AUTOSARTemplates::AdaptivePlatform::PlatformModuleDeployment::Firewall::StateDependentFirewall`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/AdaptivePlatform/PlatformModuleDeployment/Firewall/StateDependentFirewall.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `defaultAction` | ``FirewallActionEnum`` | attr | missing |
-| — *(missing)* | `—` | `firewallRuleProps(ordered)` | ``FirewallRuleProps`` | aggr | missing |
-| — *(missing)* | `—` | `firewallStateModeDeclaration` | ``ModeDeclaration`` | ref | missing |
 
 ## `FirewallRule`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 584

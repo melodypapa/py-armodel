@@ -587,7 +587,7 @@ class PortPrototype(AtpPrototype, ABC):
 class AbstractProvidedPortPrototype(PortPrototype):
     # AbstractProvidedPortPrototype method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] _validateRPortComSpec        [x] impl  [ ] docstring  [ ] test
+    # [ ] _validateProvidedComSpec     [x] impl  [ ] docstring  [ ] test
     # [ ] addProvidedComSpec           [x] impl  [ ] docstring  [ ] test
     # [ ] getProvidedComSpecs          [x] impl  [ ] docstring  [ ] test
     # [ ] getNonqueuedSenderComSpecs   [x] impl  [ ] docstring  [ ] test
@@ -599,7 +599,7 @@ class AbstractProvidedPortPrototype(PortPrototype):
 
         self.providedComSpecs = []  # type: List[PPortComSpec]
 
-    def _validateRPortComSpec(self, com_spec: PPortComSpec):
+    def _validateProvidedComSpec(self, com_spec: PPortComSpec):
         if isinstance(com_spec, NonqueuedSenderComSpec):
             if com_spec.dataElementRef is None:
                 raise ValueError("operation of NonqueuedSenderComSpec is invalid")
@@ -619,7 +619,7 @@ class AbstractProvidedPortPrototype(PortPrototype):
             raise ValueError("Unsupported com spec")
 
     def addProvidedComSpec(self, com_spec):
-        self._validateRPortComSpec(com_spec)
+        self._validateProvidedComSpec(com_spec)
         self.providedComSpecs.append(com_spec)
 
     def getProvidedComSpecs(self) -> List[PPortComSpec]:
@@ -632,7 +632,7 @@ class AbstractProvidedPortPrototype(PortPrototype):
 class AbstractRequiredPortPrototype(PortPrototype):
     # AbstractRequiredPortPrototype method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] _validateRPortComSpec        [x] impl  [ ] docstring  [ ] test
+    # [ ] _validateRequiredComSpec     [x] impl  [ ] docstring  [ ] test
     # [ ] addRequiredComSpec           [x] impl  [ ] docstring  [ ] test
     # [ ] getRequiredComSpecs          [x] impl  [ ] docstring  [ ] test
     # [ ] getClientComSpecs            [x] impl  [ ] docstring  [ ] test
@@ -645,7 +645,7 @@ class AbstractRequiredPortPrototype(PortPrototype):
 
         self.requiredComSpecs = []  # type: List[RPortComSpec]
 
-    def _validateRPortComSpec(self, com_spec: RPortComSpec):
+    def _validateRequiredComSpec(self, com_spec: RPortComSpec):
         if isinstance(com_spec, ClientComSpec):
             if com_spec.getOperationRef() is not None:
                 if com_spec.getOperationRef().getDest() != "CLIENT-SERVER-OPERATION":
@@ -666,7 +666,7 @@ class AbstractRequiredPortPrototype(PortPrototype):
             raise ValueError("Unsupported RPortComSpec <%s>" % type(com_spec))
 
     def addRequiredComSpec(self, com_spec: RPortComSpec):
-        self._validateRPortComSpec(com_spec)
+        self._validateRequiredComSpec(com_spec)
         self.requiredComSpecs.append(com_spec)
 
     def getRequiredComSpecs(self) -> List[RPortComSpec]:
@@ -766,70 +766,89 @@ class RPortPrototype(AbstractRequiredPortPrototype):
         return self
 
 
-class PRPortPrototype(PortPrototype):
+class PRPortPrototype(AbstractProvidedPortPrototype, AbstractRequiredPortPrototype):
+    """
+    This kind of PortPrototype can take the role of both a required and a provided PortPrototype.
+    """
+
     # PRPortPrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getProvidedComSpecs          [x] impl  [ ] docstring  [ ] test
-    # [ ] addProvidedComSpec           [x] impl  [ ] docstring  [ ] test
-    # [ ] getRequiredComSpecs          [x] impl  [ ] docstring  [ ] test
-    # [ ] addRequiredComSpec           [x] impl  [ ] docstring  [ ] test
-    # [ ] getProvidedRequiredInterface [x] impl  [ ] docstring  [ ] test
-    # [ ] setProvidedRequiredInterface [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self, parent, short_name):
-        super().__init__(parent, short_name)
-
-        self.providedComSpecs = []  # type: List[PPortComSpec]
-        self.requiredComSpecs = []  # type: List[RPortComSpec]
-        self.providedRequiredInterface = None  # type: TRefType
-
-    def getProvidedComSpecs(self):
-        return self.providedComSpecs
-
-    def addProvidedComSpec(self, value):
-        self.providedComSpecs.append(value)
-        return self
-
-    def getRequiredComSpecs(self):
-        return self.requiredComSpecs
-
-    def addRequiredComSpec(self, value):
-        self.requiredComSpecs.append(value)
-        return self
-
-    def getProvidedRequiredInterface(self):
-        return self.providedRequiredInterface
-
-    def setProvidedRequiredInterface(self, value):
-        self.providedRequiredInterface = value
-        return self
-
-
-class PortGroup(AtpStructureElement):
-    # PortGroup method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addInnerGroupIRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getInnerGroupIRefs           [x] impl  [ ] docstring  [ ] test
-    # [ ] addOuterPortRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] getOuterPortRefs             [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.7, p.68 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getProvidedRequiredInterfaceTRef      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setProvidedRequiredInterfaceTRef      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._inner_group_iref = []  # type: List[InnerPortGroupInCompositionInstanceRef]
-        self._outer_port_ref = []  # type: List[RefType]
+        # This represents the PortInterface used to type the PRPortPrototype Stereotypes: isOfType
+        self.providedRequiredInterfaceTRef: Optional[TRefType] = None
 
-    def addInnerGroupIRef(self, iref: InnerPortGroupInCompositionInstanceRef):
-        self._inner_group_iref.append(iref)
+    def getProvidedRequiredInterfaceTRef(self) -> Optional[TRefType]:
+        """
+        This represents the PortInterface used to type the PRPortPrototype Stereotypes: isOfType
+        """
+        return self.providedRequiredInterfaceTRef
+
+    def setProvidedRequiredInterfaceTRef(self, value: Optional[TRefType]) -> "PRPortPrototype":
+        """
+        This represents the PortInterface used to type the PRPortPrototype Stereotypes: isOfType
+        If value is None, the existing value is not changed.
+        """
+        if value is not None:
+            self.providedRequiredInterfaceTRef = value
+        return self
+
+
+class PortGroup(AtpStructureElement):
+    """
+    Group of ports which share a common functionality , e.g. need specific network resources. This information shall be available on the VFB level in order to delegate it properly via compositions. When propagated into the ECU extract, this information is used as input for the configuration of Services like the Communication Manager. A PortGroup is defined locally in a component (which can be a composition) and refers to the "outer" ports belonging to the group as well as to the "inner" groups which propagate this group into the components which are part of a composition. A PortGroup within an atomic SWC cannot be linked to inner groups.
+    """
+
+    # PortGroup method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.94, p.203 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addInnerGroupIRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInnerGroupIRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addOuterPortRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOuterPortRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # Links a PortGroup in a composition to another PortGroup, that is defined in a component which is part of this CompositionSwComponentType. InstanceRef implemented by: InnerPortGroupInCompositionInstanceRef
+        self.innerGroupIRefs: List[InnerPortGroupInCompositionInstanceRef] = []
+
+        # Outer PortPrototype of this AtomicSwComponentType which belongs to the group. A port can belong to several groups or to no group at all.
+        self.outerPortRefs: List[RefType] = []
+
+    def addInnerGroupIRef(self, iref: InnerPortGroupInCompositionInstanceRef) -> "PortGroup":
+        """
+        Links a PortGroup in a composition to another PortGroup, that is defined in a component which is part of this CompositionSwComponentType. InstanceRef implemented by: InnerPortGroupInCompositionInstanceRef
+        """
+        self.innerGroupIRefs.append(iref)
+        return self
 
     def getInnerGroupIRefs(self) -> List[InnerPortGroupInCompositionInstanceRef]:
-        return self._inner_group_iref
+        """
+        Links a PortGroup in a composition to another PortGroup, that is defined in a component which is part of this CompositionSwComponentType. InstanceRef implemented by: InnerPortGroupInCompositionInstanceRef
+        """
+        return self.innerGroupIRefs
 
-    def addOuterPortRef(self, ref: RefType):
-        self._outer_port_ref.append(ref)
+    def addOuterPortRef(self, ref: RefType) -> "PortGroup":
+        """
+        Outer PortPrototype of this AtomicSwComponentType which belongs to the group. A port can belong to several groups or to no group at all.
+        """
+        self.outerPortRefs.append(ref)
+        return self
 
     def getOuterPortRefs(self) -> List[RefType]:
-        return self._outer_port_ref
+        """
+        Outer PortPrototype of this AtomicSwComponentType which belongs to the group. A port can belong to several groups or to no group at all.
+        """
+        return self.outerPortRefs
 
 
 class AtomicSwComponentType(SwComponentType, ABC):
