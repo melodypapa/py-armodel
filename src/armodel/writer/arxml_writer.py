@@ -1203,7 +1203,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeAdminDataSdgs(child_element, admin_data)
             self.writeAdminDataDocRevisions(child_element, admin_data)
 
-    def writeIdentifiable(self, element: ET.Element, identifiable: Identifiable):
+    def writeIdentifiable(self, element: ET.Element, identifiable: Identifiable, write_variation_point: bool = True):
         self.writeMultilanguageReferrable(element, identifiable)
         # Emitted after the S/T attributes (written by writeARObject at the
         # bottom of the chain) to keep the historical attribute order S, T, UUID.
@@ -1215,7 +1215,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(element, "CATEGORY", identifiable.getCategory())
         self.writeDocumentationBlock(element, "INTRODUCTION", identifiable.getIntroduction())
         self.setAdminData(element, identifiable.getAdminData())
-        if isinstance(identifiable, Identifiable):
+        if write_variation_point and isinstance(identifiable, Identifiable):
             self.writeVariationPoint(element, identifiable.getVariationPoint())
 
     def writeARElement(self, parent: ET.Element, ar_element: ARElement):
@@ -2220,11 +2220,12 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setStructuredReq(self, element: ET.Element, structured_req: StructuredReq):
         if structured_req is not None:
             child_element = ET.SubElement(element, "STRUCTURED-REQ")
-            self.writeARObject(child_element, structured_req)
+            self.writeIdentifiable(child_element, structured_req, write_variation_point=False)
+            self.writeTraceable(child_element, structured_req)
             self.setChildElementOptionalLiteral(child_element, "DATE", structured_req.getDate())
-            self.setChildElementOptionalLiteral(child_element, "IMPORTANCE", structured_req.getImportance())
             self.setChildElementOptionalLiteral(child_element, "ISSUED-BY", structured_req.getIssuedBy())
             self.setChildElementOptionalLiteral(child_element, "TYPE", structured_req.getType())
+            self.setChildElementOptionalLiteral(child_element, "IMPORTANCE", structured_req.getImportance())
             self.writeDocumentationBlock(child_element, "DESCRIPTION", structured_req.getDescription())
             self.writeDocumentationBlock(child_element, "RATIONALE", structured_req.getRationale())
             applies_to = structured_req.getAppliesTos()
@@ -2243,7 +2244,11 @@ class ARXMLWriter(AbstractARXMLWriter):
                 refs_tag = ET.SubElement(child_element, "TESTED-ITEM-REFS")
                 for tested_item_ref in tested_item_refs:
                     ref_tag = ET.SubElement(refs_tag, "TESTED-ITEM-REF")
+                    dest = tested_item_ref.getDest()
+                    if dest is not None:
+                        ref_tag.attrib["DEST"] = dest
                     ref_tag.text = tested_item_ref.getValue()
+            self.writeVariationPoint(child_element, structured_req.getVariationPoint())
 
     def setMultiLanguageVerbatim(self, element: ET.Element, key: str, verbatim: MultiLanguageVerbatim):
         if verbatim is not None:

@@ -4742,7 +4742,8 @@ class ARXMLParser(AbstractARXMLParser):
             short_name_element = self.find(child_element, "SHORT-NAME")
             short_name = short_name_element.text if short_name_element is not None else key
             structured_req = StructuredReq(block, short_name)
-            self.readARObject(child_element, structured_req)
+            self.readIdentifiable(child_element, structured_req)
+            self.readTraceable(child_element, structured_req)
             date = self.getChildElementOptionalLiteral(child_element, "DATE")
             if date is not None:
                 structured_req.setDate(DateTime().setValue(date.getValue()))
@@ -4761,7 +4762,10 @@ class ARXMLParser(AbstractARXMLParser):
             structured_req.setSupportingMaterial(self.getDocumentationBlock(child_element, "SUPPORTING-MATERIAL"))
             structured_req.setRemark(self.getDocumentationBlock(child_element, "REMARK"))
             for tested_item_ref in self.findall(child_element, "TESTED-ITEM-REFS/TESTED-ITEM-REF"):
-                structured_req.addTestedItemRef(RefType().setDest(tested_item_ref.text))
+                ref = RefType().setValue(tested_item_ref.text)
+                if "DEST" in tested_item_ref.attrib:
+                    ref.setDest(tested_item_ref.attrib["DEST"])
+                structured_req.addTestedItemRef(ref)
         return structured_req
 
     def getDefItem(self, element: ET.Element) -> DefItem:

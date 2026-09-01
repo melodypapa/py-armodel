@@ -104,76 +104,119 @@ class StructuredReq(Traceable):
 
     # StructuredReq method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.31, p.314
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getDate                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setDate                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getAppliesTos          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addAppliesTo           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getConflicts           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConflicts           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDate                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDate                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDependencies        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDependencies        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDescription         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDescription         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getImportance          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setImportance          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getIssuedBy            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setIssuedBy            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getType                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setType                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getDescription         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setDescription         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getRationale           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setRationale           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getDependencies        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setDependencies        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getUseCase             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setUseCase             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getConflicts           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setConflicts           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSupportingMaterial  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSupportingMaterial  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getRemark              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setRemark              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupportingMaterial  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupportingMaterial  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getTestedItemRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] addTestedItemRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getType                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setType                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUseCase             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUseCase             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariationPoint      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (inherited from Identifiable; XSD VARIATION-POINT)
+    # [x] setVariationPoint      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  (inherited from Identifiable; XSD VARIATION-POINT)
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)
 
-        # This represents the date when the requirement was initiated.
-        self.date: Optional[DateTime] = None
-
-        # This represents the person, organization or authority which issued the requirement.
-        self.issuedBy: Optional[String] = None
-
-        # This attribute allows to denote the type of requirement to denote for example is it an "enhancement", "new feature" etc.
-        self.type: Optional[String] = None
-
-        # This allows to represent the importance of the requirement.
-        self.importance: Optional[String] = None
-
-        # This represents the general description of the requirement.
-        self.description: Optional["DocumentationBlock"] = None
-
-        # This represents the rationale of the requirement.
-        self.rationale: Optional["DocumentationBlock"] = None
-
         # This attribute represents the platform the requirement is assigned to.
         self.appliesTo: List[StandardNameEnum] = []
-
-        # This represents an informal specification of dependencies. Note that upstream tracing should be formalized in the property trace provided by the superclass Traceable.
-        self.dependencies: Optional["DocumentationBlock"] = None
-
-        # This describes the relevant use cases. Note that formal references to use cases should be done in the trace relation.
-        self.useCase: Optional["DocumentationBlock"] = None
 
         # This represents an informal specification of conflicts.
         self.conflicts: Optional["DocumentationBlock"] = None
 
+        # This represents the date when the requirement was initiated.
+        self.date: Optional[DateTime] = None
+
+        # This represents an informal specification of dependencies. Note that upstream tracing should be formalized in the property trace provided by the superclass Traceable.
+        self.dependencies: Optional["DocumentationBlock"] = None
+
+        # This represents the general description of the requirement.
+        self.description: Optional["DocumentationBlock"] = None
+
+        # This allows to represent the importance of the requirement.
+        self.importance: Optional[String] = None
+
+        # This represents the person, organization or authority which issued the requirement.
+        self.issuedBy: Optional[String] = None
+
+        # This represents the rationale of the requirement.
+        self.rationale: Optional["DocumentationBlock"] = None
+
+        # This represents an informal remark. Note that this is not modeled as annotation, since these remark is still essential part of the requirement.
+        self.remark: Optional["DocumentationBlock"] = None
+
         # This represents an informal specification of the supporting material.
         self.supportingMaterial: Optional["DocumentationBlock"] = None
 
-        # This represents an informal remark.
-        self.remark: Optional["DocumentationBlock"] = None
-
-        # This association represents the ability to trace on the same specification level.
+        # This association represents the ability to trace on the same specification level. This supports for example the of acceptance tests.
         self.testedItemRefs: List[RefType] = []
+
+        # This attribute allows to denote the type of requirement to denote for example is it an "enhancement", "new feature" etc.
+        self.type: Optional[String] = None
+
+        # This describes the relevant use cases. Note that formal references to use cases should be done in the trace relation.
+        self.useCase: Optional["DocumentationBlock"] = None
+
+    def getAppliesTos(self) -> List[StandardNameEnum]:
+        """
+        This attribute represents the platform the requirement is assigned to.
+
+        Returns:
+            The platforms the requirement is assigned to
+        """
+        return self.appliesTo
+
+    def addAppliesTo(self, value: Optional[StandardNameEnum]) -> "StructuredReq":
+        """
+        This attribute represents the platform the requirement is assigned to. A None value is a no-op and is not appended.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.appliesTo.append(value)
+        return self
+
+    def getConflicts(self) -> Optional["DocumentationBlock"]:
+        """
+        This represents an informal specification of conflicts.
+
+        Returns:
+            The informal specification of conflicts
+        """
+        return self.conflicts
+
+    def setConflicts(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
+        """
+        This represents an informal specification of conflicts. A None value is a no-op and does not overwrite an existing conflicts.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.conflicts = value
+        return self
 
     def getDate(self) -> Optional[DateTime]:
         """
@@ -195,24 +238,44 @@ class StructuredReq(Traceable):
             self.date = value
         return self
 
-    def getAppliesTos(self) -> List[StandardNameEnum]:
+    def getDependencies(self) -> Optional["DocumentationBlock"]:
         """
-        This attribute represents the platform the requirement is assigned to.
+        This represents an informal specification of dependencies.
 
         Returns:
-            The platforms the requirement is assigned to
+            The informal specification of dependencies
         """
-        return self.appliesTo
+        return self.dependencies
 
-    def addAppliesTo(self, value: Optional[StandardNameEnum]) -> "StructuredReq":
+    def setDependencies(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
         """
-        This attribute represents the platform the requirement is assigned to. A None value is a no-op and is not appended.
+        This represents an informal specification of dependencies. A None value is a no-op and does not overwrite an existing dependencies.
 
         Returns:
             self for method chaining
         """
         if value is not None:
-            self.appliesTo.append(value)
+            self.dependencies = value
+        return self
+
+    def getDescription(self) -> Optional["DocumentationBlock"]:
+        """
+        This represents the general description of the requirement.
+
+        Returns:
+            The general description of the requirement
+        """
+        return self.description
+
+    def setDescription(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
+        """
+        This represents the general description of the requirement. A None value is a no-op and does not overwrite an existing description.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.description = value
         return self
 
     def getImportance(self) -> Optional[String]:
@@ -255,46 +318,6 @@ class StructuredReq(Traceable):
             self.issuedBy = value
         return self
 
-    def getType(self) -> Optional[String]:
-        """
-        This attribute allows to denote the type of requirement to denote for example is it an "enhancement", "new feature" etc.
-
-        Returns:
-            The type of requirement
-        """
-        return self.type
-
-    def setType(self, value: Optional[String]) -> "StructuredReq":
-        """
-        This attribute allows to denote the type of requirement to denote for example is it an "enhancement", "new feature" etc. A None value is a no-op and does not overwrite an existing type.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.type = value
-        return self
-
-    def getDescription(self) -> Optional["DocumentationBlock"]:
-        """
-        This represents the general description of the requirement.
-
-        Returns:
-            The general description of the requirement
-        """
-        return self.description
-
-    def setDescription(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
-        """
-        This represents the general description of the requirement. A None value is a no-op and does not overwrite an existing description.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.description = value
-        return self
-
     def getRationale(self) -> Optional["DocumentationBlock"]:
         """
         This represents the rationale of the requirement.
@@ -315,64 +338,24 @@ class StructuredReq(Traceable):
             self.rationale = value
         return self
 
-    def getDependencies(self) -> Optional["DocumentationBlock"]:
+    def getRemark(self) -> Optional["DocumentationBlock"]:
         """
-        This represents an informal specification of dependencies.
+        This represents an informal remark. Note that this is not modeled as annotation, since these remark is still essential part of the requirement.
 
         Returns:
-            The informal specification of dependencies
+            The informal remark
         """
-        return self.dependencies
+        return self.remark
 
-    def setDependencies(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
+    def setRemark(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
         """
-        This represents an informal specification of dependencies. A None value is a no-op and does not overwrite an existing dependencies.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.dependencies = value
-        return self
-
-    def getUseCase(self) -> Optional["DocumentationBlock"]:
-        """
-        This describes the relevant use cases.
-
-        Returns:
-            The relevant use cases
-        """
-        return self.useCase
-
-    def setUseCase(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
-        """
-        This describes the relevant use cases. A None value is a no-op and does not overwrite an existing useCase.
+        This represents an informal remark. Note that this is not modeled as annotation, since these remark is still essential part of the requirement. A None value is a no-op and does not overwrite an existing remark.
 
         Returns:
             self for method chaining
         """
         if value is not None:
-            self.useCase = value
-        return self
-
-    def getConflicts(self) -> Optional["DocumentationBlock"]:
-        """
-        This represents an informal specification of conflicts.
-
-        Returns:
-            The informal specification of conflicts
-        """
-        return self.conflicts
-
-    def setConflicts(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
-        """
-        This represents an informal specification of conflicts. A None value is a no-op and does not overwrite an existing conflicts.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.conflicts = value
+            self.remark = value
         return self
 
     def getSupportingMaterial(self) -> Optional["DocumentationBlock"]:
@@ -395,29 +378,9 @@ class StructuredReq(Traceable):
             self.supportingMaterial = value
         return self
 
-    def getRemark(self) -> Optional["DocumentationBlock"]:
-        """
-        This represents an informal remark.
-
-        Returns:
-            The informal remark
-        """
-        return self.remark
-
-    def setRemark(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
-        """
-        This represents an informal remark. A None value is a no-op and does not overwrite an existing remark.
-
-        Returns:
-            self for method chaining
-        """
-        if value is not None:
-            self.remark = value
-        return self
-
     def getTestedItemRefs(self) -> List[RefType]:
         """
-        This association represents the ability to trace on the same specification level.
+        This association represents the ability to trace on the same specification level. This supports for example the of acceptance tests.
 
         Returns:
             The references on the same specification level
@@ -426,11 +389,51 @@ class StructuredReq(Traceable):
 
     def addTestedItemRef(self, value: Optional[RefType]) -> "StructuredReq":
         """
-        This association represents the ability to trace on the same specification level. A None value is a no-op and is not appended.
+        This association represents the ability to trace on the same specification level. This supports for example the of acceptance tests. A None value is a no-op and is not appended.
 
         Returns:
             self for method chaining
         """
         if value is not None:
             self.testedItemRefs.append(value)
+        return self
+
+    def getType(self) -> Optional[String]:
+        """
+        This attribute allows to denote the type of requirement to denote for example is it an "enhancement", "new feature" etc.
+
+        Returns:
+            The type of requirement
+        """
+        return self.type
+
+    def setType(self, value: Optional[String]) -> "StructuredReq":
+        """
+        This attribute allows to denote the type of requirement to denote for example is it an "enhancement", "new feature" etc. A None value is a no-op and does not overwrite an existing type.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.type = value
+        return self
+
+    def getUseCase(self) -> Optional["DocumentationBlock"]:
+        """
+        This describes the relevant use cases. Note that formal references to use cases should be done in the trace relation.
+
+        Returns:
+            The relevant use cases
+        """
+        return self.useCase
+
+    def setUseCase(self, value: Optional["DocumentationBlock"]) -> "StructuredReq":
+        """
+        This describes the relevant use cases. Note that formal references to use cases should be done in the trace relation. A None value is a no-op and does not overwrite an existing useCase.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.useCase = value
         return self

@@ -2,6 +2,7 @@
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import StandardNameEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import StructuredReq, TraceableText
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
@@ -215,3 +216,15 @@ class TestStructuredReq:
 
         structured_req.addTestedItemRef(None)
         assert structured_req.getTestedItemRefs() == [tested_item_ref]
+
+    def test_structured_req_inherited_variation_point(self):
+        """Test the inherited variationPoint member declared by the StructuredReq XSD group."""
+        structured_req = StructuredReq(None, "StructuredReq")
+        variation_point = VariationPoint()
+
+        result = structured_req.setVariationPoint(variation_point)
+        assert structured_req.getVariationPoint() is variation_point
+        assert result is structured_req
+
+        structured_req.setVariationPoint(None)
+        assert structured_req.getVariationPoint() is variation_point

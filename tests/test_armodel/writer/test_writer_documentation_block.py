@@ -5,7 +5,8 @@ import tempfile
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import StandardNameEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, NameToken, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, NameToken, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import DefItem, DefList, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note, NoteTypeEnum
@@ -62,6 +63,9 @@ class TestDocumentationBlockRoundTrip:
         structured_req.setImportance(String().setValue("high"))
         structured_req.setIssuedBy(String().setValue("AUTOSAR"))
         structured_req.setType(String().setValue("enhancement"))
+        structured_req.setConflicts(DocumentationBlock())
+        structured_req.addTestedItemRef(RefType().setDest("TRACEABLE").setValue("/AUTOSAR/Requirement"))
+        structured_req.setVariationPoint(VariationPoint())
         intro.setStructuredReq(structured_req)
 
         def_item = DefItem()
@@ -139,6 +143,10 @@ class TestDocumentationBlockRoundTrip:
             assert structured_req.getIssuedBy().getValue() == "AUTOSAR"
             assert structured_req.getDate().getValue() == "2023-11-01"
             assert structured_req.getAppliesTos()[0].getValue() == "AP"
+            assert structured_req.getConflicts() is not None
+            assert structured_req.getTestedItemRefs()[0].getValue() == "/AUTOSAR/Requirement"
+            assert structured_req.getTestedItemRefs()[0].getDest() == "TRACEABLE"
+            assert structured_req.getVariationPoint() is not None
 
             def_list = intro.getDefList()
             assert def_list is not None
