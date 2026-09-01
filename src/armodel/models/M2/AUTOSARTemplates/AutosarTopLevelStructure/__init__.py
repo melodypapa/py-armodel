@@ -1,17 +1,18 @@
-from typing import List
+from typing import Dict, List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 from armodel.models.utils.uuid_mgr import UUIDMgr
 from armodel.models.M2.MSR.AsamHdo.BaseTypes import SwBaseType
+from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock as DocumentationBlock
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Implementation
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType, DataTypeMap
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import AtomicSwComponentType, PortPrototype
@@ -39,7 +40,7 @@ class FileInfoComment(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.sdgs = []  # type: List[Sdg]
+        self.sdgs: List[Sdg] = []
 
     def getSdgs(self):
         return self.sdgs
@@ -48,62 +49,90 @@ class FileInfoComment(ARObject):
         self.sdgs = value
         return self
 
+    def addSdg(self, value):
+        if value is not None:
+            self.sdgs.append(value)
+        return self
 
-class AbstractAUTOSAR(CollectableElement):
+
+class AbstractAUTOSAR(ARObject):
     """
     Abstract base class for the AUTOSAR top-level model providing package
     management, element lookup, data type conversion, and AR release
     versioning.
     """
 
-    # AbstractAUTOSAR method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAdminData                 [x] impl  [ ] docstring  [x] test
-    # [ ] setAdminData                 [x] impl  [ ] docstring  [x] test
-    # [ ] removeAdminData              [x] impl  [ ] docstring  [x] test
-    # [ ] getFileInfoComment           [x] impl  [ ] docstring  [x] test
-    # [ ] setFileInfoComment           [x] impl  [ ] docstring  [x] test
-    # [ ] getIntroduction              [x] impl  [ ] docstring  [x] test
-    # [ ] setIntroduction              [x] impl  [ ] docstring  [x] test
-    # [ ] reload                       [ ] impl  [ ] docstring  [x] test
-    # [ ] full_name                    [x] impl  [ ] docstring  [ ] test
-    # [ ] clear                        [x] impl  [ ] docstring  [x] test
-    # [ ] getElement                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getARPackages                [x] impl  [ ] docstring  [x] test
-    # [ ] createARPackage              [x] impl  [ ] docstring  [ ] test
-    # [ ] find                         [x] impl  [ ] docstring  [ ] test
-    # [ ] getDestType                  [x] impl  [ ] docstring  [ ] test
-    # [ ] findAtomicSwComponentType    [x] impl  [ ] docstring  [x] test
-    # [ ] findSystemSignal             [x] impl  [ ] docstring  [x] test
-    # [ ] findSystemSignalGroup        [x] impl  [ ] docstring  [x] test
-    # [ ] findPort                     [x] impl  [ ] docstring  [x] test
-    # [ ] findVariableDataPrototype    [x] impl  [ ] docstring  [x] test
-    # [ ] findImplementationDataType   [x] impl  [ ] docstring  [x] test
-    # [ ] getDataType                  [x] impl  [ ] docstring  [ ] test
-    # [ ] addDataTypeMap               [x] impl  [ ] docstring  [x] test
-    # [ ] convertToImplementationDataType [x] impl  [ ] docstring  [x] test
-    # [ ] convertToApplicationDataType [x] impl  [ ] docstring  [x] test
-    # [ ] getRootSwCompositionPrototype [x] impl  [ ] docstring  [x] test
-    # [ ] setRootSwCompositionPrototype [x] impl  [ ] docstring  [x] test
-    # [ ] addImplementationBehaviorMap [x] impl  [ ] docstring  [x] test
-    # [ ] getBehavior                  [x] impl  [ ] docstring  [ ] test
-    # [ ] getImplementation            [x] impl  [ ] docstring  [ ] test
-    # [ ] addSystem                    [x] impl  [ ] docstring  [x] test
-    # [ ] getSystems                   [x] impl  [ ] docstring  [x] test
-    # [ ] getCompositionSwComponentTypes [x] impl  [ ] docstring  [x] test
-    # [ ] getCompositionSwComponentType [x] impl  [ ] docstring  [x] test
-    # [ ] addCompositionSwComponentType [x] impl  [ ] docstring  [x] test
-    # [ ] getARObjectByUUID            [x] impl  [ ] docstring  [x] test
-    # [ ] addARObject                  [x] impl  [ ] docstring  [x] test
-    # [ ] getDuplicateUUIDs            [x] impl  [ ] docstring  [x] test
-    # [ ] setARRelease                 [x] impl  [ ] docstring  [ ] test
+    # AbstractAUTOSAR method parity checklist (framework layer; spec-derived rows below):
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.1, p.421 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAdminData                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAdminData                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] removeAdminData              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getARPackages                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createARPackage              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFileInfoComment           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFileInfoComment           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIntroduction              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntroduction              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] reload                       [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] full_name                    [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] clear                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getElement                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addElement                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] removeElement                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getElements                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTotalElement              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] IsElementExists              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] find                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDestType                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] findAtomicSwComponentType    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] findSystemSignal             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] findSystemSignalGroup        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] findPort                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] findVariableDataPrototype    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] findImplementationDataType   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataType                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDataTypeMap               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] convertToImplementationDataType [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] convertToApplicationDataType [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRootSwCompositionPrototype [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setRootSwCompositionPrototype [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addImplementationBehaviorMap [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBehavior                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getImplementation            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addSystem                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSystems                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCompositionSwComponentTypes [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCompositionSwComponentType [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCompositionSwComponentType [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getARObjectByUUID            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addARObject                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDuplicateUUIDs            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setARRelease                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Heritage (Rule 0001.2): spec Base = ARObject (Table E.1). The code was
+    # AbstractAUTOSAR(CollectableElement); restructured to ARObject and the
+    # element-collection registry (elements/element_mappings, addElement/
+    # getElement/removeElement/IsElementExists/getElements/getTotalElement) was
+    # reimplemented on the root so the framework keeps working without the
+    # CollectableElement base. This is a documented deviation (framework layer
+    # beyond the 4 spec attributes adminData/arPackage/fileInfoComment/introduction).
+    # arPackages is a List[ARPackage] with an internal _ar_package_index for
+    # O(1) short-name lookup (Rule 0001.5; consistent with ARPackage.arPackages).
+    # root-level serialization (Step 6 of this sync): the writer's save() and the
+    # parser's load() previously emitted/read only ADMIN-DATA and AR-PACKAGES at
+    # the AUTOSAR root. FILE-INFO-COMMENT and INTRODUCTION were NOT serialized,
+    # so those two spec attributes could not round-trip. Added root-level
+    # reader/writer support (writer.setFileInfoComment + INTRODUCTION; parser
+    # getFileInfoComment + INTRODUCTION) so all four spec attributes now round-trip.
 
     def __init__(self):
-        # Deviation (Group1.md, AUTOSAR row): spec base of the top-level model is
-        # ARObject, but the code reuses CollectableElement for the element-collection
-        # registry. CollectableElement now requires (parent, short_name); the root has
-        # no real parent, so we forward None / "" and inherit the Identifiable chain.
-        super().__init__(None, "")
+        # Spec Base = ARObject (AUTOSAR_FO_TPS_GenericStructureTemplate, Table E.1, p.421, R23-11).
+        # The element-collection registry (hierarchical `elements`/`element_mappings`)
+        # is reimplemented below because the root no longer derives from CollectableElement.
+        super().__init__()
 
         self.release_xsd_mappings = {
             "4.0.3": "AUTOSAR_4-0-3.xsd",
@@ -126,28 +155,47 @@ class AbstractAUTOSAR(CollectableElement):
 
         self.clear()
 
-    def getAdminData(self):
+    def getAdminData(self) -> Optional[AdminData]:
+        """This represents the administrative data of an Autosar file."""
         return self.adminData
 
-    def setAdminData(self, value):
+    def setAdminData(self, value: Optional[AdminData]) -> "AbstractAUTOSAR":
+        """This represents the administrative data of an Autosar file."""
         if value is not None:
             self.adminData = value
         return self
 
-    def removeAdminData(self):
+    def removeAdminData(self) -> None:
+        """Removes the administrative data of an Autosar file."""
         self.adminData = None
 
-    def getFileInfoComment(self):
+    def getARPackages(self) -> List[ARPackage]:
+        """This is the top level package in an AUTOSAR model."""
+        return list(sorted(self.arPackages, key=lambda a: a.short_name))
+
+    def createARPackage(self, short_name: str) -> ARPackage:
+        """This is the top level package in an AUTOSAR model."""
+        if short_name not in self._ar_package_index:
+            ar_package = ARPackage(self, short_name)
+            self.arPackages.append(ar_package)
+            self._ar_package_index[short_name] = ar_package
+        return self._ar_package_index[short_name]
+
+    def getFileInfoComment(self) -> Optional["FileInfoComment"]:
+        """This represents a possibility to provide a structured comment in an AUTOSAR file."""
         return self.fileInfoComment
 
-    def setFileInfoComment(self, value):
+    def setFileInfoComment(self, value: Optional["FileInfoComment"]) -> "AbstractAUTOSAR":
+        """This represents a possibility to provide a structured comment in an AUTOSAR file."""
         self.fileInfoComment = value
         return self
 
-    def getIntroduction(self):
+    def getIntroduction(self) -> Optional[DocumentationBlock]:
+        """This represents an introduction on the Autosar file. It is intended for example to represent disclaimers and legal notes."""
         return self.introduction
 
-    def setIntroduction(self, value):
+    def setIntroduction(self, value: Optional[DocumentationBlock]) -> "AbstractAUTOSAR":
+        """This represents an introduction on the Autosar file. It is intended for example to represent disclaimers and legal notes."""
         self.introduction = value
         return self
 
@@ -159,40 +207,85 @@ class AbstractAUTOSAR(CollectableElement):
         return ""
 
     def clear(self):
-        CollectableElement.__init__(self, self.parent, self.short_name)
+        # The root has no parent and no short name (it is the singleton top-level element).
+        self.parent = None
+        self.short_name = ""
 
         self.schema_location = None
         self._appl_impl_type_maps = {}
         self._impl_appl_type_maps = {}
 
-        self._behavior_impl_maps = {}  # type: Dict[str, str]
-        self._impl_behavior_maps = {}  # type: Dict[str, str]
+        self._behavior_impl_maps = {}
+        self._impl_behavior_maps = {}
 
         self.uuid_mgr = UUIDMgr()
 
-        self.systems = {}  # type: Dict[str, System]
-        self.compositionSwComponentTypes = {}  # type: Dict[str, CompositionSwComponentType]
+        self.systems = {}
+        self.compositionSwComponentTypes = {}
 
-        self.rootSwCompositionPrototype = None  # type: RootSwCompositionPrototype
+        self.rootSwCompositionPrototype = None
 
-        self.adminData = None  # type: AdminData
-        self.arPackages = {}  # type: Dict[str, ARPackage]
-        self.fileInfoComment = None  # type: FileInfoComment
-        self.introduction = None  # type: DocumentationBlock
+        # This represents the administrative data of an Autosar file.
+        self.adminData: Optional[AdminData] = None
 
-    def getElement(self, short_name: str) -> Referrable:
-        if short_name in self.arPackages:
-            return self.arPackages[short_name]
-        return Identifiable.getElement(self, short_name)
+        # This is the top level package in an AUTOSAR model.
+        self.arPackages: List[ARPackage] = []
 
-    def getARPackages(self) -> List[ARPackage]:
-        return list(sorted(self.arPackages.values(), key=lambda a: a.short_name))
+        # Internal lookup index for O(1) short-name access into arPackages (performance).
+        self._ar_package_index: Dict[str, ARPackage] = {}
 
-    def createARPackage(self, short_name: str) -> ARPackage:
-        if short_name not in self.arPackages:
-            ar_package = ARPackage(self, short_name)
-            self.arPackages[short_name] = ar_package
-        return self.arPackages[short_name]
+        # This represents a possibility to provide a structured comment in an AUTOSAR file.
+        self.fileInfoComment: Optional[FileInfoComment] = None
+
+        # This represents an introduction on the Autosar file. It is intended for example to represent disclaimers and legal notes.
+        self.introduction: Optional[DocumentationBlock] = None
+
+        # Reimplemented hierarchical element-collection registry (was provided by
+        # CollectableElement before the restructure to ARObject).
+        self.elements = []
+        self.element_mappings = {}
+
+    def getElement(self, short_name: str, type=None) -> Referrable:
+        if (type is ARPackage or type is None) and short_name in self._ar_package_index:
+            return self._ar_package_index[short_name]
+        if short_name not in self.element_mappings:
+            return None
+        if type is not None:
+            result = [a for a in self.element_mappings[short_name] if isinstance(a, type)]
+            return result[0] if result else None
+        return self.element_mappings[short_name][0]
+
+    def addElement(self, element: Referrable) -> None:
+        short_name = element.getShortName()
+        if not self.IsElementExists(short_name, type(element)):
+            self.elements.append(element)
+            if short_name not in self.element_mappings:
+                self.element_mappings[short_name] = []
+            self.element_mappings[short_name].append(element)
+
+    def removeElement(self, short_name: str, type=None) -> None:
+        if short_name not in self.element_mappings:
+            raise KeyError("Invalid key <%s> for removing element" % short_name)
+        if type is None:
+            item = self.element_mappings[short_name][0]
+        else:
+            item = next(filter(lambda a: isinstance(a, type), self.element_mappings[short_name]))
+        if item is not None:
+            self.elements.remove(item)
+            self.element_mappings[short_name].remove(item)
+
+    def getElements(self) -> List[Referrable]:
+        return self.elements
+
+    def getTotalElement(self) -> int:
+        return len(self.elements)
+
+    def IsElementExists(self, short_name: str, type=None) -> bool:
+        if type is None:
+            return short_name in self.element_mappings
+        if short_name in self.element_mappings:
+            return any(isinstance(a, type) for a in self.element_mappings[short_name])
+        return False
 
     def find(self, referred) -> Referrable:
         if isinstance(referred, RefType):
@@ -359,15 +452,16 @@ class AbstractAUTOSAR(CollectableElement):
 
 class AUTOSAR(AbstractAUTOSAR):
     """
-    Singleton entry point for the AUTOSAR model providing global access to
-    all ARPackages, systems, components, type maps, and UUID management.
-    Use getInstance() to access the singleton.
+    Root element of an AUTOSAR description, also the root element in corresponding XML documents.
     """
 
-    # AUTOSAR method parity checklist:
-    # [ ] getInstance                  [x] impl  [ ] docstring  [ ] test
-    # [ ] new                          [x] impl  [ ] docstring  [ ] test
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # AUTOSAR method parity checklist (framework layer; extends AbstractAUTOSAR):
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.1, p.421 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # Spec verified: R23-11
+    # [x] getInstance  [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] new          [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__     [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     __instance = None
 
@@ -394,8 +488,11 @@ class AUTOSARDoc(AbstractAUTOSAR):
     AUTOSAR documentation-specific top-level model.
     """
 
-    # AUTOSARDoc method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # AUTOSARDoc method parity checklist (framework layer; extends AbstractAUTOSAR):
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.1, p.421 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # Spec verified: R23-11
+    # [x] __init__     [x] impl  [ ] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()

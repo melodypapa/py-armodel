@@ -2,7 +2,7 @@ import os
 import xml.etree.ElementTree as ET
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import (
     DataLinkLayerRule,
     DdsRule,
@@ -1170,6 +1170,20 @@ class ARXMLParser(AbstractARXMLParser):
             self.readAdminDataSdgs(child_element, admin_data)
             self.readAdminDataDocRevisions(child_element, admin_data)
         return admin_data
+
+    def getFileInfoComment(self, element: ET.Element, key: str) -> FileInfoComment:
+        file_info_comment = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            file_info_comment = FileInfoComment()
+            self.readARObject(child_element, file_info_comment)
+            for sdg_element in self.findall(child_element, "SDGS/*"):
+                tag_name = self.getTagName(sdg_element)
+                if tag_name == "SDG":
+                    file_info_comment.addSdg(self.getSdg(sdg_element))
+                else:
+                    self.notImplemented("Unsupported SDG <%s>" % tag_name)
+        return file_info_comment
 
     def getShortNameFragments(self, element: ET.Element, key: str) -> List[ShortNameFragment]:
         fragments = []
@@ -11683,6 +11697,8 @@ class ARXMLParser(AbstractARXMLParser):
 
         self.getAUTOSARInfo(root, document)
         document.setAdminData(self.getAdminData(root, "ADMIN-DATA"))
+        document.setFileInfoComment(self.getFileInfoComment(root, "FILE-INFO-COMMENT"))
+        document.setIntroduction(self.getDocumentationBlock(root, "INTRODUCTION"))
         self.readARPackages(root, document)
 
         document.reload()

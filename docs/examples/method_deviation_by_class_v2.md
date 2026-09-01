@@ -45,17 +45,6 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 | `elements` (inherited CollectableElement) | `List[Referrable]` | `element` | ``PackageableElement`` | aggr | none (2026-08-30 sync: stale "type" row replaced — spec-many carried by the inherited elements list; ARPackage.getElement override) |
 | `referenceBases` | `List[ReferenceBase]` | `referenceBase` | ``ReferenceBase`` | aggr | none (2026-08-30 sync: dedicated typed list per Table 4.1; writer IS-GLOBAL cross-pair bug fixed) |
 
-## `AUTOSAR`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 301
-- **Package:** `M2::AUTOSARTemplates::AutosarTopLevelStructure`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/AutosarTopLevelStructure/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `adminData` | ``AdminData`` | aggr | missing |
-| — *(missing)* | `—` | `arPackage` | ``ARPackage`` | aggr | missing |
-| — *(missing)* | `—` | `fileInfoComment` | ``FileInfoComment`` | aggr | missing |
-
 ## `SwcInternalBehavior`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 518
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior`

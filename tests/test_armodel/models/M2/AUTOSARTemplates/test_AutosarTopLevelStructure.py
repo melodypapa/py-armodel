@@ -78,6 +78,12 @@ class TestAbstractAUTOSAR:
         assert autosar.compositionSwComponentTypes == {}
         assert autosar.rootSwCompositionPrototype is None
 
+        # arPackages is now a List with an internal lookup index (Step 3 restructure)
+        assert autosar.arPackages == []
+        assert autosar._ar_package_index == {}
+        assert autosar.elements == []
+        assert autosar.element_mappings == {}
+
     def test_get_admin_data(self):
         """Test the getAdminData method."""
         autosar = AbstractAUTOSAR()
@@ -156,6 +162,8 @@ class TestAbstractAUTOSAR:
         # Modify some attributes
         autosar.adminData = Mock()
         autosar._appl_impl_type_maps = {"test": "value"}
+        autosar.arPackages = [Mock()]
+        autosar._ar_package_index = {"x": Mock()}
 
         # Call clear
         autosar.clear()
@@ -163,32 +171,29 @@ class TestAbstractAUTOSAR:
         # Check that they are reset
         assert autosar.adminData is None
         assert autosar._appl_impl_type_maps == {}
+        assert autosar.arPackages == []
+        assert autosar._ar_package_index == {}
 
     def test_get_element_with_ar_package(self):
         """Test the getElement method when short_name is in arPackages."""
         autosar = AbstractAUTOSAR()
-        test_package = ARPackage(autosar, "TestPackage")
-        autosar.arPackages["TestPackage"] = test_package
+        test_package = autosar.createARPackage("TestPackage")
 
         result = autosar.getElement("TestPackage")
         assert result == test_package
 
     def test_get_element_fallback(self):
-        """Test the getElement method fallback to parent class."""
+        """Test the getElement method fallback to element registry."""
         autosar = AbstractAUTOSAR()
-        # Add a package to the autosar instance
-        test_package = ARPackage(autosar, "TestPackage")
-        autosar.arPackages["TestPackage"] = test_package
-
-        # Try to get a non-existent element (this will call parent method)
+        # A non-existent package short name is neither in the arPackages index
+        # nor in the element registry; getElement must return None.
         result = autosar.getElement("NonExistent")
         assert result is None
 
     def test_get_ar_packages(self):
         """Test the getARPackages method."""
         autosar = AbstractAUTOSAR()
-        test_package = ARPackage(autosar, "TestPackage")
-        autosar.arPackages["TestPackage"] = test_package
+        test_package = autosar.createARPackage("TestPackage")
 
         result = autosar.getARPackages()
         assert len(result) == 1
@@ -200,14 +205,14 @@ class TestAbstractAUTOSAR:
 
         result = autosar.createARPackage("TestPackage")
 
-        assert "TestPackage" in autosar.arPackages
-        assert result == autosar.arPackages["TestPackage"]
+        assert result in autosar.arPackages
+        assert result == autosar.arPackages[0]
+        assert autosar._ar_package_index["TestPackage"] == result
 
     def test_create_ar_package_existing(self):
         """Test the createARPackage method for an existing package."""
         autosar = AbstractAUTOSAR()
-        existing_package = ARPackage(autosar, "TestPackage")
-        autosar.arPackages["TestPackage"] = existing_package
+        existing_package = autosar.createARPackage("TestPackage")
 
         result = autosar.createARPackage("TestPackage")
 
@@ -219,8 +224,7 @@ class TestAbstractAUTOSAR:
         """Test the find method with RefType."""
         # Use AUTOSAR singleton since find() method uses AUTOSAR.getInstance() internally
         autosar = AUTOSAR.getInstance()
-        test_package = ARPackage(autosar, "TestPackage")
-        autosar.arPackages["TestPackage"] = test_package
+        test_package = autosar.createARPackage("TestPackage")
 
         mock_ref_type = Mock(spec=RefType)
         mock_ref_type.getValue.return_value = "TestPackage"
@@ -236,8 +240,7 @@ class TestAbstractAUTOSAR:
         """Test the find method with string reference."""
         # Use AUTOSAR singleton since find() method uses AUTOSAR.getInstance() internally
         autosar = AUTOSAR.getInstance()
-        test_package = ARPackage(autosar, "TestPackage")
-        autosar.arPackages["TestPackage"] = test_package
+        test_package = autosar.createARPackage("TestPackage")
 
         result = autosar.find("TestPackage")
         assert result == test_package
@@ -764,8 +767,6 @@ class TestAbstractAUTOSAR:
 
     def test_add_ar_object(self):
         """Test the addARObject method."""
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-
         autosar = AbstractAUTOSAR()
         pkg = autosar.createARPackage("TestPackage")
         ar_obj = ARPackage(pkg, "test_obj")  # ARPackage is a concrete implementation
@@ -844,7 +845,7 @@ class TestAUTOSAR:
         # Call new to clear
         autosar.new()
         # Verify that it's cleared by checking one of the attributes
-        assert autosar.arPackages == {}
+        assert autosar.arPackages == []
 
     def test_autosar_constructor_exception(self):
         """Test that creating a second AUTOSAR instance raises an exception."""
