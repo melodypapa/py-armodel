@@ -803,22 +803,45 @@ class ConstantSpecificationMapping(ARObject):
 
 class ConstantSpecificationMappingSet(ARElement):
     """
-    Represents a set of constant specification mappings.
+    This meta-class represents the ability to map two ConstantSpecifications to each others. One Constant Specification is supposed to be described in the application domain and the other should be described in the implementation domain.
     """
 
     # ConstantSpecificationMappingSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addMapping                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getMappings                  [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.119, p.445 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addMapping   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappings  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
-        self.mappings = []
 
-    def addMapping(self, mapping):
-        self.mappings.append(mapping)
+        # ConstantSpecificationMappings owned by the ConstantSpecificationMappingSet.
+        self.mappings: List[ConstantSpecificationMapping] = []
 
-    def getMappings(self):
+    def addMapping(self, mapping: Optional[ConstantSpecificationMapping]) -> "ConstantSpecificationMappingSet":
+        """
+        ConstantSpecificationMappings owned by the ConstantSpecificationMappingSet.
+        A None value is a no-op and does not append anything.
+
+        Args:
+            mapping: ConstantSpecificationMappings owned by the ConstantSpecificationMappingSet. to set
+
+        Returns:
+            ConstantSpecificationMappingSet: self for method chaining
+        """
+        if mapping is not None:
+            self.mappings.append(mapping)
+        return self
+
+    def getMappings(self) -> List[ConstantSpecificationMapping]:
+        """
+        ConstantSpecificationMappings owned by the ConstantSpecificationMappingSet.
+
+        Returns:
+            List[ConstantSpecificationMapping]: ConstantSpecificationMappings owned by the ConstantSpecificationMappingSet.
+        """
         return self.mappings
 
 

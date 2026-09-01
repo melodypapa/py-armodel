@@ -5,7 +5,14 @@ in the AUTOSAR CommonStructure StandardizationTemplate BlueprintDedicated module
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import PortPrototypeBlueprint, PortPrototypeBlueprintInitValue
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
+    AtpBlueprintMapping,
+)
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import (
+    PortPrototypeBlueprint,
+    PortPrototypeBlueprintInitValue,
+    PortPrototypeBlueprintMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
@@ -220,3 +227,54 @@ class TestPortPrototypeBlueprint:
         assert result is blueprint
         # Should keep the original empty list when None is passed
         assert blueprint.getRequiredComSpecs() == []
+
+
+class TestPortPrototypeBlueprintMapping:
+    """
+    Test class for PortPrototypeBlueprintMapping functionality.
+    """
+
+    def test_initialization(self):
+        obj = PortPrototypeBlueprintMapping()
+        assert isinstance(obj, PortPrototypeBlueprintMapping)
+        assert obj.getPortPrototypeBlueprintRef() is None
+        assert obj.getDerivedPortPrototypeRef() is None
+
+    def test_get_set_port_prototype_blueprint_ref(self):
+        obj = PortPrototypeBlueprintMapping()
+        ref = RefType()
+        ref.setDest("PORT-PROTOTYPE-BLUEPRINT")
+        ref.setValue("/Pkg/BlueprintPort")
+        obj.setPortPrototypeBlueprintRef(ref)
+        assert obj.getPortPrototypeBlueprintRef() is ref
+        assert obj.getPortPrototypeBlueprintRef().getDest() == "PORT-PROTOTYPE-BLUEPRINT"
+        assert obj.getPortPrototypeBlueprintRef().getValue() == "/Pkg/BlueprintPort"
+
+    def test_get_set_derived_port_prototype_ref(self):
+        obj = PortPrototypeBlueprintMapping()
+        ref = RefType()
+        ref.setDest("P-PORT-PROTOTYPE")
+        ref.setValue("/Pkg/Swc/DerivedPort")
+        obj.setDerivedPortPrototypeRef(ref)
+        assert obj.getDerivedPortPrototypeRef() is ref
+        assert obj.getDerivedPortPrototypeRef().getDest() == "P-PORT-PROTOTYPE"
+        assert obj.getDerivedPortPrototypeRef().getValue() == "/Pkg/Swc/DerivedPort"
+
+    def test_set_ref_none_is_noop(self):
+        obj = PortPrototypeBlueprintMapping()
+        obj.setPortPrototypeBlueprintRef(None)
+        obj.setDerivedPortPrototypeRef(None)
+        assert obj.getPortPrototypeBlueprintRef() is None
+        assert obj.getDerivedPortPrototypeRef() is None
+
+    def test_set_ref_chaining(self):
+        obj = PortPrototypeBlueprintMapping()
+        ref = RefType()
+        returned = obj.setPortPrototypeBlueprintRef(ref)
+        assert returned is obj
+        returned = obj.setDerivedPortPrototypeRef(ref)
+        assert returned is obj
+
+    def test_is_atp_blueprint_mapping(self):
+        obj = PortPrototypeBlueprintMapping()
+        assert isinstance(obj, AtpBlueprintMapping)

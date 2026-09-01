@@ -7,6 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import (
     Documentation,
     DocumentationContext,
+    StandardNameEnum,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import (
     AnyInstanceRef,
@@ -20,6 +21,26 @@ from armodel.models.M2.MSR.Documentation.Chapters import PredefinedChapter
 def _parent():
     document = AUTOSAR.getInstance()
     return document.createARPackage("AUTOSAR")
+
+
+class TestStandardNameEnum:
+    """Test class for the StandardNameEnum class."""
+
+    def test_initialization(self):
+        standard_name = StandardNameEnum()
+
+        assert standard_name.getValue() == ""
+        assert standard_name.getEnumValues() == (StandardNameEnum.AP, StandardNameEnum.CP, StandardNameEnum.FO, StandardNameEnum.TA, StandardNameEnum.TC)
+
+    def test_literals(self):
+        standard_name = StandardNameEnum()
+
+        assert standard_name.setValue(StandardNameEnum.AP) == standard_name
+        assert standard_name.getValue() == StandardNameEnum.AP
+
+        for literal in (StandardNameEnum.CP, StandardNameEnum.FO, StandardNameEnum.TA, StandardNameEnum.TC):
+            assert standard_name.setValue(literal) == standard_name
+            assert standard_name.getValue() == literal
 
 
 class TestDocumentation:

@@ -23,6 +23,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortInterfaceBlueprint import (
     PortInterfaceBlueprintMapping,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import (
+    PortPrototypeBlueprintMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping import (
     BlueprintMapping,
     BlueprintMappingSet,
@@ -82,6 +85,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     ConstantSpecificationMapping,
+    ConstantSpecificationMappingSet,
     NotAvailableValueSpecification,
     NumericalOrText,
     NumericalRuleBasedValueSpecification,
@@ -374,6 +378,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AnyVersionString,
     ARLiteral,
     Boolean,
+    DateTime,
     IntervalTypeEnum,
     MacAddressString,
     NameToken,
@@ -4716,7 +4721,12 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTraceable(self, element: ET.Element, traceable: Traceable):
         for trace_ref in self.findall(element, "TRACE-REFS/TRACE-REF"):
-            traceable.addTraceRef(RefType().setValue(trace_ref.text))
+            ref = RefType().setValue(trace_ref.text)
+            if "BASE" in trace_ref.attrib:
+                ref.setBase(trace_ref.attrib["BASE"])
+            if "DEST" in trace_ref.attrib:
+                ref.setDest(trace_ref.attrib["DEST"])
+            traceable.addTraceRef(ref)
 
     def getTraceableText(self, element: ET.Element, key: str, block: "DocumentationBlock" = None) -> TraceableText:
         traceable_text = None
@@ -4737,20 +4747,30 @@ class ARXMLParser(AbstractARXMLParser):
             short_name_element = self.find(child_element, "SHORT-NAME")
             short_name = short_name_element.text if short_name_element is not None else key
             structured_req = StructuredReq(block, short_name)
-            self.readARObject(child_element, structured_req)
-            structured_req.setDate(self.getChildElementOptionalLiteral(child_element, "DATE"))
+            self.readIdentifiable(child_element, structured_req)
+            self.readTraceable(child_element, structured_req)
+            date = self.getChildElementOptionalLiteral(child_element, "DATE")
+            if date is not None:
+                structured_req.setDate(DateTime().setValue(date.getValue()))
             structured_req.setImportance(self.getChildElementOptionalLiteral(child_element, "IMPORTANCE"))
             structured_req.setIssuedBy(self.getChildElementOptionalLiteral(child_element, "ISSUED-BY"))
             structured_req.setType(self.getChildElementOptionalLiteral(child_element, "TYPE"))
             structured_req.setDescription(self.getDocumentationBlock(child_element, "DESCRIPTION"))
             structured_req.setRationale(self.getDocumentationBlock(child_element, "RATIONALE"))
+            for applies_to in self.findall(child_element, "APPLIES-TO-DEPENDENCIES/APPLIES-TO"):
+                from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import StandardNameEnum
+
+                structured_req.addAppliesTo(StandardNameEnum().setValue(applies_to.text))
             structured_req.setDependencies(self.getDocumentationBlock(child_element, "DEPENDENCIES"))
             structured_req.setUseCase(self.getDocumentationBlock(child_element, "USE-CASE"))
             structured_req.setConflicts(self.getDocumentationBlock(child_element, "CONFLICTS"))
             structured_req.setSupportingMaterial(self.getDocumentationBlock(child_element, "SUPPORTING-MATERIAL"))
             structured_req.setRemark(self.getDocumentationBlock(child_element, "REMARK"))
             for tested_item_ref in self.findall(child_element, "TESTED-ITEM-REFS/TESTED-ITEM-REF"):
-                structured_req.addTestedItemRef(RefType().setDest(tested_item_ref.text))
+                ref = RefType().setValue(tested_item_ref.text)
+                if "DEST" in tested_item_ref.attrib:
+                    ref.setDest(tested_item_ref.attrib["DEST"])
+                structured_req.addTestedItemRef(ref)
         return structured_req
 
     def getDefItem(self, element: ET.Element) -> DefItem:
@@ -11442,6 +11462,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "BLUEPRINT-MAPPING-SET":
                 blueprint_mapping_set = parent.createBlueprintMappingSet(self.getShortName(child_element))
                 self.readBlueprintMappingSet(child_element, blueprint_mapping_set)
+            elif tag_name == "CONSTANT-SPECIFICATION-MAPPING-SET":
+                constant_specification_mapping_set = parent.createConstantSpecificationMappingSet(self.getShortName(child_element))
+                self.readConstantSpecificationMappingSet(child_element, constant_specification_mapping_set)
             elif tag_name == "STATE-DEPENDENT-FIREWALL":
                 firewall = parent.createStateDependentFirewall(self.getShortName(child_element))
                 self.readStateDependentFirewall(child_element, firewall)
@@ -11496,6 +11519,18 @@ class ARXMLParser(AbstractARXMLParser):
                     blueprint_map = PortInterfaceBlueprintMapping()
                     self.readPortInterfaceBlueprintMapping(map_element, blueprint_map)
                     blueprint_mapping_set.addBlueprintMap(blueprint_map)
+                elif tag_name == "PORT-PROTOTYPE-BLUEPRINT-MAPPING":
+                    blueprint_map = PortPrototypeBlueprintMapping()
+                    self.readPortPrototypeBlueprintMapping(map_element, blueprint_map)
+                    blueprint_mapping_set.addBlueprintMap(blueprint_map)
+
+    def readConstantSpecificationMappingSet(self, element: ET.Element, constant_specification_mapping_set: ConstantSpecificationMappingSet):
+        self.readIdentifiable(element, constant_specification_mapping_set)
+        mappings_parent = self.find(element, "MAPPINGS")
+        if mappings_parent is not None:
+            for map_element in self.findall(mappings_parent, "CONSTANT-SPECIFICATION-MAPPING"):
+                mapping = self.getConstantSpecificationMapping(map_element)
+                constant_specification_mapping_set.addMapping(mapping)
 
     def readAtpBlueprintMapping(self, element: ET.Element, blueprint_map: AtpBlueprintMapping):
         self.readARObject(element, blueprint_map)
@@ -11504,6 +11539,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readAtpBlueprintMapping(element, blueprint_map)
         blueprint_map.setPortInterfaceBlueprintRef(self.getChildElementOptionalRefType(element, "PORT-INTERFACE-BLUEPRINT-REF"))
         blueprint_map.setDerivedPortInterfaceRef(self.getChildElementOptionalRefType(element, "DERIVED-PORT-INTERFACE-REF"))
+
+    def readPortPrototypeBlueprintMapping(self, element: ET.Element, blueprint_map: PortPrototypeBlueprintMapping):
+        self.readAtpBlueprintMapping(element, blueprint_map)
+        blueprint_map.setPortPrototypeBlueprintRef(self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-BLUEPRINT-REF"))
+        blueprint_map.setDerivedPortPrototypeRef(self.getChildElementOptionalRefType(element, "DERIVED-PORT-PROTOTYPE-REF"))
 
     def readStateDependentFirewall(self, element: ET.Element, firewall: StateDependentFirewall):
         self.readIdentifiable(element, firewall)

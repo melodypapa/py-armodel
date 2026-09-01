@@ -9,6 +9,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortInterfaceBlueprint import (
     PortInterfaceBlueprintMapping,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import (
+    PortPrototypeBlueprintMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping import (
     BlueprintMappingSet,
 )
@@ -72,6 +75,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     ConstantSpecificationMapping,
+    ConstantSpecificationMappingSet,
     NotAvailableValueSpecification,
     NumericalOrText,
     NumericalRuleBasedValueSpecification,
@@ -1043,6 +1047,10 @@ class ARXMLWriter(AbstractARXMLWriter):
             refs_tag = ET.SubElement(element, "TRACE-REFS")
             for trace_ref in trace_refs:
                 ref_tag = ET.SubElement(refs_tag, "TRACE-REF")
+                if trace_ref.getBase() is not None:
+                    ref_tag.attrib["BASE"] = trace_ref.getBase()
+                if trace_ref.getDest() is not None:
+                    ref_tag.attrib["DEST"] = trace_ref.getDest()
                 ref_tag.text = trace_ref.getValue()
 
     def setShortNameFragment(self, element: ET.Element, fragment: ShortNameFragment):
@@ -1199,7 +1207,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeAdminDataSdgs(child_element, admin_data)
             self.writeAdminDataDocRevisions(child_element, admin_data)
 
-    def writeIdentifiable(self, element: ET.Element, identifiable: Identifiable):
+    def writeIdentifiable(self, element: ET.Element, identifiable: Identifiable, write_variation_point: bool = True):
         self.writeMultilanguageReferrable(element, identifiable)
         # Emitted after the S/T attributes (written by writeARObject at the
         # bottom of the chain) to keep the historical attribute order S, T, UUID.
@@ -1211,7 +1219,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(element, "CATEGORY", identifiable.getCategory())
         self.writeDocumentationBlock(element, "INTRODUCTION", identifiable.getIntroduction())
         self.setAdminData(element, identifiable.getAdminData())
-        if isinstance(identifiable, Identifiable):
+        if write_variation_point and isinstance(identifiable, Identifiable):
             self.writeVariationPoint(element, identifiable.getVariationPoint())
 
     def writeARElement(self, parent: ET.Element, ar_element: ARElement):
@@ -2216,13 +2224,20 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setStructuredReq(self, element: ET.Element, structured_req: StructuredReq):
         if structured_req is not None:
             child_element = ET.SubElement(element, "STRUCTURED-REQ")
-            self.writeARObject(child_element, structured_req)
+            self.writeIdentifiable(child_element, structured_req, write_variation_point=False)
+            self.writeTraceable(child_element, structured_req)
             self.setChildElementOptionalLiteral(child_element, "DATE", structured_req.getDate())
-            self.setChildElementOptionalLiteral(child_element, "IMPORTANCE", structured_req.getImportance())
             self.setChildElementOptionalLiteral(child_element, "ISSUED-BY", structured_req.getIssuedBy())
             self.setChildElementOptionalLiteral(child_element, "TYPE", structured_req.getType())
+            self.setChildElementOptionalLiteral(child_element, "IMPORTANCE", structured_req.getImportance())
             self.writeDocumentationBlock(child_element, "DESCRIPTION", structured_req.getDescription())
             self.writeDocumentationBlock(child_element, "RATIONALE", structured_req.getRationale())
+            applies_to = structured_req.getAppliesTos()
+            if len(applies_to) > 0:
+                applies_to_tag = ET.SubElement(child_element, "APPLIES-TO-DEPENDENCIES")
+                for value in applies_to:
+                    applies_to_element = ET.SubElement(applies_to_tag, "APPLIES-TO")
+                    applies_to_element.text = value.getValue()
             self.writeDocumentationBlock(child_element, "DEPENDENCIES", structured_req.getDependencies())
             self.writeDocumentationBlock(child_element, "USE-CASE", structured_req.getUseCase())
             self.writeDocumentationBlock(child_element, "CONFLICTS", structured_req.getConflicts())
@@ -2233,7 +2248,11 @@ class ARXMLWriter(AbstractARXMLWriter):
                 refs_tag = ET.SubElement(child_element, "TESTED-ITEM-REFS")
                 for tested_item_ref in tested_item_refs:
                     ref_tag = ET.SubElement(refs_tag, "TESTED-ITEM-REF")
+                    dest = tested_item_ref.getDest()
+                    if dest is not None:
+                        ref_tag.attrib["DEST"] = dest
                     ref_tag.text = tested_item_ref.getValue()
+            self.writeVariationPoint(child_element, structured_req.getVariationPoint())
 
     def setMultiLanguageVerbatim(self, element: ET.Element, key: str, verbatim: MultiLanguageVerbatim):
         if verbatim is not None:
@@ -11300,6 +11319,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeFirewallRule(element, ar_element)
         elif isinstance(ar_element, BlueprintMappingSet):
             self.writeBlueprintMappingSet(element, ar_element)
+        elif isinstance(ar_element, ConstantSpecificationMappingSet):
+            self.writeConstantSpecificationMappingSet(element, ar_element)
         elif isinstance(ar_element, StateDependentFirewall):
             self.writeStateDependentFirewall(element, ar_element)
         elif isinstance(ar_element, ConsistencyNeeds):
@@ -11344,9 +11365,22 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(blueprint_map, PortInterfaceBlueprintMapping):
                     blueprint_map_tag = ET.SubElement(blueprint_maps_tag, "PORT-INTERFACE-BLUEPRINT-MAPPING")
                     self.writePortInterfaceBlueprintMapping(blueprint_map_tag, blueprint_map)
+                elif isinstance(blueprint_map, PortPrototypeBlueprintMapping):
+                    blueprint_map_tag = ET.SubElement(blueprint_maps_tag, "PORT-PROTOTYPE-BLUEPRINT-MAPPING")
+                    self.writePortPrototypeBlueprintMapping(blueprint_map_tag, blueprint_map)
                 else:
                     blueprint_map_tag = ET.SubElement(blueprint_maps_tag, "BLUEPRINT-MAPPING")
                     self.writeAtpBlueprintMapping(blueprint_map_tag, blueprint_map)
+
+    def writeConstantSpecificationMappingSet(self, element: ET.Element, constant_specification_mapping_set: ConstantSpecificationMappingSet):
+        self.logger.debug("Write ConstantSpecificationMappingSet %s" % constant_specification_mapping_set.getShortName())
+        constant_specification_mapping_set_tag = ET.SubElement(element, "CONSTANT-SPECIFICATION-MAPPING-SET")
+        self.writeIdentifiable(constant_specification_mapping_set_tag, constant_specification_mapping_set)
+        mappings = constant_specification_mapping_set.getMappings()
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(constant_specification_mapping_set_tag, "MAPPINGS")
+            for mapping in mappings:
+                self.writeConstantSpecificationMapping(mappings_tag, mapping)
 
     def writeAtpBlueprintMapping(self, element: ET.Element, blueprint_map: AtpBlueprintMapping):
         self.writeARObject(element, blueprint_map)
@@ -11355,6 +11389,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeAtpBlueprintMapping(element, blueprint_map)
         self.setChildElementOptionalRefType(element, "PORT-INTERFACE-BLUEPRINT-REF", blueprint_map.getPortInterfaceBlueprintRef())
         self.setChildElementOptionalRefType(element, "DERIVED-PORT-INTERFACE-REF", blueprint_map.getDerivedPortInterfaceRef())
+
+    def writePortPrototypeBlueprintMapping(self, element: ET.Element, blueprint_map: PortPrototypeBlueprintMapping):
+        self.writeAtpBlueprintMapping(element, blueprint_map)
+        self.setChildElementOptionalRefType(element, "PORT-PROTOTYPE-BLUEPRINT-REF", blueprint_map.getPortPrototypeBlueprintRef())
+        self.setChildElementOptionalRefType(element, "DERIVED-PORT-PROTOTYPE-REF", blueprint_map.getDerivedPortPrototypeRef())
 
     def writeStateDependentFirewall(self, element: ET.Element, firewall: StateDependentFirewall):
         self.logger.debug("Write StateDependentFirewall %s" % firewall.getShortName())

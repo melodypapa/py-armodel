@@ -17,6 +17,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortInterfaceBlueprint import (
     PortInterfaceBlueprintMapping,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import (
+    PortPrototypeBlueprintMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping import (
     BlueprintMapping,
     BlueprintMappingSet,
@@ -115,6 +118,36 @@ class TestReadBlueprintMappingSet:
         assert derived.getDest() == "PORT-INTERFACE"
         assert derived.getValue() == "/Pkg/DerivedIf"
 
+    def test_read_port_prototype_blueprint_mapping(self, parser):
+        """Test that BLUEPRINT-MAPS/PORT-PROTOTYPE-BLUEPRINT-MAPPING populates a PortPrototypeBlueprintMapping with both refs."""
+        bms = _make_blueprint_mapping_set()
+        element = ET.fromstring(
+            f"""<BLUEPRINT-MAPPING-SET xmlns='{NS}'>
+                <SHORT-NAME>MySet</SHORT-NAME>
+                <BLUEPRINT-MAPS>
+                    <PORT-PROTOTYPE-BLUEPRINT-MAPPING>
+                        <PORT-PROTOTYPE-BLUEPRINT-REF DEST="PORT-PROTOTYPE-BLUEPRINT">/Pkg/BlueprintPort</PORT-PROTOTYPE-BLUEPRINT-REF>
+                        <DERIVED-PORT-PROTOTYPE-REF DEST="P-PORT-PROTOTYPE">/Pkg/Swc/DerivedPort</DERIVED-PORT-PROTOTYPE-REF>
+                    </PORT-PROTOTYPE-BLUEPRINT-MAPPING>
+                </BLUEPRINT-MAPS>
+            </BLUEPRINT-MAPPING-SET>"""
+        )
+
+        parser.readBlueprintMappingSet(element, bms)
+
+        maps = bms.getBlueprintMaps()
+        assert len(maps) == 1
+        assert isinstance(maps[0], PortPrototypeBlueprintMapping)
+        assert isinstance(maps[0], AtpBlueprintMapping)
+        ref = maps[0].getPortPrototypeBlueprintRef()
+        assert ref is not None
+        assert ref.getDest() == "PORT-PROTOTYPE-BLUEPRINT"
+        assert ref.getValue() == "/Pkg/BlueprintPort"
+        derived = maps[0].getDerivedPortPrototypeRef()
+        assert derived is not None
+        assert derived.getDest() == "P-PORT-PROTOTYPE"
+        assert derived.getValue() == "/Pkg/Swc/DerivedPort"
+
     def test_round_trip(self):
         """Write a BlueprintMappingSet, reparse, and assert the blueprintMap survives."""
         AUTOSAR.getInstance().setARRelease("R23-11")
@@ -176,5 +209,45 @@ class TestReadBlueprintMappingSet:
             assert isinstance(maps[0], PortInterfaceBlueprintMapping)
             assert maps[0].getPortInterfaceBlueprintRef().getValue() == "/Pkg/BlueprintIf"
             assert maps[0].getDerivedPortInterfaceRef().getValue() == "/Pkg/DerivedIf"
+        finally:
+            os.remove(file_path)
+
+    def test_round_trip_with_port_prototype_blueprint_mapping(self):
+        """Write a set holding a PortPrototypeBlueprintMapping, reparse, assert the refs survive."""
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        ar_root = document.createARPackage("AUTOSAR")
+        bms = ar_root.createBlueprintMappingSet("MySet")
+
+        ppbm = PortPrototypeBlueprintMapping()
+        blueprint_ref = RefType()
+        blueprint_ref.setDest("PORT-PROTOTYPE-BLUEPRINT")
+        blueprint_ref.setValue("/Pkg/BlueprintPort")
+        ppbm.setPortPrototypeBlueprintRef(blueprint_ref)
+        derived_ref = RefType()
+        derived_ref.setDest("P-PORT-PROTOTYPE")
+        derived_ref.setValue("/Pkg/Swc/DerivedPort")
+        ppbm.setDerivedPortPrototypeRef(derived_ref)
+        bms.addBlueprintMap(ppbm)
+
+        file_path = tempfile.mktemp(suffix=".arxml")
+        try:
+            from armodel.writer.arxml_writer import ARXMLWriter
+
+            ARXMLWriter().save(file_path, document)
+
+            document_2 = AUTOSAR.getInstance()
+            document_2.clear()
+            ARXMLParser().load(file_path, document_2)
+
+            bms_2 = document_2.getARPackages()[0].getBlueprintMappingSets()[0]
+            maps = bms_2.getBlueprintMaps()
+            assert len(maps) == 1
+            assert isinstance(maps[0], PortPrototypeBlueprintMapping)
+            assert maps[0].getPortPrototypeBlueprintRef().getDest() == "PORT-PROTOTYPE-BLUEPRINT"
+            assert maps[0].getPortPrototypeBlueprintRef().getValue() == "/Pkg/BlueprintPort"
+            assert maps[0].getDerivedPortPrototypeRef().getDest() == "P-PORT-PROTOTYPE"
+            assert maps[0].getDerivedPortPrototypeRef().getValue() == "/Pkg/Swc/DerivedPort"
         finally:
             os.remove(file_path)

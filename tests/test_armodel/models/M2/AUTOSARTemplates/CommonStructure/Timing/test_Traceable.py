@@ -115,3 +115,21 @@ class TestTraceable:
         ARXMLParser().readTraceable(parsed, tt2)
         assert len(tt2.getTraceRefs()) == 1
         assert tt2.getTraceRefs()[0].getValue() == "/PKG/TARGET"
+
+    def test_traceable_text_round_trip_preserves_trace_ref_destination(self):
+        from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import TraceableText
+
+        tt = TraceableText(None, "TraceableText")
+        ref = RefType().setDest("STRUCTURED-REQ").setValue("/PKG/TARGET")
+        tt.addTraceRef(ref)
+
+        elem = ET.Element("TRACE")
+        ARXMLWriter().writeTraceable(elem, tt)
+        ref_element = elem.find("TRACE-REFS/TRACE-REF")
+        assert ref_element.attrib["DEST"] == "STRUCTURED-REQ"
+        parsed = self._round_trip(elem)
+        tt2 = TraceableText(None, "TraceableText")
+        ARXMLParser().readTraceable(parsed, tt2)
+
+        assert tt2.getTraceRefs()[0].getValue() == "/PKG/TARGET"
+        assert tt2.getTraceRefs()[0].getDest() == "STRUCTURED-REQ"
