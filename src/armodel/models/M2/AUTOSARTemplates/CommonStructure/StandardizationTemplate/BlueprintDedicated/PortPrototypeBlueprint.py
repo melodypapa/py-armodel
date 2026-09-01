@@ -8,11 +8,15 @@ for standardization and blueprint-based development approaches in AUTOSAR archit
 Classes:
     PortPrototypeBlueprintInitValue: Represents initial value specifications for port prototype blueprints
     PortPrototypeBlueprint: Defines a blueprint for port prototypes with communication specifications
+    PortPrototypeBlueprintMapping: Maps a PortPrototypeBlueprint to a PortProtoype
 """
 
-from typing import List
+from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
+    AtpBlueprintMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -202,4 +206,57 @@ class PortPrototypeBlueprint(AtpStructureElement):
         """
         if value is not None:
             self.requiredComSpecs = value
+        return self
+
+
+class PortPrototypeBlueprintMapping(AtpBlueprintMapping):
+    """
+    This meta-class represents the ability to map a PortPrototypeBlueprint to a PortProtoype of which one acts as the blueprint for the other.
+    """
+
+    # PortPrototypeBlueprintMapping method parity checklist:
+    # Spec: AUTOSAR_00052.xsd, complexType PORT-PROTOTYPE-BLUEPRINT-MAPPING l.93034, group l.92997 (XSD-only; no own table in repo corpus; atp.Status="removed")
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPortPrototypeBlueprintRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPortPrototypeBlueprintRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDerivedPortPrototypeRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDerivedPortPrototypeRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The PortPrototypeBlueprint in the context of the mapping.
+        self.portPrototypeBlueprintRef: Optional[RefType] = None
+
+        # The PortPrototype in the context of the mapping.
+        self.derivedPortPrototypeRef: Optional[RefType] = None
+
+    def getPortPrototypeBlueprintRef(self) -> Optional[RefType]:
+        """
+        The PortPrototypeBlueprint in the context of the mapping.
+        """
+        return self.portPrototypeBlueprintRef
+
+    def setPortPrototypeBlueprintRef(self, value: Optional[RefType]) -> "PortPrototypeBlueprintMapping":
+        """
+        The PortPrototypeBlueprint in the context of the mapping. A None value is a no-op and is not set.
+        """
+        if value is not None:
+            self.portPrototypeBlueprintRef = value
+        return self
+
+    def getDerivedPortPrototypeRef(self) -> Optional[RefType]:
+        """
+        The PortPrototype in the context of the mapping.
+        """
+        return self.derivedPortPrototypeRef
+
+    def setDerivedPortPrototypeRef(self, value: Optional[RefType]) -> "PortPrototypeBlueprintMapping":
+        """
+        The PortPrototype in the context of the mapping. A None value is a no-op and is not set.
+        """
+        if value is not None:
+            self.derivedPortPrototypeRef = value
         return self

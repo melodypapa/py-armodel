@@ -13,6 +13,9 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortInterfaceBlueprint import (
     PortInterfaceBlueprintMapping,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import (
+    PortPrototypeBlueprintMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping import (
     BlueprintMapping,
     BlueprintMappingSet,
@@ -93,6 +96,40 @@ class TestWriteBlueprintMappingSet:
         assert derived_tag is not None
         assert derived_tag.attrib["DEST"] == "PORT-INTERFACE"
         assert derived_tag.text == "/Pkg/DerivedIf"
+
+    def test_write_port_prototype_blueprint_mapping(self):
+        """Test that a PortPrototypeBlueprintMapping writes as BLUEPRINT-MAPS/PORT-PROTOTYPE-BLUEPRINT-MAPPING with both refs."""
+        writer = _make_writer()
+        element = ET.Element("AR-PACKAGE")
+
+        bms = BlueprintMappingSet(None, "MySet")
+        ppbm = PortPrototypeBlueprintMapping()
+        blueprint_ref = RefType()
+        blueprint_ref.setDest("PORT-PROTOTYPE-BLUEPRINT")
+        blueprint_ref.setValue("/Pkg/BlueprintPort")
+        ppbm.setPortPrototypeBlueprintRef(blueprint_ref)
+        derived_ref = RefType()
+        derived_ref.setDest("P-PORT-PROTOTYPE")
+        derived_ref.setValue("/Pkg/Swc/DerivedPort")
+        ppbm.setDerivedPortPrototypeRef(derived_ref)
+        bms.addBlueprintMap(ppbm)
+
+        writer.writeBlueprintMappingSet(element, bms)
+
+        bms_tag = element.find("BLUEPRINT-MAPPING-SET")
+        assert bms_tag is not None
+        maps_tag = bms_tag.find("BLUEPRINT-MAPS")
+        assert maps_tag is not None
+        ppbm_tag = maps_tag.find("PORT-PROTOTYPE-BLUEPRINT-MAPPING")
+        assert ppbm_tag is not None
+        ref_tag = ppbm_tag.find("PORT-PROTOTYPE-BLUEPRINT-REF")
+        assert ref_tag is not None
+        assert ref_tag.attrib["DEST"] == "PORT-PROTOTYPE-BLUEPRINT"
+        assert ref_tag.text == "/Pkg/BlueprintPort"
+        derived_tag = ppbm_tag.find("DERIVED-PORT-PROTOTYPE-REF")
+        assert derived_tag is not None
+        assert derived_tag.attrib["DEST"] == "P-PORT-PROTOTYPE"
+        assert derived_tag.text == "/Pkg/Swc/DerivedPort"
 
     def test_round_trip(self):
         """Build a model, write it, reparse, and assert the blueprintMap survives."""

@@ -23,6 +23,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortInterfaceBlueprint import (
     PortInterfaceBlueprintMapping,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import (
+    PortPrototypeBlueprintMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping import (
     BlueprintMapping,
     BlueprintMappingSet,
@@ -11496,6 +11499,10 @@ class ARXMLParser(AbstractARXMLParser):
                     blueprint_map = PortInterfaceBlueprintMapping()
                     self.readPortInterfaceBlueprintMapping(map_element, blueprint_map)
                     blueprint_mapping_set.addBlueprintMap(blueprint_map)
+                elif tag_name == "PORT-PROTOTYPE-BLUEPRINT-MAPPING":
+                    blueprint_map = PortPrototypeBlueprintMapping()
+                    self.readPortPrototypeBlueprintMapping(map_element, blueprint_map)
+                    blueprint_mapping_set.addBlueprintMap(blueprint_map)
 
     def readAtpBlueprintMapping(self, element: ET.Element, blueprint_map: AtpBlueprintMapping):
         self.readARObject(element, blueprint_map)
@@ -11504,6 +11511,11 @@ class ARXMLParser(AbstractARXMLParser):
         self.readAtpBlueprintMapping(element, blueprint_map)
         blueprint_map.setPortInterfaceBlueprintRef(self.getChildElementOptionalRefType(element, "PORT-INTERFACE-BLUEPRINT-REF"))
         blueprint_map.setDerivedPortInterfaceRef(self.getChildElementOptionalRefType(element, "DERIVED-PORT-INTERFACE-REF"))
+
+    def readPortPrototypeBlueprintMapping(self, element: ET.Element, blueprint_map: PortPrototypeBlueprintMapping):
+        self.readAtpBlueprintMapping(element, blueprint_map)
+        blueprint_map.setPortPrototypeBlueprintRef(self.getChildElementOptionalRefType(element, "PORT-PROTOTYPE-BLUEPRINT-REF"))
+        blueprint_map.setDerivedPortPrototypeRef(self.getChildElementOptionalRefType(element, "DERIVED-PORT-PROTOTYPE-REF"))
 
     def readStateDependentFirewall(self, element: ET.Element, firewall: StateDependentFirewall):
         self.readIdentifiable(element, firewall)

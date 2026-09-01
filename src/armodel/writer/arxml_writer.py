@@ -9,6 +9,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortInterfaceBlueprint import (
     PortInterfaceBlueprintMapping,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import (
+    PortPrototypeBlueprintMapping,
+)
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping import (
     BlueprintMappingSet,
 )
@@ -11344,6 +11347,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 if isinstance(blueprint_map, PortInterfaceBlueprintMapping):
                     blueprint_map_tag = ET.SubElement(blueprint_maps_tag, "PORT-INTERFACE-BLUEPRINT-MAPPING")
                     self.writePortInterfaceBlueprintMapping(blueprint_map_tag, blueprint_map)
+                elif isinstance(blueprint_map, PortPrototypeBlueprintMapping):
+                    blueprint_map_tag = ET.SubElement(blueprint_maps_tag, "PORT-PROTOTYPE-BLUEPRINT-MAPPING")
+                    self.writePortPrototypeBlueprintMapping(blueprint_map_tag, blueprint_map)
                 else:
                     blueprint_map_tag = ET.SubElement(blueprint_maps_tag, "BLUEPRINT-MAPPING")
                     self.writeAtpBlueprintMapping(blueprint_map_tag, blueprint_map)
@@ -11355,6 +11361,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeAtpBlueprintMapping(element, blueprint_map)
         self.setChildElementOptionalRefType(element, "PORT-INTERFACE-BLUEPRINT-REF", blueprint_map.getPortInterfaceBlueprintRef())
         self.setChildElementOptionalRefType(element, "DERIVED-PORT-INTERFACE-REF", blueprint_map.getDerivedPortInterfaceRef())
+
+    def writePortPrototypeBlueprintMapping(self, element: ET.Element, blueprint_map: PortPrototypeBlueprintMapping):
+        self.writeAtpBlueprintMapping(element, blueprint_map)
+        self.setChildElementOptionalRefType(element, "PORT-PROTOTYPE-BLUEPRINT-REF", blueprint_map.getPortPrototypeBlueprintRef())
+        self.setChildElementOptionalRefType(element, "DERIVED-PORT-PROTOTYPE-REF", blueprint_map.getDerivedPortPrototypeRef())
 
     def writeStateDependentFirewall(self, element: ET.Element, firewall: StateDependentFirewall):
         self.logger.debug("Write StateDependentFirewall %s" % firewall.getShortName())
