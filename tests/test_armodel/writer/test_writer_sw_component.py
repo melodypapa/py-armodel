@@ -719,7 +719,9 @@ class TestWritePortPrototypes:
     def test_write_pr_port_prototype(self, writer):
         app = self._app()
         port = app.createPRPortPrototype("PRPort")
-        port.setProvidedRequiredInterface(TRefType())
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
+
+        port.setProvidedRequiredInterfaceTRef(TRefType())
         parent = _parent()
         writer.writePRPortPrototype(parent, port)
         assert parent[0].tag == "PR-PORT-PROTOTYPE"

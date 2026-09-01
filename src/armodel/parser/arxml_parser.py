@@ -5419,7 +5419,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, prototype)
         self.readAbstractRequiredPortPrototype(element, prototype)
         self.readAbstractProvidedPortPrototype(element, prototype)
-        prototype.setProvidedRequiredInterface(self.getChildElementOptionalRefType(element, "PROVIDED-REQUIRED-INTERFACE-TREF"))
+        prototype.setProvidedRequiredInterfaceTRef(self.getChildElementOptionalRefType(element, "PROVIDED-REQUIRED-INTERFACE-TREF"))
         self.readPortPrototype(element, prototype)
 
     def readPortPrototype(self, element: ET.Element, prototype: PortPrototype):

@@ -1663,7 +1663,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(prototype_tag, prototype)
         self.setAbstractProvidedPortPrototype(prototype_tag, prototype)
         self.setAbstractRequiredPortPrototype(prototype_tag, prototype)
-        self.setChildElementOptionalRefType(prototype_tag, "PROVIDED-REQUIRED-INTERFACE-TREF", prototype.getProvidedRequiredInterface())
+        self.setChildElementOptionalRefType(prototype_tag, "PROVIDED-REQUIRED-INTERFACE-TREF", prototype.getProvidedRequiredInterfaceTRef())
         self.setPortPrototype(prototype_tag, prototype)
 
     def setPortPrototype(self, element: ET.Element, prototype: PortPrototype):
