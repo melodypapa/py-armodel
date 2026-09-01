@@ -48,6 +48,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintGenerator import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortPrototypeBlueprint import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintDedicated.PortInterfaceBlueprint import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate import *  # noqa: F403
