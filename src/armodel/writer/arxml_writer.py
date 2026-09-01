@@ -75,6 +75,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     ConstantSpecificationMapping,
+    ConstantSpecificationMappingSet,
     NotAvailableValueSpecification,
     NumericalOrText,
     NumericalRuleBasedValueSpecification,
@@ -11303,6 +11304,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeFirewallRule(element, ar_element)
         elif isinstance(ar_element, BlueprintMappingSet):
             self.writeBlueprintMappingSet(element, ar_element)
+        elif isinstance(ar_element, ConstantSpecificationMappingSet):
+            self.writeConstantSpecificationMappingSet(element, ar_element)
         elif isinstance(ar_element, StateDependentFirewall):
             self.writeStateDependentFirewall(element, ar_element)
         elif isinstance(ar_element, ConsistencyNeeds):
@@ -11353,6 +11356,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     blueprint_map_tag = ET.SubElement(blueprint_maps_tag, "BLUEPRINT-MAPPING")
                     self.writeAtpBlueprintMapping(blueprint_map_tag, blueprint_map)
+
+    def writeConstantSpecificationMappingSet(self, element: ET.Element, constant_specification_mapping_set: ConstantSpecificationMappingSet):
+        self.logger.debug("Write ConstantSpecificationMappingSet %s" % constant_specification_mapping_set.getShortName())
+        constant_specification_mapping_set_tag = ET.SubElement(element, "CONSTANT-SPECIFICATION-MAPPING-SET")
+        self.writeIdentifiable(constant_specification_mapping_set_tag, constant_specification_mapping_set)
+        mappings = constant_specification_mapping_set.getMappings()
+        if len(mappings) > 0:
+            mappings_tag = ET.SubElement(constant_specification_mapping_set_tag, "MAPPINGS")
+            for mapping in mappings:
+                self.writeConstantSpecificationMapping(mappings_tag, mapping)
 
     def writeAtpBlueprintMapping(self, element: ET.Element, blueprint_map: AtpBlueprintMapping):
         self.writeARObject(element, blueprint_map)

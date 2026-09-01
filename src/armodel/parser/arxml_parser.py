@@ -85,6 +85,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     ConstantSpecificationMapping,
+    ConstantSpecificationMappingSet,
     NotAvailableValueSpecification,
     NumericalOrText,
     NumericalRuleBasedValueSpecification,
@@ -11445,6 +11446,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "BLUEPRINT-MAPPING-SET":
                 blueprint_mapping_set = parent.createBlueprintMappingSet(self.getShortName(child_element))
                 self.readBlueprintMappingSet(child_element, blueprint_mapping_set)
+            elif tag_name == "CONSTANT-SPECIFICATION-MAPPING-SET":
+                constant_specification_mapping_set = parent.createConstantSpecificationMappingSet(self.getShortName(child_element))
+                self.readConstantSpecificationMappingSet(child_element, constant_specification_mapping_set)
             elif tag_name == "STATE-DEPENDENT-FIREWALL":
                 firewall = parent.createStateDependentFirewall(self.getShortName(child_element))
                 self.readStateDependentFirewall(child_element, firewall)
@@ -11503,6 +11507,14 @@ class ARXMLParser(AbstractARXMLParser):
                     blueprint_map = PortPrototypeBlueprintMapping()
                     self.readPortPrototypeBlueprintMapping(map_element, blueprint_map)
                     blueprint_mapping_set.addBlueprintMap(blueprint_map)
+
+    def readConstantSpecificationMappingSet(self, element: ET.Element, constant_specification_mapping_set: ConstantSpecificationMappingSet):
+        self.readIdentifiable(element, constant_specification_mapping_set)
+        mappings_parent = self.find(element, "MAPPINGS")
+        if mappings_parent is not None:
+            for map_element in self.findall(mappings_parent, "CONSTANT-SPECIFICATION-MAPPING"):
+                mapping = self.getConstantSpecificationMapping(map_element)
+                constant_specification_mapping_set.addMapping(mapping)
 
     def readAtpBlueprintMapping(self, element: ET.Element, blueprint_map: AtpBlueprintMapping):
         self.readARObject(element, blueprint_map)

@@ -108,6 +108,7 @@ __all__ = [
     "CompuMethod",
     "ConsistencyNeeds",
     "ConstantSpecification",
+    "ConstantSpecificationMappingSet",
     "DataConstr",
     "DataPrototypeGroup",
     "DataTransformationSet",
@@ -715,6 +716,29 @@ class ARPackage(CollectableElement):
         This represents a container of mappings between "actual" model elements and the "blueprint" that has been taken for their creation.
         """
         return list(filter(lambda a: isinstance(a, BlueprintMappingSet), self.elements))
+
+    def createConstantSpecificationMappingSet(self, short_name: str) -> ConstantSpecificationMappingSet:
+        """
+        Creates a ConstantSpecificationMappingSet element in this package.
+        If a set with the given short name already exists, it is returned instead.
+
+        Args:
+            short_name: The unique short name of the set
+
+        Returns:
+            The created (or existing) ConstantSpecificationMappingSet
+        """
+
+        if not self.IsElementExists(short_name, ConstantSpecificationMappingSet):
+            constant_specification_mapping_set = ConstantSpecificationMappingSet(self, short_name)
+            self.addElement(constant_specification_mapping_set)
+        return self.getElement(short_name, ConstantSpecificationMappingSet)
+
+    def getConstantSpecificationMappingSets(self) -> List[ConstantSpecificationMappingSet]:
+        """
+        This meta-class represents the ability to map two ConstantSpecifications to each others. One Constant Specification is supposed to be described in the application domain and the other should be described in the implementation domain.
+        """
+        return list(filter(lambda a: isinstance(a, ConstantSpecificationMappingSet), self.elements))
 
     def createStateDependentFirewall(self, short_name: str) -> StateDependentFirewall:
         """
@@ -1655,6 +1679,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswImplementation impo
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import BswModuleEntry  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswOverview import BswModuleDescription  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ConstantSpecification  # noqa: E402
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import ConstantSpecificationMappingSet  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatMap  # noqa: E402
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.BlueprintMapping import (  # noqa: E402
     BlueprintMappingSet,
