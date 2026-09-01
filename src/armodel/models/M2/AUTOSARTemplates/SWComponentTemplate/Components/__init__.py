@@ -801,30 +801,54 @@ class PRPortPrototype(AbstractProvidedPortPrototype, AbstractRequiredPortPrototy
 
 
 class PortGroup(AtpStructureElement):
+    """
+    Group of ports which share a common functionality , e.g. need specific network resources. This information shall be available on the VFB level in order to delegate it properly via compositions. When propagated into the ECU extract, this information is used as input for the configuration of Services like the Communication Manager. A PortGroup is defined locally in a component (which can be a composition) and refers to the "outer" ports belonging to the group as well as to the "inner" groups which propagate this group into the components which are part of a composition. A PortGroup within an atomic SWC cannot be linked to inner groups.
+    """
+
     # PortGroup method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addInnerGroupIRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getInnerGroupIRefs           [x] impl  [ ] docstring  [ ] test
-    # [ ] addOuterPortRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] getOuterPortRefs             [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.94, p.203 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addInnerGroupIRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInnerGroupIRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addOuterPortRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOuterPortRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._inner_group_iref = []  # type: List[InnerPortGroupInCompositionInstanceRef]
-        self._outer_port_ref = []  # type: List[RefType]
+        # Links a PortGroup in a composition to another PortGroup, that is defined in a component which is part of this CompositionSwComponentType. InstanceRef implemented by: InnerPortGroupInCompositionInstanceRef
+        self.innerGroupIRefs: List[InnerPortGroupInCompositionInstanceRef] = []
 
-    def addInnerGroupIRef(self, iref: InnerPortGroupInCompositionInstanceRef):
-        self._inner_group_iref.append(iref)
+        # Outer PortPrototype of this AtomicSwComponentType which belongs to the group. A port can belong to several groups or to no group at all.
+        self.outerPortRefs: List[RefType] = []
+
+    def addInnerGroupIRef(self, iref: InnerPortGroupInCompositionInstanceRef) -> "PortGroup":
+        """
+        Links a PortGroup in a composition to another PortGroup, that is defined in a component which is part of this CompositionSwComponentType. InstanceRef implemented by: InnerPortGroupInCompositionInstanceRef
+        """
+        self.innerGroupIRefs.append(iref)
+        return self
 
     def getInnerGroupIRefs(self) -> List[InnerPortGroupInCompositionInstanceRef]:
-        return self._inner_group_iref
+        """
+        Links a PortGroup in a composition to another PortGroup, that is defined in a component which is part of this CompositionSwComponentType. InstanceRef implemented by: InnerPortGroupInCompositionInstanceRef
+        """
+        return self.innerGroupIRefs
 
-    def addOuterPortRef(self, ref: RefType):
-        self._outer_port_ref.append(ref)
+    def addOuterPortRef(self, ref: RefType) -> "PortGroup":
+        """
+        Outer PortPrototype of this AtomicSwComponentType which belongs to the group. A port can belong to several groups or to no group at all.
+        """
+        self.outerPortRefs.append(ref)
+        return self
 
     def getOuterPortRefs(self) -> List[RefType]:
-        return self._outer_port_ref
+        """
+        Outer PortPrototype of this AtomicSwComponentType which belongs to the group. A port can belong to several groups or to no group at all.
+        """
+        return self.outerPortRefs
 
 
 class AtomicSwComponentType(SwComponentType, ABC):

@@ -6,7 +6,9 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, CIdentifier, RefType, TRefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ApplicationAttributes import (
     ClientServerAnnotation,
@@ -223,24 +225,45 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Components:
         assert pr_port == pr_port.setProvidedRequiredInterfaceTRef(tref)
 
     def test_PortGroup(self):
-        """Test PortGroup class."""
+        """Test PortGroup class against spec Table 4.94."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         port_group = PortGroup(ar_root, "TestPortGroup")
 
-        assert port_group._inner_group_iref == []
-        assert port_group._outer_port_ref == []
+        # Defaults
+        assert port_group.innerGroupIRefs == []
+        assert port_group.outerPortRefs == []
 
-        # Test adding inner group IRefs
+        # Inheritance chain
+        assert isinstance(port_group, Referrable)
+        assert isinstance(port_group, AtpStructureElement)
+        assert isinstance(port_group, ARObject)
 
+        # Class docstring is the spec Note verbatim
+        assert port_group.__doc__ is not None
+        assert port_group.__doc__.strip() == (
+            "Group of ports which share a common functionality , e.g. need specific network resources. "
+            "This information shall be available on the VFB level in order to delegate it properly via compositions. "
+            "When propagated into the ECU extract, this information is used as input for the configuration of Services "
+            "like the Communication Manager. A PortGroup is defined locally in a component (which can be a composition) "
+            'and refers to the "outer" ports belonging to the group as well as to the "inner" groups which propagate '
+            "this group into the components which are part of a composition. A PortGroup within an atomic SWC cannot "
+            "be linked to inner groups."
+        )
+
+        # innerGroup
         iref = InnerPortGroupInCompositionInstanceRef()
-        port_group.addInnerGroupIRef(iref)
+        returned = port_group.addInnerGroupIRef(iref)
+        assert returned is port_group
         assert iref in port_group.getInnerGroupIRefs()
+        assert "Links a PortGroup in a composition to another PortGroup" in port_group.getInnerGroupIRefs.__doc__
 
-        # Test adding outer port refs
+        # outerPort
         ref = RefType()
-        port_group.addOuterPortRef(ref)
+        returned = port_group.addOuterPortRef(ref)
+        assert returned is port_group
         assert ref in port_group.getOuterPortRefs()
+        assert "Outer PortPrototype of this AtomicSwComponentType" in port_group.getOuterPortRefs.__doc__
 
     def test_SwComponentType_abstract(self):
         """Test that SwComponentType is abstract."""

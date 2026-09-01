@@ -787,14 +787,13 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 | `requiredInterfaceTRef` | `TRefType` | `requiredInterface` | ``PortInterface`` | tref | type (PDF PortInterface vs py TRefType) |
 
 ## `PortGroup`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 203 (R23-11, Table 4.94)
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `_inner_group_iref` | `List[InnerPortGroupInCompositionInstanceRef]` | `innerGroup` | ``PortGroup`` | iref | type (PDF PortGroup vs py List[InnerPortGroupInCompositionInstanceRef]) |
-| `_outer_port_ref` | `List[RefType]` | `outerPort` | ``PortPrototype`` | ref | type (PDF PortPrototype vs py List[RefType]) |
+| — | — | — | — | — | No deviations (synced R23-11 Table 4.94) |
 
 ## `ArVariableInImplementationDataInstanceRef`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —

@@ -6,6 +6,7 @@ Tests cover all classes and methods in the __init__.py file to achieve 100% test
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import (
     AbstractProvidedPortPrototype,
     AbstractRequiredPortPrototype,
@@ -321,8 +322,9 @@ class TestPortGroup:
 
         assert port_group.parent == ar_root
         assert port_group.short_name == "TestPortGroup"
-        assert port_group._inner_group_iref == []
-        assert port_group._outer_port_ref == []
+        assert isinstance(port_group, AtpStructureElement)
+        assert port_group.innerGroupIRefs == []
+        assert port_group.outerPortRefs == []
 
         # Test inner group IRef methods
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
@@ -338,6 +340,45 @@ class TestPortGroup:
         ref.setValue("/Outer/Port/Ref")
         port_group.addOuterPortRef(ref)
         assert ref in port_group.getOuterPortRefs()
+
+    def test_inner_group_iref_round_trip(self):
+        """Inner group IRefs are appended in order and returned by getInnerGroupIRefs."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        port_group = PortGroup(ar_root, "PG")
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
+
+        iref1 = InnerPortGroupInCompositionInstanceRef()
+        iref2 = InnerPortGroupInCompositionInstanceRef()
+        port_group.addInnerGroupIRef(iref1)
+        port_group.addInnerGroupIRef(iref2)
+        assert port_group.getInnerGroupIRefs() == [iref1, iref2]
+
+    def test_outer_port_ref_round_trip(self):
+        """Outer port refs are appended in order and returned by getOuterPortRefs."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        port_group = PortGroup(ar_root, "PG")
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
+        ref1 = RefType()
+        ref1.setValue("/Outer/Port/Ref1")
+        ref2 = RefType()
+        ref2.setValue("/Outer/Port/Ref2")
+        port_group.addOuterPortRef(ref1)
+        port_group.addOuterPortRef(ref2)
+        assert port_group.getOuterPortRefs() == [ref1, ref2]
+
+    def test_port_group_class_docstring(self):
+        """The class docstring must equal the spec Note verbatim."""
+        assert PortGroup.__doc__ is not None
+        assert PortGroup.__doc__.strip() == (
+            "Group of ports which share a common functionality , e.g. need specific network resources. "
+            "This information shall be available on the VFB level in order to delegate it properly via compositions. "
+            "When propagated into the ECU extract, this information is used as input for the configuration of Services like the Communication Manager. "
+            'A PortGroup is defined locally in a component (which can be a composition) and refers to the "outer" ports belonging to the group as well as to the "inner" groups which propagate this group into the components which are part of a composition. '
+            "A PortGroup within an atomic SWC cannot be linked to inner groups."
+        )
 
 
 class TestSwComponentType:
