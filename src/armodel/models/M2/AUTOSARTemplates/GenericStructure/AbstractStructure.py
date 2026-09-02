@@ -157,36 +157,39 @@ class AtpType(AtpClassifier, ABC):
         super().__init__(parent, short_name)
 
 
-class AtpPrototype(AtpBlueprintable, ABC):
-    """
-    Abstract base class for AUTOSAR Template (ATP) prototype elements.
-
-    AtpPrototype represents prototype elements in the AUTOSAR system. Prototypes
-    are instantiable elements that can be used to create instances or references
-    in AUTOSAR models. They serve as templates for creating specific occurrences
-    of elements.
-
-    This class extends AtpBlueprintable with prototype-specific functionality.
-
-    Note:
-        This is an abstract class and cannot be instantiated directly.
-        AtpPrototype is the parent of various AUTOSAR prototype definitions:
-        - AbstractProvidedPortPrototype
-        - AbstractRequiredPortPrototype
-        - DataPrototype (including VariableDataPrototype, ParameterDataPrototype, etc.)
-        - ModeDeclarationGroupPrototype
-        - PortPrototype (including PPortPrototype, RPortPrototype, PRPortPrototype)
-        - RootSwCompositionPrototype
-        - SwComponentPrototype
-    """
+class AtpPrototype(AtpFeature, ABC):
+    """A prototype is a typed feature. A prototype in a classifier indicates that instances of that classifier will have a feature, and the structure of that feature is given by the its type. An instance of that type will play the role indicated by the feature in the owning classifier. A feature is not an instance but an indication of an instance-to-be."""
 
     # AtpPrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 5.4, p.175
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAtpTypeRef               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setAtpTypeRef               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpPrototype:
             raise TypeError("AtpPrototype is an abstract class.")
         super().__init__(parent, short_name)
+
+        # This is the type of the feature.
+        self.atpTypeRef: Optional[RefType] = None
+
+    def getAtpTypeRef(self) -> Optional[RefType]:
+        """
+        This is the type of the feature.
+        """
+        return self.atpTypeRef
+
+    def setAtpTypeRef(self, value: Optional[RefType]) -> "AtpPrototype":
+        """
+        This is the type of the feature.
+        A None value is a no-op and does not overwrite an existing atpTypeRef.
+        """
+        if value is not None:
+            self.atpTypeRef = value
+        return self
 
 
 class AtpStructureElement(AtpBlueprintable, ABC):

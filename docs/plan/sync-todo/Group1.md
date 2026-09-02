@@ -299,16 +299,82 @@ in the work order below can run, so they precede the `Identifiable` row.
   - [x] Step 7 — Update checklist comment — 6-col `# Spec:` format (AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 5.6, p.175, R23-11); single `__init__` row (reader/writer `[—]`, release R23-11); marker deferred to 9b
   - [x] Step 8 — Deviations — none: Class=abstract (matches Table 5.6); Base closure reaches AtpClassifier as most-derived ✓ (AtpClassifier stamped R23-11, Table 5.1); Package=GenericStructure::AbstractStructure (file AbstractStructure.py, Rule 0007 OK); no own attributes → no naming/type/missing deviation; docstring verbatim; reader/writer N/A (abstract shell). Rule 0001.10 report: AtpType has no own Attribute rows, so no member-type references to block on; Subclasses (AutosarDataType, ModeDeclarationGroup, ModeDeclarationMappingSet, PortInterface, SwComponentType) are subclasses, not member types — ModeDeclarationMappingSet already stamped R23-11; no missing/stub classes
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `AtpPrototype` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 5.4)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `AtpPrototype` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 5.4) — **DONE; `# Spec verified: R23-11` stamped (AbstractStructure.py:165) after 9b confirmation 2026-09-02**
+  - [x] Step 1 — Sync members & description from spec — Table 5.4: Note + Base = ARObject…AtpFeature (most-derived direct base = AtpFeature; AtpBlueprintable NOT in closure) + single attribute `atpType` (AtpType, ref, Mult 1, atpDerived)
+  - [x] Step 2 — Write model class unit test (Red) — `TestAtpPrototype` in test_AbstractStructure.py: abstract init guard, MRO[1]=AtpFeature (not AtpBlueprintable), `atpTypeRef` default None, set/get round-trip, set None no-op, class docstring == verbatim Table 5.4 Note. 6 tests.
+  - [x] Step 3 — Implement model class (Green) — `class AtpPrototype(AtpFeature, ABC)` (was `AtpBlueprintable`); `atpTypeRef: Optional[RefType] = None` + None-guarded chaining `getAtpTypeRef`/`setAtpTypeRef`. `PortPrototype(AtpPrototype, AtpBlueprintable, ABC)` compensating parallel base (SWCT Table 3.2). 6/6 green.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — verbatim Table 5.4 class Note (single-line so `__doc__` matches exactly, per AtpType precedent) + inline `atpType` comment + getter/setter docstrings; Stereotypes: tail dropped per Rule 0012.2.5.2; setter appends None no-op sentence.
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — `tests/test_armodel/parser/test_atp_prototype.py` `TestAtpPrototypeReaderWriter`: asserts no `readAtpPrototype`/`writeAtpPrototype` exist and `atpTypeRef` is an in-memory derived field. 2 tests. (Red was the pre-existing state; N/A justifies no parser/writer code.)
+  - [x] Step 6 — Update parser & writer (Green) — N/A: XSD ATP-PROTOTYPE group comment "Association <<atpDerived>>atpType skipped" → no XML element; confirmed no `readAtpPrototype`/`writeAtpPrototype` in parser/writer.
+  - [x] Step 7 — Update checklist comment — 6-col parity checklist in class body (`# Spec:` line cites Table 5.4, p.175, R23-11; per-row release R23-11; reader `[—]`/writer `[—]` on all rows = no XML element).
+  - [x] Step 8 — Deviations — (1) Heritage `AtpBlueprintable → AtpFeature` matches Table 5.4 (AtpBlueprintable absent from closure); (2) `atpType` is `<<atpDerived>>` → no XML element → Steps 5/6 N/A; (3) `PortPrototype` gained `AtpBlueprintable` parallel base because SWCT Table 3.2 closure includes it (compensating for the AtpPrototype re-parent); (4) member type `AtpType` already `# Spec verified: R23-11`; (5) **Rule 1.5 / CODING_RULE_AUTOSAR_MODEL_00001 naming fix applied**: spec `atpType` is Kind `ref` (Type `AtpType`), so the field must carry the `Ref` suffix → renamed `atpType`→`atpTypeRef` with `getAtpTypeRef()`/`setAtpTypeRef()` (matches sibling `atpBaseRef`/`atpTargetRef` and the `*TypeRef` convention); page citation `p.175` verified against the PDF via pdf_page.py. No fabricated/missing members.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — **9a results (2026-09-02):** AtpPrototype's own tests 8/8 pass; ruff clean; black clean; 29/29 integration round-trips pass. Full suite has 8 red but NONE are AtpPrototype regressions: (a) 7 PRE-EXISTING parser/writer `Collection` bugs (reproducible with this change stashed); (b) 1 EXPECTED heritage drift `test_ArgumentDataPrototype` (tracked by `DataPrototype` drift row). **9b CONFIRMED by user 2026-09-02** after Rule 1.5 naming fix; `# Spec verified: R23-11` retained.
+
+## AtpPrototype heritage-drift follow-ups (added 2026-09-02)
+
+`AtpPrototype` is re-parented `AtpBlueprintable → AtpFeature` (Table 5.4, most-derived
+base = AtpFeature; AtpBlueprintable is NOT in the closure). This changes the MRO of its
+direct subclasses, which previously inherited `AtpBlueprintable` (→ PackageableElement →
+CollectableElement) transitively through `AtpPrototype`. Each direct subclass of
+`AtpPrototype` (Table 5.4 Subclasses row) is given a drift-pass 9-step check below so the
+ripple is audited. Per-class spec base verdict:
+- `PortPrototype` (SWCT Table 3.2): base closure **includes** AtpBlueprintable → needs a
+  compensating parallel base `class PortPrototype(AtpPrototype, AtpBlueprintable, ABC)`.
+- `DataPrototype` / `ModeDeclarationGroupPrototype` / `RootSwCompositionPrototype` /
+  `SwComponentPrototype`: spec base closure does **NOT** include AtpBlueprintable → losing
+  it is spec-correct; check confirms tests pass with no CollectableElement reliance.
+
+- [ ] `PortPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.2 · AtpPrototype subclass; needs `AtpBlueprintable` parallel base re-added after AtpPrototype dropped it)
+  - [ ] Step 1 — Sync members & description from spec (confirm Table 3.2 Base closure includes AtpBlueprintable)
+  - [ ] Step 2 — Write model class unit test (Red) — MRO[1]=AtpPrototype, MRO[2]=AtpBlueprintable, isinstance(AtpBlueprintable), abstract guard, concrete-subclass init
+  - [ ] Step 3 — Implement model class (Green) — `class PortPrototype(AtpPrototype, AtpBlueprintable, ABC)`; members unchanged
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite) — N/A (members unchanged; heritage note only)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A (no new own XML element)
+  - [ ] Step 6 — Update parser & writer (Green) — N/A
+  - [ ] Step 7 — Update checklist comment (heritage-fix note)
+  - [ ] Step 8 — Deviations — none (heritage-only drift; restores Table 3.2 parallel-branch base)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — re-stamp `# Spec verified: R23-11` (heritage now matches Table 3.2)
+- [ ] `DataPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 1.x · AtpPrototype subclass; confirm loss of AtpBlueprintable is spec-correct)
+  - [ ] Step 1 — Sync members & description from spec (confirm Base closure excludes AtpBlueprintable)
+  - [ ] Step 2 — Write model class unit test (Red) — MRO no longer has PackageableElement/CollectableElement via AtpPrototype; concrete-subclass init
+  - [ ] Step 3 — Implement model class (Green) — members unchanged; heritage already `DataPrototype(AtpPrototype, ABC)`
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite) — N/A
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A
+  - [ ] Step 6 — Update parser & writer (Green) — N/A
+  - [ ] Step 7 — Update checklist comment (heritage-fix note)
+  - [ ] Step 8 — Deviations — none
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — re-stamp retained
+- [ ] `ModeDeclarationGroupPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 3.19 · AtpPrototype subclass; confirm loss of AtpBlueprintable is spec-correct)
+  - [ ] Step 1 — Sync members & description from spec (confirm Base closure excludes AtpBlueprintable)
+  - [ ] Step 2 — Write model class unit test (Red) — MRO check; concrete-subclass init
+  - [ ] Step 3 — Implement model class (Green) — members unchanged
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite) — N/A
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A
+  - [ ] Step 6 — Update parser & writer (Green) — N/A
+  - [ ] Step 7 — Update checklist comment (heritage-fix note)
+  - [ ] Step 8 — Deviations — none
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — re-stamp retained
+- [ ] `RootSwCompositionPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 4.1 · AtpPrototype subclass; confirm loss of AtpBlueprintable is spec-correct)
+  - [ ] Step 1 — Sync members & description from spec (confirm Base closure excludes AtpBlueprintable)
+  - [ ] Step 2 — Write model class unit test (Red) — MRO check; concrete-subclass init
+  - [ ] Step 3 — Implement model class (Green) — members unchanged
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite) — N/A
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A
+  - [ ] Step 6 — Update parser & writer (Green) — N/A
+  - [ ] Step 7 — Update checklist comment (heritage-fix note)
+  - [ ] Step 8 — Deviations — none
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — re-stamp retained
+- [ ] `SwComponentPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 8.x · AtpPrototype subclass; confirm loss of AtpBlueprintable is spec-correct)
+  - [ ] Step 1 — Sync members & description from spec (confirm Base closure excludes AtpBlueprintable)
+  - [ ] Step 2 — Write model class unit test (Red) — MRO check; concrete-subclass init
+  - [ ] Step 3 — Implement model class (Green) — members unchanged
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite) — N/A
+  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A
+  - [ ] Step 6 — Update parser & writer (Green) — N/A
+  - [ ] Step 7 — Update checklist comment (heritage-fix note)
+  - [ ] Step 8 — Deviations — none
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — re-stamp retained
+
 - [ ] `AtpStructureElement` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 5.5)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
