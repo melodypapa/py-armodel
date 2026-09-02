@@ -324,16 +324,16 @@ ripple is audited. Per-class spec base verdict:
   `SwComponentPrototype`: spec base closure does **NOT** include AtpBlueprintable → losing
   it is spec-correct; check confirms tests pass with no CollectableElement reliance.
 
-- [ ] `PortPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.2 · AtpPrototype subclass; needs `AtpBlueprintable` parallel base re-added after AtpPrototype dropped it)
-  - [ ] Step 1 — Sync members & description from spec (confirm Table 3.2 Base closure includes AtpBlueprintable)
-  - [ ] Step 2 — Write model class unit test (Red) — MRO[1]=AtpPrototype, MRO[2]=AtpBlueprintable, isinstance(AtpBlueprintable), abstract guard, concrete-subclass init
-  - [ ] Step 3 — Implement model class (Green) — `class PortPrototype(AtpPrototype, AtpBlueprintable, ABC)`; members unchanged
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite) — N/A (members unchanged; heritage note only)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A (no new own XML element)
-  - [ ] Step 6 — Update parser & writer (Green) — N/A
-  - [ ] Step 7 — Update checklist comment (heritage-fix note)
-  - [ ] Step 8 — Deviations — none (heritage-only drift; restores Table 3.2 parallel-branch base)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — re-stamp `# Spec verified: R23-11` (heritage now matches Table 3.2)
+- [ ] `PortPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.2 · AtpPrototype subclass; needs `AtpBlueprintable` parallel base re-added after AtpPrototype dropped it) — **finished, retained `# Spec verified: R23-11`** (commit: TBD)
+  - [x] Step 1 — Sync members & description from spec (Table 3.2 Base closure = {…AtpBlueprintable, AtpFeature, AtpPrototype…} — AtpBlueprintable IN closure ⇒ compensating parallel base required; 8 annotation attrs confirmed modeled)
+  - [x] Step 2 — Write model class unit test (Red) — `TestPortPrototypeHeritage` in test_PortPrototype.py: abstract guard, MRO[1]=AtpPrototype, AtpBlueprintable in MRO + issubclass, concrete-subclass init reaches parent/short_name. 6 pass
+  - [x] Step 3 — Implement model class (Green) — `class PortPrototype(AtpPrototype, AtpBlueprintable, ABC)` already present (landed in AtpPrototype sync); MRO = PortPrototype→AtpPrototype→AtpFeature→AtpBlueprintable→PackageableElement→CollectableElement→Identifiable→…→ARObject; members unchanged
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — N/A (members unchanged; class docstring + inline comments already verbatim Table 3.2 Note; setter None-no-op sentences present)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (no new own XML element; annotation reader/writer verified live in parser/writer — CLIENT-SERVER-ANNOTATIONS / DELEGATED-PORT-ANNOTATION / SENDER-RECEIVER-ANNOTATIONS round-trip)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (dispatch unchanged; annotation round-trip already covered)
+  - [x] Step 7 — Update checklist comment — converted to 6-col `# Spec:` format (`R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.2, p.66 (R23-11)`) with `release R23-11` column added to every row
+  - [x] Step 8 — Deviations — none (heritage-only drift; restores Table 3.2 parallel-branch base so PortPrototype retains AtpBlueprintable)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: PortPrototype heritage tests (6) + SWCT model/parser suite (613) pass, ruff + black clean on changed files. PRE-EXISTING out-of-scope red (not caused by this pass): `test_ArgumentDataPrototype` (ArgumentDataPrototype→DataPrototype(AtpPrototype) loses AtpBlueprintable transitively) — expected heritage drift from the AtpPrototype sync, tracked by the `DataPrototype` drift row; left for that pass. 9b pending user confirmation → `# Spec verified: R23-11` retained
 - [ ] `DataPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 1.x · AtpPrototype subclass; confirm loss of AtpBlueprintable is spec-correct)
   - [ ] Step 1 — Sync members & description from spec (confirm Base closure excludes AtpBlueprintable)
   - [ ] Step 2 — Write model class unit test (Red) — MRO no longer has PackageableElement/CollectableElement via AtpPrototype; concrete-subclass init
