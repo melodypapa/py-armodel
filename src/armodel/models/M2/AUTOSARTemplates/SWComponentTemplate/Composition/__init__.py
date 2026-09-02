@@ -22,22 +22,22 @@ class SwComponentPrototype(AtpPrototype):
     """
 
     # SwComponentPrototype method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.11, p.77
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.11, p.77 (R23-11)
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getTypeTRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTypeTRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTypeTRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTypeTRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # Type of the instance. Stereotypes: isOfType
+        # Type of the instance.
         self.typeTRef: Optional[RefType] = None
 
     def getTypeTRef(self) -> Optional[RefType]:
         """
-        Gets the Type of the instance. Stereotypes: isOfType.
+        Type of the instance.
 
         Returns:
             RefType referencing the SwComponentType, or None if not set
@@ -46,8 +46,7 @@ class SwComponentPrototype(AtpPrototype):
 
     def setTypeTRef(self, value: Optional[RefType]) -> "SwComponentPrototype":
         """
-        Sets the Type of the instance. Stereotypes: isOfType.
-        A None value is a no-op and does not overwrite an existing reference.
+        Type of the instance. A None value is a no-op and does not overwrite an existing reference.
 
         Args:
             value: The SwComponentType reference to set
