@@ -98,16 +98,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `InnerPortGroupInCompositionInstanceRef` (tracker input · no R23-11/R4.3.1 table found → XSD-only candidate (confirm in per-class Phase 0) · — member type of `PortGroup.innerGroup`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `InnerPortGroupInCompositionInstanceRef` (tracker input · **spec CORRECTED per-class Phase 0: R23-11 markdown Table D.4 (CP_TPS_SoftwareComponentTemplate.md l.27985, PDF p.943 — appendix letter-numbered table missed by numeric-regex tooling, same as D.17 case), NOT XSD-only** · — member type of `PortGroup.innerGroup`) — Package=...Components::InstanceRefs (leaf → InstanceRefs.py ✓); Base=ARObject, AtpInstanceRef → most-derived AtpInstanceRef ✓ current; Note empty → no class docstring; Aggregated by PortGroup.innerGroup ✓. Attrs: base (CompositionSwComponentType, 0..1, ref, atpDerived → no XML) / context (ordered) (SwComponentPrototype, `*`, ref, CONTEXT-REF, DEST SW-COMPONENT-PROTOTYPE--SUBTYPES-ENUM, seqOffset 20) / target (PortGroup, 0..1, ref, TARGET-REF, DEST PORT-GROUP--SUBTYPES-ENUM, seqOffset 30); current code drops CONTEXT-REF in both reader (parser L5655 commented) and writer (writer L1770 commented)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) (commit fa935d8f)
 - [ ] `VariableInAtomicSwcInstanceRef` (tracker input · no R23-11/R4.3.1 table found → XSD-only candidate (confirm in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

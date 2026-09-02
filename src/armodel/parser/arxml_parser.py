@@ -367,7 +367,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
@@ -975,6 +975,14 @@ BINDING_TIME_XML_MAP = {
 INTERVAL_TYPE_XML_MAP = {
     "closed": "CLOSED",
     "open": "OPEN",
+}
+
+#: Mapping between AutoCollectEnum literal values and their XML element text
+#: (AR:AUTO-COLLECT-ENUM--SIMPLE).
+AUTO_COLLECT_XML_MAP = {
+    "refAll": "REF-ALL",
+    "refNone": "REF-NONE",
+    "refNonStandard": "REF-NON-STANDARD",
 }
 
 
@@ -5666,7 +5674,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readPortGroupInnerGroupIRefs(self, element: ET.Element, parent: PortGroup):
         for child_element in self.findall(element, "INNER-GROUP-IREFS/INNER-GROUP-IREF"):
             inner_group_iref = InnerPortGroupInCompositionInstanceRef()
-            # inner_group_iref.contextRef = self.getChildElementOptionalRefType(child_element, "CONTEXT-REF")
+            for context_ref in self.getChildElementRefTypeList(child_element, "CONTEXT-REF"):
+                inner_group_iref.addContextRef(context_ref)
             inner_group_iref.setTargetRef(self.getChildElementOptionalRefType(child_element, "TARGET-REF"))
             parent.addInnerGroupIRef(inner_group_iref)
 
@@ -9005,22 +9014,6 @@ class ARXMLParser(AbstractARXMLParser):
         self.readARElement(element, props)
         props.setTransitToInvalidExtended(self.getChildElementOptionalBooleanValue(element, "TRANSIT-TO-INVALID-EXTENDED"))
 
-    def readCollectionElementRefs(self, element: ET.Element, collection: Collection):
-        for ref in self.getChildElementRefTypeList(element, "ELEMENT-REFS/ELEMENT-REF"):
-            collection.addElementRef(ref)
-
-    def readCollectionSourceElementRefs(self, element: ET.Element, collection: Collection):
-        for ref in self.getChildElementRefTypeList(element, "SOURCE-ELEMENT-REFS/SOURCE-ELEMENT-REF"):
-            collection.addSourceElementRef(ref)
-
-    def readCollection(self, element: ET.Element, collection: Collection):
-        self.logger.debug("Read Collection <%s>" % collection.getShortName())
-        self.readARElement(element, collection)
-        collection.setAutoCollect(self.getChildElementOptionalLiteral(element, "AUTO-COLLECT"))
-        collection.setElementRole(self.getChildElementOptionalLiteral(element, "ELEMENT-ROLE"))
-        self.readCollectionElementRefs(element, collection)
-        self.readCollectionSourceElementRefs(element, collection)
-
     def readKeywordClassifications(self, element: ET.Element, keyword: Keyword):
         for literal in self.getChildElementLiteralValueList(element, "CLASSIFICATIONS/CLASSIFICATION"):
             keyword.addClassification(literal)
@@ -10511,11 +10504,15 @@ class ARXMLParser(AbstractARXMLParser):
         instance_ref = None
         child_element = self.find(element, key)
         if child_element is not None:
-            instance_ref = AnyInstanceRef()
-            instance_ref.setBaseRef(self.getChildElementOptionalRefType(child_element, "BASE-REF"))
-            for ref in self.getChildElementRefTypeList(child_element, "CONTEXT-ELEMENT-REF"):
-                instance_ref.addContextElementRef(ref)
-            instance_ref.setTargetRef(self.getChildElementOptionalRefType(child_element, "TARGET-REF"))
+            instance_ref = self.getAnyInstanceRefFromElement(child_element)
+        return instance_ref
+
+    def getAnyInstanceRefFromElement(self, child_element: ET.Element) -> AnyInstanceRef:
+        instance_ref = AnyInstanceRef()
+        instance_ref.setBaseRef(self.getChildElementOptionalRefType(child_element, "BASE-REF"))
+        for ref in self.getChildElementRefTypeList(child_element, "CONTEXT-ELEMENT-REF"):
+            instance_ref.addContextElementRef(ref)
+        instance_ref.setTargetRef(self.getChildElementOptionalRefType(child_element, "TARGET-REF"))
         return instance_ref
 
     def getEcucInstanceReferenceValue(self, element: ET.Element) -> EcucInstanceReferenceValue:
@@ -11174,6 +11171,9 @@ class ARXMLParser(AbstractARXMLParser):
             if tag_name == "COMPOSITION-SW-COMPONENT-TYPE":
                 type = parent.createCompositionSwComponentType(self.getShortName(child_element))
                 self.readCompositionSwComponentType(child_element, type)
+            elif tag_name == "COLLECTION":
+                collection = parent.createCollection(self.getShortName(child_element))
+                self.readCollection(child_element, collection)
             elif tag_name == "DATA-PROTOTYPE-GROUP":
                 data_group = parent.createDataPrototypeGroup(self.getShortName(child_element))
                 self.readDataPrototypeGroup(child_element, data_group)
@@ -11669,6 +11669,34 @@ class ARXMLParser(AbstractARXMLParser):
                 base.addGlobalElement(literal)
             base.setPackageRef(self.getChildElementOptionalRefType(child_element, "PACKAGE-REF"))
             parent.addReferenceBase(base)
+
+    def readCollection(self, element: ET.Element, collection: Collection) -> Collection:
+        self.logger.debug("Read Collection <%s>" % collection.getShortName())
+        self.readIdentifiable(element, collection)
+        auto_collect = self.find(element, "AUTO-COLLECT")
+        if auto_collect is not None:
+            literal = None
+            for literal_name, token in AUTO_COLLECT_XML_MAP.items():
+                if token == auto_collect.text:
+                    literal = literal_name
+                    break
+            if literal is not None:
+                collection.setAutoCollect(AutoCollectEnum().setValue(literal))
+            else:
+                self.notImplemented("Unsupported AUTO-COLLECT <%s>" % auto_collect.text)
+        collection_semantics = self.find(element, "COLLECTION-SEMANTICS")
+        if collection_semantics is not None:
+            collection.setCollectionSemantics(NameToken().setValue(collection_semantics.text))
+        collection.setElementRole(self.getChildElementOptionalIdentifier(element, "ELEMENT-ROLE"))
+        for element_ref in self.getChildElementRefTypeList(element, "ELEMENT-REFS/ELEMENT-REF"):
+            collection.addElementRef(element_ref)
+        for source_element_ref in self.getChildElementRefTypeList(element, "SOURCE-ELEMENT-REFS/SOURCE-ELEMENT-REF"):
+            collection.addSourceElementRef(source_element_ref)
+        for child_element in self.findall(element, "COLLECTED-INSTANCE-IREFS/COLLECTED-INSTANCE-IREF"):
+            collection.addCollectedInstanceIRef(self.getAnyInstanceRefFromElement(child_element))
+        for child_element in self.findall(element, "SOURCE-INSTANCE-IREFS/SOURCE-INSTANCE-IREF"):
+            collection.addSourceInstanceIRef(self.getAnyInstanceRefFromElement(child_element))
+        return collection
 
     def readARPackage(self, element: ET.Element, ar_package: ARPackage):
         self.logger.debug("Read ARPackages <%s>" % ar_package.getFullName())

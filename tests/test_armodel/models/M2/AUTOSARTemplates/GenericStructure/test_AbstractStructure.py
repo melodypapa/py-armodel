@@ -5,8 +5,9 @@ in the AUTOSAR GenericStructure module.
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpClassifier, AtpFeature, AtpInstanceRef, AtpStructureElement, AtpType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpClassifier, AtpFeature, AtpInstanceRef, AtpPrototype, AtpStructureElement, AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
@@ -340,6 +341,25 @@ class TestAtpType:
         assert obj.getShortName() == "ConcreteAtpType"
         assert obj.getParent() == ar_root
 
+    def test_inherits_from_atp_classifier(self):
+        """
+        Test that AtpType's most-derived direct base is AtpClassifier (Table 5.6).
+        """
+        assert issubclass(AtpType, AtpClassifier)
+        assert issubclass(AtpType, Identifiable)
+        assert issubclass(AtpType, ARObject)
+        mro = AtpType.__mro__
+        assert mro[0] is AtpType
+        assert mro[1] is AtpClassifier
+        assert mro[2] is Identifiable
+
+    def test_class_docstring_matches_spec_note(self):
+        """
+        Test that AtpType's class docstring is the verbatim Table 5.6 Note.
+        """
+        expected = "A type is a classifier that may serve to type prototypes. It is a reusable classifier."
+        assert AtpType.__doc__ == expected
+
 
 class TestAtpClassifier:
     """Test class for AtpClassifier functionality."""
@@ -367,3 +387,111 @@ class TestAtpClassifier:
         assert obj.getAtpFeatures() == []
         assert obj.addAtpFeature(None) is obj
         assert obj.getAtpFeatures() == []
+
+
+class TestAtpPrototype:
+    """
+    Test class for AtpPrototype functionality (Table 5.4).
+    """
+
+    @staticmethod
+    def _make_ref_type():
+        return RefType().setValue("/Type/MyType").setDest("ATP-TYPE--SUBTYPES-ENUM").setBase("")
+
+    def test_abstract_initialization(self):
+        """
+        Test that AtpPrototype cannot be instantiated directly (abstract class).
+        """
+        try:
+            parent = AUTOSAR.getInstance()
+            ar_root = parent.createARPackage("AUTOSAR")
+            _obj = AtpPrototype(ar_root, "TestAtpPrototype")
+            assert False, "AtpPrototype should not be instantiable"
+        except TypeError:
+            pass  # Expected behavior
+
+    def test_inherits_from_atp_feature(self):
+        """
+        Test that AtpPrototype's most-derived direct base is AtpFeature (Table 5.4),
+        and that it no longer carries AtpBlueprintable transitively.
+        """
+
+        class ConcreteAtpPrototype(AtpPrototype):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        assert issubclass(AtpPrototype, AtpFeature)
+        assert issubclass(AtpPrototype, Identifiable)
+        assert issubclass(AtpPrototype, ARObject)
+        mro = AtpPrototype.__mro__
+        assert mro[0] is AtpPrototype
+        assert mro[1] is AtpFeature
+        assert not issubclass(AtpPrototype, AtpBlueprintable)
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        obj = ConcreteAtpPrototype(ar_root, "ConcreteAtpPrototype")
+        assert isinstance(obj, AtpFeature)
+        assert isinstance(obj, Identifiable)
+        assert obj.getShortName() == "ConcreteAtpPrototype"
+        assert obj.getParent() is ar_root
+
+    def test_atp_type_default_is_none(self):
+        """
+        Test that atpType defaults to None (Table 5.4: atpType AtpType 1 ref).
+        """
+
+        class ConcreteAtpPrototype(AtpPrototype):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        obj = ConcreteAtpPrototype(ar_root, "ConcreteAtpPrototype")
+        assert obj.getAtpTypeRef() is None
+
+    def test_set_atp_type_round_trip(self):
+        """
+        Test setting and getting atpType (Table 5.4: atpType AtpType 1 ref).
+        """
+        ref = self._make_ref_type()
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteAtpPrototype(AtpPrototype):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteAtpPrototype(ar_root, "ConcreteAtpPrototype")
+        assert obj.setAtpTypeRef(ref) is obj
+        assert obj.getAtpTypeRef() is ref
+        assert obj.getAtpTypeRef().getValue() == "/Type/MyType"
+
+    def test_set_atp_type_none_is_noop(self):
+        """
+        Test that setAtpTypeRef(None) is a no-op and does not overwrite an existing value.
+        """
+        ref = self._make_ref_type()
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteAtpPrototype(AtpPrototype):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteAtpPrototype(ar_root, "ConcreteAtpPrototype")
+        obj.setAtpTypeRef(ref)
+        obj.setAtpTypeRef(None)
+        assert obj.getAtpTypeRef() is ref
+
+    def test_class_docstring_matches_spec_note(self):
+        """
+        Test that AtpPrototype's class docstring is the verbatim Table 5.4 Note.
+        """
+        expected = (
+            "A prototype is a typed feature. A prototype in a classifier indicates that "
+            "instances of that classifier will have a feature, and the structure of that "
+            "feature is given by the its type. An instance of that type will play the role "
+            "indicated by the feature in the owning classifier. A feature is not an instance "
+            "but an indication of an instance-to-be."
+        )
+        assert AtpPrototype.__doc__ == expected

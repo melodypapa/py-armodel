@@ -3,6 +3,7 @@ from __future__ import annotations
 from abc import ABC
 from typing import List, Optional, TYPE_CHECKING
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement, AtpType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.NvBlockComponent import BulkNvDataDescriptor, NvBlockDescriptor
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import (
@@ -336,31 +337,32 @@ class SymbolProps(ImplementationProps):
         super().__init__(parent, short_name)
 
 
-class PortPrototype(AtpPrototype, ABC):
+class PortPrototype(AtpPrototype, AtpBlueprintable, ABC):
     """
     Base class for the ports of an AUTOSAR software component. The aggregation of PortPrototypes is subject to variability with the purpose to support the conditional existence of ports.
     """
 
     # PortPrototype method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.2, p.66
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.2, p.66 (R23-11)
     # Spec verified: R23-11
-    # [x] __init__                         [x] impl  [x] docstring  [x] test
-    # [x] addClientServerAnnotation       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getClientServerAnnotations      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setDelegatedPortAnnotation      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getDelegatedPortAnnotation      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addIoHwAbstractionServerAnnotation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getIoHwAbstractionServerAnnotations [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addModePortAnnotation           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getModePortAnnotations          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addNvDataPortAnnotation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getNvDataPortAnnotations        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addParameterPortAnnotation      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getParameterPortAnnotations     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addSenderReceiverAnnotation     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSenderReceiverAnnotations    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addTriggerPortAnnotation        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTriggerPortAnnotations       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addClientServerAnnotation       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClientServerAnnotations      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDelegatedPortAnnotation      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDelegatedPortAnnotation      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addIoHwAbstractionServerAnnotation [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIoHwAbstractionServerAnnotations [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addModePortAnnotation           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModePortAnnotations          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addNvDataPortAnnotation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNvDataPortAnnotations        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addParameterPortAnnotation      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParameterPortAnnotations     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSenderReceiverAnnotation     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSenderReceiverAnnotations    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTriggerPortAnnotation        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTriggerPortAnnotations       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is PortPrototype:

@@ -10,6 +10,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
     ModeRequestTypeMap,
     ModeTransition,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpBlueprintable, AtpPrototype
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TRefType
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
 
@@ -533,6 +536,47 @@ class TestModeDeclarationGroupPrototype:
         result = mode_group_proto.setTypeTRef(None)
         assert result is mode_group_proto  # Method chaining
         assert mode_group_proto.getTypeTRef() == test_value
+
+
+class TestModeDeclarationGroupPrototypeHeritage:
+    def test_direct_base_is_atp_prototype(self):
+        """ModeDeclarationGroupPrototype's direct base must be AtpPrototype (AtpPrototype re-parented AtpBlueprintable -> AtpFeature)."""
+        assert ModeDeclarationGroupPrototype.__bases__[0] is AtpPrototype
+
+    def test_atp_blueprintable_excluded_from_mro(self):
+        """Spec Base closure (BSW Table 4.9) excludes AtpBlueprintable; losing it via the AtpPrototype re-parent is spec-correct."""
+        assert AtpBlueprintable not in ModeDeclarationGroupPrototype.__mro__
+
+    def test_mro_matches_spec_base_closure(self):
+        """MRO must equal the spec Base closure: ARObject, AtpFeature, AtpPrototype, Identifiable, MultilanguageReferrable, Referrable."""
+        mro = [c.__name__ for c in ModeDeclarationGroupPrototype.__mro__]
+        assert mro == [
+            "ModeDeclarationGroupPrototype",
+            "AtpPrototype",
+            "AtpFeature",
+            "Identifiable",
+            "MultilanguageReferrable",
+            "Referrable",
+            "ARObject",
+            "ABC",
+            "object",
+        ]
+
+    def test_is_subclass_identifiable_and_arobject(self):
+        assert issubclass(ModeDeclarationGroupPrototype, Identifiable)
+        assert issubclass(ModeDeclarationGroupPrototype, ARObject)
+
+    def test_concrete_subclass_reaches_parent_and_short_name(self):
+        """A concrete subclass constructed with (parent, short_name) must resolve parent/shortName through the AtpPrototype chain."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteModeGroupProto(ModeDeclarationGroupPrototype):
+            pass
+
+        proto = ConcreteModeGroupProto(ar_root, "ConcreteModeGroupProto")
+        assert proto.getShortName() == "ConcreteModeGroupProto"
+        assert proto.parent is ar_root
 
 
 class TestModeErrorReactionPolicyEnum:

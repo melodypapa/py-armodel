@@ -459,14 +459,21 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
     """
 
     # ModeDeclarationGroupPrototype method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.17, p.113
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 4.9, p.42 (R23-11)
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getSwCalibrationAccess   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwCalibrationAccess   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTypeTRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setTypeTRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwCalibrationAccess  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwCalibrationAccess  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTypeTRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTypeTRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Heritage drift (2026-09-02, AtpPrototype re-parent AtpBlueprintable -> AtpFeature):
+    # ModeDeclarationGroupPrototype's spec Base closure (BSW Table 4.9) is ARObject, AtpFeature,
+    # AtpPrototype, Identifiable, MultilanguageReferrable, Referrable -- AtpBlueprintable is NOT in
+    # the closure, so losing it transitively via the AtpPrototype re-parent is spec-correct (no
+    # CollectableElement reliance). Reader/writer cover swCalibrationAccess (SW-CALIBRATION-ACCESS)
+    # and type (TYPE-TREF) via the shared readModeDeclarationGroupPrototype/writeModeDeclarationGroupPrototype.
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -474,13 +481,11 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
         # This allows for specifying whether or not the enclosing ModeDeclarationGroupPrototype can be measured at run-time.
         self.swCalibrationAccess: Optional[SwCalibrationAccessEnum] = None
 
-        # The "collection of ModeDeclarations" ( = ModeDeclarationGroup) supported by a component Stereotypes: isOfType
+        # The "collection of ModeDeclarations" ( = ModeDeclarationGroup) supported by a component
         self.typeTRef: Optional[TRefType] = None
 
     def getSwCalibrationAccess(self) -> Optional["SwCalibrationAccessEnum"]:
         """
-        Gets whether or not the enclosing ModeDeclarationGroupPrototype can be measured at run-time.
-
         This allows for specifying whether or not the enclosing ModeDeclarationGroupPrototype can be measured at run-time.
 
         Returns:
@@ -490,10 +495,7 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
 
     def setSwCalibrationAccess(self, value: Optional["SwCalibrationAccessEnum"]) -> "ModeDeclarationGroupPrototype":
         """
-        Sets whether or not the enclosing ModeDeclarationGroupPrototype can be measured at run-time.
-        A None value is a no-op and does not overwrite an existing calibration access.
-
-        This allows for specifying whether or not the enclosing ModeDeclarationGroupPrototype can be measured at run-time.
+        This allows for specifying whether or not the enclosing ModeDeclarationGroupPrototype can be measured at run-time. A None value is a no-op and does not overwrite an existing calibration access.
 
         Args:
             value: The SwCalibrationAccessEnum to set
@@ -507,9 +509,7 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
 
     def getTypeTRef(self) -> Optional[TRefType]:
         """
-        Gets the "collection of ModeDeclarations" ( = ModeDeclarationGroup) supported by a component.
-
-        The "collection of ModeDeclarations" ( = ModeDeclarationGroup) supported by a component Stereotypes: isOfType
+        The "collection of ModeDeclarations" ( = ModeDeclarationGroup) supported by a component.
 
         Returns:
             TRefType referencing the ModeDeclarationGroup, or None if not set
@@ -518,10 +518,7 @@ class ModeDeclarationGroupPrototype(AtpPrototype):
 
     def setTypeTRef(self, value: Optional[TRefType]) -> "ModeDeclarationGroupPrototype":
         """
-        Sets the "collection of ModeDeclarations" ( = ModeDeclarationGroup) supported by a component.
-        A None value is a no-op and does not overwrite an existing type reference.
-
-        The "collection of ModeDeclarations" ( = ModeDeclarationGroup) supported by a component Stereotypes: isOfType
+        The "collection of ModeDeclarations" ( = ModeDeclarationGroup) supported by a component. A None value is a no-op and does not overwrite an existing typeTRef.
 
         Args:
             value: The ModeDeclarationGroup type reference to set

@@ -29,7 +29,13 @@ from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 
 
 class TestFileInfoComment:
-    """Test cases for the FileInfoComment class."""
+    """Test cases for the FileInfoComment class (R23-11, AUTOSAR_FO_TPS_GenericStructureTemplate, Table 2.1)."""
+
+    def test_file_info_comment_class_docstring_verbatim(self):
+        """The class docstring must equal the spec Note (Table 2.1) verbatim."""
+        expected = "This class supports StructuredComment to provide auxiliary information with the goal to create a comment."
+        assert FileInfoComment.__doc__ is not None
+        assert FileInfoComment.__doc__.strip() == expected
 
     def test_file_info_comment_initialization(self):
         """Test that FileInfoComment initializes with an empty sdgs list."""
@@ -44,11 +50,35 @@ class TestFileInfoComment:
         assert comment.getSdgs() == [sdg]
 
     def test_set_sdgs(self):
-        """Test the setSdgs method."""
+        """Test the setSdgs method returns self for chaining."""
         comment = FileInfoComment()
         sdg = Sdg()
         result = comment.setSdgs([sdg])
         assert comment.sdgs == [sdg]
+        assert result == comment
+
+    def test_set_sdgs_none_is_noop(self):
+        """A None value to setSdgs must not overwrite an existing sdgs list."""
+        comment = FileInfoComment()
+        sdg = Sdg()
+        comment.setSdgs([sdg])
+        result = comment.setSdgs(None)
+        assert comment.sdgs == [sdg]
+        assert result == comment
+
+    def test_add_sdg(self):
+        """Test the addSdg method appends and returns self for chaining."""
+        comment = FileInfoComment()
+        sdg = Sdg()
+        result = comment.addSdg(sdg)
+        assert comment.sdgs == [sdg]
+        assert result == comment
+
+    def test_add_sdg_none_is_noop(self):
+        """A None value to addSdg must not append."""
+        comment = FileInfoComment()
+        result = comment.addSdg(None)
+        assert comment.sdgs == []
         assert result == comment
 
 

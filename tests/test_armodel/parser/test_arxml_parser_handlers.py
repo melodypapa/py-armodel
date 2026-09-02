@@ -1618,7 +1618,7 @@ class TestKeywordAndCollectionHandlers:
         coll = Collection(parent=_autosar_root(), short_name="coll")
         element = _snip(
             "<SHORT-NAME>coll</SHORT-NAME>"
-            "<AUTO-COLLECT>auto</AUTO-COLLECT>"
+            "<AUTO-COLLECT>REF-ALL</AUTO-COLLECT>"
             "<ELEMENT-ROLE>role1</ELEMENT-ROLE>"
             "<ELEMENT-REFS>"
             "<ELEMENT-REF DEST='ELEMENT'>/e1</ELEMENT-REF>"
@@ -1630,7 +1630,7 @@ class TestKeywordAndCollectionHandlers:
             root_tag="COLLECTION",
         )
         parser.readCollection(element, coll)
-        assert coll.getAutoCollect().getValue() == "auto"
+        assert coll.getAutoCollect().getValue() == "refAll"
         assert coll.getElementRole().getValue() == "role1"
         assert len(coll.getElementRefs()) == 2
         assert coll.getElementRefs()[0].getValue() == "/e1"

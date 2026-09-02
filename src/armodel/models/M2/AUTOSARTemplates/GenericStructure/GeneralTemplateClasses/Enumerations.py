@@ -4,23 +4,7 @@ in the GenericStructure module. These enumerations are used to specify
 various configuration and behavior options throughout the AUTOSAR model.
 """
 
-from enum import Enum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
-
-
-class AutoCollectEnum(Enum):
-    """
-    Enumeration for auto-collect settings in AUTOSAR collections.
-    This enum defines the different auto-collection behaviors that can
-    be applied to collections.
-    """
-
-    # AutoCollectEnum method parity checklist:
-    # (no methods)
-
-    AUTO_COLLECT_OFF = "OFF"
-    AUTO_COLLECT_ON = "ON"
-    AUTO_COLLECT_AUTO = "AUTO"
 
 
 class BindingTimeEnum(AREnum):

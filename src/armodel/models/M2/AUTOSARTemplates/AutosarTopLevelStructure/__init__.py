@@ -28,28 +28,42 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswInterfaces import B
 
 class FileInfoComment(ARObject):
     """
-    File information comment with special data groups for ARXML file
-    metadata.
+    This class supports StructuredComment to provide auxiliary information with the goal to create a comment.
     """
 
     # FileInfoComment method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSdgs                      [x] impl  [ ] docstring  [x] test
-    # [ ] setSdgs                      [x] impl  [ ] docstring  [x] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 2.1, p.29 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSdgs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSdgs      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSdg       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # This property allows to keep special data which is not represented by the standard model. It can be utilized to keep e.g. tool specific data.
         self.sdgs: List[Sdg] = []
 
-    def getSdgs(self):
+    def getSdgs(self) -> List[Sdg]:
+        """
+        This property allows to keep special data which is not represented by the standard model. It can be utilized to keep e.g. tool specific data.
+        """
         return self.sdgs
 
-    def setSdgs(self, value):
-        self.sdgs = value
+    def setSdgs(self, value: Optional[List[Sdg]]) -> "FileInfoComment":
+        """
+        This property allows to keep special data which is not represented by the standard model. It can be utilized to keep e.g. tool specific data. A None value is a no-op and does not overwrite an existing sdgs.
+        """
+        if value is not None:
+            self.sdgs = value
         return self
 
-    def addSdg(self, value):
+    def addSdg(self, value: Optional[Sdg]) -> "FileInfoComment":
+        """
+        This property allows to keep special data which is not represented by the standard model. It can be utilized to keep e.g. tool specific data. A None value is a no-op and is not appended.
+        """
         if value is not None:
             self.sdgs.append(value)
         return self

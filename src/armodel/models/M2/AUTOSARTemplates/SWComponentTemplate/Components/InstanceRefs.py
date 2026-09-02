@@ -6,7 +6,7 @@ and data elements in instance contexts.
 """
 
 from abc import ABC
-from typing import Optional
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
@@ -431,46 +431,58 @@ class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):
 
 
 class InnerPortGroupInCompositionInstanceRef(AtpInstanceRef):
-    """
-    Instance reference to a port group within a composition software
-    component type.
-    """
-
     # InnerPortGroupInCompositionInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBaseRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setBaseRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] getContextRefs               [x] impl  [ ] docstring  [ ] test
-    # [ ] addContextRefs               [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetRef                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetRef                 [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.4, p.943 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBaseRef      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextRefs  [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addContextRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getTargetRef    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setTargetRef    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.baseRef: RefType = None
-        self.contextRefs = []
-        self.targetRef: RefType = None
+        # Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        self.baseRef: Optional[RefType] = None
 
-    def getBaseRef(self):
+        # Tags: xml.sequenceOffset=20
+        self.contextRefs: List[RefType] = []
+
+        # Links a PortGroup in a composition to another PortGroup, that is defined in a component which is part of this CompositionSwComponentType. There shall be at most one innerGroup per contained SwComponentPrototype. Tags: xml.sequenceOffset=30
+        self.targetRef: Optional[RefType] = None
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """Stereotypes: atpDerived Tags: xml.sequenceOffset=10"""
         return self.baseRef
 
-    def setBaseRef(self, value):
-        self.baseRef = value
+    def setBaseRef(self, value: Optional[RefType]) -> "InnerPortGroupInCompositionInstanceRef":
+        """Stereotypes: atpDerived Tags: xml.sequenceOffset=10 Only sets the value if it is not None, and returns self for method chaining."""
+        if value is not None:
+            self.baseRef = value
         return self
 
-    def getContextRefs(self):
+    def getContextRefs(self) -> List[RefType]:
+        """Tags: xml.sequenceOffset=20"""
         return self.contextRefs
 
-    def addContextRefs(self, value):
-        self.contextRefs.append(value)
+    def addContextRef(self, value: Optional[RefType]) -> "InnerPortGroupInCompositionInstanceRef":
+        """Tags: xml.sequenceOffset=20 Only adds the value if it is not None, and returns self for method chaining."""
+        if value is not None:
+            self.contextRefs.append(value)
         return self
 
-    def getTargetRef(self):
+    def getTargetRef(self) -> Optional[RefType]:
+        """Links a PortGroup in a composition to another PortGroup, that is defined in a component which is part of this CompositionSwComponentType. There shall be at most one innerGroup per contained SwComponentPrototype. Tags: xml.sequenceOffset=30"""
         return self.targetRef
 
-    def setTargetRef(self, value):
-        self.targetRef = value
+    def setTargetRef(self, value: Optional[RefType]) -> "InnerPortGroupInCompositionInstanceRef":
+        """Links a PortGroup in a composition to another PortGroup, that is defined in a component which is part of this CompositionSwComponentType. There shall be at most one innerGroup per contained SwComponentPrototype. Tags: xml.sequenceOffset=30 Only sets the value if it is not None, and returns self for method chaining."""
+        if value is not None:
+            self.targetRef = value
         return self
 
 

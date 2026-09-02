@@ -402,14 +402,14 @@ class RootSwCompositionPrototype(AtpPrototype):
     # RootSwCompositionPrototype method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 4.1, p.186
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCalibrationParameterValueSetRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addCalibrationParameterValueSetRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getFlatMapRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFlatMapRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSoftwareCompositionTRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSoftwareCompositionTRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCalibrationParameterValueSetRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addCalibrationParameterValueSetRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFlatMapRef                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFlatMapRef                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSoftwareCompositionTRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSoftwareCompositionTRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
