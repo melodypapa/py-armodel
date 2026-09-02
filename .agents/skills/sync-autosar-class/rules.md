@@ -1585,3 +1585,68 @@ to apply, the presence of a spec table in a verified corpus decides: Rule 0019 w
   lives there (class has a target table — 16.3 does not apply).
 - Omitting the older corpus's `# Spec:` line, or stamping `# Spec verified: R4.3.1`
   on a class whose table is the target corpus.
+
+## Rule 0020 — Variation point capability (VariationPointCapable mixin) *(added after the RootSwCompositionPrototype/Identifiable research, 2026-09-03)*
+
+AUTOSAR attaches a structural `VARIATION-POINT` aggregation to individual meta-classes
+via the `atpVariation` stereotype + the Variant Handling patterns
+(`AUTOSAR_FO_TPS_GenericStructureTemplate.md` §7.2 aggregation pattern, §7.3 association
+pattern; [TPS_GST_00195], [TPS_GST_00200], constr_2638). It is **not** part of the
+`IDENTIFIABLE` group — the XSD declares `VARIATION-POINT` individually on **337 anchor
+classes** (`AUTOSAR_00052.xsd`, R23-11), and concrete subclasses inherit the slot
+through the base-class `xsd:group ref`. When syncing a class (Step 1), determine
+whether it is VP-capable and model it by inheriting the `VariationPointCapable` mixin
+(`GenericStructure/GeneralTemplateClasses/VariationPointCapable.py` — field +
+get/setVariationPoint; **never** declare a per-class field).
+
+**The markdown/PDF indicator (the trigger)** — an **attribute row with `Kind = aggr`**
+whose `Note` carries `Stereotypes: … atpVariation` (Tags `<role>.variationPoint.shortLabel`,
+optional `vh.latestBindingTime=`, optional leading `atpVariation: <explanation>.`).
+The row's **Type** class (the PartClass) gains VP capability, **and so do all its
+subclasses**. Measured correlation against the 337 XSD anchors: 842/861 aggr rows
+direct, remainder via ancestor anchors or acronym-cased name fixes (verified
+empirically 2026-09-03). Examples:
+`System.rootSoftwareComposition` → `RootSwCompositionPrototype`;
+`SwComponentType.port` → `PortPrototype` **and** P/R/PR-PortPrototype;
+`ARPackage.element` → `ARPackage`.
+The PartClass's own table `Note` usually echoes a `… is subject to variability …`
+sentence (PortPrototype Table 3.2) — a readable consequence, **not** the trigger; a
+subclass table without it does **not** mean no capability (`PRPortPrototype` Table 3.7
+has no marker yet is capable via `PortPrototype`).
+
+**NOT indicators — do not use these to grant capability:**
+
+| Markdown shape | Meaning |
+|---|---|
+| `Kind = ref` row with `atpVariation` | Association pattern §7.3: capability lands on the generated `<Role>RefConditional` wrapper class (e.g. `APPLICATION-ENDPOINT-REF-CONDITIONAL`), **not** the referenced Type |
+| `Kind = attr` row with `atpVariation` | Attribute-value variation (`AttributeValueVariationPoint` on the property); no class capability |
+| Class-row stereotype `<<atpVariation>>` | The class itself may exist variantly; not a VP-aggregation indicator (only 1 of 32 such classes is an XSD anchor) |
+| `atpSplitable` alone / Tags with `atp.Splitkey=<x>.shortName` but **no** `variationPoint.shortLabel` | Splitability only, no VP |
+
+**XSD verification (authoritative, cf. Rule 0015):** a class is VP-capable iff its
+`<xsd:complexType name="<CLASS-UPPER-KEBAB">` or `<xsd:group name="…">` block contains
+`<xsd:element name="VARIATION-POINT">` — directly, or in an ancestor class's group that
+the complexType refs. The element's annotation records the provenance and is the
+ground-truth cross-check:
+
+```
+<xsd:element maxOccurs="1" minOccurs="0" name="VARIATION-POINT" type="AR:VARIATION-POINT">
+   <xsd:documentation>This element was generated/modified due to an atpVariation stereotype.
+Applicable for: SwComponentType.port</xsd:documentation>
+   <xsd:appinfo source="tags">mmt.qualifiedName="PortPrototype.variationPoint";…;xml.sequenceOffset="10000"</xsd:appinfo>
+```
+
+`Applicable for: <WholeClass>.<role>` names the atpVariation aggregation that created
+it; `xml.sequenceOffset="10000"` keeps VARIATION-POINT the **last** element
+(constr_2599 for `atpMixed` classes — e.g. `StructuredReq` writes it after all
+Traceable content). The full anchor list is extracted with
+`scripts/extract_vp_anchors.py` → `docs/plans/vp_anchors.txt`; the
+`VariationPointCapable` refactor plan is `docs/plans/2026-09-03-variation-point-capable-mixin.md`.
+
+**Sync workflow consequence:** a class that is VP-capable per markdown + XSD adds
+`VariationPointCapable` to its bases (before `ABC`); its checklist carries no
+variationPoint rows (they live on the mixin); a class that is **not** capable must not
+accept VARIATION-POINT in reader/writer (parser warns, writer skips — same gating as
+`readIdentifiable`/`writeIdentifiable`). An old `Identifiable.variationPoint`
+reference in a stamped class's checklist comments means "inherited capability" and
+should be updated to reference the mixin.

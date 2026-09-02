@@ -47,7 +47,7 @@ document = AUTOSAR.getInstance()
 document.setARRelease('R23-11')
 ```
 
-Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0019*); this skill is
+Detailed rules live in **`rules.md`** (*Rule 0001*–*Rule 0020*); this skill is
 self-contained (no external rules document). Each step below points into `rules.md` for
 the detail — do not re-derive it here.
 
@@ -457,7 +457,7 @@ detail: *Rule 0002*.
 
 ## References
 
-- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0019*.
+- **Rules (self-contained):** `rules.md` in this skill folder — *Rule 0001*–*Rule 0020*.
 - Coding standards: `docs/development/coding_rules.md`.
 - Spec markdown (primary — source of all text: `Note`, `Table N.M` id, table name): `autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` (`CP_TPS` + `FO_TPS`); R4.3.1 corpus: `autosar/R4.3.1/markdown/` (pre-split naming — no platform prefix; `TPS`/`RS`/`TR`).
 - Spec PDFs (opened only for the `p.NN` page number): `autosar/R23-11/pdf/AUTOSAR_*_TPS_*.pdf`; R4.3.1: `autosar/R4.3.1/pdf/`.
