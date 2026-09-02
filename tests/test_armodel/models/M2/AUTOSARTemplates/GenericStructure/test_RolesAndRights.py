@@ -1,20 +1,31 @@
 """
-This module contains comprehensive tests for the AtpDefinition.py file
-in the AUTOSAR GenericStructure module.
+This module contains tests for the AtpDefinition model class
+(src/armodel/models/M2/AUTOSARTemplates/GenericStructure/RolesAndRights.py),
+synced from AUTOSAR_FO_TPS_GenericStructureTemplate Table 11.3 (R23-11, p.383).
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+    Referrable,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import AtpDefinition
 
 
 class TestAtpDefinition:
     """
-    Test class for AtpDefinition functionality.
+    Test class for the AtpDefinition abstract shell (Table 11.3).
     """
+
+    SPEC_NOTE = (
+        'This abstract meta class represents "definition"-elements which identify '
+        "the respective values. For example the value of a particular system "
+        "constant is identified by the definition of this system constant."
+    )
 
     def test_abstract_initialization(self):
         """
-        Test that AtpDefinition cannot be instantiated directly (abstract class).
+        AtpDefinition cannot be instantiated directly (abstract class).
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
@@ -24,10 +35,26 @@ class TestAtpDefinition:
         except TypeError as e:
             assert "abstract class" in str(e).lower()
 
-    def test_atp_definition_concrete_implementation(self):
+    def test_direct_base_is_referrable(self):
         """
-        Test that a concrete implementation of AtpDefinition works correctly.
-        This test covers the super().__init__(parent, short_name) call in AtpDefinition.
+        Spec Table 11.3 Base closure = {ARObject, Referrable}; the most-derived
+        direct base must be Referrable (not Identifiable, which is absent from the
+        closure).
+        """
+        assert AtpDefinition.__bases__[0] is Referrable
+        assert issubclass(AtpDefinition, Referrable)
+
+    def test_not_identifiable(self):
+        """
+        Identifiable is NOT in the Table 11.3 Base closure, so AtpDefinition must
+        not inherit it. (Subclasses that need uuid reach Identifiable through their
+        own base, e.g. HwCategory via PackageableElement.)
+        """
+        assert Identifiable not in AtpDefinition.__mro__
+
+    def test_concrete_subclass_initialization(self):
+        """
+        A concrete subclass reaches parent/short_name through the Referrable chain.
         """
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
@@ -41,86 +68,8 @@ class TestAtpDefinition:
         assert obj.getShortName() == "ConcreteAtpDefinition"
         assert obj.getParent() == ar_root
 
-    def test_atp_definition_inherits_from_referrable(self):
+    def test_class_docstring_matches_spec_note(self):
         """
-        Test that AtpDefinition properly inherits from Referrable.
+        The class docstring must equal the verbatim Table 11.3 Note.
         """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-
-        class ConcreteAtpDefinition(AtpDefinition):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        obj = ConcreteAtpDefinition(ar_root, "TestDefinition")
-        assert isinstance(obj, Referrable)
-        assert isinstance(obj, AtpDefinition)
-
-    def test_atp_definition_short_name_property(self):
-        """
-        Test that shortName property works correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-
-        class ConcreteAtpDefinition(AtpDefinition):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        obj = ConcreteAtpDefinition(ar_root, "TestDefinition")
-        assert obj.shortName == "TestDefinition"
-
-        obj.shortName = "NewDefinitionName"
-        assert obj.shortName == "NewDefinitionName"
-        assert obj.getShortName() == "NewDefinitionName"
-
-    def test_atp_definition_parent_reference(self):
-        """
-        Test that parent reference is properly set.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-
-        class ConcreteAtpDefinition(AtpDefinition):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        obj = ConcreteAtpDefinition(ar_root, "TestDefinition")
-        assert obj.getParent() == ar_root
-
-    def test_atp_definition_full_name(self):
-        """
-        Test that full_name property works correctly.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-
-        class ConcreteAtpDefinition(AtpDefinition):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        obj = ConcreteAtpDefinition(ar_root, "TestDefinition")
-        # The full name should be parent's full name + / + short name
-        assert obj.full_name == "/AUTOSAR/TestDefinition"
-        assert obj.getFullName() == "/AUTOSAR/TestDefinition"
-
-    def test_multiple_atp_definition_instances(self):
-        """
-        Test that multiple AtpDefinition instances can be created.
-        """
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-
-        class ConcreteAtpDefinition(AtpDefinition):
-            def __init__(self, parent, short_name):
-                super().__init__(parent, short_name)
-
-        obj1 = ConcreteAtpDefinition(ar_root, "Definition1")
-        obj2 = ConcreteAtpDefinition(ar_root, "Definition2")
-
-        assert obj1.getShortName() == "Definition1"
-        assert obj2.getShortName() == "Definition2"
-        assert obj1.getParent() == ar_root
-        assert obj2.getParent() == ar_root
+        assert AtpDefinition.__doc__ == self.SPEC_NOTE
