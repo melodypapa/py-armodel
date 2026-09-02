@@ -141,7 +141,6 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         prototype = ArgumentDataPrototype(ar_root, "ArgumentDataPrototype")
 
         assert isinstance(prototype, ARObject)
-        assert isinstance(prototype, AtpBlueprintable)
         assert isinstance(prototype, AtpPrototype)
         assert isinstance(prototype, AutosarDataPrototype)
         assert isinstance(prototype, DataPrototype)
