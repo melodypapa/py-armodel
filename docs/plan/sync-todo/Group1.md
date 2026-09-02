@@ -250,16 +250,16 @@ in the work order below can run, so they precede the `Identifiable` row.
   - [x] Step 7 — Update checklist comment: AbstractAUTOSAR/AUTOSAR/AUTOSARDoc converted to 6-column `# Spec:` format (Table E.1, p.421, R23-11).
   - [x] Step 8 — Deviations: deviation tracker `## AUTOSAR` rewritten — wrong source PDF (BSWModuleDescriptionTemplate) replaced with R23-11 Table E.1; adminData/arPackage/fileInfoComment/introduction now `none` (modeled + reader/writer); heritage `Base` CollectableElement→ARObject corrected; framework helper API beyond the 4 Table E.1 attributes documented as retained (accepted).
   - [x] Step 9 — Verify (9a) + confirm (9b): 9a — 8391 tests pass (8390 unit + 1 integration round-trip), ruff + black clean. 9b — user confirmed 2026-09-02; stamped `# Spec verified: R23-11` in AbstractAUTOSAR/AUTOSAR/AUTOSARDoc checklists; `## AUTOSAR` deviation section dropped (verified → skipped by tracker).
-- [ ] `FileInfoComment` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 2.1)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `FileInfoComment` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 2.1)
+  - [x] Step 1 — Sync members & description from spec: single aggregation `sdgs` (List[Sdg], 0..*); class already matched Table 2.1 (drift pass).
+  - [x] Step 2 — Write model class unit test (Red→Green): verbsatim class-docstring check + None-no-op/add/chaining coverage (test_AutosarTopLevelStructure.py::TestFileInfoComment).
+  - [x] Step 3 — Implement model class (Green): setSdgs None-guard correctness fix (no-op on None, returns self for chaining).
+  - [x] Step 4 — Sync docstrings (wipe + rewrite): verbatim Table 2.1 Note on class docstring + get/setSdgs/addSdg; 6-col `# Spec:` checklist (p.29, R23-11).
+  - [x] Step 5 — Write reader/writer round-trip test (Red→Green): tests/test_armodel/parser/test_file_info_comment.py (multiple SDGs with GID+caption; empty-wrapper emits no SDGS).
+  - [x] Step 6 — Update parser & writer (Green): N/A — getFileInfoComment/setFileInfoComment + getSdg/setSdg + SDGS wrapper already round-trip sdgs fully.
+  - [x] Step 7 — Update checklist comment: FileInfoComment converted to 6-column `# Spec:` format (Table 2.1, p.29, R23-11).
+  - [x] Step 8 — Deviations: none; member type Sdg already `# Spec verified: R23-11` (Table 4.19, p.90).
+  - [x] Step 9 — Verify (9a) + confirm (9b): 9a — 8396 unit + 3 integration round-trip pass, ruff + black clean. 9b — user confirmed 2026-09-02; stamped `# Spec verified: R23-11` (commit c62e1c89).
 - [ ] `Collection` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 13.1)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
