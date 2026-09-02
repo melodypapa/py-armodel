@@ -11457,16 +11457,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     auto_collect_element.text = token
             self.setChildElementOptionalLiteral(child_element, "COLLECTION-SEMANTICS", collection.getCollectionSemantics())
             self.setChildElementOptionalIdentifier(child_element, "ELEMENT-ROLE", collection.getElementRole())
-            element_refs = collection.getElementRefs()
-            if len(element_refs) > 0:
-                refs_tag = ET.SubElement(child_element, "ELEMENT-REFS")
-                for ref in element_refs:
-                    self.setChildElementOptionalRefType(refs_tag, "ELEMENT-REF", ref)
-            source_element_refs = collection.getSourceElementRefs()
-            if len(source_element_refs) > 0:
-                refs_tag = ET.SubElement(child_element, "SOURCE-ELEMENT-REFS")
-                for ref in source_element_refs:
-                    self.setChildElementOptionalRefType(refs_tag, "SOURCE-ELEMENT-REF", ref)
+            self.writeCollectionElementRefs(child_element, collection)
+            self.writeCollectionSourceElementRefs(child_element, collection)
             collected_instance_irefs = collection.getCollectedInstanceIRefs()
             if len(collected_instance_irefs) > 0:
                 irefs_tag = ET.SubElement(child_element, "COLLECTED-INSTANCE-IREFS")
@@ -11477,7 +11469,21 @@ class ARXMLWriter(AbstractARXMLWriter):
                 irefs_tag = ET.SubElement(child_element, "SOURCE-INSTANCE-IREFS")
                 for instance_ref in source_instance_irefs:
                     self.setAnyInstanceRef(irefs_tag, "SOURCE-INSTANCE-IREF", instance_ref)
-        return child_element
+            return child_element
+
+    def writeCollectionElementRefs(self, element: ET.Element, collection: Collection):
+        refs = collection.getElementRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "ELEMENT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "ELEMENT-REF", ref)
+
+    def writeCollectionSourceElementRefs(self, element: ET.Element, collection: Collection):
+        refs = collection.getSourceElementRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "SOURCE-ELEMENT-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "SOURCE-ELEMENT-REF", ref)
 
     def writeMcFunction(self, element: ET.Element, func: McFunction):
         if func is not None:

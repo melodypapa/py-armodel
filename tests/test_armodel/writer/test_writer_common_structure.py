@@ -13,6 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
     KeywordSet,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (  # noqa: E501
+    AutoCollectEnum,
     Collection,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (  # noqa: E501
@@ -861,8 +862,8 @@ class TestWriteCollection:
     def test_full_collection(self, writer):
         parent = _parent()
         coll = Collection(_autosar(), "Coll")
-        ac = ARLiteral()
-        ac.setValue("AUTO")
+        ac = AutoCollectEnum()
+        ac.setValue("refAll")
         coll.setAutoCollect(ac)
         role = ARLiteral()
         role.setValue("ROLE")
@@ -876,7 +877,7 @@ class TestWriteCollection:
         writer.writeCollection(parent, coll)
         assert parent[0].tag == "COLLECTION"
         assert parent[0].find("SHORT-NAME").text == "Coll"
-        assert parent[0].find("AUTO-COLLECT").text == "AUTO"
+        assert parent[0].find("AUTO-COLLECT").text == "REF-ALL"
         assert parent[0].find("ELEMENT-ROLE").text == "ROLE"
         assert parent[0].find("ELEMENT-REFS") is not None
         assert parent[0].find("SOURCE-ELEMENT-REFS") is not None
