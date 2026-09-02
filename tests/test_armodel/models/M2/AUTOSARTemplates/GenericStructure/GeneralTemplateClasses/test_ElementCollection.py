@@ -6,10 +6,50 @@ in the AUTOSAR GenericStructure module.
 from abc import ABC
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, CollectableElement, Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, CategoryString, Identifier, NameToken, RefType
+
+
+class TestAutoCollectEnum:
+    """
+    Tests for the AutoCollectEnum literal set (AUTOSAR_FO_TPS_GenericStructureTemplate
+    Table 13.2).
+    """
+
+    def test_is_arenum(self):
+        """
+        Table 13.2 defines AutoCollectEnum as an Enumeration: it derives from AREnum.
+        """
+        assert issubclass(AutoCollectEnum, AREnum)
+
+    def test_literals_in_spec_order(self):
+        """
+        Table 13.2 literals in displayed order with their EnumerationLiteralIndex
+        (refAll=0, refNone=1, refNonStandard=2).
+        """
+        assert AutoCollectEnum().getEnumValues() == ("refAll", "refNone", "refNonStandard")
+
+    def test_instantiability_and_value_round_trip(self):
+        """
+        An AREnum is instantiated and its value set to one of the spec literals.
+        """
+        enum = AutoCollectEnum()
+        assert enum.getValue() == ""
+        enum.setValue(AutoCollectEnum.REF_ALL)
+        assert enum.getValue() == "refAll"
+        enum.setValue(AutoCollectEnum.REF_NONE)
+        assert enum.getValue() == "refNone"
+        enum.setValue(AutoCollectEnum.REF_NON_STANDARD)
+        assert enum.getValue() == "refNonStandard"
+
+    def test_class_docstring_matches_spec_note(self):
+        """
+        The class docstring is the Table 13.2 Note, verbatim.
+        """
+        assert AutoCollectEnum.__doc__.strip() == ("This enumerator defines the possible approaches to determine the final set of elements in a collection.")
 
 
 class TestCollectableElement:
@@ -472,3 +512,137 @@ class TestCollectableElement:
         # even after all elements are removed, so IsElementExists still returns True
         # Let's just check that the total element count is 0
         assert obj.getTotalElement() == 0
+
+
+class TestCollection:
+    """
+    Tests for the Collection class (AUTOSAR_FO_TPS_GenericStructureTemplate
+    Table 13.1).
+    """
+
+    def _make_collection(self, short_name="TestCollection"):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        return ar_root, Collection(ar_root, short_name)
+
+    def test_inherits_from_arelement(self):
+        """
+        Table 13.1 Base closure names ARElement as the most-derived direct base
+        (ARElement -> PackageableElement -> CollectableElement -> ...).
+        """
+        assert issubclass(Collection, ARElement)
+        assert issubclass(Collection, Identifiable)
+        mro = [cls.__name__ for cls in Collection.__mro__]
+        assert mro.index("ARElement") < mro.index("PackageableElement")
+        assert mro.index("PackageableElement") < mro.index("CollectableElement")
+        assert mro.index("CollectableElement") < mro.index("Identifiable")
+
+    def test_initialization_defaults(self):
+        """
+        All 7 Table 13.1 attributes start at their multiplicity default.
+        """
+        _, obj = self._make_collection()
+        assert obj.getAutoCollect() is None
+        assert obj.getCollectedInstanceIRefs() == []
+        assert obj.getCollectionSemantics() is None
+        assert obj.getElementRefs() == []
+        assert obj.getElementRole() is None
+        assert obj.getSourceElementRefs() == []
+        assert obj.getSourceInstanceIRefs() == []
+        assert obj.getShortName() == "TestCollection"
+
+    def test_get_set_auto_collect(self):
+        """
+        autoCollect (0..1 attr, AutoCollectEnum) round-trips, None is a no-op, setter chains.
+        """
+        _, obj = self._make_collection()
+        value = AutoCollectEnum().setValue(AutoCollectEnum.REF_ALL)
+        assert obj.setAutoCollect(value) is obj
+        assert obj.getAutoCollect() is value
+        obj.setAutoCollect(None)
+        assert obj.getAutoCollect() is value
+
+    def test_get_set_collection_semantics(self):
+        """
+        collectionSemantics (0..1 attr, NameToken) round-trips, None is a no-op, setter chains.
+        """
+        _, obj = self._make_collection()
+        value = NameToken().setValue("DECLINATION_OF")
+        assert obj.setCollectionSemantics(value) is obj
+        assert obj.getCollectionSemantics() is value
+        obj.setCollectionSemantics(None)
+        assert obj.getCollectionSemantics() is value
+
+    def test_get_set_element_role(self):
+        """
+        elementRole (0..1 attr, Identifier) round-trips, None is a no-op, setter chains.
+        """
+        _, obj = self._make_collection()
+        value = Identifier().setValue("PART_OF_SUBSET")
+        assert obj.setElementRole(value) is obj
+        assert obj.getElementRole() is value
+        obj.setElementRole(None)
+        assert obj.getElementRole() is value
+
+    def test_add_element_ref(self):
+        """
+        element (* ref) appends via addElementRef; None is a no-op; getter returns the list.
+        """
+        _, obj = self._make_collection()
+        ref1 = RefType().setValue("/AUTOSAR/EngN")
+        ref1.setDest("PORT-PROTOTYPE-BLUEPRINT")
+        ref2 = RefType().setValue("/AUTOSAR/EngN1")
+        assert obj.addElementRef(ref1) is obj
+        assert obj.addElementRef(ref2) is obj
+        assert obj.getElementRefs() == [ref1, ref2]
+        obj.addElementRef(None)
+        assert obj.getElementRefs() == [ref1, ref2]
+
+    def test_add_source_element_ref(self):
+        """
+        sourceElement (* ref) appends via addSourceElementRef; None is a no-op.
+        """
+        _, obj = self._make_collection()
+        ref = RefType().setValue("/AUTOSAR/DefinedView")
+        ref.setDest("COLLECTION")
+        assert obj.addSourceElementRef(ref) is obj
+        assert obj.getSourceElementRefs() == [ref]
+        obj.addSourceElementRef(None)
+        assert obj.getSourceElementRefs() == [ref]
+
+    def test_add_collected_instance_iref(self):
+        """
+        collectedInstance (* iref) appends via addCollectedInstanceIRef; None is a no-op.
+        """
+        _, obj = self._make_collection()
+        iref = AnyInstanceRef()
+        assert obj.addCollectedInstanceIRef(iref) is obj
+        assert obj.getCollectedInstanceIRefs() == [iref]
+        obj.addCollectedInstanceIRef(None)
+        assert obj.getCollectedInstanceIRefs() == [iref]
+
+    def test_add_source_instance_iref(self):
+        """
+        sourceInstance (* iref) appends via addSourceInstanceIRef; None is a no-op.
+        """
+        _, obj = self._make_collection()
+        iref = AnyInstanceRef()
+        assert obj.addSourceInstanceIRef(iref) is obj
+        assert obj.getSourceInstanceIRefs() == [iref]
+        obj.addSourceInstanceIRef(None)
+        assert obj.getSourceInstanceIRefs() == [iref]
+
+    def test_class_docstring_matches_spec_note(self):
+        """
+        The class docstring is the Table 13.1 Note, verbatim (Tags tail dropped).
+        """
+        assert Collection.__doc__.strip() == (
+            "This meta-class specifies a collection of elements. "
+            "A collection can be utilized to express additional aspects for a set of elements. "
+            "Note that Collection is an ARElement. Therefore it is applicable e.g. for EvaluatedVariant, "
+            'even if this is not obvious. Usually the category of a Collection is "SET". '
+            "On the other hand, a Collection can also express an arbitrary relationship between elements. "
+            'This is denoted by the category "RELATION" (see also [TPS_GST_00347]). '
+            'In this case the collection represents an association from "sourceElement" to "targetElement" '
+            'in the role "role".'
+        )

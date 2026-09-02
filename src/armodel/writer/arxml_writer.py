@@ -877,6 +877,14 @@ INTERVAL_TYPE_XML_MAP = {
     "open": "OPEN",
 }
 
+#: Mapping between AutoCollectEnum literal values and their XML element text
+#: (AR:AUTO-COLLECT-ENUM--SIMPLE).
+AUTO_COLLECT_XML_MAP = {
+    "refAll": "REF-ALL",
+    "refNone": "REF-NONE",
+    "refNonStandard": "REF-NON-STANDARD",
+}
+
 
 class ARXMLWriter(AbstractARXMLWriter):
     """
@@ -8327,29 +8335,6 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalIntegerValue(child_element, "WAKEUP-TX-ACTIVE", cluster.getWakeupTxActive())
             self.setChildElementOptionalIntegerValue(child_element, "WAKEUP-TX-IDLE", cluster.getWakeupTxIdle())
 
-    def writeCollectionElementRefs(self, element: ET.Element, collection: Collection):
-        refs = collection.getElementRefs()
-        if len(refs) > 0:
-            child_element = ET.SubElement(element, "ELEMENT-REFS")
-            for ref in refs:
-                self.setChildElementOptionalRefType(child_element, "ELEMENT-REF", ref)
-
-    def writeCollectionSourceElementRefs(self, element: ET.Element, collection: Collection):
-        refs = collection.getSourceElementRefs()
-        if len(refs) > 0:
-            child_element = ET.SubElement(element, "SOURCE-ELEMENT-REFS")
-            for ref in refs:
-                self.setChildElementOptionalRefType(child_element, "SOURCE-ELEMENT-REF", ref)
-
-    def writeCollection(self, element: ET.Element, collection: Collection):
-        if collection is not None:
-            child_element = ET.SubElement(element, "COLLECTION")
-            self.writeARElement(child_element, collection)
-            self.setChildElementOptionalLiteral(child_element, "AUTO-COLLECT", collection.getAutoCollect())
-            self.setChildElementOptionalLiteral(child_element, "ELEMENT-ROLE", collection.getElementRole())
-            self.writeCollectionElementRefs(child_element, collection)
-            self.writeCollectionSourceElementRefs(child_element, collection)
-
     def writeKeywordClassifications(self, element: ET.Element, keyword: Keyword):
         classifications = keyword.getClassifications()
         if len(classifications) > 0:
@@ -11125,7 +11110,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalBooleanValue(child_element, "TRANSIT-TO-INVALID-EXTENDED", props.getTransitToInvalidExtended())
 
     def writeARPackageElement(self, element: ET.Element, ar_element: ARElement):
-        if isinstance(ar_element, ComplexDeviceDriverSwComponentType):
+        if isinstance(ar_element, Collection):
+            self.writeCollection(element, ar_element)
+        elif isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)
         elif isinstance(ar_element, SwcImplementation):
             self.writeSwcImplementation(element, ar_element)
@@ -11293,8 +11280,6 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSystemSignalGroup(element, ar_element)
         elif isinstance(ar_element, FlexrayCluster):
             self.writeFlexrayCluster(element, ar_element)
-        elif isinstance(ar_element, Collection):
-            self.writeCollection(element, ar_element)
         elif isinstance(ar_element, KeywordSet):
             self.writeKeywordSet(element, ar_element)
         elif isinstance(ar_element, PortPrototypeBlueprint):
@@ -11456,6 +11441,42 @@ class ARXMLWriter(AbstractARXMLWriter):
                     for global_element in global_elements:
                         self.setChildElementOptionalLiteral(elements_tag, "GLOBAL-ELEMENT", global_element)
                 self.setChildElementOptionalRefType(child_element, "PACKAGE-REF", base.getPackageRef())
+
+    def writeCollection(self, element: ET.Element, collection: Collection):
+        if collection is not None:
+            child_element = ET.SubElement(element, "COLLECTION")
+            self.writeIdentifiable(child_element, collection)
+            auto_collect = collection.getAutoCollect()
+            if auto_collect is not None:
+                token = AUTO_COLLECT_XML_MAP.get(auto_collect.getValue())
+                if token is None:
+                    self.notImplemented("Unsupported AUTO-COLLECT <%s>" % auto_collect.getValue())
+                else:
+                    auto_collect_element = ET.SubElement(child_element, "AUTO-COLLECT")
+                    auto_collect_element.text = token
+            self.setChildElementOptionalLiteral(child_element, "COLLECTION-SEMANTICS", collection.getCollectionSemantics())
+            self.setChildElementOptionalIdentifier(child_element, "ELEMENT-ROLE", collection.getElementRole())
+            element_refs = collection.getElementRefs()
+            if len(element_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "ELEMENT-REFS")
+                for ref in element_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "ELEMENT-REF", ref)
+            source_element_refs = collection.getSourceElementRefs()
+            if len(source_element_refs) > 0:
+                refs_tag = ET.SubElement(child_element, "SOURCE-ELEMENT-REFS")
+                for ref in source_element_refs:
+                    self.setChildElementOptionalRefType(refs_tag, "SOURCE-ELEMENT-REF", ref)
+            collected_instance_irefs = collection.getCollectedInstanceIRefs()
+            if len(collected_instance_irefs) > 0:
+                irefs_tag = ET.SubElement(child_element, "COLLECTED-INSTANCE-IREFS")
+                for instance_ref in collected_instance_irefs:
+                    self.setAnyInstanceRef(irefs_tag, "COLLECTED-INSTANCE-IREF", instance_ref)
+            source_instance_irefs = collection.getSourceInstanceIRefs()
+            if len(source_instance_irefs) > 0:
+                irefs_tag = ET.SubElement(child_element, "SOURCE-INSTANCE-IREFS")
+                for instance_ref in source_instance_irefs:
+                    self.setAnyInstanceRef(irefs_tag, "SOURCE-INSTANCE-IREF", instance_ref)
+        return child_element
 
     def writeMcFunction(self, element: ET.Element, func: McFunction):
         if func is not None:
