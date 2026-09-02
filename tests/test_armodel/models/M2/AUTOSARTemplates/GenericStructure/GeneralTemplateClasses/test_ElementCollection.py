@@ -3,6 +3,8 @@ This module contains comprehensive tests for the ElementCollection.py file
 in the AUTOSAR GenericStructure module.
 """
 
+from abc import ABC
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
@@ -19,11 +21,95 @@ class TestCollectableElement:
         """
         Test that CollectableElement cannot be instantiated directly (abstract class).
         """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
         try:
-            _obj = CollectableElement()
+            _obj = CollectableElement(ar_root, "TestCollectableElement")
             assert False, "CollectableElement should not be instantiable"
         except TypeError:
             pass  # Expected behavior
+
+    def test_inherits_from_identifiable(self):
+        """
+        Table 13.3 Base closure is ARObject, Identifiable, MultilanguageReferrable,
+        Referrable, so the most-derived direct base is Identifiable.
+        """
+        assert issubclass(CollectableElement, Identifiable)
+        assert CollectableElement.__bases__ == (Identifiable, ABC)
+        mro = [cls.__name__ for cls in CollectableElement.__mro__]
+        assert mro.index("Identifiable") < mro.index("MultilanguageReferrable")
+        assert mro.index("MultilanguageReferrable") < mro.index("Referrable")
+        assert mro.index("Referrable") < mro.index("ARObject")
+
+    def test_has_no_own_attribute_members(self):
+        """
+        Table 13.3 has no Attribute rows: CollectableElement owns no members of its
+        own. The element-collection registry is infra owned by Identifiable.
+        """
+        for name in ("getTotalElement", "removeElement", "getElements", "addElement", "getElement", "IsElementExists"):
+            assert name not in CollectableElement.__dict__, "%s should be inherited from Identifiable" % name
+
+        assert "elements" not in CollectableElement.__dict__
+        assert "element_mappings" not in CollectableElement.__dict__
+
+    def test_concrete_subclass_inherits_identifiable_members(self):
+        """
+        A concrete CollectableElement subclass reaches the Identifiable attributes and
+        the element-collection registry through the inheritance chain.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteCollectableElement(CollectableElement):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteCollectableElement(ar_root, "TestElement")
+        assert isinstance(obj, Identifiable)
+        assert obj.getShortName() == "TestElement"
+        assert obj.getParent() is ar_root
+        assert obj.getUuid() is None
+        assert obj.getLongName() is None
+        assert obj.getAnnotations() == []
+        assert obj.getElements() == []
+        assert obj.getTotalElement() == 0
+
+    def test_concrete_subclass_element_round_trip(self):
+        """
+        The inherited element-collection registry round-trips through a concrete subclass.
+        """
+
+        class ConcreteCollectableElement(CollectableElement):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        class ConcreteReferrable(Referrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        obj = ConcreteCollectableElement(ar_root, "TestElement")
+        element = ConcreteReferrable(ar_root, "ChildElement")
+
+        obj.addElement(element)
+        assert obj.getTotalElement() == 1
+        assert obj.getElements() == [element]
+        assert obj.IsElementExists("ChildElement") is True
+        assert obj.getElement("ChildElement") is element
+
+        obj.removeElement("ChildElement")
+        assert obj.getTotalElement() == 0
+
+    def test_class_docstring_matches_spec_note(self):
+        """
+        The class docstring is the Table 13.3 Note, verbatim.
+        """
+        assert CollectableElement.__doc__.strip() == (
+            "This meta-class specifies the ability to be part of a specific AUTOSAR collection of ARPackages or ARElements. "
+            "The scope of collection has been extended beyond CollectableElement with Revision 4.0.3. "
+            "For compatibility reasons the name of this meta Class was not changed."
+        )
 
     def test_get_total_element(self):
         """

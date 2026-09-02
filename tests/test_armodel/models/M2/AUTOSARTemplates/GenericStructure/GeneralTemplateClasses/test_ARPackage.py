@@ -5,6 +5,8 @@ in the AUTOSAR GenericStructure module.
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, ARPackage, PackageableElement, ReferenceBase
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, Identifier, ReferrableSubtypesEnum, RefType
 
 
@@ -203,8 +205,7 @@ class TestARPackage:
         assert package.getARPackages() == []
 
         # Add a sub-package
-        sub_package = ARPackage(package, "SubPackage")
-        package.arPackages["SubPackage"] = sub_package
+        sub_package = package.createARPackage("SubPackage")
 
         # Should return the sub-package
         result = package.getARPackages()
@@ -249,8 +250,7 @@ class TestARPackage:
         assert package.getElement("NonExistent") is None
 
         # Add a sub-package
-        sub_package = ARPackage(package, "SubPackage")
-        package.arPackages["SubPackage"] = sub_package
+        sub_package = package.createARPackage("SubPackage")
 
         # Should be able to get the sub-package
         result = package.getElement("SubPackage")
@@ -855,6 +855,38 @@ class TestPackageableElement:
             assert False, "PackageableElement should not be instantiable"
         except TypeError:
             pass  # Expected behavior
+
+    def test_inherits_from_collectable_element(self):
+        """
+        Table 4.2 Base closure names CollectableElement as the most-derived direct base.
+        With CollectableElement re-parented to Identifiable (commit 3b31b7c4), the full
+        MRO is PackageableElement -> CollectableElement -> Identifiable -> ... -> ARObject.
+        """
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+
+        assert issubclass(PackageableElement, CollectableElement)
+        assert issubclass(PackageableElement, Identifiable)
+        assert issubclass(PackageableElement, ARObject)
+        mro = PackageableElement.__mro__
+        assert mro[0] is PackageableElement
+        assert mro[1] is CollectableElement
+        assert mro[2] is Identifiable
+
+    def test_concrete_subclass_initialization(self):
+        """
+        A concrete PackageableElement subclass initializes the base chain via (parent, short_name)
+        and reaches Identifiable members through the CollectableElement -> Identifiable chain.
+        """
+
+        class ConcretePackageableElement(PackageableElement):
+            pass
+
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        obj = ConcretePackageableElement(ar_root, "TestElement")
+
+        assert obj.getShortName() == "TestElement"
+        assert obj.parent is ar_root
 
 
 class TestARElement:

@@ -295,7 +295,7 @@ class Identifiable(MultilanguageReferrable, ABC):
         # Structural variation point of this element (kept deviation: VARIATION-POINT element; not a Table 4.4 attribute).
         self.variationPoint: Optional[VariationPoint] = None
 
-        # Element collection registry (shared infra, also owned by CollectableElement; kept on Identifiable because some direct subclasses, e.g. Fibex PhysicalChannel, are not CollectableElement).
+        # Element collection registry (shared infra; kept on Identifiable because some direct subclasses, e.g. Fibex PhysicalChannel, are not CollectableElement).
         self.elements: List[Referrable] = []
         self.element_mappings: Dict[str, List[Referrable]] = {}
 

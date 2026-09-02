@@ -1,7 +1,7 @@
 import xml.etree.cElementTree as ET
 from typing import List, Optional
 
-from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR, FileInfoComment
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.PlatformModuleDeployment.Firewall import FirewallRule, FirewallRuleProps, StateDependentFirewall
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprintMapping,
@@ -1206,6 +1206,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setMultiLanguagePlainText(child_element, "USED-LANGUAGES", admin_data.getUsedLanguages())
             self.writeAdminDataSdgs(child_element, admin_data)
             self.writeAdminDataDocRevisions(child_element, admin_data)
+
+    def setFileInfoComment(self, element: ET.Element, file_info_comment: FileInfoComment):
+        if file_info_comment is not None:
+            child_element = ET.SubElement(element, "FILE-INFO-COMMENT")
+            self.writeARObject(child_element, file_info_comment)
+            sdgs = file_info_comment.getSdgs()
+            if len(sdgs) > 0:
+                sdgs_tag = ET.SubElement(child_element, "SDGS")
+                for sdg in sdgs:
+                    self.setSdg(sdgs_tag, sdg)
 
     def writeIdentifiable(self, element: ET.Element, identifiable: Identifiable, write_variation_point: bool = True):
         self.writeMultilanguageReferrable(element, identifiable)
@@ -11574,6 +11584,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             root.attrib["xsi:schemaLocation"] = "http://autosar.org/schema/r4.0 AUTOSAR_4-0-3.xsd"
 
         self.setAdminData(root, document.getAdminData())
+        self.setFileInfoComment(root, document.getFileInfoComment())
+        self.writeDocumentationBlock(root, "INTRODUCTION", document.getIntroduction())
         self.writeARPackages(root, document.getARPackages())
 
         self.saveToFile(filename, root)
