@@ -324,7 +324,7 @@ ripple is audited. Per-class spec base verdict:
   `SwComponentPrototype`: spec base closure does **NOT** include AtpBlueprintable → losing
   it is spec-correct; check confirms tests pass with no CollectableElement reliance.
 
-- [ ] `PortPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.2 · AtpPrototype subclass; needs `AtpBlueprintable` parallel base re-added after AtpPrototype dropped it) — **finished, retained `# Spec verified: R23-11`** (commit: TBD)
+- [x] `PortPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.2 · AtpPrototype subclass; needs `AtpBlueprintable` parallel base re-added after AtpPrototype dropped it) — **finished, retained `# Spec verified: R23-11`** (commit: 74e4c824)
   - [x] Step 1 — Sync members & description from spec (Table 3.2 Base closure = {…AtpBlueprintable, AtpFeature, AtpPrototype…} — AtpBlueprintable IN closure ⇒ compensating parallel base required; 8 annotation attrs confirmed modeled)
   - [x] Step 2 — Write model class unit test (Red) — `TestPortPrototypeHeritage` in test_PortPrototype.py: abstract guard, MRO[1]=AtpPrototype, AtpBlueprintable in MRO + issubclass, concrete-subclass init reaches parent/short_name. 6 pass
   - [x] Step 3 — Implement model class (Green) — `class PortPrototype(AtpPrototype, AtpBlueprintable, ABC)` already present (landed in AtpPrototype sync); MRO = PortPrototype→AtpPrototype→AtpFeature→AtpBlueprintable→PackageableElement→CollectableElement→Identifiable→…→ARObject; members unchanged
