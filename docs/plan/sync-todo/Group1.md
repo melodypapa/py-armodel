@@ -354,7 +354,7 @@ ripple is audited. Per-class spec base verdict:
   - [x] Step 7 — Update checklist comment — 6-col `# Spec:` format (R23-11 BSW Table 4.9, p.42) with release R23-11 column + heritage-drift note (AtpPrototype re-parent AtpBlueprintable→AtpFeature, loss spec-correct)
   - [x] Step 8 — Deviations — none: heritage-only drift; loss of AtpBlueprintable is spec-correct per Table 4.9 Base closure; no naming/type/missing deviation
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 68 model + 157 parser/writer tests pass, ruff + black clean; 9b user-confirmed (with docstring cleanup) → `# Spec verified: R23-11` retained
-- [x] `RootSwCompositionPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 4.1 · AtpPrototype subclass; confirm loss of AtpBlueprintable is spec-correct) — **finished, retained `# Spec verified: R23-11`** (commit: f3911eb0)
+- [x] `RootSwCompositionPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 4.1 · AtpPrototype subclass; confirm loss of AtpBlueprintable is spec-correct) — **finished, retained `# Spec verified: R23-11`** (commit: 671dfc38)
   - [x] Step 1 — Sync members & description from spec (confirm Base closure excludes AtpBlueprintable)
   - [x] Step 2 — Write model class unit test (Red) — MRO check; concrete-subclass init
   - [x] Step 3 — Implement model class (Green) — members unchanged
