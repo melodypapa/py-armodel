@@ -289,15 +289,15 @@ in the work order below can run, so they precede the `Identifiable` row.
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `AtpType` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 5.6)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [ ] `AtpType` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 5.6) — abstract shell (no own attributes, no own XML element); heritage `AtpType(AtpClassifier, ABC)` already matches spec; only deviation = paraphrased class docstring must be verbatim Table 5.6 Note; Steps 5/6 N/A
+  - [x] Step 1 — Sync members & description from spec — Table 5.6 (md l.4594–4603, PDF p.175 via pdf_page.py): Class=AtpType (abstract); Package=M2::AUTOSARTemplates::GenericStructure::AbstractStructure (file AbstractStructure.py ✓ Rule 0007); Base = ARObject, AtpClassifier, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **AtpClassifier** ✓ (AtpClassifier(Identifiable) confirmed); Attribute rows = `-` → no own attributes; Note verbatim "A type is a classifier that may serve to type prototypes. It is a reusable classifier."; Subclasses = AutosarDataType, ModeDeclarationGroup, ModeDeclarationMappingSet, PortInterface, SwComponentType (out of scope — separate rows / already synced); no reader/writer (abstract, no own XML element) → Steps 5/6 N/A
+  - [x] Step 2 — Write model class unit test (Red) — test_AbstractStructure.py TestAtpType: test_abstract_initialization, test_atp_type_concrete_implementation, test_inherits_from_atp_classifier (MRO[1]=AtpClassifier, MRO[2]=Identifiable, isinstance Identifiable/ARObject), test_class_docstring_matches_spec_note (verbatim Table 5.6 Note). Red confirmed: docstring assertion failed (paraphrase)
+  - [x] Step 3 — Implement model class (Green) — class docstring set verbatim (single-line `"""..."""` so `__doc__` matches exactly); heritage `AtpType(AtpClassifier, ABC)` already correct; no own attributes → class reduces to `__init__` (abstract guard) — no field/accessor changes. 4 tests Green
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — no stale docstrings to wipe: AtpType has no own attributes so no getter/setter/member-comment docstrings; class docstring = Table 5.6 Note verbatim; `__init__` has no docstring (Rule 0012.2.5.2)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: AtpType abstract, no own XML element (XSD substitutes concrete subclasses); round-trip covered by consuming-class syncs
+  - [x] Step 6 — Update parser & writer (Green) — N/A: no readAtpType/writeAtpType needed (abstract shell, no own attributes); inherited members reached via AtpClassifier→Identifiable chain
+  - [x] Step 7 — Update checklist comment — 6-col `# Spec:` format (AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 5.6, p.175, R23-11); single `__init__` row (reader/writer `[—]`, release R23-11); marker deferred to 9b
+  - [x] Step 8 — Deviations — none: Class=abstract (matches Table 5.6); Base closure reaches AtpClassifier as most-derived ✓ (AtpClassifier stamped R23-11, Table 5.1); Package=GenericStructure::AbstractStructure (file AbstractStructure.py, Rule 0007 OK); no own attributes → no naming/type/missing deviation; docstring verbatim; reader/writer N/A (abstract shell). Rule 0001.10 report: AtpType has no own Attribute rows, so no member-type references to block on; Subclasses (AutosarDataType, ModeDeclarationGroup, ModeDeclarationMappingSet, PortInterface, SwComponentType) are subclasses, not member types — ModeDeclarationMappingSet already stamped R23-11; no missing/stub classes
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `AtpPrototype` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 5.4)
   - [ ] Step 1 — Sync members & description from spec

@@ -7,6 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpClassifier, AtpFeature, AtpInstanceRef, AtpStructureElement, AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
@@ -339,6 +340,25 @@ class TestAtpType:
         assert obj is not None
         assert obj.getShortName() == "ConcreteAtpType"
         assert obj.getParent() == ar_root
+
+    def test_inherits_from_atp_classifier(self):
+        """
+        Test that AtpType's most-derived direct base is AtpClassifier (Table 5.6).
+        """
+        assert issubclass(AtpType, AtpClassifier)
+        assert issubclass(AtpType, Identifiable)
+        assert issubclass(AtpType, ARObject)
+        mro = AtpType.__mro__
+        assert mro[0] is AtpType
+        assert mro[1] is AtpClassifier
+        assert mro[2] is Identifiable
+
+    def test_class_docstring_matches_spec_note(self):
+        """
+        Test that AtpType's class docstring is the verbatim Table 5.6 Note.
+        """
+        expected = "A type is a classifier that may serve to type prototypes. It is a reusable classifier."
+        assert AtpType.__doc__ == expected
 
 
 class TestAtpClassifier:

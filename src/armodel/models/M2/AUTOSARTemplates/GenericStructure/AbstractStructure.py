@@ -143,27 +143,13 @@ class AtpClassifier(Identifiable, ABC):
 
 
 class AtpType(AtpClassifier, ABC):
-    """
-    Abstract base class for AUTOSAR Template (ATP) type elements.
-
-    AtpType represents type definitions in the AUTOSAR system. It provides
-    the foundation for all AUTOSAR type classifications including data types,
-    port interfaces, and component types.
-
-    This class extends AtpClassifier with type-specific functionality.
-
-    Note:
-        This is an abstract class and cannot be instantiated directly.
-        AtpType is the parent of various AUTOSAR type definitions:
-        - AutosarDataType (including ApplicationDataType and ImplementationDataType)
-        - ModeDeclarationGroup
-        - ModeDeclarationMappingSet
-        - PortInterface (including ClientServerInterface, SenderReceiverInterface, etc.)
-        - SwComponentType (including AtomicSwComponentType, CompositionSwComponentType, etc.)
-    """
+    """A type is a classifier that may serve to type prototypes. It is a reusable classifier."""
 
     # AtpType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 5.6, p.175
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpType:
