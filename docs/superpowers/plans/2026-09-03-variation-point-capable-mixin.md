@@ -42,7 +42,7 @@ Expected: both clean.
 
 **Files:**
 - Create: `scripts/extract_vp_anchors.py`
-- Create (generated): `docs/plans/vp_anchors.txt`
+- Create (generated): `docs/superpowers/plans/vp_anchors.txt`
 
 **Step 1: Write the extraction script**
 
@@ -72,7 +72,7 @@ def main() -> int:
             current = m.group(2)
         if 'name="VARIATION-POINT"' in line and current:
             anchors.append(current)
-    with open("docs/plans/vp_anchors.txt", "w") as f:
+    with open("docs/superpowers/plans/vp_anchors.txt", "w") as f:
         for name in anchors:
             f.write("%s -> %s\n" % (name, to_class_name(name)))
     print("anchors:", len(anchors))
@@ -86,12 +86,12 @@ if __name__ == "__main__":
 **Step 2: Run it**
 
 Run: `python scripts/extract_vp_anchors.py`
-Expected: `anchors: 337` and `docs/plans/vp_anchors.txt` exists.
+Expected: `anchors: 337` and `docs/superpowers/plans/vp_anchors.txt` exists.
 
 **Step 3: Commit**
 
 ```bash
-git add scripts/extract_vp_anchors.py docs/plans/vp_anchors.txt
+git add scripts/extract_vp_anchors.py docs/superpowers/plans/vp_anchors.txt
 git commit -m "chore: extract 337 VARIATION-POINT XSD anchors"
 ```
 
@@ -306,7 +306,7 @@ class TestVariationPointWriterGate:
 
 (If `PostBuildVariantCriterion(None, "Criterion")` needs a package parent for `addElement`, create it via `pkg.createPostBuildVariantCriterion` or set the parent to the pkg — adjust to whatever the existing writer tests do for ARElements.)
 
-**Step 2: Run to verify failure** — the non-capable test PASSES today only because `PostBuildCriterion` has no way to hold a VP; write a capable-but-suppressed probe instead if needed. The real Red: assert the gate exists by testing a non-anchor **Identifiable** subclass that can still hold VP today (any concrete class not in `docs/plans/vp_anchors.txt`, e.g. `SymbolProps`-style Referrable or an anchor-less Identifiable — pick one from the artifacts and assert `"VARIATION-POINT" not in xml` after `setVariationPoint`; today that FAILS because `writeIdentifiable` writes unconditionally).
+**Step 2: Run to verify failure** — the non-capable test PASSES today only because `PostBuildCriterion` has no way to hold a VP; write a capable-but-suppressed probe instead if needed. The real Red: assert the gate exists by testing a non-anchor **Identifiable** subclass that can still hold VP today (any concrete class not in `docs/superpowers/plans/vp_anchors.txt`, e.g. `SymbolProps`-style Referrable or an anchor-less Identifiable — pick one from the artifacts and assert `"VARIATION-POINT" not in xml` after `setVariationPoint`; today that FAILS because `writeIdentifiable` writes unconditionally).
 
 **Step 3: Implement the gate** in `arxml_writer.py:1240-1241`:
 
@@ -362,30 +362,9 @@ git commit -m "feat: parser reads VARIATION-POINT only for VariationPointCapable
 
 ---
 
-### Task 9: Remove variationPoint from Identifiable
+### Task 9: Mass anchoring (mechanical, batched)
 
-**Files:**
-- Modify: `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py` — delete l.263-269 (deviation comment + checklist rows), l.295-296 (field), l.482-495 (get/set); replace the deviation block with a resolved note pointing at the mixin
-- Modify: `tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/test_Identifiable.py:285-300, 460-475` — delete the two VP test bodies
-- Modify: `src/armodel/models/M2/MSR/Documentation/BlockElements/RequirementsTracing.py:136-137` — checklist rows: "(inherited from Identifiable" → "(inherited from VariationPointCapable"
-
-**Step 1:** Make the three edits. `rg -n 'setVariationPoint|getVariationPoint' src/` afterwards must show only the mixin, parser, writer, and `RequirementsTracing` checklist.
-
-**Step 2:** Run: `python -m pytest tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure tests/test_armodel/models/M2/MSR/Documentation/BlockElements -q`
-Expected: PASS.
-
-**Step 3:** Commit
-
-```bash
-git add src/armodel/models tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure
-git commit -m "refactor: Identifiable reverts to spec; VP capability moves to mixin"
-```
-
----
-
-### Task 10: Mass anchoring (mechanical, batched)
-
-**Files:** the anchor class files listed by mapping `docs/plans/vp_anchors.txt` names to Python classes.
+**Files:** the anchor class files listed by mapping `docs/superpowers/plans/vp_anchors.txt` names to Python classes.
 
 **Step 1:** Generate the work list — resolve each mapped class name to its defining file:
 
@@ -393,7 +372,7 @@ git commit -m "refactor: Identifiable reverts to spec; VP capability moves to mi
 python3 - <<'EOF'
 import re, subprocess
 unresolved = []
-for line in open("docs/plans/vp_anchors.txt"):
+for line in open("docs/superpowers/plans/vp_anchors.txt"):
     kebab, cls = line.strip().split(" -> ")
     out = subprocess.run(["grep", "-rl", "-E", r"class %s\(" % cls, "src/armodel/models"], capture_output=True, text=True).stdout.strip()
     if out:
@@ -404,7 +383,7 @@ print("UNRESOLVED:", unresolved)
 EOF
 ```
 
-**Step 2: Resolve every UNRESOLVED entry by hand** (name-map misses, e.g. `AdaptiveSwcInternalBehavior` spelling, classes not yet implemented). For not-yet-implemented classes: skip and note them in the commit message — they inherit capability when they are implemented and anchored.
+**Step 2: Resolve every UNRESOLVED entry by hand** (name-map misses, e.g. `AdaptiveSwcInternalBehavior` spelling, acronym classes like `IEEE-1722-…`/`J1939-…`, classes not yet implemented). For not-yet-implemented classes: skip and note them in the commit message — they inherit capability when they are implemented and anchored.
 
 **Step 3:** Edit anchors batch-by-batch (grouped by file, ~40 files). Pattern per class: add `, VariationPointCapable` before any `ABC` base + one import per file. Batches: (a) GeneralTemplateClasses, (b) SWComponentTemplate, (c) SystemTemplate, (d) CommonStructure, (e) BswModuleTemplate + ECUC*, (f) remainder.
 
@@ -422,17 +401,127 @@ git commit -m "feat: anchor VariationPointCapable on all 337 XSD variant classes
 
 ---
 
-### Task 11: Fixture audit (decision gate — ask the user)
+### Task 10: Remove variationPoint from Identifiable
+
+**Files:**
+- Modify: `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/Identifiable.py` — delete l.263-269 (deviation comment + checklist rows), l.295-296 (field), l.482-495 (get/set); replace the deviation block with a resolved note pointing at the mixin
+- Modify: `tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure/GeneralTemplateClasses/test_Identifiable.py:285-300, 460-475` — delete the two VP test bodies
+- Modify: `tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure/test_VariantHandling.py:393-399` — the `PostBuildVariantCriterion.setVariationPoint/getVariationPoint` test relies on the Identifiable field and breaks here (`PostBuildVariantCriterion` is NOT an anchor); convert it to a not-capable assertion: `pytest.raises(AttributeError)` on `setVariationPoint`, or `assert not issubclass(PostBuildVariantCriterion, VariationPointCapable)`
+- Modify: `src/armodel/models/M2/MSR/Documentation/BlockElements/RequirementsTracing.py:136-137` — checklist rows: "(inherited from Identifiable" → "(inherited from VariationPointCapable"
+
+**Step 1:** Make the four edits. `rg -n 'setVariationPoint|getVariationPoint' src/` afterwards must show only the mixin, parser, writer, and `RequirementsTracing` checklist.
+
+**Step 2:** Run: `python -m pytest tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure tests/test_armodel/models/M2/MSR/Documentation/BlockElements -q`
+Expected: PASS.
+
+**Step 3:** Commit
+
+```bash
+git add src/armodel/models tests/test_armodel/models/M2/AUTOSARTemplates/GenericStructure
+git commit -m "refactor: Identifiable reverts to spec; VP capability moves to mixin"
+```
+
+---
+
+### Task 11: Per-class Rule 0020 verification (XSD ↔ markdown, one class at a time)
+
+Verify **Rule 0020** (the skill rule added with this plan) against reality for **every
+refactored class** in `docs/superpowers/plans/vp_anchors.txt` — one class at a time. For each
+class, gather both sources' evidence, compare, and record the verdict. Deviations are
+written to a report; they either amend Rule 0020 or become accepted-deviation rows.
+
+**Files:**
+- Create: `scripts/verify_vp_rule.py` — prints the per-class evidence for steps A/B
+- Create: `docs/superpowers/plans/vp_capability_audit_report.md` — the deviation report (append one row per class)
+
+**Per-class procedure (repeat for each class, one by one):**
+
+**Step A — XSD evidence.** Run `python scripts/verify_vp_rule.py <ClassName>` (or by hand):
+locate the class's `<xsd:complexType name="<CLASS-UPPER-KEBAB">` / `<xsd:group name="…">`
+in `autosar/R23-11/xsd/AUTOSAR_00052.xsd`; confirm it contains
+`<xsd:element name="VARIATION-POINT">` (direct anchor) or arrives via an ancestor's
+`group ref` (inherited). Copy the annotation's provenance line
+`Applicable for: <WholeClass>.<role>` and `mmt.qualifiedName="<Class>.variationPoint"`.
+
+**Step B — Markdown evidence.** Grep the R23-11 markdown corpus for the Rule 0020
+trigger: an attribute row with `Kind = aggr`, the class in the Type column, and
+`atpVariation` + `<role>.variationPoint.shortLabel` in the Note
+(`rg '<ClassName>' autosar/R23-11/markdown/AUTOSAR_*_TPS_*.md` then eyeball the
+containing table row). Record the file, table id, and the `WholeClass.role` pair.
+
+**Step C — Compare & verdict.**
+
+| Verdict | Condition |
+|---|---|
+| PASS | Markdown trigger `WholeClass.role` matches the XSD `Applicable for:` (direct anchor), or capability is inherited from an anchored ancestor (XSD group ref proves it) |
+| DEVIATION `provenance-mismatch` | Both sides exist but name different `WholeClass.role` pairs |
+| DEVIATION `no-markdown-trigger` | XSD anchor exists but no `Kind=aggr` + `atpVariation` row found anywhere in the markdown corpus |
+| DEVIATION `no-xsd-anchor` | Markdown trigger row exists but the class (and its whole ancestor chain) has no VARIATION-POINT in the XSD — Rule 0020 over-predicts |
+| NOTE `name-unmapped` | Anchor name maps to no Python class yet (not a rule deviation; implementation gap from Task 9 Step 2) |
+
+**Step D — Report row.** Append to `docs/superpowers/plans/vp_capability_audit_report.md`:
+
+```markdown
+| <ClassName> | <direct anchor / inherited via <Ancestor> / absent> | `<Applicable for: X.y>` | <file + Table N.M + `Whole.role`> | PASS / DEVIATION:<category> / NOTE:<category> |
+```
+
+**Step E — Batch commit.** After each batch (same batch split as Task 9 a–f), commit
+the report so far:
+
+```bash
+git add scripts/verify_vp_rule.py docs/superpowers/plans/vp_capability_audit_report.md
+git commit -m "test: Rule 0020 per-class verification batch <x> (<n> classes)"
+```
+
+**Completion gate:**
+- 100% of mapped classes have a report row (337 minus name-unmapped).
+- Every `DEVIATION no-xsd-anchor` / `no-markdown-trigger` / `provenance-mismatch`
+  row is either (a) fixed by amending Rule 0020 in `.agents/skills/sync-autosar-class/rules.md`
+  (then re-verify the affected classes), or (b) accepted by the user as an
+  `accepted-deviation` row in the report.
+- Present the deviation summary to the user before Task 13 stamps anything.
+
+**Helper script sketch** (`scripts/verify_vp_rule.py <ClassName>` — evidence printer,
+verdict stays human):
+
+```python
+import re
+import sys
+
+XSD = "autosar/R23-11/xsd/AUTOSAR_00052.xsd"
+KEBAB = sys.argv[1] if len(sys.argv) > 1 else sys.exit("usage: verify_vp_rule.py <KEBAB-CLASS-NAME>")
+
+lines = open(XSD).read().split("\n")
+current, direct = None, False
+for i, line in enumerate(lines):
+    m = re.search(r'<xsd:(complexType|group) name="([A-Z0-9-]+)"', line)
+    if m:
+        current = m.group(2)
+    if current == KEBAB and 'name="VARIATION-POINT"' in line:
+        direct = True
+        block = "\n".join(lines[i:i + 6])
+        prov = re.search(r"Applicable for: (.*)", block)
+        qn = re.search(r'mmt.qualifiedName="([^"]+)"', block)
+        print("XSD: DIRECT anchor at line", i + 1)
+        print("XSD: Applicable for:", prov.group(1) if prov else "?")
+        print("XSD: qualifiedName:", qn.group(1) if qn else "?")
+if not direct:
+    print("XSD: no direct VARIATION-POINT in group", KEBAB, "- check ancestor group refs")
+```
+
+---
+
+### Task 12: Fixture audit (decision gate — ask the user)
 
 **Files:** read-only audit of `tests/test_armodel/parser/data/VariationPoint.arxml` and any other fixture carrying VARIATION-POINT.
 
-**Step 1:** `rg -l 'VARIATION-POINT' tests --glob '*.arxml'` then for each hit, check the enclosing element against `docs/plans/vp_anchors.txt`.
+**Step 1:** `rg -l 'VARIATION-POINT' tests --glob '*.arxml'` then for each hit, check the enclosing element against `docs/superpowers/plans/vp_anchors.txt`.
 
 **Step 2:** If any fixture carries VARIATION-POINT on a now-non-capable class (known candidate: `PostBuildVariantCriterion` in `VariationPoint.arxml`, exercised by `test_arxml_parser_variation_point.py:81`): STOP and present the conflict to the user. Project rules forbid editing fixtures to force an outcome; the options are (a) the class is genuinely an anchor and the XSD extraction missed a group indirection, or (b) the test asserts the new warning behavior (Task 8 already redirects it), or (c) user decides otherwise.
 
 ---
 
-### Task 12: Docs, deviation tracker, final verification
+### Task 13: Docs, deviation tracker, final verification
 
 **Files:**
 - Modify: `docs/examples/method_deviation_by_class_v2.md` — mark the `Identifiable` variationPoint deviation RESOLVED (mixin), same style as the resolved entries
@@ -462,7 +551,7 @@ git commit -m "docs: record VariationPointCapable resolution of Identifiable VP 
 
 ## Execution Handoff
 
-Plan complete and saved to `docs/plans/2026-09-03-variation-point-capable-mixin.md`. Two execution options:
+Plan complete and saved to `docs/superpowers/plans/2026-09-03-variation-point-capable-mixin.md`. Two execution options:
 
 1. **Subagent-Driven (this session)** — fresh subagent per task, review between tasks, fast iteration
 2. **Parallel Session (separate)** — open a new session with executing-plans, batch execution with checkpoints

@@ -1640,8 +1640,8 @@ Applicable for: SwComponentType.port</xsd:documentation>
 it; `xml.sequenceOffset="10000"` keeps VARIATION-POINT the **last** element
 (constr_2599 for `atpMixed` classes — e.g. `StructuredReq` writes it after all
 Traceable content). The full anchor list is extracted with
-`scripts/extract_vp_anchors.py` → `docs/plans/vp_anchors.txt`; the
-`VariationPointCapable` refactor plan is `docs/plans/2026-09-03-variation-point-capable-mixin.md`.
+`scripts/extract_vp_anchors.py` → `docs/superpowers/plans/vp_anchors.txt`; the
+`VariationPointCapable` refactor plan is `docs/superpowers/plans/2026-09-03-variation-point-capable-mixin.md`.
 
 **Sync workflow consequence:** a class that is VP-capable per markdown + XSD adds
 `VariationPointCapable` to its bases (before `ABC`); its checklist carries no
