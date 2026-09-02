@@ -28,12 +28,18 @@ class DataPrototype(AtpPrototype, ABC):
     """
 
     # DataPrototype method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.28, p.306
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.28, p.306 (R23-11)
     # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getSwDataDefProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwDataDefProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwDataDefProps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwDataDefProps  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    #
+    # Heritage drift (2026-09-02, AtpPrototype re-parent AtpBlueprintable -> AtpFeature):
+    # DataPrototype's spec Base closure (SWCT Table 5.28) is ARObject, AtpFeature, AtpPrototype,
+    # Identifiable, MultilanguageReferrable, Referrable -- AtpBlueprintable is NOT in the closure,
+    # so losing it transitively via the AtpPrototype re-parent is spec-correct (no CollectableElement
+    # reliance). Reader/writer cover swDataDefProps via the shared readDataPrototype/writeDataPrototype.
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is DataPrototype:

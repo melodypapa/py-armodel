@@ -6,11 +6,14 @@ Tests cover all classes and methods in the DataPrototypes.py file to achieve 100
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     ApplicationArrayElement,
     ApplicationCompositeElementDataPrototype,
     ApplicationRecordElement,
-    AtpPrototype,
     AutosarDataPrototype,
     DataPrototype,
     ParameterDataPrototype,
@@ -55,6 +58,39 @@ class TestDataPrototype:
 
         prototype.setSwDataDefProps(None)
         assert prototype.getSwDataDefProps() == props
+
+
+class TestDataPrototypeHeritage:
+    """Heritage-drift audit for DataPrototype after AtpPrototype re-parent (AtpBlueprintable -> AtpFeature).
+
+    DataPrototype's spec Base closure (SWCT Table 5.28) is
+    ARObject, AtpFeature, AtpPrototype, Identifiable, MultilanguageReferrable, Referrable --
+    AtpBlueprintable is NOT in the closure, so losing it transitively (via the AtpPrototype
+    re-parent) is spec-correct.
+    """
+
+    def test_bases_are_spec_correct(self):
+        """DataPrototype's direct base is AtpPrototype; AtpBlueprintable is absent from the MRO."""
+        assert DataPrototype.__bases__[0] is AtpPrototype
+        assert AtpBlueprintable not in DataPrototype.__mro__
+        assert issubclass(DataPrototype, AtpPrototype)
+        assert issubclass(DataPrototype, Identifiable)
+        assert issubclass(DataPrototype, ARObject)
+        assert issubclass(DataPrototype, AtpPrototype)
+
+    def test_concrete_subclass_reaches_inherited_members(self):
+        """A concrete DataPrototype subclass initializes through the AtpPrototype -> Identifiable chain."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        prototype = VariableDataPrototype(ar_root, "TestDataPrototype")
+
+        assert isinstance(prototype, DataPrototype)
+        assert isinstance(prototype, AtpPrototype)
+        assert isinstance(prototype, Identifiable)
+        assert isinstance(prototype, ARObject)
+        assert AtpBlueprintable not in type(prototype).__mro__
+        assert prototype.getParent() == ar_root
+        assert prototype.getShortName() == "TestDataPrototype"
 
 
 class TestAutosarDataPrototype:

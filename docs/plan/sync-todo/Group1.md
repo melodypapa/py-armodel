@@ -334,16 +334,16 @@ ripple is audited. Per-class spec base verdict:
   - [x] Step 7 — Update checklist comment — converted to 6-col `# Spec:` format (`R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.2, p.66 (R23-11)`) with `release R23-11` column added to every row
   - [x] Step 8 — Deviations — none (heritage-only drift; restores Table 3.2 parallel-branch base so PortPrototype retains AtpBlueprintable)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: PortPrototype heritage tests (6) + SWCT model/parser suite (613) pass, ruff + black clean on changed files. PRE-EXISTING out-of-scope red (not caused by this pass): `test_ArgumentDataPrototype` (ArgumentDataPrototype→DataPrototype(AtpPrototype) loses AtpBlueprintable transitively) — expected heritage drift from the AtpPrototype sync, tracked by the `DataPrototype` drift row; left for that pass. 9b pending user confirmation → `# Spec verified: R23-11` retained
-- [ ] `DataPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 1.x · AtpPrototype subclass; confirm loss of AtpBlueprintable is spec-correct)
-  - [ ] Step 1 — Sync members & description from spec (confirm Base closure excludes AtpBlueprintable)
-  - [ ] Step 2 — Write model class unit test (Red) — MRO no longer has PackageableElement/CollectableElement via AtpPrototype; concrete-subclass init
-  - [ ] Step 3 — Implement model class (Green) — members unchanged; heritage already `DataPrototype(AtpPrototype, ABC)`
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite) — N/A
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A
-  - [ ] Step 6 — Update parser & writer (Green) — N/A
-  - [ ] Step 7 — Update checklist comment (heritage-fix note)
-  - [ ] Step 8 — Deviations — none
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — re-stamp retained
+- [x] `DataPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.28, p.306 · AtpPrototype subclass; confirm loss of AtpBlueprintable is spec-correct) — **finished, retained `# Spec verified: R23-11`** (commit: 90528d34)
+  - [x] Step 1 — Sync members & description from spec — Table 5.28: Note + Base closure = {ARObject, AtpFeature, AtpPrototype, Identifiable, MultilanguageReferrable, Referrable} (NO AtpBlueprintable); 1 attr swDataDefProps (SwDataDefProps, 0..1, aggr); Package = SWComponentTemplate::Datatype::DataPrototypes (Rule 0007 OK)
+  - [x] Step 2 — Write model class unit test (Red) — TestDataPrototypeHeritage: bases[0]==AtpPrototype, AtpBlueprintable not in MRO, issubclass Identifiable/ARObject, concrete-subclass init reaches parent/short_name. Green (impl already correct)
+  - [x] Step 3 — Implement model class (Green) — heritage already `DataPrototype(AtpPrototype, ABC)` (most-derived spec base); no code change
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — N/A: class Note "Base class for prototypical roles of any data type." + swDataDefProps inline/getter/setter Notes verbatim vs Table 5.28 (confirmed by diff)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — test_data_prototype.py (parser snippet + writer save→reparse) assert swDataDefProps (SW-ADDR-METHOD-REF) round-trips via shared readDataPrototype/writeDataPrototype
+  - [x] Step 6 — Update parser & writer (Green) — N/A: readDataPrototype (parser:6747) / writeDataPrototype (writer:2511) unchanged, cover SW-DATA-DEF-PROPS via concrete subclasses
+  - [x] Step 7 — Update checklist comment — 6-col unified `# Spec:` format (Table 5.28, p.306, R23-11) + heritage-drift note (AtpPrototype re-parent dropped AtpBlueprintable, spec-correct)
+  - [x] Step 8 — Deviations — none: heritage-only drift; loss of AtpBlueprintable is spec-correct per Table 5.28 Base closure; no naming/type/missing deviation
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8446 unit + integration round-trip pass, flake8/ruff/black clean; 9b user-confirmed → `# Spec verified: R23-11` retained
 - [ ] `ModeDeclarationGroupPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 3.19 · AtpPrototype subclass; confirm loss of AtpBlueprintable is spec-correct)
   - [ ] Step 1 — Sync members & description from spec (confirm Base closure excludes AtpBlueprintable)
   - [ ] Step 2 — Write model class unit test (Red) — MRO check; concrete-subclass init
