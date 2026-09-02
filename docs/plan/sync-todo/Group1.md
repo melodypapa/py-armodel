@@ -354,16 +354,16 @@ ripple is audited. Per-class spec base verdict:
   - [x] Step 7 — Update checklist comment — 6-col `# Spec:` format (R23-11 BSW Table 4.9, p.42) with release R23-11 column + heritage-drift note (AtpPrototype re-parent AtpBlueprintable→AtpFeature, loss spec-correct)
   - [x] Step 8 — Deviations — none: heritage-only drift; loss of AtpBlueprintable is spec-correct per Table 4.9 Base closure; no naming/type/missing deviation
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 68 model + 157 parser/writer tests pass, ruff + black clean; 9b user-confirmed (with docstring cleanup) → `# Spec verified: R23-11` retained
-- [ ] `RootSwCompositionPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 4.1 · AtpPrototype subclass; confirm loss of AtpBlueprintable is spec-correct)
-  - [ ] Step 1 — Sync members & description from spec (confirm Base closure excludes AtpBlueprintable)
-  - [ ] Step 2 — Write model class unit test (Red) — MRO check; concrete-subclass init
-  - [ ] Step 3 — Implement model class (Green) — members unchanged
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite) — N/A
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A
-  - [ ] Step 6 — Update parser & writer (Green) — N/A
-  - [ ] Step 7 — Update checklist comment (heritage-fix note)
-  - [ ] Step 8 — Deviations — none
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — re-stamp retained
+- [x] `RootSwCompositionPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 4.1 · AtpPrototype subclass; confirm loss of AtpBlueprintable is spec-correct) — **finished, retained `# Spec verified: R23-11`** (commit: f3911eb0)
+  - [x] Step 1 — Sync members & description from spec (confirm Base closure excludes AtpBlueprintable)
+  - [x] Step 2 — Write model class unit test (Red) — MRO check; concrete-subclass init
+  - [x] Step 3 — Implement model class (Green) — members unchanged
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — N/A (already verbatim)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A (covered by TestRootSwCompositionPrototype + TestWriterRootSwCompositionPrototype)
+  - [x] Step 6 — Update parser & writer (Green) — N/A (already round-trip)
+  - [x] Step 7 — Update checklist comment (6-col + heritage-drift note)
+  - [x] Step 8 — Deviations — none (AtpPrototype re-parent AtpBlueprintable→AtpFeature; spec Base closure excludes AtpBlueprintable, so loss is spec-correct)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — re-stamp retained
 - [ ] `SwComponentPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 8.x · AtpPrototype subclass; confirm loss of AtpBlueprintable is spec-correct)
   - [ ] Step 1 — Sync members & description from spec (confirm Base closure excludes AtpBlueprintable)
   - [ ] Step 2 — Write model class unit test (Red) — MRO check; concrete-subclass init
