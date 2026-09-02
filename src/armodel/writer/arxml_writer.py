@@ -1785,7 +1785,8 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeInnerGroupIRef(self, element: ET.Element, inner_group_iref: InnerPortGroupInCompositionInstanceRef):
         child_element = ET.SubElement(element, "INNER-GROUP-IREF")
-        # self.setChildElementOptionalRefType(child_element, "CONTEXT-REF", inner_group_iref.contextRef)
+        for context_ref in inner_group_iref.getContextRefs():
+            self.setChildElementOptionalRefType(child_element, "CONTEXT-REF", context_ref)
         self.setChildElementOptionalRefType(child_element, "TARGET-REF", inner_group_iref.getTargetRef())
 
     def writePortGroupInnerGroupIRefs(self, element: ET.Element, parent: PortGroup):

@@ -5674,7 +5674,8 @@ class ARXMLParser(AbstractARXMLParser):
     def readPortGroupInnerGroupIRefs(self, element: ET.Element, parent: PortGroup):
         for child_element in self.findall(element, "INNER-GROUP-IREFS/INNER-GROUP-IREF"):
             inner_group_iref = InnerPortGroupInCompositionInstanceRef()
-            # inner_group_iref.contextRef = self.getChildElementOptionalRefType(child_element, "CONTEXT-REF")
+            for context_ref in self.getChildElementRefTypeList(child_element, "CONTEXT-REF"):
+                inner_group_iref.addContextRef(context_ref)
             inner_group_iref.setTargetRef(self.getChildElementOptionalRefType(child_element, "TARGET-REF"))
             parent.addInnerGroupIRef(inner_group_iref)
 

@@ -84,3 +84,29 @@ def test_inner_group_iref_instance_ref_type(parser):
     parser.readPortGroup(element, comp)
     pg = comp.getPortGroups()[0]
     assert isinstance(pg.getInnerGroupIRefs()[0], InnerPortGroupInCompositionInstanceRef)
+
+
+def test_read_port_group_context_refs(parser):
+    """CONTEXT-REF (multiple, ordered) is read into contextRefs preserving order and DEST."""
+    comp = _comp()
+    element = _pg(
+        """
+            <SHORT-NAME>PG</SHORT-NAME>
+            <INNER-GROUP-IREFS>
+                <INNER-GROUP-IREF>
+                    <CONTEXT-REF DEST="SW-COMPONENT-PROTOTYPE">/Pkg/Comp/ProtoA</CONTEXT-REF>
+                    <CONTEXT-REF DEST="SW-COMPONENT-PROTOTYPE">/Pkg/Comp/ProtoB</CONTEXT-REF>
+                    <TARGET-REF DEST="PORT-GROUP">/Pkg/InnerGroup</TARGET-REF>
+                </INNER-GROUP-IREF>
+            </INNER-GROUP-IREFS>
+        """
+    )
+    parser.readPortGroup(element, comp)
+    pg = comp.getPortGroups()[0]
+    iref = pg.getInnerGroupIRefs()[0]
+    refs = iref.getContextRefs()
+    assert len(refs) == 2
+    assert refs[0].getValue() == "/Pkg/Comp/ProtoA"
+    assert refs[0].getDest() == "SW-COMPONENT-PROTOTYPE"
+    assert refs[1].getValue() == "/Pkg/Comp/ProtoB"
+    assert iref.getTargetRef().getValue() == "/Pkg/InnerGroup"

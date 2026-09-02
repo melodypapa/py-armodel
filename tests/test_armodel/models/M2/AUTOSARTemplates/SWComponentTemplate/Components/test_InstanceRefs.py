@@ -5,6 +5,8 @@ Tests cover all classes and methods in the InstanceRefs.py file to achieve 100% 
 
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import (
     InnerPortGroupInCompositionInstanceRef,
@@ -285,31 +287,56 @@ class TestRVariableInAtomicSwcInstanceRef:
 class TestInnerPortGroupInCompositionInstanceRef:
     """Test class for InnerPortGroupInCompositionInstanceRef class."""
 
-    def test_inner_port_group_in_composition_instance_ref_initialization(self):
-        """Test InnerPortGroupInCompositionInstanceRef initialization and methods."""
+    def test_initialization(self):
+        """Defaults: baseRef None, contextRefs [], targetRef None; isinstance AtpInstanceRef, not Referrable."""
         instance_ref = InnerPortGroupInCompositionInstanceRef()
 
-        assert instance_ref.baseRef is None
-        assert instance_ref.contextRefs == []
-        assert instance_ref.targetRef is None
+        assert instance_ref.getBaseRef() is None
+        assert instance_ref.getContextRefs() == []
+        assert instance_ref.getTargetRef() is None
+        assert isinstance(instance_ref, AtpInstanceRef)
+        assert not isinstance(instance_ref, Referrable)
 
-        # Test baseRef methods
+    def test_base_round_trip_and_none_noop(self):
+        """set/get baseRef round-trips and returns self; None is a no-op."""
         base_ref = RefType()
-        base_ref.setValue("/Base/Ref")
-        instance_ref.setBaseRef(base_ref)
+        base_ref.setValue("/Base/Comp")
+        base_ref.setDest("COMPOSITION-SW-COMPONENT-TYPE")
+        instance_ref = InnerPortGroupInCompositionInstanceRef()
+
+        assert instance_ref.setBaseRef(base_ref) is instance_ref
         assert instance_ref.getBaseRef() == base_ref
 
-        # Test contextRefs methods
-        context_ref = RefType()
-        context_ref.setValue("/Context/Ref")
-        instance_ref.addContextRefs(context_ref)
-        assert context_ref in instance_ref.getContextRefs()
+        instance_ref.setBaseRef(None)
+        assert instance_ref.getBaseRef() == base_ref
 
-        # Test targetRef methods
-        target_ref = RefType()
-        target_ref.setValue("/Target/Ref")
-        instance_ref.setTargetRef(target_ref)
-        assert instance_ref.getTargetRef() == target_ref
+    def test_context_refs_ordered_and_none_noop(self):
+        """addContextRef appends in order and returns self; None is a no-op."""
+        c1 = RefType()
+        c1.setValue("/Ctx/A")
+        c2 = RefType()
+        c2.setValue("/Ctx/B")
+        instance_ref = InnerPortGroupInCompositionInstanceRef()
+
+        assert instance_ref.addContextRef(c1) is instance_ref
+        instance_ref.addContextRef(c2)
+        assert instance_ref.getContextRefs() == [c1, c2]
+
+        instance_ref.addContextRef(None)
+        assert instance_ref.getContextRefs() == [c1, c2]
+
+    def test_target_round_trip_and_none_noop(self):
+        """set/get targetRef round-trips and returns self; None is a no-op."""
+        tref = RefType()
+        tref.setValue("/Pkg/InnerGroup")
+        tref.setDest("PORT-GROUP")
+        instance_ref = InnerPortGroupInCompositionInstanceRef()
+
+        assert instance_ref.setTargetRef(tref) is instance_ref
+        assert instance_ref.getTargetRef() == tref
+
+        instance_ref.setTargetRef(None)
+        assert instance_ref.getTargetRef() == tref
 
 
 class TestOperationInAtomicSwcInstanceRef:
