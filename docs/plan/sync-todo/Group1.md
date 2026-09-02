@@ -344,16 +344,16 @@ ripple is audited. Per-class spec base verdict:
   - [x] Step 7 — Update checklist comment — 6-col unified `# Spec:` format (Table 5.28, p.306, R23-11) + heritage-drift note (AtpPrototype re-parent dropped AtpBlueprintable, spec-correct)
   - [x] Step 8 — Deviations — none: heritage-only drift; loss of AtpBlueprintable is spec-correct per Table 5.28 Base closure; no naming/type/missing deviation
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8446 unit + integration round-trip pass, flake8/ruff/black clean; 9b user-confirmed → `# Spec verified: R23-11` retained
-- [ ] `ModeDeclarationGroupPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 3.19 · AtpPrototype subclass; confirm loss of AtpBlueprintable is spec-correct)
-  - [ ] Step 1 — Sync members & description from spec (confirm Base closure excludes AtpBlueprintable)
-  - [ ] Step 2 — Write model class unit test (Red) — MRO check; concrete-subclass init
-  - [ ] Step 3 — Implement model class (Green) — members unchanged
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite) — N/A
-  - [ ] Step 5 — Write reader/writer round-trip test (Red) — N/A
-  - [ ] Step 6 — Update parser & writer (Green) — N/A
-  - [ ] Step 7 — Update checklist comment (heritage-fix note)
-  - [ ] Step 8 — Deviations — none
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — re-stamp retained
+- [x] `ModeDeclarationGroupPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 4.9 (R4.3.1 Table 5.10; R23-11 re-number) · AtpPrototype subclass; confirm loss of AtpBlueprintable is spec-correct) — **finished, retained `# Spec verified: R23-11`** (commit: pending)
+  - [x] Step 1 — Sync members & description from spec (BSW Table 4.9 Base closure = ARObject, AtpFeature, AtpPrototype, Identifiable, MultilanguageReferrable, Referrable — AtpBlueprintable excluded; Note + 2 attrs swCalibrationAccess/type verbatim captured; page p.42 via pdf_page.py)
+  - [x] Step 2 — Write model class unit test (Red) — TestModeDeclarationGroupPrototypeHeritage: direct base AtpPrototype, AtpBlueprintable not in MRO, full MRO == spec Base closure, issubclass Identifiable/ARObject, concrete-subclass init reaches parent/shortName (5 tests pass)
+  - [x] Step 3 — Implement model class (Green) — members unchanged: `class ModeDeclarationGroupPrototype(AtpPrototype)` already spec-correct (AtpPrototype re-parent already applied)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring + inline comments already verbatim; per user decision this pass also wiped the "Gets/Sets the X" paraphrase prefixes from getter/setter docstrings and the "Stereotypes: isOfType" tail from the type inline comment so every member docstring is the spec Note verbatim (Rule 0012)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: no new own XML element; AtpPrototype re-parent only changes inheritance, not dispatch
+  - [x] Step 6 — Update parser & writer (Green) — N/A: readModeDeclarationGroupPrototype (parser:1496) / writeModeDeclarationGroupPrototype (writer:5578) already cover TYPE-TREF + SW-CALIBRATION-ACCESS + readIdentifiable
+  - [x] Step 7 — Update checklist comment — 6-col `# Spec:` format (R23-11 BSW Table 4.9, p.42) with release R23-11 column + heritage-drift note (AtpPrototype re-parent AtpBlueprintable→AtpFeature, loss spec-correct)
+  - [x] Step 8 — Deviations — none: heritage-only drift; loss of AtpBlueprintable is spec-correct per Table 4.9 Base closure; no naming/type/missing deviation
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 68 model + 157 parser/writer tests pass, ruff + black clean; 9b user-confirmed (with docstring cleanup) → `# Spec verified: R23-11` retained
 - [ ] `RootSwCompositionPrototype` (heritage drift pass · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 4.1 · AtpPrototype subclass; confirm loss of AtpBlueprintable is spec-correct)
   - [ ] Step 1 — Sync members & description from spec (confirm Base closure excludes AtpBlueprintable)
   - [ ] Step 2 — Write model class unit test (Red) — MRO check; concrete-subclass init
