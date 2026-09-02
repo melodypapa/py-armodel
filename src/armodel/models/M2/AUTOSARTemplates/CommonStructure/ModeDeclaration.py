@@ -7,6 +7,7 @@ that software components or BSW modules can be in, along with transitions betwee
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpType, AtpStructureElement
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, TRefType, AREnum
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum
@@ -148,7 +149,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         return self
 
 
-class ModeDeclaration(AtpStructureElement):
+class ModeDeclaration(AtpStructureElement, AtpBlueprintable):
     """
     Declaration of one Mode. The name and semantics of a specific mode is not defined in the meta-model.
     """

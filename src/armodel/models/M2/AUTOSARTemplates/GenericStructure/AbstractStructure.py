@@ -8,7 +8,6 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 
 
 class AtpInstanceRef(ARObject, ABC):
@@ -192,46 +191,25 @@ class AtpPrototype(AtpFeature, ABC):
         return self
 
 
-class AtpStructureElement(AtpBlueprintable, ABC):
-    """
-    Abstract base class for AUTOSAR Template (ATP) structure elements.
-
-    AtpStructureElement represents structural elements in the AUTOSAR system.
-    These elements provide the fundamental structure for organizing and defining
-    AUTOSAR models, including behaviors, operations, and other structural components.
-
-    This class extends AtpBlueprintable with structure-specific functionality.
-
-    Note:
-        This is an abstract class and cannot be instantiated directly.
-        AtpStructureElement is the parent of various AUTOSAR structural elements:
-        - AbstractAccessPoint (including ServerCallPoint, VariableAccess, etc.)
-        - AbstractImplementationDataTypeElement
-        - BswModuleDescription
-        - BulkNvDataDescriptor
-        - ClientServerOperation
-        - DataPrototypeGroup
-        - IdentCaption
-        - InternalBehavior (including SwcInternalBehavior, BswInternalBehavior)
-        - ModeDeclaration
-        - ModeDeclarationMapping
-        - ModeTransition
-        - NvBlockDescriptor
-        - PerInstanceMemory
-        - PortGroup
-        - PortPrototypeBlueprint
-        - RTEEvent (including InitEvent, TimingEvent, DataReceivedEvent, etc.)
-        - RunnableEntityGroup
-        - SwConnector
-        - SwcBswMapping
-        - System
-        - Trigger
-    """
+class AtpStructureElement(AtpClassifier, AtpFeature, ABC):
+    """A structure element is both a classifier and a feature. As a feature, its structure is given by the feature it owns as a classifier."""
 
     # AtpStructureElement method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 5.5, p.175 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Table 5.5 lists no Attribute rows; the XSD group ATP-STRUCTURE-ELEMENT is an
+    # empty <xsd:sequence/>, so the class reduces to __init__ alone (inherited
+    # atpFeatures lives in the AtpClassifier checklist, Table 5.1).
+    # Heritage: Base closure = ARObject, AtpClassifier, AtpFeature, Identifiable,
+    # MultilanguageReferrable, Referrable. AtpClassifier (Table 5.1) and AtpFeature
+    # (Table 5.2) are parallel branches off Identifiable, so both are direct bases;
+    # AtpBlueprintable is NOT in the closure.
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpStructureElement:
             raise TypeError("AtpStructureElement is an abstract class.")
+        
         super().__init__(parent, short_name)
