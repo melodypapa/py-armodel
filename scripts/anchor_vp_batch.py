@@ -37,7 +37,7 @@ def anchor_file(path, entries):
         if new_bases is not None:
             lines[lineno - 1] = m.group(1) + new_bases + ")" + (m.group(3) or "")
     content = "\n".join(lines)
-    if IMPORT_LINE not in content:
+    if "VariationPointCapable import" not in content:
         insert_at = None
         for i, line in enumerate(lines[:150]):
             stripped = line.strip()
