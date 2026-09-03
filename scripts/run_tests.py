@@ -106,18 +106,30 @@ def run_command(cmd: List[str], description: str, verbose: bool = False) -> Tupl
     try:
         if verbose:
             print()
-            result = subprocess.run(cmd, capture_output=False, text=True)
+            # Stream the output live and keep a copy: the caller parses the counts
+            # out of it, so verbose mode must not sacrifice capture.
+            process = subprocess.Popen(cmd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            captured = []
+            for line in process.stdout:
+                print(line, end="")
+                captured.append(line)
+            process.stdout.close()
+            process.wait()
+            stdout, stderr, returncode = "".join(captured), "", process.returncode
         else:
             result = subprocess.run(cmd, capture_output=True, text=True)
+            stdout, stderr, returncode = result.stdout, result.stderr, result.returncode
 
-        if result.returncode == 0:
+        # pytest writes its summary line to stdout, so stdout is what the caller
+        # must get back on failure too.
+        if returncode == 0:
             print_success("OK")
-            return True, result.stdout
+            return True, stdout
         else:
             print_error("FAILED")
-            if not verbose and result.stderr:
-                print(f"  Error: {result.stderr.strip()[:200]}")
-            return False, result.stderr
+            if not verbose and stderr:
+                print(f"  Error: {stderr.strip()[:200]}")
+            return False, stdout
 
     except Exception as e:
         print_error(f"EXCEPTION: {e}")
@@ -163,9 +175,10 @@ def run_unit_tests(args: argparse.Namespace, pytest_args: List[str], run_coverag
 
     success, output = run_command(cmd, "Unit tests", args.verbose)
 
-    # Parse results from output
+    # Parse results from output — on failure too, otherwise the failure count
+    # stays 0 and the summary reports a false pass.
     passed = failed = skipped = 0
-    if success and output:
+    if output:
         # Try to parse pytest summary
         for line in output.split("\n"):
             if " passed" in line:
@@ -187,11 +200,6 @@ def run_unit_tests(args: argparse.Namespace, pytest_args: List[str], run_coverag
                             skipped = int(parts[i - 1])
                         except (ValueError, IndexError):
                             pass
-
-    # If parsing failed but test passed, set default passed count
-    if success and passed == 0 and failed == 0 and skipped == 0:
-        # Default to 1 passed for integration tests (single test file)
-        passed = 1
 
     return success, passed, failed, skipped
 
@@ -237,9 +245,10 @@ def run_integration_tests(args: argparse.Namespace, pytest_args: List[str], run_
 
     success, output = run_command(cmd, "Integration tests", args.verbose or True)  # Always show output for integration tests
 
-    # Parse results from output
+    # Parse results from output — on failure too, otherwise the failure count
+    # stays 0 and the summary reports a false pass.
     passed = failed = skipped = 0
-    if success and output:
+    if output:
         # Try to parse pytest summary
         for line in output.split("\n"):
             if " passed" in line:
@@ -261,11 +270,6 @@ def run_integration_tests(args: argparse.Namespace, pytest_args: List[str], run_
                             skipped = int(parts[i - 1])
                         except (ValueError, IndexError):
                             pass
-
-    # If parsing failed but test passed, set default passed count
-    if success and passed == 0 and failed == 0 and skipped == 0:
-        # Default to 1 passed for integration tests (single test file)
-        passed = 1
 
     return success, passed, failed, skipped
 
@@ -523,6 +527,9 @@ def print_summary(unit_results: Tuple[bool, int, int, int], integration_results:
     print_header("TEST SUMMARY")
 
     total_passed = total_failed = total_skipped = 0
+    # The suite exit codes are the authoritative verdict: a run that pytest reported
+    # as failing must never be summarized as a pass, even if its counts can't be parsed.
+    overall_success = True
 
     if run_unit:
         unit_success, unit_passed, unit_failed, unit_skipped = unit_results
@@ -535,6 +542,7 @@ def print_summary(unit_results: Tuple[bool, int, int, int], integration_results:
         total_passed += unit_passed
         total_failed += unit_failed
         total_skipped += unit_skipped
+        overall_success = overall_success and unit_success and unit_failed == 0
 
     if run_integration:
         integration_success, integration_passed, integration_failed, integration_skipped = integration_results
@@ -547,6 +555,7 @@ def print_summary(unit_results: Tuple[bool, int, int, int], integration_results:
         total_passed += integration_passed
         total_failed += integration_failed
         total_skipped += integration_skipped
+        overall_success = overall_success and integration_success and integration_failed == 0
 
     # Overall summary
     if run_unit and run_integration:
@@ -556,7 +565,6 @@ def print_summary(unit_results: Tuple[bool, int, int, int], integration_results:
         print(f"  Total Failed:  {Colors.FAIL if total_failed > 0 else ''}{total_failed}{Colors.ENDC}")
         print(f"  Total Skipped: {Colors.WARNING if total_skipped > 0 else ''}{total_skipped}{Colors.ENDC}")
 
-        overall_success = total_failed == 0
         status_color = Colors.OKGREEN if overall_success else Colors.FAIL
         status_text = "ALL TESTS PASSED" if overall_success else "SOME TESTS FAILED"
         print(f"\n  {Colors.BOLD}{status_color}{status_text}{Colors.ENDC}")
