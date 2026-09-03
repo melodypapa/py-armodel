@@ -41,17 +41,17 @@ class AtpBlueprintable(PackageableElement, ABC):
 
 
 class AtpBlueprint(Identifiable, ABC):
-    """
-    This meta-class represents the ability to act as a Blueprint. As this
-    class is an abstract one, particular blueprint meta-classes inherit from
-    this one.
-    """
+    """This meta-class represents the ability to act as a Blueprint. As this class is an abstract one, particular blueprint meta-classes inherit from this one."""
 
     # AtpBlueprint method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.11, p.305
-    # [ ] __init__                     [ ] impl  [ ] docstring  [ ] test
-    # [ ] addBlueprintPolicy           [ ] impl  [ ] docstring  [ ] test
-    # [ ] getBlueprintPolicys          [ ] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table C.12, p.161 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addBlueprintPolicy  [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
+    # [x] getBlueprintPolicys [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
+    # Marker withheld: BlueprintPolicy (member type, `*` aggr) is a Rule 0001.10 referenced-class
+    # placeholder — not implemented in this repo — so the blueprintPolicy aggregation's reader/writer
+    # (deferred, rows stay [ ]) and the `# Spec verified:` stamp are withheld until BlueprintPolicy lands.
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpBlueprint:
@@ -66,22 +66,13 @@ class AtpBlueprint(Identifiable, ABC):
         self.blueprintPolicys: List[ARObject] = []
 
     def addBlueprintPolicy(self, value: Optional[ARObject]) -> "AtpBlueprint":
-        """
-        Adds a BlueprintPolicy (spec type, not yet implemented; carried as an
-        ARObject placeholder) that indicates whether the blueprintable
-        element will be modifiable or not modifiable. A None value is a no-op
-        and does not append to blueprintPolicys.
-        """
+        """This role indicates whether the blueprintable element will be modifiable or not modifiable. A None value is a no-op and does not append to blueprintPolicys."""
         if value is not None:
             self.blueprintPolicys.append(value)
         return self
 
     def getBlueprintPolicys(self) -> List[ARObject]:
-        """
-        Gets the BlueprintPolicys (spec type, not yet implemented; carried as
-        ARObject placeholders) that indicate whether the blueprintable
-        elements will be modifiable or not modifiable.
-        """
+        """This role indicates whether the blueprintable element will be modifiable or not modifiable."""
         return self.blueprintPolicys
 
 
