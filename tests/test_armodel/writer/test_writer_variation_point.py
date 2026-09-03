@@ -21,7 +21,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
     ConditionByFormula,
     PostBuildVariantCondition,
-    PostBuildVariantCriterion,
     VariationPoint,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling.AttributeValueVariationPoints import (
@@ -115,14 +114,16 @@ class TestWriteVariationPoint:
         document.clear()
         document.setARRelease("R23-11")
 
-        criterion = PostBuildVariantCriterion(document, "Country")
+        pkg = document.createARPackage("AUTOSAR")
+        component = pkg.createApplicationSwComponentType("Component")
+        port = component.createPRPortPrototype("Country")
         vp = VariationPoint()
         vp.setShortLabel(Identifier().setValue("VP_Country"))
-        criterion.setVariationPoint(vp)
+        port.setVariationPoint(vp)
 
         writer = ARXMLWriter()
-        element = ET.Element("POST-BUILD-VARIANT-CRITERION")
-        writer.writeIdentifiable(element, criterion)
+        element = ET.Element("PR-PORT-PROTOTYPE")
+        writer.writeIdentifiable(element, port)
 
         vp_element = element.find("VARIATION-POINT")
         assert vp_element is not None

@@ -11,7 +11,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifiable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -47,7 +46,6 @@ def _populated() -> ConcreteIdentifiable:
     obj.setCategory("TestCategory")
     obj.setDesc(MultiLanguageOverviewParagraph())
     obj.setIntroduction(DocumentationBlock())
-    obj.setVariationPoint(VariationPoint())
     obj.setUuid(String().setValue("DCE:2fac1234-31f8-11b4-a222-08002b34c003"))
     return obj
 
@@ -67,7 +65,6 @@ class TestWriteIdentifiable:
         assert element.find("CATEGORY").text == "TestCategory"
         assert element.find("DESC") is not None
         assert element.find("INTRODUCTION") is not None
-        assert element.find("VARIATION-POINT") is not None
 
     def test_write_empty_optional_fields(self):
         writer = _make_writer()
@@ -109,6 +106,5 @@ class TestRoundTripIdentifiable:
         assert dst.getAdminData() is not None
         assert dst.getDesc() is not None
         assert dst.getIntroduction() is not None
-        assert dst.getVariationPoint() is not None
         annotations = dst.getAnnotations()
         assert len(annotations) == 1

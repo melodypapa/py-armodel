@@ -190,6 +190,9 @@ class TestVariationPointRoundTrip:
         assert conditions2[0].getMatchingCriterionRef().getValue() == "/Demo/Criterions/Country"
         assert conditions2[0].getValue().getValue() == 1
 
-        # Criterion element's own variation point also survives
+        # The fixture's VARIATION-POINT on POST-BUILD-VARIANT-CRITERION is not
+        # schema-conformant (no VARIATION-POINT anchor anywhere in the criterion's
+        # XSD group chain): the writer gate suppresses it, so it does not survive
+        # the round trip.
         criterion2 = document2.find("/Demo/Criterions/Country")
-        assert criterion2.getVariationPoint().getShortLabel().getValue() == "VP_Country"
+        assert getattr(criterion2, "variationPoint", None) is None

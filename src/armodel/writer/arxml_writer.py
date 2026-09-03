@@ -265,6 +265,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     ARNumerical,
@@ -1238,7 +1239,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(element, "CATEGORY", identifiable.getCategory())
         self.writeDocumentationBlock(element, "INTRODUCTION", identifiable.getIntroduction())
         self.setAdminData(element, identifiable.getAdminData())
-        if write_variation_point:
+        if write_variation_point and isinstance(identifiable, VariationPointCapable):
             self.writeVariationPoint(element, identifiable.getVariationPoint())
 
     def writeARElement(self, parent: ET.Element, ar_element: ARElement):
