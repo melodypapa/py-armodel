@@ -2,6 +2,19 @@
 
 Input: `Group 1 — Framework & core, PortInterface basics` of `docs/examples/sync_class_groups.md` · Generated: 2026-08-30 · Queue order = row order
 (resume = first class row still `[ ]`; all class rows `[x]` = sync finished — Rule 0017.3)
+> **Rule — already-verified short-circuit (added 2026-09-04):** before running the 9-step
+> sync for a row, check whether the class already carries `# Spec verified: <RELEASE>` or
+> `# XSD verified: <xsd-file>` in its own class body (verify the marker in the source — a
+> row in this todo is not proof). If it does **and** a quick deviation check finds nothing
+> new (base vs the spec `Base` closure, member types vs its table, verbatim docstrings,
+> reader/writer coverage, checklist shape per Rules 0002/0012), **skip the 9 steps**: mark
+> the row `- [x] <Class> — already verified (<marker>, <file>)` and move on. If the check
+> finds a new deviation, do **not** mark it verified — keep the row queued, run the steps
+> for the deviation only, and record it in Step 8 (Rule 0012.3: an existing marker is not
+> proof).
+· **Re-queued 2026-09-04**: every row still `[ ]` (14) was moved out of the historical list above
+  into `## Remaining queue — reordered 2026-09-04 (dependency-first)` below, together with the
+  17 related parent/member classes that were missing. Resume there.
 
 ## Queue (dependency-first)
 
@@ -442,116 +455,6 @@ ripple is audited. Per-class spec base verdict:
   - [x] Step 7 — Update checklist comment — 6-col `# Spec:` (PDF, Table 3.17, p.37, R23-11) + `# Spec verified: R23-11`
   - [x] Step 8 — Deviations — none: heritage ApplicationDataType most-derived role-matching base (parallel branches not multi-inherited per Rule 0001.2); no own attributes to mis-model; reader/writer fully covered
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 9 ADDT tests + 197 related unit + integration round-trip pass, ruff/black clean; 9b user-confirmed 2026-09-03: all blind-spot checks pass (verbatim docstring, heritage, no own attrs, Rule 0007 location) → `# Spec verified: R23-11` written; commit abdfbf1d
-- [ ] `AbstractImplementationDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.14)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `AbstractImplementationDataTypeElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.16)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `Implementation` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 7.1 (multiple tables — resolve in per-class Phase 0))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `FlatMap` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 14.1)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ModeAccessPointIdent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 14.5)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `IdentCaption` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 14.4)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `DataInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.19)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `NvDataInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 11.5)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SenderReceiverInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.1)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ParameterInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 2.2)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `TriggerInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.12)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [x] `PortInterfaceMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.20) — **finished, stamped `# Spec verified: R23-11`** (commit: ca6a3723)
   - [x] Step 1 — Sync members & description from spec — Table 4.20 body md l.3527–3535; caption l.3525; PDF p.119 confirmed via pdf_page.py (R4.3.1 has Table 4.24 p.124 — unused, R23-11 table exists). Class=abstract; Package=...SWComponentTemplate::PortInterface; Base=ARObject, AtpBlueprint, AtpBlueprintable, Identifiable, MultilanguageReferrable, Referrable → role branch **AtpBlueprintable** ✓ current heritage correct (parallel AtpBlueprint/AtpBlueprintable chains not added via MI, ARPackage precedent); Note (verbatim) captured for Step 4; Attributes row = `-` — **no own attributes** (abstract shell); Subclasses: ClientServerInterfaceMapping, ModeInterfaceMapping, TriggerInterfaceMapping, VariableAndParameterInterfaceMapping; Aggregated by PortInterfaceMappingSet.portInterfaceMapping. No own XML element (abstract) → Steps 5/6 expected N/A. Current code: no class docstring, stale 3-col checklist
   - [x] Step 2 — Write model class unit test (Red) — test_PortInterface.py TestPortInterfaceMapping: test_PortInterfaceMapping_abstract (TypeError msg) + test_PortInterfaceMapping_concrete_subclass_inheritance (isinstance chain via ClientServerInterfaceMapping, parent/short_name). Result: both pass immediately — impl already matches Table 4.20 (abstract shell, no attributes); no failing assertion found
@@ -560,9 +463,71 @@ ripple is audited. Per-class spec base verdict:
   - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: abstract class, no own XML element; XSD AUTOSAR_00052.xsd l.92574 defines `PORT-INTERFACE-MAPPING` as an element **group** (concrete subclasses substitute into it) — round-trip covered by the concrete subclass syncs
   - [x] Step 6 — Update parser & writer (Green) — N/A: same reason as Step 5
   - [x] Step 7 — Update checklist comment — 6-col format with `# Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.20, p.119 (R23-11)`; single row `__init__` (reader/writer `[—]`, release R23-11); marker deferred to 9b
-  - [x] Step 8 — Deviations — none for the class itself (no own attributes, heritage correct, docstring verbatim). Rule 0001.10 reference report (non-blocking): base `AtpBlueprintable` queued at Group1.md l.297 with heritage fix (re-parent → Identifiable); concrete subclass `TriggerInterfaceMapping` queued at l.457; concrete subclasses `ClientServerInterfaceMapping` / `ModeInterfaceMapping` / `VariableAndParameterInterfaceMapping` NOT queued (Table 4.20 Subclasses row; inherit from this class, no member-type edge) — future queue candidates
+  - [x] Step 8 — Deviations — none for the class itself (no own attributes, heritage correct, docstring verbatim). Rule 0001.10 reference report (non-blocking): base `AtpBlueprintable` was queued above (row `AtpBlueprintable`, `## AtpPrototype heritage-drift follow-ups` section — the original `l.297` reference was stale); concrete subclass `TriggerInterfaceMapping` queued in `## Remaining queue — reordered 2026-09-04` (row 14, moved there by the 2026-09-04 re-queue — this row's `l.457` reference is stale); concrete subclasses `ClientServerInterfaceMapping` / `ModeInterfaceMapping` / `VariableAndParameterInterfaceMapping` NOT queued (Table 4.20 Subclasses row; inherit from this class, no member-type edge) — future queue candidates
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8210 unit + 2 integration round-trip pass, ruff/flake8/black clean; 9b (user-confirmed): Rules 0001.1/0001.2/0001.3/0003/0012/0014 pass, N/A items justified (no attributes/no XML element), Rule 0007 package-location check pass (PortInterface/__init__.py non-leaf shape, explicit imports, top-level export True, not in exclusion lists); no deviations; marker written
-- [ ] `SubElementMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.32)
+
+## Remaining queue — reordered 2026-09-04 (dependency-first)
+
+**Review pass (2026-09-04).** The 14 rows still `[ ]` above were removed from that
+historical list and re-queued here together with the **17 related parent / member
+classes that were missing** (Rule 16.5: *an un-stamped member type is **not** skipped —
+it is queued* — "exists in the codebase" is not a stamp; verify the marker).
+
+- **Closure depth: level-1 only** — every direct `Base` (most-derived) and every direct
+  `Attribute` member type of the queued classes. Member types of the *newly added* rows
+  are **not** queued here; see the next-level section below — they get queued when the
+  owning row reaches Step 1.
+- **Subclasses are not queued** (`PortInterfaceMapping` Step-8 precedent: no member-type
+  edge) — see `## Not queued`.
+- **Order:** bases before member types, dependency-first inside each cluster; clusters
+  are then ordered by how many queued classes they unblock (most-blocking first). The
+  cheap abstract shells that gate concrete classes are top priority; the heavy
+  `Implementation` subtree is bottom.
+- **Stamp audit method:** `ast` walk over `src/armodel/models/**` (2026-09-04) — a class
+  counts as stamped only if `# Spec verified:` / `# XSD verified:` appears in its own
+  body. `Identifiable` is still UNSTAMPED (variationPoint mixin refactor awaiting 9b), so
+  every `Identifiable`-derived row inherits that blocker until it is re-stamped.
+- **Heritage verdict for the 14 originally-queued rows: only `FlatMap` is wrong**
+  (verified against the spec `Base` closure, cross-checked against the XSD complexType
+  chain where the closure was ambiguous). The other 13 already derive from their
+  most-derived spec base.
+- Notes quoted below are the **markdown** cell text with the corpus's line-wrap artefacts
+  normalised (`Multilanguage Referrable` → `MultilanguageReferrable`,
+  `swDataDef Props` → `swDataDefProps`, …). Re-verify verbatim against the PDF in Step 1
+  before writing any docstring (Rule 0001.4).
+
+### Dependency map (why this order)
+
+```
+AutosarDataType ──────────────> AbstractImplementationDataType
+AtpStructureElement (✓) ──────> AbstractImplementationDataTypeElement
+
+DataInterface ────────────────> ParameterInterface
+      │                         NvDataInterface
+      │                         SenderReceiverInterface
+      ├── VariableDataPrototype ──> NvDataInterface, SenderReceiverInterface,
+      │                             InvalidationPolicy
+      └── HandleInvalidEnum ──> InvalidationPolicy ──> SenderReceiverInterface
+
+Trigger ──────────────────────> TriggerInterface
+      └────────────────────────> TriggerMapping ──> TriggerInterfaceMapping
+
+IdentCaption ────────────────> ModeAccessPointIdent
+AtpType (✓) + ModeDeclarationMapping (✓) ──> ModeDeclarationMappingSet
+SubElementRef + TextTableMapping ──> SubElementMapping
+FlatInstanceDescriptor ──────> FlatMap            (FlatMap: heritage fix AtpBlueprintable → ARElement)
+
+ProgramminglanguageEnum, Compiler, Linker, Code, DependencyOnArtifact,
+ResourceConsumption, SwcBswMapping, BuildActionManifest ──> Implementation
+```
+
+(`✓` = already stamped, not re-queued.)
+
+### Cluster 1 — AutosarDataType → AbstractImplementationDataType
+
+- [ ] `AutosarDataType` (**NEW — parent of `AbstractImplementationDataType`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.1, p.232 · **heritage fix: code `AutosarDataType(AtpType, ABC)` → spec most-derived direct base `ARElement`**)
+  - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes (file `SWComponentTemplate/Datatype/Datatypes.py` ✓ Rule 0007); Base = ARElement, ARObject, AtpClassifier, AtpType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived direct base **ARElement** — code has `AtpType`, which skips PackageableElement → CollectableElement → ARElement; Subclasses = AbstractImplementationDataType, ApplicationDataType; Aggregated by ARPackage.element; 1 own attribute `swDataDefProps` (SwDataDefProps, 0..1, aggr) — member type **stamped R23-11** ✓; Note (md, wrap-normalised): "Abstract base class for user defined AUTOSAR data types for software."
+  - Why first: it is the only un-stamped **base** in the queue and it gates `AbstractImplementationDataType` (Rules 0001.10 / 0012.1). Fixing the base also requires an audit of the two subclasses' MRO (`AbstractImplementationDataType`, `ApplicationDataType`) plus their subtrees for anything that relied on the wrong chain.
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -572,7 +537,9 @@ ripple is audited. Per-class spec base verdict:
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `TriggerInterfaceMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.30)
+- [ ] `AbstractImplementationDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.14, p.267 · **after `AutosarDataType` (base)**)
+  - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes (file `CommonStructure/ImplementationDataTypes.py` ✓ Rule 0007); Base = ARElement, ARObject, AtpBlueprint, AtpBlueprintable, AtpClassifier, AtpType, AutosarDataType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived direct base **AutosarDataType** ✓ heritage already correct in code (`AbstractImplementationDataType(AutosarDataType, ABC)`); Subclasses = ImplementationDataType; Aggregated by ARPackage.element; **Attribute rows = `-` → no own attributes** → Steps 5/6 expected N/A (abstract shell, no own XML element); Note (md, wrap-normalised): "This meta-class represents an abstract base class for different flavors of ImplementationDataType."
+  - Known deviations to fix in this sync: no `# Spec:` line / stamp (unstamped); checklist is not in the 6-column format.
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -582,7 +549,12 @@ ripple is audited. Per-class spec base verdict:
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ModeDeclarationMappingSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.28 · after `ModeDeclarationMapping` (auto-queued, exists))
+
+### Cluster 2 — AbstractImplementationDataTypeElement (independent, base already stamped)
+
+- [ ] `AbstractImplementationDataTypeElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.16, p.269 · after `AtpStructureElement` (base, stamped R23-11))
+  - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes (file `CommonStructure/ImplementationDataTypes.py` ✓ Rule 0007); Base = ARObject, AtpClassifier, AtpFeature, AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **AtpStructureElement** ✓ heritage already correct in code, and the base is **stamped R23-11**; Subclasses = ImplementationDataTypeElement; Aggregated by AtpClassifier.atpFeature; **Attribute rows = `-` → no own attributes** → Steps 5/6 expected N/A; Note (md, wrap-normalised): "This meta-class represents the ability to act as an abstract base class for specific derived meta-classes that support the modeling of ImplementationDataTypes for a particular language."
+  - Known deviations to fix in this sync: no `# Spec:` line / stamp; 6-column checklist missing. Nothing blocks it, which is why it sits here rather than later.
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -592,14 +564,426 @@ ripple is audited. Per-class spec base verdict:
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+### Cluster 3 — DataInterface subtree (DataInterface unblocks three concrete interfaces)
+
+- [ ] `DataInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.19, p.87 · **before `NvDataInterface` / `ParameterInterface` / `SenderReceiverInterface` (base of all three)**)
+  - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::SWComponentTemplate::PortInterface (file `SWComponentTemplate/PortInterface/__init__.py` ✓ Rule 0007); Base = ARElement, ARObject, AtpBlueprint, AtpBlueprintable, AtpClassifier, AtpType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, PortInterface, Referrable → most-derived direct base **PortInterface** ✓ heritage already correct in code (`DataInterface(PortInterface, ABC)`), base **stamped R23-11**; Subclasses = NvDataInterface, ParameterInterface, SenderReceiverInterface (all three queued below); Aggregated by ARPackage.element; **Attribute rows = `-` → no own attributes** → Steps 5/6 N/A; Note (md, wrap-normalised): "The purpose of this meta-class is to act as an abstract base class for subclasses that share the semantics of being concerned about data (as opposed to e.g. operations)."
+  - Known deviations to fix in this sync: unstamped; 6-column checklist missing. Highest fan-out in the queue (3 dependents) → runs before its subclasses.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `VariableDataPrototype` (**NEW — member type of `NvDataInterface.nvData`, `SenderReceiverInterface.dataElement`, `InvalidationPolicy.dataElement`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.31, p.310 (BSW Table 5.45, p.108 — same class, R23-11 SWCT table is authoritative))
+  - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes (file `SWComponentTemplate/Datatype/DataPrototypes.py` ✓ Rule 0007); Base = ARObject, AtpFeature, AtpPrototype, AutosarDataPrototype, DataPrototype, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **AutosarDataPrototype** ✓ heritage already correct in code (`VariableDataPrototype(AutosarDataPrototype, VariationPointCapable)`), both bases **stamped R23-11**; 1 own attribute `initValue` (ValueSpecification, 0..1, aggr) — member type **stamped R23-11** ✓; Note (md, wrap-normalised): "A VariableDataPrototype represents a formalized generic piece of information that is typically mutable by the application software layer. VariableDataPrototype is used in various contexts and the specific context gives the otherwise generic VariableDataPrototype a dedicated semantics."
+  - Why here: only un-stamped member type with more than one dependent (3) — queued before all three.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ParameterInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 2.2, p.41 · after `DataInterface` (base))
+  - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; Base closure adds `DataInterface` to the `PortInterface` chain → most-derived direct base **DataInterface** ✓ heritage already correct in code; 1 attribute `parameter` (ParameterDataPrototype, `*`, aggr) — member type **stamped R23-11** ✓ — so this is the only one of the three `DataInterface` subclasses with nothing outstanding besides its own stamp; Note (md, wrap-normalised, Tags: tail dropped per Rule 0012.2.5.2): "A parameter interface declares a number of parameter and characteristic values to be exchanged between parameter components and software components."
+  - Why before its siblings: cheapest of the three (single stamped member type) → unblocks first.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `NvDataInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 11.5, p.664 · after `DataInterface` (base) and `VariableDataPrototype` (member type))
+  - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; most-derived direct base **DataInterface** ✓ heritage already correct in code; 1 attribute `nvData` (VariableDataPrototype, `*`, aggr) — member type queued above; Note (md, wrap-normalised, Tags: tail dropped): "A non volatile data interface declares a number of VariableDataPrototypes to be exchanged between non volatile block components and atomic software components."
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `HandleInvalidEnum` (**NEW — member type of `InvalidationPolicy.handleInvalid` · `AREnum`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.3, p.97 (SystemTemplate Table 6.6, p.306 — unused, R23-11 SWCT table exists))
+  - Spec facts (extracted 2026-09-04): Enumeration table (not a Class table — `| Enumeration | HandleInvalidEnum |`); literals in displayed order with verbatim `atp.EnumerationLiteralIndex` tags: `dontInvalidate` (0) "Invalidation is switched off.", `externalReplacement` (1) "Replace a received invalidValue. The replacement value is sourced from the aggregation in the role replaceWith.", `keep` (2) "The application software is supposed to handle signal invalidation on RTE API level either by Data ReceiveErrorEvent or check of error code on read access.", `replace` (3) "Replace a received invalidValue. The replacement value is specified by the initValue."
+  - Known deviations to check in Step 1: the class currently lives in `SWComponentTemplate/Communication.py`, but its only consumer and its spec neighbourhood (`InvalidationPolicy`, SWCT Table 4.2) are `SWComponentTemplate::PortInterface` → **Rule 0007 package-location candidate** (StandardNameEnum precedent); literals must be diffed against the code.
+  - Why here: cheapest `InvalidationPolicy` dependency (AREnum, no XML element of its own → Steps 5/6 N/A).
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `InvalidationPolicy` (**NEW — member type of `SenderReceiverInterface.invalidationPolicy`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.2, p.97 · after `VariableDataPrototype` (member `dataElement`) and `HandleInvalidEnum` (member `handleInvalid`))
+  - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::SWComponentTemplate::PortInterface (file `SWComponentTemplate/PortInterface/__init__.py` ✓ Rule 0007); Base = **ARObject** ✓ heritage already correct in code (`InvalidationPolicy(ARObject)`); Aggregated by SenderReceiverInterface.invalidationPolicy; 2 attributes: `dataElement` (VariableDataPrototype, 0..1, **ref**) and `handleInvalid` (HandleInvalidEnum, 0..1, attr); Note (md, wrap-normalised): "Specifies whether the component can actively invalidate a particular dataElement. If no invalidationPolicy points to a dataElement this is considered to yield the identical result as if the handleInvalid attribute was set to dontInvalidate."
+  - Cross-check: SWCT `[constr_10119]` (md l.2828) — "SenderReceiverInterface.dataElement shall be referenced by at most one InvalidationPolicy" — capture for Step 4 if the spec attaches it as an attribute Note.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SenderReceiverInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.1, p.94 · after `DataInterface` (base), `VariableDataPrototype`, `InvalidationPolicy` (member types))
+  - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; most-derived direct base **DataInterface** ✓ heritage already correct in code; 3 attributes: `dataElement` (VariableDataPrototype, *, aggr), `invalidationPolicy` (InvalidationPolicy, *, aggr), `metaDataItemSet` (MetaDataItemSet, *, aggr — **stamped R23-11** ✓); Note (md, wrap-normalised, Tags: tail dropped): "A sender/receiver interface declares a number of data elements to be sent and received."
+  - Last of its cluster: depends on `DataInterface` + both new member types.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+### Cluster 4 — Trigger subtree (Trigger unblocks two rows)
+
+- [ ] `Trigger` (**NEW — member type of `TriggerInterface.trigger` and `TriggerMapping.firstTrigger`/`secondTrigger`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.13, p.109 (BSW Table 4.16, p.46 — same class, R23-11 SWCT table is authoritative))
+  - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::CommonStructure::TriggerDeclaration (file `CommonStructure/TriggerDeclaration.py` ✓ Rule 0007); Base = ARObject, AtpClassifier, AtpFeature, AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **AtpStructureElement** ✓ heritage already correct in code (`Trigger(AtpStructureElement, VariationPointCapable)`), base **stamped R23-11**; 2 attributes: `swImplPolicy` (SwImplPolicyEnum, 0..1, attr — **stamped R23-11** ✓) and `triggerPeriod` (MultidimensionalTime, 0..1, aggr — **stamped R23-11** ✓); Note (md, wrap-normalised): "A trigger which is provided (i.e. released) or required (i.e. used to activate something) in the given context."
+  - Why here: both member types are already stamped, so `Trigger` has **no outstanding dependency** — do it before the two rows that consume it.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `TriggerInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.12, p.109 · after `Trigger` (member type))
+  - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; Base closure = ARElement, ARObject, AtpBlueprint, AtpBlueprintable, AtpClassifier, AtpType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, PortInterface, Referrable → most-derived direct base **PortInterface** ✓ heritage already correct in code (`TriggerInterface(PortInterface)`), base **stamped R23-11**; 1 attribute `trigger` (Trigger, `*`, aggr); Note (md, wrap-normalised, Tags: tail dropped): "A trigger interface declares a number of triggers that can be sent by an trigger source."
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `TriggerMapping` (**NEW — member type of `TriggerInterfaceMapping.triggerMapping`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.31, p.134 · after `Trigger` (both attributes are refs to it))
+  - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::CommonStructure::TriggerDeclaration (file `CommonStructure/TriggerDeclaration.py` ✓ Rule 0007); Base = **ARObject** ✓ heritage already correct in code; Aggregated by TriggerInterfaceMapping.triggerMapping; 2 attributes: `firstTrigger` (Trigger, 0..1, ref) and `secondTrigger` (Trigger, 0..1, ref); Note (md, wrap-normalised): "Defines the mapping of two particular unequally named Triggers in the given context."
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `TriggerInterfaceMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.30, p.134 · after `PortInterfaceMapping` (base, stamped R23-11) and `TriggerMapping` (member type))
+  - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; Base = ARObject, AtpBlueprint, AtpBlueprintable, Identifiable, MultilanguageReferrable, PortInterfaceMapping, Referrable → most-derived direct base **PortInterfaceMapping** ✓ heritage already correct in code, base **stamped R23-11**; Aggregated by PortInterfaceMappingSet.portInterfaceMapping; 1 attribute `triggerMapping` (TriggerMapping, `*`, aggr); Note (md, wrap-normalised): "Defines the mapping of unequal named Triggers in context of two different TriggerInterfaces."
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+### Cluster 5 — IdentCaption → ModeAccessPointIdent
+
+- [ ] `IdentCaption` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 14.4, p.851 · **before `ModeAccessPointIdent` (base)**)
+  - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario (file `SWComponentTemplate/RPTScenario.py` ✓ Rule 0007); Base = ARObject, AtpClassifier, AtpFeature, AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **AtpStructureElement** ✓ heritage already correct in code (`IdentCaption(AtpStructureElement, ABC)`), base **stamped R23-11**; Subclasses = BswServiceDependencyIdent, DiagnosticParameterIdent, ExternalTriggeringPointIdent, ModeAccessPointIdent; **Attribute rows = `-` → no own attributes**; XSD cross-check (AUTOSAR_00052.xsd l.67734 group `IDENT-CAPTION`) = empty `<xsd:sequence/>` → no own XML element → Steps 5/6 N/A; Note (md, wrap-normalised): "This meta-class represents the caption. This allows having some meta-classes optionally identifiable."
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ModeAccessPointIdent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 14.5, p.852 · after `IdentCaption` (base))
+  - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::RPTScenario ✓; Base = ARObject, AbstractAccessPoint, AtpClassifier, AtpFeature, AtpStructureElement, IdentCaption, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **IdentCaption** ✓ heritage already correct in code (`ModeAccessPointIdent(IdentCaption)`); `AbstractAccessPoint` is a *less-derived* parallel branch off `AtpStructureElement`, so it is **not** multi-inherited (Rule 0001.2 single role-matching branch — ARPackage / PortInterfaceMapping precedent). XSD cross-check (AUTOSAR_00052.xsd complexType `MODE-ACCESS-POINT-IDENT` l.81788) confirms the chain AR-OBJECT → REFERRABLE → MULTILANGUAGE-REFERRABLE → IDENTIFIABLE → ATP-CLASSIFIER → ATP-FEATURE → ATP-STRUCTURE-ELEMENT → **ABSTRACT-ACCESS-POINT → IDENT-CAPTION** → MODE-ACCESS-POINT-IDENT; Aggregated by AtpClassifier.atpFeature + ModeAccessPoint.ident; **Attribute rows = `-` → no own attributes** → Steps 5/6 expected N/A (XSD group l.81779 is an empty sequence); Note (md, wrap-normalised): "This meta-class has been created to introduce the ability to become referenced into the meta-class ModeAccessPoint without breaking backwards compatibility."
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+### Cluster 6 — unblocked singletons
+
+- [ ] `ModeDeclarationMappingSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.28, p.132 · after `ModeDeclarationMapping` (member type, stamped R23-11))
+  - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; Base = ARElement, ARObject, AtpClassifier, AtpType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived direct base **AtpType** ✓ heritage already correct in code, base **stamped R23-11**; 1 attribute `modeDeclarationMapping` (ModeDeclarationMapping, `*`, aggr) — member type **stamped R23-11** ✓; Note (md, wrap-normalised, Tags: tail dropped): "This meta-class implements a container for ModeDeclarationGroupMappings."
+  - Nothing outstanding except the stamp itself → kept near the top rather than last.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+### Cluster 7 — SubElementMapping subtree
+
+- [ ] `SubElementRef` (**NEW — member type of `SubElementMapping.firstElement`/`secondElement`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.33, p.138)
+  - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::SWComponentTemplate::PortInterface (file `SWComponentTemplate/PortInterface/__init__.py` ✓ Rule 0007); Base = **ARObject** only; Subclasses = ApplicationCompositeDataTypeSubElementRef (Table 4.35), ImplementationDataTypeSubElementRef (Table 4.34) — both **absent from `src/`**; Aggregated by SubElementMapping.firstElement / .secondElement; **Attribute rows = `-` → no own attributes** → abstract shell, Steps 5/6 N/A; Note (md, wrap-normalised): "This meta-class provides the ability to reference elements of composite data type."
+  - Rule 0001.10 consequence: with only the abstract `SubElementRef` implemented, `SubElementMapping`'s two aggregations stay placeholders until at least one concrete subclass lands. The subclasses are **not** queued here (subclass, not member-type edge — `PortInterfaceMapping` Step-8 precedent); see the next-level section.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `TextTableMapping` (**NEW — member type of `SubElementMapping.textTableMapping`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.36, p.145 (SystemTemplate Table 5.25, p.230 — unused, R23-11 SWCT table exists))
+  - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::SWComponentTemplate::PortInterface (file `SWComponentTemplate/PortInterface/__init__.py` ✓ Rule 0007); Base = **ARObject** ✓ heritage already correct in code; 5 attributes: `bitfieldTextTableMaskFirst` (PositiveInteger, 0..1, attr), `bitfieldTextTableMaskSecond` (PositiveInteger, 0..1, attr), `identicalMapping` (Boolean, 0..1, attr), `mappingDirection` (MappingDirectionEnum, 0..1, attr — **absent from `src/`**), `valuePair` (TextTableValuePair, `*`, aggr — **absent from `src/`**); Note (md, wrap-normalised): "Defines the mapping of two DataPrototypes typed by AutosarDataTypes that refer to CompuMethods of category TEXTTABLE, SCALE_LINEAR_AND_TEXTTABLE or BITFIELD_TEXTTABLE."
+  - The two absent member types are queued at this row's Step 1 (they have R23-11 spec tables — SWCT Table 4.37 `MappingDirectionEnum`; `TextTableValuePair` — locate in Step 1), so no Rule 16.4 decision is pending.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SubElementMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.32, p.137 · after `SubElementRef` and `TextTableMapping` (member types))
+  - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; Base = **ARObject** ✓ heritage already correct in code; Aggregated by DataPrototypeMapping.subElementMapping (**stamped R23-11** ✓); 3 attributes: `firstElement` (SubElementRef, 0..1, aggr), `secondElement` (SubElementRef, 0..1, aggr), `textTableMapping` (TextTableMapping, 0..2, aggr — note the unusual `0..2` multiplicity: model as a list, document the bound in the checklist); Note (md, wrap-normalised): "This meta-class allows for the definition of mappings of elements of a composite data type."
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+### Cluster 8 — FlatMap subtree (heritage fix)
+
+- [ ] `FlatInstanceDescriptor` (**NEW — member type of `FlatMap.instance`** · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 14.2, p.967 (BSW Table D.32 — appendix, R23-11 SystemTemplate table is authoritative))
+  - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::CommonStructure::FlatMap (file `CommonStructure/FlatMap.py` ✓ Rule 0007); Base = ARObject, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **Identifiable** ✓ heritage already correct in code (`FlatInstanceDescriptor(Identifiable, VariationPointCapable)`); Aggregated by FlatMap.instance; 5 attributes: `ecuExtractReference` (AtpFeature, 0..1, iref), `role` (Identifier, 0..1, attr), `rtePluginProps` (RtePluginProps, 0..1, aggr — **unstamped**), `swDataDefProps` (SwDataDefProps, 0..1, aggr — **stamped R23-11** ✓), `upstreamReference` (AtpFeature, 0..1, iref); Note (md, wrap-normalised, truncated in the corpus — re-read the full cell in Step 1): "Represents exactly one node (e.g. a component instance or data element) of the instance tree of a software system. The purpose of this element is to map the various nested representations of this instance to a flat representation and assign a unique name (shortName) to it. …"
+  - `RtePluginProps` (unstamped) is queued at this row's Step 1 — see the next-level section.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `FlatMap` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 14.1, p.966 · **heritage fix: code `FlatMap(AtpBlueprintable)` → spec most-derived direct base `ARElement`** · after `FlatInstanceDescriptor` (member type))
+  - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::CommonStructure::FlatMap (file `CommonStructure/FlatMap.py` ✓ Rule 0007); Base = ARElement, ARObject, AtpBlueprint, AtpBlueprintable, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived direct base **ARElement**; code has `FlatMap(AtpBlueprintable)` — since `AtpBlueprintable` was re-parented to `Identifiable` (this file, row `AtpBlueprintable`), `FlatMap` lost `PackageableElement` → `CollectableElement` → `ARElement` even though it is **Aggregated by ARPackage.element** and is dispatched as an ARPackage element in the parser (`arxml_parser.py:11372` `parent.createFlatMap(...)`, tag `FLAT-MAP`) and the writer. Fix in Step 3; audit `FlatInstanceDescriptor` + the ARPackage dispatch after the re-parent.
+  - 1 attribute `instance` (FlatInstanceDescriptor, `*`, aggr); Note (md, wrap-normalised, Tags: tail dropped): "Contains a flat list of references to software objects. This list is used to identify instances and to resolve name conflicts. The scope is given by the RootSwCompositionPrototype for which it is used, i.e. it can be applied to a system, system extract or ECU-extract. An instance of FlatMap may also be used in a preliminary context, e.g. in the scope of a software component before integration into a system. In this case it is not referred by a RootSwCompositionPrototype."
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+### Cluster 9 — Implementation subtree (heaviest; queued last)
+
+Ten of `Implementation`'s fifteen attributes reference eight member types that are
+un-stamped or absent from `src/`, so the whole cluster sits at the bottom of the queue. Order inside the cluster:
+enums → ARObject/Identifiable leaf members → members with their own member types →
+`Implementation` itself.
+
+- [ ] `ProgramminglanguageEnum` (**NEW — member type of `Implementation.programmingLanguage` · `AREnum`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 8.2, p.621)
+  - Spec facts (extracted 2026-09-04): Enumeration table (`| Enumeration | ProgramminglanguageEnum |`); XSD `AUTOSAR_00052.xsd` complexType l.141411 + simpleType l.141423, doc "Programming language the implementation was created in."; literals `C` (index 0, "C language"), `CPP` (1, "C++ language"), `JAVA` (2, "Java language") — the code's `C = "c"` / `CPP = "cpp"` / `JAVA = "java"` already match the XSD tokens and indexes.
+  - Known deviations to fix in this sync: unstamped; the in-code checklist cites `Table 8.2, p.621` but is the legacy 3-column shape → 6-column rewrite; Steps 5/6 N/A (standalone AREnum serialized as an attribute value on `Implementation`).
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Compiler` (**NEW — member type of `Implementation.compiler`** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 7.7, p.133 (SWCT Table 8.3, p.621 — same class, BSW chapter 7 owns the Implementation cluster))
+  - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::CommonStructure::Implementation (file `CommonStructure/Implementation.py` ✓ Rule 0007); Base = ARObject, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **Identifiable** ✓ heritage already correct in code; 4 attributes, all `String` 0..1 attr: `name`, `options`, `vendor`, `version`; Note (md, wrap-normalised): "Specifies the compiler attributes. In case of source code this specifies requirements how the compiler shall be invoked. In case of object code this documents the used compiler settings."
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Linker` (**NEW — member type of `Implementation.linker`** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 7.8, p.134 (SWCT Table 8.4, p.622 — same class))
+  - Spec facts (extracted 2026-09-04): concrete; Package = ...CommonStructure::Implementation ✓; Base = **Identifiable** ✓ heritage already correct in code; 4 attributes, all `String` 0..1 attr: `name`, `options`, `vendor`, `version`; Note (md, wrap-normalised): "Specifies the linker attributes used to describe how the linker shall be invoked."
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Code` (**NEW — member type of `Implementation.codeDescriptor`** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 7.2, p.130 (SWCT Table 8.5, p.622 — same class))
+  - Spec facts (extracted 2026-09-04): concrete; Package = ...CommonStructure::Implementation ✓; Base = **Identifiable** ✓ heritage already correct in code; 2 attributes: `artifactDescriptor` (AutosarEngineeringObject, `*`, aggr — **stamped R23-11** ✓) and `callbackHeader` (ServiceNeeds, `*`, ref — **unstamped**); Note (md, wrap-normalised): "A generic code descriptor. The type of the code (source or object) is defined via the category attribute of the associated engineering object."
+  - `ServiceNeeds` is queued at this row's Step 1 — see the next-level section.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DependencyOnArtifact` (**NEW — member type of `Implementation.generatedArtifact` / `requiredArtifact` / `requiredGeneratorTool` (three attributes, one type)** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.91, p.413 (BSW Table 7.3, p.131 — same class))
+  - Spec facts (extracted 2026-09-04): concrete; Package = ...CommonStructure::Implementation ✓; Base = **Identifiable** ✓ heritage already correct in code (`DependencyOnArtifact(Identifiable, VariationPointCapable)`); 2 attributes: `artifactDescriptor` (AutosarEngineeringObject, 0..1, aggr — **stamped R23-11** ✓) and `usage` (DependencyUsageEnum, `*`, attr — **unstamped**); Note (md, wrap-normalised): "Dependency on the existence of another artifact, e.g. a library."
+  - `DependencyUsageEnum` (BSW Table 7.4) is queued at this row's Step 1 — see the next-level section.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ResourceConsumption` (**NEW — member type of `Implementation.resourceConsumption`** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 8.1, p.138 (SystemTemplate Table 5.44, p.261 — same class))
+  - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::CommonStructure::ResourceConsumption (file `CommonStructure/ResourceConsumption/__init__.py` ✓ Rule 0007); Base = ARObject, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **Identifiable** ✓ heritage already correct in code; 6 attributes, all `*` aggr: `accessCountSet` (AccessCountSet — **stamped** ✓), `executionTime` (ExecutionTime — **stamped** ✓), `heapUsage` (HeapUsage — **stamped** ✓), `memorySection` (MemorySection — **unstamped**), `sectionNamePrefix` (SectionNamePrefix — **unstamped**), `stackUsage` (StackUsage — **unstamped**); Note (md, wrap-normalised): "Description of consumed resources by one implementation of a software."
+  - The three unstamped member types are queued at this row's Step 1 — see the next-level section.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SwcBswMapping` (**NEW — member type of `Implementation.swcBswMapping`** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 5.46, p.110 (SWCT Table 11.1, p.656 — same class) · **heritage fix: code `SwcBswMapping(AtpStructureElement)` → spec most-derived direct base `ARElement`**)
+  - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::CommonStructure::SwcBswMapping (file `CommonStructure/SwcBswMapping.py` ✓ Rule 0007); Base = ARElement, ARObject, AtpClassifier, AtpFeature, AtpStructureElement, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived direct base **ARElement**; Aggregated by ARPackage.element **and** AtpClassifier.atpFeature; 5 attributes: `bswBehavior` (BswInternalBehavior, 0..1, ref — **unstamped**), `runnableMapping` (SwcBswRunnableMapping, `*`, aggr — **unstamped**), `swcBehavior` (SwcInternalBehavior, 0..1, ref — **unstamped**), `synchronizedModeGroup` (SwcBswSynchronizedModeGroupPrototype, `*`, aggr — **unstamped**), `synchronizedTrigger` (SwcBswSynchronizedTrigger, `*`, aggr — **unstamped**); Note (md, wrap-normalised, Tags: tail dropped): "Maps an SwcInternalBehavior to an BswInternalBehavior. This is required to coordinate the API generation and the scheduling for AUTOSAR Service Components, ECU Abstraction Components and Complex Driver Components by the RTE and the BSW scheduling mechanisms."
+  - Heaviest member type in the cluster — all five of its own member types are unstamped and get queued at its Step 1. Heritage fix also ripples: audit the two dispatch paths (ARPackage element + AtpClassifier.atpFeature).
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `BuildActionManifest` (**NEW — member type of `Implementation.buildActionManifest` · absent from `src/`** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 10.1, p.365 (BSW Table 7.9, p.135 — same class))
+  - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::GenericStructure::BuildActionManifest (**no `src/` file yet** — Rule 0007 target = `GenericStructure/BuildActionManifest.py`, leaf shape); Base = ARElement, ARObject, AtpBlueprint, AtpBlueprintable, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived direct base **ARElement**; Aggregated by ARPackage.element; 5 attributes: `buildAction` (BuildAction, `*`, aggr — **absent from `src/`**, FO GenericStructure Table 10.2, p.366), `buildActionEnvironment` (BuildActionEnvironment, `*`, aggr — **absent from `src/`**, FO GenericStructure Table 10.4, p.370), `dynamicAction` (BuildAction, `*`, ref), `startAction` (BuildAction, `*`, ref), `tearDownAction` (BuildAction, `*`, ref); Note (md, wrap-normalised, Tags: tail dropped): "This meta-class represents the ability to specify a manifest for processing artifacts. An example use case is the processing of ECUC parameter values."
+  - Both new member types have R23-11 spec Class tables → **no Rule 16.4 Skip/XSD decision is pending**; they are queued at this row's Step 1 (BuildAction first — BuildActionEnvironment is its `requiredEnvironment` target with multiplicity 1, so it must exist before BuildAction lands).
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Implementation` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 7.1, p.128 (SWCT Table 8.1, p.621 — same class; the todo's "multiple tables — resolve in per-class Phase 0" is resolved: BSW chapter 7 owns the Implementation cluster) · **last row of the queue**)
+  - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::CommonStructure::Implementation (file `CommonStructure/Implementation.py` ✓ Rule 0007); Base = ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived direct base **ARElement** ✓ heritage already correct in code (`Implementation(ARElement, ABC)`), base **stamped R23-11**; Subclasses = BswImplementation (**stamped**), SwcImplementation (**unstamped** — not queued, subclass edge); Aggregated by ARPackage.element. 15 attributes in Table 7.1 displayed order — `buildActionManifest` (BuildActionManifest, 0..1, ref → queued), `codeDescriptor` (Code, *, aggr → queued), `compiler` (Compiler, *, aggr → queued), `generatedArtifact` (DependencyOnArtifact, *, aggr → queued), `hwElement` (HwElement, *, ref — **stamped R23-11** ✓), `linker` (Linker, *, aggr → queued), `mcSupport` (McSupportData, 0..1, aggr — **stamped R23-11** ✓), `programmingLanguage` (ProgramminglanguageEnum, 0..1, attr → queued), `requiredArtifact` (DependencyOnArtifact, *, aggr → queued), `requiredGeneratorTool` (DependencyOnArtifact, *, aggr → queued), `resourceConsumption` (ResourceConsumption, 0..1, aggr → queued), `swcBswMapping` (SwcBswMapping, 0..1, ref → queued), `swVersion` (RevisionLabelString, 0..1, attr), `usedCodeGenerator` (String, 0..1, attr), `vendorId` (PositiveInteger, 0..1, attr); Note (md, wrap-normalised): "Description of an implementation a single software component or module."
+  - Why last: it is the only row with eight queued dependencies. Note `DependencyOnArtifact` covers three attributes and `Trigger`-style XML wrappers may group them — resolve the element names from the XSD in Step 5.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+## Next-level candidates (level-2 — queue at the owning row's Step 1)
+
+Member types of the rows added above. Each is un-stamped or absent from `src/`, so each
+blocks its owning row's stamp (Rules 0001.10 / 0012.1). They are **not** queued now —
+queue them when the owning row reaches Step 1, using the same level-1 rule (their own
+member types then become level-3).
+
+| Owning row (above) | Queue at its Step 1 | State | R23-11 spec table |
+|---|---|---|---|
+| `TextTableMapping` | `MappingDirectionEnum` | absent from `src/` | SWCT Table 4.37 |
+| `TextTableMapping` | `TextTableValuePair` | absent from `src/` | locate in Step 1 |
+| `FlatInstanceDescriptor` | `RtePluginProps` | unstamped | locate in Step 1 |
+| `Code` | `ServiceNeeds` | unstamped | locate in Step 1 |
+| `DependencyOnArtifact` | `DependencyUsageEnum` | unstamped (`AREnum`) | BSW Table 7.4 (md l.3273) |
+| `ResourceConsumption` | `MemorySection` | unstamped | locate in Step 1 |
+| `ResourceConsumption` | `SectionNamePrefix` | unstamped | locate in Step 1 |
+| `ResourceConsumption` | `StackUsage` | unstamped | locate in Step 1 |
+| `SwcBswMapping` | `BswInternalBehavior` | unstamped | locate in Step 1 |
+| `SwcBswMapping` | `SwcInternalBehavior` | unstamped | locate in Step 1 |
+| `SwcBswMapping` | `SwcBswRunnableMapping` | unstamped | locate in Step 1 |
+| `SwcBswMapping` | `SwcBswSynchronizedModeGroupPrototype` | unstamped | locate in Step 1 |
+| `SwcBswMapping` | `SwcBswSynchronizedTrigger` | unstamped | locate in Step 1 |
+| `BuildActionManifest` | `BuildActionEnvironment` | absent from `src/` | FO GenericStructure Table 10.4, p.370 |
+| `BuildActionManifest` | `BuildAction` | absent from `src/` | FO GenericStructure Table 10.2, p.366 |
+| `SubElementRef` (subclass edge) | `ImplementationDataTypeSubElementRef` | absent from `src/` | SWCT Table 4.34, p.138 |
+| `SubElementRef` (subclass edge) | `ApplicationCompositeDataTypeSubElementRef` | absent from `src/` | SWCT Table 4.35, p.138 |
 
 ## Pending 16.4 resolution (NEW — not in src)
 
-_(none)_
+_(none)_ — every class added to the queue by the 2026-09-04 review has a **Class** or
+**Enumeration** table in the R23-11 markdown corpus (verified class-by-class), so no
+Skip / XSD-derive decision is pending. The classes that are absent from `src/` but
+present in the spec (`BuildAction`, `BuildActionEnvironment`, `TextTableValuePair`,
+`MappingDirectionEnum`, `ImplementationDataTypeSubElementRef`,
+`ApplicationCompositeDataTypeSubElementRef`) are implemented from their spec tables —
+they are not XSD-derived and are therefore not 16.4 cases.
 
 ## Not queued
 
-_(none)_
+Deliberately out of the queue (2026-09-04 review). Each entry below is a **subclass**
+edge, not a `Base` or member-type edge, so it does not block its parent's stamp
+(`PortInterfaceMapping` Step-8 precedent):
+
+- `ImplementationDataType` — subclass of `AbstractImplementationDataType` (SWCT Table
+  5.15, md l.7820). **Already stamped R23-11 while its base is not** — an inversion;
+  run a Rule 0012.3 drift pass once the base lands.
+- `ImplementationDataTypeElement` — subclass of `AbstractImplementationDataTypeElement`
+  (SWCT Table 5.17, p.270); UNSTAMPED. Drift candidate after the base lands.
+- `SwcImplementation` — subclass of `Implementation` (SWCT Table 8.7, p.623); UNSTAMPED.
+  Audit candidate once `Implementation` lands (`BswImplementation` is already stamped).
+- `BswServiceDependencyIdent` (DiagnosticExtract Table 5.16, p.240),
+  `DiagnosticParameterIdent` (DiagnosticExtract Table 4.7, p.37),
+  `ExternalTriggeringPointIdent` (SWCT Table 14.6, p.852) — the other three
+  `IdentCaption` subclasses (SWCT Table 14.4 Subclasses row).
+- `VariableAndParameterInterfaceMapping` (SWCT Table 4.21, p.125),
+  `ClientServerInterfaceMapping` (SWCT Table 4.23, p.128), `ModeInterfaceMapping`
+  (SWCT Table 4.26, p.130) — the other `PortInterfaceMapping` subclasses; already
+  recorded as future queue candidates in that row's Step 8.
+- `ApplicationDataType` (SWCT Table 5.2, p.232) — the second `AutosarDataType`
+  subclass; audit candidate once the `AutosarDataType` heritage fix lands.
+
+Also out of scope here (already recorded elsewhere in this file): the
+`ModeDeclarationGroupPrototype` / `HwPinGroupContent` drift rows and the ten
+uuid-move heritage rows.
+
 
 ---
 

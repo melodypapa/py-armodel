@@ -2,11 +2,37 @@
 
 Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of `docs/examples/sync_class_groups.md` · Generated: 2026-08-30 · Queue order = row order
 (resume = first class row still `[ ]`; all class rows `[x]` = sync finished — Rule 0017.3)
+> **Rule — already-verified short-circuit (added 2026-09-04):** before running the 9-step
+> sync for a row, check whether the class already carries `# Spec verified: <RELEASE>` or
+> `# XSD verified: <xsd-file>` in its own class body (verify the marker in the source — a
+> row in this todo is not proof). If it does **and** a quick deviation check finds nothing
+> new (base vs the spec `Base` closure, member types vs its table, verbatim docstrings,
+> reader/writer coverage, checklist shape per Rules 0002/0012), **skip the 9 steps**: mark
+> the row `- [x] <Class> — already verified (<marker>, <file>)` and move on. If the check
+> finds a new deviation, do **not** mark it verified — keep the row queued, run the steps
+> for the deviation only, and record it in Step 8 (Rule 0012.3: an existing marker is not
+> proof).
 
 ## Queue (dependency-first)
 
 > **Moved:** `ConstantSpecificationMappingSet` — wrong-heritage uuid-move blocker — moved into `Group1.md` ahead of the `Identifiable` row
 > (dependency-first: the uuid move cannot run until they derive from `Identifiable`).
+
+> **Restructured 2026-09-03** (dependency audit of all pending rows against R23-11 tables + stamp status):
+> - **Added 9 missing dependency rows** (all unstamped + unqueued, verified against `# Spec verified` markers — full class-body scan):
+>   `RTEEvent` (7.9, parent of InitEvent/BackgroundEvent + SwcInternalBehavior.event), `ServerCallPoint` (7.35, parent of the point classes),
+>   `VariableDataPrototype` (5.31, member of SwcInternalBehavior ×3 + both VariableInAtomic* instance refs),
+>   `PerInstanceMemory` (7.49), `PortInCompositionTypeInstanceRef` (D.14, DelegationSwConnector.innerPort iref type; subclasses D.15/D.16 same pass),
+>   `AssemblySwConnector` (3.13, CompositionSwComponentType.connector), `DataTypeMappingSet` (5.4), `AbstractImplementationDataTypeElement` (5.16),
+>   `ApplicationCompositeElementDataPrototype` (5.30, parent of ApplicationRecordElement).
+>   Already stamped (no row needed): SwComponentType, SwComponentPrototype, SwConnector, InternalBehavior, RunnableEntity, ModeDeclarationGroup,
+>   RootSwCompositionPrototype, AbstractEvent, AbstractAccessPoint, ExclusiveAreaNestingOrder, AtomicSwComponentType, ImplementationDataType,
+>   ValueSpecification, DataPrototype, AtpInstanceRef, ConstantSpecificationMappingSet, InstantiationRTEEventProps, InstantiationDataDefProps (7.41).
+> - **Corrected 3 spec references**: `VariableInAtomicSwcInstanceRef` → Table D.1 (not XSD-only), `VariableInAtomicSWCTypeInstanceRef` → Table D.18 (not XSD-only),
+>   `ApplicationPrimitiveDataType` → SoftwareComponentTemplate Table 5.5 (was DiagnosticExtractTemplate 5.6).
+> - **Reordered pending rows dependency-first** (bases & shared member types first, aggregators last):
+>   `ApplicationDataType` moved ahead of its three concrete subtypes; `SwcInternalBehavior` moved last (aggregates the events + 4 newly added member types);
+>   point classes after `ServerCallPoint`; connectors after their iref type; record family after its parents.
 
 - [x] `PortInterfaceMappingSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.19 · after `PortInterfaceMapping` (Group 1) — **dependency synced+stamped 2026-08-31**) — **finished, stamped `# Spec verified: R23-11`** (commit: 5aa1b746)
   - [x] Step 1 — Sync members & description from spec — Table 4.19 caption md l.3514, body l.3516–3523; PDF p.119 via pdf_page.py (R4.3.1 Table 4.23 p.123 unused). Class=concrete; Package=...SWComponentTemplate::PortInterface (non-leaf → PortInterface/__init__.py ✓ current location); Base=ARElement, ARObject, AtpBlueprint, AtpBlueprintable, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived **ARElement** — current base `AtpBlueprintable` **WRONG → Step 3 re-parent** (ARElement lives in ARPackage.py; mid-file import before the class def breaks the 2-ring cycle — all 8 names ARPackage L1655 needs are defined before l.1303, precedent FlatMap.py L15); Aggregated by ARPackage.element ✓; Note verbatim: "Specifies a set of (one or more) PortInterfaceMappings." (Tags atp.recommendedPackage dropped per Rule 0012.2.5.2); Attribute `portInterfaceMapping` (PortInterfaceMapping, *, aggr) → field `portInterfaceMappings` ✓ Rule 0001.5, aggr Note verbatim captured (Stereotypes atpSplitable;atpVariation + Tags dropped). Current code issues: base wrong; `self.portInterfaceMappings = []  # type:` (Rule 0003 violation); untyped accessor signatures; stale 3-col checklist; no docstrings
@@ -108,7 +134,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b) (commit fa935d8f)
-- [ ] `VariableInAtomicSwcInstanceRef` (tracker input · no R23-11/R4.3.1 table found → XSD-only candidate (confirm in per-class Phase 0))
+- [ ] `RTEEvent` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.9 (abstract) · parent of `InitEvent`/`BackgroundEvent` below and member type of `SwcInternalBehavior.event` · direct parent `AbstractEvent` Table 7.8 stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -118,7 +144,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `CompositionSwComponentType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.10 (multiple tables — resolve in per-class Phase 0))
+- [ ] `ServerCallPoint` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.35 (abstract) · parent of `SynchronousServerCallPoint`/`AsynchronousServerCallPoint` below · attr `timeout` TimeValue · direct parent `AbstractAccessPoint` Table 7.31 stamped ✓ · NOTE: no `ServerCall` meta-class exists in R23-11 — the point classes reference each other)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -128,7 +154,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `DelegationSwConnector` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.14)
+- [ ] `VariableDataPrototype` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.31 · member type of `SwcInternalBehavior.arTypedPerInstanceMemory`/`explicitInterRunnableVariable`/`implicitInterRunnableVariable`, `VariableInAtomicSwcInstanceRef.abstractTargetDataElement`, `ArVariableInImplementationDataInstanceRef.rootVariableDataPrototype` · parent `DataPrototype` stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -138,7 +164,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SwcInternalBehavior` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.2)
+- [ ] `PerInstanceMemory` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.49 · member type of `SwcInternalBehavior.perInstanceMemory`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -148,7 +174,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ArVariableInImplementationDataInstanceRef` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.37)
+- [ ] `PortInCompositionTypeInstanceRef` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table D.14 (abstract; appendix letter-numbered table, same as D.17/D.4 cases) · iref type of `DelegationSwConnector.innerPort` (XSD serializes as P/R-PORT-IN-COMPOSITION-INSTANCE-REF) · sync concrete subclasses `PPortInCompositionInstanceRef` Table D.15 / `RPortInCompositionInstanceRef` Table D.16 in the same pass · parent `AtpInstanceRef` stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -158,7 +184,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `VariableInAtomicSWCTypeInstanceRef` (tracker input · no R23-11/R4.3.1 table found → XSD-only candidate (confirm in per-class Phase 0))
+- [ ] `AssemblySwConnector` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.13 · member subtype of `CompositionSwComponentType.connector` alongside `DelegationSwConnector` below · parent `SwConnector` Table 3.12 stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -168,7 +194,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `IncludedModeDeclarationGroupSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.51)
+- [ ] `DataTypeMappingSet` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.4 · member type of `CompositionSwComponentType.dataTypeMapping`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -178,7 +204,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `RunnableEntityArgument` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.5)
+- [ ] `AbstractImplementationDataTypeElement` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.16 · member type of `ArVariableInImplementationDataInstanceRef.contextDataPrototype`/`targetDataPrototype`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -188,7 +214,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `AsynchronousServerCallPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.37)
+- [ ] `ApplicationDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.2 (abstract; base of the three concrete Application* data types below — **moved 2026-09-03 restructure ahead of its subclasses**))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -198,7 +224,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `AsynchronousServerCallResultPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.38 · — ref target of the point class above)
+- [ ] `ApplicationCompositeElementDataPrototype` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.30 · parent of `ApplicationRecordElement` below · after `ApplicationDataType` (its `type` tref) · parent `DataPrototype` stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -208,7 +234,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SynchronousServerCallPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.36)
+- [ ] `InitEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.22 · after `RTEEvent` (parent, Table 7.9))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -218,7 +244,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `InitEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.22)
+- [ ] `BackgroundEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.16 · after `RTEEvent` (parent, Table 7.9))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -228,7 +254,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `BackgroundEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.16)
+- [ ] `SynchronousServerCallPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.36 · after `ServerCallPoint` (parent, Table 7.35) · attr `calledFromWithinExclusiveArea` → `ExclusiveAreaNestingOrder` stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -238,7 +264,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ExternalTriggeringPointIdent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 14.6)
+- [ ] `AsynchronousServerCallPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.37 · after `ServerCallPoint` (parent, Table 7.35))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -248,7 +274,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `PortDefinedArgumentValue` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.45 · *(existing member)*)
+- [ ] `AsynchronousServerCallResultPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.38 · after `AsynchronousServerCallPoint` (its `asynchronousServerCallPoint` ref target) · NOTE: spec Base = AbstractAccessPoint chain, NOT ServerCallPoint)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -258,7 +284,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `PortAPIOption` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.42 · after `PortDefinedArgumentValue` (aggr `portArgValue`))
+- [ ] `VariableInAtomicSwcInstanceRef` (tracker input · **spec CORRECTED 2026-09-03 restructure: R23-11 markdown Table D.1 exists (CP_TPS_SoftwareComponentTemplate.md — appendix letter-numbered table missed by numeric-regex tooling, same as D.17/D.4 cases), NOT XSD-only** · after `VariableDataPrototype` (`abstractTargetDataElement` ref) · `base` AtomicSwComponentType stamped ✓ / `contextPort` PortPrototype stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -268,7 +294,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ApplicationPrimitiveDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 5.6 (multiple tables — resolve in per-class Phase 0))
+- [ ] `VariableInAtomicSWCTypeInstanceRef` (tracker input · **spec CORRECTED 2026-09-03 restructure: R23-11 markdown Table D.18 exists (appendix letter-numbered table, same as D.17/D.4 cases), NOT XSD-only** · after `VariableDataPrototype`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -278,7 +304,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ApplicationDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.2 (multiple tables — resolve in per-class Phase 0))
+- [ ] `ArVariableInImplementationDataInstanceRef` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.37 · after `AbstractImplementationDataTypeElement` (`contextDataPrototype`/`targetDataPrototype` refs) + `VariableDataPrototype` (`rootVariableDataPrototype` ref) · `portPrototype` PortPrototype stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -288,7 +314,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ApplicationCompositeDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.6 (multiple tables — resolve in per-class Phase 0))
+- [ ] `DelegationSwConnector` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.14 · after `PortInCompositionTypeInstanceRef` (its `innerPort` iref type) · `outerPort` PortPrototype stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -298,7 +324,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ApplicationRecordElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.13 · *(existing member)*)
+- [ ] `ApplicationPrimitiveDataType` (tracker input · R23-11 markdown · **spec ref CORRECTED 2026-09-03 restructure: AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 5.5 (was: DiagnosticExtractTemplate Table 5.6)** · after `ApplicationDataType` (parent, Table 5.2))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -308,7 +334,97 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ApplicationRecordDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.12 (multiple tables — resolve in per-class Phase 0) · after `ApplicationRecordElement` (aggr `element`))
+- [ ] `ApplicationCompositeDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.6 (multiple tables — resolve in per-class Phase 0) · after `ApplicationDataType` (parent, Table 5.2))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ApplicationRecordElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.13 *(existing member)* · after `ApplicationCompositeElementDataPrototype` (parent, Table 5.30))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `RunnableEntityArgument` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.5 · member type of `RunnableEntity.argument` (RunnableEntity stamped ✓) · only attr `symbol` CIdentifier — no unsynced deps)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ExternalTriggeringPointIdent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 14.6 · member type of `ExternalTriggeringPoint.ident` (Table 7.39) · no unsynced member deps)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `PortDefinedArgumentValue` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.45 *(existing member)* · deps stamped: `value` ValueSpecification ✓ / `valueType` ImplementationDataType ✓)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `CompositionSwComponentType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.10 (multiple tables — resolve in per-class Phase 0) · after `AssemblySwConnector`/`DelegationSwConnector` (aggr `connector`) + `DataTypeMappingSet` (ref `dataTypeMapping`) · deps stamped: `component` SwComponentPrototype ✓ / `constantValueMapping` ConstantSpecificationMappingSet ✓ / `instantiationRTEEventProps` InstantiationRTEEventProps ✓ · ref target `PhysicalDimensionMappingSet` NOT in src — pending 16.4 below)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ApplicationRecordDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.12 (multiple tables — resolve in per-class Phase 0) · after `ApplicationRecordElement` (aggr `element`) + `ApplicationDataType` (parent))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `PortAPIOption` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.42 · after `PortDefinedArgumentValue` (aggr `portArgValue`) · `port` PortPrototype stamped ✓ · aggr target `SwcSupportedFeature` NOT in src — pending 16.4 below)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `IncludedModeDeclarationGroupSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.51 · member type of `SwcInternalBehavior.includedModeDeclarationGroupSet` below · deps stamped: `modeDeclarationGroup` ModeDeclarationGroup ✓ · only other attr `prefix` Identifier)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SwcInternalBehavior` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.2 · **moved 2026-09-03 restructure to last: aggregates the events, `VariableDataPrototype`, `PerInstanceMemory`, `IncludedModeDeclarationGroupSet`, `PortAPIOption` queued above** · deps already stamped: parent `InternalBehavior` Table 7.1 ✓ / `runnable` RunnableEntity ✓ / `exclusiveAreaPolicy` SwcExclusiveAreaPolicy ✓ / `includedDataTypeSet` IncludedDataTypeSet ✓ / `instantiationDataDefProps` InstantiationDataDefProps ✓ / `perInstanceParameter`+`sharedParameter` ParameterDataPrototype ✓ / `serviceDependency` SwcServiceDependency ✓ / `variationPointProxy` VariationPointProxy ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -321,8 +437,9 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
 
 ## Pending 16.4 resolution (NEW — not in src)
 
-_(none)_
+- `PhysicalDimensionMappingSet` — ref target of `CompositionSwComponentType.physicalDimensionMapping` (Table 3.10); implement before or during the CompositionSwComponentType sync, or record a stub deviation
+- `SwcSupportedFeature` — aggr target of `PortAPIOption.supportedFeature` (Table 7.42); implement before or during the PortAPIOption sync, or record a stub deviation
 
 ## Not queued
 
-_(none)_
+- `ServerCall` — does **not exist** in the R23-11 meta-model (verified: no class table; Tables 7.35–7.38 jump from `ServerCallPoint` to the point classes). The point classes reference each other (`AsynchronousServerCallResultPoint.asynchronousServerCallPoint` → `AsynchronousServerCallPoint`). Recorded here so nobody hunts for it.
