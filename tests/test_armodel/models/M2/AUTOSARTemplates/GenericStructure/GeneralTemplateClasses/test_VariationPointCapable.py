@@ -1,5 +1,3 @@
-import pytest
-
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 
 
