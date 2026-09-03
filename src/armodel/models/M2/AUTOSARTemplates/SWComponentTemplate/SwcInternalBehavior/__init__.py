@@ -40,7 +40,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
 
 
-class RunnableEntity(ExecutableEntity):
+class RunnableEntity(ExecutableEntity, VariationPointCapable):
     """
     A RunnableEntity represents the smallest code-fragment that is provided by an AtomicSwComponentType and are executed under control of the RTE. RunnableEntities are for instance set up to respond to data reception or operation invocation on a server.
     """
@@ -650,7 +650,7 @@ class RunnableEntity(ExecutableEntity):
         return self.waitPoints
 
 
-class SwcExclusiveAreaPolicy(ARObject):
+class SwcExclusiveAreaPolicy(ARObject, VariationPointCapable):
     """
     Options how to generate the ExclusiveArea related APIs. If no
     SwcExclusiveAreaPolicy is specified for an ExclusiveArea the default values

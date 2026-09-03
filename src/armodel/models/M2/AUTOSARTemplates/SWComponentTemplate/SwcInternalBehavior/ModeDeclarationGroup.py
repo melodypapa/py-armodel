@@ -4,6 +4,7 @@ in software component internal behavior templates.
 """
 
 from typing import List
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Identifier, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent
@@ -12,7 +13,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 
 
-class ModeAccessPoint(ARObject):
+class ModeAccessPoint(ARObject, VariationPointCapable):
     """
     A mode access point used by a runnable entity to read the current mode
     of a mode declaration group.
@@ -76,7 +77,7 @@ class ModeAccessPoint(ARObject):
         return self
 
 
-class ModeSwitchPoint(AbstractAccessPoint):
+class ModeSwitchPoint(AbstractAccessPoint, VariationPointCapable):
     """
     A mode switch point used by a runnable entity to switch the mode
     of a mode declaration group.

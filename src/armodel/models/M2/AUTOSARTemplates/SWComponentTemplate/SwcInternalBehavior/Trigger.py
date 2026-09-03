@@ -4,6 +4,7 @@ in software component internal behavior templates.
 """
 
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from typing import TYPE_CHECKING, Optional
 
@@ -16,7 +17,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PTriggerInAtomicSwcTypeInstanceRef
 
 
-class InternalTriggeringPoint(AbstractAccessPoint):
+class InternalTriggeringPoint(AbstractAccessPoint, VariationPointCapable):
     """
     An internal triggering point that can be referenced by an
     InternalTriggerOccurredEvent.
@@ -56,7 +57,7 @@ class InternalTriggeringPoint(AbstractAccessPoint):
         return self
 
 
-class ExternalTriggeringPoint(ARObject):
+class ExternalTriggeringPoint(ARObject, VariationPointCapable):
     """
     If a RunnableEntity owns an ExternalTriggeringPoint it is entitled to
     raise an ExternalTriggerOccurred Event.

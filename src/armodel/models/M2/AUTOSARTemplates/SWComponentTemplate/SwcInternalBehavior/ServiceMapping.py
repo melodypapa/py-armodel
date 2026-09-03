@@ -4,6 +4,7 @@ in software component internal behavior templates.
 """
 
 from typing import List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ComMgrUserNeeds,
     CryptoServiceNeeds,
@@ -44,7 +45,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
 
 
-class RoleBasedPortAssignment(ARObject):
+class RoleBasedPortAssignment(ARObject, VariationPointCapable):
     """
     A role-based port assignment that links a port prototype to a specific
     role within a service dependency.
@@ -108,7 +109,7 @@ class RoleBasedPortAssignment(ARObject):
         return self
 
 
-class SwcServiceDependency(Identifiable, ServiceDependency):
+class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapable):
     """
     Specialization of ServiceDependency in the context of an SwcInternalBehavior. It allows to associate ports, port groups and (in special cases) data defined for an atomic software component to a given ServiceNeeds element.
     """
@@ -857,7 +858,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency):
         return self.representedPortGroup
 
 
-class RoleBasedDataTypeAssignment(ARObject):
+class RoleBasedDataTypeAssignment(ARObject, VariationPointCapable):
     """
     This class specifies an assignment of a role to a particular data type of
     a software component (or in the BswModuleBehavior of a module or cluster)

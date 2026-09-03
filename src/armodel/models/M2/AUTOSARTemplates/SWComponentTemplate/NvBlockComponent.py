@@ -1,4 +1,5 @@
 from typing import List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import NvBlockNeeds, RoleBasedDataAssignment
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
@@ -10,7 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedPortAssignment
 
 
-class NvBlockDataMapping(ARObject):
+class NvBlockDataMapping(ARObject, VariationPointCapable):
     """
     Defines the mapping between the VariableDataPrototypes in the NvBlockComponents ports and the VariableDataPrototypes of the RAM Block. The data types of the referenced VariableDataPrototypes in the ports and the referenced sub-element (inside a CompositeDataType) of the VariableDataPrototype representing the RAM Block shall be compatible.
     """
@@ -222,7 +223,7 @@ class NvBlockDataMapping(ARObject):
         return self
 
 
-class BulkNvDataDescriptor(AtpStructureElement):
+class BulkNvDataDescriptor(AtpStructureElement, VariationPointCapable):
     """
     This meta-class represents one bulk NV Data Block that is read-only for the application software. The purpose of a bulk NV Data Block is to provide access to information uploaded to the vehicle at e.g. the end of the production line.
     """
@@ -302,7 +303,7 @@ class BulkNvDataDescriptor(AtpStructureElement):
         return self
 
 
-class NvBlockDescriptor(AtpStructureElement):
+class NvBlockDescriptor(AtpStructureElement, VariationPointCapable):
     """
     Specifies the properties of exactly on NVRAM Block.
     """
@@ -712,7 +713,7 @@ class NvBlockDescriptor(AtpStructureElement):
         return self
 
 
-class ModeSwitchEventTriggeredActivity(ARObject):
+class ModeSwitchEventTriggeredActivity(ARObject, VariationPointCapable):
     """
     This meta-class defines an activity of the NvBlockSwComponentType for a specific NvBlock which is triggered by a ModeSwitchEvent.
     """

@@ -7,12 +7,13 @@ context of a CompositionSwComponentType.
 """
 
 from typing import List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
-class InnerDataPrototypeGroupInCompositionInstanceRef(AtpInstanceRef):
+class InnerDataPrototypeGroupInCompositionInstanceRef(AtpInstanceRef, VariationPointCapable):
     """
     This meta-class represents the ability to define an InstanceRef to a
     nested DataPrototypeGroup
@@ -118,7 +119,7 @@ class InnerDataPrototypeGroupInCompositionInstanceRef(AtpInstanceRef):
         return self
 
 
-class InnerRunnableEntityGroupInCompositionInstanceRef(AtpInstanceRef):
+class InnerRunnableEntityGroupInCompositionInstanceRef(AtpInstanceRef, VariationPointCapable):
     """
     This meta-class represents the ability to define an InstanceRef to a
     nested RunnableEntityGroup.
@@ -224,7 +225,7 @@ class InnerRunnableEntityGroupInCompositionInstanceRef(AtpInstanceRef):
         return self
 
 
-class RunnableEntityInCompositionInstanceRef(AtpInstanceRef):
+class RunnableEntityInCompositionInstanceRef(AtpInstanceRef, VariationPointCapable):
     """
     This meta-class represents the ability to define an InstanceRef to a
     RunnableEntity in the context of a CompositionSwComponentType.
@@ -330,7 +331,7 @@ class RunnableEntityInCompositionInstanceRef(AtpInstanceRef):
         return self
 
 
-class VariableDataPrototypeInCompositionInstanceRef(AtpInstanceRef):
+class VariableDataPrototypeInCompositionInstanceRef(AtpInstanceRef, VariationPointCapable):
     """
     This meta-class represents the ability to define an InstanceRef to a
     VariableDataPrototype in the context of a CompositionSwComponentType.

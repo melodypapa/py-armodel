@@ -1,4 +1,5 @@
 from typing import Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
@@ -6,7 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef
 
 
-class InstantiationDataDefProps(ARObject):
+class InstantiationDataDefProps(ARObject, VariationPointCapable):
     """
     This is a general class allowing to apply additional SwDataDefProps to
     particular instantiations of a Data Prototype. Typically the accessibility

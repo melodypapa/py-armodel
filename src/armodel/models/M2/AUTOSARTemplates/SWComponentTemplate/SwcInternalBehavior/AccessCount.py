@@ -4,6 +4,7 @@ in software component internal behavior templates.
 """
 
 from abc import ABC
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -85,7 +86,7 @@ class AbstractAccessPoint(AtpStructureElement, ABC):
         return self
 
 
-class AccessCount(ARObject):
+class AccessCount(ARObject, VariationPointCapable):
     """
     This meta-class provides one count value for a AbstractAccessPoint.
     """
@@ -162,7 +163,7 @@ class AccessCount(ARObject):
         return self
 
 
-class AccessCountSet(ARObject):
+class AccessCountSet(ARObject, VariationPointCapable):
     """
     This meta-class provides a set of count values evaluated according to the
     rules of a specific countProfile.

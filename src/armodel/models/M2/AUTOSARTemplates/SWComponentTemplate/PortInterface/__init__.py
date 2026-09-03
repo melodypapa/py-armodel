@@ -6,6 +6,7 @@ parameter interfaces, as well as mapping classes for interface mappings.
 """
 
 from abc import ABC
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from typing import List, Optional, TYPE_CHECKING
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
@@ -414,7 +415,7 @@ class ServerArgumentImplPolicyEnum(AREnum):
         super().__init__((ServerArgumentImplPolicyEnum.USE_ARGUMENT_TYPE, ServerArgumentImplPolicyEnum.USE_VOID))
 
 
-class ArgumentDataPrototype(AutosarDataPrototype):
+class ArgumentDataPrototype(AutosarDataPrototype, VariationPointCapable):
     """
     An argument of an operation, much like a data element, but also carries direction
     information and is owned by a particular ClientServerOperation.
@@ -564,7 +565,7 @@ class ApplicationError(Identifiable):
         return self
 
 
-class ClientServerOperation(AtpStructureElement):
+class ClientServerOperation(AtpStructureElement, VariationPointCapable):
     """
     An operation declared within the scope of a client/server interface.
     """
@@ -836,7 +837,7 @@ class ModeSwitchInterface(PortInterface):
         return self.modeGroup
 
 
-class PortInterfaceMapping(AtpBlueprintable, ABC):
+class PortInterfaceMapping(AtpBlueprintable, VariationPointCapable, ABC):
     """
     Specifies one PortInterfaceMapping to support the connection of Ports typed by two different Port Interfaces with PortInterface elements having unequal names and/or unequal semantic (resolution or range).
     """
