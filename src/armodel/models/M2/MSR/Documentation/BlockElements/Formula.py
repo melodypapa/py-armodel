@@ -1,4 +1,5 @@
 from typing import List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.MSR.Documentation.BlockElements import Caption
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import LGraphic
@@ -6,7 +7,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import 
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguagePlainText, MultiLanguageVerbatim
 
 
-class MlFormula(Paginateable):
+class MlFormula(Paginateable, VariationPointCapable):
     """
     This meta-class represents the ability to express a formula in a documentation. The formula can be expressed by various means. If more than one representation is available, they need to be consistent. The rendering system can use the representation which is most appropriate.
     """

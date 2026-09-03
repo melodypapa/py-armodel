@@ -56,7 +56,7 @@ class Traceable(Identifiable, ABC):
         return self
 
 
-class TraceableText(Traceable):
+class TraceableText(Traceable, VariationPointCapable):
     """
     This meta-class represents the ability to denote a traceable text item such as requirements etc. The following approach applies: shortName represents the tag for tracing, longName represents the head line, category represents the kind of the tagged text (see [constr_2540])
     """

@@ -1,4 +1,5 @@
 from typing import List
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from abc import ABC
 
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
@@ -298,7 +299,7 @@ class CompuNominatorDenominator(ARObject):
         return self.v
 
 
-class CompuScale(ARObject):
+class CompuScale(ARObject, VariationPointCapable):
     """
     Represents a single scale in a computation method with limits and content.
     Base: ARObject

@@ -8,6 +8,7 @@ live in their own package per the AUTOSAR meta-model.
 """
 
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from typing import TYPE_CHECKING, List, Optional
 
@@ -21,7 +22,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
-class Chapter(Identifiable):
+class Chapter(Identifiable, VariationPointCapable):
     """
     This meta-class represents a chapter of a document. Chapters are the primary structuring element in documentation.
     """
@@ -420,7 +421,7 @@ class TopicOrMsrQuery(ARObject):
         return self.msrQueryTopic1
 
 
-class Topic1(Identifiable):
+class Topic1(Identifiable, VariationPointCapable):
     """
     This meta-class represents a topic of a documentation. Topics are similar to chapters but they cannot be nested.
 
