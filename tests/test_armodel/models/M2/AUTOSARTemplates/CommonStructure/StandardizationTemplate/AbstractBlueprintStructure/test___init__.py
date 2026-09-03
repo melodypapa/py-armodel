@@ -4,8 +4,13 @@ in the AUTOSAR CommonStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprint
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprint, AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Identifiable,
+    MultilanguageReferrable,
+    Referrable,
+)
 
 
 class ConcreteAtpBlueprint(AtpBlueprint):
@@ -119,3 +124,33 @@ class TestAtpBlueprint:
 
         obj.addBlueprintPolicy(None)
         assert obj.getBlueprintPolicys() == [value]
+
+    def test_atp_blueprint_heritage_closure(self):
+        """
+        Rule 0001.2 / 0001.11: AtpBlueprint is abstract; its most-derived direct base
+        is Identifiable (spec Base closure = ARObject, Identifiable,
+        MultilanguageReferrable, Referrable). AtpBlueprintable is NOT in the closure.
+        """
+        assert AtpBlueprint.__bases__[0] is Identifiable
+        for base in (Identifiable, MultilanguageReferrable, Referrable, ARObject):
+            assert base in AtpBlueprint.__mro__, "%s missing from MRO" % base
+        assert AtpBlueprintable not in AtpBlueprint.__mro__
+
+    def test_class_docstring_verbatim(self):
+        """
+        Rule 0001.4 / 0012.2.4: class docstring == spec Table C.12 Note verbatim.
+        """
+        note = "This meta-class represents the ability to act as a Blueprint. As this " "class is an abstract one, particular blueprint meta-classes inherit from " "this one."
+        assert AtpBlueprint.__doc__ == note
+
+    def test_blueprint_policy_docstrings_verbatim(self):
+        """
+        Rule 0001.4 / 0012.2.5: add/get docstrings start with the spec attribute Note
+        verbatim ("This role indicates whether the blueprintable element will be
+        modifiable or not modifiable."), not a "Gets/Sets the X" paraphrase.
+        """
+        note = "This role indicates whether the blueprintable element will be modifiable or not modifiable."
+        assert AtpBlueprint.addBlueprintPolicy.__doc__ is not None
+        assert AtpBlueprint.addBlueprintPolicy.__doc__.startswith(note)
+        assert AtpBlueprint.getBlueprintPolicys.__doc__ is not None
+        assert AtpBlueprint.getBlueprintPolicys.__doc__.startswith(note)
