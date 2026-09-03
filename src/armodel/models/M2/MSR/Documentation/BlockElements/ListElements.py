@@ -1,4 +1,5 @@
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from typing import TYPE_CHECKING, List, Optional
 
@@ -29,7 +30,7 @@ class ListEnum(AREnum):
         super().__init__((ListEnum.NUMBER, ListEnum.UNNUMBER))
 
 
-class Item(Paginateable):
+class Item(Paginateable, VariationPointCapable):
     """
     An item within a list with content defined by itemContents.
     """
@@ -180,7 +181,7 @@ class IndentSample(ARObject):
         return self.l2s
 
 
-class LabeledItem(ARObject):
+class LabeledItem(ARObject, VariationPointCapable):
     """
     this represents an item of a labeled list.
     """
@@ -270,7 +271,7 @@ class LabeledItem(ARObject):
         return self
 
 
-class LabeledList(ARObject):
+class LabeledList(ARObject, VariationPointCapable):
     """
     This meta-class represents a labeled list, in which items have a label and a content. The policy how to render such items is specified in the labeled list.
     """
@@ -335,7 +336,7 @@ class LabeledList(ARObject):
         return self.labeledItems
 
 
-class DefItem(ARObject):
+class DefItem(ARObject, VariationPointCapable):
     """
     This represents an entry in a definition list. The defined item is specified using shortName and longName.
     """
@@ -388,7 +389,7 @@ class DefItem(ARObject):
         return self
 
 
-class DefList(ARObject):
+class DefList(ARObject, VariationPointCapable):
     """
     This meta-class represents the ability to express a list of definitions. Note that a definition list might rendered similar to a labeled list but has a particular semantics to denote definitions.
     """

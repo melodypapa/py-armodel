@@ -5,6 +5,7 @@ services such as NV block management, diagnostic services, cryptographic service
 """
 
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from abc import ABC
 from typing import List, Optional, TYPE_CHECKING
@@ -24,7 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String, TimeValue
 
 
-class RoleBasedDataAssignment(ARObject):
+class RoleBasedDataAssignment(ARObject, VariationPointCapable):
     """
     Represents a role-based data assignment in AUTOSAR models.
     This class defines how data elements are assigned based on their role in service interactions.
@@ -2137,7 +2138,7 @@ class CryptoServiceJobNeeds(ServiceNeeds):
         super().__init__(parent, short_name)
 
 
-class TracedFailure(Identifiable, ABC):
+class TracedFailure(Identifiable, VariationPointCapable, ABC):
     """
     Specifies the ability to report a specific failure to the error tracer. The short name specifies the literal applicable for the Default Error Tracer.
     """

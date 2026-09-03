@@ -4,12 +4,13 @@ in software component internal behavior templates.
 """
 
 from abc import ABC
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import ROperationInAtomicSwcInstanceRef
 
 
-class ServerCallPoint(AbstractAccessPoint, ABC):
+class ServerCallPoint(AbstractAccessPoint, VariationPointCapable, ABC):
     """
     If a RunnableEntity owns a ServerCallPoint it is entitled to invoke a
     particular ClientServerOperation of a specific RPortPrototype of the
@@ -76,7 +77,7 @@ class ServerCallPoint(AbstractAccessPoint, ABC):
         return self
 
 
-class AsynchronousServerCallResultPoint(AbstractAccessPoint):
+class AsynchronousServerCallResultPoint(AbstractAccessPoint, VariationPointCapable):
     # AsynchronousServerCallResultPoint method parity checklist:
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getAsynchronousServerCallPointRef [x] impl  [ ] docstring  [ ] test

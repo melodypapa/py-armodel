@@ -2,6 +2,7 @@
 # It defines CAN, DoIP, and LIN transport protocol configurations and connections
 
 from abc import ABC
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DiagnosticConnection import TpConnection
@@ -51,7 +52,7 @@ class TpConfig(FibexElement, ABC):
         return self
 
 
-class CanTpAddress(Identifiable):
+class CanTpAddress(Identifiable, VariationPointCapable):
     """
     An ECUs TP address on the referenced channel. This represents the diagnostic Address.
     """
@@ -102,7 +103,7 @@ class CanTpAddress(Identifiable):
         return self
 
 
-class CanTpChannel(Identifiable):
+class CanTpChannel(Identifiable, VariationPointCapable):
     """
     Configuration parameters of the CanTp channel.
     """
@@ -195,7 +196,7 @@ class NetworkTargetAddressType(AREnum):
         )
 
 
-class CanTpConnection(TpConnection):
+class CanTpConnection(TpConnection, VariationPointCapable):
     """
     A connection identifies the sender and the receiver of this particular communication. The CanTp module routes a Pdu
     through this connection. atpVariation: Derived, because TpNode can vary.
@@ -499,7 +500,7 @@ class CanTpConnection(TpConnection):
         return self
 
 
-class CanTpEcu(ARObject):
+class CanTpEcu(ARObject, VariationPointCapable):
     """
     ECU specific TP configuration parameters. Each TpEcu element has a reference to exactly one ECUInstance in the topology.
     """
@@ -550,7 +551,7 @@ class CanTpEcu(ARObject):
         return self
 
 
-class CanTpNode(Identifiable):
+class CanTpNode(Identifiable, VariationPointCapable):
     """
     TP Node (Sender or Receiver) provides the TP Address and the connection to the Topology description.
     """
@@ -899,7 +900,7 @@ class DoIpTpConfig(TpConfig):
         return self
 
 
-class TpAddress(Identifiable):
+class TpAddress(Identifiable, VariationPointCapable):
     """
     Represents a generic transport protocol address in the system,
     defining the transport address value for communication endpoints.
@@ -924,7 +925,7 @@ class TpAddress(Identifiable):
         return self
 
 
-class LinTpConnection(TpConnection):
+class LinTpConnection(TpConnection, VariationPointCapable):
     """
     Represents a LIN transport protocol connection in the system,
     defining PDU references, timeout parameters, and transmitter/
@@ -1038,7 +1039,7 @@ class LinTpConnection(TpConnection):
         return self
 
 
-class LinTpNode(Identifiable):
+class LinTpNode(Identifiable, VariationPointCapable):
     """
     TP Node (Sender or Receiver) provides the TP Address and the connection to the Topology description.
     """

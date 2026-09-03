@@ -82,6 +82,31 @@ class TestReadVariationPoint:
         assert vp is not None
         assert vp.getShortLabel().getValue() == "VP_Country"
 
+    def test_read_identifiable_ignores_variation_point_on_non_capable(self, parser, caplog):
+        """The parser gate ignores VARIATION-POINT on non-capable classes.
+
+        A plain Identifiable (IDENTIFIABLE group carries no VARIATION-POINT and
+        this probe adds no anchor) must not be populated; a warning is logged
+        (constr_2638: no variation points in non-variant roles).
+        """
+        import logging
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
+        class Probe(Identifiable):
+            pass
+
+        inner = "<IDENTIFIABLE>" "<SHORT-NAME>Plain</SHORT-NAME>" "<VARIATION-POINT><SHORT-LABEL>VP_Plain</SHORT-LABEL></VARIATION-POINT>" "</IDENTIFIABLE>"
+        element = _snip(inner).find("{%s}IDENTIFIABLE" % NS)
+
+        probe = Probe(None, "Plain")
+        with caplog.at_level(logging.WARNING, logger=parser.logger.name):
+            parser.readIdentifiable(element, probe)
+
+        assert getattr(probe, "variationPoint", None) is None
+        assert not hasattr(probe, "setVariationPoint")
+        assert any("VARIATION-POINT" in record.message for record in caplog.records)
+
 
 class TestReadVariationPointProxy:
     def test_read_value_access(self, parser):
@@ -190,6 +215,9 @@ class TestVariationPointRoundTrip:
         assert conditions2[0].getMatchingCriterionRef().getValue() == "/Demo/Criterions/Country"
         assert conditions2[0].getValue().getValue() == 1
 
-        # Criterion element's own variation point also survives
+        # Criterion element's own variation point also survives: the criterion is
+        # an ARElement in the ARPackage.element role (atpVariation, GST Table 4.1),
+        # so its VARIATION-POINT is schema-conformant via the PACKAGEABLE-ELEMENT
+        # group anchor.
         criterion2 = document2.find("/Demo/Criterions/Country")
         assert criterion2.getVariationPoint().getShortLabel().getValue() == "VP_Country"

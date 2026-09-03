@@ -5,6 +5,7 @@ exclusive areas, and event handling mechanisms within AUTOSAR components and BSW
 """
 
 from abc import ABC
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -49,7 +50,7 @@ class ReentrancyLevelEnum(AREnum):
         )
 
 
-class ExclusiveArea(Identifiable):
+class ExclusiveArea(Identifiable, VariationPointCapable):
     """
     Prevents an executable entity running in the area from being preempted.
     """
@@ -566,7 +567,7 @@ class ApiPrincipleEnum(AREnum):
         )
 
 
-class ExclusiveAreaNestingOrder(Referrable):
+class ExclusiveAreaNestingOrder(Referrable, VariationPointCapable):
     """
     This meta-class represents the ability to define a nesting order of ExclusiveAreas. A nesting order (that may occur in the executable code) is formally defined to be able to analyze the resource locking behavior.
     """

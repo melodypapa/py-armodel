@@ -3,6 +3,7 @@ This module defines execution time resource consumption classes in AUTOSAR.
 """
 
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from abc import ABC
 
@@ -16,7 +17,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import HardwareConfiguration, SoftwareContext
 
 
-class ExecutionTime(Identifiable, ABC):
+class ExecutionTime(Identifiable, VariationPointCapable, ABC):
     """
     Base class for several means how to describe the ExecutionTime of software.
     The required context information is provided through this class.

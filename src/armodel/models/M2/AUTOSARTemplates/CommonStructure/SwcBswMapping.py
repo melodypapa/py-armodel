@@ -5,6 +5,7 @@ software component entities and basic software module entities for integration p
 """
 
 from typing import List, Optional, TYPE_CHECKING
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -16,7 +17,7 @@ if TYPE_CHECKING:
     )
 
 
-class SwcBswRunnableMapping(ARObject):
+class SwcBswRunnableMapping(ARObject, VariationPointCapable):
     """
     Represents a mapping between BSW module entities and SWC runnable entities in AUTOSAR models.
     Maps a BswModuleEntity to a RunnableEntity if it is implemented as part of a BSW
@@ -277,7 +278,7 @@ class SwcBswMapping(AtpStructureElement):
         return self
 
 
-class SwcBswSynchronizedModeGroupPrototype(ARObject):
+class SwcBswSynchronizedModeGroupPrototype(ARObject, VariationPointCapable):
     """
     Synchronizes a mode group provided by a component via a port with a mode group provided by a BSW module or cluster.
     """
@@ -351,7 +352,7 @@ class SwcBswSynchronizedModeGroupPrototype(ARObject):
         return self
 
 
-class SwcBswSynchronizedTrigger(ARObject):
+class SwcBswSynchronizedTrigger(ARObject, VariationPointCapable):
     """
     Synchronizes a Trigger provided by a component via a port with a Trigger provided by a BSW module or cluster.
     """

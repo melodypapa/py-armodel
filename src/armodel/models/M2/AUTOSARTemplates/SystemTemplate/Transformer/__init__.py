@@ -2,6 +2,7 @@
 # It defines transformation technologies and end-to-end protection profiles for data safety and security
 
 from abc import ABC
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, Integer, NameToken, PositiveInteger
@@ -42,7 +43,7 @@ class DataTransformationKindEnum(AREnum):
         )
 
 
-class DataTransformation(Identifiable):
+class DataTransformation(Identifiable, VariationPointCapable):
     """
     A DataTransformation represents a transformer chain. It is an ordered list of transformers.
     """
@@ -175,7 +176,7 @@ class BufferProperties(ARObject):
         return self
 
 
-class TransformationDescription(Describable, ABC):
+class TransformationDescription(Describable, VariationPointCapable, ABC):
     """
     The TransformationDescription is the abstract class that can be used by specific transformers to add transformer specific properties.
     """
@@ -789,7 +790,7 @@ class TransformerClassEnum(AREnum):
         super().__init__([TransformerClassEnum.CUSTOM, TransformerClassEnum.SAFETY, TransformerClassEnum.SECURITY, TransformerClassEnum.SERIALIZER])
 
 
-class TransformationTechnology(Identifiable):
+class TransformationTechnology(Identifiable, VariationPointCapable):
     """
     A TransformationTechnology is a transformer inside a transformer chain. Tags: xml.namePlural=TRANSFORMATION-TECHNOLOGIES
     """

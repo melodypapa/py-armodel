@@ -2,6 +2,7 @@
 # It defines CAN, FlexRay, J1939, and UDP network management configurations
 
 from abc import ABC
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Can.CanCommunication import RxIdentifierRange
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
@@ -10,7 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 
 
-class NmClusterCoupling(ARObject, ABC):
+class NmClusterCoupling(ARObject, VariationPointCapable, ABC):
     """
     Abstract base class for network management cluster coupling,
     defining common properties for connecting different types of
@@ -132,7 +133,7 @@ class NmCoordinatorRoleEnum(AREnum):
         )
 
 
-class NmNode(Identifiable, ABC):
+class NmNode(Identifiable, VariationPointCapable, ABC):
     """
     The linking of NmEcus to NmClusters is realized via the NmNodes.
     """
@@ -803,7 +804,7 @@ class UdpNmEcu(BusspecificNmEcu):
         return self
 
 
-class NmEcu(Identifiable):
+class NmEcu(Identifiable, VariationPointCapable):
     """
     Represents a network management ECU in the system,
     defining properties for NM coordination, node detection,
@@ -1025,7 +1026,7 @@ class NmConfig(FibexElement):
         return self.getElement(short_name, NmEcu)
 
 
-class NmCluster(Identifiable, ABC):
+class NmCluster(Identifiable, VariationPointCapable, ABC):
     """
     Abstract base class for network management clusters,
     defining common properties for different types of

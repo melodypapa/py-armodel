@@ -1,4 +1,5 @@
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from abc import ABC
 from typing import List, Optional, TYPE_CHECKING
@@ -337,7 +338,7 @@ class SymbolProps(ImplementationProps):
         super().__init__(parent, short_name)
 
 
-class PortPrototype(AtpPrototype, AtpBlueprintable, ABC):
+class PortPrototype(AtpPrototype, AtpBlueprintable, VariationPointCapable, ABC):
     """
     Base class for the ports of an AUTOSAR software component. The aggregation of PortPrototypes is subject to variability with the purpose to support the conditional existence of ports.
     """
@@ -802,7 +803,7 @@ class PRPortPrototype(AbstractProvidedPortPrototype, AbstractRequiredPortPrototy
         return self
 
 
-class PortGroup(AtpStructureElement):
+class PortGroup(AtpStructureElement, VariationPointCapable):
     """
     Group of ports which share a common functionality , e.g. need specific network resources. This information shall be available on the VFB level in order to delegate it properly via compositions. When propagated into the ECU extract, this information is used as input for the configuration of Services like the Communication Manager. A PortGroup is defined locally in a component (which can be a composition) and refers to the "outer" ports belonging to the group as well as to the "inner" groups which propagate this group into the components which are part of a composition. A PortGroup within an atomic SWC cannot be linked to inner groups.
     """

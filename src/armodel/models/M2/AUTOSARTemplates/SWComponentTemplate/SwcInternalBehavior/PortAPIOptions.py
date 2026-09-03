@@ -4,6 +4,7 @@ in software component internal behavior templates.
 """
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, TRefType
 from typing import List
@@ -72,7 +73,7 @@ class PortDefinedArgumentValue(ARObject):
         return self
 
 
-class PortAPIOption(ARObject):
+class PortAPIOption(ARObject, VariationPointCapable):
     """
     Port API options that define the API configuration for a specific port
     of an atomic software component.

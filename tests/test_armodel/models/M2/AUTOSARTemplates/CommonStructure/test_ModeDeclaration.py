@@ -559,6 +559,7 @@ class TestModeDeclarationGroupPrototypeHeritage:
             "MultilanguageReferrable",
             "Referrable",
             "ARObject",
+            "VariationPointCapable",
             "ABC",
             "object",
         ]

@@ -4,6 +4,7 @@ It includes abstract base classes and concrete implementations for different typ
 """
 
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, RefType, String
@@ -15,7 +16,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import HardwareConfiguration, SoftwareContext
 
 
-class StackUsage(Identifiable, ABC):
+class StackUsage(Identifiable, VariationPointCapable, ABC):
     """
     Describes the stack memory usage of a software.
     This abstract base class defines stack memory consumption tracking with hardware and software context.

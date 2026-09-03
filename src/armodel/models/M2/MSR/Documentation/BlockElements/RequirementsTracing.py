@@ -7,6 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Identifiable,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import StandardNameEnum
@@ -55,7 +56,7 @@ class Traceable(Identifiable, ABC):
         return self
 
 
-class TraceableText(Traceable):
+class TraceableText(Traceable, VariationPointCapable):
     """
     This meta-class represents the ability to denote a traceable text item such as requirements etc. The following approach applies: shortName represents the tag for tracing, longName represents the head line, category represents the kind of the tagged text (see [constr_2540])
     """
@@ -97,7 +98,7 @@ class TraceableText(Traceable):
         return self
 
 
-class StructuredReq(Traceable):
+class StructuredReq(Traceable, VariationPointCapable):
     """
     This represents a structured requirement. This is intended for a case where specific requirements for features are collected. Note that this can be rendered as a labeled list.
     """
@@ -133,8 +134,8 @@ class StructuredReq(Traceable):
     # [x] setType                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getUseCase             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setUseCase             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getVariationPoint      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (inherited from Identifiable; XSD VARIATION-POINT)
-    # [x] setVariationPoint      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  (inherited from Identifiable; XSD VARIATION-POINT)
+    # [x] getVariationPoint      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (inherited from VariationPointCapable; XSD VARIATION-POINT)
+    # [x] setVariationPoint      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  (inherited from VariationPointCapable; XSD VARIATION-POINT)
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)

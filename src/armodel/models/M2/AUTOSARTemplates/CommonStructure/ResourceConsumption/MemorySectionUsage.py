@@ -4,13 +4,14 @@ memory section usage in AUTOSAR resource consumption models.
 """
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import ImplementationProps
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AlignmentType, CIdentifier, Identifier, PositiveInteger, RefType
 from typing import List, Optional
 
 
-class MemorySection(Identifiable):
+class MemorySection(Identifiable, VariationPointCapable):
     """
     Provides a description of an abstract memory section used in the Implementation for
     code or data. It shall be declared by the Implementation Description of the module or
@@ -305,7 +306,7 @@ class MemorySection(Identifiable):
         return self
 
 
-class SectionNamePrefix(ImplementationProps):
+class SectionNamePrefix(ImplementationProps, VariationPointCapable):
     """
     A prefix to be used for generated code artifacts defining a memory section name in
     the source code of the using module or SWC.

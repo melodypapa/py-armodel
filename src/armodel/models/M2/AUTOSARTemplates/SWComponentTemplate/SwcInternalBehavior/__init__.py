@@ -11,6 +11,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import DataReceivedEvent, InitEvent, InternalTriggerOccurredEvent
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import ModeSwitchedAckEvent, OperationInvokedEvent, RTEEvent
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import SwcModeSwitchEvent, TimingEvent, WaitPoint
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
@@ -39,7 +40,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity
 
 
-class RunnableEntity(ExecutableEntity):
+class RunnableEntity(ExecutableEntity, VariationPointCapable):
     """
     A RunnableEntity represents the smallest code-fragment that is provided by an AtomicSwComponentType and are executed under control of the RTE. RunnableEntities are for instance set up to respond to data reception or operation invocation on a server.
     """
@@ -649,7 +650,7 @@ class RunnableEntity(ExecutableEntity):
         return self.waitPoints
 
 
-class SwcExclusiveAreaPolicy(ARObject):
+class SwcExclusiveAreaPolicy(ARObject, VariationPointCapable):
     """
     Options how to generate the ExclusiveArea related APIs. If no
     SwcExclusiveAreaPolicy is specified for an ExclusiveArea the default values
@@ -707,7 +708,7 @@ class SwcExclusiveAreaPolicy(ARObject):
         return self
 
 
-class SwcInternalBehavior(InternalBehavior):
+class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
     """
     The SwcInternalBehavior of an AtomicSwComponentType describes the
     relevant aspects of the software-component with respect to the RTE, i.e.

@@ -196,6 +196,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import *  # noqa: F403
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.RolesAndRights import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import *  # noqa: F403

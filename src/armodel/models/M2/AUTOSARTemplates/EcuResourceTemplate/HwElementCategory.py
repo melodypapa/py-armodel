@@ -4,6 +4,7 @@ in the EcuResourceTemplate module.
 """
 
 from typing import List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -38,7 +39,7 @@ class HwType(ARElement, HwDescriptionEntity):
         super().__init__(parent, short_name)
 
 
-class HwAttributeValue(ARObject):
+class HwAttributeValue(ARObject, VariationPointCapable):
     """
     Represents a hardware attribute value in AUTOSAR hardware descriptions.
     This class defines the actual values assigned to hardware attributes in the model.

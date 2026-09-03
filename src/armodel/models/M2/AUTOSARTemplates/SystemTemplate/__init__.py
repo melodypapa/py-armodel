@@ -1,4 +1,5 @@
 from typing import List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import DataMapping
@@ -22,7 +23,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RevisionLabelString, TRefType
 
 
-class SwcToEcuMapping(Identifiable):
+class SwcToEcuMapping(Identifiable, VariationPointCapable):
     """
     Represents the mapping between software components and ECU instances
     in the system, defining how components are assigned to specific
@@ -77,7 +78,7 @@ class SwcToEcuMapping(Identifiable):
         return self
 
 
-class ComManagementMapping(Identifiable):
+class ComManagementMapping(Identifiable, VariationPointCapable):
     """
     Represents communication management mapping in the system,
     defining how communication management groups and port groups
@@ -125,7 +126,7 @@ class ComManagementMapping(Identifiable):
         return self
 
 
-class SystemMapping(Identifiable):
+class SystemMapping(Identifiable, VariationPointCapable):
     """
     Represents system mapping in the AUTOSAR system, organizing
     various types of mappings including application partition mappings,
@@ -394,7 +395,7 @@ class SystemMapping(Identifiable):
         return self
 
 
-class RootSwCompositionPrototype(AtpPrototype):
+class RootSwCompositionPrototype(AtpPrototype, VariationPointCapable):
     """
     The RootSwCompositionPrototype represents the top-level-composition of software components within a given System. According to the use case of the System, this may for example be a more or less complete VFB description, the software of a System Extract or the software of a flat ECU Extract with only atomic SWCs. Therefore the RootSwComposition will only occasionally contain all atomic software components that are used in a complete VFB System. The OEM is primarily interested in the required functionality and the interfaces defining the integration of the Software Component into the System. The internal structure of such a component contains often substantial intellectual property of a supplier. Therefore a top-level software composition will often contain empty compositions which represent subsystems. The contained SwComponentPrototypes are fully specified by their SwComponentTypes (including Port Prototypes, PortInterfaces, VariableDataPrototypes, SwcInternalBehavior etc.), and their ports are interconnected using SwConnectorPrototypes.
     """
@@ -469,7 +470,7 @@ class RootSwCompositionPrototype(AtpPrototype):
         return self
 
 
-class J1939SharedAddressCluster(Identifiable):
+class J1939SharedAddressCluster(Identifiable, VariationPointCapable):
     """
     Represents a J1939 shared address cluster in the system,
     defining references to participating J1939 clusters for

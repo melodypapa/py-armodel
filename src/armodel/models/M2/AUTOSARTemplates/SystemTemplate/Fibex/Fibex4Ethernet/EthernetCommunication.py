@@ -6,6 +6,7 @@
 # 6.131 (TcpOptionFilterList).
 
 from typing import List, TYPE_CHECKING
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
@@ -126,7 +127,7 @@ class SocketConnectionIpduIdentifier(ARObject):
         return self
 
 
-class SocketConnectionBundle(Referrable):
+class SocketConnectionBundle(Referrable, VariationPointCapable):
     """
     Groups multiple socket connections into a bundle for managing related
     Ethernet communications, including differentiated services, flow labels,

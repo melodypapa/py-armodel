@@ -4,6 +4,7 @@ data (RptSupport) in the measurement and calibration support templates.
 """
 
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -260,7 +261,7 @@ class RptSwPrototypingAccess(ARObject):
         return self
 
 
-class RptServicePoint(Identifiable):
+class RptServicePoint(Identifiable, VariationPointCapable):
     """
     Description of a Service Point implemented for rapid prototyping.
     """
@@ -414,7 +415,7 @@ class McFunctionDataRefSet(ARObject):
         return self.mcDataInstanceRefs
 
 
-class RptExecutableEntityEvent(Identifiable):
+class RptExecutableEntityEvent(Identifiable, VariationPointCapable):
     """
     This describes an ExecutableEntity event instance which can be bypassed.
     """
@@ -638,7 +639,7 @@ class RptExecutableEntityEvent(Identifiable):
         return self.rptServicePointPreRefs
 
 
-class RptExecutableEntity(Identifiable):
+class RptExecutableEntity(Identifiable, VariationPointCapable):
     """
     This describes a ExecutableEntity instance which can be bypassed.
     """
@@ -778,7 +779,7 @@ class RptExecutableEntity(Identifiable):
         return self
 
 
-class RptComponent(Identifiable):
+class RptComponent(Identifiable, VariationPointCapable):
     """
     Description of component instance for which rapid prototyping support is implemented.
     """

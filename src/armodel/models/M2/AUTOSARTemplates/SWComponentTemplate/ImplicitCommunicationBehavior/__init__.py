@@ -5,6 +5,7 @@ InstanceRefs sub-module.
 """
 
 from typing import List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
@@ -18,7 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.ImplicitCommunicatio
 )
 
 
-class DataPrototypeGroup(AtpStructureElement):
+class DataPrototypeGroup(AtpStructureElement, VariationPointCapable):
     """
     This meta-class represents the ability to define a collection of
     DataPrototypes that are subject to the formal definition of implicit
@@ -104,7 +105,7 @@ class DataPrototypeGroup(AtpStructureElement):
         return self.implicitDataAccessIRefs
 
 
-class RunnableEntityGroup(AtpStructureElement):
+class RunnableEntityGroup(AtpStructureElement, VariationPointCapable):
     """
     This meta-class represents the ability to define a collection of
     RunnableEntities. The collection can be nested.
@@ -188,7 +189,7 @@ class RunnableEntityGroup(AtpStructureElement):
         return self.runnableEntityGroupIRefs
 
 
-class ConsistencyNeeds(AtpBlueprintable):
+class ConsistencyNeeds(AtpBlueprintable, VariationPointCapable):
     """
     This meta-class represents the ability to define requirements on the
     implicit communication behavior.

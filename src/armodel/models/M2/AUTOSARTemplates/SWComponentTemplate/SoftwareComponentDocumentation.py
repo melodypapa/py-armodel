@@ -8,6 +8,7 @@ M2::MSR::Documentation::Chapters (see src/armodel/models/M2/MSR/Documentation/Ch
 """
 
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from typing import List, Optional
 
@@ -15,7 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 
 
-class SwComponentDocumentation(ARObject):
+class SwComponentDocumentation(ARObject, VariationPointCapable):
     """
     This class specifies the ability to write dedicated documentation to a component type according to ASAM FSX.
     """

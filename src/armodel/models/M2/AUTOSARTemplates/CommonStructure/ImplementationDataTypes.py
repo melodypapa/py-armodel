@@ -1,4 +1,5 @@
 from abc import ABC
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -22,7 +23,7 @@ class AbstractImplementationDataTypeElement(AtpStructureElement, ABC):
         super().__init__(parent, short_name)
 
 
-class ImplementationDataTypeElement(AbstractImplementationDataTypeElement):
+class ImplementationDataTypeElement(AbstractImplementationDataTypeElement, VariationPointCapable):
     """
     Element of an implementation data type defining array properties,
     optional flag, sub-elements, and data definition properties.

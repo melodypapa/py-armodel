@@ -1,4 +1,5 @@
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from typing import TYPE_CHECKING, Optional
 
@@ -51,7 +52,7 @@ class NoteTypeEnum(AREnum):
         )
 
 
-class Note(ARObject):
+class Note(ARObject, VariationPointCapable):
     """
     This represents a note in a documentation, which may be used to highlight specific issues such as hints or caution notes. N.B., Documentation notes can be nested recursively, even if this is not really intended. In case of nested notes e.g. the note icon of inner notes might be omitted while rendering the note.
     """

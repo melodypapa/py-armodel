@@ -385,7 +385,10 @@ class TestConditionByFormula:
         assert condition.getBindingTime() is None
 
 
-def test_identifiable_holds_variation_point():
+def test_criterion_holds_variation_point_via_mixin():
+    # PostBuildVariantCriterion is VariationPointCapable through the PackageableElement
+    # anchor (ARPackage.element carries atpVariation, GST Table 4.1); the slot is no
+    # longer provided by Identifiable.
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
     parent = ARPackage(None, "Pkg")

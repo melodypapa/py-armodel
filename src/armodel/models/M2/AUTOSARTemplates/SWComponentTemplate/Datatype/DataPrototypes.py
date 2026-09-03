@@ -6,6 +6,7 @@ used in software components.
 """
 
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from abc import ABC
 from typing import TYPE_CHECKING, Optional
@@ -120,7 +121,7 @@ class AutosarDataPrototype(DataPrototype, ABC):
         return self
 
 
-class VariableDataPrototype(AutosarDataPrototype):
+class VariableDataPrototype(AutosarDataPrototype, VariationPointCapable):
     """
     A data prototype that represents a variable data element with an
     initial value.
@@ -313,7 +314,7 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
         return self
 
 
-class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
+class ApplicationRecordElement(ApplicationCompositeElementDataPrototype, VariationPointCapable):
     """
     An element of an application record data type defining a field within
     the record structure.
@@ -353,7 +354,7 @@ class ApplicationRecordElement(ApplicationCompositeElementDataPrototype):
         return self
 
 
-class ParameterDataPrototype(AutosarDataPrototype):
+class ParameterDataPrototype(AutosarDataPrototype, VariationPointCapable):
     """
     A ParameterDataPrototype represents a formalized generic piece of information that is typically immutable by the application software layer, but mutable by measurement and calibration tools. ParameterDataPrototype is used in various contexts and the specific context gives the otherwise generic ParameterDataPrototype a dedicated semantics.
     """

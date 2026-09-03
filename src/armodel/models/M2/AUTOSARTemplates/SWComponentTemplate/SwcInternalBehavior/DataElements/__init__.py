@@ -4,6 +4,7 @@ in software component internal behavior templates.
 """
 
 from typing import List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefsUsage import (
     ParameterInAtomicSWCTypeInstanceRef,
@@ -16,7 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
-class ParameterAccess(AbstractAccessPoint):
+class ParameterAccess(AbstractAccessPoint, VariationPointCapable):
     """
     A ParameterAccess represents the access to a parameter data prototype
     within the internal behavior of an atomic software component.
@@ -80,7 +81,7 @@ class ParameterAccess(AbstractAccessPoint):
         return self
 
 
-class VariableAccess(AbstractAccessPoint):
+class VariableAccess(AbstractAccessPoint, VariationPointCapable):
     """
     The presence of a VariableAccess implies that a RunnableEntity needs access to a VariableDataPrototype. The kind of access is specified by the role in which the class is used.
     """

@@ -1,4 +1,5 @@
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -10,7 +11,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import 
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
 
 
-class MultiLanguageParagraph(Paginateable):
+class MultiLanguageParagraph(Paginateable, VariationPointCapable):
     """
     Multi-language paragraph containing language-specific long name
     entries.
@@ -133,7 +134,7 @@ class MultiLanguagePlainText(ARObject):
         return self
 
 
-class MultiLanguageVerbatim(Paginateable):
+class MultiLanguageVerbatim(Paginateable, VariationPointCapable):
     """
     This class represents multilingual Verbatim. Verbatim means, that white-space is maintained. When Verbatim is rendered in PDF or Online media, white-space is obeyed. Blanks are rendered as well as newline characters.
     """

@@ -1,4 +1,5 @@
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import EngineeringObject
@@ -172,7 +173,7 @@ class LGraphic(LanguageSpecific):
         return self
 
 
-class MlFigure(Paginateable):
+class MlFigure(Paginateable, VariationPointCapable):
     """
     Multi-language figure with caption, graphics, and optional verbatim
     content.

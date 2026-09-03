@@ -1,7 +1,8 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 
-class ECUMapping(Identifiable):
+class ECUMapping(Identifiable, VariationPointCapable):
     """
     Represents an ECU mapping that defines the relationship between AUTOSAR software components
     and their physical ECU instances. This class maps communication controllers, hardware ports,

@@ -1,4 +1,5 @@
 from typing import List
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -7,7 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore import FibexElement
 
 
-class FrameMapping(ARObject):
+class FrameMapping(ARObject, VariationPointCapable):
     """
     A PduToFrameMapping defines the composition of Pdus in each frame.
     """
@@ -50,7 +51,7 @@ class FrameMapping(ARObject):
         return self
 
 
-class ISignalMapping(ARObject):
+class ISignalMapping(ARObject, VariationPointCapable):
     """
     Arranges signals transferred by the gateway from one channel to another
     in pairs and defines the mapping between them.
@@ -190,7 +191,7 @@ class TargetIPduRef(ARObject):
         return self
 
 
-class IPduMapping(ARObject):
+class IPduMapping(ARObject, VariationPointCapable):
     """
     An ISignalToIPduMapping describes the mapping of ISignals to ISignalIPdus
     and defines the position of the ISignal within an ISignalIPdu.

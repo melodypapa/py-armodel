@@ -10,6 +10,7 @@ These classes are used to model:
 """
 
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from abc import ABC
 from typing import List, Optional, TYPE_CHECKING
@@ -34,7 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 
 
-class BswModuleCallPoint(Referrable, ABC):
+class BswModuleCallPoint(Referrable, VariationPointCapable, ABC):
     """
     Represents a call point for a BSW module, which defines how the module can be called.
     This is an abstract base class for different types of call points.
@@ -321,7 +322,7 @@ class BswAsynchronousServerCallResultPoint(BswModuleCallPoint):
         return self
 
 
-class BswSchedulerNamePrefix(ImplementationProps):
+class BswSchedulerNamePrefix(ImplementationProps, VariationPointCapable):
     """
     A prefix to be used in names of generated code artifacts which make up the
     interface of a BSW module to the BswScheduler.
@@ -337,7 +338,7 @@ class BswSchedulerNamePrefix(ImplementationProps):
         super().__init__(parent, short_name)
 
 
-class BswVariableAccess(Referrable):
+class BswVariableAccess(Referrable, VariationPointCapable):
     """
     Represents access to a variable by a BSW module entity.
     This class defines how a BSW module accesses variables during execution.
@@ -410,7 +411,7 @@ class BswVariableAccess(Referrable):
         return self
 
 
-class BswDistinguishedPartition(Referrable):
+class BswDistinguishedPartition(Referrable, VariationPointCapable):
     """
     Each instance of this meta-class represents an abstract partition in which context
     the code of the enclosing BswModuleBehavior can be executed. The intended use case
@@ -429,7 +430,7 @@ class BswDistinguishedPartition(Referrable):
         super().__init__(parent, short_name)
 
 
-class BswModuleEntity(ExecutableEntity, ABC):
+class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
     """
     Specifies the smallest code fragment which can be described for a BSW module or cluster within AUTOSAR.
     """
@@ -884,7 +885,7 @@ class BswInterruptEntity(BswModuleEntity):
         return self
 
 
-class BswEvent(AbstractEvent, ABC):
+class BswEvent(AbstractEvent, VariationPointCapable, ABC):
     """
     Base class of various kinds of events which are used to trigger a BswModuleEntity of this BSW module or cluster. The event is local to the BSW module or cluster. The short name of the meta-class instance is intended as an input to configure the required API of the BSW Scheduler.
     """
@@ -1522,7 +1523,7 @@ class BswModeSwitchAckRequest(ARObject):
         return self
 
 
-class BswModeSenderPolicy(ARObject):
+class BswModeSenderPolicy(ARObject, VariationPointCapable):
     """
     Specifies the details for the sending of a mode switch for the referred
     mode group.
@@ -1664,7 +1665,7 @@ class BswModeSenderPolicy(ARObject):
         return self
 
 
-class BswModeReceiverPolicy(ARObject):
+class BswModeReceiverPolicy(ARObject, VariationPointCapable):
     """
     Specifies the details for the reception of a mode switch for the referred mode group.
     """
@@ -1889,7 +1890,7 @@ class BswApiOptions(ARObject, ABC):
         return self
 
 
-class BswExclusiveAreaPolicy(BswApiOptions):
+class BswExclusiveAreaPolicy(BswApiOptions, VariationPointCapable):
     """
     The ExclusiveArea for which the BSW Scheduler uses this policy.
     """
@@ -1966,7 +1967,7 @@ class BswExclusiveAreaPolicy(BswApiOptions):
         return self
 
 
-class BswDataReceptionPolicy(BswApiOptions, ABC):
+class BswDataReceptionPolicy(BswApiOptions, VariationPointCapable, ABC):
     """
     Abstract base class for BSW data reception policies.
     Defines how BSW modules receive data.
@@ -2060,7 +2061,7 @@ class BswQueuedDataReceptionPolicy(BswDataReceptionPolicy):
         return self
 
 
-class BswInternalTriggeringPoint(Identifiable):
+class BswInternalTriggeringPoint(Identifiable, VariationPointCapable):
     """
     Represents an internal triggering point in a BSW module's internal behavior.
     This is used to define points from which triggers can be issued internally.
@@ -2109,7 +2110,7 @@ class BswInternalTriggeringPoint(Identifiable):
         return self
 
 
-class RoleBasedBswModuleEntryAssignment(ARObject):
+class RoleBasedBswModuleEntryAssignment(ARObject, VariationPointCapable):
     """
     This class specifies an assignment of a role to a particular BswModuleEntry (usually
     a configurable callback). With this assignment, the role of the callback is mapped to
@@ -2208,7 +2209,7 @@ class RoleBasedBswModuleEntryAssignment(ARObject):
         return self
 
 
-class BswServiceDependency(ServiceDependency):
+class BswServiceDependency(ServiceDependency, VariationPointCapable):
     """
     Specialization of ServiceDependency in the context of an BswInternalBehavior. It
     allows to associate BswModuleEntries and data defined for a BSW module or cluster
@@ -3380,7 +3381,7 @@ class BswInternalBehavior(InternalBehavior):
         return self.includedDataTypeSets
 
 
-class BswTriggerDirectImplementation(ARObject):
+class BswTriggerDirectImplementation(ARObject, VariationPointCapable):
     """
     Specifies a released trigger to be directly implemented via OS calls, for example in a Complex Driver module.
     Constraints: constr_10290 (masteredTrigger reference shall exist) and constr_4105 (only one of task or cat2Isr).

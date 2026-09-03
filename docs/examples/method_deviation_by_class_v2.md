@@ -4,8 +4,12 @@ Regenerated from the markdown class attribute tables of all 15 AUTOSAR spec
 pairs (`autosar/R23-11/markdown/*.md`, mirroring the R23-11 PDF attribute tables) against
 the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>` or
 `# XSD verified: <xsd-file>` are considered OK and skipped. The PDF reference `Kind` suffix (`Ref`/`TRef`/`IRef`/
-`Refs`) is appended to the member name and recognised in matching. `variationPoint`/
-`shortLabel` are excluded as framework-level.
+`Refs`) is appended to the member name and recognised in matching. `shortLabel` is
+excluded as framework-level. `variationPoint` is no longer excluded as framework-level:
+since the 2026-09-03 `VariationPointCapable` mixin refactor it is not a member of
+`Identifiable` at all — VP capability is granted per class by the mixin, anchored on the
+335 XSD atpVariation anchor classes (`docs/superpowers/plans/vp_anchors.txt`), and the
+reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 
 - Py classes scanned: **1069**
 - Skipped (spec verified stamp): **410**

@@ -6,6 +6,7 @@ used to ensure data integrity in communication systems.
 """
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, PositiveInteger
@@ -281,7 +282,7 @@ class EndToEndDescription(ARObject):
         return self
 
 
-class EndToEndProtectionVariablePrototype(ARObject):
+class EndToEndProtectionVariablePrototype(ARObject, VariationPointCapable):
     """
     Associates a VariableDataPrototype with sender and receiver roles
     for end-to-end data protection.
@@ -319,7 +320,7 @@ class EndToEndProtectionVariablePrototype(ARObject):
         return self._receiverIRefs
 
 
-class EndToEndProtection(Identifiable):
+class EndToEndProtection(Identifiable, VariationPointCapable):
     """
     This meta-class represents the ability to describe a particular end to
     end protection.

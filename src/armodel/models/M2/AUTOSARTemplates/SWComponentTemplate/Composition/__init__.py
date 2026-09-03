@@ -1,4 +1,5 @@
 from abc import ABC
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement, AtpPrototype
@@ -16,7 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 
 
-class SwComponentPrototype(AtpPrototype):
+class SwComponentPrototype(AtpPrototype, VariationPointCapable):
     """
     Role of a software component within a composition.
     """
@@ -59,7 +60,7 @@ class SwComponentPrototype(AtpPrototype):
         return self
 
 
-class SwConnector(AtpStructureElement, ABC):
+class SwConnector(AtpStructureElement, VariationPointCapable, ABC):
     """
     The base class for connectors between ports. Connectors have to be identifiable to allow references from the system constraint template.
     """
@@ -236,7 +237,7 @@ class PassThroughSwConnector(SwConnector):
         return self
 
 
-class InstantiationRTEEventProps(ARObject, ABC):
+class InstantiationRTEEventProps(ARObject, VariationPointCapable, ABC):
     """
     This meta-class represents the ability to refine the properties of RTEEvents for particular instances of a software component.
     """

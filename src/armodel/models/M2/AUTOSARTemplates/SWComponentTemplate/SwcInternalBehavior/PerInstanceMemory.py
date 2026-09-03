@@ -4,12 +4,13 @@ in software component internal behavior templates.
 """
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
-class PerInstanceMemory(AtpStructureElement):
+class PerInstanceMemory(AtpStructureElement, VariationPointCapable):
     """
     A per-instance memory is a memory block that is allocated separately
     for each instance of an atomic software component.

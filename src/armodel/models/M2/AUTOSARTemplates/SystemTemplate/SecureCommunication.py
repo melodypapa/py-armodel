@@ -2,6 +2,7 @@
 # It defines crypto service mappings and TLS configurations for secure data transmission
 
 from typing import List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from abc import ABC
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -17,7 +18,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 
 
-class CryptoServiceMapping(Identifiable, ABC):
+class CryptoServiceMapping(Identifiable, VariationPointCapable, ABC):
     """
     Abstract base class for crypto service mappings, defining
     common properties for different types of cryptographic

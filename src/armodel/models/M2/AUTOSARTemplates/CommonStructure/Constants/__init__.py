@@ -6,6 +6,7 @@ numerical, text, array, record, and application-specific value specifications.
 """
 
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from abc import ABC
 from typing import List, Optional
@@ -25,7 +26,7 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import ValueList
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 
 
-class ValueSpecification(ARObject, ABC):
+class ValueSpecification(ARObject, VariationPointCapable, ABC):
     """
     Base class for expressions leading to a value which can be used to initialize a data object.
     """
@@ -889,7 +890,7 @@ class NotAvailableValueSpecification(ValueSpecification):
         return self
 
 
-class NumericalOrText(ARObject):
+class NumericalOrText(ARObject, VariationPointCapable):
     """
     This meta-class represents the ability to yield either a numerical or a string. A typical use case is that
     two or more instances of this meta-class are aggregated with a VariationPoint where some instances yield
@@ -1057,7 +1058,7 @@ class ReferenceValueSpecification(ValueSpecification):
         return self
 
 
-class RuleArguments(ARObject):
+class RuleArguments(ARObject, VariationPointCapable):
     """
     This represents the arguments for a rule-based value specification.
     """

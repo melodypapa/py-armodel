@@ -2,6 +2,7 @@
 # It defines consumed and provided service instances, application endpoints, and SOAD configurations
 
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from abc import ABC
 from typing import List, Optional, TYPE_CHECKING
@@ -26,7 +27,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.ObsoleteModel import SocketConnection
 
 
-class AbstractServiceInstance(Identifiable, ABC):
+class AbstractServiceInstance(Identifiable, VariationPointCapable, ABC):
     """Provided and Consumed Ethernet Service Instances that are available at the ApplicationEndpoint."""
 
     # AbstractServiceInstance method parity checklist:
@@ -114,7 +115,7 @@ class AbstractServiceInstance(Identifiable, ABC):
         return self.routingGroupRefs
 
 
-class ConsumedEventGroup(Identifiable):
+class ConsumedEventGroup(Identifiable, VariationPointCapable):
     """This element represents an event-group to which the service consumer wants to subscribe."""
 
     # ConsumedEventGroup method parity checklist:
@@ -401,7 +402,7 @@ class TcpRoleEnum(AREnum):
         )
 
 
-class PduActivationRoutingGroup(Identifiable):
+class PduActivationRoutingGroup(Identifiable, VariationPointCapable):
     """
     Group of Pdus that can be activated or deactivated for transmission over a socket connection.
     """
@@ -470,7 +471,7 @@ class PduActivationRoutingGroup(Identifiable):
         return self
 
 
-class StaticSocketConnection(Identifiable):
+class StaticSocketConnection(Identifiable, VariationPointCapable):
     """
     Definition of static SocketConnection between the Socket that is defined by the aggregating Socket Address and the remoteAddress.
     """
@@ -1204,7 +1205,7 @@ class SdServerConfig(ARObject):
         return self
 
 
-class EventHandler(Identifiable):
+class EventHandler(Identifiable, VariationPointCapable):
     """
     This element represents an event group as part of the Provided Service Instance.
     """
@@ -1682,7 +1683,7 @@ class ProvidedServiceInstance(AbstractServiceInstance):
         return self
 
 
-class SocketAddress(Identifiable):
+class SocketAddress(Identifiable, VariationPointCapable):
     """This meta-class represents a socket address towards the rest of the meta-model. The actual semantics of the represented socket address, however, is contributed by aggregation of an ApplicationEndpoint."""
 
     # SocketAddress method parity checklist:

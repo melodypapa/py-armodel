@@ -1,4 +1,5 @@
 from abc import ABC
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -727,7 +728,7 @@ class DataDumpEntry(LinConfigurationEntry):
         return self
 
 
-class LinScheduleTable(Identifiable):
+class LinScheduleTable(Identifiable, VariationPointCapable):
     """
     Represents a LIN schedule table defining the timing and sequence
     of LIN frame transmissions, including resume position, run mode,

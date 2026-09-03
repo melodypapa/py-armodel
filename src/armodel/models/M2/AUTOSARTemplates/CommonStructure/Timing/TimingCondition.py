@@ -1,4 +1,5 @@
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from abc import ABC
 from typing import List, Optional
@@ -198,7 +199,7 @@ class ModeInSwcInstanceRef(AtpInstanceRef, ModeInSwcBswInstanceRef):
         return self
 
 
-class TimingModeInstance(Identifiable):
+class TimingModeInstance(Identifiable, VariationPointCapable):
     """
     This class specifies the mode declaration to be checked in a specific instance of a mode declaration group. This is used in a timing condition formula as an operand of the unary timing function TIMEX_mode Active to check whether the mode declaration is active at the point in time this expression is evaluated.
     """
@@ -229,7 +230,7 @@ class TimingModeInstance(Identifiable):
         return self
 
 
-class TimingCondition(Identifiable):
+class TimingCondition(Identifiable, VariationPointCapable):
     """
     A TimingCondition describes a dependency on a specific condition. The element owns an expression which describes the timing condition dependency.
     """
