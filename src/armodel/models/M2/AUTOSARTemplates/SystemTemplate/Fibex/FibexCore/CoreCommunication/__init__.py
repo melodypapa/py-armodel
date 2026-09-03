@@ -1,4 +1,5 @@
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from abc import ABC
 from typing import List, Optional, TYPE_CHECKING
@@ -21,7 +22,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import TransformationISignalProps
 
 
-class PduToFrameMapping(Identifiable):
+class PduToFrameMapping(Identifiable, VariationPointCapable):
     """
     A PduToFrameMapping defines the composition of Pdus in each frame.
     """
@@ -873,7 +874,7 @@ class TransferPropertyEnum(AREnum):
         )
 
 
-class ISignalToIPduMapping(Identifiable):
+class ISignalToIPduMapping(Identifiable, VariationPointCapable):
     """
     An ISignalToIPduMapping describes the mapping of ISignals to ISignalIPdus and defines the position of the ISignal within an ISignalIPdu.
     """
@@ -1143,7 +1144,7 @@ class DcmIPdu(IPdu):
         return self
 
 
-class IPduTiming(Describable):
+class IPduTiming(Describable, VariationPointCapable):
     """
     AUTOSAR COM provides the possibility to define two different TRANSMISSION MODES for each IPdu. The Transmission Mode of an IPdu that is valid at a specific point in time is selected using the values of the signals that are mapped to this IPdu. For each IPdu a Transmission Mode Selector is defined. The Transmission Mode Selector is calculated by evaluating the conditions for a subset of signals (class TransmissionModeCondition in the System Template). The Transmission Mode Selector is defined to be true, if at least one Condition evaluates to true and is defined to be false, if all Conditions evaluate to false.
     """
@@ -1554,7 +1555,7 @@ class ISignal(FibexElement):
         return self.transformationISignalProps
 
 
-class PduTriggering(Identifiable):
+class PduTriggering(Identifiable, VariationPointCapable):
     """
     The PduTriggering describes on which channel the IPdu is transmitted. The Pdu routing by the PduR is only allowed for subclasses of IPdu. Depending on its relation to entities such channels and clusters it can be unambiguously deduced whether a fan-out is handled by the Pdu router or the Bus Interface. If the fan-out is specified between different clusters it shall be handled by the Pdu Router. If the fan-out is specified between different channels of the same cluster it shall be handled by the Bus Interface.
     """
@@ -1666,7 +1667,7 @@ class PduTriggering(Identifiable):
         return self
 
 
-class FrameTriggering(Identifiable, ABC):
+class FrameTriggering(Identifiable, VariationPointCapable, ABC):
     """
     Abstract base class for frame triggering mechanisms, defining
     common properties for triggering frame transmission and reception
@@ -1808,7 +1809,7 @@ class SystemSignalGroup(ARElement):
         return self
 
 
-class ISignalTriggering(Identifiable):
+class ISignalTriggering(Identifiable, VariationPointCapable):
     """
     A ISignalTriggering allows an assignment of ISignals to physical channels.
     """
@@ -1959,7 +1960,7 @@ class MultiplexedPart(ARObject, ABC):
         return self
 
 
-class StaticPart(MultiplexedPart):
+class StaticPart(MultiplexedPart, VariationPointCapable):
     """
     Defines a static part of multiplexed communication, specifying
     Interaction Protocol Data Unit (IPDU) references for fixed
@@ -2033,7 +2034,7 @@ class DynamicPartAlternative(ARObject):
         return self
 
 
-class DynamicPart(MultiplexedPart):
+class DynamicPart(MultiplexedPart, VariationPointCapable):
     """
     Defines a dynamic part of multiplexed communication, specifying
     alternatives for variable segments in multiplexed communication

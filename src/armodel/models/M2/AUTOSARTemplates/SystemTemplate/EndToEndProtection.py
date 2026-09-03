@@ -2,10 +2,11 @@
 # (M2::AUTOSARTemplates::SystemTemplate::EndToEndProtection).
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType
 
 
-class EndToEndProtectionISignalIPdu(ARObject):
+class EndToEndProtectionISignalIPdu(ARObject, VariationPointCapable):
     """
     Defines to which ISignalIPdu-ISignalGroup pair an EndToEndProtection
     applies.

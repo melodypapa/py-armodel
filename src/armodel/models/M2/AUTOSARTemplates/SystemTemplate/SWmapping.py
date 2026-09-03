@@ -2,12 +2,13 @@
 # It defines mappings between software components and their implementations or partitions
 
 from typing import List
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import ComponentInSystemInstanceRef
 
 
-class SwcToImplMapping(Identifiable):
+class SwcToImplMapping(Identifiable, VariationPointCapable):
     """
     Represents a mapping between software components and their implementations,
     defining how software component instances in the system are connected to
@@ -44,7 +45,7 @@ class SwcToImplMapping(Identifiable):
         return self
 
 
-class ApplicationPartitionToEcuPartitionMapping(Identifiable):
+class ApplicationPartitionToEcuPartitionMapping(Identifiable, VariationPointCapable):
     """
     Represents a mapping between application partitions and ECU partitions,
     defining how application-level partitions are mapped to ECU-level

@@ -1,4 +1,5 @@
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from abc import ABC
 from typing import TYPE_CHECKING, List, Optional
@@ -136,7 +137,7 @@ class CycleRepetition(CommunicationCycle):
         return self
 
 
-class PhysicalChannel(Identifiable, ABC):
+class PhysicalChannel(Identifiable, VariationPointCapable, ABC):
     """
     A physical channel is the transmission medium that is used to send and receive information between communicating ECUs. Each CommunicationCluster has at least one physical channel. Bus systems like CAN and LIN only have exactly one PhysicalChannel. A FlexRay cluster may have more than one PhysicalChannels that may be used in parallel for redundant communication. An ECU is part of a cluster if it contains at least one controller that is connected to at least one channel of the cluster.
     """
@@ -560,7 +561,7 @@ class CanCluster(AbstractCanCluster):
         super().__init__(parent, short_name)
 
 
-class CommunicationController(Identifiable, ABC):
+class CommunicationController(Identifiable, VariationPointCapable, ABC):
     """The communication controller is a dedicated hardware device by means of which hosts are sending frames to and receiving frames from the communication medium. Tags: vh.latestBindingTime=postBuild"""
 
     # CommunicationController method parity checklist:
@@ -614,7 +615,7 @@ class PncGatewayTypeEnum(AREnum):
         super().__init__([PncGatewayTypeEnum.ENUM_ACTIVE, PncGatewayTypeEnum.ENUM_NONE, PncGatewayTypeEnum.ENUM_PASSIVE])
 
 
-class CommunicationConnector(Identifiable, ABC):
+class CommunicationConnector(Identifiable, VariationPointCapable, ABC):
     """
     The connection between the referencing ECU and the referenced channel via the referenced controller. Connectors are used to describe the bus interfaces of the ECUs and to specify the sending/receiving behavior. Each CommunicationConnector has a reference to exactly one communicationController. Note: Several CommunicationConnectors can be assigned to one PhysicalChannel in the scope of one ECU Instance.
     """
@@ -789,7 +790,7 @@ class CommunicationConnector(Identifiable, ABC):
         return self
 
 
-class CommConnectorPort(Identifiable, ABC):
+class CommConnectorPort(Identifiable, VariationPointCapable, ABC):
     """
     The Ecu communication relationship defines which signals, Pdus and frames are actually received and transmitted by this ECU. For each signal, Pdu or Frame that is transmitted or received and used by the Ecu an association between an ISignalPort, IPduPort or FramePort with the corresponding Triggering shall be created. An ISignalPort shall be created only if the corresponding signal is handled by COM (RTE or Signal Gateway). If a Pdu Gateway ECU only routes the Pdu without being interested in the content only a FramePort and an IPduPort needs to be created.
 

@@ -1,4 +1,5 @@
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from abc import ABC
 from typing import TYPE_CHECKING, List, Optional
@@ -516,7 +517,7 @@ class VlanMembership(ARObject):
         return self
 
 
-class CouplingPort(Identifiable):
+class CouplingPort(Identifiable, VariationPointCapable):
     """
     A CouplingPort is used to connect a CouplingElement with an EcuInstance or two CouplingElements with each other via a CouplingPortConnection. Optionally, the CouplingPort may also have a reference to a macMulticastGroup and a defaultVLAN.
     """
@@ -2683,7 +2684,7 @@ class PlcaProps(ARObject):
         return self
 
 
-class CouplingPortConnection(ARObject):
+class CouplingPortConnection(ARObject, VariationPointCapable):
     """
     Connection between two CouplingPorts (firstPort and secondPort) or between a collection of Ports that are all referenced by the portCollection reference.
     """

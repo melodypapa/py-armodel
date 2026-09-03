@@ -2,6 +2,7 @@
 # It includes classes for mapping data elements between software component ports and system signals
 
 from abc import ABC
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from typing import List
 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import VariableDataPrototypeInSystemInstanceRef
@@ -11,7 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.FibexCore.CoreCommunication import CommunicationDirectionType
 
 
-class DataMapping(ARObject, ABC):
+class DataMapping(ARObject, VariationPointCapable, ABC):
     """
     Abstract base class for data mapping elements that define relationships between
     AUTOSAR software component data elements and system-level communication signals.
