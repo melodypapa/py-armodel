@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARObject,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
     String,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -114,13 +115,50 @@ class AtpBlueprintMapping(ARObject, ABC):
 
     # AtpBlueprintMapping method parity checklist:
     # Spec: R23-11/AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table C.13, p.162 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAtpBlueprintRef        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setAtpBlueprintRef        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAtpBlueprintedElementRef [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setAtpBlueprintedElementRef [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # atpBlueprint / atpBlueprintedElement are abstract derived association ends (Stereotypes: atpAbstract,
+    # Table C.13); the XSD serializes them only on the concrete BlueprintMapping subclass as BLUEPRINT-REF /
+    # DERIVED-OBJECT-REF, so the abstract class carries no own XML element (reader/writer [—] here; the
+    # coverage belongs to the BlueprintMapping sync).
 
     def __init__(self):
         if type(self) is AtpBlueprintMapping:
             raise TypeError("AtpBlueprintMapping is an abstract class.")
         super().__init__()
+        # atpBlueprint: AtpBlueprint, 1, ref
+        # This represents the blueprint.
+        self.atpBlueprintRef: Optional[RefType] = None
+
+        # atpBlueprintedElement: AtpBlueprintable, 1, ref
+        # This represents the bluprinted elements which shall be mapped to the blueprint.
+        self.atpBlueprintedElementRef: Optional[RefType] = None
+
+    def getAtpBlueprintRef(self) -> Optional[RefType]:
+        """This represents the blueprint."""
+        return self.atpBlueprintRef
+
+    def setAtpBlueprintRef(self, value: Optional[RefType]) -> "AtpBlueprintMapping":
+        """This represents the blueprint. A None value is a no-op and is not set."""
+        if value is not None:
+            self.atpBlueprintRef = value
+        return self
+
+    def getAtpBlueprintedElementRef(self) -> Optional[RefType]:
+        """This represents the bluprinted elements which shall be mapped to the blueprint."""
+        return self.atpBlueprintedElementRef
+
+    def setAtpBlueprintedElementRef(self, value: Optional[RefType]) -> "AtpBlueprintMapping":
+        """This represents the bluprinted elements which shall be mapped to the blueprint. A None value is a no-op and is not set."""
+        if value is not None:
+            self.atpBlueprintedElementRef = value
+        return self
 
 
 __all__ = ["AtpBlueprintable", "AtpBlueprint", "AtpBlueprintMapping", "BlueprintPolicy"]

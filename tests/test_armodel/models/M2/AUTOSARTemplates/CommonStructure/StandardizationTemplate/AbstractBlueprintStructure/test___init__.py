@@ -17,7 +17,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     MultilanguageReferrable,
     Referrable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+    String,
+)
 
 
 class ConcreteAtpBlueprint(AtpBlueprint):
@@ -303,9 +306,11 @@ class ConcreteAtpBlueprintMapping(AtpBlueprintMapping):
 class TestAtpBlueprintMapping:
     """
     Test class for AtpBlueprintMapping (R23-11 AUTOSAR_FO_TPS_StandardizationTemplate
-    Table C.13, p.162). Abstract; Base = ARObject (XSD AR-OBJECT group chain); no own
-    attributes -- the PDF C.13 atpBlueprint/atpBlueprintedElement refs are atpDerived
-    (skipped in XSD ATP-BLUEPRINT-MAPPING) and serialized only on concrete subclasses.
+    Table C.13, p.162). Abstract; Base = ARObject (XSD AR-OBJECT group chain). Declares
+    two abstract derived association ends (Stereotypes: atpAbstract) -- atpBlueprint
+    (AtpBlueprint, 1, ref) and atpBlueprintedElement (AtpBlueprintable, 1, ref) -- which
+    the XSD serializes only on the concrete BlueprintMapping subclass as BLUEPRINT-REF /
+    DERIVED-OBJECT-REF, so the abstract class carries no own XML element.
     """
 
     def test_abstract_initialization(self):
@@ -355,3 +360,59 @@ class TestAtpBlueprintMapping:
             "Particular mappings are defined by specializations of this meta-class."
         )
         assert AtpBlueprintMapping.__doc__ == note
+
+    def test_atp_blueprint_ref_default_none(self):
+        """
+        Rule 0001.1 / 0001.5: atpBlueprint (AtpBlueprint, 1, ref) -> atpBlueprintRef,
+        default None (Kind ref -> Ref suffix, mult 1 -> Optional).
+        """
+        obj = ConcreteAtpBlueprintMapping()
+        assert obj.getAtpBlueprintRef() is None
+
+    def test_atp_blueprint_ref_round_trip(self):
+        """
+        Rule 0001.6 / 0004: set/get round-trip; None is a no-op; returns self (chaining).
+        """
+        obj = ConcreteAtpBlueprintMapping()
+        ref = RefType()
+        ref.setValue("/Blueprints/Bp")
+        assert obj.setAtpBlueprintRef(ref) is obj
+        assert obj.getAtpBlueprintRef() is ref
+        obj.setAtpBlueprintRef(None)
+        assert obj.getAtpBlueprintRef() is ref
+
+    def test_atp_blueprinted_element_ref_default_none(self):
+        """
+        Rule 0001.1 / 0001.5: atpBlueprintedElement (AtpBlueprintable, 1, ref) ->
+        atpBlueprintedElementRef, default None.
+        """
+        obj = ConcreteAtpBlueprintMapping()
+        assert obj.getAtpBlueprintedElementRef() is None
+
+    def test_atp_blueprinted_element_ref_round_trip(self):
+        """
+        Rule 0001.6 / 0004: set/get round-trip; None is a no-op; returns self (chaining).
+        """
+        obj = ConcreteAtpBlueprintMapping()
+        ref = RefType()
+        ref.setValue("/Elems/E")
+        assert obj.setAtpBlueprintedElementRef(ref) is obj
+        assert obj.getAtpBlueprintedElementRef() is ref
+        obj.setAtpBlueprintedElementRef(None)
+        assert obj.getAtpBlueprintedElementRef() is ref
+
+    def test_member_docstrings_verbatim(self):
+        """
+        Rule 0001.4 / 0012.2.5: get/set docstrings start with the spec attribute Note
+        verbatim (Tags: / Stereotypes: tails dropped), not a "Gets/Sets the X" paraphrase.
+        """
+        n1 = "This represents the blueprint."
+        n2 = "This represents the bluprinted elements which shall be mapped to the blueprint."
+        assert AtpBlueprintMapping.setAtpBlueprintRef.__doc__ is not None
+        assert AtpBlueprintMapping.setAtpBlueprintRef.__doc__.startswith(n1)
+        assert AtpBlueprintMapping.getAtpBlueprintRef.__doc__ is not None
+        assert AtpBlueprintMapping.getAtpBlueprintRef.__doc__.startswith(n1)
+        assert AtpBlueprintMapping.setAtpBlueprintedElementRef.__doc__ is not None
+        assert AtpBlueprintMapping.setAtpBlueprintedElementRef.__doc__.startswith(n2)
+        assert AtpBlueprintMapping.getAtpBlueprintedElementRef.__doc__ is not None
+        assert AtpBlueprintMapping.getAtpBlueprintedElementRef.__doc__.startswith(n2)
