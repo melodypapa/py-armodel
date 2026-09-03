@@ -879,6 +879,15 @@ is only the atpVariation flattening), so the single-value model is PDF-correct.
 
 Aligned to `class_check_rules.md` on 2026-08-08 (Table D.11, p.305). Base `ARObject, Identifiable, MultilanguageReferrable, Referrable` → inherits `Identifiable`. Class docstring is the verbatim Table D.11 Note. Carries `# Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table D.11, p.305` (provenance) but **no `# Spec verified:` stamp, and the checklist rows stay `[ ]` (reader/writer unchecked)**: `blueprintPolicy` is now typed as the spec type `BlueprintPolicy` (synced 2026-09-03, R23-11 Table C.18), but its **reader/writer stays deferred** because the concrete `BlueprintPolicy` subclasses (`BlueprintPolicyList`/`BlueprintPolicyNotModifiable`/`BlueprintPolicySingle`/`BlueprintPolicyModifiable`) are not yet synced — they own the `BLUEPRINT-POLICY-LIST`/`-NOT-MODIFIABLE`/`-SINGLE` XML elements and thus the `attributeName` coverage (Rule 1.10 blocker moved to the subclasses; see Rule 13.1 marker-omission + unchecked-row rule). `AtpBlueprint` is abstract with no concrete serialization of its own — its members serialize only through concrete blueprint subclasses, so no parser/writer wiring is expected until those land (Rule 1.7 abstract-class exception).
 
+## `AtpBlueprintable`
+- **PDF:** `AUTOSAR_FO_TPS_StandardizationTemplate.pdf`  | **page:** 162
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/AbstractBlueprintStructure/__init__.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviation)* | — | — | — | — | No deviations — Base re-parented `PackageableElement` → `Identifiable` per R23-11 Table C.14, p.162 (spec Base = `ARObject, Identifiable, MultilanguageReferrable, Referrable`, Attribute column empty). `PackageableElement`/`CollectableElement` are empty abstract markers (no fields/methods); the `element` aggregation lives on `Identifiable`, so the 13 subclasses (`CompuMethod`, `DataConstr`, `SwAddrMethod`, `PortPrototype`, `ModeDeclaration`, …) retain it. Source corpus corrected R4.3.1 → R23-11: the class exists in R23-11 (StandardizationTemplate Table C.14, p.162); the Phase-0 todo cited R4.3.1 (Table 4.3, p.45) only because the `pdf_page.py` helper regex matches unprefixed table ids (`4.3`) and skips R23-11 `C.14`; R23-11 is authoritative (target release, identical content). |
+
 ## `ClientServerInterface`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 101
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`

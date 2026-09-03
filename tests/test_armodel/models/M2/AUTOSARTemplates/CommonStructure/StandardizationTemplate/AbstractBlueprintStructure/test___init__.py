@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
     BlueprintPolicy,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import PackageableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
     MultilanguageReferrable,
@@ -222,3 +223,72 @@ class TestBlueprintPolicy:
         assert BlueprintPolicy.setAttributeName.__doc__.startswith(note)
         assert BlueprintPolicy.getAttributeName.__doc__ is not None
         assert BlueprintPolicy.getAttributeName.__doc__.startswith(note)
+
+
+class ConcreteAtpBlueprintable(AtpBlueprintable):
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+
+class TestAtpBlueprintable:
+    """
+    Test class for AtpBlueprintable heritage fix (R23-11 AUTOSAR_FO_TPS_
+    StandardizationTemplate Table C.14, p.162). Abstract; Base closure =
+    ARObject, Identifiable, MultilanguageReferrable, Referrable. Re-parented
+    from PackageableElement to Identifiable (no PackageableElement/
+    CollectableElement in the chain).
+    """
+
+    def test_abstract_initialization(self):
+        """
+        Rule 0001.2: AtpBlueprintable cannot be instantiated directly (abstract class).
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        try:
+            _obj = AtpBlueprintable(ar_root, "TestAtpBlueprintable")
+            assert False, "AtpBlueprintable should not be instantiable"
+        except TypeError as e:
+            assert "abstract" in str(e).lower()
+
+    def test_direct_base_is_identifiable(self):
+        """
+        Rule 0001.2 / heritage fix: most-derived direct base is Identifiable,
+        not PackageableElement.
+        """
+        assert AtpBlueprintable.__bases__[0] is Identifiable
+
+    def test_mro_has_spec_closure(self):
+        """
+        Rule 0001.2: MRO == ARObject / Identifiable / MultilanguageReferrable /
+        Referrable (spec Base closure).
+        """
+        for base in (Identifiable, MultilanguageReferrable, Referrable, ARObject):
+            assert base in AtpBlueprintable.__mro__, "%s missing from MRO" % base
+
+    def test_not_packageable_element(self):
+        """
+        Rule 0001.2 / heritage fix: PackageableElement (and CollectableElement)
+        are NOT in the MRO -- AtpBlueprintable is a direct Identifiable, not a
+        PackageableElement.
+        """
+        assert PackageableElement not in AtpBlueprintable.__mro__
+
+    def test_concrete_subclass_instantiation(self):
+        """
+        Rule 0001.2 / 0011: a concrete subclass instantiates and reaches
+        parent/short_name via the Identifiable chain.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        obj = ConcreteAtpBlueprintable(ar_root, "ConcreteAtpBlueprintable")
+        assert obj is not None
+        assert obj.getShortName() == "ConcreteAtpBlueprintable"
+        assert obj.getParent() == ar_root
+
+    def test_class_docstring_verbatim(self):
+        """
+        Rule 0001.4 / 0012.2.4: class docstring == spec Table C.14 Note verbatim.
+        """
+        note = "This meta-class represents the ability to be derived from a Blueprint. " "As this class is an abstract one, particular blueprintable meta-classes " "inherit from this one."
+        assert AtpBlueprintable.__doc__ == note

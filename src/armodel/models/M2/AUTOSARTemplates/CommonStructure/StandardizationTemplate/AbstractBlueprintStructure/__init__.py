@@ -14,28 +14,25 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import PackageableElement
 
 
-class AtpBlueprintable(PackageableElement, ABC):
-    """
-    Abstract base class for AUTOSAR Template (ATP) blueprintable elements.
-
-    AtpBlueprintable represents elements that can be used as blueprints in the AUTOSAR
-    template system. These elements provide reusable definitions that can be instantiated
-    or referenced in the model.
-
-    This class extends Identifiable with blueprint-specific functionality for managing
-    template-based elements in AUTOSAR models.
-
-    Note:
-        This is an abstract class and cannot be instantiated directly.
-        Concrete implementations include BswModuleEntry, CompuMethod, DataConstr,
-        and other blueprintable AUTOSAR elements.
-    """
+class AtpBlueprintable(Identifiable, ABC):
+    """This meta-class represents the ability to be derived from a Blueprint. As this class is an abstract one, particular blueprintable meta-classes inherit from this one."""
 
     # AtpBlueprintable method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table C.14, p.162 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    #
+    # Source corpus corrected R4.3.1 -> R23-11: the class exists in R23-11 (StandardizationTemplate
+    # Table C.14, p.162; its R23-11 markdown body is misaligned under "Table C.13: AtpBlueprintMapping").
+    # The Phase-0 todo cited R4.3.1 (Table 4.3, p.45) because the pdf_page.py helper regex matches only
+    # unprefixed table ids (R4.3.1 "4.3") and skips R23-11 "C.14"; R23-11 is authoritative (target release,
+    # identical content: Base = ARObject, Identifiable, MultilanguageReferrable, Referrable; no attributes).
+    # Heritage fix: re-parented (PackageableElement) -> (Identifiable). PackageableElement/CollectableElement
+    # are empty markers (no fields/methods); the `element` aggregation lives on Identifiable, so the 13
+    # subclasses (CompuMethod, DataConstr, SwAddrMethod, PortPrototype, ModeDeclaration, ...) keep it.
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpBlueprintable:
