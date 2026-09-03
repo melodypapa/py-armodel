@@ -1,11 +1,12 @@
 from typing import Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AutosarDataPrototype
 
 
-class Field(AutosarDataPrototype):
+class Field(AutosarDataPrototype, VariationPointCapable):
     """
     This meta-class represents the ability to define a piece of data that can be
     accessed with read and/or write semantics. It is also possible to generate a

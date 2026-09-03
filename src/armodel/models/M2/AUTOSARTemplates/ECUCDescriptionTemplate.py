@@ -1,4 +1,5 @@
 from abc import ABC
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from typing import List, Optional
 
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -90,7 +91,7 @@ class EcucIndexableValue(ARObject, ABC):
         return self
 
 
-class EcucParameterValue(EcucIndexableValue, ABC):
+class EcucParameterValue(EcucIndexableValue, VariationPointCapable, ABC):
     """
     Common class to all types of configuration values.
     """
@@ -243,7 +244,7 @@ class EcucNumericalParamValue(EcucParameterValue):
         return self
 
 
-class EcucAbstractReferenceValue(EcucIndexableValue, ABC):
+class EcucAbstractReferenceValue(EcucIndexableValue, VariationPointCapable, ABC):
     """
     Abstract class to be used as common parent for all reference values in the ECU Configuration Description.
     """
@@ -366,7 +367,7 @@ class EcucReferenceValue(EcucAbstractReferenceValue):
         return self
 
 
-class EcucContainerValue(Identifiable, EcucIndexableValue):
+class EcucContainerValue(Identifiable, EcucIndexableValue, VariationPointCapable):
     """
     Represents a Container definition in the ECU Configuration Description.
     """

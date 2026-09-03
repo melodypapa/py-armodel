@@ -7,6 +7,7 @@ and connections between hardware elements.
 """
 
 from typing import TYPE_CHECKING, List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer, RefType, String
@@ -114,7 +115,7 @@ class HwDescriptionEntity(Referrable):
         return self
 
 
-class HwPin(Identifiable, HwDescriptionEntity):
+class HwPin(Identifiable, HwDescriptionEntity, VariationPointCapable):
     """
     This meta-class represents the possibility to describe a hardware pin.
     """
@@ -264,7 +265,7 @@ class HwPinGroupContent(ARObject):
         return self
 
 
-class HwPinGroup(Identifiable, HwDescriptionEntity):
+class HwPinGroup(Identifiable, HwDescriptionEntity, VariationPointCapable):
     """
     This meta-class represents the ability to describe groups of pins which are used to connect hardware elements. This group acts as a bundle of pins. Thereby they allow to describe high level connections. Pin groups can even be nested.
     """
@@ -302,7 +303,7 @@ class HwPinGroup(Identifiable, HwDescriptionEntity):
         return self
 
 
-class HwPinConnector(Describable):
+class HwPinConnector(Describable, VariationPointCapable):
     """
     This meta-class represents the ability to connect two pins.
 
@@ -346,7 +347,7 @@ class HwPinConnector(Describable):
         return self.hwPinRefs
 
 
-class HwPinGroupConnector(Describable):
+class HwPinGroupConnector(Describable, VariationPointCapable):
     """
     This meta-class represents the ability to connect two pin groups.
 
@@ -417,7 +418,7 @@ class HwPinGroupConnector(Describable):
         return self.hwPinGroupRefs
 
 
-class HwElementConnector(Describable):
+class HwElementConnector(Describable, VariationPointCapable):
     """
     This meta-class represents the ability to connect two hardware elements. The details of the connection can be refined by hwPinGroupConnection.
 

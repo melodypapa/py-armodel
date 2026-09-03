@@ -5,6 +5,7 @@ including dependencies, module entries, and client-server interfaces.
 """
 
 from typing import List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
@@ -126,7 +127,7 @@ class SwServiceImplPolicyEnum(AREnum):
         super().__init__([SwServiceImplPolicyEnum.INLINE, SwServiceImplPolicyEnum.INLINE_CONDITIONAL, SwServiceImplPolicyEnum.MACRO, SwServiceImplPolicyEnum.STANDARD])
 
 
-class BswModuleDependency(Identifiable):
+class BswModuleDependency(Identifiable, VariationPointCapable):
     """
     Represents a dependency relationship between BSW modules.
     This class defines how one BSW module depends on services from another module.
@@ -457,7 +458,7 @@ class BswModuleEntry(AtpBlueprintable):
         return "BswModuleEntry(%s)" % self.short_name
 
 
-class BswModuleClientServerEntry(Referrable):
+class BswModuleClientServerEntry(Referrable, VariationPointCapable):
     """
     Represents a client-server entry in a BSW module.
     This class defines how BSW modules implement client-server communication patterns.
