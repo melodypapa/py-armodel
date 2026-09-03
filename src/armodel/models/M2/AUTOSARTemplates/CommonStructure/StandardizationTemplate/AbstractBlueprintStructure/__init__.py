@@ -8,6 +8,9 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
     ARObject,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    String,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
 )
@@ -40,6 +43,36 @@ class AtpBlueprintable(PackageableElement, ABC):
         super().__init__(parent, short_name)
 
 
+class BlueprintPolicy(ARObject, ABC):
+    """This meta-class represents the ability to indicate whether blueprintable elements will be modifiable or not modifiable."""
+
+    # BlueprintPolicy method parity checklist:
+    # Spec: R23-11/AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table C.18, p.164 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAttributeName     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setAttributeName     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is BlueprintPolicy:
+            raise TypeError("BlueprintPolicy is an abstract class.")
+        super().__init__()
+
+        # This identifies the related attribute of a BlueprintPolicy. For navigation over the model a subset of xpath expressions is used.
+        self.attributeName: Optional[String] = None
+
+    def getAttributeName(self) -> Optional[String]:
+        """This identifies the related attribute of a BlueprintPolicy. For navigation over the model a subset of xpath expressions is used."""
+        return self.attributeName
+
+    def setAttributeName(self, attributeName: Optional[String]) -> "BlueprintPolicy":
+        """This identifies the related attribute of a BlueprintPolicy. For navigation over the model a subset of xpath expressions is used. A None value is a no-op and is not set."""
+        if attributeName is not None:
+            self.attributeName = attributeName
+        return self
+
+
 class AtpBlueprint(Identifiable, ABC):
     """This meta-class represents the ability to act as a Blueprint. As this class is an abstract one, particular blueprint meta-classes inherit from this one."""
 
@@ -49,9 +82,12 @@ class AtpBlueprint(Identifiable, ABC):
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] addBlueprintPolicy  [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer  R23-11
     # [x] getBlueprintPolicys [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer  R23-11
-    # Marker withheld: BlueprintPolicy (member type, `*` aggr) is a Rule 0001.10 referenced-class
-    # placeholder — not implemented in this repo — so the blueprintPolicy aggregation's reader/writer
-    # (deferred, rows stay [ ]) and the `# Spec verified:` stamp are withheld until BlueprintPolicy lands.
+    # Marker withheld: the blueprintPolicy aggregation's reader/writer rows stay [ ]
+    # because the concrete BlueprintPolicy subclasses (BlueprintPolicyModifiable,
+    # BlueprintPolicyList, BlueprintPolicyNotModifiable, BlueprintPolicySingle) are
+    # not yet synced — they own the BLUEPRINT-POLICY-LIST/-NOT-MODIFIABLE/-SINGLE
+    # elements (and thus the attributeName coverage). BlueprintPolicy itself is now
+    # implemented (R23-11 Table C.18); only the subtypes' reader/writer blocks the stamp.
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpBlueprint:
@@ -60,12 +96,12 @@ class AtpBlueprint(Identifiable, ABC):
 
         # This role indicates whether the blueprintable element will be
         # modifiable or not modifiable.
-        # Spec type: BlueprintPolicy (abstract, not yet implemented); carried
-        # as a List[ARObject] placeholder. See deviation tracker "class not
-        # yet implemented".
-        self.blueprintPolicys: List[ARObject] = []
+        # Spec type: BlueprintPolicy (abstract, R23-11 Table C.18). The concrete
+        # subtypes (BlueprintPolicyList/NotModifiable/Single) carry the actual XML
+        # elements, so the aggregation is typed with the abstract base for now.
+        self.blueprintPolicys: List[BlueprintPolicy] = []
 
-    def addBlueprintPolicy(self, value: Optional[ARObject]) -> "AtpBlueprint":
+    def addBlueprintPolicy(self, value: Optional[BlueprintPolicy]) -> "AtpBlueprint":
         """This role indicates whether the blueprintable element will be modifiable or not modifiable. A None value is a no-op and does not append to blueprintPolicys."""
         if value is not None:
             self.blueprintPolicys.append(value)
@@ -106,4 +142,4 @@ class AtpBlueprintMapping(ARObject, ABC):
         super().__init__()
 
 
-__all__ = ["AtpBlueprintable", "AtpBlueprint", "AtpBlueprintMapping"]
+__all__ = ["AtpBlueprintable", "AtpBlueprint", "AtpBlueprintMapping", "BlueprintPolicy"]

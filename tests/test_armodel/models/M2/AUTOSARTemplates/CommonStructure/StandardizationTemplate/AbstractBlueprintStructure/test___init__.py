@@ -4,13 +4,18 @@ in the AUTOSAR CommonStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprint, AtpBlueprintable
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
+    AtpBlueprint,
+    AtpBlueprintable,
+    BlueprintPolicy,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
     MultilanguageReferrable,
     Referrable,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 
 
 class ConcreteAtpBlueprint(AtpBlueprint):
@@ -154,3 +159,66 @@ class TestAtpBlueprint:
         assert AtpBlueprint.addBlueprintPolicy.__doc__.startswith(note)
         assert AtpBlueprint.getBlueprintPolicys.__doc__ is not None
         assert AtpBlueprint.getBlueprintPolicys.__doc__.startswith(note)
+
+
+class ConcreteBlueprintPolicy(BlueprintPolicy):
+    def __init__(self):
+        super().__init__()
+
+
+class TestBlueprintPolicy:
+    """
+    Test class for BlueprintPolicy (R23-11 AUTOSAR_FO_TPS_StandardizationTemplate
+    Table C.18, p.164). Abstract, Base = ARObject only, one attribute attributeName.
+    """
+
+    def test_abstract_initialization(self):
+        """
+        Rule 0001.2: BlueprintPolicy cannot be instantiated directly (abstract class).
+        """
+        try:
+            _obj = BlueprintPolicy()
+            assert False, "BlueprintPolicy should not be instantiable"
+        except TypeError as e:
+            assert "abstract" in str(e).lower()
+
+    def test_concrete_subclass_instantiation(self):
+        """
+        Rule 0001.2 / 0011: a concrete subclass instantiates and inherits attributeName
+        (default None).
+        """
+        obj = ConcreteBlueprintPolicy()
+        assert obj is not None
+        assert obj.getAttributeName() is None
+
+    def test_get_set_attribute_name_round_trip(self):
+        """
+        Rule 0001.6 / 0004: setAttributeName stores the value; getAttributeName returns it;
+        None is a no-op and returns self for chaining.
+        """
+        obj = ConcreteBlueprintPolicy()
+        value = String()
+        value.setValue("TIMING-EVENT-PROTOTYPE")
+        assert obj.setAttributeName(value) is obj
+        assert obj.getAttributeName() is value
+        obj.setAttributeName(None)
+        assert obj.getAttributeName() is value
+
+    def test_class_docstring_verbatim(self):
+        """
+        Rule 0001.4 / 0012.2.4: class docstring == spec Table C.18 Note verbatim.
+        """
+        note = "This meta-class represents the ability to indicate whether blueprintable elements will be modifiable or not modifiable."
+        assert BlueprintPolicy.__doc__ == note
+
+    def test_attribute_name_docstrings_verbatim(self):
+        """
+        Rule 0001.4 / 0012.2.5: get/set docstrings start with the spec attribute Note
+        verbatim ("This identifies the related attribute of a BlueprintPolicy. For
+        navigation over the model a subset of xpath expressions is used.").
+        """
+        note = "This identifies the related attribute of a BlueprintPolicy. For navigation over the model a subset of xpath expressions is used."
+        assert BlueprintPolicy.setAttributeName.__doc__ is not None
+        assert BlueprintPolicy.setAttributeName.__doc__.startswith(note)
+        assert BlueprintPolicy.getAttributeName.__doc__ is not None
+        assert BlueprintPolicy.getAttributeName.__doc__.startswith(note)
