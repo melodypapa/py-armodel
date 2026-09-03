@@ -5,6 +5,7 @@ that software components or BSW modules can be in, along with transitions betwee
 """
 
 from typing import List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype, AtpType, AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
@@ -149,7 +150,7 @@ class ModeDeclarationGroupPrototypeMapping(ARObject):
         return self
 
 
-class ModeDeclaration(AtpStructureElement, AtpBlueprintable):
+class ModeDeclaration(AtpStructureElement, AtpBlueprintable, VariationPointCapable):
     """
     Declaration of one Mode. The name and semantics of a specific mode is not defined in the meta-model.
     """
@@ -454,7 +455,7 @@ class ModeDeclarationGroup(AtpType):
         return self
 
 
-class ModeDeclarationGroupPrototype(AtpPrototype):
+class ModeDeclarationGroupPrototype(AtpPrototype, VariationPointCapable):
     """
     The ModeDeclarationGroupPrototype specifies a set of Modes (ModeDeclarationGroup) which is provided or required in the given context.
     """

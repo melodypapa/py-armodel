@@ -1,4 +1,5 @@
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from typing import List, Optional, TYPE_CHECKING
 
@@ -205,7 +206,7 @@ class OperationArgumentInComponentInstanceRef(AtpInstanceRef):
         return self
 
 
-class AutosarOperationArgumentInstance(Identifiable):
+class AutosarOperationArgumentInstance(Identifiable, VariationPointCapable):
     """
     This class represents a reference to an argument instance. This way it is possible to reference an argument instance in the occurrence expression formula. The argument instance can target to one of the following arguments: • a whole argument used in an operation of a PortPrototype with ClientServerInterface • an element inside of a composite argument used in an operation of a PortPrototype with ClientServer Interface
     """
@@ -325,7 +326,7 @@ class VariableInComponentInstanceRef(AtpInstanceRef):
         return self
 
 
-class AutosarVariableInstance(Identifiable):
+class AutosarVariableInstance(Identifiable, VariationPointCapable):
     """
     This class represents a reference to a variable instance within AUTOSAR. This way it is possible to reference a variable instance in the occurrence expression formula. The variable instance can target to one of the following variables: • a variable provided via a PortPrototype as whole • an element inside of a composite variable provided via a PortPrototype
     """

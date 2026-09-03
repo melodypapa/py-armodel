@@ -4,6 +4,7 @@ representing heap memory usage in AUTOSAR resource consumption models.
 """
 
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from abc import ABC
 
@@ -16,7 +17,7 @@ if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption import HardwareConfiguration, SoftwareContext
 
 
-class HeapUsage(Identifiable, ABC):
+class HeapUsage(Identifiable, VariationPointCapable, ABC):
     """
     Describes the heap memory usage of a SW-Component.
     """

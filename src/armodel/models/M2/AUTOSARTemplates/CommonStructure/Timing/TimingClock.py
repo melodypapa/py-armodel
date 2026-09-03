@@ -1,4 +1,5 @@
 from abc import ABC
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -7,7 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
 
-class TimingClock(Identifiable, ABC):
+class TimingClock(Identifiable, VariationPointCapable, ABC):
     """
     Describes an abstract clock.
     """
@@ -86,7 +87,7 @@ class TDLETZoneClock(TimingClock):
         return self
 
 
-class TimingClockSyncAccuracy(Identifiable):
+class TimingClockSyncAccuracy(Identifiable, VariationPointCapable):
     """
     Describes the synchronization accuracy between exactly two TDClocks.
     """

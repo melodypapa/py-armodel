@@ -5,6 +5,7 @@ hierarchies in a flat manner, typically used for code generation purposes.
 """
 
 from typing import List, Optional
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
@@ -15,7 +16,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 
 
-class FlatInstanceDescriptor(Identifiable):
+class FlatInstanceDescriptor(Identifiable, VariationPointCapable):
     """
     Represents a flat instance descriptor in AUTOSAR models.
     This class describes a single instance in a flattened instance hierarchy, typically used for code generation.
@@ -216,7 +217,7 @@ class FlatMap(AtpBlueprintable):
         return self.getElement(short_name, FlatInstanceDescriptor)
 
 
-class AliasNameAssignment(ARObject):
+class AliasNameAssignment(ARObject, VariationPointCapable):
     """
     This meta-class represents the ability to associate an alternative name to a flat representations or an Identifiable. The usage of this name is defined outside of AUTOSAR. For example this name can be used by MCD tools or as a name for component instances in the ECU extract. Note that flatInstance and identifiable are mutually exclusive.
 

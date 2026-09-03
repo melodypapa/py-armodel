@@ -3,6 +3,7 @@ This module contains timing constraint-related classes for AUTOSAR models.
 """
 
 from abc import ABC
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import (
@@ -16,7 +17,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
 )
 
 
-class TimingConstraint(Traceable, ABC):
+class TimingConstraint(Traceable, VariationPointCapable, ABC):
     """
     The abstract parent class of different timing constraints supported by the Timing extension. A concrete timing constraint is used to bound the timing behavior of the model elements in its scope.
     """

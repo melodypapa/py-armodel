@@ -3,6 +3,7 @@ This module contains timing description classes for AUTOSAR models.
 """
 
 from abc import ABC
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
@@ -14,7 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 
 
-class TimingDescription(Identifiable, ABC):
+class TimingDescription(Identifiable, VariationPointCapable, ABC):
     """
     The abstract parent class of the model elements that are used to define the scope of a timing constraint.
     """

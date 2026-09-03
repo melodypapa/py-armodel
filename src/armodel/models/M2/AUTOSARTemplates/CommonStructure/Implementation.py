@@ -5,6 +5,7 @@ including code descriptors, compilers, dependencies, and resource consumption in
 """
 
 from __future__ import annotations
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 from abc import ABC
 from typing import TYPE_CHECKING, List, Optional
@@ -368,7 +369,7 @@ class Compiler(Identifiable):
         return self
 
 
-class DependencyOnArtifact(Identifiable):
+class DependencyOnArtifact(Identifiable, VariationPointCapable):
     """
     Represents a dependency on the existence of another artifact, e.g. a library.
     """
