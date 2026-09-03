@@ -518,6 +518,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototy
     ParameterDataPrototype,
     VariableDataPrototype,
 )
+from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationDeferredDataType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     ApplicationArrayDataType,
     ApplicationCompositeDataType,
@@ -5149,6 +5150,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readAutosarDataType(self, element: ET.Element, data_type: AutosarDataType):
         self.readIdentifiable(element, data_type)
         data_type.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
+
+    def readApplicationDeferredDataType(self, element: ET.Element, data_type: ApplicationDeferredDataType):
+        self.logger.debug("Read ApplicationDeferredDataType <%s>" % data_type.getShortName())
+        self.readAutosarDataType(element, data_type)
 
     def readApplicationPrimitiveDataType(self, element: ET.Element, data_type: ApplicationPrimitiveDataType):
         self.logger.debug("Read ApplicationPrimitiveDataType <%s>" % data_type.getShortName())
@@ -11189,6 +11194,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SWC-IMPLEMENTATION":
                 impl = parent.createSwcImplementation(self.getShortName(child_element))
                 self.readSwcImplementation(child_element, impl)
+            elif tag_name == "APPLICATION-DEFERRED-DATA-TYPE":
+                data_type = parent.createApplicationDeferredDataType(self.getShortName(child_element))
+                self.readApplicationDeferredDataType(child_element, data_type)
             elif tag_name == "APPLICATION-PRIMITIVE-DATA-TYPE":
                 data_type = parent.createApplicationPrimitiveDataType(self.getShortName(child_element))
                 self.readApplicationPrimitiveDataType(child_element, data_type)

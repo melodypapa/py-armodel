@@ -449,6 +449,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototy
     ParameterDataPrototype,
     VariableDataPrototype,
 )
+from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationDeferredDataType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     ApplicationArrayDataType,
     ApplicationCompositeDataType,
@@ -2503,6 +2504,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARElement(element, data_type)
         self.setSwDataDefProps(element, "SW-DATA-DEF-PROPS", data_type.getSwDataDefProps())
 
+    def writeApplicationDeferredDataType(self, element: ET.Element, data_type: ApplicationDeferredDataType):
+        self.logger.debug("writeApplicationDeferredDataType %s" % data_type.getShortName())
+        data_type_tag = ET.SubElement(element, "APPLICATION-DEFERRED-DATA-TYPE")
+        self.setApplicationDataType(data_type_tag, data_type)
+
     def writeApplicationPrimitiveDataType(self, element: ET.Element, data_type: ApplicationPrimitiveDataType):
         self.logger.debug("writeApplicationPrimitiveDataType %s" % data_type.getShortName())
         data_type_tag = ET.SubElement(element, "APPLICATION-PRIMITIVE-DATA-TYPE")
@@ -2537,7 +2543,9 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeApplicationDataTypes(self, parent: ET.Element, ar_package: ARPackage):
         for data_type in ar_package.getApplicationDataType():
-            if isinstance(data_type, ApplicationPrimitiveDataType):
+            if isinstance(data_type, ApplicationDeferredDataType):
+                self.writeApplicationDeferredDataType(parent, data_type)
+            elif isinstance(data_type, ApplicationPrimitiveDataType):
                 self.writeApplicationPrimitiveDataType(parent, data_type)
             elif isinstance(data_type, ApplicationRecordDataType):
                 self.writeApplicationRecordDataType(parent, data_type)
@@ -11121,6 +11129,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeTcpOptionFilterSet(element, ar_element)
         elif isinstance(ar_element, CompositionSwComponentType):
             self.writeCompositionSwComponentType(element, ar_element)
+        elif isinstance(ar_element, ApplicationDeferredDataType):
+            self.writeApplicationDeferredDataType(element, ar_element)
         elif isinstance(ar_element, ApplicationPrimitiveDataType):
             self.writeApplicationPrimitiveDataType(element, ar_element)
         elif isinstance(ar_element, ApplicationRecordDataType):
