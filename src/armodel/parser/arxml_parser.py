@@ -366,6 +366,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 impor
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
@@ -1240,7 +1241,10 @@ class ARXMLParser(AbstractARXMLParser):
 
         variation_point_element = self.find(element, "VARIATION-POINT")
         if variation_point_element is not None:
-            identifiable.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            if isinstance(identifiable, VariationPointCapable):
+                identifiable.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
 
         # The uuid attribute (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 4.4) is
         # owned by Identifiable. It is read here and populated *before* the object is

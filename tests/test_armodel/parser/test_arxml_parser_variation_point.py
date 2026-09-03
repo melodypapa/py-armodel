@@ -63,7 +63,15 @@ class TestReadVariationPoint:
         assert conditions[0].getMatchingCriterionRef().getDest() == "POST-BUILD-VARIANT-CRITERION"
         assert conditions[0].getValue().getValue() == 1
 
-    def test_read_identifiable_picks_up_variation_point(self, parser):
+    def test_read_identifiable_picks_up_variation_point(self, parser, caplog):
+        """The parser gate ignores VARIATION-POINT on non-capable classes.
+
+        POST-BUILD-VARIANT-CRITERION has no VARIATION-POINT anchor anywhere in
+        its XSD group chain, so the parser must not populate it and must log a
+        warning (constr_2638: no variation points in non-variant roles).
+        """
+        import logging
+
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
         inner = (
@@ -76,11 +84,11 @@ class TestReadVariationPoint:
         element = _snip(inner).find("{%s}POST-BUILD-VARIANT-CRITERION" % NS)
 
         criterion = PostBuildVariantCriterion(ARPackage(None, "Pkg"), "Country")
-        parser.readIdentifiable(element, criterion)
+        with caplog.at_level(logging.WARNING, logger=parser.logger.name):
+            parser.readIdentifiable(element, criterion)
 
-        vp = criterion.getVariationPoint()
-        assert vp is not None
-        assert vp.getShortLabel().getValue() == "VP_Country"
+        assert criterion.variationPoint is None
+        assert any("VARIATION-POINT" in record.message for record in caplog.records)
 
 
 class TestReadVariationPointProxy:
@@ -148,6 +156,26 @@ class TestReadVariationPointProxy:
         assert isinstance(value_access, LimitValueVariationPoint)
         assert value_access.getIntervalType().getValue() == "closed"
         assert value_access.getText() == "42"
+
+
+@pytest.mark.integration
+class TestVariationPointParserGate:
+    def test_fixture_criterion_variation_point_ignored_with_warning(self, caplog):
+        """VariationPoint.arxml carries a non-conformant VARIATION-POINT on the
+        POST-BUILD-VARIANT-CRITERION; the parser must ignore it and warn."""
+        import logging
+
+        document = AUTOSAR.getInstance()
+        document.new()
+        document.setARRelease("R23-11")
+        parser = ARXMLParser()
+        with caplog.at_level(logging.WARNING, logger=parser.logger.name):
+            parser.load(VARIATION_POINT_ARXML, document)
+
+        criterion = document.find("/Demo/Criterions/Country")
+        assert criterion is not None
+        assert criterion.variationPoint is None
+        assert any("VARIATION-POINT" in record.message for record in caplog.records)
 
 
 @pytest.mark.integration
