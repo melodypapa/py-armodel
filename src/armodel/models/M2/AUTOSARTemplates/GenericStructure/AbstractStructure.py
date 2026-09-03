@@ -211,5 +211,5 @@ class AtpStructureElement(AtpClassifier, AtpFeature, ABC):
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AtpStructureElement:
             raise TypeError("AtpStructureElement is an abstract class.")
-        
+
         super().__init__(parent, short_name)

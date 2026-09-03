@@ -28,7 +28,7 @@ class SwComponentPrototype(AtpPrototype):
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getTypeTRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setTypeTRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    
+
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
