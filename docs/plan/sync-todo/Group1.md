@@ -432,16 +432,16 @@ ripple is audited. Per-class spec base verdict:
   - [x] Step 7 — Update checklist comment — 6-col `# Spec:` format (Table C.13, p.162, R23-11); marker deferred to 9b
   - [x] Step 8 — Deviations — AtpBlueprintMapping itself: none. Observation (separate row): concrete `BlueprintMapping` missing `blueprint`(BLUEPRINT-REF)/`derivedObject`(DERIVED-OBJECT-REF) per XSD BLUEPRINT-MAPPING group l.9118 — recommend a BlueprintMapping sync row. Deviation tracker AtpBlueprintMapping entry corrected (stale Package/Source/"missing" rows fixed).
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 31 AbstractBlueprintStructure tests + 148 blueprint tests pass, ruff/black clean on the class + its test (repo-wide lint/black failures are unrelated in-flight edits to ApplicationDeferredDataType/test_arxml_parser_dispatch, not this class). 9b user-confirmed: Base ARObject most-derived, both atpAbstract members now modeled (atpBlueprintRef/atpBlueprintedElementRef) with verbatim docstrings, reader/writer N/A justified (abstract, no own XML element), member order, Rule 0007 location, no deviations for AtpBlueprintMapping itself → `# Spec verified: R23-11` written (commit: 493e272d)
-- [ ] `ApplicationDeferredDataType` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_AbstractPlatformSpecification · Table 3.17)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `ApplicationDeferredDataType` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_AbstractPlatformSpecification · Table 3.17) — **finished, stamped `# Spec verified: R23-11`** (commit: abdfbf1d)
+  - [x] Step 1 — Sync members & description from spec — Table 3.17 (p.37): Note + Base closure (role-matching most-derived base ApplicationDataType) + no own Attribute rows
+  - [x] Step 2 — Write model class unit test (Red) — existing TestApplicationDeferredDataType (init, heritage, verbatim docstring, no-own-attrs, create-method) passes
+  - [x] Step 3 — Implement model class (Green) — `class ApplicationDeferredDataType(ApplicationDataType)` already spec-correct; class reduces to `__init__` (no own attributes)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring verbatim from Table 3.17 Note (Tags tail dropped); no own members
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — parser test (read + uuid + full write→parse round-trip) + writer test (XML shape); 4 pass
+  - [x] Step 6 — Update parser & writer (Green) — N/A: readApplicationDeferredDataType/writeApplicationDeferredDataType + APPLICATION-DEFERRED-DATA-TYPE dispatch already cover it (verified via round-trip)
+  - [x] Step 7 — Update checklist comment — 6-col `# Spec:` (PDF, Table 3.17, p.37, R23-11) + `# Spec verified: R23-11`
+  - [x] Step 8 — Deviations — none: heritage ApplicationDataType most-derived role-matching base (parallel branches not multi-inherited per Rule 0001.2); no own attributes to mis-model; reader/writer fully covered
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 9 ADDT tests + 197 related unit + integration round-trip pass, ruff/black clean; 9b user-confirmed 2026-09-03: all blind-spot checks pass (verbatim docstring, heritage, no own attrs, Rule 0007 location) → `# Spec verified: R23-11` written; commit abdfbf1d
 - [ ] `AbstractImplementationDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.14)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
