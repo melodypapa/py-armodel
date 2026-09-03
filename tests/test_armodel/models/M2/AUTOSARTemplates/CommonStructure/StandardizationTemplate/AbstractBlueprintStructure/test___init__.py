@@ -7,6 +7,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
     AtpBlueprint,
     AtpBlueprintable,
+    AtpBlueprintMapping,
     BlueprintPolicy,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -292,3 +293,65 @@ class TestAtpBlueprintable:
         """
         note = "This meta-class represents the ability to be derived from a Blueprint. " "As this class is an abstract one, particular blueprintable meta-classes " "inherit from this one."
         assert AtpBlueprintable.__doc__ == note
+
+
+class ConcreteAtpBlueprintMapping(AtpBlueprintMapping):
+    def __init__(self):
+        super().__init__()
+
+
+class TestAtpBlueprintMapping:
+    """
+    Test class for AtpBlueprintMapping (R23-11 AUTOSAR_FO_TPS_StandardizationTemplate
+    Table C.13, p.162). Abstract; Base = ARObject (XSD AR-OBJECT group chain); no own
+    attributes -- the PDF C.13 atpBlueprint/atpBlueprintedElement refs are atpDerived
+    (skipped in XSD ATP-BLUEPRINT-MAPPING) and serialized only on concrete subclasses.
+    """
+
+    def test_abstract_initialization(self):
+        """
+        Rule 0001.2: AtpBlueprintMapping cannot be instantiated directly (abstract class).
+        """
+        try:
+            _obj = AtpBlueprintMapping()
+            assert False, "AtpBlueprintMapping should not be instantiable"
+        except TypeError as e:
+            assert "abstract" in str(e).lower()
+
+    def test_direct_base_is_arobject(self):
+        """
+        Rule 0001.2: most-derived direct base is ARObject (spec Base closure = ARObject,
+        per XSD AR-OBJECT group chain; Identifiable is NOT in the closure).
+        """
+        assert AtpBlueprintMapping.__bases__[0] is ARObject
+
+    def test_mro_has_arobject_only_base(self):
+        """
+        Rule 0001.2: MRO includes ARObject; Identifiable and PackageableElement are NOT
+        in the MRO (AtpBlueprintMapping is an ARObject-based abstract shell, not an
+        Identifiable).
+        """
+        assert ARObject in AtpBlueprintMapping.__mro__
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
+        assert Identifiable not in AtpBlueprintMapping.__mro__
+        assert PackageableElement not in AtpBlueprintMapping.__mro__
+
+    def test_concrete_subclass_instantiation(self):
+        """
+        Rule 0001.2 / 0011: a concrete subclass instantiates.
+        """
+        obj = ConcreteAtpBlueprintMapping()
+        assert obj is not None
+
+    def test_class_docstring_verbatim(self):
+        """
+        Rule 0001.4 / 0012.2.4: class docstring == spec Table C.13 Note verbatim
+        (XSD ATP-BLUEPRINT-MAPPING l.6890 documentation).
+        """
+        note = (
+            "This meta-class represents the ability to express a particular mapping "
+            "between a blueprint and an element derived from this blueprint. "
+            "Particular mappings are defined by specializations of this meta-class."
+        )
+        assert AtpBlueprintMapping.__doc__ == note

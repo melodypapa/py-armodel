@@ -1788,14 +1788,15 @@ the Python sources. Classes whose checklist carries `# Spec verified: R<YY>-<MM>
 | — *(missing)* | `—` | `ipv6MulticastIpAddress` | ``Ip6AddressString`` | attr | missing |
 
 ## `AtpBlueprintMapping`
-- **PDF:** `AUTOSAR_FO_TPS_StandardizationTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::GenericStructure::AbstractStructure`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/GenericStructure/AbstractStructure.py`
+- **PDF:** `AUTOSAR_FO_TPS_StandardizationTemplate.pdf`  | **Table C.13, page:** 162 (R23-11)
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::StandardizationTemplate::AbstractBlueprintStructure`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/StandardizationTemplate/AbstractBlueprintStructure/__init__.py`
+- **Status:** `# Spec verified: R23-11` (abstract shell: Base = ARObject, no own serialized attributes). The PDF C.13 `atpBlueprint`/`atpBlueprintedElement` refs are `<<atpDerived>>` (skipped in XSD `ATP-BLUEPRINT-MAPPING`); they are realized on concrete subclasses (`BlueprintMapping.blueprint`/`derivedObject` per XSD `BLUEPRINT-MAPPING` group) and are NOT a deviation on this abstract base.
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `atpBlueprint` | ``AtpBlueprint`` | ref | missing |
-| — *(missing)* | `—` | `atpBlueprintedElement` | ``AtpBlueprintable`` | ref | missing |
+| — *(n/a)* | `—` | `atpBlueprint` | ``AtpBlueprint`` | ref | atpDerived (skipped) — not serialized on abstract base |
+| — *(n/a)* | `—` | `atpBlueprintedElement` | ``AtpBlueprintable`` | ref | atpDerived (skipped) — not serialized on abstract base |
 
 ## `KeywordSet`
 - **PDF:** `AUTOSAR_FO_TPS_StandardizationTemplate.pdf`  | **page:** —

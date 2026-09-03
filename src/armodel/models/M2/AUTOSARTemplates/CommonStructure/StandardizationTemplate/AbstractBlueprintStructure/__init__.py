@@ -110,28 +110,12 @@ class AtpBlueprint(Identifiable, ABC):
 
 
 class AtpBlueprintMapping(ARObject, ABC):
-    """
-    Abstract base class for AUTOSAR Template (ATP) blueprint mapping elements.
-
-    AtpBlueprintMapping represents mapping elements in the AUTOSAR system that
-    define relationships between blueprints and their implementations or instances.
-    Mappings provide the mechanism to connect abstract blueprint definitions
-    with concrete implementations.
-
-    This class extends ARObject with mapping-specific functionality for managing
-    blueprint mapping relationships.
-
-    Note:
-        This is an abstract class and cannot be instantiated directly.
-        AtpBlueprintMapping is the parent of various AUTOSAR mapping elements:
-        - BlueprintMapping (generic blueprint to implementation mapping)
-
-    Attributes:
-        Inherits all attributes from ARObject; uuid (Table 4.4) and adminData come from Identifiable.
-    """
+    """This meta-class represents the ability to express a particular mapping between a blueprint and an element derived from this blueprint. Particular mappings are defined by specializations of this meta-class."""
 
     # AtpBlueprintMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table C.13, p.162 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is AtpBlueprintMapping:

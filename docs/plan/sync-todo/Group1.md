@@ -421,15 +421,16 @@ ripple is audited. Per-class spec base verdict:
   - [x] Step 7 — Update checklist comment — 6-col unified `# Spec:` format (`R23-11/AUTOSAR_FO_TPS_StandardizationTemplate.pdf, Table C.14, p.162 (R23-11)`), `release R23-11` on the `__init__` row, reader/writer `[—]` (no XML element). `# Spec verified:` held for 9b. Source-corpus correction (R4.3.1→R23-11) + heritage-fix note recorded in the comment.
   - [x] Step 8 — Deviations — no `naming`/`type`/`missing` to-fix rows: Base re-parented PackageableElement→Identifiable per R23-11 Table C.14 (PackageableElement/CollectableElement are empty markers; subclasses keep `element` via Identifiable). Tracker `## AtpBlueprintable` added (no deviation); source corpus corrected R4.3.1→R23-11 documented.
   - [x] Step 9 — Verify (9a) + confirm (9b) — synced b7cf0309
-- [ ] `AtpBlueprintMapping` (tracker input · R4.3.1 markdown · AUTOSAR_TPS_StandardizationTemplate · Table 4.4)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [ ] `AtpBlueprintMapping` (tracker input · **R23-11** corpus — corrected from the todo's R4.3.1 citation: R23-11 Table C.13 (FO_StandardizationTemplate PDF p.162) is the authoritative spec; the R4.3.1 Table 4.4 "AtpBlueprintMapping" is mislabeled BlueprintPolicy content, already synced as BlueprintPolicy R23-11 C.18 · AUTOSAR_00052.xsd group ATP-BLUEPRINT-MAPPING l.6888) — **CODE SYNCED but `# Spec verified` marker NOT written and NOT committed — skipped per user instruction 2026-09-03 (re-verified member list across PDF pp.161–162: Base=ARObject + two atpDerived/skipped refs atpBlueprint/atpBlueprintedElement; no members past p.162). Deferred for a future stamp/commit pass.**
+  - Spec facts: abstract; Package = ...StandardizationTemplate::AbstractBlueprintStructure (file AbstractBlueprintStructure/__init__.py ✓ Rule 0007); Base = ARObject (XSD AR-OBJECT group chain, most-derived direct base); **no own attributes** — PDF C.13 lists atpBlueprint/atpBlueprintedElement refs but XSD ATP-BLUEPRINT-MAPPING marks both `<<atpDerived>>` skipped (serialized only on concrete subclasses as BLUEPRINT-REF/DERIVED-OBJECT-REF per the BLUEPRINT-MAPPING group l.9118); Note (verbatim, XSD l.6890 + PDF C.13) = "This meta-class represents the ability to express a particular mapping between a blueprint and an element derived from this blueprint. Particular mappings are defined by specializations of this meta-class."; Subclasses include BlueprintMapping, PortInterfaceBlueprintMapping (# XSD verified), PortPrototypeBlueprintMapping (# XSD verified).
+  - [x] Step 1 — Sync members & description from spec — R23-11 Table C.13 (PDF p.162) + XSD ATP-BLUEPRINT-MAPPING l.6888; Base=ARObject; no own attributes; verbatim Note captured
+  - [x] Step 2 — Write model class unit test (Red) — TestAtpBlueprintMapping: abstract guard, direct base ARObject, MRO (no Identifiable/PackageableElement), concrete subclass, verbatim class docstring; Red confirmed (docstring)
+  - [x] Step 3 — Implement model class (Green) — `class AtpBlueprintMapping(ARObject, ABC)` already spec-correct (abstract, no fields, base ARObject); readAtpBlueprintMapping/writeAtpBlueprintMapping delegate to base chain
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring = verbatim R23-11 Table C.13 / XSD l.6890 Note (single-line so `__doc__` matches exactly); old paraphrased docstring wiped
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — tests/test_armodel/parser/test_atp_blueprint_mapping.py (N/A confirmation: no own XML element; base-delegating handlers exist); abstract base round-trip covered by test_blueprint_mapping_set.py
+  - [x] Step 6 — Update parser & writer (Green) — N/A: readAtpBlueprintMapping/writeAtpBlueprintMapping already delegate to readARObject/writeARObject; no new code
+  - [x] Step 7 — Update checklist comment — 6-col `# Spec:` format (Table C.13, p.162, R23-11); marker deferred to 9b
+  - [x] Step 8 — Deviations — AtpBlueprintMapping itself: none. Observation (separate row): concrete `BlueprintMapping` missing `blueprint`(BLUEPRINT-REF)/`derivedObject`(DERIVED-OBJECT-REF) per XSD BLUEPRINT-MAPPING group l.9118 — recommend a BlueprintMapping sync row. Deviation tracker AtpBlueprintMapping entry corrected (stale Package/Source/"missing" rows fixed).
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `ApplicationDeferredDataType` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_AbstractPlatformSpecification · Table 3.17)
   - [ ] Step 1 — Sync members & description from spec
