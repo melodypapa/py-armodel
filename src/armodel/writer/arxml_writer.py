@@ -2883,7 +2883,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "DISABLED-MODE-IREFS")
             for iref in irefs:
                 self.setRModeInAtomicSwcInstanceRef(child_element, "DISABLED-MODE-IREF", iref)
-        self.setChildElementOptionalRefType(element, "START-ON-EVENT-REF", event.startOnEventRef)
+        self.setChildElementOptionalRefType(element, "START-ON-EVENT-REF", event.getStartOnEventRef())
 
     def writeTimingEvent(self, element: ET.Element, event: TimingEvent):
         if event is not None:

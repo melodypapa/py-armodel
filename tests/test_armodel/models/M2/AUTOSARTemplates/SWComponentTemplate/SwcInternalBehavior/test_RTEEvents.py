@@ -6,6 +6,11 @@ Tests cover all classes and methods in the RTEEvents.py file to achieve 100% tes
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import AbstractEvent
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeInAtomicSwcInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
     AsynchronousServerCallReturnsEvent,
     BackgroundEvent,
@@ -25,7 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 
 
 class TestRTEEvent:
-    """Test class for RTEEvent abstract class."""
+    """Test class for RTEEvent abstract class (Table 7.9)."""
 
     def test_abstract_class_cannot_be_instantiated(self):
         """Test that RTEEvent abstract class cannot be instantiated directly."""
@@ -34,31 +39,55 @@ class TestRTEEvent:
         with pytest.raises(TypeError, match="RTEEvent is an abstract class"):
             RTEEvent(ar_root, "TestRTEEvent")
 
-    def test_concrete_subclass_initialization(self):
-        """Test that a concrete subclass of RTEEvent can be instantiated."""
+    def test_initialization(self):
+        """Test initialization defaults and inheritance chain via a concrete subclass."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
-        rte_event = InitEvent(ar_root, "TestRTEEvent")
+        event = InitEvent(ar_root, "TestRTEEvent")
 
-        assert rte_event.parent == ar_root
-        assert rte_event.short_name == "TestRTEEvent"
-        assert rte_event.disabledModeIRefs == []
-        assert rte_event.startOnEventRef is None
+        assert event.parent == ar_root
+        assert event.short_name == "TestRTEEvent"
+        assert event.getDisabledModeIRefs() == []
+        assert event.getStartOnEventRef() is None
+        assert isinstance(event, AtpStructureElement)
+        assert isinstance(event, AbstractEvent)
+        assert isinstance(event, Identifiable)
 
-        # Test disabledModeIRefs methods
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import RModeInAtomicSwcInstanceRef
+    def test_class_docstring_verbatim(self):
+        """Test the class docstring is the spec Note verbatim (Table 7.9)."""
+        assert RTEEvent.__doc__.strip() == "Abstract base class for all RTE-related events"
 
-        iref = RModeInAtomicSwcInstanceRef()
-        rte_event.addDisabledModeIRef(iref)
-        assert iref in rte_event.getDisabledModeIRefs()
+    def test_add_disabled_mode_irefs(self):
+        """Test addDisabledModeIRef append order, chaining and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = InitEvent(ar_root, "TestRTEEvent")
 
-        # Test startOnEventRef methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        iref1 = RModeInAtomicSwcInstanceRef()
+        iref2 = RModeInAtomicSwcInstanceRef()
+        assert event.addDisabledModeIRef(iref1) is event
+        assert event.addDisabledModeIRef(iref2) is event
+        assert event.getDisabledModeIRefs() == [iref1, iref2]
 
-        event_ref = RefType()
-        event_ref.setValue("/Event/Ref")
-        rte_event.setStartOnEventRef(event_ref)
-        assert rte_event.getStartOnEventRef() == event_ref
+        event.addDisabledModeIRef(None)
+        assert event.getDisabledModeIRefs() == [iref1, iref2]
+
+    def test_start_on_event_ref_round_trip(self):
+        """Test setStartOnEventRef/getStartOnEventRef round-trip and None no-op."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        event = InitEvent(ar_root, "TestRTEEvent")
+
+        ref = RefType()
+        ref.setDest("RUNNABLE-ENTITY")
+        ref.setValue("/MyComponents/MySwc_IB/re_event1")
+        assert event.setStartOnEventRef(ref) is event
+        assert event.getStartOnEventRef() == ref
+        assert event.getStartOnEventRef().getDest() == "RUNNABLE-ENTITY"
+        assert event.getStartOnEventRef().getValue() == "/MyComponents/MySwc_IB/re_event1"
+
+        event.setStartOnEventRef(None)
+        assert event.getStartOnEventRef() == ref
 
 
 class TestAsynchronousServerCallReturnsEvent:

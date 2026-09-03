@@ -4458,8 +4458,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readRTEEvent(self, element: ET.Element, event: RTEEvent):
         self.readIdentifiable(element, event)
-        event.activationReasonRepresentationRef = self.getChildElementOptionalRefType(element, "ACTIVATION-REASON-REPRESENTATION-REF")
-        event.startOnEventRef = self.getChildElementOptionalRefType(element, "START-ON-EVENT-REF")
+        event.setActivationReasonRepresentationRef(self.getChildElementOptionalRefType(element, "ACTIVATION-REASON-REPRESENTATION-REF"))
+        event.setStartOnEventRef(self.getChildElementOptionalRefType(element, "START-ON-EVENT-REF"))
         for child_element in self.findall(element, "DISABLED-MODE-IREFS/DISABLED-MODE-IREF"):
             iref = self.getRModeInAtomicSwcInstanceRef(child_element)
             event.addDisabledModeIRef(iref)
