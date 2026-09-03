@@ -27,7 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
 
-class PackageableElement(CollectableElement, ABC):
+class PackageableElement(CollectableElement, VariationPointCapable, ABC):
     """
     This meta-class specifies the ability to be a member of an AUTOSAR package.
     """

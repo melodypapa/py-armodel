@@ -63,15 +63,7 @@ class TestReadVariationPoint:
         assert conditions[0].getMatchingCriterionRef().getDest() == "POST-BUILD-VARIANT-CRITERION"
         assert conditions[0].getValue().getValue() == 1
 
-    def test_read_identifiable_picks_up_variation_point(self, parser, caplog):
-        """The parser gate ignores VARIATION-POINT on non-capable classes.
-
-        POST-BUILD-VARIANT-CRITERION has no VARIATION-POINT anchor anywhere in
-        its XSD group chain, so the parser must not populate it and must log a
-        warning (constr_2638: no variation points in non-variant roles).
-        """
-        import logging
-
+    def test_read_identifiable_picks_up_variation_point(self, parser):
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 
         inner = (
@@ -84,10 +76,34 @@ class TestReadVariationPoint:
         element = _snip(inner).find("{%s}POST-BUILD-VARIANT-CRITERION" % NS)
 
         criterion = PostBuildVariantCriterion(ARPackage(None, "Pkg"), "Country")
-        with caplog.at_level(logging.WARNING, logger=parser.logger.name):
-            parser.readIdentifiable(element, criterion)
+        parser.readIdentifiable(element, criterion)
 
-        assert criterion.variationPoint is None
+        vp = criterion.getVariationPoint()
+        assert vp is not None
+        assert vp.getShortLabel().getValue() == "VP_Country"
+
+    def test_read_identifiable_ignores_variation_point_on_non_capable(self, parser, caplog):
+        """The parser gate ignores VARIATION-POINT on non-capable classes.
+
+        A plain Identifiable (IDENTIFIABLE group carries no VARIATION-POINT and
+        this probe adds no anchor) must not be populated; a warning is logged
+        (constr_2638: no variation points in non-variant roles).
+        """
+        import logging
+
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
+        class Probe(Identifiable):
+            pass
+
+        inner = "<IDENTIFIABLE>" "<SHORT-NAME>Plain</SHORT-NAME>" "<VARIATION-POINT><SHORT-LABEL>VP_Plain</SHORT-LABEL></VARIATION-POINT>" "</IDENTIFIABLE>"
+        element = _snip(inner).find("{%s}IDENTIFIABLE" % NS)
+
+        probe = Probe(None, "Plain")
+        with caplog.at_level(logging.WARNING, logger=parser.logger.name):
+            parser.readIdentifiable(element, probe)
+
+        assert probe.variationPoint is None
         assert any("VARIATION-POINT" in record.message for record in caplog.records)
 
 
@@ -159,26 +175,6 @@ class TestReadVariationPointProxy:
 
 
 @pytest.mark.integration
-class TestVariationPointParserGate:
-    def test_fixture_criterion_variation_point_ignored_with_warning(self, caplog):
-        """VariationPoint.arxml carries a non-conformant VARIATION-POINT on the
-        POST-BUILD-VARIANT-CRITERION; the parser must ignore it and warn."""
-        import logging
-
-        document = AUTOSAR.getInstance()
-        document.new()
-        document.setARRelease("R23-11")
-        parser = ARXMLParser()
-        with caplog.at_level(logging.WARNING, logger=parser.logger.name):
-            parser.load(VARIATION_POINT_ARXML, document)
-
-        criterion = document.find("/Demo/Criterions/Country")
-        assert criterion is not None
-        assert criterion.variationPoint is None
-        assert any("VARIATION-POINT" in record.message for record in caplog.records)
-
-
-@pytest.mark.integration
 class TestVariationPointRoundTrip:
     def test_parse_write_reparse_preserves_variation_point(self, tmp_path):
         document = AUTOSAR.getInstance()
@@ -218,9 +214,9 @@ class TestVariationPointRoundTrip:
         assert conditions2[0].getMatchingCriterionRef().getValue() == "/Demo/Criterions/Country"
         assert conditions2[0].getValue().getValue() == 1
 
-        # The fixture's VARIATION-POINT on POST-BUILD-VARIANT-CRITERION is not
-        # schema-conformant (no VARIATION-POINT anchor anywhere in the criterion's
-        # XSD group chain): the writer gate suppresses it, so it does not survive
-        # the round trip.
+        # Criterion element's own variation point also survives: the criterion is
+        # an ARElement in the ARPackage.element role (atpVariation, GST Table 4.1),
+        # so its VARIATION-POINT is schema-conformant via the PACKAGEABLE-ELEMENT
+        # group anchor.
         criterion2 = document2.find("/Demo/Criterions/Country")
-        assert getattr(criterion2, "variationPoint", None) is None
+        assert criterion2.getVariationPoint().getShortLabel().getValue() == "VP_Country"

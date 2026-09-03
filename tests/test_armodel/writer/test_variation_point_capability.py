@@ -9,10 +9,15 @@ VariationPointCapable ([TPS_GST_00200], constr_2638).
 import xml.etree.ElementTree as ET
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import PostBuildVariantCriterion, VariationPoint
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
+
+
+class _PlainIdentifiable(Identifiable):
+    pass
 
 
 def _make_identifiable():
@@ -40,16 +45,16 @@ class TestVariationPointWriterGate:
         assert vp_element.find("SHORT-LABEL").text == "VP_Port"
 
     def test_non_capable_class_never_writes_variation_point(self):
-        # PostBuildVariantCriterion is an Identifiable but NOT an XSD VARIATION-POINT
-        # anchor. Until the Identifiable deviation is removed it can still *hold* a
-        # VP; the writer gate must suppress the emission regardless.
-        pkg = _make_identifiable()
-        criterion = PostBuildVariantCriterion(pkg, "Criterion")
-        criterion.setVariationPoint(VariationPoint().setShortLabel(Identifier().setValue("VP_Should_Not_Write")))
+        # A plain Identifiable is not VariationPointCapable (the IDENTIFIABLE group
+        # carries no VARIATION-POINT and Identifiable adds no anchor). Until the
+        # Identifiable deviation is removed it can still *hold* a VP; the writer
+        # gate must suppress the emission regardless.
+        probe = _PlainIdentifiable(None, "Plain")
+        probe.setVariationPoint(VariationPoint().setShortLabel(Identifier().setValue("VP_Should_Not_Write")))
 
         writer = ARXMLWriter()
-        element = ET.Element("POST-BUILD-VARIANT-CRITERION")
-        writer.writeIdentifiable(element, criterion)
+        element = ET.Element("IDENTIFIABLE")
+        writer.writeIdentifiable(element, probe)
 
         assert element.find("VARIATION-POINT") is None
 
