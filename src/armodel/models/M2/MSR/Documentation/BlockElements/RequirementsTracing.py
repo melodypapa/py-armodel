@@ -134,8 +134,8 @@ class StructuredReq(Traceable, VariationPointCapable):
     # [x] setType                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getUseCase             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setUseCase             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getVariationPoint      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (inherited from Identifiable; XSD VARIATION-POINT)
-    # [x] setVariationPoint      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  (inherited from Identifiable; XSD VARIATION-POINT)
+    # [x] getVariationPoint      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (inherited from VariationPointCapable; XSD VARIATION-POINT)
+    # [x] setVariationPoint      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  (inherited from VariationPointCapable; XSD VARIATION-POINT)
 
     def __init__(self, parent, short_name: str):
         super().__init__(parent, short_name)

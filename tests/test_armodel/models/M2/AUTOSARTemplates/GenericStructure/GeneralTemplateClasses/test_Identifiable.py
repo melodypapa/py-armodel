@@ -288,7 +288,6 @@ class TestIdentifiable:
         assert obj.getDesc() is None
         assert obj.getIntroduction() is None
         assert obj.getUuid() is None
-        assert obj.getVariationPoint() is None
 
     def test_get_set_admin_data(self):
         """
@@ -455,23 +454,6 @@ class TestIdentifiable:
             assert False, "removeElement should raise KeyError for an unknown short name"
         except KeyError:
             pass
-
-    def test_get_set_variation_point(self):
-        """
-        Round-trips variationPoint (kept deviation member); None is a no-op.
-        """
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
-
-        obj = self._make_obj()
-
-        assert obj.getVariationPoint() is None
-
-        vp = VariationPoint()
-        assert obj.setVariationPoint(vp) is obj
-        assert obj.getVariationPoint() is vp
-
-        obj.setVariationPoint(None)
-        assert obj.getVariationPoint() is vp
 
 
 class TestDescribable:

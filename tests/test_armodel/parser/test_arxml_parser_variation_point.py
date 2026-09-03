@@ -103,7 +103,8 @@ class TestReadVariationPoint:
         with caplog.at_level(logging.WARNING, logger=parser.logger.name):
             parser.readIdentifiable(element, probe)
 
-        assert probe.variationPoint is None
+        assert getattr(probe, "variationPoint", None) is None
+        assert not hasattr(probe, "setVariationPoint")
         assert any("VARIATION-POINT" in record.message for record in caplog.records)
 
 

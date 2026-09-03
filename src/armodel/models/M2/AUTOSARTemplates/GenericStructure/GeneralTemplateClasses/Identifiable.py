@@ -15,7 +15,6 @@ if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
     from armodel.models.M2.MSR.Documentation.Annotation import Annotation
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-    from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 
 
 class Referrable(ARObject, ABC):
@@ -260,13 +259,11 @@ class Identifiable(MultilanguageReferrable, ABC):
     # [x] getElement         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] IsElementExists    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     #
-    # Kept deviation member (VARIATION-POINT element; not a Table 4.4 attribute):
-    # carried here as framework infra so readIdentifiable/writeIdentifiable round-trip
-    # VARIATION-POINT for every identifiable element; the XSD (AUTOSAR_00052.xsd)
-    # declares VARIATION-POINT individually on 335 atpVariation classes, not in the
-    # IDENTIFIABLE group. Stamp withheld until the per-class placement is resolved.
-    # [x] getVariationPoint  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setVariationPoint  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Deviation RESOLVED: variationPoint was never a Table 4.4 attribute of
+    # Identifiable (the IDENTIFIABLE group carries no VARIATION-POINT in the XSD).
+    # Capability now lives in the VariationPointCapable mixin, anchored on the
+    # XSD atpVariation classes (see VariationPointCapable.py and
+    # docs/superpowers/plans/vp_anchors.txt).
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is Identifiable:
@@ -291,9 +288,6 @@ class Identifiable(MultilanguageReferrable, ABC):
 
         # The purpose of this attribute is to provide a globally unique identifier for an instance of a meta-class. The values of this attribute should be globally unique strings prefixed by the type of identifier. For example, to include a DCE UUID as defined by The Open Group, the UUID would be preceded by "DCE:". The values of this attribute may be used to support merging of different AUTOSAR models. The form of the UUID (Universally Unique Identifier) is taken from a standard defined by the Open Group (was Open Software Foundation). This standard is widely used, including by Microsoft for COM (GUIDs) and by many companies for DCE, which is based on CORBA. The method for generating these 128-bit IDs is published in the standard and the effectiveness and uniqueness of the IDs is not in practice disputed. If the id namespace is omitted, DCE is assumed. An example is "DCE:2fac1234-31f8-11b4-a222-08002b34c003". The uuid attribute has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the timestamp.
         self.uuid: Optional[String] = None
-
-        # Structural variation point of this element (kept deviation: VARIATION-POINT element; not a Table 4.4 attribute).
-        self.variationPoint: Optional[VariationPoint] = None
 
         # Element collection registry (shared infra; kept on Identifiable because some direct subclasses, e.g. Fibex PhysicalChannel, are not CollectableElement).
         self.elements: List[Referrable] = []
@@ -478,21 +472,6 @@ class Identifiable(MultilanguageReferrable, ABC):
         if short_name in self.element_mappings:
             return any(isinstance(a, type) for a in self.element_mappings[short_name])
         return False
-
-    def getVariationPoint(self) -> Optional["VariationPoint"]:
-        """
-        Returns the structural variation point of this element, if any.
-        """
-        return self.variationPoint
-
-    def setVariationPoint(self, value: Optional["VariationPoint"]) -> "Identifiable":
-        """
-        Sets the structural variation point of this element. A None value is a no-op
-        and does not overwrite an existing variationPoint.
-        """
-        if value is not None:
-            self.variationPoint = value
-        return self
 
 
 # Initialize the CommonStructure package before any import that transitively touches

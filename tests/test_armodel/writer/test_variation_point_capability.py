@@ -8,6 +8,8 @@ VariationPointCapable ([TPS_GST_00200], constr_2638).
 
 import xml.etree.ElementTree as ET
 
+import pytest
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
@@ -46,11 +48,12 @@ class TestVariationPointWriterGate:
 
     def test_non_capable_class_never_writes_variation_point(self):
         # A plain Identifiable is not VariationPointCapable (the IDENTIFIABLE group
-        # carries no VARIATION-POINT and Identifiable adds no anchor). Until the
-        # Identifiable deviation is removed it can still *hold* a VP; the writer
-        # gate must suppress the emission regardless.
+        # carries no VARIATION-POINT and Identifiable adds no anchor): it has no
+        # setVariationPoint any more and writeIdentifiable never emits one.
         probe = _PlainIdentifiable(None, "Plain")
-        probe.setVariationPoint(VariationPoint().setShortLabel(Identifier().setValue("VP_Should_Not_Write")))
+
+        with pytest.raises(AttributeError):
+            probe.setVariationPoint(VariationPoint())
 
         writer = ARXMLWriter()
         element = ET.Element("IDENTIFIABLE")
