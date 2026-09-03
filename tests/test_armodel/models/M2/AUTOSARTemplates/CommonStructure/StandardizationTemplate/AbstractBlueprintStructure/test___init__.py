@@ -4,12 +4,22 @@ in the AUTOSAR CommonStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprint, AtpBlueprintable
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import (
+    AtpBlueprint,
+    AtpBlueprintable,
+    AtpBlueprintMapping,
+    BlueprintPolicy,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import PackageableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
     Identifiable,
     MultilanguageReferrable,
     Referrable,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    RefType,
+    String,
 )
 
 
@@ -154,3 +164,255 @@ class TestAtpBlueprint:
         assert AtpBlueprint.addBlueprintPolicy.__doc__.startswith(note)
         assert AtpBlueprint.getBlueprintPolicys.__doc__ is not None
         assert AtpBlueprint.getBlueprintPolicys.__doc__.startswith(note)
+
+
+class ConcreteBlueprintPolicy(BlueprintPolicy):
+    def __init__(self):
+        super().__init__()
+
+
+class TestBlueprintPolicy:
+    """
+    Test class for BlueprintPolicy (R23-11 AUTOSAR_FO_TPS_StandardizationTemplate
+    Table C.18, p.164). Abstract, Base = ARObject only, one attribute attributeName.
+    """
+
+    def test_abstract_initialization(self):
+        """
+        Rule 0001.2: BlueprintPolicy cannot be instantiated directly (abstract class).
+        """
+        try:
+            _obj = BlueprintPolicy()
+            assert False, "BlueprintPolicy should not be instantiable"
+        except TypeError as e:
+            assert "abstract" in str(e).lower()
+
+    def test_concrete_subclass_instantiation(self):
+        """
+        Rule 0001.2 / 0011: a concrete subclass instantiates and inherits attributeName
+        (default None).
+        """
+        obj = ConcreteBlueprintPolicy()
+        assert obj is not None
+        assert obj.getAttributeName() is None
+
+    def test_get_set_attribute_name_round_trip(self):
+        """
+        Rule 0001.6 / 0004: setAttributeName stores the value; getAttributeName returns it;
+        None is a no-op and returns self for chaining.
+        """
+        obj = ConcreteBlueprintPolicy()
+        value = String()
+        value.setValue("TIMING-EVENT-PROTOTYPE")
+        assert obj.setAttributeName(value) is obj
+        assert obj.getAttributeName() is value
+        obj.setAttributeName(None)
+        assert obj.getAttributeName() is value
+
+    def test_class_docstring_verbatim(self):
+        """
+        Rule 0001.4 / 0012.2.4: class docstring == spec Table C.18 Note verbatim.
+        """
+        note = "This meta-class represents the ability to indicate whether blueprintable elements will be modifiable or not modifiable."
+        assert BlueprintPolicy.__doc__ == note
+
+    def test_attribute_name_docstrings_verbatim(self):
+        """
+        Rule 0001.4 / 0012.2.5: get/set docstrings start with the spec attribute Note
+        verbatim ("This identifies the related attribute of a BlueprintPolicy. For
+        navigation over the model a subset of xpath expressions is used.").
+        """
+        note = "This identifies the related attribute of a BlueprintPolicy. For navigation over the model a subset of xpath expressions is used."
+        assert BlueprintPolicy.setAttributeName.__doc__ is not None
+        assert BlueprintPolicy.setAttributeName.__doc__.startswith(note)
+        assert BlueprintPolicy.getAttributeName.__doc__ is not None
+        assert BlueprintPolicy.getAttributeName.__doc__.startswith(note)
+
+
+class ConcreteAtpBlueprintable(AtpBlueprintable):
+    def __init__(self, parent, short_name):
+        super().__init__(parent, short_name)
+
+
+class TestAtpBlueprintable:
+    """
+    Test class for AtpBlueprintable heritage fix (R23-11 AUTOSAR_FO_TPS_
+    StandardizationTemplate Table C.14, p.162). Abstract; Base closure =
+    ARObject, Identifiable, MultilanguageReferrable, Referrable. Re-parented
+    from PackageableElement to Identifiable (no PackageableElement/
+    CollectableElement in the chain).
+    """
+
+    def test_abstract_initialization(self):
+        """
+        Rule 0001.2: AtpBlueprintable cannot be instantiated directly (abstract class).
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        try:
+            _obj = AtpBlueprintable(ar_root, "TestAtpBlueprintable")
+            assert False, "AtpBlueprintable should not be instantiable"
+        except TypeError as e:
+            assert "abstract" in str(e).lower()
+
+    def test_direct_base_is_identifiable(self):
+        """
+        Rule 0001.2 / heritage fix: most-derived direct base is Identifiable,
+        not PackageableElement.
+        """
+        assert AtpBlueprintable.__bases__[0] is Identifiable
+
+    def test_mro_has_spec_closure(self):
+        """
+        Rule 0001.2: MRO == ARObject / Identifiable / MultilanguageReferrable /
+        Referrable (spec Base closure).
+        """
+        for base in (Identifiable, MultilanguageReferrable, Referrable, ARObject):
+            assert base in AtpBlueprintable.__mro__, "%s missing from MRO" % base
+
+    def test_not_packageable_element(self):
+        """
+        Rule 0001.2 / heritage fix: PackageableElement (and CollectableElement)
+        are NOT in the MRO -- AtpBlueprintable is a direct Identifiable, not a
+        PackageableElement.
+        """
+        assert PackageableElement not in AtpBlueprintable.__mro__
+
+    def test_concrete_subclass_instantiation(self):
+        """
+        Rule 0001.2 / 0011: a concrete subclass instantiates and reaches
+        parent/short_name via the Identifiable chain.
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        obj = ConcreteAtpBlueprintable(ar_root, "ConcreteAtpBlueprintable")
+        assert obj is not None
+        assert obj.getShortName() == "ConcreteAtpBlueprintable"
+        assert obj.getParent() == ar_root
+
+    def test_class_docstring_verbatim(self):
+        """
+        Rule 0001.4 / 0012.2.4: class docstring == spec Table C.14 Note verbatim.
+        """
+        note = "This meta-class represents the ability to be derived from a Blueprint. " "As this class is an abstract one, particular blueprintable meta-classes " "inherit from this one."
+        assert AtpBlueprintable.__doc__ == note
+
+
+class ConcreteAtpBlueprintMapping(AtpBlueprintMapping):
+    def __init__(self):
+        super().__init__()
+
+
+class TestAtpBlueprintMapping:
+    """
+    Test class for AtpBlueprintMapping (R23-11 AUTOSAR_FO_TPS_StandardizationTemplate
+    Table C.13, p.162). Abstract; Base = ARObject (XSD AR-OBJECT group chain). Declares
+    two abstract derived association ends (Stereotypes: atpAbstract) -- atpBlueprint
+    (AtpBlueprint, 1, ref) and atpBlueprintedElement (AtpBlueprintable, 1, ref) -- which
+    the XSD serializes only on the concrete BlueprintMapping subclass as BLUEPRINT-REF /
+    DERIVED-OBJECT-REF, so the abstract class carries no own XML element.
+    """
+
+    def test_abstract_initialization(self):
+        """
+        Rule 0001.2: AtpBlueprintMapping cannot be instantiated directly (abstract class).
+        """
+        try:
+            _obj = AtpBlueprintMapping()
+            assert False, "AtpBlueprintMapping should not be instantiable"
+        except TypeError as e:
+            assert "abstract" in str(e).lower()
+
+    def test_direct_base_is_arobject(self):
+        """
+        Rule 0001.2: most-derived direct base is ARObject (spec Base closure = ARObject,
+        per XSD AR-OBJECT group chain; Identifiable is NOT in the closure).
+        """
+        assert AtpBlueprintMapping.__bases__[0] is ARObject
+
+    def test_mro_has_arobject_only_base(self):
+        """
+        Rule 0001.2: MRO includes ARObject; Identifiable and PackageableElement are NOT
+        in the MRO (AtpBlueprintMapping is an ARObject-based abstract shell, not an
+        Identifiable).
+        """
+        assert ARObject in AtpBlueprintMapping.__mro__
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
+        assert Identifiable not in AtpBlueprintMapping.__mro__
+        assert PackageableElement not in AtpBlueprintMapping.__mro__
+
+    def test_concrete_subclass_instantiation(self):
+        """
+        Rule 0001.2 / 0011: a concrete subclass instantiates.
+        """
+        obj = ConcreteAtpBlueprintMapping()
+        assert obj is not None
+
+    def test_class_docstring_verbatim(self):
+        """
+        Rule 0001.4 / 0012.2.4: class docstring == spec Table C.13 Note verbatim
+        (XSD ATP-BLUEPRINT-MAPPING l.6890 documentation).
+        """
+        note = (
+            "This meta-class represents the ability to express a particular mapping "
+            "between a blueprint and an element derived from this blueprint. "
+            "Particular mappings are defined by specializations of this meta-class."
+        )
+        assert AtpBlueprintMapping.__doc__ == note
+
+    def test_atp_blueprint_ref_default_none(self):
+        """
+        Rule 0001.1 / 0001.5: atpBlueprint (AtpBlueprint, 1, ref) -> atpBlueprintRef,
+        default None (Kind ref -> Ref suffix, mult 1 -> Optional).
+        """
+        obj = ConcreteAtpBlueprintMapping()
+        assert obj.getAtpBlueprintRef() is None
+
+    def test_atp_blueprint_ref_round_trip(self):
+        """
+        Rule 0001.6 / 0004: set/get round-trip; None is a no-op; returns self (chaining).
+        """
+        obj = ConcreteAtpBlueprintMapping()
+        ref = RefType()
+        ref.setValue("/Blueprints/Bp")
+        assert obj.setAtpBlueprintRef(ref) is obj
+        assert obj.getAtpBlueprintRef() is ref
+        obj.setAtpBlueprintRef(None)
+        assert obj.getAtpBlueprintRef() is ref
+
+    def test_atp_blueprinted_element_ref_default_none(self):
+        """
+        Rule 0001.1 / 0001.5: atpBlueprintedElement (AtpBlueprintable, 1, ref) ->
+        atpBlueprintedElementRef, default None.
+        """
+        obj = ConcreteAtpBlueprintMapping()
+        assert obj.getAtpBlueprintedElementRef() is None
+
+    def test_atp_blueprinted_element_ref_round_trip(self):
+        """
+        Rule 0001.6 / 0004: set/get round-trip; None is a no-op; returns self (chaining).
+        """
+        obj = ConcreteAtpBlueprintMapping()
+        ref = RefType()
+        ref.setValue("/Elems/E")
+        assert obj.setAtpBlueprintedElementRef(ref) is obj
+        assert obj.getAtpBlueprintedElementRef() is ref
+        obj.setAtpBlueprintedElementRef(None)
+        assert obj.getAtpBlueprintedElementRef() is ref
+
+    def test_member_docstrings_verbatim(self):
+        """
+        Rule 0001.4 / 0012.2.5: get/set docstrings start with the spec attribute Note
+        verbatim (Tags: / Stereotypes: tails dropped), not a "Gets/Sets the X" paraphrase.
+        """
+        n1 = "This represents the blueprint."
+        n2 = "This represents the bluprinted elements which shall be mapped to the blueprint."
+        assert AtpBlueprintMapping.setAtpBlueprintRef.__doc__ is not None
+        assert AtpBlueprintMapping.setAtpBlueprintRef.__doc__.startswith(n1)
+        assert AtpBlueprintMapping.getAtpBlueprintRef.__doc__ is not None
+        assert AtpBlueprintMapping.getAtpBlueprintRef.__doc__.startswith(n1)
+        assert AtpBlueprintMapping.setAtpBlueprintedElementRef.__doc__ is not None
+        assert AtpBlueprintMapping.setAtpBlueprintedElementRef.__doc__.startswith(n2)
+        assert AtpBlueprintMapping.getAtpBlueprintedElementRef.__doc__ is not None
+        assert AtpBlueprintMapping.getAtpBlueprintedElementRef.__doc__.startswith(n2)

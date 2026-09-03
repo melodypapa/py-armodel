@@ -13,6 +13,9 @@ from typing import TYPE_CHECKING
 from abc import ABC
 
 if TYPE_CHECKING:
+    # ApplicationDeferredDataType is bound at runtime by the PEP 562 __getattr__ below
+    # (AbstractPlatform closes an import cycle), so it is imported here for typing only.
+    from armodel.models.M2.AUTOSARTemplates.AbstractPlatform import ApplicationDeferredDataType
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import (
         Collection,
     )
@@ -68,6 +71,7 @@ import armodel.models.M2.AUTOSARTemplates.CommonStructure  # noqa: F401,E402
 from importlib import import_module as _import_module  # noqa: E402
 
 _LAZY_IMPORTS = {
+    "ApplicationDeferredDataType": "armodel.models.M2.AUTOSARTemplates.AbstractPlatform",
     "SwBaseType": "armodel.models.M2.MSR.AsamHdo.BaseTypes",
 }
 
@@ -86,6 +90,7 @@ __all__ = [
     "Annotation",
     "ApplicationArrayDataType",
     "ApplicationDataType",
+    "ApplicationDeferredDataType",
     "ApplicationPrimitiveDataType",
     "ApplicationRecordDataType",
     "ApplicationSwComponentType",
@@ -586,6 +591,26 @@ class ARPackage(CollectableElement):
             data_type = ApplicationRecordDataType(self, short_name)
             self.addElement(data_type)
         return self.getElement(short_name, ApplicationRecordDataType)
+
+    def createApplicationDeferredDataType(self, short_name: str) -> ApplicationDeferredDataType:
+        """
+        Creates a new ApplicationDeferredDataType with the given short name,
+        or returns an existing one if it already exists in this package.
+
+        ApplicationDeferredDataType is a placeholder data type in which the precise
+        application data type is deferred to a later stage.
+
+        Args:
+            short_name: The short name for the new ApplicationDeferredDataType
+
+        Returns:
+            The newly created or existing ApplicationDeferredDataType instance
+        """
+
+        if not self.IsElementExists(short_name, ApplicationDeferredDataType):
+            data_type = ApplicationDeferredDataType(self, short_name)
+            self.addElement(data_type)
+        return self.getElement(short_name, ApplicationDeferredDataType)
 
     def createImplementationDataType(self, short_name: str) -> ImplementationDataType:
         """

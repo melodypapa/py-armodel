@@ -8,18 +8,13 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
 
 
 class ApplicationDeferredDataType(ApplicationDataType):
-    """
-    A placeholder data type in which the precise application data type is
-    deferred to a later stage. Tags: atp.Status=draft
-    atp.recommendedPackage=ApplicationDataTypes
-
-    Sources:
-      - AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf (Page 37, Foundation
-      R23-11)
-    """
+    """A placeholder data type in which the precise application data type is deferred to a later stage."""
 
     # ApplicationDeferredDataType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_FO_TPS_AbstractPlatformSpecification.pdf, Table 3.17, p.37 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
