@@ -9,15 +9,15 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
 > (dependency-first: the uuid move cannot run until they derive from `Identifiable`).
 
 > **Restructured 2026-09-03** (dependency audit of all pending rows against R23-11 tables + stamp status):
-> - **Added 10 missing dependency rows** (all unstamped + unqueued, verified against `# Spec verified` markers):
+> - **Added 9 missing dependency rows** (all unstamped + unqueued, verified against `# Spec verified` markers — full class-body scan):
 >   `RTEEvent` (7.9, parent of InitEvent/BackgroundEvent + SwcInternalBehavior.event), `ServerCallPoint` (7.35, parent of the point classes),
->   `VariableDataPrototype` (5.31, member of SwcInternalBehavior ×3 + both VariableInAtomic* instance refs), `InstantiationDataDefProps` (7.41),
+>   `VariableDataPrototype` (5.31, member of SwcInternalBehavior ×3 + both VariableInAtomic* instance refs),
 >   `PerInstanceMemory` (7.49), `PortInCompositionTypeInstanceRef` (D.14, DelegationSwConnector.innerPort iref type; subclasses D.15/D.16 same pass),
 >   `AssemblySwConnector` (3.13, CompositionSwComponentType.connector), `DataTypeMappingSet` (5.4), `AbstractImplementationDataTypeElement` (5.16),
 >   `ApplicationCompositeElementDataPrototype` (5.30, parent of ApplicationRecordElement).
 >   Already stamped (no row needed): SwComponentType, SwComponentPrototype, SwConnector, InternalBehavior, RunnableEntity, ModeDeclarationGroup,
 >   RootSwCompositionPrototype, AbstractEvent, AbstractAccessPoint, ExclusiveAreaNestingOrder, AtomicSwComponentType, ImplementationDataType,
->   ValueSpecification, DataPrototype, AtpInstanceRef, ConstantSpecificationMappingSet, InstantiationRTEEventProps.
+>   ValueSpecification, DataPrototype, AtpInstanceRef, ConstantSpecificationMappingSet, InstantiationRTEEventProps, InstantiationDataDefProps (7.41).
 > - **Corrected 3 spec references**: `VariableInAtomicSwcInstanceRef` → Table D.1 (not XSD-only), `VariableInAtomicSWCTypeInstanceRef` → Table D.18 (not XSD-only),
 >   `ApplicationPrimitiveDataType` → SoftwareComponentTemplate Table 5.5 (was DiagnosticExtractTemplate 5.6).
 > - **Reordered pending rows dependency-first** (bases & shared member types first, aggregators last):
@@ -145,16 +145,6 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `VariableDataPrototype` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.31 · member type of `SwcInternalBehavior.arTypedPerInstanceMemory`/`explicitInterRunnableVariable`/`implicitInterRunnableVariable`, `VariableInAtomicSwcInstanceRef.abstractTargetDataElement`, `ArVariableInImplementationDataInstanceRef.rootVariableDataPrototype` · parent `DataPrototype` stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `InstantiationDataDefProps` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.41 · member type of `SwcInternalBehavior.instantiationDataDefProps` and `ParameterSwComponentType.instantiationDataDefProps`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -424,7 +414,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SwcInternalBehavior` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.2 · **moved 2026-09-03 restructure to last: aggregates the events, `VariableDataPrototype`, `InstantiationDataDefProps`, `PerInstanceMemory`, `IncludedModeDeclarationGroupSet`, `PortAPIOption` queued above** · deps already stamped: parent `InternalBehavior` Table 7.1 ✓ / `runnable` RunnableEntity ✓ / `exclusiveAreaPolicy` SwcExclusiveAreaPolicy ✓ / `includedDataTypeSet` IncludedDataTypeSet ✓ / `perInstanceParameter`+`sharedParameter` ParameterDataPrototype ✓ / `serviceDependency` SwcServiceDependency ✓ / `variationPointProxy` VariationPointProxy ✓)
+- [ ] `SwcInternalBehavior` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.2 · **moved 2026-09-03 restructure to last: aggregates the events, `VariableDataPrototype`, `PerInstanceMemory`, `IncludedModeDeclarationGroupSet`, `PortAPIOption` queued above** · deps already stamped: parent `InternalBehavior` Table 7.1 ✓ / `runnable` RunnableEntity ✓ / `exclusiveAreaPolicy` SwcExclusiveAreaPolicy ✓ / `includedDataTypeSet` IncludedDataTypeSet ✓ / `instantiationDataDefProps` InstantiationDataDefProps ✓ / `perInstanceParameter`+`sharedParameter` ParameterDataPrototype ✓ / `serviceDependency` SwcServiceDependency ✓ / `variationPointProxy` VariationPointProxy ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
