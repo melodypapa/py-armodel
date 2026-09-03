@@ -9,7 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, String
 
 
 class TestAtpFeature:
@@ -303,6 +303,54 @@ class TestAtpStructureElement:
         assert isinstance(element, AtpStructureElement)
         assert element.getShortName() == "test_element"
         assert element.getParent() == ar_root
+
+    def test_direct_bases_are_atp_classifier_and_atp_feature(self):
+        # R23-11 Table 5.5 Base closure = ARObject, AtpClassifier, AtpFeature,
+        # Identifiable, MultilanguageReferrable, Referrable. AtpClassifier and
+        # AtpFeature are parallel branches (both derive from Identifiable), so
+        # both are direct bases. AtpBlueprintable is NOT in the closure.
+        assert AtpStructureElement.__bases__[0] is AtpClassifier
+        assert AtpFeature in AtpStructureElement.__bases__
+        assert issubclass(AtpStructureElement, AtpClassifier)
+        assert issubclass(AtpStructureElement, AtpFeature)
+        assert not issubclass(AtpStructureElement, AtpBlueprintable)
+
+    def test_mro_matches_spec_base_closure(self):
+        mro_names = [cls.__name__ for cls in AtpStructureElement.__mro__]
+        spec_base_closure = [
+            "ARObject",
+            "AtpClassifier",
+            "AtpFeature",
+            "Identifiable",
+            "MultilanguageReferrable",
+            "Referrable",
+        ]
+        for name in spec_base_closure:
+            assert name in mro_names
+        assert mro_names[1] == "AtpClassifier"
+        assert mro_names[2] == "AtpFeature"
+        assert "AtpBlueprintable" not in mro_names
+
+    def test_concrete_subclass_reaches_identifiable_members(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteAtpStructureElement(AtpStructureElement):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        element = ConcreteAtpStructureElement(ar_root, "test_element")
+        assert isinstance(element, Identifiable)
+        assert isinstance(element, ARObject)
+        uuid = String()
+        uuid.setValue("urn:uuid:00000000-0000-0000-0000-000000000001")
+        element.setUuid(uuid)
+        assert element.getUuid().getValue() == "urn:uuid:00000000-0000-0000-0000-000000000001"
+        assert element.getAtpFeatures() == []
+        assert element.getShortName() == "test_element"
+
+    def test_class_docstring_matches_spec_note(self):
+        assert AtpStructureElement.__doc__ == ("A structure element is both a classifier and a feature. As a feature, its structure is given by the feature it owns as a classifier.")
 
 
 class TestAtpType:

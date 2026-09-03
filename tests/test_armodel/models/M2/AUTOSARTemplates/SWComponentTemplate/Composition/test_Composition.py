@@ -3,6 +3,9 @@ This module contains tests for the Composition subdirectory in SWComponentTempla
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     Identifier,
     RefType,
@@ -404,3 +407,43 @@ class TestCompositionSwComponentType:
 
         composition.setPhysicalDimensionMappingRef(None)
         assert composition.getPhysicalDimensionMappingRef() == ref
+
+
+class TestSwComponentPrototypeHeritage:
+    """Heritage drift pass: AtpPrototype was re-parented AtpBlueprintable -> AtpFeature.
+
+    Table 3.11 Base closure = ARObject, AtpFeature, AtpPrototype, Identifiable,
+    MultilanguageReferrable, Referrable -- AtpBlueprintable is NOT in it, so losing
+    AtpBlueprintable transitively is spec-correct.
+    """
+
+    def test_direct_base_is_atp_prototype(self):
+        assert SwComponentPrototype.__mro__[1] is AtpPrototype
+
+    def test_atp_blueprintable_absent_from_mro(self):
+        assert AtpBlueprintable not in SwComponentPrototype.__mro__
+        assert not issubclass(SwComponentPrototype, AtpBlueprintable)
+
+    def test_mro_matches_spec_base_closure(self):
+        closure = {"ARObject", "Referrable", "MultilanguageReferrable", "Identifiable", "AtpFeature", "AtpPrototype"}
+        assert closure == {klass.__name__ for klass in SwComponentPrototype.__mro__ if klass.__name__ in closure}
+
+    def test_concrete_initialization_reaches_identifiable(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        prototype = SwComponentPrototype(ar_root, "MyPrototype")
+
+        assert prototype.parent is ar_root
+        assert prototype.getShortName() == "MyPrototype"
+        assert prototype.getTypeTRef() is None
+        assert isinstance(prototype, Identifiable)
+
+    def test_class_docstring_matches_spec_note(self):
+        assert SwComponentPrototype.__doc__.strip() == "Role of a software component within a composition."
+
+    def test_type_tref_docstrings_are_verbatim_spec_note(self):
+        note = "Type of the instance."
+        for accessor in (SwComponentPrototype.getTypeTRef, SwComponentPrototype.setTypeTRef):
+            normalized = " ".join(accessor.__doc__.split())
+            assert normalized.startswith(note), "%s: %s" % (accessor.__name__, normalized)
+            assert "Stereotypes:" not in normalized, "%s: %s" % (accessor.__name__, normalized)

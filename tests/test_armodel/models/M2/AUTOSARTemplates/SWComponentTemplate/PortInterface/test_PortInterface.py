@@ -4,7 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceProviderEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpClassifier, AtpFeature, AtpStructureElement, AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
@@ -173,8 +173,12 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         ar_root = document.createARPackage("AUTOSAR")
         operation = ClientServerOperation(ar_root, "client_server_operation")
         assert isinstance(operation, ARObject)
-        # assert (isinstance(operation, AtpClassifier))
-        assert isinstance(operation, AtpBlueprintable)
+        # SWCT Table 4.7 Base closure = ARObject, AtpClassifier, AtpFeature,
+        # AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable
+        # (AtpBlueprintable is NOT in the closure).
+        assert isinstance(operation, AtpClassifier)
+        assert isinstance(operation, AtpFeature)
+        assert isinstance(operation, AtpStructureElement)
         assert isinstance(operation, Identifiable)
         assert isinstance(operation, MultilanguageReferrable)
         assert isinstance(operation, Referrable)
