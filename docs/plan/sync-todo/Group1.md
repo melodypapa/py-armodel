@@ -642,7 +642,7 @@ ResourceConsumption, SwcBswMapping, BuildActionManifest ──> Implementation
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SenderReceiverInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.1, p.94 · after `DataInterface` (base), `VariableDataPrototype`, `InvalidationPolicy` (member types))
+- [x] `SenderReceiverInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.1, p.94 · after `DataInterface` (base), `VariableDataPrototype`, `InvalidationPolicy` (member types)) — finished, stamped `# Spec verified: R23-11` (commit: e4e4770f)
   - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; most-derived direct base **DataInterface** ✓ heritage already correct in code; 3 attributes: `dataElement` (VariableDataPrototype, *, aggr), `invalidationPolicy` (InvalidationPolicy, *, aggr), `metaDataItemSet` (MetaDataItemSet, *, aggr — **stamped R23-11** ✓); Note (md, wrap-normalised, Tags: tail dropped): "A sender/receiver interface declares a number of data elements to be sent and received."
   - Last of its cluster: depends on `DataInterface` + both new member types.
   - [ ] Step 1 — Sync members & description from spec
