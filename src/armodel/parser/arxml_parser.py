@@ -5082,6 +5082,10 @@ class ARXMLParser(AbstractARXMLParser):
         sw_data_def_props = None
         if child_element is not None:
             conditional_tag = self.find(child_element, "SW-DATA-DEF-PROPS-VARIANTS/SW-DATA-DEF-PROPS-CONDITIONAL")
+            if conditional_tag is None:
+                sw_data_def_props = SwDataDefProps()
+                self.readARObject(child_element, sw_data_def_props)
+                return sw_data_def_props
             if conditional_tag is not None:
                 sw_data_def_props = SwDataDefProps()
                 self.readARObject(child_element, sw_data_def_props)
