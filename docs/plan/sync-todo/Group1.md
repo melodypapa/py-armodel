@@ -573,15 +573,15 @@ ResourceConsumption, SwcBswMapping, BuildActionManifest ──> Implementation
 - [ ] `DataInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.19, p.87 · **before `NvDataInterface` / `ParameterInterface` / `SenderReceiverInterface` (base of all three)**)
   - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::SWComponentTemplate::PortInterface (file `SWComponentTemplate/PortInterface/__init__.py` ✓ Rule 0007); Base = ARElement, ARObject, AtpBlueprint, AtpBlueprintable, AtpClassifier, AtpType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, PortInterface, Referrable → most-derived direct base **PortInterface** ✓ heritage already correct in code (`DataInterface(PortInterface, ABC)`), base **stamped R23-11**; Subclasses = NvDataInterface, ParameterInterface, SenderReceiverInterface (all three queued below); Aggregated by ARPackage.element; **Attribute rows = `-` → no own attributes** → Steps 5/6 N/A; Note (md, wrap-normalised): "The purpose of this meta-class is to act as an abstract base class for subclasses that share the semantics of being concerned about data (as opposed to e.g. operations)."
   - Known deviations to fix in this sync: unstamped; 6-column checklist missing. Highest fan-out in the queue (3 dependents) → runs before its subclasses.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 1 — Sync members & description from spec — Table 3.19, p.87: abstract `DataInterface`, direct base `PortInterface`, no own Attribute rows; exact Note captured
+   - [x] Step 2 — Write model class unit test (Red) — `test_data_interface_matches_spec` initially failed on the pre-existing `ABC` direct-base shape
+   - [x] Step 3 — Implement model class (Green) — heritage retained (`DataInterface(PortInterface, ABC)`); no own members added
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring replaced with verbatim Table 3.19 Note; no member/method docstrings apply
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: Table 3.19 has no own attributes and DataInterface has no own XML element; inherited coverage belongs to concrete subclasses
+   - [x] Step 6 — Update parser & writer (Green) — N/A: `readDataInterface`/`writeDataInterface` already delegate inherited `PortInterface` handling; no DataInterface-specific XML exists
+   - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 provenance; marker deferred to Step 9b
+   - [x] Step 8 — Deviations — none; abstract shell, base, package, and empty attribute table match the spec
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 31 focused tests pass; lint, Black, and diff checks pass. 9b user-confirmed 2026-09-04: abstract shell, PortInterface base, verbatim Note, no own members/XML, inherited reader/writer coverage, member order, and Rule 0007 location all pass; `# Spec verified: R23-11` written
 - [ ] `VariableDataPrototype` (**NEW — member type of `NvDataInterface.nvData`, `SenderReceiverInterface.dataElement`, `InvalidationPolicy.dataElement`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.31, p.310 (BSW Table 5.45, p.108 — same class, R23-11 SWCT table is authoritative))
   - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes (file `SWComponentTemplate/Datatype/DataPrototypes.py` ✓ Rule 0007); Base = ARObject, AtpFeature, AtpPrototype, AutosarDataPrototype, DataPrototype, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **AutosarDataPrototype** ✓ heritage already correct in code (`VariableDataPrototype(AutosarDataPrototype, VariationPointCapable)`), both bases **stamped R23-11**; 1 own attribute `initValue` (ValueSpecification, 0..1, aggr) — member type **stamped R23-11** ✓; Note (md, wrap-normalised): "A VariableDataPrototype represents a formalized generic piece of information that is typically mutable by the application software layer. VariableDataPrototype is used in various contexts and the specific context gives the otherwise generic VariableDataPrototype a dedicated semantics."
   - Why here: only un-stamped member type with more than one dependent (3) — queued before all three.

@@ -59,6 +59,14 @@ class TestDataInterface:
         with pytest.raises(TypeError):
             DataInterface(ar_root, "TestDataInterface")
 
+    def test_data_interface_matches_spec(self):
+        """DataInterface is an abstract PortInterface shell with no own members."""
+        assert DataInterface.__mro__[1] is PortInterface
+        assert DataInterface.__doc__ == (
+            "The purpose of this meta-class is to act as an abstract base class for subclasses " "that share the semantics of being concerned about data (as opposed to e.g. operations)."
+        )
+        assert {name for name in DataInterface.__dict__ if not name.startswith("_")} == set()
+
 
 class TestNvDataInterface:
     """Test class for NvDataInterface class."""
