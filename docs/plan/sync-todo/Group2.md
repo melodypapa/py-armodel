@@ -163,16 +163,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 7 — Update checklist comment — 6-col, 3 rows (init + get/set pair) with `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.31, p.310 (R23-11)`; reader [x] on set row, writer [x] on get row, [—] on __init__; marker written at 9b
   - [x] Step 8 — Deviations — none for the class itself (base AutosarDataPrototype most-derived ✓; Optional/typed signatures/guard ✓; member order matches Table 5.31 single row ✓; docstrings verbatim ✓; 6-col checklist w/ release column ✓). Extra base VariationPointCapable — framework infra per Identifiable standing decision (inherited open deviation, no tracker row). Rule 0001.10 reference report (non-blocking): member type ValueSpecification already stamped ✓; no unstamped references. Tracker v2 hits mentioning VariableDataPrototype all live in consumer classes' blocks (SenderReceiverInterface `dataelement` type-deviation incl. the known stale duplicate block, SwcInternalBehavior `arTypedPerInstanceMemory` naming, NvDataInterface `nvdata`, VariableInAtomicSwcInstanceRef `abstractTargetDataElement` missing) — belong to those classes' own queued passes
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8539 tests passed (unit + integration round-trip), ruff/flake8/black-check clean (827 files unchanged); 9b (user-confirmed 2026-09-04): Rules 0001.1–0001.7/0011/0012/0013/0014 pass, Rule 0007 package-location pass (DataPrototypes.py leaf shape, current location correct); no remaining deviations; marker written
-- [ ] `PerInstanceMemory` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.49 · member type of `SwcInternalBehavior.perInstanceMemory`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `PerInstanceMemory` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.49 · member type of `SwcInternalBehavior.perInstanceMemory`) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 7.49, p.597; base AtpStructureElement (extra VariationPointCapable retained as framework infrastructure); fields initValue String, swDataDefProps SwDataDefProps, type CIdentifier, typeDefinition String, all 0..1.
+  - [x] Step 2 — Write model class unit test (Red) — expanded model tests for spec types, defaults, class Note, chaining, and None no-op guards; Red exposed stale class documentation and missing guards/types.
+  - [x] Step 3 — Implement model class (Green) — Optional annotations, typed accessors, None-guarded setters, and corrected String/CIdentifier member types; model tests green.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and member documentation copied from Table 7.49 Notes; stale paraphrases removed.
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — parser field-value/type assertions, empty wrapper case, and writer field/order assertions added.
+  - [x] Step 6 — Update parser & writer (Green) — parser now creates String/CIdentifier values for INIT-VALUE, TYPE, and TYPE-DEFINITION; existing writer uses typed getters and full field coverage.
+  - [x] Step 7 — Update checklist comment — 6-column checklist with R23-11 release and reader/writer coverage.
+  - [x] Step 8 — Deviations — no class-specific deviations; inherited VariationPointCapable remains the standing framework-infrastructure deviation.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: focused model/parser/writer tests, lint, Black, and diff checks passed; 9b user-confirmed 2026-09-04: Table 7.49 coverage, base, types, order, reader/writer coverage, verbatim documentation, and standing VariationPointCapable framework deviation accepted; marker written
 - [ ] `PortInCompositionTypeInstanceRef` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table D.14 (abstract; appendix letter-numbered table, same as D.17/D.4 cases) · iref type of `DelegationSwConnector.innerPort` (XSD serializes as P/R-PORT-IN-COMPOSITION-INSTANCE-REF) · sync concrete subclasses `PPortInCompositionInstanceRef` Table D.15 / `RPortInCompositionInstanceRef` Table D.16 in the same pass · parent `AtpInstanceRef` stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

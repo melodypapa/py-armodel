@@ -60,6 +60,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.Trigger import (  # noqa E501
     ExternalTriggeringPoint,
 )
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -986,6 +987,21 @@ class TestWriterSwcInternalBehaviorCollections:
         assert m[0].tag == "PER-INSTANCE-MEMORY"
         assert m[0].find("INIT-VALUE").text == "0"
         assert m[0].find("TYPE").text == "uint8"
+        assert m[0].find("TYPE-DEFINITION").text == "typedef"
+
+    def test_writeSwcInternalBehaviorPerInstanceMemories_field_values(self, writer):
+        behavior = _make_behavior()
+        mem = behavior.createPerInstanceMemory("pim1")
+        mem.setInitValue(_literal("0"))
+        mem.setSwDataDefProps(SwDataDefProps())
+        mem.setType(_literal("uint8"))
+        mem.setTypeDefinition(_literal("typedef uint8_t uint8;"))
+        parent = _parent()
+        writer.writeSwcInternalBehaviorPerInstanceMemories(parent, behavior)
+        child = parent.find("PER-INSTANCE-MEMORYS/PER-INSTANCE-MEMORY")
+        assert [item.tag for item in child] == ["SHORT-NAME", "INIT-VALUE", "SW-DATA-DEF-PROPS", "TYPE", "TYPE-DEFINITION"]
+        assert child.find("SW-DATA-DEF-PROPS") is not None
+        assert child.find("TYPE-DEFINITION").text == "typedef uint8_t uint8;"
 
     def test_writeSwcInternalBehaviorPerInstanceMemories_empty(self, writer):
         behavior = _make_behavior()

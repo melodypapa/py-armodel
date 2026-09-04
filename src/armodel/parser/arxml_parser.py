@@ -379,6 +379,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AnyVersionString,
     ARLiteral,
     Boolean,
+    CIdentifier,
     DateTime,
     IntervalTypeEnum,
     MacAddressString,
@@ -4493,10 +4494,15 @@ class ARXMLParser(AbstractARXMLParser):
             short_name = self.getShortName(child_element)
             memory = behavior.createPerInstanceMemory(short_name)
             self.readIdentifiable(child_element, memory)
-            memory.setInitValue(self.getChildElementOptionalLiteral(child_element, "INIT-VALUE"))
+            memory.setInitValue(self.getChildElementOptionalString(child_element, "INIT-VALUE"))
             memory.setSwDataDefProps(self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS"))
-            memory.setType(self.getChildElementOptionalLiteral(child_element, "TYPE"))
-            memory.setTypeDefinition(self.getChildElementOptionalLiteral(child_element, "TYPE-DEFINITION"))
+            type_element = self.find(child_element, "TYPE")
+            if type_element is not None:
+                type_value = CIdentifier()
+                self.readARType(type_element, type_value)
+                type_value.setValue(type_element.text or "")
+                memory.setType(type_value)
+            memory.setTypeDefinition(self.getChildElementOptionalString(child_element, "TYPE-DEFINITION"))
 
     def readAutosarDataPrototype(self, element: ET.Element, prototype: AutosarDataPrototype):
         self.readDataPrototype(element, prototype)
