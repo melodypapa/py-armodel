@@ -87,15 +87,6 @@ reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `-` | ``-`` | - | missing |
 
-## `PRPortPrototype`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::Components`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/Components/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `providedRequiredInterface` | `TRefType` | `providedRequiredInterface` | ``PortInterface`` | tref | type (PDF PortInterface vs py TRefType) |
-
 ## `AsynchronousServerCallResultPoint`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::SwcInternalBehavior`
