@@ -4197,7 +4197,7 @@ class ARXMLParser(AbstractARXMLParser):
         short_name = self.getShortName(element)
         server_call_point = parent.createSynchronousServerCallPoint(short_name)
         self.readIdentifiable(element, server_call_point)
-        server_call_point.setTimeout(self.getChildElementOptionalFloatValue(element, "TIMEOUT"))
+        server_call_point.setTimeout(self.getChildElementOptionalTimeValue(element, "TIMEOUT"))
         self.readROperationIRef(element, "OPERATION-IREF", server_call_point)
 
     def readAsynchronousServerCallPoint(self, element: ET.Element, parent: RunnableEntity):
@@ -4205,7 +4205,7 @@ class ARXMLParser(AbstractARXMLParser):
         short_name = self.getShortName(element)
         server_call_point = parent.createAsynchronousServerCallPoint(short_name)
         self.readIdentifiable(element, server_call_point)
-        server_call_point.setTimeout(self.getChildElementOptionalFloatValue(element, "TIMEOUT"))
+        server_call_point.setTimeout(self.getChildElementOptionalTimeValue(element, "TIMEOUT"))
         self.readROperationIRef(element, "OPERATION-IREF", server_call_point)
 
     def readRunnableEntityInternalBehaviorServerCallPoint(self, element: ET.Element, parent: RunnableEntity):

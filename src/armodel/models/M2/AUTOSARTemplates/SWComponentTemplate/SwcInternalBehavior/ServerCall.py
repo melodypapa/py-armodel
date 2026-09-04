@@ -4,6 +4,9 @@ in software component internal behavior templates.
 """
 
 from abc import ABC
+from typing import Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -12,68 +15,76 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
 
 class ServerCallPoint(AbstractAccessPoint, VariationPointCapable, ABC):
     """
-    If a RunnableEntity owns a ServerCallPoint it is entitled to invoke a
-    particular ClientServerOperation of a specific RPortPrototype of the
-    corresponding AtomicSwComponentType.
+    If a RunnableEntity owns a ServerCallPoint it is entitled to invoke a particular ClientServerOperation of a specific RPortPrototype of the corresponding AtomicSwComponentType
     """
 
     # ServerCallPoint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getOperationIRef             [x] impl  [x] docstring  [ ] test
-    # [ ] setOperationIRef             [x] impl  [x] docstring  [ ] test
-    # [ ] getTimeout                   [x] impl  [x] docstring  [ ] test
-    # [ ] setTimeout                   [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.35, p.580 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getOperationIRef             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOperationIRef             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTimeout                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTimeout                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ServerCallPoint:
             raise TypeError("ServerCallPoint is an abstract class.")
         super().__init__(parent, short_name)
 
-        self.operationIRef: "ROperationInAtomicSwcInstanceRef" = None
-        self.timeout: float = None
+        # The operation that is called by this runnable.
+        self.operationIRef: Optional[ROperationInAtomicSwcInstanceRef] = None
 
-    def getOperationIRef(self):
+        # Time in seconds before the server call times out and returns with an error message. It depends on the call type (synchronous or asynchronous) how this is reported.
+        self.timeout: Optional[TimeValue] = None
+
+    def getOperationIRef(self) -> Optional[ROperationInAtomicSwcInstanceRef]:
         """
-        Gets the operation instance reference.
+        The operation that is called by this runnable.
 
         Returns:
-            ROperationInAtomicSwcInstanceRef: The operation instance reference
+            Optional[ROperationInAtomicSwcInstanceRef]: The operation instance reference, or None if not set
         """
         return self.operationIRef
 
-    def setOperationIRef(self, value):
+    def setOperationIRef(self, value: Optional[ROperationInAtomicSwcInstanceRef]) -> "ServerCallPoint":
         """
-        Sets the operation instance reference.
+        The operation that is called by this runnable.
+        A None value is a no-op and does not overwrite an existing operation instance reference.
 
         Args:
             value: The operation instance reference to set
 
         Returns:
-            self for method chaining
+            ServerCallPoint: self for method chaining
         """
-        self.operationIRef = value
+        if value is not None:
+            self.operationIRef = value
         return self
 
-    def getTimeout(self):
+    def getTimeout(self) -> Optional[TimeValue]:
         """
-        Gets the timeout in seconds before the server call times out.
+        Time in seconds before the server call times out and returns with an error message. It depends on the call type (synchronous or asynchronous) how this is reported.
 
         Returns:
-            float: The timeout in seconds
+            Optional[TimeValue]: The timeout, or None if not set
         """
         return self.timeout
 
-    def setTimeout(self, value):
+    def setTimeout(self, value: Optional[TimeValue]) -> "ServerCallPoint":
         """
-        Sets the timeout in seconds before the server call times out.
+        Time in seconds before the server call times out and returns with an error message. It depends on the call type (synchronous or asynchronous) how this is reported.
+        A None value is a no-op and does not overwrite an existing timeout.
 
         Args:
-            value: The timeout in seconds to set
+            value: The timeout to set
 
         Returns:
-            self for method chaining
+            ServerCallPoint: self for method chaining
         """
-        self.timeout = value
+        if value is not None:
+            self.timeout = value
         return self
 
 

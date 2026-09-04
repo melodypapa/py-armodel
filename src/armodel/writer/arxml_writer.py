@@ -3236,7 +3236,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setServerCallPoint(self, element: ET.Element, call_point: ServerCallPoint):
         self.setROperationInAtomicSwcInstanceRef(element, "OPERATION-IREF", call_point.getOperationIRef())
-        self.setChildElementOptionalFloatValue(element, "TIMEOUT", call_point.timeout)
+        self.setChildElementOptionalTimeValue(element, "TIMEOUT", call_point.getTimeout())
 
     def setSynchronousServerCallPoint(self, element: ET.Element, call_point: SynchronousServerCallPoint):
         child_element = ET.SubElement(element, "SYNCHRONOUS-SERVER-CALL-POINT")
