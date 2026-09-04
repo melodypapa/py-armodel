@@ -98,6 +98,24 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
         assert data_if.parent == ar_root
         assert data_if.short_name == "NvDataInterface"
 
+    def test_NvDataInterface_nv_datas_are_typed_and_idempotent(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        data_if = NvDataInterface(ar_root, "NvDataInterface")
+
+        assert data_if.getNvDatas() == []
+
+        prototype = data_if.createNvData("nv_data")
+        assert isinstance(prototype, VariableDataPrototype)
+        assert data_if.nvDatas == [prototype]
+        assert data_if.getNvDatas() == [prototype]
+        assert prototype.parent == data_if
+
+        duplicate = data_if.createNvData("nv_data")
+        assert duplicate is prototype
+        assert data_if.nvDatas == [prototype]
+        assert data_if.getNvDatas() == [prototype]
+
     def test_ParameterInterface(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")

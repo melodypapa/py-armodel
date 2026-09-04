@@ -606,17 +606,17 @@ ResourceConsumption, SwcBswMapping, BuildActionManifest ──> Implementation
    - [x] Step 7 — Update checklist comment — six-column parity checklist with R23-11 release and reader/writer ownership
    - [x] Step 8 — Deviations — none
    - [x] Step 9 — Verify (9a) + confirm (9b) — automated checks pass; user confirmed the pre-stamp rule checklist
-- [ ] `NvDataInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 11.5, p.664 · after `DataInterface` (base) and `VariableDataPrototype` (member type))
+- [x] `NvDataInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 11.5, p.664 · after `DataInterface` (base) and `VariableDataPrototype` (member type)) — **finished, stamped `# Spec verified: R23-11`**
   - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; most-derived direct base **DataInterface** ✓ heritage already correct in code; 1 attribute `nvData` (VariableDataPrototype, `*`, aggr) — member type queued above; Note (md, wrap-normalised, Tags: tail dropped): "A non volatile data interface declares a number of VariableDataPrototypes to be exchanged between non volatile block components and atomic software components."
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 1 — Sync members & description from spec — Table 11.5 confirms direct base `DataInterface` and `nvData` as `VariableDataPrototype * aggr`; page 664 verified with `pdf_page.py`
+   - [x] Step 2 — Write model class unit test (Red) — added typed-list and idempotent-factory assertions; Red confirmed on missing `nvDatas`
+   - [x] Step 3 — Implement model class (Green) — added `nvDatas: List[VariableDataPrototype]`, list-backed getter, and idempotent factory population
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and member method documentation aligned with the Table 11.5 Note and Attribute Note; Tags tail removed
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — parser and writer assertions now verify the actual `nvData` short name, not only collection length/presence
+   - [x] Step 6 — Update parser & writer (Green) — existing matched `createNvData`/`getNvDatas` paths confirmed; no implementation change required
+   - [x] Step 7 — Update checklist comment — six-column parity checklist added with R23-11 release ownership
+   - [x] Step 8 — Deviations — none; dedicated typed aggregation and reader/writer coverage are complete
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 404 affected tests pass, lint and Black checks pass; Step 9b confirmed by user
 - [ ] `HandleInvalidEnum` (**NEW — member type of `InvalidationPolicy.handleInvalid` · `AREnum`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.3, p.97 (SystemTemplate Table 6.6, p.306 — unused, R23-11 SWCT table exists))
   - Spec facts (extracted 2026-09-04): Enumeration table (not a Class table — `| Enumeration | HandleInvalidEnum |`); literals in displayed order with verbatim `atp.EnumerationLiteralIndex` tags: `dontInvalidate` (0) "Invalidation is switched off.", `externalReplacement` (1) "Replace a received invalidValue. The replacement value is sourced from the aggregation in the role replaceWith.", `keep` (2) "The application software is supposed to handle signal invalidation on RTE API level either by Data ReceiveErrorEvent or check of error code on read access.", `replace` (3) "Replace a received invalidValue. The replacement value is specified by the initValue."
   - Known deviations to check in Step 1: the class currently lives in `SWComponentTemplate/Communication.py`, but its only consumer and its spec neighbourhood (`InvalidationPolicy`, SWCT Table 4.2) are `SWComponentTemplate::PortInterface` → **Rule 0007 package-location candidate** (StandardNameEnum precedent); literals must be diffed against the code.

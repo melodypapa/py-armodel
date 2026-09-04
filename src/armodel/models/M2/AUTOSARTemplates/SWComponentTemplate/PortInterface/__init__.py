@@ -138,53 +138,37 @@ class DataInterface(PortInterface, ABC):
 
 
 class NvDataInterface(DataInterface):
-    """Class NvDataInterface.
-
-    Package M2::AUTOSARTemplates::SWComponentTemplate::PortInterface
-
-    Note: A non volatile data interface declares a number of
-    VariableDataPrototypes to be exchanged between non volatile block
-    components and atomic software components.
-
-    Tags: atp.recommendedPackage=PortInterfaces
-
-    Base ARElement, ARObject, AtpBlueprint, AtpBlueprintable,
-    AtpClassifier, AtpType, CollectableElement, DataInterface,
-    Identifiable, MultilanguageReferrable, PackageableElement,
-    PortInterface, Referrable
-
-    Attribute:
-        nvData (VariableDataPrototype, 1..*, aggr)
-        The VariableDataPrototype of this nv data interface.
-    """
+    """A non volatile data interface declares a number of VariableDataPrototypes to be exchanged between non volatile block components and atomic software components."""
 
     # NvDataInterface method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getNvDatas                   [x] impl  [x] docstring  [ ] test
-    # [ ] createNvData                 [x] impl  [x] docstring  [ ] test
-    # [ ] getNvData                    [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 11.5, p.664 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getNvDatas     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createNvData   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNvData      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+        # The VariableDataPrototype of this nv data interface.
+        self.nvDatas: List[VariableDataPrototype] = []
 
-    def getNvDatas(self):
-        """Get nvData VariableDataPrototype list."""
-        return list(
-            filter(
-                lambda c: isinstance(c, VariableDataPrototype),
-                self.elements,
-            )
-        )
+    def getNvDatas(self) -> List[VariableDataPrototype]:
+        """The VariableDataPrototype of this nv data interface."""
+        return self.nvDatas
 
     def createNvData(self, short_name: str) -> VariableDataPrototype:
-        """Create one nvData VariableDataPrototype and aggregate it."""
-        if not self.IsElementExists(short_name, VariableDataPrototype):
-            prototype = VariableDataPrototype(self, short_name)
-            self.addElement(prototype)
-        return self.getElement(short_name, VariableDataPrototype)
+        """The VariableDataPrototype of this nv data interface."""
+        if self.IsElementExists(short_name, VariableDataPrototype):
+            return self.getElement(short_name, VariableDataPrototype)
+        prototype = VariableDataPrototype(self, short_name)
+        self.addElement(prototype)
+        self.nvDatas.append(prototype)
+        return prototype
 
     def getNvData(self, short_name: str) -> VariableDataPrototype:
-        """Get one nvData VariableDataPrototype by short name."""
+        """The VariableDataPrototype of this nv data interface."""
         return self.getElement(short_name, VariableDataPrototype)
 
 

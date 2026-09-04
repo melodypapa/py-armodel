@@ -1115,6 +1115,8 @@ class TestPortInterfaceHandlers:
         )
         parser.readNvDataInterface(element, nv_if)
         assert len(nv_if.getNvDatas()) == 1
+        assert nv_if.getNvDatas()[0].getShortName() == "nvdata"
+        assert nv_if.getNvData("nvdata") is nv_if.getNvDatas()[0]
 
     def test_readModeSwitchInterface_full(self, parser):
         from armodel.models import ModeSwitchInterface

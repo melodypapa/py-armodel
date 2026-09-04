@@ -887,6 +887,7 @@ class TestPortInterfaceWriter:
         assert child.tag == "NV-DATA-INTERFACE"
         assert child.find("SHORT-NAME").text == "NvIf"
         assert child.find("NV-DATAS") is not None
+        assert child.find("NV-DATAS/VARIABLE-DATA-PROTOTYPE/SHORT-NAME").text == "NvBlock"
 
     def test_write_client_server_interface(self, writer):
         autosar = AUTOSAR.getInstance()
