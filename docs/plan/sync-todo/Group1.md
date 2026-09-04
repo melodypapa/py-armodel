@@ -582,18 +582,18 @@ ResourceConsumption, SwcBswMapping, BuildActionManifest ──> Implementation
    - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 provenance; marker deferred to Step 9b
    - [x] Step 8 — Deviations — none; abstract shell, base, package, and empty attribute table match the spec
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 31 focused tests pass; lint, Black, and diff checks pass. 9b user-confirmed 2026-09-04: abstract shell, PortInterface base, verbatim Note, no own members/XML, inherited reader/writer coverage, member order, and Rule 0007 location all pass; `# Spec verified: R23-11` written
-- [ ] `VariableDataPrototype` (**NEW — member type of `NvDataInterface.nvData`, `SenderReceiverInterface.dataElement`, `InvalidationPolicy.dataElement`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.31, p.310 (BSW Table 5.45, p.108 — same class, R23-11 SWCT table is authoritative))
+- [x] `VariableDataPrototype` (**NEW — member type of `NvDataInterface.nvData`, `SenderReceiverInterface.dataElement`, `InvalidationPolicy.dataElement`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.31, p.310 (BSW Table 5.45, p.108 — same class, R23-11 SWCT table is authoritative)) — already verified (`# Spec verified: R23-11`, `DataPrototypes.py`); duplicate of the completed Group 2 sync (commit `d3b5d680`)
   - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes (file `SWComponentTemplate/Datatype/DataPrototypes.py` ✓ Rule 0007); Base = ARObject, AtpFeature, AtpPrototype, AutosarDataPrototype, DataPrototype, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **AutosarDataPrototype** ✓ heritage already correct in code (`VariableDataPrototype(AutosarDataPrototype, VariationPointCapable)`), both bases **stamped R23-11**; 1 own attribute `initValue` (ValueSpecification, 0..1, aggr) — member type **stamped R23-11** ✓; Note (md, wrap-normalised): "A VariableDataPrototype represents a formalized generic piece of information that is typically mutable by the application software layer. VariableDataPrototype is used in various contexts and the specific context gives the otherwise generic VariableDataPrototype a dedicated semantics."
   - Why here: only un-stamped member type with more than one dependent (3) — queued before all three.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 1 — Sync members & description from spec — already verified by source marker and deviation check
+   - [x] Step 2 — Write model class unit test (Red) — covered by existing completed Group 2 sync
+   - [x] Step 3 — Implement model class (Green) — covered by existing completed Group 2 sync
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — verified against the R23-11 Table 5.31 Note
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by existing parser/writer tests
+   - [x] Step 6 — Update parser & writer (Green) — existing matched reader/writer coverage confirmed
+   - [x] Step 7 — Update checklist comment — existing six-column checklist confirmed
+   - [x] Step 8 — Deviations — none found in the short-circuit deviation check
+   - [x] Step 9 — Verify (9a) + confirm (9b) — focused tests, lint, Black, and diff checks pass
 - [ ] `ParameterInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 2.2, p.41 · after `DataInterface` (base))
   - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; Base closure adds `DataInterface` to the `PortInterface` chain → most-derived direct base **DataInterface** ✓ heritage already correct in code; 1 attribute `parameter` (ParameterDataPrototype, `*`, aggr) — member type **stamped R23-11** ✓ — so this is the only one of the three `DataInterface` subclasses with nothing outstanding besides its own stamp; Note (md, wrap-normalised, Tags: tail dropped per Rule 0012.2.5.2): "A parameter interface declares a number of parameter and characteristic values to be exchanged between parameter components and software components."
   - Why before its siblings: cheapest of the three (single stamped member type) → unblocks first.
