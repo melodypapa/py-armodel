@@ -51,7 +51,16 @@ class TestHandleInvalidEnum:
         assert enum.EXTERNAL_REPLACEMENT == "externalReplacement"
         assert enum.KEEP == "keep"
         assert enum.REPLACE == "replace"
-        assert len(enum.getEnumValues()) == 4
+        assert enum.getEnumValues() == (
+            HandleInvalidEnum.DONT_INVALIDATE,
+            HandleInvalidEnum.EXTERNAL_REPLACEMENT,
+            HandleInvalidEnum.KEEP,
+            HandleInvalidEnum.REPLACE,
+        )
+
+    def test_handle_invalid_enum_spec_note(self):
+        """Test the Table 4.3 class note."""
+        assert HandleInvalidEnum.__doc__.strip() == "Strategies of handling the reception of invalidValue."
 
 
 class TestPPortComSpec:

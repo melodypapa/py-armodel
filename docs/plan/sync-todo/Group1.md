@@ -617,19 +617,19 @@ ResourceConsumption, SwcBswMapping, BuildActionManifest ──> Implementation
    - [x] Step 7 — Update checklist comment — six-column parity checklist added with R23-11 release ownership
    - [x] Step 8 — Deviations — none; dedicated typed aggregation and reader/writer coverage are complete
    - [x] Step 9 — Verify (9a) + confirm (9b) — 404 affected tests pass, lint and Black checks pass; Step 9b confirmed by user
-- [ ] `HandleInvalidEnum` (**NEW — member type of `InvalidationPolicy.handleInvalid` · `AREnum`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.3, p.97 (SystemTemplate Table 6.6, p.306 — unused, R23-11 SWCT table exists))
+- [x] `HandleInvalidEnum` (**NEW — member type of `InvalidationPolicy.handleInvalid` · `AREnum`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.3, p.97 (SystemTemplate Table 6.6, p.306 — unused, R23-11 SWCT table exists)) — finished, stamped `# Spec verified: R23-11` (commit recorded below)
   - Spec facts (extracted 2026-09-04): Enumeration table (not a Class table — `| Enumeration | HandleInvalidEnum |`); literals in displayed order with verbatim `atp.EnumerationLiteralIndex` tags: `dontInvalidate` (0) "Invalidation is switched off.", `externalReplacement` (1) "Replace a received invalidValue. The replacement value is sourced from the aggregation in the role replaceWith.", `keep` (2) "The application software is supposed to handle signal invalidation on RTE API level either by Data ReceiveErrorEvent or check of error code on read access.", `replace` (3) "Replace a received invalidValue. The replacement value is specified by the initValue."
   - Known deviations to check in Step 1: the class currently lives in `SWComponentTemplate/Communication.py`, but its only consumer and its spec neighbourhood (`InvalidationPolicy`, SWCT Table 4.2) are `SWComponentTemplate::PortInterface` → **Rule 0007 package-location candidate** (StandardNameEnum precedent); literals must be diffed against the code.
   - Why here: cheapest `InvalidationPolicy` dependency (AREnum, no XML element of its own → Steps 5/6 N/A).
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 1 — Sync members & description from spec — Table 4.3 and p.97 verified with `pdf_page.py`; package is `...SWComponentTemplate::Communication`; four literals and order match the specification
+   - [x] Step 2 — Write model class unit test (Red) — strengthened the existing model test with exact enum order and verbatim class Note assertions
+   - [x] Step 3 — Implement model class (Green) — retained the four spec literals and added their verbatim descriptions and enumeration indices
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note and literal descriptions match Table 4.3; Tags tails retained only on literal comments as spec metadata
+   - [x] Step 5 — Write reader/writer round-trip test (N/A: standalone AREnum) — enum has no standalone XML element; serialized by consuming attributes
+   - [x] Step 6 — Update parser & writer (N/A: standalone AREnum) — consuming parser/writer paths already serialize enum values
+   - [x] Step 7 — Update checklist comment — six-column parity checklist with R23-11 provenance
+   - [x] Step 8 — Deviations — none; package location, literal values/order, and spec documentation match Table 4.3
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 51 focused tests pass, lint/Black clean, Step 9b confirmed by user; stamped `# Spec verified: R23-11`
 - [ ] `InvalidationPolicy` (**NEW — member type of `SenderReceiverInterface.invalidationPolicy`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.2, p.97 · after `VariableDataPrototype` (member `dataElement`) and `HandleInvalidEnum` (member `handleInvalid`))
   - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::SWComponentTemplate::PortInterface (file `SWComponentTemplate/PortInterface/__init__.py` ✓ Rule 0007); Base = **ARObject** ✓ heritage already correct in code (`InvalidationPolicy(ARObject)`); Aggregated by SenderReceiverInterface.invalidationPolicy; 2 attributes: `dataElement` (VariableDataPrototype, 0..1, **ref**) and `handleInvalid` (HandleInvalidEnum, 0..1, attr); Note (md, wrap-normalised): "Specifies whether the component can actively invalidate a particular dataElement. If no invalidationPolicy points to a dataElement this is considered to yield the identical result as if the handleInvalid attribute was set to dontInvalidate."
   - Cross-check: SWCT `[constr_10119]` (md l.2828) — "SenderReceiverInterface.dataElement shall be referenced by at most one InvalidationPolicy" — capture for Step 4 if the spec attaches it as an attribute Note.
