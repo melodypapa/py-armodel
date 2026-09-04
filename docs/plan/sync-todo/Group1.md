@@ -540,18 +540,18 @@ ResourceConsumption, SwcBswMapping, BuildActionManifest ──> Implementation
     - **Docstring tail:** spec `Note` for `swDataDefProps` carries a `Stereotypes: atpSplitable Tags: atp.Splitkey=swDataDefProps` tail; docstring uses the human-readable `Note` without the XSD Stereotypes/Tags metadata tail (repo convention, matches stamped `ApplicationArrayDataType` et al.).
     - **Completeness:** the single spec attribute `swDataDefProps` (SwDataDefProps, 0..1, aggr — member type stamped R23-11) is fully modeled (`__init__` field `self.swDataDefProps` + `getSwDataDefProps`/`setSwDataDefProps`) with reader + writer coverage; no fabricated or dropped members.
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: pytest 22+119 passed, flake8 clean, ruff clean, black clean, parity script no new failures, integration round-trip passed; 9b: full rule-compliance checklist confirmed by user; `# Spec verified: R23-11` marker written into source
-- [ ] `AbstractImplementationDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.14, p.267 · **after `AutosarDataType` (base)**)
+- [x] `AbstractImplementationDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.14, p.267 · **after `AutosarDataType` (base)**) — `# Spec verified: R23-11` (commit pending)
   - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes (file `CommonStructure/ImplementationDataTypes.py` ✓ Rule 0007); Base = ARElement, ARObject, AtpBlueprint, AtpBlueprintable, AtpClassifier, AtpType, AutosarDataType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived direct base **AutosarDataType** ✓ heritage already correct in code (`AbstractImplementationDataType(AutosarDataType, ABC)`); Subclasses = ImplementationDataType; Aggregated by ARPackage.element; **Attribute rows = `-` → no own attributes** → Steps 5/6 expected N/A (abstract shell, no own XML element); Note (md, wrap-normalised): "This meta-class represents an abstract base class for different flavors of ImplementationDataType."
   - Known deviations to fix in this sync: no `# Spec:` line / stamp (unstamped); checklist is not in the 6-column format.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 1 — Sync members & description from spec (Table 5.14 confirms abstract class, direct base AutosarDataType, no own attributes, verbatim Note; p.267 via pdf_page.py)
+   - [x] Step 2 — Write model class unit test (Red) — abstract guard, direct base, inherited state, exact spec Note
+   - [x] Step 3 — Implement model class (Green) — existing heritage and abstract guard retained; no own members
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring replaced with verbatim Table 5.14 Note
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: no own attributes or XML element; coverage belongs to concrete subclasses
+   - [x] Step 6 — Update parser & writer (Green) — N/A: no own attributes or XML element; inherited AutosarDataType handling is already covered
+   - [x] Step 7 — Update checklist comment — six-column parity checklist with R23-11 provenance
+   - [x] Step 8 — Deviations — none
+   - [x] Step 9 — Verify (9a) + confirm (9b) — user-confirmed 2026-09-04; stamped `# Spec verified: R23-11`
 
 ### Cluster 2 — AbstractImplementationDataTypeElement (independent, base already stamped)
 

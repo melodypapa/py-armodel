@@ -120,12 +120,13 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement, Varia
 
 
 class AbstractImplementationDataType(AutosarDataType, ABC):
-    """
-    Abstract base class for implementation data types.
-    """
+    """This meta-class represents an abstract base class for different flavors of ImplementationDataType."""
 
     # AbstractImplementationDataType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.14, p.267
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractImplementationDataType:
