@@ -558,15 +558,15 @@ ResourceConsumption, SwcBswMapping, BuildActionManifest ──> Implementation
 - [ ] `AbstractImplementationDataTypeElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.16, p.269 · after `AtpStructureElement` (base, stamped R23-11))
   - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes (file `CommonStructure/ImplementationDataTypes.py` ✓ Rule 0007); Base = ARObject, AtpClassifier, AtpFeature, AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **AtpStructureElement** ✓ heritage already correct in code, and the base is **stamped R23-11**; Subclasses = ImplementationDataTypeElement; Aggregated by AtpClassifier.atpFeature; **Attribute rows = `-` → no own attributes** → Steps 5/6 expected N/A; Note (md, wrap-normalised): "This meta-class represents the ability to act as an abstract base class for specific derived meta-classes that support the modeling of ImplementationDataTypes for a particular language."
   - Known deviations to fix in this sync: no `# Spec:` line / stamp; 6-column checklist missing. Nothing blocks it, which is why it sits here rather than later.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 1 — Sync members & description from spec
+   - [x] Step 2 — Write model class unit test (Red)
+   - [x] Step 3 — Implement model class (Green)
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: no own attributes or XML element
+   - [x] Step 6 — Update parser & writer (Green) — N/A: no own attributes or XML element
+   - [x] Step 7 — Update checklist comment
+   - [x] Step 8 — Deviations — none
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 47 focused tests, lint, Black, and diff checks pass; 9b user-confirmed 2026-09-04; marker written
 
 ### Cluster 3 — DataInterface subtree (DataInterface unblocks three concrete interfaces)
 

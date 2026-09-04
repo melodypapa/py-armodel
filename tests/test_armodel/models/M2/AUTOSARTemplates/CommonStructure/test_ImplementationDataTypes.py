@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes 
     ImplementationDataType,
     ImplementationDataTypeElement,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, ARNumerical, Boolean, NameToken, String
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import SymbolProps
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import AutosarDataType
@@ -15,6 +16,17 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProp
 
 
 class TestAbstractImplementationDataTypeElement:
+    def test_spec_note_and_base_class(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        element = ImplementationDataTypeElement(ar_root, "TestElement")
+
+        assert isinstance(element, AtpStructureElement)
+        assert AbstractImplementationDataTypeElement.__doc__.strip() == (
+            "This meta-class represents the ability to act as an abstract base class for specific derived meta-classes "
+            "that support the modeling of ImplementationDataTypes for a particular language binding."
+        )
+
     def test_abstract_class_cannot_be_instantiated(self):
         """Test that AbstractImplementationDataTypeElement abstract class cannot be instantiated directly"""
         parent = AUTOSAR.getInstance()
