@@ -1,11 +1,16 @@
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
+
+SPEC_NOTE = "A trigger which is provided (i.e. released) or required (i.e. used to activate something) in the given context."
 
 
 class TestTrigger:
     def test_initialization(self):
-        """Test Trigger initialization"""
+        """Test Trigger initialization defaults"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         trigger = Trigger(ar_root, "TestTrigger")
@@ -15,88 +20,66 @@ class TestTrigger:
         assert trigger.swImplPolicy is None
         assert trigger.triggerPeriod is None
 
-    def test_get_sw_impl_policy(self):
-        """Test getSwImplPolicy method"""
+    def test_heritage_direct_base_is_atp_structure_element(self):
+        """Trigger's most-derived spec base is AtpStructureElement (Table 4.13)"""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
+        assert Trigger.__bases__[0] is AtpStructureElement
+        assert issubclass(Trigger, AtpStructureElement)
+        assert issubclass(Trigger, Identifiable)
+
+    def test_class_docstring_matches_spec_note(self):
+        """The class docstring must be the verbatim Table 4.13 Note"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        trigger = Trigger(ar_root, "TestTrigger")
+        assert trigger.__doc__ == SPEC_NOTE
+
+    def test_get_set_sw_impl_policy(self):
+        """setSwImplPolicy/getSwImplPolicy round-trip with a real SwImplPolicyEnum"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         trigger = Trigger(ar_root, "TestTrigger")
         assert trigger.getSwImplPolicy() is None
 
-    def test_set_sw_impl_policy(self):
-        """Test setSwImplPolicy method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        trigger = Trigger(ar_root, "TestTrigger")
-
-        # Create mock SwImplPolicyEnum value for testing
-        class MockSwImplPolicy:
-            pass
-
-        test_value = MockSwImplPolicy()
-        result = trigger.setSwImplPolicy(test_value)
+        value = SwImplPolicyEnum().setValue(SwImplPolicyEnum.QUEUED)
+        result = trigger.setSwImplPolicy(value)
         assert result is trigger
-        assert trigger.getSwImplPolicy() == test_value
+        assert trigger.getSwImplPolicy() == value
 
-    def test_set_sw_impl_policy_none(self):
-        """Test setSwImplPolicy with None value"""
+    def test_set_sw_impl_policy_none_is_noop(self):
+        """setSwImplPolicy(None) is a no-op and still chains"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         trigger = Trigger(ar_root, "TestTrigger")
+        value = SwImplPolicyEnum().setValue(SwImplPolicyEnum.STANDARD)
+        trigger.setSwImplPolicy(value)
         result = trigger.setSwImplPolicy(None)
         assert result is trigger
-        assert trigger.getSwImplPolicy() is None
+        assert trigger.getSwImplPolicy() == value
 
-    def test_get_trigger_period(self):
-        """Test getTriggerPeriod method"""
+    def test_get_set_trigger_period(self):
+        """setTriggerPeriod/getTriggerPeriod round-trip with a real MultidimensionalTime"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         trigger = Trigger(ar_root, "TestTrigger")
         assert trigger.getTriggerPeriod() is None
 
-    def test_set_trigger_period(self):
-        """Test setTriggerPeriod method"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        trigger = Trigger(ar_root, "TestTrigger")
-
-        # Create mock MultidimensionalTime value for testing
-        class MockMultidimensionalTime:
-            pass
-
-        test_value = MockMultidimensionalTime()
-        result = trigger.setTriggerPeriod(test_value)
+        value = MultidimensionalTime()
+        result = trigger.setTriggerPeriod(value)
         assert result is trigger
-        assert trigger.getTriggerPeriod() == test_value
+        assert trigger.getTriggerPeriod() is value
 
-    def test_set_trigger_period_none(self):
-        """Test setTriggerPeriod with None value"""
+    def test_set_trigger_period_none_is_noop(self):
+        """setTriggerPeriod(None) is a no-op and still chains"""
         parent = AUTOSAR.getInstance()
         ar_root = parent.createARPackage("AUTOSAR")
         trigger = Trigger(ar_root, "TestTrigger")
+        value = MultidimensionalTime()
+        trigger.setTriggerPeriod(value)
         result = trigger.setTriggerPeriod(None)
         assert result is trigger
-        assert trigger.getTriggerPeriod() is None
-
-    def test_all_properties(self):
-        """Test setting all properties"""
-        parent = AUTOSAR.getInstance()
-        ar_root = parent.createARPackage("AUTOSAR")
-        trigger = Trigger(ar_root, "TestTrigger")
-
-        class MockSwImplPolicy:
-            pass
-
-        class MockMultidimensionalTime:
-            pass
-
-        sw_policy = MockSwImplPolicy()
-        period = MockMultidimensionalTime()
-
-        trigger.setSwImplPolicy(sw_policy)
-        trigger.setTriggerPeriod(period)
-
-        assert trigger.getSwImplPolicy() == sw_policy
-        assert trigger.getTriggerPeriod() == period
+        assert trigger.getTriggerPeriod() is value
 
 
 class TestTriggerMapping:

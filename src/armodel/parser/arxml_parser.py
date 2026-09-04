@@ -924,6 +924,7 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwDataDefProps,
     SwDataDependency,
     SwDataDependencyArgs,
+    SwImplPolicyEnum,
     SwPointerTargetProps,
     SwTextProps,
     ValueList,
@@ -986,6 +987,16 @@ AUTO_COLLECT_XML_MAP = {
     "refAll": "REF-ALL",
     "refNone": "REF-NONE",
     "refNonStandard": "REF-NON-STANDARD",
+}
+
+#: Mapping between SwImplPolicyEnum literal values and their XML element text
+#: (AR:SW-IMPL-POLICY-ENUM--SIMPLE).
+SW_IMPL_POLICY_XML_MAP = {
+    "const": "CONST",
+    "fixed": "FIXED",
+    "measurementPoint": "MEASUREMENT-POINT",
+    "queued": "QUEUED",
+    "standard": "STANDARD",
 }
 
 
@@ -3383,6 +3394,22 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTrigger(self, element: ET.Element, trigger: Trigger):
         self.readIdentifiable(element, trigger)
+        literal = self.getChildElementOptionalLiteral(element, "SW-IMPL-POLICY")
+        if literal is not None:
+            camel = None
+            for camel_value, token in SW_IMPL_POLICY_XML_MAP.items():
+                if token == literal.getText():
+                    camel = camel_value
+                    break
+            if camel is not None:
+                trigger.setSwImplPolicy(SwImplPolicyEnum().setValue(camel))
+            else:
+                self.notImplemented("Unsupported SW-IMPL-POLICY <%s>" % literal.getText())
+        period_element = self.find(element, "TRIGGER-PERIOD")
+        if period_element is not None:
+            period = MultidimensionalTime()
+            self.readMultidimensionalTime(period_element, period)
+            trigger.setTriggerPeriod(period)
 
     def readBswModuleDescriptionReleasedTriggers(self, element: ET.Element, desc: BswModuleDescription):
         for child_element in self.findall(element, "RELEASED-TRIGGERS/*"):
@@ -3458,6 +3485,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswModuleDescriptionProvidedDatas(element, desc)
         self.readBswModuleDescriptionRequiredDatas(element, desc)
         self.readBswModuleDescriptionBswInternalBehaviors(element, desc)
+        self.readBswModuleDescriptionReleasedTriggers(element, desc)
         self.readBswModuleDescriptionRequiredTriggers(element, desc)
         self.readBswModuleDescriptionBswModuleDependencies(element, desc)
         self.readBswModuleDescriptionBswModuleDocumentation(element, desc)

@@ -887,6 +887,16 @@ AUTO_COLLECT_XML_MAP = {
     "refNonStandard": "REF-NON-STANDARD",
 }
 
+#: Mapping between SwImplPolicyEnum literal values and their XML element text
+#: (AR:SW-IMPL-POLICY-ENUM--SIMPLE).
+SW_IMPL_POLICY_XML_MAP = {
+    "const": "CONST",
+    "fixed": "FIXED",
+    "measurementPoint": "MEASUREMENT-POINT",
+    "queued": "QUEUED",
+    "standard": "STANDARD",
+}
+
 
 class ARXMLWriter(AbstractARXMLWriter):
     """
@@ -6028,6 +6038,15 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeTrigger(self, element: ET.Element, trigger: Trigger):
         child_element = ET.SubElement(element, "TRIGGER")
         self.writeIdentifiable(child_element, trigger)
+        policy = trigger.getSwImplPolicy()
+        if policy is not None:
+            token = SW_IMPL_POLICY_XML_MAP.get(policy.getValue())
+            if token is None:
+                self.notImplemented("Unsupported SW-IMPL-POLICY <%s>" % policy.getValue())
+            else:
+                policy_element = ET.SubElement(child_element, "SW-IMPL-POLICY")
+                policy_element.text = token
+        self.setMultidimensionalTime(child_element, "TRIGGER-PERIOD", trigger.getTriggerPeriod())
 
     def writeBswModuleDescriptionReleasedTriggers(self, element: ET.Element, desc: BswModuleDescription):
         triggers = desc.getReleasedTriggers()

@@ -645,30 +645,35 @@ ResourceConsumption, SwcBswMapping, BuildActionManifest ──> Implementation
 - [x] `SenderReceiverInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.1, p.94 · after `DataInterface` (base), `VariableDataPrototype`, `InvalidationPolicy` (member types)) — finished, stamped `# Spec verified: R23-11` (commit: e4e4770f)
   - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; most-derived direct base **DataInterface** ✓ heritage already correct in code; 3 attributes: `dataElement` (VariableDataPrototype, *, aggr), `invalidationPolicy` (InvalidationPolicy, *, aggr), `metaDataItemSet` (MetaDataItemSet, *, aggr — **stamped R23-11** ✓); Note (md, wrap-normalised, Tags: tail dropped): "A sender/receiver interface declares a number of data elements to be sent and received."
   - Last of its cluster: depends on `DataInterface` + both new member types.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Stale checkboxes flipped 2026-09-04 (already-verified short-circuit): the class was
+    finished in its own session (commit e4e4770f, marker verified in source, reader/writer
+    coverage confirmed — readSenderReceiverInterface + 3 wrapper readers / writeSenderReceiverInterface
+    + 3 wrapper writers calling getters, docstrings verbatim, 26 focused tests pass) but the
+    sub-checklist was never flipped (same pattern as `AtpType`).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 ### Cluster 4 — Trigger subtree (Trigger unblocks two rows)
 
 - [ ] `Trigger` (**NEW — member type of `TriggerInterface.trigger` and `TriggerMapping.firstTrigger`/`secondTrigger`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.13, p.109 (BSW Table 4.16, p.46 — same class, R23-11 SWCT table is authoritative))
   - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::CommonStructure::TriggerDeclaration (file `CommonStructure/TriggerDeclaration.py` ✓ Rule 0007); Base = ARObject, AtpClassifier, AtpFeature, AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **AtpStructureElement** ✓ heritage already correct in code (`Trigger(AtpStructureElement, VariationPointCapable)`), base **stamped R23-11**; 2 attributes: `swImplPolicy` (SwImplPolicyEnum, 0..1, attr — **stamped R23-11** ✓) and `triggerPeriod` (MultidimensionalTime, 0..1, aggr — **stamped R23-11** ✓); Note (md, wrap-normalised): "A trigger which is provided (i.e. released) or required (i.e. used to activate something) in the given context."
   - Why here: both member types are already stamped, so `Trigger` has **no outstanding dependency** — do it before the two rows that consume it.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 4.13 (content md l.3226–3234, caption l.3236 — content precedes caption); PDF p.109 confirmed via pdf_page.py (BSW Table 4.16, p.46 — same class, R23-11 SWCT table authoritative). Class=concrete; Package=...CommonStructure::TriggerDeclaration (file TriggerDeclaration.py ✓ Rule 0007); Base closure → most-derived direct base **AtpStructureElement** ✓ (stamped R23-11); code `Trigger(AtpStructureElement, VariationPointCapable)` — VariationPointCapable is the XSD atpVariation mixin (framework-level). Aggregated by AtpClassifier.atpFeature, BswModuleDescription.releasedTrigger/requiredTrigger, ServiceInterface.trigger, TriggerInterface.trigger. 2 attrs in displayed order: swImplPolicy (SwImplPolicyEnum, 0..1, attr — **stamped** ✓), triggerPeriod (MultidimensionalTime, 0..1, aggr — **stamped** ✓); Notes verbatim captured. XSD group TRIGGER l.126239: SW-IMPL-POLICY (0..1) → TRIGGER-PERIOD (0..1). Current code: heritage correct, both fields present, but docstrings fabricated/paraphrased, `__init__` has docstring, `triggerPeriod` lacks PEP 526 annotation, `swImplPolicy` annotation not Optional, accessors untyped, legacy 4-col checklist; readTrigger/writeTrigger **drop both attrs** (Rule 0001.7) → Steps 5/6 real work
+  - [x] Step 2 — Write model class unit test (Red) — test_TriggerDeclaration.py TestTrigger rewritten: init defaults, heritage (direct base AtpStructureElement + Identifiable in MRO), verbatim class-docstring assert, real SwImplPolicyEnum/MultidimensionalTime get/set round-trips, None no-op + chaining. Red confirmed: 1 failed (fabricated class docstring) / 6 passed
+  - [x] Step 3 — Implement model class (Green) — PEP 526 annotations: `swImplPolicy: Optional[SwImplPolicyEnum]`, `triggerPeriod: Optional[MultidimensionalTime]` (was bare `= None`); typed accessors `getSwImplPolicy() -> Optional[SwImplPolicyEnum]` / `setSwImplPolicy(Optional[SwImplPolicyEnum]) -> "Trigger"` (same for triggerPeriod); member order = Table 4.13 displayed order ✓; imports added (Optional, MultidimensionalTime). 14/15 pass (docstring test red — fixed in Step 4)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — wiped fabricated class docstring, `__init__` docstring, all "Gets/Sets the…" accessor paraphrases and member comments; rewrote verbatim from Table 4.13: class docstring = Note (single-line), inline comments + getter docstrings = attr Notes, setter docstrings = attr Note + " A None value is a no-op and is not set." (Rule 0012.2.5.4). 15/15 model tests pass
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — parser/test_trigger.py (read SW-IMPL-POLICY token QUEUED→queued + TRIGGER-PERIOD/CSE-CODE; absent-attrs case; full-document round-trip via BswModuleDescription released trigger) + writer/test_trigger.py (XSD-order XML shape SW-IMPL-POLICY < TRIGGER-PERIOD; absent-attrs case). Red confirmed: 3 failed (both attrs dropped) / 2 passed
+  - [x] Step 6 — Update parser & writer (Green) — SW_IMPL_POLICY_XML_MAP added to both modules (AUTO_COLLECT_XML_MAP precedent; XSD SW-IMPL-POLICY-ENUM--SIMPLE tokens CONST/FIXED/MEASUREMENT-POINT/QUEUED/STANDARD); readTrigger now reads SW-IMPL-POLICY (token→camel→SwImplPolicyEnum) + TRIGGER-PERIOD (MultidimensionalTime via readMultidimensionalTime); writeTrigger now writes SW-IMPL-POLICY (camel→token) + TRIGGER-PERIOD via setMultidimensionalTime, in XSD order. **Side-fix (pre-existing Rule 0001.7 gap):** readBswModuleDescription never called readBswModuleDescriptionReleasedTriggers (writer emitted RELEASED-TRIGGERS, parser silently dropped them) — added the call; 361 BSW tests pass. 20/20 Trigger tests green
+  - [x] Step 7 — Update checklist comment — 6-col with `# Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.13, p.109 (R23-11)`; reader [x] on setSwImplPolicy/setTriggerPeriod mutator rows, writer [x] on getSwImplPolicy/getTriggerPeriod getter rows, `__init__` both `[—]`; marker deferred to 9b
+  - [x] Step 8 — Deviations — none for Trigger itself: both Table 4.13 attrs modeled with correct types/kinds (swImplPolicy SwImplPolicyEnum 0..1 attr → `Optional[SwImplPolicyEnum]`; triggerPeriod MultidimensionalTime 0..1 aggr → `Optional[MultidimensionalTime]`); no naming/type/missing deviation; Rule 0007 location OK (TriggerDeclaration.py = Package tail); Rule 0001.10 report: member types SwImplPolicyEnum (Table 5.45, p.336) and MultidimensionalTime both stamped R23-11 ✓, base AtpStructureElement stamped R23-11 ✓ — no missing/stub classes. Side-fix recorded in Step 6 (readBswModuleDescriptionReleasedTriggers gap, BswModuleDescription scope)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a (2026-09-04): 8584 unit tests pass; 1 failure is PRE-EXISTING and unrelated (`test_readSwcInternalBehavior_with_per_instance_memories` — empty `<SW-DATA-DEF-PROPS/>` → getSwDataDefProps None; verified by stash re-run on unmodified parser/writer); flake8+ruff clean, black clean (835 files unchanged); integration round-trip (tests/integration_tests) 2 passed; programmatic verbatim docstring diff: class Note ×1, swImplPolicy Note ×3, triggerPeriod Note ×3, no `# type:`; top-level export `armodel.Trigger` True. 9b pending user confirmation
 - [ ] `TriggerInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.12, p.109 · after `Trigger` (member type))
   - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; Base closure = ARElement, ARObject, AtpBlueprint, AtpBlueprintable, AtpClassifier, AtpType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, PortInterface, Referrable → most-derived direct base **PortInterface** ✓ heritage already correct in code (`TriggerInterface(PortInterface)`), base **stamped R23-11**; 1 attribute `trigger` (Trigger, `*`, aggr); Note (md, wrap-normalised, Tags: tail dropped): "A trigger interface declares a number of triggers that can be sent by an trigger source."
   - [ ] Step 1 — Sync members & description from spec
