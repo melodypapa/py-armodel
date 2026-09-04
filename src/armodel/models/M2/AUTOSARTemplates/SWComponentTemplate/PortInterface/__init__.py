@@ -359,57 +359,91 @@ class MetaDataItemSet(ARObject):
 
 
 class SenderReceiverInterface(DataInterface):
+    """A sender/receiver interface declares a number of data elements to be sent and received."""
+
     # SenderReceiverInterface method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getInvalidationPolicies      [x] impl  [ ] docstring  [ ] test
-    # [ ] addInvalidationPolicy        [x] impl  [ ] docstring  [ ] test
-    # [ ] getMetaDataItemSets          [x] impl  [ ] docstring  [ ] test
-    # [ ] addMetaDataItemSet           [x] impl  [ ] docstring  [ ] test
-    # [ ] createDataElement            [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataElements              [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataElement               [x] impl  [ ] docstring  [ ] test
-    # [ ] createInvalidationPolicy     [x] impl  [ ] docstring  [ ] test
-    # [ ] getInvalidationPolicys       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.1, p.94 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createDataElement         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataElements           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDataElement            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addInvalidationPolicy     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createInvalidationPolicy  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInvalidationPolicies   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addMetaDataItemSet        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMetaDataItemSets       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # The data elements of this SenderReceiverInterface.
+        self.dataElements: List[VariableDataPrototype] = []
+
+        # InvalidationPolicy for a particular dataElement
         self.invalidationPolicies: List[InvalidationPolicy] = []
+
+        # This aggregation defines fixed sets of meta-data items associated with dataElements of the enclosing Sender ReceiverInterface
         self.metaDataItemSets: List[MetaDataItemSet] = []
 
-    def getInvalidationPolicies(self):
-        return self.invalidationPolicies
-
-    def addInvalidationPolicy(self, value):
-        self.invalidationPolicies.append(value)
-        return self
-
-    def getMetaDataItemSets(self):
-        return self.metaDataItemSets
-
-    def addMetaDataItemSet(self, value):
-        self.metaDataItemSets.append(value)
-        return self
-
-    def createDataElement(self, short_name) -> VariableDataPrototype:
+    def createDataElement(self, short_name: str) -> VariableDataPrototype:
+        """
+        The data elements of this SenderReceiverInterface.
+        """
         if not self.IsElementExists(short_name, VariableDataPrototype):
             data_element = VariableDataPrototype(self, short_name)
             self.addElement(data_element)
+            self.dataElements.append(data_element)
         return self.getElement(short_name, VariableDataPrototype)
 
     def getDataElements(self) -> List[VariableDataPrototype]:
-        return list(filter(lambda c: isinstance(c, VariableDataPrototype), self.elements))
+        """
+        The data elements of this SenderReceiverInterface.
+        """
+        return self.dataElements
 
-    def getDataElement(self, short_name) -> VariableDataPrototype:
+    def getDataElement(self, short_name: str) -> VariableDataPrototype:
+        """
+        The data elements of this SenderReceiverInterface.
+        """
         return self.getElement(short_name, VariableDataPrototype)
 
+    def addInvalidationPolicy(self, value: InvalidationPolicy) -> "SenderReceiverInterface":
+        """
+        InvalidationPolicy for a particular dataElement
+        """
+        if value is not None:
+            self.invalidationPolicies.append(value)
+        return self
+
     def createInvalidationPolicy(self) -> InvalidationPolicy:
+        """
+        InvalidationPolicy for a particular dataElement
+        """
         policy = InvalidationPolicy()
         self.invalidationPolicies.append(policy)
         return policy
 
-    def getInvalidationPolicys(self) -> List[InvalidationPolicy]:
-        return list(filter(lambda c: isinstance(c, InvalidationPolicy), self.invalidationPolicies))
+    def getInvalidationPolicies(self) -> List[InvalidationPolicy]:
+        """
+        InvalidationPolicy for a particular dataElement
+        """
+        return self.invalidationPolicies
+
+    def addMetaDataItemSet(self, value: MetaDataItemSet) -> "SenderReceiverInterface":
+        """
+        This aggregation defines fixed sets of meta-data items associated with dataElements of the enclosing Sender ReceiverInterface
+        """
+        if value is not None:
+            self.metaDataItemSets.append(value)
+        return self
+
+    def getMetaDataItemSets(self) -> List[MetaDataItemSet]:
+        """
+        This aggregation defines fixed sets of meta-data items associated with dataElements of the enclosing Sender ReceiverInterface
+        """
+        return self.metaDataItemSets
 
 
 class ServerArgumentImplPolicyEnum(AREnum):
