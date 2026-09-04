@@ -525,18 +525,21 @@ ResourceConsumption, SwcBswMapping, BuildActionManifest ──> Implementation
 
 ### Cluster 1 — AutosarDataType → AbstractImplementationDataType
 
-- [ ] `AutosarDataType` (**NEW — parent of `AbstractImplementationDataType`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.1, p.232 · **heritage fix: code `AutosarDataType(AtpType, ABC)` → spec most-derived direct base `ARElement`**)
+- [x] `AutosarDataType` (**NEW — parent of `AbstractImplementationDataType`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.1, p.232 · **heritage fix: code `AutosarDataType(AtpType, ABC)` → spec most-derived direct base `ARElement`**) · **stamped `# Spec verified: R23-11`** · commit TBD
   - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes (file `SWComponentTemplate/Datatype/Datatypes.py` ✓ Rule 0007); Base = ARElement, ARObject, AtpClassifier, AtpType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived direct base **ARElement** — code has `AtpType`, which skips PackageableElement → CollectableElement → ARElement; Subclasses = AbstractImplementationDataType, ApplicationDataType; Aggregated by ARPackage.element; 1 own attribute `swDataDefProps` (SwDataDefProps, 0..1, aggr) — member type **stamped R23-11** ✓; Note (md, wrap-normalised): "Abstract base class for user defined AUTOSAR data types for software."
   - Why first: it is the only un-stamped **base** in the queue and it gates `AbstractImplementationDataType` (Rules 0001.10 / 0012.1). Fixing the base also requires an audit of the two subclasses' MRO (`AbstractImplementationDataType`, `ApplicationDataType`) plus their subtrees for anything that relied on the wrong chain.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — tests/test_armodel/parser/test_autosar_data_type.py: SW-DATA-DEF-PROPS round-trip via ApplicationPrimitiveDataType (with + without); reader calls setSwDataDefProps, writer calls getSwDataDefProps
+  - [x] Step 6 — Update parser & writer (Green) — N/A: readAutosarDataType + writeAutosarDataType already serialize SW-DATA-DEF-PROPS (readIdentifiable/writeARElement + set/getSwDataDefProps); regression of data-type parser/writer tests passed (97 passed). No code change required.
+  - [x] Step 7 — Update checklist comment — 6-col `# Spec:` format (AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.1, p.232, R23-11) + per-row release R23-11; reader `[x]` on setSwDataDefProps mutator, writer `[x]` on getSwDataDefProps getter; `# Spec verified:` marker deferred to 9b
+  - [x] Step 8 — Deviations — accepted (non-blocking, repo convention; stamp allowed):
+    - **Heritage (base-class collapse):** spec `Base` = ARElement, ARObject, AtpClassifier, AtpType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable (full XSD MI chain). Code = `AutosarDataType(ARElement, ABC)` — single role-matching chain per repo convention (precedent: `AtpType(Identifiable)`, `BlueprintPolicy(Identifiable)`); the AtpType/AtpClassifier/CollectableElement blueprinting branches are intentionally collapsed, with the behavioral bases (Identifiable → MultilanguageReferrable → Referrable → PackageableElement → ARObject) preserved through ARElement's MRO. Reader/writer dispatch (`readAutosarDataType`/`writeAutosarDataType`) already uses `readIdentifiable`/`writeARElement`, so the base change aligns the model with dispatch.
+    - **Docstring tail:** spec `Note` for `swDataDefProps` carries a `Stereotypes: atpSplitable Tags: atp.Splitkey=swDataDefProps` tail; docstring uses the human-readable `Note` without the XSD Stereotypes/Tags metadata tail (repo convention, matches stamped `ApplicationArrayDataType` et al.).
+    - **Completeness:** the single spec attribute `swDataDefProps` (SwDataDefProps, 0..1, aggr — member type stamped R23-11) is fully modeled (`__init__` field `self.swDataDefProps` + `getSwDataDefProps`/`setSwDataDefProps`) with reader + writer coverage; no fabricated or dropped members.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: pytest 22+119 passed, flake8 clean, ruff clean, black clean, parity script no new failures, integration round-trip passed; 9b: full rule-compliance checklist confirmed by user; `# Spec verified: R23-11` marker written into source
 - [ ] `AbstractImplementationDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.14, p.267 · **after `AutosarDataType` (base)**)
   - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes (file `CommonStructure/ImplementationDataTypes.py` ✓ Rule 0007); Base = ARElement, ARObject, AtpBlueprint, AtpBlueprintable, AtpClassifier, AtpType, AutosarDataType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived direct base **AutosarDataType** ✓ heritage already correct in code (`AbstractImplementationDataType(AutosarDataType, ABC)`); Subclasses = ImplementationDataType; Aggregated by ARPackage.element; **Attribute rows = `-` → no own attributes** → Steps 5/6 expected N/A (abstract shell, no own XML element); Note (md, wrap-normalised): "This meta-class represents an abstract base class for different flavors of ImplementationDataType."
   - Known deviations to fix in this sync: no `# Spec:` line / stamp (unstamped); checklist is not in the 6-column format.
