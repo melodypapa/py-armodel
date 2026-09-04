@@ -361,14 +361,14 @@ class OperationInvokedEvent(RTEEvent):
 
 class InitEvent(RTEEvent):
     """
-    This RTEEvent is used for initialization purposes, i.e. for starting and
-    restarting a partition. It is not guaranteed that all RunnableEntities
-    referenced by this InitEvent are executed before the 'regular'
-    RunnableEntities are executed for the first time.
+    This RTEEvent is supposed to be used for initialization purposes, i.e. for starting and restarting a partition. It is not guaranteed that all RunnableEntities referenced by this InitEvent are executed before the 'regular' RunnableEntities are executed for the first time. The execution order depends on the task mapping.
     """
 
     # InitEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.22, p.546 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

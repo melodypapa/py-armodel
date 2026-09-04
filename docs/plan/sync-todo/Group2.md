@@ -234,15 +234,15 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `InitEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.22 · after `RTEEvent` (parent, Table 7.9))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 1 — Sync members & description from spec — Table 7.22 caption md l.15531, body l.15533–15540; PDF p.546 via pdf_page.py. Class=concrete; Package=...SwcInternalBehavior::RTEEvents (leaf → RTEEvents.py ✓); Base=RTEEvent (most-derived; stamped ✓); Aggregated by AtpClassifier.atpFeature + SwcInternalBehavior.event ✓; Note copied verbatim. Attribute table is empty (`-`), so no own members or XML elements.
+   - [x] Step 2 — Write model class unit test (Red) — extended TestInitEvent with exact Table 7.22 Note assertion and inherited RTEEvent type assertion. RED confirmed: docstring assertion failed against stale/paraphrased class Note; initialization/inheritance assertion passed.
+   - [x] Step 3 — Implement model class (Green) — no member/base implementation change required; existing InitEvent correctly derives from stamped RTEEvent and has no own attributes. Focused model test passed after Step 4 documentation correction.
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — replaced stale/truncated class docstring with the Table 7.22 Note verbatim; no member comments/accessor docstrings because the class has no own attributes. Added six-column checklist structure.
+   - [x] Step 5 — Write reader/writer round-trip test (N/A with evidence) — Table 7.22 has no own XML members; inherited RTEEvent behavior is covered by existing parser/writer event tests, including InitEvent orchestration coverage.
+   - [x] Step 6 — Update parser & writer (N/A with evidence) — no class-specific parser/writer methods or fields exist; existing readInitEvent/writeInitEvent dispatch uses inherited RTEEvent serialization and focused parser/writer tests pass.
+   - [x] Step 7 — Update checklist comment — six-column checklist with `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.22, p.546 (R23-11)`; `__init__` has reader/writer `[—]`; marker deferred to 9b.
+   - [x] Step 8 — Deviations — none for InitEvent: spec-listed base RTEEvent ✓, no own attributes to model, Note verbatim, inherited reader/writer coverage evidenced. No new referenced classes or tracker deviations.
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: focused InitEvent model/parser/writer tests passed (39 tests), ruff and Black check clean; 9b user-confirmed 2026-09-04: Table 7.22 Note verbatim, RTEEvent base, empty own attribute table, inherited reader/writer coverage, and package location pass; no deviations; marker written. Commit pending.
 - [ ] `BackgroundEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.16 · after `RTEEvent` (parent, Table 7.9))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

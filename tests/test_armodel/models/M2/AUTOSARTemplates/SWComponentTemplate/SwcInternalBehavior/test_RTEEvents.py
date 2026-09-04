@@ -280,6 +280,14 @@ class TestOperationInvokedEvent:
 class TestInitEvent:
     """Test class for InitEvent class."""
 
+    def test_class_docstring_verbatim(self):
+        expected = (
+            "This RTEEvent is supposed to be used for initialization purposes, i.e. for starting and restarting a partition. "
+            "It is not guaranteed that all RunnableEntities referenced by this InitEvent are executed before the 'regular' "
+            "RunnableEntities are executed for the first time. The execution order depends on the task mapping."
+        )
+        assert InitEvent.__doc__.strip() == expected
+
     def test_init_event_initialization(self):
         """Test InitEvent initialization."""
         document = AUTOSAR.getInstance()
@@ -290,6 +298,8 @@ class TestInitEvent:
         assert event.short_name == "TestInitEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
+
+        assert isinstance(event, RTEEvent)
 
 
 class TestTimingEvent:
