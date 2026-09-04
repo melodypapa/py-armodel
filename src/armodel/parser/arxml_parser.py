@@ -6145,14 +6145,6 @@ class ARXMLParser(AbstractARXMLParser):
             policy.setHandleInvalid(self.getChildElementOptionalLiteral(child_element, "HANDLE-INVALID"))
             sr_interface.addInvalidationPolicy(policy)
 
-    def readInvalidationPolicys(self, element: ET.Element, parent: SenderReceiverInterface):
-        for child_element in self.findall(element, "INVALIDATION-POLICYS/INVALIDATION-POLICY"):
-            # short_name = self.getShortName(child_element)
-            policy = parent.createInvalidationPolicy()
-            self.readIdentifiable(child_element, policy)
-            policy.data_element_ref = self.getChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF")
-            policy.handle_invalid = self.getChildElementOptionalLiteral(child_element, "HANDLE-INVALID")
-
     def readSenderReceiverInterfaceMetaDataItemSets(self, element: ET.Element, sr_interface: SenderReceiverInterface):
         for child_element in self.findall(element, "META-DATA-ITEM-SETS/META-DATA-ITEM-SET"):
             mapping_set = MetaDataItemSet()

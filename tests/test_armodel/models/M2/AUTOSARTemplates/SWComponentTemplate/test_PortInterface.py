@@ -6,7 +6,7 @@ Tests cover all classes and methods in the __init__.py file to achieve 100% test
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Integer
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Integer, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ApplicationError,
     ArgumentDataPrototype,
@@ -137,6 +137,39 @@ class TestInvalidationPolicy:
         policy.setHandleInvalid(handle)
         assert policy.getHandleInvalid() == handle
 
+    def test_set_data_element_ref_none_is_noop(self):
+        policy = InvalidationPolicy()
+        ref = RefType()
+        ref.setValue("/Data/Element/Ref")
+        policy.setDataElementRef(ref)
+        policy.setDataElementRef(None)
+        assert policy.getDataElementRef() == ref
+
+    def test_set_handle_invalid_none_is_noop(self):
+        policy = InvalidationPolicy()
+        handle = ARLiteral()
+        handle.setValue("test_handle")
+        policy.setHandleInvalid(handle)
+        policy.setHandleInvalid(None)
+        assert policy.getHandleInvalid() == handle
+
+    def test_setters_return_self_for_chaining(self):
+        policy = InvalidationPolicy()
+        ref = RefType()
+        ref.setValue("/Data/Element/Ref")
+        handle = ARLiteral()
+        handle.setValue("test_handle")
+        assert policy.setDataElementRef(ref) is policy
+        assert policy.setHandleInvalid(handle) is policy
+
+    def test_class_docstring_matches_spec_note(self):
+        expected = (
+            "Specifies whether the component can actively invalidate a particular dataElement. "
+            "If no invalidationPolicy points to a dataElement this is considered to yield the identical "
+            "result as if the handleInvalid attribute was set to dontInvalidate."
+        )
+        assert InvalidationPolicy.__doc__ == expected
+
 
 class TestMetaDataItem:
     """Test class for MetaDataItem class."""
@@ -223,7 +256,7 @@ class TestSenderReceiverInterface:
         # Test invalidation policy creation
         policy_created = sr_interface.createInvalidationPolicy()
         assert policy_created is not None
-        assert policy_created in sr_interface.getInvalidationPolicys()
+        assert policy_created in sr_interface.getInvalidationPolicies()
 
 
 class TestServerArgumentImplPolicyEnum:

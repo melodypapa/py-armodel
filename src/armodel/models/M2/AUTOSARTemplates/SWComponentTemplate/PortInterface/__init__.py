@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration impor
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceProviderEnum
+    from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Communication import HandleInvalidEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement, AtpType
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -22,7 +23,6 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
     ArgumentDirectionEnum,
-    ARLiteral,
     Boolean,
     Integer,
     PositiveInteger,
@@ -204,31 +204,53 @@ class ParameterInterface(DataInterface):
 
 
 class InvalidationPolicy(ARObject):
+    """Specifies whether the component can actively invalidate a particular dataElement. If no invalidationPolicy points to a dataElement this is considered to yield the identical result as if the handleInvalid attribute was set to dontInvalidate."""
+
     # InvalidationPolicy method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataElementRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataElementRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getHandleInvalid             [x] impl  [ ] docstring  [ ] test
-    # [ ] setHandleInvalid             [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.2, p.97 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataElementRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataElementRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleInvalid     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHandleInvalid     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.dataElementRef: RefType = None
-        self.handleInvalid: ARLiteral = None
+        # Reference to the dataElement for which the InvalidationPolicy applies.
+        self.dataElementRef: Optional[RefType] = None
 
-    def getDataElementRef(self):
+        # This attribute controls how invalidation is applied to the dataElement.
+        self.handleInvalid: Optional["HandleInvalidEnum"] = None
+
+    def getDataElementRef(self) -> Optional[RefType]:
+        """
+        Reference to the dataElement for which the InvalidationPolicy applies.
+        """
         return self.dataElementRef
 
-    def setDataElementRef(self, value):
-        self.dataElementRef = value
+    def setDataElementRef(self, value: Optional[RefType]) -> "InvalidationPolicy":
+        """
+        Reference to the dataElement for which the InvalidationPolicy applies. A None value is a no-op and is not set.
+        """
+        if value is not None:
+            self.dataElementRef = value
         return self
 
-    def getHandleInvalid(self):
+    def getHandleInvalid(self) -> Optional["HandleInvalidEnum"]:
+        """
+        This attribute controls how invalidation is applied to the dataElement.
+        """
         return self.handleInvalid
 
-    def setHandleInvalid(self, value):
-        self.handleInvalid = value
+    def setHandleInvalid(self, value: Optional["HandleInvalidEnum"]) -> "InvalidationPolicy":
+        """
+        This attribute controls how invalidation is applied to the dataElement. A None value is a no-op and is not set.
+        """
+        if value is not None:
+            self.handleInvalid = value
         return self
 
 
@@ -337,57 +359,91 @@ class MetaDataItemSet(ARObject):
 
 
 class SenderReceiverInterface(DataInterface):
+    """A sender/receiver interface declares a number of data elements to be sent and received."""
+
     # SenderReceiverInterface method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getInvalidationPolicies      [x] impl  [ ] docstring  [ ] test
-    # [ ] addInvalidationPolicy        [x] impl  [ ] docstring  [ ] test
-    # [ ] getMetaDataItemSets          [x] impl  [ ] docstring  [ ] test
-    # [ ] addMetaDataItemSet           [x] impl  [ ] docstring  [ ] test
-    # [ ] createDataElement            [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataElements              [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataElement               [x] impl  [ ] docstring  [ ] test
-    # [ ] createInvalidationPolicy     [x] impl  [ ] docstring  [ ] test
-    # [ ] getInvalidationPolicys       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.1, p.94 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createDataElement         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataElements           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getDataElement            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addInvalidationPolicy     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createInvalidationPolicy  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInvalidationPolicies   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addMetaDataItemSet        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMetaDataItemSets       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # The data elements of this SenderReceiverInterface.
+        self.dataElements: List[VariableDataPrototype] = []
+
+        # InvalidationPolicy for a particular dataElement
         self.invalidationPolicies: List[InvalidationPolicy] = []
+
+        # This aggregation defines fixed sets of meta-data items associated with dataElements of the enclosing Sender ReceiverInterface
         self.metaDataItemSets: List[MetaDataItemSet] = []
 
-    def getInvalidationPolicies(self):
-        return self.invalidationPolicies
-
-    def addInvalidationPolicy(self, value):
-        self.invalidationPolicies.append(value)
-        return self
-
-    def getMetaDataItemSets(self):
-        return self.metaDataItemSets
-
-    def addMetaDataItemSet(self, value):
-        self.metaDataItemSets.append(value)
-        return self
-
-    def createDataElement(self, short_name) -> VariableDataPrototype:
+    def createDataElement(self, short_name: str) -> VariableDataPrototype:
+        """
+        The data elements of this SenderReceiverInterface.
+        """
         if not self.IsElementExists(short_name, VariableDataPrototype):
             data_element = VariableDataPrototype(self, short_name)
             self.addElement(data_element)
+            self.dataElements.append(data_element)
         return self.getElement(short_name, VariableDataPrototype)
 
     def getDataElements(self) -> List[VariableDataPrototype]:
-        return list(filter(lambda c: isinstance(c, VariableDataPrototype), self.elements))
+        """
+        The data elements of this SenderReceiverInterface.
+        """
+        return self.dataElements
 
-    def getDataElement(self, short_name) -> VariableDataPrototype:
+    def getDataElement(self, short_name: str) -> VariableDataPrototype:
+        """
+        The data elements of this SenderReceiverInterface.
+        """
         return self.getElement(short_name, VariableDataPrototype)
 
+    def addInvalidationPolicy(self, value: InvalidationPolicy) -> "SenderReceiverInterface":
+        """
+        InvalidationPolicy for a particular dataElement
+        """
+        if value is not None:
+            self.invalidationPolicies.append(value)
+        return self
+
     def createInvalidationPolicy(self) -> InvalidationPolicy:
+        """
+        InvalidationPolicy for a particular dataElement
+        """
         policy = InvalidationPolicy()
         self.invalidationPolicies.append(policy)
         return policy
 
-    def getInvalidationPolicys(self) -> List[InvalidationPolicy]:
-        return list(filter(lambda c: isinstance(c, InvalidationPolicy), self.invalidationPolicies))
+    def getInvalidationPolicies(self) -> List[InvalidationPolicy]:
+        """
+        InvalidationPolicy for a particular dataElement
+        """
+        return self.invalidationPolicies
+
+    def addMetaDataItemSet(self, value: MetaDataItemSet) -> "SenderReceiverInterface":
+        """
+        This aggregation defines fixed sets of meta-data items associated with dataElements of the enclosing Sender ReceiverInterface
+        """
+        if value is not None:
+            self.metaDataItemSets.append(value)
+        return self
+
+    def getMetaDataItemSets(self) -> List[MetaDataItemSet]:
+        """
+        This aggregation defines fixed sets of meta-data items associated with dataElements of the enclosing Sender ReceiverInterface
+        """
+        return self.metaDataItemSets
 
 
 class ServerArgumentImplPolicyEnum(AREnum):
