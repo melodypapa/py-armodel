@@ -830,6 +830,7 @@ class TestPortInterfaceWriter:
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")
         param_if = pkg.createParameterInterface("ParamIf")
+        parameter = param_if.createParameterDataPrototype("Parameter")
 
         parent = _parent()
         writer.writeParameterInterface(parent, param_if)
@@ -838,6 +839,7 @@ class TestPortInterfaceWriter:
         child = parent[0]
         assert child.tag == "PARAMETER-INTERFACE"
         assert child.find("SHORT-NAME").text == "ParamIf"
+        assert child.find("PARAMETERS/PARAMETER-DATA-PROTOTYPE/SHORT-NAME").text == parameter.getShortName()
 
     def test_write_nv_data_interface_nv_datas(self, writer):
         autosar = AUTOSAR.getInstance()
@@ -885,6 +887,7 @@ class TestPortInterfaceWriter:
         assert child.tag == "NV-DATA-INTERFACE"
         assert child.find("SHORT-NAME").text == "NvIf"
         assert child.find("NV-DATAS") is not None
+        assert child.find("NV-DATAS/VARIABLE-DATA-PROTOTYPE/SHORT-NAME").text == "NvBlock"
 
     def test_write_client_server_interface(self, writer):
         autosar = AUTOSAR.getInstance()

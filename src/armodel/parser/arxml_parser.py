@@ -379,6 +379,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     AnyVersionString,
     ARLiteral,
     Boolean,
+    CIdentifier,
     DateTime,
     IntervalTypeEnum,
     MacAddressString,
@@ -923,6 +924,7 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwDataDefProps,
     SwDataDependency,
     SwDataDependencyArgs,
+    SwImplPolicyEnum,
     SwPointerTargetProps,
     SwTextProps,
     ValueList,
@@ -985,6 +987,16 @@ AUTO_COLLECT_XML_MAP = {
     "refAll": "REF-ALL",
     "refNone": "REF-NONE",
     "refNonStandard": "REF-NON-STANDARD",
+}
+
+#: Mapping between SwImplPolicyEnum literal values and their XML element text
+#: (AR:SW-IMPL-POLICY-ENUM--SIMPLE).
+SW_IMPL_POLICY_XML_MAP = {
+    "const": "CONST",
+    "fixed": "FIXED",
+    "measurementPoint": "MEASUREMENT-POINT",
+    "queued": "QUEUED",
+    "standard": "STANDARD",
 }
 
 
@@ -3382,6 +3394,22 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readTrigger(self, element: ET.Element, trigger: Trigger):
         self.readIdentifiable(element, trigger)
+        literal = self.getChildElementOptionalLiteral(element, "SW-IMPL-POLICY")
+        if literal is not None:
+            camel = None
+            for camel_value, token in SW_IMPL_POLICY_XML_MAP.items():
+                if token == literal.getText():
+                    camel = camel_value
+                    break
+            if camel is not None:
+                trigger.setSwImplPolicy(SwImplPolicyEnum().setValue(camel))
+            else:
+                self.notImplemented("Unsupported SW-IMPL-POLICY <%s>" % literal.getText())
+        period_element = self.find(element, "TRIGGER-PERIOD")
+        if period_element is not None:
+            period = MultidimensionalTime()
+            self.readMultidimensionalTime(period_element, period)
+            trigger.setTriggerPeriod(period)
 
     def readBswModuleDescriptionReleasedTriggers(self, element: ET.Element, desc: BswModuleDescription):
         for child_element in self.findall(element, "RELEASED-TRIGGERS/*"):
@@ -3457,6 +3485,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswModuleDescriptionProvidedDatas(element, desc)
         self.readBswModuleDescriptionRequiredDatas(element, desc)
         self.readBswModuleDescriptionBswInternalBehaviors(element, desc)
+        self.readBswModuleDescriptionReleasedTriggers(element, desc)
         self.readBswModuleDescriptionRequiredTriggers(element, desc)
         self.readBswModuleDescriptionBswModuleDependencies(element, desc)
         self.readBswModuleDescriptionBswModuleDocumentation(element, desc)
@@ -4197,7 +4226,7 @@ class ARXMLParser(AbstractARXMLParser):
         short_name = self.getShortName(element)
         server_call_point = parent.createSynchronousServerCallPoint(short_name)
         self.readIdentifiable(element, server_call_point)
-        server_call_point.setTimeout(self.getChildElementOptionalFloatValue(element, "TIMEOUT"))
+        server_call_point.setTimeout(self.getChildElementOptionalTimeValue(element, "TIMEOUT"))
         self.readROperationIRef(element, "OPERATION-IREF", server_call_point)
 
     def readAsynchronousServerCallPoint(self, element: ET.Element, parent: RunnableEntity):
@@ -4205,7 +4234,7 @@ class ARXMLParser(AbstractARXMLParser):
         short_name = self.getShortName(element)
         server_call_point = parent.createAsynchronousServerCallPoint(short_name)
         self.readIdentifiable(element, server_call_point)
-        server_call_point.setTimeout(self.getChildElementOptionalFloatValue(element, "TIMEOUT"))
+        server_call_point.setTimeout(self.getChildElementOptionalTimeValue(element, "TIMEOUT"))
         self.readROperationIRef(element, "OPERATION-IREF", server_call_point)
 
     def readRunnableEntityInternalBehaviorServerCallPoint(self, element: ET.Element, parent: RunnableEntity):
@@ -4458,8 +4487,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readRTEEvent(self, element: ET.Element, event: RTEEvent):
         self.readIdentifiable(element, event)
-        event.activationReasonRepresentationRef = self.getChildElementOptionalRefType(element, "ACTIVATION-REASON-REPRESENTATION-REF")
-        event.startOnEventRef = self.getChildElementOptionalRefType(element, "START-ON-EVENT-REF")
+        event.setActivationReasonRepresentationRef(self.getChildElementOptionalRefType(element, "ACTIVATION-REASON-REPRESENTATION-REF"))
+        event.setStartOnEventRef(self.getChildElementOptionalRefType(element, "START-ON-EVENT-REF"))
         for child_element in self.findall(element, "DISABLED-MODE-IREFS/DISABLED-MODE-IREF"):
             iref = self.getRModeInAtomicSwcInstanceRef(child_element)
             event.addDisabledModeIRef(iref)
@@ -4493,10 +4522,15 @@ class ARXMLParser(AbstractARXMLParser):
             short_name = self.getShortName(child_element)
             memory = behavior.createPerInstanceMemory(short_name)
             self.readIdentifiable(child_element, memory)
-            memory.setInitValue(self.getChildElementOptionalLiteral(child_element, "INIT-VALUE"))
+            memory.setInitValue(self.getChildElementOptionalString(child_element, "INIT-VALUE"))
             memory.setSwDataDefProps(self.getSwDataDefProps(child_element, "SW-DATA-DEF-PROPS"))
-            memory.setType(self.getChildElementOptionalLiteral(child_element, "TYPE"))
-            memory.setTypeDefinition(self.getChildElementOptionalLiteral(child_element, "TYPE-DEFINITION"))
+            type_element = self.find(child_element, "TYPE")
+            if type_element is not None:
+                type_value = CIdentifier()
+                self.readARType(type_element, type_value)
+                type_value.setValue(type_element.text or "")
+                memory.setType(type_value)
+            memory.setTypeDefinition(self.getChildElementOptionalString(child_element, "TYPE-DEFINITION"))
 
     def readAutosarDataPrototype(self, element: ET.Element, prototype: AutosarDataPrototype):
         self.readDataPrototype(element, prototype)
@@ -5048,6 +5082,10 @@ class ARXMLParser(AbstractARXMLParser):
         sw_data_def_props = None
         if child_element is not None:
             conditional_tag = self.find(child_element, "SW-DATA-DEF-PROPS-VARIANTS/SW-DATA-DEF-PROPS-CONDITIONAL")
+            if conditional_tag is None:
+                sw_data_def_props = SwDataDefProps()
+                self.readARObject(child_element, sw_data_def_props)
+                return sw_data_def_props
             if conditional_tag is not None:
                 sw_data_def_props = SwDataDefProps()
                 self.readARObject(child_element, sw_data_def_props)
@@ -6138,14 +6176,6 @@ class ARXMLParser(AbstractARXMLParser):
             policy.setDataElementRef(self.getChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF"))
             policy.setHandleInvalid(self.getChildElementOptionalLiteral(child_element, "HANDLE-INVALID"))
             sr_interface.addInvalidationPolicy(policy)
-
-    def readInvalidationPolicys(self, element: ET.Element, parent: SenderReceiverInterface):
-        for child_element in self.findall(element, "INVALIDATION-POLICYS/INVALIDATION-POLICY"):
-            # short_name = self.getShortName(child_element)
-            policy = parent.createInvalidationPolicy()
-            self.readIdentifiable(child_element, policy)
-            policy.data_element_ref = self.getChildElementOptionalRefType(child_element, "DATA-ELEMENT-REF")
-            policy.handle_invalid = self.getChildElementOptionalLiteral(child_element, "HANDLE-INVALID")
 
     def readSenderReceiverInterfaceMetaDataItemSets(self, element: ET.Element, sr_interface: SenderReceiverInterface):
         for child_element in self.findall(element, "META-DATA-ITEM-SETS/META-DATA-ITEM-SET"):

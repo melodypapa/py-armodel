@@ -7,7 +7,7 @@ used to map between different type representations.
 
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeRequestTypeMap
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, RefType, String
@@ -16,16 +16,16 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProp
 from abc import ABC
 
 
-class AutosarDataType(AtpType, ABC):
-    """
-    Abstract base class for all AUTOSAR data types within the SW component
-    template.
-    """
+class AutosarDataType(ARElement, ABC):
+    """Abstract base class for user defined AUTOSAR data types for software."""
 
     # AutosarDataType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwDataDefProps            [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwDataDefProps            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.1, p.232
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwDataDefProps            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwDataDefProps            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AutosarDataType:
@@ -33,13 +33,17 @@ class AutosarDataType(AtpType, ABC):
 
         super().__init__(parent, short_name)
 
-        self.swDataDefProps: SwDataDefProps = None
+        # The properties of this AutosarDataType.
+        self.swDataDefProps: Optional[SwDataDefProps] = None
 
-    def getSwDataDefProps(self):
+    def getSwDataDefProps(self) -> Optional[SwDataDefProps]:
+        """The properties of this AutosarDataType."""
         return self.swDataDefProps
 
-    def setSwDataDefProps(self, value):
-        self.swDataDefProps = value
+    def setSwDataDefProps(self, value: Optional[SwDataDefProps]) -> "AutosarDataType":
+        """The properties of this AutosarDataType. A None value is a no-op and is not set."""
+        if value is not None:
+            self.swDataDefProps = value
         return self
 
 

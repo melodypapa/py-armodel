@@ -91,11 +91,34 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>" "<PER-INSTANCE-MEMORYS>" "<PER-INSTANCE-MEMORY><SHORT-NAME>mem1</SHORT-NAME><TYPE>uint8</TYPE></PER-INSTANCE-MEMORY>" "</PER-INSTANCE-MEMORYS>",
+            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<PER-INSTANCE-MEMORYS>"
+            "<PER-INSTANCE-MEMORY><SHORT-NAME>mem1</SHORT-NAME><INIT-VALUE>0</INIT-VALUE>"
+            "<SW-DATA-DEF-PROPS/><TYPE>uint8</TYPE><TYPE-DEFINITION>typedef uint8_t uint8;</TYPE-DEFINITION>"
+            "</PER-INSTANCE-MEMORY>"
+            "</PER-INSTANCE-MEMORYS>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
-        assert len(behavior.getPerInstanceMemories()) == 1
+        memory = behavior.getPerInstanceMemories()[0]
+        assert memory.getShortName() == "mem1"
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier, String
+
+        assert isinstance(memory.getInitValue(), String)
+        assert memory.getInitValue().getValue() == "0"
+        assert memory.getSwDataDefProps() is not None
+        assert isinstance(memory.getType(), CIdentifier)
+        assert memory.getType().getValue() == "uint8"
+        assert isinstance(memory.getTypeDefinition(), String)
+        assert memory.getTypeDefinition().getValue() == "typedef uint8_t uint8;"
+
+    def test_readSwcInternalBehavior_with_empty_per_instance_memories(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        parser.readSwcInternalBehavior(_snip("<SHORT-NAME>bh</SHORT-NAME><PER-INSTANCE-MEMORYS/>", root_tag="SWC-INTERNAL-BEHAVIOR"), behavior)
+        assert behavior.getPerInstanceMemories() == []
 
     def test_readSwcInternalBehavior_with_port_api_options(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -1103,6 +1126,7 @@ class TestPortInterfaceHandlers:
         )
         parser.readParameterInterface(element, param_if)
         assert len(param_if.getParameters()) == 1
+        assert param_if.getParameters()[0].getShortName() == "param"
 
     def test_readNvDataInterface_full(self, parser):
         from armodel.models import NvDataInterface
@@ -1114,6 +1138,8 @@ class TestPortInterfaceHandlers:
         )
         parser.readNvDataInterface(element, nv_if)
         assert len(nv_if.getNvDatas()) == 1
+        assert nv_if.getNvDatas()[0].getShortName() == "nvdata"
+        assert nv_if.getNvData("nvdata") is nv_if.getNvDatas()[0]
 
     def test_readModeSwitchInterface_full(self, parser):
         from armodel.models import ModeSwitchInterface

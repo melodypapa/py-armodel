@@ -6,6 +6,10 @@ Tests cover all classes and methods in the Datatypes.py file to achieve 100% tes
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import (
     ApplicationArrayDataType,
     ApplicationCompositeDataType,
@@ -17,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes i
     DataTypeMap,
     DataTypeMappingSet,
 )
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
 
 class TestAutosarDataType:
@@ -28,6 +33,67 @@ class TestAutosarDataType:
         ar_root = document.createARPackage("AUTOSAR")
         with pytest.raises(TypeError):
             AutosarDataType(ar_root, "TestAutosarDataType")
+
+
+class TestAutosarDataTypeHeritage:
+    """Heritage / API tests for the synced AutosarDataType (Table 5.1)."""
+
+    def test_direct_base_is_arelement(self):
+        assert AutosarDataType.__bases__[0] is ARElement
+
+    def test_mro_reaches_identifiable_and_arobject(self):
+        assert issubclass(AutosarDataType, Identifiable)
+        assert issubclass(AutosarDataType, ARObject)
+        assert Identifiable in AutosarDataType.__mro__
+        assert ARObject in AutosarDataType.__mro__
+
+    def test_atptype_branch_dropped(self):
+        # Single role-matching branch chosen (ARElement); AtpType is a parallel
+        # branch off Identifiable and is intentionally not multi-inherited.
+        assert AtpType not in AutosarDataType.__mro__
+
+    def test_concrete_subclass_is_instance_of_bases(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        primitive = ApplicationPrimitiveDataType(ar_root, "TestPrimitive")
+        assert isinstance(primitive, ARElement)
+        assert isinstance(primitive, Identifiable)
+        assert isinstance(primitive, ARObject)
+        assert not isinstance(primitive, AtpType)
+
+    def test_class_docstring_matches_spec_note(self):
+        assert AutosarDataType.__doc__ == ("Abstract base class for user defined AUTOSAR data types for software.")
+
+    def test_sw_data_def_props_round_trip(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        primitive = ApplicationPrimitiveDataType(ar_root, "TestPrimitive")
+        props = SwDataDefProps()
+        primitive.setSwDataDefProps(props)
+        assert primitive.getSwDataDefProps() is props
+
+    def test_set_sw_data_def_props_none_is_noop(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        primitive = ApplicationPrimitiveDataType(ar_root, "TestPrimitive")
+        props = SwDataDefProps()
+        primitive.setSwDataDefProps(props)
+        result = primitive.setSwDataDefProps(None)
+        assert primitive.getSwDataDefProps() is props
+        assert result is primitive
+
+    def test_set_sw_data_def_props_chaining(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        primitive = ApplicationPrimitiveDataType(ar_root, "TestPrimitive")
+        props = SwDataDefProps()
+        assert primitive.setSwDataDefProps(props) is primitive
+
+    def test_get_sw_data_def_props_docstring_verbatim(self):
+        assert AutosarDataType.getSwDataDefProps.__doc__ == "The properties of this AutosarDataType."
+
+    def test_set_sw_data_def_props_docstring_verbatim(self):
+        assert AutosarDataType.setSwDataDefProps.__doc__ == ("The properties of this AutosarDataType. A None value is a no-op and is not set.")
 
 
 class TestApplicationDataType:

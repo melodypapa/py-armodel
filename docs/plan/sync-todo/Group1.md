@@ -525,147 +525,155 @@ ResourceConsumption, SwcBswMapping, BuildActionManifest ──> Implementation
 
 ### Cluster 1 — AutosarDataType → AbstractImplementationDataType
 
-- [ ] `AutosarDataType` (**NEW — parent of `AbstractImplementationDataType`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.1, p.232 · **heritage fix: code `AutosarDataType(AtpType, ABC)` → spec most-derived direct base `ARElement`**)
+- [x] `AutosarDataType` (**NEW — parent of `AbstractImplementationDataType`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.1, p.232 · **heritage fix: code `AutosarDataType(AtpType, ABC)` → spec most-derived direct base `ARElement`**) · **stamped `# Spec verified: R23-11`** (commit: a5f99df4, branch feature/sync-rte-event)
   - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::SWComponentTemplate::Datatype::Datatypes (file `SWComponentTemplate/Datatype/Datatypes.py` ✓ Rule 0007); Base = ARElement, ARObject, AtpClassifier, AtpType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived direct base **ARElement** — code has `AtpType`, which skips PackageableElement → CollectableElement → ARElement; Subclasses = AbstractImplementationDataType, ApplicationDataType; Aggregated by ARPackage.element; 1 own attribute `swDataDefProps` (SwDataDefProps, 0..1, aggr) — member type **stamped R23-11** ✓; Note (md, wrap-normalised): "Abstract base class for user defined AUTOSAR data types for software."
   - Why first: it is the only un-stamped **base** in the queue and it gates `AbstractImplementationDataType` (Rules 0001.10 / 0012.1). Fixing the base also requires an audit of the two subclasses' MRO (`AbstractImplementationDataType`, `ApplicationDataType`) plus their subtrees for anything that relied on the wrong chain.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `AbstractImplementationDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.14, p.267 · **after `AutosarDataType` (base)**)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — tests/test_armodel/parser/test_autosar_data_type.py: SW-DATA-DEF-PROPS round-trip via ApplicationPrimitiveDataType (with + without); reader calls setSwDataDefProps, writer calls getSwDataDefProps
+  - [x] Step 6 — Update parser & writer (Green) — N/A: readAutosarDataType + writeAutosarDataType already serialize SW-DATA-DEF-PROPS (readIdentifiable/writeARElement + set/getSwDataDefProps); regression of data-type parser/writer tests passed (97 passed). No code change required.
+  - [x] Step 7 — Update checklist comment — 6-col `# Spec:` format (AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.1, p.232, R23-11) + per-row release R23-11; reader `[x]` on setSwDataDefProps mutator, writer `[x]` on getSwDataDefProps getter; `# Spec verified:` marker deferred to 9b
+  - [x] Step 8 — Deviations — accepted (non-blocking, repo convention; stamp allowed):
+    - **Heritage (base-class collapse):** spec `Base` = ARElement, ARObject, AtpClassifier, AtpType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable (full XSD MI chain). Code = `AutosarDataType(ARElement, ABC)` — single role-matching chain per repo convention (precedent: `AtpType(Identifiable)`, `BlueprintPolicy(Identifiable)`); the AtpType/AtpClassifier/CollectableElement blueprinting branches are intentionally collapsed, with the behavioral bases (Identifiable → MultilanguageReferrable → Referrable → PackageableElement → ARObject) preserved through ARElement's MRO. Reader/writer dispatch (`readAutosarDataType`/`writeAutosarDataType`) already uses `readIdentifiable`/`writeARElement`, so the base change aligns the model with dispatch.
+    - **Docstring tail:** spec `Note` for `swDataDefProps` carries a `Stereotypes: atpSplitable Tags: atp.Splitkey=swDataDefProps` tail; docstring uses the human-readable `Note` without the XSD Stereotypes/Tags metadata tail (repo convention, matches stamped `ApplicationArrayDataType` et al.).
+    - **Completeness:** the single spec attribute `swDataDefProps` (SwDataDefProps, 0..1, aggr — member type stamped R23-11) is fully modeled (`__init__` field `self.swDataDefProps` + `getSwDataDefProps`/`setSwDataDefProps`) with reader + writer coverage; no fabricated or dropped members.
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: pytest 22+119 passed, flake8 clean, ruff clean, black clean, parity script no new failures, integration round-trip passed; 9b: full rule-compliance checklist confirmed by user; `# Spec verified: R23-11` marker written into source
+- [x] `AbstractImplementationDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.14, p.267 · **after `AutosarDataType` (base)**) — `# Spec verified: R23-11` (commit: 9b5379d3)
   - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes (file `CommonStructure/ImplementationDataTypes.py` ✓ Rule 0007); Base = ARElement, ARObject, AtpBlueprint, AtpBlueprintable, AtpClassifier, AtpType, AutosarDataType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived direct base **AutosarDataType** ✓ heritage already correct in code (`AbstractImplementationDataType(AutosarDataType, ABC)`); Subclasses = ImplementationDataType; Aggregated by ARPackage.element; **Attribute rows = `-` → no own attributes** → Steps 5/6 expected N/A (abstract shell, no own XML element); Note (md, wrap-normalised): "This meta-class represents an abstract base class for different flavors of ImplementationDataType."
   - Known deviations to fix in this sync: no `# Spec:` line / stamp (unstamped); checklist is not in the 6-column format.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 1 — Sync members & description from spec (Table 5.14 confirms abstract class, direct base AutosarDataType, no own attributes, verbatim Note; p.267 via pdf_page.py)
+   - [x] Step 2 — Write model class unit test (Red) — abstract guard, direct base, inherited state, exact spec Note
+   - [x] Step 3 — Implement model class (Green) — existing heritage and abstract guard retained; no own members
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring replaced with verbatim Table 5.14 Note
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: no own attributes or XML element; coverage belongs to concrete subclasses
+   - [x] Step 6 — Update parser & writer (Green) — N/A: no own attributes or XML element; inherited AutosarDataType handling is already covered
+   - [x] Step 7 — Update checklist comment — six-column parity checklist with R23-11 provenance
+   - [x] Step 8 — Deviations — none
+   - [x] Step 9 — Verify (9a) + confirm (9b) — user-confirmed 2026-09-04; stamped `# Spec verified: R23-11`
 
 ### Cluster 2 — AbstractImplementationDataTypeElement (independent, base already stamped)
 
-- [ ] `AbstractImplementationDataTypeElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.16, p.269 · after `AtpStructureElement` (base, stamped R23-11))
+- [x] `AbstractImplementationDataTypeElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.16, p.269 · after `AtpStructureElement` (base, stamped R23-11)) — finished, stamped `# Spec verified: R23-11` (commit: cabd5469)
   - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes (file `CommonStructure/ImplementationDataTypes.py` ✓ Rule 0007); Base = ARObject, AtpClassifier, AtpFeature, AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **AtpStructureElement** ✓ heritage already correct in code, and the base is **stamped R23-11**; Subclasses = ImplementationDataTypeElement; Aggregated by AtpClassifier.atpFeature; **Attribute rows = `-` → no own attributes** → Steps 5/6 expected N/A; Note (md, wrap-normalised): "This meta-class represents the ability to act as an abstract base class for specific derived meta-classes that support the modeling of ImplementationDataTypes for a particular language."
   - Known deviations to fix in this sync: no `# Spec:` line / stamp; 6-column checklist missing. Nothing blocks it, which is why it sits here rather than later.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 1 — Sync members & description from spec
+   - [x] Step 2 — Write model class unit test (Red)
+   - [x] Step 3 — Implement model class (Green)
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: no own attributes or XML element
+   - [x] Step 6 — Update parser & writer (Green) — N/A: no own attributes or XML element
+   - [x] Step 7 — Update checklist comment
+   - [x] Step 8 — Deviations — none
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 47 focused tests, lint, Black, and diff checks pass; 9b user-confirmed 2026-09-04; marker written
 
 ### Cluster 3 — DataInterface subtree (DataInterface unblocks three concrete interfaces)
 
-- [ ] `DataInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.19, p.87 · **before `NvDataInterface` / `ParameterInterface` / `SenderReceiverInterface` (base of all three)**)
+- [x] `DataInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.19, p.87 · **before `NvDataInterface` / `ParameterInterface` / `SenderReceiverInterface` (base of all three)**) — finished, stamped `# Spec verified: R23-11` (commit: d838fd43)
   - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::SWComponentTemplate::PortInterface (file `SWComponentTemplate/PortInterface/__init__.py` ✓ Rule 0007); Base = ARElement, ARObject, AtpBlueprint, AtpBlueprintable, AtpClassifier, AtpType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, PortInterface, Referrable → most-derived direct base **PortInterface** ✓ heritage already correct in code (`DataInterface(PortInterface, ABC)`), base **stamped R23-11**; Subclasses = NvDataInterface, ParameterInterface, SenderReceiverInterface (all three queued below); Aggregated by ARPackage.element; **Attribute rows = `-` → no own attributes** → Steps 5/6 N/A; Note (md, wrap-normalised): "The purpose of this meta-class is to act as an abstract base class for subclasses that share the semantics of being concerned about data (as opposed to e.g. operations)."
   - Known deviations to fix in this sync: unstamped; 6-column checklist missing. Highest fan-out in the queue (3 dependents) → runs before its subclasses.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `VariableDataPrototype` (**NEW — member type of `NvDataInterface.nvData`, `SenderReceiverInterface.dataElement`, `InvalidationPolicy.dataElement`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.31, p.310 (BSW Table 5.45, p.108 — same class, R23-11 SWCT table is authoritative))
+   - [x] Step 1 — Sync members & description from spec — Table 3.19, p.87: abstract `DataInterface`, direct base `PortInterface`, no own Attribute rows; exact Note captured
+   - [x] Step 2 — Write model class unit test (Red) — `test_data_interface_matches_spec` initially failed on the pre-existing `ABC` direct-base shape
+   - [x] Step 3 — Implement model class (Green) — heritage retained (`DataInterface(PortInterface, ABC)`); no own members added
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class docstring replaced with verbatim Table 3.19 Note; no member/method docstrings apply
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A: Table 3.19 has no own attributes and DataInterface has no own XML element; inherited coverage belongs to concrete subclasses
+   - [x] Step 6 — Update parser & writer (Green) — N/A: `readDataInterface`/`writeDataInterface` already delegate inherited `PortInterface` handling; no DataInterface-specific XML exists
+   - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 provenance; marker deferred to Step 9b
+   - [x] Step 8 — Deviations — none; abstract shell, base, package, and empty attribute table match the spec
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 31 focused tests pass; lint, Black, and diff checks pass. 9b user-confirmed 2026-09-04: abstract shell, PortInterface base, verbatim Note, no own members/XML, inherited reader/writer coverage, member order, and Rule 0007 location all pass; `# Spec verified: R23-11` written
+- [x] `VariableDataPrototype` (**NEW — member type of `NvDataInterface.nvData`, `SenderReceiverInterface.dataElement`, `InvalidationPolicy.dataElement`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.31, p.310 (BSW Table 5.45, p.108 — same class, R23-11 SWCT table is authoritative)) — already verified (`# Spec verified: R23-11`, `DataPrototypes.py`); duplicate of the completed Group 2 sync (commit `d3b5d680`)
   - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::SWComponentTemplate::Datatype::DataPrototypes (file `SWComponentTemplate/Datatype/DataPrototypes.py` ✓ Rule 0007); Base = ARObject, AtpFeature, AtpPrototype, AutosarDataPrototype, DataPrototype, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **AutosarDataPrototype** ✓ heritage already correct in code (`VariableDataPrototype(AutosarDataPrototype, VariationPointCapable)`), both bases **stamped R23-11**; 1 own attribute `initValue` (ValueSpecification, 0..1, aggr) — member type **stamped R23-11** ✓; Note (md, wrap-normalised): "A VariableDataPrototype represents a formalized generic piece of information that is typically mutable by the application software layer. VariableDataPrototype is used in various contexts and the specific context gives the otherwise generic VariableDataPrototype a dedicated semantics."
   - Why here: only un-stamped member type with more than one dependent (3) — queued before all three.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ParameterInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 2.2, p.41 · after `DataInterface` (base))
+   - [x] Step 1 — Sync members & description from spec — already verified by source marker and deviation check
+   - [x] Step 2 — Write model class unit test (Red) — covered by existing completed Group 2 sync
+   - [x] Step 3 — Implement model class (Green) — covered by existing completed Group 2 sync
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — verified against the R23-11 Table 5.31 Note
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — covered by existing parser/writer tests
+   - [x] Step 6 — Update parser & writer (Green) — existing matched reader/writer coverage confirmed
+   - [x] Step 7 — Update checklist comment — existing six-column checklist confirmed
+   - [x] Step 8 — Deviations — none found in the short-circuit deviation check
+   - [x] Step 9 — Verify (9a) + confirm (9b) — focused tests, lint, Black, and diff checks pass
+- [x] `ParameterInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 2.2, p.41 · after `DataInterface` (base)) — **finished, stamped `# Spec verified: R23-11`** (commit: `6bf99879`)
   - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; Base closure adds `DataInterface` to the `PortInterface` chain → most-derived direct base **DataInterface** ✓ heritage already correct in code; 1 attribute `parameter` (ParameterDataPrototype, `*`, aggr) — member type **stamped R23-11** ✓ — so this is the only one of the three `DataInterface` subclasses with nothing outstanding besides its own stamp; Note (md, wrap-normalised, Tags: tail dropped per Rule 0012.2.5.2): "A parameter interface declares a number of parameter and characteristic values to be exchanged between parameter components and software components."
   - Why before its siblings: cheapest of the three (single stamped member type) → unblocks first.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `NvDataInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 11.5, p.664 · after `DataInterface` (base) and `VariableDataPrototype` (member type))
+   - [x] Step 1 — Sync members & description from spec — Table 2.2 verified: direct base `DataInterface`; `parameter` is `ParameterDataPrototype * aggr`; Note copied verbatim with Tags tail removed
+   - [x] Step 2 — Write model class unit test (Red) — added initialization, aggregation, parent, and duplicate-creation assertions; Red exposed non-idempotent factory behavior
+   - [x] Step 3 — Implement model class (Green) — typed `parameters` list, idempotent `createParameterDataPrototype`, and `getParameters`
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and member docs aligned with the Table 2.2 Note
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — parser and writer assertions cover the `PARAMETERS/PARAMETER-DATA-PROTOTYPE` field value
+   - [x] Step 6 — Update parser & writer (Green) — existing matched reader/writer paths confirmed and covered; no parser/writer implementation change required
+   - [x] Step 7 — Update checklist comment — six-column parity checklist with R23-11 release and reader/writer ownership
+   - [x] Step 8 — Deviations — none
+   - [x] Step 9 — Verify (9a) + confirm (9b) — automated checks pass; user confirmed the pre-stamp rule checklist
+- [x] `NvDataInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 11.5, p.664 · after `DataInterface` (base) and `VariableDataPrototype` (member type)) — **finished, stamped `# Spec verified: R23-11`**
   - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; most-derived direct base **DataInterface** ✓ heritage already correct in code; 1 attribute `nvData` (VariableDataPrototype, `*`, aggr) — member type queued above; Note (md, wrap-normalised, Tags: tail dropped): "A non volatile data interface declares a number of VariableDataPrototypes to be exchanged between non volatile block components and atomic software components."
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `HandleInvalidEnum` (**NEW — member type of `InvalidationPolicy.handleInvalid` · `AREnum`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.3, p.97 (SystemTemplate Table 6.6, p.306 — unused, R23-11 SWCT table exists))
+   - [x] Step 1 — Sync members & description from spec — Table 11.5 confirms direct base `DataInterface` and `nvData` as `VariableDataPrototype * aggr`; page 664 verified with `pdf_page.py`
+   - [x] Step 2 — Write model class unit test (Red) — added typed-list and idempotent-factory assertions; Red confirmed on missing `nvDatas`
+   - [x] Step 3 — Implement model class (Green) — added `nvDatas: List[VariableDataPrototype]`, list-backed getter, and idempotent factory population
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and member method documentation aligned with the Table 11.5 Note and Attribute Note; Tags tail removed
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — parser and writer assertions now verify the actual `nvData` short name, not only collection length/presence
+   - [x] Step 6 — Update parser & writer (Green) — existing matched `createNvData`/`getNvDatas` paths confirmed; no implementation change required
+   - [x] Step 7 — Update checklist comment — six-column parity checklist added with R23-11 release ownership
+   - [x] Step 8 — Deviations — none; dedicated typed aggregation and reader/writer coverage are complete
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 404 affected tests pass, lint and Black checks pass; Step 9b confirmed by user
+- [x] `HandleInvalidEnum` (**NEW — member type of `InvalidationPolicy.handleInvalid` · `AREnum`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.3, p.97 (SystemTemplate Table 6.6, p.306 — unused, R23-11 SWCT table exists)) — finished, stamped `# Spec verified: R23-11` (commit: 18271ddd)
   - Spec facts (extracted 2026-09-04): Enumeration table (not a Class table — `| Enumeration | HandleInvalidEnum |`); literals in displayed order with verbatim `atp.EnumerationLiteralIndex` tags: `dontInvalidate` (0) "Invalidation is switched off.", `externalReplacement` (1) "Replace a received invalidValue. The replacement value is sourced from the aggregation in the role replaceWith.", `keep` (2) "The application software is supposed to handle signal invalidation on RTE API level either by Data ReceiveErrorEvent or check of error code on read access.", `replace` (3) "Replace a received invalidValue. The replacement value is specified by the initValue."
   - Known deviations to check in Step 1: the class currently lives in `SWComponentTemplate/Communication.py`, but its only consumer and its spec neighbourhood (`InvalidationPolicy`, SWCT Table 4.2) are `SWComponentTemplate::PortInterface` → **Rule 0007 package-location candidate** (StandardNameEnum precedent); literals must be diffed against the code.
   - Why here: cheapest `InvalidationPolicy` dependency (AREnum, no XML element of its own → Steps 5/6 N/A).
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `InvalidationPolicy` (**NEW — member type of `SenderReceiverInterface.invalidationPolicy`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.2, p.97 · after `VariableDataPrototype` (member `dataElement`) and `HandleInvalidEnum` (member `handleInvalid`))
+   - [x] Step 1 — Sync members & description from spec — Table 4.3 and p.97 verified with `pdf_page.py`; package is `...SWComponentTemplate::Communication`; four literals and order match the specification
+   - [x] Step 2 — Write model class unit test (Red) — strengthened the existing model test with exact enum order and verbatim class Note assertions
+   - [x] Step 3 — Implement model class (Green) — retained the four spec literals and added their verbatim descriptions and enumeration indices
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note and literal descriptions match Table 4.3; Tags tails retained only on literal comments as spec metadata
+   - [x] Step 5 — Write reader/writer round-trip test (N/A: standalone AREnum) — enum has no standalone XML element; serialized by consuming attributes
+   - [x] Step 6 — Update parser & writer (N/A: standalone AREnum) — consuming parser/writer paths already serialize enum values
+   - [x] Step 7 — Update checklist comment — six-column parity checklist with R23-11 provenance
+   - [x] Step 8 — Deviations — none; package location, literal values/order, and spec documentation match Table 4.3
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 51 focused tests pass, lint/Black clean, Step 9b confirmed by user; stamped `# Spec verified: R23-11`
+- [x] `InvalidationPolicy` (**NEW — member type of `SenderReceiverInterface.invalidationPolicy`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.2, p.97 · after `VariableDataPrototype` (member `dataElement`) and `HandleInvalidEnum` (member `handleInvalid`)) — commit: 1000053d
   - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::SWComponentTemplate::PortInterface (file `SWComponentTemplate/PortInterface/__init__.py` ✓ Rule 0007); Base = **ARObject** ✓ heritage already correct in code (`InvalidationPolicy(ARObject)`); Aggregated by SenderReceiverInterface.invalidationPolicy; 2 attributes: `dataElement` (VariableDataPrototype, 0..1, **ref**) and `handleInvalid` (HandleInvalidEnum, 0..1, attr); Note (md, wrap-normalised): "Specifies whether the component can actively invalidate a particular dataElement. If no invalidationPolicy points to a dataElement this is considered to yield the identical result as if the handleInvalid attribute was set to dontInvalidate."
   - Cross-check: SWCT `[constr_10119]` (md l.2828) — "SenderReceiverInterface.dataElement shall be referenced by at most one InvalidationPolicy" — capture for Step 4 if the spec attaches it as an attribute Note.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SenderReceiverInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.1, p.94 · after `DataInterface` (base), `VariableDataPrototype`, `InvalidationPolicy` (member types))
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
+- [x] `SenderReceiverInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.1, p.94 · after `DataInterface` (base), `VariableDataPrototype`, `InvalidationPolicy` (member types)) — finished, stamped `# Spec verified: R23-11` (commit: e4e4770f)
   - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; most-derived direct base **DataInterface** ✓ heritage already correct in code; 3 attributes: `dataElement` (VariableDataPrototype, *, aggr), `invalidationPolicy` (InvalidationPolicy, *, aggr), `metaDataItemSet` (MetaDataItemSet, *, aggr — **stamped R23-11** ✓); Note (md, wrap-normalised, Tags: tail dropped): "A sender/receiver interface declares a number of data elements to be sent and received."
   - Last of its cluster: depends on `DataInterface` + both new member types.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Stale checkboxes flipped 2026-09-04 (already-verified short-circuit): the class was
+    finished in its own session (commit e4e4770f, marker verified in source, reader/writer
+    coverage confirmed — readSenderReceiverInterface + 3 wrapper readers / writeSenderReceiverInterface
+    + 3 wrapper writers calling getters, docstrings verbatim, 26 focused tests pass) but the
+    sub-checklist was never flipped (same pattern as `AtpType`).
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 ### Cluster 4 — Trigger subtree (Trigger unblocks two rows)
 
-- [ ] `Trigger` (**NEW — member type of `TriggerInterface.trigger` and `TriggerMapping.firstTrigger`/`secondTrigger`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.13, p.109 (BSW Table 4.16, p.46 — same class, R23-11 SWCT table is authoritative))
+- [x] `Trigger` (**NEW — member type of `TriggerInterface.trigger` and `TriggerMapping.firstTrigger`/`secondTrigger`** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.13, p.109 (BSW Table 4.16, p.46 — same class, R23-11 SWCT table is authoritative)) — **finished, stamped `# Spec verified: R23-11`** (commit: 13147320)
   - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::CommonStructure::TriggerDeclaration (file `CommonStructure/TriggerDeclaration.py` ✓ Rule 0007); Base = ARObject, AtpClassifier, AtpFeature, AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **AtpStructureElement** ✓ heritage already correct in code (`Trigger(AtpStructureElement, VariationPointCapable)`), base **stamped R23-11**; 2 attributes: `swImplPolicy` (SwImplPolicyEnum, 0..1, attr — **stamped R23-11** ✓) and `triggerPeriod` (MultidimensionalTime, 0..1, aggr — **stamped R23-11** ✓); Note (md, wrap-normalised): "A trigger which is provided (i.e. released) or required (i.e. used to activate something) in the given context."
   - Why here: both member types are already stamped, so `Trigger` has **no outstanding dependency** — do it before the two rows that consume it.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec — Table 4.13 (content md l.3226–3234, caption l.3236 — content precedes caption); PDF p.109 confirmed via pdf_page.py (BSW Table 4.16, p.46 — same class, R23-11 SWCT table authoritative). Class=concrete; Package=...CommonStructure::TriggerDeclaration (file TriggerDeclaration.py ✓ Rule 0007); Base closure → most-derived direct base **AtpStructureElement** ✓ (stamped R23-11); code `Trigger(AtpStructureElement, VariationPointCapable)` — VariationPointCapable is the XSD atpVariation mixin (framework-level). Aggregated by AtpClassifier.atpFeature, BswModuleDescription.releasedTrigger/requiredTrigger, ServiceInterface.trigger, TriggerInterface.trigger. 2 attrs in displayed order: swImplPolicy (SwImplPolicyEnum, 0..1, attr — **stamped** ✓), triggerPeriod (MultidimensionalTime, 0..1, aggr — **stamped** ✓); Notes verbatim captured. XSD group TRIGGER l.126239: SW-IMPL-POLICY (0..1) → TRIGGER-PERIOD (0..1). Current code: heritage correct, both fields present, but docstrings fabricated/paraphrased, `__init__` has docstring, `triggerPeriod` lacks PEP 526 annotation, `swImplPolicy` annotation not Optional, accessors untyped, legacy 4-col checklist; readTrigger/writeTrigger **drop both attrs** (Rule 0001.7) → Steps 5/6 real work
+  - [x] Step 2 — Write model class unit test (Red) — test_TriggerDeclaration.py TestTrigger rewritten: init defaults, heritage (direct base AtpStructureElement + Identifiable in MRO), verbatim class-docstring assert, real SwImplPolicyEnum/MultidimensionalTime get/set round-trips, None no-op + chaining. Red confirmed: 1 failed (fabricated class docstring) / 6 passed
+  - [x] Step 3 — Implement model class (Green) — PEP 526 annotations: `swImplPolicy: Optional[SwImplPolicyEnum]`, `triggerPeriod: Optional[MultidimensionalTime]` (was bare `= None`); typed accessors `getSwImplPolicy() -> Optional[SwImplPolicyEnum]` / `setSwImplPolicy(Optional[SwImplPolicyEnum]) -> "Trigger"` (same for triggerPeriod); member order = Table 4.13 displayed order ✓; imports added (Optional, MultidimensionalTime). 14/15 pass (docstring test red — fixed in Step 4)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — wiped fabricated class docstring, `__init__` docstring, all "Gets/Sets the…" accessor paraphrases and member comments; rewrote verbatim from Table 4.13: class docstring = Note (single-line), inline comments + getter docstrings = attr Notes, setter docstrings = attr Note + " A None value is a no-op and is not set." (Rule 0012.2.5.4). 15/15 model tests pass
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — parser/test_trigger.py (read SW-IMPL-POLICY token QUEUED→queued + TRIGGER-PERIOD/CSE-CODE; absent-attrs case; full-document round-trip via BswModuleDescription released trigger) + writer/test_trigger.py (XSD-order XML shape SW-IMPL-POLICY < TRIGGER-PERIOD; absent-attrs case). Red confirmed: 3 failed (both attrs dropped) / 2 passed
+  - [x] Step 6 — Update parser & writer (Green) — SW_IMPL_POLICY_XML_MAP added to both modules (AUTO_COLLECT_XML_MAP precedent; XSD SW-IMPL-POLICY-ENUM--SIMPLE tokens CONST/FIXED/MEASUREMENT-POINT/QUEUED/STANDARD); readTrigger now reads SW-IMPL-POLICY (token→camel→SwImplPolicyEnum) + TRIGGER-PERIOD (MultidimensionalTime via readMultidimensionalTime); writeTrigger now writes SW-IMPL-POLICY (camel→token) + TRIGGER-PERIOD via setMultidimensionalTime, in XSD order. **Side-fix (pre-existing Rule 0001.7 gap):** readBswModuleDescription never called readBswModuleDescriptionReleasedTriggers (writer emitted RELEASED-TRIGGERS, parser silently dropped them) — added the call; 361 BSW tests pass. 20/20 Trigger tests green
+  - [x] Step 7 — Update checklist comment — 6-col with `# Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.13, p.109 (R23-11)`; reader [x] on setSwImplPolicy/setTriggerPeriod mutator rows, writer [x] on getSwImplPolicy/getTriggerPeriod getter rows, `__init__` both `[—]`; marker deferred to 9b
+  - [x] Step 8 — Deviations — none for Trigger itself: both Table 4.13 attrs modeled with correct types/kinds (swImplPolicy SwImplPolicyEnum 0..1 attr → `Optional[SwImplPolicyEnum]`; triggerPeriod MultidimensionalTime 0..1 aggr → `Optional[MultidimensionalTime]`); no naming/type/missing deviation; Rule 0007 location OK (TriggerDeclaration.py = Package tail); Rule 0001.10 report: member types SwImplPolicyEnum (Table 5.45, p.336) and MultidimensionalTime both stamped R23-11 ✓, base AtpStructureElement stamped R23-11 ✓ — no missing/stub classes. Side-fix recorded in Step 6 (readBswModuleDescriptionReleasedTriggers gap, BswModuleDescription scope)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a (2026-09-04): 8584 unit tests pass; 1 failure is PRE-EXISTING and unrelated (`test_readSwcInternalBehavior_with_per_instance_memories` — empty `<SW-DATA-DEF-PROPS/>` → getSwDataDefProps None; verified by stash re-run on unmodified parser/writer); flake8+ruff clean, black clean (835 files unchanged); integration round-trip (tests/integration_tests) 2 passed; programmatic verbatim docstring diff: class Note ×1, swImplPolicy Note ×3, triggerPeriod Note ×3, no `# type:`; top-level export `armodel.Trigger` True. 9b user-confirmed 2026-09-04 → `# Spec verified: R23-11` written (commit: 13147320)
 - [ ] `TriggerInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.12, p.109 · after `Trigger` (member type))
   - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; Base closure = ARElement, ARObject, AtpBlueprint, AtpBlueprintable, AtpClassifier, AtpType, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, PortInterface, Referrable → most-derived direct base **PortInterface** ✓ heritage already correct in code (`TriggerInterface(PortInterface)`), base **stamped R23-11**; 1 attribute `trigger` (Trigger, `*`, aggr); Note (md, wrap-normalised, Tags: tail dropped): "A trigger interface declares a number of triggers that can be sent by an trigger source."
   - [ ] Step 1 — Sync members & description from spec

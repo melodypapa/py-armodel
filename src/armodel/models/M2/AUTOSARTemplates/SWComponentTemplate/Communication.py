@@ -26,11 +26,19 @@ class HandleInvalidEnum(AREnum):
     """
 
     # HandleInvalidEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.3, p.97
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on InvalidationPolicy.handleInvalid
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    # Invalidation is switched off. Tags: atp.EnumerationLiteralIndex=0
     DONT_INVALIDATE = "dontInvalidate"
+    # Replace a received invalidValue. The replacement value is sourced from the aggregation in the role replaceWith. Tags: atp.EnumerationLiteralIndex=1
     EXTERNAL_REPLACEMENT = "externalReplacement"
+    # The application software is supposed to handle signal invalidation on RTE API level either by Data ReceiveErrorEvent or check of error code on read access. Tags: atp.EnumerationLiteralIndex=2
     KEEP = "keep"
+    # Replace a received invalidValue. The replacement value is specified by the initValue. Tags: atp.EnumerationLiteralIndex=3
     REPLACE = "replace"
 
     def __init__(self):

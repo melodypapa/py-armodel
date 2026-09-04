@@ -11,11 +11,14 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components import Sy
 
 class AbstractImplementationDataTypeElement(AtpStructureElement, ABC):
     """
-    Abstract base class for implementation data type elements.
+    This meta-class represents the ability to act as an abstract base class for specific derived meta-classes that support the modeling of ImplementationDataTypes for a particular language binding.
     """
 
     # AbstractImplementationDataTypeElement method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.16, p.269
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent, short_name: str):
         if type(self) is AbstractImplementationDataTypeElement:
@@ -120,12 +123,13 @@ class ImplementationDataTypeElement(AbstractImplementationDataTypeElement, Varia
 
 
 class AbstractImplementationDataType(AutosarDataType, ABC):
-    """
-    Abstract base class for implementation data types.
-    """
+    """This meta-class represents an abstract base class for different flavors of ImplementationDataType."""
 
     # AbstractImplementationDataType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.14, p.267
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is AbstractImplementationDataType:

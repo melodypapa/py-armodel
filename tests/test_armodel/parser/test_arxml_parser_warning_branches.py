@@ -15,6 +15,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -344,8 +345,8 @@ class TestOptionalGetterDefensivePaths:
         result = parser.getSwDataDefProps(element, "SW-DATA-DEF-PROPS")
         assert result is None
 
-    def test_getSwDataDefProps_no_conditional_returns_None(self, parser):
-        """Test getSwDataDefProps returns None when conditional missing."""
+    def test_getSwDataDefProps_no_conditional_returns_empty_props(self, parser):
+        """Test getSwDataDefProps returns an empty SwDataDefProps when the element is present but has no conditional variant (element presence round-trips)."""
         element = _snip(
             """
             <SW-DATA-DEF-PROPS>
@@ -355,7 +356,8 @@ class TestOptionalGetterDefensivePaths:
         """
         )
         result = parser.getSwDataDefProps(element, "SW-DATA-DEF-PROPS")
-        assert result is None
+        assert result is not None
+        assert isinstance(result, SwDataDefProps)
 
     def test_getSwDataDefProps_present_returns_props(self, parser):
         """Test getSwDataDefProps returns props when properly formed."""

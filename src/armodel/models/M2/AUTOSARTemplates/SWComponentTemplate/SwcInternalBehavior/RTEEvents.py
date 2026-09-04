@@ -17,67 +17,57 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 
 class RTEEvent(AtpStructureElement, AbstractEvent, VariationPointCapable, ABC):
-    """
-    Abstract base class for all RTE-related events.
-    """
+    """Abstract base class for all RTE-related events"""
 
     # RTEEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getDisabledModeIRefs         [x] impl  [x] docstring  [ ] test
-    # [ ] addDisabledModeIRef          [x] impl  [x] docstring  [ ] test
-    # [ ] getStartOnEventRef           [x] impl  [x] docstring  [ ] test
-    # [ ] setStartOnEventRef           [x] impl  [x] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.9, p.541 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDisabledModeIRefs    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDisabledModeIRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStartOnEventRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStartOnEventRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is RTEEvent:
             raise TypeError("RTEEvent is an abstract class.")
         super().__init__(parent, short_name)
 
+        # Reference to the Modes that disable the Event.
         self.disabledModeIRefs: List["RModeInAtomicSwcInstanceRef"] = []
-        self.startOnEventRef: "RefType" = None
 
-    def getDisabledModeIRefs(self):
+        # The referenced RunnableEntity starts when the corresponding RTEEvent is raised.
+        self.startOnEventRef: Optional[RefType] = None
+
+    def getDisabledModeIRefs(self) -> List["RModeInAtomicSwcInstanceRef"]:
         """
-        Gets the list of disabled mode instance references.
-
-        Returns:
-            List[RModeInAtomicSwcInstanceRef]: The disabled mode references
+        Reference to the Modes that disable the Event.
         """
         return self.disabledModeIRefs
 
-    def addDisabledModeIRef(self, value):
+    def addDisabledModeIRef(self, value: Optional["RModeInAtomicSwcInstanceRef"]) -> "RTEEvent":
         """
-        Adds a disabled mode instance reference.
-
-        Args:
-            value: The mode instance reference to add
-
-        Returns:
-            self for method chaining
+        Reference to the Modes that disable the Event.
+        A None value is a no-op and does not append anything.
         """
-        self.disabledModeIRefs.append(value)
+        if value is not None:
+            self.disabledModeIRefs.append(value)
         return self
 
-    def getStartOnEventRef(self):
+    def getStartOnEventRef(self) -> Optional[RefType]:
         """
-        Gets the reference to the runnable entity started by this event.
-
-        Returns:
-            RefType: The start-on-event reference
+        The referenced RunnableEntity starts when the corresponding RTEEvent is raised.
         """
         return self.startOnEventRef
 
-    def setStartOnEventRef(self, value):
+    def setStartOnEventRef(self, value: Optional[RefType]) -> "RTEEvent":
         """
-        Sets the reference to the runnable entity started by this event.
-
-        Args:
-            value: The start-on-event reference to set
-
-        Returns:
-            self for method chaining
+        The referenced RunnableEntity starts when the corresponding RTEEvent is raised.
+        A None value is a no-op and does not overwrite an existing startOnEventRef.
         """
-        self.startOnEventRef = value
+        if value is not None:
+            self.startOnEventRef = value
         return self
 
 
@@ -371,14 +361,14 @@ class OperationInvokedEvent(RTEEvent):
 
 class InitEvent(RTEEvent):
     """
-    This RTEEvent is used for initialization purposes, i.e. for starting and
-    restarting a partition. It is not guaranteed that all RunnableEntities
-    referenced by this InitEvent are executed before the 'regular'
-    RunnableEntities are executed for the first time.
+    This RTEEvent is supposed to be used for initialization purposes, i.e. for starting and restarting a partition. It is not guaranteed that all RunnableEntities referenced by this InitEvent are executed before the 'regular' RunnableEntities are executed for the first time. The execution order depends on the task mapping.
     """
 
     # InitEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.22, p.546 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
