@@ -594,7 +594,7 @@ ResourceConsumption, SwcBswMapping, BuildActionManifest ──> Implementation
    - [x] Step 7 — Update checklist comment — existing six-column checklist confirmed
    - [x] Step 8 — Deviations — none found in the short-circuit deviation check
    - [x] Step 9 — Verify (9a) + confirm (9b) — focused tests, lint, Black, and diff checks pass
-- [x] `ParameterInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 2.2, p.41 · after `DataInterface` (base)) — **finished, stamped `# Spec verified: R23-11`** (pending commit)
+- [x] `ParameterInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 2.2, p.41 · after `DataInterface` (base)) — **finished, stamped `# Spec verified: R23-11`** (commit: `6bf99879`)
   - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; Base closure adds `DataInterface` to the `PortInterface` chain → most-derived direct base **DataInterface** ✓ heritage already correct in code; 1 attribute `parameter` (ParameterDataPrototype, `*`, aggr) — member type **stamped R23-11** ✓ — so this is the only one of the three `DataInterface` subclasses with nothing outstanding besides its own stamp; Note (md, wrap-normalised, Tags: tail dropped per Rule 0012.2.5.2): "A parameter interface declares a number of parameter and characteristic values to be exchanged between parameter components and software components."
   - Why before its siblings: cheapest of the three (single stamped member type) → unblocks first.
    - [x] Step 1 — Sync members & description from spec — Table 2.2 verified: direct base `DataInterface`; `parameter` is `ParameterDataPrototype * aggr`; Note copied verbatim with Tags tail removed
