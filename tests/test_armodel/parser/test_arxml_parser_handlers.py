@@ -1888,10 +1888,9 @@ class TestPortGroupAndComposition:
 
 
 # ==================== InvalidationPolicies (L2423-2426, L2455) ====================
-# L2429-2434 (readInvalidationPolicys) is genuinely unreachable:
-# readInvalidationPolicys calls readIdentifiable on InvalidationPolicy,
-# but InvalidationPolicy does not implement setLongName (required by
-# MultilanguageReferrable), so it always raises AttributeError.
+# readInvalidationPolicys was removed: it was an unreachable duplicate of
+# readSenderReceiverInterfaceInvalidationPolicies that referenced nonexistent
+# snake_case attributes (data_element_ref / handle_invalid) on InvalidationPolicy.
 
 
 # === Migrated from test_arxml_parser_remaining_gaps.py ===
