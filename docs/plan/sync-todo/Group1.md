@@ -555,7 +555,7 @@ ResourceConsumption, SwcBswMapping, BuildActionManifest ──> Implementation
 
 ### Cluster 2 — AbstractImplementationDataTypeElement (independent, base already stamped)
 
-- [ ] `AbstractImplementationDataTypeElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.16, p.269 · after `AtpStructureElement` (base, stamped R23-11))
+- [x] `AbstractImplementationDataTypeElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.16, p.269 · after `AtpStructureElement` (base, stamped R23-11)) — finished, stamped `# Spec verified: R23-11` (commit: cabd5469)
   - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::CommonStructure::ImplementationDataTypes (file `CommonStructure/ImplementationDataTypes.py` ✓ Rule 0007); Base = ARObject, AtpClassifier, AtpFeature, AtpStructureElement, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **AtpStructureElement** ✓ heritage already correct in code, and the base is **stamped R23-11**; Subclasses = ImplementationDataTypeElement; Aggregated by AtpClassifier.atpFeature; **Attribute rows = `-` → no own attributes** → Steps 5/6 expected N/A; Note (md, wrap-normalised): "This meta-class represents the ability to act as an abstract base class for specific derived meta-classes that support the modeling of ImplementationDataTypes for a particular language."
   - Known deviations to fix in this sync: no `# Spec:` line / stamp; 6-column checklist missing. Nothing blocks it, which is why it sits here rather than later.
    - [x] Step 1 — Sync members & description from spec
