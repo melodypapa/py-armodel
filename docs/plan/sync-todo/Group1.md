@@ -594,18 +594,18 @@ ResourceConsumption, SwcBswMapping, BuildActionManifest ──> Implementation
    - [x] Step 7 — Update checklist comment — existing six-column checklist confirmed
    - [x] Step 8 — Deviations — none found in the short-circuit deviation check
    - [x] Step 9 — Verify (9a) + confirm (9b) — focused tests, lint, Black, and diff checks pass
-- [ ] `ParameterInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 2.2, p.41 · after `DataInterface` (base))
+- [x] `ParameterInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 2.2, p.41 · after `DataInterface` (base)) — **finished, stamped `# Spec verified: R23-11`** (pending commit)
   - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; Base closure adds `DataInterface` to the `PortInterface` chain → most-derived direct base **DataInterface** ✓ heritage already correct in code; 1 attribute `parameter` (ParameterDataPrototype, `*`, aggr) — member type **stamped R23-11** ✓ — so this is the only one of the three `DataInterface` subclasses with nothing outstanding besides its own stamp; Note (md, wrap-normalised, Tags: tail dropped per Rule 0012.2.5.2): "A parameter interface declares a number of parameter and characteristic values to be exchanged between parameter components and software components."
   - Why before its siblings: cheapest of the three (single stamped member type) → unblocks first.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 1 — Sync members & description from spec — Table 2.2 verified: direct base `DataInterface`; `parameter` is `ParameterDataPrototype * aggr`; Note copied verbatim with Tags tail removed
+   - [x] Step 2 — Write model class unit test (Red) — added initialization, aggregation, parent, and duplicate-creation assertions; Red exposed non-idempotent factory behavior
+   - [x] Step 3 — Implement model class (Green) — typed `parameters` list, idempotent `createParameterDataPrototype`, and `getParameters`
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and member docs aligned with the Table 2.2 Note
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — parser and writer assertions cover the `PARAMETERS/PARAMETER-DATA-PROTOTYPE` field value
+   - [x] Step 6 — Update parser & writer (Green) — existing matched reader/writer paths confirmed and covered; no parser/writer implementation change required
+   - [x] Step 7 — Update checklist comment — six-column parity checklist with R23-11 release and reader/writer ownership
+   - [x] Step 8 — Deviations — none
+   - [x] Step 9 — Verify (9a) + confirm (9b) — automated checks pass; user confirmed the pre-stamp rule checklist
 - [ ] `NvDataInterface` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 11.5, p.664 · after `DataInterface` (base) and `VariableDataPrototype` (member type))
   - Spec facts (extracted 2026-09-04): concrete; Package = ...SWComponentTemplate::PortInterface ✓; most-derived direct base **DataInterface** ✓ heritage already correct in code; 1 attribute `nvData` (VariableDataPrototype, `*`, aggr) — member type queued above; Note (md, wrap-normalised, Tags: tail dropped): "A non volatile data interface declares a number of VariableDataPrototypes to be exchanged between non volatile block components and atomic software components."
   - [ ] Step 1 — Sync members & description from spec

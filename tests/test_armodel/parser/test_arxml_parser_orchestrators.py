@@ -1103,6 +1103,7 @@ class TestPortInterfaceHandlers:
         )
         parser.readParameterInterface(element, param_if)
         assert len(param_if.getParameters()) == 1
+        assert param_if.getParameters()[0].getShortName() == "param"
 
     def test_readNvDataInterface_full(self, parser):
         from armodel.models import NvDataInterface

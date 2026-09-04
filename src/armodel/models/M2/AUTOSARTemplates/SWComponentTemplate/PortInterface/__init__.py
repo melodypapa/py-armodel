@@ -189,20 +189,30 @@ class NvDataInterface(DataInterface):
 
 
 class ParameterInterface(DataInterface):
+    """A parameter interface declares a number of parameter and characteristic values to be exchanged between parameter components and software components."""
+
     # ParameterInterface method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getParameters                [x] impl  [ ] docstring  [ ] test
-    # [ ] createParameterDataPrototype [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 2.2, p.41 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getParameters                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createParameterDataPrototype [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # The ParameterDataPrototype of this ParameterInterface.
         self.parameters: List[ParameterDataPrototype] = []
 
-    def getParameters(self):
+    def getParameters(self) -> List[ParameterDataPrototype]:
+        """The ParameterDataPrototype of this ParameterInterface."""
         return self.parameters
 
     def createParameterDataPrototype(self, short_name: str) -> ParameterDataPrototype:
+        """The ParameterDataPrototype of this ParameterInterface."""
+        if self.IsElementExists(short_name, ParameterDataPrototype):
+            return self.getElement(short_name, ParameterDataPrototype)
         prototype = ParameterDataPrototype(self, short_name)
         self.addElement(prototype)
         self.parameters.append(prototype)

@@ -9,7 +9,13 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, MultilanguageReferrable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import AtpPrototype, AutosarDataPrototype, DataPrototype, VariableDataPrototype
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+    AtpPrototype,
+    AutosarDataPrototype,
+    DataPrototype,
+    ParameterDataPrototype,
+    VariableDataPrototype,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ApplicationError,
     ArgumentDataPrototype,
@@ -108,6 +114,22 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
 
         assert data_if.parent == ar_root
         assert data_if.short_name == "ParameterInterface"
+
+    def test_ParameterInterface_parameters(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        data_if = ParameterInterface(ar_root, "parameter_interface")
+
+        assert data_if.getParameters() == []
+
+        parameter = data_if.createParameterDataPrototype("parameter")
+        assert isinstance(parameter, ParameterDataPrototype)
+        assert data_if.getParameters() == [parameter]
+        assert parameter.parent == data_if
+
+        duplicate = data_if.createParameterDataPrototype("parameter")
+        assert duplicate is parameter
+        assert data_if.getParameters() == [parameter]
 
     def test_SenderReceiverInterface(self):
         document = AUTOSAR.getInstance()
