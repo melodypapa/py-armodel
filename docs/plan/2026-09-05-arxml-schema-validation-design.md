@@ -13,7 +13,7 @@ Mismatches are reported as warnings; parsing continues regardless.
 | Question | Decision |
 |----------|----------|
 | Where does validation run? | Both: opt-in inside `ARXMLParser.load()` **and** a standalone `arxml-validate` CLI |
-| Which XSD? | The file's own `xsi:schemaLocation` attribute, mapped through `release_xsd_mappings` to a bundled schema |
+| Which XSD? | The file's own `xsi:schemaLocation` attribute, resolved by scanning the bundled `resource/autosar/*/xsd/` directories (no dependency on `release_xsd_mappings`) |
 | On mismatch | Warn & continue (never raise) |
 | Default state | Opt-in (`options["schema_validation"] = False` by default) |
 | Error volume | First N errors (default 20) + summary line |
@@ -33,12 +33,14 @@ Resolution flow (`validate()`):
 1. Parse the file with `lxml.etree` (first lxml usage in `src/`; lxml is already a
    runtime dependency) and read the root's `xsi:schemaLocation` — the last token is
    the XSD filename (e.g. `AUTOSAR_00050.xsd`).
-2. Reverse-lookup that filename in `release_xsd_mappings`
-   (`src/armodel/models/M2/AUTOSARTemplates/AutosarTopLevelStructure/__init__.py:151`)
-   to get the release, then resolve to the bundled
-   `src/armodel/resource/autosar/<release>/xsd/<filename>`.
-3. If no bundled XSD exists for that release, warn
-   ("no bundled schema, validation skipped") and return `None`.
+2. Resolve the filename by **scanning the bundled schema directories**: glob
+   `src/armodel/resource/autosar/*/xsd/*.xsd` and index by basename → full path.
+   A newly copied XSD file is therefore recognized automatically — no code or
+   table changes. (`release_xsd_mappings` is *not* used for resolution; it stays
+   the writer's concern. It is consulted only to produce a richer warning:
+   "known release R21-11, but no XSD bundled" vs "unknown schema '<name>'.")
+3. If no matching XSD is found, warn ("no bundled schema, validation skipped")
+   and return `None`.
 4. Build `lxml.etree.XMLSchema` once per XSD file (module-level cache) and run
    `schema.validate()`.
 
@@ -111,8 +113,9 @@ armodel = ["resource/autosar/*/xsd/*.xsd*"]
 |-----------|----------|
 | Malformed XML | warn `malformed XML: <msg>`, return `None` |
 | No `xsi:schemaLocation` on root | warn `no schemaLocation declared`, return `None` |
-| XSD filename not in `release_xsd_mappings` | warn `unknown schema '<name>'`, return `None` |
-| No bundled XSD for the release | warn `no bundled schema for <release>`, return `None` |
+| XSD filename not found in any `resource/autosar/*/xsd/` dir, filename known to `release_xsd_mappings` | warn `no bundled schema for <release>`, return `None` |
+| XSD filename not found and unknown to `release_xsd_mappings` | warn `unknown schema '<name>'`, return `None` |
+| Same XSD filename present in two release dirs | first match wins, `logger.debug` note |
 | Bundled XSD fails to load | warn, return `None` (defensive) |
 | Namespace mismatch file vs schema | lxml reports it as a normal schema error; no special handling |
 
@@ -120,8 +123,10 @@ armodel = ["resource/autosar/*/xsd/*.xsd*"]
 
 `tests/test_armodel/lib/test_schema_validator.py` (mirrors source layout):
 
-- Unit: resolution logic (mapped → bundled path, unknown schema, missing
-  schemaLocation), schema cache reuse, cap-at-N truncation + summary, return values
+- Unit: resolution logic (directory scan finds bundled XSD, unknown schema, missing
+  schemaLocation), **auto-recognition of a newly dropped XSD file** (copy a dummy
+  `AUTOSAR_XXXXX.xsd` into a tmp resource dir → resolved without code changes),
+  schema cache reuse, cap-at-N truncation + summary, return values
   `True`/`False`/`None`, malformed XML.
 - Integration: validate the 19 R4.3.1 (`AUTOSAR_00044.xsd`) custom test files —
   expect `True`; one deliberately broken fixture expects `False` with warnings.
@@ -130,8 +135,9 @@ armodel = ["resource/autosar/*/xsd/*.xsd*"]
 ## Open items
 
 - Coverage is limited to the 3 bundled releases (R4.3.1, R4.4.0, R23-11). More XSDs
-  (e.g. `AUTOSAR_00050.xsd` for R21-11, which 23 integration test files target) can
-  be added later by dropping files into `src/armodel/resource/autosar/<release>/xsd/`
-  — zero code change thanks to `release_xsd_mappings`.
+  (e.g. `AUTOSAR_00050.xsd` for R21-11, which 23 integration test files target) are
+  picked up automatically — just drop the file into
+  `src/armodel/resource/autosar/<release>/xsd/`; the directory scan recognizes it
+  with zero code change.
 - The two XSD locations (repo reference vs package copy) must be kept in sync
   manually when schemas are updated.
