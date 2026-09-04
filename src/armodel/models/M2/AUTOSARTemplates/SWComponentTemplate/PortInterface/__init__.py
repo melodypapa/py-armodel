@@ -239,13 +239,13 @@ class InvalidationPolicy(ARObject):
             self.dataElementRef = value
         return self
 
-    def getHandleInvalid(self) -> Optional[HandleInvalidEnum]:
+    def getHandleInvalid(self) -> Optional["HandleInvalidEnum"]:
         """
         This attribute controls how invalidation is applied to the dataElement.
         """
         return self.handleInvalid
 
-    def setHandleInvalid(self, value: Optional[HandleInvalidEnum]) -> "InvalidationPolicy":
+    def setHandleInvalid(self, value: Optional["HandleInvalidEnum"]) -> "InvalidationPolicy":
         """
         This attribute controls how invalidation is applied to the dataElement. A None value is a no-op and is not set.
         """

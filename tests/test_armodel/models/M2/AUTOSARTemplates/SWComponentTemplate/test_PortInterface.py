@@ -256,7 +256,7 @@ class TestSenderReceiverInterface:
         # Test invalidation policy creation
         policy_created = sr_interface.createInvalidationPolicy()
         assert policy_created is not None
-        assert policy_created in sr_interface.getInvalidationPolicys()
+        assert policy_created in sr_interface.getInvalidationPolicies()
 
 
 class TestServerArgumentImplPolicyEnum:
