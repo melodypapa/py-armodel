@@ -123,10 +123,10 @@ class TestAutosarDataPrototype:
 
 
 class TestVariableDataPrototype:
-    """Test class for VariableDataPrototype class."""
+    """Test class for VariableDataPrototype class (R23-11 Table 5.31)."""
 
-    def test_variable_data_prototype_initialization(self):
-        """Test VariableDataPrototype initialization and methods."""
+    def test_initialization(self):
+        """Test VariableDataPrototype initialization defaults and isinstance chain."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         var_proto = VariableDataPrototype(ar_root, "TestVariableDataPrototype")
@@ -136,27 +136,35 @@ class TestVariableDataPrototype:
         assert var_proto.swDataDefProps is None
         assert var_proto.typeTRef is None
         assert var_proto.initValue is None
+        assert isinstance(var_proto, AutosarDataPrototype)
+        assert isinstance(var_proto, DataPrototype)
+        assert isinstance(var_proto, AtpPrototype)
+        assert isinstance(var_proto, Identifiable)
+        assert isinstance(var_proto, ARObject)
 
-        # Test swDataDefProps methods
-        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
+    def test_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 5.31)."""
+        assert VariableDataPrototype.__doc__.strip() == (
+            "A VariableDataPrototype represents a formalized generic piece of information "
+            "that is typically mutable by the application software layer. "
+            "VariableDataPrototype is used in various contexts and the specific context "
+            "gives the otherwise generic VariableDataPrototype a dedicated semantics."
+        )
 
-        sw_data_def = SwDataDefProps()
-        var_proto.setSwDataDefProps(sw_data_def)
-        assert var_proto.getSwDataDefProps() == sw_data_def
-
-        # Test typeTRef methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
-
-        type_ref = TRefType()
-        type_ref.setValue("/Type/Ref")
-        var_proto.setTypeTRef(type_ref)
-        assert var_proto.getTypeTRef() == type_ref
-
-        # Test initValue methods
+    def test_init_value_round_trip(self):
+        """initValue round-trip with chaining, and None is a no-op."""
         from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
 
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        var_proto = VariableDataPrototype(ar_root, "TestVariableDataPrototype")
+
         init_value = TextValueSpecification()
-        var_proto.setInitValue(init_value)
+        result = var_proto.setInitValue(init_value)
+        assert result is var_proto
+        assert var_proto.getInitValue() == init_value
+
+        var_proto.setInitValue(None)
         assert var_proto.getInitValue() == init_value
 
 

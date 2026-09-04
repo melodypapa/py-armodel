@@ -114,16 +114,8 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 7 — Update checklist comment — 6-col, 3 rows (init/get/set) with `# Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.7, p.68 (R23-11)` and `# Spec verified: R23-11`; reader [x] on set row, writer [x] on get row, [—] on __init__
   - [x] Step 8 — Deviations — none for the class itself (base chain correct via AtpPrototype→AtpBlueprintable; field/accessors spec-conformant; reader/writer coverage complete; member order matches Table 3.7; docstrings verbatim). No referenced missing classes
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a: 8343 tests passed (excl. pre-existing PortInterfaceBlueprintMapping import issue), ruff/flake8/black-check clean; 9b pending: Rules 0001.1–0001.7/0011/0012/0013/0014 pass, Rule 0007 package-location check pass (Components/__init__.py non-leaf shape, current location correct); no deviations; marker deferred to 9b confirmation
-- [x] `PortGroup` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.94) — **synced** · COMMIT:afd24e4cc537ff08871c8e379a67882cd18a01ae
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `PortGroup` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.94) — **already verified (`# Spec verified: R23-11`, SWComponentTemplate/Components/__init__.py l.813; commit afd24e4c)** — sub-checklist flipped 2026-09-04 per already-verified short-circuit: marker present in source + quick deviation check clean (base AtpStructureElement most-derived ✓, extra VariationPointCapable = standing framework-infra decision; class Note verbatim ✓; innerGroup→innerGroupIRefs / outerPort→outerPortRefs Rule 0001.5 ✓; attr Notes verbatim, Stereotypes/Tags dropped per Rule 0012.2.5.2; member type InnerPortGroupInCompositionInstanceRef stamped; 6-col checklist w/ release col, reader [x] add* / writer [x] get*). Prior session completed the full 9-step pass but never flipped the sub-checklist
+  - [x] Steps 1–9 — completed by prior session (commit afd24e4c); skipped per already-verified short-circuit (marker + clean deviation check; see row header)
 - [x] `InnerPortGroupInCompositionInstanceRef` (tracker input · **spec CORRECTED per-class Phase 0: R23-11 markdown Table D.4 (CP_TPS_SoftwareComponentTemplate.md l.27985, PDF p.943 — appendix letter-numbered table missed by numeric-regex tooling, same as D.17 case), NOT XSD-only** · — member type of `PortGroup.innerGroup`) — Package=...Components::InstanceRefs (leaf → InstanceRefs.py ✓); Base=ARObject, AtpInstanceRef → most-derived AtpInstanceRef ✓ current; Note empty → no class docstring; Aggregated by PortGroup.innerGroup ✓. Attrs: base (CompositionSwComponentType, 0..1, ref, atpDerived → no XML) / context (ordered) (SwComponentPrototype, `*`, ref, CONTEXT-REF, DEST SW-COMPONENT-PROTOTYPE--SUBTYPES-ENUM, seqOffset 20) / target (PortGroup, 0..1, ref, TARGET-REF, DEST PORT-GROUP--SUBTYPES-ENUM, seqOffset 30); current code drops CONTEXT-REF in both reader (parser L5655 commented) and writer (writer L1770 commented)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)

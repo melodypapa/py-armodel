@@ -123,40 +123,44 @@ class AutosarDataPrototype(DataPrototype, ABC):
 
 class VariableDataPrototype(AutosarDataPrototype, VariationPointCapable):
     """
-    A data prototype that represents a variable data element with an
-    initial value.
+    A VariableDataPrototype represents a formalized generic piece of information that is typically mutable by the application software layer. VariableDataPrototype is used in various contexts and the specific context gives the otherwise generic VariableDataPrototype a dedicated semantics.
     """
 
     # VariableDataPrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getInitValue                 [x] impl  [x] docstring  [ ] test
-    # [ ] setInitValue                 [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.31, p.310 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInitValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.initValue: ValueSpecification = None
+        # Specifies initial value(s) of the VariableDataPrototype
+        self.initValue: Optional[ValueSpecification] = None
 
-    def getInitValue(self):
+    def getInitValue(self) -> Optional[ValueSpecification]:
         """
-        Gets the initial value.
+        Specifies initial value(s) of the VariableDataPrototype
 
         Returns:
-            ValueSpecification: The initial value
+            Optional[ValueSpecification]: The initValue
         """
         return self.initValue
 
-    def setInitValue(self, value):
+    def setInitValue(self, value: Optional[ValueSpecification]) -> "VariableDataPrototype":
         """
-        Sets the initial value.
+        Specifies initial value(s) of the VariableDataPrototype A None value is a no-op and does not overwrite an existing initValue.
 
         Args:
-            value: The initial value to set
+            value: The initValue to set
 
         Returns:
             self for method chaining
         """
-        self.initValue = value
+        if value is not None:
+            self.initValue = value
         return self
 
 
