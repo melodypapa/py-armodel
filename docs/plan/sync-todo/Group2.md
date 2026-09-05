@@ -215,16 +215,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column
   - [x] Step 8 — Deviations — none
   - [x] Step 9 — Verify (9a) + confirm (9b) — 344 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `b8d0878d`
-- [ ] `ApplicationCompositeElementDataPrototype` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.30 · parent of `ApplicationRecordElement` below · after `ApplicationDataType` (its `type` tref) · parent `DataPrototype` stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `ApplicationCompositeElementDataPrototype` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.30 · parent of `ApplicationRecordElement` below · after `ApplicationDataType` (its `type` tref) · parent `DataPrototype` stamped ✓) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 5.30, p.306; abstract class derives from `DataPrototype`; optional type tref synchronized
+  - [x] Step 2 — Write model class unit test (Red) — strengthened abstract/type/accessor coverage; RED confirmed setter overwrote with None
+  - [x] Step 3 — Implement model class (Green) — Optional[TRefType] field, typed accessors, None-guarded setter
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class/member Notes copied verbatim from Table 5.30; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — added TRef value/DEST and absent-element coverage
+  - [x] Step 6 — Update parser & writer (Green) — replaced direct field access with matching setTypeTRef/getTypeTRef calls
+  - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column and reader/writer mapping
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 343 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit pending
 - [ ] `InitEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.22 · after `RTEEvent` (parent, Table 7.9))
    - [x] Step 1 — Sync members & description from spec — Table 7.22 caption md l.15531, body l.15533–15540; PDF p.546 via pdf_page.py. Class=concrete; Package=...SwcInternalBehavior::RTEEvents (leaf → RTEEvents.py ✓); Base=RTEEvent (most-derived; stamped ✓); Aggregated by AtpClassifier.atpFeature + SwcInternalBehavior.event ✓; Note copied verbatim. Attribute table is empty (`-`), so no own members or XML elements.
    - [x] Step 2 — Write model class unit test (Red) — extended TestInitEvent with exact Table 7.22 Note assertion and inherited RTEEvent type assertion. RED confirmed: docstring assertion failed against stale/paraphrased class Note; initialization/inheritance assertion passed.

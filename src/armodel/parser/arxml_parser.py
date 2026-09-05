@@ -6798,7 +6798,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readApplicationCompositeElementDataPrototype(self, element: ET.Element, prototype: ApplicationCompositeElementDataPrototype):
         self.readDataPrototype(element, prototype)
-        prototype.typeTRef = self.getChildElementOptionalRefType(element, "TYPE-TREF")
+        prototype.setTypeTRef(self.getChildElementOptionalRefType(element, "TYPE-TREF"))
 
     def readApplicationArrayElement(self, element: ET.Element, parent: ApplicationArrayDataType):
         child_element = self.find(element, "ELEMENT")

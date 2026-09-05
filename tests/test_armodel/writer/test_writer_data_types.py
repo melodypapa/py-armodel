@@ -423,6 +423,32 @@ class TestApplicationRecordElementWriter:
         assert child.find("SHORT-NAME").text == "Field"
         assert child.find("TYPE-TREF").text == "/apt"
 
+    def test_write_application_composite_element_data_prototype_type_tref(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("AppPkg")
+        record = pkg.createApplicationRecordDataType("Record")
+        element = record.createApplicationRecordElement("Field")
+        element.setTypeTRef(_ref("APPLICATION-DATA-TYPE", "/apt"))
+
+        parent = ET.Element("ELEMENT")
+        writer.writeApplicationCompositeElementDataPrototype(parent, element)
+
+        assert parent.find("SHORT-NAME").text == "Field"
+        assert parent.find("TYPE-TREF").text == "/apt"
+        assert parent.find("TYPE-TREF").get("DEST") == "APPLICATION-DATA-TYPE"
+
+    def test_write_application_composite_element_data_prototype_without_type(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("AppPkg")
+        record = pkg.createApplicationRecordDataType("Record")
+        element = record.createApplicationRecordElement("Field")
+
+        parent = ET.Element("ELEMENT")
+        writer.writeApplicationCompositeElementDataPrototype(parent, element)
+
+        assert parent.find("SHORT-NAME").text == "Field"
+        assert parent.find("TYPE-TREF") is None
+
 
 class TestApplicationArrayElementRoundTrip:
     def test_round_trip_application_array_element(self):

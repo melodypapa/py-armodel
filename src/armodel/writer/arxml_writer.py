@@ -2534,7 +2534,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeApplicationCompositeElementDataPrototype(self, element: ET.Element, prototype: ApplicationCompositeElementDataPrototype):
         self.writeDataPrototype(element, prototype)
-        self.setChildElementOptionalRefType(element, "TYPE-TREF", prototype.typeTRef)
+        self.setChildElementOptionalRefType(element, "TYPE-TREF", prototype.getTypeTRef())
 
     def writeApplicationRecordElement(self, element: ET.Element, prototype: ApplicationRecordElement):
         child_element = ET.SubElement(element, "APPLICATION-RECORD-ELEMENT")

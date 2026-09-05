@@ -1434,6 +1434,25 @@ class TestDataTypeAndCompuHandlers:
         parser.readApplicationRecordDataType(element, data_type)
         assert len(data_type.getApplicationRecordElements()) == 1
 
+    def test_readApplicationCompositeElementDataPrototype_type_tref(self, parser):
+        from armodel.models import ApplicationArrayElement
+
+        element = ApplicationArrayElement(parent=_autosar_root(), short_name="elem")
+        xml = _snip(
+            "<SHORT-NAME>elem</SHORT-NAME><TYPE-TREF DEST='APPLICATION-DATA-TYPE'>/types/app</TYPE-TREF>",
+            root_tag="APPLICATION-ARRAY-ELEMENT",
+        )
+        parser.readApplicationCompositeElementDataPrototype(xml, element)
+        assert element.getTypeTRef().getValue() == "/types/app"
+        assert element.getTypeTRef().getDest() == "APPLICATION-DATA-TYPE"
+
+    def test_readApplicationCompositeElementDataPrototype_without_type(self, parser):
+        from armodel.models import ApplicationArrayElement
+
+        element = ApplicationArrayElement(parent=_autosar_root(), short_name="elem")
+        parser.readApplicationCompositeElementDataPrototype(_snip("<SHORT-NAME>elem</SHORT-NAME>", root_tag="APPLICATION-ARRAY-ELEMENT"), element)
+        assert element.getTypeTRef() is None
+
     def test_readImplementationDataType_full(self, parser):
         from armodel.models import ImplementationDataType
 
