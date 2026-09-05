@@ -192,7 +192,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 6 — Update parser & writer (Green) — no production change required; existing reader/writer paths use matching mutators/getters
   - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column and reader/writer mapping
   - [x] Step 8 — Deviations — none
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 306 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit pending
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 306 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `2a104a06`
 - [ ] `DataTypeMappingSet` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.4 · member type of `CompositionSwComponentType.dataTypeMapping`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
