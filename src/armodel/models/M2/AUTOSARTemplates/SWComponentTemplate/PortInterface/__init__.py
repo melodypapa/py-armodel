@@ -1061,6 +1061,200 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
         return self
 
 
+class MappingDirectionEnum(AREnum):
+    """
+    Specifies the conversion direction for which the mapping is applicable.
+    """
+
+    # MappingDirectionEnum method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.37, p.146 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The TextTableMapping is applicable in both directions. Tags: atp.EnumerationLiteralIndex=0
+    BIDIRECTIONAL = "bidirectional"
+
+    # The TextTableMapping is applicable in the direction from firstDataPrototype / firstOperationArgument referring into the PortInterface of the PPortPrototype to secondDataPrototype / secondOperationArgument referring into the PortInterface of the RPortPrototype. Tags: atp.EnumerationLiteralIndex=1
+    FIRST_TO_SECOND = "firstToSecond"
+
+    # The TextTableMapping is applicable in the direction from secondDataPrototype / secondOperationArgument referring into the PortInterface of the PPortPrototype to firstDataPrototype / firstOperationArgument referring into the PortInterface of the RPortPrototype. Tags: atp.EnumerationLiteralIndex=2
+    SECOND_TO_FIRST = "secondToFirst"
+
+    def __init__(self):
+        super().__init__((MappingDirectionEnum.BIDIRECTIONAL, MappingDirectionEnum.FIRST_TO_SECOND, MappingDirectionEnum.SECOND_TO_FIRST))
+
+
+class TextTableValuePair(ARObject):
+    """
+    Defines a pair of text values which are translated into each other.
+    """
+
+    # TextTableValuePair method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.38, p.146 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFirstValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Value of first DataPrototype provided similar to a numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.
+        self.firstValue: Optional[Numerical] = None
+
+        # Value of second DataPrototype provided similar to a numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.
+        self.secondValue: Optional[Numerical] = None
+
+    def getFirstValue(self) -> Optional[Numerical]:
+        """
+        Value of first DataPrototype provided similar to a numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.
+        """
+        return self.firstValue
+
+    def setFirstValue(self, value: Optional[Numerical]) -> "TextTableValuePair":
+        """
+        Value of first DataPrototype provided similar to a numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.
+        A None value is a no-op and does not overwrite an existing firstValue.
+        """
+        if value is not None:
+            self.firstValue = value
+        return self
+
+    def getSecondValue(self) -> Optional[Numerical]:
+        """
+        Value of second DataPrototype provided similar to a numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.
+        """
+        return self.secondValue
+
+    def setSecondValue(self, value: Optional[Numerical]) -> "TextTableValuePair":
+        """
+        Value of second DataPrototype provided similar to a numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.
+        A None value is a no-op and does not overwrite an existing secondValue.
+        """
+        if value is not None:
+            self.secondValue = value
+        return self
+
+
+class TextTableMapping(ARObject):
+    """
+    Defines the mapping of two DataPrototypes typed by AutosarDataTypes that refer to CompuMethods of category TEXTTABLE, SCALE_LINEAR_AND_TEXTTABLE or BITFIELD_TEXTTABLE.
+    """
+
+    # TextTableMapping method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.36, p.145 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBitfieldTextTableMaskFirst  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBitfieldTextTableMaskFirst  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBitfieldTextTableMaskSecond [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBitfieldTextTableMaskSecond [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIdenticalMapping            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIdenticalMapping            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMappingDirection            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMappingDirection            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addValuePair                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValuePairs                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute can be used to support the mapping of bit field to bit field, boolean values to bit fields, and vice versa. The attribute defines the bit mask for the first element of the TextTableMapping.
+        self.bitfieldTextTableMaskFirst: Optional[PositiveInteger] = None
+
+        # This attribute can be used to support the mapping of bit field to bit field, boolean values to bit fields, and vice versa. The attribute defines the bit mask for the second element of the TextTableMapping.
+        self.bitfieldTextTableMaskSecond: Optional[PositiveInteger] = None
+
+        # If identicalMapping is set == true the values of the two referenced DataPrototypes do not need any conversion of the values.
+        self.identicalMapping: Optional[Boolean] = None
+
+        # Specifies the conversion direction for which the TextTableMapping is applicable.
+        self.mappingDirection: Optional[MappingDirectionEnum] = None
+
+        # Defines a pair of values which are translated into each other.
+        self.valuePairs: List[TextTableValuePair] = []
+
+    def getBitfieldTextTableMaskFirst(self) -> Optional[PositiveInteger]:
+        """
+        This attribute can be used to support the mapping of bit field to bit field, boolean values to bit fields, and vice versa. The attribute defines the bit mask for the first element of the TextTableMapping.
+        """
+        return self.bitfieldTextTableMaskFirst
+
+    def setBitfieldTextTableMaskFirst(self, value: Optional[PositiveInteger]) -> "TextTableMapping":
+        """
+        This attribute can be used to support the mapping of bit field to bit field, boolean values to bit fields, and vice versa. The attribute defines the bit mask for the first element of the TextTableMapping.
+        A None value is a no-op and does not overwrite an existing bitfieldTextTableMaskFirst.
+        """
+        if value is not None:
+            self.bitfieldTextTableMaskFirst = value
+        return self
+
+    def getBitfieldTextTableMaskSecond(self) -> Optional[PositiveInteger]:
+        """
+        This attribute can be used to support the mapping of bit field to bit field, boolean values to bit fields, and vice versa. The attribute defines the bit mask for the second element of the TextTableMapping.
+        """
+        return self.bitfieldTextTableMaskSecond
+
+    def setBitfieldTextTableMaskSecond(self, value: Optional[PositiveInteger]) -> "TextTableMapping":
+        """
+        This attribute can be used to support the mapping of bit field to bit field, boolean values to bit fields, and vice versa. The attribute defines the bit mask for the second element of the TextTableMapping.
+        A None value is a no-op and does not overwrite an existing bitfieldTextTableMaskSecond.
+        """
+        if value is not None:
+            self.bitfieldTextTableMaskSecond = value
+        return self
+
+    def getIdenticalMapping(self) -> Optional[Boolean]:
+        """
+        If identicalMapping is set == true the values of the two referenced DataPrototypes do not need any conversion of the values.
+        """
+        return self.identicalMapping
+
+    def setIdenticalMapping(self, value: Optional[Boolean]) -> "TextTableMapping":
+        """
+        If identicalMapping is set == true the values of the two referenced DataPrototypes do not need any conversion of the values.
+        A None value is a no-op and does not overwrite an existing identicalMapping.
+        """
+        if value is not None:
+            self.identicalMapping = value
+        return self
+
+    def getMappingDirection(self) -> Optional[MappingDirectionEnum]:
+        """
+        Specifies the conversion direction for which the TextTableMapping is applicable.
+        """
+        return self.mappingDirection
+
+    def setMappingDirection(self, value: Optional[MappingDirectionEnum]) -> "TextTableMapping":
+        """
+        Specifies the conversion direction for which the TextTableMapping is applicable.
+        A None value is a no-op and does not overwrite an existing mappingDirection.
+        """
+        if value is not None:
+            self.mappingDirection = value
+        return self
+
+    def addValuePair(self, value: Optional[TextTableValuePair]) -> "TextTableMapping":
+        """
+        Defines a pair of values which are translated into each other.
+        A None value is a no-op and does not append anything.
+        """
+        if value is not None:
+            self.valuePairs.append(value)
+        return self
+
+    def getValuePairs(self) -> List[TextTableValuePair]:
+        """
+        Defines a pair of values which are translated into each other.
+        """
+        return self.valuePairs
+
+
 class SubElementMapping(ARObject):
     """
     This meta-class allows for the definition of mappings of elements of a composite data type.
@@ -1068,6 +1262,7 @@ class SubElementMapping(ARObject):
 
     # SubElementMapping method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.32, p.137 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (textTableMapping multiplicity 0..2 per Table 4.32 — modeled as a list; bound documented here)
     # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -1088,7 +1283,7 @@ class SubElementMapping(ARObject):
         self.secondElement: Optional[SubElementRef] = None
 
         # This allows for the text-table translation of individual elements of a composite data type.
-        self.textTableMappings: List["TextTableMapping"] = []
+        self.textTableMappings: List[TextTableMapping] = []
 
     def getFirstElement(self) -> Optional[SubElementRef]:
         """
@@ -1120,7 +1315,7 @@ class SubElementMapping(ARObject):
             self.secondElement = value
         return self
 
-    def addTextTableMapping(self, value: Optional["TextTableMapping"]) -> "SubElementMapping":
+    def addTextTableMapping(self, value: Optional[TextTableMapping]) -> "SubElementMapping":
         """
         This allows for the text-table translation of individual elements of a composite data type.
         A None value is a no-op and does not append anything.
@@ -1129,7 +1324,7 @@ class SubElementMapping(ARObject):
             self.textTableMappings.append(value)
         return self
 
-    def getTextTableMappings(self) -> List["TextTableMapping"]:
+    def getTextTableMappings(self) -> List[TextTableMapping]:
         """
         This allows for the text-table translation of individual elements of a composite data type.
         """
@@ -1178,7 +1373,7 @@ class DataPrototypeMapping(ARObject):
         self.subElementMappings: List[SubElementMapping] = []
 
         # Applied TextTableMapping(s)
-        self.textTableMappings: List["TextTableMapping"] = []
+        self.textTableMappings: List[TextTableMapping] = []
 
     def getFirstDataPrototypeRef(self) -> Optional[RefType]:
         """
@@ -1255,7 +1450,7 @@ class DataPrototypeMapping(ARObject):
         """
         return self.subElementMappings
 
-    def addTextTableMapping(self, value: Optional["TextTableMapping"]) -> "DataPrototypeMapping":
+    def addTextTableMapping(self, value: Optional[TextTableMapping]) -> "DataPrototypeMapping":
         """
         Applied TextTableMapping(s)
         A None value is a no-op and does not append anything.
@@ -1264,7 +1459,7 @@ class DataPrototypeMapping(ARObject):
             self.textTableMappings.append(value)
         return self
 
-    def getTextTableMappings(self) -> List["TextTableMapping"]:
+    def getTextTableMappings(self) -> List[TextTableMapping]:
         """
         Applied TextTableMapping(s)
         """
@@ -1542,197 +1737,3 @@ class PortInterfaceMappingSet(ARElement):
             self.addElement(mapping)
             self.portInterfaceMappings.append(mapping)
         return self.getElement(short_name, TriggerInterfaceMapping)
-
-
-class MappingDirectionEnum(AREnum):
-    """
-    Specifies the conversion direction for which the mapping is applicable.
-    """
-
-    # MappingDirectionEnum method parity checklist:
-    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.37, p.146 (R23-11)
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-
-    # The TextTableMapping is applicable in both directions. Tags: atp.EnumerationLiteralIndex=0
-    BIDIRECTIONAL = "bidirectional"
-
-    # The TextTableMapping is applicable in the direction from firstDataPrototype / firstOperationArgument referring into the PortInterface of the PPortPrototype to secondDataPrototype / secondOperationArgument referring into the PortInterface of the RPortPrototype. Tags: atp.EnumerationLiteralIndex=1
-    FIRST_TO_SECOND = "firstToSecond"
-
-    # The TextTableMapping is applicable in the direction from secondDataPrototype / secondOperationArgument referring into the PortInterface of the PPortPrototype to firstDataPrototype / firstOperationArgument referring into the PortInterface of the RPortPrototype. Tags: atp.EnumerationLiteralIndex=2
-    SECOND_TO_FIRST = "secondToFirst"
-
-    def __init__(self):
-        super().__init__((MappingDirectionEnum.BIDIRECTIONAL, MappingDirectionEnum.FIRST_TO_SECOND, MappingDirectionEnum.SECOND_TO_FIRST))
-
-
-class TextTableValuePair(ARObject):
-    """
-    Defines a pair of text values which are translated into each other.
-    """
-
-    # TextTableValuePair method parity checklist:
-    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.38, p.146 (R23-11)
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getFirstValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setFirstValue   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getSecondValue  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setSecondValue  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-
-    def __init__(self):
-        super().__init__()
-
-        # Value of first DataPrototype provided similar to a numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.
-        self.firstValue: Optional[Numerical] = None
-
-        # Value of second DataPrototype provided similar to a numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.
-        self.secondValue: Optional[Numerical] = None
-
-    def getFirstValue(self) -> Optional[Numerical]:
-        """
-        Value of first DataPrototype provided similar to a numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.
-        """
-        return self.firstValue
-
-    def setFirstValue(self, value: Optional[Numerical]) -> "TextTableValuePair":
-        """
-        Value of first DataPrototype provided similar to a numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.
-        A None value is a no-op and does not overwrite an existing firstValue.
-        """
-        if value is not None:
-            self.firstValue = value
-        return self
-
-    def getSecondValue(self) -> Optional[Numerical]:
-        """
-        Value of second DataPrototype provided similar to a numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.
-        """
-        return self.secondValue
-
-    def setSecondValue(self, value: Optional[Numerical]) -> "TextTableValuePair":
-        """
-        Value of second DataPrototype provided similar to a numerical ValueSpecification which is intended to be assigned to a Primitive data element. Note that the numerical value is a variant, it can be computed by a formula.
-        A None value is a no-op and does not overwrite an existing secondValue.
-        """
-        if value is not None:
-            self.secondValue = value
-        return self
-
-
-class TextTableMapping(ARObject):
-    """
-    Defines the mapping of two DataPrototypes typed by AutosarDataTypes that refer to CompuMethods of category TEXTTABLE, SCALE_LINEAR_AND_TEXTTABLE or BITFIELD_TEXTTABLE.
-    """
-
-    # TextTableMapping method parity checklist:
-    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.36, p.145 (R23-11)
-    # Spec verified: R23-11
-    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
-    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] getBitfieldTextTableMaskFirst  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setBitfieldTextTableMaskFirst  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getBitfieldTextTableMaskSecond [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setBitfieldTextTableMaskSecond [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getIdenticalMapping            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setIdenticalMapping            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getMappingDirection            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setMappingDirection            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] addValuePair                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getValuePairs                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-
-    def __init__(self):
-        super().__init__()
-
-        # This attribute can be used to support the mapping of bit field to bit field, boolean values to bit fields, and vice versa. The attribute defines the bit mask for the first element of the TextTableMapping.
-        self.bitfieldTextTableMaskFirst: Optional[PositiveInteger] = None
-
-        # This attribute can be used to support the mapping of bit field to bit field, boolean values to bit fields, and vice versa. The attribute defines the bit mask for the second element of the TextTableMapping.
-        self.bitfieldTextTableMaskSecond: Optional[PositiveInteger] = None
-
-        # If identicalMapping is set == true the values of the two referenced DataPrototypes do not need any conversion of the values.
-        self.identicalMapping: Optional[Boolean] = None
-
-        # Specifies the conversion direction for which the TextTableMapping is applicable.
-        self.mappingDirection: Optional[MappingDirectionEnum] = None
-
-        # Defines a pair of values which are translated into each other.
-        self.valuePairs: List[TextTableValuePair] = []
-
-    def getBitfieldTextTableMaskFirst(self) -> Optional[PositiveInteger]:
-        """
-        This attribute can be used to support the mapping of bit field to bit field, boolean values to bit fields, and vice versa. The attribute defines the bit mask for the first element of the TextTableMapping.
-        """
-        return self.bitfieldTextTableMaskFirst
-
-    def setBitfieldTextTableMaskFirst(self, value: Optional[PositiveInteger]) -> "TextTableMapping":
-        """
-        This attribute can be used to support the mapping of bit field to bit field, boolean values to bit fields, and vice versa. The attribute defines the bit mask for the first element of the TextTableMapping.
-        A None value is a no-op and does not overwrite an existing bitfieldTextTableMaskFirst.
-        """
-        if value is not None:
-            self.bitfieldTextTableMaskFirst = value
-        return self
-
-    def getBitfieldTextTableMaskSecond(self) -> Optional[PositiveInteger]:
-        """
-        This attribute can be used to support the mapping of bit field to bit field, boolean values to bit fields, and vice versa. The attribute defines the bit mask for the second element of the TextTableMapping.
-        """
-        return self.bitfieldTextTableMaskSecond
-
-    def setBitfieldTextTableMaskSecond(self, value: Optional[PositiveInteger]) -> "TextTableMapping":
-        """
-        This attribute can be used to support the mapping of bit field to bit field, boolean values to bit fields, and vice versa. The attribute defines the bit mask for the second element of the TextTableMapping.
-        A None value is a no-op and does not overwrite an existing bitfieldTextTableMaskSecond.
-        """
-        if value is not None:
-            self.bitfieldTextTableMaskSecond = value
-        return self
-
-    def getIdenticalMapping(self) -> Optional[Boolean]:
-        """
-        If identicalMapping is set == true the values of the two referenced DataPrototypes do not need any conversion of the values.
-        """
-        return self.identicalMapping
-
-    def setIdenticalMapping(self, value: Optional[Boolean]) -> "TextTableMapping":
-        """
-        If identicalMapping is set == true the values of the two referenced DataPrototypes do not need any conversion of the values.
-        A None value is a no-op and does not overwrite an existing identicalMapping.
-        """
-        if value is not None:
-            self.identicalMapping = value
-        return self
-
-    def getMappingDirection(self) -> Optional[MappingDirectionEnum]:
-        """
-        Specifies the conversion direction for which the TextTableMapping is applicable.
-        """
-        return self.mappingDirection
-
-    def setMappingDirection(self, value: Optional[MappingDirectionEnum]) -> "TextTableMapping":
-        """
-        Specifies the conversion direction for which the TextTableMapping is applicable.
-        A None value is a no-op and does not overwrite an existing mappingDirection.
-        """
-        if value is not None:
-            self.mappingDirection = value
-        return self
-
-    def addValuePair(self, value: Optional[TextTableValuePair]) -> "TextTableMapping":
-        """
-        Defines a pair of values which are translated into each other.
-        A None value is a no-op and does not append anything.
-        """
-        if value is not None:
-            self.valuePairs.append(value)
-        return self
-
-    def getValuePairs(self) -> List[TextTableValuePair]:
-        """
-        Defines a pair of values which are translated into each other.
-        """
-        return self.valuePairs

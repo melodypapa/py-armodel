@@ -15,6 +15,42 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 
 
+class RtePluginProps(ARObject):
+    """
+    Represents RTE plugin properties in AUTOSAR.
+    This class defines properties for RTE plugins.
+    """
+
+    # RtePluginProps method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getPluginName                [x] impl  [ ] docstring  [ ] test
+    # [ ] setPluginName                [x] impl  [ ] docstring  [ ] test
+    # [ ] getPluginVersion             [x] impl  [ ] docstring  [ ] test
+    # [ ] setPluginVersion             [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        """
+        Initializes the RtePluginProps with default values.
+        """
+        super().__init__()
+        self.pluginName: str = None
+        self.pluginVersion: str = None
+
+    def getPluginName(self):
+        return self.pluginName
+
+    def setPluginName(self, value):
+        self.pluginName = value
+        return self
+
+    def getPluginVersion(self):
+        return self.pluginVersion
+
+    def setPluginVersion(self, value):
+        self.pluginVersion = value
+        return self
+
+
 class FlatInstanceDescriptor(Identifiable, VariationPointCapable):
     """
     Represents exactly one node (e.g. a component instance or data element) of the instance tree of a software system. The purpose of this element is to map the various nested representations of this instance to a flat representation and assign a unique name (shortName) to it. Use cases: • Specify unique names of measurable data to be used by MCD tools • Specify unique names of calibration data to be used by MCD tool • Specify a unique name for an instance of a component prototype in the ECU extract of the system description Note that in addition it is possible to assign alias names via AliasNameAssignment.
@@ -45,7 +81,7 @@ class FlatInstanceDescriptor(Identifiable, VariationPointCapable):
         self.role: Optional[Identifier] = None
 
         # The properties of a communication graph with respect to the utilization of RTE Implementation Plug-in.
-        self.rtePluginProps: Optional["RtePluginProps"] = None
+        self.rtePluginProps: Optional[RtePluginProps] = None
 
         # The properties of this FlatInstanceDescriptor.
         self.swDataDefProps: Optional[SwDataDefProps] = None
@@ -85,13 +121,13 @@ class FlatInstanceDescriptor(Identifiable, VariationPointCapable):
             self.role = value
         return self
 
-    def getRtePluginProps(self) -> Optional["RtePluginProps"]:
+    def getRtePluginProps(self) -> Optional[RtePluginProps]:
         """
         The properties of a communication graph with respect to the utilization of RTE Implementation Plug-in.
         """
         return self.rtePluginProps
 
-    def setRtePluginProps(self, value: Optional["RtePluginProps"]) -> "FlatInstanceDescriptor":
+    def setRtePluginProps(self, value: Optional[RtePluginProps]) -> "FlatInstanceDescriptor":
         """
         The properties of a communication graph with respect to the utilization of RTE Implementation Plug-in.
 
@@ -140,7 +176,8 @@ class FlatMap(ARElement):
     """
 
     # FlatMap method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 14.1, p.966
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 14.1, p.966 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] createFlatInstanceDescriptor [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
@@ -356,39 +393,3 @@ class AliasNameSet(ARElement):
             List of AliasNameAssignment instances (empty by default)
         """
         return self.aliasNames
-
-
-class RtePluginProps(ARObject):
-    """
-    Represents RTE plugin properties in AUTOSAR.
-    This class defines properties for RTE plugins.
-    """
-
-    # RtePluginProps method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getPluginName                [x] impl  [ ] docstring  [ ] test
-    # [ ] setPluginName                [x] impl  [ ] docstring  [ ] test
-    # [ ] getPluginVersion             [x] impl  [ ] docstring  [ ] test
-    # [ ] setPluginVersion             [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        """
-        Initializes the RtePluginProps with default values.
-        """
-        super().__init__()
-        self.pluginName: str = None
-        self.pluginVersion: str = None
-
-    def getPluginName(self):
-        return self.pluginName
-
-    def setPluginName(self, value):
-        self.pluginName = value
-        return self
-
-    def getPluginVersion(self):
-        return self.pluginVersion
-
-    def setPluginVersion(self, value):
-        self.pluginVersion = value
-        return self
