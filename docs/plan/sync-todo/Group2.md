@@ -247,16 +247,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column and reader/writer mapping
   - [x] Step 8 — Deviations — none
   - [x] Step 9 — Verify (9a) + confirm (9b) — 391 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `9182987d`
-- [ ] `AsynchronousServerCallPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.37 · after `ServerCallPoint` (parent, Table 7.35))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `AsynchronousServerCallPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.37 · after `ServerCallPoint` (parent, Table 7.35)) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 7.37, p.581; concrete class derives from `ServerCallPoint`; no own attributes
+  - [x] Step 2 — Write model class unit test (Red) — added inheritance and exact Note coverage; RED confirmed missing class documentation
+  - [x] Step 3 — Implement model class (Green) — no member/base implementation change required
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note copied verbatim; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (N/A with evidence) — inherited operation/timeout behavior already covered
+  - [x] Step 6 — Update parser & writer (N/A with evidence) — existing inherited server-call serialization is conformant
+  - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 392 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit pending
 - [ ] `AsynchronousServerCallResultPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.38 · after `AsynchronousServerCallPoint` (its `asynchronousServerCallPoint` ref target) · NOTE: spec Base = AbstractAccessPoint chain, NOT ServerCallPoint)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

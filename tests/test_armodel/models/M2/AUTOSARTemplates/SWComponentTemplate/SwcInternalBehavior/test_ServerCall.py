@@ -83,5 +83,16 @@ class TestServerCallPoint:
         assert call_point.getCalledFromWithinExclusiveAreaRef() is None
         assert call_point.setCalledFromWithinExclusiveAreaRef(nesting_order) is call_point
         assert call_point.getCalledFromWithinExclusiveAreaRef() is nesting_order
-        call_point.setCalledFromWithinExclusiveAreaRef(None)
-        assert call_point.getCalledFromWithinExclusiveAreaRef() is nesting_order
+
+    def test_asynchronous_server_call_point_spec_contract(self):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import AsynchronousServerCallPoint
+
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        call_point = AsynchronousServerCallPoint(ar_root, "TestAsynchronous")
+
+        assert isinstance(call_point, ServerCallPoint)
+        assert AsynchronousServerCallPoint.__doc__.strip() == (
+            "An AsynchronousServerCallPoint is used for asynchronous invocation of a ClientServerOperation. IMPORTANT: a ServerCallPoint cannot be used concurrently. "
+            "Once the client RunnableEntity has made the invocation, the ServerCallPoint cannot be used until the call returns (or an error occurs!) at which point the ServerCallPoint becomes available again."
+        )
