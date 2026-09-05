@@ -274,6 +274,17 @@ the aggregation is itself a partial implementation and remains to be wired.
 
 No deviations (multiplicity/type resolved to spec).
 
+## `ProgramminglanguageEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 621
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::Implementation`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Implementation.py`
+
+No deviations — members `C`/`CPP`/`JAVA` match the Table 8.2 literals `c`/`cpp`/`java`
+1:1 (UPPER_CASE member names, member values = spec literals exactly, indexes 0/1/2 per
+`atp.EnumerationLiteralIndex`); class docstring = Table 8.2 Note verbatim; standalone
+`AREnum` (Steps 5/6 N/A — serialized as the `Implementation.programmingLanguage`
+attribute value and round-tripped there).
+
 ## `Describable`
 - **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 438
 - **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable`
