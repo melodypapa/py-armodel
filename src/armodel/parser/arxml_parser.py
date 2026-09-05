@@ -6863,9 +6863,19 @@ class ARXMLParser(AbstractARXMLParser):
         if section_type is not None:
             method.setSectionType(MemorySectionType().setValue(section_type.getValue()))
 
+    def readTriggerInterfaceTriggers(self, element: ET.Element, trigger_if: TriggerInterface):
+        for child_element in self.findall(element, "TRIGGERS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TRIGGER":
+                trigger = trigger_if.createTrigger(self.getShortName(child_element))
+                self.readTrigger(child_element, trigger)
+            else:
+                self.notImplemented("Unsupported Trigger Interface Trigger <%s>" % tag_name)
+
     def readTriggerInterface(self, element: ET.Element, trigger_if: TriggerInterface):
         self.logger.debug("Read TriggerInterface <%s>" % trigger_if.getShortName())
         self.readIdentifiable(element, trigger_if)
+        self.readTriggerInterfaceTriggers(element, trigger_if)
 
     def readModeDeclarationGroupModeDeclaration(self, element: ET.Element, parent: ModeDeclarationGroup):
         for child_element in self.findall(element, "MODE-DECLARATIONS/MODE-DECLARATION"):

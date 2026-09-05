@@ -133,7 +133,7 @@ class TestTriggerInterface:
         ar_root = document.createARPackage("AUTOSAR")
         trigger_interface = TriggerInterface(ar_root, "TestTriggerInterface")
 
-        assert trigger_interface._triggers == []
+        assert trigger_interface.getTriggers() == []
         assert trigger_interface.parent == ar_root
         assert trigger_interface.short_name == "TestTriggerInterface"
 

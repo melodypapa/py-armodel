@@ -1203,7 +1203,9 @@ class TestSwRecordLayoutWriter:
 
         parent = _parent()
         writer.writeTriggerInterface(parent, trigger_if)
-        assert len(parent) == 0
+        child = parent.find("TRIGGER-INTERFACE")
+        assert child is not None
+        assert child.find("TRIGGERS") is None
 
     def test_write_service_sw_component_type(self, writer):
         autosar = AUTOSAR.getInstance()

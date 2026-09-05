@@ -832,13 +832,33 @@ class ClientServerInterface(PortInterface):
 
 
 class TriggerInterface(PortInterface):
+    """A trigger interface declares a number of triggers that can be sent by an trigger source."""
+
     # TriggerInterface method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.12, p.109 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createTrigger  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTriggers    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self._triggers: List[Trigger] = []
+        # The Trigger of this trigger interface.
+        self.triggers: List[Trigger] = []
+
+    def createTrigger(self, short_name: str) -> Trigger:
+        """The Trigger of this trigger interface."""
+        if not self.IsElementExists(short_name, Trigger):
+            trigger = Trigger(self, short_name)
+            self.addElement(trigger)
+            self.triggers.append(trigger)
+        return self.getElement(short_name, Trigger)
+
+    def getTriggers(self) -> List[Trigger]:
+        """The Trigger of this trigger interface."""
+        return self.triggers
 
 
 class ModeSwitchInterface(PortInterface):

@@ -6536,10 +6536,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "SECTION-INITIALIZATION-POLICY", method.getSectionInitializationPolicy())
         self.setChildElementOptionalLiteral(child_element, "SECTION-TYPE", method.getSectionType())
 
+    def writeTriggerInterfaceTriggers(self, element: ET.Element, trigger_if: TriggerInterface):
+        triggers = trigger_if.getTriggers()
+        if len(triggers) > 0:
+            triggers_tag = ET.SubElement(element, "TRIGGERS")
+            for trigger in triggers:
+                if isinstance(trigger, Trigger):
+                    self.writeTrigger(triggers_tag, trigger)
+                else:
+                    self.notImplemented("Unsupported Trigger Interface Trigger <%s>" % type(trigger))
+
     def writeTriggerInterface(self, element: ET.Element, trigger_if: TriggerInterface):
         self.logger.debug("writeTriggerInterface %s" % trigger_if.getShortName())
-        # child_element = ET.SubElement(element, "TRIGGER-INTERFACE")
-        # self.writePortInterface()
+        child_element = ET.SubElement(element, "TRIGGER-INTERFACE")
+        self.writeIdentifiable(child_element, trigger_if)
+        self.writeTriggerInterfaceTriggers(child_element, trigger_if)
 
     def writeServiceSwComponentType(self, element: ET.Element, sw_component: ServiceSwComponentType):
         self.logger.debug("writeServiceSwComponentType %s" % sw_component.getShortName())

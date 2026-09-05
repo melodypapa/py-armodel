@@ -403,7 +403,7 @@ class TestTriggerInterface:
         assert trigger_interface.short_name == "TestTriggerInterface"
         assert trigger_interface.isService is None
         assert trigger_interface.serviceKind is None
-        assert trigger_interface._triggers == []
+        assert trigger_interface.getTriggers() == []
 
 
 class TestModeSwitchInterface:
