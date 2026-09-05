@@ -224,7 +224,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 6 — Update parser & writer (Green) — replaced direct field access with matching setTypeTRef/getTypeTRef calls
   - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column and reader/writer mapping
   - [x] Step 8 — Deviations — none
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 343 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit pending
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 343 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `031d5c78`
 - [ ] `InitEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.22 · after `RTEEvent` (parent, Table 7.9))
    - [x] Step 1 — Sync members & description from spec — Table 7.22 caption md l.15531, body l.15533–15540; PDF p.546 via pdf_page.py. Class=concrete; Package=...SwcInternalBehavior::RTEEvents (leaf → RTEEvents.py ✓); Base=RTEEvent (most-derived; stamped ✓); Aggregated by AtpClassifier.atpFeature + SwcInternalBehavior.event ✓; Note copied verbatim. Attribute table is empty (`-`), so no own members or XML elements.
    - [x] Step 2 — Write model class unit test (Red) — extended TestInitEvent with exact Table 7.22 Note assertion and inherited RTEEvent type assertion. RED confirmed: docstring assertion failed against stale/paraphrased class Note; initialization/inheritance assertion passed.
