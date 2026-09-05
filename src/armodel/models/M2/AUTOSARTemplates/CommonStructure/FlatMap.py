@@ -150,9 +150,9 @@ class FlatMap(ARElement):
         super().__init__(parent, short_name)
 
         # A descriptor instance aggregated in the flat map. The variation point accounts for the fact, that the system in scope can be subject to variability, and thus the existence of some instances is variable. The aggregation has been made splitable because the content might be contributed by different stakeholders at different times in the workflow. Plus, the overall size might be so big that eventually it becomes more manageable if it is distributed over several files.
-        self.instances: List["FlatInstanceDescriptor"] = []
+        self.instances: List[FlatInstanceDescriptor] = []
 
-    def createFlatInstanceDescriptor(self, short_name: str) -> "FlatInstanceDescriptor":
+    def createFlatInstanceDescriptor(self, short_name: str) -> FlatInstanceDescriptor:
         """
         A descriptor instance aggregated in the flat map. The variation point accounts for the fact, that the system in scope can be subject to variability, and thus the existence of some instances is variable. The aggregation has been made splitable because the content might be contributed by different stakeholders at different times in the workflow. Plus, the overall size might be so big that eventually it becomes more manageable if it is distributed over several files.
         """
@@ -162,7 +162,7 @@ class FlatMap(ARElement):
             self.instances.append(element)
         return self.getElement(short_name, FlatInstanceDescriptor)
 
-    def getInstances(self) -> List["FlatInstanceDescriptor"]:
+    def getInstances(self) -> List[FlatInstanceDescriptor]:
         """
         A descriptor instance aggregated in the flat map. The variation point accounts for the fact, that the system in scope can be subject to variability, and thus the existence of some instances is variable. The aggregation has been made splitable because the content might be contributed by different stakeholders at different times in the workflow. Plus, the overall size might be so big that eventually it becomes more manageable if it is distributed over several files.
         """

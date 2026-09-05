@@ -1033,6 +1033,7 @@ class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
 
     # ApplicationCompositeDataTypeSubElementRef method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.35, p.138 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getApplicationCompositeElementIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1098,7 +1099,7 @@ class SubElementMapping(ARObject):
     def setFirstElement(self, value: Optional[SubElementRef]) -> "SubElementMapping":
         """
         This represents the first element referenced in the scope of the mapping.
-        A None value is a no-op and does not overwrite an existing first element.
+        A None value is a no-op and does not overwrite an existing firstElement.
         """
         if value is not None:
             self.firstElement = value
@@ -1113,7 +1114,7 @@ class SubElementMapping(ARObject):
     def setSecondElement(self, value: Optional[SubElementRef]) -> "SubElementMapping":
         """
         This represents the second element referenced in the scope of the mapping.
-        A None value is a no-op and does not overwrite an existing second element.
+        A None value is a no-op and does not overwrite an existing secondElement.
         """
         if value is not None:
             self.secondElement = value
@@ -1549,7 +1550,8 @@ class MappingDirectionEnum(AREnum):
     """
 
     # MappingDirectionEnum method parity checklist:
-    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.37, p.145 (R23-11)
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.37, p.146 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -1573,6 +1575,7 @@ class TextTableValuePair(ARObject):
 
     # TextTableValuePair method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.38, p.146 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getFirstValue   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -1627,6 +1630,7 @@ class TextTableMapping(ARObject):
 
     # TextTableMapping method parity checklist:
     # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.36, p.145 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBitfieldTextTableMaskFirst  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
