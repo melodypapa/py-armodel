@@ -8450,7 +8450,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.logger.debug("Write ModeDeclarationMappingSet <%s>" % mapping_set.getShortName())
             child_element = ET.SubElement(element, "MODE-DECLARATION-MAPPING-SET")
             self.writeARElement(child_element, mapping_set)
-            self.writeModeDeclarationMappingSetModeDeclarationMappings(element, mapping_set)
+            self.writeModeDeclarationMappingSetModeDeclarationMappings(child_element, mapping_set)
 
     def writeEcucDefinitionElement(self, element: ET.Element, def_element: EcucDefinitionElement):
         self.writeARElement(element, def_element)

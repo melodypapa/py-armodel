@@ -6,6 +6,9 @@ Tests cover all classes and methods in the __init__.py file to achieve 100% test
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpClassifier, AtpType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Integer, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ApplicationError,
@@ -685,7 +688,27 @@ class TestModeDeclarationMapping:
 
 
 class TestModeDeclarationMappingSet:
-    """Test class for ModeDeclarationMappingSet class."""
+    """Test class for ModeDeclarationMappingSet class (Table 4.28, p.132)."""
+
+    SPEC_NOTE = "This meta-class implements a container for ModeDeclarationGroupMappings"
+
+    def test_mode_declaration_mapping_set_concrete(self):
+        """ModeDeclarationMappingSet is concrete (Table 4.28 header) — instantiable."""
+        mode_decl_mapping_set = ModeDeclarationMappingSet(None, "mapping_set")
+
+        assert isinstance(mode_decl_mapping_set, ModeDeclarationMappingSet)
+
+    def test_mode_declaration_mapping_set_heritage(self):
+        """Most-derived direct base is AtpType (Table 4.28 Base chain)."""
+        mode_decl_mapping_set = ModeDeclarationMappingSet(None, "mapping_set")
+
+        assert type(mode_decl_mapping_set).__bases__ == (AtpType,)
+        for ancestor in (AtpType, AtpClassifier, Identifiable, Referrable, ARObject):
+            assert isinstance(mode_decl_mapping_set, ancestor)
+
+    def test_mode_declaration_mapping_set_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 4.28)."""
+        assert ModeDeclarationMappingSet.__doc__.strip() == self.SPEC_NOTE
 
     def test_mode_declaration_mapping_set_initialization(self):
         """Test ModeDeclarationMappingSet initialization and methods."""
@@ -694,7 +717,7 @@ class TestModeDeclarationMappingSet:
         mode_decl_mapping_set = ModeDeclarationMappingSet(ar_root, "TestModeDeclarationMappingSet")
 
         assert mode_decl_mapping_set.parent == ar_root
-        assert mode_decl_mapping_set.short_name == "TestModeDeclarationMappingSet"
+        assert mode_decl_mapping_set.getShortName() == "TestModeDeclarationMappingSet"
         assert mode_decl_mapping_set.modeDeclarationMappings == []
 
         # Test modeDeclarationMappings methods
@@ -702,6 +725,18 @@ class TestModeDeclarationMappingSet:
         assert mode_decl_mapping is not None
         assert mode_decl_mapping.short_name == "TestModeDeclMapping"
         assert mode_decl_mapping in mode_decl_mapping_set.getModeDeclarationMappings()
+
+    def test_mode_declaration_mapping_set_create_duplicate_protection(self):
+        """createModeDeclarationMapping is duplicate-protected — same short name returns the same instance."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        mode_decl_mapping_set = ModeDeclarationMappingSet(ar_root, "TestModeDeclarationMappingSet")
+
+        first = mode_decl_mapping_set.createModeDeclarationMapping("TestModeDeclMapping")
+        second = mode_decl_mapping_set.createModeDeclarationMapping("TestModeDeclMapping")
+
+        assert second is first
+        assert len(mode_decl_mapping_set.getModeDeclarationMappings()) == 1
 
 
 class TestPortInterfaceMappingSet:

@@ -1416,20 +1416,39 @@ class ModeDeclarationMapping(AtpStructureElement):
 
 
 class ModeDeclarationMappingSet(AtpType):
+    """
+    This meta-class implements a container for ModeDeclarationGroupMappings
+    """
+
     # ModeDeclarationMappingSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getModeDeclarationMappings   [x] impl  [ ] docstring  [ ] test
-    # [ ] createModeDeclarationMapping [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.28, p.132 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getModeDeclarationMappings   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createModeDeclarationMapping [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # reader/writer: dedicated helpers readModeDeclarationMappingSet/writeModeDeclarationMappingSet
+    # (readARElement/writeARElement; element <MODE-DECLARATION-MAPPING-SET> of type
+    # MODE-DECLARATION-MAPPING-SET, XSD AUTOSAR_00052.xsd l.82399, own group l.82378)
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # This represents the collection of ModeDeclaration Mappings owned by the enclosing ModeDeclaration MappingSet.
         self.modeDeclarationMappings: List[ModeDeclarationMapping] = []
 
     def getModeDeclarationMappings(self) -> List[ModeDeclarationMapping]:
+        """
+        This represents the collection of ModeDeclaration Mappings owned by the enclosing ModeDeclaration MappingSet.
+        """
         return self.modeDeclarationMappings
 
     def createModeDeclarationMapping(self, short_name: str) -> ModeDeclarationMapping:
+        """
+        This represents the collection of ModeDeclaration Mappings owned by the enclosing ModeDeclaration MappingSet.
+
+        A duplicate short name with the same type returns the existing ModeDeclarationMapping.
+        """
         if not self.IsElementExists(short_name, ModeDeclarationMapping):
             mapping = ModeDeclarationMapping(self, short_name)
             self.addElement(mapping)
