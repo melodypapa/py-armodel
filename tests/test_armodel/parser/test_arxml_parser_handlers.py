@@ -1010,6 +1010,31 @@ class TestSwComponentAndConnectorHandlers:
         assert connector.getProviderIRef() is None
         assert connector.getRequesterIRef() is None
 
+    def test_readAssemblySwConnector_preserves_mapping_and_iref_values(self, parser, composition):
+        connector = composition.createAssemblySwConnector("a4")
+        element = _snip(
+            "<SHORT-NAME>a4</SHORT-NAME>"
+            "<MAPPING-REF DEST='PORT-INTERFACE-MAPPING'>/mapping</MAPPING-REF>"
+            "<PROVIDER-IREF>"
+            "<CONTEXT-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/provider/component</CONTEXT-COMPONENT-REF>"
+            "<TARGET-P-PORT-REF DEST='P-PORT-PROTOTYPE'>/provider/port</TARGET-P-PORT-REF>"
+            "</PROVIDER-IREF>"
+            "<REQUESTER-IREF>"
+            "<CONTEXT-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/requester/component</CONTEXT-COMPONENT-REF>"
+            "<TARGET-R-PORT-REF DEST='R-PORT-PROTOTYPE'>/requester/port</TARGET-R-PORT-REF>"
+            "</REQUESTER-IREF>",
+            root_tag="ASSEMBLY-SW-CONNECTOR",
+        )
+
+        parser.readAssemblySwConnector(element, connector)
+
+        assert connector.getMappingRef().getValue() == "/mapping"
+        assert connector.getMappingRef().getDest() == "PORT-INTERFACE-MAPPING"
+        assert connector.getProviderIRef().getContextComponentRef().getValue() == "/provider/component"
+        assert connector.getProviderIRef().getTargetPPortRef().getValue() == "/provider/port"
+        assert connector.getRequesterIRef().getContextComponentRef().getValue() == "/requester/component"
+        assert connector.getRequesterIRef().getTargetRPortRef().getValue() == "/requester/port"
+
     def test_readSwConnector_sets_mappingRef(self, parser, composition):
         connector = composition.createAssemblySwConnector("a3")
         element = _snip(

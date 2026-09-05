@@ -183,16 +183,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 7 — Update checklist comment — Table D.15 p.950 and Table D.16 p.951 six-column checklists added; blank Notes marked `[—]`; concrete XML methods mapped to reader/writer coverage
    - [x] Step 8 — Deviations — none; concrete member names/types, XML order, DEST handling, and parser/writer coverage conform to Tables D.15/D.16 and XSD; base class Table D.14 uses p.950 and blank documentation cells
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 284 focused tests passed, ruff/flake8/black-check clean; 9b user-confirmed: D.14 base/members, blank Notes, derived-only XSD shape, concrete D.15/D.16 coverage, metadata documentation, member order, and no deviations accepted; marker written
-- [ ] `AssemblySwConnector` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.13 · member subtype of `CompositionSwComponentType.connector` alongside `DelegationSwConnector` below · parent `SwConnector` Table 3.12 stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `AssemblySwConnector` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.13 · member subtype of `CompositionSwComponentType.connector` alongside `DelegationSwConnector` below · parent `SwConnector` Table 3.12 stamped ✓) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 3.13, p.80; concrete class derives from `SwConnector`; provider/requester optional irefs synchronized in displayed order
+  - [x] Step 2 — Write model class unit test (Red) — strengthened model coverage; RED confirmed missing class Note
+  - [x] Step 3 — Implement model class (Green) — Optional annotations, typed signatures, None-guarded setters, chainable return values
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and member Notes copied verbatim from Table 3.13; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — expanded existing parser/writer coverage for field values, DEST attributes, XML order, and empty irefs; existing paths passed immediately
+  - [x] Step 6 — Update parser & writer (Green) — no production change required; existing reader/writer paths use matching mutators/getters
+  - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column and reader/writer mapping
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 306 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit pending
 - [ ] `DataTypeMappingSet` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.4 · member type of `CompositionSwComponentType.dataTypeMapping`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

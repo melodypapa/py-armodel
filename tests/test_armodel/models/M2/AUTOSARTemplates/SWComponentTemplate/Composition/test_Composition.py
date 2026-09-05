@@ -21,7 +21,11 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
     SwComponentPrototype,
     SwConnector,
 )
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import InstanceEventInCompositionInstanceRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (
+    InstanceEventInCompositionInstanceRef,
+    PPortInCompositionInstanceRef,
+    RPortInCompositionInstanceRef,
+)
 
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_Composition:
@@ -95,7 +99,7 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Composition:
         assert connector.getMappingRef() == ref
 
     def test_AssemblySwConnector(self):
-        """Test AssemblySwConnector class."""
+        """Test AssemblySwConnector initialization and spec members."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         assembly_connector = AssemblySwConnector(ar_root, "TestAssemblySwConnector")
@@ -105,11 +109,25 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Composition:
         assert assembly_connector.mappingRef is None
         assert assembly_connector.providerIRef is None
         assert assembly_connector.requesterIRef is None
+        assert isinstance(assembly_connector, SwConnector)
+        assert assembly_connector.__class__.__doc__.strip() == ("AssemblySwConnectors are exclusively used to connect SwComponentPrototypes in the context of a CompositionSwComponentType.")
 
         # Test setters and getters
         ref = RefType()
         assembly_connector.setMappingRef(ref)
         assert assembly_connector.getMappingRef() == ref
+
+        provider = PPortInCompositionInstanceRef()
+        requester = RPortInCompositionInstanceRef()
+        assert assembly_connector.setProviderIRef(provider) is assembly_connector
+        assert assembly_connector.setRequesterIRef(requester) is assembly_connector
+        assert assembly_connector.getProviderIRef() is provider
+        assert assembly_connector.getRequesterIRef() is requester
+
+        assembly_connector.setProviderIRef(None)
+        assembly_connector.setRequesterIRef(None)
+        assert assembly_connector.getProviderIRef() is provider
+        assert assembly_connector.getRequesterIRef() is requester
 
     def test_DelegationSwConnector(self):
         """Test DelegationSwConnector class."""
