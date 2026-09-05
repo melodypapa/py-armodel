@@ -554,7 +554,20 @@ retyped per the spec `Mult.` column.
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| `rtePluginProps` | `Optional[RtePluginProps]` | `rtePluginProps` | `RtePluginProps` | aggr | - (conforms Table 14.2; identity-only child serialization pending the unstamped `RtePluginProps`' own alignment pass — its `associatedCrossSwClusterComRtePluginRef`/`associatedRtePluginRef` refs are unread/unwritten; Rule 0001.10 audit candidate, referenced as-is) |
+| `rtePluginProps` | `Optional[RtePluginProps]` | `rtePluginProps` | `RtePluginProps` | aggr | - (conforms Table 14.2; nested references now serialize via the aligned RtePluginProps reader/writer) |
+
+## `RtePluginProps`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 971
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::FlatMap`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/FlatMap.py`
+
+No deviations — Table 14.5's two optional references are modeled and covered by the
+reader/writer in XSD order.
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `associatedCrossSwClusterComRtePluginRef` | `Optional[RefType]` | `associatedCrossSwClusterComRtePlugin` | `EcucContainerValue` | ref | - |
+| `associatedRtePluginRef` | `Optional[RefType]` | `associatedRtePlugin` | `EcucContainerValue` | ref | - |
 
 ## `McDataInstance`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 177

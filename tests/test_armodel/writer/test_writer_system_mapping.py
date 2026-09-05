@@ -638,6 +638,23 @@ class TestWriterSetFlatInstanceDescriptor:
         assert d.find("ECU-EXTRACT-REFERENCE-IREF/TARGET-REF").text == "/t"
 
 
+class TestWriterSetRtePluginProps:
+    def test_refs(self, writer):
+        props = RtePluginProps()
+        props.setAssociatedCrossSwClusterComRtePluginRef(_ref("/cross", "ECUC-CONTAINER-VALUE"))
+        props.setAssociatedRtePluginRef(_ref("/local", "ECUC-CONTAINER-VALUE"))
+        parent = _parent()
+
+        writer.setRtePluginProps(parent, props)
+
+        element = parent[0]
+        assert element.tag == "RTE-PLUGIN-PROPS"
+        assert element.find("ASSOCIATED-CROSS-SW-CLUSTER-COM-RTE-PLUGIN-REF").text == "/cross"
+        assert element.find("ASSOCIATED-CROSS-SW-CLUSTER-COM-RTE-PLUGIN-REF").get("DEST") == "ECUC-CONTAINER-VALUE"
+        assert element.find("ASSOCIATED-RTE-PLUGIN-REF").text == "/local"
+        assert element.find("ASSOCIATED-RTE-PLUGIN-REF").get("DEST") == "ECUC-CONTAINER-VALUE"
+
+
 class TestFlatInstanceDescriptorRoundTrip:
     def test_round_trip_full(self, tmp_path):
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor

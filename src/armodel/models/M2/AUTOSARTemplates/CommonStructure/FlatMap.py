@@ -17,37 +17,58 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class RtePluginProps(ARObject):
     """
-    Represents RTE plugin properties in AUTOSAR.
-    This class defines properties for RTE plugins.
+    The properties of a communication graph with respect to the utilization of RTE Implementation Plug-in.
     """
 
     # RtePluginProps method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getPluginName                [x] impl  [ ] docstring  [ ] test
-    # [ ] setPluginName                [x] impl  [ ] docstring  [ ] test
-    # [ ] getPluginVersion             [x] impl  [ ] docstring  [ ] test
-    # [ ] setPluginVersion             [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 14.5, p.971 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAssociatedCrossSwClusterComRtePluginRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAssociatedCrossSwClusterComRtePluginRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAssociatedRtePluginRef                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAssociatedRtePluginRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the RtePluginProps with default values.
-        """
         super().__init__()
-        self.pluginName: str = None
-        self.pluginVersion: str = None
 
-    def getPluginName(self):
-        return self.pluginName
+        # This associates a communication graph to a specific RTE Implementation Plug-in handling cross Software Cluster communication.
+        self.associatedCrossSwClusterComRtePluginRef: Optional[RefType] = None
 
-    def setPluginName(self, value):
-        self.pluginName = value
+        # This associates a communication graph to a specific RTE Implementation Plug-in handling local Software Cluster communication or communication in a non-cluster ECU.
+        self.associatedRtePluginRef: Optional[RefType] = None
+
+    def getAssociatedCrossSwClusterComRtePluginRef(self) -> Optional[RefType]:
+        """
+        This associates a communication graph to a specific RTE Implementation Plug-in handling cross Software Cluster communication.
+        """
+        return self.associatedCrossSwClusterComRtePluginRef
+
+    def setAssociatedCrossSwClusterComRtePluginRef(self, value: Optional[RefType]) -> "RtePluginProps":
+        """
+        This associates a communication graph to a specific RTE Implementation Plug-in handling cross Software Cluster communication.
+
+        A None value is a no-op and does not overwrite an existing associatedCrossSwClusterComRtePluginRef.
+        """
+        if value is not None:
+            self.associatedCrossSwClusterComRtePluginRef = value
         return self
 
-    def getPluginVersion(self):
-        return self.pluginVersion
+    def getAssociatedRtePluginRef(self) -> Optional[RefType]:
+        """
+        This associates a communication graph to a specific RTE Implementation Plug-in handling local Software Cluster communication or communication in a non-cluster ECU.
+        """
+        return self.associatedRtePluginRef
 
-    def setPluginVersion(self, value):
-        self.pluginVersion = value
+    def setAssociatedRtePluginRef(self, value: Optional[RefType]) -> "RtePluginProps":
+        """
+        This associates a communication graph to a specific RTE Implementation Plug-in handling local Software Cluster communication or communication in a non-cluster ECU.
+
+        A None value is a no-op and does not overwrite an existing associatedRtePluginRef.
+        """
+        if value is not None:
+            self.associatedRtePluginRef = value
         return self
 
 

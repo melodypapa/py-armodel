@@ -81,7 +81,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     NumericalRuleBasedValueSpecification,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap, RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Compiler, DependencyOnArtifact, Implementation, ImplementationProps, Linker
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataTypeElement, ImplementationDataType, ImplementationDataTypeElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior
@@ -9802,10 +9802,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, desc)
         self.setChildElementOptionalIdentifier(child_element, "ROLE", desc.getRole())
         if desc.getRtePluginProps() is not None:
-            ET.SubElement(child_element, "RTE-PLUGIN-PROPS")
+            self.setRtePluginProps(child_element, desc.getRtePluginProps())
         self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", desc.getSwDataDefProps())
         self.setAnyInstanceRef(child_element, "UPSTREAM-REFERENCE-IREF", desc.getUpstreamReferenceIRef())
         self.setAnyInstanceRef(child_element, "ECU-EXTRACT-REFERENCE-IREF", desc.getEcuExtractReferenceIRef())
+
+    def setRtePluginProps(self, element: ET.Element, props: RtePluginProps):
+        self.logger.debug("Set RtePluginProps")
+        child_element = ET.SubElement(element, "RTE-PLUGIN-PROPS")
+        self.setChildElementOptionalRefType(
+            child_element,
+            "ASSOCIATED-CROSS-SW-CLUSTER-COM-RTE-PLUGIN-REF",
+            props.getAssociatedCrossSwClusterComRtePluginRef(),
+        )
+        self.setChildElementOptionalRefType(child_element, "ASSOCIATED-RTE-PLUGIN-REF", props.getAssociatedRtePluginRef())
 
     def writeFlatMapInstances(self, element: ET.Element, map: FlatMap):
         instances = map.getInstances()

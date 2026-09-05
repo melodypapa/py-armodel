@@ -1,6 +1,7 @@
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import AliasNameAssignment, AliasNameSet, FlatInstanceDescriptor, FlatMap, RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, PackageableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
@@ -115,6 +116,36 @@ class TestFlatInstanceDescriptor:
 
         flat_instance.setUpstreamReferenceIRef(None)  # No-op
         assert flat_instance.getUpstreamReferenceIRef() == test_value
+
+
+class TestRtePluginProps:
+    CLASS_NOTE = "The properties of a communication graph with respect to the utilization of RTE Implementation Plug-in."
+
+    def test_initialization_and_heritage(self):
+        props = RtePluginProps()
+
+        assert isinstance(props, ARObject)
+        assert props.associatedCrossSwClusterComRtePluginRef is None
+        assert props.associatedRtePluginRef is None
+        assert RtePluginProps.__doc__.strip() == self.CLASS_NOTE
+
+    def test_get_set_associated_cross_sw_cluster_com_rte_plugin_ref(self):
+        props = RtePluginProps()
+        value = RefType().setValue("/cross")
+
+        assert props.setAssociatedCrossSwClusterComRtePluginRef(value) is props
+        assert props.getAssociatedCrossSwClusterComRtePluginRef() is value
+        assert props.setAssociatedCrossSwClusterComRtePluginRef(None) is props
+        assert props.getAssociatedCrossSwClusterComRtePluginRef() is value
+
+    def test_get_set_associated_rte_plugin_ref(self):
+        props = RtePluginProps()
+        value = RefType().setValue("/local")
+
+        assert props.setAssociatedRtePluginRef(value) is props
+        assert props.getAssociatedRtePluginRef() is value
+        assert props.setAssociatedRtePluginRef(None) is props
+        assert props.getAssociatedRtePluginRef() is value
 
 
 class TestAliasNameAssignment:

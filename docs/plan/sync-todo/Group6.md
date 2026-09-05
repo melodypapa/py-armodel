@@ -305,17 +305,16 @@ Input: `Group 6 — Ethernet/Flexray Fibex, SecureCommunication, Transformer, Da
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `RtePluginProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 14.5)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-
+- [x] `RtePluginProps` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 14.5) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 14.5, p.971; Base=ARObject; two optional ref attributes in displayed order: associatedCrossSwClusterComRtePlugin and associatedRtePlugin
+  - [x] Step 2 — Write model class unit test (Red) — model defaults, heritage, verbatim class Note, None-guarded getter/setter round-trips
+  - [x] Step 3 — Implement model class (Green) — replaced fabricated pluginName/pluginVersion fields with the two typed RefType members and chaining accessors
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class/member Notes copied verbatim from Table 14.5; setter None no-op text appended
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — parser and writer tests cover both refs and DEST values
+  - [x] Step 6 — Update parser & writer (Green) — RTE-PLUGIN-PROPS reader/writer now preserve both optional references in XSD sequence order
+  - [x] Step 7 — Update checklist comment — six-column parity checklist with R23-11 citation and release rows
+  - [x] Step 8 — Deviations — none; EcucContainerValue is an existing member type
+  - [x] Step 9 — Verify (9a) + confirm (9b) — focused model/parser/writer tests pass; 9b confirmed by user in this session; stamp written
 ## Pending 16.4 resolution (NEW — not in src)
 
 _(none)_

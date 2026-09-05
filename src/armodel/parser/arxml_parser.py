@@ -11095,10 +11095,17 @@ class ARXMLParser(AbstractARXMLParser):
         desc.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
         rte_plugin_props_element = self.find(element, "RTE-PLUGIN-PROPS")
         if rte_plugin_props_element is not None:
-            desc.setRtePluginProps(RtePluginProps())
+            rte_plugin_props = RtePluginProps()
+            self.readRtePluginProps(rte_plugin_props_element, rte_plugin_props)
+            desc.setRtePluginProps(rte_plugin_props)
         desc.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
         desc.setUpstreamReferenceIRef(self.getAnyInstanceRef(element, "UPSTREAM-REFERENCE-IREF"))
         desc.setEcuExtractReferenceIRef(self.getAnyInstanceRef(element, "ECU-EXTRACT-REFERENCE-IREF"))
+
+    def readRtePluginProps(self, element: ET.Element, props: RtePluginProps):
+        self.logger.debug("Read RtePluginProps")
+        props.setAssociatedCrossSwClusterComRtePluginRef(self.getChildElementOptionalRefType(element, "ASSOCIATED-CROSS-SW-CLUSTER-COM-RTE-PLUGIN-REF"))
+        props.setAssociatedRtePluginRef(self.getChildElementOptionalRefType(element, "ASSOCIATED-RTE-PLUGIN-REF"))
 
     def readFlatMapInstances(self, element: ET.Element, map: FlatMap):
         for child_element in self.findall(element, "INSTANCES/*"):
