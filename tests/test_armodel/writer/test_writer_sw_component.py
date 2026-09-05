@@ -1219,6 +1219,12 @@ class TestWriteCompositionSwComponentType:
         assert parent[0].tag == "ASSEMBLY-SW-CONNECTOR"
         assert parent[0].find("PROVIDER-IREF") is not None
         assert parent[0].find("REQUESTER-IREF") is not None
+        assert parent[0].find("PROVIDER-IREF/CONTEXT-COMPONENT-REF").text == _ref().getValue()
+        assert parent[0].find("PROVIDER-IREF/TARGET-P-PORT-REF").text == _ref().getValue()
+        assert parent[0].find("REQUESTER-IREF/CONTEXT-COMPONENT-REF").text == _ref().getValue()
+        assert parent[0].find("REQUESTER-IREF/TARGET-R-PORT-REF").text == _ref().getValue()
+        assert [child.tag for child in parent[0].find("PROVIDER-IREF")] == ["CONTEXT-COMPONENT-REF", "TARGET-P-PORT-REF"]
+        assert [child.tag for child in parent[0].find("REQUESTER-IREF")] == ["CONTEXT-COMPONENT-REF", "TARGET-R-PORT-REF"]
 
     def test_write_assembly_sw_connector_no_irefs(self, writer):
         comp = self._comp()
@@ -1243,6 +1249,10 @@ class TestWriteCompositionSwComponentType:
         assert parent[0].find("INNER-PORT-IREF") is not None
         assert parent[0].find("INNER-PORT-IREF").find("P-PORT-IN-COMPOSITION-INSTANCE-REF") is not None
         assert parent[0].find("OUTER-PORT-REF") is not None
+        instance_ref = parent[0].find("INNER-PORT-IREF/P-PORT-IN-COMPOSITION-INSTANCE-REF")
+        assert instance_ref.find("CONTEXT-COMPONENT-REF").text == _ref().getValue()
+        assert instance_ref.find("TARGET-P-PORT-REF").text == _ref().getValue()
+        assert [child.tag for child in instance_ref] == ["CONTEXT-COMPONENT-REF", "TARGET-P-PORT-REF"]
 
     def test_write_delegation_sw_connector_r_port(self, writer):
         comp = self._comp()
@@ -1254,6 +1264,10 @@ class TestWriteCompositionSwComponentType:
         parent = _parent()
         writer.writeDelegationSwConnector(parent, conn)
         assert parent[0].find("INNER-PORT-IREF").find("R-PORT-IN-COMPOSITION-INSTANCE-REF") is not None
+        instance_ref = parent[0].find("INNER-PORT-IREF/R-PORT-IN-COMPOSITION-INSTANCE-REF")
+        assert instance_ref.find("CONTEXT-COMPONENT-REF").text == _ref().getValue()
+        assert instance_ref.find("TARGET-R-PORT-REF").text == _ref().getValue()
+        assert [child.tag for child in instance_ref] == ["CONTEXT-COMPONENT-REF", "TARGET-R-PORT-REF"]
 
     def test_write_delegation_sw_connector_no_inner(self, writer):
         comp = self._comp()
