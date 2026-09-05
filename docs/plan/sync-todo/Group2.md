@@ -276,7 +276,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 6 — Update parser & writer (Green) — existing subclass reader/writer accessor paths confirmed; base abstract/redefined relationships remain model-only
   - [x] Step 7 — Update checklist comment — six-column checklist with corrected p.941 citation and R23-11 release column
   - [x] Step 8 — Deviations — none
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 425 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit pending
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 425 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `03690054`
 - [ ] `VariableInAtomicSWCTypeInstanceRef` (tracker input · **spec CORRECTED 2026-09-03 restructure: R23-11 markdown Table D.18 exists (appendix letter-numbered table, same as D.17/D.4 cases), NOT XSD-only** · after `VariableDataPrototype`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
