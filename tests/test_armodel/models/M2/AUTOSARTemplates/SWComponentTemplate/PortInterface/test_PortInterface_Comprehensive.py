@@ -9,13 +9,14 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Numerical, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ClientServerApplicationErrorMapping,
     ClientServerInterfaceMapping,
     ClientServerOperationMapping,
     DataPrototypeMapping,
     InvalidationPolicy,
+    MappingDirectionEnum,
     MetaDataItem,
     MetaDataItemSet,
     ModeDeclarationMapping,
@@ -25,6 +26,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     PortInterfaceMapping,
     PortInterfaceMappingSet,
     SubElementRef,
+    TextTableMapping,
+    TextTableValuePair,
     TriggerInterface,
     TriggerInterfaceMapping,
     VariableAndParameterInterfaceMapping,
@@ -401,6 +404,67 @@ class TestSubElementMapping:
         assert mapping.getTextTableMappings() == [text_map]
 
 
+class TestMappingDirectionEnum:
+    """Test class for MappingDirectionEnum class."""
+
+    def test_mapping_direction_enum_initialization(self):
+        """Test MappingDirectionEnum initialization and literal round-trips."""
+        enum = MappingDirectionEnum()
+        assert enum.getEnumValues() == ("bidirectional", "firstToSecond", "secondToFirst")
+
+        bidirectional = MappingDirectionEnum()
+        bidirectional.setValue(MappingDirectionEnum.BIDIRECTIONAL)
+        assert bidirectional.getValue() == MappingDirectionEnum.BIDIRECTIONAL
+
+        first_to_second = MappingDirectionEnum()
+        first_to_second.setValue(MappingDirectionEnum.FIRST_TO_SECOND)
+        assert first_to_second.getValue() == MappingDirectionEnum.FIRST_TO_SECOND
+
+        second_to_first = MappingDirectionEnum()
+        second_to_first.setValue(MappingDirectionEnum.SECOND_TO_FIRST)
+        assert second_to_first.getValue() == MappingDirectionEnum.SECOND_TO_FIRST
+
+    def test_mapping_direction_enum_docstring(self):
+        """The class docstring copies the Table 4.37 Note verbatim."""
+        assert MappingDirectionEnum.__doc__.strip() == "Specifies the conversion direction for which the mapping is applicable."
+
+
+class TestTextTableValuePair:
+    """Test class for TextTableValuePair class."""
+
+    def test_text_table_value_pair_initialization(self):
+        """Test TextTableValuePair initialization defaults."""
+        pair = TextTableValuePair()
+        assert pair.getFirstValue() is None
+        assert pair.getSecondValue() is None
+
+    def test_get_set_first_value(self):
+        """Test firstValue getter and setter with None no-op."""
+        pair = TextTableValuePair()
+        value = Numerical()
+        value.setValue("8")
+        result = pair.setFirstValue(value)
+        assert result is pair
+        assert pair.getFirstValue() == value
+        pair.setFirstValue(None)
+        assert pair.getFirstValue() == value
+
+    def test_get_set_second_value(self):
+        """Test secondValue getter and setter with None no-op."""
+        pair = TextTableValuePair()
+        value = Numerical()
+        value.setValue("16")
+        result = pair.setSecondValue(value)
+        assert result is pair
+        assert pair.getSecondValue() == value
+        pair.setSecondValue(None)
+        assert pair.getSecondValue() == value
+
+    def test_text_table_value_pair_docstring(self):
+        """The class docstring copies the Table 4.38 Note verbatim."""
+        assert TextTableValuePair.__doc__.strip() == "Defines a pair of text values which are translated into each other."
+
+
 class TestTextTableMapping:
     """Test class for TextTableMapping class."""
 
@@ -412,7 +476,37 @@ class TestTextTableMapping:
         assert mapping.getBitfieldTextTableMaskFirst() is None
         assert mapping.getBitfieldTextTableMaskSecond() is None
         assert mapping.getIdenticalMapping() is None
+        assert mapping.getMappingDirection() is None
         assert mapping.getValuePairs() == []
+
+    def test_text_table_mapping_docstring(self):
+        """The class docstring copies the Table 4.36 Note verbatim."""
+        assert (
+            TextTableMapping.__doc__.strip()
+            == "Defines the mapping of two DataPrototypes typed by AutosarDataTypes that refer to CompuMethods of category TEXTTABLE, SCALE_LINEAR_AND_TEXTTABLE or BITFIELD_TEXTTABLE."
+        )
+
+    def test_get_set_mapping_direction(self):
+        """Test mappingDirection getter and setter with None no-op."""
+        mapping = TextTableMapping()
+        direction = MappingDirectionEnum()
+        direction.setValue(MappingDirectionEnum.BIDIRECTIONAL)
+        result = mapping.setMappingDirection(direction)
+        assert result is mapping
+        assert mapping.getMappingDirection() == direction
+        mapping.setMappingDirection(None)
+        assert mapping.getMappingDirection() == direction
+
+    def test_add_value_pair(self):
+        """Test addValuePair appends and ignores None."""
+        mapping = TextTableMapping()
+        assert mapping.getValuePairs() == []
+        pair = TextTableValuePair()
+        result = mapping.addValuePair(pair)
+        assert result is mapping
+        assert mapping.getValuePairs() == [pair]
+        mapping.addValuePair(None)
+        assert mapping.getValuePairs() == [pair]
 
     def test_get_set_bitfield_text_table_mask_first(self):
         """Test bitfieldTextTableMaskFirst getter and setter with None no-op."""

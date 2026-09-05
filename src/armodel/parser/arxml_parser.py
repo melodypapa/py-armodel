@@ -573,6 +573,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     SenderReceiverInterface,
     SubElementMapping,
     TextTableMapping,
+    TextTableValuePair,
     TriggerInterface,
     VariableAndParameterInterfaceMapping,
 )
@@ -11143,7 +11144,15 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setBitfieldTextTableMaskSecond(self.getChildElementOptionalPositiveInteger(element, "BITFIELD-TEXT-TABLE-MASK-SECOND"))
         mapping.setIdenticalMapping(self.getChildElementOptionalBooleanValue(element, "IDENTICAL-MAPPING"))
         mapping.setMappingDirection(self.getChildElementOptionalLiteral(element, "MAPPING-DIRECTION"))
+        for pair_element in self.findall(element, "VALUE-PAIRS/TEXT-TABLE-VALUE-PAIR"):
+            mapping.addValuePair(self.getTextTableValuePair(pair_element))
         return mapping
+
+    def getTextTableValuePair(self, element: ET.Element) -> TextTableValuePair:
+        value_pair = TextTableValuePair()
+        value_pair.setFirstValue(self.getChildElementOptionalNumerical(element, "FIRST-VALUE"))
+        value_pair.setSecondValue(self.getChildElementOptionalNumerical(element, "SECOND-VALUE"))
+        return value_pair
 
     def readVariableAndParameterInterfaceMapping(self, element: ET.Element, mapping: VariableAndParameterInterfaceMapping):
         # self.logger.debug("Read VariableAndParameterInterfaceMapping %s" % mapping.getShortName())

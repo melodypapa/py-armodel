@@ -502,6 +502,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     SenderReceiverInterface,
     SubElementMapping,
     TextTableMapping,
+    TextTableValuePair,
     TriggerInterface,
     VariableAndParameterInterfaceMapping,
 )
@@ -9856,6 +9857,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-SECOND", mapping.getBitfieldTextTableMaskSecond())
         self.setChildElementOptionalBooleanValue(child_element, "IDENTICAL-MAPPING", mapping.getIdenticalMapping())
         self.setChildElementOptionalLiteral(child_element, "MAPPING-DIRECTION", mapping.getMappingDirection())
+        value_pairs = mapping.getValuePairs()
+        if len(value_pairs) > 0:
+            value_pairs_element = ET.SubElement(child_element, "VALUE-PAIRS")
+            for value_pair in value_pairs:
+                self.setTextTableValuePair(value_pairs_element, value_pair)
+
+    def setTextTableValuePair(self, element: ET.Element, value_pair: TextTableValuePair):
+        child_element = ET.SubElement(element, "TEXT-TABLE-VALUE-PAIR")
+        self.setChildElementOptionalNumerical(child_element, "FIRST-VALUE", value_pair.getFirstValue())
+        self.setChildElementOptionalNumerical(child_element, "SECOND-VALUE", value_pair.getSecondValue())
 
     def setDataPrototypeMappings(self, element: ET.Element, key: str, mappings: List[DataPrototypeMapping]):
         if len(mappings) > 0:
