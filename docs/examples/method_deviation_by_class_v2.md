@@ -659,15 +659,6 @@ reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 |---|---|---|---|---|---|
 | `texttablemapping` | `—` | `textTableMapping` | ``TextTableMapping`` | aggr | type (spec one vs py list) |
 
-## `TriggerInterfaceMapping`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 4.31
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `triggermapping` | `—` | `triggerMapping` | ``TriggerMapping`` | aggr | type (spec many vs py single) |
-
 ## `ModeDeclarationMappingSet`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 4.29
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`

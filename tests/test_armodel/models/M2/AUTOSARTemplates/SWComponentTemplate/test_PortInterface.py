@@ -645,14 +645,14 @@ class TestTriggerInterfaceMapping:
 
         assert trigger_mapping.parent == ar_root
         assert trigger_mapping.short_name == "TestTriggerInterfaceMapping"
-        assert trigger_mapping.triggerMapping == []
+        assert trigger_mapping.triggerMappings == []
 
         # Test triggerMapping methods
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import TriggerMapping
 
         trigger_map = TriggerMapping()
-        trigger_mapping.setTriggerMapping([trigger_map])
-        assert trigger_map in trigger_mapping.getTriggerMapping()
+        trigger_mapping.addTriggerMapping(trigger_map)
+        assert trigger_map in trigger_mapping.getTriggerMappings()
 
 
 class TestModeDeclarationMapping:

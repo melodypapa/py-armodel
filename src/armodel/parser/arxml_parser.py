@@ -11182,12 +11182,10 @@ class ARXMLParser(AbstractARXMLParser):
         trigger_mapping.setSecondTriggerRef(self.getChildElementOptionalRefType(element, "SECOND-TRIGGER-REF"))
 
     def readTriggerInterfaceMappingTriggerMappings(self, element: ET.Element, mapping: TriggerInterfaceMapping):
-        trigger_mappings = []
         for child_element in self.findall(element, "TRIGGER-MAPPINGS/TRIGGER-MAPPING"):
             trigger_mapping = TriggerMapping()
             self.readTriggerMapping(child_element, trigger_mapping)
-            trigger_mappings.append(trigger_mapping)
-        mapping.setTriggerMapping(trigger_mappings)
+            mapping.addTriggerMapping(trigger_mapping)
 
     def readTriggerInterfaceMapping(self, element: ET.Element, mapping: TriggerInterfaceMapping):
         # self.logger.debug("Read TriggerInterfaceMapping %s" % mapping.getShortName())

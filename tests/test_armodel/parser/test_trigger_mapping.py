@@ -40,7 +40,7 @@ class TestReadTriggerMapping:
 
         parser.readTriggerInterfaceMapping(element, tim)
 
-        trigger_mappings = tim.getTriggerMapping()
+        trigger_mappings = tim.getTriggerMappings()
         assert len(trigger_mappings) == 2
 
         first = trigger_mappings[0]
@@ -67,7 +67,7 @@ class TestReadTriggerMapping:
 
         parser.readTriggerInterfaceMapping(element, tim)
 
-        trigger_mapping = tim.getTriggerMapping()[0]
+        trigger_mapping = tim.getTriggerMappings()[0]
         assert trigger_mapping.getFirstTriggerRef() is None
         assert trigger_mapping.getSecondTriggerRef() is None
 
@@ -89,7 +89,7 @@ class TestReadTriggerMapping:
         trigger_mapping.getFirstTriggerRef().setDest("TRIGGER")
         trigger_mapping.setSecondTriggerRef(RefType().setValue("/Types/Trig2"))
         trigger_mapping.getSecondTriggerRef().setDest("TRIGGER")
-        tim.setTriggerMapping([trigger_mapping])
+        tim.addTriggerMapping(trigger_mapping)
 
         file_path = tempfile.mktemp(suffix=".arxml")
         try:
@@ -108,7 +108,7 @@ class TestReadTriggerMapping:
             tim_2 = pims_2.getPortInterfaceMappings()[0]
             assert tim_2.getShortName() == "tim"
 
-            trigger_mappings_2 = tim_2.getTriggerMapping()
+            trigger_mappings_2 = tim_2.getTriggerMappings()
             assert len(trigger_mappings_2) == 1
             first_2 = trigger_mappings_2[0].getFirstTriggerRef()
             assert first_2.getValue() == "/Types/Trig1"

@@ -34,7 +34,7 @@ class TestWriteTriggerMapping:
         trigger_mapping = TriggerMapping()
         trigger_mapping.setFirstTriggerRef(_ref("/pkg/trigger1"))
         trigger_mapping.setSecondTriggerRef(_ref("/pkg/trigger2"))
-        tim.setTriggerMapping([trigger_mapping])
+        tim.addTriggerMapping(trigger_mapping)
         return tim
 
     def test_write_field_values(self):
@@ -71,7 +71,7 @@ class TestWriteTriggerMapping:
         ar_root = AUTOSAR.getInstance().createARPackage("AUTOSAR")
         pims = ar_root.createPortInterfaceMappingSet("Pims")
         tim = pims.createTriggerInterfaceMapping("tim")
-        tim.setTriggerMapping([TriggerMapping()])
+        tim.addTriggerMapping(TriggerMapping())
 
         element = ET.Element("PARENT")
         writer.writeTriggerInterfaceMapping(element, tim)

@@ -6,6 +6,9 @@ Tests cover all classes and methods in the PortInterface module files to achieve
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import TriggerMapping
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ClientServerApplicationErrorMapping,
@@ -481,24 +484,47 @@ class TestModeInterfaceMapping:
 
 
 class TestTriggerInterfaceMapping:
-    """Test class for TriggerInterfaceMapping class."""
+    """Test class for TriggerInterfaceMapping class (Table 4.30, p.134)."""
+
+    SPEC_NOTE = "Defines the mapping of unequal named Triggers in context of two different TriggerInterfaces."
 
     def test_trigger_interface_mapping_initialization(self):
-        """Test TriggerInterfaceMapping initialization and methods."""
+        """Test TriggerInterfaceMapping initialization defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         mapping = TriggerInterfaceMapping(ar_root, "TestTriggerInterfaceMapping")
 
-        assert mapping.triggerMapping == []
+        assert mapping.triggerMappings == []
         assert mapping.parent == ar_root
         assert mapping.short_name == "TestTriggerInterfaceMapping"
 
-        # Test setter and getter
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import TriggerMapping
+    def test_trigger_interface_mapping_heritage(self):
+        """TriggerInterfaceMapping's most-derived direct base is PortInterfaceMapping (Table 4.30 Base chain)."""
+        mapping = TriggerInterfaceMapping(None, "Tim")
 
+        assert type(mapping).__bases__ == (PortInterfaceMapping,)
+        for ancestor in (PortInterfaceMapping, Identifiable, Referrable, ARObject):
+            assert isinstance(mapping, ancestor)
+
+    def test_trigger_interface_mapping_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 4.30)."""
+        assert TriggerInterfaceMapping.__doc__.strip() == self.SPEC_NOTE
+
+    def test_trigger_interface_mapping_get_add_round_trip(self):
+        """getTriggerMappings / addTriggerMapping round-trip with chaining."""
+        mapping = TriggerInterfaceMapping(None, "Tim")
         trigger_mapping = TriggerMapping()
-        mapping.setTriggerMapping([trigger_mapping])
-        assert trigger_mapping in mapping.getTriggerMapping()
+
+        return_value = mapping.addTriggerMapping(trigger_mapping)
+        assert return_value == mapping  # method chaining
+        assert mapping.getTriggerMappings() == [trigger_mapping]
+
+    def test_trigger_interface_mapping_add_none_noop(self):
+        """addTriggerMapping(None) is a no-op."""
+        mapping = TriggerInterfaceMapping(None, "Tim")
+
+        mapping.addTriggerMapping(None)
+        assert mapping.getTriggerMappings() == []
 
 
 class TestModeDeclarationMapping:

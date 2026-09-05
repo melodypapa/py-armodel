@@ -87,7 +87,7 @@ class TestWritePortInterfaceMappingSet:
         trigger_mapping = TriggerMapping()
         trigger_mapping.setFirstTriggerRef(_ref("/pkg/trigger1"))
         trigger_mapping.setSecondTriggerRef(_ref("/pkg/trigger2"))
-        tim.setTriggerMapping([trigger_mapping])
+        tim.addTriggerMapping(trigger_mapping)
 
         element = ET.Element("PARENT")
         writer.writePortInterfaceMappingSet(element, mapping_set)

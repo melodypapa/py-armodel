@@ -9905,7 +9905,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(element, "SECOND-TRIGGER-REF", trigger_mapping.getSecondTriggerRef())
 
     def writeTriggerInterfaceMappingTriggerMappings(self, element: ET.Element, mapping: TriggerInterfaceMapping):
-        trigger_mappings = mapping.getTriggerMapping()
+        trigger_mappings = mapping.getTriggerMappings()
         if len(trigger_mappings) > 0:
             child_element = ET.SubElement(element, "TRIGGER-MAPPINGS")
             for trigger_mapping in trigger_mappings:

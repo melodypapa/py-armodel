@@ -1326,22 +1326,37 @@ class ModeInterfaceMapping(PortInterfaceMapping):
 
 
 class TriggerInterfaceMapping(PortInterfaceMapping):
+    """
+    Defines the mapping of unequal named Triggers in context of two different TriggerInterfaces.
+    """
+
     # TriggerInterfaceMapping method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTriggerMapping            [x] impl  [ ] docstring  [ ] test
-    # [ ] setTriggerMapping            [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.30, p.134 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTriggerMappings            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTriggerMapping             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.triggerMapping: List[TriggerMapping] = []
+        # Mapping of two Trigger in two different TriggerInterface
+        self.triggerMappings: List[TriggerMapping] = []
 
-    def getTriggerMapping(self) -> List[TriggerMapping]:
-        return self.triggerMapping
+    def getTriggerMappings(self) -> List[TriggerMapping]:
+        """
+        Mapping of two Trigger in two different TriggerInterface
+        """
+        return self.triggerMappings
 
-    def setTriggerMapping(self, value: List[TriggerMapping]):
+    def addTriggerMapping(self, value: Optional[TriggerMapping]) -> "TriggerInterfaceMapping":
+        """
+        Mapping of two Trigger in two different TriggerInterface
+        A None value is a no-op and does not append anything.
+        """
         if value is not None:
-            self.triggerMapping = value
+            self.triggerMappings.append(value)
         return self
 
 
