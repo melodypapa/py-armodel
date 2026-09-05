@@ -881,6 +881,8 @@ class TestRteEventHandlers:
         )
         parser.readDataReceivedEvent(element, event)
         assert event.getDataIRef() is not None
+        assert event.getDataIRef().getContextRPortRef().getValue() == "/rport"
+        assert event.getDataIRef().getTargetDataElementRef().getValue() == "/data"
 
     def test_readSwcModeSwitchEvent_full(self, parser):
         from armodel.models import ApplicationSwComponentType

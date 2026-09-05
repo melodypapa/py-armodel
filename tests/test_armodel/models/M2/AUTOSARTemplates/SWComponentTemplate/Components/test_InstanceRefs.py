@@ -239,6 +239,24 @@ class TestVariableInAtomicSwcInstanceRef:
         with pytest.raises(TypeError):
             VariableInAtomicSwcInstanceRef()
 
+    def test_spec_members_are_typed_and_none_guarded(self):
+        instance_ref = RVariableInAtomicSwcInstanceRef()
+        abstract_target = RefType().setValue("/Abstract/Target")
+        base_ref = RefType().setValue("/Base")
+        context_port = RefType().setValue("/Context/Port")
+
+        assert instance_ref.getAbstractTargetDataElementRef() is None
+        assert instance_ref.setAbstractTargetDataElementRef(abstract_target) is instance_ref
+        assert instance_ref.getAbstractTargetDataElementRef() is abstract_target
+        assert instance_ref.setBaseRef(base_ref) is instance_ref
+        assert instance_ref.setContextPortRef(context_port) is instance_ref
+        instance_ref.setAbstractTargetDataElementRef(None)
+        instance_ref.setBaseRef(None)
+        instance_ref.setContextPortRef(None)
+        assert instance_ref.getAbstractTargetDataElementRef() is abstract_target
+        assert instance_ref.getBaseRef() is base_ref
+        assert instance_ref.getContextPortRef() is context_port
+
 
 class TestRVariableInAtomicSwcInstanceRef:
     """Test class for RVariableInAtomicSwcInstanceRef class."""
