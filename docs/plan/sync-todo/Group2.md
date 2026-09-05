@@ -227,16 +227,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 9 — Verify (9a) + confirm (9b) — 343 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `031d5c78`
 - [x] `InitEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.22 · after `RTEEvent` (parent, Table 7.9)) — **already verified (`# Spec verified: R23-11`, SwcInternalBehavior/RTEEvents.py l.369)** — sub-checklist finalized 2026-09-05 per already-verified short-circuit: marker present in source + quick deviation check clean (concrete `RTEEvent` subclass ✓, zero own attributes per Table 7.22 ✓, class Note verbatim ✓, inherited parser/writer coverage ✓, six-column checklist with release column ✓)
    - [x] Steps 1–9 — completed by prior sync; skipped per already-verified short-circuit (marker + clean deviation check; see row header)
-- [ ] `BackgroundEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.16 · after `RTEEvent` (parent, Table 7.9))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `BackgroundEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.16 · after `RTEEvent` (parent, Table 7.9)) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 7.16, p.544; concrete class derives from `RTEEvent`; no own attributes
+  - [x] Step 2 — Write model class unit test (Red) — strengthened inheritance and exact Note coverage; RED confirmed stale/truncated class Note
+  - [x] Step 3 — Implement model class (Green) — no member/base implementation change required
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note copied verbatim; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (N/A with evidence) — inherited RTEEvent field and empty-event behavior tested
+  - [x] Step 6 — Update parser & writer (N/A with evidence) — existing readRTEEvent/setRTEEvent delegation is conformant
+  - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 407 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit pending
 - [ ] `SynchronousServerCallPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.36 · after `ServerCallPoint` (parent, Table 7.35) · attr `calledFromWithinExclusiveArea` → `ExclusiveAreaNestingOrder` stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

@@ -303,6 +303,16 @@ class TestWriterRteEvents:
         parent = _parent()
         writer.writeBackgroundEvent(parent, event)
         assert parent[0].tag == "BACKGROUND-EVENT"
+        assert parent[0].find("START-ON-EVENT-REF") is None
+
+    def test_writeBackgroundEvent_inherited_rte_fields(self, writer):
+        behavior = _make_behavior()
+        event = behavior.createBackgroundEvent("be")
+        event.setStartOnEventRef(_ref("/runnable", "RUNNABLE-ENTITY"))
+        parent = _parent()
+        writer.writeBackgroundEvent(parent, event)
+        assert parent[0].find("START-ON-EVENT-REF").text == "/runnable"
+        assert parent[0].find("START-ON-EVENT-REF").get("DEST") == "RUNNABLE-ENTITY"
 
     def test_writeBackgroundEvent_none(self, writer):
         parent = _parent()

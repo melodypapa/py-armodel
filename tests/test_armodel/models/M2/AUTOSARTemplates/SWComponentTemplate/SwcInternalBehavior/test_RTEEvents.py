@@ -410,6 +410,8 @@ class TestBackgroundEvent:
         assert event.short_name == "TestBackgroundEvent"
         assert event.disabledModeIRefs == []
         assert event.startOnEventRef is None
+        assert isinstance(event, RTEEvent)
+        assert BackgroundEvent.__doc__.strip() == "This event is used to start RunnableEntities that are supposed to be executed in the background."
 
 
 class TestWaitPoint:

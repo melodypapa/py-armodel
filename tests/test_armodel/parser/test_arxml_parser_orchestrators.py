@@ -972,6 +972,22 @@ class TestRteEventHandlers:
         element = _snip("<SHORT-NAME>be</SHORT-NAME>", root_tag="BACKGROUND-EVENT")
         parser.readBackgroundEvent(element, event)
         assert event.getShortName() == "be"
+        assert event.getDisabledModeIRefs() == []
+        assert event.getStartOnEventRef() is None
+
+    def test_readBackgroundEvent_inherited_rte_fields(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        event = behavior.createBackgroundEvent("be")
+        element = _snip(
+            "<SHORT-NAME>be</SHORT-NAME><START-ON-EVENT-REF DEST='RUNNABLE-ENTITY'>/runnable</START-ON-EVENT-REF>",
+            root_tag="BACKGROUND-EVENT",
+        )
+        parser.readBackgroundEvent(element, event)
+        assert event.getStartOnEventRef().getValue() == "/runnable"
+        assert event.getStartOnEventRef().getDest() == "RUNNABLE-ENTITY"
 
     def test_readDataSendCompletedEvent_full(self, parser):
         from armodel.models import ApplicationSwComponentType
