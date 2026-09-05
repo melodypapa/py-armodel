@@ -203,16 +203,8 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column and reader/writer mapping
   - [x] Step 8 — Deviations — no class deviation; unstamped referenced DataTypeMap reported for future dependency sync
   - [x] Step 9 — Verify (9a) + confirm (9b) — 277 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `21ab486b`
-- [ ] `AbstractImplementationDataTypeElement` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.16 · member type of `ArVariableInImplementationDataInstanceRef.contextDataPrototype`/`targetDataPrototype`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `AbstractImplementationDataTypeElement` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.16 · member type of `ArVariableInImplementationDataInstanceRef.contextDataPrototype`/`targetDataPrototype`) — **already verified (`# Spec verified: R23-11`, CommonStructure/ImplementationDataTypes.py l.19)** — sub-checklist flipped 2026-09-05 per already-verified short-circuit: marker present in source + quick deviation check clean (abstract `AtpStructureElement` base ✓, zero own attributes per Table 5.16 ✓, class Note verbatim ✓, inherited parser/writer coverage through `ImplementationDataTypeElement` ✓, six-column checklist with release column ✓)
+  - [x] Steps 1–9 — completed by prior sync; skipped per already-verified short-circuit (marker + clean deviation check; see row header)
 - [ ] `ApplicationDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.2 (abstract; base of the three concrete Application* data types below — **moved 2026-09-03 restructure ahead of its subclasses**))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
