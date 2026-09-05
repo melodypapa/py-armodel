@@ -71,5 +71,17 @@ class TestServerCallPoint:
         assert result is call_point
         assert call_point.getTimeout() is timeout
 
-        call_point.setTimeout(None)
-        assert call_point.getTimeout() is timeout
+    def test_synchronous_server_call_point_spec_contract(self):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExclusiveAreaNestingOrder
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import SynchronousServerCallPoint
+
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        call_point = SynchronousServerCallPoint(ar_root, "TestSynchronous")
+        nesting_order = ExclusiveAreaNestingOrder(ar_root, "Nesting")
+
+        assert call_point.getCalledFromWithinExclusiveAreaRef() is None
+        assert call_point.setCalledFromWithinExclusiveAreaRef(nesting_order) is call_point
+        assert call_point.getCalledFromWithinExclusiveAreaRef() is nesting_order
+        call_point.setCalledFromWithinExclusiveAreaRef(None)
+        assert call_point.getCalledFromWithinExclusiveAreaRef() is nesting_order

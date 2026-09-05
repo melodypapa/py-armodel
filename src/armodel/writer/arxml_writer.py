@@ -3255,6 +3255,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SYNCHRONOUS-SERVER-CALL-POINT")
         self.writeIdentifiable(child_element, call_point)
         self.setServerCallPoint(child_element, call_point)
+        self.setChildElementOptionalRefType(child_element, "CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF", call_point.getCalledFromWithinExclusiveAreaRef())
 
     def setAsynchronousServerCallPoint(self, element: ET.Element, call_point: SynchronousServerCallPoint):
         child_element = ET.SubElement(element, "ASYNCHRONOUS-SERVER-CALL-POINT")

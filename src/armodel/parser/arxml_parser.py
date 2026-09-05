@@ -4230,6 +4230,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, server_call_point)
         server_call_point.setTimeout(self.getChildElementOptionalTimeValue(element, "TIMEOUT"))
         self.readROperationIRef(element, "OPERATION-IREF", server_call_point)
+        server_call_point.setCalledFromWithinExclusiveAreaRef(self.getChildElementOptionalRefType(element, "CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF"))
 
     def readAsynchronousServerCallPoint(self, element: ET.Element, parent: RunnableEntity):
         # self.logger.debug("readAsynchronousServerCallPoint %s" % short_name)

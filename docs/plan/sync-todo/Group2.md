@@ -237,16 +237,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column
   - [x] Step 8 — Deviations — none
   - [x] Step 9 — Verify (9a) + confirm (9b) — 407 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `27b88a94`
-- [ ] `SynchronousServerCallPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.36 · after `ServerCallPoint` (parent, Table 7.35) · attr `calledFromWithinExclusiveArea` → `ExclusiveAreaNestingOrder` stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `SynchronousServerCallPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.36 · after `ServerCallPoint` (parent, Table 7.35) · attr `calledFromWithinExclusiveArea` → `ExclusiveAreaNestingOrder` stamped ✓) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 7.36, p.580; concrete class derives from `ServerCallPoint`; optional exclusive-area nesting-order reference synchronized
+  - [x] Step 2 — Write model class unit test (Red) — added own-member type/None-guard coverage; RED confirmed setter overwrote with None
+  - [x] Step 3 — Implement model class (Green) — Optional[RefType] field, typed accessors, None-guarded setter
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class/member Notes copied verbatim; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — added reference value/DEST coverage
+  - [x] Step 6 — Update parser & writer (Green) — added CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF reader/writer coverage
+  - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column and reader/writer mapping
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 391 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit pending
 - [ ] `AsynchronousServerCallPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.37 · after `ServerCallPoint` (parent, Table 7.35))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

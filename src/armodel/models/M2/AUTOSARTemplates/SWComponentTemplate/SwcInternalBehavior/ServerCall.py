@@ -6,7 +6,7 @@ in software component internal behavior templates.
 from abc import ABC
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -116,19 +116,35 @@ class AsynchronousServerCallPoint(ServerCallPoint):
 
 
 class SynchronousServerCallPoint(ServerCallPoint):
+    """
+    This means that the RunnableEntity is supposed to perform a blocking wait for a response from the server.
+    """
+
     # SynchronousServerCallPoint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCalledFromWithinExclusiveAreaRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setCalledFromWithinExclusiveAreaRef [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.36, p.580 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCalledFromWithinExclusiveAreaRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCalledFromWithinExclusiveAreaRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.calledFromWithinExclusiveAreaRef = None  # type: RefType
+        # This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
+        self.calledFromWithinExclusiveAreaRef: Optional[RefType] = None
 
-    def getCalledFromWithinExclusiveAreaRef(self):
+    def getCalledFromWithinExclusiveAreaRef(self) -> Optional[RefType]:
+        """
+        This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
+        """
         return self.calledFromWithinExclusiveAreaRef
 
-    def setCalledFromWithinExclusiveAreaRef(self, value):
-        self.calledFromWithinExclusiveAreaRef = value
+    def setCalledFromWithinExclusiveAreaRef(self, value: Optional[RefType]) -> "SynchronousServerCallPoint":
+        """
+        This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
+        A None value is a no-op and does not overwrite an existing calledFromWithinExclusiveAreaRef.
+        """
+        if value is not None:
+            self.calledFromWithinExclusiveAreaRef = value
         return self
