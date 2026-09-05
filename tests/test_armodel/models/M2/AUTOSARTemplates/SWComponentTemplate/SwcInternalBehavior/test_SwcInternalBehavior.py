@@ -12,6 +12,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior 
     SwcInternalBehavior,
     SynchronousServerCallPoint,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
 
 
 class TestRunnableEntityArgument:
@@ -43,13 +44,8 @@ class TestAsynchronousServerCallResultPoint:
 
         assert result_point.parent == ar_root
         assert result_point.short_name == "TestAsynchronousServerCallResultPoint"
-        assert result_point.returnValueProvision is None
         assert result_point.asynchronousServerCallPointRef is None
-
-        # Test returnValueProvision methods
-        return_prov = "test_provision"
-        result_point.setReturnValueProvision(return_prov)
-        assert result_point.getReturnValueProvision() == return_prov
+        assert isinstance(result_point, AbstractAccessPoint)
 
         # Test asynchronousServerCallPointRef methods
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
@@ -57,6 +53,8 @@ class TestAsynchronousServerCallResultPoint:
         ref = RefType()
         ref.setValue("/Async/Server/Call/Point")
         result_point.setAsynchronousServerCallPointRef(ref)
+        assert result_point.getAsynchronousServerCallPointRef() == ref
+        result_point.setAsynchronousServerCallPointRef(None)
         assert result_point.getAsynchronousServerCallPointRef() == ref
 
 

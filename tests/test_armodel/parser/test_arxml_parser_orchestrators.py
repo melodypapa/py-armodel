@@ -789,12 +789,16 @@ class TestRunnableEntityOrchestrator:
             "<ASYNCHRONOUS-SERVER-CALL-RESULT-POINTS>"
             "<ASYNCHRONOUS-SERVER-CALL-RESULT-POINT>"
             "<SHORT-NAME>asrp</SHORT-NAME>"
+            "<ASYNCHRONOUS-SERVER-CALL-POINT-REF DEST='ASYNCHRONOUS-SERVER-CALL-POINT'>/points/acp</ASYNCHRONOUS-SERVER-CALL-POINT-REF>"
             "</ASYNCHRONOUS-SERVER-CALL-RESULT-POINT>"
             "</ASYNCHRONOUS-SERVER-CALL-RESULT-POINTS>",
             root_tag="RUNNABLE-ENTITY",
         )
         parser.readRunnableEntity(element, runnable)
         assert len(runnable.getAsynchronousServerCallResultPoints()) == 1
+        result_point = runnable.getAsynchronousServerCallResultPoints()[0]
+        assert result_point.getAsynchronousServerCallPointRef().getValue() == "/points/acp"
+        assert result_point.getAsynchronousServerCallPointRef().getDest() == "ASYNCHRONOUS-SERVER-CALL-POINT"
 
     def test_readRunnableEntity_with_canBeInvokedConcurrently(self, parser):
         from armodel.models import ApplicationSwComponentType

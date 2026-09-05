@@ -89,21 +89,37 @@ class ServerCallPoint(AbstractAccessPoint, VariationPointCapable, ABC):
 
 
 class AsynchronousServerCallResultPoint(AbstractAccessPoint, VariationPointCapable):
+    """
+    If a RunnableEntity owns a AsynchronousServerCallResultPoint it is entitled to get the result of the referenced AsynchronousServerCallPoint. If it is associated with AsynchronousServerCallReturnsEvent, this RTEEvent notifies the completion of the required ClientServerOperation or a timeout. The occurrence of this event can either unblock a WaitPoint or can lead to the invocation of a RunnableEntity.
+    """
+
     # AsynchronousServerCallResultPoint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAsynchronousServerCallPointRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setAsynchronousServerCallPointRef [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.38, p.581 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAsynchronousServerCallPointRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAsynchronousServerCallPointRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.asynchronousServerCallPointRef = None  # type: RefType
+        # The referenced Asynchronous Server Call Point defines the asynchronous server call from which the results are returned.
+        self.asynchronousServerCallPointRef: Optional[RefType] = None
 
-    def getAsynchronousServerCallPointRef(self):
+    def getAsynchronousServerCallPointRef(self) -> Optional[RefType]:
+        """
+        The referenced Asynchronous Server Call Point defines the asynchronous server call from which the results are returned.
+        """
         return self.asynchronousServerCallPointRef
 
-    def setAsynchronousServerCallPointRef(self, value):
-        self.asynchronousServerCallPointRef = value
+    def setAsynchronousServerCallPointRef(self, value: Optional[RefType]) -> "AsynchronousServerCallResultPoint":
+        """
+        The referenced Asynchronous Server Call Point defines the asynchronous server call from which the results are returned.
+        A None value is a no-op and does not overwrite an existing asynchronousServerCallPointRef.
+        """
+        if value is not None:
+            self.asynchronousServerCallPointRef = value
         return self
 
 

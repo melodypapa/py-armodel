@@ -898,10 +898,14 @@ class TestWriterRunnableEntity:
     def test_writeRunnableEntityAsynchronousServerCallResultPoint(self, writer):
         behavior = _make_behavior()
         entity = behavior.createRunnableEntity("re1")
-        entity.createAsynchronousServerCallResultPoint("arp1")
+        result_point = entity.createAsynchronousServerCallResultPoint("arp1")
+        result_point.setAsynchronousServerCallPointRef(_ref("/points/acp", "ASYNCHRONOUS-SERVER-CALL-POINT"))
         parent = _parent()
         writer.writeRunnableEntityAsynchronousServerCallResultPoint(parent, entity)
         assert parent.find("ASYNCHRONOUS-SERVER-CALL-RESULT-POINTS") is not None
+        ref = parent.find("ASYNCHRONOUS-SERVER-CALL-RESULT-POINTS/ASYNCHRONOUS-SERVER-CALL-RESULT-POINT/ASYNCHRONOUS-SERVER-CALL-POINT-REF")
+        assert ref.text == "/points/acp"
+        assert ref.get("DEST") == "ASYNCHRONOUS-SERVER-CALL-POINT"
 
     def test_writeRunnableEntityActivationReasons(self, writer):
         behavior = _make_behavior()

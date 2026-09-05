@@ -257,16 +257,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column
   - [x] Step 8 — Deviations — none
   - [x] Step 9 — Verify (9a) + confirm (9b) — 392 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `3223dde4`
-- [ ] `AsynchronousServerCallResultPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.38 · after `AsynchronousServerCallPoint` (its `asynchronousServerCallPoint` ref target) · NOTE: spec Base = AbstractAccessPoint chain, NOT ServerCallPoint)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `AsynchronousServerCallResultPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.38 · after `AsynchronousServerCallPoint` (its `asynchronousServerCallPoint` ref target) · NOTE: spec Base = AbstractAccessPoint chain, NOT ServerCallPoint) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 7.38, p.581; concrete class derives directly from `AbstractAccessPoint`; optional asynchronous server call point ref synchronized
+  - [x] Step 2 — Write model class unit test (Red) — corrected fabricated returnValueProvision expectation; RED confirmed reference setter overwrote with None
+  - [x] Step 3 — Implement model class (Green) — Optional[RefType] field, typed accessors, None-guarded setter; direct AbstractAccessPoint heritage retained
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class/member Notes copied verbatim; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — added reference value/DEST coverage
+  - [x] Step 6 — Update parser & writer (Green) — existing matching accessor paths confirmed
+  - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column and reader/writer mapping
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 401 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit pending
 - [ ] `VariableInAtomicSwcInstanceRef` (tracker input · **spec CORRECTED 2026-09-03 restructure: R23-11 markdown Table D.1 exists (CP_TPS_SoftwareComponentTemplate.md — appendix letter-numbered table missed by numeric-regex tooling, same as D.17/D.4 cases), NOT XSD-only** · after `VariableDataPrototype` (`abstractTargetDataElement` ref) · `base` AtomicSwComponentType stamped ✓ / `contextPort` PortPrototype stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
