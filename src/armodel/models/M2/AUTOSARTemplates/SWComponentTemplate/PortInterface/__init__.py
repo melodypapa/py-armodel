@@ -1026,85 +1026,94 @@ class SubElementRef(ARObject, ABC):
         super().__init__()
 
 
+class ApplicationCompositeDataTypeSubElementRef(SubElementRef):
+    """
+    This meta-class represents the specialization of SubElementMapping with respect to ApplicationCompositeDataTypes.
+    """
+
+    # ApplicationCompositeDataTypeSubElementRef method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.35, p.138 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getApplicationCompositeElementIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setApplicationCompositeElementIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents the referenced ApplicationCompositeDataPrototype. InstanceRef implemented by: ApplicationCompositeElementInPortInterfaceInstanceRef
+        self.applicationCompositeElementIRef: Optional[ApplicationCompositeElementInPortInterfaceInstanceRef] = None
+
+    def getApplicationCompositeElementIRef(self) -> Optional[ApplicationCompositeElementInPortInterfaceInstanceRef]:
+        """
+        This represents the referenced ApplicationCompositeDataPrototype. InstanceRef implemented by: ApplicationCompositeElementInPortInterfaceInstanceRef
+        """
+        return self.applicationCompositeElementIRef
+
+    def setApplicationCompositeElementIRef(self, value: Optional[ApplicationCompositeElementInPortInterfaceInstanceRef]) -> "ApplicationCompositeDataTypeSubElementRef":
+        """
+        This represents the referenced ApplicationCompositeDataPrototype. InstanceRef implemented by: ApplicationCompositeElementInPortInterfaceInstanceRef
+        A None value is a no-op and does not overwrite an existing applicationCompositeElementIRef.
+        """
+        if value is not None:
+            self.applicationCompositeElementIRef = value
+        return self
+
+
 class SubElementMapping(ARObject):
     """
     This meta-class allows for the definition of mappings of elements of a composite data type.
     """
 
     # SubElementMapping method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.32, p.137
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getFirstElement      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setFirstElement      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSecondElement     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSecondElement     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addTextTableMapping  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTextTableMappings [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.32, p.137 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (textTableMapping multiplicity 0..2 per Table 4.32 — modeled as a list; bound documented here)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFirstElement      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstElement      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondElement     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondElement     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTextTableMapping  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTextTableMappings [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This represents the first element referenced in the scope of the mapping. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=firstElement, firstElement.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-        self.firstElement: Optional[ApplicationCompositeElementInPortInterfaceInstanceRef] = None
+        # This represents the first element referenced in the scope of the mapping.
+        self.firstElement: Optional[SubElementRef] = None
 
-        # This represents the second element referenced in the scope of the mapping. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=secondElement, secondElement.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-        self.secondElement: Optional[ApplicationCompositeElementInPortInterfaceInstanceRef] = None
+        # This represents the second element referenced in the scope of the mapping.
+        self.secondElement: Optional[SubElementRef] = None
 
         # This allows for the text-table translation of individual elements of a composite data type.
         self.textTableMappings: List["TextTableMapping"] = []
 
-    def getFirstElement(self) -> Optional[ApplicationCompositeElementInPortInterfaceInstanceRef]:
+    def getFirstElement(self) -> Optional[SubElementRef]:
         """
-        Gets the first element referenced in the scope of the mapping.
-
-        This represents the first element referenced in the scope of the mapping. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=firstElement, firstElement.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-
-        Returns:
-            ApplicationCompositeElementInPortInterfaceInstanceRef, or None if not set
+        This represents the first element referenced in the scope of the mapping.
         """
         return self.firstElement
 
-    def setFirstElement(self, value: Optional[ApplicationCompositeElementInPortInterfaceInstanceRef]) -> "SubElementMapping":
+    def setFirstElement(self, value: Optional[SubElementRef]) -> "SubElementMapping":
         """
-        Sets the first element referenced in the scope of the mapping.
+        This represents the first element referenced in the scope of the mapping.
         A None value is a no-op and does not overwrite an existing first element.
-
-        This represents the first element referenced in the scope of the mapping. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=firstElement, firstElement.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-
-        Args:
-            value: The ApplicationCompositeElementInPortInterfaceInstanceRef to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.firstElement = value
         return self
 
-    def getSecondElement(self) -> Optional[ApplicationCompositeElementInPortInterfaceInstanceRef]:
+    def getSecondElement(self) -> Optional[SubElementRef]:
         """
-        Gets the second element referenced in the scope of the mapping.
-
-        This represents the second element referenced in the scope of the mapping. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=secondElement, secondElement.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-
-        Returns:
-            ApplicationCompositeElementInPortInterfaceInstanceRef, or None if not set
+        This represents the second element referenced in the scope of the mapping.
         """
         return self.secondElement
 
-    def setSecondElement(self, value: Optional[ApplicationCompositeElementInPortInterfaceInstanceRef]) -> "SubElementMapping":
+    def setSecondElement(self, value: Optional[SubElementRef]) -> "SubElementMapping":
         """
-        Sets the second element referenced in the scope of the mapping.
+        This represents the second element referenced in the scope of the mapping.
         A None value is a no-op and does not overwrite an existing second element.
-
-        This represents the second element referenced in the scope of the mapping. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=secondElement, secondElement.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
-
-        Args:
-            value: The ApplicationCompositeElementInPortInterfaceInstanceRef to set
-
-        Returns:
-            self for method chaining
         """
         if value is not None:
             self.secondElement = value
@@ -1112,16 +1121,8 @@ class SubElementMapping(ARObject):
 
     def addTextTableMapping(self, value: Optional["TextTableMapping"]) -> "SubElementMapping":
         """
-        Adds a TextTableMapping allowing for the text-table translation of individual elements of a composite data type.
-        A None value is a no-op and does not append anything.
-
         This allows for the text-table translation of individual elements of a composite data type.
-
-        Args:
-            value: The TextTableMapping to add
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not append anything.
         """
         if value is not None:
             self.textTableMappings.append(value)
@@ -1129,12 +1130,7 @@ class SubElementMapping(ARObject):
 
     def getTextTableMappings(self) -> List["TextTableMapping"]:
         """
-        Gets the TextTableMappings allowing for the text-table translation of individual elements of a composite data type.
-
         This allows for the text-table translation of individual elements of a composite data type.
-
-        Returns:
-            List of TextTableMapping instances
         """
         return self.textTableMappings
 

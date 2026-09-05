@@ -654,6 +654,7 @@ class TestWriterSetDataPrototypeMapping:
 
     def test_with_sub_element_and_text_table_mappings(self, writer):
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+            ApplicationCompositeDataTypeSubElementRef,
             SubElementMapping,
             TextTableMapping,
         )
@@ -666,7 +667,9 @@ class TestWriterSetDataPrototypeMapping:
         iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
         iref.setRootDataPrototypeRef(_ref("/root", "VARIABLE-DATA-PROTOTYPE"))
         iref.setTargetDataPrototypeRef(_ref("/target", "VARIABLE-DATA-PROTOTYPE"))
-        sub.setFirstElement(iref)
+        first = ApplicationCompositeDataTypeSubElementRef()
+        first.setApplicationCompositeElementIRef(iref)
+        sub.setFirstElement(first)
         mapping.addSubElementMapping(sub)
         text = TextTableMapping()
         text.setBitfieldTextTableMaskFirst(_positive_int(1))

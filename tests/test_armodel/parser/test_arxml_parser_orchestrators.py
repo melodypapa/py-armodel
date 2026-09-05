@@ -14,6 +14,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from armodel.models import AUTOSAR, ApplicationSwComponentType, CompositionSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationCompositeDataTypeSubElementRef
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -2139,8 +2140,9 @@ class TestPortInterfaceMappingHandlers:
         assert parsed.getSecondToFirstDataTransformationRef().getValue() == "/t2"
         assert len(parsed.getSubElementMappings()) == 1
         sub = parsed.getSubElementMappings()[0]
-        assert sub.getFirstElement() is not None
-        assert sub.getFirstElement().getRootDataPrototypeRef().getValue() == "/root"
+        first = sub.getFirstElement()
+        assert isinstance(first, ApplicationCompositeDataTypeSubElementRef)
+        assert first.getApplicationCompositeElementIRef().getRootDataPrototypeRef().getValue() == "/root"
         assert len(parsed.getTextTableMappings()) == 1
         text = parsed.getTextTableMappings()[0]
         assert text.getBitfieldTextTableMaskFirst().getValue() == 1

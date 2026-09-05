@@ -352,8 +352,53 @@ class TestSubElementRef:
         assert ref.parent is None
 
 
+class TestApplicationCompositeDataTypeSubElementRef:
+    """Test class for ApplicationCompositeDataTypeSubElementRef class (Table 4.35, p.138)."""
+
+    SPEC_NOTE = "This meta-class represents the specialization of SubElementMapping with respect to ApplicationCompositeDataTypes."
+
+    def test_application_composite_data_type_sub_element_ref_initialization(self):
+        """Defaults: applicationCompositeElementIRef is None (Table 4.35, 0..1 iref)."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationCompositeDataTypeSubElementRef
+
+        sub_element_ref = ApplicationCompositeDataTypeSubElementRef()
+        assert sub_element_ref.getApplicationCompositeElementIRef() is None
+
+    def test_application_composite_data_type_sub_element_ref_heritage(self):
+        """Most-derived direct base is SubElementRef (Table 4.35 Base row)."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+            ApplicationCompositeDataTypeSubElementRef,
+            SubElementRef,
+        )
+
+        sub_element_ref = ApplicationCompositeDataTypeSubElementRef()
+        assert type(sub_element_ref).__bases__ == (SubElementRef,)
+        for ancestor in (ApplicationCompositeDataTypeSubElementRef, SubElementRef, ARObject):
+            assert isinstance(sub_element_ref, ancestor)
+
+    def test_application_composite_data_type_sub_element_ref_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 4.35, md wrap normalised)."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationCompositeDataTypeSubElementRef
+
+        assert ApplicationCompositeDataTypeSubElementRef.__doc__.strip() == self.SPEC_NOTE
+
+    def test_get_set_application_composite_element_iref(self):
+        """applicationCompositeElementIRef getter/setter with None no-op and chaining."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationCompositeDataTypeSubElementRef
+
+        sub_element_ref = ApplicationCompositeDataTypeSubElementRef()
+        iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
+        result = sub_element_ref.setApplicationCompositeElementIRef(iref)
+        assert result is sub_element_ref
+        assert sub_element_ref.getApplicationCompositeElementIRef() is iref
+        sub_element_ref.setApplicationCompositeElementIRef(None)
+        assert sub_element_ref.getApplicationCompositeElementIRef() is iref
+
+
 class TestSubElementMapping:
-    """Test class for SubElementMapping class."""
+    """Test class for SubElementMapping class (Table 4.32, p.137)."""
+
+    SPEC_NOTE = "This meta-class allows for the definition of mappings of elements of a composite data type."
 
     def test_sub_element_mapping_initialization(self):
         """Test SubElementMapping initialization."""
@@ -364,31 +409,45 @@ class TestSubElementMapping:
         assert mapping.getSecondElement() is None
         assert mapping.getTextTableMappings() == []
 
-    def test_get_set_first_element(self):
-        """Test firstElement getter and setter with None no-op."""
+    def test_sub_element_mapping_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 4.32)."""
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SubElementMapping
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
+
+        assert SubElementMapping.__doc__.strip() == self.SPEC_NOTE
+
+    def test_get_set_first_element(self):
+        """firstElement holds a SubElementRef (Table 4.32 type) with None no-op."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+            ApplicationCompositeDataTypeSubElementRef,
+            SubElementMapping,
+            SubElementRef,
+        )
 
         mapping = SubElementMapping()
-        iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
-        result = mapping.setFirstElement(iref)
+        first = ApplicationCompositeDataTypeSubElementRef()
+        result = mapping.setFirstElement(first)
         assert result is mapping
-        assert mapping.getFirstElement() == iref
+        assert mapping.getFirstElement() is first
+        assert isinstance(mapping.getFirstElement(), SubElementRef)
         mapping.setFirstElement(None)
-        assert mapping.getFirstElement() == iref
+        assert mapping.getFirstElement() is first
 
     def test_get_set_second_element(self):
-        """Test secondElement getter and setter with None no-op."""
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SubElementMapping
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
+        """secondElement holds a SubElementRef (Table 4.32 type) with None no-op."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+            ApplicationCompositeDataTypeSubElementRef,
+            SubElementMapping,
+            SubElementRef,
+        )
 
         mapping = SubElementMapping()
-        iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
-        result = mapping.setSecondElement(iref)
+        second = ApplicationCompositeDataTypeSubElementRef()
+        result = mapping.setSecondElement(second)
         assert result is mapping
-        assert mapping.getSecondElement() == iref
+        assert mapping.getSecondElement() is second
+        assert isinstance(mapping.getSecondElement(), SubElementRef)
         mapping.setSecondElement(None)
-        assert mapping.getSecondElement() == iref
+        assert mapping.getSecondElement() is second
 
     def test_add_text_table_mapping(self):
         """Test addTextTableMapping and getTextTableMappings with None no-op."""

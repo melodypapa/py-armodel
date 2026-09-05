@@ -572,6 +572,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     TriggerInterfaceMapping,
     SenderReceiverInterface,
     SubElementMapping,
+    ApplicationCompositeDataTypeSubElementRef,
     TextTableMapping,
     TextTableValuePair,
     TriggerInterface,
@@ -11126,17 +11127,22 @@ class ARXMLParser(AbstractARXMLParser):
         mapping = SubElementMapping()
         for ref_element in self.findall(element, "FIRST-ELEMENTS/*"):
             if self.getTagName(ref_element) == "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF":
-                mapping.setFirstElement(self.getApplicationCompositeElementInPortInterfaceInstanceRef(ref_element, "APPLICATION-COMPOSITE-ELEMENT-IREF"))
+                mapping.setFirstElement(self.getApplicationCompositeDataTypeSubElementRef(ref_element))
             else:
                 self.notImplemented("Unsupported firstElement SubElementRef <%s>" % self.getTagName(ref_element))
         for ref_element in self.findall(element, "SECOND-ELEMENTS/*"):
             if self.getTagName(ref_element) == "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF":
-                mapping.setSecondElement(self.getApplicationCompositeElementInPortInterfaceInstanceRef(ref_element, "APPLICATION-COMPOSITE-ELEMENT-IREF"))
+                mapping.setSecondElement(self.getApplicationCompositeDataTypeSubElementRef(ref_element))
             else:
                 self.notImplemented("Unsupported secondElement SubElementRef <%s>" % self.getTagName(ref_element))
         for text_table in self.findall(element, "TEXT-TABLE-MAPPINGS/TEXT-TABLE-MAPPING"):
             mapping.addTextTableMapping(self.getTextTableMapping(text_table))
         return mapping
+
+    def getApplicationCompositeDataTypeSubElementRef(self, element: ET.Element) -> ApplicationCompositeDataTypeSubElementRef:
+        sub_element_ref = ApplicationCompositeDataTypeSubElementRef()
+        sub_element_ref.setApplicationCompositeElementIRef(self.getApplicationCompositeElementInPortInterfaceInstanceRef(element, "APPLICATION-COMPOSITE-ELEMENT-IREF"))
+        return sub_element_ref
 
     def getTextTableMapping(self, element: ET.Element) -> TextTableMapping:
         mapping = TextTableMapping()

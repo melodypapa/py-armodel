@@ -501,6 +501,8 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     TriggerInterfaceMapping,
     SenderReceiverInterface,
     SubElementMapping,
+    ApplicationCompositeDataTypeSubElementRef,
+    SubElementRef,
     TextTableMapping,
     TextTableValuePair,
     TriggerInterface,
@@ -9838,18 +9840,23 @@ class ARXMLWriter(AbstractARXMLWriter):
         first = mapping.getFirstElement()
         if first is not None:
             first_tag = ET.SubElement(child_element, "FIRST-ELEMENTS")
-            iref_tag = ET.SubElement(first_tag, "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF")
-            self.setApplicationCompositeElementInPortInterfaceInstanceRef(iref_tag, "APPLICATION-COMPOSITE-ELEMENT-IREF", first)
+            self.setSubElementRef(first_tag, first)
         second = mapping.getSecondElement()
         if second is not None:
             second_tag = ET.SubElement(child_element, "SECOND-ELEMENTS")
-            iref_tag = ET.SubElement(second_tag, "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF")
-            self.setApplicationCompositeElementInPortInterfaceInstanceRef(iref_tag, "APPLICATION-COMPOSITE-ELEMENT-IREF", second)
+            self.setSubElementRef(second_tag, second)
         text_tables = mapping.getTextTableMappings()
         if len(text_tables) > 0:
             text_tag = ET.SubElement(child_element, "TEXT-TABLE-MAPPINGS")
             for text_table in text_tables:
                 self.setTextTableMapping(text_tag, text_table)
+
+    def setSubElementRef(self, element: ET.Element, sub_element_ref: SubElementRef):
+        if isinstance(sub_element_ref, ApplicationCompositeDataTypeSubElementRef):
+            ref_tag = ET.SubElement(element, "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF")
+            self.setApplicationCompositeElementInPortInterfaceInstanceRef(ref_tag, "APPLICATION-COMPOSITE-ELEMENT-IREF", sub_element_ref.getApplicationCompositeElementIRef())
+        else:
+            self.notImplemented("Unsupported SubElementRef <%s>" % type(sub_element_ref).__name__)
 
     def setTextTableMapping(self, element: ET.Element, mapping: TextTableMapping):
         child_element = ET.SubElement(element, "TEXT-TABLE-MAPPING")
