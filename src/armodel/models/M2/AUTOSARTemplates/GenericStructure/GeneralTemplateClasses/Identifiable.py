@@ -232,7 +232,8 @@ class Identifiable(MultilanguageReferrable, ABC):
     """
 
     # Identifiable method parity checklist:
-    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.4, p.61
+    # Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.4, p.61 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getAdminData       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -301,7 +302,7 @@ class Identifiable(MultilanguageReferrable, ABC):
 
     def setAdminData(self, value: Optional[AdminData]) -> "Identifiable":
         """
-        This represents the administrative data for the identifiable object. A None value is a no-op and does not overwrite an existing adminData.
+        This represents the administrative data for the identifiable object. Only sets the value if it is not None.
         """
         if value is not None:
             self.adminData = value
@@ -335,7 +336,7 @@ class Identifiable(MultilanguageReferrable, ABC):
 
     def setCategory(self, value: Union[CategoryString, str]) -> "Identifiable":
         """
-        The category is a keyword that specializes the semantics of the Identifiable. It affects the expected existence of attributes and the applicability of constraints. A None value is a no-op and does not overwrite an existing category.
+        The category is a keyword that specializes the semantics of the Identifiable. It affects the expected existence of attributes and the applicability of constraints. Only sets the value if it is not None.
         """
         if value is not None:
             if isinstance(value, str):
@@ -352,7 +353,7 @@ class Identifiable(MultilanguageReferrable, ABC):
 
     def setDesc(self, value: Optional[MultiLanguageOverviewParagraph]) -> "Identifiable":
         """
-        This represents a general but brief (one paragraph) description what the object in question is about. It is only one paragraph! Desc is intended to be collected into overview tables. This property helps a human reader to identify the object in question. More elaborate documentation, (in particular how the object is built or used) should go to "introduction". A None value is a no-op and does not overwrite an existing desc.
+        This represents a general but brief (one paragraph) description what the object in question is about. It is only one paragraph! Desc is intended to be collected into overview tables. This property helps a human reader to identify the object in question. More elaborate documentation, (in particular how the object is built or used) should go to "introduction". Only sets the value if it is not None.
         """
         if value is not None:
             self.desc = value
@@ -366,7 +367,7 @@ class Identifiable(MultilanguageReferrable, ABC):
 
     def setIntroduction(self, value: Optional[DocumentationBlock]) -> "Identifiable":
         """
-        This represents more information about how the object in question is built or is used. Therefore it is a DocumentationBlock. A None value is a no-op and does not overwrite an existing introduction.
+        This represents more information about how the object in question is built or is used. Therefore it is a DocumentationBlock. Only sets the value if it is not None.
         """
         if value is not None:
             self.introduction = value
@@ -380,7 +381,7 @@ class Identifiable(MultilanguageReferrable, ABC):
 
     def setUuid(self, value: Optional[String]) -> "Identifiable":
         """
-        The purpose of this attribute is to provide a globally unique identifier for an instance of a meta-class. The values of this attribute should be globally unique strings prefixed by the type of identifier. For example, to include a DCE UUID as defined by The Open Group, the UUID would be preceded by "DCE:". The values of this attribute may be used to support merging of different AUTOSAR models. The form of the UUID (Universally Unique Identifier) is taken from a standard defined by the Open Group (was Open Software Foundation). This standard is widely used, including by Microsoft for COM (GUIDs) and by many companies for DCE, which is based on CORBA. The method for generating these 128-bit IDs is published in the standard and the effectiveness and uniqueness of the IDs is not in practice disputed. If the id namespace is omitted, DCE is assumed. An example is "DCE:2fac1234-31f8-11b4-a222-08002b34c003". The uuid attribute has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the timestamp. A None value is a no-op and does not overwrite an existing uuid.
+        The purpose of this attribute is to provide a globally unique identifier for an instance of a meta-class. The values of this attribute should be globally unique strings prefixed by the type of identifier. For example, to include a DCE UUID as defined by The Open Group, the UUID would be preceded by "DCE:". The values of this attribute may be used to support merging of different AUTOSAR models. The form of the UUID (Universally Unique Identifier) is taken from a standard defined by the Open Group (was Open Software Foundation). This standard is widely used, including by Microsoft for COM (GUIDs) and by many companies for DCE, which is based on CORBA. The method for generating these 128-bit IDs is published in the standard and the effectiveness and uniqueness of the IDs is not in practice disputed. If the id namespace is omitted, DCE is assumed. An example is "DCE:2fac1234-31f8-11b4-a222-08002b34c003". The uuid attribute has no semantic meaning for an AUTOSAR model and there is no requirement for AUTOSAR tools to manage the timestamp. Only sets the value if it is not None.
         """
         if value is not None:
             self.uuid = value
