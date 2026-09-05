@@ -6,6 +6,7 @@ Tests cover all classes and methods in the Datatypes.py file to achieve 100% tes
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
@@ -244,20 +245,29 @@ class TestDataTypeMappingSet:
         assert mapping_set.short_name == "TestDataTypeMappingSet"
         assert mapping_set.dataTypeMaps == []
         assert mapping_set.modeRequestTypeMaps == []
+        assert isinstance(mapping_set, AtpBlueprintable)
+        assert mapping_set.__class__.__doc__.strip() == (
+            "This class represents a list of mappings between ApplicationDataTypes and ImplementationDataTypes. "
+            "In addition, it can contain mappings between ImplementationDataTypes and ModeDeclarationGroups."
+        )
 
         # Test DataTypeMap methods
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import DataTypeMap
 
         data_map = DataTypeMap()
-        mapping_set.addDataTypeMap(data_map)
-        assert data_map in mapping_set.getDataTypeMaps()
+        assert mapping_set.addDataTypeMap(data_map) is mapping_set
+        assert mapping_set.getDataTypeMaps() == [data_map]
+        assert mapping_set.addDataTypeMap(None) is mapping_set
+        assert mapping_set.getDataTypeMaps() == [data_map]
 
         # Test ModeRequestTypeMap methods (import and test)
         from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeRequestTypeMap
 
         mode_map = ModeRequestTypeMap()
-        mapping_set.addModeRequestTypeMap(mode_map)
-        assert mode_map in mapping_set.getModeRequestTypeMaps()
+        assert mapping_set.addModeRequestTypeMap(mode_map) is mapping_set
+        assert mapping_set.getModeRequestTypeMaps() == [mode_map]
+        assert mapping_set.addModeRequestTypeMap(None) is mapping_set
+        assert mapping_set.getModeRequestTypeMaps() == [mode_map]
 
 
 class TestArraySizeHandlingEnum:

@@ -1237,6 +1237,45 @@ class TestSwComponentAndConnectorHandlers:
         parser.readDataTypeMaps(element, dtms)
         assert len(dtms.getDataTypeMaps()) == 1
 
+    def test_readDataTypeMappingSet_preserves_both_mapping_lists(self, parser):
+        from armodel.models import DataTypeMappingSet
+
+        dtms = DataTypeMappingSet(parent=_autosar_root(), short_name="DTMS")
+        element = _snip(
+            "<SHORT-NAME>DTMS</SHORT-NAME>"
+            "<DATA-TYPE-MAPS>"
+            "<DATA-TYPE-MAP>"
+            "<APPLICATION-DATA-TYPE-REF DEST='APPLICATION-DATA-TYPE'>/adt</APPLICATION-DATA-TYPE-REF>"
+            "<IMPLEMENTATION-DATA-TYPE-REF DEST='IMPLEMENTATION-DATA-TYPE'>/idt</IMPLEMENTATION-DATA-TYPE-REF>"
+            "</DATA-TYPE-MAP>"
+            "</DATA-TYPE-MAPS>"
+            "<MODE-REQUEST-TYPE-MAPS>"
+            "<MODE-REQUEST-TYPE-MAP>"
+            "<IMPLEMENTATION-DATA-TYPE-REF DEST='IMPLEMENTATION-DATA-TYPE'>/mode-idt</IMPLEMENTATION-DATA-TYPE-REF>"
+            "<MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP'>/mode-group</MODE-GROUP-REF>"
+            "</MODE-REQUEST-TYPE-MAP>"
+            "</MODE-REQUEST-TYPE-MAPS>",
+            root_tag="DATA-TYPE-MAPPING-SET",
+        )
+
+        parser.readDataTypeMappingSet(element, dtms)
+
+        assert dtms.getShortName() == "DTMS"
+        assert len(dtms.getDataTypeMaps()) == 1
+        assert dtms.getDataTypeMaps()[0].getApplicationDataTypeRef().getValue() == "/adt"
+        assert dtms.getDataTypeMaps()[0].getImplementationDataTypeRef().getValue() == "/idt"
+        assert len(dtms.getModeRequestTypeMaps()) == 1
+        assert dtms.getModeRequestTypeMaps()[0].getImplementationDataTypeRef().getValue() == "/mode-idt"
+        assert dtms.getModeRequestTypeMaps()[0].getModeGroupRef().getValue() == "/mode-group"
+
+    def test_readDataTypeMappingSet_empty(self, parser):
+        from armodel.models import DataTypeMappingSet
+
+        dtms = DataTypeMappingSet(parent=_autosar_root(), short_name="DTMS")
+        parser.readDataTypeMappingSet(_snip("<SHORT-NAME>DTMS</SHORT-NAME>", root_tag="DATA-TYPE-MAPPING-SET"), dtms)
+        assert dtms.getDataTypeMaps() == []
+        assert dtms.getModeRequestTypeMaps() == []
+
 
 # ==================== Group E: BswBehavior orchestrators ====================
 

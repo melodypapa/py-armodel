@@ -193,16 +193,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column and reader/writer mapping
   - [x] Step 8 — Deviations — none
   - [x] Step 9 — Verify (9a) + confirm (9b) — 306 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `2a104a06`
-- [ ] `DataTypeMappingSet` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.4 · member type of `CompositionSwComponentType.dataTypeMapping`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `DataTypeMappingSet` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.4 · member type of `CompositionSwComponentType.dataTypeMapping`) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 5.4, p.234; concrete class derives from `AtpBlueprintable`; dataTypeMap/modeRequestTypeMap aggregations synchronized in displayed order
+  - [x] Step 2 — Write model class unit test (Red) — strengthened model coverage; RED confirmed stale class Note
+  - [x] Step 3 — Implement model class (Green) — typed aggregation lists, typed signatures, None-guarded adders, chainable return values
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and member Notes copied verbatim from Table 5.4; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — expanded existing parser/writer coverage for both wrappers, values, order, and empty set; existing paths passed immediately
+  - [x] Step 6 — Update parser & writer (Green) — no production change required; existing reader/writer paths use matching adders/getters
+  - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column and reader/writer mapping
+  - [x] Step 8 — Deviations — no class deviation; unstamped referenced DataTypeMap reported for future dependency sync
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 277 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit pending
 - [ ] `AbstractImplementationDataTypeElement` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.16 · member type of `ArVariableInImplementationDataInstanceRef.contextDataPrototype`/`targetDataPrototype`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
