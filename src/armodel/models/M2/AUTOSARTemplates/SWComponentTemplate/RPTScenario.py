@@ -13,11 +13,14 @@ from typing import Optional
 
 class IdentCaption(AtpStructureElement, ABC):
     """
-    Abstract base class for identification captions used in access points.
+    This meta-class represents the caption. This allows having some meta-classes optionally identifiable.
     """
 
     # IdentCaption method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 14.4, p.851 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is IdentCaption:

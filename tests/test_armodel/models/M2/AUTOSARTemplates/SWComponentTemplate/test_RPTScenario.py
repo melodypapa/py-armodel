@@ -1,7 +1,44 @@
+import pytest
+
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.MeasurementCalibrationSupport.RptSupport import RptEnablerImplTypeEnum, RptExecutionControlEnum, RptPreparationEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ExternalTriggeringPointIdent, IdentCaption, RptExecutableEntityProperties, RptImplPolicy, RptServicePointEnum
+
+
+class TestIdentCaption:
+    """Test class for IdentCaption class (Table 14.4, p.851)."""
+
+    SPEC_NOTE = "This meta-class represents the caption. This allows having some meta-classes optionally identifiable."
+
+    def test_ident_caption_abstract(self):
+        """IdentCaption is abstract (Table 14.4 header) — direct instantiation must fail."""
+        with pytest.raises(TypeError):
+            IdentCaption(None, "caption")
+
+    def test_ident_caption_heritage(self):
+        """Most-derived direct base is AtpStructureElement (Table 14.4 Base chain), verified via concrete subclass."""
+        ident = ExternalTriggeringPointIdent(None, "ident")
+
+        assert type(ident).__bases__ == (IdentCaption,)
+        for ancestor in (IdentCaption, AtpStructureElement, Identifiable, Referrable, ARObject):
+            assert isinstance(ident, ancestor)
+
+    def test_ident_caption_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 14.4)."""
+        assert IdentCaption.__doc__.strip() == self.SPEC_NOTE
+
+    def test_ident_caption_base_accessors_via_subclass(self):
+        """Base accessors (short_name/parent from Referrable) work through a concrete subclass."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        ident = ExternalTriggeringPointIdent(ar_root, "ident")
+
+        assert ident.parent == ar_root
+        assert ident.getShortName() == "ident"
 
 
 class TestExternalTriggeringPointIdent:
