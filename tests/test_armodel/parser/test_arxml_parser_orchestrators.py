@@ -1412,6 +1412,16 @@ class TestDataTypeAndCompuHandlers:
         )
         parser.readApplicationPrimitiveDataType(element, data_type)
         assert data_type.getSwDataDefProps() is not None
+        assert data_type.getSwDataDefProps().getBaseTypeRef().getValue() == "/bt"
+
+    def test_readApplicationDataType_is_inherited_only(self, parser):
+        from armodel.models import ApplicationPrimitiveDataType
+
+        data_type = ApplicationPrimitiveDataType(parent=_autosar_root(), short_name="apdt")
+        element = _snip("<SHORT-NAME>apdt</SHORT-NAME>", root_tag="APPLICATION-PRIMITIVE-DATA-TYPE")
+        parser.readApplicationDataType(element, data_type)
+        assert data_type.getShortName() == "apdt"
+        assert data_type.getSwDataDefProps() is None
 
     def test_readApplicationRecordDataType_full(self, parser):
         from armodel.models import ApplicationRecordDataType

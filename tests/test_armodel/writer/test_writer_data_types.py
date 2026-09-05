@@ -381,6 +381,17 @@ class TestApplicationPrimitiveDataTypeWriter:
         cond = sddp.find("SW-DATA-DEF-PROPS-VARIANTS/SW-DATA-DEF-PROPS-CONDITIONAL")
         assert cond.find("COMPU-METHOD-REF").text == "/cm"
 
+    def test_write_application_data_type_inherited_shape(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("AppPkg")
+        data_type = pkg.createApplicationPrimitiveDataType("Speed")
+
+        parent = _parent()
+        writer.setApplicationDataType(parent, data_type)
+
+        assert parent.find("SHORT-NAME").text == "Speed"
+        assert parent.find("SW-DATA-DEF-PROPS") is None
+
 
 class TestDataPrototypeWriter:
     def test_write_dataprototype(self, writer):

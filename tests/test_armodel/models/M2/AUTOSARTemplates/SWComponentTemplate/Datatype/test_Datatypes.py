@@ -107,6 +107,19 @@ class TestApplicationDataType:
         with pytest.raises(TypeError):
             ApplicationDataType(ar_root, "TestApplicationDataType")
 
+    def test_application_data_type_spec_contract(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        primitive_type = ApplicationPrimitiveDataType(ar_root, "TestApplicationPrimitiveDataType")
+
+        assert isinstance(primitive_type, ApplicationDataType)
+        assert primitive_type.getSwDataDefProps() is None
+        assert ApplicationDataType.__doc__.strip() == (
+            'ApplicationDataType defines a data type from the application point of view. Especially it should be used whenever something "physical" is at stake. '
+            "An ApplicationDataType represents a set of values as seen in the application model, such as measurement units. It does not consider implementation details such as bit-size, endianess, etc. "
+            "It should be possible to model the application level aspects of a VFB system by using ApplicationData Types only."
+        )
+
 
 class TestApplicationPrimitiveDataType:
     """Test class for ApplicationPrimitiveDataType class."""
