@@ -684,6 +684,60 @@ class TestRunnableEntityOrchestrator:
         parser.readRunnableEntity(element, runnable)
         assert len(runnable.getModeAccessPoints()) == 1
 
+    def test_readRunnableEntityModeAccessPoints_with_ident(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        element = _snip(
+            "<SHORT-NAME>run</SHORT-NAME>"
+            "<MODE-ACCESS-POINTS>"
+            "<MODE-ACCESS-POINT>"
+            "<IDENT><SHORT-NAME>map_ident</SHORT-NAME></IDENT>"
+            "<MODE-GROUP-IREF></MODE-GROUP-IREF>"
+            "</MODE-ACCESS-POINT>"
+            "</MODE-ACCESS-POINTS>",
+            root_tag="RUNNABLE-ENTITY",
+        )
+        parser.readRunnableEntity(element, runnable)
+        points = runnable.getModeAccessPoints()
+        assert len(points) == 1
+        ident = points[0].getIdent()
+        assert ident is not None
+        assert isinstance(ident, ModeAccessPointIdent)
+        assert ident.getShortName() == "map_ident"
+
+    def test_readRunnableEntityModeAccessPoints_round_trip(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        point = ModeAccessPoint()
+        point.setIdent(ModeAccessPointIdent(point, "map_ident"))
+        runnable.addModeAccessPoint(point)
+
+        namespace = "http://autosar.org/schema/r4.0"
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeRunnableEntityModeAccessPoints(parent, runnable)
+        inner = ET.tostring(parent).decode("utf-8")
+        container = ET.fromstring(f"<RUNNABLE-ENTITY xmlns='{namespace}'>{inner}</RUNNABLE-ENTITY>")
+        element = container[0]
+
+        recovered = behavior.createRunnableEntity("recovered")
+        parser.readRunnableEntityModeAccessPoints(element, recovered)
+        points = recovered.getModeAccessPoints()
+        assert len(points) == 1
+        ident = points[0].getIdent()
+        assert ident is not None
+        assert isinstance(ident, ModeAccessPointIdent)
+        assert ident.getShortName() == "map_ident"
+
     def test_readRunnableEntity_with_modeSwitchPoints(self, parser):
         from armodel.models import ApplicationSwComponentType
 

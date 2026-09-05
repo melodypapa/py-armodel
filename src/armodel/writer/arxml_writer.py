@@ -506,7 +506,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     VariableAndParameterInterfaceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import RptExecutableEntityProperties, RptImplPolicy
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     AsynchronousServerCallPoint,
@@ -3423,10 +3423,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.notImplemented("Unsupported Mode Group IRef <%s>" % type(instance_ref))
         return instance_ref
 
+    def writeModeAccessPointIdent(self, element: ET.Element, ident: ModeAccessPointIdent):
+        if ident is not None:
+            ident_element = ET.SubElement(element, "IDENT")
+            self.writeIdentifiable(ident_element, ident)
+
     def writeModeAccessPoint(self, element: ET.Element, point: ModeAccessPoint):
         if point is not None:
             child_element = ET.SubElement(element, "MODE-ACCESS-POINT")
             self.writeARObject(child_element, point)
+            self.writeModeAccessPointIdent(child_element, point.getIdent())
             self.setModeGroupIRef(child_element, "MODE-GROUP-IREF", point.getModeGroupIRef())
 
     def writeRunnableEntityExternalTriggeringPoints(self, element: ET.Element, entity: RunnableEntity):

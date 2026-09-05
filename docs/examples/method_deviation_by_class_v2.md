@@ -605,15 +605,6 @@ reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `endToEndProtection` | ``EndToEndProtection`` | aggr | missing |
 
-## `ModeAccessPointIdent`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 14.6
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/RPTScenario.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
 ## `ParameterInterface`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`

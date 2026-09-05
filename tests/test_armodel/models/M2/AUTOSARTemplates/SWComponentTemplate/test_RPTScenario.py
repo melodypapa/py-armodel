@@ -6,7 +6,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ExternalTriggeringPointIdent, IdentCaption, RptExecutableEntityProperties, RptImplPolicy, RptServicePointEnum
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import (
+    ExternalTriggeringPointIdent,
+    IdentCaption,
+    ModeAccessPointIdent,
+    RptExecutableEntityProperties,
+    RptImplPolicy,
+    RptServicePointEnum,
+)
 
 
 class TestIdentCaption:
@@ -36,6 +43,39 @@ class TestIdentCaption:
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         ident = ExternalTriggeringPointIdent(ar_root, "ident")
+
+        assert ident.parent == ar_root
+        assert ident.getShortName() == "ident"
+
+
+class TestModeAccessPointIdent:
+    """Test class for ModeAccessPointIdent class (Table 14.5, p.852)."""
+
+    SPEC_NOTE = "This meta-class has been created to introduce the ability to become referenced into the meta-class Mode AccessPoint without breaking backwards compatibility."
+
+    def test_mode_access_point_ident_concrete(self):
+        """ModeAccessPointIdent is concrete (Table 14.5 header) — instantiable."""
+        ident = ModeAccessPointIdent(None, "ident")
+
+        assert isinstance(ident, ModeAccessPointIdent)
+
+    def test_mode_access_point_ident_heritage(self):
+        """Most-derived direct base is IdentCaption (Table 14.5 Base chain)."""
+        ident = ModeAccessPointIdent(None, "ident")
+
+        assert type(ident).__bases__ == (IdentCaption,)
+        for ancestor in (IdentCaption, AtpStructureElement, Identifiable, Referrable, ARObject):
+            assert isinstance(ident, ancestor)
+
+    def test_mode_access_point_ident_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 14.5)."""
+        assert ModeAccessPointIdent.__doc__.strip() == self.SPEC_NOTE
+
+    def test_mode_access_point_ident_base_accessors(self):
+        """Base accessors (short_name/parent from Referrable) work through the concrete class."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        ident = ModeAccessPointIdent(ar_root, "ident")
 
         assert ident.parent == ar_root
         assert ident.getShortName() == "ident"

@@ -577,7 +577,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     VariableAndParameterInterfaceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import RptExecutableEntityProperties, RptImplPolicy
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
     SwComponentDocumentation,
 )
@@ -4383,8 +4383,15 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Mode Group IRef <%s>" % tag_name)
         return instance_ref
 
+    def readModeAccessPointIdent(self, element: ET.Element, ident: ModeAccessPointIdent):
+        self.readIdentifiable(element, ident)
+
     def readModeAccessPoint(self, element: ET.Element, point: ModeAccessPoint):
         self.readARObject(element, point)
+        ident_element = self.find(element, "IDENT")
+        if ident_element is not None:
+            ident = point.createIdent(self.getShortName(ident_element))
+            self.readModeAccessPointIdent(ident_element, ident)
         point.setModeGroupIRef(self.getModeGroupIRef(element, "MODE-GROUP-IREF"))
 
     def readRunnableEntityModeAccessPoints(self, element: ET.Element, entity: RunnableEntity):
