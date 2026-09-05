@@ -1668,6 +1668,40 @@ class TestModeDeclarationMappingHandlers:
         mapping = mms.getModeDeclarationMappings()[0]
         assert mapping.getShortName() == "mapping1"
 
+    def test_readModeDeclarationMappingSet_round_trip(self, parser):
+        from armodel.models import ModeDeclarationMappingSet
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        mms = ModeDeclarationMappingSet(parent=_autosar_root(), short_name="mms")
+        mapping = mms.createModeDeclarationMapping("mapping1")
+        first_ref = RefType()
+        first_ref.setValue("/mode1")
+        mapping.addFirstModeRef(first_ref)
+        second_ref = RefType()
+        second_ref.setValue("/mode2")
+        second_ref.dest = "MODE-DECLARATION"
+        mapping.setSecondModeRef(second_ref)
+
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeModeDeclarationMappingSet(parent, mms)
+        inner = ET.tostring(parent[0], encoding="unicode")
+        container = ET.fromstring(f"<MODE-DECLARATION-MAPPING-SETS xmlns='{NS}'>{inner}</MODE-DECLARATION-MAPPING-SETS>")
+        element = container[0]
+
+        recovered = ModeDeclarationMappingSet(parent=_autosar_root(), short_name="recovered")
+        parser.readModeDeclarationMappingSet(element, recovered)
+        mappings = recovered.getModeDeclarationMappings()
+        assert len(mappings) == 1
+        assert mappings[0].getShortName() == "mapping1"
+        first_refs = mappings[0].getFirstModeRefs()
+        assert len(first_refs) == 1
+        assert first_refs[0].getValue() == "/mode1"
+        second_ref_recovered = mappings[0].getSecondModeRef()
+        assert second_ref_recovered is not None
+        assert second_ref_recovered.getValue() == "/mode2"
+        assert second_ref_recovered.dest == "MODE-DECLARATION"
+
     def test_readModeDeclarationMapping_with_refs(self, parser):
         from armodel.models import ModeDeclarationMappingSet
 

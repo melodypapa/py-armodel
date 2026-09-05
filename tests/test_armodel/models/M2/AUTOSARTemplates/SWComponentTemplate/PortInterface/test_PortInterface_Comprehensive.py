@@ -6,13 +6,17 @@ Tests cover all classes and methods in the PortInterface module files to achieve
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import TriggerMapping
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, Numerical, PositiveInteger, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ClientServerApplicationErrorMapping,
     ClientServerInterfaceMapping,
     ClientServerOperationMapping,
     DataPrototypeMapping,
     InvalidationPolicy,
+    MappingDirectionEnum,
     MetaDataItem,
     MetaDataItemSet,
     ModeDeclarationMapping,
@@ -21,6 +25,9 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ModeSwitchInterface,
     PortInterfaceMapping,
     PortInterfaceMappingSet,
+    SubElementRef,
+    TextTableMapping,
+    TextTableValuePair,
     TriggerInterface,
     TriggerInterfaceMapping,
     VariableAndParameterInterfaceMapping,
@@ -133,7 +140,7 @@ class TestTriggerInterface:
         ar_root = document.createARPackage("AUTOSAR")
         trigger_interface = TriggerInterface(ar_root, "TestTriggerInterface")
 
-        assert trigger_interface._triggers == []
+        assert trigger_interface.getTriggers() == []
         assert trigger_interface.parent == ar_root
         assert trigger_interface.short_name == "TestTriggerInterface"
 
@@ -309,8 +316,89 @@ class TestDataPrototypeMapping:
         assert mapping.getTextTableMappings() == [text_map]
 
 
+class TestSubElementRef:
+    """Test class for SubElementRef class (Table 4.33, p.138)."""
+
+    SPEC_NOTE = "This meta-class provides the ability to reference elements of composite data type."
+
+    def test_sub_element_ref_abstract(self):
+        """SubElementRef is abstract (Table 4.33 header) — direct instantiation must fail."""
+        with pytest.raises(TypeError):
+            SubElementRef()
+
+    def test_sub_element_ref_heritage(self):
+        """Most-derived direct base is ARObject (Table 4.33 Base row), verified via concrete subclass."""
+        assert SubElementRef.__mro__[1] is ARObject
+
+        class ConcreteSubElementRef(SubElementRef):
+            """Concrete stand-in for the queued ImplementationDataTypeSubElementRef (Table 4.34)."""
+
+        ref = ConcreteSubElementRef()
+        assert type(ref).__bases__ == (SubElementRef,)
+        for ancestor in (SubElementRef, ARObject):
+            assert isinstance(ref, ancestor)
+
+    def test_sub_element_ref_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 4.33)."""
+        assert SubElementRef.__doc__.strip() == self.SPEC_NOTE
+
+    def test_sub_element_ref_base_accessors_via_subclass(self):
+        """Base member (parent from ARObject) is initialised through a concrete subclass."""
+
+        class ConcreteSubElementRef(SubElementRef):
+            pass
+
+        ref = ConcreteSubElementRef()
+        assert ref.parent is None
+
+
+class TestApplicationCompositeDataTypeSubElementRef:
+    """Test class for ApplicationCompositeDataTypeSubElementRef class (Table 4.35, p.138)."""
+
+    SPEC_NOTE = "This meta-class represents the specialization of SubElementMapping with respect to ApplicationCompositeDataTypes."
+
+    def test_application_composite_data_type_sub_element_ref_initialization(self):
+        """Defaults: applicationCompositeElementIRef is None (Table 4.35, 0..1 iref)."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationCompositeDataTypeSubElementRef
+
+        sub_element_ref = ApplicationCompositeDataTypeSubElementRef()
+        assert sub_element_ref.getApplicationCompositeElementIRef() is None
+
+    def test_application_composite_data_type_sub_element_ref_heritage(self):
+        """Most-derived direct base is SubElementRef (Table 4.35 Base row)."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+            ApplicationCompositeDataTypeSubElementRef,
+            SubElementRef,
+        )
+
+        sub_element_ref = ApplicationCompositeDataTypeSubElementRef()
+        assert type(sub_element_ref).__bases__ == (SubElementRef,)
+        for ancestor in (ApplicationCompositeDataTypeSubElementRef, SubElementRef, ARObject):
+            assert isinstance(sub_element_ref, ancestor)
+
+    def test_application_composite_data_type_sub_element_ref_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 4.35, md wrap normalised)."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationCompositeDataTypeSubElementRef
+
+        assert ApplicationCompositeDataTypeSubElementRef.__doc__.strip() == self.SPEC_NOTE
+
+    def test_get_set_application_composite_element_iref(self):
+        """applicationCompositeElementIRef getter/setter with None no-op and chaining."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationCompositeDataTypeSubElementRef
+
+        sub_element_ref = ApplicationCompositeDataTypeSubElementRef()
+        iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
+        result = sub_element_ref.setApplicationCompositeElementIRef(iref)
+        assert result is sub_element_ref
+        assert sub_element_ref.getApplicationCompositeElementIRef() is iref
+        sub_element_ref.setApplicationCompositeElementIRef(None)
+        assert sub_element_ref.getApplicationCompositeElementIRef() is iref
+
+
 class TestSubElementMapping:
-    """Test class for SubElementMapping class."""
+    """Test class for SubElementMapping class (Table 4.32, p.137)."""
+
+    SPEC_NOTE = "This meta-class allows for the definition of mappings of elements of a composite data type."
 
     def test_sub_element_mapping_initialization(self):
         """Test SubElementMapping initialization."""
@@ -321,31 +409,45 @@ class TestSubElementMapping:
         assert mapping.getSecondElement() is None
         assert mapping.getTextTableMappings() == []
 
-    def test_get_set_first_element(self):
-        """Test firstElement getter and setter with None no-op."""
+    def test_sub_element_mapping_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 4.32)."""
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SubElementMapping
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
+
+        assert SubElementMapping.__doc__.strip() == self.SPEC_NOTE
+
+    def test_get_set_first_element(self):
+        """firstElement holds a SubElementRef (Table 4.32 type) with None no-op."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+            ApplicationCompositeDataTypeSubElementRef,
+            SubElementMapping,
+            SubElementRef,
+        )
 
         mapping = SubElementMapping()
-        iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
-        result = mapping.setFirstElement(iref)
+        first = ApplicationCompositeDataTypeSubElementRef()
+        result = mapping.setFirstElement(first)
         assert result is mapping
-        assert mapping.getFirstElement() == iref
+        assert mapping.getFirstElement() is first
+        assert isinstance(mapping.getFirstElement(), SubElementRef)
         mapping.setFirstElement(None)
-        assert mapping.getFirstElement() == iref
+        assert mapping.getFirstElement() is first
 
     def test_get_set_second_element(self):
-        """Test secondElement getter and setter with None no-op."""
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import SubElementMapping
-        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
+        """secondElement holds a SubElementRef (Table 4.32 type) with None no-op."""
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
+            ApplicationCompositeDataTypeSubElementRef,
+            SubElementMapping,
+            SubElementRef,
+        )
 
         mapping = SubElementMapping()
-        iref = ApplicationCompositeElementInPortInterfaceInstanceRef()
-        result = mapping.setSecondElement(iref)
+        second = ApplicationCompositeDataTypeSubElementRef()
+        result = mapping.setSecondElement(second)
         assert result is mapping
-        assert mapping.getSecondElement() == iref
+        assert mapping.getSecondElement() is second
+        assert isinstance(mapping.getSecondElement(), SubElementRef)
         mapping.setSecondElement(None)
-        assert mapping.getSecondElement() == iref
+        assert mapping.getSecondElement() is second
 
     def test_add_text_table_mapping(self):
         """Test addTextTableMapping and getTextTableMappings with None no-op."""
@@ -361,6 +463,67 @@ class TestSubElementMapping:
         assert mapping.getTextTableMappings() == [text_map]
 
 
+class TestMappingDirectionEnum:
+    """Test class for MappingDirectionEnum class."""
+
+    def test_mapping_direction_enum_initialization(self):
+        """Test MappingDirectionEnum initialization and literal round-trips."""
+        enum = MappingDirectionEnum()
+        assert enum.getEnumValues() == ("bidirectional", "firstToSecond", "secondToFirst")
+
+        bidirectional = MappingDirectionEnum()
+        bidirectional.setValue(MappingDirectionEnum.BIDIRECTIONAL)
+        assert bidirectional.getValue() == MappingDirectionEnum.BIDIRECTIONAL
+
+        first_to_second = MappingDirectionEnum()
+        first_to_second.setValue(MappingDirectionEnum.FIRST_TO_SECOND)
+        assert first_to_second.getValue() == MappingDirectionEnum.FIRST_TO_SECOND
+
+        second_to_first = MappingDirectionEnum()
+        second_to_first.setValue(MappingDirectionEnum.SECOND_TO_FIRST)
+        assert second_to_first.getValue() == MappingDirectionEnum.SECOND_TO_FIRST
+
+    def test_mapping_direction_enum_docstring(self):
+        """The class docstring copies the Table 4.37 Note verbatim."""
+        assert MappingDirectionEnum.__doc__.strip() == "Specifies the conversion direction for which the mapping is applicable."
+
+
+class TestTextTableValuePair:
+    """Test class for TextTableValuePair class."""
+
+    def test_text_table_value_pair_initialization(self):
+        """Test TextTableValuePair initialization defaults."""
+        pair = TextTableValuePair()
+        assert pair.getFirstValue() is None
+        assert pair.getSecondValue() is None
+
+    def test_get_set_first_value(self):
+        """Test firstValue getter and setter with None no-op."""
+        pair = TextTableValuePair()
+        value = Numerical()
+        value.setValue("8")
+        result = pair.setFirstValue(value)
+        assert result is pair
+        assert pair.getFirstValue() == value
+        pair.setFirstValue(None)
+        assert pair.getFirstValue() == value
+
+    def test_get_set_second_value(self):
+        """Test secondValue getter and setter with None no-op."""
+        pair = TextTableValuePair()
+        value = Numerical()
+        value.setValue("16")
+        result = pair.setSecondValue(value)
+        assert result is pair
+        assert pair.getSecondValue() == value
+        pair.setSecondValue(None)
+        assert pair.getSecondValue() == value
+
+    def test_text_table_value_pair_docstring(self):
+        """The class docstring copies the Table 4.38 Note verbatim."""
+        assert TextTableValuePair.__doc__.strip() == "Defines a pair of text values which are translated into each other."
+
+
 class TestTextTableMapping:
     """Test class for TextTableMapping class."""
 
@@ -372,7 +535,37 @@ class TestTextTableMapping:
         assert mapping.getBitfieldTextTableMaskFirst() is None
         assert mapping.getBitfieldTextTableMaskSecond() is None
         assert mapping.getIdenticalMapping() is None
+        assert mapping.getMappingDirection() is None
         assert mapping.getValuePairs() == []
+
+    def test_text_table_mapping_docstring(self):
+        """The class docstring copies the Table 4.36 Note verbatim."""
+        assert (
+            TextTableMapping.__doc__.strip()
+            == "Defines the mapping of two DataPrototypes typed by AutosarDataTypes that refer to CompuMethods of category TEXTTABLE, SCALE_LINEAR_AND_TEXTTABLE or BITFIELD_TEXTTABLE."
+        )
+
+    def test_get_set_mapping_direction(self):
+        """Test mappingDirection getter and setter with None no-op."""
+        mapping = TextTableMapping()
+        direction = MappingDirectionEnum()
+        direction.setValue(MappingDirectionEnum.BIDIRECTIONAL)
+        result = mapping.setMappingDirection(direction)
+        assert result is mapping
+        assert mapping.getMappingDirection() == direction
+        mapping.setMappingDirection(None)
+        assert mapping.getMappingDirection() == direction
+
+    def test_add_value_pair(self):
+        """Test addValuePair appends and ignores None."""
+        mapping = TextTableMapping()
+        assert mapping.getValuePairs() == []
+        pair = TextTableValuePair()
+        result = mapping.addValuePair(pair)
+        assert result is mapping
+        assert mapping.getValuePairs() == [pair]
+        mapping.addValuePair(None)
+        assert mapping.getValuePairs() == [pair]
 
     def test_get_set_bitfield_text_table_mask_first(self):
         """Test bitfieldTextTableMaskFirst getter and setter with None no-op."""
@@ -481,24 +674,47 @@ class TestModeInterfaceMapping:
 
 
 class TestTriggerInterfaceMapping:
-    """Test class for TriggerInterfaceMapping class."""
+    """Test class for TriggerInterfaceMapping class (Table 4.30, p.134)."""
+
+    SPEC_NOTE = "Defines the mapping of unequal named Triggers in context of two different TriggerInterfaces."
 
     def test_trigger_interface_mapping_initialization(self):
-        """Test TriggerInterfaceMapping initialization and methods."""
+        """Test TriggerInterfaceMapping initialization defaults."""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         mapping = TriggerInterfaceMapping(ar_root, "TestTriggerInterfaceMapping")
 
-        assert mapping.triggerMapping == []
+        assert mapping.triggerMappings == []
         assert mapping.parent == ar_root
         assert mapping.short_name == "TestTriggerInterfaceMapping"
 
-        # Test setter and getter
-        from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import TriggerMapping
+    def test_trigger_interface_mapping_heritage(self):
+        """TriggerInterfaceMapping's most-derived direct base is PortInterfaceMapping (Table 4.30 Base chain)."""
+        mapping = TriggerInterfaceMapping(None, "Tim")
 
+        assert type(mapping).__bases__ == (PortInterfaceMapping,)
+        for ancestor in (PortInterfaceMapping, Identifiable, Referrable, ARObject):
+            assert isinstance(mapping, ancestor)
+
+    def test_trigger_interface_mapping_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 4.30)."""
+        assert TriggerInterfaceMapping.__doc__.strip() == self.SPEC_NOTE
+
+    def test_trigger_interface_mapping_get_add_round_trip(self):
+        """getTriggerMappings / addTriggerMapping round-trip with chaining."""
+        mapping = TriggerInterfaceMapping(None, "Tim")
         trigger_mapping = TriggerMapping()
-        mapping.setTriggerMapping([trigger_mapping])
-        assert trigger_mapping in mapping.getTriggerMapping()
+
+        return_value = mapping.addTriggerMapping(trigger_mapping)
+        assert return_value == mapping  # method chaining
+        assert mapping.getTriggerMappings() == [trigger_mapping]
+
+    def test_trigger_interface_mapping_add_none_noop(self):
+        """addTriggerMapping(None) is a no-op."""
+        mapping = TriggerInterfaceMapping(None, "Tim")
+
+        mapping.addTriggerMapping(None)
+        assert mapping.getTriggerMappings() == []
 
 
 class TestModeDeclarationMapping:

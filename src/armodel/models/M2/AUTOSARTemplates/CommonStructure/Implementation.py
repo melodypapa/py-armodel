@@ -62,16 +62,18 @@ class ProgramminglanguageEnum(AREnum):
     """
 
     # ProgramminglanguageEnum method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.2, p.621
-    # [x] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.2, p.621 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    # C language. atp.EnumerationLiteralIndex=0
+    # C language. Tags: atp.EnumerationLiteralIndex=0
     C = "c"
 
-    # C++ language. atp.EnumerationLiteralIndex=1
+    # C++ language. Tags: atp.EnumerationLiteralIndex=1
     CPP = "cpp"
 
-    # Java language. atp.EnumerationLiteralIndex=2
+    # Java language. Tags: atp.EnumerationLiteralIndex=2
     JAVA = "java"
 
     def __init__(self):

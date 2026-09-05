@@ -274,6 +274,17 @@ the aggregation is itself a partial implementation and remains to be wired.
 
 No deviations (multiplicity/type resolved to spec).
 
+## `ProgramminglanguageEnum`
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 621
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::Implementation`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/Implementation.py`
+
+No deviations — members `C`/`CPP`/`JAVA` match the Table 8.2 literals `c`/`cpp`/`java`
+1:1 (UPPER_CASE member names, member values = spec literals exactly, indexes 0/1/2 per
+`atp.EnumerationLiteralIndex`); class docstring = Table 8.2 Note verbatim; standalone
+`AREnum` (Steps 5/6 N/A — serialized as the `Implementation.programmingLanguage`
+attribute value and round-tripped there).
+
 ## `Describable`
 - **PDF:** `AUTOSAR_FO_TPS_GenericStructureTemplate.pdf`  | **page:** 438
 - **Package:** `M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable`
@@ -508,6 +519,42 @@ direction of the cross-check had not been run).
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(pending)* | `—` | `shortLabel`/`label`/`identifiableRef`/`flatInstanceRef` | String / MultilanguageLongName / Ref / Ref | attr/aggr/ref/ref | parser/writer coverage pending `AliasNameSet`'s wiring into the `ARPackage.element` read/write dispatch (`AliasNameAssignment` is never a standalone element; it is serialized only inside `ALIAS-NAME-SET/ALIAS-NAMES`) |
+
+## `FlatMap`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 966
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::FlatMap`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/FlatMap.py`
+
+Model aligned 2026-09-05 (Table 14.1): heritage fixed `AtpBlueprintable` → `ARElement`
+(spec `Base` most-derived; restores the `CollectableElement` → `PackageableElement` →
+`ARElement` chain required by the `ARPackage.element` aggregation and re-enables the
+inherited `VariationPointCapable` of `PackageableElement`, so the XSD `VARIATION-POINT`
+(PACKAGEABLE-ELEMENT group, "Applicable for: ARPackage.element") round-trips through
+`readIdentifiable`/`writeIdentifiable` instead of being dropped with a parser warning).
+`getInstances()` now returns the dedicated `instances` field directly (was an
+`elements`-registry isinstance filter — Rule 0004 to-fix, cleared).
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `instances` | `List[FlatInstanceDescriptor]` | `instance` | `FlatInstanceDescriptor` | aggr | - (conforms Table 14.1; spec-singular `*` name maps to the plural field + `createFlatInstanceDescriptor`/`getInstances` per Rule 0001.4/0001.6) |
+
+## `FlatInstanceDescriptor`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 967
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::FlatMap`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/FlatMap.py`
+
+Model aligned 2026-09-05 (Table 14.2): all five spec attributes implemented with typed
+`Optional[T]` fields/accessors and full reader/writer coverage in XSD group order
+(ROLE, RTE-PLUGIN-PROPS, SW-DATA-DEF-PROPS, UPSTREAM-REFERENCE-IREF,
+ECU-EXTRACT-REFERENCE-IREF; VARIATION-POINT via the `VariationPointCapable` mixin
+through `readIdentifiable`/`writeIdentifiable`). The iref members keep the `IRef` Kind
+suffix (`ecuExtractReferenceIRef`/`upstreamReferenceIRef` typed `AnyInstanceRef` per
+"InstanceRef implemented by: AnyInstanceRef"). Prior bare-`T`/unannotated `0..1` fields
+retyped per the spec `Mult.` column.
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `rtePluginProps` | `Optional[RtePluginProps]` | `rtePluginProps` | `RtePluginProps` | aggr | - (conforms Table 14.2; identity-only child serialization pending the unstamped `RtePluginProps`' own alignment pass — its `associatedCrossSwClusterComRtePluginRef`/`associatedRtePluginRef` refs are unread/unwritten; Rule 0001.10 audit candidate, referenced as-is) |
 
 ## `McDataInstance`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 177

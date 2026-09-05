@@ -199,7 +199,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTiming import SynchronizationTimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, TimingExtension
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucAbstractReferenceValue,
@@ -501,12 +501,15 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     TriggerInterfaceMapping,
     SenderReceiverInterface,
     SubElementMapping,
+    ApplicationCompositeDataTypeSubElementRef,
+    SubElementRef,
     TextTableMapping,
+    TextTableValuePair,
     TriggerInterface,
     VariableAndParameterInterfaceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import RptExecutableEntityProperties, RptImplPolicy
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     AsynchronousServerCallPoint,
@@ -3423,10 +3426,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.notImplemented("Unsupported Mode Group IRef <%s>" % type(instance_ref))
         return instance_ref
 
+    def writeModeAccessPointIdent(self, element: ET.Element, ident: ModeAccessPointIdent):
+        if ident is not None:
+            ident_element = ET.SubElement(element, "IDENT")
+            self.writeIdentifiable(ident_element, ident)
+
     def writeModeAccessPoint(self, element: ET.Element, point: ModeAccessPoint):
         if point is not None:
             child_element = ET.SubElement(element, "MODE-ACCESS-POINT")
             self.writeARObject(child_element, point)
+            self.writeModeAccessPointIdent(child_element, point.getIdent())
             self.setModeGroupIRef(child_element, "MODE-GROUP-IREF", point.getModeGroupIRef())
 
     def writeRunnableEntityExternalTriggeringPoints(self, element: ET.Element, entity: RunnableEntity):
@@ -6536,10 +6545,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(child_element, "SECTION-INITIALIZATION-POLICY", method.getSectionInitializationPolicy())
         self.setChildElementOptionalLiteral(child_element, "SECTION-TYPE", method.getSectionType())
 
+    def writeTriggerInterfaceTriggers(self, element: ET.Element, trigger_if: TriggerInterface):
+        triggers = trigger_if.getTriggers()
+        if len(triggers) > 0:
+            triggers_tag = ET.SubElement(element, "TRIGGERS")
+            for trigger in triggers:
+                if isinstance(trigger, Trigger):
+                    self.writeTrigger(triggers_tag, trigger)
+                else:
+                    self.notImplemented("Unsupported Trigger Interface Trigger <%s>" % type(trigger))
+
     def writeTriggerInterface(self, element: ET.Element, trigger_if: TriggerInterface):
         self.logger.debug("writeTriggerInterface %s" % trigger_if.getShortName())
-        # child_element = ET.SubElement(element, "TRIGGER-INTERFACE")
-        # self.writePortInterface()
+        child_element = ET.SubElement(element, "TRIGGER-INTERFACE")
+        self.writeIdentifiable(child_element, trigger_if)
+        self.writeTriggerInterfaceTriggers(child_element, trigger_if)
 
     def writeServiceSwComponentType(self, element: ET.Element, sw_component: ServiceSwComponentType):
         self.logger.debug("writeServiceSwComponentType %s" % sw_component.getShortName())
@@ -8433,7 +8453,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.logger.debug("Write ModeDeclarationMappingSet <%s>" % mapping_set.getShortName())
             child_element = ET.SubElement(element, "MODE-DECLARATION-MAPPING-SET")
             self.writeARElement(child_element, mapping_set)
-            self.writeModeDeclarationMappingSetModeDeclarationMappings(element, mapping_set)
+            self.writeModeDeclarationMappingSetModeDeclarationMappings(child_element, mapping_set)
 
     def writeEcucDefinitionElement(self, element: ET.Element, def_element: EcucDefinitionElement):
         self.writeARElement(element, def_element)
@@ -9779,6 +9799,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Set FlatInstanceDescriptor %s" % desc.getShortName())
         child_element = ET.SubElement(element, "FLAT-INSTANCE-DESCRIPTOR")
         self.writeIdentifiable(child_element, desc)
+        self.setChildElementOptionalIdentifier(child_element, "ROLE", desc.getRole())
+        if desc.getRtePluginProps() is not None:
+            ET.SubElement(child_element, "RTE-PLUGIN-PROPS")
+        self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", desc.getSwDataDefProps())
         self.setAnyInstanceRef(child_element, "UPSTREAM-REFERENCE-IREF", desc.getUpstreamReferenceIRef())
         self.setAnyInstanceRef(child_element, "ECU-EXTRACT-REFERENCE-IREF", desc.getEcuExtractReferenceIRef())
 
@@ -9820,18 +9844,23 @@ class ARXMLWriter(AbstractARXMLWriter):
         first = mapping.getFirstElement()
         if first is not None:
             first_tag = ET.SubElement(child_element, "FIRST-ELEMENTS")
-            iref_tag = ET.SubElement(first_tag, "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF")
-            self.setApplicationCompositeElementInPortInterfaceInstanceRef(iref_tag, "APPLICATION-COMPOSITE-ELEMENT-IREF", first)
+            self.setSubElementRef(first_tag, first)
         second = mapping.getSecondElement()
         if second is not None:
             second_tag = ET.SubElement(child_element, "SECOND-ELEMENTS")
-            iref_tag = ET.SubElement(second_tag, "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF")
-            self.setApplicationCompositeElementInPortInterfaceInstanceRef(iref_tag, "APPLICATION-COMPOSITE-ELEMENT-IREF", second)
+            self.setSubElementRef(second_tag, second)
         text_tables = mapping.getTextTableMappings()
         if len(text_tables) > 0:
             text_tag = ET.SubElement(child_element, "TEXT-TABLE-MAPPINGS")
             for text_table in text_tables:
                 self.setTextTableMapping(text_tag, text_table)
+
+    def setSubElementRef(self, element: ET.Element, sub_element_ref: SubElementRef):
+        if isinstance(sub_element_ref, ApplicationCompositeDataTypeSubElementRef):
+            ref_tag = ET.SubElement(element, "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF")
+            self.setApplicationCompositeElementInPortInterfaceInstanceRef(ref_tag, "APPLICATION-COMPOSITE-ELEMENT-IREF", sub_element_ref.getApplicationCompositeElementIRef())
+        else:
+            self.notImplemented("Unsupported SubElementRef <%s>" % type(sub_element_ref).__name__)
 
     def setTextTableMapping(self, element: ET.Element, mapping: TextTableMapping):
         child_element = ET.SubElement(element, "TEXT-TABLE-MAPPING")
@@ -9839,6 +9868,16 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalPositiveInteger(child_element, "BITFIELD-TEXT-TABLE-MASK-SECOND", mapping.getBitfieldTextTableMaskSecond())
         self.setChildElementOptionalBooleanValue(child_element, "IDENTICAL-MAPPING", mapping.getIdenticalMapping())
         self.setChildElementOptionalLiteral(child_element, "MAPPING-DIRECTION", mapping.getMappingDirection())
+        value_pairs = mapping.getValuePairs()
+        if len(value_pairs) > 0:
+            value_pairs_element = ET.SubElement(child_element, "VALUE-PAIRS")
+            for value_pair in value_pairs:
+                self.setTextTableValuePair(value_pairs_element, value_pair)
+
+    def setTextTableValuePair(self, element: ET.Element, value_pair: TextTableValuePair):
+        child_element = ET.SubElement(element, "TEXT-TABLE-VALUE-PAIR")
+        self.setChildElementOptionalNumerical(child_element, "FIRST-VALUE", value_pair.getFirstValue())
+        self.setChildElementOptionalNumerical(child_element, "SECOND-VALUE", value_pair.getSecondValue())
 
     def setDataPrototypeMappings(self, element: ET.Element, key: str, mappings: List[DataPrototypeMapping]):
         if len(mappings) > 0:
@@ -9889,14 +9928,17 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(child_element, mapping)
             self.writeModeInterfaceMappingModeMapping(child_element, mapping)
 
+    def writeTriggerMapping(self, element: ET.Element, trigger_mapping: TriggerMapping):
+        self.setChildElementOptionalRefType(element, "FIRST-TRIGGER-REF", trigger_mapping.getFirstTriggerRef())
+        self.setChildElementOptionalRefType(element, "SECOND-TRIGGER-REF", trigger_mapping.getSecondTriggerRef())
+
     def writeTriggerInterfaceMappingTriggerMappings(self, element: ET.Element, mapping: TriggerInterfaceMapping):
-        trigger_mappings = mapping.getTriggerMapping()
+        trigger_mappings = mapping.getTriggerMappings()
         if len(trigger_mappings) > 0:
             child_element = ET.SubElement(element, "TRIGGER-MAPPINGS")
             for trigger_mapping in trigger_mappings:
                 mapping_element = ET.SubElement(child_element, "TRIGGER-MAPPING")
-                self.setChildElementOptionalRefType(mapping_element, "FIRST-TRIGGER-REF", trigger_mapping.getFirstTriggerRef())
-                self.setChildElementOptionalRefType(mapping_element, "SECOND-TRIGGER-REF", trigger_mapping.getSecondTriggerRef())
+                self.writeTriggerMapping(mapping_element, trigger_mapping)
 
     def writeTriggerInterfaceMapping(self, element: ET.Element, mapping: TriggerInterfaceMapping):
         # self.logger.debug("Write TriggerInterfaceMapping %s" % mapping.getShortName())

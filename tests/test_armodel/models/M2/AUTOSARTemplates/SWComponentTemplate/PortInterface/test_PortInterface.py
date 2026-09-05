@@ -4,6 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import ServiceProviderEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpClassifier, AtpFeature, AtpStructureElement, AtpType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
@@ -32,9 +33,12 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     PortInterfaceMapping,
     PortInterfaceMappingSet,
     SenderReceiverInterface,
+    TriggerInterface,
     TriggerInterfaceMapping,
     VariableAndParameterInterfaceMapping,
 )
+
+SPEC_NOTE_TRIGGER_INTERFACE = "A trigger interface declares a number of triggers that can be sent by an trigger source."
 
 
 class Test_M2_AUTOSARTemplates_SWComponentTemplate_PortInterface:
@@ -503,3 +507,63 @@ class TestMetaDataItemSet:
         # Table 4.5 metaDataItem is ordered — insertion order is preserved
         assert items[0] is item1
         assert items[1] is item2
+
+
+class TestTriggerInterface:
+    """
+    Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.12, p.109 (R23-11)
+    """
+
+    def _make(self, short_name: str) -> TriggerInterface:
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        pkg = ar_root.createARPackage("TriggerInterfaces")
+        return TriggerInterface(pkg, short_name)
+
+    def test_initialization(self):
+        """Test TriggerInterface initialization defaults (Table 4.12)"""
+        trigger_if = self._make("TestTriggerInterface")
+
+        assert trigger_if is not None
+        assert trigger_if.getShortName() == "TestTriggerInterface"
+        assert trigger_if.getTriggers() == []
+
+    def test_heritage_direct_base_is_port_interface(self):
+        """TriggerInterface's most-derived spec base is PortInterface (Table 4.12)"""
+        assert TriggerInterface.__bases__[0] is PortInterface
+        assert issubclass(TriggerInterface, PortInterface)
+        assert issubclass(TriggerInterface, Identifiable)
+
+    def test_class_docstring_matches_spec_note(self):
+        """The class docstring must be the verbatim Table 4.12 Note"""
+        trigger_if = self._make("TestTriggerInterface")
+        assert trigger_if.__doc__ == SPEC_NOTE_TRIGGER_INTERFACE
+
+    def test_create_trigger(self):
+        """createTrigger appends a Trigger to the dedicated typed list"""
+        trigger_if = self._make("TestTriggerInterface")
+
+        trigger = trigger_if.createTrigger("trig1")
+        assert isinstance(trigger, Trigger)
+        assert trigger.getShortName() == "trig1"
+        assert trigger_if.getTriggers() == [trigger]
+
+    def test_create_trigger_duplicate_returns_existing(self):
+        """createTrigger with an existing short name returns the existing Trigger"""
+        trigger_if = self._make("TestTriggerInterface")
+
+        trigger = trigger_if.createTrigger("trig1")
+        duplicate = trigger_if.createTrigger("trig1")
+        assert duplicate is trigger
+        assert len(trigger_if.getTriggers()) == 1
+
+    def test_create_trigger_ordered(self):
+        """createTrigger preserves insertion order"""
+        trigger_if = self._make("TestTriggerInterface")
+
+        trigger1 = trigger_if.createTrigger("trig1")
+        trigger2 = trigger_if.createTrigger("trig2")
+        triggers = trigger_if.getTriggers()
+        assert len(triggers) == 2
+        assert triggers[0] is trigger1
+        assert triggers[1] is trigger2

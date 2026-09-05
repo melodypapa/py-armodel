@@ -985,6 +985,21 @@ class TestProgramminglanguageEnum:
         assert ProgramminglanguageEnum.JAVA == "java"
 
     def test_enum_values(self):
-        """Test the valid enum value set"""
+        """Test the valid enum value set in spec literal order (Table 8.2)"""
         enum = ProgramminglanguageEnum()
-        assert set(enum.getEnumValues()) == {"c", "cpp", "java"}
+        assert enum.getEnumValues() == (
+            ProgramminglanguageEnum.C,
+            ProgramminglanguageEnum.CPP,
+            ProgramminglanguageEnum.JAVA,
+        )
+
+    def test_instantiation_set_value(self):
+        """Test enum instantiability and setValue/getValue round-trip per Rule 0011"""
+        enum = ProgramminglanguageEnum()
+        result = enum.setValue(ProgramminglanguageEnum.CPP)
+        assert result is enum  # Method chaining
+        assert enum.getValue() == "cpp"
+
+    def test_spec_note(self):
+        """Test the Table 8.2 class note."""
+        assert ProgramminglanguageEnum.__doc__.strip() == "Programming language the implementation was created in."

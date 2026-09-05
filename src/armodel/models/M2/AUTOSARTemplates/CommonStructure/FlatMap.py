@@ -6,7 +6,6 @@ hierarchies in a flat manner, typically used for code generation purposes.
 
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, String
@@ -16,205 +15,195 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 
 
+class RtePluginProps(ARObject):
+    """
+    Represents RTE plugin properties in AUTOSAR.
+    This class defines properties for RTE plugins.
+    """
+
+    # RtePluginProps method parity checklist:
+    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # [ ] getPluginName                [x] impl  [ ] docstring  [ ] test
+    # [ ] setPluginName                [x] impl  [ ] docstring  [ ] test
+    # [ ] getPluginVersion             [x] impl  [ ] docstring  [ ] test
+    # [ ] setPluginVersion             [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        """
+        Initializes the RtePluginProps with default values.
+        """
+        super().__init__()
+        self.pluginName: str = None
+        self.pluginVersion: str = None
+
+    def getPluginName(self):
+        return self.pluginName
+
+    def setPluginName(self, value):
+        self.pluginName = value
+        return self
+
+    def getPluginVersion(self):
+        return self.pluginVersion
+
+    def setPluginVersion(self, value):
+        self.pluginVersion = value
+        return self
+
+
 class FlatInstanceDescriptor(Identifiable, VariationPointCapable):
     """
-    Represents a flat instance descriptor in AUTOSAR models.
-    This class describes a single instance in a flattened instance hierarchy, typically used for code generation.
+    Represents exactly one node (e.g. a component instance or data element) of the instance tree of a software system. The purpose of this element is to map the various nested representations of this instance to a flat representation and assign a unique name (shortName) to it. Use cases: • Specify unique names of measurable data to be used by MCD tools • Specify unique names of calibration data to be used by MCD tool • Specify a unique name for an instance of a component prototype in the ECU extract of the system description Note that in addition it is possible to assign alias names via AliasNameAssignment.
     """
 
     # FlatInstanceDescriptor method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getEcuExtractReferenceIRef   [x] impl  [x] docstring  [x] test
-    # [x] setEcuExtractReferenceIRef   [x] impl  [x] docstring  [x] test
-    # [x] getRole                      [x] impl  [x] docstring  [x] test
-    # [x] setRole                      [x] impl  [x] docstring  [x] test
-    # [x] getRtePluginProps            [x] impl  [x] docstring  [x] test
-    # [x] setRtePluginProps            [x] impl  [x] docstring  [x] test
-    # [x] getSwDataDefProps            [x] impl  [x] docstring  [x] test
-    # [x] setSwDataDefProps            [x] impl  [x] docstring  [x] test
-    # [x] getUpstreamReferenceIRef     [x] impl  [x] docstring  [x] test
-    # [x] setUpstreamReferenceIRef     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 14.2, p.967
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEcuExtractReferenceIRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcuExtractReferenceIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRole                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRole                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRtePluginProps            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRtePluginProps            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwDataDefProps            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwDataDefProps            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpstreamReferenceIRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpstreamReferenceIRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the FlatInstanceDescriptor with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this instance descriptor
-            short_name: The unique short name of this instance descriptor
-        """
         super().__init__(parent, short_name)
 
-        # Instance reference to ECU extract reference
-        self.ecuExtractReferenceIRef: AnyInstanceRef = None
-        # Role identifier for this instance descriptor
-        self.role: Identifier = None
-        # RTE plugin properties for this instance (forward reference)
-        self.rtePluginProps = None
-        # Software data definition properties for this instance
-        self.swDataDefProps: SwDataDefProps = None
-        # Upstream instance reference for this instance descriptor
-        self.upstreamReferenceIRef: AnyInstanceRef = None
+        # Refers to the instance in the ECU extract. This is valid only, if the FlatMap is used in the context of an ECU extract. The reference shall be such that it uniquely defines the object instance. For example, if a data prototype is declared as a role within an SwcInternalBehavior, it is not enough to state the SwcInternalBehavior as context and the aggregated data prototype as target. In addition, the reference shall also include the complete path identifying instance of the component prototype and the AtomicSoftwareComponentType, which is refered by the particular SwcInternalBehavior. InstanceRef implemented by: AnyInstanceRef
+        self.ecuExtractReferenceIRef: Optional[AnyInstanceRef] = None
 
-    def getEcuExtractReferenceIRef(self):
+        # The role denotes the particular role of the downstream memory location described by this FlatInstanceDescriptor. It applies to use case where one upstream object results in multiple downstream objects, e.g. ModeDeclarationGroupPrototypes which are measurable. In this case the RTE will provide locations for current mode, previous mode and next mode.
+        self.role: Optional[Identifier] = None
+
+        # The properties of a communication graph with respect to the utilization of RTE Implementation Plug-in.
+        self.rtePluginProps: Optional[RtePluginProps] = None
+
+        # The properties of this FlatInstanceDescriptor.
+        self.swDataDefProps: Optional[SwDataDefProps] = None
+
+        # Refers to the instance in the context of an "upstream" description, which could be: the SYSTEM_DESCRIPTION, or SYSTEM_EXTRACT, or ECU_SYSTEM_DESCRIPTION, or SW_CLUSTER_SYSTEM_DESCRIPTION, or the basic software module description (in this case only the target reference of the AnyInstanceRef is needed), or (if a flat map is used in preliminary context) a description of an atomic component or composition. This reference is optional in case the flat map is used in ECU context. The reference shall be such that it uniquely defines the object instance in the given context. For example, if a data prototype is declared as a role within an SwcInternalBehavior, it is not enough to state the SwcInternalBehavior as context and the aggregated data prototype as target. In addition, the reference shall also include the complete path identifying the instance of the component prototype that contains the particular instance of SwcInternalBehavior. InstanceRef implemented by: AnyInstanceRef
+        self.upstreamReferenceIRef: Optional[AnyInstanceRef] = None
+
+    def getEcuExtractReferenceIRef(self) -> Optional[AnyInstanceRef]:
         """
-        Gets the instance reference to ECU extract reference.
-
-        Returns:
-            AnyInstanceRef: The ECU extract reference instance reference
+        Refers to the instance in the ECU extract. This is valid only, if the FlatMap is used in the context of an ECU extract. The reference shall be such that it uniquely defines the object instance. For example, if a data prototype is declared as a role within an SwcInternalBehavior, it is not enough to state the SwcInternalBehavior as context and the aggregated data prototype as target. In addition, the reference shall also include the complete path identifying instance of the component prototype and the AtomicSoftwareComponentType, which is refered by the particular SwcInternalBehavior. InstanceRef implemented by: AnyInstanceRef
         """
         return self.ecuExtractReferenceIRef
 
-    def setEcuExtractReferenceIRef(self, value):
+    def setEcuExtractReferenceIRef(self, value: Optional[AnyInstanceRef]) -> "FlatInstanceDescriptor":
         """
-        Sets the instance reference to ECU extract reference.
+        Refers to the instance in the ECU extract. This is valid only, if the FlatMap is used in the context of an ECU extract. The reference shall be such that it uniquely defines the object instance. For example, if a data prototype is declared as a role within an SwcInternalBehavior, it is not enough to state the SwcInternalBehavior as context and the aggregated data prototype as target. In addition, the reference shall also include the complete path identifying instance of the component prototype and the AtomicSoftwareComponentType, which is refered by the particular SwcInternalBehavior. InstanceRef implemented by: AnyInstanceRef
 
-        Args:
-            value: The ECU extract reference instance reference to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing ecuExtractReferenceIRef.
         """
-        self.ecuExtractReferenceIRef = value
+        if value is not None:
+            self.ecuExtractReferenceIRef = value
         return self
 
-    def getRole(self):
+    def getRole(self) -> Optional[Identifier]:
         """
-        Gets the role identifier for this instance descriptor.
-
-        Returns:
-            Identifier: The role identifier
+        The role denotes the particular role of the downstream memory location described by this FlatInstanceDescriptor. It applies to use case where one upstream object results in multiple downstream objects, e.g. ModeDeclarationGroupPrototypes which are measurable. In this case the RTE will provide locations for current mode, previous mode and next mode.
         """
         return self.role
 
-    def setRole(self, value):
+    def setRole(self, value: Optional[Identifier]) -> "FlatInstanceDescriptor":
         """
-        Sets the role identifier for this instance descriptor.
+        The role denotes the particular role of the downstream memory location described by this FlatInstanceDescriptor. It applies to use case where one upstream object results in multiple downstream objects, e.g. ModeDeclarationGroupPrototypes which are measurable. In this case the RTE will provide locations for current mode, previous mode and next mode.
 
-        Args:
-            value: The role identifier to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing role.
         """
-        self.role = value
+        if value is not None:
+            self.role = value
         return self
 
-    def getRtePluginProps(self):
+    def getRtePluginProps(self) -> Optional[RtePluginProps]:
         """
-        Gets the RTE plugin properties for this instance.
-
-        Returns:
-            RtePluginProps: The RTE plugin properties
+        The properties of a communication graph with respect to the utilization of RTE Implementation Plug-in.
         """
         return self.rtePluginProps
 
-    def setRtePluginProps(self, value):
+    def setRtePluginProps(self, value: Optional[RtePluginProps]) -> "FlatInstanceDescriptor":
         """
-        Sets the RTE plugin properties for this instance.
+        The properties of a communication graph with respect to the utilization of RTE Implementation Plug-in.
 
-        Args:
-            value: The RTE plugin properties to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing rtePluginProps.
         """
-        self.rtePluginProps = value
+        if value is not None:
+            self.rtePluginProps = value
         return self
 
-    def getSwDataDefProps(self):
+    def getSwDataDefProps(self) -> Optional[SwDataDefProps]:
         """
-        Gets the software data definition properties for this instance.
-
-        Returns:
-            SwDataDefProps: The software data definition properties
+        The properties of this FlatInstanceDescriptor.
         """
         return self.swDataDefProps
 
-    def setSwDataDefProps(self, value):
+    def setSwDataDefProps(self, value: Optional[SwDataDefProps]) -> "FlatInstanceDescriptor":
         """
-        Sets the software data definition properties for this instance.
+        The properties of this FlatInstanceDescriptor.
 
-        Args:
-            value: The software data definition properties to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing swDataDefProps.
         """
-        self.swDataDefProps = value
+        if value is not None:
+            self.swDataDefProps = value
         return self
 
-    def getUpstreamReferenceIRef(self):
+    def getUpstreamReferenceIRef(self) -> Optional[AnyInstanceRef]:
         """
-        Gets the upstream instance reference for this instance descriptor.
-
-        Returns:
-            AnyInstanceRef: The upstream reference instance reference
+        Refers to the instance in the context of an "upstream" description, which could be: the SYSTEM_DESCRIPTION, or SYSTEM_EXTRACT, or ECU_SYSTEM_DESCRIPTION, or SW_CLUSTER_SYSTEM_DESCRIPTION, or the basic software module description (in this case only the target reference of the AnyInstanceRef is needed), or (if a flat map is used in preliminary context) a description of an atomic component or composition. This reference is optional in case the flat map is used in ECU context. The reference shall be such that it uniquely defines the object instance in the given context. For example, if a data prototype is declared as a role within an SwcInternalBehavior, it is not enough to state the SwcInternalBehavior as context and the aggregated data prototype as target. In addition, the reference shall also include the complete path identifying the instance of the component prototype that contains the particular instance of SwcInternalBehavior. InstanceRef implemented by: AnyInstanceRef
         """
         return self.upstreamReferenceIRef
 
-    def setUpstreamReferenceIRef(self, value):
+    def setUpstreamReferenceIRef(self, value: Optional[AnyInstanceRef]) -> "FlatInstanceDescriptor":
         """
-        Sets the upstream instance reference for this instance descriptor.
+        Refers to the instance in the context of an "upstream" description, which could be: the SYSTEM_DESCRIPTION, or SYSTEM_EXTRACT, or ECU_SYSTEM_DESCRIPTION, or SW_CLUSTER_SYSTEM_DESCRIPTION, or the basic software module description (in this case only the target reference of the AnyInstanceRef is needed), or (if a flat map is used in preliminary context) a description of an atomic component or composition. This reference is optional in case the flat map is used in ECU context. The reference shall be such that it uniquely defines the object instance in the given context. For example, if a data prototype is declared as a role within an SwcInternalBehavior, it is not enough to state the SwcInternalBehavior as context and the aggregated data prototype as target. In addition, the reference shall also include the complete path identifying the instance of the component prototype that contains the particular instance of SwcInternalBehavior. InstanceRef implemented by: AnyInstanceRef
 
-        Args:
-            value: The upstream reference instance reference to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing upstreamReferenceIRef.
         """
-        self.upstreamReferenceIRef = value
+        if value is not None:
+            self.upstreamReferenceIRef = value
         return self
 
 
-class FlatMap(AtpBlueprintable):
+class FlatMap(ARElement):
     """
-    Represents a flat map in AUTOSAR models.
-    This class contains a collection of flat instance descriptors that define a flattened view of instance hierarchies.
+    Contains a flat list of references to software objects. This list is used to identify instances and to resolve name conflicts. The scope is given by the RootSwCompositionPrototype for which it is used, i.e. it can be applied to a system, system extract or ECU-extract. An instance of FlatMap may also be used in a preliminary context, e.g. in the scope of a software component before integration into a system. In this case it is not referred by a RootSwCompositionPrototype.
     """
 
     # FlatMap method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getInstances                 [x] impl  [x] docstring  [x] test
-    # [x] createFlatInstanceDescriptor [x] impl  [x] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 14.1, p.966 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createFlatInstanceDescriptor [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInstances                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the FlatMap with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this flat map
-            short_name: The unique short name of this flat map
-        """
         super().__init__(parent, short_name)
 
-        # List of flat instance descriptors in this flat map
-        self.instances: List["FlatInstanceDescriptor"] = []
+        # A descriptor instance aggregated in the flat map. The variation point accounts for the fact, that the system in scope can be subject to variability, and thus the existence of some instances is variable. The aggregation has been made splitable because the content might be contributed by different stakeholders at different times in the workflow. Plus, the overall size might be so big that eventually it becomes more manageable if it is distributed over several files.
+        self.instances: List[FlatInstanceDescriptor] = []
 
-    def getInstances(self):
+    def createFlatInstanceDescriptor(self, short_name: str) -> FlatInstanceDescriptor:
         """
-        Gets all flat instance descriptors from the elements list, sorted by short name.
-
-        Returns:
-            List of FlatInstanceDescriptor instances sorted by short name
-        """
-        return list(sorted(filter(lambda a: isinstance(a, FlatInstanceDescriptor), self.elements), key=lambda o: o.short_name))
-
-    def createFlatInstanceDescriptor(self, short_name: str):
-        """
-        Creates and adds a FlatInstanceDescriptor to this flat map.
-
-        Args:
-            short_name: The short name for the new instance descriptor
-
-        Returns:
-            The created FlatInstanceDescriptor instance
+        A descriptor instance aggregated in the flat map. The variation point accounts for the fact, that the system in scope can be subject to variability, and thus the existence of some instances is variable. The aggregation has been made splitable because the content might be contributed by different stakeholders at different times in the workflow. Plus, the overall size might be so big that eventually it becomes more manageable if it is distributed over several files.
         """
         if not self.IsElementExists(short_name, FlatInstanceDescriptor):
             element = FlatInstanceDescriptor(self, short_name)
             self.addElement(element)
             self.instances.append(element)
         return self.getElement(short_name, FlatInstanceDescriptor)
+
+    def getInstances(self) -> List[FlatInstanceDescriptor]:
+        """
+        A descriptor instance aggregated in the flat map. The variation point accounts for the fact, that the system in scope can be subject to variability, and thus the existence of some instances is variable. The aggregation has been made splitable because the content might be contributed by different stakeholders at different times in the workflow. Plus, the overall size might be so big that eventually it becomes more manageable if it is distributed over several files.
+        """
+        return self.instances
 
 
 class AliasNameAssignment(ARObject, VariationPointCapable):
@@ -404,39 +393,3 @@ class AliasNameSet(ARElement):
             List of AliasNameAssignment instances (empty by default)
         """
         return self.aliasNames
-
-
-class RtePluginProps(ARObject):
-    """
-    Represents RTE plugin properties in AUTOSAR.
-    This class defines properties for RTE plugins.
-    """
-
-    # RtePluginProps method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
-    # [ ] getPluginName                [x] impl  [ ] docstring  [ ] test
-    # [ ] setPluginName                [x] impl  [ ] docstring  [ ] test
-    # [ ] getPluginVersion             [x] impl  [ ] docstring  [ ] test
-    # [ ] setPluginVersion             [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        """
-        Initializes the RtePluginProps with default values.
-        """
-        super().__init__()
-        self.pluginName: str = None
-        self.pluginVersion: str = None
-
-    def getPluginName(self):
-        return self.pluginName
-
-    def setPluginName(self, value):
-        self.pluginName = value
-        return self
-
-    def getPluginVersion(self):
-        return self.pluginVersion
-
-    def setPluginVersion(self, value):
-        self.pluginVersion = value
-        return self
