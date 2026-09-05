@@ -202,7 +202,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 6 — Update parser & writer (Green) — no production change required; existing reader/writer paths use matching adders/getters
   - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column and reader/writer mapping
   - [x] Step 8 — Deviations — no class deviation; unstamped referenced DataTypeMap reported for future dependency sync
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 277 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit pending
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 277 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `21ab486b`
 - [ ] `AbstractImplementationDataTypeElement` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.16 · member type of `ArVariableInImplementationDataInstanceRef.contextDataPrototype`/`targetDataPrototype`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
