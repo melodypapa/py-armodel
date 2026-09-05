@@ -358,6 +358,7 @@ class TestAdminDataAndReferrableHandlers:
         assert iref is not None
         assert iref.getPortPrototypeRef().getValue() == "/p1"
         assert iref.getTargetDataPrototypeRef().getValue() == "/td1"
+        assert iref.getTargetDataPrototypeRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
 
     def test_getVariableInAtomicSWCTypeInstanceRef_none_element(self, parser):
         assert parser.getVariableInAtomicSWCTypeInstanceRef(None) is None

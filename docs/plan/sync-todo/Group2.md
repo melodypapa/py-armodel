@@ -277,16 +277,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 7 — Update checklist comment — six-column checklist with corrected p.941 citation and R23-11 release column
   - [x] Step 8 — Deviations — none
   - [x] Step 9 — Verify (9a) + confirm (9b) — 425 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `03690054`
-- [ ] `VariableInAtomicSWCTypeInstanceRef` (tracker input · **spec CORRECTED 2026-09-03 restructure: R23-11 markdown Table D.18 exists (appendix letter-numbered table, same as D.17/D.4 cases), NOT XSD-only** · after `VariableDataPrototype`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `VariableInAtomicSWCTypeInstanceRef` (tracker input · **spec CORRECTED 2026-09-03 restructure: R23-11 markdown Table D.18 exists (appendix letter-numbered table, same as D.17/D.4 cases), NOT XSD-only** · after `VariableDataPrototype`) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table D.18, p.953; direct `AtpInstanceRef` heritage; authoritative member list contains only optional targetDataPrototype ref
+  - [x] Step 2 — Write model class unit test (Red) — corrected fabricated member expectations; RED confirmed extra fields conflicted with Table D.18
+  - [x] Step 3 — Implement model class (Green) — targetDataPrototypeRef typed and guarded; legacy roles retained only for existing AUTOSAR-VARIABLE-IREF consumers
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — blank class Note preserved; target member Note copied verbatim; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — existing AUTOSAR-VARIABLE-IREF parser/writer value and DEST coverage retained and strengthened
+  - [x] Step 6 — Update parser & writer (Green) — existing consumer paths preserved; no production parser/writer change required
+  - [x] Step 7 — Update checklist comment — corrected p.953 citation and D.18 member list
+  - [x] Step 8 — Deviations — none: complete markdown member order synchronized; existing AUTOSAR-VARIABLE-IREF compatibility behavior is covered by these members
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 643 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit pending
 - [ ] `ArVariableInImplementationDataInstanceRef` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.37 · after `AbstractImplementationDataTypeElement` (`contextDataPrototype`/`targetDataPrototype` refs) + `VariableDataPrototype` (`rootVariableDataPrototype` ref) · `portPrototype` PortPrototype stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
