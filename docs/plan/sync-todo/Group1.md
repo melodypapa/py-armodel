@@ -833,16 +833,16 @@ enums → ARObject/Identifiable leaf members → members with their own member t
   - [x] Step 8 — Deviations — field-to-spec cross-check both directions: 3 spec literals ↔ 3 members, no missing, no fabricated, no naming/type rows; no `# type:` comments; Rule 0001.10 report: no referenced member types (standalone `AREnum`); new `ProgramminglanguageEnum` tracker entry in docs/examples/method_deviation_by_class.md records "No deviations" (literals/docstring verbatim; Steps 5/6 N/A rationale)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a (2026-09-05): full suite 8652 passed / 0 failed (baseline 8650 + 2 net-new enum tests; incl. 29-fixture integration round-trip); lint clean (flake8 syntax + ruff all green); black clean (841 files unchanged); set-based checklist==methods (`__init__`) + test-coverage asserts pass; no `# type:` comments; programmatic verbatim docstring diff (class docstring vs md l.17592 Note ✓); marker-free block verified per batch protocol. 9b confirmed (2026-09-05, user batch review) → `# Spec verified: R23-11` written; Spec citation normalized to unified format `R23-11/...pdf, Table 8.2, p.621 (R23-11)` in the same commit
 - [ ] `Compiler` (**NEW — member type of `Implementation.compiler`** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 7.7, p.133 (SWCT Table 8.3, p.621 — same class, BSW chapter 7 owns the Implementation cluster))
-  - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::CommonStructure::Implementation (file `CommonStructure/Implementation.py` ✓ Rule 0007); Base = ARObject, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **Identifiable** ✓ heritage already correct in code; 4 attributes, all `String` 0..1 attr: `name`, `options`, `vendor`, `version`; Note (md, wrap-normalised): "Specifies the compiler attributes. In case of source code this specifies requirements how the compiler shall be invoked. In case of object code this documents the used compiler settings."
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::CommonStructure::Implementation (file `CommonStructure/Implementation.py` ✓ Rule 0007); Base = ARObject, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **Identifiable** ✓; 4 attributes, all `String` 0..1 attr: `name`, `options`, `vendor`, `version`; Note: "Specifies the compiler attributes. In case of source code this specifies requirements how the compiler shall be invoked. In case of object code this documents the used compiler settings."
+  - [x] Step 1 — Sync members & description from spec — Table 7.7 and XSD group `COMPILER` confirm base, four attributes, types, multiplicities, and XML order.
+  - [x] Step 2 — Write model class unit test (Red) — added verbatim Note/accessor Note assertions and explicit None-no-op/chaining tests; Red exposed stale method documentation.
+  - [x] Step 3 — Implement model class (Green) — existing Identifiable heritage and four Optional[String] fields/accessors conform; no structural implementation change required.
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and accessor docs now use the verbatim Table 7.7 Notes; init docstring removed; None-no-op sentence retained on setters.
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — existing compiler field parser/writer coverage exercised; XML shape is covered through the Implementation writer tests.
+  - [x] Step 6 — Update parser & writer (Green) — existing `readCompiler`/`writeCompiler` paths cover Identifiable and NAME/OPTIONS/VENDOR/VERSION in XSD order; no source changes required.
+  - [x] Step 7 — Update checklist comment — replaced legacy checklist with six-column parity rows and unified R23-11 citation.
+  - [x] Step 8 — Deviations — none; all four Table 7.7 attributes, base, naming, types, docstrings, and reader/writer coverage conform.
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a complete: 8684 unit tests passed; integration suite passed 29/29 ARXML round trips plus the short-name integration test under `PYTHONUTF8=1`; focused Compiler/model/parser/writer tests passed (96); lint, touched-file Black, AST method/member order, and diff checks passed. Repository-wide Black remains blocked by the unrelated pre-existing formatting issue in `tests/test_armodel/parser/test_arxml_parser_orchestrators.py`. Awaiting user 9b confirmation before stamp and commit.
 - [ ] `Linker` (**NEW — member type of `Implementation.linker`** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 7.8, p.134 (SWCT Table 8.4, p.622 — same class))
   - Spec facts (extracted 2026-09-04): concrete; Package = ...CommonStructure::Implementation ✓; Base = **Identifiable** ✓ heritage already correct in code; 4 attributes, all `String` 0..1 attr: `name`, `options`, `vendor`, `version`; Note (md, wrap-normalised): "Specifies the linker attributes used to describe how the linker shall be invoked."
   - [ ] Step 1 — Sync members & description from spec
@@ -926,6 +926,19 @@ enums → ARObject/Identifiable leaf members → members with their own member t
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
+
+- [x] `Identifiable` (**known unstamped blocker — gated every `Identifiable`-derived row's stamp per the 2026-09-04 review note; variationPoint mixin refactor resolved (mixin already implemented)** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.4, p.61) — **finished, stamped `# Spec verified: R23-11`** (commit: c17bfbf6)
+  - Spec facts: abstract; Package = M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable (file `GenericStructure/GeneralTemplateClasses/Identifiable.py` ✓ Rule 0007); Base = ARObject, MultilanguageReferrable, Referrable → most-derived direct base **MultilanguageReferrable** ✓ heritage already correct; 6 attributes (R23-11 markdown Table 4.4 is an incomplete extraction — only lists `introduction`+`uuid`; the XSD `IDENTIFIABLE` group is authoritative and confirms all 6): `adminData` (AdminData, 0..1, aggr), `annotation`/`annotations` (Annotation, *, aggr), `category` (CategoryString, 0..1, aggr), `desc` (MultiLanguageOverviewParagraph, 0..1, aggr), `introduction` (DocumentationBlock, 0..1, aggr), `uuid` (String, 0..1, attr). Note: "Instances of this class can be referred to by their identifier (within the namespace borders). In addition to this, Identifiables are objects which contribute significantly to the overall structure of an AUTOSAR description. In particular, Identifiables might contain Identifiables."
+  - Known deviations: element-collection infra (getTotalElement/removeElement/getElements/addElement/getElement/IsElementExists) is internal non-spec infra kept on Identifiable (some direct subclasses e.g. Fibex PhysicalChannel are not CollectableElement); VariationPoint moved to the `VariationPointCapable` mixin (already implemented). Markdown Table 4.4 incomplete vs XSD → XSD used as ground truth.
+  - [x] Step 1 — Sync members & description from spec — Table 4.4 + XSD IDENTIFIABLE group confirm 6 attributes, types, multiplicities, XML order (sequenceOffset DESC −60 … UUID attr)
+  - [x] Step 2 — Write model class unit test (Red) — TestIdentifiable exists (init defaults, get/set round-trip, None no-op, chaining, abstract guard); 39 model+writer tests pass
+  - [x] Step 3 — Implement model class (Green) — `class Identifiable(MultilanguageReferrable, ABC)` heritage correct; 6 Optional fields/accessors conform
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class + inline comments + getter (pure verbatim Note) + setter (Note + "Only sets the value if it is not None.") verbatim from XSD/Table 4.4
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — test_identifiable.py (writer) + test_arxml_parser_snippets.py / test_ar_object_attributes.py (reader) assert field values for all 6 attrs
+  - [x] Step 6 — Update parser & writer (Green) — readIdentifiable/writeIdentifiable cover all 6 (DESC, CATEGORY, ADMIN-DATA, INTRODUCTION, ANNOTATIONS, UUID) in XSD order; VariationPoint via mixin
+  - [x] Step 7 — Update checklist comment — 6-col parity checklist (impl/docstring/test/reader/writer/release), unified `# Spec:` line (R23-11 Table 4.4 p.61)
+  - [x] Step 8 — Deviations — element-collection infra (accepted, documented) + VariationPoint→mixin (resolved) + markdown-vs-XSD incompleteness (XSD used)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: flake8/ruff/black clean, 102 model+parser+writer tests pass, 29/29 integration round-trip pass; 9b user-confirmed (Rules 0001/0002/0003/0007/0011/0012/0014 pass); stamped `# Spec verified: R23-11`
 
 ## Next-level candidates (level-2 — queue at the owning row's Step 1)
 
