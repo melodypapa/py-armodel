@@ -31,6 +31,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceR
     ROperationInAtomicSwcInstanceRef,
     RVariableInAtomicSwcInstanceRef,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     RunnableEntityArgument,
 )
@@ -704,6 +705,24 @@ class TestWriterRunnableEntity:
         parent = _parent()
         writer.writeRunnableEntityModeAccessPoints(parent, entity)
         assert parent.find("MODE-ACCESS-POINTS") is not None
+
+    def test_writeRunnableEntityModeAccessPoints_with_ident(self, writer):
+        behavior = _make_behavior()
+        entity = behavior.createRunnableEntity("re1")
+        point = ModeAccessPoint()
+        ident = ModeAccessPointIdent(point, "map_ident")
+        point.setIdent(ident)
+        iref = PModeGroupInAtomicSwcInstanceRef()
+        iref.setContextPPortRef(_ref("/pp"))
+        iref.setTargetModeGroupRef(_ref("/mg"))
+        point.setModeGroupIRef(iref)
+        entity.addModeAccessPoint(point)
+        parent = _parent()
+        writer.writeRunnableEntityModeAccessPoints(parent, entity)
+        point_elem = parent.find("MODE-ACCESS-POINTS").find("MODE-ACCESS-POINT")
+        ident_elem = point_elem.find("IDENT")
+        assert ident_elem is not None
+        assert ident_elem.find("SHORT-NAME").text == "map_ident"
 
     def test_writeRunnableEntityModeAccessPoints_rmode(self, writer):
         behavior = _make_behavior()

@@ -91,7 +91,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     NumericalRuleBasedValueSpecification,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap, RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType, ImplementationDataTypeElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior
@@ -572,12 +572,14 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     TriggerInterfaceMapping,
     SenderReceiverInterface,
     SubElementMapping,
+    ApplicationCompositeDataTypeSubElementRef,
     TextTableMapping,
+    TextTableValuePair,
     TriggerInterface,
     VariableAndParameterInterfaceMapping,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface.InstanceRefs import ApplicationCompositeElementInPortInterfaceInstanceRef
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import RptExecutableEntityProperties, RptImplPolicy
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent, RptExecutableEntityProperties, RptImplPolicy
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDocumentation import (
     SwComponentDocumentation,
 )
@@ -4383,8 +4385,15 @@ class ARXMLParser(AbstractARXMLParser):
                 self.notImplemented("Unsupported Mode Group IRef <%s>" % tag_name)
         return instance_ref
 
+    def readModeAccessPointIdent(self, element: ET.Element, ident: ModeAccessPointIdent):
+        self.readIdentifiable(element, ident)
+
     def readModeAccessPoint(self, element: ET.Element, point: ModeAccessPoint):
         self.readARObject(element, point)
+        ident_element = self.find(element, "IDENT")
+        if ident_element is not None:
+            ident = point.createIdent(self.getShortName(ident_element))
+            self.readModeAccessPointIdent(ident_element, ident)
         point.setModeGroupIRef(self.getModeGroupIRef(element, "MODE-GROUP-IREF"))
 
     def readRunnableEntityModeAccessPoints(self, element: ET.Element, entity: RunnableEntity):
@@ -6863,9 +6872,19 @@ class ARXMLParser(AbstractARXMLParser):
         if section_type is not None:
             method.setSectionType(MemorySectionType().setValue(section_type.getValue()))
 
+    def readTriggerInterfaceTriggers(self, element: ET.Element, trigger_if: TriggerInterface):
+        for child_element in self.findall(element, "TRIGGERS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "TRIGGER":
+                trigger = trigger_if.createTrigger(self.getShortName(child_element))
+                self.readTrigger(child_element, trigger)
+            else:
+                self.notImplemented("Unsupported Trigger Interface Trigger <%s>" % tag_name)
+
     def readTriggerInterface(self, element: ET.Element, trigger_if: TriggerInterface):
         self.logger.debug("Read TriggerInterface <%s>" % trigger_if.getShortName())
         self.readIdentifiable(element, trigger_if)
+        self.readTriggerInterfaceTriggers(element, trigger_if)
 
     def readModeDeclarationGroupModeDeclaration(self, element: ET.Element, parent: ModeDeclarationGroup):
         for child_element in self.findall(element, "MODE-DECLARATIONS/MODE-DECLARATION"):
@@ -11070,8 +11089,13 @@ class ARXMLParser(AbstractARXMLParser):
         info_set.setUsedLifeCycleStateDefinitionGroupRef(self.getChildElementOptionalRefType(element, "USED-LIFE-CYCLE-STATE-DEFINITION-GROUP-REF"))
 
     def readFlatInstanceDescriptor(self, element: ET.Element, desc: FlatInstanceDescriptor):
-        self.logger.debug("Read LifeCycleInfoSet %s" % desc.getShortName())
+        self.logger.debug("Read FlatInstanceDescriptor %s" % desc.getShortName())
         self.readIdentifiable(element, desc)
+        desc.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
+        rte_plugin_props_element = self.find(element, "RTE-PLUGIN-PROPS")
+        if rte_plugin_props_element is not None:
+            desc.setRtePluginProps(RtePluginProps())
+        desc.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
         desc.setUpstreamReferenceIRef(self.getAnyInstanceRef(element, "UPSTREAM-REFERENCE-IREF"))
         desc.setEcuExtractReferenceIRef(self.getAnyInstanceRef(element, "ECU-EXTRACT-REFERENCE-IREF"))
 
@@ -11108,17 +11132,22 @@ class ARXMLParser(AbstractARXMLParser):
         mapping = SubElementMapping()
         for ref_element in self.findall(element, "FIRST-ELEMENTS/*"):
             if self.getTagName(ref_element) == "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF":
-                mapping.setFirstElement(self.getApplicationCompositeElementInPortInterfaceInstanceRef(ref_element, "APPLICATION-COMPOSITE-ELEMENT-IREF"))
+                mapping.setFirstElement(self.getApplicationCompositeDataTypeSubElementRef(ref_element))
             else:
                 self.notImplemented("Unsupported firstElement SubElementRef <%s>" % self.getTagName(ref_element))
         for ref_element in self.findall(element, "SECOND-ELEMENTS/*"):
             if self.getTagName(ref_element) == "APPLICATION-COMPOSITE-DATA-TYPE-SUB-ELEMENT-REF":
-                mapping.setSecondElement(self.getApplicationCompositeElementInPortInterfaceInstanceRef(ref_element, "APPLICATION-COMPOSITE-ELEMENT-IREF"))
+                mapping.setSecondElement(self.getApplicationCompositeDataTypeSubElementRef(ref_element))
             else:
                 self.notImplemented("Unsupported secondElement SubElementRef <%s>" % self.getTagName(ref_element))
         for text_table in self.findall(element, "TEXT-TABLE-MAPPINGS/TEXT-TABLE-MAPPING"):
             mapping.addTextTableMapping(self.getTextTableMapping(text_table))
         return mapping
+
+    def getApplicationCompositeDataTypeSubElementRef(self, element: ET.Element) -> ApplicationCompositeDataTypeSubElementRef:
+        sub_element_ref = ApplicationCompositeDataTypeSubElementRef()
+        sub_element_ref.setApplicationCompositeElementIRef(self.getApplicationCompositeElementInPortInterfaceInstanceRef(element, "APPLICATION-COMPOSITE-ELEMENT-IREF"))
+        return sub_element_ref
 
     def getTextTableMapping(self, element: ET.Element) -> TextTableMapping:
         mapping = TextTableMapping()
@@ -11126,7 +11155,15 @@ class ARXMLParser(AbstractARXMLParser):
         mapping.setBitfieldTextTableMaskSecond(self.getChildElementOptionalPositiveInteger(element, "BITFIELD-TEXT-TABLE-MASK-SECOND"))
         mapping.setIdenticalMapping(self.getChildElementOptionalBooleanValue(element, "IDENTICAL-MAPPING"))
         mapping.setMappingDirection(self.getChildElementOptionalLiteral(element, "MAPPING-DIRECTION"))
+        for pair_element in self.findall(element, "VALUE-PAIRS/TEXT-TABLE-VALUE-PAIR"):
+            mapping.addValuePair(self.getTextTableValuePair(pair_element))
         return mapping
+
+    def getTextTableValuePair(self, element: ET.Element) -> TextTableValuePair:
+        value_pair = TextTableValuePair()
+        value_pair.setFirstValue(self.getChildElementOptionalNumerical(element, "FIRST-VALUE"))
+        value_pair.setSecondValue(self.getChildElementOptionalNumerical(element, "SECOND-VALUE"))
+        return value_pair
 
     def readVariableAndParameterInterfaceMapping(self, element: ET.Element, mapping: VariableAndParameterInterfaceMapping):
         # self.logger.debug("Read VariableAndParameterInterfaceMapping %s" % mapping.getShortName())
@@ -11167,14 +11204,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, mapping)
         self.readModeInterfaceMappingModeMapping(element, mapping)
 
+    def readTriggerMapping(self, element: ET.Element, trigger_mapping: TriggerMapping):
+        trigger_mapping.setFirstTriggerRef(self.getChildElementOptionalRefType(element, "FIRST-TRIGGER-REF"))
+        trigger_mapping.setSecondTriggerRef(self.getChildElementOptionalRefType(element, "SECOND-TRIGGER-REF"))
+
     def readTriggerInterfaceMappingTriggerMappings(self, element: ET.Element, mapping: TriggerInterfaceMapping):
-        trigger_mappings = []
         for child_element in self.findall(element, "TRIGGER-MAPPINGS/TRIGGER-MAPPING"):
             trigger_mapping = TriggerMapping()
-            trigger_mapping.setFirstTriggerRef(self.getChildElementOptionalRefType(child_element, "FIRST-TRIGGER-REF"))
-            trigger_mapping.setSecondTriggerRef(self.getChildElementOptionalRefType(child_element, "SECOND-TRIGGER-REF"))
-            trigger_mappings.append(trigger_mapping)
-        mapping.setTriggerMapping(trigger_mappings)
+            self.readTriggerMapping(child_element, trigger_mapping)
+            mapping.addTriggerMapping(trigger_mapping)
 
     def readTriggerInterfaceMapping(self, element: ET.Element, mapping: TriggerInterfaceMapping):
         # self.logger.debug("Read TriggerInterfaceMapping %s" % mapping.getShortName())

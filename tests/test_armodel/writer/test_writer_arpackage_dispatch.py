@@ -202,7 +202,8 @@ class TestWriteTriggerInterfaceDispatch:
         trigger_if = pkg.createTriggerInterface("TriggerIf")
         parent = _parent()
         writer.writeARPackageElement(parent, trigger_if)
-        assert len(parent) == 0
+        child = parent.find("TRIGGER-INTERFACE")
+        assert child is not None
 
 
 class TestWriteSecureCommunicationPropsSetDispatch:

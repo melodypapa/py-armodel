@@ -1,6 +1,7 @@
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
@@ -82,64 +83,72 @@ class TestTrigger:
         assert trigger.getTriggerPeriod() is value
 
 
+SPEC_NOTE_TRIGGER_MAPPING = "Defines the mapping of two particular unequally named Triggers in the given context."
+
+
 class TestTriggerMapping:
+    """
+    Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.31, p.134 (R23-11)
+    """
+
     def test_initialization(self):
-        """Test TriggerMapping initialization"""
+        """Test TriggerMapping initialization defaults (Table 4.31)"""
         mapping = TriggerMapping()
 
         assert mapping is not None
         assert mapping.firstTriggerRef is None
         assert mapping.secondTriggerRef is None
 
-    def test_get_first_trigger_ref(self):
-        """Test getFirstTriggerRef method"""
+    def test_heritage_direct_base_is_ar_object(self):
+        """TriggerMapping's spec Base is ARObject only (Table 4.31) — no Referrable"""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable, Referrable
+
+        assert TriggerMapping.__bases__[0] is ARObject
+        assert issubclass(TriggerMapping, ARObject)
+        assert not issubclass(TriggerMapping, Referrable)
+        assert not issubclass(TriggerMapping, Identifiable)
+
+    def test_class_docstring_matches_spec_note(self):
+        """The class docstring must be the verbatim Table 4.31 Note"""
+        mapping = TriggerMapping()
+        assert mapping.__doc__ == SPEC_NOTE_TRIGGER_MAPPING
+
+    def test_get_set_first_trigger_ref(self):
+        """setFirstTriggerRef/getFirstTriggerRef round-trip with a real RefType"""
         mapping = TriggerMapping()
         assert mapping.getFirstTriggerRef() is None
 
-    def test_set_first_trigger_ref(self):
-        """Test setFirstTriggerRef method"""
-        mapping = TriggerMapping()
-        test_value = RefType().setValue("FirstTriggerRef")
-        result = mapping.setFirstTriggerRef(test_value)
+        value = RefType().setValue("/PortInterfaces/TriggerInterface/Trig1")
+        result = mapping.setFirstTriggerRef(value)
         assert result is mapping
-        assert mapping.getFirstTriggerRef() == test_value
+        assert mapping.getFirstTriggerRef() == value
+        assert mapping.getFirstTriggerRef().getValue() == "/PortInterfaces/TriggerInterface/Trig1"
 
-    def test_set_first_trigger_ref_none(self):
-        """Test setFirstTriggerRef with None value"""
+    def test_set_first_trigger_ref_none_is_noop(self):
+        """setFirstTriggerRef(None) is a no-op and still chains"""
         mapping = TriggerMapping()
+        value = RefType().setValue("/PortInterfaces/TriggerInterface/Trig1")
+        mapping.setFirstTriggerRef(value)
         result = mapping.setFirstTriggerRef(None)
         assert result is mapping
-        assert mapping.getFirstTriggerRef() is None
+        assert mapping.getFirstTriggerRef() == value
 
-    def test_get_second_trigger_ref(self):
-        """Test getSecondTriggerRef method"""
+    def test_get_set_second_trigger_ref(self):
+        """setSecondTriggerRef/getSecondTriggerRef round-trip with a real RefType"""
         mapping = TriggerMapping()
         assert mapping.getSecondTriggerRef() is None
 
-    def test_set_second_trigger_ref(self):
-        """Test setSecondTriggerRef method"""
-        mapping = TriggerMapping()
-        test_value = RefType().setValue("SecondTriggerRef")
-        result = mapping.setSecondTriggerRef(test_value)
+        value = RefType().setValue("/PortInterfaces/TriggerInterface/Trig2")
+        result = mapping.setSecondTriggerRef(value)
         assert result is mapping
-        assert mapping.getSecondTriggerRef() == test_value
+        assert mapping.getSecondTriggerRef() == value
+        assert mapping.getSecondTriggerRef().getValue() == "/PortInterfaces/TriggerInterface/Trig2"
 
-    def test_set_second_trigger_ref_none(self):
-        """Test setSecondTriggerRef with None value"""
+    def test_set_second_trigger_ref_none_is_noop(self):
+        """setSecondTriggerRef(None) is a no-op and still chains"""
         mapping = TriggerMapping()
+        value = RefType().setValue("/PortInterfaces/TriggerInterface/Trig2")
+        mapping.setSecondTriggerRef(value)
         result = mapping.setSecondTriggerRef(None)
         assert result is mapping
-        assert mapping.getSecondTriggerRef() is None
-
-    def test_all_properties(self):
-        """Test setting all properties"""
-        mapping = TriggerMapping()
-
-        ref1 = RefType().setValue("FirstTriggerRef")
-        ref2 = RefType().setValue("SecondTriggerRef")
-
-        mapping.setFirstTriggerRef(ref1)
-        mapping.setSecondTriggerRef(ref2)
-
-        assert mapping.getFirstTriggerRef() == ref1
-        assert mapping.getSecondTriggerRef() == ref2
+        assert mapping.getSecondTriggerRef() == value

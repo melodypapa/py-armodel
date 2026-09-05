@@ -111,7 +111,7 @@ class TestReadPortInterfaceMappingSet:
         assert len(mappings) == 1
         assert mappings[0].short_name == "tim"
 
-        trigger_mappings = mappings[0].getTriggerMapping()
+        trigger_mappings = mappings[0].getTriggerMappings()
         assert len(trigger_mappings) == 1
         assert trigger_mappings[0].getFirstTriggerRef().getValue() == "/pkg/trigger1"
         assert trigger_mappings[0].getSecondTriggerRef().getValue() == "/pkg/trigger2"

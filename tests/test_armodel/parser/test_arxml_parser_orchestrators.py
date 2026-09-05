@@ -14,6 +14,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from armodel.models import AUTOSAR, ApplicationSwComponentType, CompositionSwComponentType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ApplicationCompositeDataTypeSubElementRef
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -683,6 +684,60 @@ class TestRunnableEntityOrchestrator:
         )
         parser.readRunnableEntity(element, runnable)
         assert len(runnable.getModeAccessPoints()) == 1
+
+    def test_readRunnableEntityModeAccessPoints_with_ident(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        element = _snip(
+            "<SHORT-NAME>run</SHORT-NAME>"
+            "<MODE-ACCESS-POINTS>"
+            "<MODE-ACCESS-POINT>"
+            "<IDENT><SHORT-NAME>map_ident</SHORT-NAME></IDENT>"
+            "<MODE-GROUP-IREF></MODE-GROUP-IREF>"
+            "</MODE-ACCESS-POINT>"
+            "</MODE-ACCESS-POINTS>",
+            root_tag="RUNNABLE-ENTITY",
+        )
+        parser.readRunnableEntity(element, runnable)
+        points = runnable.getModeAccessPoints()
+        assert len(points) == 1
+        ident = points[0].getIdent()
+        assert ident is not None
+        assert isinstance(ident, ModeAccessPointIdent)
+        assert ident.getShortName() == "map_ident"
+
+    def test_readRunnableEntityModeAccessPoints_round_trip(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import ModeAccessPoint
+        from armodel.writer.arxml_writer import ARXMLWriter
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        runnable = behavior.createRunnableEntity("run")
+        point = ModeAccessPoint()
+        point.setIdent(ModeAccessPointIdent(point, "map_ident"))
+        runnable.addModeAccessPoint(point)
+
+        namespace = "http://autosar.org/schema/r4.0"
+        parent = ET.Element("PARENT")
+        ARXMLWriter().writeRunnableEntityModeAccessPoints(parent, runnable)
+        inner = ET.tostring(parent).decode("utf-8")
+        container = ET.fromstring(f"<RUNNABLE-ENTITY xmlns='{namespace}'>{inner}</RUNNABLE-ENTITY>")
+        element = container[0]
+
+        recovered = behavior.createRunnableEntity("recovered")
+        parser.readRunnableEntityModeAccessPoints(element, recovered)
+        points = recovered.getModeAccessPoints()
+        assert len(points) == 1
+        ident = points[0].getIdent()
+        assert ident is not None
+        assert isinstance(ident, ModeAccessPointIdent)
+        assert ident.getShortName() == "map_ident"
 
     def test_readRunnableEntity_with_modeSwitchPoints(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -1789,27 +1844,73 @@ class TestLifeCycleAndVariantHandlers:
 
         flat_map = FlatMap(parent=_autosar_root(), short_name="fm")
         element = _snip(
-            "<SHORT-NAME>fm</SHORT-NAME>" "<INSTANCES>" "<FLAT-INSTANCE-DESCRIPTOR><SHORT-NAME>fid</SHORT-NAME></FLAT-INSTANCE-DESCRIPTOR>" "</INSTANCES>",
+            "<SHORT-NAME>fm</SHORT-NAME>"
+            "<INSTANCES>"
+            "<FLAT-INSTANCE-DESCRIPTOR><SHORT-NAME>fid</SHORT-NAME><ROLE>current</ROLE></FLAT-INSTANCE-DESCRIPTOR>"
+            "<FLAT-INSTANCE-DESCRIPTOR><SHORT-NAME>fid2</SHORT-NAME><ROLE>next</ROLE></FLAT-INSTANCE-DESCRIPTOR>"
+            "</INSTANCES>",
             root_tag="FLAT-MAP",
         )
         parser.readFlatMap(element, flat_map)
+        instances = flat_map.getInstances()
+        assert len(instances) == 2
+        assert [i.getShortName() for i in instances] == ["fid", "fid2"]
+        assert instances[0].getRole().getValue() == "current"
+        assert instances[1].getRole().getValue() == "next"
+
+    def test_readFlatMap_variation_point(self, parser):
+        from armodel.models import FlatMap
+
+        flat_map = FlatMap(parent=_autosar_root(), short_name="fm")
+        element = _snip(
+            "<SHORT-NAME>fm</SHORT-NAME>"
+            "<VARIATION-POINT><SHORT-LABEL>VP_FM</SHORT-LABEL></VARIATION-POINT>"
+            "<INSTANCES>"
+            "<FLAT-INSTANCE-DESCRIPTOR><SHORT-NAME>fid</SHORT-NAME></FLAT-INSTANCE-DESCRIPTOR>"
+            "</INSTANCES>",
+            root_tag="FLAT-MAP",
+        )
+        parser.readFlatMap(element, flat_map)
+        assert flat_map.getVariationPoint() is not None
+        assert flat_map.getVariationPoint().getShortLabel().getValue() == "VP_FM"
         assert len(flat_map.getInstances()) == 1
 
     def test_readFlatInstanceDescriptor_full(self, parser):
         from armodel.models import FlatMap
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import RtePluginProps
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
         flat_map = FlatMap(parent=_autosar_root(), short_name="fm")
         desc = flat_map.createFlatInstanceDescriptor("fid")
         element = _snip(
             "<SHORT-NAME>fid</SHORT-NAME>"
+            "<ROLE>current</ROLE>"
+            "<RTE-PLUGIN-PROPS />"
+            "<SW-DATA-DEF-PROPS>"
+            "<SW-DATA-DEF-PROPS-VARIANTS>"
+            "<SW-DATA-DEF-PROPS-CONDITIONAL>"
+            "<BASE-TYPE-REF DEST='SW-BASE-TYPE'>/BaseType</BASE-TYPE-REF>"
+            "</SW-DATA-DEF-PROPS-CONDITIONAL>"
+            "</SW-DATA-DEF-PROPS-VARIANTS>"
+            "</SW-DATA-DEF-PROPS>"
             "<UPSTREAM-REFERENCE-IREF>"
             "<BASE-REF DEST='SW-COMPONENT-PROTOTYPE'>/base</BASE-REF>"
             "<TARGET-REF DEST='RUNNABLE-ENTITY'>/target</TARGET-REF>"
-            "</UPSTREAM-REFERENCE-IREF>",
+            "</UPSTREAM-REFERENCE-IREF>"
+            "<ECU-EXTRACT-REFERENCE-IREF>"
+            "<TARGET-REF DEST='VARIABLE-DATA-PROTOTYPE'>/ecu_target</TARGET-REF>"
+            "</ECU-EXTRACT-REFERENCE-IREF>",
             root_tag="FLAT-INSTANCE-DESCRIPTOR",
         )
         parser.readFlatInstanceDescriptor(element, desc)
-        assert desc.getUpstreamReferenceIRef() is not None
+        assert desc.getRole() is not None
+        assert desc.getRole().getValue() == "current"
+        assert isinstance(desc.getRtePluginProps(), RtePluginProps)
+        assert isinstance(desc.getSwDataDefProps(), SwDataDefProps)
+        assert desc.getSwDataDefProps().getBaseTypeRef().getValue() == "/BaseType"
+        assert desc.getUpstreamReferenceIRef().getBaseRef().getValue() == "/base"
+        assert desc.getUpstreamReferenceIRef().getTargetRef().getValue() == "/target"
+        assert desc.getEcuExtractReferenceIRef().getTargetRef().getValue() == "/ecu_target"
 
 
 # ==================== Implementations Handlers ====================
@@ -2085,8 +2186,9 @@ class TestPortInterfaceMappingHandlers:
         assert parsed.getSecondToFirstDataTransformationRef().getValue() == "/t2"
         assert len(parsed.getSubElementMappings()) == 1
         sub = parsed.getSubElementMappings()[0]
-        assert sub.getFirstElement() is not None
-        assert sub.getFirstElement().getRootDataPrototypeRef().getValue() == "/root"
+        first = sub.getFirstElement()
+        assert isinstance(first, ApplicationCompositeDataTypeSubElementRef)
+        assert first.getApplicationCompositeElementIRef().getRootDataPrototypeRef().getValue() == "/root"
         assert len(parsed.getTextTableMappings()) == 1
         text = parsed.getTextTableMappings()[0]
         assert text.getBitfieldTextTableMaskFirst().getValue() == 1

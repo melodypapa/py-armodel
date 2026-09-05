@@ -318,15 +318,6 @@ reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `networkEndpoint` | ``NetworkEndpoint`` | aggr | missing |
 
-## `IdentCaption`
-- **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/RPTScenario.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
 ## `DataInterface`
 - **PDF:** `AUTOSAR_CP_TPS_DiagnosticExtractTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
@@ -614,15 +605,6 @@ reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `endToEndProtection` | ``EndToEndProtection`` | aggr | missing |
 
-## `ModeAccessPointIdent`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 14.6
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::RPTScenario`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/RPTScenario.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `-` | ``-`` | - | missing |
-
 ## `ParameterInterface`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
@@ -640,15 +622,6 @@ reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(missing)* | `—` | `metaDataItem(ordered)` | ``MetaDataItem`` | aggr | missing |
-
-## `TriggerInterface`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 4.12
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| — *(missing)* | `—` | `trigger` | ``Trigger`` | aggr | missing |
 
 ## `PortInterfaceMapping`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —
@@ -668,23 +641,14 @@ reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 |---|---|---|---|---|---|
 | `texttablemapping` | `—` | `textTableMapping` | ``TextTableMapping`` | aggr | type (spec one vs py list) |
 
-## `TriggerInterfaceMapping`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 4.31
-- **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
-- **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
-
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `triggermapping` | `—` | `triggerMapping` | ``TriggerMapping`` | aggr | type (spec many vs py single) |
-
 ## `ModeDeclarationMappingSet`
-- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 4.29
+- **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** 132  | **table:** Table 4.28
 - **Package:** `M2::AUTOSARTemplates::SWComponentTemplate::PortInterface`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SWComponentTemplate/PortInterface/__init__.py`
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
-| — *(missing)* | `—` | `modeDeclarationMapping` | ``ModeDeclaration Mapping`` | aggr | missing |
+| `modeDeclarationMappings` | `List[ModeDeclarationMapping]` | `modeDeclarationMapping` | ``ModeDeclarationMapping`` | aggr | naming |
 
 ## `PortInterfaceMappingSet`
 - **PDF:** `AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf`  | **page:** —  | **table:** Table 4.20

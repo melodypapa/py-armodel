@@ -66,73 +66,48 @@ class Trigger(AtpStructureElement, VariationPointCapable):
 
 
 class TriggerMapping(ARObject):
-    """
-    Represents a mapping between triggers in AUTOSAR models.
-    This class defines relationships between different triggers across system boundaries or components.
-    """
+    """Defines the mapping of two particular unequally named Triggers in the given context."""
 
     # TriggerMapping method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getFirstTriggerRef           [x] impl  [x] docstring  [x] test
-    # [x] setFirstTriggerRef           [x] impl  [x] docstring  [x] test
-    # [x] getSecondTriggerRef          [x] impl  [x] docstring  [x] test
-    # [x] setSecondTriggerRef          [x] impl  [x] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.31, p.134 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # Reader/writer note: dedicated readTriggerMapping/writeTriggerMapping (matched name
+    # pair, Rule 0013.2) read/write FIRST-TRIGGER-REF → SECOND-TRIGGER-REF in XSD order;
+    # the TRIGGER-MAPPINGS wrapper is owned by TriggerInterfaceMapping (Table 4.30) and
+    # its reader/writer construct the TriggerMapping children. No
+    # readIdentifiable/writeIdentifiable call — spec Base = ARObject (no Referrable members).
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFirstTriggerRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFirstTriggerRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSecondTriggerRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSecondTriggerRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the TriggerMapping with default values.
-        """
         super().__init__()
 
-        # Reference to the first trigger in the mapping
-        self.firstTriggerRef: RefType = None
-        # Reference to the second trigger in the mapping
-        self.secondTriggerRef: RefType = None
+        # A Trigger to be mapped.
+        self.firstTriggerRef: Optional[RefType] = None
 
-    def getFirstTriggerRef(self):
-        """
-        Gets the reference to the first trigger in the mapping.
+        # A Trigger to be mapped.
+        self.secondTriggerRef: Optional[RefType] = None
 
-        Returns:
-            RefType: The first trigger reference
-        """
+    def getFirstTriggerRef(self) -> Optional[RefType]:
+        """A Trigger to be mapped."""
         return self.firstTriggerRef
 
-    def setFirstTriggerRef(self, value):
-        """
-        Sets the reference to the first trigger in the mapping.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The first trigger reference to set
-
-        Returns:
-            self for method chaining
-        """
+    def setFirstTriggerRef(self, value: Optional[RefType]) -> "TriggerMapping":
+        """A Trigger to be mapped. A None value is a no-op and is not set."""
         if value is not None:
             self.firstTriggerRef = value
         return self
 
-    def getSecondTriggerRef(self):
-        """
-        Gets the reference to the second trigger in the mapping.
-
-        Returns:
-            RefType: The second trigger reference
-        """
+    def getSecondTriggerRef(self) -> Optional[RefType]:
+        """A Trigger to be mapped."""
         return self.secondTriggerRef
 
-    def setSecondTriggerRef(self, value):
-        """
-        Sets the reference to the second trigger in the mapping.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The second trigger reference to set
-
-        Returns:
-            self for method chaining
-        """
+    def setSecondTriggerRef(self, value: Optional[RefType]) -> "TriggerMapping":
+        """A Trigger to be mapped. A None value is a no-op and is not set."""
         if value is not None:
             self.secondTriggerRef = value
         return self

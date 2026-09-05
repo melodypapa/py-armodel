@@ -1065,7 +1065,10 @@ class TestWriteModeDeclarationMappingSet:
         writer.writeModeDeclarationMappingSet(parent, ms)
         assert parent[0].tag == "MODE-DECLARATION-MAPPING-SET"
         assert parent[0].find("SHORT-NAME").text == "MS"
-        assert parent.find("MODE-DECLARATION-MAPPINGS") is not None
+        # XSD AUTOSAR_00052.xsd l.82385: MODE-DECLARATION-MAPPINGS is the only child of the
+        # MODE-DECLARATION-MAPPING-SET own group — it must be nested INSIDE the set element.
+        assert parent[0].find("MODE-DECLARATION-MAPPINGS") is not None
+        assert parent.find("MODE-DECLARATION-MAPPINGS") is None
 
     def test_none(self, writer):
         parent = _parent()

@@ -32,6 +32,17 @@ class ModeAccessPoint(ARObject, VariationPointCapable):
         self.ident: "ModeAccessPointIdent" = None
         self.modeGroupIRef: "RModeGroupInAtomicSWCInstanceRef" = None
 
+    def createIdent(self, short_name: str) -> "ModeAccessPointIdent":
+        """
+        Creates the identification of this mode access point.
+
+        Returns:
+            ModeAccessPointIdent: The identification
+        """
+        if self.ident is None:
+            self.ident = ModeAccessPointIdent(self, short_name)
+        return self.ident
+
     def getIdent(self):
         """
         Gets the identification of this mode access point.
