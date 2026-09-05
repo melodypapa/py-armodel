@@ -676,6 +676,65 @@ class TestFlatInstanceDescriptorRoundTrip:
         assert desc_2.getEcuExtractReferenceIRef().getTargetRef().getValue() == "/t"
 
 
+class TestFlatMapRoundTrip:
+    def test_round_trip_full(self, tmp_path):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        fm = document.createARPackage("Pkg").createFlatMap("FM")
+        desc_second = fm.createFlatInstanceDescriptor("Second")
+        desc_second.setRole(Identifier().setValue("next"))
+        desc_first = fm.createFlatInstanceDescriptor("First")
+        desc_first.setRole(Identifier().setValue("current"))
+        vp = VariationPoint()
+        vp.setShortLabel(Identifier().setValue("VP_FM"))
+        fm.setVariationPoint(vp)
+
+        file_path = str(tmp_path / "flat_map.arxml")
+        ARXMLWriter().save(file_path, document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(file_path, document_2)
+
+        fm_2 = document_2.getARPackages()[0].getElement("FM")
+        assert fm_2 is not None
+        instances = fm_2.getInstances()
+        assert [i.getShortName() for i in instances] == ["Second", "First"]
+        assert [i.getRole().getValue() for i in instances] == ["next", "current"]
+        assert isinstance(instances[0], FlatInstanceDescriptor)
+        assert fm_2.getVariationPoint() is not None
+        assert fm_2.getVariationPoint().getShortLabel().getValue() == "VP_FM"
+
+    def test_round_trip_empty(self, tmp_path):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.createARPackage("Pkg").createFlatMap("FM")
+
+        file_path = str(tmp_path / "flat_map_empty.arxml")
+        ARXMLWriter().save(file_path, document)
+
+        tree = ET.parse(file_path)
+        instances_elements = [e for e in tree.iter() if e.tag.endswith("INSTANCES")]
+        assert instances_elements == []
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(file_path, document_2)
+
+        fm_2 = document_2.getARPackages()[0].getElement("FM")
+        assert fm_2 is not None
+        assert fm_2.getInstances() == []
+        assert fm_2.getVariationPoint() is None
+
+
 class TestWriterFlatMapInstances:
     def test_empty(self, writer):
         fm = _make_flat_map()

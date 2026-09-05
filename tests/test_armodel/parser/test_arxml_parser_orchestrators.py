@@ -1844,10 +1844,35 @@ class TestLifeCycleAndVariantHandlers:
 
         flat_map = FlatMap(parent=_autosar_root(), short_name="fm")
         element = _snip(
-            "<SHORT-NAME>fm</SHORT-NAME>" "<INSTANCES>" "<FLAT-INSTANCE-DESCRIPTOR><SHORT-NAME>fid</SHORT-NAME></FLAT-INSTANCE-DESCRIPTOR>" "</INSTANCES>",
+            "<SHORT-NAME>fm</SHORT-NAME>"
+            "<INSTANCES>"
+            "<FLAT-INSTANCE-DESCRIPTOR><SHORT-NAME>fid</SHORT-NAME><ROLE>current</ROLE></FLAT-INSTANCE-DESCRIPTOR>"
+            "<FLAT-INSTANCE-DESCRIPTOR><SHORT-NAME>fid2</SHORT-NAME><ROLE>next</ROLE></FLAT-INSTANCE-DESCRIPTOR>"
+            "</INSTANCES>",
             root_tag="FLAT-MAP",
         )
         parser.readFlatMap(element, flat_map)
+        instances = flat_map.getInstances()
+        assert len(instances) == 2
+        assert [i.getShortName() for i in instances] == ["fid", "fid2"]
+        assert instances[0].getRole().getValue() == "current"
+        assert instances[1].getRole().getValue() == "next"
+
+    def test_readFlatMap_variation_point(self, parser):
+        from armodel.models import FlatMap
+
+        flat_map = FlatMap(parent=_autosar_root(), short_name="fm")
+        element = _snip(
+            "<SHORT-NAME>fm</SHORT-NAME>"
+            "<VARIATION-POINT><SHORT-LABEL>VP_FM</SHORT-LABEL></VARIATION-POINT>"
+            "<INSTANCES>"
+            "<FLAT-INSTANCE-DESCRIPTOR><SHORT-NAME>fid</SHORT-NAME></FLAT-INSTANCE-DESCRIPTOR>"
+            "</INSTANCES>",
+            root_tag="FLAT-MAP",
+        )
+        parser.readFlatMap(element, flat_map)
+        assert flat_map.getVariationPoint() is not None
+        assert flat_map.getVariationPoint().getShortLabel().getValue() == "VP_FM"
         assert len(flat_map.getInstances()) == 1
 
     def test_readFlatInstanceDescriptor_full(self, parser):

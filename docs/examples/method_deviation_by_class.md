@@ -509,6 +509,24 @@ direction of the cross-check had not been run).
 |---|---|---|---|---|---|
 | — *(pending)* | `—` | `shortLabel`/`label`/`identifiableRef`/`flatInstanceRef` | String / MultilanguageLongName / Ref / Ref | attr/aggr/ref/ref | parser/writer coverage pending `AliasNameSet`'s wiring into the `ARPackage.element` read/write dispatch (`AliasNameAssignment` is never a standalone element; it is serialized only inside `ALIAS-NAME-SET/ALIAS-NAMES`) |
 
+## `FlatMap`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 966
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::FlatMap`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/FlatMap.py`
+
+Model aligned 2026-09-05 (Table 14.1): heritage fixed `AtpBlueprintable` → `ARElement`
+(spec `Base` most-derived; restores the `CollectableElement` → `PackageableElement` →
+`ARElement` chain required by the `ARPackage.element` aggregation and re-enables the
+inherited `VariationPointCapable` of `PackageableElement`, so the XSD `VARIATION-POINT`
+(PACKAGEABLE-ELEMENT group, "Applicable for: ARPackage.element") round-trips through
+`readIdentifiable`/`writeIdentifiable` instead of being dropped with a parser warning).
+`getInstances()` now returns the dedicated `instances` field directly (was an
+`elements`-registry isinstance filter — Rule 0004 to-fix, cleared).
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `instances` | `List[FlatInstanceDescriptor]` | `instance` | `FlatInstanceDescriptor` | aggr | - (conforms Table 14.1; spec-singular `*` name maps to the plural field + `createFlatInstanceDescriptor`/`getInstances` per Rule 0001.4/0001.6) |
+
 ## `FlatInstanceDescriptor`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 967
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::FlatMap`

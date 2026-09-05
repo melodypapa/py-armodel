@@ -1,6 +1,8 @@
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import AliasNameAssignment, AliasNameSet, FlatInstanceDescriptor, FlatMap, RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement, PackageableElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import CollectableElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
@@ -217,6 +219,13 @@ class TestAliasNameSet:
 
 
 class TestFlatMap:
+    CLASS_NOTE = (
+        "Contains a flat list of references to software objects. This list is used to identify instances and to resolve name conflicts. "
+        "The scope is given by the RootSwCompositionPrototype for which it is used, i.e. it can be applied to a system, system extract or ECU-extract. "
+        "An instance of FlatMap may also be used in a preliminary context, e.g. in the scope of a software component before integration into a system. "
+        "In this case it is not referred by a RootSwCompositionPrototype."
+    )
+
     def test_initialization(self):
         """Test FlatMap initialization"""
         document = AUTOSAR.getInstance()
@@ -226,6 +235,23 @@ class TestFlatMap:
         assert flat_map is not None
         assert flat_map.getShortName() == "TestFlatMap"
         assert flat_map.instances == []
+
+    def test_heritage(self):
+        """Test FlatMap heritage: direct base ARElement (Table 14.1 Base chain, most-derived; VP-capable via PackageableElement, Rule 0020)"""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        flat_map = FlatMap(ar_root, "TestFlatMap")
+
+        assert FlatMap.__bases__ == (ARElement,)
+        assert isinstance(flat_map, ARElement)
+        assert isinstance(flat_map, PackageableElement)
+        assert isinstance(flat_map, CollectableElement)
+        assert isinstance(flat_map, Identifiable)
+        assert isinstance(flat_map, VariationPointCapable)
+
+    def test_verbatim_class_docstring(self):
+        """Test the class docstring is the spec Note verbatim (Table 14.1, wrap-normalised)"""
+        assert FlatMap.__doc__.strip() == TestFlatMap.CLASS_NOTE
 
     def test_create_flat_instance_descriptor(self):
         """Test createFlatInstanceDescriptor method"""
@@ -259,16 +285,15 @@ class TestFlatMap:
         assert instances == []
 
     def test_get_instances(self):
-        """Test getInstances method with multiple instances"""
+        """Test getInstances returns the dedicated field in insertion order (Rule 0004)"""
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
         flat_map = FlatMap(ar_root, "TestFlatMap")
 
-        # Create instances in reverse order to test sorting
-        flat_map.createFlatInstanceDescriptor("Instance2")
-        flat_map.createFlatInstanceDescriptor("Instance1")
+        # Create in non-alphabetical order to prove insertion order, not sorting
+        instance2 = flat_map.createFlatInstanceDescriptor("Instance2")
+        instance1 = flat_map.createFlatInstanceDescriptor("Instance1")
 
         instances = flat_map.getInstances()
-        assert len(instances) == 2
-        assert instances[0].getShortName() == "Instance1"
-        assert instances[1].getShortName() == "Instance2"
+        assert instances == [instance2, instance1]
+        assert [i.getShortName() for i in instances] == ["Instance2", "Instance1"]

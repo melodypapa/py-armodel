@@ -6,7 +6,6 @@ hierarchies in a flat manner, typically used for code generation purposes.
 
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType, String
@@ -135,54 +134,39 @@ class FlatInstanceDescriptor(Identifiable, VariationPointCapable):
         return self
 
 
-class FlatMap(AtpBlueprintable):
+class FlatMap(ARElement):
     """
-    Represents a flat map in AUTOSAR models.
-    This class contains a collection of flat instance descriptors that define a flattened view of instance hierarchies.
+    Contains a flat list of references to software objects. This list is used to identify instances and to resolve name conflicts. The scope is given by the RootSwCompositionPrototype for which it is used, i.e. it can be applied to a system, system extract or ECU-extract. An instance of FlatMap may also be used in a preliminary context, e.g. in the scope of a software component before integration into a system. In this case it is not referred by a RootSwCompositionPrototype.
     """
 
     # FlatMap method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getInstances                 [x] impl  [x] docstring  [x] test
-    # [x] createFlatInstanceDescriptor [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 14.1, p.966
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createFlatInstanceDescriptor [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInstances                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the FlatMap with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this flat map
-            short_name: The unique short name of this flat map
-        """
         super().__init__(parent, short_name)
 
-        # List of flat instance descriptors in this flat map
+        # A descriptor instance aggregated in the flat map. The variation point accounts for the fact, that the system in scope can be subject to variability, and thus the existence of some instances is variable. The aggregation has been made splitable because the content might be contributed by different stakeholders at different times in the workflow. Plus, the overall size might be so big that eventually it becomes more manageable if it is distributed over several files.
         self.instances: List["FlatInstanceDescriptor"] = []
 
-    def getInstances(self):
+    def createFlatInstanceDescriptor(self, short_name: str) -> "FlatInstanceDescriptor":
         """
-        Gets all flat instance descriptors from the elements list, sorted by short name.
-
-        Returns:
-            List of FlatInstanceDescriptor instances sorted by short name
-        """
-        return list(sorted(filter(lambda a: isinstance(a, FlatInstanceDescriptor), self.elements), key=lambda o: o.short_name))
-
-    def createFlatInstanceDescriptor(self, short_name: str):
-        """
-        Creates and adds a FlatInstanceDescriptor to this flat map.
-
-        Args:
-            short_name: The short name for the new instance descriptor
-
-        Returns:
-            The created FlatInstanceDescriptor instance
+        A descriptor instance aggregated in the flat map. The variation point accounts for the fact, that the system in scope can be subject to variability, and thus the existence of some instances is variable. The aggregation has been made splitable because the content might be contributed by different stakeholders at different times in the workflow. Plus, the overall size might be so big that eventually it becomes more manageable if it is distributed over several files.
         """
         if not self.IsElementExists(short_name, FlatInstanceDescriptor):
             element = FlatInstanceDescriptor(self, short_name)
             self.addElement(element)
             self.instances.append(element)
         return self.getElement(short_name, FlatInstanceDescriptor)
+
+    def getInstances(self) -> List["FlatInstanceDescriptor"]:
+        """
+        A descriptor instance aggregated in the flat map. The variation point accounts for the fact, that the system in scope can be subject to variability, and thus the existence of some instances is variable. The aggregation has been made splitable because the content might be contributed by different stakeholders at different times in the workflow. Plus, the overall size might be so big that eventually it becomes more manageable if it is distributed over several files.
+        """
+        return self.instances
 
 
 class AliasNameAssignment(ARObject, VariationPointCapable):
