@@ -199,7 +199,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint.SynchronizationTiming import SynchronizationTimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingConstraint import TimingConstraint
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Timing.TimingExtensions import SwcTiming, TimingExtension
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.TriggerDeclaration import Trigger, TriggerMapping
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticContribution import DiagnosticServiceTable
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import (
     EcucAbstractReferenceValue,
@@ -9900,14 +9900,17 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIdentifiable(child_element, mapping)
             self.writeModeInterfaceMappingModeMapping(child_element, mapping)
 
+    def writeTriggerMapping(self, element: ET.Element, trigger_mapping: TriggerMapping):
+        self.setChildElementOptionalRefType(element, "FIRST-TRIGGER-REF", trigger_mapping.getFirstTriggerRef())
+        self.setChildElementOptionalRefType(element, "SECOND-TRIGGER-REF", trigger_mapping.getSecondTriggerRef())
+
     def writeTriggerInterfaceMappingTriggerMappings(self, element: ET.Element, mapping: TriggerInterfaceMapping):
         trigger_mappings = mapping.getTriggerMapping()
         if len(trigger_mappings) > 0:
             child_element = ET.SubElement(element, "TRIGGER-MAPPINGS")
             for trigger_mapping in trigger_mappings:
                 mapping_element = ET.SubElement(child_element, "TRIGGER-MAPPING")
-                self.setChildElementOptionalRefType(mapping_element, "FIRST-TRIGGER-REF", trigger_mapping.getFirstTriggerRef())
-                self.setChildElementOptionalRefType(mapping_element, "SECOND-TRIGGER-REF", trigger_mapping.getSecondTriggerRef())
+                self.writeTriggerMapping(mapping_element, trigger_mapping)
 
     def writeTriggerInterfaceMapping(self, element: ET.Element, mapping: TriggerInterfaceMapping):
         # self.logger.debug("Write TriggerInterfaceMapping %s" % mapping.getShortName())

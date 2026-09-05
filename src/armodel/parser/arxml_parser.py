@@ -11177,12 +11177,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, mapping)
         self.readModeInterfaceMappingModeMapping(element, mapping)
 
+    def readTriggerMapping(self, element: ET.Element, trigger_mapping: TriggerMapping):
+        trigger_mapping.setFirstTriggerRef(self.getChildElementOptionalRefType(element, "FIRST-TRIGGER-REF"))
+        trigger_mapping.setSecondTriggerRef(self.getChildElementOptionalRefType(element, "SECOND-TRIGGER-REF"))
+
     def readTriggerInterfaceMappingTriggerMappings(self, element: ET.Element, mapping: TriggerInterfaceMapping):
         trigger_mappings = []
         for child_element in self.findall(element, "TRIGGER-MAPPINGS/TRIGGER-MAPPING"):
             trigger_mapping = TriggerMapping()
-            trigger_mapping.setFirstTriggerRef(self.getChildElementOptionalRefType(child_element, "FIRST-TRIGGER-REF"))
-            trigger_mapping.setSecondTriggerRef(self.getChildElementOptionalRefType(child_element, "SECOND-TRIGGER-REF"))
+            self.readTriggerMapping(child_element, trigger_mapping)
             trigger_mappings.append(trigger_mapping)
         mapping.setTriggerMapping(trigger_mappings)
 
