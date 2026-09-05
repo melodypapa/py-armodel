@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import
     ModeSwitchInterface,
     PortInterfaceMapping,
     PortInterfaceMappingSet,
+    SubElementRef,
     TriggerInterface,
     TriggerInterfaceMapping,
     VariableAndParameterInterfaceMapping,
@@ -310,6 +311,42 @@ class TestDataPrototypeMapping:
         assert mapping.getTextTableMappings() == [text_map]
         mapping.addTextTableMapping(None)
         assert mapping.getTextTableMappings() == [text_map]
+
+
+class TestSubElementRef:
+    """Test class for SubElementRef class (Table 4.33, p.138)."""
+
+    SPEC_NOTE = "This meta-class provides the ability to reference elements of composite data type."
+
+    def test_sub_element_ref_abstract(self):
+        """SubElementRef is abstract (Table 4.33 header) — direct instantiation must fail."""
+        with pytest.raises(TypeError):
+            SubElementRef()
+
+    def test_sub_element_ref_heritage(self):
+        """Most-derived direct base is ARObject (Table 4.33 Base row), verified via concrete subclass."""
+        assert SubElementRef.__mro__[1] is ARObject
+
+        class ConcreteSubElementRef(SubElementRef):
+            """Concrete stand-in for the queued ImplementationDataTypeSubElementRef (Table 4.34)."""
+
+        ref = ConcreteSubElementRef()
+        assert type(ref).__bases__ == (SubElementRef,)
+        for ancestor in (SubElementRef, ARObject):
+            assert isinstance(ref, ancestor)
+
+    def test_sub_element_ref_class_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 4.33)."""
+        assert SubElementRef.__doc__.strip() == self.SPEC_NOTE
+
+    def test_sub_element_ref_base_accessors_via_subclass(self):
+        """Base member (parent from ARObject) is initialised through a concrete subclass."""
+
+        class ConcreteSubElementRef(SubElementRef):
+            pass
+
+        ref = ConcreteSubElementRef()
+        assert ref.parent is None
 
 
 class TestSubElementMapping:

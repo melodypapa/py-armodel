@@ -1007,6 +1007,24 @@ class ClientServerOperationMapping(ARObject):
         return self
 
 
+class SubElementRef(ARObject, ABC):
+    """
+    This meta-class provides the ability to reference elements of composite data type.
+    """
+
+    # SubElementRef method parity checklist:
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 4.33, p.138 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is SubElementRef:
+            raise TypeError("SubElementRef is an abstract class.")
+
+        super().__init__()
+
+
 class SubElementMapping(ARObject):
     """
     This meta-class allows for the definition of mappings of elements of a composite data type.
