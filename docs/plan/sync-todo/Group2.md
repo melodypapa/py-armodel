@@ -236,7 +236,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 6 — Update parser & writer (N/A with evidence) — existing readRTEEvent/setRTEEvent delegation is conformant
   - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column
   - [x] Step 8 — Deviations — none
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 407 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit pending
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 407 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `27b88a94`
 - [ ] `SynchronousServerCallPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.36 · after `ServerCallPoint` (parent, Table 7.35) · attr `calledFromWithinExclusiveArea` → `ExclusiveAreaNestingOrder` stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
