@@ -9799,6 +9799,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("Set FlatInstanceDescriptor %s" % desc.getShortName())
         child_element = ET.SubElement(element, "FLAT-INSTANCE-DESCRIPTOR")
         self.writeIdentifiable(child_element, desc)
+        self.setChildElementOptionalIdentifier(child_element, "ROLE", desc.getRole())
+        if desc.getRtePluginProps() is not None:
+            ET.SubElement(child_element, "RTE-PLUGIN-PROPS")
+        self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", desc.getSwDataDefProps())
         self.setAnyInstanceRef(child_element, "UPSTREAM-REFERENCE-IREF", desc.getUpstreamReferenceIRef())
         self.setAnyInstanceRef(child_element, "ECU-EXTRACT-REFERENCE-IREF", desc.getEcuExtractReferenceIRef())
 

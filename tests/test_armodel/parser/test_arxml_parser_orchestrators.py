@@ -1852,19 +1852,40 @@ class TestLifeCycleAndVariantHandlers:
 
     def test_readFlatInstanceDescriptor_full(self, parser):
         from armodel.models import FlatMap
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import RtePluginProps
+        from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 
         flat_map = FlatMap(parent=_autosar_root(), short_name="fm")
         desc = flat_map.createFlatInstanceDescriptor("fid")
         element = _snip(
             "<SHORT-NAME>fid</SHORT-NAME>"
+            "<ROLE>current</ROLE>"
+            "<RTE-PLUGIN-PROPS />"
+            "<SW-DATA-DEF-PROPS>"
+            "<SW-DATA-DEF-PROPS-VARIANTS>"
+            "<SW-DATA-DEF-PROPS-CONDITIONAL>"
+            "<BASE-TYPE-REF DEST='SW-BASE-TYPE'>/BaseType</BASE-TYPE-REF>"
+            "</SW-DATA-DEF-PROPS-CONDITIONAL>"
+            "</SW-DATA-DEF-PROPS-VARIANTS>"
+            "</SW-DATA-DEF-PROPS>"
             "<UPSTREAM-REFERENCE-IREF>"
             "<BASE-REF DEST='SW-COMPONENT-PROTOTYPE'>/base</BASE-REF>"
             "<TARGET-REF DEST='RUNNABLE-ENTITY'>/target</TARGET-REF>"
-            "</UPSTREAM-REFERENCE-IREF>",
+            "</UPSTREAM-REFERENCE-IREF>"
+            "<ECU-EXTRACT-REFERENCE-IREF>"
+            "<TARGET-REF DEST='VARIABLE-DATA-PROTOTYPE'>/ecu_target</TARGET-REF>"
+            "</ECU-EXTRACT-REFERENCE-IREF>",
             root_tag="FLAT-INSTANCE-DESCRIPTOR",
         )
         parser.readFlatInstanceDescriptor(element, desc)
-        assert desc.getUpstreamReferenceIRef() is not None
+        assert desc.getRole() is not None
+        assert desc.getRole().getValue() == "current"
+        assert isinstance(desc.getRtePluginProps(), RtePluginProps)
+        assert isinstance(desc.getSwDataDefProps(), SwDataDefProps)
+        assert desc.getSwDataDefProps().getBaseTypeRef().getValue() == "/BaseType"
+        assert desc.getUpstreamReferenceIRef().getBaseRef().getValue() == "/base"
+        assert desc.getUpstreamReferenceIRef().getTargetRef().getValue() == "/target"
+        assert desc.getEcuExtractReferenceIRef().getTargetRef().getValue() == "/ecu_target"
 
 
 # ==================== Implementations Handlers ====================

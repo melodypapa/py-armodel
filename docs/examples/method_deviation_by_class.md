@@ -509,6 +509,24 @@ direction of the cross-check had not been run).
 |---|---|---|---|---|---|
 | — *(pending)* | `—` | `shortLabel`/`label`/`identifiableRef`/`flatInstanceRef` | String / MultilanguageLongName / Ref / Ref | attr/aggr/ref/ref | parser/writer coverage pending `AliasNameSet`'s wiring into the `ARPackage.element` read/write dispatch (`AliasNameAssignment` is never a standalone element; it is serialized only inside `ALIAS-NAME-SET/ALIAS-NAMES`) |
 
+## `FlatInstanceDescriptor`
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 967
+- **Package:** `M2::AUTOSARTemplates::CommonStructure::FlatMap`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/CommonStructure/FlatMap.py`
+
+Model aligned 2026-09-05 (Table 14.2): all five spec attributes implemented with typed
+`Optional[T]` fields/accessors and full reader/writer coverage in XSD group order
+(ROLE, RTE-PLUGIN-PROPS, SW-DATA-DEF-PROPS, UPSTREAM-REFERENCE-IREF,
+ECU-EXTRACT-REFERENCE-IREF; VARIATION-POINT via the `VariationPointCapable` mixin
+through `readIdentifiable`/`writeIdentifiable`). The iref members keep the `IRef` Kind
+suffix (`ecuExtractReferenceIRef`/`upstreamReferenceIRef` typed `AnyInstanceRef` per
+"InstanceRef implemented by: AnyInstanceRef"). Prior bare-`T`/unannotated `0..1` fields
+retyped per the spec `Mult.` column.
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `rtePluginProps` | `Optional[RtePluginProps]` | `rtePluginProps` | `RtePluginProps` | aggr | - (conforms Table 14.2; identity-only child serialization pending the unstamped `RtePluginProps`' own alignment pass — its `associatedCrossSwClusterComRtePluginRef`/`associatedRtePluginRef` refs are unread/unwritten; Rule 0001.10 audit candidate, referenced as-is) |
+
 ## `McDataInstance`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 177
 - **Package:** `M2::AUTOSARTemplates::CommonStructure::MeasurementCalibrationSupport`

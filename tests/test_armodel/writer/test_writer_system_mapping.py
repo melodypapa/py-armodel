@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     TextValueSpecification,
 )
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import (
     ModeDeclarationGroupPrototypeMapping,
 )
@@ -18,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     ARNumerical,
     Boolean,
+    Identifier,
     PositiveInteger,
     RefType,
     RevisionLabelString,
@@ -44,6 +46,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.InstanceRefs import (
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationISignalProps,
 )
+from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -595,17 +598,82 @@ class TestWriterPhysicalDimension:
 
 
 class TestWriterSetFlatInstanceDescriptor:
+    def test_empty(self, writer):
+        fm = _make_flat_map()
+        desc = fm.createFlatInstanceDescriptor("Desc")
+        parent = _parent()
+        writer.setFlatInstanceDescriptor(parent, desc)
+        d = parent[0]
+        assert d.tag == "FLAT-INSTANCE-DESCRIPTOR"
+        assert d.find("ROLE") is None
+        assert d.find("RTE-PLUGIN-PROPS") is None
+        assert d.find("SW-DATA-DEF-PROPS") is None
+        assert d.find("UPSTREAM-REFERENCE-IREF") is None
+        assert d.find("ECU-EXTRACT-REFERENCE-IREF") is None
+
     def test_full(self, writer):
         fm = _make_flat_map()
         desc = fm.createFlatInstanceDescriptor("Desc")
+        desc.setRole(Identifier().setValue("current"))
+        desc.setRtePluginProps(RtePluginProps())
+        desc.setSwDataDefProps(SwDataDefProps())
         desc.setUpstreamReferenceIRef(_any_iref())
         desc.setEcuExtractReferenceIRef(_any_iref())
         parent = _parent()
         writer.setFlatInstanceDescriptor(parent, desc)
         d = parent[0]
         assert d.tag == "FLAT-INSTANCE-DESCRIPTOR"
-        assert d.find("UPSTREAM-REFERENCE-IREF") is not None
-        assert d.find("ECU-EXTRACT-REFERENCE-IREF") is not None
+        tags = [c.tag for c in d]
+        assert [t for t in tags if t in ("ROLE", "RTE-PLUGIN-PROPS", "SW-DATA-DEF-PROPS", "UPSTREAM-REFERENCE-IREF", "ECU-EXTRACT-REFERENCE-IREF")] == [
+            "ROLE",
+            "RTE-PLUGIN-PROPS",
+            "SW-DATA-DEF-PROPS",
+            "UPSTREAM-REFERENCE-IREF",
+            "ECU-EXTRACT-REFERENCE-IREF",
+        ]
+        assert d.find("ROLE").text == "current"
+        assert d.find("RTE-PLUGIN-PROPS") is not None
+        assert d.find("SW-DATA-DEF-PROPS") is not None
+        assert d.find("UPSTREAM-REFERENCE-IREF/TARGET-REF").text == "/t"
+        assert d.find("ECU-EXTRACT-REFERENCE-IREF/TARGET-REF").text == "/t"
+
+
+class TestFlatInstanceDescriptorRoundTrip:
+    def test_round_trip_full(self, tmp_path):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        fm = document.createARPackage("Pkg").createFlatMap("FM")
+        desc = fm.createFlatInstanceDescriptor("Desc")
+        desc.setRole(Identifier().setValue("current"))
+        desc.setRtePluginProps(RtePluginProps())
+        sw_data_def_props = SwDataDefProps()
+        sw_data_def_props.setBaseTypeRef(_ref("/BaseType", "SW-BASE-TYPE"))
+        desc.setSwDataDefProps(sw_data_def_props)
+        desc.setUpstreamReferenceIRef(_any_iref())
+        desc.setEcuExtractReferenceIRef(_any_iref())
+
+        file_path = str(tmp_path / "flat_instance_descriptor.arxml")
+        ARXMLWriter().save(file_path, document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(file_path, document_2)
+
+        fm_2 = document_2.getARPackages()[0].getElement("FM")
+        desc_2 = fm_2.getElement("Desc", FlatInstanceDescriptor)
+        assert desc_2 is not None
+        assert desc_2.getRole() is not None
+        assert desc_2.getRole().getValue() == "current"
+        assert isinstance(desc_2.getRtePluginProps(), RtePluginProps)
+        assert isinstance(desc_2.getSwDataDefProps(), SwDataDefProps)
+        assert desc_2.getSwDataDefProps().getBaseTypeRef().getValue() == "/BaseType"
+        assert desc_2.getUpstreamReferenceIRef().getBaseRef().getValue() == "/b"
+        assert desc_2.getUpstreamReferenceIRef().getTargetRef().getValue() == "/t"
+        assert desc_2.getEcuExtractReferenceIRef().getTargetRef().getValue() == "/t"
 
 
 class TestWriterFlatMapInstances:

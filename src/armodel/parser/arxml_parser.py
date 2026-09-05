@@ -91,7 +91,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     NumericalRuleBasedValueSpecification,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap, RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType, ImplementationDataTypeElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior
@@ -11089,8 +11089,13 @@ class ARXMLParser(AbstractARXMLParser):
         info_set.setUsedLifeCycleStateDefinitionGroupRef(self.getChildElementOptionalRefType(element, "USED-LIFE-CYCLE-STATE-DEFINITION-GROUP-REF"))
 
     def readFlatInstanceDescriptor(self, element: ET.Element, desc: FlatInstanceDescriptor):
-        self.logger.debug("Read LifeCycleInfoSet %s" % desc.getShortName())
+        self.logger.debug("Read FlatInstanceDescriptor %s" % desc.getShortName())
         self.readIdentifiable(element, desc)
+        desc.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
+        rte_plugin_props_element = self.find(element, "RTE-PLUGIN-PROPS")
+        if rte_plugin_props_element is not None:
+            desc.setRtePluginProps(RtePluginProps())
+        desc.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
         desc.setUpstreamReferenceIRef(self.getAnyInstanceRef(element, "UPSTREAM-REFERENCE-IREF"))
         desc.setEcuExtractReferenceIRef(self.getAnyInstanceRef(element, "ECU-EXTRACT-REFERENCE-IREF"))
 
