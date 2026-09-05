@@ -241,25 +241,20 @@ class Compiler(Identifiable):
     """
 
     # Compiler method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.3, p.621
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getName                      [x] impl  [x] docstring  [x] test
-    # [x] setName                      [x] impl  [x] docstring  [x] test
-    # [x] getOptions                   [x] impl  [x] docstring  [x] test
-    # [x] setOptions                   [x] impl  [x] docstring  [x] test
-    # [x] getVendor                    [x] impl  [x] docstring  [x] test
-    # [x] setVendor                    [x] impl  [x] docstring  [x] test
-    # [x] getVersion                   [x] impl  [x] docstring  [x] test
-    # [x] setVersion                   [x] impl  [x] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 7.7, p.133 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getName    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setName    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOptions [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOptions [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVendor  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVendor  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVersion [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVersion [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the Compiler with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this compiler
-            short_name: The unique short name of this compiler
-        """
         super().__init__(parent, short_name)
 
         # Compiler name (like gcc).
@@ -275,97 +270,41 @@ class Compiler(Identifiable):
         self.version: Optional[String] = None
 
     def getName(self) -> Optional[String]:
-        """
-        Gets the compiler name (like gcc).
-
-        Returns:
-            String: The compiler name
-        """
+        """Compiler name (like gcc)."""
         return self.name
 
     def setName(self, value: Optional[String]) -> "Compiler":
-        """
-        Sets the compiler name (like gcc). A None value is a no-op and does not overwrite
-        an existing name.
-
-        Args:
-            value: The compiler name to set
-
-        Returns:
-            self for method chaining
-        """
+        """Compiler name (like gcc). Only sets the value if it is not None."""
         if value is not None:
             self.name = value
         return self
 
     def getOptions(self) -> Optional[String]:
-        """
-        Gets the compiler options.
-
-        Returns:
-            String: The compiler options
-        """
+        """Specifies the compiler options."""
         return self.options
 
     def setOptions(self, value: Optional[String]) -> "Compiler":
-        """
-        Sets the compiler options. A None value is a no-op and does not overwrite the
-        existing options.
-
-        Args:
-            value: The compiler options to set
-
-        Returns:
-            self for method chaining
-        """
+        """Specifies the compiler options. Only sets the value if it is not None."""
         if value is not None:
             self.options = value
         return self
 
     def getVendor(self) -> Optional[String]:
-        """
-        Gets the vendor of the compiler.
-
-        Returns:
-            String: The compiler vendor
-        """
+        """Vendor of compiler."""
         return self.vendor
 
     def setVendor(self, value: Optional[String]) -> "Compiler":
-        """
-        Sets the vendor of the compiler. A None value is a no-op and does not overwrite the
-        existing vendor.
-
-        Args:
-            value: The compiler vendor to set
-
-        Returns:
-            self for method chaining
-        """
+        """Vendor of compiler. Only sets the value if it is not None."""
         if value is not None:
             self.vendor = value
         return self
 
     def getVersion(self) -> Optional[String]:
-        """
-        Gets the exact version of the compiler executable.
-
-        Returns:
-            String: The compiler version
-        """
+        """Exact version of compiler executable."""
         return self.version
 
     def setVersion(self, value: Optional[String]) -> "Compiler":
-        """
-        Sets the exact version of the compiler executable. A None value is a no-op and does
-        not overwrite the existing version.
-
-        Args:
-            value: The compiler version to set
-
-        Returns:
-            self for method chaining
-        """
+        """Exact version of compiler executable. Only sets the value if it is not None."""
         if value is not None:
             self.version = value
         return self

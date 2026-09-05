@@ -164,6 +164,16 @@ class TestCode:
 
 
 class TestCompiler:
+    def test_spec_notes_are_verbatim(self):
+        assert " ".join(Compiler.__doc__.split()) == (
+            "Specifies the compiler attributes. In case of source code this specifies requirements how the compiler shall be invoked. "
+            "In case of object code this documents the used compiler settings."
+        )
+        assert Compiler.getName.__doc__.strip() == "Compiler name (like gcc)."
+        assert Compiler.getOptions.__doc__.strip() == "Specifies the compiler options."
+        assert Compiler.getVendor.__doc__.strip() == "Vendor of compiler."
+        assert Compiler.getVersion.__doc__.strip() == "Exact version of compiler executable."
+
     def test_initialization(self):
         """Test Compiler initialization"""
         parent = AUTOSAR.getInstance()
@@ -194,6 +204,15 @@ class TestCompiler:
         assert result is compiler  # Method chaining
         assert compiler.getName() == test_value
 
+    def test_set_name_none_is_noop(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        compiler = Compiler(ar_root, "TestCompiler")
+        value = String().setValue("GCC")
+        compiler.setName(value)
+        assert compiler.setName(None) is compiler
+        assert compiler.getName() is value
+
     def test_get_options(self):
         """Test getOptions method"""
         parent = AUTOSAR.getInstance()
@@ -210,6 +229,15 @@ class TestCompiler:
         result = compiler.setOptions(test_value)
         assert result is compiler  # Method chaining
         assert compiler.getOptions() == test_value
+
+    def test_set_options_none_is_noop(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        compiler = Compiler(ar_root, "TestCompiler")
+        value = String().setValue("-O2")
+        compiler.setOptions(value)
+        assert compiler.setOptions(None) is compiler
+        assert compiler.getOptions() is value
 
     def test_get_vendor(self):
         """Test getVendor method"""
@@ -228,6 +256,15 @@ class TestCompiler:
         assert result is compiler  # Method chaining
         assert compiler.getVendor() == test_value
 
+    def test_set_vendor_none_is_noop(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        compiler = Compiler(ar_root, "TestCompiler")
+        value = String().setValue("GNU")
+        compiler.setVendor(value)
+        assert compiler.setVendor(None) is compiler
+        assert compiler.getVendor() is value
+
     def test_get_version(self):
         """Test getVersion method"""
         parent = AUTOSAR.getInstance()
@@ -244,6 +281,15 @@ class TestCompiler:
         result = compiler.setVersion(test_value)
         assert result is compiler  # Method chaining
         assert compiler.getVersion() == test_value
+
+    def test_set_version_none_is_noop(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        compiler = Compiler(ar_root, "TestCompiler")
+        value = String().setValue("11.2.0")
+        compiler.setVersion(value)
+        assert compiler.setVersion(None) is compiler
+        assert compiler.getVersion() is value
 
     def test_all_properties(self):
         """Test setting all properties"""
