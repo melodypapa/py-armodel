@@ -1,9 +1,9 @@
 from typing import List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, RegularExpression, UriString, VerbatimString
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 
 
@@ -96,4 +96,109 @@ class BuildActionInvocator(ARObject):
         """This represents a general data structure intended to denote parameters for the BuildAction. A None value is a no-op and does not append anything."""
         if value is not None:
             self.sdgs.append(value)
+        return self
+
+
+class BuildEngineeringObject(EngineeringObject):
+    """
+    This meta-class represents the ability to denote an artifact which is processed within a particular build action.
+    """
+
+    # BuildEngineeringObject method parity checklist:
+    # Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 10.7, p.373 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFileType           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFileType           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFileTypePattern    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFileTypePattern    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIntendedFilename   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIntendedFilename   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParentCategory     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParentCategory     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParentShortLabel   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParentShortLabel   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShortLabelPattern  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShortLabelPattern  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute indicates the file type which shall used for the engineering object. Note that an engineering object may deliver multiple representations of the same artifact. This attribute can select one of the provided representations.
+        self.fileType: Optional[NameToken] = None
+
+        # This attribute allows to define a set of engineering objects as pattern based search applied to the filetype of the individual Engineering objects.
+        self.fileTypePattern: Optional[RegularExpression] = None
+
+        # This attribute represents the name of the file if it is created newly. Note that engineering object resolves category + ShortLabel indicate mainly to refer to an existing file. If the file is created newly, the filename can either be determined by built in policy or predefined here. Note that extensions shall part of file name even if it could be derived from fileType.
+        self.intendedFilename: Optional[UriString] = None
+
+        # This represents the category of the parent object.
+        self.parentCategory: Optional[NameToken] = None
+
+        # This represents the shortLabel of the parent object. This allows to specify the output position in a hierarchically organized system.
+        self.parentShortLabel: Optional[NameToken] = None
+
+        # This attribute allows to define a set of engineering objects as pattern based search applied to the shortLabel of the individual Engineering objects.
+        self.shortLabelPattern: Optional[RegularExpression] = None
+
+    def getFileType(self) -> Optional[NameToken]:
+        """This attribute indicates the file type which shall used for the engineering object. Note that an engineering object may deliver multiple representations of the same artifact. This attribute can select one of the provided representations."""
+        return self.fileType
+
+    def setFileType(self, value: Optional[NameToken]) -> "BuildEngineeringObject":
+        """This attribute indicates the file type which shall used for the engineering object. Note that an engineering object may deliver multiple representations of the same artifact. This attribute can select one of the provided representations. A None value is a no-op and does not overwrite an existing fileType."""
+        if value is not None:
+            self.fileType = value
+        return self
+
+    def getFileTypePattern(self) -> Optional[RegularExpression]:
+        """This attribute allows to define a set of engineering objects as pattern based search applied to the filetype of the individual Engineering objects."""
+        return self.fileTypePattern
+
+    def setFileTypePattern(self, value: Optional[RegularExpression]) -> "BuildEngineeringObject":
+        """This attribute allows to define a set of engineering objects as pattern based search applied to the filetype of the individual Engineering objects. A None value is a no-op and does not overwrite an existing fileTypePattern."""
+        if value is not None:
+            self.fileTypePattern = value
+        return self
+
+    def getIntendedFilename(self) -> Optional[UriString]:
+        """This attribute represents the name of the file if it is created newly. Note that engineering object resolves category + ShortLabel indicate mainly to refer to an existing file. If the file is created newly, the filename can either be determined by built in policy or predefined here. Note that extensions shall part of file name even if it could be derived from fileType."""
+        return self.intendedFilename
+
+    def setIntendedFilename(self, value: Optional[UriString]) -> "BuildEngineeringObject":
+        """This attribute represents the name of the file if it is created newly. Note that engineering object resolves category + ShortLabel indicate mainly to refer to an existing file. If the file is created newly, the filename can either be determined by built in policy or predefined here. Note that extensions shall part of file name even if it could be derived from fileType. A None value is a no-op and does not overwrite an existing intendedFilename."""
+        if value is not None:
+            self.intendedFilename = value
+        return self
+
+    def getParentCategory(self) -> Optional[NameToken]:
+        """This represents the category of the parent object."""
+        return self.parentCategory
+
+    def setParentCategory(self, value: Optional[NameToken]) -> "BuildEngineeringObject":
+        """This represents the category of the parent object. A None value is a no-op and does not overwrite an existing parentCategory."""
+        if value is not None:
+            self.parentCategory = value
+        return self
+
+    def getParentShortLabel(self) -> Optional[NameToken]:
+        """This represents the shortLabel of the parent object. This allows to specify the output position in a hierarchically organized system."""
+        return self.parentShortLabel
+
+    def setParentShortLabel(self, value: Optional[NameToken]) -> "BuildEngineeringObject":
+        """This represents the shortLabel of the parent object. This allows to specify the output position in a hierarchically organized system. A None value is a no-op and does not overwrite an existing parentShortLabel."""
+        if value is not None:
+            self.parentShortLabel = value
+        return self
+
+    def getShortLabelPattern(self) -> Optional[RegularExpression]:
+        """This attribute allows to define a set of engineering objects as pattern based search applied to the shortLabel of the individual Engineering objects."""
+        return self.shortLabelPattern
+
+    def setShortLabelPattern(self, value: Optional[RegularExpression]) -> "BuildEngineeringObject":
+        """This attribute allows to define a set of engineering objects as pattern based search applied to the shortLabel of the individual Engineering objects. A None value is a no-op and does not overwrite an existing shortLabelPattern."""
+        if value is not None:
+            self.shortLabelPattern = value
         return self

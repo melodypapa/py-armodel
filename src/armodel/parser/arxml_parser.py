@@ -363,7 +363,7 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescription
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator, BuildEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -4107,6 +4107,15 @@ class ARXMLParser(AbstractARXMLParser):
             for child in self.findall(sdgs_element, "SDG"):
                 invocator.addSdg(self.getSdg(child))
         return invocator
+
+    def readBuildEngineeringObject(self, element: ET.Element, engineering_object: BuildEngineeringObject) -> BuildEngineeringObject:
+        engineering_object.setFileType(self.getChildElementOptionalLiteral(element, "FILE-TYPE"))
+        engineering_object.setIntendedFilename(self.getChildElementOptionalUriString(element, "INTENDED-FILENAME"))
+        engineering_object.setParentCategory(self.getChildElementOptionalLiteral(element, "PARENT-CATEGORY"))
+        engineering_object.setParentShortLabel(self.getChildElementOptionalLiteral(element, "PARENT-SHORT-LABEL"))
+        engineering_object.setShortLabelPattern(self.getChildElementOptionalLiteral(element, "SHORT-LABEL-PATTERN"))
+        engineering_object.setFileTypePattern(self.getChildElementOptionalLiteral(element, "FILE-TYPE-PATTERN"))
+        return engineering_object
 
     def readBuildActionEntity(self, element: ET.Element, entity: BuildActionEntity):
         delivery = self.find(element, "DELIVERY-ARTIFACTS")

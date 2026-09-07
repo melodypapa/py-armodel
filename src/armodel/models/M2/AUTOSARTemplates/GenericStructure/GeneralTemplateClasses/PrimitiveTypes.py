@@ -354,6 +354,20 @@ class String(ARLiteral):
         super().__init__()
 
 
+class UriString(ARLiteral):
+    """
+    This represents a URI string value.
+    """
+
+    # UriString method parity checklist:
+    # Spec: AUTOSAR_00052.xsd, URI-STRING type (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
 class AlignmentType(ARLiteral):
     """
     This primitive represents the alignment of objects within a memory section.

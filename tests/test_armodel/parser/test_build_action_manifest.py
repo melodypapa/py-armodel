@@ -8,7 +8,8 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import UriString
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -69,3 +70,33 @@ class TestReadBuildActionEntityInvocation:
         parser.readBuildActionEntity(element, entity)
 
         assert entity.getInvocation() is None
+
+
+class TestReadBuildEngineeringObject:
+    def test_read_all_attributes(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "ENGINEERING-OBJECT",
+            "<FILE-TYPE>c</FILE-TYPE>"
+            "<FILE-TYPE-PATTERN>.*</FILE-TYPE-PATTERN>"
+            "<INTENDED-FILENAME>output.c</INTENDED-FILENAME>"
+            "<PARENT-CATEGORY>SOURCE</PARENT-CATEGORY>"
+            "<PARENT-SHORT-LABEL>root</PARENT-SHORT-LABEL>"
+            "<SHORT-LABEL-PATTERN>output_.*</SHORT-LABEL-PATTERN>",
+        )
+        obj = parser.readBuildEngineeringObject(element, BuildEngineeringObject())
+
+        assert str(obj.getFileType()) == "c"
+        assert str(obj.getFileTypePattern()) == ".*"
+        assert isinstance(obj.getIntendedFilename(), UriString)
+        assert str(obj.getIntendedFilename()) == "output.c"
+        assert str(obj.getParentCategory()) == "SOURCE"
+        assert str(obj.getParentShortLabel()) == "root"
+        assert str(obj.getShortLabelPattern()) == "output_.*"
+
+    def test_read_empty_object(self):
+        parser = ARXMLParser(options={"warning": True})
+        obj = parser.readBuildEngineeringObject(_snip("ENGINEERING-OBJECT", ""), BuildEngineeringObject())
+
+        assert obj.getFileType() is None
+        assert obj.getIntendedFilename() is None

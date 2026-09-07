@@ -1,9 +1,9 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator, BuildEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, RegularExpression, UriString, VerbatimString
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 
 
@@ -61,3 +61,40 @@ class TestBuildActionInvocator:
         assert invocator.getSdgs() == []
         assert invocator.addSdg(sdg) is invocator
         assert invocator.getSdgs() == [sdg]
+
+
+class TestBuildEngineeringObject:
+    def test_initialization_and_accessors(self):
+        obj = BuildEngineeringObject()
+        assert obj.getFileType() is None
+        assert obj.getFileTypePattern() is None
+        assert obj.getIntendedFilename() is None
+        assert obj.getParentCategory() is None
+        assert obj.getParentShortLabel() is None
+        assert obj.getShortLabelPattern() is None
+
+        file_type = NameToken()
+        file_type.setValue("c")
+        pattern = RegularExpression()
+        pattern.setValue(".*")
+        filename = UriString()
+        filename.setValue("output.c")
+        parent_category = NameToken()
+        parent_category.setValue("SOURCE")
+        parent_short_label = NameToken()
+        parent_short_label.setValue("root")
+        short_pattern = RegularExpression()
+        short_pattern.setValue("output_.*")
+
+        assert obj.setFileType(file_type) is obj
+        assert obj.setFileTypePattern(pattern) is obj
+        assert obj.setIntendedFilename(filename) is obj
+        assert obj.setParentCategory(parent_category) is obj
+        assert obj.setParentShortLabel(parent_short_label) is obj
+        assert obj.setShortLabelPattern(short_pattern) is obj
+        assert obj.getFileType() is file_type
+        assert obj.getFileTypePattern() is pattern
+        assert obj.getIntendedFilename() is filename
+        assert obj.getParentCategory() is parent_category
+        assert obj.getParentShortLabel() is parent_short_label
+        assert obj.getShortLabelPattern() is short_pattern

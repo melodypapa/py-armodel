@@ -8,8 +8,8 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, RegularExpression, UriString, VerbatimString
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -76,3 +76,44 @@ class TestWriteBuildActionEntityInvocation:
         writer.writeBuildActionEntity(element, entity)
 
         assert element.find("INVOCATION") is None
+
+
+class TestWriteBuildEngineeringObject:
+    def test_write_all_attributes(self):
+        writer = ARXMLWriter()
+        obj = BuildEngineeringObject()
+        file_type = NameToken()
+        file_type.setValue("c")
+        file_type_pattern = RegularExpression()
+        file_type_pattern.setValue(".*")
+        intended_filename = UriString()
+        intended_filename.setValue("output.c")
+        parent_category = NameToken()
+        parent_category.setValue("SOURCE")
+        parent_short_label = NameToken()
+        parent_short_label.setValue("root")
+        short_label_pattern = RegularExpression()
+        short_label_pattern.setValue("output_.*")
+        obj.setFileType(file_type)
+        obj.setFileTypePattern(file_type_pattern)
+        obj.setIntendedFilename(intended_filename)
+        obj.setParentCategory(parent_category)
+        obj.setParentShortLabel(parent_short_label)
+        obj.setShortLabelPattern(short_label_pattern)
+
+        element = ET.Element("ENGINEERING-OBJECT")
+        writer.writeBuildEngineeringObject(element, obj)
+
+        assert element.find("FILE-TYPE").text == "c"
+        assert element.find("FILE-TYPE-PATTERN").text == ".*"
+        assert element.find("INTENDED-FILENAME").text == "output.c"
+        assert element.find("PARENT-CATEGORY").text == "SOURCE"
+        assert element.find("PARENT-SHORT-LABEL").text == "root"
+        assert element.find("SHORT-LABEL-PATTERN").text == "output_.*"
+
+    def test_write_empty_object(self):
+        writer = ARXMLWriter()
+        element = ET.Element("ENGINEERING-OBJECT")
+        writer.writeBuildEngineeringObject(element, BuildEngineeringObject())
+
+        assert list(element) == []

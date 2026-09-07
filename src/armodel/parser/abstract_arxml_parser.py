@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RevisionLabelString,
     String,
     TimeValue,
+    UriString,
     VerbatimString,
 )
 
@@ -180,6 +181,15 @@ class AbstractARXMLParser(ABC):
                 literal.setValue("")
             else:
                 literal.setValue(child_element.text)
+        return literal
+
+    def getChildElementOptionalUriString(self, element: ET.Element, key: str) -> UriString:
+        child_element = self.find(element, key)
+        literal = None
+        if child_element is not None:
+            literal = UriString()
+            self.readARType(child_element, literal)
+            literal.setValue(child_element.text if child_element.text is not None else "")
         return literal
 
     def _convertStringToBooleanValue(self, value: str) -> bool:

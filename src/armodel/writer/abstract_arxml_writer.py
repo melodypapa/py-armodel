@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RevisionLabelString,
     String,
     TimeValue,
+    UriString,
 )
 
 
@@ -139,6 +140,13 @@ class AbstractARXMLWriter(ABC):
         self.setChildElementOptionalFloatValue(element, key, value)
 
     def setChildElementOptionalBooleanValue(self, element: ET.Element, key: str, value: Boolean) -> ET.Element:
+        if value is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARType(child_element, value)
+            child_element.text = value.getText()
+        return element
+
+    def setChildElementOptionalUriString(self, element: ET.Element, key: str, value: UriString):
         if value is not None:
             child_element = ET.SubElement(element, key)
             self.writeARType(child_element, value)
