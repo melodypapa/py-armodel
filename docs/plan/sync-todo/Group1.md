@@ -902,16 +902,17 @@ enums → ARObject/Identifiable leaf members → members with their own member t
    - [x] Step 7 — Update checklist comment — replaced legacy checklist with six-column parity rows and unified R23-11 citation; reader marked on mutators and writer on getters.
    - [x] Step 8 — Deviations — none for the class; heritage, field types, naming, order, docs, and reader/writer coverage conform. Five unstamped member types remain queued independently and do not block this class after user confirmation.
    - [x] Step 9 — Verify (9a) + confirm (9b) — 590 focused tests passed, Ruff/Black/diff checks clean; 9b user-confirmed (Rules 0001/0002/0003/0007/0011/0012/0014 pass); `# Spec verified: R23-11` written, commit hash recorded below.
-  - [ ] `BuildActionInvocator` (**NEW — member type of `BuildActionEntity.invocation` · absent from `src/`** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 10.6, p.368 · **moved before `BuildActionEntity` per Rule 0016.5 — `BuildActionEntity.invocation` cannot be typed until this class exists**)
+  - [x] `BuildActionInvocator` (**NEW — member type of `BuildActionEntity.invocation` · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 10.6, p.368 · **moved before `BuildActionEntity` per Rule 0016.5** · finished, stamped `# Spec verified: R23-11`**)
     - Spec facts: concrete; Package = `M2::AUTOSARTemplates::GenericStructure::BuildActionManifest`; Base = ARObject; attributes `command` (VerbatimString, 0..1, attr) and `sdg` (Sdg, `*`, aggr — Sdg is stamped R23-11).
-    - [ ] Step 1 — Sync members & description from spec
-    - [ ] Step 2 — Write model class unit test (Red)
-    - [ ] Step 3 — Implement model class (Green)
-    - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-    - [ ] Step 5 — Write reader/writer round-trip test (Red)
-    - [ ] Step 6 — Update parser & writer (Green)
-    - [ ] Step 7 — Update checklist comment
-    - [ ] Step 8 — Deviations
+    - [x] Step 1 — Sync members & description from spec — Table 10.6, p.372; Base = ARObject; XML order = COMMAND then SDGS/SDG*; XSD group `BUILD-ACTION-INVOCATOR` l.13171.
+    - [x] Step 2 — Write model class unit test (Red) — model tests cover defaults, None guards, chaining, `command`, and `sdg`; Red confirmed by missing import.
+    - [x] Step 3 — Implement model class (Green) — added `BuildActionInvocator(ARObject)` with typed `Optional[VerbatimString]` command and `List[Sdg]` aggregation; retyped `BuildActionEntity.invocation` to `Optional[BuildActionInvocator]`.
+    - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and attribute Notes copied verbatim from Table 10.6; setter no-op wording appended per Rule 0012.2.5.4; programmatic equality check passed.
+    - [x] Step 5 — Write reader/writer round-trip test (Red) — parser and writer tests cover populated and empty invocation cases plus BuildActionEntity invocation dispatch; Red confirmed with 6 failures before implementation.
+    - [x] Step 6 — Update parser & writer (Green) — added `readBuildActionInvocator`/`writeBuildActionInvocator`, COMMAND and SDGS/SDG handling, and BuildActionEntity INVOCATION dispatch; 13 focused tests pass.
+    - [x] Step 7 — Update checklist comment — six-column parity checklist added with R23-11 release rows; reader markers on mutators and writer markers on getters.
+    - [x] Step 8 — Deviations — none for BuildActionInvocator; all Table 10.6 attributes are modeled with matched reader/writer coverage. The consuming abstract BuildActionEntity remains unstamped and queued independently until concrete BuildAction delegation is complete.
+    - [x] Step 9 — Verify (9a) + confirm (9b) — 13 focused tests passed; Ruff, Black, and diff checks clean; user confirmed the complete Step 9b compliance checklist; `# Spec verified: R23-11` written. Commit hash recorded below.
     - [ ] Step 9 — Verify (9a) + confirm (9b)
   - [ ] `BuildActionEntity` (**NEW — direct abstract base of `BuildAction` and member type closure of `BuildActionManifest` · absent from `src/`** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 10.5, p.371)
     - Spec facts: abstract; Package = `M2::AUTOSARTemplates::GenericStructure::BuildActionManifest`; Base = ARObject, AtpBlueprint, AtpBlueprintable, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base `Identifiable`; attributes `deliveryArtifact` (AutosarEngineeringObject, `*`, aggr) and `invocation` (BuildActionInvocator, 0..1, aggr); BuildAction is the only listed subclass. **Step 3 rework required:** `self.invocation` was implemented as a placeholder `Optional[object]` before `BuildActionInvocator` existed — must be retyped to `Optional[BuildActionInvocator]` (with import added) now that `BuildActionInvocator` is synced first.

@@ -1,0 +1,71 @@
+"""
+Reader tests for BuildActionInvocator (AUTOSAR_FO_TPS_GenericStructureTemplate Table 10.6)
+and the BuildActionEntity.invocation dispatch (Table 10.5) that consumes it.
+"""
+
+import xml.etree.ElementTree as ET
+
+import pytest
+
+from armodel.models import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator
+from armodel.parser.arxml_parser import ARXMLParser
+
+NS = "http://autosar.org/schema/r4.0"
+
+
+class ConcreteBuildActionEntity(BuildActionEntity):
+    pass
+
+
+@pytest.fixture(autouse=True)
+def reset_autosar():
+    AUTOSAR.getInstance().new()
+    yield
+    AUTOSAR.getInstance().new()
+
+
+def _snip(tag: str, inner: str) -> ET.Element:
+    return ET.fromstring(f"<{tag} xmlns='{NS}'>{inner}</{tag}>")
+
+
+class TestReadBuildActionInvocator:
+    def test_read_command_and_sdgs(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip("INVOCATION", "<COMMAND>make all</COMMAND>" "<SDGS><SDG><SD GID='ROLE'>PROCESSOR</SD></SDG></SDGS>")
+        invocator = parser.readBuildActionInvocator(element, BuildActionInvocator())
+
+        assert str(invocator.getCommand()) == "make all"
+        sdgs = invocator.getSdgs()
+        assert len(sdgs) == 1
+
+    def test_read_empty_invocation(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip("INVOCATION", "")
+        invocator = parser.readBuildActionInvocator(element, BuildActionInvocator())
+
+        assert invocator.getCommand() is None
+        assert invocator.getSdgs() == []
+
+
+class TestReadBuildActionEntityInvocation:
+    def test_read_invocation_dispatch(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "BUILD-ACTION-ENTITY",
+            "<SHORT-NAME>Entity</SHORT-NAME><INVOCATION><COMMAND>make all</COMMAND></INVOCATION>",
+        )
+        entity = ConcreteBuildActionEntity(AUTOSAR.getInstance(), "Entity")
+        parser.readBuildActionEntity(element, entity)
+
+        invocation = entity.getInvocation()
+        assert isinstance(invocation, BuildActionInvocator)
+        assert str(invocation.getCommand()) == "make all"
+
+    def test_read_no_invocation(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip("BUILD-ACTION-ENTITY", "<SHORT-NAME>Entity</SHORT-NAME>")
+        entity = ConcreteBuildActionEntity(AUTOSAR.getInstance(), "Entity")
+        parser.readBuildActionEntity(element, entity)
+
+        assert entity.getInvocation() is None

@@ -257,7 +257,7 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescription
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -5371,12 +5371,24 @@ class ARXMLWriter(AbstractARXMLWriter):
             ref_cond = ET.SubElement(child_element, "BUILD-ACTION-MANIFEST-REF-CONDITIONAL")
             self.setChildElementOptionalRefType(ref_cond, "BUILD-ACTION-MANIFEST-REF", ref)
 
+    def writeBuildActionInvocator(self, element: ET.Element, invocator: BuildActionInvocator):
+        self.setChildElementOptionalLiteral(element, "COMMAND", invocator.getCommand())
+        sdgs = invocator.getSdgs()
+        if sdgs:
+            sdgs_element = ET.SubElement(element, "SDGS")
+            for sdg in sdgs:
+                self.setSdg(sdgs_element, sdg)
+
     def writeBuildActionEntity(self, element: ET.Element, entity: BuildActionEntity):
         delivery_artifacts = entity.getDeliveryArtifacts()
         if delivery_artifacts:
             wrapper = ET.SubElement(element, "DELIVERY-ARTIFACTS")
             for artifact in delivery_artifacts:
                 self.writeAutosarEngineeringObject(wrapper, artifact)
+        invocation = entity.getInvocation()
+        if invocation is not None:
+            invocation_element = ET.SubElement(element, "INVOCATION")
+            self.writeBuildActionInvocator(invocation_element, invocation)
 
     def writeCompilers(self, element: ET.Element, impl: Implementation):
         compilers = impl.getCompilers()

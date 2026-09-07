@@ -363,7 +363,7 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescription
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -4100,11 +4100,22 @@ class ARXMLParser(AbstractARXMLParser):
             if ref is not None:
                 impl.setBuildActionManifestRef(ref)
 
+    def readBuildActionInvocator(self, element: ET.Element, invocator: BuildActionInvocator) -> BuildActionInvocator:
+        invocator.setCommand(self.getChildElementOptionalVerbatimString(element, "COMMAND"))
+        sdgs_element = self.find(element, "SDGS")
+        if sdgs_element is not None:
+            for child in self.findall(sdgs_element, "SDG"):
+                invocator.addSdg(self.getSdg(child))
+        return invocator
+
     def readBuildActionEntity(self, element: ET.Element, entity: BuildActionEntity):
         delivery = self.find(element, "DELIVERY-ARTIFACTS")
         if delivery is not None:
             for child in self.findall(delivery, "AUTOSAR-ENGINEERING-OBJECT"):
                 entity.addDeliveryArtifact(self.getAutosarEngineeringObject(child))
+        invocation_element = self.find(element, "INVOCATION")
+        if invocation_element is not None:
+            entity.setInvocation(self.readBuildActionInvocator(invocation_element, BuildActionInvocator()))
 
     def readBswImplementationVendorSpecificModuleDefRefs(self, element: ET.Element, impl: BswImplementation):
         child_element = self.find(element, "VENDOR-SPECIFIC-MODULE-DEF-REFS")
