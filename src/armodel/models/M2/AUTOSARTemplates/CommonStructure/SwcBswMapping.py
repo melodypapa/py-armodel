@@ -6,7 +6,7 @@ software component entities and basic software module entities for integration p
 
 from typing import List, Optional, TYPE_CHECKING
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpStructureElement
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
@@ -91,55 +91,49 @@ class SwcBswRunnableMapping(ARObject, VariationPointCapable):
         return self
 
 
-class SwcBswMapping(AtpStructureElement):
+class SwcBswMapping(ARElement):
     """
-    Represents SWC-BSW mapping in AUTOSAR models.
-    This class defines mappings between software component (SWC) behavior and basic software (BSW) behavior.
+    Maps an SwcInternalBehavior to an BswInternalBehavior. This is required to coordinate the API generation and the scheduling for AUTOSAR Service Components, ECU Abstraction Components and Complex Driver Components by the RTE and the BSW scheduling mechanisms.
     """
 
     # SwcBswMapping method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getBswBehaviorRef            [x] impl  [x] docstring  [x] test
-    # [x] setBswBehaviorRef            [x] impl  [x] docstring  [x] test
-    # [x] getRunnableMappings          [x] impl  [x] docstring  [x] test
-    # [x] addRunnableMapping           [x] impl  [x] docstring  [x] test
-    # [x] getSwcBehaviorRef            [x] impl  [x] docstring  [x] test
-    # [x] setSwcBehaviorRef            [x] impl  [x] docstring  [x] test
-    # [x] getSynchronizedModeGroups    [x] impl  [x] docstring  [x] test
-    # [x] setSynchronizedModeGroups    [x] impl  [x] docstring  [x] test
-    # [x] addSynchronizedModeGroup     [x] impl  [x] docstring  [x] test
-    # [x] getSynchronizedTriggers      [x] impl  [x] docstring  [x] test
-    # [x] setSynchronizedTriggers      [x] impl  [x] docstring  [x] test
-    # [x] addSynchronizedTrigger       [x] impl  [x] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.46, p.110 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBswBehaviorRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBswBehaviorRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRunnableMappings       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addRunnableMapping        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcBehaviorRef         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcBehaviorRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSynchronizedModeGroups [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSynchronizedModeGroups [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSynchronizedModeGroup  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSynchronizedTriggers   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSynchronizedTriggers   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addSynchronizedTrigger    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the SwcBswMapping with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this SWC-BSW mapping
-            short_name: The unique short name of this SWC-BSW mapping
-        """
         super().__init__(parent, short_name)
 
-        # Reference to the BSW behavior in this mapping
-        self.bswBehaviorRef: RefType = None
-        # List of runnable mappings in this SWC-BSW mapping
+        # The mapped BswInternalBehavior
+        self.bswBehaviorRef: Optional[RefType] = None
+
+        # A mapping between a pair of SWC and BSW runnables.
         self.runnableMappings: List[SwcBswRunnableMapping] = []
-        # Reference to the SWC behavior in this mapping
-        self.swcBehaviorRef: RefType = None
-        # List of synchronized mode groups in this mapping
-        self.synchronizedModeGroups = []
-        # List of synchronized triggers in this mapping
-        self.synchronizedTriggers = []
+
+        # The mapped SwcInternalBehavior.
+        self.swcBehaviorRef: Optional[RefType] = None
+
+        # A pair of SWC and BSW mode group prototypes to be synchronized by the scheduler.
+        self.synchronizedModeGroups: List[SwcBswSynchronizedModeGroupPrototype] = []
+
+        # A pair of SWC and BSW Triggers to be synchronized by the scheduler.
+        self.synchronizedTriggers: List[SwcBswSynchronizedTrigger] = []
 
     def getBswBehaviorRef(self):
-        """
-        Gets the reference to the BSW behavior in this mapping.
-
-        Returns:
-            RefType: The BSW behavior reference
-        """
+        """The mapped BswInternalBehavior"""
         return self.bswBehaviorRef
 
     def setBswBehaviorRef(self, value):
@@ -153,16 +147,12 @@ class SwcBswMapping(AtpStructureElement):
         Returns:
             self for method chaining
         """
-        self.bswBehaviorRef = value
+        if value is not None:
+            self.bswBehaviorRef = value
         return self
 
     def getRunnableMappings(self):
-        """
-        Gets the list of runnable mappings in this SWC-BSW mapping.
-
-        Returns:
-            List of SwcBswRunnableMapping instances
-        """
+        """A mapping between a pair of SWC and BSW runnables."""
         return self.runnableMappings
 
     def addRunnableMapping(self, value):
@@ -175,16 +165,12 @@ class SwcBswMapping(AtpStructureElement):
         Returns:
             self for method chaining
         """
-        self.runnableMappings.append(value)
+        if value is not None:
+            self.runnableMappings.append(value)
         return self
 
     def getSwcBehaviorRef(self):
-        """
-        Gets the reference to the SWC behavior in this mapping.
-
-        Returns:
-            RefType: The SWC behavior reference
-        """
+        """The mapped SwcInternalBehavior."""
         return self.swcBehaviorRef
 
     def setSwcBehaviorRef(self, value):
@@ -198,16 +184,12 @@ class SwcBswMapping(AtpStructureElement):
         Returns:
             self for method chaining
         """
-        self.swcBehaviorRef = value
+        if value is not None:
+            self.swcBehaviorRef = value
         return self
 
     def getSynchronizedModeGroups(self):
-        """
-        Gets the list of synchronized mode groups in this mapping.
-
-        Returns:
-            List of synchronized mode group objects
-        """
+        """A pair of SWC and BSW mode group prototypes to be synchronized by the scheduler."""
         return self.synchronizedModeGroups
 
     def setSynchronizedModeGroups(self, value):
@@ -221,7 +203,8 @@ class SwcBswMapping(AtpStructureElement):
         Returns:
             self for method chaining
         """
-        self.synchronizedModeGroups = value
+        if value is not None:
+            self.synchronizedModeGroups = value
         return self
 
     def addSynchronizedModeGroup(self, value) -> "SwcBswMapping":
@@ -240,12 +223,7 @@ class SwcBswMapping(AtpStructureElement):
         return self
 
     def getSynchronizedTriggers(self):
-        """
-        Gets the list of synchronized triggers in this mapping.
-
-        Returns:
-            List of synchronized trigger objects
-        """
+        """A pair of SWC and BSW Triggers to be synchronized by the scheduler."""
         return self.synchronizedTriggers
 
     def setSynchronizedTriggers(self, value):
@@ -259,7 +237,8 @@ class SwcBswMapping(AtpStructureElement):
         Returns:
             self for method chaining
         """
-        self.synchronizedTriggers = value
+        if value is not None:
+            self.synchronizedTriggers = value
         return self
 
     def addSynchronizedTrigger(self, value) -> "SwcBswMapping":
