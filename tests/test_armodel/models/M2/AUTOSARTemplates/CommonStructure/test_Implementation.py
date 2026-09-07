@@ -335,6 +335,23 @@ class TestCompiler:
 
 
 class TestDependencyOnArtifact:
+    def test_spec_notes_are_verbatim(self):
+        assert DependencyOnArtifact.__doc__.strip() == "Dependency on the existence of another artifact, e.g. a library."
+        assert DependencyOnArtifact.getArtifactDescriptor.__doc__.strip() == "The specified artifact needs to exist."
+        assert DependencyOnArtifact.setArtifactDescriptor.__doc__.strip() == ("The specified artifact needs to exist. A None value is a no-op and does not overwrite an existing artifact.")
+        usage_note = "Specification for which process step(s) this dependency is required."
+        assert DependencyOnArtifact.getUsages.__doc__.strip() == usage_note
+        assert DependencyOnArtifact.addUsage.__doc__.strip() == usage_note + " A None value is a no-op and does not append anything."
+
+    def test_none_guards_are_noops(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        dependency = DependencyOnArtifact(ar_root, "TestDependency")
+        assert dependency.setArtifactDescriptor(None) is dependency
+        assert dependency.addUsage(None) is dependency
+        assert dependency.getArtifactDescriptor() is None
+        assert dependency.getUsages() == []
+
     def test_initialization(self):
         """Test DependencyOnArtifact initialization"""
         parent = AUTOSAR.getInstance()

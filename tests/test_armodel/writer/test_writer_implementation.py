@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     DependencyUsageEnum,
     ProgramminglanguageEnum,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     PositiveInteger,
@@ -78,6 +79,7 @@ def _build_impl():
     linker.setVersion(_lit("2.40"))
 
     ga = impl.createGeneratedArtifact("GenA")
+    ga.setArtifactDescriptor(AutosarEngineeringObject().setShortLabel(_lit("GenA")))
     ga.addUsage(DependencyUsageEnum().setValue("BUILD"))
 
     ra = impl.createRequiredArtifact("ReqA")

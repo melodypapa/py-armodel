@@ -866,18 +866,18 @@ enums → ARObject/Identifiable leaf members → members with their own member t
    - [x] Step 7 — Update checklist comment — replaced legacy checklist with six-column parity rows and unified R23-11 citation; reader marked on adders and writer on getters.
    - [x] Step 8 — Deviations — none; both spec attributes, base, types, order, docstrings, and reader/writer coverage conform. Referenced `AutosarEngineeringObject` and `Identifiable` are stamped; `ServiceNeeds` remains a queued dependency but is not a blocker for this class.
    - [x] Step 9 — Verify (9a) + confirm (9b) — 338 focused tests passed, Ruff/Black/diff checks clean; 9b user-confirmed (Rules 0001/0002/0003/0007/0011/0012/0014 pass); `# Spec verified: R23-11` written, commit hash recorded below.
-- [ ] `DependencyOnArtifact` (**NEW — member type of `Implementation.generatedArtifact` / `requiredArtifact` / `requiredGeneratorTool` (three attributes, one type)** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.91, p.413 (BSW Table 7.3, p.131 — same class))
+- [x] `DependencyOnArtifact` (**NEW — member type of `Implementation.generatedArtifact` / `requiredArtifact` / `requiredGeneratorTool` (three attributes, one type)** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.91, p.413 (BSW Table 7.3, p.131 — same class)) — **finished, stamped `# Spec verified: R23-11`**
   - Spec facts (extracted 2026-09-04): concrete; Package = ...CommonStructure::Implementation ✓; Base = **Identifiable** ✓ heritage already correct in code (`DependencyOnArtifact(Identifiable, VariationPointCapable)`); 2 attributes: `artifactDescriptor` (AutosarEngineeringObject, 0..1, aggr — **stamped R23-11** ✓) and `usage` (DependencyUsageEnum, `*`, attr — **unstamped**); Note (md, wrap-normalised): "Dependency on the existence of another artifact, e.g. a library."
   - `DependencyUsageEnum` (BSW Table 7.4) is queued at this row's Step 1 — see the next-level section.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 1 — Sync members & description from spec — Table 7.3 re-verified: concrete; Base = Identifiable; `artifactDescriptor` (AutosarEngineeringObject, 0..1, aggr) and `usage` (DependencyUsageEnum, *, attr) captured in displayed order; Note and attribute Notes captured verbatim; PDF page p.131 confirmed with pdf_page.py.
+   - [x] Step 2 — Write model class unit test (Red) — added verbatim class/accessor documentation assertions and None-no-op coverage for the setter and adder; Red confirmed against stale documentation.
+   - [x] Step 3 — Implement model class (Green) — existing Identifiable heritage, typed artifact field/usages list, accessors, None guards, and chaining matched the spec; no structural model change required.
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and attribute docs now use verbatim Table 7.3 Notes; setter/adder docs append the None no-op sentence; stale Args/Returns and constraint paraphrases removed.
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — expanded dependency tests to assert all usage values and artifact-descriptor XML coverage; XSD validation exposed the existing nested artifact-descriptor writer shape.
+   - [x] Step 6 — Update parser & writer (Green) — parser coverage was already complete; corrected `writeDependencyOnArtifact` to write engineering-object content directly under `ARTIFACT-DESCRIPTOR`, matching the XSD and parser.
+   - [x] Step 7 — Update checklist comment — replaced legacy checklist with six-column parity rows and unified R23-11 citation; reader marked on setter/adder and writer on getter rows.
+   - [x] Step 8 — Deviations — none; both spec attributes, base, types, order, docstrings, and reader/writer coverage conform. `DependencyUsageEnum` is a standalone consuming enum and is covered by the dependency usage tests.
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 102 focused tests passed, Ruff/Black/diff checks clean; 9b user-confirmed (Rules 0001/0002/0003/0007/0011/0012/0014 pass); `# Spec verified: R23-11` written, commit hash recorded below.
 - [ ] `ResourceConsumption` (**NEW — member type of `Implementation.resourceConsumption`** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 8.1, p.138 (SystemTemplate Table 5.44, p.261 — same class))
   - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::CommonStructure::ResourceConsumption (file `CommonStructure/ResourceConsumption/__init__.py` ✓ Rule 0007); Base = ARObject, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base **Identifiable** ✓ heritage already correct in code; 6 attributes, all `*` aggr: `accessCountSet` (AccessCountSet — **stamped** ✓), `executionTime` (ExecutionTime — **stamped** ✓), `heapUsage` (HeapUsage — **stamped** ✓), `memorySection` (MemorySection — **unstamped**), `sectionNamePrefix` (SectionNamePrefix — **unstamped**), `stackUsage` (StackUsage — **unstamped**); Note (md, wrap-normalised): "Description of consumed resources by one implementation of a software."
   - The three unstamped member types are queued at this row's Step 1 — see the next-level section.

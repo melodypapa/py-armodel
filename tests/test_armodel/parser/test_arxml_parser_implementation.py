@@ -177,6 +177,7 @@ class TestImplementationArtifacts:
         ga = generated[0]
         assert isinstance(ga, DependencyOnArtifact)
         assert ga.getShortName() == "GenA"
+        assert ga.getUsages()[0].getValue() == "BUILD"
         assert [u.getText() for u in ga.getUsages()] == ["BUILD"]
 
     def test_required_artifacts(self, parser):
@@ -186,6 +187,7 @@ class TestImplementationArtifacts:
         ra = required[0]
         assert isinstance(ra, DependencyOnArtifact)
         assert ra.getShortName() == "ReqA"
+        assert ra.getUsages()[0].getValue() == "LINK"
         assert [u.getText() for u in ra.getUsages()] == ["LINK"]
 
     def test_required_generator_tools(self, parser):
@@ -195,6 +197,7 @@ class TestImplementationArtifacts:
         tool = tools[0]
         assert isinstance(tool, DependencyOnArtifact)
         assert tool.getShortName() == "GenT"
+        assert tool.getUsages()[0].getValue() == "CODEGENERATION"
         assert [u.getText() for u in tool.getUsages()] == ["CODEGENERATION"]
 
 

@@ -5421,7 +5421,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         descriptor = dependency.getArtifactDescriptor()
         if descriptor is not None:
             descriptor_element = ET.SubElement(child_element, "ARTIFACT-DESCRIPTOR")
-            self.writeAutosarEngineeringObject(descriptor_element, descriptor)
+            self.writeEngineeringObject(descriptor_element, descriptor)
         usages = dependency.getUsages()
         if len(usages) > 0:
             usages_element = ET.SubElement(child_element, "USAGES")

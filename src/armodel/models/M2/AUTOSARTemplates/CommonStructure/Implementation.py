@@ -270,25 +270,21 @@ class Compiler(Identifiable):
 
 class DependencyOnArtifact(Identifiable, VariationPointCapable):
     """
-    Represents a dependency on the existence of another artifact, e.g. a library.
+    Dependency on the existence of another artifact, e.g. a library.
     """
 
     # DependencyOnArtifact method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.91, p.413
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getArtifactDescriptor        [x] impl  [x] docstring  [x] test
-    # [x] setArtifactDescriptor        [x] impl  [x] docstring  [x] test
-    # [x] getUsages                    [x] impl  [x] docstring  [x] test
-    # [x] addUsage                     [x] impl  [x] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 7.3, p.131 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArtifactDescriptor [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArtifactDescriptor [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsages            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addUsage             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the DependencyOnArtifact with a parent and short name.
 
-        Args:
-            parent: The parent ARObject that contains this dependency
-            short_name: The unique short name of this dependency
-        """
         super().__init__(parent, short_name)
 
         # The specified artifact needs to exist.
@@ -298,50 +294,21 @@ class DependencyOnArtifact(Identifiable, VariationPointCapable):
         self.usages: List[DependencyUsageEnum] = []
 
     def getArtifactDescriptor(self) -> Optional[AutosarEngineeringObject]:
-        """
-        Gets the artifact that needs to exist for this dependency.
-
-        Returns:
-            AutosarEngineeringObject: The artifact descriptor
-        """
+        """The specified artifact needs to exist."""
         return self.artifactDescriptor
 
     def setArtifactDescriptor(self, value: Optional[AutosarEngineeringObject]) -> "DependencyOnArtifact":
-        """
-        Sets the artifact that needs to exist for this dependency. A None value is a no-op
-        and does not overwrite the existing artifact.
-
-        Args:
-            value: The artifact descriptor to set
-
-        Returns:
-            self for method chaining
-        """
+        """The specified artifact needs to exist. A None value is a no-op and does not overwrite an existing artifact."""
         if value is not None:
             self.artifactDescriptor = value
         return self
 
     def getUsages(self) -> List[DependencyUsageEnum]:
-        """
-        Gets the list of process steps for which this dependency is required.
-        [constr_10304]
-
-        Returns:
-            List of DependencyUsageEnum for the process steps
-        """
+        """Specification for which process step(s) this dependency is required."""
         return self.usages
 
     def addUsage(self, value: Optional[DependencyUsageEnum]) -> "DependencyOnArtifact":
-        """
-        Adds a process step for which this dependency is required. A None value is a no-op
-        and is not appended. [constr_10304]
-
-        Args:
-            value: The process step to add
-
-        Returns:
-            self for method chaining
-        """
+        """Specification for which process step(s) this dependency is required. A None value is a no-op and does not append anything."""
         if value is not None:
             self.usages.append(value)
         return self
