@@ -163,6 +163,9 @@ class TestImplementationLinkers:
         linker = linkers[0]
         assert isinstance(linker, Linker)
         assert linker.getShortName() == "Ld"
+        assert linker.getName().getText() == "ld"
+        assert linker.getOptions().getText() == "-Map"
+        assert linker.getVendor().getText() == "GNU"
         assert linker.getVersion().getText() == "2.40"
 
 

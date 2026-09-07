@@ -72,6 +72,9 @@ def _build_impl():
     comp.setVersion(_lit("11"))
 
     linker = impl.createLinker("Ld")
+    linker.setName(_lit("ld"))
+    linker.setOptions(_lit("-r"))
+    linker.setVendor(_lit("GNU"))
     linker.setVersion(_lit("2.40"))
 
     ga = impl.createGeneratedArtifact("GenA")
@@ -125,3 +128,8 @@ class TestWriteSwcImplementationXSDValid:
         assert swc is not None
         assert swc.find("{http://autosar.org/schema/r4.0}SW-VERSION").text == "1.0.0"
         assert swc.find("{http://autosar.org/schema/r4.0}VENDOR-ID").text == "42"
+        linker = swc.find(".//{http://autosar.org/schema/r4.0}LINKER")
+        assert linker.find("{http://autosar.org/schema/r4.0}NAME").text == "ld"
+        assert linker.find("{http://autosar.org/schema/r4.0}OPTIONS").text == "-r"
+        assert linker.find("{http://autosar.org/schema/r4.0}VENDOR").text == "GNU"
+        assert linker.find("{http://autosar.org/schema/r4.0}VERSION").text == "2.40"

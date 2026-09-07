@@ -843,17 +843,17 @@ enums → ARObject/Identifiable leaf members → members with their own member t
   - [x] Step 7 — Update checklist comment — replaced legacy checklist with six-column parity rows and unified R23-11 citation.
   - [x] Step 8 — Deviations — none; all four Table 7.7 attributes, base, naming, types, docstrings, and reader/writer coverage conform.
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: focused Compiler/model/parser/writer tests passed (96); lint, touched-file Black, ruff, and AST method/member order checks passed; 29/29 integration round-trip passed. 9b user-confirmed (Rules 0001/0002/0003/0007/0011/0012/0014 pass); the prior `Identifiable` blocker (gated every Identifiable-derived row) is now resolved by commit c17bfbf6, so item 11 is cleared; stamped `# Spec verified: R23-11`.
-- [ ] `Linker` (**NEW — member type of `Implementation.linker`** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 7.8, p.134 (SWCT Table 8.4, p.622 — same class))
+- [x] `Linker` (**NEW — member type of `Implementation.linker`** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 7.8, p.134 (SWCT Table 8.4, p.622 — same class)) — **finished, stamped `# Spec verified: R23-11`**
   - Spec facts (extracted 2026-09-04): concrete; Package = ...CommonStructure::Implementation ✓; Base = **Identifiable** ✓ heritage already correct in code; 4 attributes, all `String` 0..1 attr: `name`, `options`, `vendor`, `version`; Note (md, wrap-normalised): "Specifies the linker attributes used to describe how the linker shall be invoked."
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 1 — Sync members & description from spec — Table 7.8 re-verified: concrete; Base = Identifiable; four 0..1 String attributes `name`, `options`, `vendor`, `version` in displayed order; Note and attribute Notes captured verbatim; PDF page p.134 confirmed with pdf_page.py.
+   - [x] Step 2 — Write model class unit test (Red) — added verbatim class/accessor documentation assertions and all-four setter None-no-op/chaining coverage; Red confirmed against stale accessor docstrings.
+   - [x] Step 3 — Implement model class (Green) — existing Identifiable heritage and four Optional[String] fields/accessors already matched the spec; no structural model change required.
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and accessor docs now use verbatim Table 7.8 Notes; setter docs append the None no-op sentence; stale Args/Returns paraphrases removed.
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — expanded existing parser/writer tests to assert all four Linker field values and XML values; Red target was missing field assertions, not missing infrastructure.
+   - [x] Step 6 — Update parser & writer (Green) — N/A source change: existing readLinker/writeLinker already read/write all four fields in XSD order NAME, OPTIONS, VENDOR, VERSION through the LINKERS/LINKER wrapper.
+   - [x] Step 7 — Update checklist comment — replaced legacy checklist with six-column parity rows and unified R23-11 citation; reader marked on setters and writer on getters.
+   - [x] Step 8 — Deviations — none; all four spec attributes, base, types, order, docstrings, and reader/writer coverage conform. Member type Identifiable is stamped R23-11.
+   - [x] Step 9 — Verify (9a) + confirm (9b) — focused Linker/model/parser/writer tests and lint/format checks pass; 9b user-confirmed (Rules 0001/0002/0003/0007/0011/0012/0014 pass); `# Spec verified: R23-11` written, commit hash recorded below.
 - [ ] `Code` (**NEW — member type of `Implementation.codeDescriptor`** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 7.2, p.130 (SWCT Table 8.5, p.622 — same class))
   - Spec facts (extracted 2026-09-04): concrete; Package = ...CommonStructure::Implementation ✓; Base = **Identifiable** ✓ heritage already correct in code; 2 attributes: `artifactDescriptor` (AutosarEngineeringObject, `*`, aggr — **stamped R23-11** ✓) and `callbackHeader` (ServiceNeeds, `*`, ref — **unstamped**); Note (md, wrap-normalised): "A generic code descriptor. The type of the code (source or object) is defined via the category attribute of the associated engineering object."
   - `ServiceNeeds` is queued at this row's Step 1 — see the next-level section.

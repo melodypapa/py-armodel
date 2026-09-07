@@ -905,6 +905,30 @@ class TestImplementation:
 
 
 class TestLinker:
+    def test_verbatim_spec_documentation(self):
+        assert Linker.__doc__.strip() == "Specifies the linker attributes used to describe how the linker shall be invoked."
+        assert Linker.getName.__doc__.strip() == "Linker name."
+        assert Linker.getOptions.__doc__.strip() == "Specifies the linker options."
+        assert Linker.getVendor.__doc__.strip() == "Vendor of linker."
+        assert Linker.getVersion.__doc__.strip() == "Exact version of linker executable."
+
+    def test_setters_none_are_noops(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        linker = Linker(ar_root, "TestLinker")
+        values = (
+            String().setValue("Ld"),
+            String().setValue("-r"),
+            String().setValue("GNU"),
+            String().setValue("2.40"),
+        )
+        linker.setName(values[0]).setOptions(values[1]).setVendor(values[2]).setVersion(values[3])
+        assert linker.setName(None) is linker
+        assert linker.setOptions(None) is linker
+        assert linker.setVendor(None) is linker
+        assert linker.setVersion(None) is linker
+        assert (linker.getName(), linker.getOptions(), linker.getVendor(), linker.getVersion()) == values
+
     def test_initialization(self):
         """Test Linker initialization"""
         parent = AUTOSAR.getInstance()

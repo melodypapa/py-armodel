@@ -395,16 +395,18 @@ class Linker(Identifiable):
     """
 
     # Linker method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.4, p.622
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getName                      [x] impl  [x] docstring  [x] test
-    # [x] setName                      [x] impl  [x] docstring  [x] test
-    # [x] getOptions                   [x] impl  [x] docstring  [x] test
-    # [x] setOptions                   [x] impl  [x] docstring  [x] test
-    # [x] getVendor                    [x] impl  [x] docstring  [x] test
-    # [x] setVendor                    [x] impl  [x] docstring  [x] test
-    # [x] getVersion                   [x] impl  [x] docstring  [x] test
-    # [x] setVersion                   [x] impl  [x] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 7.8, p.134 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getName    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setName    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOptions [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOptions [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVendor  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVendor  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVersion [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVersion [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str) -> None:
         """
@@ -429,97 +431,41 @@ class Linker(Identifiable):
         self.version: Optional[String] = None
 
     def getName(self) -> Optional[String]:
-        """
-        Gets the linker name.
-
-        Returns:
-            String: The linker name
-        """
+        """Linker name."""
         return self.name
 
     def setName(self, value: Optional[String]) -> "Linker":
-        """
-        Sets the linker name. A None value is a no-op and does not overwrite an existing
-        name.
-
-        Args:
-            value: The linker name to set
-
-        Returns:
-            self for method chaining
-        """
+        """Linker name. A None value is a no-op and does not overwrite an existing name."""
         if value is not None:
             self.name = value
         return self
 
     def getOptions(self) -> Optional[String]:
-        """
-        Gets the linker options.
-
-        Returns:
-            String: The linker options
-        """
+        """Specifies the linker options."""
         return self.options
 
     def setOptions(self, value: Optional[String]) -> "Linker":
-        """
-        Sets the linker options. A None value is a no-op and does not overwrite the
-        existing options.
-
-        Args:
-            value: The linker options to set
-
-        Returns:
-            self for method chaining
-        """
+        """Specifies the linker options. A None value is a no-op and does not overwrite an existing options."""
         if value is not None:
             self.options = value
         return self
 
     def getVendor(self) -> Optional[String]:
-        """
-        Gets the vendor of the linker.
-
-        Returns:
-            String: The linker vendor
-        """
+        """Vendor of linker."""
         return self.vendor
 
     def setVendor(self, value: Optional[String]) -> "Linker":
-        """
-        Sets the vendor of the linker. A None value is a no-op and does not overwrite the
-        existing vendor.
-
-        Args:
-            value: The linker vendor to set
-
-        Returns:
-            self for method chaining
-        """
+        """Vendor of linker. A None value is a no-op and does not overwrite an existing vendor."""
         if value is not None:
             self.vendor = value
         return self
 
     def getVersion(self) -> Optional[String]:
-        """
-        Gets the exact version of the linker executable.
-
-        Returns:
-            String: The linker version
-        """
+        """Exact version of linker executable."""
         return self.version
 
     def setVersion(self, value: Optional[String]) -> "Linker":
-        """
-        Sets the exact version of the linker executable. A None value is a no-op and does
-        not overwrite the existing version.
-
-        Args:
-            value: The linker version to set
-
-        Returns:
-            self for method chaining
-        """
+        """Exact version of linker executable. A None value is a no-op and does not overwrite an existing version."""
         if value is not None:
             self.version = value
         return self
