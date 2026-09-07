@@ -424,6 +424,30 @@ class TestMemorySection:
 
 
 class TestResourceConsumption:
+    def test_spec_notes_are_verbatim(self):
+        assert ResourceConsumption.__doc__.strip() == "Description of consumed resources by one implementation of a software."
+
+        notes = {
+            "getAccessCountSets": "Set of access count values",
+            "getExecutionTimes": "Collection of the execution time descriptions for this implementation. The aggregation of executionTime is subject to variability with the purpose to support the conditional existence of runnable entities.",
+            "getHeapUsages": "Collection of the heap memory allocated by this implementation.",
+            "getMemorySections": "An abstract memory section required by this Implementation.",
+            "getSectionNamePrefixes": "A prefix to be used for the memory section symbol in the code.",
+            "getStackUsages": "Collection of the stack memory usage for each runnable entity of this implementation. The aggregation of Stack Usage is subject to variability with the purpose to support the conditional existence of runnable entities.",
+        }
+        for method_name, note in notes.items():
+            assert getattr(ResourceConsumption, method_name).__doc__.strip() == note
+        assert ResourceConsumption.addAccessCountSet.__doc__.strip() == "Set of access count values. A None value is a no-op and does not append anything."
+
+    def test_initialization_collections_are_empty(self):
+        resource = ResourceConsumption(AUTOSAR.getInstance(), "TestResource")
+        assert resource.getAccessCountSets() == []
+        assert resource.getExecutionTimes() == []
+        assert resource.getHeapUsages() == []
+        assert resource.getMemorySections() == []
+        assert resource.getSectionNamePrefixes() == []
+        assert resource.getStackUsages() == []
+
     def test_initialization(self):
         """Test ResourceConsumption initialization"""
         parent = AUTOSAR.getInstance()
