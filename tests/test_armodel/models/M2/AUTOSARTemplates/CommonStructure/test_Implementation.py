@@ -67,6 +67,27 @@ class TestImplementationProps:
 
 
 class TestCode:
+    def test_spec_notes_are_verbatim(self):
+        assert Code.__doc__.strip() == ("A generic code descriptor. The type of the code (source or object) is defined via the category attribute " "of the associated engineering object.")
+        assert Code.addArtifactDescriptor.__doc__.strip() == "Refers to the artifact belonging to this code descriptor. A None value is a no-op and does not append anything."
+        assert Code.getArtifactDescriptors.__doc__.strip() == "Refers to the artifact belonging to this code descriptor."
+        callback_note = (
+            "The association callbackHeader describes in which header files the function declarations of callback functions "
+            "are provided to a service module. With this information the service module can include the appropriate header "
+            "files in its configuration files."
+        )
+        assert Code.getCallbackHeaderRefs.__doc__.strip() == callback_note
+        assert Code.addCallbackHeaderRef.__doc__.strip() == callback_note + " A None value is a no-op and does not append anything."
+
+    def test_adders_none_are_noops(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        code = Code(ar_root, "TestCode")
+        assert code.addArtifactDescriptor(None) is code
+        assert code.addCallbackHeaderRef(None) is code
+        assert code.getArtifactDescriptors() == []
+        assert code.getCallbackHeaderRefs() == []
+
     def test_initialization(self):
         """Test Code initialization"""
         parent = AUTOSAR.getInstance()

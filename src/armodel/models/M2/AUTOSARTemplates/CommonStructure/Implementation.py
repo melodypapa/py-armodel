@@ -145,89 +145,47 @@ class ImplementationProps(Referrable, ABC):
 
 class Code(Identifiable):
     """
-    Represents code descriptor in AUTOSAR models.
-    A generic code descriptor; the type of the code (source or object) is defined via the
-    category attribute of the associated engineering object.
+    A generic code descriptor. The type of the code (source or object) is defined via the category attribute of the associated engineering object.
     """
 
     # Code method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.5, p.622
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] addArtifactDescriptor        [x] impl  [x] docstring  [x] test
-    # [x] getArtifactDescriptors       [x] impl  [x] docstring  [x] test
-    # [x] getCallbackHeaderRefs        [x] impl  [x] docstring  [x] test
-    # [x] addCallbackHeaderRef         [x] impl  [x] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 7.2, p.130 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addArtifactDescriptor   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getArtifactDescriptors  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getCallbackHeaderRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addCallbackHeaderRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the Code with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this code descriptor
-            short_name: The unique short name of this code descriptor
-        """
         super().__init__(parent, short_name)
 
         # Refers to the artifact belonging to this code descriptor.
         self.artifactDescriptors: List[AutosarEngineeringObject] = []
 
-        # Describes in which header files the function declarations of callback functions
-        # are provided to a service module, so it can include the appropriate header files.
+        # The association callbackHeader describes in which header files the function declarations of callback functions are provided to a service module. With this information the service module can include the appropriate header files in its configuration files.
         self.callbackHeaderRefs: List[RefType] = []
 
     def addArtifactDescriptor(self, desc: Optional[AutosarEngineeringObject]) -> "Code":
-        """
-        Adds an artifact descriptor to this code descriptor.
-        A None value is a no-op and is not appended. [TPS_BSWMDT_04040]
-
-        Args:
-            desc: The artifact descriptor to add
-
-        Returns:
-            self for method chaining
-        """
+        """Refers to the artifact belonging to this code descriptor. A None value is a no-op and does not append anything."""
         if desc is not None:
             self.artifactDescriptors.append(desc)
         return self
 
     def getArtifactDescriptors(self, category: str = "") -> List[AutosarEngineeringObject]:
-        """
-        Gets the list of artifact descriptors, optionally filtered by category.
-        For each codeDescriptor all relevant artifacts are referenced through
-        artifactDescriptor. [TPS_BSWMDT_04040]
-
-        Args:
-            category: Optional category to filter descriptors by (returns all if empty)
-
-        Returns:
-            List of AutosarEngineeringObject instances matching the criteria
-        """
+        """Refers to the artifact belonging to this code descriptor."""
         if category == "":
             return self.artifactDescriptors
         else:
             return list(filter(lambda a: a.getCategory().getText() == category, self.artifactDescriptors))
 
     def getCallbackHeaderRefs(self) -> List[RefType]:
-        """
-        Gets the list of references to the header files that declare the callback functions
-        of this code descriptor.
-
-        Returns:
-            List of RefType to the callback header files
-        """
+        """The association callbackHeader describes in which header files the function declarations of callback functions are provided to a service module. With this information the service module can include the appropriate header files in its configuration files."""
         return self.callbackHeaderRefs
 
     def addCallbackHeaderRef(self, value: Optional[RefType]) -> "Code":
-        """
-        Adds a reference to a header file that declares callback functions of this code
-        descriptor. A None value is a no-op and is not appended.
-
-        Args:
-            value: The callback header reference to add
-
-        Returns:
-            self for method chaining
-        """
+        """The association callbackHeader describes in which header files the function declarations of callback functions are provided to a service module. With this information the service module can include the appropriate header files in its configuration files. A None value is a no-op and does not append anything."""
         if value is not None:
             self.callbackHeaderRefs.append(value)
         return self

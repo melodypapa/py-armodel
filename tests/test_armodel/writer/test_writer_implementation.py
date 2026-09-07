@@ -133,3 +133,6 @@ class TestWriteSwcImplementationXSDValid:
         assert linker.find("{http://autosar.org/schema/r4.0}OPTIONS").text == "-r"
         assert linker.find("{http://autosar.org/schema/r4.0}VENDOR").text == "GNU"
         assert linker.find("{http://autosar.org/schema/r4.0}VERSION").text == "2.40"
+        callback_ref = swc.find(".//{http://autosar.org/schema/r4.0}CALLBACK-HEADER-REF")
+        assert callback_ref.text == "/Pkg/Cb_h"
+        assert callback_ref.get("DEST") == "SERVICE-NEEDS"

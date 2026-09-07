@@ -215,6 +215,7 @@ class TestImplementationHwAndCode:
         refs = code.getCallbackHeaderRefs()
         assert len(refs) == 1
         assert refs[0].getValue() == "/Pkg/Cb_h"
+        assert refs[0].getDest() == "SERVICE-NEEDS"
 
 
 def _parse_impl(parser):

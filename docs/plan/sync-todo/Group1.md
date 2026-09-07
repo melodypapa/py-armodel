@@ -854,18 +854,18 @@ enums → ARObject/Identifiable leaf members → members with their own member t
    - [x] Step 7 — Update checklist comment — replaced legacy checklist with six-column parity rows and unified R23-11 citation; reader marked on setters and writer on getters.
    - [x] Step 8 — Deviations — none; all four spec attributes, base, types, order, docstrings, and reader/writer coverage conform. Member type Identifiable is stamped R23-11.
    - [x] Step 9 — Verify (9a) + confirm (9b) — focused Linker/model/parser/writer tests and lint/format checks pass; 9b user-confirmed (Rules 0001/0002/0003/0007/0011/0012/0014 pass); `# Spec verified: R23-11` written, commit hash recorded below.
-- [ ] `Code` (**NEW — member type of `Implementation.codeDescriptor`** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 7.2, p.130 (SWCT Table 8.5, p.622 — same class))
+- [x] `Code` (**NEW — member type of `Implementation.codeDescriptor`** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 7.2, p.130 (SWCT Table 8.5, p.622 — same class)) — **finished, stamped `# Spec verified: R23-11`**
   - Spec facts (extracted 2026-09-04): concrete; Package = ...CommonStructure::Implementation ✓; Base = **Identifiable** ✓ heritage already correct in code; 2 attributes: `artifactDescriptor` (AutosarEngineeringObject, `*`, aggr — **stamped R23-11** ✓) and `callbackHeader` (ServiceNeeds, `*`, ref — **unstamped**); Note (md, wrap-normalised): "A generic code descriptor. The type of the code (source or object) is defined via the category attribute of the associated engineering object."
   - `ServiceNeeds` is queued at this row's Step 1 — see the next-level section.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 1 — Sync members & description from spec — Table 7.2 re-verified: concrete; Base = Identifiable; `artifactDescriptor` (AutosarEngineeringObject, `*`, aggr) and `callbackHeader` (ServiceNeeds, `*`, ref) captured in displayed order; Note and attribute Notes captured verbatim; PDF page p.130 confirmed with pdf_page.py.
+   - [x] Step 2 — Write model class unit test (Red) — added verbatim class/accessor documentation assertions and None-no-op coverage for both adders; Red confirmed against stale documentation.
+   - [x] Step 3 — Implement model class (Green) — existing Identifiable heritage, typed lists, add/get accessors, None guards, and chaining already matched the spec; no structural model change required.
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and attribute docs now use verbatim Table 7.2 Notes; adder docs append the None no-op sentence; stale constructor and Args/Returns paraphrases removed.
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — expanded parser/writer coverage to assert callback reference value and `DEST`, alongside existing wrapper and artifact coverage.
+   - [x] Step 6 — Update parser & writer (Green) — N/A source change: existing `readArtifactDescriptor`/`writeArtifactDescriptor` and `readCallbackHeaderRefs`/`writeCodeCallbackHeaderRefs` cover both attributes and wrappers.
+   - [x] Step 7 — Update checklist comment — replaced legacy checklist with six-column parity rows and unified R23-11 citation; reader marked on adders and writer on getters.
+   - [x] Step 8 — Deviations — none; both spec attributes, base, types, order, docstrings, and reader/writer coverage conform. Referenced `AutosarEngineeringObject` and `Identifiable` are stamped; `ServiceNeeds` remains a queued dependency but is not a blocker for this class.
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 338 focused tests passed, Ruff/Black/diff checks clean; 9b user-confirmed (Rules 0001/0002/0003/0007/0011/0012/0014 pass); `# Spec verified: R23-11` written, commit hash recorded below.
 - [ ] `DependencyOnArtifact` (**NEW — member type of `Implementation.generatedArtifact` / `requiredArtifact` / `requiredGeneratorTool` (three attributes, one type)** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.91, p.413 (BSW Table 7.3, p.131 — same class))
   - Spec facts (extracted 2026-09-04): concrete; Package = ...CommonStructure::Implementation ✓; Base = **Identifiable** ✓ heritage already correct in code (`DependencyOnArtifact(Identifiable, VariationPointCapable)`); 2 attributes: `artifactDescriptor` (AutosarEngineeringObject, 0..1, aggr — **stamped R23-11** ✓) and `usage` (DependencyUsageEnum, `*`, attr — **unstamped**); Note (md, wrap-normalised): "Dependency on the existence of another artifact, e.g. a library."
   - `DependencyUsageEnum` (BSW Table 7.4) is queued at this row's Step 1 — see the next-level section.
