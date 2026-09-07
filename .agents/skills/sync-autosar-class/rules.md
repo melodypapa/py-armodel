@@ -256,7 +256,10 @@ all agree; Rule 0001.3). Do not stop at the field default:
   in the same change, and assert the child's field values in the round-trip test.
 - **Aggregator sequenced after the child:** an aggregator with zero serialization whose
   only child is unsynced defers its own reader/writer coverage (recorded as pending),
-  while its **model** is fully synced in the meantime.
+  while its **model** is fully synced in the meantime. This exception does not apply to
+  an abstract XML-bearing base: that base still owns reusable reader/writer helpers under
+  the Abstract XML-bearing bases rule below; only effective subclass coverage waits for
+  the concrete child.
 - A shared `readXxx`/`writeXxx` that calls `readIdentifiable`/`writeIdentifiable` is not
   reusable by every sibling subtype — check the subtype's own XSD complexType; a
   non-`Referrable` subtype must call `readARObjectAttributes`/`writeARObjectAttributes`
@@ -265,6 +268,12 @@ all agree; Rule 0001.3). Do not stop at the field default:
   element set, not just to the model field — grep the base **and** subtype reader/writer
   for the element tag; an inherited attribute with an XSD element but no reader/writer is
   dropped on round-trip.
+- **Abstract XML-bearing bases own reusable helpers.** If an abstract class has spec
+  attributes serialized through concrete subclasses, Steps 5/6 are not N/A merely
+  because the base has no standalone element. The abstract class must provide named
+  reusable `read<ClassName>`/`write<ClassName>` helpers for its own XML group, and
+  concrete subclasses must call them. Only an abstract class with no own XML-bearing
+  attributes may use the standalone N/A exception.
 
 ### 1.8 Cross-package types
 

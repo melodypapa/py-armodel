@@ -902,9 +902,75 @@ enums → ARObject/Identifiable leaf members → members with their own member t
    - [x] Step 7 — Update checklist comment — replaced legacy checklist with six-column parity rows and unified R23-11 citation; reader marked on mutators and writer on getters.
    - [x] Step 8 — Deviations — none for the class; heritage, field types, naming, order, docs, and reader/writer coverage conform. Five unstamped member types remain queued independently and do not block this class after user confirmation.
    - [x] Step 9 — Verify (9a) + confirm (9b) — 590 focused tests passed, Ruff/Black/diff checks clean; 9b user-confirmed (Rules 0001/0002/0003/0007/0011/0012/0014 pass); `# Spec verified: R23-11` written, commit hash recorded below.
-- [ ] `BuildActionManifest` (**NEW — member type of `Implementation.buildActionManifest` · absent from `src/`** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 10.1, p.365 (BSW Table 7.9, p.135 — same class))
+  - [ ] `BuildActionInvocator` (**NEW — member type of `BuildActionEntity.invocation` · absent from `src/`** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 10.6, p.368 · **moved before `BuildActionEntity` per Rule 0016.5 — `BuildActionEntity.invocation` cannot be typed until this class exists**)
+    - Spec facts: concrete; Package = `M2::AUTOSARTemplates::GenericStructure::BuildActionManifest`; Base = ARObject; attributes `command` (VerbatimString, 0..1, attr) and `sdg` (Sdg, `*`, aggr — Sdg is stamped R23-11).
+    - [ ] Step 1 — Sync members & description from spec
+    - [ ] Step 2 — Write model class unit test (Red)
+    - [ ] Step 3 — Implement model class (Green)
+    - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+    - [ ] Step 5 — Write reader/writer round-trip test (Red)
+    - [ ] Step 6 — Update parser & writer (Green)
+    - [ ] Step 7 — Update checklist comment
+    - [ ] Step 8 — Deviations
+    - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [ ] `BuildActionEntity` (**NEW — direct abstract base of `BuildAction` and member type closure of `BuildActionManifest` · absent from `src/`** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 10.5, p.371)
+    - Spec facts: abstract; Package = `M2::AUTOSARTemplates::GenericStructure::BuildActionManifest`; Base = ARObject, AtpBlueprint, AtpBlueprintable, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base `Identifiable`; attributes `deliveryArtifact` (AutosarEngineeringObject, `*`, aggr) and `invocation` (BuildActionInvocator, 0..1, aggr); BuildAction is the only listed subclass. **Step 3 rework required:** `self.invocation` was implemented as a placeholder `Optional[object]` before `BuildActionInvocator` existed — must be retyped to `Optional[BuildActionInvocator]` (with import added) now that `BuildActionInvocator` is synced first.
+    - [ ] Step 1 — Sync members & description from spec
+    - [ ] Step 2 — Write model class unit test (Red)
+    - [ ] Step 3 — Implement model class (Green) — **retype `invocation` to `Optional[BuildActionInvocator]`; currently `Optional[object]` placeholder**
+    - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+     - [ ] Step 5 — Write reader/writer round-trip test (Red) — pending: reusable helpers must be exercised through concrete BuildAction after its sync; invocation dispatch not yet implemented.
+     - [ ] Step 6 — Update parser & writer (Green) — pending: add invocation read/write dispatch to `readBuildActionEntity`/`writeBuildActionEntity` (currently DELIVERY-ARTIFACTS only) and delegate from BuildAction.
+    - [x] Step 7 — Update checklist comment — six-column parity checklist with R23-11 Table 10.5 citation; effective reader/writer rows remain pending until BuildAction delegates to the base helpers.
+    - [x] Step 8 — Deviations — none; abstract base and two own aggregations match the spec. Effective reader/writer coverage is pending the concrete BuildAction delegation required by Rule 0001.7; `BuildActionInvocator` is queued before `BuildActionEntity`.
+     - [ ] Step 9 — Verify (9a) + confirm (9b) — blocked until Steps 5/6 effective reader/writer coverage lands through BuildAction.
+ - [ ] `BuildEngineeringObject` (**NEW — member type of `BuildActionIoElement.engineeringObject` · absent from `src/`** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 10.7, p.369)
+   - Spec facts: concrete; Package = `M2::AUTOSARTemplates::GenericStructure::BuildActionManifest`; Base = ARObject, EngineeringObject → most-derived direct base `EngineeringObject`; six attributes: `fileType` (NameToken, 1, attr), `fileTypePattern` (RegularExpression, 1, attr), `intendedFilename` (UriString, 0..1, attr), `parentCategory` (NameToken, 0..1, attr), `parentShortLabel` (NameToken, 0..1, attr), `shortLabelPattern` (RegularExpression, 1, attr). Base EngineeringObject is stamped R23-11.
+   - [ ] Step 1 — Sync members & description from spec
+   - [ ] Step 2 — Write model class unit test (Red)
+   - [ ] Step 3 — Implement model class (Green)
+   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+   - [ ] Step 5 — Write reader/writer round-trip test (Red)
+   - [ ] Step 6 — Update parser & writer (Green)
+   - [ ] Step 7 — Update checklist comment
+   - [ ] Step 8 — Deviations
+   - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [ ] `BuildActionIoElement` (**NEW — member type of `BuildAction.createdData` / `inputData` / `modifiedData` · absent from `src/`** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 10.3, p.367)
+    - Spec facts: concrete; Package = `M2::AUTOSARTemplates::GenericStructure::BuildActionManifest`; Base = ARObject; attributes `category` (NameToken, 1, attr), `ecucDefinition` (EcucDefinitionElement, 0..1, ref — stamped R23-11), `engineeringObject` (BuildEngineeringObject, 0..1, aggr), `foreignModelReference` (ForeignModelReference, 0..1, aggr — **Skip confirmed**: no Class table for `ForeignModelReference` in either R23-11 or R4.3.1 corpus, verified via `pdf_page.py` scan across all PDFs in both releases; the XSD only defines an attribute group (`AUTOSAR_00052.xsd` l.62874), never a class table; modeled as a deviation/placeholder, not implemented, per user decision), `sdg` (Sdg, `*`, aggr — stamped R23-11).
+   - [ ] Step 1 — Sync members & description from spec
+   - [ ] Step 2 — Write model class unit test (Red)
+   - [ ] Step 3 — Implement model class (Green)
+   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+   - [ ] Step 5 — Write reader/writer round-trip test (Red)
+   - [ ] Step 6 — Update parser & writer (Green)
+   - [ ] Step 7 — Update checklist comment
+   - [ ] Step 8 — Deviations
+   - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [ ] `BuildActionEnvironment` (**NEW — member type of `BuildActionManifest.buildActionEnvironment` · absent from `src/`** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 10.4, p.370)
+   - Spec facts: concrete; Package = `M2::AUTOSARTemplates::GenericStructure::BuildActionManifest`; Base = ARObject, AtpBlueprint, AtpBlueprintable, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base `Identifiable`; attribute `sdg` (Sdg, `*`, aggr — stamped R23-11).
+   - [ ] Step 1 — Sync members & description from spec
+   - [ ] Step 2 — Write model class unit test (Red)
+   - [ ] Step 3 — Implement model class (Green)
+   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+   - [ ] Step 5 — Write reader/writer round-trip test (Red)
+   - [ ] Step 6 — Update parser & writer (Green)
+   - [ ] Step 7 — Update checklist comment
+   - [ ] Step 8 — Deviations
+   - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [ ] `BuildAction` (**NEW — member type of `BuildActionManifest.buildAction` / `.dynamicAction` / `.startAction` / `.tearDownAction` · absent from `src/`** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 10.2, p.366)
+   - Spec facts: concrete; Package = `M2::AUTOSARTemplates::GenericStructure::BuildActionManifest`; Base = ARObject, AtpBlueprint, AtpBlueprintable, BuildActionEntity, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base `BuildActionEntity`; six attributes: `createdData` (BuildActionIoElement, `*`, aggr), `followUpAction` (BuildAction, `*`, ref), `inputData` (BuildActionIoElement, `*`, aggr), `modifiedData` (BuildActionIoElement, `*`, aggr), `predecessorAction` (BuildAction, `*`, ref), `requiredEnvironment` (BuildActionEnvironment, 1, ref). Self-references are modeled after the class exists.
+   - [ ] Step 1 — Sync members & description from spec
+   - [ ] Step 2 — Write model class unit test (Red)
+   - [ ] Step 3 — Implement model class (Green)
+   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+   - [ ] Step 5 — Write reader/writer round-trip test (Red)
+   - [ ] Step 6 — Update parser & writer (Green)
+   - [ ] Step 7 — Update checklist comment
+   - [ ] Step 8 — Deviations
+   - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [ ] `BuildActionManifest` (**NEW — member type of `Implementation.buildActionManifest` · absent from `src/`** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 10.1, p.365 (BSW Table 7.9, p.135 — same class))
   - Spec facts (extracted 2026-09-04): concrete; Package = M2::AUTOSARTemplates::GenericStructure::BuildActionManifest (**no `src/` file yet** — Rule 0007 target = `GenericStructure/BuildActionManifest.py`, leaf shape); Base = ARElement, ARObject, AtpBlueprint, AtpBlueprintable, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived direct base **ARElement**; Aggregated by ARPackage.element; 5 attributes: `buildAction` (BuildAction, `*`, aggr — **absent from `src/`**, FO GenericStructure Table 10.2, p.366), `buildActionEnvironment` (BuildActionEnvironment, `*`, aggr — **absent from `src/`**, FO GenericStructure Table 10.4, p.370), `dynamicAction` (BuildAction, `*`, ref), `startAction` (BuildAction, `*`, ref), `tearDownAction` (BuildAction, `*`, ref); Note (md, wrap-normalised, Tags: tail dropped): "This meta-class represents the ability to specify a manifest for processing artifacts. An example use case is the processing of ECUC parameter values."
-  - Both new member types have R23-11 spec Class tables → **no Rule 16.4 Skip/XSD decision is pending**; they are queued at this row's Step 1 (BuildAction first — BuildActionEnvironment is its `requiredEnvironment` target with multiplicity 1, so it must exist before BuildAction lands).
+   - Rule 16.4 status: one Skip decision is pending/resolved in this subtree — `ForeignModelReference` (member of `BuildActionIoElement.foreignModelReference`) has **no Class table in either R23-11 or R4.3.1** (confirmed via full-corpus `pdf_page.py` scan); user-confirmed **Skip**, modeled as a deviation/placeholder, not implemented. All other new member types in this subtree have R23-11 spec Class tables and are queued normally (`BuildActionInvocator` before `BuildActionEntity` per Rule 0016.5; `BuildActionEnvironment` before `BuildAction` since it is `BuildAction.requiredEnvironment`'s multiplicity-1 target).
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -962,8 +1028,17 @@ member types then become level-3).
 | `SwcBswMapping` | `SwcBswRunnableMapping` | unstamped | locate in Step 1 |
 | `SwcBswMapping` | `SwcBswSynchronizedModeGroupPrototype` | unstamped | locate in Step 1 |
 | `SwcBswMapping` | `SwcBswSynchronizedTrigger` | unstamped | locate in Step 1 |
-| `BuildActionManifest` | `BuildActionEnvironment` | absent from `src/` | FO GenericStructure Table 10.4, p.370 |
-| `BuildActionManifest` | `BuildAction` | absent from `src/` | FO GenericStructure Table 10.2, p.366 |
+| `BuildActionEntity` | `BuildActionInvocator` | absent from `src/` | FO GenericStructure Table 10.6, p.368 |
+| `BuildActionEntity` | `AutosarEngineeringObject` | stamped | GenericStructure Table 4.70 |
+| `BuildAction` | `BuildActionIoElement` | absent from `src/` | FO GenericStructure Table 10.3, p.367 |
+| `BuildAction` | `BuildActionEnvironment` | queued above | FO GenericStructure Table 10.4, p.370 |
+| `BuildActionIoElement` | `BuildEngineeringObject` | absent from `src/` | FO GenericStructure Table 10.7, p.369 |
+| `BuildActionIoElement` | `EcucDefinitionElement` | stamped | ECUC Table 2.6 |
+| `BuildActionIoElement` | `ForeignModelReference` | no class table found; resolve in Step 1 | XSD group/markdown closure |
+| `BuildActionIoElement` | `Sdg` | stamped | GenericStructure Table 4.19 |
+| `BuildActionEnvironment` | `Sdg` | stamped | GenericStructure Table 4.19 |
+| `BuildActionManifest` | `BuildActionEnvironment` | queued above | FO GenericStructure Table 10.4, p.370 |
+| `BuildActionManifest` | `BuildAction` | queued above | FO GenericStructure Table 10.2, p.366 |
 | `SubElementRef` (subclass edge) | `ImplementationDataTypeSubElementRef` | absent from `src/` | SWCT Table 4.34, p.138 |
 | `SubElementRef` (subclass edge) | `ApplicationCompositeDataTypeSubElementRef` | absent from `src/` | SWCT Table 4.35, p.138 |
 
@@ -972,7 +1047,8 @@ member types then become level-3).
 _(none)_ — every class added to the queue by the 2026-09-04 review has a **Class** or
 **Enumeration** table in the R23-11 markdown corpus (verified class-by-class), so no
 Skip / XSD-derive decision is pending. The classes that are absent from `src/` but
-present in the spec (`BuildAction`, `BuildActionEnvironment`, `TextTableValuePair`,
+present in the spec (`BuildActionEntity`, `BuildActionInvocator`, `BuildEngineeringObject`,
+`BuildActionIoElement`, `BuildAction`, `BuildActionEnvironment`, `TextTableValuePair`,
 `MappingDirectionEnum`, `ImplementationDataTypeSubElementRef`,
 `ApplicationCompositeDataTypeSubElementRef`) are implemented from their spec tables —
 they are not XSD-derived and are therefore not 16.4 cases.

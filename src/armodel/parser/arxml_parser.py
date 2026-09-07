@@ -363,6 +363,7 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescription
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -4098,6 +4099,12 @@ class ARXMLParser(AbstractARXMLParser):
             ref = self.getChildElementOptionalRefType(child_element, "BUILD-ACTION-MANIFEST-REF-CONDITIONAL/BUILD-ACTION-MANIFEST-REF")
             if ref is not None:
                 impl.setBuildActionManifestRef(ref)
+
+    def readBuildActionEntity(self, element: ET.Element, entity: BuildActionEntity):
+        delivery = self.find(element, "DELIVERY-ARTIFACTS")
+        if delivery is not None:
+            for child in self.findall(delivery, "AUTOSAR-ENGINEERING-OBJECT"):
+                entity.addDeliveryArtifact(self.getAutosarEngineeringObject(child))
 
     def readBswImplementationVendorSpecificModuleDefRefs(self, element: ET.Element, impl: BswImplementation):
         child_element = self.find(element, "VENDOR-SPECIFIC-MODULE-DEF-REFS")

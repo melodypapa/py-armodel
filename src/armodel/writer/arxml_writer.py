@@ -257,6 +257,7 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescription
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -5369,6 +5370,13 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, "BUILD-ACTION-MANIFESTS")
             ref_cond = ET.SubElement(child_element, "BUILD-ACTION-MANIFEST-REF-CONDITIONAL")
             self.setChildElementOptionalRefType(ref_cond, "BUILD-ACTION-MANIFEST-REF", ref)
+
+    def writeBuildActionEntity(self, element: ET.Element, entity: BuildActionEntity):
+        delivery_artifacts = entity.getDeliveryArtifacts()
+        if delivery_artifacts:
+            wrapper = ET.SubElement(element, "DELIVERY-ARTIFACTS")
+            for artifact in delivery_artifacts:
+                self.writeAutosarEngineeringObject(wrapper, artifact)
 
     def writeCompilers(self, element: ET.Element, impl: Implementation):
         compilers = impl.getCompilers()
