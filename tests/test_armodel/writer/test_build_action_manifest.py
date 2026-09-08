@@ -1,6 +1,7 @@
 """
-Writer tests for BuildActionInvocator (AUTOSAR_FO_TPS_GenericStructureTemplate Table 10.6)
-and the BuildActionEntity own attributes + Identifiable leveling (Table 10.5).
+Writer tests for BuildActionInvocator (AUTOSAR_FO_TPS_GenericStructureTemplate Table 10.6),
+the BuildActionEntity own attributes + Identifiable leveling (Table 10.5),
+and BuildActionEnvironment (Table 10.4).
 """
 
 import xml.etree.ElementTree as ET
@@ -8,10 +9,10 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator, BuildActionIoElement, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionEnvironment, BuildActionInvocator, BuildActionIoElement, BuildEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, RefType, RegularExpression, RevisionLabelString, String, UriString, VerbatimString
-from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
+from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg, SdgContents
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -279,3 +280,98 @@ class TestWriteBuildActionIoElement:
         writer.writeBuildActionIoElement(element, BuildActionIoElement())
 
         assert list(element) == []
+
+
+def _sdg(gid: str, sd_gid: str, sd_value: str) -> Sdg:
+    sdg = Sdg()
+    gid_value = NameToken()
+    gid_value.setValue(gid)
+    sdg.setGID(gid_value)
+    sd = Sd()
+    sd_gid_value = NameToken()
+    sd_gid_value.setValue(sd_gid)
+    sd.setGID(sd_gid_value)
+    value = VerbatimString()
+    value.setValue(sd_value)
+    sd.setValue(value)
+    contents = SdgContents()
+    contents.addSd(sd)
+    sdg.setSdgContentsType(contents)
+    return sdg
+
+
+class TestWriteBuildActionEnvironment:
+    def test_write_sdgs_and_identifiable_members(self):
+        writer = ARXMLWriter()
+        environment = BuildActionEnvironment(AUTOSAR.getInstance(), "Environment")
+        category = NameToken()
+        category.setValue("BUILD")
+        environment.setCategory(category)
+        uuid = String()
+        uuid.setValue("3f2504e0-4f89-11d3-9a0c-0305e82c3302")
+        environment.setUuid(uuid)
+        environment.addSdg(_sdg("FIRST", "ROLE", "PROCESSOR"))
+        environment.addSdg(_sdg("SECOND", "ROLE", "LINKER"))
+
+        element = ET.Element("BUILD-ACTION-ENVIRONMENT")
+        writer.writeBuildActionEnvironment(element, environment)
+
+        assert element.find("SHORT-NAME").text == "Environment"
+        assert element.find("CATEGORY").text == "BUILD"
+        assert element.attrib["UUID"] == "3f2504e0-4f89-11d3-9a0c-0305e82c3302"
+        sdgs = element.findall("SDGS/SDG")
+        assert len(sdgs) == 2
+        assert [sdg.attrib["GID"] for sdg in sdgs] == ["FIRST", "SECOND"]
+        assert [sdg.find("SD").text for sdg in sdgs] == ["PROCESSOR", "LINKER"]
+
+    def test_write_empty_environment_omits_sdgs_wrapper(self):
+        writer = ARXMLWriter()
+        environment = BuildActionEnvironment(AUTOSAR.getInstance(), "Environment")
+
+        element = ET.Element("BUILD-ACTION-ENVIRONMENT")
+        writer.writeBuildActionEnvironment(element, environment)
+
+        assert element.find("SDGS") is None
+
+
+class TestBuildActionEnvironmentRoundTrip:
+    def test_round_trip_preserves_values(self):
+        writer = ARXMLWriter()
+        parser = ARXMLParser(options={"warning": True})
+        environment = BuildActionEnvironment(AUTOSAR.getInstance(), "Environment")
+        category = NameToken()
+        category.setValue("BUILD")
+        environment.setCategory(category)
+        environment.addSdg(_sdg("FIRST", "ROLE", "PROCESSOR"))
+
+        element = ET.Element("BUILD-ACTION-ENVIRONMENT")
+        writer.writeBuildActionEnvironment(element, environment)
+
+        reloaded_element = _namespaced_wrap(element)
+        AUTOSAR.getInstance().new()
+        reloaded = BuildActionEnvironment(AUTOSAR.getInstance(), "Environment")
+        parser.readBuildActionEnvironment(reloaded_element, reloaded)
+
+        assert str(reloaded.getCategory()) == "BUILD"
+        sdgs = reloaded.getSdgs()
+        assert len(sdgs) == 1
+        assert str(sdgs[0].getGID()) == "FIRST"
+        assert str(sdgs[0].getSdgContentsType().getSds()[0].getValue()) == "PROCESSOR"
+
+    def test_round_trip_empty_environment_omits_wrapper(self):
+        writer = ARXMLWriter()
+        parser = ARXMLParser(options={"warning": True})
+        environment = BuildActionEnvironment(AUTOSAR.getInstance(), "Environment")
+
+        element = ET.Element("BUILD-ACTION-ENVIRONMENT")
+        writer.writeBuildActionEnvironment(element, environment)
+        serialized = ET.tostring(element, encoding="unicode")
+
+        assert "SDGS" not in serialized
+
+        AUTOSAR.getInstance().new()
+        reloaded = BuildActionEnvironment(AUTOSAR.getInstance(), "Environment")
+        parser.readBuildActionEnvironment(_namespaced_wrap(ET.fromstring(serialized)), reloaded)
+
+        assert reloaded.getSdgs() == []
+        assert reloaded.getCategory() is None

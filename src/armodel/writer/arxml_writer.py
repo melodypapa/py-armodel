@@ -257,7 +257,7 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescription
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionIoElement, BuildActionInvocator, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionEnvironment, BuildActionIoElement, BuildActionInvocator, BuildEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -5400,6 +5400,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             engineering_object_element = ET.SubElement(element, "ENGINEERING-OBJECT")
             self.writeBuildEngineeringObject(engineering_object_element, engineering_object)
         self.setChildElementOptionalIdentifier(element, "ROLE", io_element.getRole())
+
+    def writeBuildActionEnvironment(self, element: ET.Element, environment: BuildActionEnvironment):
+        self.writeIdentifiable(element, environment)
+        sdgs = environment.getSdgs()
+        if sdgs:
+            sdgs_element = ET.SubElement(element, "SDGS")
+            for sdg in sdgs:
+                self.setSdg(sdgs_element, sdg)
 
     def writeBuildActionEntity(self, element: ET.Element, entity: BuildActionEntity):
         self.writeIdentifiable(element, entity)

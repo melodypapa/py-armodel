@@ -1,6 +1,7 @@
 """
-Reader tests for BuildActionInvocator (AUTOSAR_FO_TPS_GenericStructureTemplate Table 10.6)
-and the BuildActionEntity own attributes + Identifiable leveling (Table 10.5).
+Reader tests for BuildActionInvocator (AUTOSAR_FO_TPS_GenericStructureTemplate Table 10.6),
+the BuildActionEntity own attributes + Identifiable leveling (Table 10.5),
+and BuildActionEnvironment (Table 10.4).
 """
 
 import xml.etree.ElementTree as ET
@@ -8,7 +9,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator, BuildActionIoElement, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionEnvironment, BuildActionInvocator, BuildActionIoElement, BuildEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import UriString
 from armodel.parser.arxml_parser import ARXMLParser
@@ -192,3 +193,46 @@ class TestReadBuildActionIoElement:
         assert obj.getCategory() is None
         assert obj.getSdgs() == []
         assert obj.getEngineeringObject() is None
+
+
+class TestReadBuildActionEnvironment:
+    def test_read_sdgs_and_identifiable_members(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "BUILD-ACTION-ENVIRONMENT",
+            "<SHORT-NAME>Environment</SHORT-NAME>"
+            "<DESC><L-2 L='EN'>build action environment</L-2></DESC>"
+            "<CATEGORY>BUILD</CATEGORY>"
+            "<SDGS>"
+            "<SDG GID='FIRST'><SD GID='ROLE'>PROCESSOR</SD></SDG>"
+            "<SDG GID='SECOND'><SD GID='ROLE'>LINKER</SD></SDG>"
+            "</SDGS>",
+        )
+        element.attrib["UUID"] = "3f2504e0-4f89-11d3-9a0c-0305e82c3302"
+        environment = BuildActionEnvironment(AUTOSAR.getInstance(), "Environment")
+        parser.readBuildActionEnvironment(element, environment)
+
+        assert str(environment.getCategory()) == "BUILD"
+        assert environment.getUuid().getValue() == "3f2504e0-4f89-11d3-9a0c-0305e82c3302"
+        assert environment.getDesc() is not None
+        sdgs = environment.getSdgs()
+        assert len(sdgs) == 2
+        assert [str(sdg.getGID()) for sdg in sdgs] == ["FIRST", "SECOND"]
+        assert [str(sd.getValue()) for sdg in sdgs for sd in sdg.getSdgContentsType().getSds()] == ["PROCESSOR", "LINKER"]
+
+    def test_read_empty_sdgs_wrapper(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip("BUILD-ACTION-ENVIRONMENT", "<SHORT-NAME>Environment</SHORT-NAME><SDGS/>")
+        environment = BuildActionEnvironment(AUTOSAR.getInstance(), "Environment")
+        parser.readBuildActionEnvironment(element, environment)
+
+        assert environment.getSdgs() == []
+
+    def test_read_absent_sdgs(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip("BUILD-ACTION-ENVIRONMENT", "<SHORT-NAME>Environment</SHORT-NAME>")
+        environment = BuildActionEnvironment(AUTOSAR.getInstance(), "Environment")
+        parser.readBuildActionEnvironment(element, environment)
+
+        assert environment.getSdgs() == []
+        assert environment.getCategory() is None

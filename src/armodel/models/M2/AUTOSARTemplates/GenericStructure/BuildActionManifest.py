@@ -294,3 +294,33 @@ class BuildActionIoElement(ARObject):
         if value is not None:
             self.sdgs.append(value)
         return self
+
+
+class BuildActionEnvironment(Identifiable):
+    """
+    This meta-class represents the ability to specify a build action environment.
+    """
+
+    # BuildActionEnvironment method parity checklist:
+    # Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 10.4, p.370 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSdgs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSdg       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents a general data structure intended to denote parameters for the BuildActionEnvironment.
+        self.sdgs: List[Sdg] = []
+
+    def getSdgs(self) -> List[Sdg]:
+        """This represents a general data structure intended to denote parameters for the BuildActionEnvironment."""
+        return self.sdgs
+
+    def addSdg(self, value: Optional[Sdg]) -> "BuildActionEnvironment":
+        """This represents a general data structure intended to denote parameters for the BuildActionEnvironment. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.sdgs.append(value)
+        return self

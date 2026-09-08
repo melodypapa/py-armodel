@@ -1,7 +1,7 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator, BuildActionIoElement, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionEnvironment, BuildActionInvocator, BuildActionIoElement, BuildEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, NameToken, RefType, RegularExpression, UriString, VerbatimString
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
@@ -130,3 +130,40 @@ class TestBuildActionIoElement:
         assert obj.getEcucDefinition() is ecuc_definition
         assert obj.getEngineeringObject() is engineering_object
         assert obj.getRole() is role
+
+
+class TestBuildActionEnvironment:
+    def test_docstring_matches_spec_note(self):
+        assert BuildActionEnvironment.__doc__.strip() == ("This meta-class represents the ability to specify a build action environment.")
+
+    def test_direct_base_is_identifiable(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+
+        assert BuildActionEnvironment.__bases__ == (Identifiable,)
+
+    def test_initialization(self):
+        environment = BuildActionEnvironment(AUTOSAR.getInstance(), "Environment")
+        assert environment.getShortName() == "Environment"
+        assert environment.getSdgs() == []
+
+    def test_add_get_sdgs(self):
+        environment = BuildActionEnvironment(AUTOSAR.getInstance(), "Environment")
+        first = Sdg()
+        second = Sdg()
+
+        assert environment.addSdg(first) is environment
+        assert environment.addSdg(second) is environment
+        assert environment.getSdgs() == [first, second]
+
+    def test_add_sdg_none_is_no_op(self):
+        environment = BuildActionEnvironment(AUTOSAR.getInstance(), "Environment")
+
+        assert environment.addSdg(None) is environment
+        assert environment.getSdgs() == []
+
+    def test_accessor_docstrings_match_spec_note(self):
+        note = "This represents a general data structure intended to denote parameters for the BuildActionEnvironment."
+
+        assert BuildActionEnvironment.getSdgs.__doc__.strip() == note
+        assert BuildActionEnvironment.addSdg.__doc__.strip() == (note + " A None value is a no-op and does not append anything.")
+        assert BuildActionEnvironment.__init__.__doc__ is None
