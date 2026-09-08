@@ -24,6 +24,8 @@ class TestBuildActionEntity:
         assert entity.getDeliveryArtifacts() == []
         assert entity.getInvocation() is None
         artifact = AutosarEngineeringObject()
+        assert entity.addDeliveryArtifact(None) is entity
+        assert entity.getDeliveryArtifacts() == []
         assert entity.addDeliveryArtifact(artifact) is entity
         assert entity.setInvocation(None) is entity
         assert entity.getDeliveryArtifacts() == [artifact]

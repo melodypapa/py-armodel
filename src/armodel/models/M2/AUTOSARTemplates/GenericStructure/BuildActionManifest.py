@@ -14,12 +14,13 @@ class BuildActionEntity(Identifiable):
 
     # BuildActionEntity method parity checklist:
     # Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 10.5, p.371 (R23-11)
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
-    # [x] addDeliveryArtifact [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
-    # [x] getDeliveryArtifacts [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
-    # [x] getInvocation     [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
-    # [x] setInvocation     [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer  R23-11
+    # [x] addDeliveryArtifact [x] impl  [x] docstring  [x] test  [x] reader  [ ] writer  R23-11
+    # [x] getDeliveryArtifacts [x] impl  [x] docstring  [x] test  [ ] reader  [x] writer  R23-11
+    # [x] getInvocation     [x] impl  [x] docstring  [x] test  [ ] reader  [x] writer  R23-11
+    # [x] setInvocation     [x] impl  [x] docstring  [x] test  [x] reader  [ ] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is BuildActionEntity:

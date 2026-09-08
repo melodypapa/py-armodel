@@ -4131,6 +4131,7 @@ class ARXMLParser(AbstractARXMLParser):
         return io_element
 
     def readBuildActionEntity(self, element: ET.Element, entity: BuildActionEntity):
+        self.readIdentifiable(element, entity)
         delivery = self.find(element, "DELIVERY-ARTIFACTS")
         if delivery is not None:
             for child in self.findall(delivery, "AUTOSAR-ENGINEERING-OBJECT"):

@@ -1,6 +1,6 @@
 """
 Reader tests for BuildActionInvocator (AUTOSAR_FO_TPS_GenericStructureTemplate Table 10.6)
-and the BuildActionEntity.invocation dispatch (Table 10.5) that consumes it.
+and the BuildActionEntity own attributes + Identifiable leveling (Table 10.5).
 """
 
 import xml.etree.ElementTree as ET
@@ -9,6 +9,7 @@ import pytest
 
 from armodel.models import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator, BuildActionIoElement, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import UriString
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -70,6 +71,67 @@ class TestReadBuildActionEntityInvocation:
         parser.readBuildActionEntity(element, entity)
 
         assert entity.getInvocation() is None
+
+
+class TestReadBuildActionEntityDeliveryArtifacts:
+    def test_read_delivery_artifacts(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "BUILD-ACTION-ENTITY",
+            "<SHORT-NAME>Entity</SHORT-NAME>"
+            "<DELIVERY-ARTIFACTS>"
+            "<AUTOSAR-ENGINEERING-OBJECT>"
+            "<SHORT-LABEL>generated</SHORT-LABEL>"
+            "<CATEGORY>SWSRC</CATEGORY>"
+            "<REVISION-LABELS><REVISION-LABEL>1.0.0</REVISION-LABEL></REVISION-LABELS>"
+            "<DOMAIN>SW</DOMAIN>"
+            "</AUTOSAR-ENGINEERING-OBJECT>"
+            "<AUTOSAR-ENGINEERING-OBJECT><SHORT-LABEL>documentation</SHORT-LABEL></AUTOSAR-ENGINEERING-OBJECT>"
+            "</DELIVERY-ARTIFACTS>",
+        )
+        entity = ConcreteBuildActionEntity(AUTOSAR.getInstance(), "Entity")
+        parser.readBuildActionEntity(element, entity)
+
+        artifacts = entity.getDeliveryArtifacts()
+        assert len(artifacts) == 2
+        assert isinstance(artifacts[0], AutosarEngineeringObject)
+        assert str(artifacts[0].getShortLabel()) == "generated"
+        assert str(artifacts[0].getCategory()) == "SWSRC"
+        assert [str(label) for label in artifacts[0].getRevisionLabels()] == ["1.0.0"]
+        assert str(artifacts[0].getDomain()) == "SW"
+        assert str(artifacts[1].getShortLabel()) == "documentation"
+
+    def test_read_empty_delivery_artifacts_wrapper(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip("BUILD-ACTION-ENTITY", "<SHORT-NAME>Entity</SHORT-NAME><DELIVERY-ARTIFACTS/>")
+        entity = ConcreteBuildActionEntity(AUTOSAR.getInstance(), "Entity")
+        parser.readBuildActionEntity(element, entity)
+
+        assert entity.getDeliveryArtifacts() == []
+
+    def test_read_absent_delivery_artifacts(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip("BUILD-ACTION-ENTITY", "<SHORT-NAME>Entity</SHORT-NAME>")
+        entity = ConcreteBuildActionEntity(AUTOSAR.getInstance(), "Entity")
+        parser.readBuildActionEntity(element, entity)
+
+        assert entity.getDeliveryArtifacts() == []
+
+
+class TestReadBuildActionEntityIdentifiableMembers:
+    def test_read_identifiable_members(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "BUILD-ACTION-ENTITY",
+            "<SHORT-NAME>Entity</SHORT-NAME>" "<DESC><L-2 L='EN'>build action entity</L-2></DESC>" "<CATEGORY>BUILD</CATEGORY>",
+        )
+        element.attrib["UUID"] = "3f2504e0-4f89-11d3-9a0c-0305e82c3301"
+        entity = ConcreteBuildActionEntity(AUTOSAR.getInstance(), "Entity")
+        parser.readBuildActionEntity(element, entity)
+
+        assert str(entity.getCategory()) == "BUILD"
+        assert entity.getUuid().getValue() == "3f2504e0-4f89-11d3-9a0c-0305e82c3301"
+        assert entity.getDesc() is not None
 
 
 class TestReadBuildEngineeringObject:

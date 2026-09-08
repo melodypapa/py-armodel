@@ -5402,6 +5402,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalIdentifier(element, "ROLE", io_element.getRole())
 
     def writeBuildActionEntity(self, element: ET.Element, entity: BuildActionEntity):
+        self.writeIdentifiable(element, entity)
         delivery_artifacts = entity.getDeliveryArtifacts()
         if delivery_artifacts:
             wrapper = ET.SubElement(element, "DELIVERY-ARTIFACTS")
