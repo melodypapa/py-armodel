@@ -1085,6 +1085,75 @@ class TestDependencyUsageEnum:
         assert set(enum.getEnumValues()) == {"build", "codegeneration", "compile", "execute", "link"}
 
 
+class TestImplementationSpecNotes:
+    def test_class_note_is_verbatim(self):
+        assert Implementation.__doc__.strip() == ("Description of an implementation a single software component or module.")
+
+    def test_getter_docstrings_are_verbatim(self):
+        assert Implementation.getBuildActionManifestRef.__doc__.strip() == ("A manifest specifying the intended build actions for the software delivered with this implementation.")
+        assert Implementation.getCodeDescriptors.__doc__.strip() == "Specifies the provided implementation code."
+        assert Implementation.getCompilers.__doc__.strip() == ("Specifies the compiler for which this implementation has been released.")
+        assert Implementation.getGeneratedArtifacts.__doc__.strip() == ("Relates to an artifact that will be generated during the integration of this Implementation by an associated generator tool.")
+        assert Implementation.getHwElementRefs.__doc__.strip() == ("The hardware elements (e.g. the processor) required for this implementation.")
+        assert Implementation.getLinkers.__doc__.strip() == ("Specifies the linker for which this implementation has been released.")
+        assert Implementation.getMcSupport.__doc__.strip() == ("The measurement & calibration support data belonging to this implementation.")
+        assert Implementation.getProgrammingLanguage.__doc__.strip() == ("Programming language the implementation was created in.")
+        assert Implementation.getRequiredArtifacts.__doc__.strip() == ("Specifies that this Implementation depends on the existence of another artifact (e.g. a library).")
+        assert Implementation.getRequiredGeneratorTools.__doc__.strip() == ("Relates this Implementation to a generator tool in order to generate additional artifacts during integration.")
+        assert Implementation.getResourceConsumption.__doc__.strip() == ("All static and dynamic resources for each implementation are described within the ResourceConsumption class.")
+        assert Implementation.getSwcBswMappingRef.__doc__.strip() == (
+            "This allows a mapping between an SWC and a BSW behavior to be attached to an implementation description "
+            "(for AUTOSAR Service, ECU Abstraction and Complex Driver Components). It is up to the methodology to define "
+            "whether this reference has to be set for the Swc- or BswImplementtion or for both."
+        )
+        assert Implementation.getSwVersion.__doc__.strip() == (
+            "Software version of this implementation. The numbering contains three levels (like major, minor, patch), its values are vendor specific."
+        )
+        assert Implementation.getUsedCodeGenerator.__doc__.strip() == "Optional: code generator used."
+        assert Implementation.getVendorId.__doc__.strip() == ("Vendor ID of this Implementation according to the AUTOSAR vendor list.")
+
+    def test_setter_docstrings_are_verbatim(self):
+        assert Implementation.setBuildActionManifestRef.__doc__.strip() == (
+            "A manifest specifying the intended build actions for the software delivered with this implementation. " "A None value is a no-op and does not overwrite the existing reference."
+        )
+        assert Implementation.setMcSupport.__doc__.strip() == (
+            "The measurement & calibration support data belonging to this implementation. " "A None value is a no-op and does not overwrite the existing value."
+        )
+        assert Implementation.setProgrammingLanguage.__doc__.strip() == (
+            "Programming language the implementation was created in. " "A None value is a no-op and does not overwrite the existing value."
+        )
+        assert Implementation.setSwcBswMappingRef.__doc__.strip() == (
+            "This allows a mapping between an SWC and a BSW behavior to be attached to an implementation description "
+            "(for AUTOSAR Service, ECU Abstraction and Complex Driver Components). It is up to the methodology to define "
+            "whether this reference has to be set for the Swc- or BswImplementtion or for both. "
+            "A None value is a no-op and does not overwrite the existing reference."
+        )
+        assert Implementation.setSwVersion.__doc__.strip() == (
+            "Software version of this implementation. The numbering contains three levels (like major, minor, patch), its values are vendor specific. "
+            "A None value is a no-op and does not overwrite the existing version."
+        )
+        assert Implementation.setUsedCodeGenerator.__doc__.strip() == ("Optional: code generator used. A None value is a no-op and does not overwrite the existing value.")
+        assert Implementation.setVendorId.__doc__.strip() == (
+            "Vendor ID of this Implementation according to the AUTOSAR vendor list. " "A None value is a no-op and does not overwrite the existing vendor ID."
+        )
+
+
+class TestImplementationCodeDescriptors:
+    def test_get_code_descriptors_uses_typed_list(self):
+        """getCodeDescriptors must return the dedicated typed list, not filter the generic elements registry (Rule 0004)."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteImplementation(Implementation):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        impl = ConcreteImplementation(ar_root, "TestImplementation")
+        code_desc = impl.createCodeDescriptor("TestCode")
+        assert impl.getCodeDescriptors() is impl.codeDescriptors
+        assert impl.getCodeDescriptors() == [code_desc]
+
+
 class TestProgramminglanguageEnum:
     def test_literals(self):
         """Test ProgramminglanguageEnum literal values per AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 8.2"""

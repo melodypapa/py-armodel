@@ -398,71 +398,61 @@ class Linker(Identifiable):
 
 class Implementation(ARElement, ABC):
     """
-    Abstract base class for implementations in AUTOSAR models.
-    Description of an implementation of a single software component or module.
+    Description of an implementation a single software component or module.
     """
 
     # Implementation method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 8.1, p.621
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getBuildActionManifestRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setBuildActionManifestRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCodeDescriptors               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createCodeDescriptor             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCompilers                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createCompiler                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getGeneratedArtifacts            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createGeneratedArtifact          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getHwElementRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addHwElementRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getLinkers                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createLinker                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMcSupport                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMcSupport                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getProgrammingLanguage           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setProgrammingLanguage           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRequiredArtifacts             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createRequiredArtifact           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRequiredGeneratorTools        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createRequiredGeneratorTool      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getResourceConsumption           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] createResourceConsumption        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwcBswMappingRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwcBswMappingRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSwVersion                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSwVersion                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getUsedCodeGenerator             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setUsedCodeGenerator             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getVendorId                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setVendorId                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 7.1, p.128 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBuildActionManifestRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBuildActionManifestRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCodeDescriptors               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createCodeDescriptor             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCompilers                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createCompiler                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getGeneratedArtifacts            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createGeneratedArtifact          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHwElementRefs                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addHwElementRef                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLinkers                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createLinker                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMcSupport                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMcSupport                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProgrammingLanguage           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProgrammingLanguage           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequiredArtifacts             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createRequiredArtifact           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequiredGeneratorTools        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createRequiredGeneratorTool      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResourceConsumption           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createResourceConsumption        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwcBswMappingRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwcBswMappingRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwVersion                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwVersion                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUsedCodeGenerator             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUsedCodeGenerator             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVendorId                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVendorId                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Spec verified: R23-11
 
     def __init__(self, parent: ARObject, short_name: str) -> None:
-        """
-        Initializes the Implementation with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this implementation
-            short_name: The unique short name of this implementation
-        """
         if type(self) is Implementation:
             raise TypeError("Implementation is an abstract class.")
 
         super().__init__(parent, short_name)
 
-        # A manifest specifying the intended build actions for the software delivered with
-        # this implementation.
+        # A manifest specifying the intended build actions for the software delivered with this implementation.
         self.buildActionManifestRef: Optional[RefType] = None
 
-        # Specifies the provided implementation code. [constr_1968]
+        # Specifies the provided implementation code.
         self.codeDescriptors: List[Code] = []
 
         # Specifies the compiler for which this implementation has been released.
         self.compilers: List[Compiler] = []
 
-        # Relates to an artifact that will be generated during the integration of this
-        # Implementation by an associated generator tool.
+        # Relates to an artifact that will be generated during the integration of this Implementation by an associated generator tool.
         self.generatedArtifacts: List[DependencyOnArtifact] = []
 
         # The hardware elements (e.g. the processor) required for this implementation.
@@ -477,66 +467,40 @@ class Implementation(ARElement, ABC):
         # Programming language the implementation was created in.
         self.programmingLanguage: Optional[ProgramminglanguageEnum] = None
 
-        # Specifies that this Implementation depends on the existence of another artifact
-        # (e.g. a library).
+        # Specifies that this Implementation depends on the existence of another artifact (e.g. a library).
         self.requiredArtifacts: List[DependencyOnArtifact] = []
 
-        # Relates this Implementation to a generator tool in order to generate additional
-        # artifacts during integration.
+        # Relates this Implementation to a generator tool in order to generate additional artifacts during integration.
         self.requiredGeneratorTools: List[DependencyOnArtifact] = []
 
-        # All static and dynamic resources for each implementation are described within the
-        # ResourceConsumption class.
+        # All static and dynamic resources for each implementation are described within the ResourceConsumption class.
         self.resourceConsumption: Optional[ResourceConsumption] = None
 
-        # Allows a mapping between an SWC and a BSW behavior to be attached to an
-        # implementation description.
+        # This allows a mapping between an SWC and a BSW behavior to be attached to an implementation description (for AUTOSAR Service, ECU Abstraction and Complex Driver Components). It is up to the methodology to define whether this reference has to be set for the Swc- or BswImplementtion or for both.
         self.swcBswMappingRef: Optional[RefType] = None
 
-        # Software version of this implementation. The numbering contains three levels
-        # (like major, minor, patch), its values are vendor specific. [constr_1966]
+        # Software version of this implementation. The numbering contains three levels (like major, minor, patch), its values are vendor specific.
         self.swVersion: Optional[RevisionLabelString] = None
 
         # Optional: code generator used.
         self.usedCodeGenerator: Optional[String] = None
 
-        # Vendor ID of this Implementation according to the AUTOSAR vendor list. [constr_1967]
+        # Vendor ID of this Implementation according to the AUTOSAR vendor list.
         self.vendorId: Optional[PositiveInteger] = None
 
     def getBuildActionManifestRef(self) -> Optional[RefType]:
-        """
-        Gets the reference to the manifest specifying the intended build actions for the
-        software delivered with this implementation.
-
-        Returns:
-            RefType: The build action manifest reference
-        """
+        """A manifest specifying the intended build actions for the software delivered with this implementation."""
         return self.buildActionManifestRef
 
     def setBuildActionManifestRef(self, value: Optional[RefType]) -> "Implementation":
-        """
-        Sets the reference to the manifest specifying the intended build actions for the
-        software delivered with this implementation. A None value is a no-op and does not
-        overwrite an existing reference.
-
-        Args:
-            value: The build action manifest reference to set
-
-        Returns:
-            self for method chaining
-        """
+        """A manifest specifying the intended build actions for the software delivered with this implementation. A None value is a no-op and does not overwrite the existing reference."""
         if value is not None:
             self.buildActionManifestRef = value
         return self
 
     def getCodeDescriptors(self) -> List[Code]:
-        """
-        Gets all code descriptors from the elements list in this implementation.
-
-        Returns:
-            List of Code instances in this implementation
-        """
-        return list(filter(lambda a: isinstance(a, Code), self.elements))
+        """Specifies the provided implementation code."""
+        return self.codeDescriptors
 
     def createCodeDescriptor(self, short_name: str) -> Code:
         """
@@ -555,12 +519,7 @@ class Implementation(ARElement, ABC):
         return self.getElement(short_name, Code)
 
     def getCompilers(self) -> List[Compiler]:
-        """
-        Gets the list of compilers for which this implementation has been released.
-
-        Returns:
-            List of Compiler instances
-        """
+        """Specifies the compiler for which this implementation has been released."""
         return self.compilers
 
     def createCompiler(self, short_name: str) -> Compiler:
@@ -580,13 +539,7 @@ class Implementation(ARElement, ABC):
         return self.getElement(short_name, Compiler)
 
     def getGeneratedArtifacts(self) -> List[DependencyOnArtifact]:
-        """
-        Gets the list of artifacts that will be generated during the integration of this
-        Implementation by an associated generator tool.
-
-        Returns:
-            List of DependencyOnArtifact instances
-        """
+        """Relates to an artifact that will be generated during the integration of this Implementation by an associated generator tool."""
         return self.generatedArtifacts
 
     def createGeneratedArtifact(self, short_name: str) -> DependencyOnArtifact:
@@ -606,37 +559,17 @@ class Implementation(ARElement, ABC):
         return self.getElement(short_name, DependencyOnArtifact)
 
     def getHwElementRefs(self) -> List[RefType]:
-        """
-        Gets the list of references to the hardware elements (e.g. the processor) required
-        for this implementation.
-
-        Returns:
-            List of RefType instances
-        """
+        """The hardware elements (e.g. the processor) required for this implementation."""
         return self.hwElementRefs
 
     def addHwElementRef(self, value: Optional[RefType]) -> "Implementation":
-        """
-        Adds a reference to a hardware element (e.g. the processor) required for this
-        implementation. A None value is a no-op and is not appended.
-
-        Args:
-            value: The hardware element reference to add
-
-        Returns:
-            self for method chaining
-        """
+        """The hardware elements (e.g. the processor) required for this implementation. A None value is a no-op and is not appended."""
         if value is not None:
             self.hwElementRefs.append(value)
         return self
 
     def getLinkers(self) -> List[Linker]:
-        """
-        Gets the list of linkers for which this implementation has been released.
-
-        Returns:
-            List of Linker instances
-        """
+        """Specifies the linker for which this implementation has been released."""
         return self.linkers
 
     def createLinker(self, short_name: str) -> Linker:
@@ -656,60 +589,27 @@ class Implementation(ARElement, ABC):
         return self.getElement(short_name, Linker)
 
     def getMcSupport(self) -> Optional[McSupportData]:
-        """
-        Gets the measurement & calibration support data belonging to this implementation.
-
-        Returns:
-            McSupportData: The microcontroller support information
-        """
+        """The measurement & calibration support data belonging to this implementation."""
         return self.mcSupport
 
     def setMcSupport(self, value: Optional[McSupportData]) -> "Implementation":
-        """
-        Sets the measurement & calibration support data belonging to this implementation.
-        A None value is a no-op and does not overwrite the existing value.
-
-        Args:
-            value: The measurement & calibration support data to set
-
-        Returns:
-            self for method chaining
-        """
+        """The measurement & calibration support data belonging to this implementation. A None value is a no-op and does not overwrite the existing value."""
         if value is not None:
             self.mcSupport = value
         return self
 
     def getProgrammingLanguage(self) -> Optional[ProgramminglanguageEnum]:
-        """
-        Gets the programming language in which the implementation was created in.
-
-        Returns:
-            ProgramminglanguageEnum: The programming language
-        """
+        """Programming language the implementation was created in."""
         return self.programmingLanguage
 
     def setProgrammingLanguage(self, value: Optional[ProgramminglanguageEnum]) -> "Implementation":
-        """
-        Sets the programming language in which the implementation was created in.
-        A None value is a no-op and does not overwrite the existing value.
-
-        Args:
-            value: The programming language to set
-
-        Returns:
-            self for method chaining
-        """
+        """Programming language the implementation was created in. A None value is a no-op and does not overwrite the existing value."""
         if value is not None:
             self.programmingLanguage = value
         return self
 
     def getRequiredArtifacts(self) -> List[DependencyOnArtifact]:
-        """
-        Gets the list of artifacts this implementation depends on (e.g. a library).
-
-        Returns:
-            List of DependencyOnArtifact instances
-        """
+        """Specifies that this Implementation depends on the existence of another artifact (e.g. a library)."""
         return self.requiredArtifacts
 
     def createRequiredArtifact(self, short_name: str) -> DependencyOnArtifact:
@@ -729,13 +629,7 @@ class Implementation(ARElement, ABC):
         return self.getElement(short_name, DependencyOnArtifact)
 
     def getRequiredGeneratorTools(self) -> List[DependencyOnArtifact]:
-        """
-        Gets the list of generator tools that generate additional artifacts during
-        integration of this implementation.
-
-        Returns:
-            List of DependencyOnArtifact instances
-        """
+        """Relates this Implementation to a generator tool in order to generate additional artifacts during integration."""
         return self.requiredGeneratorTools
 
     def createRequiredGeneratorTool(self, short_name: str) -> DependencyOnArtifact:
@@ -755,13 +649,7 @@ class Implementation(ARElement, ABC):
         return self.getElement(short_name, DependencyOnArtifact)
 
     def getResourceConsumption(self) -> Optional[ResourceConsumption]:
-        """
-        Gets all static and dynamic resources for each implementation as described within
-        the ResourceConsumption class.
-
-        Returns:
-            ResourceConsumption: The resource consumption information
-        """
+        """All static and dynamic resources for each implementation are described within the ResourceConsumption class."""
         return self.resourceConsumption
 
     def createResourceConsumption(self, short_name: str) -> ResourceConsumption:
@@ -783,101 +671,41 @@ class Implementation(ARElement, ABC):
         return self.getElement(short_name, ResourceConsumption)
 
     def getSwcBswMappingRef(self) -> Optional[RefType]:
-        """
-        Gets the reference to the mapping between an SWC and a BSW behavior attached to an
-        implementation description.
-
-        Returns:
-            RefType: The SWC/BSW mapping reference
-        """
+        """This allows a mapping between an SWC and a BSW behavior to be attached to an implementation description (for AUTOSAR Service, ECU Abstraction and Complex Driver Components). It is up to the methodology to define whether this reference has to be set for the Swc- or BswImplementtion or for both."""
         return self.swcBswMappingRef
 
     def setSwcBswMappingRef(self, value: Optional[RefType]) -> "Implementation":
-        """
-        Sets the reference to the mapping between an SWC and a BSW behavior. A None value
-        is a no-op and does not overwrite the existing reference.
-
-        Args:
-            value: The SWC/BSW mapping reference to set
-
-        Returns:
-            self for method chaining
-        """
+        """This allows a mapping between an SWC and a BSW behavior to be attached to an implementation description (for AUTOSAR Service, ECU Abstraction and Complex Driver Components). It is up to the methodology to define whether this reference has to be set for the Swc- or BswImplementtion or for both. A None value is a no-op and does not overwrite the existing reference."""
         if value is not None:
             self.swcBswMappingRef = value
         return self
 
     def getSwVersion(self) -> Optional[RevisionLabelString]:
-        """
-        Gets the software version of this implementation. The numbering contains three
-        levels (like major, minor, patch), its values are vendor specific. [constr_1966]
-
-        Returns:
-            RevisionLabelString: The software version information
-        """
+        """Software version of this implementation. The numbering contains three levels (like major, minor, patch), its values are vendor specific."""
         return self.swVersion
 
     def setSwVersion(self, value: Optional[RevisionLabelString]) -> "Implementation":
-        """
-        Sets the software version of this implementation. The numbering contains three
-        levels (like major, minor, patch), its values are vendor specific.
-        A None value is a no-op and does not overwrite the existing version. [constr_1966]
-
-        Args:
-            value: The software version to set
-
-        Returns:
-            self for method chaining
-        """
+        """Software version of this implementation. The numbering contains three levels (like major, minor, patch), its values are vendor specific. A None value is a no-op and does not overwrite the existing version."""
         if value is not None:
             self.swVersion = value
         return self
 
     def getUsedCodeGenerator(self) -> Optional[String]:
-        """
-        Gets the optional code generator used for this implementation.
-
-        Returns:
-            String: The used code generator
-        """
+        """Optional: code generator used."""
         return self.usedCodeGenerator
 
     def setUsedCodeGenerator(self, value: Optional[String]) -> "Implementation":
-        """
-        Sets the optional code generator used for this implementation. A None value is a
-        no-op and does not overwrite the existing value.
-
-        Args:
-            value: The used code generator to set
-
-        Returns:
-            self for method chaining
-        """
+        """Optional: code generator used. A None value is a no-op and does not overwrite the existing value."""
         if value is not None:
             self.usedCodeGenerator = value
         return self
 
     def getVendorId(self) -> Optional[PositiveInteger]:
-        """
-        Gets the vendor ID of this Implementation according to the AUTOSAR vendor list.
-        [constr_1967]
-
-        Returns:
-            PositiveInteger: The vendor ID
-        """
+        """Vendor ID of this Implementation according to the AUTOSAR vendor list."""
         return self.vendorId
 
     def setVendorId(self, value: Optional[PositiveInteger]) -> "Implementation":
-        """
-        Sets the vendor ID of this Implementation according to the AUTOSAR vendor list.
-        A None value is a no-op and does not overwrite the existing vendor ID. [constr_1967]
-
-        Args:
-            value: The vendor ID to set
-
-        Returns:
-            self for method chaining
-        """
+        """Vendor ID of this Implementation according to the AUTOSAR vendor list. A None value is a no-op and does not overwrite the existing vendor ID."""
         if value is not None:
             self.vendorId = value
         return self

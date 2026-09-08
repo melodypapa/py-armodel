@@ -92,7 +92,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap, RtePluginProps
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps, ProgramminglanguageEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType, ImplementationDataTypeElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup, McGroupDataRefSet
@@ -3892,7 +3892,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readImplementation(self, element: ET.Element, impl: Implementation):
         self.readIdentifiable(element, impl)
         self.readCodeDescriptor(element, impl)
-        impl.setProgrammingLanguage(self.getChildElementOptionalLiteral(element, "PROGRAMMING-LANGUAGE"))
+        programming_language = self.getChildElementOptionalLiteral(element, "PROGRAMMING-LANGUAGE")
+        if programming_language is not None:
+            enum_value = ProgramminglanguageEnum()
+            enum_value.setValue(programming_language.getText())
+            impl.setProgrammingLanguage(enum_value)
         self.readResourceConsumption(element, impl)
         self.readBuildActionManifests(element, impl)
         self.readCompiler(element, impl)
