@@ -981,18 +981,18 @@ enums → ARObject/Identifiable leaf members → members with their own member t
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `Implementation` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 7.1, p.128 (SWCT Table 8.1, p.621 — same class; the todo's "multiple tables — resolve in per-class Phase 0" is resolved: BSW chapter 7 owns the Implementation cluster) · **last row of the queue**)
+- [x] `Implementation` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 7.1, p.128 (SWCT Table 8.1, p.621 — same class; the todo's "multiple tables — resolve in per-class Phase 0" is resolved: BSW chapter 7 owns the Implementation cluster) · **last row of the queue**) — **finished, stamped `# Spec verified: R23-11`** (commit: e7dfb875)
   - Spec facts (extracted 2026-09-04): abstract; Package = M2::AUTOSARTemplates::CommonStructure::Implementation (file `CommonStructure/Implementation.py` ✓ Rule 0007); Base = ARElement, ARObject, CollectableElement, Identifiable, MultilanguageReferrable, PackageableElement, Referrable → most-derived direct base **ARElement** ✓ heritage already correct in code (`Implementation(ARElement, ABC)`), base **stamped R23-11**; Subclasses = BswImplementation (**stamped**), SwcImplementation (**unstamped** — not queued, subclass edge); Aggregated by ARPackage.element. 15 attributes in Table 7.1 displayed order — `buildActionManifest` (BuildActionManifest, 0..1, ref → queued), `codeDescriptor` (Code, *, aggr → queued), `compiler` (Compiler, *, aggr → queued), `generatedArtifact` (DependencyOnArtifact, *, aggr → queued), `hwElement` (HwElement, *, ref — **stamped R23-11** ✓), `linker` (Linker, *, aggr → queued), `mcSupport` (McSupportData, 0..1, aggr — **stamped R23-11** ✓), `programmingLanguage` (ProgramminglanguageEnum, 0..1, attr → queued), `requiredArtifact` (DependencyOnArtifact, *, aggr → queued), `requiredGeneratorTool` (DependencyOnArtifact, *, aggr → queued), `resourceConsumption` (ResourceConsumption, 0..1, aggr → queued), `swcBswMapping` (SwcBswMapping, 0..1, ref → queued), `swVersion` (RevisionLabelString, 0..1, attr), `usedCodeGenerator` (String, 0..1, attr), `vendorId` (PositiveInteger, 0..1, attr); Note (md, wrap-normalised): "Description of an implementation a single software component or module."
   - Why last: it is the only row with eight queued dependencies. Note `DependencyOnArtifact` covers three attributes and `Trigger`-style XML wrappers may group them — resolve the element names from the XSD in Step 5.
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 
 - [x] `Identifiable` (**known unstamped blocker — gated every `Identifiable`-derived row's stamp per the 2026-09-04 review note; variationPoint mixin refactor resolved (mixin already implemented)** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.4, p.61) — **finished, stamped `# Spec verified: R23-11`** (commit: c17bfbf6)
   - Spec facts: abstract; Package = M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable (file `GenericStructure/GeneralTemplateClasses/Identifiable.py` ✓ Rule 0007); Base = ARObject, MultilanguageReferrable, Referrable → most-derived direct base **MultilanguageReferrable** ✓ heritage already correct; 6 attributes (R23-11 markdown Table 4.4 is an incomplete extraction — only lists `introduction`+`uuid`; the XSD `IDENTIFIABLE` group is authoritative and confirms all 6): `adminData` (AdminData, 0..1, aggr), `annotation`/`annotations` (Annotation, *, aggr), `category` (CategoryString, 0..1, aggr), `desc` (MultiLanguageOverviewParagraph, 0..1, aggr), `introduction` (DocumentationBlock, 0..1, aggr), `uuid` (String, 0..1, attr). Note: "Instances of this class can be referred to by their identifier (within the namespace borders). In addition to this, Identifiables are objects which contribute significantly to the overall structure of an AUTOSAR description. In particular, Identifiables might contain Identifiables."
