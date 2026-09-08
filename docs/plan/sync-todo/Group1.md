@@ -936,17 +936,17 @@ enums → ARObject/Identifiable leaf members → members with their own member t
     - [x] Step 7 — Update checklist comment — six-column parity checklist added in `BuildEngineeringObject` with R23-11 release rows; reader markers on setters and writer markers on getters.
     - [x] Step 8 — Deviations — no remaining deviations. Added the missing `UriString(ARLiteral)` primitive and dedicated optional parser/writer helpers; `intendedFilename` now uses `Optional[UriString]` and preserves the `INTENDED-FILENAME` XML contract. `UriString` is a primitive dependency, not a separate AUTOSAR model-class queue row.
     - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 18 focused tests passed; Ruff, Black, and diff checks clean; 9b user-confirmed the complete compliance checklist; `# Spec verified: R23-11` written. Commit hash recorded below.
- - [ ] `BuildActionIoElement` (**NEW — member type of `BuildAction.createdData` / `inputData` / `modifiedData` · absent from `src/`** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 10.3, p.367)
-    - Spec facts: concrete; Package = `M2::AUTOSARTemplates::GenericStructure::BuildActionManifest`; Base = ARObject; attributes `category` (NameToken, 1, attr), `ecucDefinition` (EcucDefinitionElement, 0..1, ref — stamped R23-11), `engineeringObject` (BuildEngineeringObject, 0..1, aggr), `foreignModelReference` (ForeignModelReference, 0..1, aggr — **Skip confirmed**: no Class table for `ForeignModelReference` in either R23-11 or R4.3.1 corpus, verified via `pdf_page.py` scan across all PDFs in both releases; the XSD only defines an attribute group (`AUTOSAR_00052.xsd` l.62874), never a class table; modeled as a deviation/placeholder, not implemented, per user decision), `sdg` (Sdg, `*`, aggr — stamped R23-11).
-   - [ ] Step 1 — Sync members & description from spec
-   - [ ] Step 2 — Write model class unit test (Red)
-   - [ ] Step 3 — Implement model class (Green)
-   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-   - [ ] Step 5 — Write reader/writer round-trip test (Red)
-   - [ ] Step 6 — Update parser & writer (Green)
-   - [ ] Step 7 — Update checklist comment
-   - [ ] Step 8 — Deviations
-   - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] `BuildActionIoElement` (**NEW — member type of `BuildAction.createdData` / `inputData` / `modifiedData` · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 10.3, p.369 · finished, stamped `# Spec verified: R23-11`**)
+    - Spec facts: concrete; Package = `M2::AUTOSARTemplates::GenericStructure::BuildActionManifest`; Base = ARObject; displayed attributes `category` (NameToken, 1, attr), `ecucDefinition` (EcucDefinitionElement, 0..1, ref — stamped R23-11), `engineeringObject` (BuildEngineeringObject, 0..1, aggr), `foreignModelReference` (ForeignModelReference, 0..1, aggr — confirmed Skip), `role` (Identifier, 0..1, attr), and `sdg` (Sdg, `*`, aggr). `modelObjectReference` is removed in the XSD and not modeled. The implementation/accessor/checklist order omits skipped `foreignModelReference` and is therefore `category`, `ecucDefinition`, `engineeringObject`, `role`, `sdgs`.
+    - [x] Step 1 — Sync members & description from spec — Table 10.3, p.369; markdown displayed order confirmed as `category`, `ecucDefinition`, `engineeringObject`, `foreignModelReference`, `role`, `sdg`; XSD group `BUILD-ACTION-IO-ELEMENT` l.13216 governs XML order; removed `modelObjectReference` confirmed.
+    - [x] Step 2 — Write model class unit test (Red) — model test covers defaults, category, SDG aggregation, ECUC reference, engineering object, role, None guards, and chaining; Red confirmed by missing class import.
+    - [x] Step 3 — Implement model class (Green) — added `BuildActionIoElement(ARObject)` with five active fields in displayed order; `ForeignModelReference` intentionally not modeled per user-confirmed Skip.
+    - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and five active attribute Notes copied from Table 10.3; setter no-op wording appended.
+    - [x] Step 5 — Write reader/writer round-trip test (Red) — parser and writer tests cover active fields, nested engineering object, SDG wrapper, empty element, and absence of skipped foreign reference; Red confirmed by four missing-helper failures.
+    - [x] Step 6 — Update parser & writer (Green) — added matched `readBuildActionIoElement`/`writeBuildActionIoElement` helpers in XSD order; 23 focused tests pass.
+    - [x] Step 7 — Update checklist comment — six-column parity checklist added in `BuildActionIoElement` with R23-11 release rows; reader markers on setters/adders and writer markers on getters.
+    - [x] Step 8 — Deviations — user-confirmed Skip for `ForeignModelReference` (no Class table in R23-11 or R4.3.1; no placeholder field); removed `modelObjectReference` is not modeled. All other active attributes have typed model and reader/writer coverage.
+    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 23 focused tests passed; Ruff, Black, and diff checks clean; 9b user-confirmed the displayed/member/XML ordering, active field coverage, and confirmed `ForeignModelReference` Skip; `# Spec verified: R23-11` written. Commit hash recorded below.
  - [ ] `BuildActionEnvironment` (**NEW — member type of `BuildActionManifest.buildActionEnvironment` · absent from `src/`** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 10.4, p.370)
    - Spec facts: concrete; Package = `M2::AUTOSARTemplates::GenericStructure::BuildActionManifest`; Base = ARObject, AtpBlueprint, AtpBlueprintable, Identifiable, MultilanguageReferrable, Referrable → most-derived direct base `Identifiable`; attribute `sdg` (Sdg, `*`, aggr — stamped R23-11).
    - [ ] Step 1 — Sync members & description from spec

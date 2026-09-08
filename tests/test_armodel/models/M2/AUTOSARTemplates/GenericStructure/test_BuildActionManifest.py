@@ -1,9 +1,9 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator, BuildActionIoElement, BuildEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, RegularExpression, UriString, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, NameToken, RefType, RegularExpression, UriString, VerbatimString
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 
 
@@ -98,3 +98,33 @@ class TestBuildEngineeringObject:
         assert obj.getParentCategory() is parent_category
         assert obj.getParentShortLabel() is parent_short_label
         assert obj.getShortLabelPattern() is short_pattern
+
+
+class TestBuildActionIoElement:
+    def test_initialization_and_accessors(self):
+        obj = BuildActionIoElement()
+        assert obj.getCategory() is None
+        assert obj.getSdgs() == []
+        assert obj.getEcucDefinition() is None
+        assert obj.getEngineeringObject() is None
+        assert obj.getRole() is None
+
+        category = NameToken()
+        category.setValue("ARTIFACT")
+        sdg = Sdg()
+        ecuc_definition = RefType()
+        ecuc_definition.setValue("/Ecuc/Definition")
+        engineering_object = BuildEngineeringObject()
+        role = Identifier()
+        role.setValue("input")
+
+        assert obj.setCategory(category) is obj
+        assert obj.addSdg(sdg) is obj
+        assert obj.setEcucDefinition(ecuc_definition) is obj
+        assert obj.setEngineeringObject(engineering_object) is obj
+        assert obj.setRole(role) is obj
+        assert obj.getCategory() is category
+        assert obj.getSdgs() == [sdg]
+        assert obj.getEcucDefinition() is ecuc_definition
+        assert obj.getEngineeringObject() is engineering_object
+        assert obj.getRole() is role

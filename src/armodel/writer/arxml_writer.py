@@ -257,7 +257,7 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescription
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionIoElement, BuildActionInvocator, BuildEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -5386,6 +5386,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalLiteral(element, "PARENT-SHORT-LABEL", engineering_object.getParentShortLabel())
         self.setChildElementOptionalLiteral(element, "SHORT-LABEL-PATTERN", engineering_object.getShortLabelPattern())
         self.setChildElementOptionalLiteral(element, "FILE-TYPE-PATTERN", engineering_object.getFileTypePattern())
+
+    def writeBuildActionIoElement(self, element: ET.Element, io_element: BuildActionIoElement):
+        self.setChildElementOptionalLiteral(element, "CATEGORY", io_element.getCategory())
+        sdgs = io_element.getSdgs()
+        if sdgs:
+            sdgs_element = ET.SubElement(element, "SDGS")
+            for sdg in sdgs:
+                self.setSdg(sdgs_element, sdg)
+        self.setChildElementOptionalRefType(element, "ECUC-DEFINITION-REF", io_element.getEcucDefinition())
+        engineering_object = io_element.getEngineeringObject()
+        if engineering_object is not None:
+            engineering_object_element = ET.SubElement(element, "ENGINEERING-OBJECT")
+            self.writeBuildEngineeringObject(engineering_object_element, engineering_object)
+        self.setChildElementOptionalIdentifier(element, "ROLE", io_element.getRole())
 
     def writeBuildActionEntity(self, element: ET.Element, entity: BuildActionEntity):
         delivery_artifacts = entity.getDeliveryArtifacts()

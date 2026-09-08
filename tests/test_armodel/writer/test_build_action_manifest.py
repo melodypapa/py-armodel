@@ -8,8 +8,8 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator, BuildEngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, RegularExpression, UriString, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator, BuildActionIoElement, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, RefType, RegularExpression, UriString, VerbatimString
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -115,5 +115,40 @@ class TestWriteBuildEngineeringObject:
         writer = ARXMLWriter()
         element = ET.Element("ENGINEERING-OBJECT")
         writer.writeBuildEngineeringObject(element, BuildEngineeringObject())
+
+        assert list(element) == []
+
+
+class TestWriteBuildActionIoElement:
+    def test_write_active_attributes_without_skipped_foreign_reference(self):
+        writer = ARXMLWriter()
+        obj = BuildActionIoElement()
+        category = VerbatimString()
+        category.setValue("ARTIFACT")
+        role = VerbatimString()
+        role.setValue("input")
+        ref = RefType()
+        ref.setValue("/Ecuc/Definition")
+        engineering_object = BuildEngineeringObject()
+        file_type = NameToken()
+        file_type.setValue("c")
+        engineering_object.setFileType(file_type)
+        obj.setCategory(category).setRole(role).setEcucDefinition(ref).setEngineeringObject(engineering_object)
+        obj.addSdg(Sdg())
+
+        element = ET.Element("BUILD-ACTION-IO-ELEMENT")
+        writer.writeBuildActionIoElement(element, obj)
+
+        assert element.find("CATEGORY").text == "ARTIFACT"
+        assert element.find("SDGS/SDG") is not None
+        assert element.find("ECUC-DEFINITION-REF").text == "/Ecuc/Definition"
+        assert element.find("ENGINEERING-OBJECT/FILE-TYPE").text == "c"
+        assert element.find("ROLE").text == "input"
+        assert element.find("FOREIGN-MODEL-REFERENCE") is None
+
+    def test_write_empty_element(self):
+        writer = ARXMLWriter()
+        element = ET.Element("BUILD-ACTION-IO-ELEMENT")
+        writer.writeBuildActionIoElement(element, BuildActionIoElement())
 
         assert list(element) == []

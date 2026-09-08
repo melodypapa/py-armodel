@@ -3,7 +3,7 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, RegularExpression, UriString, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, NameToken, RefType, RegularExpression, UriString, VerbatimString
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
 
 
@@ -201,4 +201,95 @@ class BuildEngineeringObject(EngineeringObject):
         """This attribute allows to define a set of engineering objects as pattern based search applied to the shortLabel of the individual Engineering objects. A None value is a no-op and does not overwrite an existing shortLabelPattern."""
         if value is not None:
             self.shortLabelPattern = value
+        return self
+
+
+class BuildActionIoElement(ARObject):
+    """
+    This meta-class represents the ability to specify the input/output entities of a BuildAction.
+    """
+
+    # BuildActionIoElement method parity checklist:
+    # Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 10.3, p.369 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCategory         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCategory         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucDefinition   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucDefinition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEngineeringObject [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEngineeringObject [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRole             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRole             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSdgs             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSdg              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This element assigns a category to the parent element. It is intended to specialize the usage and/or the content of the object. Such a specialization may also impose particular semantic constraints on the entire substructure. See also Identifiable.
+        self.category: Optional[NameToken] = None
+
+        # This association denotes an ECUC parameter definition. The such referenced parameters are subject of the build action input/output. Note that the reference to the definition denotes the right for a build action to read and/or write values for the given definition and all contained definitions.
+        self.ecucDefinition: Optional[RefType] = None
+
+        # This represents an artifact applicable to the build action.
+        self.engineeringObject: Optional[BuildEngineeringObject] = None
+
+        # foreignModelReference is intentionally skipped: no Class table exists in the R23-11 or R4.3.1 corpus, so no model field or XML reader/writer is fabricated.
+
+        # This allows to denote a particular role of the collection. Note that the applicable semantics shall be mutually agreed between the two parties.
+        self.role: Optional[Identifier] = None
+
+        # This special data group allows to denote specific data. The structure is subject of mutual agreement.
+        self.sdgs: List[Sdg] = []
+
+    def getCategory(self) -> Optional[NameToken]:
+        """This element assigns a category to the parent element. It is intended to specialize the usage and/or the content of the object. Such a specialization may also impose particular semantic constraints on the entire substructure. See also Identifiable."""
+        return self.category
+
+    def setCategory(self, value: Optional[NameToken]) -> "BuildActionIoElement":
+        """This element assigns a category to the parent element. It is intended to specialize the usage and/or the content of the object. Such a specialization may also impose particular semantic constraints on the entire substructure. See also Identifiable. A None value is a no-op and does not overwrite an existing category."""
+        if value is not None:
+            self.category = value
+        return self
+
+    def getEcucDefinition(self) -> Optional[RefType]:
+        """This association denotes an ECUC parameter definition. The such referenced parameters are subject of the build action input/output. Note that the reference to the definition denotes the right for a build action to read and/or write values for the given definition and all contained definitions."""
+        return self.ecucDefinition
+
+    def setEcucDefinition(self, value: Optional[RefType]) -> "BuildActionIoElement":
+        """This association denotes an ECUC parameter definition. The such referenced parameters are subject of the build action input/output. Note that the reference to the definition denotes the right for a build action to read and/or write values for the given definition and all contained definitions. A None value is a no-op and does not overwrite an existing ecucDefinition."""
+        if value is not None:
+            self.ecucDefinition = value
+        return self
+
+    def getEngineeringObject(self) -> Optional[BuildEngineeringObject]:
+        """This represents an artifact applicable to the build action."""
+        return self.engineeringObject
+
+    def setEngineeringObject(self, value: Optional[BuildEngineeringObject]) -> "BuildActionIoElement":
+        """This represents an artifact applicable to the build action. A None value is a no-op and does not overwrite an existing engineeringObject."""
+        if value is not None:
+            self.engineeringObject = value
+        return self
+
+    def getRole(self) -> Optional[Identifier]:
+        """This allows to denote a particular role of the collection. Note that the applicable semantics shall be mutually agreed between the two parties."""
+        return self.role
+
+    def setRole(self, value: Optional[Identifier]) -> "BuildActionIoElement":
+        """This allows to denote a particular role of the collection. Note that the applicable semantics shall be mutually agreed between the two parties. A None value is a no-op and does not overwrite an existing role."""
+        if value is not None:
+            self.role = value
+        return self
+
+    def getSdgs(self) -> List[Sdg]:
+        """This special data group allows to denote specific data. The structure is subject of mutual agreement."""
+        return self.sdgs
+
+    def addSdg(self, value: Optional[Sdg]) -> "BuildActionIoElement":
+        """This special data group allows to denote specific data. The structure is subject of mutual agreement. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.sdgs.append(value)
         return self

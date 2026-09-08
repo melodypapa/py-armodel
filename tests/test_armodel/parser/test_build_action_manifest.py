@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator, BuildActionIoElement, BuildEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import UriString
 from armodel.parser.arxml_parser import ARXMLParser
 
@@ -100,3 +100,33 @@ class TestReadBuildEngineeringObject:
 
         assert obj.getFileType() is None
         assert obj.getIntendedFilename() is None
+
+
+class TestReadBuildActionIoElement:
+    def test_read_active_attributes_and_skip_foreign_reference(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "BUILD-ACTION-IO-ELEMENT",
+            "<CATEGORY>ARTIFACT</CATEGORY>"
+            "<SDGS><SDG><SD GID='ROLE'>PROCESSOR</SD></SDG></SDGS>"
+            "<ECUC-DEFINITION-REF DEST='ECUC-MODULE-DEF'>/Ecuc/Definition</ECUC-DEFINITION-REF>"
+            "<ENGINEERING-OBJECT><FILE-TYPE>c</FILE-TYPE></ENGINEERING-OBJECT>"
+            "<FOREIGN-MODEL-REFERENCE><VALUE>/foreign</VALUE></FOREIGN-MODEL-REFERENCE>"
+            "<ROLE>input</ROLE>",
+        )
+        obj = parser.readBuildActionIoElement(element, BuildActionIoElement())
+
+        assert str(obj.getCategory()) == "ARTIFACT"
+        assert len(obj.getSdgs()) == 1
+        assert obj.getEcucDefinition().getValue() == "/Ecuc/Definition"
+        assert isinstance(obj.getEngineeringObject(), BuildEngineeringObject)
+        assert str(obj.getRole()) == "input"
+        assert not hasattr(obj, "foreignModelReference")
+
+    def test_read_empty_element(self):
+        parser = ARXMLParser(options={"warning": True})
+        obj = parser.readBuildActionIoElement(_snip("BUILD-ACTION-IO-ELEMENT", ""), BuildActionIoElement())
+
+        assert obj.getCategory() is None
+        assert obj.getSdgs() == []
+        assert obj.getEngineeringObject() is None

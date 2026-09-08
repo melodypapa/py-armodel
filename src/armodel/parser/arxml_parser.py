@@ -363,7 +363,7 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescription
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionInvocator, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionIoElement, BuildActionInvocator, BuildEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -4116,6 +4116,19 @@ class ARXMLParser(AbstractARXMLParser):
         engineering_object.setShortLabelPattern(self.getChildElementOptionalLiteral(element, "SHORT-LABEL-PATTERN"))
         engineering_object.setFileTypePattern(self.getChildElementOptionalLiteral(element, "FILE-TYPE-PATTERN"))
         return engineering_object
+
+    def readBuildActionIoElement(self, element: ET.Element, io_element: BuildActionIoElement) -> BuildActionIoElement:
+        io_element.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        sdgs_element = self.find(element, "SDGS")
+        if sdgs_element is not None:
+            for child in self.findall(sdgs_element, "SDG"):
+                io_element.addSdg(self.getSdg(child))
+        io_element.setEcucDefinition(self.getChildElementOptionalRefType(element, "ECUC-DEFINITION-REF"))
+        engineering_object_element = self.find(element, "ENGINEERING-OBJECT")
+        if engineering_object_element is not None:
+            io_element.setEngineeringObject(self.readBuildEngineeringObject(engineering_object_element, BuildEngineeringObject()))
+        io_element.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
+        return io_element
 
     def readBuildActionEntity(self, element: ET.Element, entity: BuildActionEntity):
         delivery = self.find(element, "DELIVERY-ARTIFACTS")
