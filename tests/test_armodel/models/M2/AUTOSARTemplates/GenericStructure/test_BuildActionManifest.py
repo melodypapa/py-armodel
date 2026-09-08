@@ -1,7 +1,14 @@
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionEnvironment, BuildActionInvocator, BuildActionIoElement, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import (
+    BuildAction,
+    BuildActionEntity,
+    BuildActionEnvironment,
+    BuildActionInvocator,
+    BuildActionIoElement,
+    BuildEngineeringObject,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, NameToken, RefType, RegularExpression, UriString, VerbatimString
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg
@@ -167,3 +174,98 @@ class TestBuildActionEnvironment:
         assert BuildActionEnvironment.getSdgs.__doc__.strip() == note
         assert BuildActionEnvironment.addSdg.__doc__.strip() == (note + " A None value is a no-op and does not append anything.")
         assert BuildActionEnvironment.__init__.__doc__ is None
+
+
+CLASS_NOTE = "This meta-class represents the ability to specify a build action."
+CREATED_DATA_NOTE = "This represents the artifacts which are created by the processor."
+FOLLOW_UP_ACTION_NOTE = "This association specifies a set of follow up actions."
+INPUT_DATA_NOTE = "This represents the artifacts which are read by the processor."
+MODIFIED_DATA_NOTE = "This denotes the data which are modified by the action."
+PREDECESSOR_ACTION_NOTE = "This association specifies a set of predecessors. These actions shall be finished before but necessarily immediately after the given action.. These actions need to be performed in the specified order."
+REQUIRED_ENVIRONMENT_NOTE = "This represents the environment which is required to use the specified Processor."
+NONE_NO_OP = " A None value is a no-op and does not append anything."
+NONE_NO_OP_OVERWRITE = " A None value is a no-op and does not overwrite an existing requiredEnvironmentRef."
+
+
+class TestBuildAction:
+    def test_docstring_matches_spec_note(self):
+        assert BuildAction.__doc__.strip() == CLASS_NOTE
+
+    def test_direct_base_is_build_action_entity(self):
+        assert BuildAction.__bases__ == (BuildActionEntity,)
+
+    def test_initialization(self):
+        action = BuildAction(AUTOSAR.getInstance(), "Action")
+
+        assert action.getShortName() == "Action"
+        assert action.getCreatedDatas() == []
+        assert action.getFollowUpActionRefs() == []
+        assert action.getInputDatas() == []
+        assert action.getModifiedDatas() == []
+        assert action.getPredecessorActionRefs() == []
+        assert action.getRequiredEnvironmentRef() is None
+
+    def test_add_get_lists(self):
+        action = BuildAction(AUTOSAR.getInstance(), "Action")
+        first = BuildActionIoElement()
+        second = BuildActionIoElement()
+        follow_up = RefType()
+        follow_up.setValue("/FollowUp")
+        predecessor = RefType()
+        predecessor.setValue("/Predecessor")
+
+        assert action.addCreatedData(first) is action
+        assert action.addCreatedData(second) is action
+        assert action.getCreatedDatas() == [first, second]
+
+        assert action.addInputData(first) is action
+        assert action.getInputDatas() == [first]
+
+        assert action.addModifiedData(second) is action
+        assert action.getModifiedDatas() == [second]
+
+        assert action.addFollowUpActionRef(follow_up) is action
+        assert action.getFollowUpActionRefs() == [follow_up]
+
+        assert action.addPredecessorActionRef(predecessor) is action
+        assert action.getPredecessorActionRefs() == [predecessor]
+
+    def test_add_none_is_no_op(self):
+        action = BuildAction(AUTOSAR.getInstance(), "Action")
+
+        assert action.addCreatedData(None) is action
+        assert action.getCreatedDatas() == []
+        assert action.addInputData(None) is action
+        assert action.getInputDatas() == []
+        assert action.addModifiedData(None) is action
+        assert action.getModifiedDatas() == []
+        assert action.addFollowUpActionRef(None) is action
+        assert action.getFollowUpActionRefs() == []
+        assert action.addPredecessorActionRef(None) is action
+        assert action.getPredecessorActionRefs() == []
+
+    def test_set_get_required_environment(self):
+        action = BuildAction(AUTOSAR.getInstance(), "Action")
+
+        assert action.setRequiredEnvironmentRef(None) is action
+        assert action.getRequiredEnvironmentRef() is None
+
+        environment = RefType()
+        environment.setValue("/Environment")
+        assert action.setRequiredEnvironmentRef(environment) is action
+        assert action.getRequiredEnvironmentRef() is environment
+
+    def test_accessor_docstrings_match_spec_note(self):
+        assert BuildAction.getCreatedDatas.__doc__.strip() == CREATED_DATA_NOTE
+        assert BuildAction.addCreatedData.__doc__.strip() == CREATED_DATA_NOTE + NONE_NO_OP
+        assert BuildAction.getFollowUpActionRefs.__doc__.strip() == FOLLOW_UP_ACTION_NOTE
+        assert BuildAction.addFollowUpActionRef.__doc__.strip() == FOLLOW_UP_ACTION_NOTE + NONE_NO_OP
+        assert BuildAction.getInputDatas.__doc__.strip() == INPUT_DATA_NOTE
+        assert BuildAction.addInputData.__doc__.strip() == INPUT_DATA_NOTE + NONE_NO_OP
+        assert BuildAction.getModifiedDatas.__doc__.strip() == MODIFIED_DATA_NOTE
+        assert BuildAction.addModifiedData.__doc__.strip() == MODIFIED_DATA_NOTE + NONE_NO_OP
+        assert BuildAction.getPredecessorActionRefs.__doc__.strip() == PREDECESSOR_ACTION_NOTE
+        assert BuildAction.addPredecessorActionRef.__doc__.strip() == PREDECESSOR_ACTION_NOTE + NONE_NO_OP
+        assert BuildAction.getRequiredEnvironmentRef.__doc__.strip() == REQUIRED_ENVIRONMENT_NOTE
+        assert BuildAction.setRequiredEnvironmentRef.__doc__.strip() == REQUIRED_ENVIRONMENT_NOTE + NONE_NO_OP_OVERWRITE
+        assert BuildAction.__init__.__doc__ is None

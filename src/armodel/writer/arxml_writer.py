@@ -257,7 +257,14 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescription
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionEnvironment, BuildActionIoElement, BuildActionInvocator, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import (
+    BuildAction,
+    BuildActionEntity,
+    BuildActionEnvironment,
+    BuildActionIoElement,
+    BuildActionInvocator,
+    BuildEngineeringObject,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -5408,6 +5415,37 @@ class ARXMLWriter(AbstractARXMLWriter):
             sdgs_element = ET.SubElement(element, "SDGS")
             for sdg in sdgs:
                 self.setSdg(sdgs_element, sdg)
+
+    def writeBuildAction(self, element: ET.Element, action: BuildAction):
+        self.writeBuildActionEntity(element, action)
+        predecessors = action.getPredecessorActionRefs()
+        if predecessors:
+            predecessors_element = ET.SubElement(element, "PREDECESSOR-ACTION-REFS")
+            for ref in predecessors:
+                self.setChildElementOptionalRefType(predecessors_element, "PREDECESSOR-ACTION-REF", ref)
+        follow_ups = action.getFollowUpActionRefs()
+        if follow_ups:
+            follow_ups_element = ET.SubElement(element, "FOLLOW-UP-ACTION-REFS")
+            for ref in follow_ups:
+                self.setChildElementOptionalRefType(follow_ups_element, "FOLLOW-UP-ACTION-REF", ref)
+        created_datas = action.getCreatedDatas()
+        if created_datas:
+            created_datas_element = ET.SubElement(element, "CREATED-DATAS")
+            for data in created_datas:
+                self.writeBuildActionIoElement(ET.SubElement(created_datas_element, "BUILD-ACTION-IO-ELEMENT"), data)
+        input_datas = action.getInputDatas()
+        if input_datas:
+            input_datas_element = ET.SubElement(element, "INPUT-DATAS")
+            for data in input_datas:
+                self.writeBuildActionIoElement(ET.SubElement(input_datas_element, "BUILD-ACTION-IO-ELEMENT"), data)
+        modified_datas = action.getModifiedDatas()
+        if modified_datas:
+            modified_datas_element = ET.SubElement(element, "MODIFIED-DATAS")
+            for data in modified_datas:
+                self.writeBuildActionIoElement(ET.SubElement(modified_datas_element, "BUILD-ACTION-IO-ELEMENT"), data)
+        required_environment = action.getRequiredEnvironmentRef()
+        if required_environment is not None:
+            self.setChildElementOptionalRefType(element, "REQUIRED-ENVIRONMENT-REF", required_environment)
 
     def writeBuildActionEntity(self, element: ET.Element, entity: BuildActionEntity):
         self.writeIdentifiable(element, entity)

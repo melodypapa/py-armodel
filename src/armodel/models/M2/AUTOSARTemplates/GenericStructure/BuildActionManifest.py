@@ -324,3 +324,108 @@ class BuildActionEnvironment(Identifiable):
         if value is not None:
             self.sdgs.append(value)
         return self
+
+
+class BuildAction(BuildActionEntity):
+    """
+    This meta-class represents the ability to specify a build action.
+    """
+
+    # BuildAction method parity checklist:
+    # Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 10.2, p.366 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCreatedData             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCreatedDatas            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addFollowUpActionRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFollowUpActionRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addInputData               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInputDatas              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addModifiedData            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModifiedDatas           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPredecessorActionRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPredecessorActionRefs   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRequiredEnvironmentRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequiredEnvironmentRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents the artifacts which are created by the processor.
+        self.createdDatas: List[BuildActionIoElement] = []
+
+        # This association specifies a set of follow up actions.
+        self.followUpActionRefs: List[RefType] = []
+
+        # This represents the artifacts which are read by the processor.
+        self.inputDatas: List[BuildActionIoElement] = []
+
+        # This denotes the data which are modified by the action.
+        self.modifiedDatas: List[BuildActionIoElement] = []
+
+        # This association specifies a set of predecessors. These actions shall be finished before but necessarily immediately after the given action.. These actions need to be performed in the specified order.
+        self.predecessorActionRefs: List[RefType] = []
+
+        # This represents the environment which is required to use the specified Processor.
+        self.requiredEnvironmentRef: Optional[RefType] = None
+
+    def addCreatedData(self, value: Optional[BuildActionIoElement]) -> "BuildAction":
+        """This represents the artifacts which are created by the processor. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.createdDatas.append(value)
+        return self
+
+    def getCreatedDatas(self) -> List[BuildActionIoElement]:
+        """This represents the artifacts which are created by the processor."""
+        return self.createdDatas
+
+    def addFollowUpActionRef(self, value: Optional[RefType]) -> "BuildAction":
+        """This association specifies a set of follow up actions. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.followUpActionRefs.append(value)
+        return self
+
+    def getFollowUpActionRefs(self) -> List[RefType]:
+        """This association specifies a set of follow up actions."""
+        return self.followUpActionRefs
+
+    def addInputData(self, value: Optional[BuildActionIoElement]) -> "BuildAction":
+        """This represents the artifacts which are read by the processor. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.inputDatas.append(value)
+        return self
+
+    def getInputDatas(self) -> List[BuildActionIoElement]:
+        """This represents the artifacts which are read by the processor."""
+        return self.inputDatas
+
+    def addModifiedData(self, value: Optional[BuildActionIoElement]) -> "BuildAction":
+        """This denotes the data which are modified by the action. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.modifiedDatas.append(value)
+        return self
+
+    def getModifiedDatas(self) -> List[BuildActionIoElement]:
+        """This denotes the data which are modified by the action."""
+        return self.modifiedDatas
+
+    def addPredecessorActionRef(self, value: Optional[RefType]) -> "BuildAction":
+        """This association specifies a set of predecessors. These actions shall be finished before but necessarily immediately after the given action.. These actions need to be performed in the specified order. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.predecessorActionRefs.append(value)
+        return self
+
+    def getPredecessorActionRefs(self) -> List[RefType]:
+        """This association specifies a set of predecessors. These actions shall be finished before but necessarily immediately after the given action.. These actions need to be performed in the specified order."""
+        return self.predecessorActionRefs
+
+    def getRequiredEnvironmentRef(self) -> Optional[RefType]:
+        """This represents the environment which is required to use the specified Processor."""
+        return self.requiredEnvironmentRef
+
+    def setRequiredEnvironmentRef(self, value: Optional[RefType]) -> "BuildAction":
+        """This represents the environment which is required to use the specified Processor. A None value is a no-op and does not overwrite an existing requiredEnvironmentRef."""
+        if value is not None:
+            self.requiredEnvironmentRef = value
+        return self

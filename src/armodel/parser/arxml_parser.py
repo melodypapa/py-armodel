@@ -363,7 +363,14 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescription
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionEnvironment, BuildActionIoElement, BuildActionInvocator, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import (
+    BuildAction,
+    BuildActionEntity,
+    BuildActionEnvironment,
+    BuildActionIoElement,
+    BuildActionInvocator,
+    BuildEngineeringObject,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -4141,6 +4148,31 @@ class ARXMLParser(AbstractARXMLParser):
             for child in self.findall(sdgs_element, "SDG"):
                 environment.addSdg(self.getSdg(child))
         return environment
+
+    def readBuildAction(self, element: ET.Element, action: BuildAction) -> BuildAction:
+        self.readBuildActionEntity(element, action)
+        predecessors_element = self.find(element, "PREDECESSOR-ACTION-REFS")
+        if predecessors_element is not None:
+            for ref in self.getChildElementRefTypeList(predecessors_element, "PREDECESSOR-ACTION-REF"):
+                action.addPredecessorActionRef(ref)
+        follow_ups_element = self.find(element, "FOLLOW-UP-ACTION-REFS")
+        if follow_ups_element is not None:
+            for ref in self.getChildElementRefTypeList(follow_ups_element, "FOLLOW-UP-ACTION-REF"):
+                action.addFollowUpActionRef(ref)
+        created_datas_element = self.find(element, "CREATED-DATAS")
+        if created_datas_element is not None:
+            for child in self.findall(created_datas_element, "BUILD-ACTION-IO-ELEMENT"):
+                action.addCreatedData(self.readBuildActionIoElement(child, BuildActionIoElement()))
+        input_datas_element = self.find(element, "INPUT-DATAS")
+        if input_datas_element is not None:
+            for child in self.findall(input_datas_element, "BUILD-ACTION-IO-ELEMENT"):
+                action.addInputData(self.readBuildActionIoElement(child, BuildActionIoElement()))
+        modified_datas_element = self.find(element, "MODIFIED-DATAS")
+        if modified_datas_element is not None:
+            for child in self.findall(modified_datas_element, "BUILD-ACTION-IO-ELEMENT"):
+                action.addModifiedData(self.readBuildActionIoElement(child, BuildActionIoElement()))
+        action.setRequiredEnvironmentRef(self.getChildElementOptionalRefType(element, "REQUIRED-ENVIRONMENT-REF"))
+        return action
 
     def readBuildActionEntity(self, element: ET.Element, entity: BuildActionEntity):
         self.readIdentifiable(element, entity)

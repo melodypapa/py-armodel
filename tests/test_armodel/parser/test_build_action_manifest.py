@@ -9,7 +9,14 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionEnvironment, BuildActionInvocator, BuildActionIoElement, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import (
+    BuildAction,
+    BuildActionEntity,
+    BuildActionEnvironment,
+    BuildActionInvocator,
+    BuildActionIoElement,
+    BuildEngineeringObject,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import UriString
 from armodel.parser.arxml_parser import ARXMLParser
@@ -236,3 +243,75 @@ class TestReadBuildActionEnvironment:
 
         assert environment.getSdgs() == []
         assert environment.getCategory() is None
+
+
+class TestReadBuildAction:
+    def test_read_all_members(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "BUILD-ACTION",
+            "<SHORT-NAME>Action</SHORT-NAME>"
+            "<DESC><L-2 L='EN'>build action</L-2></DESC>"
+            "<CATEGORY>BUILD</CATEGORY>"
+            "<PREDECESSOR-ACTION-REFS>"
+            "<PREDECESSOR-ACTION-REF DEST='BUILD-ACTION'>/first</PREDECESSOR-ACTION-REF>"
+            "<PREDECESSOR-ACTION-REF DEST='BUILD-ACTION'>/second</PREDECESSOR-ACTION-REF>"
+            "</PREDECESSOR-ACTION-REFS>"
+            "<FOLLOW-UP-ACTION-REFS>"
+            "<FOLLOW-UP-ACTION-REF DEST='BUILD-ACTION'>/next</FOLLOW-UP-ACTION-REF>"
+            "</FOLLOW-UP-ACTION-REFS>"
+            "<CREATED-DATAS>"
+            "<BUILD-ACTION-IO-ELEMENT><ROLE>created-one</ROLE></BUILD-ACTION-IO-ELEMENT>"
+            "<BUILD-ACTION-IO-ELEMENT><ROLE>created-two</ROLE></BUILD-ACTION-IO-ELEMENT>"
+            "</CREATED-DATAS>"
+            "<INPUT-DATAS><BUILD-ACTION-IO-ELEMENT><ROLE>input-one</ROLE></BUILD-ACTION-IO-ELEMENT></INPUT-DATAS>"
+            "<MODIFIED-DATAS><BUILD-ACTION-IO-ELEMENT><ROLE>modified-one</ROLE></BUILD-ACTION-IO-ELEMENT></MODIFIED-DATAS>"
+            "<REQUIRED-ENVIRONMENT-REF DEST='BUILD-ACTION-ENVIRONMENT'>/Environment</REQUIRED-ENVIRONMENT-REF>",
+        )
+        element.attrib["UUID"] = "3f2504e0-4f89-11d3-9a0c-0305e82c3303"
+        action = BuildAction(AUTOSAR.getInstance(), "Action")
+        parser.readBuildAction(element, action)
+
+        # Identifiable leveling (inherited through BuildActionEntity)
+        assert str(action.getCategory()) == "BUILD"
+        assert action.getUuid().getValue() == "3f2504e0-4f89-11d3-9a0c-0305e82c3303"
+        assert action.getDesc() is not None
+
+        # BuildAction own attributes
+        assert [ref.getValue() for ref in action.getPredecessorActionRefs()] == ["/first", "/second"]
+        assert [ref.getValue() for ref in action.getFollowUpActionRefs()] == ["/next"]
+        assert [str(data.getRole()) for data in action.getCreatedDatas()] == ["created-one", "created-two"]
+        assert [str(data.getRole()) for data in action.getInputDatas()] == ["input-one"]
+        assert [str(data.getRole()) for data in action.getModifiedDatas()] == ["modified-one"]
+        assert isinstance(action.getCreatedDatas()[0], BuildActionIoElement)
+        assert action.getRequiredEnvironmentRef().getValue() == "/Environment"
+
+    def test_read_empty_wrappers(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "BUILD-ACTION",
+            "<SHORT-NAME>Action</SHORT-NAME>" "<PREDECESSOR-ACTION-REFS/>" "<FOLLOW-UP-ACTION-REFS/>" "<CREATED-DATAS/>" "<INPUT-DATAS/>" "<MODIFIED-DATAS/>",
+        )
+        action = BuildAction(AUTOSAR.getInstance(), "Action")
+        parser.readBuildAction(element, action)
+
+        assert action.getPredecessorActionRefs() == []
+        assert action.getFollowUpActionRefs() == []
+        assert action.getCreatedDatas() == []
+        assert action.getInputDatas() == []
+        assert action.getModifiedDatas() == []
+        assert action.getRequiredEnvironmentRef() is None
+
+    def test_read_absent_wrappers(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip("BUILD-ACTION", "<SHORT-NAME>Action</SHORT-NAME>")
+        action = BuildAction(AUTOSAR.getInstance(), "Action")
+        parser.readBuildAction(element, action)
+
+        assert action.getPredecessorActionRefs() == []
+        assert action.getFollowUpActionRefs() == []
+        assert action.getCreatedDatas() == []
+        assert action.getInputDatas() == []
+        assert action.getModifiedDatas() == []
+        assert action.getRequiredEnvironmentRef() is None
+        assert action.getCategory() is None

@@ -9,9 +9,25 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from armodel.models import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionEntity, BuildActionEnvironment, BuildActionInvocator, BuildActionIoElement, BuildEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import (
+    BuildAction,
+    BuildActionEntity,
+    BuildActionEnvironment,
+    BuildActionInvocator,
+    BuildActionIoElement,
+    BuildEngineeringObject,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, RefType, RegularExpression, RevisionLabelString, String, UriString, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    Identifier,
+    NameToken,
+    RefType,
+    RegularExpression,
+    RevisionLabelString,
+    String,
+    UriString,
+    VerbatimString,
+)
 from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdg, SdgContents
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -375,3 +391,115 @@ class TestBuildActionEnvironmentRoundTrip:
 
         assert reloaded.getSdgs() == []
         assert reloaded.getCategory() is None
+
+
+def _io_element(role: str) -> BuildActionIoElement:
+    element = BuildActionIoElement()
+    role_value = Identifier()
+    role_value.setValue(role)
+    element.setRole(role_value)
+    return element
+
+
+def _ref(value: str) -> RefType:
+    reference = RefType()
+    reference.setValue(value)
+    return reference
+
+
+class TestWriteBuildAction:
+    def test_write_all_members(self):
+        writer = ARXMLWriter()
+        action = BuildAction(AUTOSAR.getInstance(), "Action")
+        action.addPredecessorActionRef(_ref("/first"))
+        action.addPredecessorActionRef(_ref("/second"))
+        action.addFollowUpActionRef(_ref("/next"))
+        action.addCreatedData(_io_element("created-one"))
+        action.addCreatedData(_io_element("created-two"))
+        action.addInputData(_io_element("input-one"))
+        action.addModifiedData(_io_element("modified-one"))
+        action.setRequiredEnvironmentRef(_ref("/Environment"))
+
+        element = ET.Element("BUILD-ACTION")
+        writer.writeBuildAction(element, action)
+
+        predecessors = element.findall("PREDECESSOR-ACTION-REFS/PREDECESSOR-ACTION-REF")
+        assert [ref.text for ref in predecessors] == ["/first", "/second"]
+        follow_ups = element.findall("FOLLOW-UP-ACTION-REFS/FOLLOW-UP-ACTION-REF")
+        assert [ref.text for ref in follow_ups] == ["/next"]
+        created = element.findall("CREATED-DATAS/BUILD-ACTION-IO-ELEMENT")
+        assert [item.find("ROLE").text for item in created] == ["created-one", "created-two"]
+        inputs = element.findall("INPUT-DATAS/BUILD-ACTION-IO-ELEMENT")
+        assert [item.find("ROLE").text for item in inputs] == ["input-one"]
+        modified = element.findall("MODIFIED-DATAS/BUILD-ACTION-IO-ELEMENT")
+        assert [item.find("ROLE").text for item in modified] == ["modified-one"]
+        assert element.find("REQUIRED-ENVIRONMENT-REF").text == "/Environment"
+
+    def test_write_empty_action_omits_wrappers(self):
+        writer = ARXMLWriter()
+        action = BuildAction(AUTOSAR.getInstance(), "Action")
+
+        element = ET.Element("BUILD-ACTION")
+        writer.writeBuildAction(element, action)
+        serialized = ET.tostring(element, encoding="unicode")
+
+        assert "PREDECESSOR-ACTION-REFS" not in serialized
+        assert "FOLLOW-UP-ACTION-REFS" not in serialized
+        assert "CREATED-DATAS" not in serialized
+        assert "INPUT-DATAS" not in serialized
+        assert "MODIFIED-DATAS" not in serialized
+        assert "REQUIRED-ENVIRONMENT-REF" not in serialized
+
+
+class TestBuildActionRoundTrip:
+    def test_round_trip_preserves_values(self):
+        writer = ARXMLWriter()
+        parser = ARXMLParser(options={"warning": True})
+        action = BuildAction(AUTOSAR.getInstance(), "Action")
+        action.addPredecessorActionRef(_ref("/first"))
+        action.addPredecessorActionRef(_ref("/second"))
+        action.addFollowUpActionRef(_ref("/next"))
+        action.addCreatedData(_io_element("created-one"))
+        action.addCreatedData(_io_element("created-two"))
+        action.addInputData(_io_element("input-one"))
+        action.addModifiedData(_io_element("modified-one"))
+        action.setRequiredEnvironmentRef(_ref("/Environment"))
+
+        element = ET.Element("BUILD-ACTION")
+        writer.writeBuildAction(element, action)
+
+        reloaded_element = _namespaced_wrap(element)
+        AUTOSAR.getInstance().new()
+        reloaded = BuildAction(AUTOSAR.getInstance(), "Action")
+        parser.readBuildAction(reloaded_element, reloaded)
+
+        assert [ref.getValue() for ref in reloaded.getPredecessorActionRefs()] == ["/first", "/second"]
+        assert [ref.getValue() for ref in reloaded.getFollowUpActionRefs()] == ["/next"]
+        assert [str(data.getRole()) for data in reloaded.getCreatedDatas()] == ["created-one", "created-two"]
+        assert [str(data.getRole()) for data in reloaded.getInputDatas()] == ["input-one"]
+        assert [str(data.getRole()) for data in reloaded.getModifiedDatas()] == ["modified-one"]
+        assert reloaded.getRequiredEnvironmentRef().getValue() == "/Environment"
+
+    def test_round_trip_empty_action_omits_wrappers(self):
+        writer = ARXMLWriter()
+        parser = ARXMLParser(options={"warning": True})
+        action = BuildAction(AUTOSAR.getInstance(), "Action")
+
+        element = ET.Element("BUILD-ACTION")
+        writer.writeBuildAction(element, action)
+        serialized = ET.tostring(element, encoding="unicode")
+
+        assert "PREDECESSOR-ACTION-REFS" not in serialized
+        assert "REQUIRED-ENVIRONMENT-REF" not in serialized
+
+        reloaded_element = _namespaced_wrap(element)
+        AUTOSAR.getInstance().new()
+        reloaded = BuildAction(AUTOSAR.getInstance(), "Action")
+        parser.readBuildAction(reloaded_element, reloaded)
+
+        assert reloaded.getPredecessorActionRefs() == []
+        assert reloaded.getFollowUpActionRefs() == []
+        assert reloaded.getCreatedDatas() == []
+        assert reloaded.getInputDatas() == []
+        assert reloaded.getModifiedDatas() == []
+        assert reloaded.getRequiredEnvironmentRef() is None
