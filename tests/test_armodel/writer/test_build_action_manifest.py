@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
     BuildActionEnvironment,
     BuildActionInvocator,
     BuildActionIoElement,
+    BuildActionManifest,
     BuildEngineeringObject,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
@@ -296,6 +297,33 @@ class TestWriteBuildActionIoElement:
         writer.writeBuildActionIoElement(element, BuildActionIoElement())
 
         assert list(element) == []
+
+
+class TestWriteBuildActionManifest:
+    def test_write_all_members_in_xsd_order(self):
+        writer = ARXMLWriter()
+        manifest = BuildActionManifest(AUTOSAR.getInstance(), "Manifest")
+        start = RefType()
+        start.setValue("/Start")
+        tear_down = RefType()
+        tear_down.setValue("/Tear")
+        dynamic = RefType()
+        dynamic.setValue("/Dynamic")
+        manifest.addStartActionRef(start).addTearDownActionRef(tear_down)
+        manifest.createBuildAction("Action")
+        manifest.createBuildActionEnvironment("Environment")
+        manifest.addDynamicActionRef(dynamic)
+        element = ET.Element("BUILD-ACTION-MANIFEST")
+        writer.writeBuildActionManifest(element, manifest)
+        assert [child.tag for child in element] == ["SHORT-NAME", "START-ACTION-REFS", "TEAR-DOWN-ACTION-REFS", "BUILD-ACTIONS", "BUILD-ACTION-ENVIRONMENTS", "DYNAMIC-ACTION-REFS"]
+        assert element.find("START-ACTION-REFS/START-ACTION-REF").text == "/Start"
+        assert element.find("BUILD-ACTIONS/BUILD-ACTION/SHORT-NAME").text == "Action"
+
+    def test_write_empty_manifest_omits_wrappers(self):
+        writer = ARXMLWriter()
+        element = ET.Element("BUILD-ACTION-MANIFEST")
+        writer.writeBuildActionManifest(element, BuildActionManifest(AUTOSAR.getInstance(), "Manifest"))
+        assert [child.tag for child in element] == ["SHORT-NAME"]
 
 
 def _sdg(gid: str, sd_gid: str, sd_value: str) -> Sdg:

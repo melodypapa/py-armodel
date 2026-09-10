@@ -134,6 +134,7 @@ __all__ = [
     "FirewallRule",
     "StateDependentFirewall",
     "FlatMap",
+    "BuildActionManifest",
     "FlexrayCluster",
     "FlexrayFrame",
     "Gateway",
@@ -1181,6 +1182,12 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(map)
         return self.getElement(short_name, FlatMap)
 
+    def createBuildActionManifest(self, short_name: str) -> "BuildActionManifest":
+        if not self.IsElementExists(short_name, BuildActionManifest):
+            manifest = BuildActionManifest(self, short_name)
+            self.addElement(manifest)
+        return self.getElement(short_name, BuildActionManifest)
+
     def createPortInterfaceMappingSet(self, short_name: str) -> PortInterfaceMappingSet:
 
         if not self.IsElementExists(short_name, PortInterfaceMappingSet):
@@ -1846,7 +1853,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (  #
     MultilanguageLongName,
 )
 
-# Bind Collection's real base (ARElement) now that this module is fully defined. Collection is
+# Bind late-defined element bases now that this module is fully defined. Collection is
 # declared in ElementCollection with a placeholder base to avoid an import cycle: ElementCollection
 # is imported for CollectableElement at class-definition time (PackageableElement re-parents to
 # CollectableElement), and Collection's spec base ARElement lives here, so binding it here keeps
@@ -1854,3 +1861,6 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import (  #
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection  # noqa: E402
 
 Collection.__bases__ = (ARElement,)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionManifest  # noqa: E402
+
+BuildActionManifest.__bases__ = (ARElement,)

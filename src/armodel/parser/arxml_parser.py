@@ -367,6 +367,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
     BuildAction,
     BuildActionEntity,
     BuildActionEnvironment,
+    BuildActionManifest,
     BuildActionIoElement,
     BuildActionInvocator,
     BuildEngineeringObject,
@@ -4173,6 +4174,22 @@ class ARXMLParser(AbstractARXMLParser):
                 action.addModifiedData(self.readBuildActionIoElement(child, BuildActionIoElement()))
         action.setRequiredEnvironmentRef(self.getChildElementOptionalRefType(element, "REQUIRED-ENVIRONMENT-REF"))
         return action
+
+    def readBuildActionManifest(self, element: ET.Element, manifest: BuildActionManifest) -> BuildActionManifest:
+        self.readIdentifiable(element, manifest)
+        for ref in self.getChildElementRefTypeList(element, "START-ACTION-REFS/START-ACTION-REF"):
+            manifest.addStartActionRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "TEAR-DOWN-ACTION-REFS/TEAR-DOWN-ACTION-REF"):
+            manifest.addTearDownActionRef(ref)
+        for child in self.findall(element, "BUILD-ACTIONS/BUILD-ACTION"):
+            action = manifest.createBuildAction(self.getShortName(child))
+            self.readBuildAction(child, action)
+        for child in self.findall(element, "BUILD-ACTION-ENVIRONMENTS/BUILD-ACTION-ENVIRONMENT"):
+            environment = manifest.createBuildActionEnvironment(self.getShortName(child))
+            self.readBuildActionEnvironment(child, environment)
+        for ref in self.getChildElementRefTypeList(element, "DYNAMIC-ACTION-REFS/DYNAMIC-ACTION-REF"):
+            manifest.addDynamicActionRef(ref)
+        return manifest
 
     def readBuildActionEntity(self, element: ET.Element, entity: BuildActionEntity):
         self.readIdentifiable(element, entity)
@@ -11344,6 +11361,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "COLLECTION":
                 collection = parent.createCollection(self.getShortName(child_element))
                 self.readCollection(child_element, collection)
+            elif tag_name == "BUILD-ACTION-MANIFEST":
+                manifest = parent.createBuildActionManifest(self.getShortName(child_element))
+                self.readBuildActionManifest(child_element, manifest)
             elif tag_name == "DATA-PROTOTYPE-GROUP":
                 data_group = parent.createDataPrototypeGroup(self.getShortName(child_element))
                 self.readDataPrototypeGroup(child_element, data_group)

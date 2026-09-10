@@ -269,3 +269,47 @@ class TestBuildAction:
         assert BuildAction.getRequiredEnvironmentRef.__doc__.strip() == REQUIRED_ENVIRONMENT_NOTE
         assert BuildAction.setRequiredEnvironmentRef.__doc__.strip() == REQUIRED_ENVIRONMENT_NOTE + NONE_NO_OP_OVERWRITE
         assert BuildAction.__init__.__doc__ is None
+
+
+class TestBuildActionManifest:
+    def test_initialization_and_accessors(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionManifest
+
+        manifest = BuildActionManifest(AUTOSAR.getInstance(), "Manifest")
+        assert manifest.getShortName() == "Manifest"
+        assert manifest.getBuildActions() == []
+        assert manifest.getBuildActionEnvironments() == []
+        assert manifest.getDynamicActionRefs() == []
+        assert manifest.getStartActionRefs() == []
+        assert manifest.getTearDownActionRefs() == []
+
+    def test_add_get_members_and_none_guards(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionManifest
+
+        manifest = BuildActionManifest(AUTOSAR.getInstance(), "Manifest")
+        ref = RefType()
+        ref.setValue("/Action")
+
+        action = manifest.createBuildAction("Action")
+        environment = manifest.createBuildActionEnvironment("Environment")
+        assert manifest.createBuildAction("Action") is action
+        assert manifest.createBuildActionEnvironment("Environment") is environment
+        assert manifest.addDynamicActionRef(ref) is manifest
+        assert manifest.addStartActionRef(ref) is manifest
+        assert manifest.addTearDownActionRef(ref) is manifest
+        assert len(manifest.getBuildActions()) == 1
+        assert len(manifest.getBuildActionEnvironments()) == 1
+        assert manifest.getDynamicActionRefs() == [ref]
+        assert manifest.getStartActionRefs() == [ref]
+        assert manifest.getTearDownActionRefs() == [ref]
+        assert manifest.addDynamicActionRef(None) is manifest
+        assert manifest.addStartActionRef(None) is manifest
+        assert manifest.addTearDownActionRef(None) is manifest
+
+    def test_spec_docstrings(self):
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import BuildActionManifest
+
+        assert (
+            BuildActionManifest.__doc__.strip()
+            == "This meta-class represents the ability to specify a manifest for processing artifacts. An example use case is the processing of ECUC parameter values."
+        )

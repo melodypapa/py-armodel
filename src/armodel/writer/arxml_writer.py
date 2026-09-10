@@ -261,6 +261,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
     BuildAction,
     BuildActionEntity,
     BuildActionEnvironment,
+    BuildActionManifest,
     BuildActionIoElement,
     BuildActionInvocator,
     BuildEngineeringObject,
@@ -5446,6 +5447,28 @@ class ARXMLWriter(AbstractARXMLWriter):
         required_environment = action.getRequiredEnvironmentRef()
         if required_environment is not None:
             self.setChildElementOptionalRefType(element, "REQUIRED-ENVIRONMENT-REF", required_environment)
+
+    def writeBuildActionManifest(self, element: ET.Element, manifest: BuildActionManifest):
+        self.writeIdentifiable(element, manifest)
+        for name, refs in (("START-ACTION-REFS", manifest.getStartActionRefs()), ("TEAR-DOWN-ACTION-REFS", manifest.getTearDownActionRefs())):
+            if refs:
+                wrapper = ET.SubElement(element, name)
+                tag = name[:-5] + "-REF" if name != "TEAR-DOWN-ACTION-REFS" else "TEAR-DOWN-ACTION-REF"
+                for ref in refs:
+                    self.setChildElementOptionalRefType(wrapper, tag, ref)
+        if manifest.getBuildActions():
+            wrapper = ET.SubElement(element, "BUILD-ACTIONS")
+            for action in manifest.getBuildActions():
+                self.writeBuildAction(ET.SubElement(wrapper, "BUILD-ACTION"), action)
+        if manifest.getBuildActionEnvironments():
+            wrapper = ET.SubElement(element, "BUILD-ACTION-ENVIRONMENTS")
+            for environment in manifest.getBuildActionEnvironments():
+                self.writeBuildActionEnvironment(ET.SubElement(wrapper, "BUILD-ACTION-ENVIRONMENT"), environment)
+        dynamic_refs = manifest.getDynamicActionRefs()
+        if dynamic_refs:
+            wrapper = ET.SubElement(element, "DYNAMIC-ACTION-REFS")
+            for ref in dynamic_refs:
+                self.setChildElementOptionalRefType(wrapper, "DYNAMIC-ACTION-REF", ref)
 
     def writeBuildActionEntity(self, element: ET.Element, entity: BuildActionEntity):
         self.writeIdentifiable(element, entity)
@@ -11281,7 +11304,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalBooleanValue(child_element, "TRANSIT-TO-INVALID-EXTENDED", props.getTransitToInvalidExtended())
 
     def writeARPackageElement(self, element: ET.Element, ar_element: ARElement):
-        if isinstance(ar_element, Collection):
+        if isinstance(ar_element, BuildActionManifest):
+            self.writeBuildActionManifest(element, ar_element)
+        elif isinstance(ar_element, Collection):
             self.writeCollection(element, ar_element)
         elif isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)

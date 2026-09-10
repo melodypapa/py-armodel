@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest imp
     BuildActionEnvironment,
     BuildActionInvocator,
     BuildActionIoElement,
+    BuildActionManifest,
     BuildEngineeringObject,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
@@ -315,3 +316,26 @@ class TestReadBuildAction:
         assert action.getModifiedDatas() == []
         assert action.getRequiredEnvironmentRef() is None
         assert action.getCategory() is None
+
+
+class TestReadBuildActionManifest:
+    def test_read_all_members(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "BUILD-ACTION-MANIFEST",
+            "<SHORT-NAME>Manifest</SHORT-NAME><START-ACTION-REFS><START-ACTION-REF DEST='BUILD-ACTION'>/Start</START-ACTION-REF></START-ACTION-REFS><TEAR-DOWN-ACTION-REFS><TEAR-DOWN-ACTION-REF DEST='BUILD-ACTION'>/Tear</TEAR-DOWN-ACTION-REF></TEAR-DOWN-ACTION-REFS><BUILD-ACTIONS><BUILD-ACTION><SHORT-NAME>Action</SHORT-NAME></BUILD-ACTION></BUILD-ACTIONS><BUILD-ACTION-ENVIRONMENTS><BUILD-ACTION-ENVIRONMENT><SHORT-NAME>Environment</SHORT-NAME></BUILD-ACTION-ENVIRONMENT></BUILD-ACTION-ENVIRONMENTS><DYNAMIC-ACTION-REFS><DYNAMIC-ACTION-REF DEST='BUILD-ACTION'>/Dynamic</DYNAMIC-ACTION-REF></DYNAMIC-ACTION-REFS>",
+        )
+        manifest = BuildActionManifest(AUTOSAR.getInstance(), "Manifest")
+        parser.readBuildActionManifest(element, manifest)
+        assert [ref.getValue() for ref in manifest.getStartActionRefs()] == ["/Start"]
+        assert [ref.getValue() for ref in manifest.getTearDownActionRefs()] == ["/Tear"]
+        assert [action.getShortName() for action in manifest.getBuildActions()] == ["Action"]
+        assert [environment.getShortName() for environment in manifest.getBuildActionEnvironments()] == ["Environment"]
+        assert [ref.getValue() for ref in manifest.getDynamicActionRefs()] == ["/Dynamic"]
+
+    def test_read_empty_wrappers(self):
+        parser = ARXMLParser(options={"warning": True})
+        manifest = BuildActionManifest(AUTOSAR.getInstance(), "Manifest")
+        parser.readBuildActionManifest(_snip("BUILD-ACTION-MANIFEST", "<SHORT-NAME>Manifest</SHORT-NAME><BUILD-ACTIONS/><BUILD-ACTION-ENVIRONMENTS/>"), manifest)
+        assert manifest.getBuildActions() == []
+        assert manifest.getBuildActionEnvironments() == []

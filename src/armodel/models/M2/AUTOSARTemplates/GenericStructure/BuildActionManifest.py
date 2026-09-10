@@ -429,3 +429,99 @@ class BuildAction(BuildActionEntity):
         if value is not None:
             self.requiredEnvironmentRef = value
         return self
+
+
+class BuildActionManifest(Identifiable):
+    """
+    This meta-class represents the ability to specify a manifest for processing artifacts. An example use case is the processing of ECUC parameter values.
+    """
+
+    # BuildActionManifest method parity checklist:
+    # Spec: R23-11/AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 10.1, p.365 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createBuildAction           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBuildActions             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createBuildActionEnvironment [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBuildActionEnvironments  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addDynamicActionRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDynamicActionRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addStartActionRef           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStartActionRefs          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addTearDownActionRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTearDownActionRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This represents a particular action in the build chain.
+        self.buildActions: List[BuildAction] = []
+
+        # This represents a build action environment.
+        self.buildActionEnvironments: List[BuildActionEnvironment] = []
+
+        # This denotes an Action which is to be executed as part of the dynamic action set.
+        self.dynamicActionRefs: List[RefType] = []
+
+        # This specifies the list of actions to be performed at the beginning of the process.
+        self.startActionRefs: List[RefType] = []
+
+        # This specifies the set of action which shall be performed after all other actions in the manifest were performed.
+        self.tearDownActionRefs: List[RefType] = []
+
+    def createBuildAction(self, short_name: str) -> BuildAction:
+        """This represents a particular action in the build chain."""
+        for action in self.buildActions:
+            if action.getShortName() == short_name:
+                return action
+        action = BuildAction(self, short_name)
+        self.buildActions.append(action)
+        return action
+
+    def getBuildActions(self) -> List[BuildAction]:
+        """This represents a particular action in the build chain."""
+        return self.buildActions
+
+    def createBuildActionEnvironment(self, short_name: str) -> BuildActionEnvironment:
+        """This represents a build action environment."""
+        for environment in self.buildActionEnvironments:
+            if environment.getShortName() == short_name:
+                return environment
+        environment = BuildActionEnvironment(self, short_name)
+        self.buildActionEnvironments.append(environment)
+        return environment
+
+    def getBuildActionEnvironments(self) -> List[BuildActionEnvironment]:
+        """This represents a build action environment."""
+        return self.buildActionEnvironments
+
+    def addDynamicActionRef(self, value: Optional[RefType]) -> "BuildActionManifest":
+        """This denotes an Action which is to be executed as part of the dynamic action set. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.dynamicActionRefs.append(value)
+        return self
+
+    def getDynamicActionRefs(self) -> List[RefType]:
+        """This denotes an Action which is to be executed as part of the dynamic action set."""
+        return self.dynamicActionRefs
+
+    def addStartActionRef(self, value: Optional[RefType]) -> "BuildActionManifest":
+        """This specifies the list of actions to be performed at the beginning of the process. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.startActionRefs.append(value)
+        return self
+
+    def getStartActionRefs(self) -> List[RefType]:
+        """This specifies the list of actions to be performed at the beginning of the process."""
+        return self.startActionRefs
+
+    def addTearDownActionRef(self, value: Optional[RefType]) -> "BuildActionManifest":
+        """This specifies the set of action which shall be performed after all other actions in the manifest were performed. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.tearDownActionRefs.append(value)
+        return self
+
+    def getTearDownActionRefs(self) -> List[RefType]:
+        """This specifies the set of action which shall be performed after all other actions in the manifest were performed."""
+        return self.tearDownActionRefs
