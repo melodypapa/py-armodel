@@ -21,7 +21,10 @@ class DataTransformationErrorHandlingEnum(AREnum):
     # (no methods) — enum value form serialized on PortAPIOption.errorHandling
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
+    # A runnable does not handle transformer errors. Tags: atp.EnumerationLiteralIndex=0
     NO_TRANSFORMER_ERROR_HANDLING = "noTransformerErrorHandling"
+
+    # The runnable implements the handling of transformer errors. Tags: atp.EnumerationLiteralIndex=1
     TRANSFORMER_ERROR_HANDLING = "transformerErrorHandling"
 
     def __init__(self):

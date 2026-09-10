@@ -392,7 +392,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
     - [x] Step 1 — Sync members & description from spec — R23-11 Table 7.43, p.590; enum kind, package, Note, and both literal rows captured
     - [x] Step 2 — Write model class unit test (Red) — added literal presence/order and instantiation test; Red observed ImportError before implementation because the dependency class was absent
     - [x] Step 3 — Implement model class (Green) — added AREnum with `noTransformerErrorHandling` and `transformerErrorHandling`; focused test passed
-    - [x] Step 4 — Sync docstrings (wipe + rewrite) — enum Note copied verbatim; no stale member/method docs; no-method checklist retained
+    - [x] Step 4 — Sync docstrings (wipe + rewrite) — enum Note copied verbatim; literal comments copied verbatim with EnumerationLiteralIndex tags; no stale member/method docs
     - [x] Step 5 — Write reader/writer round-trip test (N/A) — standalone AREnum has no own XML element; value-form serialization is exercised through the consuming PortAPIOption field
     - [x] Step 6 — Update parser & writer (N/A) — no standalone reader/writer is permitted; existing PortAPIOption parser/writer paths cover the enum value form
     - [x] Step 7 — Update checklist comment — six-column release provenance and explicit no-method/value-form serialization evidence added

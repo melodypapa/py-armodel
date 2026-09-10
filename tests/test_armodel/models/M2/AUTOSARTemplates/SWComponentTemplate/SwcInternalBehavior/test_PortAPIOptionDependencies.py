@@ -8,3 +8,5 @@ class TestDataTransformationErrorHandlingEnum:
             DataTransformationErrorHandlingEnum.NO_TRANSFORMER_ERROR_HANDLING,
             DataTransformationErrorHandlingEnum.TRANSFORMER_ERROR_HANDLING,
         ]
+        assert DataTransformationErrorHandlingEnum.NO_TRANSFORMER_ERROR_HANDLING == "noTransformerErrorHandling"
+        assert DataTransformationErrorHandlingEnum.TRANSFORMER_ERROR_HANDLING == "transformerErrorHandling"
