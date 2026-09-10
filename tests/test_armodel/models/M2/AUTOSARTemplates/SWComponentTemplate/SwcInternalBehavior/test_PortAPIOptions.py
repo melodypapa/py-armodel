@@ -6,11 +6,11 @@ Tests cover all classes and methods in the PortAPIOptions.py file to achieve 100
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, TRefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import (
-    PortAPIOption,
-    PortDefinedArgumentValue,
     CommunicationBufferLocking,
     DataTransformationErrorHandlingEnum,
     DataTransformationStatusForwardingEnum,
+    PortAPIOption,
+    PortDefinedArgumentValue,
 )
 
 
@@ -84,9 +84,7 @@ class TestPortAPIOption:
 
     def test_error_handling_round_trip(self):
         option = PortAPIOption()
-        value = DataTransformationErrorHandlingEnum().setValue(
-            DataTransformationErrorHandlingEnum.TRANSFORMER_ERROR_HANDLING
-        )
+        value = DataTransformationErrorHandlingEnum().setValue(DataTransformationErrorHandlingEnum.TRANSFORMER_ERROR_HANDLING)
         assert option.setErrorHandling(value) is option
         assert option.getErrorHandling() is value
         option.setErrorHandling(None)
@@ -120,12 +118,8 @@ class TestPortAPIOption:
 
     def test_supported_features_ordered(self):
         option = PortAPIOption()
-        first = CommunicationBufferLocking().setSupportBufferLocking(
-            DataTransformationStatusForwardingEnum.NO_TRANSFORMER_STATUS_FORWARDING
-        )
-        second = CommunicationBufferLocking().setSupportBufferLocking(
-            DataTransformationStatusForwardingEnum.TRANSFORMER_STATUS_FORWARDING
-        )
+        first = CommunicationBufferLocking().setSupportBufferLocking(DataTransformationStatusForwardingEnum.NO_TRANSFORMER_STATUS_FORWARDING)
+        second = CommunicationBufferLocking().setSupportBufferLocking(DataTransformationStatusForwardingEnum.TRANSFORMER_STATUS_FORWARDING)
         assert option.addSupportedFeature(first) is option
         option.addSupportedFeature(second)
         assert option.getSupportedFeatures() == [first, second]
@@ -134,9 +128,7 @@ class TestPortAPIOption:
 
     def test_transformer_status_forwarding_round_trip(self):
         option = PortAPIOption()
-        value = DataTransformationStatusForwardingEnum().setValue(
-            DataTransformationStatusForwardingEnum.TRANSFORMER_STATUS_FORWARDING
-        )
+        value = DataTransformationStatusForwardingEnum().setValue(DataTransformationStatusForwardingEnum.TRANSFORMER_STATUS_FORWARDING)
         assert option.setTransformerStatusForwarding(value) is option
         assert option.getTransformerStatusForwarding() is value
         option.setTransformerStatusForwarding(None)

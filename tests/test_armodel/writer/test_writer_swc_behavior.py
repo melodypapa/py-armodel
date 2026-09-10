@@ -1089,20 +1089,16 @@ class TestWriterParameterAndPortApi:
 
     def test_writeSwcInternalBehaviorPortAPIOptions(self, writer):
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import (
+            CommunicationBufferLocking,
             DataTransformationErrorHandlingEnum,
             DataTransformationStatusForwardingEnum,
-            CommunicationBufferLocking,
             SupportBufferLockingEnum,
         )
 
         behavior = _make_behavior()
         opt = PortAPIOption()
         opt.setEnableTakeAddress(_bool(True))
-        opt.setErrorHandling(
-            DataTransformationErrorHandlingEnum().setValue(
-                DataTransformationErrorHandlingEnum.TRANSFORMER_ERROR_HANDLING
-            )
-        )
+        opt.setErrorHandling(DataTransformationErrorHandlingEnum().setValue(DataTransformationErrorHandlingEnum.TRANSFORMER_ERROR_HANDLING))
         opt.setIndirectAPI(_bool(False))
         opt.setPortRef(_ref("/port", "P-PORT-PROTOTYPE"))
         arg = PortDefinedArgumentValue()
@@ -1111,15 +1107,9 @@ class TestWriterParameterAndPortApi:
         arg.setValue(val)
         opt.addPortArgValue(arg)
         feature = CommunicationBufferLocking()
-        feature.setSupportBufferLocking(
-            SupportBufferLockingEnum().setValue(SupportBufferLockingEnum.SUPPORTS_BUFFER_LOCKING)
-        )
+        feature.setSupportBufferLocking(SupportBufferLockingEnum().setValue(SupportBufferLockingEnum.SUPPORTS_BUFFER_LOCKING))
         opt.addSupportedFeature(feature)
-        opt.setTransformerStatusForwarding(
-            DataTransformationStatusForwardingEnum().setValue(
-                DataTransformationStatusForwardingEnum.TRANSFORMER_STATUS_FORWARDING
-            )
-        )
+        opt.setTransformerStatusForwarding(DataTransformationStatusForwardingEnum().setValue(DataTransformationStatusForwardingEnum.TRANSFORMER_STATUS_FORWARDING))
         behavior.addPortAPIOption(opt)
         parent = _parent()
         writer.writeSwcInternalBehaviorPortAPIOptions(parent, behavior)

@@ -142,9 +142,9 @@ class TestSwcInternalBehaviorOrchestrator:
     def test_readSwcInternalBehavior_with_full_port_api_options(self, parser):
         from armodel.models import ApplicationSwComponentType
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import (
+            CommunicationBufferLocking,
             DataTransformationErrorHandlingEnum,
             DataTransformationStatusForwardingEnum,
-            CommunicationBufferLocking,
         )
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
@@ -193,12 +193,7 @@ class TestSwcInternalBehaviorOrchestrator:
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
         element = _snip(
-            "<SHORT-NAME>bh</SHORT-NAME>"
-            "<PORT-API-OPTIONS>"
-            "<PORT-API-OPTION>"
-            "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>"
-            "</PORT-API-OPTION>"
-            "</PORT-API-OPTIONS>",
+            "<SHORT-NAME>bh</SHORT-NAME>" "<PORT-API-OPTIONS>" "<PORT-API-OPTION>" "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>" "</PORT-API-OPTION>" "</PORT-API-OPTIONS>",
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
