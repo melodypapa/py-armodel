@@ -287,7 +287,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 7 — Update checklist comment — corrected p.953 citation, five-member order, and R23-11 release column
   - [x] Step 8 — Deviations — none
   - [x] Step 9 — Verify (9a) + confirm (9b) — 643 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit pending
-- [x] `ArVariableInImplementationDataInstanceRef` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.37, p.322 · after `AbstractImplementationDataTypeElement` (`contextDataPrototype`/`targetDataPrototype` refs) + `VariableDataPrototype` (`rootVariableDataPrototype` ref) · `portPrototype` PortPrototype stamped ✓) — finished, stamped `# Spec verified: R23-11` (commit pending)
+- [x] `ArVariableInImplementationDataInstanceRef` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.37, p.322 · after `AbstractImplementationDataTypeElement` (`contextDataPrototype`/`targetDataPrototype` refs) + `VariableDataPrototype` (`rootVariableDataPrototype` ref) · `portPrototype` PortPrototype stamped ✓) — finished, stamped `# Spec verified: R23-11` (commit: 910009ee)
   - [x] Step 1 — Sync members & description from spec — Base ARObject; four attributes in displayed order; XSD order PORT, ROOT, CONTEXT, TARGET confirmed
   - [x] Step 2 — Write model class unit test (Red) — Table 5.37 docstring, ordered context list/add API, optional-ref None guards
   - [x] Step 3 — Implement model class (Green) — typed Optional refs, ordered `contextDataPrototypeRefs`, `addContextDataPrototypeRef`, guarded setters
