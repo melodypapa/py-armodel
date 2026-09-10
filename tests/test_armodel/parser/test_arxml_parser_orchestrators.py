@@ -202,6 +202,23 @@ class TestSwcInternalBehaviorOrchestrator:
         assert opt.getTransformerStatusForwarding() is None
         assert opt.getErrorHandling() is None
 
+    def test_readSwcInternalBehavior_with_implicit_inter_runnable_variables(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        element = _snip(
+            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<IMPLICIT-INTER-RUNNABLE-VARIABLES>"
+            "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>irv</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>"
+            "</IMPLICIT-INTER-RUNNABLE-VARIABLES>",
+            root_tag="SWC-INTERNAL-BEHAVIOR",
+        )
+        parser.readSwcInternalBehavior(element, behavior)
+        variables = behavior.getImplicitInterRunnableVariables()
+        assert len(variables) == 1
+        assert variables[0].getShortName() == "irv"
+
     def test_readSwcInternalBehavior_with_instantiation_data_def_props(self, parser):
         from armodel.models import ApplicationSwComponentType
 

@@ -458,16 +458,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 7 — Update checklist comment — six-column R23-11 checklist added for init/add/get/set/get rows; marker deferred to Step 9b
    - [x] Step 8 — Deviations — none identified; base, member types, naming, order, mutator/getter coverage, and XML order conform to Table 7.51/XSD
     - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8787 unit tests passed, focused tests passed, lint passed, touched-file Black checks passed; integration suite blocked by existing GBK decoding failure in `AUTOSAR_Datatypes.arxml`; 9b user-confirmed
-- [ ] `SwcInternalBehavior` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.2 · **moved 2026-09-03 restructure to last: aggregates the events, `VariableDataPrototype`, `PerInstanceMemory`, `IncludedModeDeclarationGroupSet`, `PortAPIOption` queued above** · deps already stamped: parent `InternalBehavior` Table 7.1 ✓ / `runnable` RunnableEntity ✓ / `exclusiveAreaPolicy` SwcExclusiveAreaPolicy ✓ / `includedDataTypeSet` IncludedDataTypeSet ✓ / `instantiationDataDefProps` InstantiationDataDefProps ✓ / `perInstanceParameter`+`sharedParameter` ParameterDataPrototype ✓ / `serviceDependency` SwcServiceDependency ✓ / `variationPointProxy` VariationPointProxy ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `SwcInternalBehavior` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.2 · **moved 2026-09-03 restructure to last: aggregates the events, `VariableDataPrototype`, `PerInstanceMemory`, `IncludedModeDeclarationGroupSet`, `PortAPIOption` queued above** · deps already stamped: parent `InternalBehavior` Table 7.1 ✓ / `runnable` RunnableEntity ✓ / `exclusiveAreaPolicy` SwcExclusiveAreaPolicy ✓ / `includedDataTypeSet` IncludedDataTypeSet ✓ / `instantiationDataDefProps` InstantiationDataDefProps ✓ / `perInstanceParameter`+`sharedParameter` ParameterDataPrototype ✓ / `serviceDependency` SwcServiceDependency ✓ / `variationPointProxy` VariationPointProxy ✓) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 7.2, p.521; 16 attributes captured in displayed order (arTypedPerInstanceMemory, event, exclusiveAreaPolicy, explicitInterRunnableVariable, implicitInterRunnableVariable, includedDataTypeSet, includedModeDeclarationGroupSet, instantiationDataDefProps, perInstanceMemory, perInstanceParameter, portAPIOption, runnable, serviceDependency, sharedParameter, supportsMultipleInstantiation, variationPointProxy); `staticMemory` correctly left on `InternalBehavior` (Table 7.1)
+  - [x] Step 2 — Write model class unit test (Red) — added factory-populates-typed-list tests and verbatim class-Note test; Red confirmed empty `events`/`runnables`/`serviceDependencies` and a line-wrapped class docstring
+  - [x] Step 3 — Implement model class (Green) — `create*Event`/`createRunnableEntity`/`createSwcServiceDependency` now populate their dedicated typed lists; getters read those lists (Rule 0004, no more `isinstance` filters over the element registry); class docstring made single-line verbatim
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — 54/54 method docstrings and 17/17 `__init__` member comments replaced with the Table 7.2 Notes verbatim; verified by programmatic diff (0 mismatches)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — parser + writer tests (incl. empty-wrapper case) for `implicitInterRunnableVariable`; Red confirmed the attribute had neither reader nor writer
+  - [x] Step 6 — Update parser & writer (Green) — added `readSwcInternalBehaviorImplicitInterRunnableVariables` / `writeSwcInternalBehaviorImplicitInterRunnableVariables`, wired into `readSwcInternalBehavior`/`writeSwcInternalBehavior` in XSD sequence order
+  - [x] Step 7 — Update checklist comment — six-column checklist regenerated for all 55 methods in source order; dual `# Spec:` lines (R23-11 Table 7.2 p.521 + R4.3.1 Table 7.3 p.536) for the legacy attribute
+  - [x] Step 8 — Deviations — one accepted deviation: `legacy handleTerminationAndRestart (R4.3.1 Table 7.3, p.536); removed in R23-11` (absent from Table 7.2; XSD marks `atp.Status="removed"`; kept as optional legacy member with full reader/writer coverage). 3 Rule 0004 registry-filter violations fixed, not deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8805 unit tests passed, integration round-trip 29/29 files, ruff clean, flake8 clean, black clean on all changed lines; 9b user-confirmed; marker written
 
 ## Pending 16.4 resolution (NEW — not in src)
 

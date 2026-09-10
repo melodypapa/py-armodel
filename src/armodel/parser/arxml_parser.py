@@ -3149,6 +3149,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSwcInternalBehaviorEvents(element, behavior)
         self.readSwcInternalBehaviorExplicitInterRunnableVariables(element, behavior)
         behavior.setHandleTerminationAndRestart(self.getChildElementOptionalLiteral(element, "HANDLE-TERMINATION-AND-RESTART"))
+        self.readSwcInternalBehaviorImplicitInterRunnableVariables(element, behavior)
         self.readSwcInternalBehaviorIncludedModeDeclarationGroupSets(element, behavior)
         self.readSwcInternalBehaviorInstantiationDataDefProps(element, behavior)
         self.readSwcInternalBehaviorPerInstanceMemories(element, behavior)
@@ -4643,6 +4644,12 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "EXPLICIT-INTER-RUNNABLE-VARIABLES/VARIABLE-DATA-PROTOTYPE"):
             short_name = self.getShortName(child_element)
             prototype = parent.createExplicitInterRunnableVariable(short_name)
+            self.readVariableDataPrototype(child_element, prototype)
+
+    def readSwcInternalBehaviorImplicitInterRunnableVariables(self, element: ET.Element, parent: SwcInternalBehavior):
+        for child_element in self.findall(element, "IMPLICIT-INTER-RUNNABLE-VARIABLES/VARIABLE-DATA-PROTOTYPE"):
+            short_name = self.getShortName(child_element)
+            prototype = parent.createImplicitInterRunnableVariable(short_name)
             self.readVariableDataPrototype(child_element, prototype)
 
     def readSwcInternalBehaviorPerInstanceMemories(self, element: ET.Element, behavior: SwcInternalBehavior):

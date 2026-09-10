@@ -952,6 +952,23 @@ class TestWriterSwcInternalBehaviorCollections:
         writer.writeSwcInternalBehaviorRunnables(parent, behavior)
         assert parent.find("RUNNABLES") is None
 
+    def test_writeSwcInternalBehaviorImplicitInterRunnableVariables(self, writer):
+        behavior = _make_behavior()
+        behavior.createImplicitInterRunnableVariable("irv")
+        parent = _parent()
+        writer.writeSwcInternalBehaviorImplicitInterRunnableVariables(parent, behavior)
+        wrapper = parent.find("IMPLICIT-INTER-RUNNABLE-VARIABLES")
+        assert wrapper is not None
+        proto = wrapper.find("VARIABLE-DATA-PROTOTYPE")
+        assert proto is not None
+        assert proto.find("SHORT-NAME").text == "irv"
+
+    def test_writeSwcInternalBehaviorImplicitInterRunnableVariables_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeSwcInternalBehaviorImplicitInterRunnableVariables(parent, behavior)
+        assert parent.find("IMPLICIT-INTER-RUNNABLE-VARIABLES") is None
+
     def test_writeSwcInternalBehaviorArTypedPerInstanceMemories(self, writer):
         behavior = _make_behavior()
         behavior.createArTypedPerInstanceMemory("ar1")

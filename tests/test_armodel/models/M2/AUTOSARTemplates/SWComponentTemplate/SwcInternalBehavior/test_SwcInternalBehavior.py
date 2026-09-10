@@ -608,3 +608,49 @@ class TestSwcInternalBehavior:
         assert proxy in behavior.getVariationPointProxies()
         behavior.addVariationPointProxy(None)
         assert len(behavior.getVariationPointProxies()) == 1
+
+    def test_swc_internal_behavior_class_docstring_verbatim(self):
+        """Class Note must be the Table 7.2 Note copied verbatim."""
+        assert (
+            SwcInternalBehavior.__doc__.strip()
+            == "The SwcInternalBehavior of an AtomicSwComponentType describes the relevant aspects of the software-component with respect to the RTE, i.e. the RunnableEntities and the RTEEvents they respond to."
+        )
+
+    def test_swc_internal_behavior_event_factory_populates_typed_list(self):
+        """create*Event must populate the dedicated events list (Rule 0004: never registry filters)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = SwcInternalBehavior(ar_root, "TestSwcInternalBehavior")
+
+        event = behavior.createInitEvent("Ev")
+        assert behavior.events == [event]
+        assert behavior.getRteEvents() == [event]
+        assert behavior.getInitEvents() == [event]
+
+        # creating the same short name again returns the existing element and does not duplicate
+        assert behavior.createInitEvent("Ev") is event
+        assert len(behavior.events) == 1
+
+    def test_swc_internal_behavior_runnable_factory_populates_typed_list(self):
+        """createRunnableEntity must populate the dedicated runnables list (Rule 0004)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = SwcInternalBehavior(ar_root, "TestSwcInternalBehavior")
+
+        runnable = behavior.createRunnableEntity("Run")
+        assert behavior.runnables == [runnable]
+        assert behavior.getRunnableEntities() == [runnable]
+        assert behavior.createRunnableEntity("Run") is runnable
+        assert len(behavior.runnables) == 1
+
+    def test_swc_internal_behavior_service_dependency_factory_populates_typed_list(self):
+        """createSwcServiceDependency must populate the dedicated serviceDependencies list (Rule 0004)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = SwcInternalBehavior(ar_root, "TestSwcInternalBehavior")
+
+        dependency = behavior.createSwcServiceDependency("Dep")
+        assert behavior.serviceDependencies == [dependency]
+        assert behavior.getSwcServiceDependencies() == [dependency]
+        assert behavior.createSwcServiceDependency("Dep") is dependency
+        assert len(behavior.serviceDependencies) == 1

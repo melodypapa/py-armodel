@@ -710,147 +710,141 @@ class SwcExclusiveAreaPolicy(ARObject, VariationPointCapable):
 
 class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
     """
-    The SwcInternalBehavior of an AtomicSwComponentType describes the
-    relevant aspects of the software-component with respect to the RTE, i.e.
-    the RunnableEntities and the RTEEvents they respond to.
+    The SwcInternalBehavior of an AtomicSwComponentType describes the relevant aspects of the software-component with respect to the RTE, i.e. the RunnableEntities and the RTEEvents they respond to.
     """
 
     # SwcInternalBehavior method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.2, p.518
-    # [x] __init__                                   [x] impl  [x] docstring  [x] test
-    # [x] getArTypedPerInstanceMemories              [x] impl  [x] docstring  [x] test
-    # [x] createArTypedPerInstanceMemory             [x] impl  [x] docstring  [x] test
-    # [x] addExclusiveAreaPolicy                     [x] impl  [x] docstring  [x] test
-    # [x] getExclusiveAreaPolicies                   [x] impl  [x] docstring  [x] test
-    # [x] getExplicitInterRunnableVariables          [x] impl  [x] docstring  [x] test
-    # [x] createExplicitInterRunnableVariable        [x] impl  [x] docstring  [x] test
-    # [x] getHandleTerminationAndRestart             [x] impl  [x] docstring  [x] test
-    # [x] setHandleTerminationAndRestart             [x] impl  [x] docstring  [x] test
-    # [x] getImplicitInterRunnableVariables          [x] impl  [x] docstring  [x] test
-    # [x] createImplicitInterRunnableVariable        [x] impl  [x] docstring  [x] test
-    # [x] getPerInstanceMemories                     [x] impl  [x] docstring  [x] test
-    # [x] createPerInstanceMemory                    [x] impl  [x] docstring  [x] test
-    # [x] getPerInstanceParameters                   [x] impl  [x] docstring  [x] test
-    # [x] createPerInstanceParameter                 [x] impl  [x] docstring  [x] test
-    # [x] getSharedParameters                        [x] impl  [x] docstring  [x] test
-    # [x] createSharedParameter                      [x] impl  [x] docstring  [x] test
-    # [x] addPortAPIOption                           [x] impl  [x] docstring  [x] test
-    # [x] getPortAPIOptions                          [x] impl  [x] docstring  [x] test
-    # [x] addIncludedDataTypeSet                     [x] impl  [x] docstring  [x] test
-    # [x] getIncludedDataTypeSets                    [x] impl  [x] docstring  [x] test
-    # [x] addIncludedModeDeclarationGroupSet         [x] impl  [x] docstring  [x] test
-    # [x] getIncludedModeDeclarationGroupSets        [x] impl  [x] docstring  [x] test
-    # [x] createOperationInvokedEvent                [x] impl  [x] docstring  [x] test
-    # [x] createTimingEvent                          [x] impl  [x] docstring  [x] test
-    # [x] createInitEvent                            [x] impl  [x] docstring  [x] test
-    # [x] createAsynchronousServerCallReturnsEvent   [x] impl  [x] docstring  [x] test
-    # [x] createDataReceivedEvent                    [x] impl  [x] docstring  [x] test
-    # [x] createSwcModeSwitchEvent                   [x] impl  [x] docstring  [x] test
-    # [x] createInternalTriggerOccurredEvent         [x] impl  [x] docstring  [x] test
-    # [x] createModeSwitchedAckEvent                 [x] impl  [x] docstring  [x] test
-    # [x] createBackgroundEvent                      [x] impl  [x] docstring  [x] test
-    # [x] createDataSendCompletedEvent               [x] impl  [x] docstring  [x] test
-    # [x] getRteEvents                               [x] impl  [x] docstring  [x] test
-    # [x] getOperationInvokedEvents                  [x] impl  [x] docstring  [x] test
-    # [x] getInitEvents                              [x] impl  [x] docstring  [x] test
-    # [x] getTimingEvents                            [x] impl  [x] docstring  [x] test
-    # [x] getDataReceivedEvents                      [x] impl  [x] docstring  [x] test
-    # [x] getSwcModeSwitchEvents                     [x] impl  [x] docstring  [x] test
-    # [x] getInternalTriggerOccurredEvents           [x] impl  [x] docstring  [x] test
-    # [x] getModeSwitchedAckEvents                   [x] impl  [x] docstring  [x] test
-    # [x] getBackgroundEvents                        [x] impl  [x] docstring  [x] test
-    # [x] getDataSendCompletedEvents                 [x] impl  [x] docstring  [x] test
-    # [x] getEvent                                   [x] impl  [x] docstring  [x] test
-    # [x] createSwcServiceDependency                 [x] impl  [x] docstring  [x] test
-    # [x] getSwcServiceDependencies                  [x] impl  [x] docstring  [x] test
-    # [x] getVariableDataPrototypes                  [x] impl  [x] docstring  [x] test
-    # [x] createRunnableEntity                       [x] impl  [x] docstring  [x] test
-    # [x] getRunnableEntities                        [x] impl  [x] docstring  [x] test
-    # [x] getRunnableEntity                          [x] impl  [x] docstring  [x] test
-    # [x] getSupportsMultipleInstantiation           [x] impl  [x] docstring  [x] test
-    # [x] setSupportsMultipleInstantiation           [x] impl  [x] docstring  [x] test
-    # [x] addInstantiationDataDefProps               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getInstantiationDataDefPropss              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addVariationPointProxy                     [x] impl  [x] docstring  [x] test  [ ] reader  [—] writer
-    # [x] getVariationPointProxies                   [x] impl  [x] docstring  [x] test  [—] reader  [ ] writer
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.2, p.521 (R23-11)
+    # Spec: R4.3.1/AUTOSAR_TPS_SoftwareComponentTemplate.pdf, Table 7.3, p.536 (R4.3.1)
+    # Spec verified: R23-11
+    # Deviations:
+    #   legacy handleTerminationAndRestart (R4.3.1 Table 7.3, p.536); removed in R23-11 (XSD atp.Status="removed").
+    #   Absent from the R23-11 Table 7.2 attribute rows; kept as an optional legacy member with full
+    #   reader/writer coverage (Rule 0019 combine case). Accepted at Step 9b.
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # Legacy: handleTerminationAndRestart is absent from the R23-11 table (XSD atp.Status="removed");
+    #          its value domain is the R4.3.1 HandleTerminationAndRestartEnum, so those rows cite R4.3.1.
+    # [x] __init__                                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArTypedPerInstanceMemories                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createArTypedPerInstanceMemory               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExplicitInterRunnableVariables            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createExplicitInterRunnableVariable          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHandleTerminationAndRestart               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R4.3.1
+    # [x] setHandleTerminationAndRestart               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R4.3.1
+    # [x] getImplicitInterRunnableVariables            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createImplicitInterRunnableVariable          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPerInstanceMemories                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createPerInstanceMemory                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPerInstanceParameters                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createPerInstanceParameter                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSharedParameters                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSharedParameter                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addPortAPIOption                             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPortAPIOptions                            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addIncludedDataTypeSet                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIncludedDataTypeSets                      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addIncludedModeDeclarationGroupSet           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIncludedModeDeclarationGroupSets          [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addExclusiveAreaPolicy                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getExclusiveAreaPolicies                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createOperationInvokedEvent                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createTimingEvent                            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createInitEvent                              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createAsynchronousServerCallReturnsEvent     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDataReceivedEvent                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSwcModeSwitchEvent                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createInternalTriggerOccurredEvent           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createModeSwitchedAckEvent                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createBackgroundEvent                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createDataSendCompletedEvent                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSwcServiceDependency                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRteEvents                                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getOperationInvokedEvents                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInitEvents                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTimingEvents                              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataReceivedEvents                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwcModeSwitchEvents                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInternalTriggerOccurredEvents             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getModeSwitchedAckEvents                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBackgroundEvents                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataSendCompletedEvents                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwcServiceDependencies                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getEvent                                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getVariableDataPrototypes                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createRunnableEntity                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRunnableEntities                          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRunnableEntity                            [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] getSupportsMultipleInstantiation             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupportsMultipleInstantiation             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addInstantiationDataDefProps                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInstantiationDataDefPropss                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addVariationPointProxy                       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariationPointProxies                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        # Defines an AUTOSAR typed memory-block that needs to be available for
-        # each instance of the SW-component.
+        # Defines an AUTOSAR typed memory-block that needs to be available for each instance of the SW-component. This is typically only useful if supportsMultipleInstantiation is set to "true" or if the component defines NVRAM access via permanent blocks. The aggregation of arTypedPerInstanceMemory is subject to variability with the purpose to support variability in the software component's implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=arTypedPerInstanceMemory.shortName, ar TypedPerInstanceMemory.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.arTypedPerInstanceMemories: List[VariableDataPrototype] = []
 
-        # This is a RTEEvent specified for the particular Swc InternalBehavior.
-        # RTEEvents are registered through the create*Event factories and are
-        # retrieved from the elements registry via getRteEvents / getEvent.
+        # This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
         self.events: List[RTEEvent] = []
 
-        # Options how to generate the ExclusiveArea related APIs.
+        # Options how to generate the ExclusiveArea related APIs. When no SwcExclusiveAreaPolicy is specified for an ExclusiveArea the default values apply. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=exclusiveAreaPolicy, exclusiveArea Policy.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.exclusiveAreaPolicies: List[SwcExclusiveAreaPolicy] = []
 
-        # Implement state message semantics for establishing communication
-        # among runnables of the same component.
+        # Implement state message semantics for establishing communication among runnables of the same component. The aggregation of explicitInterRunnable Variable is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=explicitInterRunnableVariable.shortName, explicitInterRunnableVariable.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.explicitInterRunnableVariables: List[VariableDataPrototype] = []
 
-        # Controls the behavior with respect to stopping and restarting; the
-        # corresponding AtomicSwComponentType may either not support stop and
-        # restart, or support only stop, or support both. (Present in the XSD,
-        # absent from the PDF table rendering; PDF enum
-        # HandleTerminationAndRestartEnum not modeled, carried as ARLiteral.)
+        # This attribute controls the behavior with respect to stopping and restarting. The corresponding AtomicSwComponentType may either not support stop and restart, or support only stop, or support both stop and restart.
         self.handleTerminationAndRestart: Optional[ARLiteral] = None
 
-        # Implement state message semantics for establishing communication
-        # among runnables of the same component.
+        # Implement state message semantics for establishing communication among runnables of the same component. The aggregation of implicitInterRunnable Variable is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=implicitInterRunnableVariable.shortName, implicitInterRunnableVariable.variationPoint.shortLabel
         self.implicitInterRunnableVariables: List[VariableDataPrototype] = []
 
-        # The includedDataTypeSet is used by a software component for its
-        # implementation.
+        # The includedDataTypeSet is used by a software component for its implementation. Stereotypes: atpSplitable Tags: atp.Splitkey=includedDataTypeSet
         self.includedDataTypeSets: List[IncludedDataTypeSet] = []
 
-        # This aggregation represents the included Mode DeclarationGroups.
+        # This aggregation represents the included Mode DeclarationGroups Stereotypes: atpSplitable Tags: atp.Splitkey=includedModeDeclarationGroupSet
         self.includedModeDeclarationGroupSets: List[IncludedModeDeclarationGroupSet] = []
 
-        # Within the context of a given SwComponentType some data def
-        # properties of individual instantiations can be modified.
+        # The purpose of this is that within the context of a given SwComponentType some data def properties of individual instantiations can be modified. The aggregation of InstantiationDataDefProps is subject to variability with the purpose to support the conditional existence of Port Prototypes and component local memories like "per InstanceParameter" or "arTypedPerInstanceMemory". Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=instantiationDataDefProps, instantiationData DefProps.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.instantiationDataDefProps: List[InstantiationDataDefProps] = []
 
-        # Defines a per-instance memory object needed by this software
-        # component.
+        # Defines a per-instance memory object needed by this software component. The aggregation of PerInstance Memory is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=perInstanceMemory.shortName, perInstance Memory.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.perInstanceMemories: List[PerInstanceMemory] = []
 
-        # Defines parameter(s) or characteristic value(s) that needs to be
-        # available for each instance of the software-component.
+        # Defines parameter(s) or characteristic value(s) that needs to be available for each instance of the software-component. This is typically only useful if supportsMultipleInstantiation is set to "true". The aggregation of perInstanceParameter is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=perInstanceParameter.shortName, per InstanceParameter.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.perInstanceParameters: List[ParameterDataPrototype] = []
 
-        # Options for generating the signature of port-related calls from a
-        # runnable to the RTE and vice versa.
+        # Options for generating the signature of port-related calls from a runnable to the RTE and vice versa. The aggregation of PortPrototypes is subject to variability with the purpose to support the conditional existence of ports. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=portAPIOption, portAPIOption.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         self.portAPIOptions: List[PortAPIOption] = []
 
-        # This is a RunnableEntity specified for the particular Swc
-        # InternalBehavior.
+        # This is a RunnableEntity specified for the particular Swc InternalBehavior. The aggregation of RunnableEntity is subject to variability with the purpose to support the conditional existence of RunnableEntities. Note: the number of RunnableEntities might vary due to the conditional existence of Port Prototypes using DataReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=runnable.shortName, runnable.variation Point.shortLabel vh.latestBindingTime=preCompileTime
         self.runnables: List[RunnableEntity] = []
 
-        # Defines the requirements on AUTOSAR Services for a particular item.
+        # Defines the requirements on AUTOSAR Services for a particular item. The aggregation of SwcServiceDependency is subject to variability with the purpose to support the conditional existence of ports as well as the conditional existence of ServiceNeeds. The SwcServiceDependency owned by an SwcInternal Behavior can be located in a different physical file in order to support that SwcServiceDependency might be provided in later development steps or even by different expert domain (e.g OBD expert for Obd related Service Needs) tools. Therefore the aggregation is <<atp Splitable>>. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=serviceDependency.shortName, service Dependency.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.serviceDependencies: List[SwcServiceDependency] = []
 
-        # Defines parameter(s) or characteristic value(s) shared between
-        # SwComponentPrototypes of the same SwComponentType.
+        # Defines parameter(s) or characteristic value(s) shared between SwComponentPrototypes of the same Sw ComponentType The aggregation of sharedParameter is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sharedParameter.shortName, shared Parameter.variationPoint.shortLabel
         self.sharedParameters: List[ParameterDataPrototype] = []
 
-        # Indicate whether the corresponding software-component can be multiply
-        # instantiated on one ECU. [constr_1935]
+        # Indicate whether the corresponding software-component can be multiply instantiated on one ECU. In this case the attribute will result in an appropriate component API on programming language level (with or without instance handle).
         self.supportsMultipleInstantiation: Optional[Boolean] = None
 
-        # Proxy of a variation points in the C/C++ implementation.
+        # Proxy of a variation points in the C/C++ implementation. Stereotypes: atpSplitable Tags: atp.Splitkey=variationPointProxy.shortName
         self.variationPointProxies: List[VariationPointProxy] = []
 
     def getArTypedPerInstanceMemories(self) -> List[VariableDataPrototype]:
-        """Gets the AUTOSAR typed per-instance memory blocks owned by this behavior."""
+        """
+        Defines an AUTOSAR typed memory-block that needs to be available for each instance of the SW-component. This is typically only useful if supportsMultipleInstantiation is set to "true" or if the component defines NVRAM access via permanent blocks. The aggregation of arTypedPerInstanceMemory is subject to variability with the purpose to support variability in the software component's implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=arTypedPerInstanceMemory.shortName, ar TypedPerInstanceMemory.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
         return self.arTypedPerInstanceMemories
 
     def createArTypedPerInstanceMemory(self, short_name: str) -> VariableDataPrototype:
-        """Creates (or returns an existing) arTypedPerInstanceMemory registered to this behavior."""
+        """
+        Defines an AUTOSAR typed memory-block that needs to be available for each instance of the SW-component. This is typically only useful if supportsMultipleInstantiation is set to "true" or if the component defines NVRAM access via permanent blocks. The aggregation of arTypedPerInstanceMemory is subject to variability with the purpose to support variability in the software component's implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=arTypedPerInstanceMemory.shortName, ar TypedPerInstanceMemory.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
         if not self.IsElementExists(short_name, VariableDataPrototype):
             prototype = VariableDataPrototype(self, short_name)
             self.addElement(prototype)
@@ -858,11 +852,15 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         return self.getElement(short_name, VariableDataPrototype)
 
     def getExplicitInterRunnableVariables(self) -> List[VariableDataPrototype]:
-        """Gets the explicitInterRunnableVariables owned by this behavior."""
+        """
+        Implement state message semantics for establishing communication among runnables of the same component. The aggregation of explicitInterRunnable Variable is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=explicitInterRunnableVariable.shortName, explicitInterRunnableVariable.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
         return self.explicitInterRunnableVariables
 
     def createExplicitInterRunnableVariable(self, short_name: str) -> VariableDataPrototype:
-        """Creates (or returns an existing) explicitInterRunnableVariable registered to this behavior."""
+        """
+        Implement state message semantics for establishing communication among runnables of the same component. The aggregation of explicitInterRunnable Variable is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=explicitInterRunnableVariable.shortName, explicitInterRunnableVariable.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
         if not self.IsElementExists(short_name, VariableDataPrototype):
             prototype = VariableDataPrototype(self, short_name)
             self.addElement(prototype)
@@ -870,25 +868,29 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         return self.getElement(short_name, VariableDataPrototype)
 
     def getHandleTerminationAndRestart(self) -> Optional[ARLiteral]:
-        """Gets handleTerminationAndRestart (stop/restart support of the AtomicSwComponentType)."""
+        """
+        This attribute controls the behavior with respect to stopping and restarting. The corresponding AtomicSwComponentType may either not support stop and restart, or support only stop, or support both stop and restart.
+        """
         return self.handleTerminationAndRestart
 
     def setHandleTerminationAndRestart(self, value: Optional[ARLiteral]) -> "SwcInternalBehavior":
         """
-        Sets handleTerminationAndRestart (stop/restart support of the
-        AtomicSwComponentType). A None value is a no-op and does not overwrite
-        an existing handleTerminationAndRestart.
+        This attribute controls the behavior with respect to stopping and restarting. The corresponding AtomicSwComponentType may either not support stop and restart, or support only stop, or support both stop and restart. A None value is a no-op and does not overwrite an existing value.
         """
         if value is not None:
             self.handleTerminationAndRestart = value
         return self
 
     def getImplicitInterRunnableVariables(self) -> List[VariableDataPrototype]:
-        """Gets the implicitInterRunnableVariables owned by this behavior."""
+        """
+        Implement state message semantics for establishing communication among runnables of the same component. The aggregation of implicitInterRunnable Variable is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=implicitInterRunnableVariable.shortName, implicitInterRunnableVariable.variationPoint.shortLabel
+        """
         return self.implicitInterRunnableVariables
 
     def createImplicitInterRunnableVariable(self, short_name: str) -> VariableDataPrototype:
-        """Creates (or returns an existing) implicitInterRunnableVariable registered to this behavior."""
+        """
+        Implement state message semantics for establishing communication among runnables of the same component. The aggregation of implicitInterRunnable Variable is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=implicitInterRunnableVariable.shortName, implicitInterRunnableVariable.variationPoint.shortLabel
+        """
         if not self.IsElementExists(short_name, VariableDataPrototype):
             prototype = VariableDataPrototype(self, short_name)
             self.addElement(prototype)
@@ -896,11 +898,15 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         return self.getElement(short_name, VariableDataPrototype)
 
     def getPerInstanceMemories(self) -> List[PerInstanceMemory]:
-        """Gets the perInstanceMemory objects owned by this behavior."""
+        """
+        Defines a per-instance memory object needed by this software component. The aggregation of PerInstance Memory is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=perInstanceMemory.shortName, perInstance Memory.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
         return self.perInstanceMemories
 
     def createPerInstanceMemory(self, short_name: str) -> PerInstanceMemory:
-        """Creates (or returns an existing) perInstanceMemory registered to this behavior."""
+        """
+        Defines a per-instance memory object needed by this software component. The aggregation of PerInstance Memory is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=perInstanceMemory.shortName, perInstance Memory.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
         if not self.IsElementExists(short_name, PerInstanceMemory):
             memory = PerInstanceMemory(self, short_name)
             self.addElement(memory)
@@ -908,11 +914,15 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         return self.getElement(short_name, PerInstanceMemory)
 
     def getPerInstanceParameters(self) -> List[ParameterDataPrototype]:
-        """Gets the perInstanceParameter objects owned by this behavior."""
+        """
+        Defines parameter(s) or characteristic value(s) that needs to be available for each instance of the software-component. This is typically only useful if supportsMultipleInstantiation is set to "true". The aggregation of perInstanceParameter is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=perInstanceParameter.shortName, per InstanceParameter.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
         return self.perInstanceParameters
 
     def createPerInstanceParameter(self, short_name: str) -> ParameterDataPrototype:
-        """Creates (or returns an existing) perInstanceParameter registered to this behavior."""
+        """
+        Defines parameter(s) or characteristic value(s) that needs to be available for each instance of the software-component. This is typically only useful if supportsMultipleInstantiation is set to "true". The aggregation of perInstanceParameter is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=perInstanceParameter.shortName, per InstanceParameter.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
         if not self.IsElementExists(short_name, ParameterDataPrototype):
             prototype = ParameterDataPrototype(self, short_name)
             self.addElement(prototype)
@@ -920,11 +930,15 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         return self.getElement(short_name, ParameterDataPrototype)
 
     def getSharedParameters(self) -> List[ParameterDataPrototype]:
-        """Gets the sharedParameter objects owned by this behavior."""
+        """
+        Defines parameter(s) or characteristic value(s) shared between SwComponentPrototypes of the same Sw ComponentType The aggregation of sharedParameter is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sharedParameter.shortName, shared Parameter.variationPoint.shortLabel
+        """
         return self.sharedParameters
 
     def createSharedParameter(self, short_name: str) -> ParameterDataPrototype:
-        """Creates (or returns an existing) sharedParameter registered to this behavior."""
+        """
+        Defines parameter(s) or characteristic value(s) shared between SwComponentPrototypes of the same Sw ComponentType The aggregation of sharedParameter is subject to variability with the purpose to support variability in the software components implementations. Typically different algorithms in the implementation are requiring different number of memory objects. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=sharedParameter.shortName, shared Parameter.variationPoint.shortLabel
+        """
         if not self.IsElementExists(short_name, ParameterDataPrototype):
             memory = ParameterDataPrototype(self, short_name)
             self.addElement(memory)
@@ -933,182 +947,240 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
 
     def addPortAPIOption(self, value: Optional[PortAPIOption]) -> "SwcInternalBehavior":
         """
-        Adds a portAPIOption (options for generating port-related call signatures).
-        A None value is a no-op and does not append to portAPIOptions.
+        Options for generating the signature of port-related calls from a runnable to the RTE and vice versa. The aggregation of PortPrototypes is subject to variability with the purpose to support the conditional existence of ports. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=portAPIOption, portAPIOption.variation Point.shortLabel vh.latestBindingTime=preCompileTime A None value is a no-op and does not append to portAPIOptions.
         """
         if value is not None:
             self.portAPIOptions.append(value)
         return self
 
     def getPortAPIOptions(self) -> List[PortAPIOption]:
-        """Gets the portAPIOption objects owned by this behavior."""
+        """
+        Options for generating the signature of port-related calls from a runnable to the RTE and vice versa. The aggregation of PortPrototypes is subject to variability with the purpose to support the conditional existence of ports. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=portAPIOption, portAPIOption.variation Point.shortLabel vh.latestBindingTime=preCompileTime
+        """
         return self.portAPIOptions
 
     def addIncludedDataTypeSet(self, value: Optional[IncludedDataTypeSet]) -> "SwcInternalBehavior":
         """
-        Adds an includedDataTypeSet used by the software component for its
-        implementation. A None value is a no-op and does not append to
-        includedDataTypeSets.
+        The includedDataTypeSet is used by a software component for its implementation. Stereotypes: atpSplitable Tags: atp.Splitkey=includedDataTypeSet A None value is a no-op and does not append to includedDataTypeSets.
         """
         if value is not None:
             self.includedDataTypeSets.append(value)
         return self
 
     def getIncludedDataTypeSets(self) -> List[IncludedDataTypeSet]:
-        """Gets the includedDataTypeSet objects owned by this behavior."""
+        """
+        The includedDataTypeSet is used by a software component for its implementation. Stereotypes: atpSplitable Tags: atp.Splitkey=includedDataTypeSet
+        """
         return self.includedDataTypeSets
 
     def addIncludedModeDeclarationGroupSet(self, value: Optional[IncludedModeDeclarationGroupSet]) -> "SwcInternalBehavior":
         """
-        Adds an includedModeDeclarationGroupSet representing the included Mode
-        DeclarationGroups. A None value is a no-op and does not append to
-        includedModeDeclarationGroupSets.
+        This aggregation represents the included Mode DeclarationGroups Stereotypes: atpSplitable Tags: atp.Splitkey=includedModeDeclarationGroupSet A None value is a no-op and does not append to includedModeDeclarationGroupSets.
         """
         if value is not None:
             self.includedModeDeclarationGroupSets.append(value)
         return self
 
     def getIncludedModeDeclarationGroupSets(self) -> List[IncludedModeDeclarationGroupSet]:
-        """Gets the includedModeDeclarationGroupSet objects owned by this behavior."""
+        """
+        This aggregation represents the included Mode DeclarationGroups Stereotypes: atpSplitable Tags: atp.Splitkey=includedModeDeclarationGroupSet
+        """
         return self.includedModeDeclarationGroupSets
 
     def addExclusiveAreaPolicy(self, value: Optional[SwcExclusiveAreaPolicy]) -> "SwcInternalBehavior":
         """
-        Adds an exclusiveAreaPolicy (options how to generate the ExclusiveArea
-        related APIs). A None value is a no-op and does not append to
-        exclusiveAreaPolicies.
+        Options how to generate the ExclusiveArea related APIs. When no SwcExclusiveAreaPolicy is specified for an ExclusiveArea the default values apply. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=exclusiveAreaPolicy, exclusiveArea Policy.variationPoint.shortLabel vh.latestBindingTime=preCompileTime A None value is a no-op and does not append to exclusiveAreaPolicies.
         """
         if value is not None:
             self.exclusiveAreaPolicies.append(value)
         return self
 
     def getExclusiveAreaPolicies(self) -> List[SwcExclusiveAreaPolicy]:
-        """Gets the exclusiveAreaPolicy objects owned by this behavior."""
+        """
+        Options how to generate the ExclusiveArea related APIs. When no SwcExclusiveAreaPolicy is specified for an ExclusiveArea the default values apply. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=exclusiveAreaPolicy, exclusiveArea Policy.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
         return self.exclusiveAreaPolicies
 
     def createOperationInvokedEvent(self, short_name: str) -> OperationInvokedEvent:
-        """Creates (or returns an existing) OperationInvokedEvent RTEEvent registered to this behavior."""
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
         if not self.IsElementExists(short_name, OperationInvokedEvent):
             event = OperationInvokedEvent(self, short_name)
             self.addElement(event)
+            self.events.append(event)
         return self.getElement(short_name, OperationInvokedEvent)
 
     def createTimingEvent(self, short_name: str) -> TimingEvent:
-        """Creates (or returns an existing) TimingEvent RTEEvent registered to this behavior."""
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
         if not self.IsElementExists(short_name, TimingEvent):
             event = TimingEvent(self, short_name)
             self.addElement(event)
+            self.events.append(event)
         return self.getElement(short_name, TimingEvent)
 
     def createInitEvent(self, short_name: str) -> InitEvent:
-        """Creates (or returns an existing) InitEvent RTEEvent registered to this behavior."""
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
         if not self.IsElementExists(short_name, InitEvent):
             event = InitEvent(self, short_name)
             self.addElement(event)
+            self.events.append(event)
         return self.getElement(short_name, InitEvent)
 
     def createAsynchronousServerCallReturnsEvent(self, short_name: str) -> AsynchronousServerCallReturnsEvent:
-        """Creates (or returns an existing) AsynchronousServerCallReturnsEvent RTEEvent registered to this behavior."""
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
         if not self.IsElementExists(short_name, AsynchronousServerCallReturnsEvent):
             event = AsynchronousServerCallReturnsEvent(self, short_name)
             self.addElement(event)
+            self.events.append(event)
         return self.getElement(short_name, AsynchronousServerCallReturnsEvent)
 
     def createDataReceivedEvent(self, short_name: str) -> DataReceivedEvent:
-        """Creates (or returns an existing) DataReceivedEvent RTEEvent registered to this behavior."""
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
         if not self.IsElementExists(short_name, DataReceivedEvent):
             event = DataReceivedEvent(self, short_name)
             self.addElement(event)
+            self.events.append(event)
         return self.getElement(short_name, DataReceivedEvent)
 
     def createSwcModeSwitchEvent(self, short_name: str) -> SwcModeSwitchEvent:
-        """Creates (or returns an existing) SwcModeSwitchEvent RTEEvent registered to this behavior."""
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
         if not self.IsElementExists(short_name, SwcModeSwitchEvent):
             event = SwcModeSwitchEvent(self, short_name)
             self.addElement(event)
+            self.events.append(event)
         return self.getElement(short_name, SwcModeSwitchEvent)
 
     def createInternalTriggerOccurredEvent(self, short_name: str) -> InternalTriggerOccurredEvent:
-        """Creates (or returns an existing) InternalTriggerOccurredEvent RTEEvent registered to this behavior."""
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
         if not self.IsElementExists(short_name, InternalTriggerOccurredEvent):
             event = InternalTriggerOccurredEvent(self, short_name)
             self.addElement(event)
+            self.events.append(event)
         return self.getElement(short_name, InternalTriggerOccurredEvent)
 
     def createModeSwitchedAckEvent(self, short_name: str) -> ModeSwitchedAckEvent:
-        """Creates (or returns an existing) ModeSwitchedAckEvent RTEEvent registered to this behavior."""
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
         if not self.IsElementExists(short_name, ModeSwitchedAckEvent):
             event = ModeSwitchedAckEvent(self, short_name)
             self.addElement(event)
+            self.events.append(event)
         return self.getElement(short_name, ModeSwitchedAckEvent)
 
     def createBackgroundEvent(self, short_name: str) -> BackgroundEvent:
-        """Creates (or returns an existing) BackgroundEvent RTEEvent registered to this behavior."""
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
         if not self.IsElementExists(short_name, BackgroundEvent):
             event = BackgroundEvent(self, short_name)
             self.addElement(event)
+            self.events.append(event)
         return self.getElement(short_name, BackgroundEvent)
 
     def createDataSendCompletedEvent(self, short_name: str) -> DataSendCompletedEvent:
-        """Creates (or returns an existing) DataSendCompletedEvent RTEEvent registered to this behavior."""
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
         if not self.IsElementExists(short_name, DataSendCompletedEvent):
             event = DataSendCompletedEvent(self, short_name)
             self.addElement(event)
+            self.events.append(event)
         return self.getElement(short_name, DataSendCompletedEvent)
 
     def createSwcServiceDependency(self, short_name: str) -> SwcServiceDependency:
-        """Creates (or returns an existing) SwcServiceDependency defining AUTOSAR Service requirements."""
+        """
+        Defines the requirements on AUTOSAR Services for a particular item. The aggregation of SwcServiceDependency is subject to variability with the purpose to support the conditional existence of ports as well as the conditional existence of ServiceNeeds. The SwcServiceDependency owned by an SwcInternal Behavior can be located in a different physical file in order to support that SwcServiceDependency might be provided in later development steps or even by different expert domain (e.g OBD expert for Obd related Service Needs) tools. Therefore the aggregation is <<atp Splitable>>. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=serviceDependency.shortName, service Dependency.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
         if not self.IsElementExists(short_name, SwcServiceDependency):
             event = SwcServiceDependency(self, short_name)
             self.addElement(event)
+            self.serviceDependencies.append(event)
         return self.getElement(short_name, SwcServiceDependency)
 
     def getRteEvents(self) -> List[RTEEvent]:
-        """Gets all RTEEvents specified for this SwcInternalBehavior, sorted by short name."""
-        return sorted(filter(lambda c: isinstance(c, RTEEvent), self.elements), key=lambda e: e.short_name)
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        return sorted(self.events, key=lambda e: e.short_name)
 
     def getOperationInvokedEvents(self) -> List[OperationInvokedEvent]:
-        """Gets the OperationInvokedEvent RTEEvents owned by this behavior, sorted by short name."""
-        return sorted(filter(lambda c: isinstance(c, OperationInvokedEvent), self.elements), key=lambda e: e.short_name)
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        return sorted(filter(lambda c: isinstance(c, OperationInvokedEvent), self.events), key=lambda e: e.short_name)
 
     def getInitEvents(self) -> List[InitEvent]:
-        """Gets the InitEvent RTEEvents owned by this behavior, sorted by short name."""
-        return sorted(filter(lambda c: isinstance(c, InitEvent), self.elements), key=lambda e: e.short_name)
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        return sorted(filter(lambda c: isinstance(c, InitEvent), self.events), key=lambda e: e.short_name)
 
     def getTimingEvents(self) -> List[TimingEvent]:
-        """Gets the TimingEvent RTEEvents owned by this behavior, sorted by short name."""
-        return sorted(filter(lambda c: isinstance(c, TimingEvent), self.elements), key=lambda e: e.short_name)
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        return sorted(filter(lambda c: isinstance(c, TimingEvent), self.events), key=lambda e: e.short_name)
 
     def getDataReceivedEvents(self) -> List[DataReceivedEvent]:
-        """Gets the DataReceivedEvent RTEEvents owned by this behavior, sorted by short name."""
-        return sorted(filter(lambda c: isinstance(c, DataReceivedEvent), self.elements), key=lambda e: e.short_name)
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        return sorted(filter(lambda c: isinstance(c, DataReceivedEvent), self.events), key=lambda e: e.short_name)
 
     def getSwcModeSwitchEvents(self) -> List[SwcModeSwitchEvent]:
-        """Gets the SwcModeSwitchEvent RTEEvents owned by this behavior, sorted by short name."""
-        return sorted(filter(lambda c: isinstance(c, SwcModeSwitchEvent), self.elements), key=lambda e: e.short_name)
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        return sorted(filter(lambda c: isinstance(c, SwcModeSwitchEvent), self.events), key=lambda e: e.short_name)
 
     def getInternalTriggerOccurredEvents(self) -> List[InternalTriggerOccurredEvent]:
-        """Gets the InternalTriggerOccurredEvent RTEEvents owned by this behavior, sorted by short name."""
-        return sorted(filter(lambda c: isinstance(c, InternalTriggerOccurredEvent), self.elements), key=lambda e: e.short_name)
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        return sorted(filter(lambda c: isinstance(c, InternalTriggerOccurredEvent), self.events), key=lambda e: e.short_name)
 
     def getModeSwitchedAckEvents(self) -> List[ModeSwitchedAckEvent]:
-        """Gets the ModeSwitchedAckEvent RTEEvents owned by this behavior, sorted by short name."""
-        return sorted(filter(lambda c: isinstance(c, ModeSwitchedAckEvent), self.elements), key=lambda e: e.short_name)
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        return sorted(filter(lambda c: isinstance(c, ModeSwitchedAckEvent), self.events), key=lambda e: e.short_name)
 
     def getBackgroundEvents(self) -> List[BackgroundEvent]:
-        """Gets the BackgroundEvent RTEEvents owned by this behavior, sorted by short name."""
-        return sorted(filter(lambda c: isinstance(c, BackgroundEvent), self.elements), key=lambda e: e.short_name)
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        return sorted(filter(lambda c: isinstance(c, BackgroundEvent), self.events), key=lambda e: e.short_name)
 
     def getDataSendCompletedEvents(self) -> List[DataSendCompletedEvent]:
-        """Gets the DataSendCompletedEvent RTEEvents owned by this behavior, sorted by short name."""
-        return sorted(filter(lambda c: isinstance(c, DataSendCompletedEvent), self.elements), key=lambda e: e.short_name)
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
+        return sorted(filter(lambda c: isinstance(c, DataSendCompletedEvent), self.events), key=lambda e: e.short_name)
 
     def getSwcServiceDependencies(self) -> List[SwcServiceDependency]:
-        """Gets the SwcServiceDependency objects defining AUTOSAR Service requirements, sorted by short name."""
-        return sorted(filter(lambda c: isinstance(c, SwcServiceDependency), self.elements), key=lambda e: e.short_name)
+        """
+        Defines the requirements on AUTOSAR Services for a particular item. The aggregation of SwcServiceDependency is subject to variability with the purpose to support the conditional existence of ports as well as the conditional existence of ServiceNeeds. The SwcServiceDependency owned by an SwcInternal Behavior can be located in a different physical file in order to support that SwcServiceDependency might be provided in later development steps or even by different expert domain (e.g OBD expert for Obd related Service Needs) tools. Therefore the aggregation is <<atp Splitable>>. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=serviceDependency.shortName, service Dependency.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return sorted(self.serviceDependencies, key=lambda e: e.short_name)
 
     def getEvent(self, short_name: str) -> RTEEvent:
-        """Gets the RTEEvent with the given short name from this behavior."""
+        """
+        This is a RTEEvent specified for the particular Swc InternalBehavior. The aggregation of RTEEvent is subject to variability with the purpose to support the conditional existence of RTE events. Note: the number of RTE events might vary due to the conditional existence of PortPrototypes using Data ReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=event.shortName, event.variationPoint.short Label vh.latestBindingTime=preCompileTime
+        """
         return self.getElement(short_name, RTEEvent)
 
     def getVariableDataPrototypes(self) -> List[VariableDataPrototype]:
@@ -1116,32 +1188,36 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
         return sorted(filter(lambda c: isinstance(c, VariableDataPrototype), self.elements), key=lambda e: e.short_name)
 
     def createRunnableEntity(self, short_name: str) -> RunnableEntity:
-        """Creates (or returns an existing) RunnableEntity specified for this SwcInternalBehavior."""
+        """
+        This is a RunnableEntity specified for the particular Swc InternalBehavior. The aggregation of RunnableEntity is subject to variability with the purpose to support the conditional existence of RunnableEntities. Note: the number of RunnableEntities might vary due to the conditional existence of Port Prototypes using DataReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=runnable.shortName, runnable.variation Point.shortLabel vh.latestBindingTime=preCompileTime
+        """
         if not self.IsElementExists(short_name, RunnableEntity):
             runnable = RunnableEntity(self, short_name)
             self.addElement(runnable)
+            self.runnables.append(runnable)
         return self.getElement(short_name, RunnableEntity)
 
     def getRunnableEntities(self) -> List[RunnableEntity]:
-        """Gets the RunnableEntity objects owned by this behavior, sorted by short name."""
-        return sorted(filter(lambda c: isinstance(c, RunnableEntity), self.elements), key=lambda r: r.short_name)
+        """
+        This is a RunnableEntity specified for the particular Swc InternalBehavior. The aggregation of RunnableEntity is subject to variability with the purpose to support the conditional existence of RunnableEntities. Note: the number of RunnableEntities might vary due to the conditional existence of Port Prototypes using DataReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=runnable.shortName, runnable.variation Point.shortLabel vh.latestBindingTime=preCompileTime
+        """
+        return sorted(self.runnables, key=lambda r: r.short_name)
 
     def getRunnableEntity(self, short_name: str) -> RunnableEntity:
-        """Gets the RunnableEntity with the given short name from this behavior."""
+        """
+        This is a RunnableEntity specified for the particular Swc InternalBehavior. The aggregation of RunnableEntity is subject to variability with the purpose to support the conditional existence of RunnableEntities. Note: the number of RunnableEntities might vary due to the conditional existence of Port Prototypes using DataReceivedEvents or due to different scheduling needs of algorithms. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=runnable.shortName, runnable.variation Point.shortLabel vh.latestBindingTime=preCompileTime
+        """
         return self.getElement(short_name, RunnableEntity)
 
     def getSupportsMultipleInstantiation(self) -> Optional[Boolean]:
         """
-        Indicates whether the corresponding software-component can be multiply
-        instantiated on one ECU.
+        Indicate whether the corresponding software-component can be multiply instantiated on one ECU. In this case the attribute will result in an appropriate component API on programming language level (with or without instance handle).
         """
         return self.supportsMultipleInstantiation
 
     def setSupportsMultipleInstantiation(self, value: Optional[Boolean]) -> "SwcInternalBehavior":
         """
-        Indicates whether the corresponding software-component can be multiply
-        instantiated on one ECU. A None value is a no-op and does not overwrite
-        an existing supportsMultipleInstantiation.
+        Indicate whether the corresponding software-component can be multiply instantiated on one ECU. In this case the attribute will result in an appropriate component API on programming language level (with or without instance handle). A None value is a no-op and does not overwrite an existing value.
         """
         if value is not None:
             self.supportsMultipleInstantiation = value
@@ -1149,28 +1225,28 @@ class SwcInternalBehavior(InternalBehavior, VariationPointCapable):
 
     def addInstantiationDataDefProps(self, value: Optional[InstantiationDataDefProps]) -> "SwcInternalBehavior":
         """
-        Adds an InstantiationDataDefProps applying additional SwDataDefProps to
-        a particular instantiation. A None value is a no-op and does not append
-        to instantiationDataDefProps.
+        The purpose of this is that within the context of a given SwComponentType some data def properties of individual instantiations can be modified. The aggregation of InstantiationDataDefProps is subject to variability with the purpose to support the conditional existence of Port Prototypes and component local memories like "per InstanceParameter" or "arTypedPerInstanceMemory". Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=instantiationDataDefProps, instantiationData DefProps.variationPoint.shortLabel vh.latestBindingTime=preCompileTime A None value is a no-op and does not append to instantiationDataDefProps.
         """
         if value is not None:
             self.instantiationDataDefProps.append(value)
         return self
 
     def getInstantiationDataDefPropss(self) -> List[InstantiationDataDefProps]:
-        """Gets the InstantiationDataDefProps objects owned by this behavior."""
+        """
+        The purpose of this is that within the context of a given SwComponentType some data def properties of individual instantiations can be modified. The aggregation of InstantiationDataDefProps is subject to variability with the purpose to support the conditional existence of Port Prototypes and component local memories like "per InstanceParameter" or "arTypedPerInstanceMemory". Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=instantiationDataDefProps, instantiationData DefProps.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
+        """
         return self.instantiationDataDefProps
 
     def addVariationPointProxy(self, value: Optional[VariationPointProxy]) -> "SwcInternalBehavior":
         """
-        Adds a VariationPointProxy (proxy of a variation point in the C/C++
-        implementation). A None value is a no-op and does not append to
-        variationPointProxies.
+        Proxy of a variation points in the C/C++ implementation. Stereotypes: atpSplitable Tags: atp.Splitkey=variationPointProxy.shortName A None value is a no-op and does not append to variationPointProxies.
         """
         if value is not None:
             self.variationPointProxies.append(value)
         return self
 
     def getVariationPointProxies(self) -> List[VariationPointProxy]:
-        """Gets the VariationPointProxy objects owned by this behavior."""
+        """
+        Proxy of a variation points in the C/C++ implementation. Stereotypes: atpSplitable Tags: atp.Splitkey=variationPointProxy.shortName
+        """
         return self.variationPointProxies

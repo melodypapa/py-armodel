@@ -3600,6 +3600,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported ExplicitInterRunnableVariables <%s>" % type(prototype))
 
+    def writeSwcInternalBehaviorImplicitInterRunnableVariables(self, element: ET.Element, behavior: SwcInternalBehavior):
+        prototypes = behavior.getImplicitInterRunnableVariables()
+        if len(prototypes) > 0:
+            child_element = ET.SubElement(element, "IMPLICIT-INTER-RUNNABLE-VARIABLES")
+            for prototype in prototypes:
+                if isinstance(prototype, VariableDataPrototype):
+                    self.writeVariableDataPrototype(child_element, prototype)
+                else:
+                    self.notImplemented("Unsupported ImplicitInterRunnableVariables <%s>" % type(prototype))
+
     def writeSwcInternalBehaviorPerInstanceMemories(self, element: ET.Element, behavior: SwcInternalBehavior):
         memories = behavior.getPerInstanceMemories()
         if len(memories) > 0:
@@ -4879,6 +4889,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSwcInternalBehaviorEvents(child_element, behavior)
         self.writeSwcInternalBehaviorExplicitInterRunnableVariables(child_element, behavior)
         self.setChildElementOptionalLiteral(child_element, "HANDLE-TERMINATION-AND-RESTART", behavior.getHandleTerminationAndRestart())
+        self.writeSwcInternalBehaviorImplicitInterRunnableVariables(child_element, behavior)
         self.setIncludedDataTypeSets(child_element, behavior.getIncludedDataTypeSets())
         self.writeSwcInternalBehaviorIncludedModeDeclarationGroupSets(child_element, behavior)
         self.writeSwcInternalBehaviorInstantiationDataDefProps(child_element, behavior)
