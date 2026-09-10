@@ -389,16 +389,15 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 8 — Deviations — user elected to skip this class rather than redesign inherited `Referrable.elements`; the class remains unstamped. Existing factory annotation correction and tests are retained.
    - [x] Step 9 — Verify (9a) + confirm (9b) — N/A: class skipped by explicit user direction; no stamp written
  - [ ] `DataTransformationErrorHandlingEnum` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.43 · member type of `PortAPIOption.errorHandling` · source class not present in src)
-   - [x] Step 1 — Sync members & description from spec — Table 7.43, p.590; enum Note and two literals captured
-   - [x] Step 2 — Write model class unit test (Red) — added literal presence/order test; Red confirmed missing dependency class
-   - [x] Step 3 — Implement model class (Green) — added AREnum with `noTransformerErrorHandling` and `transformerErrorHandling` literals
-   - [x] Step 4 — Sync docstrings (wipe + rewrite) — enum Note copied verbatim; no-method enum checklist added
-   - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A for standalone enum; value form is serialized by PortAPIOption.errorHandling
-   - [x] Step 6 — Update parser & writer (Green) — N/A for standalone enum; consumer coverage remains in PortAPIOption paths
-   - [x] Step 7 — Update checklist comment — enum provenance and no-method serialization note added
-   - [x] Step 8 — Deviations — none; dependency now exists in source
-   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a focused enum test, lint, and diff checks passed; 9b user-confirmed; marker written
-   - [ ] Step 9 — Verify (9a) + confirm (9b)
+    - [x] Step 1 — Sync members & description from spec — R23-11 Table 7.43, p.590; enum kind, package, Note, and both literal rows captured
+    - [x] Step 2 — Write model class unit test (Red) — added literal presence/order and instantiation test; Red observed ImportError before implementation because the dependency class was absent
+    - [x] Step 3 — Implement model class (Green) — added AREnum with `noTransformerErrorHandling` and `transformerErrorHandling`; focused test passed
+    - [x] Step 4 — Sync docstrings (wipe + rewrite) — enum Note copied verbatim; no stale member/method docs; no-method checklist retained
+    - [x] Step 5 — Write reader/writer round-trip test (N/A) — standalone AREnum has no own XML element; value-form serialization is exercised through the consuming PortAPIOption field
+    - [x] Step 6 — Update parser & writer (N/A) — no standalone reader/writer is permitted; existing PortAPIOption parser/writer paths cover the enum value form
+    - [x] Step 7 — Update checklist comment — six-column release provenance and explicit no-method/value-form serialization evidence added
+    - [x] Step 8 — Deviations — none; dependency now exists in source and no unresolved class-specific deviation remains
+    - [x] Step 9 — Verify (9a) + confirm (9b) — corrective pass: focused tests/lint/diff checks passed; prior 9b user confirmation retained; source marker already present; no duplicate step remains
  - [ ] `DataTransformationStatusForwardingEnum` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.44 · member type of `PortAPIOption.transformerStatusForwarding` · source class not present in src)
    - [ ] Step 1 — Sync members & description from spec
    - [ ] Step 2 — Write model class unit test (Red)
