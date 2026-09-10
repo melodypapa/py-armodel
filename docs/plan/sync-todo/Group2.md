@@ -308,16 +308,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release, member order, and reader/writer mapping
    - [x] Step 8 — Deviations — none for the class; base `SwConnector`, member types, naming, order, docstrings, and coverage conform to Table 3.14; referenced `PortInCompositionTypeInstanceRef` is stamped
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: focused tests/lint/diff checks passed; 9b user-confirmed 2026-09-10; no class-specific deviations; marker written
-- [ ] `ApplicationPrimitiveDataType` (tracker input · R23-11 markdown · **spec ref CORRECTED 2026-09-03 restructure: AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 5.5 (was: DiagnosticExtractTemplate Table 5.6)** · after `ApplicationDataType` (parent, Table 5.2))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `ApplicationPrimitiveDataType` (tracker input · R23-11 markdown · **spec ref CORRECTED 2026-09-03 restructure: AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 5.5 (was: DiagnosticExtractTemplate Table 5.6)** · after `ApplicationDataType` (parent, Table 5.2)) — **finished, stamped `# Spec verified: R23-11`**
+   - [x] Step 1 — Sync members & description from spec — Table 5.5, p.241; concrete `ApplicationDataType` subtype with no own attributes; class Note copied verbatim: "A primitive data type defines a set of allowed values."
+   - [x] Step 2 — Write model class unit test (Red) — added spec-contract test for inheritance, inherited defaults, and exact class Note; Red confirmed the existing fabricated docstring
+   - [x] Step 3 — Implement model class (Green) — no field/base implementation change required; existing `ApplicationDataType` heritage and inherited `swDataDefProps` are conformant
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — replaced fabricated class wording with the Table 5.5 Note
+   - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — existing parser and writer tests assert SHORT-NAME, inherited SW-DATA-DEF-PROPS values, and empty inherited shape; no standalone members or silent drop found
+   - [x] Step 6 — Update parser & writer (Green) — no production change needed; existing `readApplicationPrimitiveDataType`/`writeApplicationPrimitiveDataType` delegate to the inherited AutosarDataType paths
+   - [x] Step 7 — Update checklist comment — six-column R23-11 checklist for the sole `__init__` row; no own XML members
+   - [x] Step 8 — Deviations — none; base chain, zero own attributes, inherited reader/writer coverage, and documentation conform to Table 5.5
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 11 focused tests, lint, and diff checks passed; 9b user-confirmed; no class-specific deviations; marker written
 - [ ] `ApplicationCompositeDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.6 (multiple tables — resolve in per-class Phase 0) · after `ApplicationDataType` (parent, Table 5.2))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

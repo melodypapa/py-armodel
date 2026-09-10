@@ -67,12 +67,14 @@ class ApplicationDataType(AutosarDataType, ABC):
 
 class ApplicationPrimitiveDataType(ApplicationDataType):
     """
-    An application data type that represents a primitive (non-composite)
-    data type.
+    A primitive data type defines a set of allowed values.
     """
 
     # ApplicationPrimitiveDataType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.5, p.241 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

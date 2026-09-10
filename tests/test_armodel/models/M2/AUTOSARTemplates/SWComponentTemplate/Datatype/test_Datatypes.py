@@ -124,6 +124,16 @@ class TestApplicationDataType:
 class TestApplicationPrimitiveDataType:
     """Test class for ApplicationPrimitiveDataType class."""
 
+    def test_application_primitive_data_type_spec_contract(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        primitive_type = ApplicationPrimitiveDataType(ar_root, "TestApplicationPrimitiveDataType")
+
+        assert isinstance(primitive_type, ApplicationDataType)
+        assert isinstance(primitive_type, AutosarDataType)
+        assert primitive_type.getSwDataDefProps() is None
+        assert primitive_type.__class__.__doc__.strip() == "A primitive data type defines a set of allowed values."
+
     def test_application_primitive_data_type_initialization(self):
         """Test ApplicationPrimitiveDataType initialization and methods."""
         document = AUTOSAR.getInstance()
