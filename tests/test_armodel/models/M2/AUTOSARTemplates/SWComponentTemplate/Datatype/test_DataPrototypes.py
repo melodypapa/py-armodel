@@ -10,6 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     ApplicationArrayElement,
     ApplicationCompositeElementDataPrototype,
@@ -177,6 +178,25 @@ class TestApplicationCompositeElementDataPrototype:
         ar_root = document.createARPackage("AUTOSAR")
         with pytest.raises(TypeError):
             ApplicationCompositeElementDataPrototype(ar_root, "TestApplicationCompositeElementDataPrototype")
+
+    def test_application_composite_element_data_prototype_spec_contract(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        array_element = ApplicationArrayElement(ar_root, "TestApplicationArrayElement")
+        type_ref = TRefType()
+        type_ref.setValue("/Types/Application")
+        type_ref.setDest("APPLICATION-DATA-TYPE")
+
+        assert isinstance(array_element, ApplicationCompositeElementDataPrototype)
+        assert array_element.getTypeTRef() is None
+        assert array_element.setTypeTRef(type_ref) is array_element
+        assert array_element.getTypeTRef() is type_ref
+        array_element.setTypeTRef(None)
+        assert array_element.getTypeTRef() is type_ref
+        assert ApplicationCompositeElementDataPrototype.__doc__.strip() == (
+            "This class represents a data prototype which is aggregated within a composite application data type (record or array). "
+            "It is introduced to provide a better distinction between target and context in instance Refs."
+        )
 
 
 class TestApplicationArrayElement:

@@ -49,11 +49,14 @@ class AutosarDataType(ARElement, ABC):
 
 class ApplicationDataType(AutosarDataType, ABC):
     """
-    Abstract base class for all application data types.
+    ApplicationDataType defines a data type from the application point of view. Especially it should be used whenever something "physical" is at stake. An ApplicationDataType represents a set of values as seen in the application model, such as measurement units. It does not consider implementation details such as bit-size, endianess, etc. It should be possible to model the application level aspects of a VFB system by using ApplicationData Types only.
     """
 
     # ApplicationDataType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.2, p.232 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ApplicationDataType:
@@ -257,33 +260,54 @@ class DataTypeMap(ARObject):
 
 class DataTypeMappingSet(AtpBlueprintable):
     """
-    A set of data type maps and mode request type maps that define
-    mappings between application and implementation data types.
+    This class represents a list of mappings between ApplicationDataTypes and ImplementationDataTypes. In addition, it can contain mappings between ImplementationDataTypes and ModeDeclarationGroups.
     """
 
     # DataTypeMappingSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addDataTypeMap               [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataTypeMaps              [x] impl  [ ] docstring  [ ] test
-    # [ ] addModeRequestTypeMap        [x] impl  [ ] docstring  [ ] test
-    # [ ] getModeRequestTypeMaps       [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.4, p.234 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDataTypeMap          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataTypeMaps         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addModeRequestTypeMap   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeRequestTypeMaps  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # This is one particular association between an Application DataType and its AbstractImplementationDataType.
         self.dataTypeMaps: List[DataTypeMap] = []
+
+        # This is one particular association between an Mode DeclarationGroup and its AbstractImplementationData Type.
         self.modeRequestTypeMaps: List[ModeRequestTypeMap] = []
 
-    def addDataTypeMap(self, type_map: DataTypeMap):
-        self.dataTypeMaps.append(type_map)
+    def addDataTypeMap(self, type_map: Optional[DataTypeMap]) -> "DataTypeMappingSet":
+        """
+        This is one particular association between an Application DataType and its AbstractImplementationDataType.
+        A None value is a no-op and does not add an item.
+        """
+        if type_map is not None:
+            self.dataTypeMaps.append(type_map)
         return self
 
     def getDataTypeMaps(self) -> List[DataTypeMap]:
+        """
+        This is one particular association between an Application DataType and its AbstractImplementationDataType.
+        """
         return self.dataTypeMaps
 
-    def addModeRequestTypeMap(self, map: ModeRequestTypeMap):
-        self.modeRequestTypeMaps.append(map)
+    def addModeRequestTypeMap(self, map: Optional[ModeRequestTypeMap]) -> "DataTypeMappingSet":
+        """
+        This is one particular association between an Mode DeclarationGroup and its AbstractImplementationData Type.
+        A None value is a no-op and does not add an item.
+        """
+        if map is not None:
+            self.modeRequestTypeMaps.append(map)
         return self
 
     def getModeRequestTypeMaps(self) -> List[ModeRequestTypeMap]:
+        """
+        This is one particular association between an Mode DeclarationGroup and its AbstractImplementationData Type.
+        """
         return self.modeRequestTypeMaps

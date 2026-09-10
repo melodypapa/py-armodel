@@ -6,7 +6,7 @@ in software component internal behavior templates.
 from abc import ABC
 from typing import Optional
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -89,46 +89,85 @@ class ServerCallPoint(AbstractAccessPoint, VariationPointCapable, ABC):
 
 
 class AsynchronousServerCallResultPoint(AbstractAccessPoint, VariationPointCapable):
+    """
+    If a RunnableEntity owns a AsynchronousServerCallResultPoint it is entitled to get the result of the referenced AsynchronousServerCallPoint. If it is associated with AsynchronousServerCallReturnsEvent, this RTEEvent notifies the completion of the required ClientServerOperation or a timeout. The occurrence of this event can either unblock a WaitPoint or can lead to the invocation of a RunnableEntity.
+    """
+
     # AsynchronousServerCallResultPoint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getAsynchronousServerCallPointRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setAsynchronousServerCallPointRef [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.38, p.581 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAsynchronousServerCallPointRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAsynchronousServerCallPointRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.asynchronousServerCallPointRef = None  # type: RefType
+        # The referenced Asynchronous Server Call Point defines the asynchronous server call from which the results are returned.
+        self.asynchronousServerCallPointRef: Optional[RefType] = None
 
-    def getAsynchronousServerCallPointRef(self):
+    def getAsynchronousServerCallPointRef(self) -> Optional[RefType]:
+        """
+        The referenced Asynchronous Server Call Point defines the asynchronous server call from which the results are returned.
+        """
         return self.asynchronousServerCallPointRef
 
-    def setAsynchronousServerCallPointRef(self, value):
-        self.asynchronousServerCallPointRef = value
+    def setAsynchronousServerCallPointRef(self, value: Optional[RefType]) -> "AsynchronousServerCallResultPoint":
+        """
+        The referenced Asynchronous Server Call Point defines the asynchronous server call from which the results are returned.
+        A None value is a no-op and does not overwrite an existing asynchronousServerCallPointRef.
+        """
+        if value is not None:
+            self.asynchronousServerCallPointRef = value
         return self
 
 
 class AsynchronousServerCallPoint(ServerCallPoint):
+    """
+    An AsynchronousServerCallPoint is used for asynchronous invocation of a ClientServerOperation. IMPORTANT: a ServerCallPoint cannot be used concurrently. Once the client RunnableEntity has made the invocation, the ServerCallPoint cannot be used until the call returns (or an error occurs!) at which point the ServerCallPoint becomes available again.
+    """
+
     # AsynchronousServerCallPoint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.37, p.581 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
 
 class SynchronousServerCallPoint(ServerCallPoint):
+    """
+    This means that the RunnableEntity is supposed to perform a blocking wait for a response from the server.
+    """
+
     # SynchronousServerCallPoint method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCalledFromWithinExclusiveAreaRef [x] impl  [ ] docstring  [ ] test
-    # [ ] setCalledFromWithinExclusiveAreaRef [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.36, p.580 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCalledFromWithinExclusiveAreaRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCalledFromWithinExclusiveAreaRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.calledFromWithinExclusiveAreaRef = None  # type: RefType
+        # This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
+        self.calledFromWithinExclusiveAreaRef: Optional[RefType] = None
 
-    def getCalledFromWithinExclusiveAreaRef(self):
+    def getCalledFromWithinExclusiveAreaRef(self) -> Optional[RefType]:
+        """
+        This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
+        """
         return self.calledFromWithinExclusiveAreaRef
 
-    def setCalledFromWithinExclusiveAreaRef(self, value):
-        self.calledFromWithinExclusiveAreaRef = value
+    def setCalledFromWithinExclusiveAreaRef(self, value: Optional[RefType]) -> "SynchronousServerCallPoint":
+        """
+        This indicates that the call point is located at the deepest level inside one or more ExclusiveAreas that are nested in the given order.
+        A None value is a no-op and does not overwrite an existing calledFromWithinExclusiveAreaRef.
+        """
+        if value is not None:
+            self.calledFromWithinExclusiveAreaRef = value
         return self

@@ -163,6 +163,9 @@ class TestImplementationLinkers:
         linker = linkers[0]
         assert isinstance(linker, Linker)
         assert linker.getShortName() == "Ld"
+        assert linker.getName().getText() == "ld"
+        assert linker.getOptions().getText() == "-Map"
+        assert linker.getVendor().getText() == "GNU"
         assert linker.getVersion().getText() == "2.40"
 
 
@@ -174,6 +177,7 @@ class TestImplementationArtifacts:
         ga = generated[0]
         assert isinstance(ga, DependencyOnArtifact)
         assert ga.getShortName() == "GenA"
+        assert ga.getUsages()[0].getValue() == "BUILD"
         assert [u.getText() for u in ga.getUsages()] == ["BUILD"]
 
     def test_required_artifacts(self, parser):
@@ -183,6 +187,7 @@ class TestImplementationArtifacts:
         ra = required[0]
         assert isinstance(ra, DependencyOnArtifact)
         assert ra.getShortName() == "ReqA"
+        assert ra.getUsages()[0].getValue() == "LINK"
         assert [u.getText() for u in ra.getUsages()] == ["LINK"]
 
     def test_required_generator_tools(self, parser):
@@ -192,6 +197,7 @@ class TestImplementationArtifacts:
         tool = tools[0]
         assert isinstance(tool, DependencyOnArtifact)
         assert tool.getShortName() == "GenT"
+        assert tool.getUsages()[0].getValue() == "CODEGENERATION"
         assert [u.getText() for u in tool.getUsages()] == ["CODEGENERATION"]
 
 
@@ -212,6 +218,7 @@ class TestImplementationHwAndCode:
         refs = code.getCallbackHeaderRefs()
         assert len(refs) == 1
         assert refs[0].getValue() == "/Pkg/Cb_h"
+        assert refs[0].getDest() == "SERVICE-NEEDS"
 
 
 def _parse_impl(parser):

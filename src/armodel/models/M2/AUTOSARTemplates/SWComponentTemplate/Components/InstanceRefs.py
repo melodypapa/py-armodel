@@ -377,13 +377,19 @@ class PTriggerInAtomicSwcTypeInstanceRef(TriggerInAtomicSwcInstanceRef):
 
 
 class VariableInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
-    """
-    Abstract base class for variable instance references within an atomic
-    software component type.
-    """
+    """"""
 
     # VariableInAtomicSwcInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.1, p.941 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                            [x] impl  [—] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAbstractTargetDataElementRef      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAbstractTargetDataElementRef      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBaseRef                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseRef                           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextPortRef                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setContextPortRef                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is VariableInAtomicSwcInstanceRef:
@@ -391,9 +397,56 @@ class VariableInAtomicSwcInstanceRef(AtpInstanceRef, ABC):
 
         super().__init__()
 
-        self.abstractTargetDataElementRef: RefType = None
-        self.baseRef: RefType = None
-        self.contextPortRef: RefType = None
+        self.abstractTargetDataElementRef: Optional[RefType] = None
+
+        self.baseRef: Optional[RefType] = None
+
+        self.contextPortRef: Optional[RefType] = None
+
+    def getAbstractTargetDataElementRef(self) -> Optional[RefType]:
+        """
+        Stereotypes: atpAbstract Tags: xml.sequenceOffset=30
+        """
+        return self.abstractTargetDataElementRef
+
+    def setAbstractTargetDataElementRef(self, value: Optional[RefType]) -> "VariableInAtomicSwcInstanceRef":
+        """
+        Stereotypes: atpAbstract Tags: xml.sequenceOffset=30
+        A None value is a no-op and does not overwrite an existing abstractTargetDataElementRef.
+        """
+        if value is not None:
+            self.abstractTargetDataElementRef = value
+        return self
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """
+        Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        """
+        return self.baseRef
+
+    def setBaseRef(self, value: Optional[RefType]) -> "VariableInAtomicSwcInstanceRef":
+        """
+        Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        A None value is a no-op and does not overwrite an existing baseRef.
+        """
+        if value is not None:
+            self.baseRef = value
+        return self
+
+    def getContextPortRef(self) -> Optional[RefType]:
+        """
+        Stereotypes: atpAbstract Tags: xml.sequenceOffset=20
+        """
+        return self.contextPortRef
+
+    def setContextPortRef(self, value: Optional[RefType]) -> "VariableInAtomicSwcInstanceRef":
+        """
+        Stereotypes: atpAbstract Tags: xml.sequenceOffset=20
+        A None value is a no-op and does not overwrite an existing contextPortRef.
+        """
+        if value is not None:
+            self.contextPortRef = value
+        return self
 
 
 class RVariableInAtomicSwcInstanceRef(VariableInAtomicSwcInstanceRef):

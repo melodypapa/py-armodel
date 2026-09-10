@@ -789,12 +789,16 @@ class TestRunnableEntityOrchestrator:
             "<ASYNCHRONOUS-SERVER-CALL-RESULT-POINTS>"
             "<ASYNCHRONOUS-SERVER-CALL-RESULT-POINT>"
             "<SHORT-NAME>asrp</SHORT-NAME>"
+            "<ASYNCHRONOUS-SERVER-CALL-POINT-REF DEST='ASYNCHRONOUS-SERVER-CALL-POINT'>/points/acp</ASYNCHRONOUS-SERVER-CALL-POINT-REF>"
             "</ASYNCHRONOUS-SERVER-CALL-RESULT-POINT>"
             "</ASYNCHRONOUS-SERVER-CALL-RESULT-POINTS>",
             root_tag="RUNNABLE-ENTITY",
         )
         parser.readRunnableEntity(element, runnable)
         assert len(runnable.getAsynchronousServerCallResultPoints()) == 1
+        result_point = runnable.getAsynchronousServerCallResultPoints()[0]
+        assert result_point.getAsynchronousServerCallPointRef().getValue() == "/points/acp"
+        assert result_point.getAsynchronousServerCallPointRef().getDest() == "ASYNCHRONOUS-SERVER-CALL-POINT"
 
     def test_readRunnableEntity_with_canBeInvokedConcurrently(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -877,6 +881,8 @@ class TestRteEventHandlers:
         )
         parser.readDataReceivedEvent(element, event)
         assert event.getDataIRef() is not None
+        assert event.getDataIRef().getContextRPortRef().getValue() == "/rport"
+        assert event.getDataIRef().getTargetDataElementRef().getValue() == "/data"
 
     def test_readSwcModeSwitchEvent_full(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -972,6 +978,22 @@ class TestRteEventHandlers:
         element = _snip("<SHORT-NAME>be</SHORT-NAME>", root_tag="BACKGROUND-EVENT")
         parser.readBackgroundEvent(element, event)
         assert event.getShortName() == "be"
+        assert event.getDisabledModeIRefs() == []
+        assert event.getStartOnEventRef() is None
+
+    def test_readBackgroundEvent_inherited_rte_fields(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        event = behavior.createBackgroundEvent("be")
+        element = _snip(
+            "<SHORT-NAME>be</SHORT-NAME><START-ON-EVENT-REF DEST='RUNNABLE-ENTITY'>/runnable</START-ON-EVENT-REF>",
+            root_tag="BACKGROUND-EVENT",
+        )
+        parser.readBackgroundEvent(element, event)
+        assert event.getStartOnEventRef().getValue() == "/runnable"
+        assert event.getStartOnEventRef().getDest() == "RUNNABLE-ENTITY"
 
     def test_readDataSendCompletedEvent_full(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -1412,6 +1434,16 @@ class TestDataTypeAndCompuHandlers:
         )
         parser.readApplicationPrimitiveDataType(element, data_type)
         assert data_type.getSwDataDefProps() is not None
+        assert data_type.getSwDataDefProps().getBaseTypeRef().getValue() == "/bt"
+
+    def test_readApplicationDataType_is_inherited_only(self, parser):
+        from armodel.models import ApplicationPrimitiveDataType
+
+        data_type = ApplicationPrimitiveDataType(parent=_autosar_root(), short_name="apdt")
+        element = _snip("<SHORT-NAME>apdt</SHORT-NAME>", root_tag="APPLICATION-PRIMITIVE-DATA-TYPE")
+        parser.readApplicationDataType(element, data_type)
+        assert data_type.getShortName() == "apdt"
+        assert data_type.getSwDataDefProps() is None
 
     def test_readApplicationRecordDataType_full(self, parser):
         from armodel.models import ApplicationRecordDataType
@@ -1423,6 +1455,25 @@ class TestDataTypeAndCompuHandlers:
         )
         parser.readApplicationRecordDataType(element, data_type)
         assert len(data_type.getApplicationRecordElements()) == 1
+
+    def test_readApplicationCompositeElementDataPrototype_type_tref(self, parser):
+        from armodel.models import ApplicationArrayElement
+
+        element = ApplicationArrayElement(parent=_autosar_root(), short_name="elem")
+        xml = _snip(
+            "<SHORT-NAME>elem</SHORT-NAME><TYPE-TREF DEST='APPLICATION-DATA-TYPE'>/types/app</TYPE-TREF>",
+            root_tag="APPLICATION-ARRAY-ELEMENT",
+        )
+        parser.readApplicationCompositeElementDataPrototype(xml, element)
+        assert element.getTypeTRef().getValue() == "/types/app"
+        assert element.getTypeTRef().getDest() == "APPLICATION-DATA-TYPE"
+
+    def test_readApplicationCompositeElementDataPrototype_without_type(self, parser):
+        from armodel.models import ApplicationArrayElement
+
+        element = ApplicationArrayElement(parent=_autosar_root(), short_name="elem")
+        parser.readApplicationCompositeElementDataPrototype(_snip("<SHORT-NAME>elem</SHORT-NAME>", root_tag="APPLICATION-ARRAY-ELEMENT"), element)
+        assert element.getTypeTRef() is None
 
     def test_readImplementationDataType_full(self, parser):
         from armodel.models import ImplementationDataType
@@ -1911,6 +1962,21 @@ class TestLifeCycleAndVariantHandlers:
         assert desc.getUpstreamReferenceIRef().getBaseRef().getValue() == "/base"
         assert desc.getUpstreamReferenceIRef().getTargetRef().getValue() == "/target"
         assert desc.getEcuExtractReferenceIRef().getTargetRef().getValue() == "/ecu_target"
+
+    def test_readRtePluginProps_refs(self, parser):
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import RtePluginProps
+
+        props = RtePluginProps()
+        element = _snip(
+            "<ASSOCIATED-CROSS-SW-CLUSTER-COM-RTE-PLUGIN-REF DEST='ECUC-CONTAINER-VALUE'>/cross</ASSOCIATED-CROSS-SW-CLUSTER-COM-RTE-PLUGIN-REF>"
+            "<ASSOCIATED-RTE-PLUGIN-REF DEST='ECUC-CONTAINER-VALUE'>/local</ASSOCIATED-RTE-PLUGIN-REF>",
+            root_tag="RTE-PLUGIN-PROPS",
+        )
+        parser.readRtePluginProps(element, props)
+
+        assert isinstance(props, RtePluginProps)
+        assert props.getAssociatedCrossSwClusterComRtePluginRef().getValue() == "/cross"
+        assert props.getAssociatedRtePluginRef().getValue() == "/local"
 
 
 # ==================== Implementations Handlers ====================
@@ -2836,13 +2902,11 @@ class TestReadSenderRecRecordElementMapping:
         )
 
         mapping = SenderRecRecordElementMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
             <IMPLEMENTATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/Impl/Rec1</IMPLEMENTATION-RECORD-ELEMENT-REF>
             <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
-        """
-        )
+        """)
         parser.readSenderRecRecordElementMapping(element, mapping)
         assert mapping.getApplicationRecordElementRef() is not None
         assert mapping.getApplicationRecordElementRef().getValue() == "/App/Rec1"
@@ -2877,8 +2941,7 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
         )
 
         mapping = SenderRecRecordTypeMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <RECORD-ELEMENT-MAPPINGS>
                 <SENDER-REC-RECORD-ELEMENT-MAPPING>
                     <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
@@ -2886,8 +2949,7 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
                     <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
                 </SENDER-REC-RECORD-ELEMENT-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """
-        )
+        """)
         parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
         mappings = mapping.getRecordElementMappings()
         assert len(mappings) == 1
@@ -2900,15 +2962,13 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
         )
 
         mapping = SenderRecRecordTypeMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <RECORD-ELEMENT-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """
-        )
+        """)
         with pytest.raises(NotImplementedError):
             parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
 
@@ -2918,15 +2978,13 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
         )
 
         mapping = SenderRecRecordTypeMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <RECORD-ELEMENT-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """
-        )
+        """)
         with caplog.at_level(logging.ERROR):
             warning_parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
         assert any("Unsupported RecordElementMapping" in rec.getMessage() for rec in caplog.records)
@@ -2955,8 +3013,7 @@ class TestReadSenderRecRecordTypeMapping:
         )
 
         mapping = SenderRecRecordTypeMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <RECORD-ELEMENT-MAPPINGS>
                 <SENDER-REC-RECORD-ELEMENT-MAPPING>
                     <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
@@ -2969,8 +3026,7 @@ class TestReadSenderRecRecordTypeMapping:
                     <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S2</SYSTEM-SIGNAL-REF>
                 </SENDER-REC-RECORD-ELEMENT-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """
-        )
+        """)
         parser.readSenderRecRecordTypeMapping(element, mapping)
         mappings = mapping.getRecordElementMappings()
         assert len(mappings) == 2
@@ -2991,8 +3047,7 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
         )
 
         mapping = SenderReceiverToSignalGroupMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <TYPE-MAPPING>
                 <SENDER-REC-RECORD-TYPE-MAPPING>
                     <RECORD-ELEMENT-MAPPINGS>
@@ -3004,8 +3059,7 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
                     </RECORD-ELEMENT-MAPPINGS>
                 </SENDER-REC-RECORD-TYPE-MAPPING>
             </TYPE-MAPPING>
-        """
-        )
+        """)
         parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
         type_mapping = mapping.getTypeMapping()
         assert type_mapping is not None
@@ -3019,15 +3073,13 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
         )
 
         mapping = SenderReceiverToSignalGroupMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <TYPE-MAPPING>
                 <UNKNOWN-TYPE-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-TYPE-MAPPING>
             </TYPE-MAPPING>
-        """
-        )
+        """)
         with pytest.raises(NotImplementedError):
             parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
 
@@ -3037,15 +3089,13 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
         )
 
         mapping = SenderReceiverToSignalGroupMapping()
-        element = _snip(
-            """
+        element = _snip("""
             <TYPE-MAPPING>
                 <UNKNOWN-TYPE-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-TYPE-MAPPING>
             </TYPE-MAPPING>
-        """
-        )
+        """)
         with caplog.at_level(logging.ERROR):
             warning_parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
         assert any("Unsupported Type Mapping" in rec.getMessage() for rec in caplog.records)
@@ -3070,8 +3120,7 @@ class TestReadSystemMappingDataMappings:
 
     def test_reads_sender_receiver_to_signal_mapping(self, parser):
         mapping = _make_system_mapping()
-        element = _snip(
-            """
+        element = _snip("""
             <DATA-MAPPINGS>
                 <SENDER-RECEIVER-TO-SIGNAL-MAPPING>
                     <COMMUNICATION-DIRECTION>IN</COMMUNICATION-DIRECTION>
@@ -3084,8 +3133,7 @@ class TestReadSystemMappingDataMappings:
                     <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
                 </SENDER-RECEIVER-TO-SIGNAL-MAPPING>
             </DATA-MAPPINGS>
-        """
-        )
+        """)
         parser.readSystemMappingDataMappings(element, mapping)
         data_mappings = mapping.getDataMappings()
         assert len(data_mappings) == 1
@@ -3100,8 +3148,7 @@ class TestReadSystemMappingDataMappings:
 
     def test_reads_sender_receiver_to_signal_group_mapping(self, parser):
         mapping = _make_system_mapping()
-        element = _snip(
-            """
+        element = _snip("""
             <DATA-MAPPINGS>
                 <SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
                     <DATA-ELEMENT-IREF>
@@ -3124,8 +3171,7 @@ class TestReadSystemMappingDataMappings:
                     </TYPE-MAPPING>
                 </SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
             </DATA-MAPPINGS>
-        """
-        )
+        """)
         parser.readSystemMappingDataMappings(element, mapping)
         data_mappings = mapping.getDataMappings()
         assert len(data_mappings) == 1
@@ -3144,8 +3190,7 @@ class TestReadSystemMappingDataMappings:
 
     def test_reads_both_signal_and_signal_group_mappings(self, parser):
         mapping = _make_system_mapping()
-        element = _snip(
-            """
+        element = _snip("""
             <DATA-MAPPINGS>
                 <SENDER-RECEIVER-TO-SIGNAL-MAPPING>
                     <DATA-ELEMENT-IREF>
@@ -3160,37 +3205,32 @@ class TestReadSystemMappingDataMappings:
                     <SIGNAL-GROUP-REF DEST="SIGNAL-GROUP">/Sig/Group1</SIGNAL-GROUP-REF>
                 </SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
             </DATA-MAPPINGS>
-        """
-        )
+        """)
         parser.readSystemMappingDataMappings(element, mapping)
         data_mappings = mapping.getDataMappings()
         assert len(data_mappings) == 2
 
     def test_unsupported_data_mapping_raises(self, parser):
         mapping = _make_system_mapping()
-        element = _snip(
-            """
+        element = _snip("""
             <DATA-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </DATA-MAPPINGS>
-        """
-        )
+        """)
         with pytest.raises(NotImplementedError):
             parser.readSystemMappingDataMappings(element, mapping)
 
     def test_unsupported_data_mapping_logs_warning(self, warning_parser, caplog):
         mapping = _make_system_mapping()
-        element = _snip(
-            """
+        element = _snip("""
             <DATA-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </DATA-MAPPINGS>
-        """
-        )
+        """)
         with caplog.at_level(logging.ERROR):
             warning_parser.readSystemMappingDataMappings(element, mapping)
         assert any("Unsupported Data Mapping" in rec.getMessage() for rec in caplog.records)

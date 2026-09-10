@@ -92,7 +92,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap, RtePluginProps
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, DependencyUsageEnum, Implementation, ImplementationProps, ProgramminglanguageEnum
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import ImplementationDataType, ImplementationDataTypeElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.McGroups import McGroup, McGroupDataRefSet
@@ -363,6 +363,15 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescription
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import (
+    BuildAction,
+    BuildActionEntity,
+    BuildActionEnvironment,
+    BuildActionManifest,
+    BuildActionIoElement,
+    BuildActionInvocator,
+    BuildEngineeringObject,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -3891,7 +3900,11 @@ class ARXMLParser(AbstractARXMLParser):
     def readImplementation(self, element: ET.Element, impl: Implementation):
         self.readIdentifiable(element, impl)
         self.readCodeDescriptor(element, impl)
-        impl.setProgrammingLanguage(self.getChildElementOptionalLiteral(element, "PROGRAMMING-LANGUAGE"))
+        programming_language = self.getChildElementOptionalLiteral(element, "PROGRAMMING-LANGUAGE")
+        if programming_language is not None:
+            enum_value = ProgramminglanguageEnum()
+            enum_value.setValue(programming_language.getText())
+            impl.setProgrammingLanguage(enum_value)
         self.readResourceConsumption(element, impl)
         self.readBuildActionManifests(element, impl)
         self.readCompiler(element, impl)
@@ -4099,6 +4112,95 @@ class ARXMLParser(AbstractARXMLParser):
             if ref is not None:
                 impl.setBuildActionManifestRef(ref)
 
+    def readBuildActionInvocator(self, element: ET.Element, invocator: BuildActionInvocator) -> BuildActionInvocator:
+        invocator.setCommand(self.getChildElementOptionalVerbatimString(element, "COMMAND"))
+        sdgs_element = self.find(element, "SDGS")
+        if sdgs_element is not None:
+            for child in self.findall(sdgs_element, "SDG"):
+                invocator.addSdg(self.getSdg(child))
+        return invocator
+
+    def readBuildEngineeringObject(self, element: ET.Element, engineering_object: BuildEngineeringObject) -> BuildEngineeringObject:
+        engineering_object.setFileType(self.getChildElementOptionalLiteral(element, "FILE-TYPE"))
+        engineering_object.setIntendedFilename(self.getChildElementOptionalUriString(element, "INTENDED-FILENAME"))
+        engineering_object.setParentCategory(self.getChildElementOptionalLiteral(element, "PARENT-CATEGORY"))
+        engineering_object.setParentShortLabel(self.getChildElementOptionalLiteral(element, "PARENT-SHORT-LABEL"))
+        engineering_object.setShortLabelPattern(self.getChildElementOptionalLiteral(element, "SHORT-LABEL-PATTERN"))
+        engineering_object.setFileTypePattern(self.getChildElementOptionalLiteral(element, "FILE-TYPE-PATTERN"))
+        return engineering_object
+
+    def readBuildActionIoElement(self, element: ET.Element, io_element: BuildActionIoElement) -> BuildActionIoElement:
+        io_element.setCategory(self.getChildElementOptionalLiteral(element, "CATEGORY"))
+        sdgs_element = self.find(element, "SDGS")
+        if sdgs_element is not None:
+            for child in self.findall(sdgs_element, "SDG"):
+                io_element.addSdg(self.getSdg(child))
+        io_element.setEcucDefinition(self.getChildElementOptionalRefType(element, "ECUC-DEFINITION-REF"))
+        engineering_object_element = self.find(element, "ENGINEERING-OBJECT")
+        if engineering_object_element is not None:
+            io_element.setEngineeringObject(self.readBuildEngineeringObject(engineering_object_element, BuildEngineeringObject()))
+        io_element.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
+        return io_element
+
+    def readBuildActionEnvironment(self, element: ET.Element, environment: BuildActionEnvironment) -> BuildActionEnvironment:
+        self.readIdentifiable(element, environment)
+        sdgs_element = self.find(element, "SDGS")
+        if sdgs_element is not None:
+            for child in self.findall(sdgs_element, "SDG"):
+                environment.addSdg(self.getSdg(child))
+        return environment
+
+    def readBuildAction(self, element: ET.Element, action: BuildAction) -> BuildAction:
+        self.readBuildActionEntity(element, action)
+        predecessors_element = self.find(element, "PREDECESSOR-ACTION-REFS")
+        if predecessors_element is not None:
+            for ref in self.getChildElementRefTypeList(predecessors_element, "PREDECESSOR-ACTION-REF"):
+                action.addPredecessorActionRef(ref)
+        follow_ups_element = self.find(element, "FOLLOW-UP-ACTION-REFS")
+        if follow_ups_element is not None:
+            for ref in self.getChildElementRefTypeList(follow_ups_element, "FOLLOW-UP-ACTION-REF"):
+                action.addFollowUpActionRef(ref)
+        created_datas_element = self.find(element, "CREATED-DATAS")
+        if created_datas_element is not None:
+            for child in self.findall(created_datas_element, "BUILD-ACTION-IO-ELEMENT"):
+                action.addCreatedData(self.readBuildActionIoElement(child, BuildActionIoElement()))
+        input_datas_element = self.find(element, "INPUT-DATAS")
+        if input_datas_element is not None:
+            for child in self.findall(input_datas_element, "BUILD-ACTION-IO-ELEMENT"):
+                action.addInputData(self.readBuildActionIoElement(child, BuildActionIoElement()))
+        modified_datas_element = self.find(element, "MODIFIED-DATAS")
+        if modified_datas_element is not None:
+            for child in self.findall(modified_datas_element, "BUILD-ACTION-IO-ELEMENT"):
+                action.addModifiedData(self.readBuildActionIoElement(child, BuildActionIoElement()))
+        action.setRequiredEnvironmentRef(self.getChildElementOptionalRefType(element, "REQUIRED-ENVIRONMENT-REF"))
+        return action
+
+    def readBuildActionManifest(self, element: ET.Element, manifest: BuildActionManifest) -> BuildActionManifest:
+        self.readIdentifiable(element, manifest)
+        for ref in self.getChildElementRefTypeList(element, "START-ACTION-REFS/START-ACTION-REF"):
+            manifest.addStartActionRef(ref)
+        for ref in self.getChildElementRefTypeList(element, "TEAR-DOWN-ACTION-REFS/TEAR-DOWN-ACTION-REF"):
+            manifest.addTearDownActionRef(ref)
+        for child in self.findall(element, "BUILD-ACTIONS/BUILD-ACTION"):
+            action = manifest.createBuildAction(self.getShortName(child))
+            self.readBuildAction(child, action)
+        for child in self.findall(element, "BUILD-ACTION-ENVIRONMENTS/BUILD-ACTION-ENVIRONMENT"):
+            environment = manifest.createBuildActionEnvironment(self.getShortName(child))
+            self.readBuildActionEnvironment(child, environment)
+        for ref in self.getChildElementRefTypeList(element, "DYNAMIC-ACTION-REFS/DYNAMIC-ACTION-REF"):
+            manifest.addDynamicActionRef(ref)
+        return manifest
+
+    def readBuildActionEntity(self, element: ET.Element, entity: BuildActionEntity):
+        self.readIdentifiable(element, entity)
+        delivery = self.find(element, "DELIVERY-ARTIFACTS")
+        if delivery is not None:
+            for child in self.findall(delivery, "AUTOSAR-ENGINEERING-OBJECT"):
+                entity.addDeliveryArtifact(self.getAutosarEngineeringObject(child))
+        invocation_element = self.find(element, "INVOCATION")
+        if invocation_element is not None:
+            entity.setInvocation(self.readBuildActionInvocator(invocation_element, BuildActionInvocator()))
+
     def readBswImplementationVendorSpecificModuleDefRefs(self, element: ET.Element, impl: BswImplementation):
         child_element = self.find(element, "VENDOR-SPECIFIC-MODULE-DEF-REFS")
         if child_element is not None:
@@ -4230,6 +4332,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readIdentifiable(element, server_call_point)
         server_call_point.setTimeout(self.getChildElementOptionalTimeValue(element, "TIMEOUT"))
         self.readROperationIRef(element, "OPERATION-IREF", server_call_point)
+        server_call_point.setCalledFromWithinExclusiveAreaRef(self.getChildElementOptionalRefType(element, "CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF"))
 
     def readAsynchronousServerCallPoint(self, element: ET.Element, parent: RunnableEntity):
         # self.logger.debug("readAsynchronousServerCallPoint %s" % short_name)
@@ -6798,7 +6901,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readApplicationCompositeElementDataPrototype(self, element: ET.Element, prototype: ApplicationCompositeElementDataPrototype):
         self.readDataPrototype(element, prototype)
-        prototype.typeTRef = self.getChildElementOptionalRefType(element, "TYPE-TREF")
+        prototype.setTypeTRef(self.getChildElementOptionalRefType(element, "TYPE-TREF"))
 
     def readApplicationArrayElement(self, element: ET.Element, parent: ApplicationArrayDataType):
         child_element = self.find(element, "ELEMENT")
@@ -11094,10 +11197,17 @@ class ARXMLParser(AbstractARXMLParser):
         desc.setRole(self.getChildElementOptionalIdentifier(element, "ROLE"))
         rte_plugin_props_element = self.find(element, "RTE-PLUGIN-PROPS")
         if rte_plugin_props_element is not None:
-            desc.setRtePluginProps(RtePluginProps())
+            rte_plugin_props = RtePluginProps()
+            self.readRtePluginProps(rte_plugin_props_element, rte_plugin_props)
+            desc.setRtePluginProps(rte_plugin_props)
         desc.setSwDataDefProps(self.getSwDataDefProps(element, "SW-DATA-DEF-PROPS"))
         desc.setUpstreamReferenceIRef(self.getAnyInstanceRef(element, "UPSTREAM-REFERENCE-IREF"))
         desc.setEcuExtractReferenceIRef(self.getAnyInstanceRef(element, "ECU-EXTRACT-REFERENCE-IREF"))
+
+    def readRtePluginProps(self, element: ET.Element, props: RtePluginProps):
+        self.logger.debug("Read RtePluginProps")
+        props.setAssociatedCrossSwClusterComRtePluginRef(self.getChildElementOptionalRefType(element, "ASSOCIATED-CROSS-SW-CLUSTER-COM-RTE-PLUGIN-REF"))
+        props.setAssociatedRtePluginRef(self.getChildElementOptionalRefType(element, "ASSOCIATED-RTE-PLUGIN-REF"))
 
     def readFlatMapInstances(self, element: ET.Element, map: FlatMap):
         for child_element in self.findall(element, "INSTANCES/*"):
@@ -11251,6 +11361,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "COLLECTION":
                 collection = parent.createCollection(self.getShortName(child_element))
                 self.readCollection(child_element, collection)
+            elif tag_name == "BUILD-ACTION-MANIFEST":
+                manifest = parent.createBuildActionManifest(self.getShortName(child_element))
+                self.readBuildActionManifest(child_element, manifest)
             elif tag_name == "DATA-PROTOTYPE-GROUP":
                 data_group = parent.createDataPrototypeGroup(self.getShortName(child_element))
                 self.readDataPrototypeGroup(child_element, data_group)

@@ -22,6 +22,38 @@ class TestPortInCompositionTypeInstanceRef:
         with pytest.raises(TypeError):
             PortInCompositionTypeInstanceRef()
 
+    def test_inherited_members_and_setters(self):
+        instance_ref = PPortInCompositionInstanceRef()
+        abstract_context_ref = RefType().setValue("/Abstract/Context/Component")
+        base_ref = RefType().setValue("/Base/Ref")
+        target_port_ref = RefType().setValue("/Target/Port")
+
+        assert isinstance(instance_ref, PortInCompositionTypeInstanceRef)
+        assert instance_ref.getAbstractContextComponentRef() is None
+        assert instance_ref.getBaseRef() is None
+        assert instance_ref.getTargetPortRef() is None
+        assert instance_ref.setAbstractContextComponentRef(abstract_context_ref) is instance_ref
+        assert instance_ref.setBaseRef(base_ref) is instance_ref
+        assert instance_ref.setTargetPortRef(target_port_ref) is instance_ref
+        assert instance_ref.getAbstractContextComponentRef() is abstract_context_ref
+        assert instance_ref.getBaseRef() is base_ref
+        assert instance_ref.getTargetPortRef() is target_port_ref
+        assert PortInCompositionTypeInstanceRef.__doc__ is None
+
+    def test_none_setters_do_not_overwrite_inherited_members(self):
+        instance_ref = PPortInCompositionInstanceRef()
+        refs = [RefType().setValue(value) for value in ("/Abstract", "/Base", "/Target")]
+        instance_ref.setAbstractContextComponentRef(refs[0])
+        instance_ref.setBaseRef(refs[1])
+        instance_ref.setTargetPortRef(refs[2])
+
+        assert instance_ref.setAbstractContextComponentRef(None) is instance_ref
+        assert instance_ref.setBaseRef(None) is instance_ref
+        assert instance_ref.setTargetPortRef(None) is instance_ref
+        assert instance_ref.getAbstractContextComponentRef() is refs[0]
+        assert instance_ref.getBaseRef() is refs[1]
+        assert instance_ref.getTargetPortRef() is refs[2]
+
 
 class TestPPortInCompositionInstanceRef:
     """Test class for PPortInCompositionInstanceRef class."""
@@ -66,6 +98,19 @@ class TestPPortInCompositionInstanceRef:
         instance_ref.setTargetPPortRef(target_p_port_ref)
         assert instance_ref.getTargetPPortRef() == target_p_port_ref
 
+    def test_none_setters_do_not_overwrite_members(self):
+        instance_ref = PPortInCompositionInstanceRef()
+        context_ref = RefType().setValue("/Context")
+        target_ref = RefType().setValue("/Target")
+        instance_ref.setContextComponentRef(context_ref)
+        instance_ref.setTargetPPortRef(target_ref)
+
+        assert instance_ref.setContextComponentRef(None) is instance_ref
+        assert instance_ref.setTargetPPortRef(None) is instance_ref
+        assert instance_ref.getContextComponentRef() is context_ref
+        assert instance_ref.getTargetPPortRef() is target_ref
+        assert PPortInCompositionInstanceRef.__doc__ is None
+
 
 class TestRPortInCompositionInstanceRef:
     """Test class for RPortInCompositionInstanceRef class."""
@@ -109,6 +154,19 @@ class TestRPortInCompositionInstanceRef:
         target_r_port_ref.setValue("/Target/R/Port")
         instance_ref.setTargetRPortRef(target_r_port_ref)
         assert instance_ref.getTargetRPortRef() == target_r_port_ref
+
+    def test_none_setters_do_not_overwrite_members(self):
+        instance_ref = RPortInCompositionInstanceRef()
+        context_ref = RefType().setValue("/Context")
+        target_ref = RefType().setValue("/Target")
+        instance_ref.setContextComponentRef(context_ref)
+        instance_ref.setTargetRPortRef(target_ref)
+
+        assert instance_ref.setContextComponentRef(None) is instance_ref
+        assert instance_ref.setTargetRPortRef(None) is instance_ref
+        assert instance_ref.getContextComponentRef() is context_ref
+        assert instance_ref.getTargetRPortRef() is target_ref
+        assert RPortInCompositionInstanceRef.__doc__ is None
 
 
 class TestInstanceEventInCompositionInstanceRef:

@@ -494,12 +494,14 @@ class InternalTriggerOccurredEvent(RTEEvent):
 
 class BackgroundEvent(RTEEvent):
     """
-    This event is used to start RunnableEntities that are supposed to be
-    executed in the background.
+    This event is used to start RunnableEntities that are supposed to be executed in the background.
     """
 
     # BackgroundEvent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.16, p.544 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

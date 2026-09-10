@@ -67,6 +67,27 @@ class TestImplementationProps:
 
 
 class TestCode:
+    def test_spec_notes_are_verbatim(self):
+        assert Code.__doc__.strip() == ("A generic code descriptor. The type of the code (source or object) is defined via the category attribute " "of the associated engineering object.")
+        assert Code.addArtifactDescriptor.__doc__.strip() == "Refers to the artifact belonging to this code descriptor. A None value is a no-op and does not append anything."
+        assert Code.getArtifactDescriptors.__doc__.strip() == "Refers to the artifact belonging to this code descriptor."
+        callback_note = (
+            "The association callbackHeader describes in which header files the function declarations of callback functions "
+            "are provided to a service module. With this information the service module can include the appropriate header "
+            "files in its configuration files."
+        )
+        assert Code.getCallbackHeaderRefs.__doc__.strip() == callback_note
+        assert Code.addCallbackHeaderRef.__doc__.strip() == callback_note + " A None value is a no-op and does not append anything."
+
+    def test_adders_none_are_noops(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        code = Code(ar_root, "TestCode")
+        assert code.addArtifactDescriptor(None) is code
+        assert code.addCallbackHeaderRef(None) is code
+        assert code.getArtifactDescriptors() == []
+        assert code.getCallbackHeaderRefs() == []
+
     def test_initialization(self):
         """Test Code initialization"""
         parent = AUTOSAR.getInstance()
@@ -164,6 +185,16 @@ class TestCode:
 
 
 class TestCompiler:
+    def test_spec_notes_are_verbatim(self):
+        assert " ".join(Compiler.__doc__.split()) == (
+            "Specifies the compiler attributes. In case of source code this specifies requirements how the compiler shall be invoked. "
+            "In case of object code this documents the used compiler settings."
+        )
+        assert Compiler.getName.__doc__.strip() == "Compiler name (like gcc)."
+        assert Compiler.getOptions.__doc__.strip() == "Specifies the compiler options."
+        assert Compiler.getVendor.__doc__.strip() == "Vendor of compiler."
+        assert Compiler.getVersion.__doc__.strip() == "Exact version of compiler executable."
+
     def test_initialization(self):
         """Test Compiler initialization"""
         parent = AUTOSAR.getInstance()
@@ -194,6 +225,15 @@ class TestCompiler:
         assert result is compiler  # Method chaining
         assert compiler.getName() == test_value
 
+    def test_set_name_none_is_noop(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        compiler = Compiler(ar_root, "TestCompiler")
+        value = String().setValue("GCC")
+        compiler.setName(value)
+        assert compiler.setName(None) is compiler
+        assert compiler.getName() is value
+
     def test_get_options(self):
         """Test getOptions method"""
         parent = AUTOSAR.getInstance()
@@ -210,6 +250,15 @@ class TestCompiler:
         result = compiler.setOptions(test_value)
         assert result is compiler  # Method chaining
         assert compiler.getOptions() == test_value
+
+    def test_set_options_none_is_noop(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        compiler = Compiler(ar_root, "TestCompiler")
+        value = String().setValue("-O2")
+        compiler.setOptions(value)
+        assert compiler.setOptions(None) is compiler
+        assert compiler.getOptions() is value
 
     def test_get_vendor(self):
         """Test getVendor method"""
@@ -228,6 +277,15 @@ class TestCompiler:
         assert result is compiler  # Method chaining
         assert compiler.getVendor() == test_value
 
+    def test_set_vendor_none_is_noop(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        compiler = Compiler(ar_root, "TestCompiler")
+        value = String().setValue("GNU")
+        compiler.setVendor(value)
+        assert compiler.setVendor(None) is compiler
+        assert compiler.getVendor() is value
+
     def test_get_version(self):
         """Test getVersion method"""
         parent = AUTOSAR.getInstance()
@@ -244,6 +302,15 @@ class TestCompiler:
         result = compiler.setVersion(test_value)
         assert result is compiler  # Method chaining
         assert compiler.getVersion() == test_value
+
+    def test_set_version_none_is_noop(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        compiler = Compiler(ar_root, "TestCompiler")
+        value = String().setValue("11.2.0")
+        compiler.setVersion(value)
+        assert compiler.setVersion(None) is compiler
+        assert compiler.getVersion() is value
 
     def test_all_properties(self):
         """Test setting all properties"""
@@ -268,6 +335,23 @@ class TestCompiler:
 
 
 class TestDependencyOnArtifact:
+    def test_spec_notes_are_verbatim(self):
+        assert DependencyOnArtifact.__doc__.strip() == "Dependency on the existence of another artifact, e.g. a library."
+        assert DependencyOnArtifact.getArtifactDescriptor.__doc__.strip() == "The specified artifact needs to exist."
+        assert DependencyOnArtifact.setArtifactDescriptor.__doc__.strip() == ("The specified artifact needs to exist. A None value is a no-op and does not overwrite an existing artifact.")
+        usage_note = "Specification for which process step(s) this dependency is required."
+        assert DependencyOnArtifact.getUsages.__doc__.strip() == usage_note
+        assert DependencyOnArtifact.addUsage.__doc__.strip() == usage_note + " A None value is a no-op and does not append anything."
+
+    def test_none_guards_are_noops(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        dependency = DependencyOnArtifact(ar_root, "TestDependency")
+        assert dependency.setArtifactDescriptor(None) is dependency
+        assert dependency.addUsage(None) is dependency
+        assert dependency.getArtifactDescriptor() is None
+        assert dependency.getUsages() == []
+
     def test_initialization(self):
         """Test DependencyOnArtifact initialization"""
         parent = AUTOSAR.getInstance()
@@ -859,6 +943,30 @@ class TestImplementation:
 
 
 class TestLinker:
+    def test_verbatim_spec_documentation(self):
+        assert Linker.__doc__.strip() == "Specifies the linker attributes used to describe how the linker shall be invoked."
+        assert Linker.getName.__doc__.strip() == "Linker name."
+        assert Linker.getOptions.__doc__.strip() == "Specifies the linker options."
+        assert Linker.getVendor.__doc__.strip() == "Vendor of linker."
+        assert Linker.getVersion.__doc__.strip() == "Exact version of linker executable."
+
+    def test_setters_none_are_noops(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        linker = Linker(ar_root, "TestLinker")
+        values = (
+            String().setValue("Ld"),
+            String().setValue("-r"),
+            String().setValue("GNU"),
+            String().setValue("2.40"),
+        )
+        linker.setName(values[0]).setOptions(values[1]).setVendor(values[2]).setVersion(values[3])
+        assert linker.setName(None) is linker
+        assert linker.setOptions(None) is linker
+        assert linker.setVendor(None) is linker
+        assert linker.setVersion(None) is linker
+        assert (linker.getName(), linker.getOptions(), linker.getVendor(), linker.getVersion()) == values
+
     def test_initialization(self):
         """Test Linker initialization"""
         parent = AUTOSAR.getInstance()
@@ -975,6 +1083,75 @@ class TestDependencyUsageEnum:
         """Test the valid enum value set"""
         enum = DependencyUsageEnum()
         assert set(enum.getEnumValues()) == {"build", "codegeneration", "compile", "execute", "link"}
+
+
+class TestImplementationSpecNotes:
+    def test_class_note_is_verbatim(self):
+        assert Implementation.__doc__.strip() == ("Description of an implementation a single software component or module.")
+
+    def test_getter_docstrings_are_verbatim(self):
+        assert Implementation.getBuildActionManifestRef.__doc__.strip() == ("A manifest specifying the intended build actions for the software delivered with this implementation.")
+        assert Implementation.getCodeDescriptors.__doc__.strip() == "Specifies the provided implementation code."
+        assert Implementation.getCompilers.__doc__.strip() == ("Specifies the compiler for which this implementation has been released.")
+        assert Implementation.getGeneratedArtifacts.__doc__.strip() == ("Relates to an artifact that will be generated during the integration of this Implementation by an associated generator tool.")
+        assert Implementation.getHwElementRefs.__doc__.strip() == ("The hardware elements (e.g. the processor) required for this implementation.")
+        assert Implementation.getLinkers.__doc__.strip() == ("Specifies the linker for which this implementation has been released.")
+        assert Implementation.getMcSupport.__doc__.strip() == ("The measurement & calibration support data belonging to this implementation.")
+        assert Implementation.getProgrammingLanguage.__doc__.strip() == ("Programming language the implementation was created in.")
+        assert Implementation.getRequiredArtifacts.__doc__.strip() == ("Specifies that this Implementation depends on the existence of another artifact (e.g. a library).")
+        assert Implementation.getRequiredGeneratorTools.__doc__.strip() == ("Relates this Implementation to a generator tool in order to generate additional artifacts during integration.")
+        assert Implementation.getResourceConsumption.__doc__.strip() == ("All static and dynamic resources for each implementation are described within the ResourceConsumption class.")
+        assert Implementation.getSwcBswMappingRef.__doc__.strip() == (
+            "This allows a mapping between an SWC and a BSW behavior to be attached to an implementation description "
+            "(for AUTOSAR Service, ECU Abstraction and Complex Driver Components). It is up to the methodology to define "
+            "whether this reference has to be set for the Swc- or BswImplementtion or for both."
+        )
+        assert Implementation.getSwVersion.__doc__.strip() == (
+            "Software version of this implementation. The numbering contains three levels (like major, minor, patch), its values are vendor specific."
+        )
+        assert Implementation.getUsedCodeGenerator.__doc__.strip() == "Optional: code generator used."
+        assert Implementation.getVendorId.__doc__.strip() == ("Vendor ID of this Implementation according to the AUTOSAR vendor list.")
+
+    def test_setter_docstrings_are_verbatim(self):
+        assert Implementation.setBuildActionManifestRef.__doc__.strip() == (
+            "A manifest specifying the intended build actions for the software delivered with this implementation. " "A None value is a no-op and does not overwrite the existing reference."
+        )
+        assert Implementation.setMcSupport.__doc__.strip() == (
+            "The measurement & calibration support data belonging to this implementation. " "A None value is a no-op and does not overwrite the existing value."
+        )
+        assert Implementation.setProgrammingLanguage.__doc__.strip() == (
+            "Programming language the implementation was created in. " "A None value is a no-op and does not overwrite the existing value."
+        )
+        assert Implementation.setSwcBswMappingRef.__doc__.strip() == (
+            "This allows a mapping between an SWC and a BSW behavior to be attached to an implementation description "
+            "(for AUTOSAR Service, ECU Abstraction and Complex Driver Components). It is up to the methodology to define "
+            "whether this reference has to be set for the Swc- or BswImplementtion or for both. "
+            "A None value is a no-op and does not overwrite the existing reference."
+        )
+        assert Implementation.setSwVersion.__doc__.strip() == (
+            "Software version of this implementation. The numbering contains three levels (like major, minor, patch), its values are vendor specific. "
+            "A None value is a no-op and does not overwrite the existing version."
+        )
+        assert Implementation.setUsedCodeGenerator.__doc__.strip() == ("Optional: code generator used. A None value is a no-op and does not overwrite the existing value.")
+        assert Implementation.setVendorId.__doc__.strip() == (
+            "Vendor ID of this Implementation according to the AUTOSAR vendor list. " "A None value is a no-op and does not overwrite the existing vendor ID."
+        )
+
+
+class TestImplementationCodeDescriptors:
+    def test_get_code_descriptors_uses_typed_list(self):
+        """getCodeDescriptors must return the dedicated typed list, not filter the generic elements registry (Rule 0004)."""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteImplementation(Implementation):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        impl = ConcreteImplementation(ar_root, "TestImplementation")
+        code_desc = impl.createCodeDescriptor("TestCode")
+        assert impl.getCodeDescriptors() is impl.codeDescriptors
+        assert impl.getCodeDescriptors() == [code_desc]
 
 
 class TestProgramminglanguageEnum:

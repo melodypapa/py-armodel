@@ -217,84 +217,64 @@ class SoftwareContext(ARObject):
 
 class ResourceConsumption(Identifiable):
     """
-    Represents resource consumption information in AUTOSAR models.
-    This class aggregates various types of resource consumption including memory sections,
-    stack usage, heap usage, execution times, and other resource metrics.
+    Description of consumed resources by one implementation of a software.
     """
 
     # ResourceConsumption method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.1, p.137
-    # [x] __init__                          [x] impl  [x] docstring  [x] test
-    # [x] addAccessCountSet                 [x] impl  [x] docstring  [x] test
-    # [x] getAccessCountSets                [x] impl  [x] docstring  [x] test
-    # [x] createAnalyzedExecutionTime       [x] impl  [x] docstring  [x] test
-    # [x] createMeasuredExecutionTime       [x] impl  [x] docstring  [x] test
-    # [x] createRoughEstimateOfExecutionTime [x] impl [x] docstring  [x] test
-    # [x] createSimulatedExecutionTime      [x] impl  [x] docstring  [x] test
-    # [x] getExecutionTimes                 [x] impl  [x] docstring  [x] test
-    # [x] createMeasuredHeapUsage           [x] impl  [x] docstring  [x] test
-    # [x] createRoughEstimateHeapUsage      [x] impl  [x] docstring  [x] test
-    # [x] createWorstCaseHeapUsage          [x] impl  [x] docstring  [x] test
-    # [x] getHeapUsages                     [x] impl  [x] docstring  [x] test
-    # [x] createMemorySection               [x] impl  [x] docstring  [x] test
-    # [x] getMemorySections                 [x] impl  [x] docstring  [x] test
-    # [x] getMemorySection                  [x] impl  [x] docstring  [x] test
-    # [x] createSectionNamePrefix           [x] impl  [x] docstring  [x] test
-    # [x] getSectionNamePrefixes            [x] impl  [x] docstring  [x] test
-    # [x] createMeasuredStackUsage          [x] impl  [x] docstring  [x] test
-    # [x] createRoughEstimateStackUsage     [x] impl  [x] docstring  [x] test
-    # [x] createWorstCaseStackUsage         [x] impl  [x] docstring  [x] test
-    # [x] getStackUsages                    [x] impl  [x] docstring  [x] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 8.1, p.138 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addAccessCountSet      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAccessCountSets     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getExecutionTimes      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getHeapUsages          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMemorySections      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMemorySection       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSectionNamePrefixes [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getStackUsages         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createAnalyzedExecutionTime       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createMeasuredExecutionTime       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createRoughEstimateOfExecutionTime [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSimulatedExecutionTime      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createMeasuredHeapUsage            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createRoughEstimateHeapUsage       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createWorstCaseHeapUsage           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createMemorySection                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createSectionNamePrefix           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createMeasuredStackUsage           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createRoughEstimateStackUsage      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createWorstCaseStackUsage          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ResourceConsumption with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this resource consumption
-            short_name: The unique short name of this resource consumption
-        """
         super().__init__(parent, short_name)
 
-        # Set of access count values
+        # Set of access count values.
         self.accessCountSets: List["AccessCountSet"] = []
 
-        # Collection of the execution time descriptions for this implementation
+        # Collection of the execution time descriptions for this implementation. The aggregation of executionTime is subject to variability with the purpose to support the conditional existence of runnable entities.
         self.executionTimes: List[ExecutionTime] = []
 
-        # Collection of the heap memory allocated by this implementation
+        # Collection of the heap memory allocated by this implementation.
         self.heapUsages: List[HeapUsage] = []
 
-        # An abstract memory section required by this Implementation
+        # An abstract memory section required by this Implementation.
         self.memorySections: List[MemorySection] = []
 
-        # A prefix to be used for the memory section symbol in the code
+        # A prefix to be used for the memory section symbol in the code.
         self.sectionNamePrefixes: List[SectionNamePrefix] = []
 
-        # Collection of the stack memory usage for each runnable entity of this implementation
+        # Collection of the stack memory usage for each runnable entity of this implementation. The aggregation of Stack Usage is subject to variability with the purpose to support the conditional existence of runnable entities.
         self.stackUsages: List[StackUsage] = []
 
     def addAccessCountSet(self, value: Optional["AccessCountSet"]) -> "ResourceConsumption":
-        """
-        Adds an AccessCountSet to this resource consumption object.
-
-        Args:
-            value: The access count set to add
-
-        Returns:
-            self for method chaining
-        """
+        """Set of access count values. A None value is a no-op and does not append anything."""
         if value is not None:
             self.accessCountSets.append(value)
         return self
 
     def getAccessCountSets(self) -> List["AccessCountSet"]:
-        """
-        Gets all AccessCountSet instances of this resource consumption object.
-
-        Returns:
-            List of AccessCountSet instances
-        """
+        """Set of access count values"""
         return self.accessCountSets
 
     def createAnalyzedExecutionTime(self, short_name: str) -> AnalyzedExecutionTime:
@@ -362,15 +342,8 @@ class ResourceConsumption(Identifiable):
         return self.getElement(short_name, SimulatedExecutionTime)
 
     def getExecutionTimes(self) -> List[ExecutionTime]:
-        """
-        Gets all ExecutionTime instances from the elements list, sorted by short name.
-
-        Returns:
-            List of ExecutionTime instances sorted by short name
-        """
-        return list(
-            sorted(filter(lambda a: isinstance(a, (AnalyzedExecutionTime, MeasuredExecutionTime, RoughEstimateOfExecutionTime, SimulatedExecutionTime)), self.elements), key=lambda o: o.short_name)
-        )
+        """Collection of the execution time descriptions for this implementation. The aggregation of executionTime is subject to variability with the purpose to support the conditional existence of runnable entities."""
+        return sorted(self.executionTimes, key=lambda o: o.short_name)
 
     def createMeasuredHeapUsage(self, short_name: str) -> MeasuredHeapUsage:
         """
@@ -421,13 +394,8 @@ class ResourceConsumption(Identifiable):
         return self.getElement(short_name, WorstCaseHeapUsage)
 
     def getHeapUsages(self) -> List[HeapUsage]:
-        """
-        Gets all HeapUsage instances from the elements list, sorted by short name.
-
-        Returns:
-            List of HeapUsage instances sorted by short name
-        """
-        return list(sorted(filter(lambda a: isinstance(a, HeapUsage), self.elements), key=lambda o: o.short_name))
+        """Collection of the heap memory allocated by this implementation."""
+        return sorted(self.heapUsages, key=lambda o: o.short_name)
 
     def createMemorySection(self, short_name: str) -> MemorySection:
         """
@@ -446,13 +414,8 @@ class ResourceConsumption(Identifiable):
         return self.getElement(short_name, MemorySection)
 
     def getMemorySections(self) -> List[MemorySection]:
-        """
-        Gets all MemorySection instances from the elements list, sorted by short name.
-
-        Returns:
-            List of MemorySection instances sorted by short name
-        """
-        return list(sorted(filter(lambda a: isinstance(a, MemorySection), self.elements), key=lambda o: o.short_name))
+        """An abstract memory section required by this Implementation."""
+        return sorted(self.memorySections, key=lambda o: o.short_name)
 
     def getMemorySection(self, short_name: str) -> MemorySection:
         """
@@ -483,13 +446,8 @@ class ResourceConsumption(Identifiable):
         return self.getElement(short_name, SectionNamePrefix)
 
     def getSectionNamePrefixes(self) -> List[SectionNamePrefix]:
-        """
-        Gets all SectionNamePrefix instances from the elements list, sorted by short name.
-
-        Returns:
-            List of SectionNamePrefix instances sorted by short name
-        """
-        return list(sorted(filter(lambda a: isinstance(a, SectionNamePrefix), self.elements), key=lambda o: o.short_name))
+        """A prefix to be used for the memory section symbol in the code."""
+        return sorted(self.sectionNamePrefixes, key=lambda o: o.short_name)
 
     def createMeasuredStackUsage(self, short_name: str) -> MeasuredStackUsage:
         """
@@ -540,10 +498,5 @@ class ResourceConsumption(Identifiable):
         return self.getElement(short_name, WorstCaseStackUsage)
 
     def getStackUsages(self) -> List[StackUsage]:
-        """
-        Gets all StackUsage instances from the elements list, sorted by short name.
-
-        Returns:
-            List of StackUsage instances sorted by short name
-        """
-        return list(sorted(filter(lambda a: isinstance(a, StackUsage), self.elements), key=lambda o: o.short_name))
+        """Collection of the stack memory usage for each runnable entity of this implementation. The aggregation of Stack Usage is subject to variability with the purpose to support the conditional existence of runnable entities."""
+        return sorted(self.stackUsages, key=lambda o: o.short_name)

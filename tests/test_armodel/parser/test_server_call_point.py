@@ -26,6 +26,7 @@ class TestServerCallPoint:
                             <TARGET-REQUIRED-OPERATION-REF DEST="CLIENT-SERVER-OPERATION">/MyComponents/IfCs/op1</TARGET-REQUIRED-OPERATION-REF>
                           </OPERATION-IREF>
                           <TIMEOUT>0.005</TIMEOUT>
+                          <CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF DEST="EXCLUSIVE-AREA-NESTING-ORDER">/MyComponents/nesting</CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF>
                         </SYNCHRONOUS-SERVER-CALL-POINT>
                         <ASYNCHRONOUS-SERVER-CALL-POINT>
                           <SHORT-NAME>scp_async</SHORT-NAME>
@@ -74,6 +75,8 @@ class TestServerCallPoint:
         assert timeout is not None
         assert isinstance(timeout, TimeValue)
         assert timeout.getValue() == 0.005
+        assert sync_point.getCalledFromWithinExclusiveAreaRef().getValue() == "/MyComponents/nesting"
+        assert sync_point.getCalledFromWithinExclusiveAreaRef().getDest() == "EXCLUSIVE-AREA-NESTING-ORDER"
 
         async_points = runnable.getAsynchronousServerCallPoint()
         assert len(async_points) == 1

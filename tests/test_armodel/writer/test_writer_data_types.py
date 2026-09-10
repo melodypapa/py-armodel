@@ -381,6 +381,17 @@ class TestApplicationPrimitiveDataTypeWriter:
         cond = sddp.find("SW-DATA-DEF-PROPS-VARIANTS/SW-DATA-DEF-PROPS-CONDITIONAL")
         assert cond.find("COMPU-METHOD-REF").text == "/cm"
 
+    def test_write_application_data_type_inherited_shape(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("AppPkg")
+        data_type = pkg.createApplicationPrimitiveDataType("Speed")
+
+        parent = _parent()
+        writer.setApplicationDataType(parent, data_type)
+
+        assert parent.find("SHORT-NAME").text == "Speed"
+        assert parent.find("SW-DATA-DEF-PROPS") is None
+
 
 class TestDataPrototypeWriter:
     def test_write_dataprototype(self, writer):
@@ -411,6 +422,32 @@ class TestApplicationRecordElementWriter:
         assert child.tag == "APPLICATION-RECORD-ELEMENT"
         assert child.find("SHORT-NAME").text == "Field"
         assert child.find("TYPE-TREF").text == "/apt"
+
+    def test_write_application_composite_element_data_prototype_type_tref(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("AppPkg")
+        record = pkg.createApplicationRecordDataType("Record")
+        element = record.createApplicationRecordElement("Field")
+        element.setTypeTRef(_ref("APPLICATION-DATA-TYPE", "/apt"))
+
+        parent = ET.Element("ELEMENT")
+        writer.writeApplicationCompositeElementDataPrototype(parent, element)
+
+        assert parent.find("SHORT-NAME").text == "Field"
+        assert parent.find("TYPE-TREF").text == "/apt"
+        assert parent.find("TYPE-TREF").get("DEST") == "APPLICATION-DATA-TYPE"
+
+    def test_write_application_composite_element_data_prototype_without_type(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("AppPkg")
+        record = pkg.createApplicationRecordDataType("Record")
+        element = record.createApplicationRecordElement("Field")
+
+        parent = ET.Element("ELEMENT")
+        writer.writeApplicationCompositeElementDataPrototype(parent, element)
+
+        assert parent.find("SHORT-NAME").text == "Field"
+        assert parent.find("TYPE-TREF") is None
 
 
 class TestApplicationArrayElementRoundTrip:

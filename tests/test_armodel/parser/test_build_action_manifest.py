@@ -1,0 +1,341 @@
+"""
+Reader tests for BuildActionInvocator (AUTOSAR_FO_TPS_GenericStructureTemplate Table 10.6),
+the BuildActionEntity own attributes + Identifiable leveling (Table 10.5),
+and BuildActionEnvironment (Table 10.4).
+"""
+
+import xml.etree.ElementTree as ET
+
+import pytest
+
+from armodel.models import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import (
+    BuildAction,
+    BuildActionEntity,
+    BuildActionEnvironment,
+    BuildActionInvocator,
+    BuildActionIoElement,
+    BuildActionManifest,
+    BuildEngineeringObject,
+)
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import UriString
+from armodel.parser.arxml_parser import ARXMLParser
+
+NS = "http://autosar.org/schema/r4.0"
+
+
+class ConcreteBuildActionEntity(BuildActionEntity):
+    pass
+
+
+@pytest.fixture(autouse=True)
+def reset_autosar():
+    AUTOSAR.getInstance().new()
+    yield
+    AUTOSAR.getInstance().new()
+
+
+def _snip(tag: str, inner: str) -> ET.Element:
+    return ET.fromstring(f"<{tag} xmlns='{NS}'>{inner}</{tag}>")
+
+
+class TestReadBuildActionInvocator:
+    def test_read_command_and_sdgs(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip("INVOCATION", "<COMMAND>make all</COMMAND>" "<SDGS><SDG><SD GID='ROLE'>PROCESSOR</SD></SDG></SDGS>")
+        invocator = parser.readBuildActionInvocator(element, BuildActionInvocator())
+
+        assert str(invocator.getCommand()) == "make all"
+        sdgs = invocator.getSdgs()
+        assert len(sdgs) == 1
+
+    def test_read_empty_invocation(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip("INVOCATION", "")
+        invocator = parser.readBuildActionInvocator(element, BuildActionInvocator())
+
+        assert invocator.getCommand() is None
+        assert invocator.getSdgs() == []
+
+
+class TestReadBuildActionEntityInvocation:
+    def test_read_invocation_dispatch(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "BUILD-ACTION-ENTITY",
+            "<SHORT-NAME>Entity</SHORT-NAME><INVOCATION><COMMAND>make all</COMMAND></INVOCATION>",
+        )
+        entity = ConcreteBuildActionEntity(AUTOSAR.getInstance(), "Entity")
+        parser.readBuildActionEntity(element, entity)
+
+        invocation = entity.getInvocation()
+        assert isinstance(invocation, BuildActionInvocator)
+        assert str(invocation.getCommand()) == "make all"
+
+    def test_read_no_invocation(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip("BUILD-ACTION-ENTITY", "<SHORT-NAME>Entity</SHORT-NAME>")
+        entity = ConcreteBuildActionEntity(AUTOSAR.getInstance(), "Entity")
+        parser.readBuildActionEntity(element, entity)
+
+        assert entity.getInvocation() is None
+
+
+class TestReadBuildActionEntityDeliveryArtifacts:
+    def test_read_delivery_artifacts(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "BUILD-ACTION-ENTITY",
+            "<SHORT-NAME>Entity</SHORT-NAME>"
+            "<DELIVERY-ARTIFACTS>"
+            "<AUTOSAR-ENGINEERING-OBJECT>"
+            "<SHORT-LABEL>generated</SHORT-LABEL>"
+            "<CATEGORY>SWSRC</CATEGORY>"
+            "<REVISION-LABELS><REVISION-LABEL>1.0.0</REVISION-LABEL></REVISION-LABELS>"
+            "<DOMAIN>SW</DOMAIN>"
+            "</AUTOSAR-ENGINEERING-OBJECT>"
+            "<AUTOSAR-ENGINEERING-OBJECT><SHORT-LABEL>documentation</SHORT-LABEL></AUTOSAR-ENGINEERING-OBJECT>"
+            "</DELIVERY-ARTIFACTS>",
+        )
+        entity = ConcreteBuildActionEntity(AUTOSAR.getInstance(), "Entity")
+        parser.readBuildActionEntity(element, entity)
+
+        artifacts = entity.getDeliveryArtifacts()
+        assert len(artifacts) == 2
+        assert isinstance(artifacts[0], AutosarEngineeringObject)
+        assert str(artifacts[0].getShortLabel()) == "generated"
+        assert str(artifacts[0].getCategory()) == "SWSRC"
+        assert [str(label) for label in artifacts[0].getRevisionLabels()] == ["1.0.0"]
+        assert str(artifacts[0].getDomain()) == "SW"
+        assert str(artifacts[1].getShortLabel()) == "documentation"
+
+    def test_read_empty_delivery_artifacts_wrapper(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip("BUILD-ACTION-ENTITY", "<SHORT-NAME>Entity</SHORT-NAME><DELIVERY-ARTIFACTS/>")
+        entity = ConcreteBuildActionEntity(AUTOSAR.getInstance(), "Entity")
+        parser.readBuildActionEntity(element, entity)
+
+        assert entity.getDeliveryArtifacts() == []
+
+    def test_read_absent_delivery_artifacts(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip("BUILD-ACTION-ENTITY", "<SHORT-NAME>Entity</SHORT-NAME>")
+        entity = ConcreteBuildActionEntity(AUTOSAR.getInstance(), "Entity")
+        parser.readBuildActionEntity(element, entity)
+
+        assert entity.getDeliveryArtifacts() == []
+
+
+class TestReadBuildActionEntityIdentifiableMembers:
+    def test_read_identifiable_members(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "BUILD-ACTION-ENTITY",
+            "<SHORT-NAME>Entity</SHORT-NAME>" "<DESC><L-2 L='EN'>build action entity</L-2></DESC>" "<CATEGORY>BUILD</CATEGORY>",
+        )
+        element.attrib["UUID"] = "3f2504e0-4f89-11d3-9a0c-0305e82c3301"
+        entity = ConcreteBuildActionEntity(AUTOSAR.getInstance(), "Entity")
+        parser.readBuildActionEntity(element, entity)
+
+        assert str(entity.getCategory()) == "BUILD"
+        assert entity.getUuid().getValue() == "3f2504e0-4f89-11d3-9a0c-0305e82c3301"
+        assert entity.getDesc() is not None
+
+
+class TestReadBuildEngineeringObject:
+    def test_read_all_attributes(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "ENGINEERING-OBJECT",
+            "<FILE-TYPE>c</FILE-TYPE>"
+            "<FILE-TYPE-PATTERN>.*</FILE-TYPE-PATTERN>"
+            "<INTENDED-FILENAME>output.c</INTENDED-FILENAME>"
+            "<PARENT-CATEGORY>SOURCE</PARENT-CATEGORY>"
+            "<PARENT-SHORT-LABEL>root</PARENT-SHORT-LABEL>"
+            "<SHORT-LABEL-PATTERN>output_.*</SHORT-LABEL-PATTERN>",
+        )
+        obj = parser.readBuildEngineeringObject(element, BuildEngineeringObject())
+
+        assert str(obj.getFileType()) == "c"
+        assert str(obj.getFileTypePattern()) == ".*"
+        assert isinstance(obj.getIntendedFilename(), UriString)
+        assert str(obj.getIntendedFilename()) == "output.c"
+        assert str(obj.getParentCategory()) == "SOURCE"
+        assert str(obj.getParentShortLabel()) == "root"
+        assert str(obj.getShortLabelPattern()) == "output_.*"
+
+    def test_read_empty_object(self):
+        parser = ARXMLParser(options={"warning": True})
+        obj = parser.readBuildEngineeringObject(_snip("ENGINEERING-OBJECT", ""), BuildEngineeringObject())
+
+        assert obj.getFileType() is None
+        assert obj.getIntendedFilename() is None
+
+
+class TestReadBuildActionIoElement:
+    def test_read_active_attributes_and_skip_foreign_reference(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "BUILD-ACTION-IO-ELEMENT",
+            "<CATEGORY>ARTIFACT</CATEGORY>"
+            "<SDGS><SDG><SD GID='ROLE'>PROCESSOR</SD></SDG></SDGS>"
+            "<ECUC-DEFINITION-REF DEST='ECUC-MODULE-DEF'>/Ecuc/Definition</ECUC-DEFINITION-REF>"
+            "<ENGINEERING-OBJECT><FILE-TYPE>c</FILE-TYPE></ENGINEERING-OBJECT>"
+            "<FOREIGN-MODEL-REFERENCE><VALUE>/foreign</VALUE></FOREIGN-MODEL-REFERENCE>"
+            "<ROLE>input</ROLE>",
+        )
+        obj = parser.readBuildActionIoElement(element, BuildActionIoElement())
+
+        assert str(obj.getCategory()) == "ARTIFACT"
+        assert len(obj.getSdgs()) == 1
+        assert obj.getEcucDefinition().getValue() == "/Ecuc/Definition"
+        assert isinstance(obj.getEngineeringObject(), BuildEngineeringObject)
+        assert str(obj.getRole()) == "input"
+        assert not hasattr(obj, "foreignModelReference")
+
+    def test_read_empty_element(self):
+        parser = ARXMLParser(options={"warning": True})
+        obj = parser.readBuildActionIoElement(_snip("BUILD-ACTION-IO-ELEMENT", ""), BuildActionIoElement())
+
+        assert obj.getCategory() is None
+        assert obj.getSdgs() == []
+        assert obj.getEngineeringObject() is None
+
+
+class TestReadBuildActionEnvironment:
+    def test_read_sdgs_and_identifiable_members(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "BUILD-ACTION-ENVIRONMENT",
+            "<SHORT-NAME>Environment</SHORT-NAME>"
+            "<DESC><L-2 L='EN'>build action environment</L-2></DESC>"
+            "<CATEGORY>BUILD</CATEGORY>"
+            "<SDGS>"
+            "<SDG GID='FIRST'><SD GID='ROLE'>PROCESSOR</SD></SDG>"
+            "<SDG GID='SECOND'><SD GID='ROLE'>LINKER</SD></SDG>"
+            "</SDGS>",
+        )
+        element.attrib["UUID"] = "3f2504e0-4f89-11d3-9a0c-0305e82c3302"
+        environment = BuildActionEnvironment(AUTOSAR.getInstance(), "Environment")
+        parser.readBuildActionEnvironment(element, environment)
+
+        assert str(environment.getCategory()) == "BUILD"
+        assert environment.getUuid().getValue() == "3f2504e0-4f89-11d3-9a0c-0305e82c3302"
+        assert environment.getDesc() is not None
+        sdgs = environment.getSdgs()
+        assert len(sdgs) == 2
+        assert [str(sdg.getGID()) for sdg in sdgs] == ["FIRST", "SECOND"]
+        assert [str(sd.getValue()) for sdg in sdgs for sd in sdg.getSdgContentsType().getSds()] == ["PROCESSOR", "LINKER"]
+
+    def test_read_empty_sdgs_wrapper(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip("BUILD-ACTION-ENVIRONMENT", "<SHORT-NAME>Environment</SHORT-NAME><SDGS/>")
+        environment = BuildActionEnvironment(AUTOSAR.getInstance(), "Environment")
+        parser.readBuildActionEnvironment(element, environment)
+
+        assert environment.getSdgs() == []
+
+    def test_read_absent_sdgs(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip("BUILD-ACTION-ENVIRONMENT", "<SHORT-NAME>Environment</SHORT-NAME>")
+        environment = BuildActionEnvironment(AUTOSAR.getInstance(), "Environment")
+        parser.readBuildActionEnvironment(element, environment)
+
+        assert environment.getSdgs() == []
+        assert environment.getCategory() is None
+
+
+class TestReadBuildAction:
+    def test_read_all_members(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "BUILD-ACTION",
+            "<SHORT-NAME>Action</SHORT-NAME>"
+            "<DESC><L-2 L='EN'>build action</L-2></DESC>"
+            "<CATEGORY>BUILD</CATEGORY>"
+            "<PREDECESSOR-ACTION-REFS>"
+            "<PREDECESSOR-ACTION-REF DEST='BUILD-ACTION'>/first</PREDECESSOR-ACTION-REF>"
+            "<PREDECESSOR-ACTION-REF DEST='BUILD-ACTION'>/second</PREDECESSOR-ACTION-REF>"
+            "</PREDECESSOR-ACTION-REFS>"
+            "<FOLLOW-UP-ACTION-REFS>"
+            "<FOLLOW-UP-ACTION-REF DEST='BUILD-ACTION'>/next</FOLLOW-UP-ACTION-REF>"
+            "</FOLLOW-UP-ACTION-REFS>"
+            "<CREATED-DATAS>"
+            "<BUILD-ACTION-IO-ELEMENT><ROLE>created-one</ROLE></BUILD-ACTION-IO-ELEMENT>"
+            "<BUILD-ACTION-IO-ELEMENT><ROLE>created-two</ROLE></BUILD-ACTION-IO-ELEMENT>"
+            "</CREATED-DATAS>"
+            "<INPUT-DATAS><BUILD-ACTION-IO-ELEMENT><ROLE>input-one</ROLE></BUILD-ACTION-IO-ELEMENT></INPUT-DATAS>"
+            "<MODIFIED-DATAS><BUILD-ACTION-IO-ELEMENT><ROLE>modified-one</ROLE></BUILD-ACTION-IO-ELEMENT></MODIFIED-DATAS>"
+            "<REQUIRED-ENVIRONMENT-REF DEST='BUILD-ACTION-ENVIRONMENT'>/Environment</REQUIRED-ENVIRONMENT-REF>",
+        )
+        element.attrib["UUID"] = "3f2504e0-4f89-11d3-9a0c-0305e82c3303"
+        action = BuildAction(AUTOSAR.getInstance(), "Action")
+        parser.readBuildAction(element, action)
+
+        # Identifiable leveling (inherited through BuildActionEntity)
+        assert str(action.getCategory()) == "BUILD"
+        assert action.getUuid().getValue() == "3f2504e0-4f89-11d3-9a0c-0305e82c3303"
+        assert action.getDesc() is not None
+
+        # BuildAction own attributes
+        assert [ref.getValue() for ref in action.getPredecessorActionRefs()] == ["/first", "/second"]
+        assert [ref.getValue() for ref in action.getFollowUpActionRefs()] == ["/next"]
+        assert [str(data.getRole()) for data in action.getCreatedDatas()] == ["created-one", "created-two"]
+        assert [str(data.getRole()) for data in action.getInputDatas()] == ["input-one"]
+        assert [str(data.getRole()) for data in action.getModifiedDatas()] == ["modified-one"]
+        assert isinstance(action.getCreatedDatas()[0], BuildActionIoElement)
+        assert action.getRequiredEnvironmentRef().getValue() == "/Environment"
+
+    def test_read_empty_wrappers(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "BUILD-ACTION",
+            "<SHORT-NAME>Action</SHORT-NAME>" "<PREDECESSOR-ACTION-REFS/>" "<FOLLOW-UP-ACTION-REFS/>" "<CREATED-DATAS/>" "<INPUT-DATAS/>" "<MODIFIED-DATAS/>",
+        )
+        action = BuildAction(AUTOSAR.getInstance(), "Action")
+        parser.readBuildAction(element, action)
+
+        assert action.getPredecessorActionRefs() == []
+        assert action.getFollowUpActionRefs() == []
+        assert action.getCreatedDatas() == []
+        assert action.getInputDatas() == []
+        assert action.getModifiedDatas() == []
+        assert action.getRequiredEnvironmentRef() is None
+
+    def test_read_absent_wrappers(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip("BUILD-ACTION", "<SHORT-NAME>Action</SHORT-NAME>")
+        action = BuildAction(AUTOSAR.getInstance(), "Action")
+        parser.readBuildAction(element, action)
+
+        assert action.getPredecessorActionRefs() == []
+        assert action.getFollowUpActionRefs() == []
+        assert action.getCreatedDatas() == []
+        assert action.getInputDatas() == []
+        assert action.getModifiedDatas() == []
+        assert action.getRequiredEnvironmentRef() is None
+        assert action.getCategory() is None
+
+
+class TestReadBuildActionManifest:
+    def test_read_all_members(self):
+        parser = ARXMLParser(options={"warning": True})
+        element = _snip(
+            "BUILD-ACTION-MANIFEST",
+            "<SHORT-NAME>Manifest</SHORT-NAME><START-ACTION-REFS><START-ACTION-REF DEST='BUILD-ACTION'>/Start</START-ACTION-REF></START-ACTION-REFS><TEAR-DOWN-ACTION-REFS><TEAR-DOWN-ACTION-REF DEST='BUILD-ACTION'>/Tear</TEAR-DOWN-ACTION-REF></TEAR-DOWN-ACTION-REFS><BUILD-ACTIONS><BUILD-ACTION><SHORT-NAME>Action</SHORT-NAME></BUILD-ACTION></BUILD-ACTIONS><BUILD-ACTION-ENVIRONMENTS><BUILD-ACTION-ENVIRONMENT><SHORT-NAME>Environment</SHORT-NAME></BUILD-ACTION-ENVIRONMENT></BUILD-ACTION-ENVIRONMENTS><DYNAMIC-ACTION-REFS><DYNAMIC-ACTION-REF DEST='BUILD-ACTION'>/Dynamic</DYNAMIC-ACTION-REF></DYNAMIC-ACTION-REFS>",
+        )
+        manifest = BuildActionManifest(AUTOSAR.getInstance(), "Manifest")
+        parser.readBuildActionManifest(element, manifest)
+        assert [ref.getValue() for ref in manifest.getStartActionRefs()] == ["/Start"]
+        assert [ref.getValue() for ref in manifest.getTearDownActionRefs()] == ["/Tear"]
+        assert [action.getShortName() for action in manifest.getBuildActions()] == ["Action"]
+        assert [environment.getShortName() for environment in manifest.getBuildActionEnvironments()] == ["Environment"]
+        assert [ref.getValue() for ref in manifest.getDynamicActionRefs()] == ["/Dynamic"]
+
+    def test_read_empty_wrappers(self):
+        parser = ARXMLParser(options={"warning": True})
+        manifest = BuildActionManifest(AUTOSAR.getInstance(), "Manifest")
+        parser.readBuildActionManifest(_snip("BUILD-ACTION-MANIFEST", "<SHORT-NAME>Manifest</SHORT-NAME><BUILD-ACTIONS/><BUILD-ACTION-ENVIRONMENTS/>"), manifest)
+        assert manifest.getBuildActions() == []
+        assert manifest.getBuildActionEnvironments() == []

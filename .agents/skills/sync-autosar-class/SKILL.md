@@ -243,6 +243,10 @@ checked independently (*0001.11*), docstrings = spec `Note` **verbatim by diff**
   `# XSD verified: AUTOSAR_00052.xsd`) and flip method rows to `[x]`; `# XSD verified:`
   is used **instead of** `# Spec verified:` only when no PDF/markdown table exists for
   the class (*Rule 0002*).
+- **Abstract class with own XML-bearing attributes** — Steps 5/6 are **not** N/A just
+  because the class has no standalone element; it must own reusable
+  `read<ClassName>`/`write<ClassName>` helpers that concrete subclasses call (*Rule
+  0001.7*).
 
 ## The 6-column checklist (Rule 0002)
 

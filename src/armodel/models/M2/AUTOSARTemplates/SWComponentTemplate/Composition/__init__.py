@@ -107,31 +107,75 @@ class SwConnector(AtpStructureElement, VariationPointCapable, ABC):
 
 
 class AssemblySwConnector(SwConnector):
+    """
+    AssemblySwConnectors are exclusively used to connect SwComponentPrototypes in the context of a CompositionSwComponentType.
+    """
+
     # AssemblySwConnector method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getProviderIRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] setProviderIRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] getRequesterIRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] setRequesterIRef             [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.13, p.80 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getProviderIRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProviderIRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRequesterIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequesterIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.providerIRef: PPortInCompositionInstanceRef = None
-        self.requesterIRef: RPortInCompositionInstanceRef = None
+        # Instance of providing port. InstanceRef implemented by: PPortInComposition InstanceRef
+        self.providerIRef: Optional[PPortInCompositionInstanceRef] = None
 
-    def getProviderIRef(self) -> PPortInCompositionInstanceRef:
+        # Instance of requiring port. InstanceRef implemented by: RPortInComposition InstanceRef
+        self.requesterIRef: Optional[RPortInCompositionInstanceRef] = None
+
+    def getProviderIRef(self) -> Optional[PPortInCompositionInstanceRef]:
+        """
+        Instance of providing port. InstanceRef implemented by: PPortInComposition InstanceRef
+
+        Returns:
+            PPortInCompositionInstanceRef for the providing port, or None if not set
+        """
         return self.providerIRef
 
-    def setProviderIRef(self, value: PPortInCompositionInstanceRef):
-        self.providerIRef = value
+    def setProviderIRef(self, value: Optional[PPortInCompositionInstanceRef]) -> "AssemblySwConnector":
+        """
+        Instance of providing port. InstanceRef implemented by: PPortInComposition InstanceRef
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The providing port instance reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.providerIRef = value
         return self
 
-    def getRequesterIRef(self) -> RPortInCompositionInstanceRef:
+    def getRequesterIRef(self) -> Optional[RPortInCompositionInstanceRef]:
+        """
+        Instance of requiring port. InstanceRef implemented by: RPortInComposition InstanceRef
+
+        Returns:
+            RPortInCompositionInstanceRef for the requiring port, or None if not set
+        """
         return self.requesterIRef
 
-    def setRequesterIRef(self, value: RPortInCompositionInstanceRef):
-        self.requesterIRef = value
+    def setRequesterIRef(self, value: Optional[RPortInCompositionInstanceRef]) -> "AssemblySwConnector":
+        """
+        Instance of requiring port. InstanceRef implemented by: RPortInComposition InstanceRef
+        A None value is a no-op and does not overwrite an existing reference.
+
+        Args:
+            value: The requiring port instance reference to set
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.requesterIRef = value
         return self
 
 

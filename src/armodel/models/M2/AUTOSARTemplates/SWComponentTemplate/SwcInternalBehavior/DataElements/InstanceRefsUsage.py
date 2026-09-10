@@ -10,141 +10,95 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure impor
 
 
 class VariableInAtomicSWCTypeInstanceRef(AtpInstanceRef):
-    """
-    A reference to a variable data prototype in the context of an atomic
-    software component type instance.
-    """
+    """"""
 
     # VariableInAtomicSWCTypeInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getBaseRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] setBaseRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] getContextDataPrototypeRefs  [x] impl  [x] docstring  [ ] test
-    # [ ] addContextDataPrototypeRef   [x] impl  [x] docstring  [ ] test
-    # [ ] getPortPrototypeRef          [x] impl  [x] docstring  [ ] test
-    # [ ] setPortPrototypeRef          [x] impl  [x] docstring  [ ] test
-    # [ ] getRootVariableDataPrototypeRef [x] impl  [x] docstring  [ ] test
-    # [ ] setRootVariableDataPrototypeRef [x] impl  [x] docstring  [ ] test
-    # [ ] getTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
-    # [ ] setTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table D.18, p.953 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBaseRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBaseRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getContextDataPrototypeRefs  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextDataPrototypeRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPortPrototypeRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPortPrototypeRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRootVariableDataPrototypeRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRootVariableDataPrototypeRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetDataPrototypeRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetDataPrototypeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.baseRef: RefType = None
+        # Stereotypes: atpDerived Tags: xml.sequenceOffset=10
+        self.baseRef: Optional[RefType] = None
+
+        # This is the context in a compositeDataType. Tags: xml.sequenceOffset=40
         self.contextDataPrototypeRefs: List[RefType] = []
-        self.portPrototypeRef: RefType = None
-        self.rootVariableDataPrototypeRef: RefType = None
-        self.targetDataPrototypeRef: RefType = None
 
-    def getBaseRef(self):
-        """
-        Gets the base reference.
+        # This is the port providing the parameter or the entry point to the parameter structure. Tags: xml.sequenceOffset=20
+        self.portPrototypeRef: Optional[RefType] = None
 
-        Returns:
-            RefType: The base reference
-        """
+        # Tags: xml.sequenceOffset=30
+        self.rootVariableDataPrototypeRef: Optional[RefType] = None
+
+        # This is the target of the instance ref. Note that it shall be one of ApplicationCompositeElementDataPrototype of VariableDataPrototype. Tags: xml.sequenceOffset=50
+        self.targetDataPrototypeRef: Optional[RefType] = None
+
+    def getBaseRef(self) -> Optional[RefType]:
+        """Stereotypes: atpDerived Tags: xml.sequenceOffset=10"""
         return self.baseRef
 
-    def setBaseRef(self, value):
-        """
-        Sets the base reference.
-
-        Args:
-            value: The base reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.baseRef = value
+    def setBaseRef(self, value: Optional[RefType]) -> "VariableInAtomicSWCTypeInstanceRef":
+        """Stereotypes: atpDerived Tags: xml.sequenceOffset=10. A None value is a no-op."""
+        if value is not None:
+            self.baseRef = value
         return self
 
-    def getContextDataPrototypeRefs(self):
-        """
-        Gets the list of context data prototype references.
-
-        Returns:
-            List[RefType]: The list of context data prototype references
-        """
+    def getContextDataPrototypeRefs(self) -> List[RefType]:
+        """This is the context in a compositeDataType. Tags: xml.sequenceOffset=40"""
         return self.contextDataPrototypeRefs
 
-    def addContextDataPrototypeRef(self, value):
-        """
-        Adds a context data prototype reference.
-
-        Args:
-            value: The context data prototype reference to add
-
-        Returns:
-            self for method chaining
-        """
-        self.contextDataPrototypeRefs.append(value)
+    def addContextDataPrototypeRef(self, value: Optional[RefType]) -> "VariableInAtomicSWCTypeInstanceRef":
+        """This is the context in a compositeDataType. Tags: xml.sequenceOffset=40. A None value is a no-op."""
+        if value is not None:
+            self.contextDataPrototypeRefs.append(value)
         return self
 
-    def getPortPrototypeRef(self):
-        """
-        Gets the port prototype reference.
-
-        Returns:
-            RefType: The port prototype reference
-        """
+    def getPortPrototypeRef(self) -> Optional[RefType]:
+        """This is the port providing the parameter or the entry point to the parameter structure. Tags: xml.sequenceOffset=20"""
         return self.portPrototypeRef
 
-    def setPortPrototypeRef(self, value):
-        """
-        Sets the port prototype reference.
-
-        Args:
-            value: The port prototype reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.portPrototypeRef = value
+    def setPortPrototypeRef(self, value: Optional[RefType]) -> "VariableInAtomicSWCTypeInstanceRef":
+        """This is the port providing the parameter or the entry point to the parameter structure. Tags: xml.sequenceOffset=20. A None value is a no-op."""
+        if value is not None:
+            self.portPrototypeRef = value
         return self
 
-    def getRootVariableDataPrototypeRef(self):
-        """
-        Gets the root variable data prototype reference.
-
-        Returns:
-            RefType: The root variable data prototype reference
-        """
+    def getRootVariableDataPrototypeRef(self) -> Optional[RefType]:
+        """Tags: xml.sequenceOffset=30"""
         return self.rootVariableDataPrototypeRef
 
-    def setRootVariableDataPrototypeRef(self, value):
-        """
-        Sets the root variable data prototype reference.
-
-        Args:
-            value: The root variable data prototype reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.rootVariableDataPrototypeRef = value
+    def setRootVariableDataPrototypeRef(self, value: Optional[RefType]) -> "VariableInAtomicSWCTypeInstanceRef":
+        """Tags: xml.sequenceOffset=30. A None value is a no-op."""
+        if value is not None:
+            self.rootVariableDataPrototypeRef = value
         return self
 
-    def getTargetDataPrototypeRef(self):
+    def getTargetDataPrototypeRef(self) -> Optional[RefType]:
         """
-        Gets the target data prototype reference.
-
-        Returns:
-            RefType: The target data prototype reference
+        This is the target of the instance ref. Note that it shall be one of ApplicationCompositeElementDataPrototype of VariableDataPrototype. Tags: xml.sequenceOffset=50
         """
         return self.targetDataPrototypeRef
 
-    def setTargetDataPrototypeRef(self, value):
+    def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> "VariableInAtomicSWCTypeInstanceRef":
         """
-        Sets the target data prototype reference.
-
-        Args:
-            value: The target data prototype reference to set
-
-        Returns:
-            self for method chaining
+        This is the target of the instance ref. Note that it shall be one of ApplicationCompositeElementDataPrototype of VariableDataPrototype. Tags: xml.sequenceOffset=50
+        A None value is a no-op and does not overwrite an existing targetDataPrototypeRef.
         """
-        self.targetDataPrototypeRef = value
+        if value is not None:
+            self.targetDataPrototypeRef = value
         return self
 
 

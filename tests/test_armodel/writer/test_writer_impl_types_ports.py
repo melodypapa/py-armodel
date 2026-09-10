@@ -1306,6 +1306,37 @@ class TestDataTypeMappingWriter:
         assert child.find("DATA-TYPE-MAPS") is not None
         assert child.find("MODE-REQUEST-TYPE-MAPS") is not None
 
+    def test_write_data_type_mapping_set_preserves_values_and_order(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        mapping_set = pkg.createDataTypeMappingSet("MapSet")
+        data_map = DataTypeMap()
+        data_map.setApplicationDataTypeRef(_make_ref("/App", "APPLICATION-DATA-TYPE"))
+        data_map.setImplementationDataTypeRef(_make_ref("/Impl", "IMPLEMENTATION-DATA-TYPE"))
+        mapping_set.addDataTypeMap(data_map)
+        mode_map = ModeRequestTypeMap()
+        mode_map.setImplementationDataTypeRef(_make_ref("/ModeImpl", "IMPLEMENTATION-DATA-TYPE"))
+        mode_map.setModeGroupRef(_make_ref("/Mode", "MODE-DECLARATION-GROUP"))
+        mapping_set.addModeRequestTypeMap(mode_map)
+
+        parent = _parent()
+        writer.writeDataTypeMappingSet(parent, mapping_set)
+        child = parent[0]
+
+        assert child.find("DATA-TYPE-MAPS/DATA-TYPE-MAP/APPLICATION-DATA-TYPE-REF").text == "/App"
+        assert child.find("DATA-TYPE-MAPS/DATA-TYPE-MAP/IMPLEMENTATION-DATA-TYPE-REF").text == "/Impl"
+        assert child.find("MODE-REQUEST-TYPE-MAPS/MODE-REQUEST-TYPE-MAP/IMPLEMENTATION-DATA-TYPE-REF").text == "/ModeImpl"
+        assert child.find("MODE-REQUEST-TYPE-MAPS/MODE-REQUEST-TYPE-MAP/MODE-GROUP-REF").text == "/Mode"
+        assert [element.tag for element in child] == ["SHORT-NAME", "DATA-TYPE-MAPS", "MODE-REQUEST-TYPE-MAPS"]
+
+    def test_write_data_type_mapping_set_empty(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Pkg")
+        mapping_set = pkg.createDataTypeMappingSet("MapSet")
+        parent = _parent()
+        writer.writeDataTypeMappingSet(parent, mapping_set)
+        assert [element.tag for element in parent[0]] == ["SHORT-NAME"]
+
 
 class TestModeDeclarationWriter:
     """Tests for mode declaration and mode switch interface writers."""

@@ -45,6 +45,7 @@ class TestServerCallPoint:
         operation_iref.setTargetRequiredOperationRef(_ref_stub("CLIENT-SERVER-OPERATION", "/MyComponents/IfCs/op1"))
         sync_point.setOperationIRef(operation_iref)
         sync_point.setTimeout(TimeValue().setValue(0.005))
+        sync_point.setCalledFromWithinExclusiveAreaRef(_ref_stub("EXCLUSIVE-AREA-NESTING-ORDER", "/MyComponents/nesting"))
         async_point = entity.createAsynchronousServerCallPoint("scp_async")
         async_operation_iref = ROperationInAtomicSwcInstanceRef()
         async_operation_iref.setTargetRequiredOperationRef(_ref_stub("CLIENT-SERVER-OPERATION", "/MyComponents/IfCs/op2"))
@@ -74,6 +75,10 @@ class TestServerCallPoint:
         timeout_elem = sync_elem.find("TIMEOUT")
         assert timeout_elem is not None
         assert timeout_elem.text == "0.005"
+        nesting_ref = sync_elem.find("CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF")
+        assert nesting_ref is not None
+        assert nesting_ref.text == "/MyComponents/nesting"
+        assert nesting_ref.attrib["DEST"] == "EXCLUSIVE-AREA-NESTING-ORDER"
 
         async_elem = points_tag.find("ASYNCHRONOUS-SERVER-CALL-POINT")
         assert async_elem is not None

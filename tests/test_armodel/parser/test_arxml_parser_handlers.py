@@ -358,6 +358,7 @@ class TestAdminDataAndReferrableHandlers:
         assert iref is not None
         assert iref.getPortPrototypeRef().getValue() == "/p1"
         assert iref.getTargetDataPrototypeRef().getValue() == "/td1"
+        assert iref.getTargetDataPrototypeRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
 
     def test_getVariableInAtomicSWCTypeInstanceRef_none_element(self, parser):
         assert parser.getVariableInAtomicSWCTypeInstanceRef(None) is None
@@ -996,6 +997,12 @@ class TestSwComponentAndConnectorHandlers:
         assert connector.getProviderIRef().getTargetPPortRef().getValue() == "/pp1"
         assert connector.getRequesterIRef() is not None
         assert connector.getRequesterIRef().getTargetRPortRef().getValue() == "/rp1"
+        assert connector.getProviderIRef().getContextComponentRef().getValue() == "/c1"
+        assert connector.getProviderIRef().getContextComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert connector.getProviderIRef().getTargetPPortRef().getDest() == "P-PORT-PROTOTYPE"
+        assert connector.getRequesterIRef().getContextComponentRef().getValue() == "/c2"
+        assert connector.getRequesterIRef().getContextComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert connector.getRequesterIRef().getTargetRPortRef().getDest() == "R-PORT-PROTOTYPE"
 
     def test_readAssemblySwConnector_without_IRefs(self, parser, composition):
         connector = composition.createAssemblySwConnector("a2")
@@ -1003,6 +1010,31 @@ class TestSwComponentAndConnectorHandlers:
         parser.readAssemblySwConnector(element, connector)
         assert connector.getProviderIRef() is None
         assert connector.getRequesterIRef() is None
+
+    def test_readAssemblySwConnector_preserves_mapping_and_iref_values(self, parser, composition):
+        connector = composition.createAssemblySwConnector("a4")
+        element = _snip(
+            "<SHORT-NAME>a4</SHORT-NAME>"
+            "<MAPPING-REF DEST='PORT-INTERFACE-MAPPING'>/mapping</MAPPING-REF>"
+            "<PROVIDER-IREF>"
+            "<CONTEXT-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/provider/component</CONTEXT-COMPONENT-REF>"
+            "<TARGET-P-PORT-REF DEST='P-PORT-PROTOTYPE'>/provider/port</TARGET-P-PORT-REF>"
+            "</PROVIDER-IREF>"
+            "<REQUESTER-IREF>"
+            "<CONTEXT-COMPONENT-REF DEST='SW-COMPONENT-PROTOTYPE'>/requester/component</CONTEXT-COMPONENT-REF>"
+            "<TARGET-R-PORT-REF DEST='R-PORT-PROTOTYPE'>/requester/port</TARGET-R-PORT-REF>"
+            "</REQUESTER-IREF>",
+            root_tag="ASSEMBLY-SW-CONNECTOR",
+        )
+
+        parser.readAssemblySwConnector(element, connector)
+
+        assert connector.getMappingRef().getValue() == "/mapping"
+        assert connector.getMappingRef().getDest() == "PORT-INTERFACE-MAPPING"
+        assert connector.getProviderIRef().getContextComponentRef().getValue() == "/provider/component"
+        assert connector.getProviderIRef().getTargetPPortRef().getValue() == "/provider/port"
+        assert connector.getRequesterIRef().getContextComponentRef().getValue() == "/requester/component"
+        assert connector.getRequesterIRef().getTargetRPortRef().getValue() == "/requester/port"
 
     def test_readSwConnector_sets_mappingRef(self, parser, composition):
         connector = composition.createAssemblySwConnector("a3")
@@ -1029,6 +1061,10 @@ class TestSwComponentAndConnectorHandlers:
         parser.readDelegationSwConnector(element, connector)
         assert connector.getInnerPortIRref() is not None
         assert connector.getOuterPortRef().getValue() == "/op"
+        assert connector.getInnerPortIRref().getContextComponentRef().getValue() == "/c"
+        assert connector.getInnerPortIRref().getContextComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert connector.getInnerPortIRref().getTargetRPortRef().getValue() == "/rp"
+        assert connector.getInnerPortIRref().getTargetRPortRef().getDest() == "R-PORT-PROTOTYPE"
 
     def test_readDelegationSwConnector_inner_PPort_IRef(self, parser, composition):
         connector = composition.createDelegationSwConnector("d2")
@@ -1046,6 +1082,10 @@ class TestSwComponentAndConnectorHandlers:
         parser.readDelegationSwConnector(element, connector)
         assert connector.getInnerPortIRref() is not None
         assert connector.getOuterPortRef().getValue() == "/op"
+        assert connector.getInnerPortIRref().getContextComponentRef().getValue() == "/c"
+        assert connector.getInnerPortIRref().getContextComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert connector.getInnerPortIRref().getTargetPPortRef().getValue() == "/pp"
+        assert connector.getInnerPortIRref().getTargetPPortRef().getDest() == "P-PORT-PROTOTYPE"
 
     def test_readDelegationSwConnector_only_inner_ref(self, parser, composition):
         # Note: readDelegationSwConnector checks getInnerPortIRref() AND
@@ -1197,6 +1237,45 @@ class TestSwComponentAndConnectorHandlers:
         )
         parser.readDataTypeMaps(element, dtms)
         assert len(dtms.getDataTypeMaps()) == 1
+
+    def test_readDataTypeMappingSet_preserves_both_mapping_lists(self, parser):
+        from armodel.models import DataTypeMappingSet
+
+        dtms = DataTypeMappingSet(parent=_autosar_root(), short_name="DTMS")
+        element = _snip(
+            "<SHORT-NAME>DTMS</SHORT-NAME>"
+            "<DATA-TYPE-MAPS>"
+            "<DATA-TYPE-MAP>"
+            "<APPLICATION-DATA-TYPE-REF DEST='APPLICATION-DATA-TYPE'>/adt</APPLICATION-DATA-TYPE-REF>"
+            "<IMPLEMENTATION-DATA-TYPE-REF DEST='IMPLEMENTATION-DATA-TYPE'>/idt</IMPLEMENTATION-DATA-TYPE-REF>"
+            "</DATA-TYPE-MAP>"
+            "</DATA-TYPE-MAPS>"
+            "<MODE-REQUEST-TYPE-MAPS>"
+            "<MODE-REQUEST-TYPE-MAP>"
+            "<IMPLEMENTATION-DATA-TYPE-REF DEST='IMPLEMENTATION-DATA-TYPE'>/mode-idt</IMPLEMENTATION-DATA-TYPE-REF>"
+            "<MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP'>/mode-group</MODE-GROUP-REF>"
+            "</MODE-REQUEST-TYPE-MAP>"
+            "</MODE-REQUEST-TYPE-MAPS>",
+            root_tag="DATA-TYPE-MAPPING-SET",
+        )
+
+        parser.readDataTypeMappingSet(element, dtms)
+
+        assert dtms.getShortName() == "DTMS"
+        assert len(dtms.getDataTypeMaps()) == 1
+        assert dtms.getDataTypeMaps()[0].getApplicationDataTypeRef().getValue() == "/adt"
+        assert dtms.getDataTypeMaps()[0].getImplementationDataTypeRef().getValue() == "/idt"
+        assert len(dtms.getModeRequestTypeMaps()) == 1
+        assert dtms.getModeRequestTypeMaps()[0].getImplementationDataTypeRef().getValue() == "/mode-idt"
+        assert dtms.getModeRequestTypeMaps()[0].getModeGroupRef().getValue() == "/mode-group"
+
+    def test_readDataTypeMappingSet_empty(self, parser):
+        from armodel.models import DataTypeMappingSet
+
+        dtms = DataTypeMappingSet(parent=_autosar_root(), short_name="DTMS")
+        parser.readDataTypeMappingSet(_snip("<SHORT-NAME>DTMS</SHORT-NAME>", root_tag="DATA-TYPE-MAPPING-SET"), dtms)
+        assert dtms.getDataTypeMaps() == []
+        assert dtms.getModeRequestTypeMaps() == []
 
 
 # ==================== Group E: BswBehavior orchestrators ====================

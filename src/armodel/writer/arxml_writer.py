@@ -81,7 +81,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     NumericalRuleBasedValueSpecification,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Filter import DataFilter
-from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.FlatMap import FlatInstanceDescriptor, FlatMap, RtePluginProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import Code, Compiler, DependencyOnArtifact, Implementation, ImplementationProps, Linker
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import AbstractImplementationDataTypeElement, ImplementationDataType, ImplementationDataTypeElement
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.InternalBehavior import ExecutableEntity, ExecutableEntityActivationReason, InternalBehavior
@@ -257,6 +257,15 @@ from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import HwDescription
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeValue
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate.HwElementCategory import HwAttributeDef, HwCategory, HwType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import Documentation, DocumentationContext
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.BuildActionManifest import (
+    BuildAction,
+    BuildActionEntity,
+    BuildActionEnvironment,
+    BuildActionManifest,
+    BuildActionIoElement,
+    BuildActionInvocator,
+    BuildEngineeringObject,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.AnyInstanceRef import AnyInstanceRef
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
@@ -2534,7 +2543,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeApplicationCompositeElementDataPrototype(self, element: ET.Element, prototype: ApplicationCompositeElementDataPrototype):
         self.writeDataPrototype(element, prototype)
-        self.setChildElementOptionalRefType(element, "TYPE-TREF", prototype.typeTRef)
+        self.setChildElementOptionalRefType(element, "TYPE-TREF", prototype.getTypeTRef())
 
     def writeApplicationRecordElement(self, element: ET.Element, prototype: ApplicationRecordElement):
         child_element = ET.SubElement(element, "APPLICATION-RECORD-ELEMENT")
@@ -3255,6 +3264,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "SYNCHRONOUS-SERVER-CALL-POINT")
         self.writeIdentifiable(child_element, call_point)
         self.setServerCallPoint(child_element, call_point)
+        self.setChildElementOptionalRefType(child_element, "CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF", call_point.getCalledFromWithinExclusiveAreaRef())
 
     def setAsynchronousServerCallPoint(self, element: ET.Element, call_point: SynchronousServerCallPoint):
         child_element = ET.SubElement(element, "ASYNCHRONOUS-SERVER-CALL-POINT")
@@ -5369,6 +5379,109 @@ class ARXMLWriter(AbstractARXMLWriter):
             ref_cond = ET.SubElement(child_element, "BUILD-ACTION-MANIFEST-REF-CONDITIONAL")
             self.setChildElementOptionalRefType(ref_cond, "BUILD-ACTION-MANIFEST-REF", ref)
 
+    def writeBuildActionInvocator(self, element: ET.Element, invocator: BuildActionInvocator):
+        self.setChildElementOptionalLiteral(element, "COMMAND", invocator.getCommand())
+        sdgs = invocator.getSdgs()
+        if sdgs:
+            sdgs_element = ET.SubElement(element, "SDGS")
+            for sdg in sdgs:
+                self.setSdg(sdgs_element, sdg)
+
+    def writeBuildEngineeringObject(self, element: ET.Element, engineering_object: BuildEngineeringObject):
+        self.setChildElementOptionalLiteral(element, "FILE-TYPE", engineering_object.getFileType())
+        self.setChildElementOptionalUriString(element, "INTENDED-FILENAME", engineering_object.getIntendedFilename())
+        self.setChildElementOptionalLiteral(element, "PARENT-CATEGORY", engineering_object.getParentCategory())
+        self.setChildElementOptionalLiteral(element, "PARENT-SHORT-LABEL", engineering_object.getParentShortLabel())
+        self.setChildElementOptionalLiteral(element, "SHORT-LABEL-PATTERN", engineering_object.getShortLabelPattern())
+        self.setChildElementOptionalLiteral(element, "FILE-TYPE-PATTERN", engineering_object.getFileTypePattern())
+
+    def writeBuildActionIoElement(self, element: ET.Element, io_element: BuildActionIoElement):
+        self.setChildElementOptionalLiteral(element, "CATEGORY", io_element.getCategory())
+        sdgs = io_element.getSdgs()
+        if sdgs:
+            sdgs_element = ET.SubElement(element, "SDGS")
+            for sdg in sdgs:
+                self.setSdg(sdgs_element, sdg)
+        self.setChildElementOptionalRefType(element, "ECUC-DEFINITION-REF", io_element.getEcucDefinition())
+        engineering_object = io_element.getEngineeringObject()
+        if engineering_object is not None:
+            engineering_object_element = ET.SubElement(element, "ENGINEERING-OBJECT")
+            self.writeBuildEngineeringObject(engineering_object_element, engineering_object)
+        self.setChildElementOptionalIdentifier(element, "ROLE", io_element.getRole())
+
+    def writeBuildActionEnvironment(self, element: ET.Element, environment: BuildActionEnvironment):
+        self.writeIdentifiable(element, environment)
+        sdgs = environment.getSdgs()
+        if sdgs:
+            sdgs_element = ET.SubElement(element, "SDGS")
+            for sdg in sdgs:
+                self.setSdg(sdgs_element, sdg)
+
+    def writeBuildAction(self, element: ET.Element, action: BuildAction):
+        self.writeBuildActionEntity(element, action)
+        predecessors = action.getPredecessorActionRefs()
+        if predecessors:
+            predecessors_element = ET.SubElement(element, "PREDECESSOR-ACTION-REFS")
+            for ref in predecessors:
+                self.setChildElementOptionalRefType(predecessors_element, "PREDECESSOR-ACTION-REF", ref)
+        follow_ups = action.getFollowUpActionRefs()
+        if follow_ups:
+            follow_ups_element = ET.SubElement(element, "FOLLOW-UP-ACTION-REFS")
+            for ref in follow_ups:
+                self.setChildElementOptionalRefType(follow_ups_element, "FOLLOW-UP-ACTION-REF", ref)
+        created_datas = action.getCreatedDatas()
+        if created_datas:
+            created_datas_element = ET.SubElement(element, "CREATED-DATAS")
+            for data in created_datas:
+                self.writeBuildActionIoElement(ET.SubElement(created_datas_element, "BUILD-ACTION-IO-ELEMENT"), data)
+        input_datas = action.getInputDatas()
+        if input_datas:
+            input_datas_element = ET.SubElement(element, "INPUT-DATAS")
+            for data in input_datas:
+                self.writeBuildActionIoElement(ET.SubElement(input_datas_element, "BUILD-ACTION-IO-ELEMENT"), data)
+        modified_datas = action.getModifiedDatas()
+        if modified_datas:
+            modified_datas_element = ET.SubElement(element, "MODIFIED-DATAS")
+            for data in modified_datas:
+                self.writeBuildActionIoElement(ET.SubElement(modified_datas_element, "BUILD-ACTION-IO-ELEMENT"), data)
+        required_environment = action.getRequiredEnvironmentRef()
+        if required_environment is not None:
+            self.setChildElementOptionalRefType(element, "REQUIRED-ENVIRONMENT-REF", required_environment)
+
+    def writeBuildActionManifest(self, element: ET.Element, manifest: BuildActionManifest):
+        self.writeIdentifiable(element, manifest)
+        for name, refs in (("START-ACTION-REFS", manifest.getStartActionRefs()), ("TEAR-DOWN-ACTION-REFS", manifest.getTearDownActionRefs())):
+            if refs:
+                wrapper = ET.SubElement(element, name)
+                tag = name[:-5] + "-REF" if name != "TEAR-DOWN-ACTION-REFS" else "TEAR-DOWN-ACTION-REF"
+                for ref in refs:
+                    self.setChildElementOptionalRefType(wrapper, tag, ref)
+        if manifest.getBuildActions():
+            wrapper = ET.SubElement(element, "BUILD-ACTIONS")
+            for action in manifest.getBuildActions():
+                self.writeBuildAction(ET.SubElement(wrapper, "BUILD-ACTION"), action)
+        if manifest.getBuildActionEnvironments():
+            wrapper = ET.SubElement(element, "BUILD-ACTION-ENVIRONMENTS")
+            for environment in manifest.getBuildActionEnvironments():
+                self.writeBuildActionEnvironment(ET.SubElement(wrapper, "BUILD-ACTION-ENVIRONMENT"), environment)
+        dynamic_refs = manifest.getDynamicActionRefs()
+        if dynamic_refs:
+            wrapper = ET.SubElement(element, "DYNAMIC-ACTION-REFS")
+            for ref in dynamic_refs:
+                self.setChildElementOptionalRefType(wrapper, "DYNAMIC-ACTION-REF", ref)
+
+    def writeBuildActionEntity(self, element: ET.Element, entity: BuildActionEntity):
+        self.writeIdentifiable(element, entity)
+        delivery_artifacts = entity.getDeliveryArtifacts()
+        if delivery_artifacts:
+            wrapper = ET.SubElement(element, "DELIVERY-ARTIFACTS")
+            for artifact in delivery_artifacts:
+                self.writeAutosarEngineeringObject(wrapper, artifact)
+        invocation = entity.getInvocation()
+        if invocation is not None:
+            invocation_element = ET.SubElement(element, "INVOCATION")
+            self.writeBuildActionInvocator(invocation_element, invocation)
+
     def writeCompilers(self, element: ET.Element, impl: Implementation):
         compilers = impl.getCompilers()
         if len(compilers) > 0:
@@ -5420,7 +5533,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         descriptor = dependency.getArtifactDescriptor()
         if descriptor is not None:
             descriptor_element = ET.SubElement(child_element, "ARTIFACT-DESCRIPTOR")
-            self.writeAutosarEngineeringObject(descriptor_element, descriptor)
+            self.writeEngineeringObject(descriptor_element, descriptor)
         usages = dependency.getUsages()
         if len(usages) > 0:
             usages_element = ET.SubElement(child_element, "USAGES")
@@ -9801,10 +9914,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeIdentifiable(child_element, desc)
         self.setChildElementOptionalIdentifier(child_element, "ROLE", desc.getRole())
         if desc.getRtePluginProps() is not None:
-            ET.SubElement(child_element, "RTE-PLUGIN-PROPS")
+            self.setRtePluginProps(child_element, desc.getRtePluginProps())
         self.setSwDataDefProps(child_element, "SW-DATA-DEF-PROPS", desc.getSwDataDefProps())
         self.setAnyInstanceRef(child_element, "UPSTREAM-REFERENCE-IREF", desc.getUpstreamReferenceIRef())
         self.setAnyInstanceRef(child_element, "ECU-EXTRACT-REFERENCE-IREF", desc.getEcuExtractReferenceIRef())
+
+    def setRtePluginProps(self, element: ET.Element, props: RtePluginProps):
+        self.logger.debug("Set RtePluginProps")
+        child_element = ET.SubElement(element, "RTE-PLUGIN-PROPS")
+        self.setChildElementOptionalRefType(
+            child_element,
+            "ASSOCIATED-CROSS-SW-CLUSTER-COM-RTE-PLUGIN-REF",
+            props.getAssociatedCrossSwClusterComRtePluginRef(),
+        )
+        self.setChildElementOptionalRefType(child_element, "ASSOCIATED-RTE-PLUGIN-REF", props.getAssociatedRtePluginRef())
 
     def writeFlatMapInstances(self, element: ET.Element, map: FlatMap):
         instances = map.getInstances()
@@ -11181,7 +11304,9 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalBooleanValue(child_element, "TRANSIT-TO-INVALID-EXTENDED", props.getTransitToInvalidExtended())
 
     def writeARPackageElement(self, element: ET.Element, ar_element: ARElement):
-        if isinstance(ar_element, Collection):
+        if isinstance(ar_element, BuildActionManifest):
+            self.writeBuildActionManifest(element, ar_element)
+        elif isinstance(ar_element, Collection):
             self.writeCollection(element, ar_element)
         elif isinstance(ar_element, ComplexDeviceDriverSwComponentType):
             self.writeComplexDeviceDriverSwComponentType(element, ar_element)

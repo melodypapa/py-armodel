@@ -166,14 +166,16 @@ class VariableDataPrototype(AutosarDataPrototype, VariationPointCapable):
 
 class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
     """
-    Abstract base class for data prototypes that represent elements within
-    an application composite data type.
+    This class represents a data prototype which is aggregated within a composite application data type (record or array). It is introduced to provide a better distinction between target and context in instance Refs.
     """
 
     # ApplicationCompositeElementDataPrototype method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getTypeTRef                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setTypeTRef                  [x] impl  [ ] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.30, p.306 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTypeTRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTypeTRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ApplicationCompositeElementDataPrototype:
@@ -181,13 +183,22 @@ class ApplicationCompositeElementDataPrototype(DataPrototype, ABC):
 
         super().__init__(parent, short_name)
 
-        self.typeTRef: RefType = None
+        # This represents the corresponding data type. Stereotypes: isOfType
+        self.typeTRef: Optional[TRefType] = None
 
-    def getTypeTRef(self):
+    def getTypeTRef(self) -> Optional[TRefType]:
+        """
+        This represents the corresponding data type. Stereotypes: isOfType
+        """
         return self.typeTRef
 
-    def setTypeTRef(self, value):
-        self.typeTRef = value
+    def setTypeTRef(self, value: Optional[TRefType]) -> "ApplicationCompositeElementDataPrototype":
+        """
+        This represents the corresponding data type. Stereotypes: isOfType
+        A None value is a no-op and does not overwrite an existing typeTRef.
+        """
+        if value is not None:
+            self.typeTRef = value
         return self
 
 

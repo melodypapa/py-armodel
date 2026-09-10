@@ -148,11 +148,11 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8531 tests passed (unit + 2 integration round-trip), ruff/flake8/black-check clean (ruff --fix import-order + unused AbstractEvent import in new tests only); 9b (user-approved 2026-09-04 after VariationPointCapable discussion: XSD VARIATION-POINT per-concrete-class placement l.105080, ABSTRACT-ACCESS-POINT group l.67–81 has none, parent hosting ruled out per Identifiable standing decision): Rules 0001.1–0001.7/0011/0012/0013/0014 pass, Rule 0007 package-location pass (ServerCall.py leaf shape, current location correct); inherited open deviation raised (VariationPointCapable extra base — framework infra); reference report recorded (ROperationInAtomicSwcInstanceRef unstamped; stale tracker block for AsynchronousServerCallPoint); marker written
   - [ ] Step 3 — Implement model class (Green)
   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A for this abstract base: Table D.14 marks all attributes as derived, and XSD `PORT-IN-COMPOSITION-TYPE-INSTANCE-REF` explicitly skips `base`, `abstractContextComponent`, and `targetPort`
+   - [x] Step 6 — Update parser & writer (Green) — N/A for this class: no own XML elements; concrete P/R subclasses own the serialized context/target references
+   - [x] Step 7 — Update checklist comment — six-column R23-11 checklist cites Table D.14 p.950; documentation is `[—]` because the PDF Note cells are blank, and all base members are marked `[—]` reader/writer because XSD serialization is skipped
+   - [x] Step 8 — Deviations — none for the class; the empty Note and derived-only XML shape are spec-conformant; concrete subclass members remain queued separately
+   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [x] `VariableDataPrototype` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.31 · member type of `SwcInternalBehavior.arTypedPerInstanceMemory`/`explicitInterRunnableVariable`/`implicitInterRunnableVariable`, `VariableInAtomicSwcInstanceRef.abstractTargetDataElement`, `ArVariableInImplementationDataInstanceRef.rootVariableDataPrototype` · parent `DataPrototype` stamped ✓) — **finished, stamped `# Spec verified: R23-11`** (commit: d3b5d680)
   - [x] Step 1 — Sync members & description from spec — Table 5.31 caption md l.9069, body l.9071–9078; PDF p.310 via pdf_page.py. Class=concrete; Package=...SWComponentTemplate::Datatype::DataPrototypes (leaf → DataPrototypes.py ✓ current location); Base=ARObject, AtpFeature, AtpPrototype, AutosarDataPrototype, DataPrototype, Identifiable, MultilanguageReferrable, Referrable → most-derived **AutosarDataPrototype** ✓ current base correct; extra base `VariationPointCapable` NOT in spec Base — framework infra per Identifiable standing decision (same as stamped ParameterDataPrototype), raise at 9b; Aggregated by ApplicationInterface.indication, BswInternalBehavior.arTypedPerInstanceMemory, BswModuleDescription.providedData/requiredData, BulkNvDataDescriptor.bulkNvBlock, InternalBehavior.staticMemory, NvBlockDescriptor.ramBlock, NvDataInterface.nvData, SenderReceiverInterface.dataElement, ServiceInterface.event, SwcInternalBehavior.arTypedPerInstanceMemory/explicitInterRunnableVariable/implicitInterRunnableVariable ✓ all wired; Note verbatim: "A VariableDataPrototype represents a formalized generic piece of information that is typically mutable by the application software layer. VariableDataPrototype is used in various contexts and the specific context gives the otherwise generic VariableDataPrototype a dedicated semantics."; Attribute `initValue` (ValueSpecification, 0..1, aggr) → field `initValue` ✓, Note verbatim "Specifies initial value(s) of the VariableDataPrototype". XML (XSD l.129621): group VARIABLE-DATA-PROTOTYPE = INIT-VALUE only own element (after base AUTOSAR-DATA-PROTOTYPE group TYPE-TREF); XSD doc adds variation-point sentence (constr_2638) — md Note row wins per Rule 0015. Current code issues: class docstring fabricated paraphrase (not verbatim); `initValue: ValueSpecification = None` missing Optional (Rule 0003); untyped accessor signatures; setter not None-guarded (ReferenceBase convention, ParameterDataPrototype precedent); paraphrase method docstrings (Rule 0001.4); stale 3-col checklist with no `# Spec:` line
   - [x] Step 2 — Write model class unit test (Red) — test_DataPrototypes.py TestVariableDataPrototype rewritten to spec shape: test_initialization (defaults + isinstance chain incl. AutosarDataPrototype/DataPrototype/AtpPrototype/Identifiable/ARObject), test_class_docstring_verbatim (strip), test_init_value_round_trip (TextValueSpecification round-trip + chaining + None no-op). RED confirmed: 2 FAILED (docstring verbatim; setInitValue(None) overwrites), 1 passed (init)
@@ -173,136 +173,120 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 7 — Update checklist comment — 6-column checklist with R23-11 release and reader/writer coverage.
   - [x] Step 8 — Deviations — no class-specific deviations; inherited VariationPointCapable remains the standing framework-infrastructure deviation.
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: focused model/parser/writer tests, lint, Black, and diff checks passed; 9b user-confirmed 2026-09-04: Table 7.49 coverage, base, types, order, reader/writer coverage, verbatim documentation, and standing VariationPointCapable framework deviation accepted; marker written
-- [ ] `PortInCompositionTypeInstanceRef` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table D.14 (abstract; appendix letter-numbered table, same as D.17/D.4 cases) · iref type of `DelegationSwConnector.innerPort` (XSD serializes as P/R-PORT-IN-COMPOSITION-INSTANCE-REF) · sync concrete subclasses `PPortInCompositionInstanceRef` Table D.15 / `RPortInCompositionInstanceRef` Table D.16 in the same pass · parent `AtpInstanceRef` stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `AssemblySwConnector` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.13 · member subtype of `CompositionSwComponentType.connector` alongside `DelegationSwConnector` below · parent `SwConnector` Table 3.12 stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `DataTypeMappingSet` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.4 · member type of `CompositionSwComponentType.dataTypeMapping`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `AbstractImplementationDataTypeElement` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.16 · member type of `ArVariableInImplementationDataInstanceRef.contextDataPrototype`/`targetDataPrototype`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ApplicationDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.2 (abstract; base of the three concrete Application* data types below — **moved 2026-09-03 restructure ahead of its subclasses**))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ApplicationCompositeElementDataPrototype` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.30 · parent of `ApplicationRecordElement` below · after `ApplicationDataType` (its `type` tref) · parent `DataPrototype` stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `InitEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.22 · after `RTEEvent` (parent, Table 7.9))
-   - [x] Step 1 — Sync members & description from spec — Table 7.22 caption md l.15531, body l.15533–15540; PDF p.546 via pdf_page.py. Class=concrete; Package=...SwcInternalBehavior::RTEEvents (leaf → RTEEvents.py ✓); Base=RTEEvent (most-derived; stamped ✓); Aggregated by AtpClassifier.atpFeature + SwcInternalBehavior.event ✓; Note copied verbatim. Attribute table is empty (`-`), so no own members or XML elements.
-   - [x] Step 2 — Write model class unit test (Red) — extended TestInitEvent with exact Table 7.22 Note assertion and inherited RTEEvent type assertion. RED confirmed: docstring assertion failed against stale/paraphrased class Note; initialization/inheritance assertion passed.
-   - [x] Step 3 — Implement model class (Green) — no member/base implementation change required; existing InitEvent correctly derives from stamped RTEEvent and has no own attributes. Focused model test passed after Step 4 documentation correction.
-   - [x] Step 4 — Sync docstrings (wipe + rewrite) — replaced stale/truncated class docstring with the Table 7.22 Note verbatim; no member comments/accessor docstrings because the class has no own attributes. Added six-column checklist structure.
-   - [x] Step 5 — Write reader/writer round-trip test (N/A with evidence) — Table 7.22 has no own XML members; inherited RTEEvent behavior is covered by existing parser/writer event tests, including InitEvent orchestration coverage.
-   - [x] Step 6 — Update parser & writer (N/A with evidence) — no class-specific parser/writer methods or fields exist; existing readInitEvent/writeInitEvent dispatch uses inherited RTEEvent serialization and focused parser/writer tests pass.
-   - [x] Step 7 — Update checklist comment — six-column checklist with `# Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.22, p.546 (R23-11)`; `__init__` has reader/writer `[—]`; marker deferred to 9b.
-   - [x] Step 8 — Deviations — none for InitEvent: spec-listed base RTEEvent ✓, no own attributes to model, Note verbatim, inherited reader/writer coverage evidenced. No new referenced classes or tracker deviations.
-   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: focused InitEvent model/parser/writer tests passed (39 tests), ruff and Black check clean; 9b user-confirmed 2026-09-04: Table 7.22 Note verbatim, RTEEvent base, empty own attribute table, inherited reader/writer coverage, and package location pass; no deviations; marker written. Commit pending.
-- [ ] `BackgroundEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.16 · after `RTEEvent` (parent, Table 7.9))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SynchronousServerCallPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.36 · after `ServerCallPoint` (parent, Table 7.35) · attr `calledFromWithinExclusiveArea` → `ExclusiveAreaNestingOrder` stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `AsynchronousServerCallPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.37 · after `ServerCallPoint` (parent, Table 7.35))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `AsynchronousServerCallResultPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.38 · after `AsynchronousServerCallPoint` (its `asynchronousServerCallPoint` ref target) · NOTE: spec Base = AbstractAccessPoint chain, NOT ServerCallPoint)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `VariableInAtomicSwcInstanceRef` (tracker input · **spec CORRECTED 2026-09-03 restructure: R23-11 markdown Table D.1 exists (CP_TPS_SoftwareComponentTemplate.md — appendix letter-numbered table missed by numeric-regex tooling, same as D.17/D.4 cases), NOT XSD-only** · after `VariableDataPrototype` (`abstractTargetDataElement` ref) · `base` AtomicSwComponentType stamped ✓ / `contextPort` PortPrototype stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `VariableInAtomicSWCTypeInstanceRef` (tracker input · **spec CORRECTED 2026-09-03 restructure: R23-11 markdown Table D.18 exists (appendix letter-numbered table, same as D.17/D.4 cases), NOT XSD-only** · after `VariableDataPrototype`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `PortInCompositionTypeInstanceRef` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table D.14 (abstract; appendix letter-numbered table, same as D.17/D.4 cases) · iref type of `DelegationSwConnector.innerPort` (XSD serializes as P/R-PORT-IN-COMPOSITION-INSTANCE-REF) · sync concrete subclasses `PPortInCompositionInstanceRef` Table D.15 / `RPortInCompositionInstanceRef` Table D.16 in the same pass · parent `AtpInstanceRef` stamped ✓) — **finished, stamped `# Spec verified: R23-11`**
+   - [x] Step 1 — Sync members & description from spec — Table D.14, R23-11 markdown l.28174–28186; PDF text confirms printed p.950 (appendix letter-numbered table is not indexed by pdf_page.py); class and attribute Notes are blank; XSD group `PORT-IN-COMPOSITION-TYPE-INSTANCE-REF` l.92255–92265 confirms all three attributes are derived and skipped from XML
+   - [x] Step 2 — Write model class unit test (Red) — added inherited member/default and None-guard tests; RED confirmed: `setAbstractContextComponentRef(None)`, `setBaseRef(None)`, and `setTargetPortRef(None)` overwrite existing values
+   - [x] Step 3 — Implement model class (Green) — typed `Optional[RefType]` members/accessors and None-guarded setters; focused model suite green (9 passed)
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — Table D.14 has a blank class Note and blank attribute Notes; removed the fabricated class docstring and marked documentation `[—]` in the six-column checklist
+   - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — extended assembly/delegation parser and writer tests to assert all context/target values, DEST attributes, and XML order; existing coverage passed immediately (6 focused tests)
+   - [x] Step 6 — Update parser & writer (Green) — no production change needed; existing `readPPortInCompositionInstanceRef`/`readRPortInCompositionInstanceRef` and assembly/delegation writer paths already use the concrete getters/setters and emit context before target
+   - [x] Step 7 — Update checklist comment — Table D.15 p.950 and Table D.16 p.951 six-column checklists added; blank Notes marked `[—]`; concrete XML methods mapped to reader/writer coverage
+   - [x] Step 8 — Deviations — none; concrete member names/types, XML order, DEST handling, and parser/writer coverage conform to Tables D.15/D.16 and XSD; base class Table D.14 uses p.950 and blank documentation cells
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 284 focused tests passed, ruff/flake8/black-check clean; 9b user-confirmed: D.14 base/members, blank Notes, derived-only XSD shape, concrete D.15/D.16 coverage, metadata documentation, member order, and no deviations accepted; marker written
+- [x] `AssemblySwConnector` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.13 · member subtype of `CompositionSwComponentType.connector` alongside `DelegationSwConnector` below · parent `SwConnector` Table 3.12 stamped ✓) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 3.13, p.80; concrete class derives from `SwConnector`; provider/requester optional irefs synchronized in displayed order
+  - [x] Step 2 — Write model class unit test (Red) — strengthened model coverage; RED confirmed missing class Note
+  - [x] Step 3 — Implement model class (Green) — Optional annotations, typed signatures, None-guarded setters, chainable return values
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and member Notes copied verbatim from Table 3.13; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — expanded existing parser/writer coverage for field values, DEST attributes, XML order, and empty irefs; existing paths passed immediately
+  - [x] Step 6 — Update parser & writer (Green) — no production change required; existing reader/writer paths use matching mutators/getters
+  - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column and reader/writer mapping
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 306 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `2a104a06`
+- [x] `DataTypeMappingSet` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.4 · member type of `CompositionSwComponentType.dataTypeMapping`) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 5.4, p.234; concrete class derives from `AtpBlueprintable`; dataTypeMap/modeRequestTypeMap aggregations synchronized in displayed order
+  - [x] Step 2 — Write model class unit test (Red) — strengthened model coverage; RED confirmed stale class Note
+  - [x] Step 3 — Implement model class (Green) — typed aggregation lists, typed signatures, None-guarded adders, chainable return values
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and member Notes copied verbatim from Table 5.4; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — expanded existing parser/writer coverage for both wrappers, values, order, and empty set; existing paths passed immediately
+  - [x] Step 6 — Update parser & writer (Green) — no production change required; existing reader/writer paths use matching adders/getters
+  - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column and reader/writer mapping
+  - [x] Step 8 — Deviations — no class deviation; unstamped referenced DataTypeMap reported for future dependency sync
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 277 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `21ab486b`
+- [x] `AbstractImplementationDataTypeElement` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.16 · member type of `ArVariableInImplementationDataInstanceRef.contextDataPrototype`/`targetDataPrototype`) — **already verified (`# Spec verified: R23-11`, CommonStructure/ImplementationDataTypes.py l.19)** — sub-checklist flipped 2026-09-05 per already-verified short-circuit: marker present in source + quick deviation check clean (abstract `AtpStructureElement` base ✓, zero own attributes per Table 5.16 ✓, class Note verbatim ✓, inherited parser/writer coverage through `ImplementationDataTypeElement` ✓, six-column checklist with release column ✓)
+  - [x] Steps 1–9 — completed by prior sync; skipped per already-verified short-circuit (marker + clean deviation check; see row header)
+- [x] `ApplicationDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.2 (abstract; base of the three concrete Application* data types below — **moved 2026-09-03 restructure ahead of its subclasses**)) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 5.2, p.232; abstract class derives from `AutosarDataType`; no own attributes
+  - [x] Step 2 — Write model class unit test (Red) — strengthened abstract/inheritance coverage; RED confirmed stale class Note
+  - [x] Step 3 — Implement model class (Green) — retained inherited `swDataDefProps` only; no fabricated members
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note copied verbatim from Table 5.2; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — tested inherited-only base path and concrete primitive subtype property path
+  - [x] Step 6 — Update parser & writer (Green) — no production change required; existing inherited reader/writer paths are conformant
+  - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 344 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `b8d0878d`
+- [x] `ApplicationCompositeElementDataPrototype` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.30 · parent of `ApplicationRecordElement` below · after `ApplicationDataType` (its `type` tref) · parent `DataPrototype` stamped ✓) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 5.30, p.306; abstract class derives from `DataPrototype`; optional type tref synchronized
+  - [x] Step 2 — Write model class unit test (Red) — strengthened abstract/type/accessor coverage; RED confirmed setter overwrote with None
+  - [x] Step 3 — Implement model class (Green) — Optional[TRefType] field, typed accessors, None-guarded setter
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class/member Notes copied verbatim from Table 5.30; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — added TRef value/DEST and absent-element coverage
+  - [x] Step 6 — Update parser & writer (Green) — replaced direct field access with matching setTypeTRef/getTypeTRef calls
+  - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column and reader/writer mapping
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 343 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `031d5c78`
+- [x] `InitEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.22 · after `RTEEvent` (parent, Table 7.9)) — **already verified (`# Spec verified: R23-11`, SwcInternalBehavior/RTEEvents.py l.369)** — sub-checklist finalized 2026-09-05 per already-verified short-circuit: marker present in source + quick deviation check clean (concrete `RTEEvent` subclass ✓, zero own attributes per Table 7.22 ✓, class Note verbatim ✓, inherited parser/writer coverage ✓, six-column checklist with release column ✓)
+   - [x] Steps 1–9 — completed by prior sync; skipped per already-verified short-circuit (marker + clean deviation check; see row header)
+- [x] `BackgroundEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.16 · after `RTEEvent` (parent, Table 7.9)) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 7.16, p.544; concrete class derives from `RTEEvent`; no own attributes
+  - [x] Step 2 — Write model class unit test (Red) — strengthened inheritance and exact Note coverage; RED confirmed stale/truncated class Note
+  - [x] Step 3 — Implement model class (Green) — no member/base implementation change required
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note copied verbatim; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (N/A with evidence) — inherited RTEEvent field and empty-event behavior tested
+  - [x] Step 6 — Update parser & writer (N/A with evidence) — existing readRTEEvent/setRTEEvent delegation is conformant
+  - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 407 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `27b88a94`
+- [x] `SynchronousServerCallPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.36 · after `ServerCallPoint` (parent, Table 7.35) · attr `calledFromWithinExclusiveArea` → `ExclusiveAreaNestingOrder` stamped ✓) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 7.36, p.580; concrete class derives from `ServerCallPoint`; optional exclusive-area nesting-order reference synchronized
+  - [x] Step 2 — Write model class unit test (Red) — added own-member type/None-guard coverage; RED confirmed setter overwrote with None
+  - [x] Step 3 — Implement model class (Green) — Optional[RefType] field, typed accessors, None-guarded setter
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class/member Notes copied verbatim; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — added reference value/DEST coverage
+  - [x] Step 6 — Update parser & writer (Green) — added CALLED-FROM-WITHIN-EXCLUSIVE-AREA-REF reader/writer coverage
+  - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column and reader/writer mapping
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 391 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `9182987d`
+- [x] `AsynchronousServerCallPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.37 · after `ServerCallPoint` (parent, Table 7.35)) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 7.37, p.581; concrete class derives from `ServerCallPoint`; no own attributes
+  - [x] Step 2 — Write model class unit test (Red) — added inheritance and exact Note coverage; RED confirmed missing class documentation
+  - [x] Step 3 — Implement model class (Green) — no member/base implementation change required
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note copied verbatim; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (N/A with evidence) — inherited operation/timeout behavior already covered
+  - [x] Step 6 — Update parser & writer (N/A with evidence) — existing inherited server-call serialization is conformant
+  - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 392 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `3223dde4`
+- [x] `AsynchronousServerCallResultPoint` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.38 · after `AsynchronousServerCallPoint` (its `asynchronousServerCallPoint` ref target) · NOTE: spec Base = AbstractAccessPoint chain, NOT ServerCallPoint) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table 7.38, p.581; concrete class derives directly from `AbstractAccessPoint`; optional asynchronous server call point ref synchronized
+  - [x] Step 2 — Write model class unit test (Red) — corrected fabricated returnValueProvision expectation; RED confirmed reference setter overwrote with None
+  - [x] Step 3 — Implement model class (Green) — Optional[RefType] field, typed accessors, None-guarded setter; direct AbstractAccessPoint heritage retained
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class/member Notes copied verbatim; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — added reference value/DEST coverage
+  - [x] Step 6 — Update parser & writer (Green) — existing matching accessor paths confirmed
+  - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release column and reader/writer mapping
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 401 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `724f490c`
+- [x] `VariableInAtomicSwcInstanceRef` (tracker input · **spec CORRECTED 2026-09-03 restructure: R23-11 markdown Table D.1 exists (CP_TPS_SoftwareComponentTemplate.md — appendix letter-numbered table missed by numeric-regex tooling, same as D.17/D.4 cases), NOT XSD-only** · after `VariableDataPrototype` (`abstractTargetDataElement` ref) · `base` AtomicSwComponentType stamped ✓ / `contextPort` PortPrototype stamped ✓) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table D.1, p.941; abstract `AtpInstanceRef` base; three optional refs synchronized in spec order
+  - [x] Step 2 — Write model class unit test (Red) — added typed accessor/None-guard coverage; RED confirmed missing accessors
+  - [x] Step 3 — Implement model class (Green) — Optional[RefType] fields, typed accessors, None-guarded setters
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — blank class Note preserved; attribute Notes copied verbatim; six-column checklist added
+  - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — concrete subclass XML values and DEST handling asserted through DataReceivedEvent paths
+  - [x] Step 6 — Update parser & writer (Green) — existing subclass reader/writer accessor paths confirmed; base abstract/redefined relationships remain model-only
+  - [x] Step 7 — Update checklist comment — six-column checklist with corrected p.941 citation and R23-11 release column
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 425 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `03690054`
+- [x] `VariableInAtomicSWCTypeInstanceRef` (tracker input · **spec CORRECTED 2026-09-03 restructure: R23-11 markdown Table D.18 exists (appendix letter-numbered table, same as D.17/D.4 cases), NOT XSD-only** · after `VariableDataPrototype`) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] Step 1 — Sync members & description from spec — Table D.18, p.953; direct `AtpInstanceRef` heritage; complete member order base → contextDataPrototype → portPrototype → rootVariableDataPrototype → targetDataPrototype
+  - [x] Step 2 — Write model class unit test (Red) — corrected fabricated member expectations; RED confirmed extra fields conflicted with Table D.18
+  - [x] Step 3 — Implement model class (Green) — all five ordered Optional[RefType] members and typed guarded accessors
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — blank class Note preserved; all member Notes copied verbatim; six-column checklist updated
+  - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — existing AUTOSAR-VARIABLE-IREF parser/writer value and DEST coverage retained and strengthened
+  - [x] Step 6 — Update parser & writer (Green) — existing consumer paths preserved; no production parser/writer change required
+  - [x] Step 7 — Update checklist comment — corrected p.953 citation, five-member order, and R23-11 release column
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 643 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit pending
 - [ ] `ArVariableInImplementationDataInstanceRef` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.37 · after `AbstractImplementationDataTypeElement` (`contextDataPrototype`/`targetDataPrototype` refs) + `VariableDataPrototype` (`rootVariableDataPrototype` ref) · `portPrototype` PortPrototype stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

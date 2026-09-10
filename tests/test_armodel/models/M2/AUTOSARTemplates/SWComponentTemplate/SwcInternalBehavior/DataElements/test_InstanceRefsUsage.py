@@ -3,6 +3,7 @@ This module contains comprehensive tests for the InstanceRefsUsage module in SWC
 Tests cover all classes and methods in the InstanceRefsUsage.py file to achieve 100% test coverage.
 """
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import (
     ArVariableInImplementationDataInstanceRef,
     AutosarParameterRef,
@@ -59,39 +60,16 @@ class TestVariableInAtomicSWCTypeInstanceRef:
         """Test VariableInAtomicSWCTypeInstanceRef initialization and methods."""
         iref = VariableInAtomicSWCTypeInstanceRef()
 
-        assert iref.baseRef is None
-        assert iref.contextDataPrototypeRefs == []
-        assert iref.portPrototypeRef is None
-        assert iref.rootVariableDataPrototypeRef is None
         assert iref.targetDataPrototypeRef is None
 
-        # Test baseRef methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
-
-        base_ref = RefType()
-        base_ref.setValue("/Base/Ref")
-        iref.setBaseRef(base_ref)
-        assert iref.getBaseRef() == base_ref
-
-        # Test contextDataPrototypeRefs methods
-        context_ref = RefType()
-        context_ref.setValue("/Context/Ref")
-        iref.addContextDataPrototypeRef(context_ref)
-        assert context_ref in iref.getContextDataPrototypeRefs()
-
-        # Test portPrototypeRef methods
-        port_ref = RefType()
-        port_ref.setValue("/Port/Ref")
-        iref.setPortPrototypeRef(port_ref)
-        assert iref.getPortPrototypeRef() == port_ref
-
-        # Test rootVariableDataPrototypeRef methods
-        root_ref = RefType()
-        root_ref.setValue("/Root/Variable")
-        iref.setRootVariableDataPrototypeRef(root_ref)
-        assert iref.getRootVariableDataPrototypeRef() == root_ref
+    def test_table_d18_shape(self):
+        iref = VariableInAtomicSWCTypeInstanceRef()
+        assert isinstance(iref, AtpInstanceRef)
+        assert iref.getTargetDataPrototypeRef() is None
 
         # Test targetDataPrototypeRef methods
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+
         target_ref = RefType()
         target_ref.setValue("/Target/Data")
         iref.setTargetDataPrototypeRef(target_ref)

@@ -1,5 +1,6 @@
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SwcBswMapping import SwcBswMapping, SwcBswRunnableMapping, SwcBswSynchronizedModeGroupPrototype, SwcBswSynchronizedTrigger
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PTriggerInAtomicSwcTypeInstanceRef
 
@@ -54,6 +55,27 @@ class TestSwcBswRunnableMapping:
 
 
 class TestSwcBswMapping:
+    def test_spec_shape_and_notes(self):
+        assert SwcBswMapping.__bases__ == (ARElement,)
+        assert SwcBswMapping.__doc__.strip() == (
+            "Maps an SwcInternalBehavior to an BswInternalBehavior. This is required to coordinate the API generation "
+            "and the scheduling for AUTOSAR Service Components, ECU Abstraction Components and Complex Driver Components "
+            "by the RTE and the BSW scheduling mechanisms."
+        )
+        assert SwcBswMapping.getBswBehaviorRef.__doc__.strip() == "The mapped BswInternalBehavior"
+        assert SwcBswMapping.getSwcBehaviorRef.__doc__.strip() == "The mapped SwcInternalBehavior."
+
+    def test_none_guards_are_noops(self):
+        parent = AUTOSAR.getInstance()
+        mapping = SwcBswMapping(parent.createARPackage("AUTOSAR"), "TestSwcBswMapping")
+        bsw_ref = RefType().setValue("/Bsw")
+        mapping.setBswBehaviorRef(bsw_ref)
+        mapping.setBswBehaviorRef(None)
+        assert mapping.getBswBehaviorRef() is bsw_ref
+        assert mapping.addRunnableMapping(None) is mapping
+        assert mapping.addSynchronizedModeGroup(None) is mapping
+        assert mapping.addSynchronizedTrigger(None) is mapping
+
     def test_initialization(self):
         """Test SwcBswMapping initialization"""
         parent = AUTOSAR.getInstance()

@@ -15,6 +15,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Implementation import (
     DependencyUsageEnum,
     ProgramminglanguageEnum,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     PositiveInteger,
@@ -72,9 +73,13 @@ def _build_impl():
     comp.setVersion(_lit("11"))
 
     linker = impl.createLinker("Ld")
+    linker.setName(_lit("ld"))
+    linker.setOptions(_lit("-r"))
+    linker.setVendor(_lit("GNU"))
     linker.setVersion(_lit("2.40"))
 
     ga = impl.createGeneratedArtifact("GenA")
+    ga.setArtifactDescriptor(AutosarEngineeringObject().setShortLabel(_lit("GenA")))
     ga.addUsage(DependencyUsageEnum().setValue("BUILD"))
 
     ra = impl.createRequiredArtifact("ReqA")
@@ -125,3 +130,11 @@ class TestWriteSwcImplementationXSDValid:
         assert swc is not None
         assert swc.find("{http://autosar.org/schema/r4.0}SW-VERSION").text == "1.0.0"
         assert swc.find("{http://autosar.org/schema/r4.0}VENDOR-ID").text == "42"
+        linker = swc.find(".//{http://autosar.org/schema/r4.0}LINKER")
+        assert linker.find("{http://autosar.org/schema/r4.0}NAME").text == "ld"
+        assert linker.find("{http://autosar.org/schema/r4.0}OPTIONS").text == "-r"
+        assert linker.find("{http://autosar.org/schema/r4.0}VENDOR").text == "GNU"
+        assert linker.find("{http://autosar.org/schema/r4.0}VERSION").text == "2.40"
+        callback_ref = swc.find(".//{http://autosar.org/schema/r4.0}CALLBACK-HEADER-REF")
+        assert callback_ref.text == "/Pkg/Cb_h"
+        assert callback_ref.get("DEST") == "SERVICE-NEEDS"
