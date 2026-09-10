@@ -36,6 +36,32 @@ class DataTransformationErrorHandlingEnum(AREnum):
         )
 
 
+class DataTransformationStatusForwardingEnum(AREnum):
+    """
+    This enumeration defines different ways how a RunnableEntity shall be able to forward status code into the transformer chain.
+    """
+
+    # DataTransformationStatusForwardingEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.44, p.591 (R23-11)
+    # Spec verified: R23-11
+    # (no methods) — enum value form serialized on PortAPIOption.transformerStatusForwarding
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The RunnableEntity is not able to forward a transformer status code. Tags: atp.EnumerationLiteralIndex=0
+    NO_TRANSFORMER_STATUS_FORWARDING = "noTransformerStatusForwarding"
+
+    # The RunnableEntity is able to forward a transformer status code. Tags: atp.EnumerationLiteralIndex=1
+    TRANSFORMER_STATUS_FORWARDING = "transformerStatusForwarding"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DataTransformationStatusForwardingEnum.NO_TRANSFORMER_STATUS_FORWARDING,
+                DataTransformationStatusForwardingEnum.TRANSFORMER_STATUS_FORWARDING,
+            ]
+        )
+
+
 class PortDefinedArgumentValue(ARObject):
     """
     A PortDefinedArgumentValue is passed to a RunnableEntity dealing with the ClientServerOperations provided by a given PortPrototype. Note that this is restricted to PPortPrototypes of a ClientServer Interface.

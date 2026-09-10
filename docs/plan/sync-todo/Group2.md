@@ -399,14 +399,15 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
     - [x] Step 8 — Deviations — none; dependency now exists in source and no unresolved class-specific deviation remains
     - [x] Step 9 — Verify (9a) + confirm (9b) — corrective pass: focused tests/lint/diff checks passed; prior 9b user confirmation retained; source marker already present; no duplicate step remains
  - [ ] `DataTransformationStatusForwardingEnum` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.44 · member type of `PortAPIOption.transformerStatusForwarding` · source class not present in src)
-   - [ ] Step 1 — Sync members & description from spec
-   - [ ] Step 2 — Write model class unit test (Red)
-   - [ ] Step 3 — Implement model class (Green)
-   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-   - [ ] Step 5 — Write reader/writer round-trip test (Red)
-   - [ ] Step 6 — Update parser & writer (Green)
-   - [ ] Step 7 — Update checklist comment
-   - [ ] Step 8 — Deviations
+   - [x] Step 1 — Sync members & description from spec — Table 7.44, p.591; enum Note and two literals captured
+   - [x] Step 2 — Write model class unit test (Red) — added literal presence/order and instantiation test; Red confirmed missing dependency class
+   - [x] Step 3 — Implement model class (Green) — added AREnum with exact camelCase literal values
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — enum Note and literal descriptions/tags copied verbatim; no-method checklist added
+   - [x] Step 5 — Write reader/writer round-trip test (N/A) — standalone enum has no own XML element; value form belongs to PortAPIOption.transformerStatusForwarding
+   - [x] Step 6 — Update parser & writer (N/A) — existing consumer paths serialize enum value form
+   - [x] Step 7 — Update checklist comment — six-column release provenance and no-method serialization evidence added
+   - [x] Step 8 — Deviations — none; dependency now exists in source
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a focused enum/consumer tests, lint, and diff checks passed; 9b user-confirmed; marker written
    - [ ] Step 9 — Verify (9a) + confirm (9b)
  - [ ] `SwcSupportedFeature` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.46 · member type of `PortAPIOption.supportedFeature` · source class not present in src)
    - [ ] Step 1 — Sync members & description from spec
