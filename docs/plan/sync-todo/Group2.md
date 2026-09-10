@@ -328,16 +328,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 7 — Update checklist comment — six-column R23-11 checklist for the sole `__init__` row; no own XML members
    - [x] Step 8 — Deviations — none; abstract shape, base chain, zero own attributes, inherited coverage, and documentation conform to Table 5.6
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 14 focused tests, lint, and diff checks passed; 9b user-confirmed; no class-specific deviations; marker written
-- [ ] `ApplicationRecordElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.13 *(existing member)* · after `ApplicationCompositeElementDataPrototype` (parent, Table 5.30))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `ApplicationRecordElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.13 *(existing member)* · after `ApplicationCompositeElementDataPrototype` (parent, Table 5.30)) — **finished, stamped `# Spec verified: R23-11`**
+   - [x] Step 1 — Sync members & description from spec — Table 5.13, p.262; concrete `ApplicationCompositeElementDataPrototype` subtype; own optional `isOptional` Boolean attribute and verbatim Note captured
+   - [x] Step 2 — Write model class unit test (Red) — added spec-contract test for inherited base, exact blank class Note, Boolean type, chaining, and None no-op; Red confirmed fabricated class docstring
+   - [x] Step 3 — Implement model class (Green) — removed fabricated class docstring, typed `Optional[Boolean]` member/accessors, and retained guarded setter
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note "Describes the properties of one particular element of an application record data type." copied from the preceding class-table rows (markdown l.7623–7628); attribute Note copied verbatim into member comment/getter/setter; six-column checklist added
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — added parser and writer field-value tests for `IS-OPTIONAL` and Boolean value
+   - [x] Step 6 — Update parser & writer (Green) — parser now calls `setIsOptional`; writer emits `IS-OPTIONAL` through `getIsOptional`; focused tests green
+   - [x] Step 7 — Update checklist comment — six-column R23-11 checklist with inherited members excluded and `isOptional` reader/writer mapping
+   - [x] Step 8 — Deviations — none; base, Boolean type, naming, guard, class/attribute documentation, and XML coverage conform to the Table 5.13 class rows and XSD
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 371 focused tests, lint, and diff checks passed; 9b user-confirmed after class Note correction; no class-specific deviations; marker written
 - [ ] `RunnableEntityArgument` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.5 · member type of `RunnableEntity.argument` (RunnableEntity stamped ✓) · only attr `symbol` CIdentifier — no unsynced deps)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

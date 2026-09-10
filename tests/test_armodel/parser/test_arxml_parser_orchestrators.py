@@ -1456,6 +1456,17 @@ class TestDataTypeAndCompuHandlers:
         parser.readApplicationRecordDataType(element, data_type)
         assert len(data_type.getApplicationRecordElements()) == 1
 
+    def test_readApplicationRecordElement_is_optional(self, parser):
+        from armodel.models import ApplicationRecordElement
+
+        record_element = ApplicationRecordElement(parent=_autosar_root(), short_name="elem")
+        element = _snip(
+            "<SHORT-NAME>elem</SHORT-NAME><IS-OPTIONAL>true</IS-OPTIONAL>",
+            root_tag="APPLICATION-RECORD-ELEMENT",
+        )
+        parser.readApplicationRecordElement(element, record_element)
+        assert record_element.getIsOptional().getValue() is True
+
     def test_readApplicationCompositeElementDataPrototype_type_tref(self, parser):
         from armodel.models import ApplicationArrayElement
 

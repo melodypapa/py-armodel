@@ -2548,6 +2548,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeApplicationRecordElement(self, element: ET.Element, prototype: ApplicationRecordElement):
         child_element = ET.SubElement(element, "APPLICATION-RECORD-ELEMENT")
         self.writeApplicationCompositeElementDataPrototype(child_element, prototype)
+        self.setChildElementOptionalBooleanValue(child_element, "IS-OPTIONAL", prototype.getIsOptional())
 
     def writeApplicationRecordDataTypeElements(self, element: ET.Element, data_type: ApplicationRecordDataType):
         record_elements = data_type.getApplicationRecordElements()

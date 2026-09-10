@@ -5325,6 +5325,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readApplicationRecordElement(self, element: ET.Element, record_element: ApplicationRecordElement):
         # self.logger.debug("Read ApplicationRecordElement %s" % record_element.getShortName())
         self.readApplicationCompositeElementDataPrototype(element, record_element)
+        record_element.setIsOptional(self.getChildElementOptionalBooleanValue(element, "IS-OPTIONAL"))
 
     def readApplicationRecordDataTypeElements(self, element: ET.Element, parent: ApplicationRecordDataType):
         for child_element in self.findall(element, "ELEMENTS/*"):
