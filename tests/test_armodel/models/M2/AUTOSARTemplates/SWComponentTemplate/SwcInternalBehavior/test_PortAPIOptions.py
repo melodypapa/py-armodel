@@ -4,8 +4,14 @@ Tests cover all classes and methods in the PortAPIOptions.py file to achieve 100
 """
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, TRefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, TRefType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import (
+    PortAPIOption,
+    PortDefinedArgumentValue,
+    CommunicationBufferLocking,
+    DataTransformationErrorHandlingEnum,
+    DataTransformationStatusForwardingEnum,
+)
 
 
 class TestPortDefinedArgumentValue:
@@ -51,66 +57,87 @@ class TestPortDefinedArgumentValue:
 class TestPortAPIOption:
     """Test class for PortAPIOption class."""
 
-    def test_port_api_option_spec_contract(self):
-        option = PortAPIOption()
-        assert option.__class__.__doc__.strip() == (
-            "If set to true, the software-component is able to use the API reference for deriving a pointer to an object."
-        )
-        enable = Boolean().setValue(True)
-        assert option.setEnableTakeAddress(enable) is option
-        option.setEnableTakeAddress(None)
-        assert option.getEnableTakeAddress() is enable
-
     def test_port_api_option_initialization(self):
-        """Test PortAPIOption initialization and methods."""
-        port_api_option = PortAPIOption()
+        option = PortAPIOption()
+        assert option.enableTakeAddress is None
+        assert option.errorHandling is None
+        assert option.indirectAPI is None
+        assert option.portRef is None
+        assert option.portArgValues == []
+        assert option.supportedFeatures == []
+        assert option.transformerStatusForwarding is None
 
-        assert port_api_option.enableTakeAddress is None
-        assert port_api_option.errorHandling is None
-        assert port_api_option.indirectAPI is None
-        assert port_api_option.portRef is None
-        assert port_api_option.portArgValues == []
-        assert port_api_option.supportedFeatures == []
-        assert port_api_option.transformerStatusForwarding is None
+    def test_port_api_option_class_docstring_verbatim(self):
+        assert PortAPIOption.__doc__.strip() == (
+            "Options how to generate the signatures of calls for an AtomicSwComponentType "
+            "in order to communicate over a PortPrototype (for calls into a RunnableEntity "
+            "as well as for calls from a Runnable Entity to the PortPrototype)."
+        )
 
-        # Test enableTakeAddress methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean
+    def test_enable_take_address_round_trip(self):
+        option = PortAPIOption()
+        value = Boolean().setValue(True)
+        assert option.setEnableTakeAddress(value) is option
+        assert option.getEnableTakeAddress() is value
+        option.setEnableTakeAddress(None)
+        assert option.getEnableTakeAddress() is value
 
-        enable_take = Boolean()
-        enable_take.setValue(True)
-        port_api_option.setEnableTakeAddress(enable_take)
-        assert port_api_option.getEnableTakeAddress() == enable_take
+    def test_error_handling_round_trip(self):
+        option = PortAPIOption()
+        value = DataTransformationErrorHandlingEnum().setValue(
+            DataTransformationErrorHandlingEnum.TRANSFORMER_ERROR_HANDLING
+        )
+        assert option.setErrorHandling(value) is option
+        assert option.getErrorHandling() is value
+        option.setErrorHandling(None)
+        assert option.getErrorHandling() is value
 
-        # Test errorHandling methods
-        error_handling = "test_error_handling"
-        port_api_option.setErrorHandling(error_handling)
-        assert port_api_option.getErrorHandling() == error_handling
+    def test_indirect_api_round_trip(self):
+        option = PortAPIOption()
+        value = Boolean().setValue(False)
+        assert option.setIndirectAPI(value) is option
+        assert option.getIndirectAPI() is value
+        option.setIndirectAPI(None)
+        assert option.getIndirectAPI() is value
 
-        # Test indirectAPI methods
-        indirect_api = Boolean()
-        indirect_api.setValue(False)
-        port_api_option.setIndirectAPI(indirect_api)
-        assert port_api_option.getIndirectAPI() == indirect_api
+    def test_port_ref_round_trip(self):
+        option = PortAPIOption()
+        value = RefType().setValue("/Port/Ref")
+        assert option.setPortRef(value) is option
+        assert option.getPortRef() is value
+        option.setPortRef(None)
+        assert option.getPortRef() is value
 
-        # Test portRef methods
-        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
+    def test_port_arg_values_ordered(self):
+        option = PortAPIOption()
+        first = PortDefinedArgumentValue()
+        second = PortDefinedArgumentValue()
+        assert option.addPortArgValue(first) is option
+        option.addPortArgValue(second)
+        assert option.getPortArgValues() == [first, second]
+        option.addPortArgValue(None)
+        assert option.getPortArgValues() == [first, second]
 
-        port_ref = RefType()
-        port_ref.setValue("/Port/Ref")
-        port_api_option.setPortRef(port_ref)
-        assert port_api_option.getPortRef() == port_ref
+    def test_supported_features_ordered(self):
+        option = PortAPIOption()
+        first = CommunicationBufferLocking().setSupportBufferLocking(
+            DataTransformationStatusForwardingEnum.NO_TRANSFORMER_STATUS_FORWARDING
+        )
+        second = CommunicationBufferLocking().setSupportBufferLocking(
+            DataTransformationStatusForwardingEnum.TRANSFORMER_STATUS_FORWARDING
+        )
+        assert option.addSupportedFeature(first) is option
+        option.addSupportedFeature(second)
+        assert option.getSupportedFeatures() == [first, second]
+        option.addSupportedFeature(None)
+        assert option.getSupportedFeatures() == [first, second]
 
-        # Test portArgValues methods
-        arg_value = PortDefinedArgumentValue()
-        port_api_option.addPortArgValue(arg_value)
-        assert arg_value in port_api_option.getPortArgValues()
-
-        # Test supportedFeatures methods
-        feature = "test_feature"
-        port_api_option.addSupportedFeature(feature)
-        assert feature in port_api_option.getSupportedFeatures()
-
-        # Test transformerStatusForwarding methods
-        transformer_status = "test_transformer"
-        port_api_option.setTransformerStatusForwarding(transformer_status)
-        assert port_api_option.getTransformerStatusForwarding() == transformer_status
+    def test_transformer_status_forwarding_round_trip(self):
+        option = PortAPIOption()
+        value = DataTransformationStatusForwardingEnum().setValue(
+            DataTransformationStatusForwardingEnum.TRANSFORMER_STATUS_FORWARDING
+        )
+        assert option.setTransformerStatusForwarding(value) is option
+        assert option.getTransformerStatusForwarding() is value
+        option.setTransformerStatusForwarding(None)
+        assert option.getTransformerStatusForwarding() is value

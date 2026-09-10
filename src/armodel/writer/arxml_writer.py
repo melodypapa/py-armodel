@@ -535,7 +535,11 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefsUsage import ParameterInAtomicSWCTypeInstanceRef, VariableInAtomicSWCTypeInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint, ModeSwitchPoint
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortDefinedArgumentValue
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import (
+    PortDefinedArgumentValue,
+    CommunicationBufferLocking,
+    SwcSupportedFeature,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
     AsynchronousServerCallReturnsEvent,
     BackgroundEvent,
@@ -4232,6 +4236,17 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalBooleanValue(child_element, "INDIRECT-API", option.getIndirectAPI())
                 self.writePortDefinedArgumentValues(child_element, option.getPortArgValues())
                 self.setChildElementOptionalRefType(child_element, "PORT-REF", option.getPortRef())
+                self.writeCommunicationBufferLockings(child_element, option.getSupportedFeatures())
+                self.setChildElementOptionalLiteral(child_element, "TRANSFORMER-STATUS-FORWARDING", option.getTransformerStatusForwarding())
+
+    def writeCommunicationBufferLockings(self, element: ET.Element, features: List[SwcSupportedFeature]):
+        if len(features) > 0:
+            features_tag = ET.SubElement(element, "SUPPORTED-FEATURES")
+            for feature in features:
+                if isinstance(feature, CommunicationBufferLocking):
+                    child_element = ET.SubElement(features_tag, "COMMUNICATION-BUFFER-LOCKING")
+                    self.writeARObject(child_element, feature)
+                    self.setChildElementOptionalLiteral(child_element, "SUPPORT-BUFFER-LOCKING", feature.getSupportBufferLocking())
 
     def writeRoleBasedDataTypeAssignment(self, element: ET.Element, assignment: RoleBasedDataTypeAssignment):
         child_element = ET.SubElement(element, "ROLE-BASED-DATA-TYPE-ASSIGNMENT")

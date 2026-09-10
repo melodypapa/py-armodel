@@ -602,7 +602,14 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefsUsage import ParameterInAtomicSWCTypeInstanceRef, VariableInAtomicSWCTypeInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint, ModeSwitchPoint
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import (
+    PortAPIOption,
+    PortDefinedArgumentValue,
+    CommunicationBufferLocking,
+    SupportBufferLockingEnum,
+    DataTransformationErrorHandlingEnum,
+    DataTransformationStatusForwardingEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
     AsynchronousServerCallReturnsEvent,
     BackgroundEvent,
@@ -4679,12 +4686,27 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "PORT-API-OPTIONS/PORT-API-OPTION"):
             option = PortAPIOption()
             option.setEnableTakeAddress(self.getChildElementOptionalBooleanValue(child_element, "ENABLE-TAKE-ADDRESS"))
-            option.setErrorHandling(self.getChildElementOptionalLiteral(child_element, "ERROR-HANDLING"))
+            error_handling = self.getChildElementOptionalLiteral(child_element, "ERROR-HANDLING")
+            if error_handling is not None:
+                option.setErrorHandling(DataTransformationErrorHandlingEnum().setValue(error_handling.getValue()))
             option.setIndirectAPI(self.getChildElementOptionalBooleanValue(child_element, "INDIRECT-API"))
             option.setPortRef(self.getChildElementOptionalRefType(child_element, "PORT-REF"))
             for argument_value_tag in self.findall(child_element, "PORT-ARG-VALUES/PORT-DEFINED-ARGUMENT-VALUE"):
                 option.addPortArgValue(self.readPortDefinedArgumentValue(argument_value_tag))
+            for feature_tag in self.findall(child_element, "SUPPORTED-FEATURES/COMMUNICATION-BUFFER-LOCKING"):
+                option.addSupportedFeature(self.readCommunicationBufferLocking(feature_tag))
+            transformer_status_forwarding = self.getChildElementOptionalLiteral(child_element, "TRANSFORMER-STATUS-FORWARDING")
+            if transformer_status_forwarding is not None:
+                option.setTransformerStatusForwarding(DataTransformationStatusForwardingEnum().setValue(transformer_status_forwarding.getValue()))
             behavior.addPortAPIOption(option)
+
+    def readCommunicationBufferLocking(self, element: ET.Element) -> CommunicationBufferLocking:
+        feature = CommunicationBufferLocking()
+        self.readARObject(element, feature)
+        support_buffer_locking = self.getChildElementOptionalLiteral(element, "SUPPORT-BUFFER-LOCKING")
+        if support_buffer_locking is not None:
+            feature.setSupportBufferLocking(SupportBufferLockingEnum().setValue(support_buffer_locking.getValue()))
+        return feature
 
     def readTimingEvent(self, element: ET.Element, event: TimingEvent):
         # self.logger.debug("Read TimingEvent <%s>" % event.getShortName())

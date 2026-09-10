@@ -139,6 +139,74 @@ class TestSwcInternalBehaviorOrchestrator:
         parser.readSwcInternalBehavior(element, behavior)
         assert len(behavior.getPortAPIOptions()) == 1
 
+    def test_readSwcInternalBehavior_with_full_port_api_options(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import (
+            DataTransformationErrorHandlingEnum,
+            DataTransformationStatusForwardingEnum,
+            CommunicationBufferLocking,
+        )
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        element = _snip(
+            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<PORT-API-OPTIONS>"
+            "<PORT-API-OPTION>"
+            "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>"
+            "<ERROR-HANDLING>transformerErrorHandling</ERROR-HANDLING>"
+            "<INDIRECT-API>false</INDIRECT-API>"
+            "<PORT-REF DEST='P-PORT-PROTOTYPE'>/port</PORT-REF>"
+            "<SUPPORTED-FEATURES>"
+            "<COMMUNICATION-BUFFER-LOCKING>"
+            "<SHORT-NAME>cbl</SHORT-NAME>"
+            "<SUPPORT-BUFFER-LOCKING>supportsBufferLocking</SUPPORT-BUFFER-LOCKING>"
+            "</COMMUNICATION-BUFFER-LOCKING>"
+            "</SUPPORTED-FEATURES>"
+            "<TRANSFORMER-STATUS-FORWARDING>transformerStatusForwarding</TRANSFORMER-STATUS-FORWARDING>"
+            "</PORT-API-OPTION>"
+            "</PORT-API-OPTIONS>",
+            root_tag="SWC-INTERNAL-BEHAVIOR",
+        )
+        parser.readSwcInternalBehavior(element, behavior)
+        options = behavior.getPortAPIOptions()
+        assert len(options) == 1
+        opt = options[0]
+        assert opt.getEnableTakeAddress().getValue() is True
+        eh = opt.getErrorHandling()
+        assert isinstance(eh, DataTransformationErrorHandlingEnum)
+        assert eh.getValue() == "transformerErrorHandling"
+        assert opt.getIndirectAPI().getValue() is False
+        assert opt.getPortRef().getValue() == "/port"
+        assert opt.getPortArgValues() == []
+        features = opt.getSupportedFeatures()
+        assert len(features) == 1
+        assert isinstance(features[0], CommunicationBufferLocking)
+        assert features[0].getSupportBufferLocking().getValue() == "supportsBufferLocking"
+        tsf = opt.getTransformerStatusForwarding()
+        assert isinstance(tsf, DataTransformationStatusForwardingEnum)
+        assert tsf.getValue() == "transformerStatusForwarding"
+
+    def test_readSwcInternalBehavior_with_port_api_options_empty_features(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        element = _snip(
+            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<PORT-API-OPTIONS>"
+            "<PORT-API-OPTION>"
+            "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>"
+            "</PORT-API-OPTION>"
+            "</PORT-API-OPTIONS>",
+            root_tag="SWC-INTERNAL-BEHAVIOR",
+        )
+        parser.readSwcInternalBehavior(element, behavior)
+        opt = behavior.getPortAPIOptions()[0]
+        assert opt.getSupportedFeatures() == []
+        assert opt.getTransformerStatusForwarding() is None
+        assert opt.getErrorHandling() is None
+
     def test_readSwcInternalBehavior_with_instantiation_data_def_props(self, parser):
         from armodel.models import ApplicationSwComponentType
 

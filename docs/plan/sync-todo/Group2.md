@@ -418,17 +418,36 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 7 — Update checklist comment — release provenance and no-own-member mapping added
    - [x] Step 8 — Deviations — no own class deviation; concrete `CommunicationBufferLocking` remains outside this dependency pass
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a focused tests/lint/diff checks passed; 9b user-confirmed; subclass-safe abstract guard verified; marker written
-   - [ ] Step 9 — Verify (9a) + confirm (9b)
- - [ ] `PortAPIOption` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.42 · after `PortDefinedArgumentValue` (aggr `portArgValue`) · `port` PortPrototype stamped ✓ · aggr target `SwcSupportedFeature` queued above)
+  - [x] `CommunicationBufferLocking` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.47 · member type of `PortAPIOption.supportedFeature`) — **finished, stamped `# Spec verified: R23-11`**
+   - [x] Step 1 — Sync members & description from spec — Table 7.47, p.595; one attribute `supportBufferLocking` (SupportBufferLockingEnum 0..1) captured
+   - [x] Step 2 — Write model class unit test (Red) — added field/accessor contract + None-no-op test; Red confirmed missing class
+   - [x] Step 3 — Implement model class (Green) — `CommunicationBufferLocking(SwcSupportedFeature)` with guarded `setSupportBufferLocking` returning self
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — Table 7.47 Note + attribute Note copied verbatim
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — parser `readCommunicationBufferLocking` + writer `writeCommunicationBufferLockings` cover SUPPORTED-FEATURES/COMMUNICATION-BUFFER-LOCKING
+   - [x] Step 6 — Update parser & writer (Green) — `readCommunicationBufferLocking` reads SUPPORT-BUFFER-LOCKING literal; `writeCommunicationBufferLockings` writes SUPPORTED-FEATURES block
+   - [x] Step 7 — Update checklist comment — six-column R23-11 checklist added for all methods
+   - [x] Step 8 — Deviations — none; dependency `SupportBufferLockingEnum` implemented and stamped
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a focused tests/lint/round-trip passed; 9b user-confirmed; marker written
+  - [x] `SupportBufferLockingEnum` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.48 · member type of `CommunicationBufferLocking.supportBufferLocking`) — **finished, stamped `# Spec verified: R23-11`**
+   - [x] Step 1 — Sync members & description from spec — Table 7.48, p.595; two literals captured
+   - [x] Step 2 — Write model class unit test (Red) — added literal-presence + instantiability test; Red confirmed missing class
+   - [x] Step 3 — Implement model class (Green) — `AREnum` with exact camelCase literal values
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — enum Note and literal descriptions/tags copied verbatim; no-method checklist added
+   - [x] Step 5 — Write reader/writer round-trip test (N/A) — standalone enum has no own XML element; value form serialized through `CommunicationBufferLocking.supportBufferLocking`
+   - [x] Step 6 — Update parser & writer (N/A) — consumer paths serialize enum value form
+   - [x] Step 7 — Update checklist comment — six-column release provenance and no-method serialization evidence added
+   - [x] Step 8 — Deviations — none; dependency now exists in source
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a focused enum/consumer tests passed; 9b user-confirmed; marker written
+ - [x] `PortAPIOption` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.42 · after `PortDefinedArgumentValue` (aggr `portArgValue`) · `port` PortPrototype stamped ✓ · aggr target `SwcSupportedFeature` queued above) — **finished, stamped `# Spec verified: R23-11`**
    - [x] Step 1 — Sync members & description from spec — Table 7.42, p.590; seven attributes captured in order: enableTakeAddress, errorHandling, indirectAPI, port, portArgValue, supportedFeature, transformerStatusForwarding
    - [x] Step 2 — Write model class unit test (Red) — added class/field contract and None-no-op test; Red confirmed fabricated class documentation and unguarded setter
-   - [x] Step 3 — Implement model class (Green) — typed optional members/lists and guarded enableTakeAddress setter; existing remaining setter/add APIs require follow-up in this pass
-   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note and enableTakeAddress Note corrected; full checklist metadata added
-   - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — existing PortAPIOption parser/writer coverage covers all serialized fields and empty wrappers
-   - [x] Step 6 — Update parser & writer (Green) — no production parser/writer gap found; existing paths remain matched
+   - [x] Step 3 — Implement model class (Green) — typed optional members/lists, guarded None-no-op setters/adders returning self, verbatim Notes; `VariationPointCapable` base retained
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note and all seven attribute Notes copied verbatim; six-column R23-11 checklist added
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — full-port-api-options parser test + writer test assert field values, enum value forms, and empty-wrapper case
+   - [x] Step 6 — Update parser & writer (Green) — `readSwcInternalBehaviorPortAPIOptions`/`readCommunicationBufferLocking` populate via mutators; `writeSwcInternalBehaviorPortAPIOptions`/`writeCommunicationBufferLockings` serialize all seven elements in XSD sequence order
    - [x] Step 7 — Update checklist comment — six-column R23-11 checklist added for all methods
-   - [x] Step 8 — Deviations — unresolved model-sync deviations remain for the other six attributes (types/accessors/docstrings/None guards are not yet fully aligned); `SwcSupportedFeature` dependency is absent from src. `# Spec verified:` withheld.
-   - [ ] Step 9 — Verify (9a) + confirm (9b)
+   - [x] Step 8 — Deviations — none; all seven attributes modeled with reader+writer coverage; `CommunicationBufferLocking`/`SupportBufferLockingEnum` dependencies implemented and stamped; `VARIATION-POINT` follows the codebase convention (serialized only for Identifiable classes; `PortAPIOption` is a non-identifiable `ARObject`)
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: pytest (1089+ passing), ruff clean, flake8 clean, black-check clean, full-document save→reload round-trip lossless for all 7 attrs; 9b user-confirmed
  - [x] `IncludedModeDeclarationGroupSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.51 · member type of `SwcInternalBehavior.includedModeDeclarationGroupSet` below · deps stamped: `modeDeclarationGroup` ModeDeclarationGroup ✓ · only other attr `prefix` Identifier) — **finished, stamped `# Spec verified: R23-11`**
    - [x] Step 1 — Sync members & description from spec — Table 7.51, p.601; base ARObject; attributes modeDeclarationGroup (unbounded ref) and prefix (Identifier 0..1 attr) in displayed order
    - [x] Step 2 — Write model class unit test (Red) — spec-shaped field names, typed values, None no-op setters/adders, and verbatim class Note; Red confirmed missing camelCase field and stale docstring
@@ -453,7 +472,6 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
 ## Pending 16.4 resolution (NEW — not in src)
 
 - `PhysicalDimensionMappingSet` — ref target of `CompositionSwComponentType.physicalDimensionMapping` (Table 3.10); implement before or during the CompositionSwComponentType sync, or record a stub deviation
-- `SwcSupportedFeature` — queued above as a full dependency row before `PortAPIOption`; source class is still absent from `src`
 
 ## Not queued
 

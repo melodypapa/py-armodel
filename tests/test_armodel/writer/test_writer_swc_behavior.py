@@ -1088,10 +1088,21 @@ class TestWriterParameterAndPortApi:
         assert len(parent) == 0
 
     def test_writeSwcInternalBehaviorPortAPIOptions(self, writer):
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import (
+            DataTransformationErrorHandlingEnum,
+            DataTransformationStatusForwardingEnum,
+            CommunicationBufferLocking,
+            SupportBufferLockingEnum,
+        )
+
         behavior = _make_behavior()
         opt = PortAPIOption()
         opt.setEnableTakeAddress(_bool(True))
-        opt.setErrorHandling(_literal("error"))
+        opt.setErrorHandling(
+            DataTransformationErrorHandlingEnum().setValue(
+                DataTransformationErrorHandlingEnum.TRANSFORMER_ERROR_HANDLING
+            )
+        )
         opt.setIndirectAPI(_bool(False))
         opt.setPortRef(_ref("/port", "P-PORT-PROTOTYPE"))
         arg = PortDefinedArgumentValue()
@@ -1099,6 +1110,16 @@ class TestWriterParameterAndPortApi:
         val.setValue(_literal("v"))
         arg.setValue(val)
         opt.addPortArgValue(arg)
+        feature = CommunicationBufferLocking()
+        feature.setSupportBufferLocking(
+            SupportBufferLockingEnum().setValue(SupportBufferLockingEnum.SUPPORTS_BUFFER_LOCKING)
+        )
+        opt.addSupportedFeature(feature)
+        opt.setTransformerStatusForwarding(
+            DataTransformationStatusForwardingEnum().setValue(
+                DataTransformationStatusForwardingEnum.TRANSFORMER_STATUS_FORWARDING
+            )
+        )
         behavior.addPortAPIOption(opt)
         parent = _parent()
         writer.writeSwcInternalBehaviorPortAPIOptions(parent, behavior)
@@ -1106,10 +1127,16 @@ class TestWriterParameterAndPortApi:
         assert opts is not None
         opt_elem = opts[0]
         assert opt_elem.find("ENABLE-TAKE-ADDRESS").text == "true"
-        assert opt_elem.find("ERROR-HANDLING").text == "error"
+        assert opt_elem.find("ERROR-HANDLING").text == "transformerErrorHandling"
         assert opt_elem.find("INDIRECT-API").text == "false"
         assert opt_elem.find("PORT-REF") is not None
         assert opt_elem.find("PORT-ARG-VALUES") is not None
+        supported = opt_elem.find("SUPPORTED-FEATURES")
+        assert supported is not None
+        cbl = supported.find("COMMUNICATION-BUFFER-LOCKING")
+        assert cbl is not None
+        assert cbl.find("SUPPORT-BUFFER-LOCKING").text == "supportsBufferLocking"
+        assert opt_elem.find("TRANSFORMER-STATUS-FORWARDING").text == "transformerStatusForwarding"
 
     def test_writeSwcInternalBehaviorPortAPIOptions_empty(self, writer):
         behavior = _make_behavior()
