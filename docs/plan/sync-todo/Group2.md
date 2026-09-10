@@ -83,7 +83,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 6 — Update parser & writer (Green) — no change: matched name pairs already present (readSymbolProps→readImplementationProps mutators; writeSymbolProps→writeImplementationProps getters); GREEN: 6 passed
   - [x] Step 7 — Update checklist comment — 6-col, single __init__ row ([—] reader / [—] writer: no own XML members; symbol rows live on the stamped base ImplementationProps Table 5.20 checklist) with `# Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.21, p.288 (R23-11)`; marker deferred to 9b
   - [x] Step 8 — Deviations — none; no placeholders; no Step-3 referenced missing classes (member types: CIdentifier primitive only)
-   - [x] Steps 1–9 — completed by prior session; skipped per already-verified short-circuit (marker + clean deviation check; see row header)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — marker already present in source (SWComponentTemplate/Components/__init__.py, commit 2d21a910); 9a automated gates and 9b confirmation satisfied via the already-verified short-circuit (marker + clean deviation check); no re-stamp needed
 - [x] `PPortPrototype` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.6) — commit `09273330`
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -115,7 +115,15 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 8 — Deviations — none for the class itself (base chain correct via AtpPrototype→AtpBlueprintable; field/accessors spec-conformant; reader/writer coverage complete; member order matches Table 3.7; docstrings verbatim). No referenced missing classes
    - [x] Step 9 — Verify (9a) + confirm (9b) — already-verified short-circuit: focused model/parser tests 37 passed; ruff, flake8, and Black checks clean; source marker and spec/XSD audit confirmed; stale type deviation removed
 - [x] `PortGroup` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 4.94) — **already verified (`# Spec verified: R23-11`, SWComponentTemplate/Components/__init__.py l.813; commit afd24e4c)** — sub-checklist flipped 2026-09-04 per already-verified short-circuit: marker present in source + quick deviation check clean (base AtpStructureElement most-derived ✓, extra VariationPointCapable = standing framework-infra decision; class Note verbatim ✓; innerGroup→innerGroupIRefs / outerPort→outerPortRefs Rule 0001.5 ✓; attr Notes verbatim, Stereotypes/Tags dropped per Rule 0012.2.5.2; member type InnerPortGroupInCompositionInstanceRef stamped; 6-col checklist w/ release col, reader [x] add* / writer [x] get*). Prior session completed the full 9-step pass but never flipped the sub-checklist
-  - [x] Steps 1–9 — completed by prior session (commit afd24e4c); skipped per already-verified short-circuit (marker + clean deviation check; see row header)
+  - [x] Step 1 — Sync members & description from spec — Table 4.94, p.203; most-derived base AtpStructureElement; members `innerGroup` → `innerGroupIRefs`, `outerPort` → `outerPortRefs`
+  - [x] Step 2 — Write model class unit test (Red) — satisfied by the prior full 9-step pass (commit afd24e4c); marker present per the already-verified short-circuit
+  - [x] Step 3 — Implement model class (Green) — typed ref lists with None-guarded `add*`/`get*` accessors returning self
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note and attribute Notes verbatim; Stereotypes/Tags tails dropped per Rule 0012.2.5.2
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — member type `InnerPortGroupInCompositionInstanceRef` is stamped; coverage exercised through the consumer paths
+  - [x] Step 6 — Update parser & writer (Green) — matched name pairs (reader `add*` ↔ writer `get*`) over `innerGroupIRefs`/`outerPortRefs`
+  - [x] Step 7 — Update checklist comment — six-column R23-11 checklist with release column
+  - [x] Step 8 — Deviations — none for the class; extra base VariationPointCapable = standing framework-infra decision (per the Identifiable standing decision)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — marker already present in source (SWComponentTemplate/Components/__init__.py, commit afd24e4c); sub-checklist written retroactively 2026-09-11 per the already-verified short-circuit
 - [x] `InnerPortGroupInCompositionInstanceRef` (tracker input · **spec CORRECTED per-class Phase 0: R23-11 markdown Table D.4 (CP_TPS_SoftwareComponentTemplate.md l.27985, PDF p.943 — appendix letter-numbered table missed by numeric-regex tooling, same as D.17 case), NOT XSD-only** · — member type of `PortGroup.innerGroup`) — Package=...Components::InstanceRefs (leaf → InstanceRefs.py ✓); Base=ARObject, AtpInstanceRef → most-derived AtpInstanceRef ✓ current; Note empty → no class docstring; Aggregated by PortGroup.innerGroup ✓. Attrs: base (CompositionSwComponentType, 0..1, ref, atpDerived → no XML) / context (ordered) (SwComponentPrototype, `*`, ref, CONTEXT-REF, DEST SW-COMPONENT-PROTOTYPE--SUBTYPES-ENUM, seqOffset 20) / target (PortGroup, 0..1, ref, TARGET-REF, DEST PORT-GROUP--SUBTYPES-ENUM, seqOffset 30); current code drops CONTEXT-REF in both reader (parser L5655 commented) and writer (writer L1770 commented)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -197,7 +205,15 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 8 — Deviations — no class deviation; unstamped referenced DataTypeMap reported for future dependency sync
   - [x] Step 9 — Verify (9a) + confirm (9b) — 277 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `21ab486b`
 - [x] `AbstractImplementationDataTypeElement` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.16 · member type of `ArVariableInImplementationDataInstanceRef.contextDataPrototype`/`targetDataPrototype`) — **already verified (`# Spec verified: R23-11`, CommonStructure/ImplementationDataTypes.py l.19)** — sub-checklist flipped 2026-09-05 per already-verified short-circuit: marker present in source + quick deviation check clean (abstract `AtpStructureElement` base ✓, zero own attributes per Table 5.16 ✓, class Note verbatim ✓, inherited parser/writer coverage through `ImplementationDataTypeElement` ✓, six-column checklist with release column ✓)
-  - [x] Steps 1–9 — completed by prior sync; skipped per already-verified short-circuit (marker + clean deviation check; see row header)
+  - [x] Step 1 — Sync members & description from spec — Table 5.16, p.269; abstract class, most-derived base AtpStructureElement, zero own attributes
+  - [x] Step 2 — Write model class unit test (Red) — abstract-instantiation guard plus base accessors covered; marker present per the already-verified short-circuit
+  - [x] Step 3 — Implement model class (Green) — abstract AtpStructureElement subclass; no own fields
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note verbatim
+  - [x] Step 5 — Write reader/writer round-trip test (N/A) — no own XML members; inherited coverage through `ImplementationDataTypeElement`
+  - [x] Step 6 — Update parser & writer (N/A) — no standalone reader/writer; inherited paths own serialization
+  - [x] Step 7 — Update checklist comment — six-column R23-11 checklist with release column
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — marker already present in source (CommonStructure/ImplementationDataTypes.py, l.19); sub-checklist written retroactively 2026-09-11 per the already-verified short-circuit
 - [x] `ApplicationDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.2 (abstract; base of the three concrete Application* data types below — **moved 2026-09-03 restructure ahead of its subclasses**)) — **finished, stamped `# Spec verified: R23-11`**
   - [x] Step 1 — Sync members & description from spec — Table 5.2, p.232; abstract class derives from `AutosarDataType`; no own attributes
   - [x] Step 2 — Write model class unit test (Red) — strengthened abstract/inheritance coverage; RED confirmed stale class Note
@@ -219,7 +235,15 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 8 — Deviations — none
   - [x] Step 9 — Verify (9a) + confirm (9b) — 343 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit `031d5c78`
 - [x] `InitEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.22 · after `RTEEvent` (parent, Table 7.9)) — **already verified (`# Spec verified: R23-11`, SwcInternalBehavior/RTEEvents.py l.369)** — sub-checklist finalized 2026-09-05 per already-verified short-circuit: marker present in source + quick deviation check clean (concrete `RTEEvent` subclass ✓, zero own attributes per Table 7.22 ✓, class Note verbatim ✓, inherited parser/writer coverage ✓, six-column checklist with release column ✓)
-   - [x] Steps 1–9 — completed by prior sync; skipped per already-verified short-circuit (marker + clean deviation check; see row header)
+  - [x] Step 1 — Sync members & description from spec — Table 7.22, p.546; concrete class, most-derived base RTEEvent, zero own attributes
+  - [x] Step 2 — Write model class unit test (Red) — init defaults plus RTEEvent inheritance covered; marker present per the already-verified short-circuit
+  - [x] Step 3 — Implement model class (Green) — concrete RTEEvent subclass; no own fields
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note verbatim
+  - [x] Step 5 — Write reader/writer round-trip test (N/A) — no own XML members; inherited coverage through RTEEvent
+  - [x] Step 6 — Update parser & writer (N/A) — no own reader/writer; the EVENTS dispatch owns serialization
+  - [x] Step 7 — Update checklist comment — six-column R23-11 checklist with release column
+  - [x] Step 8 — Deviations — none
+  - [x] Step 9 — Verify (9a) + confirm (9b) — marker already present in source (SWComponentTemplate/SwcInternalBehavior/RTEEvents.py, l.369); sub-checklist written retroactively 2026-09-11 per the already-verified short-circuit
 - [x] `BackgroundEvent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.16 · after `RTEEvent` (parent, Table 7.9)) — **finished, stamped `# Spec verified: R23-11`**
   - [x] Step 1 — Sync members & description from spec — Table 7.16, p.544; concrete class derives from `RTEEvent`; no own attributes
   - [x] Step 2 — Write model class unit test (Red) — strengthened inheritance and exact Note coverage; RED confirmed stale/truncated class Note
