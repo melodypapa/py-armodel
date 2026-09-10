@@ -7,69 +7,61 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecificatio
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, TRefType
-from typing import List
+from typing import List, Optional
 
 
 class PortDefinedArgumentValue(ARObject):
     """
-    A value defined for a port argument in the context of port API options.
+    A PortDefinedArgumentValue is passed to a RunnableEntity dealing with the ClientServerOperations provided by a given PortPrototype. Note that this is restricted to PPortPrototypes of a ClientServer Interface.
     """
 
     # PortDefinedArgumentValue method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
-    # [ ] setValue                     [x] impl  [x] docstring  [ ] test
-    # [ ] getValueTypeTRef             [x] impl  [x] docstring  [ ] test
-    # [ ] setValueTypeTRef             [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.45, p.593 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValueTypeTRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValueTypeTRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.value: "ValueSpecification" = None
-        self.valueTypeTRef: "TRefType" = None
+        # Specifies the actual value.
+        self.value: Optional[ValueSpecification] = None
 
-    def getValue(self):
+        # The implementation type of this argument value. It should not be composite type or a pointer. Stereotypes: isOfType
+        self.valueTypeTRef: Optional[TRefType] = None
+
+    def getValue(self) -> Optional[ValueSpecification]:
         """
-        Gets the value.
-
-        Returns:
-            ValueSpecification: The value
+        Specifies the actual value.
         """
         return self.value
 
-    def setValue(self, value):
+    def setValue(self, value: Optional[ValueSpecification]) -> "PortDefinedArgumentValue":
         """
-        Sets the value.
-
-        Args:
-            value: The value to set
-
-        Returns:
-            self for method chaining
+        Specifies the actual value.
+        A None value is a no-op and does not overwrite an existing value.
         """
-        self.value = value
+        if value is not None:
+            self.value = value
         return self
 
-    def getValueTypeTRef(self):
+    def getValueTypeTRef(self) -> Optional[TRefType]:
         """
-        Gets the value type text reference.
-
-        Returns:
-            TRefType: The value type text reference
+        The implementation type of this argument value. It should not be composite type or a pointer. Stereotypes: isOfType
         """
         return self.valueTypeTRef
 
-    def setValueTypeTRef(self, value):
+    def setValueTypeTRef(self, value: Optional[TRefType]) -> "PortDefinedArgumentValue":
         """
-        Sets the value type text reference.
-
-        Args:
-            value: The value type text reference to set
-
-        Returns:
-            self for method chaining
+        The implementation type of this argument value. It should not be composite type or a pointer. Stereotypes: isOfType
+        A None value is a no-op and does not overwrite an existing value type reference.
         """
-        self.valueTypeTRef = value
+        if value is not None:
+            self.valueTypeTRef = value
         return self
 
 

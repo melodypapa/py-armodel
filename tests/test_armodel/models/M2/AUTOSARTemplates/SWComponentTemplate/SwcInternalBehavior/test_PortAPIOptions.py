@@ -3,11 +3,27 @@ This module contains comprehensive tests for the PortAPIOptions module in SWComp
 Tests cover all classes and methods in the PortAPIOptions.py file to achieve 100% test coverage.
 """
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
 
 
 class TestPortDefinedArgumentValue:
     """Test class for PortDefinedArgumentValue class."""
+
+    def test_port_defined_argument_value_spec_contract(self):
+        arg_value = PortDefinedArgumentValue()
+        assert arg_value.__class__.__doc__.strip() == (
+            "A PortDefinedArgumentValue is passed to a RunnableEntity dealing with the ClientServerOperations provided by a given PortPrototype. Note that this is restricted to PPortPrototypes of a ClientServer Interface."
+        )
+        value = TextValueSpecification()
+        value_type = TRefType().setValue("/Type/Ref")
+        assert arg_value.setValue(value) is arg_value
+        assert arg_value.setValueTypeTRef(value_type) is arg_value
+        arg_value.setValue(None)
+        arg_value.setValueTypeTRef(None)
+        assert arg_value.getValue() is value
+        assert arg_value.getValueTypeTRef() is value_type
 
     def test_port_defined_argument_value_initialization(self):
         """Test PortDefinedArgumentValue initialization and methods."""
