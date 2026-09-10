@@ -213,9 +213,7 @@ class TestApplicationRecordDataType:
         record_type = ApplicationRecordDataType(ar_root, "Record")
 
         assert isinstance(record_type, ApplicationCompositeDataType)
-        assert record_type.__class__.__doc__.strip() == (
-            "An application data type which can be decomposed into prototypes of other application data types."
-        )
+        assert record_type.__class__.__doc__.strip() == ("An application data type which can be decomposed into prototypes of other application data types.")
         first = record_type.createApplicationRecordElement("First")
         second = record_type.createApplicationRecordElement("Second")
         assert record_type.getApplicationRecordElements() == [first, second]
