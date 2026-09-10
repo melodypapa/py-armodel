@@ -204,14 +204,15 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
 
 class ApplicationRecordDataType(ApplicationCompositeDataType):
     """
-    An application data type representing a record with fields of possibly
-    different types.
+    An application data type which can be decomposed into prototypes of other application data types.
     """
 
     # ApplicationRecordDataType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] createApplicationRecordElement [x] impl  [ ] docstring  [ ] test
-    # [ ] getApplicationRecordElements [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.12, p.261 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createApplicationRecordElement [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getApplicationRecordElements   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)

@@ -207,6 +207,20 @@ class TestApplicationArrayDataType:
 class TestApplicationRecordDataType:
     """Test class for ApplicationRecordDataType class."""
 
+    def test_application_record_data_type_spec_contract(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        record_type = ApplicationRecordDataType(ar_root, "Record")
+
+        assert isinstance(record_type, ApplicationCompositeDataType)
+        assert record_type.__class__.__doc__.strip() == (
+            "An application data type which can be decomposed into prototypes of other application data types."
+        )
+        first = record_type.createApplicationRecordElement("First")
+        second = record_type.createApplicationRecordElement("Second")
+        assert record_type.getApplicationRecordElements() == [first, second]
+        assert record_type.createApplicationRecordElement("First") is first
+
     def test_application_record_data_type_initialization(self):
         """Test ApplicationRecordDataType initialization and methods."""
         document = AUTOSAR.getInstance()

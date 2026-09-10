@@ -378,16 +378,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 7 — Update checklist comment — release column and physical-dimension reader/writer rows updated
    - [x] Step 8 — Deviations — `PhysicalDimensionMappingSet` target class is absent from `src`; retained generic `RefType` and recorded the missing referenced dependency; no other class-specific deviations
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 43 focused tests, lint, and diff checks passed; 9b user-confirmed; missing `PhysicalDimensionMappingSet` dependency recorded; marker written
-- [ ] `ApplicationRecordDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.12 (multiple tables — resolve in per-class Phase 0) · after `ApplicationRecordElement` (aggr `element`) + `ApplicationDataType` (parent))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [ ] `ApplicationRecordDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.12 (multiple tables — resolve in per-class Phase 0) · after `ApplicationRecordElement` (aggr `element`) + `ApplicationDataType` (parent))
+   - [x] Step 1 — Sync members & description from spec — Table 5.12, p.261; concrete `ApplicationCompositeDataType` subtype with ordered `ApplicationRecordElement` aggregation; class Note copied verbatim
+   - [x] Step 2 — Write model class unit test (Red) — added class Note, inheritance, ordered multiple elements, and duplicate creation assertions; Red confirmed fabricated documentation
+   - [x] Step 3 — Implement model class (Green) — existing typed list, parent registration, duplicate guard, and ordering conform; corrected `ARPackage.createApplicationRecordDataType` return annotation
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — replaced fabricated class wording with Table 5.12 Note; six-column checklist added
+   - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — existing parser/writer tests cover ordered record elements, inherited properties, element TYPE-TREF, and IS-OPTIONAL; no new production gap found
+   - [x] Step 6 — Update parser & writer (Green) — no production change needed; existing record datatype paths use matching element creation/getter flows
+   - [x] Step 7 — Update checklist comment — six-column R23-11 checklist with aggregation reader/writer mapping
+   - [x] Step 8 — Deviations — accepted unresolved naming deviation: Python member `record_elements` does not follow the project camelCase aggregation convention for the PDF role `element`; rename deferred. Empty-record semantic constraint remains an AUTOSAR generation-time constraint (XSD permits empty list); factory annotation corrected. `# Spec verified:` intentionally withheld.
+   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `PortAPIOption` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.42 · after `PortDefinedArgumentValue` (aggr `portArgValue`) · `port` PortPrototype stamped ✓ · aggr target `SwcSupportedFeature` NOT in src — pending 16.4 below)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
