@@ -155,6 +155,9 @@ class TestApplicationPrimitiveDataType:
 class TestApplicationCompositeDataType:
     """Test class for ApplicationCompositeDataType abstract class."""
 
+    def test_application_composite_data_type_spec_contract(self):
+        assert ApplicationCompositeDataType.__doc__.strip() == "Abstract base class for all application data types composed of other data types."
+
     def test_application_composite_data_type_abstract(self):
         """Test that ApplicationCompositeDataType is an abstract class."""
         document = AUTOSAR.getInstance()

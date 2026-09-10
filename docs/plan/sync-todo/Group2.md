@@ -318,16 +318,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 7 — Update checklist comment — six-column R23-11 checklist for the sole `__init__` row; no own XML members
    - [x] Step 8 — Deviations — none; base chain, zero own attributes, inherited reader/writer coverage, and documentation conform to Table 5.5
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 11 focused tests, lint, and diff checks passed; 9b user-confirmed; no class-specific deviations; marker written
-- [ ] `ApplicationCompositeDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.6 (multiple tables — resolve in per-class Phase 0) · after `ApplicationDataType` (parent, Table 5.2))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `ApplicationCompositeDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.6 (multiple tables — resolve in per-class Phase 0) · after `ApplicationDataType` (parent, Table 5.2)) — **finished, stamped `# Spec verified: R23-11`**
+   - [x] Step 1 — Sync members & description from spec — Table 5.6, p.241; abstract `ApplicationDataType` subtype with no own attributes; class Note copied verbatim: "Abstract base class for all application data types composed of other data types."
+   - [x] Step 2 — Write model class unit test (Red) — added abstract-class spec-contract test; Red confirmed the existing fabricated docstring
+   - [x] Step 3 — Implement model class (Green) — no field/base implementation change required; abstract guard and inherited `AutosarDataType` behavior are conformant
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — replaced fabricated class wording with the Table 5.6 Note
+   - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — class has no own XML members; concrete array/record subclasses and inherited datatype paths cover serialization
+   - [x] Step 6 — Update parser & writer (Green) — no production change needed; abstract class is handled through inherited/concrete datatype serialization
+   - [x] Step 7 — Update checklist comment — six-column R23-11 checklist for the sole `__init__` row; no own XML members
+   - [x] Step 8 — Deviations — none; abstract shape, base chain, zero own attributes, inherited coverage, and documentation conform to Table 5.6
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 14 focused tests, lint, and diff checks passed; 9b user-confirmed; no class-specific deviations; marker written
 - [ ] `ApplicationRecordElement` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.13 *(existing member)* · after `ApplicationCompositeElementDataPrototype` (parent, Table 5.30))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

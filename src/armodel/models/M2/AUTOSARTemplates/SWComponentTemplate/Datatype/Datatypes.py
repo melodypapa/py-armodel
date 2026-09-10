@@ -82,12 +82,14 @@ class ApplicationPrimitiveDataType(ApplicationDataType):
 
 class ApplicationCompositeDataType(ApplicationDataType, ABC):
     """
-    Abstract base class for application composite data types such as
-    arrays and records.
+    Abstract base class for all application data types composed of other data types.
     """
 
     # ApplicationCompositeDataType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.6, p.241 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ApplicationCompositeDataType:
