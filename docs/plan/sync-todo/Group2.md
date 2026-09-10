@@ -338,16 +338,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 7 — Update checklist comment — six-column R23-11 checklist with inherited members excluded and `isOptional` reader/writer mapping
    - [x] Step 8 — Deviations — none; base, Boolean type, naming, guard, class/attribute documentation, and XML coverage conform to the Table 5.13 class rows and XSD
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 371 focused tests, lint, and diff checks passed; 9b user-confirmed after class Note correction; no class-specific deviations; marker written
-- [ ] `RunnableEntityArgument` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.5 · member type of `RunnableEntity.argument` (RunnableEntity stamped ✓) · only attr `symbol` CIdentifier — no unsynced deps)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `RunnableEntityArgument` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.5 · member type of `RunnableEntity.argument` (RunnableEntity stamped ✓) · only attr `symbol` CIdentifier — no unsynced deps) — **finished, stamped `# Spec verified: R23-11`**
+   - [x] Step 1 — Sync members & description from spec — Table 7.5, p.536; concrete ARObject with optional `symbol` CIdentifier attribute; class and attribute Notes copied verbatim
+   - [x] Step 2 — Write model class unit test (Red) — added exact class Note, CIdentifier API, chaining, and None-no-op assertions; Red confirmed setter overwrote None and class documentation was missing
+   - [x] Step 3 — Implement model class (Green) — typed `Optional[CIdentifier]` member/accessors and guarded setter
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class/attribute Notes copied verbatim; six-column checklist added
+   - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — existing RunnableEntity argument parser/writer paths already cover `SYMBOL` values and empty argument lists; no production coverage gap found
+   - [x] Step 6 — Update parser & writer (Green) — no production change needed; existing `getRunnableEntityArgument` and `setRunnableEntityArgument` use matching mutator/getter paths
+   - [x] Step 7 — Update checklist comment — six-column R23-11 checklist with inherited ARObject initialization and symbol reader/writer mapping
+   - [x] Step 8 — Deviations — none; base, CIdentifier type, naming, guard, documentation, and existing parser/writer coverage conform to Table 7.5
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 404 focused tests, lint, and diff checks passed; corrected citation verified against PDF p.536; 9b user-confirmed; no class-specific deviations; marker written
 - [ ] `ExternalTriggeringPointIdent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 14.6 · member type of `ExternalTriggeringPoint.ident` (Table 7.39) · no unsynced member deps)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

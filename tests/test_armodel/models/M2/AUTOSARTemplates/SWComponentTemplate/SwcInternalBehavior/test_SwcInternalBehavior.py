@@ -4,6 +4,7 @@ Tests cover all classes and methods in the __init__.py file to achieve 100% test
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     AsynchronousServerCallPoint,
     AsynchronousServerCallResultPoint,
@@ -17,6 +18,15 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 
 class TestRunnableEntityArgument:
     """Test class for RunnableEntityArgument class."""
+
+    def test_runnable_entity_argument_spec_contract(self):
+        arg = RunnableEntityArgument()
+        assert arg.__class__.__doc__.strip() == "This meta-class represents the ability to provide specific information regarding the arguments to a RunnableEntity."
+        symbol = ARLiteral().setValue("test_symbol")
+        assert arg.setSymbol(symbol) is arg
+        assert arg.getSymbol() is symbol
+        arg.setSymbol(None)
+        assert arg.getSymbol() is symbol
 
     def test_runnable_entity_argument_initialization(self):
         """Test RunnableEntityArgument initialization and methods."""
