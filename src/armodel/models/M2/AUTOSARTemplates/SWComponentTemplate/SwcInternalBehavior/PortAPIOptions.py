@@ -62,6 +62,23 @@ class DataTransformationStatusForwardingEnum(AREnum):
         )
 
 
+class SwcSupportedFeature(ARObject):
+    """
+    This meta-class represents a abstract base class for features that can be supported by a RunnableEntity.
+    """
+
+    # SwcSupportedFeature method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.46, p.594 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is SwcSupportedFeature:
+            raise TypeError("SwcSupportedFeature is an abstract class.")
+        super().__init__()
+
+
 class PortDefinedArgumentValue(ARObject):
     """
     A PortDefinedArgumentValue is passed to a RunnableEntity dealing with the ClientServerOperations provided by a given PortPrototype. Note that this is restricted to PPortPrototypes of a ClientServer Interface.

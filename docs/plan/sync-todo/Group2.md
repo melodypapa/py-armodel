@@ -408,15 +408,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 7 — Update checklist comment — six-column release provenance and no-method serialization evidence added
    - [x] Step 8 — Deviations — none; dependency now exists in source
     - [x] Step 9 — Verify (9a) + confirm (9b) — 9a focused enum/consumer tests, lint, and diff checks passed; 9b user-confirmed; marker written
- - [ ] `SwcSupportedFeature` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.46 · member type of `PortAPIOption.supportedFeature` · source class not present in src)
-   - [ ] Step 1 — Sync members & description from spec
-   - [ ] Step 2 — Write model class unit test (Red)
-   - [ ] Step 3 — Implement model class (Green)
-   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-   - [ ] Step 5 — Write reader/writer round-trip test (Red)
-   - [ ] Step 6 — Update parser & writer (Green)
-   - [ ] Step 7 — Update checklist comment
-   - [ ] Step 8 — Deviations
+  - [x] `SwcSupportedFeature` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.46 · member type of `PortAPIOption.supportedFeature`) — **finished, stamped `# Spec verified: R23-11`**
+   - [x] Step 1 — Sync members & description from spec — Table 7.46, p.594; abstract ARObject with no own attributes; Note and abstract shape captured
+   - [x] Step 2 — Write model class unit test (Red) — added abstract guard and exact Note test; Red confirmed missing dependency class
+   - [x] Step 3 — Implement model class (Green) — added abstract `SwcSupportedFeature` with direct-instantiation TypeError guard and subclass-safe `super().__init__()` behavior
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — Table 7.46 Note copied verbatim; six-column no-own-member checklist added
+   - [x] Step 5 — Write reader/writer round-trip test (N/A) — abstract class has no own XML members; concrete subclasses own serialization
+   - [x] Step 6 — Update parser & writer (N/A) — no standalone abstract reader/writer; consumer paths remain responsible for concrete supported features
+   - [x] Step 7 — Update checklist comment — release provenance and no-own-member mapping added
+   - [x] Step 8 — Deviations — no own class deviation; concrete `CommunicationBufferLocking` remains outside this dependency pass
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a focused tests/lint/diff checks passed; 9b user-confirmed; subclass-safe abstract guard verified; marker written
    - [ ] Step 9 — Verify (9a) + confirm (9b)
  - [ ] `PortAPIOption` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.42 · after `PortDefinedArgumentValue` (aggr `portArgValue`) · `port` PortPrototype stamped ✓ · aggr target `SwcSupportedFeature` queued above)
    - [x] Step 1 — Sync members & description from spec — Table 7.42, p.590; seven attributes captured in order: enableTakeAddress, errorHandling, indirectAPI, port, portArgValue, supportedFeature, transformerStatusForwarding
