@@ -418,7 +418,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 7 — Update checklist comment — release provenance and no-own-member mapping added
    - [x] Step 8 — Deviations — no own class deviation; concrete `CommunicationBufferLocking` remains outside this dependency pass
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a focused tests/lint/diff checks passed; 9b user-confirmed; subclass-safe abstract guard verified; marker written
-  - [x] `CommunicationBufferLocking` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.47 · member type of `PortAPIOption.supportedFeature`) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] `CommunicationBufferLocking` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.47 · member type of `PortAPIOption.supportedFeature`) — **finished, stamped `# Spec verified: R23-11`** (commit 7c676281)
    - [x] Step 1 — Sync members & description from spec — Table 7.47, p.595; one attribute `supportBufferLocking` (SupportBufferLockingEnum 0..1) captured
    - [x] Step 2 — Write model class unit test (Red) — added field/accessor contract + None-no-op test; Red confirmed missing class
    - [x] Step 3 — Implement model class (Green) — `CommunicationBufferLocking(SwcSupportedFeature)` with guarded `setSupportBufferLocking` returning self
@@ -428,7 +428,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 7 — Update checklist comment — six-column R23-11 checklist added for all methods
    - [x] Step 8 — Deviations — none; dependency `SupportBufferLockingEnum` implemented and stamped
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a focused tests/lint/round-trip passed; 9b user-confirmed; marker written
-  - [x] `SupportBufferLockingEnum` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.48 · member type of `CommunicationBufferLocking.supportBufferLocking`) — **finished, stamped `# Spec verified: R23-11`**
+  - [x] `SupportBufferLockingEnum` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.48 · member type of `CommunicationBufferLocking.supportBufferLocking`) — **finished, stamped `# Spec verified: R23-11`** (commit 7c676281)
    - [x] Step 1 — Sync members & description from spec — Table 7.48, p.595; two literals captured
    - [x] Step 2 — Write model class unit test (Red) — added literal-presence + instantiability test; Red confirmed missing class
    - [x] Step 3 — Implement model class (Green) — `AREnum` with exact camelCase literal values
@@ -438,7 +438,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 7 — Update checklist comment — six-column release provenance and no-method serialization evidence added
    - [x] Step 8 — Deviations — none; dependency now exists in source
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a focused enum/consumer tests passed; 9b user-confirmed; marker written
- - [x] `PortAPIOption` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.42 · after `PortDefinedArgumentValue` (aggr `portArgValue`) · `port` PortPrototype stamped ✓ · aggr target `SwcSupportedFeature` queued above) — **finished, stamped `# Spec verified: R23-11`**
+ - [x] `PortAPIOption` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.42 · after `PortDefinedArgumentValue` (aggr `portArgValue`) · `port` PortPrototype stamped ✓ · aggr target `SwcSupportedFeature` queued above) — **finished, stamped `# Spec verified: R23-11`** (commit 7c676281)
    - [x] Step 1 — Sync members & description from spec — Table 7.42, p.590; seven attributes captured in order: enableTakeAddress, errorHandling, indirectAPI, port, portArgValue, supportedFeature, transformerStatusForwarding
    - [x] Step 2 — Write model class unit test (Red) — added class/field contract and None-no-op test; Red confirmed fabricated class documentation and unguarded setter
    - [x] Step 3 — Implement model class (Green) — typed optional members/lists, guarded None-no-op setters/adders returning self, verbatim Notes; `VariationPointCapable` base retained
