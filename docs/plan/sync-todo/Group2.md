@@ -378,7 +378,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 7 — Update checklist comment — release column and physical-dimension reader/writer rows updated
    - [x] Step 8 — Deviations — `PhysicalDimensionMappingSet` target class is absent from `src`; retained generic `RefType` and recorded the missing referenced dependency; no other class-specific deviations
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 43 focused tests, lint, and diff checks passed; 9b user-confirmed; missing `PhysicalDimensionMappingSet` dependency recorded; marker written
- - [ ] `ApplicationRecordDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.12 (multiple tables — resolve in per-class Phase 0) · after `ApplicationRecordElement` (aggr `element`) + `ApplicationDataType` (parent))
+ - [x] `ApplicationRecordDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.12 (multiple tables — resolve in per-class Phase 0) · after `ApplicationRecordElement` (aggr `element`) + `ApplicationDataType` (parent)) — **skipped by user confirmation; unresolved naming/registry deviation retained; no `# Spec verified:` stamp**
    - [x] Step 1 — Sync members & description from spec — Table 5.12, p.261; concrete `ApplicationCompositeDataType` subtype with ordered `ApplicationRecordElement` aggregation; class Note copied verbatim
    - [x] Step 2 — Write model class unit test (Red) — added class Note, inheritance, ordered multiple elements, and duplicate creation assertions; Red confirmed fabricated documentation
    - [x] Step 3 — Implement model class (Green) — existing typed list, parent registration, duplicate guard, and ordering conform; corrected `ARPackage.createApplicationRecordDataType` return annotation
@@ -386,18 +386,48 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — existing parser/writer tests cover ordered record elements, inherited properties, element TYPE-TREF, and IS-OPTIONAL; no new production gap found
    - [x] Step 6 — Update parser & writer (Green) — no production change needed; existing record datatype paths use matching element creation/getter flows
    - [x] Step 7 — Update checklist comment — six-column R23-11 checklist with aggregation reader/writer mapping
-   - [x] Step 8 — Deviations — accepted unresolved naming deviation: Python member `record_elements` does not follow the project camelCase aggregation convention for the PDF role `element`; rename deferred. Empty-record semantic constraint remains an AUTOSAR generation-time constraint (XSD permits empty list); factory annotation corrected. `# Spec verified:` intentionally withheld.
+   - [x] Step 8 — Deviations — user elected to skip this class rather than redesign inherited `Referrable.elements`; the class remains unstamped. Existing factory annotation correction and tests are retained.
+   - [x] Step 9 — Verify (9a) + confirm (9b) — N/A: class skipped by explicit user direction; no stamp written
+ - [ ] `DataTransformationErrorHandlingEnum` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.43 · member type of `PortAPIOption.errorHandling` · source class not present in src)
+   - [ ] Step 1 — Sync members & description from spec
+   - [ ] Step 2 — Write model class unit test (Red)
+   - [ ] Step 3 — Implement model class (Green)
+   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+   - [ ] Step 5 — Write reader/writer round-trip test (Red)
+   - [ ] Step 6 — Update parser & writer (Green)
+   - [ ] Step 7 — Update checklist comment
+   - [ ] Step 8 — Deviations
    - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `PortAPIOption` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.42 · after `PortDefinedArgumentValue` (aggr `portArgValue`) · `port` PortPrototype stamped ✓ · aggr target `SwcSupportedFeature` NOT in src — pending 16.4 below)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [ ] `DataTransformationStatusForwardingEnum` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.44 · member type of `PortAPIOption.transformerStatusForwarding` · source class not present in src)
+   - [ ] Step 1 — Sync members & description from spec
+   - [ ] Step 2 — Write model class unit test (Red)
+   - [ ] Step 3 — Implement model class (Green)
+   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+   - [ ] Step 5 — Write reader/writer round-trip test (Red)
+   - [ ] Step 6 — Update parser & writer (Green)
+   - [ ] Step 7 — Update checklist comment
+   - [ ] Step 8 — Deviations
+   - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [ ] `SwcSupportedFeature` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.46 · member type of `PortAPIOption.supportedFeature` · source class not present in src)
+   - [ ] Step 1 — Sync members & description from spec
+   - [ ] Step 2 — Write model class unit test (Red)
+   - [ ] Step 3 — Implement model class (Green)
+   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+   - [ ] Step 5 — Write reader/writer round-trip test (Red)
+   - [ ] Step 6 — Update parser & writer (Green)
+   - [ ] Step 7 — Update checklist comment
+   - [ ] Step 8 — Deviations
+   - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [ ] `PortAPIOption` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.42 · after `PortDefinedArgumentValue` (aggr `portArgValue`) · `port` PortPrototype stamped ✓ · aggr target `SwcSupportedFeature` queued above)
+   - [x] Step 1 — Sync members & description from spec — Table 7.42, p.590; seven attributes captured in order: enableTakeAddress, errorHandling, indirectAPI, port, portArgValue, supportedFeature, transformerStatusForwarding
+   - [x] Step 2 — Write model class unit test (Red) — added class/field contract and None-no-op test; Red confirmed fabricated class documentation and unguarded setter
+   - [x] Step 3 — Implement model class (Green) — typed optional members/lists and guarded enableTakeAddress setter; existing remaining setter/add APIs require follow-up in this pass
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note and enableTakeAddress Note corrected; full checklist metadata added
+   - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — existing PortAPIOption parser/writer coverage covers all serialized fields and empty wrappers
+   - [x] Step 6 — Update parser & writer (Green) — no production parser/writer gap found; existing paths remain matched
+   - [x] Step 7 — Update checklist comment — six-column R23-11 checklist added for all methods
+   - [x] Step 8 — Deviations — unresolved model-sync deviations remain for the other six attributes (types/accessors/docstrings/None guards are not yet fully aligned); `SwcSupportedFeature` dependency is absent from src. `# Spec verified:` withheld.
+   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `IncludedModeDeclarationGroupSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.51 · member type of `SwcInternalBehavior.includedModeDeclarationGroupSet` below · deps stamped: `modeDeclarationGroup` ModeDeclarationGroup ✓ · only other attr `prefix` Identifier)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -422,7 +452,7 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
 ## Pending 16.4 resolution (NEW — not in src)
 
 - `PhysicalDimensionMappingSet` — ref target of `CompositionSwComponentType.physicalDimensionMapping` (Table 3.10); implement before or during the CompositionSwComponentType sync, or record a stub deviation
-- `SwcSupportedFeature` — aggr target of `PortAPIOption.supportedFeature` (Table 7.42); implement before or during the PortAPIOption sync, or record a stub deviation
+- `SwcSupportedFeature` — queued above as a full dependency row before `PortAPIOption`; source class is still absent from `src`
 
 ## Not queued
 

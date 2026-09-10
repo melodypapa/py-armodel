@@ -545,7 +545,7 @@ class TestApplicationRecordDataTypeWriter:
         pkg = autosar.createARPackage("AppPkg")
         record = pkg.createApplicationRecordDataType("WithBad")
 
-        record.record_elements.append("not-an-element")
+        record.recordElements.append("not-an-element")
 
         parent = _parent()
         w.writeApplicationRecordDataType(parent, record)

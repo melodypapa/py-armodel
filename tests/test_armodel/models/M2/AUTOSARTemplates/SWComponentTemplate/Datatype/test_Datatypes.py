@@ -220,6 +220,7 @@ class TestApplicationRecordDataType:
         second = record_type.createApplicationRecordElement("Second")
         assert record_type.getApplicationRecordElements() == [first, second]
         assert record_type.createApplicationRecordElement("First") is first
+        assert record_type.recordElements == [first, second]
 
     def test_application_record_data_type_initialization(self):
         """Test ApplicationRecordDataType initialization and methods."""
@@ -230,7 +231,7 @@ class TestApplicationRecordDataType:
         assert record_type.parent == ar_root
         assert record_type.short_name == "TestApplicationRecordDataType"
         assert record_type.swDataDefProps is None
-        assert record_type.record_elements == []
+        assert record_type.recordElements == []
 
         # Test swDataDefProps methods
         from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps

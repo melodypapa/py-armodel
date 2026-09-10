@@ -6,7 +6,7 @@ in software component internal behavior templates.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, TRefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, RefType, TRefType
 from typing import List, Optional
 
 
@@ -67,50 +67,52 @@ class PortDefinedArgumentValue(ARObject):
 
 class PortAPIOption(ARObject, VariationPointCapable):
     """
-    Port API options that define the API configuration for a specific port
-    of an atomic software component.
+    If set to true, the software-component is able to use the API reference for deriving a pointer to an object.
     """
 
     # PortAPIOption method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEnableTakeAddress         [x] impl  [x] docstring  [ ] test
-    # [ ] setEnableTakeAddress         [x] impl  [x] docstring  [ ] test
-    # [ ] getErrorHandling             [x] impl  [x] docstring  [ ] test
-    # [ ] setErrorHandling             [x] impl  [x] docstring  [ ] test
-    # [ ] getIndirectAPI               [x] impl  [x] docstring  [ ] test
-    # [ ] setIndirectAPI               [x] impl  [x] docstring  [ ] test
-    # [ ] getPortRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] setPortRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] getPortArgValues             [x] impl  [x] docstring  [ ] test
-    # [ ] addPortArgValue              [x] impl  [x] docstring  [ ] test
-    # [ ] getSupportedFeatures         [x] impl  [x] docstring  [ ] test
-    # [ ] addSupportedFeature          [x] impl  [x] docstring  [ ] test
-    # [ ] getTransformerStatusForwarding [x] impl  [x] docstring  [ ] test
-    # [ ] setTransformerStatusForwarding [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.42, p.590 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEnableTakeAddress            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnableTakeAddress            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getErrorHandling                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setErrorHandling                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIndirectAPI                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndirectAPI                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPortRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPortRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPortArgValues                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPortArgValue                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupportedFeatures            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSupportedFeature             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformerStatusForwarding [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransformerStatusForwarding [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.enableTakeAddress: Boolean = None
-        self.errorHandling = None
-        self.indirectAPI: Boolean = None
-        self.portRef: RefType = None
+        self.enableTakeAddress: Optional[Boolean] = None
+        self.errorHandling: Optional[ARLiteral] = None
+        self.indirectAPI: Optional[Boolean] = None
+        self.portRef: Optional[RefType] = None
         self.portArgValues: List["PortDefinedArgumentValue"] = []
-        self.supportedFeatures = []
-        self.transformerStatusForwarding = None
+        self.supportedFeatures: List[ARObject] = []
+        self.transformerStatusForwarding: Optional[ARLiteral] = None
 
-    def getEnableTakeAddress(self):
+    def getEnableTakeAddress(self) -> Optional[Boolean]:
         """
-        Gets whether the address-taking feature is enabled.
+        If set to true, the software-component is able to use the API reference for deriving a pointer to an object.
 
         Returns:
             Boolean: True if address-taking is enabled
         """
         return self.enableTakeAddress
 
-    def setEnableTakeAddress(self, value):
+    def setEnableTakeAddress(self, value: Optional[Boolean]) -> "PortAPIOption":
         """
-        Sets whether the address-taking feature is enabled.
+        If set to true, the software-component is able to use the API reference for deriving a pointer to an object.
+        A None value is a no-op and does not overwrite an existing value.
 
         Args:
             value: The enable value to set
@@ -118,7 +120,8 @@ class PortAPIOption(ARObject, VariationPointCapable):
         Returns:
             self for method chaining
         """
-        self.enableTakeAddress = value
+        if value is not None:
+            self.enableTakeAddress = value
         return self
 
     def getErrorHandling(self):

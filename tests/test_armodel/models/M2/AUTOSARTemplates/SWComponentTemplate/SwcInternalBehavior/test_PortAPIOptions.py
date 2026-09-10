@@ -4,7 +4,7 @@ Tests cover all classes and methods in the PortAPIOptions.py file to achieve 100
 """
 
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import TextValueSpecification
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, TRefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
 
 
@@ -50,6 +50,16 @@ class TestPortDefinedArgumentValue:
 
 class TestPortAPIOption:
     """Test class for PortAPIOption class."""
+
+    def test_port_api_option_spec_contract(self):
+        option = PortAPIOption()
+        assert option.__class__.__doc__.strip() == (
+            "If set to true, the software-component is able to use the API reference for deriving a pointer to an object."
+        )
+        enable = Boolean().setValue(True)
+        assert option.setEnableTakeAddress(enable) is option
+        option.setEnableTakeAddress(None)
+        assert option.getEnableTakeAddress() is enable
 
     def test_port_api_option_initialization(self):
         """Test PortAPIOption initialization and methods."""

@@ -217,17 +217,17 @@ class ApplicationRecordDataType(ApplicationCompositeDataType):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.record_elements: List[ApplicationRecordElement] = []
+        self.recordElements: List[ApplicationRecordElement] = []
 
     def createApplicationRecordElement(self, short_name: str) -> ApplicationRecordElement:
         if not self.IsElementExists(short_name, ApplicationRecordElement):
             record_element = ApplicationRecordElement(self, short_name)
             self.addElement(record_element)
-            self.record_elements.append(record_element)
+            self.recordElements.append(record_element)
         return self.getElement(short_name, ApplicationRecordElement)
 
     def getApplicationRecordElements(self) -> List[ApplicationRecordElement]:
-        return self.record_elements
+        return self.recordElements
 
 
 class DataTypeMap(ARObject):
