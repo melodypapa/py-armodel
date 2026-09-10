@@ -163,115 +163,76 @@ class VariableAccess(AbstractAccessPoint, VariationPointCapable):
 
 class ArVariableInImplementationDataInstanceRef(ARObject):
     """
-    A reference to an AUTOSAR variable in the context of an implementation
-    data type instance.
+    This class represents the ability to navigate into a data element inside of an VariableDataPrototype which is typed by an ImplementationDatatype. Note that it shall not be used if the target is the VariableDataPrototype itself (e.g. if its a primitive). Note that this class follows the pattern of an InstanceRef but is not implemented based on the abstract classes because the ImplementationDataType isn't either, especially because ImplementationDataType Element isn't derived from AtpPrototype.
     """
 
     # ArVariableInImplementationDataInstanceRef method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getContextDataPrototypeRefs  [x] impl  [x] docstring  [ ] test
-    # [ ] setContextDataPrototypeRefs  [x] impl  [x] docstring  [ ] test
-    # [ ] getPortPrototypeRef          [x] impl  [x] docstring  [ ] test
-    # [ ] setPortPrototypeRef          [x] impl  [x] docstring  [ ] test
-    # [ ] getRootVariableDataPrototypeRef [x] impl  [x] docstring  [ ] test
-    # [ ] setRootVariableDataPrototypeRef [x] impl  [x] docstring  [ ] test
-    # [ ] getTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
-    # [ ] setTargetDataPrototypeRef    [x] impl  [x] docstring  [ ] test
+    # Spec: R23-11/AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.37, p.322 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getContextDataPrototypeRefs      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addContextDataPrototypeRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPortPrototypeRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPortPrototypeRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRootVariableDataPrototypeRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRootVariableDataPrototypeRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTargetDataPrototypeRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTargetDataPrototypeRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure.
         self.contextDataPrototypeRefs: List[RefType] = []
-        self.portPrototypeRef: RefType = None
-        self.rootVariableDataPrototypeRef: RefType = None
-        self.targetDataPrototypeRef: RefType = None
 
-    def getContextDataPrototypeRefs(self):
-        """
-        Gets the list of context data prototype references.
+        # This is the port providing/receiving the root of the variable.
+        self.portPrototypeRef: Optional[RefType] = None
 
-        Returns:
-            List[RefType]: The list of context data prototype references
-        """
+        # This refers to the VariableDataPrototype typed by the ImplementationDatatype in which the target can be found.
+        self.rootVariableDataPrototypeRef: Optional[RefType] = None
+
+        # This reference points to the target ImplementationDataTypeElement.
+        self.targetDataPrototypeRef: Optional[RefType] = None
+
+    def getContextDataPrototypeRefs(self) -> List[RefType]:
+        """This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure."""
         return self.contextDataPrototypeRefs
 
-    def setContextDataPrototypeRefs(self, value):
-        """
-        Sets the list of context data prototype references.
-
-        Args:
-            value: The list of context data prototype references to set
-
-        Returns:
-            self for method chaining
-        """
-        self.contextDataPrototypeRefs = value
+    def addContextDataPrototypeRef(self, value: Optional[RefType]) -> "ArVariableInImplementationDataInstanceRef":
+        """This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure. A None value is a no-op and does not append anything."""
+        if value is not None:
+            self.contextDataPrototypeRefs.append(value)
         return self
 
-    def getPortPrototypeRef(self):
-        """
-        Gets the port prototype reference.
-
-        Returns:
-            RefType: The port prototype reference
-        """
+    def getPortPrototypeRef(self) -> Optional[RefType]:
+        """This is the port providing/receiving the root of the variable."""
         return self.portPrototypeRef
 
-    def setPortPrototypeRef(self, value):
-        """
-        Sets the port prototype reference.
-
-        Args:
-            value: The port prototype reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.portPrototypeRef = value
+    def setPortPrototypeRef(self, value: Optional[RefType]) -> "ArVariableInImplementationDataInstanceRef":
+        """This is the port providing/receiving the root of the variable. A None value is a no-op and does not overwrite an existing portPrototypeRef."""
+        if value is not None:
+            self.portPrototypeRef = value
         return self
 
-    def getRootVariableDataPrototypeRef(self):
-        """
-        Gets the root variable data prototype reference.
-
-        Returns:
-            RefType: The root variable data prototype reference
-        """
+    def getRootVariableDataPrototypeRef(self) -> Optional[RefType]:
+        """This refers to the VariableDataPrototype typed by the ImplementationDatatype in which the target can be found."""
         return self.rootVariableDataPrototypeRef
 
-    def setRootVariableDataPrototypeRef(self, value):
-        """
-        Sets the root variable data prototype reference.
-
-        Args:
-            value: The root variable data prototype reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.rootVariableDataPrototypeRef = value
+    def setRootVariableDataPrototypeRef(self, value: Optional[RefType]) -> "ArVariableInImplementationDataInstanceRef":
+        """This refers to the VariableDataPrototype typed by the ImplementationDatatype in which the target can be found. A None value is a no-op and does not overwrite an existing rootVariableDataPrototypeRef."""
+        if value is not None:
+            self.rootVariableDataPrototypeRef = value
         return self
 
-    def getTargetDataPrototypeRef(self):
-        """
-        Gets the target data prototype reference.
-
-        Returns:
-            RefType: The target data prototype reference
-        """
+    def getTargetDataPrototypeRef(self) -> Optional[RefType]:
+        """This reference points to the target ImplementationDataTypeElement."""
         return self.targetDataPrototypeRef
 
-    def setTargetDataPrototypeRef(self, value):
-        """
-        Sets the target data prototype reference.
-
-        Args:
-            value: The target data prototype reference to set
-
-        Returns:
-            self for method chaining
-        """
-        self.targetDataPrototypeRef = value
+    def setTargetDataPrototypeRef(self, value: Optional[RefType]) -> "ArVariableInImplementationDataInstanceRef":
+        """This reference points to the target ImplementationDataTypeElement. A None value is a no-op and does not overwrite an existing targetDataPrototypeRef."""
+        if value is not None:
+            self.targetDataPrototypeRef = value
         return self
 
 

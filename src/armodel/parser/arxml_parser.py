@@ -595,7 +595,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDoc
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import ExternalTriggeringPoint, RunnableEntity, RunnableEntityArgument, SwcExclusiveAreaPolicy, SwcInternalBehavior
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AccessCount, AccessCountSet
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarVariableRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArVariableInImplementationDataInstanceRef, AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef
@@ -1394,6 +1394,15 @@ class ARXMLParser(AbstractARXMLParser):
             instance_ref = AutosarVariableRef()
             self.readARObject(child_element, instance_ref)
             instance_ref.setAutosarVariableIRef(self.getVariableInAtomicSWCTypeInstanceRef(self.find(child_element, "AUTOSAR-VARIABLE-IREF")))
+            implementation_ref_element = self.find(child_element, "AUTOSAR-VARIABLE-IN-IMPL-DATATYPE")
+            if implementation_ref_element is not None:
+                implementation_ref = ArVariableInImplementationDataInstanceRef()
+                implementation_ref.setPortPrototypeRef(self.getChildElementOptionalRefType(implementation_ref_element, "PORT-PROTOTYPE-REF"))
+                implementation_ref.setRootVariableDataPrototypeRef(self.getChildElementOptionalRefType(implementation_ref_element, "ROOT-VARIABLE-DATA-PROTOTYPE-REF"))
+                for ref in self.getChildElementRefTypeList(implementation_ref_element, "CONTEXT-DATA-PROTOTYPE-REF"):
+                    implementation_ref.addContextDataPrototypeRef(ref)
+                implementation_ref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(implementation_ref_element, "TARGET-DATA-PROTOTYPE-REF"))
+                instance_ref.setAutosarVariableInImplDatatype(implementation_ref)
             instance_ref.setLocalVariableRef(self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF"))
         return instance_ref
 

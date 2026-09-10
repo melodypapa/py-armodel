@@ -287,15 +287,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 7 — Update checklist comment — corrected p.953 citation, five-member order, and R23-11 release column
   - [x] Step 8 — Deviations — none
   - [x] Step 9 — Verify (9a) + confirm (9b) — 643 focused tests passed; lint, Black, and diff checks clean; user-confirmed 2026-09-05; commit pending
-- [ ] `ArVariableInImplementationDataInstanceRef` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.37 · after `AbstractImplementationDataTypeElement` (`contextDataPrototype`/`targetDataPrototype` refs) + `VariableDataPrototype` (`rootVariableDataPrototype` ref) · `portPrototype` PortPrototype stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+- [x] `ArVariableInImplementationDataInstanceRef` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.37, p.322 · after `AbstractImplementationDataTypeElement` (`contextDataPrototype`/`targetDataPrototype` refs) + `VariableDataPrototype` (`rootVariableDataPrototype` ref) · `portPrototype` PortPrototype stamped ✓) — finished, stamped `# Spec verified: R23-11` (commit pending)
+  - [x] Step 1 — Sync members & description from spec — Base ARObject; four attributes in displayed order; XSD order PORT, ROOT, CONTEXT, TARGET confirmed
+  - [x] Step 2 — Write model class unit test (Red) — Table 5.37 docstring, ordered context list/add API, optional-ref None guards
+  - [x] Step 3 — Implement model class (Green) — typed Optional refs, ordered `contextDataPrototypeRefs`, `addContextDataPrototypeRef`, guarded setters
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and four attribute Notes copied verbatim with Tags tails removed
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — consumer wrapper field values, ordered context refs, and XML order
+  - [x] Step 6 — Update parser & writer (Green) — `AutosarVariableRef` consumer now reads/writes `AUTOSAR-VARIABLE-IN-IMPL-DATATYPE`
+  - [x] Step 7 — Update checklist comment — six-column parity checklist with R23-11 provenance
+  - [x] Step 8 — Deviations — none; all four attributes have typed model and reader/writer coverage
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 9 focused tests passed, lint and Black clean; 9b user-confirmed: fields, base, naming, displayed member order, XSD XML order, docstrings, Rule 0007, and no deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `DelegationSwConnector` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.14 · after `PortInCompositionTypeInstanceRef` (its `innerPort` iref type) · `outerPort` PortPrototype stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
