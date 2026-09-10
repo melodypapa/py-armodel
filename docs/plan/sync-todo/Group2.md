@@ -368,16 +368,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 7 — Update checklist comment — six-column R23-11 checklist with field reader/writer mapping
    - [x] Step 8 — Deviations — none; base, member types, naming, guards, documentation, and parser/writer coverage conform to Table 7.45
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 4 focused tests, lint, and diff checks passed; 9b user-confirmed; no class-specific deviations; marker written
-- [ ] `CompositionSwComponentType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.10 (multiple tables — resolve in per-class Phase 0) · after `AssemblySwConnector`/`DelegationSwConnector` (aggr `connector`) + `DataTypeMappingSet` (ref `dataTypeMapping`) · deps stamped: `component` SwComponentPrototype ✓ / `constantValueMapping` ConstantSpecificationMappingSet ✓ / `instantiationRTEEventProps` InstantiationRTEEventProps ✓ · ref target `PhysicalDimensionMappingSet` NOT in src — pending 16.4 below)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `CompositionSwComponentType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.10 (multiple tables — resolve in per-class Phase 0) · after `AssemblySwConnector`/`DelegationSwConnector` (aggr `connector`) + `DataTypeMappingSet` (ref `dataTypeMapping`) · deps stamped: `component` SwComponentPrototype ✓ / `constantValueMapping` ConstantSpecificationMappingSet ✓ / `instantiationRTEEventProps` InstantiationRTEEventProps ✓ · ref target `PhysicalDimensionMappingSet` NOT in src — pending 16.4 below) — **finished, stamped `# Spec verified: R23-11`**
+   - [x] Step 1 — Sync members & description from spec — Table 3.10, p.77; concrete `SwComponentType` subtype with six own attributes in displayed order: component, connector, constantValueMapping, dataTypeMapping, instantiationRTEEventProps, physicalDimensionMapping
+   - [x] Step 2 — Write model class unit test (Red) — added inheritance, exact class Note, six-field default contract; Red initially exposed test fixture import/placement issues, then passed after correction
+   - [x] Step 3 — Implement model class (Green) — existing fields/types/order and guarded APIs are conformant; no model field change required
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note verified verbatim; six-column checklist updated to R23-11 p.77
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — added physical-dimension reference field-value tests; existing five-attribute coverage retained; Red exposed missing parser/writer handling
+   - [x] Step 6 — Update parser & writer (Green) — added `PHYSICAL-DIMENSION-MAPPING-REF` reader/writer coverage through matching setter/getter paths
+   - [x] Step 7 — Update checklist comment — release column and physical-dimension reader/writer rows updated
+   - [x] Step 8 — Deviations — `PhysicalDimensionMappingSet` target class is absent from `src`; retained generic `RefType` and recorded the missing referenced dependency; no other class-specific deviations
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 43 focused tests, lint, and diff checks passed; 9b user-confirmed; missing `PhysicalDimensionMappingSet` dependency recorded; marker written
 - [ ] `ApplicationRecordDataType` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.12 (multiple tables — resolve in per-class Phase 0) · after `ApplicationRecordElement` (aggr `element`) + `ApplicationDataType` (parent))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

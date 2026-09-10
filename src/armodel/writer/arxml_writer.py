@@ -2111,6 +2111,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported InstantiationRTEEventProps %s" % type(props))
 
+    def writeCompositionSwComponentTypePhysicalDimensionMapping(self, element: ET.Element, parent: CompositionSwComponentType):
+        self.setChildElementOptionalRefType(element, "PHYSICAL-DIMENSION-MAPPING-REF", parent.getPhysicalDimensionMappingRef())
+
     def writeCompositionSwComponentType(self, parent: ET.Element, sw_component: CompositionSwComponentType):
         child_element = ET.SubElement(parent, "COMPOSITION-SW-COMPONENT-TYPE")
 
@@ -2120,6 +2123,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeCompositionSwComponentTypeDataTypeMappingSet(child_element, sw_component)
         self.writeCompositionSwComponentTypeConstantValueMappingSet(child_element, sw_component)
         self.writeCompositionSwComponentTypeInstantiationRTEEventProps(child_element, sw_component)
+        self.writeCompositionSwComponentTypePhysicalDimensionMapping(child_element, sw_component)
 
     def writeCompositionSwComponentTypes(self, element: ET.Element, ar_package: ARPackage):
         for sw_component in ar_package.getCompositionSwComponentTypes():

@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
     InstantiationTimingEventProps,
     PassThroughSwConnector,
     SwComponentPrototype,
+    SwComponentType,
     SwConnector,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (
@@ -160,6 +161,22 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Composition:
         ref = RefType()
         delegation_connector.setMappingRef(ref)
         assert delegation_connector.getMappingRef() == ref
+
+    def test_composition_sw_component_type_spec_contract(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        composition = CompositionSwComponentType(ar_root, "Composition")
+
+        assert isinstance(composition, SwComponentType)
+        assert composition.__class__.__doc__.strip() == (
+            "A CompositionSwComponentType aggregates SwComponentPrototypes (that in turn are typed by SwComponentTypes) as well as SwConnectors for primarily connecting SwComponentPrototypes among each others and towards the surface of the CompositionSwComponentType. By this means, a hierarchical structures of software-components can be created."
+        )
+        assert composition.getComponents() == []
+        assert composition.getSwConnectors() == []
+        assert composition.getConstantValueMappingRefs() == []
+        assert composition.getDataTypeMappingRefs() == []
+        assert composition.getInstantiationRTEEventProps() == []
+        assert composition.getPhysicalDimensionMappingRef() is None
 
     def test_PassThroughSwConnector(self):
         """Test PassThroughSwConnector class."""

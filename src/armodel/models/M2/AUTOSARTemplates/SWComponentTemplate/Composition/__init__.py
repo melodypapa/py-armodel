@@ -433,9 +433,10 @@ class CompositionSwComponentType(SwComponentType):
     """
 
     # CompositionSwComponentType method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.10, p.75
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.10, p.77 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] createSwComponentPrototype      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getComponents                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createAssemblySwConnector       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer

@@ -1094,6 +1094,15 @@ class TestSwComponentTypeDeepHandlers:
         parser.readCompositionSwComponentTypeComponents(element, comp)
         assert len(comp.getComponents()) == 1
 
+    def test_readCompositionSwComponentType_physical_dimension_mapping_ref(self, parser):
+        comp = CompositionSwComponentType(parent=_autosar_root(), short_name="comp")
+        element = _snip(
+            "<PHYSICAL-DIMENSION-MAPPING-REF DEST='PHYSICAL-DIMENSION-MAPPING-SET'>/mapping</PHYSICAL-DIMENSION-MAPPING-REF>",
+            root_tag="COMPOSITION-SW-COMPONENT-TYPE",
+        )
+        parser.readCompositionSwComponentType(element, comp)
+        assert comp.getPhysicalDimensionMappingRef().getValue() == "/mapping"
+
     def test_readCompositionSwComponentTypeSwConnectors_assembly(self, parser):
 
         comp = CompositionSwComponentType(parent=_autosar_root(), short_name="comp")

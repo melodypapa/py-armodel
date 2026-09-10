@@ -1422,6 +1422,13 @@ class TestWriteCompositionSwComponentType:
         assert parent[0].find("DATA-TYPE-MAPPING-REFS") is not None
         assert parent[0].find("CONSTANT-VALUE-MAPPING-REFS") is not None
 
+    def test_write_composition_sw_component_type_physical_dimension_mapping_ref(self, writer):
+        comp = self._comp()
+        comp.setPhysicalDimensionMappingRef(_ref("/mapping", "PHYSICAL-DIMENSION-MAPPING-SET"))
+        parent = _parent()
+        writer.writeCompositionSwComponentType(parent, comp)
+        assert parent[0].find("PHYSICAL-DIMENSION-MAPPING-REF").text == "/mapping"
+
     def test_write_composition_sw_component_types(self, writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("Pkg")

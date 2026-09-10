@@ -6244,6 +6244,9 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readInstantiationTimingEventProps(props_element, props)
                 parent.addInstantiationRTEEventProps(props)
 
+    def readCompositionSwComponentTypePhysicalDimensionMapping(self, element: ET.Element, parent: CompositionSwComponentType):
+        parent.setPhysicalDimensionMappingRef(self.getChildElementOptionalRefType(element, "PHYSICAL-DIMENSION-MAPPING-REF"))
+
     def readCompositionSwComponentType(self, element: ET.Element, type: CompositionSwComponentType):
         self.logger.debug("Read CompositionSwComponentType: <%s>" % type.getShortName())
         self.readSwComponentType(element, type)
@@ -6252,6 +6255,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readCompositionSwComponentTypeDataTypeMappingSet(element, type)
         self.readCompositionSwComponentTypeConstantValueMappingSet(element, type)
         self.readCompositionSwComponentTypeInstantiationRTEEventProps(element, type)
+        self.readCompositionSwComponentTypePhysicalDimensionMapping(element, type)
         document = AUTOSAR.getInstance()
         document.addCompositionSwComponentType(type)
 
