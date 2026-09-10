@@ -84,6 +84,16 @@ class TestModeAccessPointIdent:
 class TestExternalTriggeringPointIdent:
     """Test class for ExternalTriggeringPointIdent class."""
 
+    def test_external_triggering_point_ident_spec_contract(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        ident = ExternalTriggeringPointIdent(ar_root, "ident")
+
+        assert ident.__class__.__doc__.strip() == (
+            "This meta-class has been created to introduce the ability to become referenced into the meta-class ExternalTriggeringPoint without breaking backwards compatibility."
+        )
+        assert isinstance(ident, IdentCaption)
+
     def test_external_triggering_point_ident_initialization(self):
         """Test ExternalTriggeringPointIdent initialization."""
         document = AUTOSAR.getInstance()

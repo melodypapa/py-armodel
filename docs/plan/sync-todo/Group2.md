@@ -348,16 +348,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 7 — Update checklist comment — six-column R23-11 checklist with inherited ARObject initialization and symbol reader/writer mapping
    - [x] Step 8 — Deviations — none; base, CIdentifier type, naming, guard, documentation, and existing parser/writer coverage conform to Table 7.5
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 404 focused tests, lint, and diff checks passed; corrected citation verified against PDF p.536; 9b user-confirmed; no class-specific deviations; marker written
-- [ ] `ExternalTriggeringPointIdent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 14.6 · member type of `ExternalTriggeringPoint.ident` (Table 7.39) · no unsynced member deps)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `ExternalTriggeringPointIdent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 14.6 · member type of `ExternalTriggeringPoint.ident` (Table 7.39) · no unsynced member deps) — **finished, stamped `# Spec verified: R23-11`**
+   - [x] Step 1 — Sync members & description from spec — Table 14.6, p.852; concrete zero-attribute `IdentCaption` subtype; class Note copied verbatim
+   - [x] Step 2 — Write model class unit test (Red) — added exact class Note and inheritance contract; Red confirmed fabricated documentation
+   - [x] Step 3 — Implement model class (Green) — no field/base implementation change required; existing `IdentCaption` heritage is conformant
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — replaced fabricated wording with the Table 14.6 Note; six-column checklist added
+   - [x] Step 5 — Write reader/writer round-trip test (Red→N/A with evidence) — zero own XML members; concrete ExternalTriggeringPoint serialization covers the inherited identification path
+   - [x] Step 6 — Update parser & writer (Green) — no production change needed; concrete trigger-point reader/writer paths already handle the ident object
+   - [x] Step 7 — Update checklist comment — six-column R23-11 checklist with no own XML members
+   - [x] Step 8 — Deviations — none; heritage, zero own attributes, documentation, and inherited coverage conform to Table 14.6
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 7 focused tests, lint, and diff checks passed; 9b user-confirmed; no class-specific deviations; marker written
 - [ ] `PortDefinedArgumentValue` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.45 *(existing member)* · deps stamped: `value` ValueSpecification ✓ / `valueType` ImplementationDataType ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
