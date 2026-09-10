@@ -389,14 +389,15 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 8 — Deviations — user elected to skip this class rather than redesign inherited `Referrable.elements`; the class remains unstamped. Existing factory annotation correction and tests are retained.
    - [x] Step 9 — Verify (9a) + confirm (9b) — N/A: class skipped by explicit user direction; no stamp written
  - [ ] `DataTransformationErrorHandlingEnum` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.43 · member type of `PortAPIOption.errorHandling` · source class not present in src)
-   - [ ] Step 1 — Sync members & description from spec
-   - [ ] Step 2 — Write model class unit test (Red)
-   - [ ] Step 3 — Implement model class (Green)
-   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-   - [ ] Step 5 — Write reader/writer round-trip test (Red)
-   - [ ] Step 6 — Update parser & writer (Green)
-   - [ ] Step 7 — Update checklist comment
-   - [ ] Step 8 — Deviations
+   - [x] Step 1 — Sync members & description from spec — Table 7.43, p.590; enum Note and two literals captured
+   - [x] Step 2 — Write model class unit test (Red) — added literal presence/order test; Red confirmed missing dependency class
+   - [x] Step 3 — Implement model class (Green) — added AREnum with `noTransformerErrorHandling` and `transformerErrorHandling` literals
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — enum Note copied verbatim; no-method enum checklist added
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — N/A for standalone enum; value form is serialized by PortAPIOption.errorHandling
+   - [x] Step 6 — Update parser & writer (Green) — N/A for standalone enum; consumer coverage remains in PortAPIOption paths
+   - [x] Step 7 — Update checklist comment — enum provenance and no-method serialization note added
+   - [x] Step 8 — Deviations — none; dependency now exists in source
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a focused enum test, lint, and diff checks passed; 9b user-confirmed; marker written
    - [ ] Step 9 — Verify (9a) + confirm (9b)
  - [ ] `DataTransformationStatusForwardingEnum` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.44 · member type of `PortAPIOption.transformerStatusForwarding` · source class not present in src)
    - [ ] Step 1 — Sync members & description from spec

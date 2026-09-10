@@ -6,8 +6,31 @@ in software component internal behavior templates.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Boolean, RefType, TRefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, AREnum, Boolean, RefType, TRefType
 from typing import List, Optional
+
+
+class DataTransformationErrorHandlingEnum(AREnum):
+    """
+    This enumeration defines different ways how a RunnableEntity shall handle transformer errors.
+    """
+
+    # DataTransformationErrorHandlingEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.43, p.590 (R23-11)
+    # Spec verified: R23-11
+    # (no methods) — enum value form serialized on PortAPIOption.errorHandling
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    NO_TRANSFORMER_ERROR_HANDLING = "noTransformerErrorHandling"
+    TRANSFORMER_ERROR_HANDLING = "transformerErrorHandling"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DataTransformationErrorHandlingEnum.NO_TRANSFORMER_ERROR_HANDLING,
+                DataTransformationErrorHandlingEnum.TRANSFORMER_ERROR_HANDLING,
+            ]
+        )
 
 
 class PortDefinedArgumentValue(ARObject):
