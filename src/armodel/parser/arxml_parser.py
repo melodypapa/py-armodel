@@ -3113,7 +3113,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readIncludedModeDeclarationGroupSet(self, element: ET.Element, group_set: IncludedModeDeclarationGroupSet):
         for ref in self.getChildElementRefTypeList(element, "MODE-DECLARATION-GROUP-REFS/MODE-DECLARATION-GROUP-REF"):
             group_set.addModeDeclarationGroupRef(ref)
-        group_set.setPrefix(self.getChildElementOptionalLiteral(element, "PREFIX"))
+        group_set.setPrefix(self.getChildElementOptionalIdentifier(element, "PREFIX"))
 
     def readSwcInternalBehaviorIncludedModeDeclarationGroupSets(self, element: ET.Element, behavior: SwcInternalBehavior):
         for child_element in self.findall(element, "INCLUDED-MODE-DECLARATION-GROUP-SETS/*"):

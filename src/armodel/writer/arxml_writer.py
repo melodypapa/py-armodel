@@ -4819,7 +4819,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 refs_tag = ET.SubElement(child_element, "MODE-DECLARATION-GROUP-REFS")
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_tag, "MODE-DECLARATION-GROUP-REF", ref)
-            self.setChildElementOptionalLiteral(child_element, "PREFIX", set.getPrefix())
+            self.setChildElementOptionalIdentifier(child_element, "PREFIX", set.getPrefix())
 
     def writeSwcInternalBehaviorIncludedModeDeclarationGroupSets(self, element: ET.Element, behavior: SwcInternalBehavior):
         group_sets = behavior.getIncludedModeDeclarationGroupSets()

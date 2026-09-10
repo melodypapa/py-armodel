@@ -429,16 +429,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
    - [x] Step 7 — Update checklist comment — six-column R23-11 checklist added for all methods
    - [x] Step 8 — Deviations — unresolved model-sync deviations remain for the other six attributes (types/accessors/docstrings/None guards are not yet fully aligned); `SwcSupportedFeature` dependency is absent from src. `# Spec verified:` withheld.
    - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `IncludedModeDeclarationGroupSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.51 · member type of `SwcInternalBehavior.includedModeDeclarationGroupSet` below · deps stamped: `modeDeclarationGroup` ModeDeclarationGroup ✓ · only other attr `prefix` Identifier)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `IncludedModeDeclarationGroupSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.51 · member type of `SwcInternalBehavior.includedModeDeclarationGroupSet` below · deps stamped: `modeDeclarationGroup` ModeDeclarationGroup ✓ · only other attr `prefix` Identifier) — **finished, stamped `# Spec verified: R23-11`**
+   - [x] Step 1 — Sync members & description from spec — Table 7.51, p.601; base ARObject; attributes modeDeclarationGroup (unbounded ref) and prefix (Identifier 0..1 attr) in displayed order
+   - [x] Step 2 — Write model class unit test (Red) — spec-shaped field names, typed values, None no-op setters/adders, and verbatim class Note; Red confirmed missing camelCase field and stale docstring
+   - [x] Step 3 — Implement model class (Green) — typed `modeDeclarationGroupRefs`/`Optional[Identifier]`, guarded mutators, typed accessors, and chaining
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and member Notes copied verbatim; stale paraphrases removed
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — field values, Identifier PREFIX type, reference value, and empty-wrapper coverage added
+   - [x] Step 6 — Update parser & writer (Green) — PREFIX now uses Identifier reader/writer helpers; existing reference list paths retained
+   - [x] Step 7 — Update checklist comment — six-column R23-11 checklist added for init/add/get/set/get rows; marker deferred to Step 9b
+   - [x] Step 8 — Deviations — none identified; base, member types, naming, order, mutator/getter coverage, and XML order conform to Table 7.51/XSD
+    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 8787 unit tests passed, focused tests passed, lint passed, touched-file Black checks passed; integration suite blocked by existing GBK decoding failure in `AUTOSAR_Datatypes.arxml`; 9b user-confirmed
 - [ ] `SwcInternalBehavior` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.2 · **moved 2026-09-03 restructure to last: aggregates the events, `VariableDataPrototype`, `PerInstanceMemory`, `IncludedModeDeclarationGroupSet`, `PortAPIOption` queued above** · deps already stamped: parent `InternalBehavior` Table 7.1 ✓ / `runnable` RunnableEntity ✓ / `exclusiveAreaPolicy` SwcExclusiveAreaPolicy ✓ / `includedDataTypeSet` IncludedDataTypeSet ✓ / `instantiationDataDefProps` InstantiationDataDefProps ✓ / `perInstanceParameter`+`sharedParameter` ParameterDataPrototype ✓ / `serviceDependency` SwcServiceDependency ✓ / `variationPointProxy` VariationPointProxy ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

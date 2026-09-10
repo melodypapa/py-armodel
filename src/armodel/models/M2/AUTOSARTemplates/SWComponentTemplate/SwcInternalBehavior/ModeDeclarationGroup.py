@@ -3,10 +3,10 @@ This module contains classes for representing AUTOSAR mode declaration groups
 in software component internal behavior templates.
 """
 
-from typing import List
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Identifier, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier, RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.RPTScenario import ModeAccessPointIdent
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import PModeGroupInAtomicSwcInstanceRef, RModeGroupInAtomicSWCInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint
@@ -129,63 +129,73 @@ class ModeSwitchPoint(AbstractAccessPoint, VariationPointCapable):
 
 class IncludedModeDeclarationGroupSet(ARObject):
     """
-    A set of mode declaration group references included in the scope
-    of a software component internal behavior.
+    An IncludedModeDeclarationGroupSet declares that a set of ModeDeclarationGroups used by the software component for its implementation and consequently these ModeDeclarationGroups become part of the contract.
     """
 
-    # IncludedModeDeclarationGroupSet method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addModeDeclarationGroupRef   [x] impl  [x] docstring  [ ] test
-    # [ ] getModeDeclarationGroupRefs  [x] impl  [x] docstring  [ ] test
-    # [ ] setPrefix                    [x] impl  [x] docstring  [ ] test
-    # [ ] getPrefix                    [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.51, p.601 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addModeDeclarationGroupRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeDeclarationGroupRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPrefix                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPrefix                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.mode_declaration_group_refs: List["RefType"] = []
-        self.prefix: "Identifier" = None
+        # This represents the referenced ModeDeclarationGroup.
+        self.modeDeclarationGroupRefs: List[RefType] = []
 
-    def addModeDeclarationGroupRef(self, ref: RefType):
+        # The prefix shall be used by the RTE generator as a prefix for the creation of symbols related to the referenced ModeDeclarationGroups, e.g RTE_TRANSITION_<Mode DeclarationGroup>.
+        self.prefix: Optional[Identifier] = None
+
+    def addModeDeclarationGroupRef(self, value: RefType) -> "IncludedModeDeclarationGroupSet":
         """
-        Adds a mode declaration group reference.
+        This represents the referenced ModeDeclarationGroup.
+
+        A None value is a no-op and does not append anything.
 
         Args:
-            ref: The mode declaration group reference to add
+            value: The mode declaration group reference to add
 
         Returns:
             self for method chaining
         """
-        self.mode_declaration_group_refs.append(ref)
+        if value is not None:
+            self.modeDeclarationGroupRefs.append(value)
         return self
 
     def getModeDeclarationGroupRefs(self) -> List[RefType]:
         """
-        Gets the list of mode declaration group references.
+        This represents the referenced ModeDeclarationGroup.
 
         Returns:
             List[RefType]: The list of mode declaration group references
         """
-        return self.mode_declaration_group_refs
+        return self.modeDeclarationGroupRefs
 
-    def setPrefix(self, prefix: str):
+    def setPrefix(self, value: Optional[Identifier]) -> "IncludedModeDeclarationGroupSet":
         """
-        Sets the prefix for mode declaration group references.
+        The prefix shall be used by the RTE generator as a prefix for the creation of symbols related to the referenced ModeDeclarationGroups, e.g RTE_TRANSITION_<Mode DeclarationGroup>.
+
+        A None value is a no-op and does not overwrite an existing prefix.
 
         Args:
-            prefix: The prefix to set
+            value: The prefix to set
 
         Returns:
             self for method chaining
         """
-        self.prefix = prefix
+        if value is not None:
+            self.prefix = value
         return self
 
-    def getPrefix(self) -> ARLiteral:
+    def getPrefix(self) -> Optional[Identifier]:
         """
-        Gets the prefix for mode declaration group references.
+        The prefix shall be used by the RTE generator as a prefix for the creation of symbols related to the referenced ModeDeclarationGroups, e.g RTE_TRANSITION_<Mode DeclarationGroup>.
 
         Returns:
-            ARLiteral: The prefix
+            Optional[Identifier]: The prefix
         """
         return self.prefix

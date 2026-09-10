@@ -211,6 +211,7 @@ class TestSwcInternalBehaviorOrchestrator:
 
     def test_readSwcInternalBehavior_with_included_mode_declaration_group_sets(self, parser):
         from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -227,7 +228,24 @@ class TestSwcInternalBehaviorOrchestrator:
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
-        assert len(behavior.getIncludedModeDeclarationGroupSets()) == 1
+        included_set = behavior.getIncludedModeDeclarationGroupSets()[0]
+        assert included_set.getPrefix().getValue() == "prefix"
+        assert isinstance(included_set.getPrefix(), Identifier)
+        assert included_set.getModeDeclarationGroupRefs()[0].getValue() == "/mg"
+
+    def test_readSwcInternalBehavior_with_empty_included_mode_declaration_group_set(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        element = _snip(
+            "<SHORT-NAME>bh</SHORT-NAME>" "<INCLUDED-MODE-DECLARATION-GROUP-SETS><INCLUDED-MODE-DECLARATION-GROUP-SET/></INCLUDED-MODE-DECLARATION-GROUP-SETS>",
+            root_tag="SWC-INTERNAL-BEHAVIOR",
+        )
+        parser.readSwcInternalBehavior(element, behavior)
+        included_set = behavior.getIncludedModeDeclarationGroupSets()[0]
+        assert included_set.getModeDeclarationGroupRefs() == []
+        assert included_set.getPrefix() is None
 
     def test_readSwcInternalBehaviorArTypedPerInstanceMemories_creates(self, parser):
         from armodel.models import ApplicationSwComponentType

@@ -1677,13 +1677,22 @@ class TestWriterIncludedModeDeclarationGroupSet:
     def test_writeIncludedModeDeclarationGroupSet(self, writer):
         mset = IncludedModeDeclarationGroupSet()
         mset.addModeDeclarationGroupRef(_ref("/mdg1", "MODE-DECLARATION-GROUP"))
-        mset.setPrefix(_literal("p_"))
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
+
+        mset.setPrefix(Identifier().setValue("p_"))
         parent = _parent()
         writer.writeIncludedModeDeclarationGroupSet(parent, mset)
         elem = parent.find("INCLUDED-MODE-DECLARATION-GROUP-SET")
         assert elem is not None
-        assert elem.find("MODE-DECLARATION-GROUP-REFS") is not None
+        assert elem.find("MODE-DECLARATION-GROUP-REFS/MODE-DECLARATION-GROUP-REF").text == "/mdg1"
         assert elem.find("PREFIX").text == "p_"
+
+    def test_writeIncludedModeDeclarationGroupSet_empty(self, writer):
+        parent = _parent()
+        writer.writeIncludedModeDeclarationGroupSet(parent, IncludedModeDeclarationGroupSet())
+        elem = parent.find("INCLUDED-MODE-DECLARATION-GROUP-SET")
+        assert elem is not None
+        assert len(elem) == 0
 
     def test_writeIncludedModeDeclarationGroupSet_none(self, writer):
         parent = _parent()

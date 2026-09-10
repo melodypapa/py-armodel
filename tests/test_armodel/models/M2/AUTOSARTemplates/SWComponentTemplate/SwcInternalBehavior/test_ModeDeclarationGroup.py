@@ -65,20 +65,31 @@ class TestIncludedModeDeclarationGroupSet:
     """Test class for IncludedModeDeclarationGroupSet class."""
 
     def test_included_mode_declaration_group_set_initialization(self):
-        """Test IncludedModeDeclarationGroupSet initialization and methods."""
-        set = IncludedModeDeclarationGroupSet()
+        included_set = IncludedModeDeclarationGroupSet()
 
-        assert set.mode_declaration_group_refs == []
-        assert set.prefix is None
+        assert included_set.modeDeclarationGroupRefs == []
+        assert included_set.prefix is None
 
-        # Test modeDeclarationGroupRefs methods
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
         ref = RefType()
         ref.setValue("/Test/ModeGroup")
-        set.addModeDeclarationGroupRef(ref)
-        assert ref in set.getModeDeclarationGroupRefs()
+        assert included_set.addModeDeclarationGroupRef(ref) is included_set
+        assert included_set.getModeDeclarationGroupRefs() == [ref]
+        assert included_set.addModeDeclarationGroupRef(None) is included_set
+        assert included_set.getModeDeclarationGroupRefs() == [ref]
 
-        # Test prefix methods
-        set.setPrefix("test_prefix")
-        assert set.getPrefix() == "test_prefix"
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
+
+        prefix = Identifier().setValue("RTE_")
+        assert included_set.setPrefix(prefix) is included_set
+        assert included_set.getPrefix() is prefix
+        assert included_set.setPrefix(None) is included_set
+        assert included_set.getPrefix() is prefix
+
+    def test_included_mode_declaration_group_set_class_docstring(self):
+        expected = (
+            "An IncludedModeDeclarationGroupSet declares that a set of ModeDeclarationGroups used by the software component "
+            "for its implementation and consequently these ModeDeclarationGroups become part of the contract."
+        )
+        assert IncludedModeDeclarationGroupSet.__doc__.strip() == expected
