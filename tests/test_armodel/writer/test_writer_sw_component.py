@@ -1262,7 +1262,7 @@ class TestWriteCompositionSwComponentType:
         inner = PPortInCompositionInstanceRef()
         inner.setContextComponentRef(_ref())
         inner.setTargetPPortRef(_ref())
-        conn.setInnerPortIRref(inner)
+        conn.setInnerPortIRef(inner)
         conn.setOuterPortRef(_ref())
         parent = _parent()
         writer.writeDelegationSwConnector(parent, conn)
@@ -1281,7 +1281,7 @@ class TestWriteCompositionSwComponentType:
         inner = RPortInCompositionInstanceRef()
         inner.setContextComponentRef(_ref())
         inner.setTargetRPortRef(_ref())
-        conn.setInnerPortIRref(inner)
+        conn.setInnerPortIRef(inner)
         parent = _parent()
         writer.writeDelegationSwConnector(parent, conn)
         assert parent[0].find("INNER-PORT-IREF").find("R-PORT-IN-COMPOSITION-INSTANCE-REF") is not None
@@ -1421,6 +1421,13 @@ class TestWriteCompositionSwComponentType:
         assert parent[0].find("CONNECTORS").find("PASS-THROUGH-SW-CONNECTOR") is not None
         assert parent[0].find("DATA-TYPE-MAPPING-REFS") is not None
         assert parent[0].find("CONSTANT-VALUE-MAPPING-REFS") is not None
+
+    def test_write_composition_sw_component_type_physical_dimension_mapping_ref(self, writer):
+        comp = self._comp()
+        comp.setPhysicalDimensionMappingRef(_ref("/mapping", "PHYSICAL-DIMENSION-MAPPING-SET"))
+        parent = _parent()
+        writer.writeCompositionSwComponentType(parent, comp)
+        assert parent[0].find("PHYSICAL-DIMENSION-MAPPING-REF").text == "/mapping"
 
     def test_write_composition_sw_component_types(self, writer):
         autosar = AUTOSAR.getInstance()
@@ -1640,7 +1647,7 @@ class TestWriteErrorBranches:
         pkg = autosar.createARPackage("Pkg")
         comp = pkg.createCompositionSwComponentType("Comp")
         conn = comp.createDelegationSwConnector("DelConn")
-        conn.setInnerPortIRref(_FakePortInCompositionInstanceRef())
+        conn.setInnerPortIRef(_FakePortInCompositionInstanceRef())
         parent = _parent()
         writer.writeDelegationSwConnector(parent, conn)
         assert parent[0].tag == "DELEGATION-SW-CONNECTOR"
@@ -1676,7 +1683,7 @@ class TestWriteDelegationSwConnectorError:
         pkg = autosar.createARPackage("Pkg")
         comp = pkg.createCompositionSwComponentType("Comp")
         conn = comp.createDelegationSwConnector("DelConn")
-        conn.setInnerPortIRref(_FakePortInCompositionInstanceRef())
+        conn.setInnerPortIRef(_FakePortInCompositionInstanceRef())
         parent = _parent()
         with pytest.raises(ValueError):
             writer.writeDelegationSwConnector(parent, conn)

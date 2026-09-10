@@ -102,7 +102,7 @@ class TestDelegationSwConnector:
         assert connector.parent == ar_root
         assert connector.short_name == "TestDelegationSwConnector"
         assert connector.mappingRef is None
-        assert connector.innerPortIRref is None
+        assert connector.innerPortIRef is None
         assert connector.outerPortRef is None
 
         # Test mappingRef methods
@@ -113,12 +113,12 @@ class TestDelegationSwConnector:
         connector.setMappingRef(mapping_ref)
         assert connector.getMappingRef() == mapping_ref
 
-        # Test innerPortIRref methods
+        # Test innerPortIRef methods
         from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Components.InstanceRefs import InnerPortGroupInCompositionInstanceRef
 
         inner_iref = InnerPortGroupInCompositionInstanceRef()
-        connector.setInnerPortIRref(inner_iref)
-        assert connector.getInnerPortIRref() == inner_iref
+        connector.setInnerPortIRef(inner_iref)
+        assert connector.getInnerPortIRef() == inner_iref
 
         # Test outerPortRef methods
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType

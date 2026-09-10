@@ -21,6 +21,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     ARNumerical,
+    Boolean,
     Float,
     Identifier,
     Integer,
@@ -423,6 +424,19 @@ class TestApplicationRecordElementWriter:
         assert child.find("SHORT-NAME").text == "Field"
         assert child.find("TYPE-TREF").text == "/apt"
 
+    def test_write_application_record_element_is_optional(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("AppPkg")
+        record_element = pkg.createApplicationRecordDataType("Record").createApplicationRecordElement("Element")
+        record_element.setIsOptional(Boolean().setValue(True))
+
+        parent = ET.Element("ELEMENTS")
+        writer.writeApplicationRecordElement(parent, record_element)
+
+        child = parent[0]
+        assert child.tag == "APPLICATION-RECORD-ELEMENT"
+        assert child.find("IS-OPTIONAL").text == "true"
+
     def test_write_application_composite_element_data_prototype_type_tref(self, writer):
         autosar = AUTOSAR.getInstance()
         pkg = autosar.createARPackage("AppPkg")
@@ -531,7 +545,7 @@ class TestApplicationRecordDataTypeWriter:
         pkg = autosar.createARPackage("AppPkg")
         record = pkg.createApplicationRecordDataType("WithBad")
 
-        record.record_elements.append("not-an-element")
+        record.recordElements.append("not-an-element")
 
         parent = _parent()
         w.writeApplicationRecordDataType(parent, record)

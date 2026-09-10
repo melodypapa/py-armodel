@@ -67,12 +67,14 @@ class ApplicationDataType(AutosarDataType, ABC):
 
 class ApplicationPrimitiveDataType(ApplicationDataType):
     """
-    An application data type that represents a primitive (non-composite)
-    data type.
+    A primitive data type defines a set of allowed values.
     """
 
     # ApplicationPrimitiveDataType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.5, p.241 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
@@ -80,12 +82,14 @@ class ApplicationPrimitiveDataType(ApplicationDataType):
 
 class ApplicationCompositeDataType(ApplicationDataType, ABC):
     """
-    Abstract base class for application composite data types such as
-    arrays and records.
+    Abstract base class for all application data types composed of other data types.
     """
 
     # ApplicationCompositeDataType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.6, p.241 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         if type(self) is ApplicationCompositeDataType:
@@ -200,29 +204,30 @@ class ApplicationArrayDataType(ApplicationCompositeDataType):
 
 class ApplicationRecordDataType(ApplicationCompositeDataType):
     """
-    An application data type representing a record with fields of possibly
-    different types.
+    An application data type which can be decomposed into prototypes of other application data types.
     """
 
     # ApplicationRecordDataType method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] createApplicationRecordElement [x] impl  [ ] docstring  [ ] test
-    # [ ] getApplicationRecordElements [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.12, p.261 (R23-11)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createApplicationRecordElement [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getApplicationRecordElements   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.record_elements: List[ApplicationRecordElement] = []
+        self.recordElements: List[ApplicationRecordElement] = []
 
     def createApplicationRecordElement(self, short_name: str) -> ApplicationRecordElement:
         if not self.IsElementExists(short_name, ApplicationRecordElement):
             record_element = ApplicationRecordElement(self, short_name)
             self.addElement(record_element)
-            self.record_elements.append(record_element)
+            self.recordElements.append(record_element)
         return self.getElement(short_name, ApplicationRecordElement)
 
     def getApplicationRecordElements(self) -> List[ApplicationRecordElement]:
-        return self.record_elements
+        return self.recordElements
 
 
 class DataTypeMap(ARObject):

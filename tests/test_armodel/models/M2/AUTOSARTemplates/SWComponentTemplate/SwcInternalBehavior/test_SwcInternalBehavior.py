@@ -4,6 +4,7 @@ Tests cover all classes and methods in the __init__.py file to achieve 100% test
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import (
     AsynchronousServerCallPoint,
     AsynchronousServerCallResultPoint,
@@ -17,6 +18,15 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 
 class TestRunnableEntityArgument:
     """Test class for RunnableEntityArgument class."""
+
+    def test_runnable_entity_argument_spec_contract(self):
+        arg = RunnableEntityArgument()
+        assert arg.__class__.__doc__.strip() == "This meta-class represents the ability to provide specific information regarding the arguments to a RunnableEntity."
+        symbol = ARLiteral().setValue("test_symbol")
+        assert arg.setSymbol(symbol) is arg
+        assert arg.getSymbol() is symbol
+        arg.setSymbol(None)
+        assert arg.getSymbol() is symbol
 
     def test_runnable_entity_argument_initialization(self):
         """Test RunnableEntityArgument initialization and methods."""
@@ -598,3 +608,49 @@ class TestSwcInternalBehavior:
         assert proxy in behavior.getVariationPointProxies()
         behavior.addVariationPointProxy(None)
         assert len(behavior.getVariationPointProxies()) == 1
+
+    def test_swc_internal_behavior_class_docstring_verbatim(self):
+        """Class Note must be the Table 7.2 Note copied verbatim."""
+        assert (
+            SwcInternalBehavior.__doc__.strip()
+            == "The SwcInternalBehavior of an AtomicSwComponentType describes the relevant aspects of the software-component with respect to the RTE, i.e. the RunnableEntities and the RTEEvents they respond to."
+        )
+
+    def test_swc_internal_behavior_event_factory_populates_typed_list(self):
+        """create*Event must populate the dedicated events list (Rule 0004: never registry filters)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = SwcInternalBehavior(ar_root, "TestSwcInternalBehavior")
+
+        event = behavior.createInitEvent("Ev")
+        assert behavior.events == [event]
+        assert behavior.getRteEvents() == [event]
+        assert behavior.getInitEvents() == [event]
+
+        # creating the same short name again returns the existing element and does not duplicate
+        assert behavior.createInitEvent("Ev") is event
+        assert len(behavior.events) == 1
+
+    def test_swc_internal_behavior_runnable_factory_populates_typed_list(self):
+        """createRunnableEntity must populate the dedicated runnables list (Rule 0004)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = SwcInternalBehavior(ar_root, "TestSwcInternalBehavior")
+
+        runnable = behavior.createRunnableEntity("Run")
+        assert behavior.runnables == [runnable]
+        assert behavior.getRunnableEntities() == [runnable]
+        assert behavior.createRunnableEntity("Run") is runnable
+        assert len(behavior.runnables) == 1
+
+    def test_swc_internal_behavior_service_dependency_factory_populates_typed_list(self):
+        """createSwcServiceDependency must populate the dedicated serviceDependencies list (Rule 0004)."""
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = SwcInternalBehavior(ar_root, "TestSwcInternalBehavior")
+
+        dependency = behavior.createSwcServiceDependency("Dep")
+        assert behavior.serviceDependencies == [dependency]
+        assert behavior.getSwcServiceDependencies() == [dependency]
+        assert behavior.createSwcServiceDependency("Dep") is dependency
+        assert len(behavior.serviceDependencies) == 1

@@ -26,12 +26,32 @@ class TestArVariableInImplementationDataInstanceRef:
         assert iref.rootVariableDataPrototypeRef is None
         assert iref.targetDataPrototypeRef is None
 
+    def test_table_5_37_model_shape_and_docstrings(self):
+        iref = ArVariableInImplementationDataInstanceRef()
+        assert iref.getContextDataPrototypeRefs() == []
+        assert iref.addContextDataPrototypeRef(None) is iref
+        assert iref.getContextDataPrototypeRefs() == []
+        assert iref.setPortPrototypeRef(None) is iref
+        assert iref.setRootVariableDataPrototypeRef(None) is iref
+        assert iref.setTargetDataPrototypeRef(None) is iref
+        assert iref.__init__.__doc__ is None
+        assert iref.__class__.__doc__.strip() == (
+            "This class represents the ability to navigate into a data element inside of an VariableDataPrototype "
+            "which is typed by an ImplementationDatatype. Note that it shall not be used if the target is the "
+            "VariableDataPrototype itself (e.g. if its a primitive). Note that this class follows the pattern of "
+            "an InstanceRef but is not implemented based on the abstract classes because the ImplementationDataType "
+            "isn't either, especially because ImplementationDataType Element isn't derived from AtpPrototype."
+        )
+        context_note = "This is a context in case there are subelements with explicit types. The reference has to be ordered to properly reflect the nested structure."
+        assert iref.getContextDataPrototypeRefs.__doc__.strip() == context_note
+        assert iref.addContextDataPrototypeRef.__doc__.strip() == context_note + " A None value is a no-op and does not append anything."
+
         # Test contextDataPrototypeRefs methods
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 
         ref = RefType()
         ref.setValue("/Test/Ref")
-        iref.setContextDataPrototypeRefs([ref])
+        iref.addContextDataPrototypeRef(ref)
         assert ref in iref.getContextDataPrototypeRefs()
 
         # Test portPrototypeRef methods

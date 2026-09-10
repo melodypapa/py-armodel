@@ -1059,12 +1059,12 @@ class TestSwComponentAndConnectorHandlers:
             root_tag="DELEGATION-SW-CONNECTOR",
         )
         parser.readDelegationSwConnector(element, connector)
-        assert connector.getInnerPortIRref() is not None
+        assert connector.getInnerPortIRef() is not None
         assert connector.getOuterPortRef().getValue() == "/op"
-        assert connector.getInnerPortIRref().getContextComponentRef().getValue() == "/c"
-        assert connector.getInnerPortIRref().getContextComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
-        assert connector.getInnerPortIRref().getTargetRPortRef().getValue() == "/rp"
-        assert connector.getInnerPortIRref().getTargetRPortRef().getDest() == "R-PORT-PROTOTYPE"
+        assert connector.getInnerPortIRef().getContextComponentRef().getValue() == "/c"
+        assert connector.getInnerPortIRef().getContextComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert connector.getInnerPortIRef().getTargetRPortRef().getValue() == "/rp"
+        assert connector.getInnerPortIRef().getTargetRPortRef().getDest() == "R-PORT-PROTOTYPE"
 
     def test_readDelegationSwConnector_inner_PPort_IRef(self, parser, composition):
         connector = composition.createDelegationSwConnector("d2")
@@ -1080,15 +1080,15 @@ class TestSwComponentAndConnectorHandlers:
             root_tag="DELEGATION-SW-CONNECTOR",
         )
         parser.readDelegationSwConnector(element, connector)
-        assert connector.getInnerPortIRref() is not None
+        assert connector.getInnerPortIRef() is not None
         assert connector.getOuterPortRef().getValue() == "/op"
-        assert connector.getInnerPortIRref().getContextComponentRef().getValue() == "/c"
-        assert connector.getInnerPortIRref().getContextComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
-        assert connector.getInnerPortIRref().getTargetPPortRef().getValue() == "/pp"
-        assert connector.getInnerPortIRref().getTargetPPortRef().getDest() == "P-PORT-PROTOTYPE"
+        assert connector.getInnerPortIRef().getContextComponentRef().getValue() == "/c"
+        assert connector.getInnerPortIRef().getContextComponentRef().getDest() == "SW-COMPONENT-PROTOTYPE"
+        assert connector.getInnerPortIRef().getTargetPPortRef().getValue() == "/pp"
+        assert connector.getInnerPortIRef().getTargetPPortRef().getDest() == "P-PORT-PROTOTYPE"
 
     def test_readDelegationSwConnector_only_inner_ref(self, parser, composition):
-        # Note: readDelegationSwConnector checks getInnerPortIRref() AND
+        # Note: readDelegationSwConnector checks getInnerPortIRef() AND
         # getOuterPortRef() for None *before* OUTER-PORT-REF is parsed, so the
         # only way to avoid the raise is to supply an INNER-PORT-IREF.
         connector = composition.createDelegationSwConnector("d3")
@@ -1103,7 +1103,7 @@ class TestSwComponentAndConnectorHandlers:
             root_tag="DELEGATION-SW-CONNECTOR",
         )
         parser.readDelegationSwConnector(element, connector)
-        assert connector.getInnerPortIRref() is not None
+        assert connector.getInnerPortIRef() is not None
         # OUTER-PORT-REF was absent; should remain None.
         assert connector.getOuterPortRef() is None
 

@@ -124,6 +124,16 @@ class TestApplicationDataType:
 class TestApplicationPrimitiveDataType:
     """Test class for ApplicationPrimitiveDataType class."""
 
+    def test_application_primitive_data_type_spec_contract(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        primitive_type = ApplicationPrimitiveDataType(ar_root, "TestApplicationPrimitiveDataType")
+
+        assert isinstance(primitive_type, ApplicationDataType)
+        assert isinstance(primitive_type, AutosarDataType)
+        assert primitive_type.getSwDataDefProps() is None
+        assert primitive_type.__class__.__doc__.strip() == "A primitive data type defines a set of allowed values."
+
     def test_application_primitive_data_type_initialization(self):
         """Test ApplicationPrimitiveDataType initialization and methods."""
         document = AUTOSAR.getInstance()
@@ -144,6 +154,9 @@ class TestApplicationPrimitiveDataType:
 
 class TestApplicationCompositeDataType:
     """Test class for ApplicationCompositeDataType abstract class."""
+
+    def test_application_composite_data_type_spec_contract(self):
+        assert ApplicationCompositeDataType.__doc__.strip() == "Abstract base class for all application data types composed of other data types."
 
     def test_application_composite_data_type_abstract(self):
         """Test that ApplicationCompositeDataType is an abstract class."""
@@ -194,6 +207,19 @@ class TestApplicationArrayDataType:
 class TestApplicationRecordDataType:
     """Test class for ApplicationRecordDataType class."""
 
+    def test_application_record_data_type_spec_contract(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        record_type = ApplicationRecordDataType(ar_root, "Record")
+
+        assert isinstance(record_type, ApplicationCompositeDataType)
+        assert record_type.__class__.__doc__.strip() == ("An application data type which can be decomposed into prototypes of other application data types.")
+        first = record_type.createApplicationRecordElement("First")
+        second = record_type.createApplicationRecordElement("Second")
+        assert record_type.getApplicationRecordElements() == [first, second]
+        assert record_type.createApplicationRecordElement("First") is first
+        assert record_type.recordElements == [first, second]
+
     def test_application_record_data_type_initialization(self):
         """Test ApplicationRecordDataType initialization and methods."""
         document = AUTOSAR.getInstance()
@@ -203,7 +229,7 @@ class TestApplicationRecordDataType:
         assert record_type.parent == ar_root
         assert record_type.short_name == "TestApplicationRecordDataType"
         assert record_type.swDataDefProps is None
-        assert record_type.record_elements == []
+        assert record_type.recordElements == []
 
         # Test swDataDefProps methods
         from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps

@@ -587,7 +587,7 @@ class ARPackage(CollectableElement, VariationPointCapable):
             self.addElement(data_type)
         return self.getElement(short_name, ApplicationPrimitiveDataType)
 
-    def createApplicationRecordDataType(self, short_name: str) -> ApplicationPrimitiveDataType:
+    def createApplicationRecordDataType(self, short_name: str) -> ApplicationRecordDataType:
 
         if not self.IsElementExists(short_name, ApplicationRecordDataType):
             data_type = ApplicationRecordDataType(self, short_name)

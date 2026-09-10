@@ -12,7 +12,7 @@ from abc import ABC
 from typing import TYPE_CHECKING, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import PositiveInteger, TRefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, PositiveInteger, TRefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwDataDefProps
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
@@ -331,38 +331,33 @@ class ApplicationArrayElement(ApplicationCompositeElementDataPrototype):
 
 class ApplicationRecordElement(ApplicationCompositeElementDataPrototype, VariationPointCapable):
     """
-    An element of an application record data type defining a field within
-    the record structure.
+    Describes the properties of one particular element of an application record data type.
     """
 
     # ApplicationRecordElement method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getIsOptional                [x] impl  [x] docstring  [ ] test
-    # [ ] setIsOptional                [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.13, p.262 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getIsOptional [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIsOptional [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.isOptional = None
+        # This attribute represents the ability to declare the enclosing ApplicationRecordElement as optional. This means the that, at runtime, the ApplicationRecord Element may or may not have a valid value and shall therefore be ignored. The underlying runtime software provides means to set the ApplicationRecordElement as not valid at the sending end of a communication and determine its validity at the receiving end.
+        self.isOptional: Optional[Boolean] = None
 
-    def getIsOptional(self):
+    def getIsOptional(self) -> Optional[Boolean]:
         """
-        Gets whether this record element is optional.
-
-        Returns:
-            Whether the element is optional
+        This attribute represents the ability to declare the enclosing ApplicationRecordElement as optional. This means the that, at runtime, the ApplicationRecord Element may or may not have a valid value and shall therefore be ignored. The underlying runtime software provides means to set the ApplicationRecordElement as not valid at the sending end of a communication and determine its validity at the receiving end.
         """
         return self.isOptional
 
-    def setIsOptional(self, value):
+    def setIsOptional(self, value: Optional[Boolean]) -> "ApplicationRecordElement":
         """
-        Sets whether this record element is optional.
-
-        Args:
-            value: The optional flag to set
-
-        Returns:
-            self for method chaining
+        This attribute represents the ability to declare the enclosing ApplicationRecordElement as optional. This means the that, at runtime, the ApplicationRecord Element may or may not have a valid value and shall therefore be ignored. The underlying runtime software provides means to set the ApplicationRecordElement as not valid at the sending end of a communication and determine its validity at the receiving end.
+        A None value is a no-op and does not overwrite an existing value.
         """
         if value is not None:
             self.isOptional = value

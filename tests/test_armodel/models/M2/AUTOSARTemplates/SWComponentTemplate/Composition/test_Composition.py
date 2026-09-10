@@ -19,6 +19,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition import (
     InstantiationTimingEventProps,
     PassThroughSwConnector,
     SwComponentPrototype,
+    SwComponentType,
     SwConnector,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Composition.InstanceRefs import (
@@ -138,13 +139,44 @@ class Test_M2_AUTOSARTemplates_SWComponentTemplate_Composition:
         assert delegation_connector.parent == ar_root
         assert delegation_connector.short_name == "TestDelegationSwConnector"
         assert delegation_connector.mappingRef is None
-        assert delegation_connector.innerPortIRref is None
+        assert delegation_connector.innerPortIRef is None
         assert delegation_connector.outerPortRef is None
+
+        assert delegation_connector.__class__.__doc__.strip() == (
+            "A delegation connector delegates one inner PortPrototype (a port of a component that is used inside the composition) "
+            "to a outer PortPrototype of compatible type that belongs directly to the composition (a port that is owned by the composition)."
+        )
+        inner_ref = PPortInCompositionInstanceRef()
+        outer_ref = RefType().setValue("/Outer/Port")
+        assert delegation_connector.setInnerPortIRef(inner_ref) is delegation_connector
+        assert delegation_connector.setOuterPortRef(outer_ref) is delegation_connector
+        assert delegation_connector.getInnerPortIRef() is inner_ref
+        assert delegation_connector.getOuterPortRef() is outer_ref
+        delegation_connector.setInnerPortIRef(None)
+        delegation_connector.setOuterPortRef(None)
+        assert delegation_connector.getInnerPortIRef() is inner_ref
+        assert delegation_connector.getOuterPortRef() is outer_ref
 
         # Test setters and getters
         ref = RefType()
         delegation_connector.setMappingRef(ref)
         assert delegation_connector.getMappingRef() == ref
+
+    def test_composition_sw_component_type_spec_contract(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        composition = CompositionSwComponentType(ar_root, "Composition")
+
+        assert isinstance(composition, SwComponentType)
+        assert composition.__class__.__doc__.strip() == (
+            "A CompositionSwComponentType aggregates SwComponentPrototypes (that in turn are typed by SwComponentTypes) as well as SwConnectors for primarily connecting SwComponentPrototypes among each others and towards the surface of the CompositionSwComponentType. By this means, a hierarchical structures of software-components can be created."
+        )
+        assert composition.getComponents() == []
+        assert composition.getSwConnectors() == []
+        assert composition.getConstantValueMappingRefs() == []
+        assert composition.getDataTypeMappingRefs() == []
+        assert composition.getInstantiationRTEEventProps() == []
+        assert composition.getPhysicalDimensionMappingRef() is None
 
     def test_PassThroughSwConnector(self):
         """Test PassThroughSwConnector class."""

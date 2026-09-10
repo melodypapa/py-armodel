@@ -10,7 +10,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import TRefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, TRefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
     ApplicationArrayElement,
     ApplicationCompositeElementDataPrototype,
@@ -259,6 +259,19 @@ class TestApplicationArrayElement:
 
 class TestApplicationRecordElement:
     """Test class for ApplicationRecordElement class."""
+
+    def test_application_record_element_spec_contract(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        record_element = ApplicationRecordElement(ar_root, "TestApplicationRecordElement")
+
+        assert isinstance(record_element, ApplicationCompositeElementDataPrototype)
+        assert record_element.__class__.__doc__.strip() == "Describes the properties of one particular element of an application record data type."
+        optional = Boolean().setValue(True)
+        assert record_element.setIsOptional(optional) is record_element
+        assert record_element.getIsOptional() is optional
+        record_element.setIsOptional(None)
+        assert record_element.getIsOptional() is optional
 
     def test_application_record_element_initialization(self):
         """Test ApplicationRecordElement initialization and methods."""

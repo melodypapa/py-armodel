@@ -6,257 +6,345 @@ in software component internal behavior templates.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure import ValueSpecification
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Boolean, RefType, TRefType
-from typing import List
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, Boolean, RefType, TRefType
+from typing import List, Optional
 
 
-class PortDefinedArgumentValue(ARObject):
+class DataTransformationErrorHandlingEnum(AREnum):
     """
-    A value defined for a port argument in the context of port API options.
+    This enumeration defines different ways how a RunnableEntity shall handle transformer errors.
     """
 
-    # PortDefinedArgumentValue method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getValue                     [x] impl  [x] docstring  [ ] test
-    # [ ] setValue                     [x] impl  [x] docstring  [ ] test
-    # [ ] getValueTypeTRef             [x] impl  [x] docstring  [ ] test
-    # [ ] setValueTypeTRef             [x] impl  [x] docstring  [ ] test
+    # DataTransformationErrorHandlingEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.43, p.590 (R23-11)
+    # Spec verified: R23-11
+    # (no methods) — enum value form serialized on PortAPIOption.errorHandling
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # A runnable does not handle transformer errors. Tags: atp.EnumerationLiteralIndex=0
+    NO_TRANSFORMER_ERROR_HANDLING = "noTransformerErrorHandling"
+
+    # The runnable implements the handling of transformer errors. Tags: atp.EnumerationLiteralIndex=1
+    TRANSFORMER_ERROR_HANDLING = "transformerErrorHandling"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DataTransformationErrorHandlingEnum.NO_TRANSFORMER_ERROR_HANDLING,
+                DataTransformationErrorHandlingEnum.TRANSFORMER_ERROR_HANDLING,
+            ]
+        )
+
+
+class DataTransformationStatusForwardingEnum(AREnum):
+    """
+    This enumeration defines different ways how a RunnableEntity shall be able to forward status code into the transformer chain.
+    """
+
+    # DataTransformationStatusForwardingEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.44, p.591 (R23-11)
+    # Spec verified: R23-11
+    # (no methods) — enum value form serialized on PortAPIOption.transformerStatusForwarding
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The RunnableEntity is not able to forward a transformer status code. Tags: atp.EnumerationLiteralIndex=0
+    NO_TRANSFORMER_STATUS_FORWARDING = "noTransformerStatusForwarding"
+
+    # The RunnableEntity is able to forward a transformer status code. Tags: atp.EnumerationLiteralIndex=1
+    TRANSFORMER_STATUS_FORWARDING = "transformerStatusForwarding"
+
+    def __init__(self):
+        super().__init__(
+            [
+                DataTransformationStatusForwardingEnum.NO_TRANSFORMER_STATUS_FORWARDING,
+                DataTransformationStatusForwardingEnum.TRANSFORMER_STATUS_FORWARDING,
+            ]
+        )
+
+
+class SupportBufferLockingEnum(AREnum):
+    """
+    This enumeration represents the ability to define the buffer locking behavior.
+    """
+
+    # SupportBufferLockingEnum method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.48, p.595 (R23-11)
+    # Spec verified: R23-11
+    # (no methods) — enum value form serialized on CommunicationBufferLocking.supportBufferLocking
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # Buffer locking is not supported. Tags: atp.EnumerationLiteralIndex=0
+    DOES_NOT_SUPPORT_BUFFER_LOCKING = "doesNotSupportBufferLocking"
+
+    # Buffer locking is supported. Tags: atp.EnumerationLiteralIndex=1
+    SUPPORTS_BUFFER_LOCKING = "supportsBufferLocking"
+
+    def __init__(self):
+        super().__init__(
+            [
+                SupportBufferLockingEnum.DOES_NOT_SUPPORT_BUFFER_LOCKING,
+                SupportBufferLockingEnum.SUPPORTS_BUFFER_LOCKING,
+            ]
+        )
+
+
+class SwcSupportedFeature(ARObject):
+    """
+    This meta-class represents a abstract base class for features that can be supported by a RunnableEntity.
+    """
+
+    # SwcSupportedFeature method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.46, p.594 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is SwcSupportedFeature:
+            raise TypeError("SwcSupportedFeature is an abstract class.")
+        super().__init__()
+
+
+class CommunicationBufferLocking(SwcSupportedFeature):
+    """
+    The aggregation of this meta-class specifies that a RunnableEntity supports locked communication buffers supplied by the RTE. It is able to cope with the error RTE_E_COM_BUSY.
+    """
+
+    # CommunicationBufferLocking method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.47, p.595 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSupportBufferLocking    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSupportBufferLocking    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.value: "ValueSpecification" = None
-        self.valueTypeTRef: "TRefType" = None
+        # This attribute is used to indicate the intended buffer locking behavior.
+        self.supportBufferLocking: Optional[SupportBufferLockingEnum] = None
 
-    def getValue(self):
+    def getSupportBufferLocking(self) -> Optional[SupportBufferLockingEnum]:
         """
-        Gets the value.
+        This attribute is used to indicate the intended buffer locking behavior.
+        """
+        return self.supportBufferLocking
 
-        Returns:
-            ValueSpecification: The value
+    def setSupportBufferLocking(self, value: Optional[SupportBufferLockingEnum]) -> "CommunicationBufferLocking":
+        """
+        This attribute is used to indicate the intended buffer locking behavior.
+        A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.supportBufferLocking = value
+        return self
+
+
+class PortDefinedArgumentValue(ARObject):
+    """
+    A PortDefinedArgumentValue is passed to a RunnableEntity dealing with the ClientServerOperations provided by a given PortPrototype. Note that this is restricted to PPortPrototypes of a ClientServer Interface.
+    """
+
+    # PortDefinedArgumentValue method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.45, p.593 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getValue          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValueTypeTRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValueTypeTRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Specifies the actual value.
+        self.value: Optional[ValueSpecification] = None
+
+        # The implementation type of this argument value. It should not be composite type or a pointer. Stereotypes: isOfType
+        self.valueTypeTRef: Optional[TRefType] = None
+
+    def getValue(self) -> Optional[ValueSpecification]:
+        """
+        Specifies the actual value.
         """
         return self.value
 
-    def setValue(self, value):
+    def setValue(self, value: Optional[ValueSpecification]) -> "PortDefinedArgumentValue":
         """
-        Sets the value.
-
-        Args:
-            value: The value to set
-
-        Returns:
-            self for method chaining
+        Specifies the actual value.
+        A None value is a no-op and does not overwrite an existing value.
         """
-        self.value = value
+        if value is not None:
+            self.value = value
         return self
 
-    def getValueTypeTRef(self):
+    def getValueTypeTRef(self) -> Optional[TRefType]:
         """
-        Gets the value type text reference.
-
-        Returns:
-            TRefType: The value type text reference
+        The implementation type of this argument value. It should not be composite type or a pointer. Stereotypes: isOfType
         """
         return self.valueTypeTRef
 
-    def setValueTypeTRef(self, value):
+    def setValueTypeTRef(self, value: Optional[TRefType]) -> "PortDefinedArgumentValue":
         """
-        Sets the value type text reference.
-
-        Args:
-            value: The value type text reference to set
-
-        Returns:
-            self for method chaining
+        The implementation type of this argument value. It should not be composite type or a pointer. Stereotypes: isOfType
+        A None value is a no-op and does not overwrite an existing value type reference.
         """
-        self.valueTypeTRef = value
+        if value is not None:
+            self.valueTypeTRef = value
         return self
 
 
 class PortAPIOption(ARObject, VariationPointCapable):
     """
-    Port API options that define the API configuration for a specific port
-    of an atomic software component.
+    Options how to generate the signatures of calls for an AtomicSwComponentType in order to communicate over a PortPrototype (for calls into a RunnableEntity as well as for calls from a Runnable Entity to the PortPrototype).
     """
 
     # PortAPIOption method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getEnableTakeAddress         [x] impl  [x] docstring  [ ] test
-    # [ ] setEnableTakeAddress         [x] impl  [x] docstring  [ ] test
-    # [ ] getErrorHandling             [x] impl  [x] docstring  [ ] test
-    # [ ] setErrorHandling             [x] impl  [x] docstring  [ ] test
-    # [ ] getIndirectAPI               [x] impl  [x] docstring  [ ] test
-    # [ ] setIndirectAPI               [x] impl  [x] docstring  [ ] test
-    # [ ] getPortRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] setPortRef                   [x] impl  [x] docstring  [ ] test
-    # [ ] getPortArgValues             [x] impl  [x] docstring  [ ] test
-    # [ ] addPortArgValue              [x] impl  [x] docstring  [ ] test
-    # [ ] getSupportedFeatures         [x] impl  [x] docstring  [ ] test
-    # [ ] addSupportedFeature          [x] impl  [x] docstring  [ ] test
-    # [ ] getTransformerStatusForwarding [x] impl  [x] docstring  [ ] test
-    # [ ] setTransformerStatusForwarding [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.42, p.590 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getEnableTakeAddress            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEnableTakeAddress            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getErrorHandling                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setErrorHandling                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIndirectAPI                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIndirectAPI                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPortRef                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPortRef                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPortArgValues                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addPortArgValue                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSupportedFeatures            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSupportedFeature             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTransformerStatusForwarding [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTransformerStatusForwarding [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.enableTakeAddress: Boolean = None
-        self.errorHandling = None
-        self.indirectAPI: Boolean = None
-        self.portRef: RefType = None
-        self.portArgValues: List["PortDefinedArgumentValue"] = []
-        self.supportedFeatures = []
-        self.transformerStatusForwarding = None
+        # If set to true, the software-component is able to use the API reference for deriving a pointer to an object.
+        self.enableTakeAddress: Optional[Boolean] = None
 
-    def getEnableTakeAddress(self):
+        # This specifies whether a RunnableEntity accessing a Port Prototype that is referenced by this PortAPIOption shall specifically handle transformer errors or not.
+        self.errorHandling: Optional[DataTransformationErrorHandlingEnum] = None
+
+        # If set to true this attribute specifies an "indirect API" to be generated for the associated port which means that the software-component is able to access the actions on a port via a pointer to an object representing a port. This allows e.g. iterating over ports in a loop. This option has no effect for PPortPrototypes of client/server interfaces.
+        self.indirectAPI: Optional[Boolean] = None
+
+        # The option is valid for generated functions related to communication over this port
+        self.portRef: Optional[RefType] = None
+
+        # An argument value defined by this port.
+        self.portArgValues: List[PortDefinedArgumentValue] = []
+
+        # This collection specifies which features are supported by the RunnableEntitys which access a PortPrototype that it referenced by this PortAPIOption.
+        self.supportedFeatures: List[SwcSupportedFeature] = []
+
+        # This attribute specifies whether a RunnableEntity accessing a PortPrototype that is referenced by this Port APIOption shall be able to forward a status code to the transformer chain.
+        self.transformerStatusForwarding: Optional[DataTransformationStatusForwardingEnum] = None
+
+    def getEnableTakeAddress(self) -> Optional[Boolean]:
         """
-        Gets whether the address-taking feature is enabled.
-
-        Returns:
-            Boolean: True if address-taking is enabled
+        If set to true, the software-component is able to use the API reference for deriving a pointer to an object.
         """
         return self.enableTakeAddress
 
-    def setEnableTakeAddress(self, value):
+    def setEnableTakeAddress(self, value: Optional[Boolean]) -> "PortAPIOption":
         """
-        Sets whether the address-taking feature is enabled.
-
-        Args:
-            value: The enable value to set
-
-        Returns:
-            self for method chaining
+        If set to true, the software-component is able to use the API reference for deriving a pointer to an object.
+        A None value is a no-op and does not overwrite an existing value.
         """
-        self.enableTakeAddress = value
+        if value is not None:
+            self.enableTakeAddress = value
         return self
 
-    def getErrorHandling(self):
+    def getErrorHandling(self) -> Optional[DataTransformationErrorHandlingEnum]:
         """
-        Gets the error handling setting.
-
-        Returns:
-            The error handling setting
+        This specifies whether a RunnableEntity accessing a Port Prototype that is referenced by this PortAPIOption shall specifically handle transformer errors or not.
         """
         return self.errorHandling
 
-    def setErrorHandling(self, value):
+    def setErrorHandling(self, value: Optional[DataTransformationErrorHandlingEnum]) -> "PortAPIOption":
         """
-        Sets the error handling setting.
-
-        Args:
-            value: The error handling setting to set
-
-        Returns:
-            self for method chaining
+        This specifies whether a RunnableEntity accessing a Port Prototype that is referenced by this PortAPIOption shall specifically handle transformer errors or not.
+        A None value is a no-op and does not overwrite an existing value.
         """
-        self.errorHandling = value
+        if value is not None:
+            self.errorHandling = value
         return self
 
-    def getIndirectAPI(self):
+    def getIndirectAPI(self) -> Optional[Boolean]:
         """
-        Gets whether indirect API is used.
-
-        Returns:
-            Boolean: True if indirect API is used
+        If set to true this attribute specifies an "indirect API" to be generated for the associated port which means that the software-component is able to access the actions on a port via a pointer to an object representing a port. This allows e.g. iterating over ports in a loop. This option has no effect for PPortPrototypes of client/server interfaces.
         """
         return self.indirectAPI
 
-    def setIndirectAPI(self, value):
+    def setIndirectAPI(self, value: Optional[Boolean]) -> "PortAPIOption":
         """
-        Sets whether indirect API is used.
-
-        Args:
-            value: The indirect API setting to set
-
-        Returns:
-            self for method chaining
+        If set to true this attribute specifies an "indirect API" to be generated for the associated port which means that the software-component is able to access the actions on a port via a pointer to an object representing a port. This allows e.g. iterating over ports in a loop. This option has no effect for PPortPrototypes of client/server interfaces.
+        A None value is a no-op and does not overwrite an existing value.
         """
-        self.indirectAPI = value
+        if value is not None:
+            self.indirectAPI = value
         return self
 
-    def getPortRef(self):
+    def getPortRef(self) -> Optional[RefType]:
         """
-        Gets the port reference.
-
-        Returns:
-            RefType: The port reference
+        The option is valid for generated functions related to communication over this port
         """
         return self.portRef
 
-    def setPortRef(self, value):
+    def setPortRef(self, value: Optional[RefType]) -> "PortAPIOption":
         """
-        Sets the port reference.
-
-        Args:
-            value: The port reference to set
-
-        Returns:
-            self for method chaining
+        The option is valid for generated functions related to communication over this port
+        A None value is a no-op and does not overwrite an existing value.
         """
-        self.portRef = value
+        if value is not None:
+            self.portRef = value
         return self
 
-    def getPortArgValues(self):
+    def getPortArgValues(self) -> List[PortDefinedArgumentValue]:
         """
-        Gets the list of port argument values.
-
-        Returns:
-            List[PortDefinedArgumentValue]: The port argument values
+        An argument value defined by this port.
         """
         return self.portArgValues
 
-    def addPortArgValue(self, value):
+    def addPortArgValue(self, value: Optional[PortDefinedArgumentValue]) -> "PortAPIOption":
         """
-        Adds a port argument value.
-
-        Args:
-            value: The port argument value to add
-
-        Returns:
-            self for method chaining
+        An argument value defined by this port.
+        A None value is a no-op and does not append to portArgValues.
         """
-        self.portArgValues.append(value)
+        if value is not None:
+            self.portArgValues.append(value)
         return self
 
-    def getSupportedFeatures(self):
+    def getSupportedFeatures(self) -> List[SwcSupportedFeature]:
         """
-        Gets the list of supported features.
-
-        Returns:
-            The list of supported features
+        This collection specifies which features are supported by the RunnableEntitys which access a PortPrototype that it referenced by this PortAPIOption.
         """
         return self.supportedFeatures
 
-    def addSupportedFeature(self, value):
+    def addSupportedFeature(self, value: Optional[SwcSupportedFeature]) -> "PortAPIOption":
         """
-        Adds a supported feature.
-
-        Args:
-            value: The supported feature to add
-
-        Returns:
-            self for method chaining
+        This collection specifies which features are supported by the RunnableEntitys which access a PortPrototype that it referenced by this PortAPIOption.
+        A None value is a no-op and does not append to supportedFeatures.
         """
-        self.supportedFeatures.append(value)
+        if value is not None:
+            self.supportedFeatures.append(value)
         return self
 
-    def getTransformerStatusForwarding(self):
+    def getTransformerStatusForwarding(self) -> Optional[DataTransformationStatusForwardingEnum]:
         """
-        Gets the transformer status forwarding setting.
-
-        Returns:
-            The transformer status forwarding setting
+        This attribute specifies whether a RunnableEntity accessing a PortPrototype that is referenced by this Port APIOption shall be able to forward a status code to the transformer chain.
         """
         return self.transformerStatusForwarding
 
-    def setTransformerStatusForwarding(self, value):
+    def setTransformerStatusForwarding(self, value: Optional[DataTransformationStatusForwardingEnum]) -> "PortAPIOption":
         """
-        Sets the transformer status forwarding setting.
-
-        Args:
-            value: The transformer status forwarding setting to set
-
-        Returns:
-            self for method chaining
+        This attribute specifies whether a RunnableEntity accessing a PortPrototype that is referenced by this Port APIOption shall be able to forward a status code to the transformer chain.
+        A None value is a no-op and does not overwrite an existing value.
         """
-        self.transformerStatusForwarding = value
+        if value is not None:
+            self.transformerStatusForwarding = value
         return self

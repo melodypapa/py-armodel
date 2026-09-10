@@ -139,6 +139,86 @@ class TestSwcInternalBehaviorOrchestrator:
         parser.readSwcInternalBehavior(element, behavior)
         assert len(behavior.getPortAPIOptions()) == 1
 
+    def test_readSwcInternalBehavior_with_full_port_api_options(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import (
+            CommunicationBufferLocking,
+            DataTransformationErrorHandlingEnum,
+            DataTransformationStatusForwardingEnum,
+        )
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        element = _snip(
+            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<PORT-API-OPTIONS>"
+            "<PORT-API-OPTION>"
+            "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>"
+            "<ERROR-HANDLING>transformerErrorHandling</ERROR-HANDLING>"
+            "<INDIRECT-API>false</INDIRECT-API>"
+            "<PORT-REF DEST='P-PORT-PROTOTYPE'>/port</PORT-REF>"
+            "<SUPPORTED-FEATURES>"
+            "<COMMUNICATION-BUFFER-LOCKING>"
+            "<SHORT-NAME>cbl</SHORT-NAME>"
+            "<SUPPORT-BUFFER-LOCKING>supportsBufferLocking</SUPPORT-BUFFER-LOCKING>"
+            "</COMMUNICATION-BUFFER-LOCKING>"
+            "</SUPPORTED-FEATURES>"
+            "<TRANSFORMER-STATUS-FORWARDING>transformerStatusForwarding</TRANSFORMER-STATUS-FORWARDING>"
+            "</PORT-API-OPTION>"
+            "</PORT-API-OPTIONS>",
+            root_tag="SWC-INTERNAL-BEHAVIOR",
+        )
+        parser.readSwcInternalBehavior(element, behavior)
+        options = behavior.getPortAPIOptions()
+        assert len(options) == 1
+        opt = options[0]
+        assert opt.getEnableTakeAddress().getValue() is True
+        eh = opt.getErrorHandling()
+        assert isinstance(eh, DataTransformationErrorHandlingEnum)
+        assert eh.getValue() == "transformerErrorHandling"
+        assert opt.getIndirectAPI().getValue() is False
+        assert opt.getPortRef().getValue() == "/port"
+        assert opt.getPortArgValues() == []
+        features = opt.getSupportedFeatures()
+        assert len(features) == 1
+        assert isinstance(features[0], CommunicationBufferLocking)
+        assert features[0].getSupportBufferLocking().getValue() == "supportsBufferLocking"
+        tsf = opt.getTransformerStatusForwarding()
+        assert isinstance(tsf, DataTransformationStatusForwardingEnum)
+        assert tsf.getValue() == "transformerStatusForwarding"
+
+    def test_readSwcInternalBehavior_with_port_api_options_empty_features(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        element = _snip(
+            "<SHORT-NAME>bh</SHORT-NAME>" "<PORT-API-OPTIONS>" "<PORT-API-OPTION>" "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>" "</PORT-API-OPTION>" "</PORT-API-OPTIONS>",
+            root_tag="SWC-INTERNAL-BEHAVIOR",
+        )
+        parser.readSwcInternalBehavior(element, behavior)
+        opt = behavior.getPortAPIOptions()[0]
+        assert opt.getSupportedFeatures() == []
+        assert opt.getTransformerStatusForwarding() is None
+        assert opt.getErrorHandling() is None
+
+    def test_readSwcInternalBehavior_with_implicit_inter_runnable_variables(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        element = _snip(
+            "<SHORT-NAME>bh</SHORT-NAME>"
+            "<IMPLICIT-INTER-RUNNABLE-VARIABLES>"
+            "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>irv</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>"
+            "</IMPLICIT-INTER-RUNNABLE-VARIABLES>",
+            root_tag="SWC-INTERNAL-BEHAVIOR",
+        )
+        parser.readSwcInternalBehavior(element, behavior)
+        variables = behavior.getImplicitInterRunnableVariables()
+        assert len(variables) == 1
+        assert variables[0].getShortName() == "irv"
+
     def test_readSwcInternalBehavior_with_instantiation_data_def_props(self, parser):
         from armodel.models import ApplicationSwComponentType
 
@@ -211,6 +291,7 @@ class TestSwcInternalBehaviorOrchestrator:
 
     def test_readSwcInternalBehavior_with_included_mode_declaration_group_sets(self, parser):
         from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Identifier
 
         swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
         behavior = swc.createSwcInternalBehavior("bh")
@@ -227,7 +308,24 @@ class TestSwcInternalBehaviorOrchestrator:
             root_tag="SWC-INTERNAL-BEHAVIOR",
         )
         parser.readSwcInternalBehavior(element, behavior)
-        assert len(behavior.getIncludedModeDeclarationGroupSets()) == 1
+        included_set = behavior.getIncludedModeDeclarationGroupSets()[0]
+        assert included_set.getPrefix().getValue() == "prefix"
+        assert isinstance(included_set.getPrefix(), Identifier)
+        assert included_set.getModeDeclarationGroupRefs()[0].getValue() == "/mg"
+
+    def test_readSwcInternalBehavior_with_empty_included_mode_declaration_group_set(self, parser):
+        from armodel.models import ApplicationSwComponentType
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        element = _snip(
+            "<SHORT-NAME>bh</SHORT-NAME>" "<INCLUDED-MODE-DECLARATION-GROUP-SETS><INCLUDED-MODE-DECLARATION-GROUP-SET/></INCLUDED-MODE-DECLARATION-GROUP-SETS>",
+            root_tag="SWC-INTERNAL-BEHAVIOR",
+        )
+        parser.readSwcInternalBehavior(element, behavior)
+        included_set = behavior.getIncludedModeDeclarationGroupSets()[0]
+        assert included_set.getModeDeclarationGroupRefs() == []
+        assert included_set.getPrefix() is None
 
     def test_readSwcInternalBehaviorArTypedPerInstanceMemories_creates(self, parser):
         from armodel.models import ApplicationSwComponentType
@@ -1094,6 +1192,15 @@ class TestSwComponentTypeDeepHandlers:
         parser.readCompositionSwComponentTypeComponents(element, comp)
         assert len(comp.getComponents()) == 1
 
+    def test_readCompositionSwComponentType_physical_dimension_mapping_ref(self, parser):
+        comp = CompositionSwComponentType(parent=_autosar_root(), short_name="comp")
+        element = _snip(
+            "<PHYSICAL-DIMENSION-MAPPING-REF DEST='PHYSICAL-DIMENSION-MAPPING-SET'>/mapping</PHYSICAL-DIMENSION-MAPPING-REF>",
+            root_tag="COMPOSITION-SW-COMPONENT-TYPE",
+        )
+        parser.readCompositionSwComponentType(element, comp)
+        assert comp.getPhysicalDimensionMappingRef().getValue() == "/mapping"
+
     def test_readCompositionSwComponentTypeSwConnectors_assembly(self, parser):
 
         comp = CompositionSwComponentType(parent=_autosar_root(), short_name="comp")
@@ -1455,6 +1562,17 @@ class TestDataTypeAndCompuHandlers:
         )
         parser.readApplicationRecordDataType(element, data_type)
         assert len(data_type.getApplicationRecordElements()) == 1
+
+    def test_readApplicationRecordElement_is_optional(self, parser):
+        from armodel.models import ApplicationRecordElement
+
+        record_element = ApplicationRecordElement(parent=_autosar_root(), short_name="elem")
+        element = _snip(
+            "<SHORT-NAME>elem</SHORT-NAME><IS-OPTIONAL>true</IS-OPTIONAL>",
+            root_tag="APPLICATION-RECORD-ELEMENT",
+        )
+        parser.readApplicationRecordElement(element, record_element)
+        assert record_element.getIsOptional().getValue() is True
 
     def test_readApplicationCompositeElementDataPrototype_type_tref(self, parser):
         from armodel.models import ApplicationArrayElement
@@ -2902,11 +3020,13 @@ class TestReadSenderRecRecordElementMapping:
         )
 
         mapping = SenderRecRecordElementMapping()
-        element = _snip("""
+        element = _snip(
+            """
             <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
             <IMPLEMENTATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/Impl/Rec1</IMPLEMENTATION-RECORD-ELEMENT-REF>
             <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
-        """)
+        """
+        )
         parser.readSenderRecRecordElementMapping(element, mapping)
         assert mapping.getApplicationRecordElementRef() is not None
         assert mapping.getApplicationRecordElementRef().getValue() == "/App/Rec1"
@@ -2941,7 +3061,8 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
         )
 
         mapping = SenderRecRecordTypeMapping()
-        element = _snip("""
+        element = _snip(
+            """
             <RECORD-ELEMENT-MAPPINGS>
                 <SENDER-REC-RECORD-ELEMENT-MAPPING>
                     <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
@@ -2949,7 +3070,8 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
                     <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
                 </SENDER-REC-RECORD-ELEMENT-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """)
+        """
+        )
         parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
         mappings = mapping.getRecordElementMappings()
         assert len(mappings) == 1
@@ -2962,13 +3084,15 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
         )
 
         mapping = SenderRecRecordTypeMapping()
-        element = _snip("""
+        element = _snip(
+            """
             <RECORD-ELEMENT-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """)
+        """
+        )
         with pytest.raises(NotImplementedError):
             parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
 
@@ -2978,13 +3102,15 @@ class TestReadSenderRecArrayTypeMappingRecordElementMapping:
         )
 
         mapping = SenderRecRecordTypeMapping()
-        element = _snip("""
+        element = _snip(
+            """
             <RECORD-ELEMENT-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readSenderRecArrayTypeMappingRecordElementMapping(element, mapping)
         assert any("Unsupported RecordElementMapping" in rec.getMessage() for rec in caplog.records)
@@ -3013,7 +3139,8 @@ class TestReadSenderRecRecordTypeMapping:
         )
 
         mapping = SenderRecRecordTypeMapping()
-        element = _snip("""
+        element = _snip(
+            """
             <RECORD-ELEMENT-MAPPINGS>
                 <SENDER-REC-RECORD-ELEMENT-MAPPING>
                     <APPLICATION-RECORD-ELEMENT-REF DEST="RECORD-ELEMENT">/App/Rec1</APPLICATION-RECORD-ELEMENT-REF>
@@ -3026,7 +3153,8 @@ class TestReadSenderRecRecordTypeMapping:
                     <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S2</SYSTEM-SIGNAL-REF>
                 </SENDER-REC-RECORD-ELEMENT-MAPPING>
             </RECORD-ELEMENT-MAPPINGS>
-        """)
+        """
+        )
         parser.readSenderRecRecordTypeMapping(element, mapping)
         mappings = mapping.getRecordElementMappings()
         assert len(mappings) == 2
@@ -3047,7 +3175,8 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
         )
 
         mapping = SenderReceiverToSignalGroupMapping()
-        element = _snip("""
+        element = _snip(
+            """
             <TYPE-MAPPING>
                 <SENDER-REC-RECORD-TYPE-MAPPING>
                     <RECORD-ELEMENT-MAPPINGS>
@@ -3059,7 +3188,8 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
                     </RECORD-ELEMENT-MAPPINGS>
                 </SENDER-REC-RECORD-TYPE-MAPPING>
             </TYPE-MAPPING>
-        """)
+        """
+        )
         parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
         type_mapping = mapping.getTypeMapping()
         assert type_mapping is not None
@@ -3073,13 +3203,15 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
         )
 
         mapping = SenderReceiverToSignalGroupMapping()
-        element = _snip("""
+        element = _snip(
+            """
             <TYPE-MAPPING>
                 <UNKNOWN-TYPE-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-TYPE-MAPPING>
             </TYPE-MAPPING>
-        """)
+        """
+        )
         with pytest.raises(NotImplementedError):
             parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
 
@@ -3089,13 +3221,15 @@ class TestReadSenderReceiverToSignalGroupMappingTypeMapping:
         )
 
         mapping = SenderReceiverToSignalGroupMapping()
-        element = _snip("""
+        element = _snip(
+            """
             <TYPE-MAPPING>
                 <UNKNOWN-TYPE-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-TYPE-MAPPING>
             </TYPE-MAPPING>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readSenderReceiverToSignalGroupMappingTypeMapping(element, mapping)
         assert any("Unsupported Type Mapping" in rec.getMessage() for rec in caplog.records)
@@ -3120,7 +3254,8 @@ class TestReadSystemMappingDataMappings:
 
     def test_reads_sender_receiver_to_signal_mapping(self, parser):
         mapping = _make_system_mapping()
-        element = _snip("""
+        element = _snip(
+            """
             <DATA-MAPPINGS>
                 <SENDER-RECEIVER-TO-SIGNAL-MAPPING>
                     <COMMUNICATION-DIRECTION>IN</COMMUNICATION-DIRECTION>
@@ -3133,7 +3268,8 @@ class TestReadSystemMappingDataMappings:
                     <SYSTEM-SIGNAL-REF DEST="SYSTEM-SIGNAL">/Sig/S1</SYSTEM-SIGNAL-REF>
                 </SENDER-RECEIVER-TO-SIGNAL-MAPPING>
             </DATA-MAPPINGS>
-        """)
+        """
+        )
         parser.readSystemMappingDataMappings(element, mapping)
         data_mappings = mapping.getDataMappings()
         assert len(data_mappings) == 1
@@ -3148,7 +3284,8 @@ class TestReadSystemMappingDataMappings:
 
     def test_reads_sender_receiver_to_signal_group_mapping(self, parser):
         mapping = _make_system_mapping()
-        element = _snip("""
+        element = _snip(
+            """
             <DATA-MAPPINGS>
                 <SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
                     <DATA-ELEMENT-IREF>
@@ -3171,7 +3308,8 @@ class TestReadSystemMappingDataMappings:
                     </TYPE-MAPPING>
                 </SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
             </DATA-MAPPINGS>
-        """)
+        """
+        )
         parser.readSystemMappingDataMappings(element, mapping)
         data_mappings = mapping.getDataMappings()
         assert len(data_mappings) == 1
@@ -3190,7 +3328,8 @@ class TestReadSystemMappingDataMappings:
 
     def test_reads_both_signal_and_signal_group_mappings(self, parser):
         mapping = _make_system_mapping()
-        element = _snip("""
+        element = _snip(
+            """
             <DATA-MAPPINGS>
                 <SENDER-RECEIVER-TO-SIGNAL-MAPPING>
                     <DATA-ELEMENT-IREF>
@@ -3205,32 +3344,37 @@ class TestReadSystemMappingDataMappings:
                     <SIGNAL-GROUP-REF DEST="SIGNAL-GROUP">/Sig/Group1</SIGNAL-GROUP-REF>
                 </SENDER-RECEIVER-TO-SIGNAL-GROUP-MAPPING>
             </DATA-MAPPINGS>
-        """)
+        """
+        )
         parser.readSystemMappingDataMappings(element, mapping)
         data_mappings = mapping.getDataMappings()
         assert len(data_mappings) == 2
 
     def test_unsupported_data_mapping_raises(self, parser):
         mapping = _make_system_mapping()
-        element = _snip("""
+        element = _snip(
+            """
             <DATA-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </DATA-MAPPINGS>
-        """)
+        """
+        )
         with pytest.raises(NotImplementedError):
             parser.readSystemMappingDataMappings(element, mapping)
 
     def test_unsupported_data_mapping_logs_warning(self, warning_parser, caplog):
         mapping = _make_system_mapping()
-        element = _snip("""
+        element = _snip(
+            """
             <DATA-MAPPINGS>
                 <UNKNOWN-MAPPING>
                     <SHORT-NAME>X</SHORT-NAME>
                 </UNKNOWN-MAPPING>
             </DATA-MAPPINGS>
-        """)
+        """
+        )
         with caplog.at_level(logging.ERROR):
             warning_parser.readSystemMappingDataMappings(element, mapping)
         assert any("Unsupported Data Mapping" in rec.getMessage() for rec in caplog.records)

@@ -595,14 +595,21 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDoc
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcImplementation import SwcImplementation
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior import ExternalTriggeringPoint, RunnableEntity, RunnableEntityArgument, SwcExclusiveAreaPolicy, SwcInternalBehavior
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AccessCount, AccessCountSet
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarVariableRef
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ArVariableInImplementationDataInstanceRef, AutosarVariableRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import ParameterAccess, VariableAccess
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements import AutosarParameterRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefsUsage import ParameterInAtomicSWCTypeInstanceRef, VariableInAtomicSWCTypeInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint, ModeSwitchPoint
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortAPIOption, PortDefinedArgumentValue
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import (
+    PortAPIOption,
+    PortDefinedArgumentValue,
+    CommunicationBufferLocking,
+    SupportBufferLockingEnum,
+    DataTransformationErrorHandlingEnum,
+    DataTransformationStatusForwardingEnum,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
     AsynchronousServerCallReturnsEvent,
     BackgroundEvent,
@@ -1394,6 +1401,15 @@ class ARXMLParser(AbstractARXMLParser):
             instance_ref = AutosarVariableRef()
             self.readARObject(child_element, instance_ref)
             instance_ref.setAutosarVariableIRef(self.getVariableInAtomicSWCTypeInstanceRef(self.find(child_element, "AUTOSAR-VARIABLE-IREF")))
+            implementation_ref_element = self.find(child_element, "AUTOSAR-VARIABLE-IN-IMPL-DATATYPE")
+            if implementation_ref_element is not None:
+                implementation_ref = ArVariableInImplementationDataInstanceRef()
+                implementation_ref.setPortPrototypeRef(self.getChildElementOptionalRefType(implementation_ref_element, "PORT-PROTOTYPE-REF"))
+                implementation_ref.setRootVariableDataPrototypeRef(self.getChildElementOptionalRefType(implementation_ref_element, "ROOT-VARIABLE-DATA-PROTOTYPE-REF"))
+                for ref in self.getChildElementRefTypeList(implementation_ref_element, "CONTEXT-DATA-PROTOTYPE-REF"):
+                    implementation_ref.addContextDataPrototypeRef(ref)
+                implementation_ref.setTargetDataPrototypeRef(self.getChildElementOptionalRefType(implementation_ref_element, "TARGET-DATA-PROTOTYPE-REF"))
+                instance_ref.setAutosarVariableInImplDatatype(implementation_ref)
             instance_ref.setLocalVariableRef(self.getChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF"))
         return instance_ref
 
@@ -3104,7 +3120,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readIncludedModeDeclarationGroupSet(self, element: ET.Element, group_set: IncludedModeDeclarationGroupSet):
         for ref in self.getChildElementRefTypeList(element, "MODE-DECLARATION-GROUP-REFS/MODE-DECLARATION-GROUP-REF"):
             group_set.addModeDeclarationGroupRef(ref)
-        group_set.setPrefix(self.getChildElementOptionalLiteral(element, "PREFIX"))
+        group_set.setPrefix(self.getChildElementOptionalIdentifier(element, "PREFIX"))
 
     def readSwcInternalBehaviorIncludedModeDeclarationGroupSets(self, element: ET.Element, behavior: SwcInternalBehavior):
         for child_element in self.findall(element, "INCLUDED-MODE-DECLARATION-GROUP-SETS/*"):
@@ -3133,6 +3149,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readSwcInternalBehaviorEvents(element, behavior)
         self.readSwcInternalBehaviorExplicitInterRunnableVariables(element, behavior)
         behavior.setHandleTerminationAndRestart(self.getChildElementOptionalLiteral(element, "HANDLE-TERMINATION-AND-RESTART"))
+        self.readSwcInternalBehaviorImplicitInterRunnableVariables(element, behavior)
         self.readSwcInternalBehaviorIncludedModeDeclarationGroupSets(element, behavior)
         self.readSwcInternalBehaviorInstantiationDataDefProps(element, behavior)
         self.readSwcInternalBehaviorPerInstanceMemories(element, behavior)
@@ -4629,6 +4646,12 @@ class ARXMLParser(AbstractARXMLParser):
             prototype = parent.createExplicitInterRunnableVariable(short_name)
             self.readVariableDataPrototype(child_element, prototype)
 
+    def readSwcInternalBehaviorImplicitInterRunnableVariables(self, element: ET.Element, parent: SwcInternalBehavior):
+        for child_element in self.findall(element, "IMPLICIT-INTER-RUNNABLE-VARIABLES/VARIABLE-DATA-PROTOTYPE"):
+            short_name = self.getShortName(child_element)
+            prototype = parent.createImplicitInterRunnableVariable(short_name)
+            self.readVariableDataPrototype(child_element, prototype)
+
     def readSwcInternalBehaviorPerInstanceMemories(self, element: ET.Element, behavior: SwcInternalBehavior):
         for child_element in self.findall(element, "PER-INSTANCE-MEMORYS/PER-INSTANCE-MEMORY"):
             short_name = self.getShortName(child_element)
@@ -4670,12 +4693,27 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "PORT-API-OPTIONS/PORT-API-OPTION"):
             option = PortAPIOption()
             option.setEnableTakeAddress(self.getChildElementOptionalBooleanValue(child_element, "ENABLE-TAKE-ADDRESS"))
-            option.setErrorHandling(self.getChildElementOptionalLiteral(child_element, "ERROR-HANDLING"))
+            error_handling = self.getChildElementOptionalLiteral(child_element, "ERROR-HANDLING")
+            if error_handling is not None:
+                option.setErrorHandling(DataTransformationErrorHandlingEnum().setValue(error_handling.getValue()))
             option.setIndirectAPI(self.getChildElementOptionalBooleanValue(child_element, "INDIRECT-API"))
             option.setPortRef(self.getChildElementOptionalRefType(child_element, "PORT-REF"))
             for argument_value_tag in self.findall(child_element, "PORT-ARG-VALUES/PORT-DEFINED-ARGUMENT-VALUE"):
                 option.addPortArgValue(self.readPortDefinedArgumentValue(argument_value_tag))
+            for feature_tag in self.findall(child_element, "SUPPORTED-FEATURES/COMMUNICATION-BUFFER-LOCKING"):
+                option.addSupportedFeature(self.readCommunicationBufferLocking(feature_tag))
+            transformer_status_forwarding = self.getChildElementOptionalLiteral(child_element, "TRANSFORMER-STATUS-FORWARDING")
+            if transformer_status_forwarding is not None:
+                option.setTransformerStatusForwarding(DataTransformationStatusForwardingEnum().setValue(transformer_status_forwarding.getValue()))
             behavior.addPortAPIOption(option)
+
+    def readCommunicationBufferLocking(self, element: ET.Element) -> CommunicationBufferLocking:
+        feature = CommunicationBufferLocking()
+        self.readARObject(element, feature)
+        support_buffer_locking = self.getChildElementOptionalLiteral(element, "SUPPORT-BUFFER-LOCKING")
+        if support_buffer_locking is not None:
+            feature.setSupportBufferLocking(SupportBufferLockingEnum().setValue(support_buffer_locking.getValue()))
+        return feature
 
     def readTimingEvent(self, element: ET.Element, event: TimingEvent):
         # self.logger.debug("Read TimingEvent <%s>" % event.getShortName())
@@ -5316,6 +5354,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readApplicationRecordElement(self, element: ET.Element, record_element: ApplicationRecordElement):
         # self.logger.debug("Read ApplicationRecordElement %s" % record_element.getShortName())
         self.readApplicationCompositeElementDataPrototype(element, record_element)
+        record_element.setIsOptional(self.getChildElementOptionalBooleanValue(element, "IS-OPTIONAL"))
 
     def readApplicationRecordDataTypeElements(self, element: ET.Element, parent: ApplicationRecordDataType):
         for child_element in self.findall(element, "ELEMENTS/*"):
@@ -6159,14 +6198,14 @@ class ARXMLParser(AbstractARXMLParser):
             if child_element is not None:
                 r_port_in_composition_instance_ref = RPortInCompositionInstanceRef()
                 self.readRPortInCompositionInstanceRef(child_element, r_port_in_composition_instance_ref)
-                parent.setInnerPortIRref(r_port_in_composition_instance_ref)
+                parent.setInnerPortIRef(r_port_in_composition_instance_ref)
                 return
 
             child_element = self.find(inner_port_iref_element, "P-PORT-IN-COMPOSITION-INSTANCE-REF")
             if child_element is not None:
                 p_port_in_composition_instance_ref = PPortInCompositionInstanceRef()
                 self.readPPortInCompositionInstanceRef(child_element, p_port_in_composition_instance_ref)
-                parent.setInnerPortIRref(p_port_in_composition_instance_ref)
+                parent.setInnerPortIRef(p_port_in_composition_instance_ref)
                 return
 
             self.raiseError("Unsupported child element of INNER-PORT-IREF")
@@ -6175,11 +6214,10 @@ class ARXMLParser(AbstractARXMLParser):
         # self.logger.debug("Read DelegationSwConnectors %s" % connector.getShortName())
         self.readSwConnector(element, connector)
         self.readDelegationSwConnectorInnerPortIRef(element, connector)
-
-        if connector.getInnerPortIRref() is None and connector.getOuterPortRef() is None:
-            self.raiseError("Invalid PortPrototype of DELEGATION-SW-CONNECTOR")
-
         connector.setOuterPortRef(self.getChildElementOptionalRefType(element, "OUTER-PORT-REF"))
+
+        if connector.getInnerPortIRef() is None and connector.getOuterPortRef() is None:
+            self.raiseError("Invalid PortPrototype of DELEGATION-SW-CONNECTOR")
         # self.logger.debug("OUTER-PORT-REF DEST: %s, %s" % (connector.getOuterPortRef().getDest(), connector.getOuterPortRef().getValue()))
 
     def readSwComponentPrototype(self, element: ET.Element, prototype: SwComponentPrototype):
@@ -6235,6 +6273,9 @@ class ARXMLParser(AbstractARXMLParser):
                 self.readInstantiationTimingEventProps(props_element, props)
                 parent.addInstantiationRTEEventProps(props)
 
+    def readCompositionSwComponentTypePhysicalDimensionMapping(self, element: ET.Element, parent: CompositionSwComponentType):
+        parent.setPhysicalDimensionMappingRef(self.getChildElementOptionalRefType(element, "PHYSICAL-DIMENSION-MAPPING-REF"))
+
     def readCompositionSwComponentType(self, element: ET.Element, type: CompositionSwComponentType):
         self.logger.debug("Read CompositionSwComponentType: <%s>" % type.getShortName())
         self.readSwComponentType(element, type)
@@ -6243,6 +6284,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readCompositionSwComponentTypeDataTypeMappingSet(element, type)
         self.readCompositionSwComponentTypeConstantValueMappingSet(element, type)
         self.readCompositionSwComponentTypeInstantiationRTEEventProps(element, type)
+        self.readCompositionSwComponentTypePhysicalDimensionMapping(element, type)
         document = AUTOSAR.getInstance()
         document.addCompositionSwComponentType(type)
 

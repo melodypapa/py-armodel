@@ -180,31 +180,57 @@ class AssemblySwConnector(SwConnector):
 
 
 class DelegationSwConnector(SwConnector):
+    """
+    A delegation connector delegates one inner PortPrototype (a port of a component that is used inside the composition) to a outer PortPrototype of compatible type that belongs directly to the composition (a port that is owned by the composition).
+    """
+
     # DelegationSwConnector method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getInnerPortIRref            [x] impl  [ ] docstring  [ ] test
-    # [ ] setInnerPortIRref            [x] impl  [ ] docstring  [ ] test
-    # [ ] getOuterPortRef              [x] impl  [ ] docstring  [ ] test
-    # [ ] setOuterPortRef              [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.14, p.81 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getInnerPortIRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInnerPortIRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOuterPortRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOuterPortRef   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.innerPortIRref: PortInCompositionTypeInstanceRef = None
-        self.outerPortRef: RefType = None
+        # The port that belongs to the ComponentPrototype in the composition. Tags: xml.typeElement=true InstanceRef implemented by: PortInCompositionType InstanceRef
+        self.innerPortIRef: Optional[PortInCompositionTypeInstanceRef] = None
 
-    def getInnerPortIRref(self) -> PortInCompositionTypeInstanceRef:
-        return self.innerPortIRref
+        # The port that is located on the outside of the Composition Type.
+        self.outerPortRef: Optional[RefType] = None
 
-    def setInnerPortIRref(self, value: PortInCompositionTypeInstanceRef):
-        self.innerPortIRref = value
+    def getInnerPortIRef(self) -> Optional[PortInCompositionTypeInstanceRef]:
+        """
+        The port that belongs to the ComponentPrototype in the composition. Tags: xml.typeElement=true InstanceRef implemented by: PortInCompositionType InstanceRef
+        """
+        return self.innerPortIRef
+
+    def setInnerPortIRef(self, value: Optional[PortInCompositionTypeInstanceRef]) -> "DelegationSwConnector":
+        """
+        The port that belongs to the ComponentPrototype in the composition. Tags: xml.typeElement=true InstanceRef implemented by: PortInCompositionType InstanceRef
+        A None value is a no-op and does not overwrite an existing reference.
+        """
+        if value is not None:
+            self.innerPortIRef = value
         return self
 
-    def getOuterPortRef(self) -> RefType:
+    def getOuterPortRef(self) -> Optional[RefType]:
+        """
+        The port that is located on the outside of the Composition Type.
+        """
         return self.outerPortRef
 
-    def setOuterPortRef(self, value: RefType):
-        self.outerPortRef = value
+    def setOuterPortRef(self, value: Optional[RefType]) -> "DelegationSwConnector":
+        """
+        The port that is located on the outside of the Composition Type.
+        A None value is a no-op and does not overwrite an existing reference.
+        """
+        if value is not None:
+            self.outerPortRef = value
         return self
 
 
@@ -407,9 +433,10 @@ class CompositionSwComponentType(SwComponentType):
     """
 
     # CompositionSwComponentType method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.10, p.75
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 3.10, p.77 (R23-11)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] createSwComponentPrototype      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getComponents                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] createAssemblySwConnector       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer

@@ -535,7 +535,11 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.DataElements.InstanceRefsUsage import ParameterInAtomicSWCTypeInstanceRef, VariableInAtomicSWCTypeInstanceRef
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.InstantiationDataDefProps import InstantiationDataDefProps
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet, ModeAccessPoint, ModeSwitchPoint
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import PortDefinedArgumentValue
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.PortAPIOptions import (
+    PortDefinedArgumentValue,
+    CommunicationBufferLocking,
+    SwcSupportedFeature,
+)
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.RTEEvents import (
     AsynchronousServerCallReturnsEvent,
     BackgroundEvent,
@@ -2028,9 +2032,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         connector_tag = ET.SubElement(element, "DELEGATION-SW-CONNECTOR")
         self.writeIdentifiable(connector_tag, sw_connector)
 
-        if sw_connector.getInnerPortIRref() is not None:
+        if sw_connector.getInnerPortIRef() is not None:
             inner_port_iref_tag = ET.SubElement(connector_tag, "INNER-PORT-IREF")
-            inner_port_iref = sw_connector.getInnerPortIRref()
+            inner_port_iref = sw_connector.getInnerPortIRef()
             if isinstance(inner_port_iref, PPortInCompositionInstanceRef):
                 instance_ref_tag = ET.SubElement(inner_port_iref_tag, "P-PORT-IN-COMPOSITION-INSTANCE-REF")
                 self.setChildElementOptionalRefType(instance_ref_tag, "CONTEXT-COMPONENT-REF", inner_port_iref.getContextComponentRef())
@@ -2111,6 +2115,9 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported InstantiationRTEEventProps %s" % type(props))
 
+    def writeCompositionSwComponentTypePhysicalDimensionMapping(self, element: ET.Element, parent: CompositionSwComponentType):
+        self.setChildElementOptionalRefType(element, "PHYSICAL-DIMENSION-MAPPING-REF", parent.getPhysicalDimensionMappingRef())
+
     def writeCompositionSwComponentType(self, parent: ET.Element, sw_component: CompositionSwComponentType):
         child_element = ET.SubElement(parent, "COMPOSITION-SW-COMPONENT-TYPE")
 
@@ -2120,6 +2127,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeCompositionSwComponentTypeDataTypeMappingSet(child_element, sw_component)
         self.writeCompositionSwComponentTypeConstantValueMappingSet(child_element, sw_component)
         self.writeCompositionSwComponentTypeInstantiationRTEEventProps(child_element, sw_component)
+        self.writeCompositionSwComponentTypePhysicalDimensionMapping(child_element, sw_component)
 
     def writeCompositionSwComponentTypes(self, element: ET.Element, ar_package: ARPackage):
         for sw_component in ar_package.getCompositionSwComponentTypes():
@@ -2548,6 +2556,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeApplicationRecordElement(self, element: ET.Element, prototype: ApplicationRecordElement):
         child_element = ET.SubElement(element, "APPLICATION-RECORD-ELEMENT")
         self.writeApplicationCompositeElementDataPrototype(child_element, prototype)
+        self.setChildElementOptionalBooleanValue(child_element, "IS-OPTIONAL", prototype.getIsOptional())
 
     def writeApplicationRecordDataTypeElements(self, element: ET.Element, data_type: ApplicationRecordDataType):
         record_elements = data_type.getApplicationRecordElements()
@@ -3070,6 +3079,14 @@ class ARXMLWriter(AbstractARXMLWriter):
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, ref)
             self.setVariableInAtomicSWCTypeInstanceRef(child_element, "AUTOSAR-VARIABLE-IREF", ref.getAutosarVariableIRef())
+            implementation_ref = ref.getAutosarVariableInImplDatatype()
+            if implementation_ref is not None:
+                implementation_element = ET.SubElement(child_element, "AUTOSAR-VARIABLE-IN-IMPL-DATATYPE")
+                self.setChildElementOptionalRefType(implementation_element, "PORT-PROTOTYPE-REF", implementation_ref.getPortPrototypeRef())
+                self.setChildElementOptionalRefType(implementation_element, "ROOT-VARIABLE-DATA-PROTOTYPE-REF", implementation_ref.getRootVariableDataPrototypeRef())
+                for context_ref in implementation_ref.getContextDataPrototypeRefs():
+                    self.setChildElementOptionalRefType(implementation_element, "CONTEXT-DATA-PROTOTYPE-REF", context_ref)
+                self.setChildElementOptionalRefType(implementation_element, "TARGET-DATA-PROTOTYPE-REF", implementation_ref.getTargetDataPrototypeRef())
             self.setChildElementOptionalRefType(child_element, "LOCAL-VARIABLE-REF", ref.getLocalVariableRef())
 
     def writeNvBlockDataMapping(self, element: ET.Element, mapping: NvBlockDataMapping):
@@ -3582,6 +3599,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeVariableDataPrototype(child_element, prototype)
                 else:
                     self.notImplemented("Unsupported ExplicitInterRunnableVariables <%s>" % type(prototype))
+
+    def writeSwcInternalBehaviorImplicitInterRunnableVariables(self, element: ET.Element, behavior: SwcInternalBehavior):
+        prototypes = behavior.getImplicitInterRunnableVariables()
+        if len(prototypes) > 0:
+            child_element = ET.SubElement(element, "IMPLICIT-INTER-RUNNABLE-VARIABLES")
+            for prototype in prototypes:
+                if isinstance(prototype, VariableDataPrototype):
+                    self.writeVariableDataPrototype(child_element, prototype)
+                else:
+                    self.notImplemented("Unsupported ImplicitInterRunnableVariables <%s>" % type(prototype))
 
     def writeSwcInternalBehaviorPerInstanceMemories(self, element: ET.Element, behavior: SwcInternalBehavior):
         memories = behavior.getPerInstanceMemories()
@@ -4219,6 +4246,17 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.setChildElementOptionalBooleanValue(child_element, "INDIRECT-API", option.getIndirectAPI())
                 self.writePortDefinedArgumentValues(child_element, option.getPortArgValues())
                 self.setChildElementOptionalRefType(child_element, "PORT-REF", option.getPortRef())
+                self.writeCommunicationBufferLockings(child_element, option.getSupportedFeatures())
+                self.setChildElementOptionalLiteral(child_element, "TRANSFORMER-STATUS-FORWARDING", option.getTransformerStatusForwarding())
+
+    def writeCommunicationBufferLockings(self, element: ET.Element, features: List[SwcSupportedFeature]):
+        if len(features) > 0:
+            features_tag = ET.SubElement(element, "SUPPORTED-FEATURES")
+            for feature in features:
+                if isinstance(feature, CommunicationBufferLocking):
+                    child_element = ET.SubElement(features_tag, "COMMUNICATION-BUFFER-LOCKING")
+                    self.writeARObject(child_element, feature)
+                    self.setChildElementOptionalLiteral(child_element, "SUPPORT-BUFFER-LOCKING", feature.getSupportBufferLocking())
 
     def writeRoleBasedDataTypeAssignment(self, element: ET.Element, assignment: RoleBasedDataTypeAssignment):
         child_element = ET.SubElement(element, "ROLE-BASED-DATA-TYPE-ASSIGNMENT")
@@ -4806,7 +4844,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                 refs_tag = ET.SubElement(child_element, "MODE-DECLARATION-GROUP-REFS")
                 for ref in refs:
                     self.setChildElementOptionalRefType(refs_tag, "MODE-DECLARATION-GROUP-REF", ref)
-            self.setChildElementOptionalLiteral(child_element, "PREFIX", set.getPrefix())
+            self.setChildElementOptionalIdentifier(child_element, "PREFIX", set.getPrefix())
 
     def writeSwcInternalBehaviorIncludedModeDeclarationGroupSets(self, element: ET.Element, behavior: SwcInternalBehavior):
         group_sets = behavior.getIncludedModeDeclarationGroupSets()
@@ -4851,6 +4889,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeSwcInternalBehaviorEvents(child_element, behavior)
         self.writeSwcInternalBehaviorExplicitInterRunnableVariables(child_element, behavior)
         self.setChildElementOptionalLiteral(child_element, "HANDLE-TERMINATION-AND-RESTART", behavior.getHandleTerminationAndRestart())
+        self.writeSwcInternalBehaviorImplicitInterRunnableVariables(child_element, behavior)
         self.setIncludedDataTypeSets(child_element, behavior.getIncludedDataTypeSets())
         self.writeSwcInternalBehaviorIncludedModeDeclarationGroupSets(child_element, behavior)
         self.writeSwcInternalBehaviorInstantiationDataDefProps(child_element, behavior)
