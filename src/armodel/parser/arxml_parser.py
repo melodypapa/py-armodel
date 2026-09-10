@@ -6168,14 +6168,14 @@ class ARXMLParser(AbstractARXMLParser):
             if child_element is not None:
                 r_port_in_composition_instance_ref = RPortInCompositionInstanceRef()
                 self.readRPortInCompositionInstanceRef(child_element, r_port_in_composition_instance_ref)
-                parent.setInnerPortIRref(r_port_in_composition_instance_ref)
+                parent.setInnerPortIRef(r_port_in_composition_instance_ref)
                 return
 
             child_element = self.find(inner_port_iref_element, "P-PORT-IN-COMPOSITION-INSTANCE-REF")
             if child_element is not None:
                 p_port_in_composition_instance_ref = PPortInCompositionInstanceRef()
                 self.readPPortInCompositionInstanceRef(child_element, p_port_in_composition_instance_ref)
-                parent.setInnerPortIRref(p_port_in_composition_instance_ref)
+                parent.setInnerPortIRef(p_port_in_composition_instance_ref)
                 return
 
             self.raiseError("Unsupported child element of INNER-PORT-IREF")
@@ -6184,11 +6184,10 @@ class ARXMLParser(AbstractARXMLParser):
         # self.logger.debug("Read DelegationSwConnectors %s" % connector.getShortName())
         self.readSwConnector(element, connector)
         self.readDelegationSwConnectorInnerPortIRef(element, connector)
-
-        if connector.getInnerPortIRref() is None and connector.getOuterPortRef() is None:
-            self.raiseError("Invalid PortPrototype of DELEGATION-SW-CONNECTOR")
-
         connector.setOuterPortRef(self.getChildElementOptionalRefType(element, "OUTER-PORT-REF"))
+
+        if connector.getInnerPortIRef() is None and connector.getOuterPortRef() is None:
+            self.raiseError("Invalid PortPrototype of DELEGATION-SW-CONNECTOR")
         # self.logger.debug("OUTER-PORT-REF DEST: %s, %s" % (connector.getOuterPortRef().getDest(), connector.getOuterPortRef().getValue()))
 
     def readSwComponentPrototype(self, element: ET.Element, prototype: SwComponentPrototype):

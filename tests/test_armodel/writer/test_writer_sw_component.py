@@ -1262,7 +1262,7 @@ class TestWriteCompositionSwComponentType:
         inner = PPortInCompositionInstanceRef()
         inner.setContextComponentRef(_ref())
         inner.setTargetPPortRef(_ref())
-        conn.setInnerPortIRref(inner)
+        conn.setInnerPortIRef(inner)
         conn.setOuterPortRef(_ref())
         parent = _parent()
         writer.writeDelegationSwConnector(parent, conn)
@@ -1281,7 +1281,7 @@ class TestWriteCompositionSwComponentType:
         inner = RPortInCompositionInstanceRef()
         inner.setContextComponentRef(_ref())
         inner.setTargetRPortRef(_ref())
-        conn.setInnerPortIRref(inner)
+        conn.setInnerPortIRef(inner)
         parent = _parent()
         writer.writeDelegationSwConnector(parent, conn)
         assert parent[0].find("INNER-PORT-IREF").find("R-PORT-IN-COMPOSITION-INSTANCE-REF") is not None
@@ -1640,7 +1640,7 @@ class TestWriteErrorBranches:
         pkg = autosar.createARPackage("Pkg")
         comp = pkg.createCompositionSwComponentType("Comp")
         conn = comp.createDelegationSwConnector("DelConn")
-        conn.setInnerPortIRref(_FakePortInCompositionInstanceRef())
+        conn.setInnerPortIRef(_FakePortInCompositionInstanceRef())
         parent = _parent()
         writer.writeDelegationSwConnector(parent, conn)
         assert parent[0].tag == "DELEGATION-SW-CONNECTOR"
@@ -1676,7 +1676,7 @@ class TestWriteDelegationSwConnectorError:
         pkg = autosar.createARPackage("Pkg")
         comp = pkg.createCompositionSwComponentType("Comp")
         conn = comp.createDelegationSwConnector("DelConn")
-        conn.setInnerPortIRref(_FakePortInCompositionInstanceRef())
+        conn.setInnerPortIRef(_FakePortInCompositionInstanceRef())
         parent = _parent()
         with pytest.raises(ValueError):
             writer.writeDelegationSwConnector(parent, conn)

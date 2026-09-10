@@ -2028,9 +2028,9 @@ class ARXMLWriter(AbstractARXMLWriter):
         connector_tag = ET.SubElement(element, "DELEGATION-SW-CONNECTOR")
         self.writeIdentifiable(connector_tag, sw_connector)
 
-        if sw_connector.getInnerPortIRref() is not None:
+        if sw_connector.getInnerPortIRef() is not None:
             inner_port_iref_tag = ET.SubElement(connector_tag, "INNER-PORT-IREF")
-            inner_port_iref = sw_connector.getInnerPortIRref()
+            inner_port_iref = sw_connector.getInnerPortIRef()
             if isinstance(inner_port_iref, PPortInCompositionInstanceRef):
                 instance_ref_tag = ET.SubElement(inner_port_iref_tag, "P-PORT-IN-COMPOSITION-INSTANCE-REF")
                 self.setChildElementOptionalRefType(instance_ref_tag, "CONTEXT-COMPONENT-REF", inner_port_iref.getContextComponentRef())

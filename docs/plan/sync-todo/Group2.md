@@ -298,16 +298,16 @@ Input: `Group 2 — PortInterface sets, components, SWC behavior, datatypes` of 
   - [x] Step 8 — Deviations — none; all four attributes have typed model and reader/writer coverage
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: 9 focused tests passed, lint and Black clean; 9b user-confirmed: fields, base, naming, displayed member order, XSD XML order, docstrings, Rule 0007, and no deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `DelegationSwConnector` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.14 · after `PortInCompositionTypeInstanceRef` (its `innerPort` iref type) · `outerPort` PortPrototype stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `DelegationSwConnector` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 3.14 · after `PortInCompositionTypeInstanceRef` (its `innerPort` iref type) · `outerPort` PortPrototype stamped ✓) — **finished, stamped `# Spec verified: R23-11`**
+   - [x] Step 1 — Sync members & description from spec — Table 3.14, p.81; class Note and two optional members (`innerPort` iref, `outerPort` ref) copied from R23-11 markdown; most-derived base `SwConnector` confirmed
+   - [x] Step 2 — Write model class unit test (Red) — added exact class Note, correctly named `IRef` accessors, round-trip, chaining, and None-no-op assertions; Red confirmed missing docstring/accessors and guards
+   - [x] Step 3 — Implement model class (Green) — renamed `innerPortIRref` to `innerPortIRef`, added Optional annotations and typed accessors, and guarded both setters; focused model tests green
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) — class and member Notes copied verbatim; checklist expanded to six columns
+   - [x] Step 5 — Write reader/writer round-trip test (Red) — existing focused parser/writer coverage strengthened for P/R inner irefs, outer ref values, DEST attributes, and empty/invalid cases; coverage exercised the corrected accessor contract
+   - [x] Step 6 — Update parser & writer (Green) — parser and writer switched to `get/setInnerPortIRef`; parser now reads `OUTER-PORT-REF` before validation; focused reader/writer tests green
+   - [x] Step 7 — Update checklist comment — six-column checklist with R23-11 release, member order, and reader/writer mapping
+   - [x] Step 8 — Deviations — none for the class; base `SwConnector`, member types, naming, order, docstrings, and coverage conform to Table 3.14; referenced `PortInCompositionTypeInstanceRef` is stamped
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a: focused tests/lint/diff checks passed; 9b user-confirmed 2026-09-10; no class-specific deviations; marker written
 - [ ] `ApplicationPrimitiveDataType` (tracker input · R23-11 markdown · **spec ref CORRECTED 2026-09-03 restructure: AUTOSAR_CP_TPS_SoftwareComponentTemplate Table 5.5 (was: DiagnosticExtractTemplate Table 5.6)** · after `ApplicationDataType` (parent, Table 5.2))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
