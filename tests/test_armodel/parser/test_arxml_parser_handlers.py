@@ -337,6 +337,20 @@ class TestAdminDataAndReferrableHandlers:
         element = _snip("<X/>")
         assert parser.getMultilanguageLongName(element, "LONG-NAME") is None
 
+    def test_getMultilanguageLongName_parses_l4_fields(self, parser):
+        element = _snip(
+            "<LONG-NAME>" "<L-4 L='EN'>Engine</L-4>" "<L-4 L='DE'>Motor</L-4>" "</LONG-NAME>",
+            root_tag="PARENT",
+        )
+        long_name = parser.getMultilanguageLongName(element, "LONG-NAME")
+        assert long_name is not None
+        l4s = long_name.getL4s()
+        assert len(l4s) == 2
+        assert l4s[0].getValue() == "Engine"
+        assert l4s[0].getL() == "EN"
+        assert l4s[1].getValue() == "Motor"
+        assert l4s[1].getL() == "DE"
+
     def test_getMultiLanguageOverviewParagraph_with_L2(self, parser):
         element = _snip(
             "<DESC><L-2 L='EN'>overview</L-2></DESC>",

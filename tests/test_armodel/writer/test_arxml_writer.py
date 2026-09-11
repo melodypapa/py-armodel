@@ -443,6 +443,29 @@ class TestARXMLWriterLanguageSpecificMethods:
         assert child[1].tag == "L-4"
         assert child[1].text == "German name"
 
+    def test_set_multi_long_name_roundtrip(self):
+        """Write a MultilanguageLongName, reparse it, and assert field values survive."""
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+
+        long_name = MultilanguageLongName()
+        name1 = LLongName()
+        name1.setL("EN")
+        name1.setValue("Engine")
+        long_name.addL4(name1)
+        writer.setMultiLongName(parent, "LONG-NAME", long_name)
+
+        # The writer emits un-namespaced tags; wrap in the AUTOSAR NS so the
+        # namespace-aware parser can locate the LONG-NAME element.
+        written = parent.find("LONG-NAME")
+        wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(written, encoding="unicode"))
+        reparsed = ARXMLParser().getMultilanguageLongName(wrapped, "LONG-NAME")
+        assert reparsed is not None
+        l4s = reparsed.getL4s()
+        assert len(l4s) == 1
+        assert l4s[0].getValue() == "Engine"
+        assert l4s[0].getL() == "EN"
+
     def test_set_multi_long_name_none(self):
         """Test setMultiLongName with None"""
         writer = ARXMLWriter()
