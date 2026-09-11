@@ -132,6 +132,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `TraceableTable` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · member type of `TopicContent.traceableTable` · **NOT in src** — class must be created when this row is synced)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `TopicContent` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · **AUTOSAR_FO_TPS_GenericStructureTemplate Table E.81 (appendix letter-numbered table missed by numeric-regex tooling, same as Group2 D.17/D.4 cases)** · member type of `MsrQueryP1.msrQueryResultP1` below · <<atpMixed>> · `traceableTable` TraceableTable remains pending 16.4)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -153,6 +163,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `MultiLanguageParagraph` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.4 · after `Paginateable` (parent) + `LParagraph` (aggr `l1`))
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Area` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.17 · member type of `Map.area` · **NOT in src** — class must be created when this row is synced)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -192,7 +212,27 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `MsrQueryResultChapter` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.87 · member type of `MsrQueryChapter.msrQueryResultChapter` · **NOT in src** — class must be created when this row is synced)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `MsrQueryChapter` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.84 · after `DocumentViewSelectable`+`Paginateable` (parents) · deps: `msrQueryProps` MsrQueryProps stamped ✓ / `msrQueryResultChapter` NOT in src — pending 16.4 below)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `MsrQueryResultTopic1` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.88 · member type of `MsrQueryTopic1.msrQueryResultTopic1` · **NOT in src** — class must be created when this row is synced)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -492,6 +532,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SwGenericAxisParamType` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · ref target of `SwRecordLayoutGroup.swGenericAxisParamType` + `SwRecordLayoutV.swGenericAxisParamType` · **NOT in src** — class must be created when this row is synced)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `SwRecordLayoutV` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.98 · deps stamped: `baseType` SwBaseType ✓ / `desc` MultiLanguageOverviewParagraph ✓ · ref target `swGenericAxisParamType` SwGenericAxisParamType NOT in src — pending 16.4 below)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -535,11 +585,11 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
 
 ## Pending 16.4 resolution (NEW — not in src)
 
-- `Area` — not in `src` (NEW) · R23-11 markdown · Table 9.17 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist)
-- `MsrQueryResultChapter` — not in `src` (NEW) · R23-11 markdown · Table 9.87 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist)
-- `MsrQueryResultTopic1` — not in `src` (NEW) · R23-11 markdown · Table 9.88 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist)
-- `SwGenericAxisParamType` — **added 2026-09-03 restructure** · not in `src` · R23-11 markdown · ref target of `SwRecordLayoutGroup.swGenericAxisParamType` + `SwRecordLayoutV.swGenericAxisParamType`; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist)
-- `TraceableTable` — **added 2026-09-11 dependency audit** · not in `src` · R23-11 markdown · member type of `TopicContent.traceableTable` (the TopicContent row already said "traceableTable TraceableTable remains pending 16.4", but no entry existed here); 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist)
+- `Area` — not in `src` (NEW) · R23-11 markdown · Table 9.17 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist) → **QUEUED 2026-09-11** as a 9-step row before `Map`
+- `MsrQueryResultChapter` — not in `src` (NEW) · R23-11 markdown · Table 9.87 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist) → **QUEUED 2026-09-11** as a 9-step row before `MsrQueryChapter`
+- `MsrQueryResultTopic1` — not in `src` (NEW) · R23-11 markdown · Table 9.88 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist) → **QUEUED 2026-09-11** as a 9-step row before `MsrQueryTopic1`
+- `SwGenericAxisParamType` — **added 2026-09-03 restructure** · not in `src` · R23-11 markdown · ref target of `SwRecordLayoutGroup.swGenericAxisParamType` + `SwRecordLayoutV.swGenericAxisParamType`; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist) → **QUEUED 2026-09-11** as a 9-step row before `SwRecordLayoutV`
+- `TraceableTable` — **added 2026-09-11 dependency audit** · not in `src` · R23-11 markdown · member type of `TopicContent.traceableTable` (the TopicContent row already said "traceableTable TraceableTable remains pending 16.4", but no entry existed here); 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist) → **QUEUED 2026-09-11** as a 9-step row before `TopicContent`
 
 ## Not queued
 
