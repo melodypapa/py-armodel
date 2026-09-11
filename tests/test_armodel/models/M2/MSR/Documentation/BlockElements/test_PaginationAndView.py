@@ -49,6 +49,43 @@ class TestChapterEnumBreak:
         assert enum_instance.validateEnumValue("UNKNOWN") is False
 
 
+class TestKeepWithPreviousEnum:
+    """Test class for the KeepWithPreviousEnum enumeration (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.76)."""
+
+    def test_instantiation(self):
+        """KeepWithPreviousEnum shall be instantiable as an AREnum."""
+        enum_instance = KeepWithPreviousEnum()
+        assert enum_instance is not None
+        assert isinstance(enum_instance, KeepWithPreviousEnum)
+
+    def test_enum_values_present(self):
+        """The two spec literals shall be present with their XSD-backed values."""
+        assert KeepWithPreviousEnum.KEEP == "KEEP"
+        assert KeepWithPreviousEnum.NO_KEEP == "NO-KEEP"
+
+    def test_enum_values_collection(self):
+        """getEnumValues shall expose exactly the two spec literals."""
+        values = KeepWithPreviousEnum().getEnumValues()
+        assert "KEEP" in values
+        assert "NO-KEEP" in values
+        assert len(values) == 2
+
+    def test_set_get_value(self):
+        """setValue/getValue shall round-trip a spec literal."""
+        enum_instance = KeepWithPreviousEnum().setValue(KeepWithPreviousEnum.KEEP)
+        assert enum_instance.getValue() == "KEEP"
+
+        enum_instance.setValue(KeepWithPreviousEnum.NO_KEEP)
+        assert enum_instance.getValue() == "NO-KEEP"
+
+    def test_validate_enum_value(self):
+        """validateEnumValue shall accept spec literals and reject others."""
+        enum_instance = KeepWithPreviousEnum()
+        assert enum_instance.validateEnumValue("KEEP") is True
+        assert enum_instance.validateEnumValue("NO-KEEP") is True
+        assert enum_instance.validateEnumValue("keep") is False
+
+
 class TestDocumentViewSelectable:
     """Test class for DocumentViewSelectable class."""
 
@@ -133,5 +170,5 @@ class TestPaginateable:
         assert ChapterEnumBreak().getValue() == ""
         assert ChapterEnumBreak.BREAK == "BREAK"
         assert ChapterEnumBreak.NO_BREAK == "NO-BREAK"
-        assert KeepWithPreviousEnum.KEEP == "keep"
-        assert KeepWithPreviousEnum.NO_KEEP == "noKeep"
+        assert KeepWithPreviousEnum.KEEP == "KEEP"
+        assert KeepWithPreviousEnum.NO_KEEP == "NO-KEEP"

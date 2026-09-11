@@ -45,16 +45,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 6 — Update parser & writer (Green)  [N/A: coverage lives in Paginateable's reader/writer, already Spec verified]
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations  [none: values match XSD, literals match spec, consumed by Spec-verified Paginateable]
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [marker # Spec verified: R23-11 written; commit 20e6ee88]
 - [ ] `KeepWithPreviousEnum` (dependency · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.76 · enum member type of `Paginateable.keepWithPrevious`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)  [+fix: XSD values KEEP/NO-KEEP, were keep/noKeep]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: standalone AREnum — serialized as KEEP-WITH-PREVIOUS attribute on Paginateable (Spec verified)]
+  - [x] Step 6 — Update parser & writer (Green)  [N/A: coverage lives in Paginateable's reader/writer, already Spec verified]
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations  [none: pre-existing wrong values keep/noKeep corrected to XSD KEEP/NO-KEEP; class now matches spec]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `Paginateable` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.75 (mixin) · parent of `MultiLanguageParagraph`, `MlFigure`, `MsrQueryChapter`, `MsrQueryTopic1`, `MsrQueryP1` below · attrs BREAK/KEEP-WITH-PREVIOUS)
   - [x] Step 1 — Sync members & description from spec

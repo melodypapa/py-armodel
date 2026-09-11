@@ -486,11 +486,11 @@ class TestGraphicAndFigureHandlers:
         parser.readDocumentViewSelectable(element, selectable)
 
     def test_readPaginateable(self, parser):
-        element = _snip("", root_tag="PAGINATE", BREAK="BREAK", **{"KEEP-WITH-PREVIOUS": "keep"})
+        element = _snip("", root_tag="PAGINATE", BREAK="BREAK", **{"KEEP-WITH-PREVIOUS": "KEEP"})
         paginateable = MlFigure()
         parser.readPaginateable(element, paginateable)
         assert paginateable.getBreak().getValue() == "BREAK"
-        assert paginateable.getKeepWithPrevious().getValue() == "keep"
+        assert paginateable.getKeepWithPrevious().getValue() == "KEEP"
 
     def test_getMlFigures(self, parser):
         element = _snip(

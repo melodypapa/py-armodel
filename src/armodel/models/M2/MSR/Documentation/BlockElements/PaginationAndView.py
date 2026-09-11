@@ -28,12 +28,20 @@ class ChapterEnumBreak(AREnum):
 
 
 class KeepWithPreviousEnum(AREnum):
-    """
-    This enumerator specifies a page break policy by controlling blocks which shall be kept together.
-    """
+    """ """
 
-    KEEP = "keep"
-    NO_KEEP = "noKeep"
+    # KeepWithPreviousEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.76, p.340
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Paginateable.keepWithPrevious (KEEP-WITH-PREVIOUS attribute)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This indicates that the block shall be kept together with the previous block. Tags: atp.EnumerationLiteralIndex=0
+    KEEP = "KEEP"
+
+    # This indicates that there is no need to keep the block with the previous one. This is the same as if the attribute itself is missing. Tags: atp.EnumerationLiteralIndex=1
+    NO_KEEP = "NO-KEEP"
 
     def __init__(self):
         super().__init__((KeepWithPreviousEnum.KEEP, KeepWithPreviousEnum.NO_KEEP))

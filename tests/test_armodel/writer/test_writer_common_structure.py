@@ -749,7 +749,7 @@ class TestWriteMlFigure:
         writer.writeMlFigure(parent, fig)
 
         assert parent.attrib["BREAK"] == "BREAK"
-        assert parent.attrib["KEEP-WITH-PREVIOUS"] == "keep"
+        assert parent.attrib["KEEP-WITH-PREVIOUS"] == "KEEP"
 
 
 class TestSetMlFigures:
