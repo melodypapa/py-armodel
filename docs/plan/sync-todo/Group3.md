@@ -93,14 +93,14 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 8 — Deviations  [none: all 13 literal values + indices 0-12 match XSD GRAPHIC-FIT-ENUM--SIMPLE; class now matches spec]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [marker # Spec verified: R23-11 written; commit 5b543a21]
 - [ ] `GraphicNotationEnum` (dependency · **added 2026-09-11 Graphic dependency audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.22, p.305 · enum member type of `Graphic.notation` below · **NOT in src** — 8 XSD literals BMP/EPS/GIF/JPG/PDF/PNG/SVG/TIFF, indices 0-7 · queued dependency-first per Rule 16.5)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec  [8 literals bmp/eps/gif/jpg/pdf/png/svg/tiff, indices 0-7; XSD values uppercase BMP…TIFF; Note + literal descriptions from Table 9.22; Package M2::MSR::Documentation::BlockElements::Figure; p.305 confirmed via pdf_page.py]
+  - [x] Step 2 — Write model class unit test (Red)  [TestGraphicNotationEnum in test_Figure.py: init, 8 literals, set/get value, validateEnumValue; ImportError = Red]
+  - [x] Step 3 — Implement model class (Green)  [new GraphicNotationEnum(AREnum) in Figure.py after GraphicFitEnum, no-arg __init__ registering all 8 XSD values]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class docstring = spec Note verbatim (diffed); 7/8 literal comments verbatim from markdown Tags rows; `svg` index 6 + description from XSD GRAPHIC-NOTATION-ENUM--SIMPLE (markdown split render dropped its Tags)]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: standalone AREnum — serialized as the NOTATION attribute value on Graphic; Graphic's reader/writer currently cover FILENAME only, so NOTATION coverage belongs to the Graphic row (queued next)]
+  - [x] Step 6 — Update parser & writer (Green)  [N/A: see Step 5 — no own XML element]
+  - [x] Step 7 — Update checklist comment  [# Spec: FO_TPS Table 9.22, p.305; (no methods) row for __init__ with 6 columns + release R23-11; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none: all 8 literal values + indices 0-7 match XSD GRAPHIC-NOTATION-ENUM--SIMPLE; class now matches spec]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `Graphic` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.20 · member type of `LGraphic.graphic` below · **15 spec attrs (all 0..1, all xml.attribute=true); src has only 6** — missing `generator`, `height`, `htmlFit`, `htmlHeight`, `htmlScale`, `htmlWidth`, `notation`, `scale`, `width` · Base `ARObject`+`EngineeringObject` both stamped ✓ · `GraphicFitEnum` stamped ✓ · `GraphicNotationEnum` queued above)
   - [x] Step 1 — Sync members & description from spec  [audit: 15 attrs vs 6 in src; XSD GRAPHIC attributeGroup confirms EDITFIT/EDIT-HEIGHT/EDITSCALE/EDIT-WIDTH/FILENAME/FIT/GENERATOR/HEIGHT/HTML-FIT/HTML-HEIGHT/HTML-SCALE/HTML-WIDTH/NOTATION/SCALE/WIDTH]

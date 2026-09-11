@@ -77,6 +77,57 @@ class GraphicFitEnum(AREnum):
         )
 
 
+class GraphicNotationEnum(AREnum):
+    """
+    This enumerator specifies the various notations (finally file types) used to represent the figure.
+    """
+
+    # GraphicNotationEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.22, p.305
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Graphic.notation (NOTATION attribute)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # bitmap image Tags: atp.EnumerationLiteralIndex=0
+    BMP = "BMP"
+
+    # Encapsulated Postscript Tags: atp.EnumerationLiteralIndex=1
+    EPS = "EPS"
+
+    # Graphics Interchange Format Tags: atp.EnumerationLiteralIndex=2
+    GIF = "GIF"
+
+    # "Joint Photographic Experts Group" format Tags: atp.EnumerationLiteralIndex=3
+    JPG = "JPG"
+
+    # Portable Document Format Tags: atp.EnumerationLiteralIndex=4
+    PDF = "PDF"
+
+    # Portable Network Graphics Tags: atp.EnumerationLiteralIndex=5
+    PNG = "PNG"
+
+    # scalable vector graphic Tags: atp.EnumerationLiteralIndex=6
+    SVG = "SVG"
+
+    # Tagged Image File Format Tags: atp.EnumerationLiteralIndex=7
+    TIFF = "TIFF"
+
+    def __init__(self):
+        super().__init__(
+            (
+                GraphicNotationEnum.BMP,
+                GraphicNotationEnum.EPS,
+                GraphicNotationEnum.GIF,
+                GraphicNotationEnum.JPG,
+                GraphicNotationEnum.PDF,
+                GraphicNotationEnum.PNG,
+                GraphicNotationEnum.SVG,
+                GraphicNotationEnum.TIFF,
+            )
+        )
+
+
 class Graphic(EngineeringObject):
     """
     Graphic element with filename, dimensions, and fit properties.

@@ -6,6 +6,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
     Graphic,
     GraphicFitEnum,
+    GraphicNotationEnum,
     LGraphic,
     Map,
     MlFigure,
@@ -41,6 +42,45 @@ class TestGraphicFitEnum:
         for const, value in expected.items():
             assert const == value
         assert set(enum.getEnumValues()) == set(expected.values())
+
+
+class TestGraphicNotationEnum:
+    """Test class for GraphicNotationEnum (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.22)."""
+
+    def test_graphic_notation_enum_initialization(self):
+        """Test that a GraphicNotationEnum object can be initialized."""
+        graphic_notation_enum = GraphicNotationEnum()
+        assert graphic_notation_enum is not None
+        assert isinstance(graphic_notation_enum, GraphicNotationEnum)
+
+    def test_graphic_notation_enum_spec_literals(self):
+        """GraphicNotationEnum shall expose the 8 spec literals with their XSD string values."""
+        enum = GraphicNotationEnum()
+        expected = {
+            GraphicNotationEnum.BMP: "BMP",
+            GraphicNotationEnum.EPS: "EPS",
+            GraphicNotationEnum.GIF: "GIF",
+            GraphicNotationEnum.JPG: "JPG",
+            GraphicNotationEnum.PDF: "PDF",
+            GraphicNotationEnum.PNG: "PNG",
+            GraphicNotationEnum.SVG: "SVG",
+            GraphicNotationEnum.TIFF: "TIFF",
+        }
+        for const, value in expected.items():
+            assert const == value
+        assert set(enum.getEnumValues()) == set(expected.values())
+
+    def test_graphic_notation_enum_set_get_value(self):
+        """setValue/getValue shall round-trip a spec literal."""
+        enum = GraphicNotationEnum().setValue(GraphicNotationEnum.SVG)
+        assert enum.getValue() == "SVG"
+
+    def test_graphic_notation_enum_validate_enum_value(self):
+        """validateEnumValue shall accept the XSD literal values only."""
+        enum = GraphicNotationEnum()
+        assert enum.validateEnumValue("BMP") is True
+        assert enum.validateEnumValue("TIFF") is True
+        assert enum.validateEnumValue("bmp") is False
 
 
 class TestGraphic:
