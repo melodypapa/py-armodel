@@ -76,16 +76,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations  [none: class already conformed to Table 4.6; only docstrings/checklist/tests were missing — now added]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [marker # Spec verified: R23-11 written; commit 87855dea]
-- [ ] `GraphicFitEnum` (dependency · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.21 · enum member type of `Graphic.editfit`/`fit`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `GraphicFitEnum` (dependency · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.21 · enum member type of `Graphic.editfit`/`fit`) — verified R23-11 (commit 5b543a21)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)  [+fix: enum had NO literals at all — `__init__(self, enum_values)` ignored its arg and registered an empty tuple; now no-arg `__init__` registering all 13 spec literals]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: standalone AREnum — serialized as EDITFIT/FIT/HTML-FIT attribute value on Graphic; graphic's editfit/fit not yet serialized by parser/writer (only FILENAME) — belongs to the Graphic row]
+  - [x] Step 6 — Update parser & writer (Green)  [N/A: see Step 5]
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations  [none: all 13 literal values + indices 0-12 match XSD GRAPHIC-FIT-ENUM--SIMPLE; class now matches spec]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [marker # Spec verified: R23-11 written; commit 5b543a21]
 - [ ] `Graphic` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.20 · member type of `LGraphic.graphic` below)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
