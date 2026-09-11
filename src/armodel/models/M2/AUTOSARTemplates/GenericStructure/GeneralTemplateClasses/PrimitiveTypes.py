@@ -1447,6 +1447,25 @@ class McdIdentifier(ARLiteral):
         super().__init__()
 
 
+class MimeTypeString(ARLiteral):
+    """
+    This primitive denotes the an Internet media type, originally called a MIME type after MIME and sometimes a Content-type after the name of a header in several protocols whose value is such a type, is a two-part identifier for file formats on the Internet.
+
+    Tags:
+        * xml.xsd.customType=MIME-TYPE-STRING
+        * xml.xsd.type=string
+    """
+
+    # MimeTypeString method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.55, p.111
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
 class Numerical(ARLiteral):
     """
     This primitive specifies a numerical value. It can be denoted in different formats such as Decimal, Octal, Hexadecimal, Float. See the xsd pattern for details. The value can be expressed in octal, hexadecimal, binary representation. Negative numbers can only be expressed in decimal or float notation.

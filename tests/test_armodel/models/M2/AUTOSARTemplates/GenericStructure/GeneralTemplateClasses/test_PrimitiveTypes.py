@@ -30,6 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip6AddressString,
     Limit,
     MacAddressString,
+    MimeTypeString,
     MonotonyEnum,
     NameToken,
     NativeDeclarationString,
@@ -1300,3 +1301,26 @@ class TestAnyVersionString:
     def test_any_literal(self):
         """Test that the ANY literal is stored verbatim."""
         assert AnyVersionString().setValue("ANY").value == "ANY"
+
+
+class TestMimeTypeString:
+    """
+    Test class for MimeTypeString functionality (Table 4.55).
+    """
+
+    def test_initialization(self):
+        """
+        Test MimeTypeString initialization.
+        """
+        mime_type = MimeTypeString()
+
+        assert mime_type is not None
+        assert isinstance(mime_type, ARLiteral)
+        assert mime_type._value is None
+
+    def test_set_get_value(self):
+        """Test setValue round-trip and method chaining."""
+        mime_type = MimeTypeString()
+        assert mime_type.setValue("application/xml") is mime_type
+        assert mime_type.value == "application/xml"
+        assert str(mime_type) == "application/xml"
