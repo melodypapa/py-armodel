@@ -270,7 +270,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+    Identifiable,
+    MultilanguageReferrable,
+    Referrable,
+    ShortNameFragment,
+    SingleLanguageReferrable,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -1186,6 +1193,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeReferrable(element, referrable)
         if referrable.getLongName() is not None:
             self.setMultiLongName(element, "LONG-NAME", referrable.getLongName())
+
+    def writeSingleLanguageReferrable(self, element: ET.Element, referrable: SingleLanguageReferrable):
+        self.writeReferrable(element, referrable)
+        if referrable.getLongName1() is not None:
+            self.setSingleLanguageLongName(element, "LONG-NAME-1", referrable.getLongName1())
 
     def setCaption(self, element: ET.Element, key: str, caption: Caption):
         if caption is not None:

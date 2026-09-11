@@ -380,7 +380,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+    Identifiable,
+    MultilanguageReferrable,
+    Referrable,
+    ShortNameFragment,
+    SingleLanguageReferrable,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -1248,6 +1255,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readMultilanguageReferrable(self, element: ET.Element, referrable: MultilanguageReferrable):
         self.readReferrable(element, referrable)
         referrable.setLongName(self.getMultilanguageLongName(element, "LONG-NAME"))
+
+    def readSingleLanguageReferrable(self, element: ET.Element, referrable: SingleLanguageReferrable):
+        self.readReferrable(element, referrable)
+        referrable.setLongName1(self.getSingleLanguageLongName(element, "LONG-NAME-1"))
 
     def getCaption(self, element: ET.Element, key: str) -> Caption:
         caption = None

@@ -13,6 +13,7 @@ from typing import Dict, List, Optional, TYPE_CHECKING, Union
 if TYPE_CHECKING:
     from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
     from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
+    from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
     from armodel.models.M2.MSR.Documentation.Annotation import Annotation
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
@@ -223,6 +224,43 @@ class MultilanguageReferrable(Referrable, ABC):
         """
         if value is not None:
             self.longName = value
+        return self
+
+
+class SingleLanguageReferrable(Referrable, ABC):
+    """
+    Instances of this class can be referred to by their identifier (while adhering to namespace borders). They also may have a longName but in one language only. Specializations of this class only occur as inline elements in one particular language. Therefore they aggregate But they are not considered to contribute substantially to the overall structure of an AUTOSAR description. In particular it does not contain other Referrables.
+    """
+
+    # SingleLanguageReferrable method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.12, p.64
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLongName1   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLongName1   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is SingleLanguageReferrable:
+            raise TypeError("SingleLanguageReferrable is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+        # This specifies the long name of the object. The role is longName1 for compatibiilty to ASAM FSX
+        self.longName1: Optional[SingleLanguageLongName] = None
+
+    def getLongName1(self) -> Optional[SingleLanguageLongName]:
+        """
+        This specifies the long name of the object. The role is longName1 for compatibiilty to ASAM FSX
+        """
+        return self.longName1
+
+    def setLongName1(self, value: Optional[SingleLanguageLongName]) -> "SingleLanguageReferrable":
+        """
+        This specifies the long name of the object. The role is longName1 for compatibiilty to ASAM FSX. A None value is a no-op and does not overwrite an existing longName1.
+        """
+        if value is not None:
+            self.longName1 = value
         return self
 
 

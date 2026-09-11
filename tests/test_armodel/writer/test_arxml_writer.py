@@ -17,7 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     NumericalRuleBasedValueSpecification,
     RuleArguments,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, ShortNameFragment
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, ShortNameFragment, SingleLanguageReferrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     ARNumerical,
@@ -627,6 +627,50 @@ class TestARXMLWriterLanguageSpecificMethods:
         short_name = element[0]
         assert short_name.tag == "SHORT-NAME"
         assert short_name.text == "TestBaseType"
+
+    def test_write_single_language_referrable(self):
+        """Test writeSingleLanguageReferrable method and LONG-NAME-1 round-trip."""
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+
+        class ConcreteSingleLanguageReferrable(SingleLanguageReferrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteSingleLanguageReferrable(AUTOSAR.getInstance(), "sl")
+        name = SingleLanguageLongName()
+        name.setValue(String().setValue("MyLong"))
+        obj.setLongName1(name)
+        writer.writeSingleLanguageReferrable(parent, obj)
+
+        assert parent.find("SHORT-NAME").text == "sl"
+        written = parent.find("LONG-NAME-1")
+        assert written is not None
+        assert written.text == "MyLong"
+
+        # The writer emits un-namespaced tags; re-parse the children inside the
+        # AUTOSAR NS so the namespace-aware parser can locate LONG-NAME-1.
+        inner = "".join(ET.tostring(child, encoding="unicode") for child in parent)
+        wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % inner)
+        reparsed = ConcreteSingleLanguageReferrable(AUTOSAR.getInstance(), "sl")
+        ARXMLParser().readSingleLanguageReferrable(wrapped, reparsed)
+        assert reparsed.getLongName1() is not None
+        assert reparsed.getLongName1().getValue().getValue() == "MyLong"
+
+    def test_write_single_language_referrable_without_long_name1(self):
+        """No LONG-NAME-1 element is emitted when longName1 is None."""
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+
+        class ConcreteSingleLanguageReferrable(SingleLanguageReferrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteSingleLanguageReferrable(AUTOSAR.getInstance(), "sl")
+        writer.writeSingleLanguageReferrable(parent, obj)
+
+        assert parent.find("SHORT-NAME").text == "sl"
+        assert parent.find("LONG-NAME-1") is None
 
     def test_set_l_plain_text(self):
         """Test setLPlainText method"""

@@ -282,6 +282,50 @@ class TestAdminDataAndReferrableHandlers:
         parser.readMultilanguageReferrable(element, obj)
         assert obj.getLongName() is not None
 
+    def test_readSingleLanguageReferrable_sets_longName1(self, parser):
+        from armodel.models import SingleLanguageReferrable
+
+        class ConcreteSingleLanguageReferrable(SingleLanguageReferrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteSingleLanguageReferrable(_autosar_root(), "sl")
+        element = _snip(
+            "<LONG-NAME-1>MyLong</LONG-NAME-1>",
+            root_tag="ELEM",
+        )
+        parser.readSingleLanguageReferrable(element, obj)
+        assert obj.getLongName1() is not None
+        assert obj.getLongName1().getValue().getValue() == "MyLong"
+
+    def test_readSingleLanguageReferrable_parses_long_name1_inline(self, parser):
+        from armodel.models import SingleLanguageReferrable
+
+        class ConcreteSingleLanguageReferrable(SingleLanguageReferrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteSingleLanguageReferrable(_autosar_root(), "sl")
+        element = _snip(
+            "<LONG-NAME-1 SUP='2'>H2O</LONG-NAME-1>",
+            root_tag="ELEM",
+        )
+        parser.readSingleLanguageReferrable(element, obj)
+        assert obj.getLongName1().getValue().getValue() == "H2O"
+        assert obj.getLongName1().getSup().getValue() == "2"
+
+    def test_readSingleLanguageReferrable_without_long_name1(self, parser):
+        from armodel.models import SingleLanguageReferrable
+
+        class ConcreteSingleLanguageReferrable(SingleLanguageReferrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteSingleLanguageReferrable(_autosar_root(), "sl")
+        element = _snip("<SHORT-NAME>sl</SHORT-NAME>", root_tag="ELEM")
+        parser.readSingleLanguageReferrable(element, obj)
+        assert obj.getLongName1() is None
+
     def test_readIdentifiable_populates_category_desc_admin(self, parser):
         from armodel.models import Unit
 
