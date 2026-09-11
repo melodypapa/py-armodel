@@ -17,8 +17,30 @@ class TestGraphicFitEnum:
 
     def test_graphic_fit_enum_initialization(self):
         """Test that a GraphicFitEnum object can be initialized."""
-        graphic_fit_enum = GraphicFitEnum([])
+        graphic_fit_enum = GraphicFitEnum()
         assert graphic_fit_enum is not None
+
+    def test_graphic_fit_enum_spec_literals(self):
+        """GraphicFitEnum shall expose the 13 spec literals with their XSD string values."""
+        enum = GraphicFitEnum()
+        expected = {
+            GraphicFitEnum.ASIS: "AS-IS",
+            GraphicFitEnum.FIT_TO_PAGE: "FIT-TO-PAGE",
+            GraphicFitEnum.FIT_TO_TEXT: "FIT-TO-TEXT",
+            GraphicFitEnum.LIMIT_TO_PAGE: "LIMIT-TO-PAGE",
+            GraphicFitEnum.LIMIT_TO_TEXT: "LIMIT-TO-TEXT",
+            GraphicFitEnum.ROTATE_180: "ROTATE-180",
+            GraphicFitEnum.ROTATE_180_LIMIT_TO_TEXT: "ROTATE-180-LIMIT-TO-TEXT",
+            GraphicFitEnum.ROTATE_90CCW: "ROTATE-90-CCW",
+            GraphicFitEnum.ROTATE_90CCW_FIT_TO_TEXT: "ROTATE-90-CCW-FIT-TO-TEXT",
+            GraphicFitEnum.ROTATE_90CCW_LIMIT_TO_TEXT: "ROTATE-90-CCW-LIMIT-TO-TEXT",
+            GraphicFitEnum.ROTATE_90CW: "ROTATE-90-CW",
+            GraphicFitEnum.ROTATE_90CW_FIT_TO_TEXT: "ROTATE-90-CW-FIT-TO-TEXT",
+            GraphicFitEnum.ROTATE_90CW_LIMIT_TO_TEXT: "ROTATE-90-CW-LIMIT-TO-TEXT",
+        }
+        for const, value in expected.items():
+            assert const == value
+        assert set(enum.getEnumValues()) == set(expected.values())
 
 
 class TestGraphic:
@@ -37,7 +59,7 @@ class TestGraphic:
     def test_graphic_editfit_methods(self):
         """Test the editfit getter and setter."""
         graphic = Graphic()
-        editfit = GraphicFitEnum([])
+        editfit = GraphicFitEnum()
 
         result = graphic.setEditfit(editfit)
         assert graphic.getEditfit() == editfit
@@ -82,7 +104,7 @@ class TestGraphic:
     def test_graphic_fit_methods(self):
         """Test the fit getter and setter."""
         graphic = Graphic()
-        fit = GraphicFitEnum([])
+        fit = GraphicFitEnum()
 
         result = graphic.setFit(fit)
         assert graphic.getFit() == fit

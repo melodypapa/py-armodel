@@ -8,14 +8,73 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 
 class GraphicFitEnum(AREnum):
     """
-    Enumeration for graphic fitting modes.
+    This enumerator specifies the policy how to place and scale the figure on the page.
     """
 
     # GraphicFitEnum method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.21, p.304
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Graphic.editfit/fit/htmlFit (EDITFIT/FIT/HTML-FIT attributes)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
-    def __init__(self, enum_values):
-        super().__init__([])
+    # This indicates that the image shall be incorporated as is without scaling, rotation etc. Tags: atp.EnumerationLiteralIndex=0
+    ASIS = "AS-IS"
+
+    # Fit to the page Tags: atp.EnumerationLiteralIndex=1
+    FIT_TO_PAGE = "FIT-TO-PAGE"
+
+    # fit to the text containing the graphic. Tags: atp.EnumerationLiteralIndex=2
+    FIT_TO_TEXT = "FIT-TO-TEXT"
+
+    # This indicates that the width of the graphic shall be limited to the page width . The image shall not be scaled down but cropped. Tags: atp.EnumerationLiteralIndex=3
+    LIMIT_TO_PAGE = "LIMIT-TO-PAGE"
+
+    # This indicates that the width of the graphic shall be limited to the width of the current text flow . The image shall not be scaled down but cropped. Tags: atp.EnumerationLiteralIndex=4
+    LIMIT_TO_TEXT = "LIMIT-TO-TEXT"
+
+    # Rotate 180 degree Tags: atp.EnumerationLiteralIndex=5
+    ROTATE_180 = "ROTATE-180"
+
+    # Rotate 180 degree Tags: atp.EnumerationLiteralIndex=6
+    ROTATE_180_LIMIT_TO_TEXT = "ROTATE-180-LIMIT-TO-TEXT"
+
+    # Rotate 90 degree counter clockwise Tags: atp.EnumerationLiteralIndex=7
+    ROTATE_90CCW = "ROTATE-90-CCW"
+
+    # Rotate by 90 degree counter clock wise and then fit to text Tags: atp.EnumerationLiteralIndex=8
+    ROTATE_90CCW_FIT_TO_TEXT = "ROTATE-90-CCW-FIT-TO-TEXT"
+
+    # Rotate by 90 degree counter clock wise and then fit to text Tags: atp.EnumerationLiteralIndex=9
+    ROTATE_90CCW_LIMIT_TO_TEXT = "ROTATE-90-CCW-LIMIT-TO-TEXT"
+
+    # Rotate 90 degree clockwise Tags: atp.EnumerationLiteralIndex=10
+    ROTATE_90CW = "ROTATE-90-CW"
+
+    # Rotate by 90 degree and then fit to text Tags: atp.EnumerationLiteralIndex=11
+    ROTATE_90CW_FIT_TO_TEXT = "ROTATE-90-CW-FIT-TO-TEXT"
+
+    # Rotate by 90 degree and then fit to text Tags: atp.EnumerationLiteralIndex=12
+    ROTATE_90CW_LIMIT_TO_TEXT = "ROTATE-90-CW-LIMIT-TO-TEXT"
+
+    def __init__(self):
+        super().__init__(
+            (
+                GraphicFitEnum.ASIS,
+                GraphicFitEnum.FIT_TO_PAGE,
+                GraphicFitEnum.FIT_TO_TEXT,
+                GraphicFitEnum.LIMIT_TO_PAGE,
+                GraphicFitEnum.LIMIT_TO_TEXT,
+                GraphicFitEnum.ROTATE_180,
+                GraphicFitEnum.ROTATE_180_LIMIT_TO_TEXT,
+                GraphicFitEnum.ROTATE_90CCW,
+                GraphicFitEnum.ROTATE_90CCW_FIT_TO_TEXT,
+                GraphicFitEnum.ROTATE_90CCW_LIMIT_TO_TEXT,
+                GraphicFitEnum.ROTATE_90CW,
+                GraphicFitEnum.ROTATE_90CW_FIT_TO_TEXT,
+                GraphicFitEnum.ROTATE_90CW_LIMIT_TO_TEXT,
+            )
+        )
 
 
 class Graphic(EngineeringObject):
