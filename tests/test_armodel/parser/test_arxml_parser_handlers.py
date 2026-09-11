@@ -351,6 +351,31 @@ class TestAdminDataAndReferrableHandlers:
         assert l4s[1].getValue() == "Motor"
         assert l4s[1].getL() == "DE"
 
+    def test_getSingleLanguageLongName_parses_value_and_inline(self, parser):
+        element = _snip(
+            "<LONG-NAME-1>Engine<TT TYPE='VARIABLE'>term</TT></LONG-NAME-1>",
+            root_tag="PARENT",
+        )
+        long_name = parser.getSingleLanguageLongName(element, "LONG-NAME-1")
+        assert long_name is not None
+        assert long_name.getValue().getValue() == "Engine"
+        assert long_name.getTt() is not None
+        assert long_name.getTt().getValue().getValue() == "term"
+
+    def test_getSingleLanguageLongName_parses_sup_sub(self, parser):
+        element = _snip(
+            "<LONG-NAME-1 SUP='2' SUB='3'>H2O</LONG-NAME-1>",
+            root_tag="PARENT",
+        )
+        long_name = parser.getSingleLanguageLongName(element, "LONG-NAME-1")
+        assert long_name.getValue().getValue() == "H2O"
+        assert long_name.getSup().getValue() == "2"
+        assert long_name.getSub().getValue() == "3"
+
+    def test_getSingleLanguageLongName_missing_returns_None(self, parser):
+        element = _snip("<X/>")
+        assert parser.getSingleLanguageLongName(element, "LONG-NAME-1") is None
+
     def test_getMultiLanguageOverviewParagraph_with_L2(self, parser):
         element = _snip(
             "<DESC><L-2 L='EN'>overview</L-2></DESC>",

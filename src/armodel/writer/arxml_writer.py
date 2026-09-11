@@ -874,9 +874,10 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     TraceableText,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Tt
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim, MixedContentForLongName
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
+from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
 from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
 
 #: Mapping between BindingTimeEnum camelCase values and their XML attribute tokens
@@ -1113,20 +1114,28 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setLLongName(self, element: ET.Element, name: LLongName):
         child_element = ET.SubElement(element, "L-4")
-        self.writeARObject(child_element, name)
         if name.getL() is not None:
             child_element.attrib["L"] = name.getL()
-        if name.getSup() is not None:
-            child_element.attrib["SUP"] = name.getSup().getValue()
-        if name.getSub() is not None:
-            child_element.attrib["SUB"] = name.getSub().getValue()
         child_element.text = name.getValue()
-        if name.getE() is not None:
-            self.setEmphasisText(child_element, "E", name.getE())
-        if name.getIe() is not None:
-            self.setIndexEntry(child_element, "IE", name.getIe())
-        if name.getTt() is not None:
-            self.setTt(child_element, "TT", name.getTt())
+        self.writeMixedContentForLongName(child_element, name)
+
+    def writeMixedContentForLongName(self, element: ET.Element, content: MixedContentForLongName):
+        self.writeARObject(element, content)
+        if content.getSup() is not None:
+            element.attrib["SUP"] = content.getSup().getValue()
+        if content.getSub() is not None:
+            element.attrib["SUB"] = content.getSub().getValue()
+        if content.getE() is not None:
+            self.setEmphasisText(element, "E", content.getE())
+        if content.getIe() is not None:
+            self.setIndexEntry(element, "IE", content.getIe())
+        if content.getTt() is not None:
+            self.setTt(element, "TT", content.getTt())
+
+    def setSingleLanguageLongName(self, element: ET.Element, key: str, name: SingleLanguageLongName):
+        child_element = ET.SubElement(element, key)
+        child_element.text = name.getValue().getValue() if name.getValue() is not None else None
+        self.writeMixedContentForLongName(child_element, name)
 
     def setEmphasisText(self, element: ET.Element, key: str, emphasis: EmphasisText):
         child_element = ET.SubElement(element, key)

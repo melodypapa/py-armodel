@@ -978,9 +978,10 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     TraceableText,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim, MixedContentForLongName
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
+from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
 from armodel.parser.abstract_arxml_parser import AbstractARXMLParser
 
 #: Mapping between BindingTimeEnum camelCase values and their XML attribute tokens
@@ -1294,23 +1295,26 @@ class ARXMLParser(AbstractARXMLParser):
     def readLLongName(self, element: ET.Element, long_name: MultilanguageLongName):
         for child_element in self.findall(element, "L-4"):
             l4 = LLongName()
-            self.readARObject(child_element, l4)
             l4.setValue(child_element.text)
             if "L" in child_element.attrib:
                 l4.setL(child_element.attrib["L"])  # noqa: E741
-            if "SUP" in child_element.attrib:
-                l4.setSup(Superscript().setValue(child_element.attrib["SUP"]))
-            if "SUB" in child_element.attrib:
-                l4.setSub(Superscript().setValue(child_element.attrib["SUB"]))
-            for inline in child_element:
-                tag_name = self.getTagName(inline)
-                if tag_name == "E":
-                    l4.setE(self.readEmphasisText(inline))
-                elif tag_name == "IE":
-                    l4.setIe(self.readIndexEntry(inline))
-                elif tag_name == "TT":
-                    l4.setTt(self.readTt(inline))
+            self.readMixedContentForLongName(child_element, l4)
             long_name.addL4(l4)
+
+    def readMixedContentForLongName(self, element: ET.Element, content: MixedContentForLongName):
+        self.readARObject(element, content)
+        if "SUP" in element.attrib:
+            content.setSup(Superscript().setValue(element.attrib["SUP"]))
+        if "SUB" in element.attrib:
+            content.setSub(Superscript().setValue(element.attrib["SUB"]))
+        for inline in element:
+            tag_name = self.getTagName(inline)
+            if tag_name == "E":
+                content.setE(self.readEmphasisText(inline))
+            elif tag_name == "IE":
+                content.setIe(self.readIndexEntry(inline))
+            elif tag_name == "TT":
+                content.setTt(self.readTt(inline))
 
     def readEmphasisText(self, element: ET.Element) -> EmphasisText:
         emphasis = EmphasisText()
@@ -1355,6 +1359,19 @@ class ARXMLParser(AbstractARXMLParser):
             long_name = MultilanguageLongName()
             self.readARObject(child_element, long_name)
             self.readLLongName(child_element, long_name)
+        return long_name
+
+    def readSingleLanguageLongName(self, element: ET.Element, long_name: SingleLanguageLongName):
+        if element.text is not None:
+            long_name.setValue(String().setValue(element.text))
+        self.readMixedContentForLongName(element, long_name)
+
+    def getSingleLanguageLongName(self, element: ET.Element, key: str) -> SingleLanguageLongName:
+        long_name = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            long_name = SingleLanguageLongName()
+            self.readSingleLanguageLongName(child_element, long_name)
         return long_name
 
     def readLOverviewParagraph(self, element: ET.Element, paragraph: MultiLanguageOverviewParagraph):
