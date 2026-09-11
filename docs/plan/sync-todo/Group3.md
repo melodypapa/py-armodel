@@ -35,6 +35,12 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
 >   Compu family ordered CompuContent → CompuConst → Compu → CompuMethod / CompuScale → CompuScales.
 > - **New 16.4 entry**: `SwGenericAxisParamType` (NOT in src; ref target of SwRecordLayoutGroup/V.swGenericAxisParamType).
 > - Cross-group deps: `ApplicationPrimitiveDataType` (SwAxisIndividual.inputVariableType / SwAxisGrouped.sharedAxisType) queued in Group2.
+>
+> **Dependency audit 2026-09-11** (re-run for the `Graphic` row during its Step 1 — the 2026-09-03 restructure missed this one):
+> - **Added 1 missing dependency row**: `GraphicNotationEnum` (Table 9.22, p.305) — NOT in src; member type of `Graphic.notation`.
+>   Queued immediately **before** `Graphic` (Rule 16.5 dependency-first: a dependent must never precede its member type, or Step 3 would fabricate the type — Rule 0001.10).
+> - `Graphic` dependency closure otherwise clear: Base `ARObject` + `EngineeringObject` both `# Spec verified: R23-11`, `GraphicFitEnum` `# Spec verified: R23-11`, `String`/`NameToken` are primitives.
+> - `Graphic.notation` is the only consumer of `GraphicNotationEnum` (spec `Aggregated by` = `Graphic.notation`), so no other row shifts.
 
 - [x] `ChapterEnumBreak` (dependency · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.61 · enum member type of `Paginateable.chapterBreak`) — verified R23-11 (commit 20e6ee88)
   - [x] Step 1 — Sync members & description from spec
@@ -86,8 +92,18 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations  [none: all 13 literal values + indices 0-12 match XSD GRAPHIC-FIT-ENUM--SIMPLE; class now matches spec]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [marker # Spec verified: R23-11 written; commit 5b543a21]
-- [ ] `Graphic` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.20 · member type of `LGraphic.graphic` below)
+- [ ] `GraphicNotationEnum` (dependency · **added 2026-09-11 Graphic dependency audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.22, p.305 · enum member type of `Graphic.notation` below · **NOT in src** — 8 XSD literals BMP/EPS/GIF/JPG/PDF/PNG/SVG/TIFF, indices 0-7 · queued dependency-first per Rule 16.5)
   - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Graphic` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.20 · member type of `LGraphic.graphic` below · **15 spec attrs (all 0..1, all xml.attribute=true); src has only 6** — missing `generator`, `height`, `htmlFit`, `htmlHeight`, `htmlScale`, `htmlWidth`, `notation`, `scale`, `width` · Base `ARObject`+`EngineeringObject` both stamped ✓ · `GraphicFitEnum` stamped ✓ · `GraphicNotationEnum` queued above)
+  - [x] Step 1 — Sync members & description from spec  [audit: 15 attrs vs 6 in src; XSD GRAPHIC attributeGroup confirms EDITFIT/EDIT-HEIGHT/EDITSCALE/EDIT-WIDTH/FILENAME/FIT/GENERATOR/HEIGHT/HTML-FIT/HTML-HEIGHT/HTML-SCALE/HTML-WIDTH/NOTATION/SCALE/WIDTH]
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
   - [ ] Step 4 — Sync docstrings (wipe + rewrite)
