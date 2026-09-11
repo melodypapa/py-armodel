@@ -36,6 +36,22 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
 > - **New 16.4 entry**: `SwGenericAxisParamType` (NOT in src; ref target of SwRecordLayoutGroup/V.swGenericAxisParamType).
 > - Cross-group deps: `ApplicationPrimitiveDataType` (SwAxisIndividual.inputVariableType / SwAxisGrouped.sharedAxisType) queued in Group2.
 >
+> **Dependency audit 2026-09-11 (LParagraph closure)** (re-run during the `LParagraph` Step 1 — the 2026-09-03
+> restructure and the 2026-09-11 `Graphic` audit both missed this one):
+> - `LParagraph` (9.92) has **no own attributes**; its content lives in `Base` = `ARObject , LanguageSpecific ,
+>   MixedContentForParagraph`, and `MixedContentForParagraph` (Table 9.2, abstract, 13 attrs) is **NOT in src**.
+> - **Added 21 dependency rows** before `LParagraph` (Rule 16.5 dependency-first), all verified NOT-in-src by AST scan:
+>   `SingleLanguageLongName` (4.7), `SingleLanguageReferrable` (4.12), `Url` (XSD-only, complexType URL line 128502 —
+>   16.4 decision **Derive-from-XSD**), `Br` (9.33), `Std` (9.37), `Xdoc` (9.40), `Xfile` (9.41), `XrefTarget` (9.43),
+>   the 10 `Xref` enums (9.46–9.55), `Xref` (9.42), `MixedContentForParagraph` (9.2), `SlParagraph` (**Table E.71**,
+>   appendix letter-numbered table — same class of miss as E.81 / Group2 D.17/D.4).
+> - Already stamped, no row needed: `EmphasisText` (9.34), `IndexEntry` (9.36), `Superscript` (9.38), `Tt` (9.39),
+>   `Traceable` (9.29), `Referrable` (D.54), `MixedContentForLongName` (4.9), `LanguageSpecific`.
+> - Primitives not queued (leaf types, same treatment as `String`/`NameToken` in the `Graphic` row): `DateTime`,
+>   `String`, `NameToken`.
+> - Cycle note: `MixedContentForParagraph.ft` → `SlParagraph` → base `MixedContentForParagraph`; sync order
+>   (MixedContentForParagraph first, then SlParagraph) resolves the ref direction.
+>
 > **Dependency audit 2026-09-11** (re-run for the `Graphic` row during its Step 1 — the 2026-09-03 restructure missed this one):
 > - **Added 1 missing dependency row**: `GraphicNotationEnum` (Table 9.22, p.305) — NOT in src; member type of `Graphic.notation`.
 >   Queued immediately **before** `Graphic` (Rule 16.5 dependency-first: a dependent must never precede its member type, or Step 3 would fabricate the type — Rule 0001.10).
@@ -112,7 +128,217 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [# Spec: FO_TPS Table 9.20, p.303; 31 rows (init + 15 getter/setter pairs) with 6 columns + release R23-11]
   - [x] Step 8 — Deviations  [none: all 15 spec attrs modeled with PDF types (10 String, 1 NameToken, 3 GraphicFitEnum, 1 GraphicNotationEnum), names verbatim, all with reader+writer coverage]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [marker # Spec verified: R23-11 written; commit 06b46f32]
-- [ ] `LParagraph` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.92 · member type of `MultiLanguageParagraph.l1` below)
+- [ ] `SingleLanguageLongName` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.7 · **NOT in src** · Package M2::MSR::Documentation::TextModel::SingleLanguageData · Base `ARObject , MixedContentForLongName` (MixedContentForLongName stamped ✓) · needed by `SingleLanguageReferrable.longName1` and `Xref.label1`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SingleLanguageReferrable` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.12 (abstract) · **NOT in src** · Package M2::AUTOSARTemplates::GenericStructure::GeneralTemplateClasses::Identifiable · Base `ARObject , Referrable` (Referrable stamped ✓) · attr `longName1` SingleLanguageLongName 0..1 aggr · base of `Std`, `Xdoc`, `Xfile`, `XrefTarget`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Url` (dependency · **added 2026-09-11 LParagraph closure audit** · **XSD-only** (no markdown/PDF table) · AUTOSAR_00052.xsd `complexType name="URL"` line 128502 (+ `attributeGroup URL` line 128494; attr `MIME-TYPE`) · **NOT in src** · member type of `Std.url` / `Xdoc.url` / `Xfile.url` (0..1 aggr) · 16.4 decision: **Derive-from-XSD** → carries `# XSD verified: AUTOSAR_00052.xsd`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Br` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.33 · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject` · no own attributes · member type of `MixedContentForParagraph.br`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Std` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.37 · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject , Referrable , SingleLanguageReferrable` · attrs date(DateTime)/position(String)/state(String)/subtitle(String)/url(Url) all 0..1 · member type of `MixedContentForParagraph.std`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Xdoc` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.40 · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject , Referrable , SingleLanguageReferrable` · attrs date/number/position/publisher/state/url all 0..1 · member type of `MixedContentForParagraph.xdoc`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Xfile` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.41 · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject , Referrable , SingleLanguageReferrable` · attrs tool/toolVersion/url all 0..1 · member type of `MixedContentForParagraph.xfile`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `XrefTarget` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.43 · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject , Referrable , SingleLanguageReferrable` · no own attributes · member type of `MixedContentForParagraph.xrefTarget`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ResolutionPolicyEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.46 · **NOT in src** · AREnum · member type of `Xref.resolutionPolicy`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ShowContentEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.47 · **NOT in src** · AREnum · member type of `Xref.showContent`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ShowResourceAliasNameEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.48 · **NOT in src** · AREnum · member type of `Xref.showResourceAliasName`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ShowResourceCategoryEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.49 · **NOT in src** · AREnum · member type of `Xref.showResourceCategory`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ShowResourceLongNameEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.50 · **NOT in src** · AREnum · member type of `Xref.showResourceLongName`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ShowResourceNumberEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.51 · **NOT in src** · AREnum · member type of `Xref.showResourceNumber`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ShowResourcePageEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.52 · **NOT in src** · AREnum · member type of `Xref.showResourcePage`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ShowResourceShortNameEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.53 · **NOT in src** · AREnum · member type of `Xref.showResourceShortName`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ShowResourceTypeEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.54 · **NOT in src** · AREnum · member type of `Xref.showResourceType`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ShowSeeEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.55 · **NOT in src** · AREnum · member type of `Xref.showSee`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Xref` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.42 · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject` · 12 attrs: label1(SingleLanguageLongName aggr)/referrable(Referrable ref)/resolutionPolicy + showContent + showResourceAliasName/Category/LongName/Number/Page/ShortName/Type + showSee (enums, all 0..1) · member type of `MixedContentForParagraph.xref`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `MixedContentForParagraph` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.2 (abstract, <<atpMixedString>>) · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextModel · Base `ARObject` · 13 attrs: br(Br)/e(EmphasisText ✓)/ft(SlParagraph)/ie(IndexEntry ✓)/std(Std)/sub(Superscript ✓)/sup(Superscript ✓)/trace(Traceable ref ✓)/tt(Tt ✓)/xdoc(Xdoc)/xfile(Xfile)/xref(Xref)/xrefTarget(XrefTarget) · parent of `LParagraph` and `SlParagraph`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SlParagraph` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · **Table E.71** (appendix letter-numbered table, same class as Group2 D.17/D.4 and Group3 E.81 cases) · **NOT in src** · Package M2::MSR::Documentation::TextModel::SingleLanguageData · Base `ARObject , MixedContentForParagraph` (cyclic with MixedContentForParagraph: synced after it, which resolves the `ft` ref direction) · member type of `MixedContentForParagraph.ft`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `LParagraph` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.92 (p.348) · member type of `MultiLanguageParagraph.l1` below · **no own spec attributes (`-` row); content comes from `Base` = ARObject , LanguageSpecific , MixedContentForParagraph** · BLOCKED on the 21 dependency rows queued above it — do not start until `MixedContentForParagraph` is stamped)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
