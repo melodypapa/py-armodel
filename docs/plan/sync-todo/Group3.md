@@ -102,7 +102,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [# Spec: FO_TPS Table 9.22, p.305; (no methods) row for __init__ with 6 columns + release R23-11; marker deferred to 9b]
   - [x] Step 8 — Deviations  [none: all 8 literal values + indices 0-7 match XSD GRAPHIC-NOTATION-ENUM--SIMPLE; class now matches spec]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [marker # Spec verified: R23-11 written; commit f25e765d]
-- [ ] `Graphic` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.20 · member type of `LGraphic.graphic` below · **15 spec attrs (all 0..1, all xml.attribute=true); src has only 6** — missing `generator`, `height`, `htmlFit`, `htmlHeight`, `htmlScale`, `htmlWidth`, `notation`, `scale`, `width` · Base `ARObject`+`EngineeringObject` both stamped ✓ · `GraphicFitEnum` stamped ✓ · `GraphicNotationEnum` queued above)
+- [x] `Graphic` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.20 · member type of `LGraphic.graphic` below · **15 spec attrs (all 0..1, all xml.attribute=true); src had only 6 — all 9 missing ones added** · Base `ARObject`+`EngineeringObject` both stamped ✓ · `GraphicFitEnum` ✓ · `GraphicNotationEnum` ✓) — verified R23-11 (commit 06b46f32)
   - [x] Step 1 — Sync members & description from spec  [audit: 15 attrs vs 6 in src; XSD GRAPHIC attributeGroup confirms EDITFIT/EDIT-HEIGHT/EDITSCALE/EDIT-WIDTH/FILENAME/FIT/GENERATOR/HEIGHT/HTML-FIT/HTML-HEIGHT/HTML-SCALE/HTML-WIDTH/NOTATION/SCALE/WIDTH]
   - [x] Step 2 — Write model class unit test (Red)  [TestGraphic: 15-attr init defaults + all 15 get/set pairs with None no-op; 10 failed = Red]
   - [x] Step 3 — Implement model class (Green)  [9 new attrs added (generator NameToken, height/htmlHeight/htmlScale/htmlWidth/scale/width String, htmlFit GraphicFitEnum, notation GraphicNotationEnum); all 15 members now PEP 526 annotated (was `# type:` comments)]
@@ -111,7 +111,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 6 — Update parser & writer (Green)  [getGraphic/setGraphic now cover all 15 attributes with typed primitives (String/NameToken/GraphicFitEnum/GraphicNotationEnum) and matched set/get pairs]
   - [x] Step 7 — Update checklist comment  [# Spec: FO_TPS Table 9.20, p.303; 31 rows (init + 15 getter/setter pairs) with 6 columns + release R23-11]
   - [x] Step 8 — Deviations  [none: all 15 spec attrs modeled with PDF types (10 String, 1 NameToken, 3 GraphicFitEnum, 1 GraphicNotationEnum), names verbatim, all with reader+writer coverage]
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [marker # Spec verified: R23-11 written; commit 06b46f32]
 - [ ] `LParagraph` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.92 · member type of `MultiLanguageParagraph.l1` below)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
