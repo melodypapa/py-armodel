@@ -62,7 +62,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations  [none: pre-existing wrong values keep/noKeep corrected to XSD KEEP/NO-KEEP; class now matches spec]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [marker # Spec verified: R23-11 written; commit d447cf2a]
-- [ ] `Paginateable` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.75 (mixin) · parent of `MultiLanguageParagraph`, `MlFigure`, `MsrQueryChapter`, `MsrQueryTopic1`, `MsrQueryP1` below · attrs BREAK/KEEP-WITH-PREVIOUS)
+- [x] `Paginateable` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.75 (mixin) · parent of `MultiLanguageParagraph`, `MlFigure`, `MsrQueryChapter`, `MsrQueryTopic1`, `MsrQueryP1` below · attrs BREAK/KEEP-WITH-PREVIOUS) — verified R23-11 (model+docstrings/checklist/parser/writer 20e6ee88, LIST aggregator coverage a06638fb)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
@@ -70,8 +70,8 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 5 — Write reader/writer round-trip test (Red)
   - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
-  - [x] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 8 — Deviations  [none outstanding: spec attr `break` is a Python keyword → field `chapterBreak`, accessors keep the spec name `getBreak`/`setBreak` (precedented like DefItem.def→def_doc)]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [marker `# Spec verified: R23-11` had been committed early in 20e6ee88; full 9b checklist re-run and confirmed in this pass; ARList aggregator coverage fixed + committed a06638fb]
 - [x] `MultilanguageLongName` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 4.6 · member type of `GeneralAnnotation.label` below) — verified R23-11 (commit 87855dea)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
