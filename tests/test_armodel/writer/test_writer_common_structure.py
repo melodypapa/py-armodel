@@ -49,6 +49,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import (  # noqa: E501
     ARList,
 )
+from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import ChapterEnumBreak, KeepWithPreviousEnum
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
     DocumentationBlock,
 )
@@ -738,6 +739,17 @@ class TestWriteMlFigure:
         fig.addLGraphics(lg)
         writer.writeMlFigure(parent, fig)
         assert parent[0].tag == "L-GRAPHIC"
+
+    def test_writes_paginateable_attributes(self, writer):
+        parent = _parent()
+        fig = MlFigure()
+        fig.setBreak(ChapterEnumBreak().setValue(ChapterEnumBreak.BREAK))
+        fig.setKeepWithPrevious(KeepWithPreviousEnum().setValue(KeepWithPreviousEnum.KEEP))
+
+        writer.writeMlFigure(parent, fig)
+
+        assert parent.attrib["BREAK"] == "BREAK"
+        assert parent.attrib["KEEP-WITH-PREVIOUS"] == "keep"
 
 
 class TestSetMlFigures:

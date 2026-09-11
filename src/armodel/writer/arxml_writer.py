@@ -2176,6 +2176,10 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writePaginateable(self, element: ET.Element, paginateable: Paginateable):
         self.writeDocumentViewSelectable(element, paginateable)
+        if paginateable.getBreak() is not None:
+            element.attrib["BREAK"] = paginateable.getBreak().getValue()
+        if paginateable.getKeepWithPrevious() is not None:
+            element.attrib["KEEP-WITH-PREVIOUS"] = paginateable.getKeepWithPrevious().getValue()
 
     def writeMlFigure(self, element: ET.Element, figure: MlFigure):
         self.writePaginateable(element, figure)

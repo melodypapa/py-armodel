@@ -971,7 +971,7 @@ from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQue
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note, NoteTypeEnum
-from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import ChapterEnumBreak, DocumentViewSelectable, KeepWithPreviousEnum, Paginateable
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     StructuredReq,
     Traceable,
@@ -4896,6 +4896,10 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readPaginateable(self, element: ET.Element, paginateable: Paginateable):
         self.readDocumentViewSelectable(element, paginateable)
+        if "BREAK" in element.attrib:
+            paginateable.setBreak(ChapterEnumBreak().setValue(element.attrib["BREAK"]))
+        if "KEEP-WITH-PREVIOUS" in element.attrib:
+            paginateable.setKeepWithPrevious(KeepWithPreviousEnum().setValue(element.attrib["KEEP-WITH-PREVIOUS"]))
 
     def readMlFigure(self, element: ET.Element, figure: MlFigure):
         self.readPaginateable(element, figure)

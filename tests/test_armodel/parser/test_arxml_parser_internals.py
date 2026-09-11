@@ -52,8 +52,9 @@ def parser():
     return ARXMLParser()
 
 
-def _snip(inner: str, root_tag: str = "ROOT") -> ET.Element:
-    return ET.fromstring(f"<{root_tag} xmlns='{NS}'>{inner}</{root_tag}>")
+def _snip(inner: str, root_tag: str = "ROOT", **attributes) -> ET.Element:
+    attrs = " ".join(f'{key}="{value}"' for key, value in attributes.items())
+    return ET.fromstring(f"<{root_tag} xmlns='{NS}' {attrs}>{inner}</{root_tag}>")
 
 
 # ==================== SDG (Service Data Group) ====================
@@ -485,9 +486,11 @@ class TestGraphicAndFigureHandlers:
         parser.readDocumentViewSelectable(element, selectable)
 
     def test_readPaginateable(self, parser):
-        element = _snip("", root_tag="PAGINATE")
+        element = _snip("", root_tag="PAGINATE", BREAK="BREAK", **{"KEEP-WITH-PREVIOUS": "keep"})
         paginateable = MlFigure()
         parser.readPaginateable(element, paginateable)
+        assert paginateable.getBreak().getValue() == "BREAK"
+        assert paginateable.getKeepWithPrevious().getValue() == "keep"
 
     def test_getMlFigures(self, parser):
         element = _snip(
