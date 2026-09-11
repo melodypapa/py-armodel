@@ -4867,6 +4867,7 @@ class ARXMLParser(AbstractARXMLParser):
         result = []
         for child_element in self.findall(element, key):
             list = ARList()
+            self.readPaginateable(child_element, list)
             if "TYPE" in child_element.attrib:
                 list.setType(child_element.attrib["TYPE"])
             for block in self.getDocumentationBlockList(child_element, "ITEM"):

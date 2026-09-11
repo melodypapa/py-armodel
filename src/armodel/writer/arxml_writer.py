@@ -2151,6 +2151,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setListElement(self, element: ET.Element, key: str, list: ARList):
         if list is not None:
             child_element = ET.SubElement(element, key)
+            self.writePaginateable(child_element, list)
             type = list.getType()
             if type is not None:
                 child_element.attrib["TYPE"] = type

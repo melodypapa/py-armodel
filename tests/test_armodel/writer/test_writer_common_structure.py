@@ -661,6 +661,17 @@ class TestSetListElement:
         writer.setListElement(parent, "LIST", None)
         assert len(parent) == 0
 
+    def test_with_paginateable_attributes(self, writer):
+        parent = _parent()
+        lst = ARList()
+        lst.setBreak(ChapterEnumBreak().setValue(ChapterEnumBreak.BREAK))
+        lst.setKeepWithPrevious(KeepWithPreviousEnum().setValue(KeepWithPreviousEnum.KEEP))
+
+        writer.setListElement(parent, "LIST", lst)
+
+        assert parent[0].attrib["BREAK"] == "BREAK"
+        assert parent[0].attrib["KEEP-WITH-PREVIOUS"] == "KEEP"
+
     def test_with_documentation_block_item(self, writer):
         parent = _parent()
         lst = ARList()

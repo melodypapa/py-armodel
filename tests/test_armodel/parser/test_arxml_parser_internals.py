@@ -438,6 +438,14 @@ class TestDocumentationBlockHandlers:
         lists = parser.getListElements(element, "LIST")
         assert len(lists) == 1
 
+    def test_getListElements_paginateable_attributes(self, parser):
+        element = _snip(
+            "<LIST TYPE='number' BREAK='BREAK' KEEP-WITH-PREVIOUS='KEEP'>" "<ITEM><P><L-1 L='en'>item</L-1></P></ITEM>" "</LIST>",
+        )
+        lists = parser.getListElements(element, "LIST")
+        assert lists[0].getBreak().getValue() == "BREAK"
+        assert lists[0].getKeepWithPrevious().getValue() == "KEEP"
+
 
 # ==================== Graphic and Figure Handlers ====================
 
