@@ -405,7 +405,7 @@ class TestDocumentationBlockHandlers:
         assert formula.getFormulaCaption() is not None
         assert formula.getFormulaCaption().getShortName() == "cap"
         assert len(formula.getLGraphics()) == 1
-        assert formula.getLGraphics()[0].getGraphic().getFilename() == "g.png"
+        assert formula.getLGraphics()[0].getGraphic().getFilename().getValue() == "g.png"
         assert formula.getVerbatim() is not None
         assert [l5.value for l5 in formula.getVerbatim().getL5s()] == ["x*x"]
         assert formula.getTexMath() is not None
@@ -457,7 +457,30 @@ class TestGraphicAndFigureHandlers:
         )
         graphic = parser.getGraphic(element, "MY-GRAPHIC")
         assert graphic is not None
-        assert graphic.getFilename() == "test.png"
+        assert graphic.getFilename().getValue() == "test.png"
+
+    def test_getGraphic_all_attributes(self, parser):
+        element = _snip(
+            "<MY-GRAPHIC EDITFIT='AS-IS' EDIT-HEIGHT='10' EDITSCALE='0.5' EDIT-WIDTH='20' FILENAME='f.png' FIT='FIT-TO-PAGE'"
+            " GENERATOR='gen' HEIGHT='11' HTML-FIT='AS-IS' HTML-HEIGHT='12' HTML-SCALE='0.6' HTML-WIDTH='22'"
+            " NOTATION='PNG' SCALE='0.7' WIDTH='21'/>",
+        )
+        graphic = parser.getGraphic(element, "MY-GRAPHIC")
+        assert graphic.getEditfit().getValue() == "AS-IS"
+        assert graphic.getEditHeight().getValue() == "10"
+        assert graphic.getEditscale().getValue() == "0.5"
+        assert graphic.getEditWidth().getValue() == "20"
+        assert graphic.getFilename().getValue() == "f.png"
+        assert graphic.getFit().getValue() == "FIT-TO-PAGE"
+        assert graphic.getGenerator().getValue() == "gen"
+        assert graphic.getHeight().getValue() == "11"
+        assert graphic.getHtmlFit().getValue() == "AS-IS"
+        assert graphic.getHtmlHeight().getValue() == "12"
+        assert graphic.getHtmlScale().getValue() == "0.6"
+        assert graphic.getHtmlWidth().getValue() == "22"
+        assert graphic.getNotation().getValue() == "PNG"
+        assert graphic.getScale().getValue() == "0.7"
+        assert graphic.getWidth().getValue() == "21"
 
     def test_getGraphic_missing(self, parser):
         element = _snip("<X/>")

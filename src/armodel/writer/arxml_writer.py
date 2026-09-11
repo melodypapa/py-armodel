@@ -2161,8 +2161,36 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setGraphic(self, element: ET.Element, key: str, graphic: Graphic):
         if graphic is not None:
             child_element = ET.SubElement(element, key)
+            if graphic.getEditfit() is not None:
+                child_element.attrib["EDITFIT"] = graphic.getEditfit().getValue()
+            if graphic.getEditHeight() is not None:
+                child_element.attrib["EDIT-HEIGHT"] = graphic.getEditHeight().getValue()
+            if graphic.getEditscale() is not None:
+                child_element.attrib["EDITSCALE"] = graphic.getEditscale().getValue()
+            if graphic.getEditWidth() is not None:
+                child_element.attrib["EDIT-WIDTH"] = graphic.getEditWidth().getValue()
             if graphic.getFilename() is not None:
-                child_element.attrib["FILENAME"] = graphic.getFilename()
+                child_element.attrib["FILENAME"] = graphic.getFilename().getValue()
+            if graphic.getFit() is not None:
+                child_element.attrib["FIT"] = graphic.getFit().getValue()
+            if graphic.getGenerator() is not None:
+                child_element.attrib["GENERATOR"] = graphic.getGenerator().getValue()
+            if graphic.getHeight() is not None:
+                child_element.attrib["HEIGHT"] = graphic.getHeight().getValue()
+            if graphic.getHtmlFit() is not None:
+                child_element.attrib["HTML-FIT"] = graphic.getHtmlFit().getValue()
+            if graphic.getHtmlHeight() is not None:
+                child_element.attrib["HTML-HEIGHT"] = graphic.getHtmlHeight().getValue()
+            if graphic.getHtmlScale() is not None:
+                child_element.attrib["HTML-SCALE"] = graphic.getHtmlScale().getValue()
+            if graphic.getHtmlWidth() is not None:
+                child_element.attrib["HTML-WIDTH"] = graphic.getHtmlWidth().getValue()
+            if graphic.getNotation() is not None:
+                child_element.attrib["NOTATION"] = graphic.getNotation().getValue()
+            if graphic.getScale() is not None:
+                child_element.attrib["SCALE"] = graphic.getScale().getValue()
+            if graphic.getWidth() is not None:
+                child_element.attrib["WIDTH"] = graphic.getWidth().getValue()
 
     def writeMlFigureLGraphics(self, element: ET.Element, figure: MlFigure):
         graphics = figure.getLGraphics()

@@ -953,7 +953,7 @@ from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
 from armodel.models.M2.MSR.Documentation.BlockElements import Caption
-from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, LGraphic, MlFigure
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, GraphicFitEnum, GraphicNotationEnum, LGraphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
 from armodel.models.M2.MSR.Documentation.Chapters import (
@@ -4880,8 +4880,36 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             graphic = Graphic()
+            if "EDITFIT" in child_element.attrib:
+                graphic.setEditfit(GraphicFitEnum().setValue(child_element.attrib["EDITFIT"]))
+            if "EDIT-HEIGHT" in child_element.attrib:
+                graphic.setEditHeight(String().setValue(child_element.attrib["EDIT-HEIGHT"]))
+            if "EDITSCALE" in child_element.attrib:
+                graphic.setEditscale(String().setValue(child_element.attrib["EDITSCALE"]))
+            if "EDIT-WIDTH" in child_element.attrib:
+                graphic.setEditWidth(String().setValue(child_element.attrib["EDIT-WIDTH"]))
             if "FILENAME" in child_element.attrib:
-                graphic.setFilename(child_element.attrib["FILENAME"])
+                graphic.setFilename(String().setValue(child_element.attrib["FILENAME"]))
+            if "FIT" in child_element.attrib:
+                graphic.setFit(GraphicFitEnum().setValue(child_element.attrib["FIT"]))
+            if "GENERATOR" in child_element.attrib:
+                graphic.setGenerator(NameToken().setValue(child_element.attrib["GENERATOR"]))
+            if "HEIGHT" in child_element.attrib:
+                graphic.setHeight(String().setValue(child_element.attrib["HEIGHT"]))
+            if "HTML-FIT" in child_element.attrib:
+                graphic.setHtmlFit(GraphicFitEnum().setValue(child_element.attrib["HTML-FIT"]))
+            if "HTML-HEIGHT" in child_element.attrib:
+                graphic.setHtmlHeight(String().setValue(child_element.attrib["HTML-HEIGHT"]))
+            if "HTML-SCALE" in child_element.attrib:
+                graphic.setHtmlScale(String().setValue(child_element.attrib["HTML-SCALE"]))
+            if "HTML-WIDTH" in child_element.attrib:
+                graphic.setHtmlWidth(String().setValue(child_element.attrib["HTML-WIDTH"]))
+            if "NOTATION" in child_element.attrib:
+                graphic.setNotation(GraphicNotationEnum().setValue(child_element.attrib["NOTATION"]))
+            if "SCALE" in child_element.attrib:
+                graphic.setScale(String().setValue(child_element.attrib["SCALE"]))
+            if "WIDTH" in child_element.attrib:
+                graphic.setWidth(String().setValue(child_element.attrib["WIDTH"]))
         return graphic
 
     def readMlFigureLGraphics(self, element: ET.Element, figure: MlFigure):

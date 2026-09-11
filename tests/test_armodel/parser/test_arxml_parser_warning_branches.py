@@ -537,7 +537,7 @@ class TestOptionalGetterDefensivePaths:
         element = _snip('<GRAPHIC FILENAME="test.png"/>')
         result = parser.getGraphic(element, "GRAPHIC")
         assert result is not None
-        assert result.filename == "test.png"
+        assert result.filename.getValue() == "test.png"
 
 
 # ==================== TestRaiseWarningFallbacks ====================

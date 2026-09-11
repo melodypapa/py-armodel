@@ -2,7 +2,7 @@
 This module contains tests for the Figure module in MSR.Documentation.BlockElements.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
     Graphic,
     GraphicFitEnum,
@@ -95,6 +95,15 @@ class TestGraphic:
         assert graphic.editWidth is None
         assert graphic.filename is None
         assert graphic.fit is None
+        assert graphic.generator is None
+        assert graphic.height is None
+        assert graphic.htmlFit is None
+        assert graphic.htmlHeight is None
+        assert graphic.htmlScale is None
+        assert graphic.htmlWidth is None
+        assert graphic.notation is None
+        assert graphic.scale is None
+        assert graphic.width is None
 
     def test_graphic_editfit_methods(self):
         """Test the editfit getter and setter."""
@@ -105,6 +114,9 @@ class TestGraphic:
         assert graphic.getEditfit() == editfit
         assert result == graphic
 
+        graphic.setEditfit(None)
+        assert graphic.getEditfit() == editfit
+
     def test_graphic_edit_height_methods(self):
         """Test the editHeight getter and setter."""
         graphic = Graphic()
@@ -113,6 +125,9 @@ class TestGraphic:
         result = graphic.setEditHeight(height)
         assert graphic.getEditHeight() == height
         assert result == graphic
+
+        graphic.setEditHeight(None)
+        assert graphic.getEditHeight() == height
 
     def test_graphic_editscale_methods(self):
         """Test the editscale getter and setter."""
@@ -123,6 +138,9 @@ class TestGraphic:
         assert graphic.getEditscale() == scale
         assert result == graphic
 
+        graphic.setEditscale(None)
+        assert graphic.getEditscale() == scale
+
     def test_graphic_edit_width_methods(self):
         """Test the editWidth getter and setter."""
         graphic = Graphic()
@@ -131,6 +149,9 @@ class TestGraphic:
         result = graphic.setEditWidth(width)
         assert graphic.getEditWidth() == width
         assert result == graphic
+
+        graphic.setEditWidth(None)
+        assert graphic.getEditWidth() == width
 
     def test_graphic_filename_methods(self):
         """Test the filename getter and setter."""
@@ -141,6 +162,9 @@ class TestGraphic:
         assert graphic.getFilename() == filename
         assert result == graphic
 
+        graphic.setFilename(None)
+        assert graphic.getFilename() == filename
+
     def test_graphic_fit_methods(self):
         """Test the fit getter and setter."""
         graphic = Graphic()
@@ -149,6 +173,117 @@ class TestGraphic:
         result = graphic.setFit(fit)
         assert graphic.getFit() == fit
         assert result == graphic
+
+        graphic.setFit(None)
+        assert graphic.getFit() == fit
+
+    def test_graphic_generator_methods(self):
+        """Test the generator getter and setter."""
+        graphic = Graphic()
+        generator = NameToken()
+
+        result = graphic.setGenerator(generator)
+        assert graphic.getGenerator() == generator
+        assert result == graphic
+
+        graphic.setGenerator(None)
+        assert graphic.getGenerator() == generator
+
+    def test_graphic_height_methods(self):
+        """Test the height getter and setter."""
+        graphic = Graphic()
+        height = String()
+
+        result = graphic.setHeight(height)
+        assert graphic.getHeight() == height
+        assert result == graphic
+
+        graphic.setHeight(None)
+        assert graphic.getHeight() == height
+
+    def test_graphic_html_fit_methods(self):
+        """Test the htmlFit getter and setter."""
+        graphic = Graphic()
+        html_fit = GraphicFitEnum()
+
+        result = graphic.setHtmlFit(html_fit)
+        assert graphic.getHtmlFit() == html_fit
+        assert result == graphic
+
+        graphic.setHtmlFit(None)
+        assert graphic.getHtmlFit() == html_fit
+
+    def test_graphic_html_height_methods(self):
+        """Test the htmlHeight getter and setter."""
+        graphic = Graphic()
+        html_height = String()
+
+        result = graphic.setHtmlHeight(html_height)
+        assert graphic.getHtmlHeight() == html_height
+        assert result == graphic
+
+        graphic.setHtmlHeight(None)
+        assert graphic.getHtmlHeight() == html_height
+
+    def test_graphic_html_scale_methods(self):
+        """Test the htmlScale getter and setter."""
+        graphic = Graphic()
+        html_scale = String()
+
+        result = graphic.setHtmlScale(html_scale)
+        assert graphic.getHtmlScale() == html_scale
+        assert result == graphic
+
+        graphic.setHtmlScale(None)
+        assert graphic.getHtmlScale() == html_scale
+
+    def test_graphic_html_width_methods(self):
+        """Test the htmlWidth getter and setter."""
+        graphic = Graphic()
+        html_width = String()
+
+        result = graphic.setHtmlWidth(html_width)
+        assert graphic.getHtmlWidth() == html_width
+        assert result == graphic
+
+        graphic.setHtmlWidth(None)
+        assert graphic.getHtmlWidth() == html_width
+
+    def test_graphic_notation_methods(self):
+        """Test the notation getter and setter."""
+        graphic = Graphic()
+        notation = GraphicNotationEnum()
+
+        result = graphic.setNotation(notation)
+        assert graphic.getNotation() == notation
+        assert result == graphic
+
+        graphic.setNotation(None)
+        assert graphic.getNotation() == notation
+
+    def test_graphic_scale_methods(self):
+        """Test the scale getter and setter."""
+        graphic = Graphic()
+        scale = String()
+
+        result = graphic.setScale(scale)
+        assert graphic.getScale() == scale
+        assert result == graphic
+
+        graphic.setScale(None)
+        assert graphic.getScale() == scale
+
+    def test_graphic_width_methods(self):
+        """Test the width getter and setter."""
+        graphic = Graphic()
+        width = String()
+
+        result = graphic.setWidth(width)
+        assert graphic.getWidth() == width
+        assert result == graphic
+
+        graphic.setWidth(None)
+        assert graphic.getWidth() == width
 
 
 class TestMap:
