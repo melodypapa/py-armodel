@@ -226,16 +226,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [one __init__ row with six columns and R23-11 release; concrete helper coverage recorded on XML layer]
    - [x] Step 8 — Deviations  [none outstanding]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8898 unit tests, lint, Black check, and diff check pass; 9b: user-confirmed matched base, no own attributes, inherited XML coverage, docstrings, and no deviations; marker written]
-- [ ] `ResolutionPolicyEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.46 · **NOT in src** · AREnum · member type of `Xref.resolutionPolicy`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `ResolutionPolicyEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.46 · **created** · Package M2::MSR::Documentation::TextModel::InlineAttributeEnums · AREnum; literals noSloppy/sloppy; member type of `Xref.resolutionPolicy`) — verified R23-11 (commit pending)
+   - [x] Step 1 — Sync members & description from spec  [Table 9.46, p.322; two literals NO-SLOPPY/SLOPPY confirmed against XSD]
+   - [x] Step 2 — Write model class unit test (Red)  [ModuleNotFoundError before implementation]
+   - [x] Step 3 — Implement model class (Green)  [new ResolutionPolicyEnum(AREnum) with two XSD values]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class note and literal descriptions copied from Table 9.46/XSD]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: standalone AREnum has no own XML element; value form belongs to Xref]
+   - [x] Step 6 — Update parser & writer (Green)  [N/A: consuming Xref row owns RESOLUTION-POLICY coverage]
+   - [x] Step 7 — Update checklist comment  [AREnum no-method checklist with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none outstanding]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8899 unit tests, lint, Black check, and diff check pass; 9b: user-confirmed matched literals, enum values, docstrings, standalone N/A XML coverage, and no deviations; marker written]
 - [ ] `ShowContentEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.47 · **NOT in src** · AREnum · member type of `Xref.showContent`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
