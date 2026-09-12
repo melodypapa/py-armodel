@@ -880,7 +880,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     Traceable,
     TraceableText,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Tt
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Tt, Xdoc
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim, MixedContentForLongName
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
@@ -1157,6 +1157,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             if std.getSubtitle() is not None:
                 child_element.attrib["SUBTITLE"] = std.getSubtitle().getValue()
             self.setUrl(child_element, "URL", std.getUrl())
+
+    def setXdoc(self, element: ET.Element, key: str, xdoc: Xdoc):
+        if xdoc is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeSingleLanguageReferrable(child_element, xdoc)
+            if xdoc.getDate() is not None:
+                child_element.attrib["DATE"] = xdoc.getDate().getValue()
+            if xdoc.getNumber() is not None:
+                child_element.attrib["NUMBER"] = xdoc.getNumber().getValue()
+            if xdoc.getPosition() is not None:
+                child_element.attrib["POSITION"] = xdoc.getPosition().getValue()
+            if xdoc.getPublisher() is not None:
+                child_element.attrib["PUBLISHER"] = xdoc.getPublisher().getValue()
+            if xdoc.getState() is not None:
+                child_element.attrib["STATE"] = xdoc.getState().getValue()
+            self.setUrl(child_element, "URL", xdoc.getUrl())
 
     def setSingleLanguageLongName(self, element: ET.Element, key: str, name: SingleLanguageLongName):
         child_element = ET.SubElement(element, key)

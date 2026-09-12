@@ -133,6 +133,111 @@ class Std(SingleLanguageReferrable):
         return self
 
 
+class Xdoc(SingleLanguageReferrable):
+    """
+    This meta-class represents the ability to refer to an external document which can be rendered as printed matter.
+    """
+
+    # Xdoc method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.40, p.319
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDate      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDate      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNumber    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNumber    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPosition  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPosition  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPublisher [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPublisher [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getState     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setState     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUrl       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUrl       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This element specifies the release date of the external document if applicable. Tags: xml.sequenceOffset=50
+        self.date: Optional[DateTime] = None
+
+        # This represents document number of an external document that is referenced. Kept as a string. Tags: xml.sequenceOffset=30
+        self.number: Optional[String] = None
+
+        # This represents the reference to the relevant positions of a standard. Kept as a string. Tags: xml.sequenceOffset=80
+        self.position: Optional[String] = None
+
+        # This represents the publisher of an external document that is being referenced. Kept as a string. Tags: xml.sequenceOffset=60
+        self.publisher: Optional[String] = None
+
+        # This represents version and state of the external document. Kept as a string. Tags: xml.sequenceOffset=40
+        self.state: Optional[String] = None
+
+        # This specifies the URL of the external document. Tags: xml.sequenceOffset=70
+        self.url: Optional[Url] = None
+
+    def getDate(self) -> Optional[DateTime]:
+        """This element specifies the release date of the external document if applicable. Tags: xml.sequenceOffset=50"""
+        return self.date
+
+    def setDate(self, value: Optional[DateTime]) -> "Xdoc":
+        """This element specifies the release date of the external document if applicable. Tags: xml.sequenceOffset=50. A None value is a no-op and does not overwrite an existing date."""
+        if value is not None:
+            self.date = value
+        return self
+
+    def getNumber(self) -> Optional[String]:
+        """This represents document number of an external document that is referenced. Kept as a string. Tags: xml.sequenceOffset=30"""
+        return self.number
+
+    def setNumber(self, value: Optional[String]) -> "Xdoc":
+        """This represents document number of an external document that is referenced. Kept as a string. Tags: xml.sequenceOffset=30. A None value is a no-op and does not overwrite an existing number."""
+        if value is not None:
+            self.number = value
+        return self
+
+    def getPosition(self) -> Optional[String]:
+        """This represents the reference to the relevant positions of a standard. Kept as a string. Tags: xml.sequenceOffset=80"""
+        return self.position
+
+    def setPosition(self, value: Optional[String]) -> "Xdoc":
+        """This represents the reference to the relevant positions of a standard. Kept as a string. Tags: xml.sequenceOffset=80. A None value is a no-op and does not overwrite an existing position."""
+        if value is not None:
+            self.position = value
+        return self
+
+    def getPublisher(self) -> Optional[String]:
+        """This represents the publisher of an external document that is being referenced. Kept as a string. Tags: xml.sequenceOffset=60"""
+        return self.publisher
+
+    def setPublisher(self, value: Optional[String]) -> "Xdoc":
+        """This represents the publisher of an external document that is being referenced. Kept as a string. Tags: xml.sequenceOffset=60. A None value is a no-op and does not overwrite an existing publisher."""
+        if value is not None:
+            self.publisher = value
+        return self
+
+    def getState(self) -> Optional[String]:
+        """This represents version and state of the external document. Kept as a string. Tags: xml.sequenceOffset=40"""
+        return self.state
+
+    def setState(self, value: Optional[String]) -> "Xdoc":
+        """This represents version and state of the external document. Kept as a string. Tags: xml.sequenceOffset=40. A None value is a no-op and does not overwrite an existing state."""
+        if value is not None:
+            self.state = value
+        return self
+
+    def getUrl(self) -> Optional[Url]:
+        """This specifies the URL of the external document. Tags: xml.sequenceOffset=70"""
+        return self.url
+
+    def setUrl(self, value: Optional[Url]) -> "Xdoc":
+        """This specifies the URL of the external document. Tags: xml.sequenceOffset=70. A None value is a no-op and does not overwrite an existing url."""
+        if value is not None:
+            self.url = value
+        return self
+
+
 class Superscript(ARLiteral):
     """
     This is text which is rendered superscript or subscript depending on the role.

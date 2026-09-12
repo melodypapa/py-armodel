@@ -196,16 +196,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [11 method rows with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none outstanding]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, full unit suite, lint, Black check, and diff check pass; 9b: user-confirmed matched base, members, docstrings, reader/writer coverage, and no deviations; marker written]
-- [ ] `Xdoc` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.40 · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject , Referrable , SingleLanguageReferrable` · attrs date/number/position/publisher/state/url all 0..1 · member type of `MixedContentForParagraph.xdoc`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `Xdoc` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.40 · **created** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject , Referrable , SingleLanguageReferrable` · attrs date/number/position/publisher/state/url all 0..1 · member type of `MixedContentForParagraph.xdoc`) — verified R23-11 (commit pending)
+   - [x] Step 1 — Sync members & description from spec  [Table 9.40, p.319; base and six attributes confirmed]
+   - [x] Step 2 — Write model class unit test (Red)  [ImportError before implementation]
+   - [x] Step 3 — Implement model class (Green)  [Xdoc extends SingleLanguageReferrable; typed six members and accessors]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class and member docs copied from Table 9.40]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [missing getXdoc/setXdoc before implementation]
+   - [x] Step 6 — Update parser & writer (Green)  [getXdoc/setXdoc cover inherited referrable data, six attributes, and nested URL]
+   - [x] Step 7 — Update checklist comment  [13 method rows with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none outstanding]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8887 unit tests, lint, Black check, and diff check pass; 9b: user-confirmed matched base, members, docstrings, reader/writer coverage, and no deviations; marker written]
 - [ ] `Xfile` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.41 · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject , Referrable , SingleLanguageReferrable` · attrs tool/toolVersion/url all 0..1 · member type of `MixedContentForParagraph.xfile`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
