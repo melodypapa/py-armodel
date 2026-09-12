@@ -216,7 +216,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [7 method rows with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none outstanding]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8893 unit tests, lint, Black check, and diff check pass; 9b: user-confirmed matched base, members, XML order, docstrings, reader/writer coverage, and no deviations; marker written]
-- [x] `XrefTarget` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.43 · **created** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject , Referrable , SingleLanguageReferrable` · no own attributes · member type of `MixedContentForParagraph.xrefTarget`) — verified R23-11 (commit pending)
+- [x] `XrefTarget` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.43 · **created** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject , Referrable , SingleLanguageReferrable` · no own attributes · member type of `MixedContentForParagraph.xrefTarget`) — verified R23-11 (commit 8c9df663)
    - [x] Step 1 — Sync members & description from spec  [Table 9.43, p.321; no own attributes; inherited SingleLanguageReferrable XML groups confirmed]
    - [x] Step 2 — Write model class unit test (Red)  [ImportError before implementation]
    - [x] Step 3 — Implement model class (Green)  [XrefTarget extends SingleLanguageReferrable with no own members]
