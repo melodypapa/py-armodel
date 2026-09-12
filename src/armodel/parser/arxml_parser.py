@@ -986,7 +986,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     Traceable,
     TraceableText,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Superscript, Tt
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Superscript, Tt
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim, MixedContentForLongName
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
@@ -1337,6 +1337,24 @@ class ARXMLParser(AbstractARXMLParser):
         br = Br()
         self.readARObject(child_element, br)
         return br
+
+    def getStd(self, element: ET.Element, key: str) -> Std:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+
+        std = Std(None, "STD")
+        self.readSingleLanguageReferrable(child_element, std)
+        if "DATE" in child_element.attrib:
+            std.setDate(DateTime().setValue(child_element.attrib["DATE"]))
+        if "POSITION" in child_element.attrib:
+            std.setPosition(String().setValue(child_element.attrib["POSITION"]))
+        if "STATE" in child_element.attrib:
+            std.setState(String().setValue(child_element.attrib["STATE"]))
+        if "SUBTITLE" in child_element.attrib:
+            std.setSubtitle(String().setValue(child_element.attrib["SUBTITLE"]))
+        std.setUrl(self.getUrl(child_element, "URL"))
+        return std
 
     def readEmphasisText(self, element: ET.Element) -> EmphasisText:
         emphasis = EmphasisText()

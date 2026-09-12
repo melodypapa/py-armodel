@@ -880,7 +880,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     Traceable,
     TraceableText,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Tt
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Tt
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim, MixedContentForLongName
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
@@ -1143,6 +1143,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         if br is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, br)
+
+    def setStd(self, element: ET.Element, key: str, std: Std):
+        if std is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeSingleLanguageReferrable(child_element, std)
+            if std.getDate() is not None:
+                child_element.attrib["DATE"] = std.getDate().getValue()
+            if std.getPosition() is not None:
+                child_element.attrib["POSITION"] = std.getPosition().getValue()
+            if std.getState() is not None:
+                child_element.attrib["STATE"] = std.getState().getValue()
+            if std.getSubtitle() is not None:
+                child_element.attrib["SUBTITLE"] = std.getSubtitle().getValue()
+            self.setUrl(child_element, "URL", std.getUrl())
 
     def setSingleLanguageLongName(self, element: ET.Element, key: str, name: SingleLanguageLongName):
         child_element = ET.SubElement(element, key)
