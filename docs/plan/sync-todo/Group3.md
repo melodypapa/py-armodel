@@ -176,16 +176,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [XSD-only checklist with 5 method rows and release R23-11]
    - [x] Step 8 — Deviations  [none: XSD complexType and attributeGroup fully modeled; no PDF/markdown table]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, and black-check pass; full unit suite 8865 passed; integration blocked by existing GBK decoding error; 9b: user-confirmed XSD compliance; marker written]
-- [ ] `Br` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.33 · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject` · no own attributes · member type of `MixedContentForParagraph.br`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `Br` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.33 · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject` · no own attributes · member type of `MixedContentForParagraph.br`) — verified R23-11 (Rule 0013.2 correction; commit pending)
+  - [x] Step 1 — Sync members & description from spec  [Class Br; Package M2::MSR::Documentation::TextModel::InlineTextElements; Note copied verbatim; Base ARObject; no own Attribute rows; p.316 via pdf_page.py; aggregated by MixedContentForOverviewParagraph.br, MixedContentForParagraph.br, MixedContentForVerbatim.br]
+  - [x] Step 2 — Write model class unit test (Red)  [test_Br.py: initialization and inherited ARObject defaults; ImportError = Red]
+  - [x] Step 3 — Implement model class (Green)  [Br(ARObject) added to InlineTextElements.py; 1 passed]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note copied verbatim; no own members or accessors]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser/writer tests for inherited S/T attributes and omitted None wrapper; AttributeError = Red]
+  - [x] Step 6 — Update parser & writer (Green)  [Rule 0013.2 correction: concrete XML helper names are getBr/setBr; they cover the BR XML element and inherited ARObject S/T attributes; 4 focused tests passed]
+  - [x] Step 7 — Update checklist comment  [Table 9.33 p.316; one __init__ row with six columns and R23-11; concrete helper coverage is recorded on the XML layer]
+  - [x] Step 8 — Deviations  [initial readBr/writeBr names corrected to concrete-element getBr/setBr per Rule 0013.2; no remaining deviation]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8869 unit tests, lint, Black check, and focused Rule 0013.2 checks pass; 9b: user-confirmed matched concrete helper names getBr/setBr; marker already present]
 - [ ] `Std` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.37 · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject , Referrable , SingleLanguageReferrable` · attrs date(DateTime)/position(String)/state(String)/subtitle(String)/url(Url) all 0..1 · member type of `MixedContentForParagraph.std`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

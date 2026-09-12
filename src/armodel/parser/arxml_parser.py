@@ -986,7 +986,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     Traceable,
     TraceableText,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Superscript, Tt
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim, MixedContentForLongName
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
@@ -1328,6 +1328,15 @@ class ARXMLParser(AbstractARXMLParser):
                 content.setIe(self.readIndexEntry(inline))
             elif tag_name == "TT":
                 content.setTt(self.readTt(inline))
+
+    def getBr(self, element: ET.Element, key: str) -> Br:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+
+        br = Br()
+        self.readARObject(child_element, br)
+        return br
 
     def readEmphasisText(self, element: ET.Element) -> EmphasisText:
         emphasis = EmphasisText()

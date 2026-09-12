@@ -6,6 +6,21 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, NameToken, String
 
 
+class Br(ARObject):
+    """
+    This element is the same as function here as in a HTML document i.e. it forces a line break.
+    """
+
+    # Br method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.33, p.316
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
 class Superscript(ARLiteral):
     """
     This is text which is rendered superscript or subscript depending on the role.

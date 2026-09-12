@@ -880,7 +880,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     Traceable,
     TraceableText,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Tt
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Tt
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim, MixedContentForLongName
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
@@ -1138,6 +1138,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setIndexEntry(element, "IE", content.getIe())
         if content.getTt() is not None:
             self.setTt(element, "TT", content.getTt())
+
+    def setBr(self, element: ET.Element, key: str, br: Br):
+        if br is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, br)
 
     def setSingleLanguageLongName(self, element: ET.Element, key: str, name: SingleLanguageLongName):
         child_element = ET.SubElement(element, key)
