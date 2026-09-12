@@ -4,6 +4,8 @@ from typing import TYPE_CHECKING, Optional
 
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import MultilanguageReferrable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MimeTypeString, UriString
 
 if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
@@ -49,4 +51,57 @@ class Caption(MultilanguageReferrable):
         return self
 
 
-__all__ = ["FloatEnum", "PgwideEnum", "Caption"]
+class Url(ARObject):
+    """
+    This meta-class specifies an Uniform Resource Locator (URL).
+    """
+
+    # Url method parity checklist:
+    # Spec: AUTOSAR_00052.xsd, complexType URL line 128502 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setMimeType    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMimeType    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValue       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValue       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # this denotes the mime type of the resource located by the url.
+        self.mimeType: Optional[MimeTypeString] = None
+
+        # The URL value represented by this object.
+        self.value: Optional[UriString] = None
+
+    def setMimeType(self, value: Optional[MimeTypeString]) -> "Url":
+        """
+        this denotes the mime type of the resource located by the url. A None value is a no-op and does not overwrite an existing mimeType.
+        """
+        if value is not None:
+            self.mimeType = value
+        return self
+
+    def getMimeType(self) -> Optional[MimeTypeString]:
+        """
+        this denotes the mime type of the resource located by the url.
+        """
+        return self.mimeType
+
+    def setValue(self, value: Optional[UriString]) -> "Url":
+        """
+        The URL value represented by this object. A None value is a no-op and does not overwrite an existing value.
+        """
+        if value is not None:
+            self.value = value
+        return self
+
+    def getValue(self) -> Optional[UriString]:
+        """
+        The URL value represented by this object.
+        """
+        return self.value
+
+
+__all__ = ["FloatEnum", "PgwideEnum", "Caption", "Url"]

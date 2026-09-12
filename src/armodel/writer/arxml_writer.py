@@ -858,7 +858,7 @@ from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, Sw
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.MSR.Documentation.BlockElements import Caption
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Url
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.Chapters import (
@@ -2212,6 +2212,15 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element.attrib["SCALE"] = graphic.getScale().getValue()
             if graphic.getWidth() is not None:
                 child_element.attrib["WIDTH"] = graphic.getWidth().getValue()
+
+    def setUrl(self, element: ET.Element, key: str, url: Url):
+        if url is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, url)
+            if url.getMimeType() is not None:
+                child_element.attrib["MIME-TYPE"] = url.getMimeType().getValue()
+            if url.getValue() is not None:
+                child_element.text = url.getValue().getText()
 
     def writeMlFigureLGraphics(self, element: ET.Element, figure: MlFigure):
         graphics = figure.getLGraphics()

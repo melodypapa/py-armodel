@@ -399,6 +399,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     DateTime,
     IntervalTypeEnum,
     MacAddressString,
+    MimeTypeString,
     NameToken,
     Numerical,
     PositiveInteger,
@@ -407,6 +408,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ReferrableSubtypesEnum,
     SectionInitializationPolicyType,
     String,
+    UriString,
     VerbatimString,
     VerbatimStringPlain,
 )
@@ -959,7 +961,7 @@ from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, Sw
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
-from armodel.models.M2.MSR.Documentation.BlockElements import Caption
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Url
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, GraphicFitEnum, GraphicNotationEnum, LGraphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
@@ -4939,6 +4941,19 @@ class ARXMLParser(AbstractARXMLParser):
             if "WIDTH" in child_element.attrib:
                 graphic.setWidth(String().setValue(child_element.attrib["WIDTH"]))
         return graphic
+
+    def getUrl(self, element: ET.Element, key: str) -> Url:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+
+        url = Url()
+        self.readARObject(child_element, url)
+        if "MIME-TYPE" in child_element.attrib:
+            url.setMimeType(MimeTypeString().setValue(child_element.attrib["MIME-TYPE"]))
+        if child_element.text is not None:
+            url.setValue(UriString().setValue(child_element.text))
+        return url
 
     def readMlFigureLGraphics(self, element: ET.Element, figure: MlFigure):
         for child_element in self.findall(element, "L-GRAPHIC"):

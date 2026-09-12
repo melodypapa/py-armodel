@@ -166,16 +166,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [# Spec: FO_TPS Table 4.55, p.111; 1 row (__init__) with 6 columns + release R23-11; marker deferred to 9b]
   - [x] Step 8 — Deviations  [none: spec table is a `Primitive` (not `Class`/`Enumeration`) → modeled as an `ARLiteral` subclass with no own fields (Rule 0001.10 primitive path); no attributes to type; reader/writer N/A (attribute-only usage — the URL attribute belongs to the `Url` row); no missing referenced classes (Base `ARLiteral`/`ARType` in src); no fabricated/naming/type rows. Note the dependency itself was the deviation being fixed: `MimeTypeString` had been missing from src and from every queue since the 2026-09-11 audits — now queued before `Url` (Rule 0016.5)]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8800 models/parser/writer tests + 3 integration round-trips pass; flake8/ruff/black-check clean; checklist == methods; 9b: 12-item pre-stamp checklist user-confirmed; marker `# Spec verified: R23-11` written; commit 01cc23df]
-- [ ] `Url` (dependency · **added 2026-09-11 LParagraph closure audit** · **XSD-only** (no markdown/PDF table) · AUTOSAR_00052.xsd `complexType name="URL"` line 128502 (+ `attributeGroup URL` line 128494; attr `MIME-TYPE`) · **NOT in src** · member type of `Std.url` / `Xdoc.url` / `Xfile.url` (0..1 aggr) · 16.4 decision: **Derive-from-XSD** → carries `# XSD verified: AUTOSAR_00052.xsd` · deps: `mimeType` MimeTypeString queued immediately above (added 2026-09-12) / value type `UriString` stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `Url` (dependency · **added 2026-09-11 LParagraph closure audit** · **XSD-only** (no markdown/PDF table) · AUTOSAR_00052.xsd `complexType name="URL"` line 128502 (+ `attributeGroup URL` line 128494; attr `MIME-TYPE`) · **NOT in src** · member type of `Std.url` / `Xdoc.url` / `Xfile.url` (0..1 aggr) · 16.4 decision: **Derive-from-XSD** → carries `# XSD verified: AUTOSAR_00052.xsd` · deps: `mimeType` MimeTypeString queued immediately above (added 2026-09-12) / value type `UriString` stamped ✓) — verified XSD (commit pending)
+  - [x] Step 1 — Sync members & description from spec  [XSD-only (no R23-11/R4.3.1 table — verified both corpora); Package `M2::MSR::Documentation::BlockElements` (XSD comment line 128493) → non-leaf `BlockElements/__init__.py` (Caption precedent, same package); Base `ARObject` (XSD `attributeGroup AR-OBJECT` ref line 128510 + stereotype atpObject); 2 own members alphabetical (markdown-render convention, cf. Sd/TagWithOptionalValue): `mimeType` MimeTypeString 0..1 attr (MIME-TYPE, documentation "this denotes the mime type of the resource located by the url."), `value` UriString 0..1 text (simpleContent base `URI-STRING--SIMPLE`); class doc "This meta-class specifies an Uniform Resource Locator (URL)."; element `<URL>` (XSD usages lines 113342 Std.url / 131021 Xdoc.url / 131058 Xfile.url); not VP-capable (simpleContent, no VARIATION-POINT)]
+   - [x] Step 2 — Write model class unit test (Red)  [test_Url.py: defaults and typed get/set with None no-op; ImportError = Red]
+   - [x] Step 3 — Implement model class (Green)  [Url(ARObject) with mimeType: Optional[MimeTypeString] and value: Optional[UriString], typed accessors; 3 passed]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note and XSD member documentation copied; PEP 526 members]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser/writer tests for text, MIME-TYPE, S/T and absent URL; AttributeError = Red]
+   - [x] Step 6 — Update parser & writer (Green)  [getUrl/setUrl read/write AR-OBJECT S/T, MIME-TYPE, and URI simple content; 7 focused tests passed]
+   - [x] Step 7 — Update checklist comment  [XSD-only checklist with 5 method rows and release R23-11]
+   - [x] Step 8 — Deviations  [none: XSD complexType and attributeGroup fully modeled; no PDF/markdown table]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, and black-check pass; full unit suite 8865 passed; integration blocked by existing GBK decoding error; 9b: user-confirmed XSD compliance; marker written]
 - [ ] `Br` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.33 · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject` · no own attributes · member type of `MixedContentForParagraph.br`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
