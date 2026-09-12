@@ -216,16 +216,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [7 method rows with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none outstanding]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8893 unit tests, lint, Black check, and diff check pass; 9b: user-confirmed matched base, members, XML order, docstrings, reader/writer coverage, and no deviations; marker written]
-- [ ] `XrefTarget` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.43 · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject , Referrable , SingleLanguageReferrable` · no own attributes · member type of `MixedContentForParagraph.xrefTarget`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `XrefTarget` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.43 · **created** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject , Referrable , SingleLanguageReferrable` · no own attributes · member type of `MixedContentForParagraph.xrefTarget`) — verified R23-11 (commit pending)
+   - [x] Step 1 — Sync members & description from spec  [Table 9.43, p.321; no own attributes; inherited SingleLanguageReferrable XML groups confirmed]
+   - [x] Step 2 — Write model class unit test (Red)  [ImportError before implementation]
+   - [x] Step 3 — Implement model class (Green)  [XrefTarget extends SingleLanguageReferrable with no own members]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class docstring copied from Table 9.43]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [missing getXrefTarget/setXrefTarget before implementation]
+   - [x] Step 6 — Update parser & writer (Green)  [concrete XREF-TARGET helpers cover inherited short-name and long-name data]
+   - [x] Step 7 — Update checklist comment  [one __init__ row with six columns and R23-11 release; concrete helper coverage recorded on XML layer]
+   - [x] Step 8 — Deviations  [none outstanding]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8898 unit tests, lint, Black check, and diff check pass; 9b: user-confirmed matched base, no own attributes, inherited XML coverage, docstrings, and no deviations; marker written]
 - [ ] `ResolutionPolicyEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.46 · **NOT in src** · AREnum · member type of `Xref.resolutionPolicy`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

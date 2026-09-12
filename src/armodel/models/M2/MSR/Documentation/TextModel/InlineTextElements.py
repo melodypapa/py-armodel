@@ -298,6 +298,21 @@ class Xfile(SingleLanguageReferrable):
         return self
 
 
+class XrefTarget(SingleLanguageReferrable):
+    """
+    This element specifies a reference target which can be scattered throughout the text.
+    """
+
+    # XrefTarget method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.43, p.321
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+
 class Superscript(ARLiteral):
     """
     This is text which is rendered superscript or subscript depending on the role.

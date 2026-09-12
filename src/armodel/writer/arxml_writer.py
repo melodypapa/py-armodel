@@ -880,7 +880,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     Traceable,
     TraceableText,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Tt, Xdoc, Xfile
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Tt, Xdoc, Xfile, XrefTarget
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim, MixedContentForLongName
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
@@ -1181,6 +1181,11 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setUrl(child_element, "URL", xfile.getUrl())
             self.setChildElementOptionalString(child_element, "TOOL", xfile.getTool())
             self.setChildElementOptionalString(child_element, "TOOL-VERSION", xfile.getToolVersion())
+
+    def setXrefTarget(self, element: ET.Element, key: str, target: XrefTarget):
+        if target is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeSingleLanguageReferrable(child_element, target)
 
     def setSingleLanguageLongName(self, element: ET.Element, key: str, name: SingleLanguageLongName):
         child_element = ET.SubElement(element, key)

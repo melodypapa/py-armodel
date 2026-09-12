@@ -986,7 +986,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     Traceable,
     TraceableText,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Superscript, Tt, Xdoc, Xfile
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Superscript, Tt, Xdoc, Xfile, XrefTarget
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim, MixedContentForLongName
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
@@ -1387,6 +1387,15 @@ class ARXMLParser(AbstractARXMLParser):
         xfile.setTool(self.getChildElementOptionalString(child_element, "TOOL"))
         xfile.setToolVersion(self.getChildElementOptionalString(child_element, "TOOL-VERSION"))
         return xfile
+
+    def getXrefTarget(self, element: ET.Element, key: str) -> XrefTarget:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+
+        target = XrefTarget(None, self.getShortName(child_element))
+        self.readSingleLanguageReferrable(child_element, target)
+        return target
 
     def readEmphasisText(self, element: ET.Element) -> EmphasisText:
         emphasis = EmphasisText()
