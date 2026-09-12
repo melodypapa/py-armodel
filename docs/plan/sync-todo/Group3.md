@@ -236,16 +236,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [AREnum no-method checklist with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none outstanding]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8899 unit tests, lint, Black check, and diff check pass; 9b: user-confirmed matched literals, enum values, docstrings, standalone N/A XML coverage, and no deviations; marker written]
-- [ ] `ShowContentEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.47 · **NOT in src** · AREnum · member type of `Xref.showContent`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `ShowContentEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.47 · **created** · Package M2::MSR::Documentation::TextModel::InlineAttributeEnums · AREnum; literals noShowContent/showContent; member type of `Xref.showContent`) — verified R23-11 (commit pending)
+   - [x] Step 1 — Sync members & description from spec  [Table 9.47, p.323; two literals NO-SHOW-CONTENT/SHOW-CONTENT confirmed against XSD]
+   - [x] Step 2 — Write model class unit test (Red)  [ImportError before implementation]
+   - [x] Step 3 — Implement model class (Green)  [ShowContentEnum(AREnum) with two XSD values]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class note and literal descriptions copied from Table 9.47/XSD]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: standalone AREnum has no own XML element; value form belongs to Xref]
+   - [x] Step 6 — Update parser & writer (Green)  [N/A: consuming Xref row owns SHOW-CONTENT coverage]
+   - [x] Step 7 — Update checklist comment  [AREnum no-method checklist with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none outstanding]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8900 unit tests, lint, Black check, and diff check pass; 9b: user-confirmed matched literals, enum values, docstrings, standalone N/A XML coverage, and no deviations; marker written]
 - [ ] `ShowResourceAliasNameEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.48 · **NOT in src** · AREnum · member type of `Xref.showResourceAliasName`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
