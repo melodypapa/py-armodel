@@ -238,6 +238,66 @@ class Xdoc(SingleLanguageReferrable):
         return self
 
 
+class Xfile(SingleLanguageReferrable):
+    """
+    This represents to reference an external file within a documentation.
+    """
+
+    # Xfile method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.41, p.320
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTool           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTool           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getToolVersion    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setToolVersion    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUrl            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUrl            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent: ARObject, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This element describes the tool which was used to generate the corresponding Xfile . Kept as a string since no specific syntax can be provided to denote a tool. Tags: xml.sequenceOffset=50
+        self.tool: Optional[String] = None
+
+        # This element describes the tool version which was used to generate the corresponding xfile. Kept as a string, since no specific syntax can be specified. Tags: xml.sequenceOffset=60
+        self.toolVersion: Optional[String] = None
+
+        # This represents the URL of the external file. Tags: xml.sequenceOffset=30
+        self.url: Optional[Url] = None
+
+    def getTool(self) -> Optional[String]:
+        """This element describes the tool which was used to generate the corresponding Xfile . Kept as a string since no specific syntax can be provided to denote a tool. Tags: xml.sequenceOffset=50"""
+        return self.tool
+
+    def setTool(self, value: Optional[String]) -> "Xfile":
+        """This element describes the tool which was used to generate the corresponding Xfile . Kept as a string since no specific syntax can be provided to denote a tool. Tags: xml.sequenceOffset=50. A None value is a no-op and does not overwrite an existing tool."""
+        if value is not None:
+            self.tool = value
+        return self
+
+    def getToolVersion(self) -> Optional[String]:
+        """This element describes the tool version which was used to generate the corresponding xfile. Kept as a string, since no specific syntax can be specified. Tags: xml.sequenceOffset=60"""
+        return self.toolVersion
+
+    def setToolVersion(self, value: Optional[String]) -> "Xfile":
+        """This element describes the tool version which was used to generate the corresponding xfile. Kept as a string, since no specific syntax can be specified. Tags: xml.sequenceOffset=60. A None value is a no-op and does not overwrite an existing toolVersion."""
+        if value is not None:
+            self.toolVersion = value
+        return self
+
+    def getUrl(self) -> Optional[Url]:
+        """This represents the URL of the external file. Tags: xml.sequenceOffset=30"""
+        return self.url
+
+    def setUrl(self, value: Optional[Url]) -> "Xfile":
+        """This represents the URL of the external file. Tags: xml.sequenceOffset=30. A None value is a no-op and does not overwrite an existing url."""
+        if value is not None:
+            self.url = value
+        return self
+
+
 class Superscript(ARLiteral):
     """
     This is text which is rendered superscript or subscript depending on the role.

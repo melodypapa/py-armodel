@@ -986,7 +986,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     Traceable,
     TraceableText,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Superscript, Tt, Xdoc
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Superscript, Tt, Xdoc, Xfile
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim, MixedContentForLongName
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
@@ -1375,6 +1375,18 @@ class ARXMLParser(AbstractARXMLParser):
             xdoc.setState(String().setValue(child_element.attrib["STATE"]))
         xdoc.setUrl(self.getUrl(child_element, "URL"))
         return xdoc
+
+    def getXfile(self, element: ET.Element, key: str) -> Xfile:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+
+        xfile = Xfile(None, "XFILE")
+        self.readSingleLanguageReferrable(child_element, xfile)
+        xfile.setUrl(self.getUrl(child_element, "URL"))
+        xfile.setTool(self.getChildElementOptionalString(child_element, "TOOL"))
+        xfile.setToolVersion(self.getChildElementOptionalString(child_element, "TOOL-VERSION"))
+        return xfile
 
     def readEmphasisText(self, element: ET.Element) -> EmphasisText:
         emphasis = EmphasisText()
