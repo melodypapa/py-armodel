@@ -316,16 +316,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [AREnum no-method checklist with six columns and R23-11 release; marker deferred to 9b]
    - [x] Step 8 — Deviations  [none: literals and indices match XSD SHOW-RESOURCE-TYPE-ENUM--SIMPLE]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, and Black check pass; 9b: user-confirmed matched literals, enum values, docstrings, standalone N/A XML coverage, and no deviations; marker `# Spec verified: R23-11` written]
-- [ ] `ShowSeeEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.55 · **NOT in src** · AREnum · member type of `Xref.showSee`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `ShowSeeEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.55 · **created** · AREnum · member type of `Xref.showSee`) — verified R23-11 (commit 5d48c2a6)
+   - [x] Step 1 — Sync members & description from spec  [Table 9.55, p.325; Note and two literal descriptions copied verbatim from R23-11 markdown; XSD values NO-SHOW-SEE/SHOW-SEE with indices 0/1 confirmed]
+   - [x] Step 2 — Write model class unit test (Red)  [extended test_InlineAttributeEnums.py with initialization, literal, validation, set/get assertions; import failure before implementation]
+   - [x] Step 3 — Implement model class (Green)  [ShowSeeEnum(AREnum) added with NO-SHOW-SEE/SHOW-SEE]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note and literal descriptions copied verbatim from Table 9.55]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: standalone AREnum has no own XML element; value form belongs to Xref]
+   - [x] Step 6 — Update parser & writer (Green)  [N/A: consuming Xref row owns SHOW-SEE coverage]
+   - [x] Step 7 — Update checklist comment  [AREnum no-method checklist with six columns and R23-11 release; marker deferred to 9b]
+   - [x] Step 8 — Deviations  [none: literals and indices match XSD SHOW-SEE-ENUM--SIMPLE]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, and Black check pass; 9b: user-confirmed matched literals, enum values, docstrings, standalone N/A XML coverage, and no deviations; marker `# Spec verified: R23-11` written]
 - [ ] `Xref` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.42 · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject` · 12 attrs: label1(SingleLanguageLongName aggr)/referrable(Referrable ref)/resolutionPolicy + showContent + showResourceAliasName/Category/LongName/Number/Page/ShortName/Type + showSee (enums, all 0..1) · member type of `MixedContentForParagraph.xref`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
