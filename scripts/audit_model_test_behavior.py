@@ -57,36 +57,40 @@ def normalized_methods(node: ast.ClassDef) -> Set[str]:
     return values
 
 
-def calls_and_assertions(node: ast.ClassDef) -> Tuple[Set[str], Set[str]]:
+def calls_and_assertions(node: ast.ClassDef) -> Tuple[Set[str], Set[str], Set[str]]:
     calls = set()
     assertions = set()
+    constructors = set()
     for child in ast.walk(node):
         if isinstance(child, ast.Call):
             if isinstance(child.func, ast.Attribute):
                 calls.add(child.func.attr)
             elif isinstance(child.func, ast.Name):
                 calls.add(child.func.id)
+                constructors.add(child.func.id)
         if isinstance(child, ast.Assert):
             assertions.add(ast.unparse(child.test) if hasattr(ast, "unparse") else "assert")
-    return calls, assertions
+    return calls, assertions, constructors
 
 
 def audit_class(source: ast.ClassDef, tests: List[Tuple[Path, ast.ClassDef, str]]) -> Dict[str, object]:
     test_methods = set()
     calls = set()
     assertions = set()
+    constructors = set()
     for _, test_class, _ in tests:
         test_methods.update(normalized_methods(test_class))
-        test_calls, test_assertions = calls_and_assertions(test_class)
+        test_calls, test_assertions, test_constructors = calls_and_assertions(test_class)
         calls.update(test_calls)
         assertions.update(test_assertions)
+        constructors.update(test_constructors)
 
     source_methods = method_names(source)
     issues = []
     for name in sorted(source_methods):
         normalized = name.replace("_", "").lower()
         if name == "__init__":
-            covered = bool({"init", "initialization", "constructor"} & test_methods)
+            covered = source.name in constructors or bool({"init", "initialization", "constructor"} & test_methods)
         else:
             covered = normalized in test_methods
         if not covered:
