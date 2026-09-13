@@ -87,3 +87,24 @@ class ShowResourceCategoryEnum(AREnum):
 
     def __init__(self):
         super().__init__((ShowResourceCategoryEnum.NO_SHOW_CATEGORY, ShowResourceCategoryEnum.SHOW_CATEGORY))
+
+
+class ShowResourceLongNameEnum(AREnum):
+    """
+    This enumerator specifies if the long name of the reference target shall be rendered with the xref.
+    """
+
+    # ShowResourceLongNameEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.50, p.323
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Xref.showResourceLongName (SHOW-RESOURCE-LONG-NAME attribute)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The long name of the target is not rendered at the place of the reference. Tags: atp.EnumerationLiteralIndex=0
+    NO_SHOW_LONG_NAME = "NO-SHOW-LONG-NAME"
+
+    # The long name of the target is rendered at the place of the reference. Tags: atp.EnumerationLiteralIndex=1
+    SHOW_LONG_NAME = "SHOW-LONG-NAME"
+
+    def __init__(self):
+        super().__init__((ShowResourceLongNameEnum.NO_SHOW_LONG_NAME, ShowResourceLongNameEnum.SHOW_LONG_NAME))
