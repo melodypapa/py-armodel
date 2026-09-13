@@ -30,9 +30,15 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip6AddressString,
     Limit,
     MacAddressString,
+    BaseTypeEncodingString,
+    McdIdentifier,
     MimeTypeString,
     MonotonyEnum,
     NameToken,
+    PositiveUnlimitedInteger,
+    RevisionLabelString,
+    SymbolString,
+    UriString,
     NativeDeclarationString,
     Numerical,
     PositiveInteger,
@@ -490,6 +496,26 @@ class TestPrimitiveIdentifier:
         """
         primitive_identifier = PrimitiveIdentifier().setValue("INFORMAL")
         assert primitive_identifier.getValue() == "INFORMAL"
+
+
+@pytest.mark.parametrize(
+    "primitive_type, value, expected",
+    [
+        (UriString, "https://example.com/resource", "https://example.com/resource"),
+        (BaseTypeEncodingString, "PACKED", "PACKED"),
+        (PositiveUnlimitedInteger, "1", 1.0),
+        (RevisionLabelString, "R23-11", "R23-11"),
+        (SymbolString, "MySymbol", "MySymbol"),
+        (McdIdentifier, "MCD-1", "MCD-1"),
+    ],
+)
+def test_remaining_primitive_types_support_initialization_and_value_roundtrip(primitive_type, value, expected):
+    primitive = primitive_type()
+
+    assert primitive is not None
+    assert primitive._value is None
+    assert primitive.setValue(value) is primitive
+    assert primitive.getValue() == expected
 
 
 class TestReferrableSubtypesEnum:
