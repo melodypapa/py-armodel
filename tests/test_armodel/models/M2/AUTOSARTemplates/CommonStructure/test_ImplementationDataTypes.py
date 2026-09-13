@@ -4,6 +4,7 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ImplementationDataTypes import (
     AbstractImplementationDataType,
     AbstractImplementationDataTypeElement,
+    ArrayImplPolicyEnum,
     ArraySizeSemanticsEnum,
     ImplementationDataType,
     ImplementationDataTypeElement,
@@ -461,3 +462,18 @@ class TestArraySizeSemanticsEnum:
     def test_enum_values(self):
         assert ArraySizeSemanticsEnum.FIXED_SIZE == "fixedSize"
         assert ArraySizeSemanticsEnum.VARIABLE_SIZE == "variableSize"
+
+
+class TestArrayImplPolicyEnum:
+    def test_initialization_and_values(self):
+        enum = ArrayImplPolicyEnum()
+
+        assert enum.getEnumValues() == (ArrayImplPolicyEnum.DYNAMIC, ArrayImplPolicyEnum.STATIC)
+
+    def test_set_get_and_validate(self):
+        enum = ArrayImplPolicyEnum()
+
+        assert enum.setValue(ArrayImplPolicyEnum.STATIC) is enum
+        assert enum.getValue() == "static"
+        assert enum.validateEnumValue("dynamic") is True
+        assert enum.validateEnumValue("invalid") is False
