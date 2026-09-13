@@ -65,3 +65,25 @@ class ShowResourceAliasNameEnum(AREnum):
 
     def __init__(self):
         super().__init__((ShowResourceAliasNameEnum.NO_SHOW_ALIAS_NAME, ShowResourceAliasNameEnum.SHOW_ALIAS_NAME))
+
+
+class ShowResourceCategoryEnum(AREnum):
+    """
+    This enumerator specifies if the category of the reference target shall be rendered with the xref.
+    """
+
+    # ShowResourceCategoryEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.49, p.323
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Xref.showResourceCategory (SHOW-RESOURCE-CATEGORY attribute)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The category of the target is not rendered at the place of the reference. Tags: atp.EnumerationLiteralIndex=0
+    NO_SHOW_CATEGORY = "NO-SHOW-CATEGORY"
+
+    # The category of the target is rendered at the place of the reference. Tags: atp.EnumerationLiteralIndex=1
+    SHOW_CATEGORY = "SHOW-CATEGORY"
+
+    def __init__(self):
+        super().__init__((ShowResourceCategoryEnum.NO_SHOW_CATEGORY, ShowResourceCategoryEnum.SHOW_CATEGORY))
