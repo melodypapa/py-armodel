@@ -11,7 +11,26 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
     DataTransformationStatusForwardingEnum,
     PortAPIOption,
     PortDefinedArgumentValue,
+    SupportBufferLockingEnum,
 )
+
+
+class TestSupportBufferLockingEnum:
+    def test_initialization_and_values(self):
+        enum = SupportBufferLockingEnum()
+
+        assert enum.getEnumValues() == [
+            SupportBufferLockingEnum.DOES_NOT_SUPPORT_BUFFER_LOCKING,
+            SupportBufferLockingEnum.SUPPORTS_BUFFER_LOCKING,
+        ]
+
+    def test_set_get_and_validate(self):
+        enum = SupportBufferLockingEnum()
+
+        assert enum.setValue(SupportBufferLockingEnum.SUPPORTS_BUFFER_LOCKING) is enum
+        assert enum.getValue() == "supportsBufferLocking"
+        assert enum.validateEnumValue("doesNotSupportBufferLocking") is True
+        assert enum.validateEnumValue("invalid") is False
 
 
 class TestPortDefinedArgumentValue:
