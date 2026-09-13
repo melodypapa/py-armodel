@@ -7,6 +7,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.InlineAttributeEnums import (
     ShowResourceAliasNameEnum,
     ShowResourceCategoryEnum,
     ShowResourceLongNameEnum,
+    ShowResourceNumberEnum,
 )
 
 
@@ -110,4 +111,24 @@ class TestShowResourceLongNameEnum:
 
         assert enum.setValue(ShowResourceLongNameEnum.SHOW_LONG_NAME) is enum
         assert enum.getValue() == "SHOW-LONG-NAME"
+        assert enum.validateEnumValue("INVALID") is False
+
+
+class TestShowResourceNumberEnum:
+    def test_initialization_and_values(self):
+        enum = ShowResourceNumberEnum()
+
+        assert isinstance(enum, AREnum)
+        assert set(enum.getEnumValues()) == {ShowResourceNumberEnum.NO_SHOW_NUMBER, ShowResourceNumberEnum.SHOW_NUMBER}
+
+    def test_show_resource_number_literals(self):
+        enum = ShowResourceNumberEnum()
+
+        assert enum.validateEnumValue(ShowResourceNumberEnum.NO_SHOW_NUMBER)
+        assert enum.validateEnumValue(ShowResourceNumberEnum.SHOW_NUMBER)
+        assert ShowResourceNumberEnum.NO_SHOW_NUMBER == "NO-SHOW-NUMBER"
+        assert ShowResourceNumberEnum.SHOW_NUMBER == "SHOW-NUMBER"
+
+        assert enum.setValue(ShowResourceNumberEnum.SHOW_NUMBER) is enum
+        assert enum.getValue() == "SHOW-NUMBER"
         assert enum.validateEnumValue("INVALID") is False

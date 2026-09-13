@@ -109,3 +109,25 @@ class ShowResourceLongNameEnum(AREnum):
 
     def __init__(self):
         super().__init__((ShowResourceLongNameEnum.NO_SHOW_LONG_NAME, ShowResourceLongNameEnum.SHOW_LONG_NAME))
+
+
+class ShowResourceNumberEnum(AREnum):
+    """
+    This enumerator specifies if the number (e.g. chapter number) of the reference target shall be rendered with the xref.
+    """
+
+    # ShowResourceNumberEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.51, p.324
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Xref.showResourceNumber (SHOW-RESOURCE-NUMBER attribute)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The number of the target is not rendered at the place of the reference. Tags: atp.EnumerationLiteralIndex=0
+    NO_SHOW_NUMBER = "NO-SHOW-NUMBER"
+
+    # The number of the target is rendered at the place of the reference. Tags: atp.EnumerationLiteralIndex=1
+    SHOW_NUMBER = "SHOW-NUMBER"
+
+    def __init__(self):
+        super().__init__((ShowResourceNumberEnum.NO_SHOW_NUMBER, ShowResourceNumberEnum.SHOW_NUMBER))
