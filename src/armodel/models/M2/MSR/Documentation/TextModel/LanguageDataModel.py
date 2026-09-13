@@ -344,6 +344,7 @@ class MixedContentForParagraph(ARObject, ABC):
 
     # MixedContentForParagraph method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.2, p.289
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getBr  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -378,123 +379,242 @@ class MixedContentForParagraph(ARObject, ABC):
             raise TypeError("MixedContentForParagraph is an abstract class.")
 
         super().__init__()
+
+        # This element is the same as function here as in a HTML document i.e. it forces a line break.
         self.br: Optional[Br] = None
+
+        # This is emphasized text.
         self.e: Optional[EmphasisText] = None
+
+        # This is a foot note within a paragraph.
         self.ft: Optional[SlParagraph] = None
+
+        # This is an index entry.
         self.ie: Optional[IndexEntry] = None
+
+        # This is a refeernce to a standard.
         self.std: Optional[Std] = None
+
+        # This is subscript text.
         self.sub: Optional[Superscript] = None
+
+        # This is superscript text.
         self.sup: Optional[Superscript] = None
+
+        # This allows to place an arbitrary reference to a traceable object in documentation.
         self.traceRef: Optional[Traceable] = None
+
+        # This is a technical term.
         self.tt: Optional[Tt] = None
+
+        # This is a reference to a printable external document.
         self.xdoc: Optional[Xdoc] = None
+
+        # This represents a reference to an external file which usually cannot be printed.
         self.xfile: Optional[Xfile] = None
+
+        # This is a cross reference.
         self.xref: Optional[Xref] = None
+
+        # This element specifies a reference target which can be scattered throughout the text.
         self.xrefTarget: Optional[XrefTarget] = None
 
     def getBr(self) -> Optional[Br]:
+        """
+        This element is the same as function here as in a HTML document i.e. it forces a line break.
+        """
         return self.br
 
     def setBr(self, value: Optional[Br]) -> "MixedContentForParagraph":
+        """
+        This element is the same as function here as in a HTML document i.e. it forces a line break. A None value is a no-op and does not overwrite an existing br.
+        """
         if value is not None:
             self.br = value
         return self
 
     def getE(self) -> Optional[EmphasisText]:
+        """
+        This is emphasized text.
+        """
         return self.e
 
     def setE(self, value: Optional[EmphasisText]) -> "MixedContentForParagraph":
+        """
+        This is emphasized text. A None value is a no-op and does not overwrite an existing e.
+        """
         if value is not None:
             self.e = value
         return self
 
     def getFt(self) -> Optional[SlParagraph]:
+        """
+        This is a foot note within a paragraph.
+        """
         return self.ft
 
     def setFt(self, value: Optional[SlParagraph]) -> "MixedContentForParagraph":
+        """
+        This is a foot note within a paragraph. A None value is a no-op and does not overwrite an existing ft.
+        """
         if value is not None:
             self.ft = value
         return self
 
     def getIe(self) -> Optional[IndexEntry]:
+        """
+        This is an index entry.
+        """
         return self.ie
 
     def setIe(self, value: Optional[IndexEntry]) -> "MixedContentForParagraph":
+        """
+        This is an index entry. A None value is a no-op and does not overwrite an existing ie.
+        """
         if value is not None:
             self.ie = value
         return self
 
     def getStd(self) -> Optional[Std]:
+        """
+        This is a refeernce to a standard.
+        """
         return self.std
 
     def setStd(self, value: Optional[Std]) -> "MixedContentForParagraph":
+        """
+        This is a refeernce to a standard. A None value is a no-op and does not overwrite an existing std.
+        """
         if value is not None:
             self.std = value
         return self
 
     def getSub(self) -> Optional[Superscript]:
+        """
+        This is subscript text.
+        """
         return self.sub
 
     def setSub(self, value: Optional[Superscript]) -> "MixedContentForParagraph":
+        """
+        This is subscript text. A None value is a no-op and does not overwrite an existing sub.
+        """
         if value is not None:
             self.sub = value
         return self
 
     def getSup(self) -> Optional[Superscript]:
+        """
+        This is superscript text.
+        """
         return self.sup
 
     def setSup(self, value: Optional[Superscript]) -> "MixedContentForParagraph":
+        """
+        This is superscript text. A None value is a no-op and does not overwrite an existing sup.
+        """
         if value is not None:
             self.sup = value
         return self
 
     def getTraceRef(self) -> Optional[Traceable]:
+        """
+        This allows to place an arbitrary reference to a traceable object in documentation.
+        """
         return self.traceRef
 
     def setTraceRef(self, value: Optional[Traceable]) -> "MixedContentForParagraph":
+        """
+        This allows to place an arbitrary reference to a traceable object in documentation. A None value is a no-op and does not overwrite an existing traceRef.
+        """
         if value is not None:
             self.traceRef = value
         return self
 
     def getTt(self) -> Optional[Tt]:
+        """
+        This is a technical term.
+        """
         return self.tt
 
     def setTt(self, value: Optional[Tt]) -> "MixedContentForParagraph":
+        """
+        This is a technical term. A None value is a no-op and does not overwrite an existing tt.
+        """
         if value is not None:
             self.tt = value
         return self
 
     def getXdoc(self) -> Optional[Xdoc]:
+        """
+        This is a reference to a printable external document.
+        """
         return self.xdoc
 
     def setXdoc(self, value: Optional[Xdoc]) -> "MixedContentForParagraph":
+        """
+        This is a reference to a printable external document. A None value is a no-op and does not overwrite an existing xdoc.
+        """
         if value is not None:
             self.xdoc = value
         return self
 
     def getXfile(self) -> Optional[Xfile]:
+        """
+        This represents a reference to an external file which usually cannot be printed.
+        """
         return self.xfile
 
     def setXfile(self, value: Optional[Xfile]) -> "MixedContentForParagraph":
+        """
+        This represents a reference to an external file which usually cannot be printed. A None value is a no-op and does not overwrite an existing xfile.
+        """
         if value is not None:
             self.xfile = value
         return self
 
     def getXref(self) -> Optional[Xref]:
+        """
+        This is a cross reference.
+        """
         return self.xref
 
     def setXref(self, value: Optional[Xref]) -> "MixedContentForParagraph":
+        """
+        This is a cross reference. A None value is a no-op and does not overwrite an existing xref.
+        """
         if value is not None:
             self.xref = value
         return self
 
     def getXrefTarget(self) -> Optional[XrefTarget]:
+        """
+        This element specifies a reference target which can be scattered throughout the text.
+        """
         return self.xrefTarget
 
     def setXrefTarget(self, value: Optional[XrefTarget]) -> "MixedContentForParagraph":
+        """
+        This element specifies a reference target which can be scattered throughout the text. A None value is a no-op and does not overwrite an existing xrefTarget.
+        """
         if value is not None:
             self.xrefTarget = value
         return self
+
+
+class SlParagraph(MixedContentForParagraph, LanguageSpecific):
+    """
+    This is the text for a paragraph in one particular language. The language is defined by the context. The attribute l is there only for backwards compatibility and shall be ignored.
+    """
+
+    # SlParagraph method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.71 (appendix table; no PDF page found)
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (inherited LanguageSpecific accessors and mixed-content members are covered by their declaring classes)
+
+    def __init__(self):
+        super().__init__()
 
 
 class LLongName(MixedContentForLongName, LanguageSpecific):

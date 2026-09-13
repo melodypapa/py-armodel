@@ -336,7 +336,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [25 method rows (init + 12 getter/setter pairs) with six columns and R23-11 release; marker deferred to 9b]
    - [x] Step 8 — Deviations  [initial Kind=ref naming omission (`referrable` → `referrableRef`) corrected across model/accessors/checklist/parser/writer/tests; no remaining deviation]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, Black check, and diff check pass; 9b: user-confirmed matched base, members, Kind=ref naming, docstrings, reader/writer coverage, member order, and no deviations; marker `# Spec verified: R23-11` written]
-- [ ] `MixedContentForParagraph` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.2 (abstract, <<atpMixedString>>) · **created** · Package M2::MSR::Documentation::TextModel::InlineTextModel · Base `ARObject` · 13 attrs: br(Br)/e(EmphasisText ✓)/ft(SlParagraph)/ie(IndexEntry ✓)/std(Std)/sub(Superscript ✓)/sup(Superscript ✓)/trace(Traceable ref ✓)/tt(Tt ✓)/xdoc(Xdoc)/xfile(Xfile)/xref(Xref)/xrefTarget(XrefTarget) · parent of `LParagraph` and `SlParagraph`)
+- [x] `MixedContentForParagraph` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.2 (abstract, <<atpMixedString>>) · **created** · Package M2::MSR::Documentation::TextModel::InlineTextModel · Base `ARObject` · 13 attrs: br(Br)/e(EmphasisText ✓)/ft(SlParagraph)/ie(IndexEntry ✓)/std(Std)/sub(Superscript ✓)/sup(Superscript ✓)/trace(Traceable ref ✓)/tt(Tt ✓)/xdoc(Xdoc)/xfile(Xfile)/xref(Xref)/xrefTarget(XrefTarget) · parent of `LParagraph` and `SlParagraph`)
    - [x] Step 1 — Sync members & description from spec  [Table 9.2, p.289; abstract Base ARObject; 13 attributes in displayed order; `trace` Kind=ref modeled as `traceRef`; cyclic ft→SlParagraph dependency recorded]
    - [x] Step 2 — Write model class unit test (Red)  [extended test_LanguageDataModel.py with abstract guard, defaults, typed getters/setters, and None no-op assertions; ImportError before implementation]
    - [x] Step 3 — Implement model class (Green)  [MixedContentForParagraph(ARObject, ABC) added with 13 typed optional members and accessors]
@@ -345,17 +345,17 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 6 — Update parser & writer (Green)  [readMixedContentForParagraph/writeMixedContentForParagraph cover all 13 members, optional dispatch, and XML sequence order]
    - [x] Step 7 — Update checklist comment  [27 method rows (init + 13 getter/setter pairs) with six columns and R23-11 release; marker deferred to 9b]
    - [x] Step 8 — Deviations  [none: all 13 PDF attrs modeled with PDF types; Kind=ref naming corrected to traceRef; abstract reusable XML helpers cover every member]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: full unit suite (8943 passed) + flake8/ruff + black-check + set-based checklist==methods + lossless integration round-trip all green; 9b: user-confirmed element kind, most-derived base, no fabrication/type-drift, naming, set shape, reader+writer coverage (incl. added missing FT reader), member order, verbatim docstrings (incl. spec "refeernce" quirk), PEP 526 form, package location, no deviations; marker `# Spec verified: R23-11` written]
+- [ ] `SlParagraph` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · **Table E.71** (appendix letter-numbered table; class table has no own attributes) · **created** · Package M2::MSR::Documentation::TextModel::SingleLanguageData · Base `ARObject , MixedContentForParagraph` (cyclic with MixedContentForParagraph; resolved by syncing this class after the base) · `MixedContentForParagraph.ft` member type · XSD `SL-PARAGRAPH` defines mixed text, inherited paragraph content, and deprecated optional `L` attribute; marker deferred pending 9b)
+   - [x] Step 1 — Sync members & description from spec  [Table E.71 Note copied verbatim; Base ARObject + MixedContentForParagraph; no own markdown attributes; XSD SL-PARAGRAPH group confirms mixed text, inherited content, and optional deprecated L attribute; XSD sequence is empty]
+   - [x] Step 2 — Write model class unit test (Red)  [extended test_LanguageDataModel.py with defaults, inherited mixed-content fields, L getter/setter, and None no-op; ImportError before implementation]
+   - [x] Step 3 — Implement model class (Green)  [SlParagraph(MixedContentForParagraph, LanguageSpecific) added; inherited value/L and paragraph content reused; 2 focused tests passed]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note copied verbatim from Table E.71; no own attribute Notes in the markdown table]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [new parser/writer tests for text, L, TT, and empty optional content; missing readSlParagraph/writeSlParagraph caused expected failures]
+   - [x] Step 6 — Update parser & writer (Green)  [readSlParagraph/writeSlParagraph cover AR-OBJECT, recursive FT, MixedContentForParagraph, mixed text, L, and empty content; shared helpers now dispatch the cyclic ft member]
+   - [x] Step 7 — Update checklist comment  [one own __init__ row with six columns + release R23-11; inherited LanguageSpecific and MixedContentForParagraph members remain on their declaring classes; marker deferred to 9b]
+   - [ ] Step 8 — Deviations  [XSD-only structural details supplement the no-attribute Table E.71 row: deprecated L is modeled for round-trip compatibility; PDF page lookup unavailable for appendix table; recursive FT dispatch added for the XSD choice; no stamp until 9b confirms this treatment]
    - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SlParagraph` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · **Table E.71** (appendix letter-numbered table, same class as Group2 D.17/D.4 and Group3 E.81 cases) · **NOT in src** · Package M2::MSR::Documentation::TextModel::SingleLanguageData · Base `ARObject , MixedContentForParagraph` (cyclic with MixedContentForParagraph: synced after it, which resolves the `ft` ref direction) · member type of `MixedContentForParagraph.ft`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `LParagraph` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.92 (p.348) · member type of `MultiLanguageParagraph.l1` below · **no own spec attributes (`-` row); content comes from `Base` = ARObject , LanguageSpecific , MixedContentForParagraph** · BLOCKED on the 21 dependency rows queued above it — do not start until `MixedContentForParagraph` is stamped)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

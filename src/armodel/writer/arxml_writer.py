@@ -881,7 +881,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     TraceableText,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Tt, Xdoc, Xfile, Xref, XrefTarget
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim, MixedContentForLongName
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim, MixedContentForLongName, SlParagraph
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
@@ -1217,6 +1217,9 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMixedContentForParagraph(self, element: ET.Element, content):
         self.setBr(element, "BR", content.getBr())
+        if content.getFt() is not None:
+            footnote = ET.SubElement(element, "FT")
+            self.writeSlParagraphContent(footnote, content.getFt())
         if content.getE() is not None:
             self.setEmphasisText(element, "E", content.getE())
         if content.getIe() is not None:
@@ -1238,6 +1241,17 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setXref(element, "XREF", content.getXref())
         if content.getXrefTarget() is not None:
             self.setXrefTarget(element, "XREF-TARGET", content.getXrefTarget())
+
+    def writeSlParagraph(self, parent: ET.Element, paragraph: SlParagraph):
+        element = ET.SubElement(parent, "SL-PARAGRAPH")
+        self.writeSlParagraphContent(element, paragraph)
+
+    def writeSlParagraphContent(self, element: ET.Element, paragraph: SlParagraph):
+        self.writeARObject(element, paragraph)
+        self.writeMixedContentForParagraph(element, paragraph)
+        element.text = paragraph.getValue()
+        if paragraph.getL() is not None:
+            element.attrib["L"] = paragraph.getL()
 
     def setSingleLanguageLongName(self, element: ET.Element, key: str, name: SingleLanguageLongName):
         child_element = ET.SubElement(element, key)

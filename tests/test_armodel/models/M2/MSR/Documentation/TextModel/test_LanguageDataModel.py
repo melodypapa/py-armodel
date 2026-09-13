@@ -5,7 +5,7 @@ This module contains tests for the LanguageDataModel module in MSR.Documentation
 import pytest
 
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LEnum, LLongName, LOverviewParagraph, LParagraph, LPlainText, MixedContentForParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LEnum, LLongName, LOverviewParagraph, LParagraph, LPlainText, MixedContentForParagraph, SlParagraph
 
 
 class TestLEnum:
@@ -105,6 +105,25 @@ class TestLParagraph:
         l_paragraph = LParagraph()
         assert l_paragraph.l is None
         assert l_paragraph.value == ""
+
+
+class TestSlParagraph:
+    def test_initialization(self):
+        paragraph = SlParagraph()
+
+        assert paragraph.l is None
+        assert paragraph.value == ""
+        assert paragraph.br is None
+        assert paragraph.xref is None
+
+    def test_l_getter_and_setter(self):
+        paragraph = SlParagraph()
+
+        assert paragraph.getL() is None
+        assert paragraph.setL("en") is paragraph
+        assert paragraph.getL() == "en"
+        assert paragraph.setL(None) is paragraph
+        assert paragraph.getL() == "en"
 
 
 class TestMixedContentForParagraph:
