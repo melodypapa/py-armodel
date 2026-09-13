@@ -246,7 +246,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [AREnum no-method checklist with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none outstanding]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8900 unit tests, lint, Black check, and diff check pass; 9b: user-confirmed matched literals, enum values, docstrings, standalone N/A XML coverage, and no deviations; marker written]
-- [x] `ShowResourceAliasNameEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.48 · **created** · Package M2::MSR::Documentation::TextModel::InlineAttributeEnums · AREnum; literals noShowAliasName/showAliasName; member type of `Xref.showResourceAliasName`) — verified R23-11 (commit pending)
+- [x] `ShowResourceAliasNameEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.48 · **created** · Package M2::MSR::Documentation::TextModel::InlineAttributeEnums · AREnum; literals noShowAliasName/showAliasName; member type of `Xref.showResourceAliasName`) — verified R23-11 (commit 3a68e972)
    - [x] Step 1 — Sync members & description from spec  [Table 9.48, p.323; two literals NO-SHOW-ALIAS-NAME/SHOW-ALIAS-NAME confirmed against XSD]
    - [x] Step 2 — Write model class unit test (Red)  [ImportError before implementation]
    - [x] Step 3 — Implement model class (Green)  [ShowResourceAliasNameEnum(AREnum) with two XSD values]
