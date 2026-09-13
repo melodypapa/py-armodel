@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from abc import ABC
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
 )
@@ -12,6 +14,12 @@ from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import (
     Superscript,
     Tt,
 )
+
+if TYPE_CHECKING:
+    from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, Std, Xdoc, Xfile, Xref, XrefTarget
+    from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
+    from armodel.models.M2.MSR.Documentation.TextModel.SlParagraph import SlParagraph
+    from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Traceable
 
 
 class LEnum(AREnum):
@@ -326,6 +334,166 @@ class MixedContentForLongName(ARObject, ABC):
         """
         if value is not None:
             self.tt = value
+        return self
+
+
+class MixedContentForParagraph(ARObject, ABC):
+    """
+    This mainly represents the text model of a full blown paragraph within a documentation.
+    """
+
+    # MixedContentForParagraph method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.2, p.289
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBr  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBr  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getE  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setE  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFt  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFt  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIe  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setIe  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStd  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStd  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSub  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSub  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSup  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSup  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTraceRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTraceRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTt  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTt  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getXdoc  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setXdoc  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getXfile  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setXfile  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getXref  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setXref  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getXrefTarget  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setXrefTarget  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        if type(self) is MixedContentForParagraph:
+            raise TypeError("MixedContentForParagraph is an abstract class.")
+
+        super().__init__()
+        self.br: Optional[Br] = None
+        self.e: Optional[EmphasisText] = None
+        self.ft: Optional[SlParagraph] = None
+        self.ie: Optional[IndexEntry] = None
+        self.std: Optional[Std] = None
+        self.sub: Optional[Superscript] = None
+        self.sup: Optional[Superscript] = None
+        self.traceRef: Optional[Traceable] = None
+        self.tt: Optional[Tt] = None
+        self.xdoc: Optional[Xdoc] = None
+        self.xfile: Optional[Xfile] = None
+        self.xref: Optional[Xref] = None
+        self.xrefTarget: Optional[XrefTarget] = None
+
+    def getBr(self) -> Optional[Br]:
+        return self.br
+
+    def setBr(self, value: Optional[Br]) -> "MixedContentForParagraph":
+        if value is not None:
+            self.br = value
+        return self
+
+    def getE(self) -> Optional[EmphasisText]:
+        return self.e
+
+    def setE(self, value: Optional[EmphasisText]) -> "MixedContentForParagraph":
+        if value is not None:
+            self.e = value
+        return self
+
+    def getFt(self) -> Optional[SlParagraph]:
+        return self.ft
+
+    def setFt(self, value: Optional[SlParagraph]) -> "MixedContentForParagraph":
+        if value is not None:
+            self.ft = value
+        return self
+
+    def getIe(self) -> Optional[IndexEntry]:
+        return self.ie
+
+    def setIe(self, value: Optional[IndexEntry]) -> "MixedContentForParagraph":
+        if value is not None:
+            self.ie = value
+        return self
+
+    def getStd(self) -> Optional[Std]:
+        return self.std
+
+    def setStd(self, value: Optional[Std]) -> "MixedContentForParagraph":
+        if value is not None:
+            self.std = value
+        return self
+
+    def getSub(self) -> Optional[Superscript]:
+        return self.sub
+
+    def setSub(self, value: Optional[Superscript]) -> "MixedContentForParagraph":
+        if value is not None:
+            self.sub = value
+        return self
+
+    def getSup(self) -> Optional[Superscript]:
+        return self.sup
+
+    def setSup(self, value: Optional[Superscript]) -> "MixedContentForParagraph":
+        if value is not None:
+            self.sup = value
+        return self
+
+    def getTraceRef(self) -> Optional[Traceable]:
+        return self.traceRef
+
+    def setTraceRef(self, value: Optional[Traceable]) -> "MixedContentForParagraph":
+        if value is not None:
+            self.traceRef = value
+        return self
+
+    def getTt(self) -> Optional[Tt]:
+        return self.tt
+
+    def setTt(self, value: Optional[Tt]) -> "MixedContentForParagraph":
+        if value is not None:
+            self.tt = value
+        return self
+
+    def getXdoc(self) -> Optional[Xdoc]:
+        return self.xdoc
+
+    def setXdoc(self, value: Optional[Xdoc]) -> "MixedContentForParagraph":
+        if value is not None:
+            self.xdoc = value
+        return self
+
+    def getXfile(self) -> Optional[Xfile]:
+        return self.xfile
+
+    def setXfile(self, value: Optional[Xfile]) -> "MixedContentForParagraph":
+        if value is not None:
+            self.xfile = value
+        return self
+
+    def getXref(self) -> Optional[Xref]:
+        return self.xref
+
+    def setXref(self, value: Optional[Xref]) -> "MixedContentForParagraph":
+        if value is not None:
+            self.xref = value
+        return self
+
+    def getXrefTarget(self) -> Optional[XrefTarget]:
+        return self.xrefTarget
+
+    def setXrefTarget(self, value: Optional[XrefTarget]) -> "MixedContentForParagraph":
+        if value is not None:
+            self.xrefTarget = value
         return self
 
 

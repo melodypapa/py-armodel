@@ -5,14 +5,7 @@ This module contains tests for the LanguageDataModel module in MSR.Documentation
 import pytest
 
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
-    LanguageSpecific,
-    LEnum,
-    LLongName,
-    LOverviewParagraph,
-    LParagraph,
-    LPlainText,
-)
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LEnum, LLongName, LOverviewParagraph, LParagraph, LPlainText, MixedContentForParagraph
 
 
 class TestLEnum:
@@ -112,6 +105,58 @@ class TestLParagraph:
         l_paragraph = LParagraph()
         assert l_paragraph.l is None
         assert l_paragraph.value == ""
+
+
+class TestMixedContentForParagraph:
+    def test_abstract_guard_and_defaults(self):
+        with pytest.raises(TypeError):
+            MixedContentForParagraph()
+
+        class ConcreteMixedContent(MixedContentForParagraph):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.br is None
+        assert content.e is None
+        assert content.ft is None
+        assert content.ie is None
+        assert content.std is None
+        assert content.sub is None
+        assert content.sup is None
+        assert content.traceRef is None
+        assert content.tt is None
+        assert content.xdoc is None
+        assert content.xfile is None
+        assert content.xref is None
+        assert content.xrefTarget is None
+
+    def test_typed_getters_and_setters(self):
+        class ConcreteMixedContent(MixedContentForParagraph):
+            pass
+
+        content = ConcreteMixedContent()
+        values = {
+            "Br": object(),
+            "E": object(),
+            "Ft": object(),
+            "Ie": object(),
+            "Std": object(),
+            "Sub": object(),
+            "Sup": object(),
+            "TraceRef": object(),
+            "Tt": object(),
+            "Xdoc": object(),
+            "Xfile": object(),
+            "Xref": object(),
+            "XrefTarget": object(),
+        }
+        for name, value in values.items():
+            setter = getattr(content, "set" + name)
+            getter = getattr(content, "get" + name)
+            assert setter(value) is content
+            assert getter() is value
+            assert setter(None) is content
+            assert getter() is value
 
 
 class TestLLongName:

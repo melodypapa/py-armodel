@@ -1215,6 +1215,30 @@ class ARXMLWriter(AbstractARXMLWriter):
             if xref.getShowSee() is not None:
                 child_element.attrib["SHOW-SEE"] = xref.getShowSee().getValue()
 
+    def writeMixedContentForParagraph(self, element: ET.Element, content):
+        self.setBr(element, "BR", content.getBr())
+        if content.getE() is not None:
+            self.setEmphasisText(element, "E", content.getE())
+        if content.getIe() is not None:
+            self.setIndexEntry(element, "IE", content.getIe())
+        if content.getStd() is not None:
+            self.setStd(element, "STD", content.getStd())
+        if content.getSub() is not None:
+            element.attrib["SUB"] = content.getSub().getValue()
+        if content.getSup() is not None:
+            element.attrib["SUP"] = content.getSup().getValue()
+        self.setChildElementOptionalRefType(element, "TRACE-REF", content.getTraceRef())
+        if content.getTt() is not None:
+            self.setTt(element, "TT", content.getTt())
+        if content.getXdoc() is not None:
+            self.setXdoc(element, "XDOC", content.getXdoc())
+        if content.getXfile() is not None:
+            self.setXfile(element, "XFILE", content.getXfile())
+        if content.getXref() is not None:
+            self.setXref(element, "XREF", content.getXref())
+        if content.getXrefTarget() is not None:
+            self.setXrefTarget(element, "XREF-TARGET", content.getXrefTarget())
+
     def setSingleLanguageLongName(self, element: ET.Element, key: str, name: SingleLanguageLongName):
         child_element = ET.SubElement(element, key)
         child_element.text = name.getValue().getValue() if name.getValue() is not None else None

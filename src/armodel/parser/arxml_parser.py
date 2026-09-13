@@ -1440,6 +1440,40 @@ class ARXMLParser(AbstractARXMLParser):
             xref.setShowSee(ShowSeeEnum().setValue(child_element.attrib["SHOW-SEE"]))
         return xref
 
+    def readMixedContentForParagraph(self, element: ET.Element, content):
+        br = self.getBr(element, "BR")
+        if br is not None:
+            content.setBr(br)
+        emphasis_element = self.find(element, "E")
+        if emphasis_element is not None:
+            content.setE(self.readEmphasisText(emphasis_element))
+        index_element = self.find(element, "IE")
+        if index_element is not None:
+            content.setIe(self.readIndexEntry(index_element))
+        std = self.getStd(element, "STD")
+        if std is not None:
+            content.setStd(std)
+        if "SUB" in element.attrib:
+            content.setSub(Superscript().setValue(element.attrib["SUB"]))
+        if "SUP" in element.attrib:
+            content.setSup(Superscript().setValue(element.attrib["SUP"]))
+        content.setTraceRef(self.getChildElementOptionalRefType(element, "TRACE-REF"))
+        tt_element = self.find(element, "TT")
+        if tt_element is not None:
+            content.setTt(self.readTt(tt_element))
+        xdoc = self.getXdoc(element, "XDOC")
+        if xdoc is not None:
+            content.setXdoc(xdoc)
+        xfile = self.getXfile(element, "XFILE")
+        if xfile is not None:
+            content.setXfile(xfile)
+        xref = self.getXref(element, "XREF")
+        if xref is not None:
+            content.setXref(xref)
+        xref_target = self.getXrefTarget(element, "XREF-TARGET")
+        if xref_target is not None:
+            content.setXrefTarget(xref_target)
+
     def readEmphasisText(self, element: ET.Element) -> EmphasisText:
         emphasis = EmphasisText()
         if element.text is not None:
