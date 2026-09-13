@@ -326,16 +326,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [AREnum no-method checklist with six columns and R23-11 release; marker deferred to 9b]
    - [x] Step 8 — Deviations  [none: literals and indices match XSD SHOW-SEE-ENUM--SIMPLE]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, and Black check pass; 9b: user-confirmed matched literals, enum values, docstrings, standalone N/A XML coverage, and no deviations; marker `# Spec verified: R23-11` written]
-- [ ] `Xref` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.42 · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject` · 12 attrs: label1(SingleLanguageLongName aggr)/referrable(Referrable ref)/resolutionPolicy + showContent + showResourceAliasName/Category/LongName/Number/Page/ShortName/Type + showSee (enums, all 0..1) · member type of `MixedContentForParagraph.xref`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Xref` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.42 · **created** · Package M2::MSR::Documentation::TextModel::InlineTextElements · Base `ARObject` · 12 attrs: label1(SingleLanguageLongName aggr)/referrable(Referrable ref)/resolutionPolicy + showContent + showResourceAliasName/Category/LongName/Number/Page/ShortName/Type + showSee (enums, all 0..1) · member type of `MixedContentForParagraph.xref`)
+   - [x] Step 1 — Sync members & description from spec  [Table 9.42, p.321; base ARObject; 12 attributes in displayed order; XSD XREF sequence confirms LABEL-1 then REFERRABLE-REF and XREF attribute group]
+   - [x] Step 2 — Write model class unit test (Red)  [extended test_InlineTextElements.py with defaults and typed get/set/None-no-op assertions; ImportError before implementation]
+   - [x] Step 3 — Implement model class (Green)  [Xref(ARObject) added with 12 typed optional members and accessors; Kind=ref member uses `referrableRef`/`getReferrableRef`/`setReferrableRef` per Rule 0001.5]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note and all 12 attribute Notes copied from Table 9.42]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser test for AR-OBJECT, LABEL-1, REFERRABLE-REF, and enum attributes; writer test for nested members and attributes; missing getXref/setXref = Red]
+   - [x] Step 6 — Update parser & writer (Green)  [getXref/setXref cover AR-OBJECT, LABEL-1, REFERRABLE-REF, all 10 enum attributes, and XML nested-member order]
+   - [x] Step 7 — Update checklist comment  [25 method rows (init + 12 getter/setter pairs) with six columns and R23-11 release; marker deferred to 9b]
+   - [x] Step 8 — Deviations  [initial Kind=ref naming omission (`referrable` → `referrableRef`) corrected across model/accessors/checklist/parser/writer/tests; no remaining deviation]
+   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `MixedContentForParagraph` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.2 (abstract, <<atpMixedString>>) · **NOT in src** · Package M2::MSR::Documentation::TextModel::InlineTextModel · Base `ARObject` · 13 attrs: br(Br)/e(EmphasisText ✓)/ft(SlParagraph)/ie(IndexEntry ✓)/std(Std)/sub(Superscript ✓)/sup(Superscript ✓)/trace(Traceable ref ✓)/tt(Tt ✓)/xdoc(Xdoc)/xfile(Xfile)/xref(Xref)/xrefTarget(XrefTarget) · parent of `LParagraph` and `SlParagraph`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

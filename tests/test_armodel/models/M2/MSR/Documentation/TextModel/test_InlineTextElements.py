@@ -6,6 +6,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import (
     IndexEntry,
     Superscript,
     Tt,
+    Xref,
 )
 
 
@@ -209,3 +210,46 @@ class TestEmphasisText:
 
         emphasis_text.setType(None)
         assert emphasis_text.getType() == emphasis_type
+
+
+class TestXref:
+    def test_initialization_defaults(self):
+        xref = Xref()
+
+        assert xref.label1 is None
+        assert xref.referrableRef is None
+        assert xref.resolutionPolicy is None
+        assert xref.showContent is None
+        assert xref.showResourceAliasName is None
+        assert xref.showResourceCategory is None
+        assert xref.showResourceLongName is None
+        assert xref.showResourceNumber is None
+        assert xref.showResourcePage is None
+        assert xref.showResourceShortName is None
+        assert xref.showResourceType is None
+        assert xref.showSee is None
+
+    def test_typed_getters_and_setters(self):
+        xref = Xref()
+        values = {
+            "Label1": object(),
+            "ReferrableRef": object(),
+            "ResolutionPolicy": object(),
+            "ShowContent": object(),
+            "ShowResourceAliasName": object(),
+            "ShowResourceCategory": object(),
+            "ShowResourceLongName": object(),
+            "ShowResourceNumber": object(),
+            "ShowResourcePage": object(),
+            "ShowResourceShortName": object(),
+            "ShowResourceType": object(),
+            "ShowSee": object(),
+        }
+
+        for name, value in values.items():
+            setter = getattr(xref, "set" + name)
+            getter = getattr(xref, "get" + name)
+            assert setter(value) is xref
+            assert getter() is value
+            assert setter(None) is xref
+            assert getter() is value

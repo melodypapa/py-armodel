@@ -880,7 +880,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     Traceable,
     TraceableText,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Tt, Xdoc, Xfile, XrefTarget
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Tt, Xdoc, Xfile, Xref, XrefTarget
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim, MixedContentForLongName
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
@@ -1186,6 +1186,34 @@ class ARXMLWriter(AbstractARXMLWriter):
         if target is not None:
             child_element = ET.SubElement(element, key)
             self.writeSingleLanguageReferrable(child_element, target)
+
+    def setXref(self, element: ET.Element, key: str, xref: Xref):
+        if xref is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, xref)
+            if xref.getLabel1() is not None:
+                self.setSingleLanguageLongName(child_element, "LABEL-1", xref.getLabel1())
+            self.setChildElementOptionalRefType(child_element, "REFERRABLE-REF", xref.getReferrableRef())
+            if xref.getResolutionPolicy() is not None:
+                child_element.attrib["RESOLUTION-POLICY"] = xref.getResolutionPolicy().getValue()
+            if xref.getShowContent() is not None:
+                child_element.attrib["SHOW-CONTENT"] = xref.getShowContent().getValue()
+            if xref.getShowResourceAliasName() is not None:
+                child_element.attrib["SHOW-RESOURCE-ALIAS-NAME"] = xref.getShowResourceAliasName().getValue()
+            if xref.getShowResourceCategory() is not None:
+                child_element.attrib["SHOW-RESOURCE-CATEGORY"] = xref.getShowResourceCategory().getValue()
+            if xref.getShowResourceLongName() is not None:
+                child_element.attrib["SHOW-RESOURCE-LONG-NAME"] = xref.getShowResourceLongName().getValue()
+            if xref.getShowResourceNumber() is not None:
+                child_element.attrib["SHOW-RESOURCE-NUMBER"] = xref.getShowResourceNumber().getValue()
+            if xref.getShowResourcePage() is not None:
+                child_element.attrib["SHOW-RESOURCE-PAGE"] = xref.getShowResourcePage().getValue()
+            if xref.getShowResourceShortName() is not None:
+                child_element.attrib["SHOW-RESOURCE-SHORT-NAME"] = xref.getShowResourceShortName().getValue()
+            if xref.getShowResourceType() is not None:
+                child_element.attrib["SHOW-RESOURCE-TYPE"] = xref.getShowResourceType().getValue()
+            if xref.getShowSee() is not None:
+                child_element.attrib["SHOW-SEE"] = xref.getShowSee().getValue()
 
     def setSingleLanguageLongName(self, element: ET.Element, key: str, name: SingleLanguageLongName):
         child_element = ET.SubElement(element, key)

@@ -986,7 +986,19 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     Traceable,
     TraceableText,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Superscript, Tt, Xdoc, Xfile, XrefTarget
+from armodel.models.M2.MSR.Documentation.TextModel.InlineAttributeEnums import (
+    ResolutionPolicyEnum,
+    ShowContentEnum,
+    ShowResourceAliasNameEnum,
+    ShowResourceCategoryEnum,
+    ShowResourceLongNameEnum,
+    ShowResourceNumberEnum,
+    ShowResourcePageEnum,
+    ShowResourceShortNameEnum,
+    ShowResourceTypeEnum,
+    ShowSeeEnum,
+)
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Superscript, Tt, Xdoc, Xfile, Xref, XrefTarget
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim, MixedContentForLongName
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
@@ -1396,6 +1408,37 @@ class ARXMLParser(AbstractARXMLParser):
         target = XrefTarget(None, self.getShortName(child_element))
         self.readSingleLanguageReferrable(child_element, target)
         return target
+
+    def getXref(self, element: ET.Element, key: str) -> Xref:
+        child_element = self.find(element, key) if key != "." else element
+        if child_element is None:
+            return None
+
+        xref = Xref()
+        self.readARObject(child_element, xref)
+        xref.setLabel1(self.getSingleLanguageLongName(child_element, "LABEL-1"))
+        xref.setReferrableRef(self.getChildElementOptionalRefType(child_element, "REFERRABLE-REF"))
+        if "RESOLUTION-POLICY" in child_element.attrib:
+            xref.setResolutionPolicy(ResolutionPolicyEnum().setValue(child_element.attrib["RESOLUTION-POLICY"]))
+        if "SHOW-CONTENT" in child_element.attrib:
+            xref.setShowContent(ShowContentEnum().setValue(child_element.attrib["SHOW-CONTENT"]))
+        if "SHOW-RESOURCE-ALIAS-NAME" in child_element.attrib:
+            xref.setShowResourceAliasName(ShowResourceAliasNameEnum().setValue(child_element.attrib["SHOW-RESOURCE-ALIAS-NAME"]))
+        if "SHOW-RESOURCE-CATEGORY" in child_element.attrib:
+            xref.setShowResourceCategory(ShowResourceCategoryEnum().setValue(child_element.attrib["SHOW-RESOURCE-CATEGORY"]))
+        if "SHOW-RESOURCE-LONG-NAME" in child_element.attrib:
+            xref.setShowResourceLongName(ShowResourceLongNameEnum().setValue(child_element.attrib["SHOW-RESOURCE-LONG-NAME"]))
+        if "SHOW-RESOURCE-NUMBER" in child_element.attrib:
+            xref.setShowResourceNumber(ShowResourceNumberEnum().setValue(child_element.attrib["SHOW-RESOURCE-NUMBER"]))
+        if "SHOW-RESOURCE-PAGE" in child_element.attrib:
+            xref.setShowResourcePage(ShowResourcePageEnum().setValue(child_element.attrib["SHOW-RESOURCE-PAGE"]))
+        if "SHOW-RESOURCE-SHORT-NAME" in child_element.attrib:
+            xref.setShowResourceShortName(ShowResourceShortNameEnum().setValue(child_element.attrib["SHOW-RESOURCE-SHORT-NAME"]))
+        if "SHOW-RESOURCE-TYPE" in child_element.attrib:
+            xref.setShowResourceType(ShowResourceTypeEnum().setValue(child_element.attrib["SHOW-RESOURCE-TYPE"]))
+        if "SHOW-SEE" in child_element.attrib:
+            xref.setShowSee(ShowSeeEnum().setValue(child_element.attrib["SHOW-SEE"]))
+        return xref
 
     def readEmphasisText(self, element: ET.Element) -> EmphasisText:
         emphasis = EmphasisText()

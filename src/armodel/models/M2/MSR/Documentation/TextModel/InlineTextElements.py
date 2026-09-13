@@ -1,11 +1,26 @@
 from __future__ import annotations
 
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import SingleLanguageReferrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, DateTime, NameToken, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, DateTime, NameToken, RefType, String
+from armodel.models.M2.MSR.Documentation.TextModel.InlineAttributeEnums import (
+    ResolutionPolicyEnum,
+    ShowContentEnum,
+    ShowResourceAliasNameEnum,
+    ShowResourceCategoryEnum,
+    ShowResourceLongNameEnum,
+    ShowResourceNumberEnum,
+    ShowResourcePageEnum,
+    ShowResourceShortNameEnum,
+    ShowResourceTypeEnum,
+    ShowSeeEnum,
+)
 from armodel.models.M2.MSR.Documentation.BlockElements import Url
+
+if TYPE_CHECKING:
+    from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
 
 
 class Br(ARObject):
@@ -311,6 +326,201 @@ class XrefTarget(SingleLanguageReferrable):
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
+
+
+class Xref(ARObject):
+    """
+    This represents a cross-reference within documentation.
+    """
+
+    # Xref method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.42, p.321
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getLabel1  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLabel1  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReferrableRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReferrableRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getResolutionPolicy  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setResolutionPolicy  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShowContent  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShowContent  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShowResourceAliasName  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShowResourceAliasName  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShowResourceCategory  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShowResourceCategory  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShowResourceLongName  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShowResourceLongName  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShowResourceNumber  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShowResourceNumber  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShowResourcePage  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShowResourcePage  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShowResourceShortName  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShowResourceShortName  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShowResourceType  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShowResourceType  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShowSee  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShowSee  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This allows to specify a replacement text which shall be rendered if showContent is selected.
+        self.label1: Optional[SingleLanguageLongName] = None
+
+        # This establishes the reference in Autosar style.
+        self.referrableRef: Optional[RefType] = None
+
+        # Indicates if the content of the xref element follow a dedicated resolution policy. The default is "NO-SLOPPY". Tags: xml.attribute=true
+        self.resolutionPolicy: Optional[ResolutionPolicyEnum] = None
+
+        # Indicates if the content of the xref element shall be rendered. The default is "NO-SHOW-CONTENT". Tags: xml.attribute=true
+        self.showContent: Optional[ShowContentEnum] = None
+
+        # This indicates if the alias names of the referenced objects shall be rendered. This means this is some kind of backward searching: look whether there is an alias for the referenced object, if yes, print it. If there is more than one AliasNameSet, Xref might render all of those. If no alias is found and showResourceShortName is set to NoShowShortName, then the shortName of the reference target shall be displayed. By this showResourceAliasName is similar to showResourceShortName but shows the aliasName instead of the shortName. Default is NO-SHOW-ALIAS-NAME. Tags: xml.attribute=true
+        self.showResourceAliasName: Optional[ShowResourceAliasNameEnum] = None
+
+        # Indicates if the category of the referenced resource shall be rendered. Default is "NO-SHOW-CATEGORY". Tags: xml.attribute=true
+        self.showResourceCategory: Optional[ShowResourceCategoryEnum] = None
+
+        # Indicates if the longName of the referenced resource shall be rendered. Default is "SHOW-LONG-NAME". Tags: xml.attribute=true
+        self.showResourceLongName: Optional[ShowResourceLongNameEnum] = None
+
+        # Indicates if the Number of the referenced resource shall be shown. Default is "SHOW-NUMBER" Tags: xml.attribute=true
+        self.showResourceNumber: Optional[ShowResourceNumberEnum] = None
+
+        # Indicates if the page number of the referenced resource shall be shown. Default is "SHOW-PAGE" Tags: xml.attribute=true
+        self.showResourcePage: Optional[ShowResourcePageEnum] = None
+
+        # Indicates if the shortJName of the referenced resource shall be shown. Default is "SHOW-SHORT-NAME" Tags: xml.attribute=true
+        self.showResourceShortName: Optional[ShowResourceShortNameEnum] = None
+
+        # Indicates if the type of the referenced Resource shall be shown. Default is "SHOW-TYPE" Tags: xml.attribute=true
+        self.showResourceType: Optional[ShowResourceTypeEnum] = None
+
+        # Indicates if the word "see " shall be shown before the reference. Default is "NO-SHOW-SEE". Note that this is there for compatibility reasons only. Tags: xml.attribute=true
+        self.showSee: Optional[ShowSeeEnum] = None
+
+    def getLabel1(self) -> Optional[SingleLanguageLongName]:
+        """This allows to specify a replacement text which shall be rendered if showContent is selected."""
+        return self.label1
+
+    def setLabel1(self, value: Optional[SingleLanguageLongName]) -> "Xref":
+        """This allows to specify a replacement text which shall be rendered if showContent is selected. A None value is a no-op and does not overwrite an existing label1."""
+        if value is not None:
+            self.label1 = value
+        return self
+
+    def getReferrableRef(self) -> Optional[RefType]:
+        """This establishes the reference in Autosar style."""
+        return self.referrableRef
+
+    def setReferrableRef(self, value: Optional[RefType]) -> "Xref":
+        """This establishes the reference in Autosar style. A None value is a no-op and does not overwrite an existing referrable."""
+        if value is not None:
+            self.referrableRef = value
+        return self
+
+    def getResolutionPolicy(self) -> Optional[ResolutionPolicyEnum]:
+        """Indicates if the content of the xref element follow a dedicated resolution policy. The default is "NO-SLOPPY". Tags: xml.attribute=true"""
+        return self.resolutionPolicy
+
+    def setResolutionPolicy(self, value: Optional[ResolutionPolicyEnum]) -> "Xref":
+        """Indicates if the content of the xref element follow a dedicated resolution policy. The default is "NO-SLOPPY". Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing resolutionPolicy."""
+        if value is not None:
+            self.resolutionPolicy = value
+        return self
+
+    def getShowContent(self) -> Optional[ShowContentEnum]:
+        """Indicates if the content of the xref element shall be rendered. The default is "NO-SHOW-CONTENT". Tags: xml.attribute=true"""
+        return self.showContent
+
+    def setShowContent(self, value: Optional[ShowContentEnum]) -> "Xref":
+        """Indicates if the content of the xref element shall be rendered. The default is "NO-SHOW-CONTENT". Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showContent."""
+        if value is not None:
+            self.showContent = value
+        return self
+
+    def getShowResourceAliasName(self) -> Optional[ShowResourceAliasNameEnum]:
+        """This indicates if the alias names of the referenced objects shall be rendered. This means this is some kind of backward searching: look whether there is an alias for the referenced object, if yes, print it. If there is more than one AliasNameSet, Xref might render all of those. If no alias is found and showResourceShortName is set to NoShowShortName, then the shortName of the reference target shall be displayed. By this showResourceAliasName is similar to showResourceShortName but shows the aliasName instead of the shortName. Default is NO-SHOW-ALIAS-NAME. Tags: xml.attribute=true"""
+        return self.showResourceAliasName
+
+    def setShowResourceAliasName(self, value: Optional[ShowResourceAliasNameEnum]) -> "Xref":
+        """This indicates if the alias names of the referenced objects shall be rendered. This means this is some kind of backward searching: look whether there is an alias for the referenced object, if yes, print it. If there is more than one AliasNameSet, Xref might render all of those. If no alias is found and showResourceShortName is set to NoShowShortName, then the shortName of the reference target shall be displayed. By this showResourceAliasName is similar to showResourceShortName but shows the aliasName instead of the shortName. Default is NO-SHOW-ALIAS-NAME. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showResourceAliasName."""
+        if value is not None:
+            self.showResourceAliasName = value
+        return self
+
+    def getShowResourceCategory(self) -> Optional[ShowResourceCategoryEnum]:
+        """Indicates if the category of the referenced resource shall be rendered. Default is "NO-SHOW-CATEGORY". Tags: xml.attribute=true"""
+        return self.showResourceCategory
+
+    def setShowResourceCategory(self, value: Optional[ShowResourceCategoryEnum]) -> "Xref":
+        """Indicates if the category of the referenced resource shall be rendered. Default is "NO-SHOW-CATEGORY". Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showResourceCategory."""
+        if value is not None:
+            self.showResourceCategory = value
+        return self
+
+    def getShowResourceLongName(self) -> Optional[ShowResourceLongNameEnum]:
+        """Indicates if the longName of the referenced resource shall be rendered. Default is "SHOW-LONG-NAME". Tags: xml.attribute=true"""
+        return self.showResourceLongName
+
+    def setShowResourceLongName(self, value: Optional[ShowResourceLongNameEnum]) -> "Xref":
+        """Indicates if the longName of the referenced resource shall be rendered. Default is "SHOW-LONG-NAME". Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showResourceLongName."""
+        if value is not None:
+            self.showResourceLongName = value
+        return self
+
+    def getShowResourceNumber(self) -> Optional[ShowResourceNumberEnum]:
+        """Indicates if the Number of the referenced resource shall be shown. Default is "SHOW-NUMBER" Tags: xml.attribute=true"""
+        return self.showResourceNumber
+
+    def setShowResourceNumber(self, value: Optional[ShowResourceNumberEnum]) -> "Xref":
+        """Indicates if the Number of the referenced resource shall be shown. Default is "SHOW-NUMBER" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showResourceNumber."""
+        if value is not None:
+            self.showResourceNumber = value
+        return self
+
+    def getShowResourcePage(self) -> Optional[ShowResourcePageEnum]:
+        """Indicates if the page number of the referenced resource shall be shown. Default is "SHOW-PAGE" Tags: xml.attribute=true"""
+        return self.showResourcePage
+
+    def setShowResourcePage(self, value: Optional[ShowResourcePageEnum]) -> "Xref":
+        """Indicates if the page number of the referenced resource shall be shown. Default is "SHOW-PAGE" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showResourcePage."""
+        if value is not None:
+            self.showResourcePage = value
+        return self
+
+    def getShowResourceShortName(self) -> Optional[ShowResourceShortNameEnum]:
+        """Indicates if the shortJName of the referenced resource shall be shown. Default is "SHOW-SHORT-NAME" Tags: xml.attribute=true"""
+        return self.showResourceShortName
+
+    def setShowResourceShortName(self, value: Optional[ShowResourceShortNameEnum]) -> "Xref":
+        """Indicates if the shortJName of the referenced resource shall be shown. Default is "SHOW-SHORT-NAME" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showResourceShortName."""
+        if value is not None:
+            self.showResourceShortName = value
+        return self
+
+    def getShowResourceType(self) -> Optional[ShowResourceTypeEnum]:
+        """Indicates if the type of the referenced Resource shall be shown. Default is "SHOW-TYPE" Tags: xml.attribute=true"""
+        return self.showResourceType
+
+    def setShowResourceType(self, value: Optional[ShowResourceTypeEnum]) -> "Xref":
+        """Indicates if the type of the referenced Resource shall be shown. Default is "SHOW-TYPE" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showResourceType."""
+        if value is not None:
+            self.showResourceType = value
+        return self
+
+    def getShowSee(self) -> Optional[ShowSeeEnum]:
+        """Indicates if the word "see " shall be shown before the reference. Default is "NO-SHOW-SEE". Note that this is there for compatibility reasons only. Tags: xml.attribute=true"""
+        return self.showSee
+
+    def setShowSee(self, value: Optional[ShowSeeEnum]) -> "Xref":
+        """Indicates if the word "see " shall be shown before the reference. Default is "NO-SHOW-SEE". Note that this is there for compatibility reasons only. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing showSee."""
+        if value is not None:
+            self.showSee = value
+        return self
 
 
 class Superscript(ARLiteral):
