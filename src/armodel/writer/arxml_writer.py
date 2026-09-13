@@ -881,7 +881,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
     TraceableText,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Tt, Xdoc, Xfile, Xref, XrefTarget
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim, MixedContentForLongName, SlParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim, MixedContentForLongName, MixedContentForParagraph, SlParagraph
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
@@ -2272,9 +2272,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         for l1 in paragraph.getL1s():
             l1_tag = ET.SubElement(element, "L-1")
             self.writeARObject(l1_tag, l1)
-            if l1.l is not None:
-                l1_tag.attrib["L"] = l1.l
-                l1_tag.text = l1.value
+            if isinstance(l1, MixedContentForParagraph):
+                self.writeMixedContentForParagraph(l1_tag, l1)
+            l1_tag.text = l1.getValue()
+            if l1.getL() is not None:
+                l1_tag.attrib["L"] = l1.getL()
 
     def setMultiLanguageParagraphs(self, element: ET.Element, key: str, paragraphs: List[MultiLanguageParagraph]):
         for paragraph in paragraphs:

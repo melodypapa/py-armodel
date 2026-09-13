@@ -212,18 +212,6 @@ class LOverviewParagraph(LanguageSpecific):
         super().__init__()
 
 
-class LParagraph(LanguageSpecific):
-    """
-    Language-specific paragraph element.
-    """
-
-    # LParagraph method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        super().__init__()
-
-
 class MixedContentForLongName(ARObject, ABC):
     """
     This is the model for titles and long-names. It allows some emphasis and index entries but no reference target (which is provided by the identifiable in question). It is intended that the content model can also be rendered as plain text. The abstract class can be used for single language as well as for multi language elements.
@@ -600,6 +588,22 @@ class MixedContentForParagraph(ARObject, ABC):
         if value is not None:
             self.xrefTarget = value
         return self
+
+
+class LParagraph(MixedContentForParagraph, LanguageSpecific):
+    """
+    This is the text for a paragraph in one particular language. The language is denoted in the attribute l.
+    """
+
+    # LParagraph method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.92, p.348
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # (inherited LanguageSpecific accessors and mixed-content members are covered by their declaring classes)
+
+    def __init__(self):
+        super().__init__()
 
 
 class SlParagraph(MixedContentForParagraph, LanguageSpecific):

@@ -5025,7 +5025,11 @@ class ARXMLParser(AbstractARXMLParser):
         results = []
         for child_element in self.findall(element, key):
             l1 = LParagraph()
-            self.readLanguageSpecific(child_element, l1)
+            self.readARObject(child_element, l1)
+            self.readMixedContentForParagraph(child_element, l1)
+            l1.setValue(child_element.text or "")
+            if "L" in child_element.attrib:
+                l1.setL(child_element.attrib["L"])  # noqa E741
             results.append(l1)
         return results
 

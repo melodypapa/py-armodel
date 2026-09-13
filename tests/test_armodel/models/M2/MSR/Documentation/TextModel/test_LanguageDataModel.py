@@ -106,6 +106,28 @@ class TestLParagraph:
         assert l_paragraph.l is None
         assert l_paragraph.value == ""
 
+    def test_l_paragraph_base_chain(self):
+        """LParagraph must extend MixedContentForParagraph and LanguageSpecific per Table 9.92."""
+        assert issubclass(LParagraph, MixedContentForParagraph)
+        assert issubclass(LParagraph, LanguageSpecific)
+        assert isinstance(LParagraph(), LParagraph)
+
+    def test_l_paragraph_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table 9.92 verbatim."""
+        import inspect
+
+        expected = "This is the text for a paragraph in one particular language. " "The language is denoted in the attribute l."
+        assert inspect.cleandoc(LParagraph.__doc__) == expected
+
+    def test_l_paragraph_inherits_mixed_content_accessors(self):
+        """LParagraph inherits the mixed-content accessors from MixedContentForParagraph."""
+        l_paragraph = LParagraph()
+        tt = Tt()
+        assert l_paragraph.setTt(tt) is l_paragraph
+        assert l_paragraph.getTt() is tt
+        assert l_paragraph.setTt(None) is l_paragraph
+        assert l_paragraph.getTt() is tt
+
 
 class TestSlParagraph:
     def test_initialization(self):
