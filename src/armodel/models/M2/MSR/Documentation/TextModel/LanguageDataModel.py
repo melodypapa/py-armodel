@@ -608,7 +608,8 @@ class SlParagraph(MixedContentForParagraph, LanguageSpecific):
     """
 
     # SlParagraph method parity checklist:
-    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.71 (appendix table; no PDF page found)
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.71, p.465
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # (inherited LanguageSpecific accessors and mixed-content members are covered by their declaring classes)
