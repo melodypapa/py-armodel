@@ -131,3 +131,25 @@ class ShowResourceNumberEnum(AREnum):
 
     def __init__(self):
         super().__init__((ShowResourceNumberEnum.NO_SHOW_NUMBER, ShowResourceNumberEnum.SHOW_NUMBER))
+
+
+class ShowResourcePageEnum(AREnum):
+    """
+    This enumerator specifies if the page number of the reference target shall be rendered with the xref.
+    """
+
+    # ShowResourcePageEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.52, p.324
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Xref.showResourcePage (SHOW-RESOURCE-PAGE attribute)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The page number of the target is not rendered at the place of the reference. Tags: atp.EnumerationLiteralIndex=0
+    NO_SHOW_PAGE = "NO-SHOW-PAGE"
+
+    # The page number of the target is rendered at the place of the reference. Tags: atp.EnumerationLiteralIndex=1
+    SHOW_PAGE = "SHOW-PAGE"
+
+    def __init__(self):
+        super().__init__((ShowResourcePageEnum.NO_SHOW_PAGE, ShowResourcePageEnum.SHOW_PAGE))
