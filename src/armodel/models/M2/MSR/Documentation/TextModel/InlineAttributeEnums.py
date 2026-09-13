@@ -197,3 +197,25 @@ class ShowResourceTypeEnum(AREnum):
 
     def __init__(self):
         super().__init__((ShowResourceTypeEnum.NO_SHOW_TYPE, ShowResourceTypeEnum.SHOW_TYPE))
+
+
+class ShowSeeEnum(AREnum):
+    """
+    This enumerator specifies if the word "see" shall be rendered before the xref.
+    """
+
+    # ShowSeeEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.55, p.325
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Xref.showSee (SHOW-SEE attribute)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The word "see" is not rendered before the reference. Tags: atp.EnumerationLiteralIndex=0
+    NO_SHOW_SEE = "NO-SHOW-SEE"
+
+    # The word "see"is rendered before the reference. Tags: atp.EnumerationLiteralIndex=1
+    SHOW_SEE = "SHOW-SEE"
+
+    def __init__(self):
+        super().__init__((ShowSeeEnum.NO_SHOW_SEE, ShowSeeEnum.SHOW_SEE))
