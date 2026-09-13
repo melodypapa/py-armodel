@@ -175,3 +175,25 @@ class ShowResourceShortNameEnum(AREnum):
 
     def __init__(self):
         super().__init__((ShowResourceShortNameEnum.NO_SHOW_SHORT_NAME, ShowResourceShortNameEnum.SHOW_SHORT_NAME))
+
+
+class ShowResourceTypeEnum(AREnum):
+    """
+    This enumerator specifies if the type (e.g. derived from the class) of the reference target shall be rendered with the xref.
+    """
+
+    # ShowResourceTypeEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.54, p.324
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Xref.showResourceType (SHOW-RESOURCE-TYPE attribute)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The type of the target is not rendered at the place of the reference. Tags: atp.EnumerationLiteralIndex=0
+    NO_SHOW_TYPE = "NO-SHOW-TYPE"
+
+    # The type of the target is rendered at the place of the reference. Tags: atp.EnumerationLiteralIndex=1
+    SHOW_TYPE = "SHOW-TYPE"
+
+    def __init__(self):
+        super().__init__((ShowResourceTypeEnum.NO_SHOW_TYPE, ShowResourceTypeEnum.SHOW_TYPE))
