@@ -276,7 +276,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [AREnum no-method checklist with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none outstanding]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8903 unit tests, lint, Black check, and diff check pass; 9b: user-confirmed matched literals, enum values, docstrings, standalone N/A XML coverage, and no deviations; marker written]
-- [x] `ShowResourceNumberEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.51 · **created** · AREnum · member type of `Xref.showResourceNumber`) — verified R23-11 (commit pending)
+- [x] `ShowResourceNumberEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · Table 9.51 · **created** · AREnum · member type of `Xref.showResourceNumber`) — verified R23-11 (commit 6f562513)
   - [x] Step 1 — Sync members & description from spec  [Table 9.51, p.324; note and two literal descriptions confirmed against R23-11 markdown/XSD]
   - [x] Step 2 — Write model class unit test (Red)  [extended test_InlineAttributeEnums.py with initialization, literal, validation, set/get assertions; ImportError before implementation]
   - [x] Step 3 — Implement model class (Green)  [ShowResourceNumberEnum(AREnum) added with NO-SHOW-NUMBER/SHOW-NUMBER]
