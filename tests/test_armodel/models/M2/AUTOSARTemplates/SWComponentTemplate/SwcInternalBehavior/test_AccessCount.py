@@ -6,8 +6,32 @@ Tests cover all classes and methods in the AccessCount.py file to achieve 100% t
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, PositiveInteger, RefType
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import AbstractAccessPoint, AccessCount, AccessCountSet
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, NameToken, PositiveInteger, RefType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.AccessCount import (
+    AbstractAccessPoint,
+    AccessCount,
+    AccessCountSet,
+    RteApiReturnValueProvisionEnum,
+)
+
+
+class TestRteApiReturnValueProvisionEnum:
+    def test_initialization_and_values(self):
+        enum = RteApiReturnValueProvisionEnum()
+
+        assert isinstance(enum, AREnum)
+        assert set(enum.getEnumValues()) == {
+            RteApiReturnValueProvisionEnum.NO_RETURN_VALUE_PROVIDED,
+            RteApiReturnValueProvisionEnum.RETURN_VALUE_PROVIDED,
+        }
+
+    def test_set_get_and_validate(self):
+        enum = RteApiReturnValueProvisionEnum()
+
+        assert enum.setValue(RteApiReturnValueProvisionEnum.RETURN_VALUE_PROVIDED) is enum
+        assert enum.getValue() == "returnValueProvided"
+        assert enum.validateEnumValue("noReturnValueProvided") is True
+        assert enum.validateEnumValue("invalid") is False
 
 
 class TestAbstractAccessPoint:
