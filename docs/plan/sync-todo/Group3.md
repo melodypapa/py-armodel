@@ -64,6 +64,22 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
 > - Before this row, `Url.mimeType` had no implementable PDF type: `MimeTypeString` is a spec `Primitive` (implement as an `ARLiteral` subclass), unlike the class's value type `UriString`, which is stamped.
 > - `Url.mimeType` is the only consumer of `MimeTypeString` (XSD `attributeGroup URL`, `aggregated by` `Url.mimeType`), so no other row shifts.
 
+> **Dependency audit 2026-09-14 (`Table` closure)** (run at the start of the `Table` row — every earlier
+> restructure/audit missed this cluster; Phase 0 had queued only `Table` itself):
+> - `Table` (9.63) has **10 attributes** whose types form the whole **OASIS exchange-table cluster**
+>   (`M2::MSR::Documentation::BlockElements::OasisExchangeTable`), **none of them in src** and **none
+>   queued anywhere** (AST scan: no `class Table|Tgroup|Tbody|Row|Entry|Colspec|FrameEnum|AlignEnum|ValignEnum|TableSeparatorString`).
+> - **Added 10 dependency rows** before `Table` (Rule 0016.5 dependency-first): `FrameEnum` (9.65),
+>   `AlignEnum` (9.67), `ValignEnum` (9.69), `OrientEnum` (**XSD-only** — `AUTOSAR_00052.xsd:140997`;
+>   no R23-11 § no R4.3.1 table), `TableSeparatorString` (**Table 9.72**, `Primitive`), `Colspec`
+>   (**Table E.21** — appendix letter-numbered table, same class of miss as E.71/E.81), `Entry` (9.71),
+>   `Row` (9.70), `Tbody` (9.68), `Tgroup` (9.66).
+> - **Moved** `DocumentViewSelectable` (Table 9.77) ahead of `Table` + `Row` (it is a `Base` of both;
+>   it was queued *after* `Table`, a dependency-order violation).
+> - Already stamped, no row needed: `FloatEnum` (9.64), `PgwideEnum` (9.93); `Paginateable` ✓,
+>   `Caption` ✓, `DocumentationBlock` ✓. `MlFigure.frame` (Table 9.24) is the other `FrameEnum` consumer.
+> - `Table` is now blocked only on the 10 new rows above it.
+
 - [x] `ChapterEnumBreak` (dependency · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.61 · enum member type of `Paginateable.chapterBreak`) — verified R23-11 (commit 20e6ee88)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -366,7 +382,117 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [one own __init__ row (impl/docstring/test/reader/writer/release); inherited LanguageSpecific and MixedContentForParagraph members remain on their declaring classes; marker deferred to 9b]
   - [x] Step 8 — Deviations  [PDF page 348 confirmed by direct PDF text search; base chain corrected to include MixedContentForParagraph (was LanguageSpecific-only); reader/writer DISPATCH extended beyond the model body (getLParagraphs/writeLParagraphs) so the inherited mixed content round-trips — writer guarded by isinstance to avoid regressing LOverviewParagraph/LLongName; no remaining deviation]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8952 unit + 2 integration round-trip green, flake8/ruff/black clean, set-based checklist==methods OK (`{__init__}`); 9b: user-confirmed element kind (no own attributes), most-derived base (MixedContentForParagraph + LanguageSpecific), no fabrication/type-drift, reader+writer coverage via shared helpers (tested), verbatim class Note from Table 9.92, package location; marker `# Spec verified: R23-11` written]
-- [ ] `Table` (dependency · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.63 · member type of `TopicContent.table` · **NOT in src** — flagged 2026-09-11 dependency audit; spec-only class, must be created from Table 9.63 when this row is synced)
+- [ ] `FrameEnum` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.65 · **NOT in src — created** · Package M2::MSR::Documentation::BlockElements::OasisExchangeTable → `OasisExchangeTable.py` · AREnum; literals all/bottom/none/sides/top/topbot indices 0-5 · aggregated by `Table.frame` + `MlFigure.frame`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `AlignEnum` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.67 · **NOT in src — created** · Package OasisExchangeTable → `OasisExchangeTable.py` · AREnum; literals center/justify/left/right indices 0-3 · aggregated by `Colspec.align`, `Entry.align`, `Tgroup.align`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `ValignEnum` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.69 · **NOT in src — created** · Package OasisExchangeTable → `OasisExchangeTable.py` · AREnum; literals bottom/middle/top indices 0-2 · aggregated by `Entry.valign`, `Row.valign`, `Tbody.valign`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `OrientEnum` (dependency · **added 2026-09-14 Table closure audit** · **XSD-only** (no R23-11 § no R4.3.1 markdown/PDF table) · `AUTOSAR_00052.xsd` `simpleType name="ORIENT-ENUM--SIMPLE"` line 140997 · **NOT in src — created** · Package OasisExchangeTable → `OasisExchangeTable.py` · AREnum; literals land/port · member type of `Table.orient` · carries `# XSD verified: AUTOSAR_00052.xsd`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `TableSeparatorString` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.72 (`Primitive`) · **NOT in src — created** · Package OasisExchangeTable → `OasisExchangeTable.py` · **primitive** → `ARLiteral` subclass (Rule 0001.10); Tags `xml.xsd.customType=TABLE-SEPARATOR-STRING` `xml.xsd.pattern=[0-1]` `xml.xsd.type=string` · member type of every `colsep`/`rowsep` in the cluster)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DocumentViewSelectable` (tracker input · **moved 2026-09-14 Table closure audit ahead of `Table`/`Row`** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.77 · abstract `ARObject` mixin · **in src** (`PaginationAndView.py`) · Base of `Table`, `Row`, and `MultiLanguageParagraph`/`MlFigure`/`MsrQueryChapter`/`MsrQueryTopic1`/`MsrQueryP1` below)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Colspec` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · **Table E.21** (appendix letter-numbered table — same class of miss as E.71/E.81) · **NOT in src — created** · Package OasisExchangeTable · class; member type of `Tgroup.colspec`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Entry` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.71 · **NOT in src — created** · Package OasisExchangeTable · Base `ARObject` · 12 attrs align(AlignEnum)/bgcolor(String 1)/colname/colsep(TableSeparatorString)/entryContents(DocumentationBlock 1 aggr)/morerows/nameend/namest/rotate/rowsep/spanname/valign(ValignEnum) · member type of `Row.entry`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Row` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.70 · **NOT in src — created** · Package OasisExchangeTable · Base `ARObject , DocumentViewSelectable , Paginateable` · attrs entry(Entry 1..* aggr)/rowsep(TableSeparatorString)/valign(ValignEnum) · member type of `Tbody.row`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Tbody` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.68 · **NOT in src — created** · Package OasisExchangeTable · Base `ARObject` · attrs row(Row 1..* aggr)/valign(ValignEnum) · member type of `Tgroup.tbody`/`tfoot`/`thead`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Tgroup` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.66 · **NOT in src — created** · Package OasisExchangeTable · Base `ARObject` · attrs align(AlignEnum)/cols(Integer 1)/colsep(TableSeparatorString)/colspec(Colspec * aggr)/rowsep(TableSeparatorString)/tbody(Tbody 1)/tfoot(Tbody 0..1)/thead(Tbody 0..1) · member type of `Table.tgroup`)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Table` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.63 · member type of `TopicContent.table` + `TraceableTable.table` · **NOT in src — created** · Package OasisExchangeTable · Base `ARObject , DocumentViewSelectable , Paginateable` · 10 attrs colsep(TableSeparatorString)/float(FloatEnum ✓)/frame(FrameEnum)/helpEntry(String)/orient(OrientEnum)/pgwide(NameToken)/rowsep(TableSeparatorString)/tableCaption(Caption ✓ aggr)/tabstyle(NameToken)/tgroup(Tgroup 1..* aggr) · **unblocked once the 10 dependency rows above are synced**)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -396,17 +522,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `DocumentViewSelectable` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.77 · **moved 2026-09-03 restructure ahead of its five dependents**: parent of `MultiLanguageParagraph`, `MlFigure`, `MsrQueryChapter`, `MsrQueryTopic1`, `MsrQueryP1` below)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `MultiLanguageParagraph` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.4 · after `Paginateable` (parent) + `LParagraph` (aggr `l1`))
+- [ ] `MultiLanguageParagraph` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.4 · after `Paginateable` (parent) + `DocumentViewSelectable` (parent, moved above) + `LParagraph` (aggr `l1`))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
