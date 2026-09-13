@@ -9,6 +9,7 @@ from armodel.models.M2.MSR.Documentation.TextModel.InlineAttributeEnums import (
     ShowResourceLongNameEnum,
     ShowResourceNumberEnum,
     ShowResourcePageEnum,
+    ShowResourceShortNameEnum,
 )
 
 
@@ -152,4 +153,27 @@ class TestShowResourcePageEnum:
 
         assert enum.setValue(ShowResourcePageEnum.SHOW_PAGE) is enum
         assert enum.getValue() == "SHOW-PAGE"
+        assert enum.validateEnumValue("INVALID") is False
+
+
+class TestShowResourceShortNameEnum:
+    def test_initialization_and_values(self):
+        enum = ShowResourceShortNameEnum()
+
+        assert isinstance(enum, AREnum)
+        assert set(enum.getEnumValues()) == {
+            ShowResourceShortNameEnum.NO_SHOW_SHORT_NAME,
+            ShowResourceShortNameEnum.SHOW_SHORT_NAME,
+        }
+
+    def test_show_resource_short_name_literals(self):
+        enum = ShowResourceShortNameEnum()
+
+        assert enum.validateEnumValue(ShowResourceShortNameEnum.NO_SHOW_SHORT_NAME)
+        assert enum.validateEnumValue(ShowResourceShortNameEnum.SHOW_SHORT_NAME)
+        assert ShowResourceShortNameEnum.NO_SHOW_SHORT_NAME == "NO-SHOW-SHORT-NAME"
+        assert ShowResourceShortNameEnum.SHOW_SHORT_NAME == "SHOW-SHORT-NAME"
+
+        assert enum.setValue(ShowResourceShortNameEnum.SHOW_SHORT_NAME) is enum
+        assert enum.getValue() == "SHOW-SHORT-NAME"
         assert enum.validateEnumValue("INVALID") is False

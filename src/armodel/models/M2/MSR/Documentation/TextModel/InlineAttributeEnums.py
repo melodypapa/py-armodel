@@ -153,3 +153,25 @@ class ShowResourcePageEnum(AREnum):
 
     def __init__(self):
         super().__init__((ShowResourcePageEnum.NO_SHOW_PAGE, ShowResourcePageEnum.SHOW_PAGE))
+
+
+class ShowResourceShortNameEnum(AREnum):
+    """
+    This enumerator specifies if the short name of the reference target shall be rendered with the xref.
+    """
+
+    # ShowResourceShortNameEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.53, p.324
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Xref.showResourceShortName (SHOW-RESOURCE-SHORT-NAME attribute)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The short name of the target is not rendered at the place of the reference. Tags: atp.EnumerationLiteralIndex=0
+    NO_SHOW_SHORT_NAME = "NO-SHOW-SHORT-NAME"
+
+    # The short name of the target is rendered at the place of the reference. Tags: atp.EnumerationLiteralIndex=1
+    SHOW_SHORT_NAME = "SHOW-SHORT-NAME"
+
+    def __init__(self):
+        super().__init__((ShowResourceShortNameEnum.NO_SHOW_SHORT_NAME, ShowResourceShortNameEnum.SHOW_SHORT_NAME))
