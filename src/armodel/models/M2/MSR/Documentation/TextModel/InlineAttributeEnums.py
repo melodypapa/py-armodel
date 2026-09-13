@@ -43,3 +43,25 @@ class ShowContentEnum(AREnum):
 
     def __init__(self):
         super().__init__((ShowContentEnum.NO_SHOW_CONTENT, ShowContentEnum.SHOW_CONTENT))
+
+
+class ShowResourceAliasNameEnum(AREnum):
+    """
+    This enumerator specifies if the alias names of the reference target shall be rendered with the xref.
+    """
+
+    # ShowResourceAliasNameEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.48, p.323
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Xref.showResourceAliasName (SHOW-RESOURCE-ALIAS-NAME attribute)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This indicates that alias names of the referenced object shall not be rendered at the place of the reference. Tags: atp.EnumerationLiteralIndex=0
+    NO_SHOW_ALIAS_NAME = "NO-SHOW-ALIAS-NAME"
+
+    # This indicates that the alias names of the referenced object shall be rendered at the place of the reference. Tags: atp.EnumerationLiteralIndex=1
+    SHOW_ALIAS_NAME = "SHOW-ALIAS-NAME"
+
+    def __init__(self):
+        super().__init__((ShowResourceAliasNameEnum.NO_SHOW_ALIAS_NAME, ShowResourceAliasNameEnum.SHOW_ALIAS_NAME))
