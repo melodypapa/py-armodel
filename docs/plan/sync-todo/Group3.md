@@ -256,7 +256,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [AREnum no-method checklist with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none outstanding]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8901 unit tests, lint, Black check, and diff check pass; 9b: user-confirmed matched literals, enum values, docstrings, standalone N/A XML coverage, and no deviations; marker written]
-  - [x] `ShowResourceCategoryEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.49 · **created** · Package M2::MSR::Documentation::TextModel::InlineAttributeEnums · AREnum; literals noShowCategory/showCategory; member type of `Xref.showResourceCategory`) — verified R23-11 (commit pending)
+  - [x] `ShowResourceCategoryEnum` (dependency · **added 2026-09-11 LParagraph closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.49 · **created** · Package M2::MSR::Documentation::TextModel::InlineAttributeEnums · AREnum; literals noShowCategory/showCategory; member type of `Xref.showResourceCategory`) — verified R23-11 (commit d7cd8c58)
    - [x] Step 1 — Sync members & description from spec  [Table 9.49, p.323; two literals NO-SHOW-CATEGORY/SHOW-CATEGORY confirmed against XSD]
    - [x] Step 2 — Write model class unit test (Red)  [ImportError before implementation]
    - [x] Step 3 — Implement model class (Green)  [ShowResourceCategoryEnum(AREnum) with two XSD values]
