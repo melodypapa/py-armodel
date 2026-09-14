@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, AREnum
+from typing import Optional
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, AREnum, String
 
 
 class FloatEnum(AREnum):
@@ -211,3 +214,120 @@ class TableSeparatorString(ARLiteral):
 
     def __init__(self):
         super().__init__()
+
+
+class Colspec(ARObject):
+    """
+    This meta-class represents the ability to specify the properties of a column in a table.
+    """
+
+    # Colspec method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.20, p.433
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAlign   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlign   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getColname [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setColname [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getColnum  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setColnum  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getColsep  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setColsep  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getColwidth [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setColwidth [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRowsep  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRowsep  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+        self.align: Optional[AlignEnum] = None
+        self.colname: Optional[String] = None
+        self.colnum: Optional[String] = None
+        self.colsep: Optional[TableSeparatorString] = None
+        self.colwidth: Optional[String] = None
+        self.rowsep: Optional[TableSeparatorString] = None
+
+    def getAlign(self) -> Optional[AlignEnum]:
+        """
+        Specifies how the cell entries shall be horizontally aligned within the specified column. Default is "LEFT" Tags: xml.attribute=true
+        """
+        return self.align
+
+    def setAlign(self, value: Optional[AlignEnum]) -> "Colspec":
+        """
+        Specifies how the cell entries shall be horizontally aligned within the specified column. Default is "LEFT" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing align.
+        """
+        if value is not None:
+            self.align = value
+        return self
+
+    def getColname(self) -> Optional[String]:
+        """
+        Specifies the name of the column. Tags: xml.attribute=true
+        """
+        return self.colname
+
+    def setColname(self, value: Optional[String]) -> "Colspec":
+        """
+        Specifies the name of the column. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing colname.
+        """
+        if value is not None:
+            self.colname = value
+        return self
+
+    def getColnum(self) -> Optional[String]:
+        """
+        column number (allows to sort the columns). Tags: xml.attribute=true
+        """
+        return self.colnum
+
+    def setColnum(self, value: Optional[String]) -> "Colspec":
+        """
+        column number (allows to sort the columns). Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing colnum.
+        """
+        if value is not None:
+            self.colnum = value
+        return self
+
+    def getColsep(self) -> Optional[TableSeparatorString]:
+        """
+        Indicates whether a line should be displayed right of this column in the column specification. Tags: xml.attribute=true
+        """
+        return self.colsep
+
+    def setColsep(self, value: Optional[TableSeparatorString]) -> "Colspec":
+        """
+        Indicates whether a line should be displayed right of this column in the column specification. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing colsep.
+        """
+        if value is not None:
+            self.colsep = value
+        return self
+
+    def getColwidth(self) -> Optional[String]:
+        """
+        Width of the column. You can enter absolute values such as 4 cm, or relative values marked with * (e.g., 2* for column widths double those of other columns with 1*). The unit can be added to the number in the string. Possible units are: cm, mm, px, pt. Tags: xml.attribute=true
+        """
+        return self.colwidth
+
+    def setColwidth(self, value: Optional[String]) -> "Colspec":
+        """
+        Width of the column. You can enter absolute values such as 4 cm, or relative values marked with * (e.g., 2* for column widths double those of other columns with 1*). The unit can be added to the number in the string. Possible units are: cm, mm, px, pt. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing colwidth.
+        """
+        if value is not None:
+            self.colwidth = value
+        return self
+
+    def getRowsep(self) -> Optional[TableSeparatorString]:
+        """
+        Indicates whether a line should be displayed at the bottom end of the cells of the column defined in the Colspec. Tags: xml.attribute=true
+        """
+        return self.rowsep
+
+    def setRowsep(self, value: Optional[TableSeparatorString]) -> "Colspec":
+        """
+        Indicates whether a line should be displayed at the bottom end of the cells of the column defined in the Colspec. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing rowsep.
+        """
+        if value is not None:
+            self.rowsep = value
+        return self

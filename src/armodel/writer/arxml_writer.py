@@ -874,6 +874,7 @@ from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQue
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note
+from armodel.models.M2.MSR.Documentation.BlockElements import Colspec
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     StructuredReq,
@@ -2352,6 +2353,21 @@ class ARXMLWriter(AbstractARXMLWriter):
             element.attrib["SI"] = selectable.getSi().getValue()
         if selectable.getView() is not None:
             element.attrib["VIEW"] = selectable.getView().getValue()
+
+    def writeColspec(self, element: ET.Element, colspec: Colspec):
+        self.writeARObject(element, colspec)
+        if colspec.getAlign() is not None:
+            element.attrib["ALIGN"] = colspec.getAlign().getValue()
+        if colspec.getColname() is not None:
+            element.attrib["COLNAME"] = colspec.getColname().getValue()
+        if colspec.getColnum() is not None:
+            element.attrib["COLNUM"] = colspec.getColnum().getValue()
+        if colspec.getColsep() is not None:
+            element.attrib["COLSEP"] = colspec.getColsep().getValue()
+        if colspec.getColwidth() is not None:
+            element.attrib["COLWIDTH"] = colspec.getColwidth().getValue()
+        if colspec.getRowsep() is not None:
+            element.attrib["ROWSEP"] = colspec.getRowsep().getValue()
 
     def writePaginateable(self, element: ET.Element, paginateable: Paginateable):
         self.writeDocumentViewSelectable(element, paginateable)

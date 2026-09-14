@@ -963,10 +963,10 @@ from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, Sw
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
-from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Url
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Colspec, Url
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, GraphicFitEnum, GraphicNotationEnum, LGraphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
-from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, PgwideEnum, TableSeparatorString
 from armodel.models.M2.MSR.Documentation.Chapters import (
     Chapter,
     ChapterContent,
@@ -5132,6 +5132,21 @@ class ARXMLParser(AbstractARXMLParser):
             selectable.setSi(NameTokens().setValue(element.attrib["SI"]))
         if "VIEW" in element.attrib:
             selectable.setView(ViewTokens().setValue(element.attrib["VIEW"]))
+
+    def readColspec(self, element: ET.Element, colspec: Colspec):
+        self.readARObject(element, colspec)
+        if "ALIGN" in element.attrib:
+            colspec.setAlign(AlignEnum().setValue(element.attrib["ALIGN"]))
+        if "COLNAME" in element.attrib:
+            colspec.setColname(String().setValue(element.attrib["COLNAME"]))
+        if "COLNUM" in element.attrib:
+            colspec.setColnum(String().setValue(element.attrib["COLNUM"]))
+        if "COLSEP" in element.attrib:
+            colspec.setColsep(TableSeparatorString().setValue(element.attrib["COLSEP"]))
+        if "COLWIDTH" in element.attrib:
+            colspec.setColwidth(String().setValue(element.attrib["COLWIDTH"]))
+        if "ROWSEP" in element.attrib:
+            colspec.setRowsep(TableSeparatorString().setValue(element.attrib["ROWSEP"]))
 
     def readPaginateable(self, element: ET.Element, paginateable: Paginateable):
         self.readDocumentViewSelectable(element, paginateable)

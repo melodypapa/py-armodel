@@ -462,16 +462,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [init + 4 accessors, six-column checklist with R23-11 release]
    - [x] Step 8 — Deviations  [none: both PDF attrs modeled with PDF types; abstract reusable XML helper covers every member; no fabrication or missing dependencies]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 18 model + 4 parser/writer focused tests, model imports, lint, Black check, and diff check pass; 9b: user-confirmed abstract ARObject base, member order/types, verbatim docs, SI/VIEW reader+writer coverage, package location, and no deviations; marker `# Spec verified: R23-11` written; commit pending]
-- [ ] `Colspec` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · **Table E.21** (appendix letter-numbered table — same class of miss as E.71/E.81) · **NOT in src — created** · Package OasisExchangeTable · class; member type of `Tgroup.colspec`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `Colspec` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · **Table E.20** (appendix letter-numbered table; the markdown `Table E.21: Colspec` title is a rendering mislabel — that block is actually the `Compiler` class; Colspec located via PDF text search p.433) · Package M2::MSR::Documentation::BlockElements::OasisExchangeTable → `OasisExchangeTable.py` · Base ARObject; attrs align(AlignEnum 0..1)/colname(String 0..1)/colnum(String 0..1)/colsep(TableSeparatorString 0..1)/colwidth(String 0..1)/rowsep(TableSeparatorString 0..1) all attr · member type of `Tgroup.colspec`) — already verified (# Spec verified: R23-11, OasisExchangeTable.py); citation corrected E.21/p.434 → E.20/p.433 (Rule 0012.3 drift fix); full model+parser+writer+tests green in prior session, changes committed this pass
 - [ ] `Entry` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.71 · **NOT in src — created** · Package OasisExchangeTable · Base `ARObject` · 12 attrs align(AlignEnum)/bgcolor(String 1)/colname/colsep(TableSeparatorString)/entryContents(DocumentationBlock 1 aggr)/morerows/nameend/namest/rotate/rowsep/spanname/valign(ValignEnum) · member type of `Row.entry`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

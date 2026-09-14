@@ -35,6 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import 
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationDescription,
 )
+from armodel.models.M2.MSR.Documentation.BlockElements import Colspec
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -526,6 +527,26 @@ class TestGraphicAndFigureHandlers:
         assert isinstance(selectable.getSi(), NameTokens)
         assert selectable.getSi().getValue() == "INTERNAL"
         assert selectable.getView() is None
+
+    def test_readColspec(self, parser):
+        element = _snip(
+            "",
+            root_tag="COLSPEC",
+            ALIGN="CENTER",
+            COLNAME="name",
+            COLNUM="1",
+            COLSEP="1",
+            COLWIDTH="2*",
+            ROWSEP="0",
+        )
+        colspec = Colspec()
+        parser.readColspec(element, colspec)
+        assert colspec.getAlign().getValue() == "CENTER"
+        assert colspec.getColname().getValue() == "name"
+        assert colspec.getColnum().getValue() == "1"
+        assert colspec.getColsep().getValue() == "1"
+        assert colspec.getColwidth().getValue() == "2*"
+        assert colspec.getRowsep().getValue() == "0"
 
     def test_readPaginateable(self, parser):
         element = _snip("", root_tag="PAGINATE", BREAK="BREAK", **{"KEEP-WITH-PREVIOUS": "KEEP"})

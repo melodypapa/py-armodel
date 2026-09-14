@@ -1,7 +1,7 @@
 """Tests for the OasisExchangeTable enums (FloatEnum, PgwideEnum, FrameEnum)."""
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
-from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, TableSeparatorString, ValignEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, String
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, Colspec, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, TableSeparatorString, ValignEnum
 
 
 class TestFloatEnum:
@@ -147,3 +147,30 @@ class TestTableSeparatorString:
         assert separator.setValue("1") is separator
         assert separator.value == "1"
         assert str(separator) == "1"
+
+
+class TestColspec:
+    """Test class for Colspec (Table E.21)."""
+
+    def test_initialization_and_accessors(self):
+        colspec = Colspec()
+        assert colspec.getAlign() is None
+        assert colspec.getColname() is None
+        assert colspec.getColnum() is None
+        assert colspec.getColsep() is None
+        assert colspec.getColwidth() is None
+        assert colspec.getRowsep() is None
+
+        values = {
+            "Align": AlignEnum().setValue(AlignEnum.CENTER),
+            "Colname": String().setValue("name"),
+            "Colnum": String().setValue("1"),
+            "Colsep": TableSeparatorString().setValue("1"),
+            "Colwidth": String().setValue("2*"),
+            "Rowsep": TableSeparatorString().setValue("0"),
+        }
+        for name, value in values.items():
+            assert getattr(colspec, "set" + name)(value) is colspec
+            assert getattr(colspec, "get" + name)() is value
+            assert getattr(colspec, "set" + name)(None) is colspec
+            assert getattr(colspec, "get" + name)() is value
