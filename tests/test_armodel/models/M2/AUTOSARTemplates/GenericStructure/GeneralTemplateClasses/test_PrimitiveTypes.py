@@ -54,6 +54,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     UriString,
     VerbatimString,
     VerbatimStringPlain,
+    ViewTokens,
 )
 
 
@@ -1374,3 +1375,26 @@ class TestNameTokens:
         assert name_tokens.setValue("TokenA TokenB") is name_tokens
         assert name_tokens.value == "TokenA TokenB"
         assert str(name_tokens) == "TokenA TokenB"
+
+
+class TestViewTokens:
+    """
+    Test class for ViewTokens functionality (Table 9.78).
+    """
+
+    def test_initialization(self):
+        """
+        Test ViewTokens initialization.
+        """
+        view_tokens = ViewTokens()
+
+        assert view_tokens is not None
+        assert isinstance(view_tokens, ARLiteral)
+        assert view_tokens._value is None
+
+    def test_set_get_value(self):
+        """Test setValue round-trip and method chaining."""
+        view_tokens = ViewTokens()
+        assert view_tokens.setValue("INTERNAL DETAILED") is view_tokens
+        assert view_tokens.value == "INTERNAL DETAILED"
+        assert str(view_tokens) == "INTERNAL DETAILED"
