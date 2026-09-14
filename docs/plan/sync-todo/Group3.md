@@ -412,16 +412,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [one __init__ row with 6 columns + release R23-11; marker deferred to 9b]
   - [x] Step 8 — Deviations  [none: literals + indices match XSD VALIGN-ENUM--SIMPLE; no own XML element]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8967 unit + test_model_imports + ruff + black-check all green; 9b: user-confirmed matched literals/indices, docstrings verbatim, N/A XML coverage, package location, no deviations; marker # Spec verified: R23-11 written]
-- [ ] `OrientEnum` (dependency · **added 2026-09-14 Table closure audit** · **XSD-only** (no R23-11 § no R4.3.1 markdown/PDF table) · `AUTOSAR_00052.xsd` `simpleType name="ORIENT-ENUM--SIMPLE"` line 140997 · **NOT in src — created** · Package OasisExchangeTable → `OasisExchangeTable.py` · AREnum; literals land/port · member type of `Table.orient` · carries `# XSD verified: AUTOSAR_00052.xsd`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `OrientEnum` (dependency · **added 2026-09-14 Table closure audit** · **XSD-only** (no R23-11 § no R4.3.1 markdown/PDF table) · `AUTOSAR_00052.xsd` `simpleType name="ORIENT-ENUM--SIMPLE"` line 140997 · **NOT in src — created** · Package OasisExchangeTable → `OasisExchangeTable.py` · AREnum; literals land/port · member type of `Table.orient` · carries `# XSD verified: AUTOSAR_00052.xsd`) — verified XSD (commit 9223f504)
+  - [x] Step 1 — Sync members & description from spec  [XSD-only: ORIENT-ENUM--SIMPLE line 140997; 2 literals LAND/PORT indices 0-1 confirmed; no R23-11/R4.3.1 markdown/PDF table (grep + pdf_page.py)]
+  - [x] Step 2 — Write model class unit test (Red)  [TestOrientEnum in test_OasisExchangeTable.py: init, 2 literals, validateEnumValue, setValue/getValue; ImportError = Red]
+  - [x] Step 3 — Implement model class (Green)  [OrientEnum(AREnum) added to OasisExchangeTable.py with 2 XSD literals; exported via BlockElements __init__; 16 passed]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class doc + LAND/PORT descriptions copied verbatim from XSD ORIENT-ENUM--SIMPLE / ORIENT attribute]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: standalone AREnum — serialized as ORIENT attribute on Table]
+  - [x] Step 6 — Update parser & writer (Green)  [N/A: consuming Table row owns ORIENT coverage]
+  - [x] Step 7 — Update checklist comment  [XSD-only checklist with (no methods) row + release R23-11; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none: literals + indices match XSD ORIENT-ENUM--SIMPLE; no own XML element]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8970 unit + test_model_imports + ruff + black-check all green; 9b: user-confirmed XSD-only status, matched literals/indices, docstrings verbatim, N/A XML coverage, package location, no deviations; marker # XSD verified: AUTOSAR_00052.xsd written]
 - [ ] `TableSeparatorString` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.72 (`Primitive`) · **NOT in src — created** · Package OasisExchangeTable → `OasisExchangeTable.py` · **primitive** → `ARLiteral` subclass (Rule 0001.10); Tags `xml.xsd.customType=TABLE-SEPARATOR-STRING` `xml.xsd.pattern=[0-1]` `xml.xsd.type=string` · member type of every `colsep`/`rowsep` in the cluster)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
