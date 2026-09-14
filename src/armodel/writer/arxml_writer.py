@@ -874,7 +874,7 @@ from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQue
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note
-from armodel.models.M2.MSR.Documentation.BlockElements import Colspec
+from armodel.models.M2.MSR.Documentation.BlockElements import Colspec, Entry
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     StructuredReq,
@@ -2368,6 +2368,32 @@ class ARXMLWriter(AbstractARXMLWriter):
             element.attrib["COLWIDTH"] = colspec.getColwidth().getValue()
         if colspec.getRowsep() is not None:
             element.attrib["ROWSEP"] = colspec.getRowsep().getValue()
+
+    def writeEntry(self, element: ET.Element, entry: Entry):
+        self.writeARObject(element, entry)
+        if entry.getAlign() is not None:
+            element.attrib["ALIGN"] = entry.getAlign().getValue()
+        if entry.getBgcolor() is not None:
+            element.attrib["BGCOLOR"] = entry.getBgcolor().getValue()
+        if entry.getColname() is not None:
+            element.attrib["COLNAME"] = entry.getColname().getValue()
+        if entry.getColsep() is not None:
+            element.attrib["COLSEP"] = entry.getColsep().getValue()
+        self.writeDocumentationBlock(element, "DOCUMENTATION-BLOCK", entry.getEntryContents())
+        if entry.getMorerows() is not None:
+            element.attrib["MOREROWS"] = entry.getMorerows().getValue()
+        if entry.getNameend() is not None:
+            element.attrib["NAMEEND"] = entry.getNameend().getValue()
+        if entry.getNamest() is not None:
+            element.attrib["NAMEST"] = entry.getNamest().getValue()
+        if entry.getRotate() is not None:
+            element.attrib["ROTATE"] = entry.getRotate().getValue()
+        if entry.getRowsep() is not None:
+            element.attrib["ROWSEP"] = entry.getRowsep().getValue()
+        if entry.getSpanname() is not None:
+            element.attrib["SPANNAME"] = entry.getSpanname().getValue()
+        if entry.getValign() is not None:
+            element.attrib["VALIGN"] = entry.getValign().getValue()
 
     def writePaginateable(self, element: ET.Element, paginateable: Paginateable):
         self.writeDocumentViewSelectable(element, paginateable)

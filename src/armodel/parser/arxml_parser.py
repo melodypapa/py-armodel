@@ -963,10 +963,10 @@ from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, Sw
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
-from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Colspec, Url
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Colspec, Entry, Url
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, GraphicFitEnum, GraphicNotationEnum, LGraphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
-from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, PgwideEnum, TableSeparatorString
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, PgwideEnum, TableSeparatorString, ValignEnum
 from armodel.models.M2.MSR.Documentation.Chapters import (
     Chapter,
     ChapterContent,
@@ -5147,6 +5147,32 @@ class ARXMLParser(AbstractARXMLParser):
             colspec.setColwidth(String().setValue(element.attrib["COLWIDTH"]))
         if "ROWSEP" in element.attrib:
             colspec.setRowsep(TableSeparatorString().setValue(element.attrib["ROWSEP"]))
+
+    def readEntry(self, element: ET.Element, entry: Entry):
+        self.readARObject(element, entry)
+        if "ALIGN" in element.attrib:
+            entry.setAlign(AlignEnum().setValue(element.attrib["ALIGN"]))
+        if "BGCOLOR" in element.attrib:
+            entry.setBgcolor(String().setValue(element.attrib["BGCOLOR"]))
+        if "COLNAME" in element.attrib:
+            entry.setColname(String().setValue(element.attrib["COLNAME"]))
+        if "COLSEP" in element.attrib:
+            entry.setColsep(TableSeparatorString().setValue(element.attrib["COLSEP"]))
+        entry.setEntryContents(self.getDocumentationBlock(element, "DOCUMENTATION-BLOCK"))
+        if "MOREROWS" in element.attrib:
+            entry.setMorerows(String().setValue(element.attrib["MOREROWS"]))
+        if "NAMEEND" in element.attrib:
+            entry.setNameend(String().setValue(element.attrib["NAMEEND"]))
+        if "NAMEST" in element.attrib:
+            entry.setNamest(String().setValue(element.attrib["NAMEST"]))
+        if "ROTATE" in element.attrib:
+            entry.setRotate(String().setValue(element.attrib["ROTATE"]))
+        if "ROWSEP" in element.attrib:
+            entry.setRowsep(TableSeparatorString().setValue(element.attrib["ROWSEP"]))
+        if "SPANNAME" in element.attrib:
+            entry.setSpanname(String().setValue(element.attrib["SPANNAME"]))
+        if "VALIGN" in element.attrib:
+            entry.setValign(ValignEnum().setValue(element.attrib["VALIGN"]))
 
     def readPaginateable(self, element: ET.Element, paginateable: Paginateable):
         self.readDocumentViewSelectable(element, paginateable)

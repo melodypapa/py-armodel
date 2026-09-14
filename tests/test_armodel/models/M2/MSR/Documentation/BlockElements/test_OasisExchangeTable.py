@@ -1,7 +1,8 @@
 """Tests for the OasisExchangeTable enums (FloatEnum, PgwideEnum, FrameEnum)."""
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, String
-from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, Colspec, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, TableSeparatorString, ValignEnum
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, Colspec, Entry, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, TableSeparatorString, ValignEnum
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
 class TestFloatEnum:
@@ -174,3 +175,42 @@ class TestColspec:
             assert getattr(colspec, "get" + name)() is value
             assert getattr(colspec, "set" + name)(None) is colspec
             assert getattr(colspec, "get" + name)() is value
+
+
+class TestEntry:
+    """Test class for Entry (Table 9.71)."""
+
+    def test_initialization_and_accessors(self):
+        entry = Entry()
+        assert entry.getAlign() is None
+        assert entry.getBgcolor() is None
+        assert entry.getColname() is None
+        assert entry.getColsep() is None
+        assert entry.getEntryContents() is None
+        assert entry.getMorerows() is None
+        assert entry.getNameend() is None
+        assert entry.getNamest() is None
+        assert entry.getRotate() is None
+        assert entry.getRowsep() is None
+        assert entry.getSpanname() is None
+        assert entry.getValign() is None
+
+        values = {
+            "Align": AlignEnum().setValue(AlignEnum.CENTER),
+            "Bgcolor": String().setValue("#FFFFFF"),
+            "Colname": String().setValue("name"),
+            "Colsep": TableSeparatorString().setValue("1"),
+            "EntryContents": DocumentationBlock(),
+            "Morerows": String().setValue("0"),
+            "Nameend": String().setValue("c2"),
+            "Namest": String().setValue("c1"),
+            "Rotate": String().setValue("0"),
+            "Rowsep": TableSeparatorString().setValue("0"),
+            "Spanname": String().setValue("span"),
+            "Valign": ValignEnum().setValue(ValignEnum.TOP),
+        }
+        for name, value in values.items():
+            assert getattr(entry, "set" + name)(value) is entry
+            assert getattr(entry, "get" + name)() is value
+            assert getattr(entry, "set" + name)(None) is entry
+            assert getattr(entry, "get" + name)() is value

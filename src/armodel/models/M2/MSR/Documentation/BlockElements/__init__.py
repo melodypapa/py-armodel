@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Optional
 
-from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, Colspec, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, TableSeparatorString, ValignEnum
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, Colspec, Entry, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, TableSeparatorString, ValignEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import MultilanguageReferrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import MimeTypeString, UriString
@@ -104,4 +104,4 @@ class Url(ARObject):
         return self.value
 
 
-__all__ = ["AlignEnum", "Colspec", "FloatEnum", "FrameEnum", "OrientEnum", "PgwideEnum", "TableSeparatorString", "ValignEnum", "Caption", "Url"]
+__all__ = ["AlignEnum", "Colspec", "Entry", "FloatEnum", "FrameEnum", "OrientEnum", "PgwideEnum", "TableSeparatorString", "ValignEnum", "Caption", "Url"]
