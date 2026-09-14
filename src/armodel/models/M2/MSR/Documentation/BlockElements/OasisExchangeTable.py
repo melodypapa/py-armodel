@@ -243,14 +243,19 @@ class Colspec(ARObject):
         super().__init__()
         # Specifies how the cell entries shall be horizontally aligned within the specified column. Default is "LEFT" Tags: xml.attribute=true
         self.align: Optional[AlignEnum] = None
+
         # Specifies the name of the column. Tags: xml.attribute=true
         self.colname: Optional[String] = None
+
         # column number (allows to sort the columns). Tags: xml.attribute=true
         self.colnum: Optional[String] = None
+
         # Indicates whether a line should be displayed right of this column in the column specification. Tags: xml.attribute=true
         self.colsep: Optional[TableSeparatorString] = None
+
         # Width of the column. You can enter absolute values such as 4 cm, or relative values marked with * (e.g., 2* for column widths double those of other columns with 1*). The unit can be added to the number in the string. Possible units are: cm, mm, px, pt. Tags: xml.attribute=true
         self.colwidth: Optional[String] = None
+
         # Indicates whether a line should be displayed at the bottom end of the cells of the column defined in the Colspec. Tags: xml.attribute=true
         self.rowsep: Optional[TableSeparatorString] = None
 
