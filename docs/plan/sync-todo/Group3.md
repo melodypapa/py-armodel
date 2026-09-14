@@ -392,16 +392,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [added `release R23-11` column per Rule 0012.3]
   - [x] Step 8 — Deviations  [none beyond the checklist-format fix]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 7 tests pass, flake8/ruff/black-check clean; 9b: already verified — marker confirmed in source]
-- [ ] `AlignEnum` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.67 · **NOT in src — created** · Package OasisExchangeTable → `OasisExchangeTable.py` · AREnum; literals center/justify/left/right indices 0-3 · aggregated by `Colspec.align`, `Entry.align`, `Tgroup.align`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `AlignEnum` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.67 · **NOT in src — created** · Package OasisExchangeTable → `OasisExchangeTable.py` · AREnum; literals center/justify/left/right indices 0-3 · aggregated by `Colspec.align`, `Entry.align`, `Tgroup.align`) — verified R23-11 (commit fa74a474)
+  - [x] Step 1 — Sync members & description from spec  [Table 9.67, p.335; Note + 4 literals CENTER/JUSTIFY/LEFT/RIGHT indices 0-3 confirmed against markdown + XSD ALIGN-ENUM--SIMPLE]
+  - [x] Step 2 — Write model class unit test (Red)  [TestAlignEnum in test_OasisExchangeTable.py: init, 4 literals, validateEnumValue, setValue/getValue; ImportError = Red]
+  - [x] Step 3 — Implement model class (Green)  [AlignEnum(AREnum) added to OasisExchangeTable.py with 4 XSD literals; exported via BlockElements __init__; 10 passed]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note + 4 literal descriptions copied verbatim from Table 9.67/XSD (RIGHT keeps spec's own "left justified" wording)]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: standalone AREnum — serialized as ALIGN attribute on Colspec/Entry/Tgroup]
+  - [x] Step 6 — Update parser & writer (Green)  [N/A: consuming classes own ALIGN coverage]
+  - [x] Step 7 — Update checklist comment  [one __init__ row with 6 columns + release R23-11; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none: literals + indices match XSD ALIGN-ENUM--SIMPLE; no own XML element]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8963 unit + test_model_imports + ruff + black-check all green; 9b: user-confirmed matched literals/indices, docstrings verbatim, N/A XML coverage, package location, no deviations; marker # Spec verified: R23-11 written]
 - [ ] `ValignEnum` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.69 · **NOT in src — created** · Package OasisExchangeTable → `OasisExchangeTable.py` · AREnum; literals bottom/middle/top indices 0-2 · aggregated by `Entry.valign`, `Row.valign`, `Tbody.valign`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
