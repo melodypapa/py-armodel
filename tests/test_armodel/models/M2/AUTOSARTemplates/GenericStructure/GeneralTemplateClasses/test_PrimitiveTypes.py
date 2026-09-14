@@ -35,6 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     MimeTypeString,
     MonotonyEnum,
     NameToken,
+    NameTokens,
     NativeDeclarationString,
     Numerical,
     PositiveInteger,
@@ -1350,3 +1351,26 @@ class TestMimeTypeString:
         assert mime_type.setValue("application/xml") is mime_type
         assert mime_type.value == "application/xml"
         assert str(mime_type) == "application/xml"
+
+
+class TestNameTokens:
+    """
+    Test class for NameTokens functionality (Table 4.56).
+    """
+
+    def test_initialization(self):
+        """
+        Test NameTokens initialization.
+        """
+        name_tokens = NameTokens()
+
+        assert name_tokens is not None
+        assert isinstance(name_tokens, ARLiteral)
+        assert name_tokens._value is None
+
+    def test_set_get_value(self):
+        """Test setValue round-trip and method chaining."""
+        name_tokens = NameTokens()
+        assert name_tokens.setValue("TokenA TokenB") is name_tokens
+        assert name_tokens.value == "TokenA TokenB"
+        assert str(name_tokens) == "TokenA TokenB"

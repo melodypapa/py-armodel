@@ -1466,6 +1466,25 @@ class MimeTypeString(ARLiteral):
         super().__init__()
 
 
+class NameTokens(ARLiteral):
+    """
+    This is a white-space separated list of name tokens.
+
+    Tags:
+        * xml.xsd.customType=NMTOKENS-STRING
+        * xml.xsd.type=NMTOKENS
+    """
+
+    # NameTokens method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.56, p.111
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+
 class Numerical(ARLiteral):
     """
     This primitive specifies a numerical value. It can be denoted in different formats such as Decimal, Octal, Hexadecimal, Float. See the xsd pattern for details. The value can be expressed in octal, hexadecimal, binary representation. Negative numbers can only be expressed in decimal or float notation.
