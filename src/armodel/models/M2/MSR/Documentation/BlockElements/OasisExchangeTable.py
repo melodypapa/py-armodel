@@ -659,3 +659,55 @@ class Row(Paginateable):
         if value is not None:
             self.valign = value
         return self
+
+
+class Tbody(ARObject):
+    """
+    This meta-class represents a part within a table group. Such a part can be the table head, the table body or the table foot.
+    """
+
+    # Tbody method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.68, p.335
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addRow    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRows   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getValign [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValign [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This is a particular row in a table. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=row, row.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        self.rows: List[Row] = []
+
+        # Indicates how the cells in the rows shall be aligned. Default is inherited from tbody, otherwise it is "TOP" Tags: xml.attribute=true
+        self.valign: Optional[ValignEnum] = None
+
+    def addRow(self, value: Row) -> "Tbody":
+        """
+        This is a particular row in a table. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=row, row.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        """
+        self.rows.append(value)
+        return self
+
+    def getRows(self) -> List[Row]:
+        """
+        This is a particular row in a table. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=row, row.variationPoint.shortLabel vh.latestBindingTime=postBuild xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        """
+        return self.rows
+
+    def getValign(self) -> Optional[ValignEnum]:
+        """
+        Indicates how the cells in the rows shall be aligned. Default is inherited from tbody, otherwise it is "TOP" Tags: xml.attribute=true
+        """
+        return self.valign
+
+    def setValign(self, value: Optional[ValignEnum]) -> "Tbody":
+        """
+        Indicates how the cells in the rows shall be aligned. Default is inherited from tbody, otherwise it is "TOP" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing valign.
+        """
+        if value is not None:
+            self.valign = value
+        return self

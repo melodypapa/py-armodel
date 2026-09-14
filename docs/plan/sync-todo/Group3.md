@@ -483,17 +483,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [7 method rows with six columns and R23-11 release; marker deferred to 9b]
    - [x] Step 8 — Deviations  [none: all three Table 9.70 members modeled with PDF types; inherited DocumentViewSelectable/Paginateable XML coverage reused; no fabrication or missing dependencies]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 8996 unit tests, focused Row tests, lint, and Black check pass; 9b: user-confirmed matched base, members, docstrings, reader/writer coverage, member order, package location, and no deviations; marker `# Spec verified: R23-11` written; commit b43b8601]
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `Tbody` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.68 · **NOT in src — created** · Package OasisExchangeTable · Base `ARObject` · attrs row(Row 1..* aggr)/valign(ValignEnum) · member type of `Tgroup.tbody`/`tfoot`/`thead`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `Tbody` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.68 · **NOT in src — created** · Package OasisExchangeTable · Base `ARObject` · attrs row(Row 1..* aggr)/valign(ValignEnum) · member type of `Tgroup.tbody`/`tfoot`/`thead`) — verified R23-11 (commit pending)
+   - [x] Step 1 — Sync members & description from spec  [Table 9.68, p.335; Base ARObject; attrs row(Row 1..* aggr) and valign(ValignEnum 0..1 attr); XSD TBODY group confirmed]
+   - [x] Step 2 — Write model class unit test (Red)  [TestTbody in test_OasisExchangeTable.py: defaults, typed row aggregation, valign chaining and None no-op; ImportError = Red]
+   - [x] Step 3 — Implement model class (Green)  [new Tbody(ARObject) with typed rows list and valign field/accessors; exported via BlockElements __init__; model tests pass]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note and row/valign member/accessor docs copied from Table 9.68; PEP 526 members]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [test_tbody.py parser/writer: inherited S/T, VALIGN, ordered ROW children, and empty TBODY; missing readTbody/writeTbody caused expected failures]
+   - [x] Step 6 — Update parser & writer (Green)  [readTbody/writeTbody reuse readRow/writeRow, preserve ordered ROW children, and serialize VALIGN; 4 focused tests pass]
+   - [x] Step 7 — Update checklist comment  [5 method rows with six columns and R23-11 release; marker deferred to 9b]
+   - [x] Step 8 — Deviations  [none: both Table 9.68 members modeled with PDF types; XSD sequence offset 20 preserved; no fabrication or missing dependencies]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 9001 unit tests, focused Tbody tests, lint, Black check, and diff check pass; 9b: user-confirmed matched base, members, docstrings, reader/writer coverage, member order, package location, and no deviations; marker `# Spec verified: R23-11` written; commit pending]
 - [ ] `Tgroup` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.66 · **NOT in src — created** · Package OasisExchangeTable · Base `ARObject` · attrs align(AlignEnum)/cols(Integer 1)/colsep(TableSeparatorString)/colspec(Colspec * aggr)/rowsep(TableSeparatorString)/tbody(Tbody 1)/tfoot(Tbody 0..1)/thead(Tbody 0..1) · member type of `Table.tgroup`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

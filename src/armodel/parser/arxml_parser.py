@@ -963,7 +963,7 @@ from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, Sw
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
-from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Colspec, Entry, Row, Url
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Colspec, Entry, Row, Tbody, Url
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, GraphicFitEnum, GraphicNotationEnum, LGraphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, PgwideEnum, TableSeparatorString, ValignEnum
@@ -5184,6 +5184,15 @@ class ARXMLParser(AbstractARXMLParser):
             row.setRowsep(TableSeparatorString().setValue(element.attrib["ROWSEP"]))
         if "VALIGN" in element.attrib:
             row.setValign(ValignEnum().setValue(element.attrib["VALIGN"]))
+
+    def readTbody(self, element: ET.Element, tbody: Tbody):
+        self.readARObject(element, tbody)
+        for child_element in self.findall(element, "ROW"):
+            row = Row()
+            self.readRow(child_element, row)
+            tbody.addRow(row)
+        if "VALIGN" in element.attrib:
+            tbody.setValign(ValignEnum().setValue(element.attrib["VALIGN"]))
 
     def readPaginateable(self, element: ET.Element, paginateable: Paginateable):
         self.readDocumentViewSelectable(element, paginateable)

@@ -1,7 +1,7 @@
 """Tests for the OasisExchangeTable enums (FloatEnum, PgwideEnum, FrameEnum)."""
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, String
-from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, Colspec, Entry, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, Row, TableSeparatorString, ValignEnum
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, Colspec, Entry, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, Row, TableSeparatorString, Tbody, ValignEnum
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
@@ -247,3 +247,19 @@ class TestRow:
 
         assert row.setRowsep(None).getRowsep().getValue() == "0"
         assert row.setValign(None).getValign().getValue() == ValignEnum.TOP
+
+
+class TestTbody:
+    """Test class for Tbody (Table 9.68)."""
+
+    def test_initialization_and_accessors(self):
+        tbody = Tbody()
+        assert tbody.getRows() == []
+        assert tbody.getValign() is None
+
+        row = Row()
+        assert tbody.addRow(row) is tbody
+        assert tbody.getRows() == [row]
+        assert tbody.setValign(ValignEnum().setValue(ValignEnum.MIDDLE)) is tbody
+        assert tbody.getValign().getValue() == ValignEnum.MIDDLE
+        assert tbody.setValign(None).getValign().getValue() == ValignEnum.MIDDLE
