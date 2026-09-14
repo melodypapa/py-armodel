@@ -1,7 +1,20 @@
 """Tests for the OasisExchangeTable enums (FloatEnum, PgwideEnum, FrameEnum)."""
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, String
-from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, Colspec, Entry, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, Row, TableSeparatorString, Tbody, ValignEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Integer, String
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import (
+    AlignEnum,
+    Colspec,
+    Entry,
+    FloatEnum,
+    FrameEnum,
+    OrientEnum,
+    PgwideEnum,
+    Row,
+    TableSeparatorString,
+    Tbody,
+    Tgroup,
+    ValignEnum,
+)
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
@@ -263,3 +276,33 @@ class TestTbody:
         assert tbody.setValign(ValignEnum().setValue(ValignEnum.MIDDLE)) is tbody
         assert tbody.getValign().getValue() == ValignEnum.MIDDLE
         assert tbody.setValign(None).getValign().getValue() == ValignEnum.MIDDLE
+
+
+class TestTgroup:
+    """Test class for Tgroup (Table 9.66)."""
+
+    def test_initialization_and_accessors(self):
+        tgroup = Tgroup()
+        assert tgroup.getColspecs() == []
+        assert tgroup.getThead() is None
+        assert tgroup.getTfoot() is None
+        assert tgroup.getTbody() is None
+        assert tgroup.getAlign() is None
+        assert tgroup.getCols() is None
+        assert tgroup.getColsep() is None
+        assert tgroup.getRowsep() is None
+
+        colspec = Colspec()
+        tbody = Tbody()
+        assert tgroup.addColspec(colspec) is tgroup
+        assert tgroup.getColspecs() == [colspec]
+        assert tgroup.setTbody(tbody) is tgroup
+        assert tgroup.getTbody() is tbody
+        assert tgroup.setAlign(AlignEnum().setValue(AlignEnum.CENTER)) is tgroup
+        assert tgroup.setCols(Integer().setValue(2)) is tgroup
+        assert tgroup.setColsep(TableSeparatorString().setValue("1")) is tgroup
+        assert tgroup.setRowsep(TableSeparatorString().setValue("0")) is tgroup
+        assert tgroup.getAlign().getValue() == AlignEnum.CENTER
+        assert tgroup.getCols().getValue() == 2
+        assert tgroup.getColsep().getValue() == "1"
+        assert tgroup.getRowsep().getValue() == "0"

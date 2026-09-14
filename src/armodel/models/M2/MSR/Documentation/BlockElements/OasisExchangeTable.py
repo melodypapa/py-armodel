@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import List, Optional, TYPE_CHECKING
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, AREnum, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, AREnum, Integer, String
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
 
 if TYPE_CHECKING:
@@ -710,4 +710,170 @@ class Tbody(ARObject):
         """
         if value is not None:
             self.valign = value
+        return self
+
+
+class Tgroup(ARObject):
+    """
+    This meta-class represents the ability to denote a table section.
+    """
+
+    # Tgroup method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.66, p.335
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getAlign    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlign    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCols     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCols     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getColsep   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setColsep   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addColspec  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getColspecs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRowsep   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRowsep   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTbody    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTbody    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTfoot    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTfoot    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getThead    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setThead    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Specifies how the cell entries shall be horizontally aligned within the specified TGROUP. Default is "LEFT" Tags: xml.attribute=true
+        self.align: Optional[AlignEnum] = None
+
+        # This attribute represents the number of columns in the table. Tags: xml.attribute=true
+        self.cols: Optional[Integer] = None
+
+        # Indicates if by default a line shall be drawn between the columns of this table group. Tags: xml.attribute=true
+        self.colsep: Optional[TableSeparatorString] = None
+
+        # This specifies one particular column specification in the table. There shall be one entry for each column. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        self.colspecs: List[Colspec] = []
+
+        # Indicates if by default a line shall be drawn at the bottom of the rows in this table group. Tags: xml.attribute=true
+        self.rowsep: Optional[TableSeparatorString] = None
+
+        # This is the main part of the table segment, called the table body. Tags: xml.sequenceOffset=60
+        self.tbody: Optional[Tbody] = None
+
+        # This represents the footer of the table segment. This segment is printed at the end of the table or before a page break. Tags: xml.sequenceOffset=50
+        self.tfoot: Optional[Tbody] = None
+
+        # This represents the heading of the table section. The heading is usually repeated at the beginning of each new page. Tags: xml.sequenceOffset=40
+        self.thead: Optional[Tbody] = None
+
+    def addColspec(self, value: Colspec) -> "Tgroup":
+        """
+        This specifies one particular column specification in the table. There shall be one entry for each column. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        """
+        self.colspecs.append(value)
+        return self
+
+    def getColspecs(self) -> List[Colspec]:
+        """
+        This specifies one particular column specification in the table. There shall be one entry for each column. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        """
+        return self.colspecs
+
+    def getAlign(self) -> Optional[AlignEnum]:
+        """
+        Specifies how the cell entries shall be horizontally aligned within the specified TGROUP. Default is "LEFT" Tags: xml.attribute=true
+        """
+        return self.align
+
+    def setAlign(self, value: Optional[AlignEnum]) -> "Tgroup":
+        """
+        Specifies how the cell entries shall be horizontally aligned within the specified TGROUP. Default is "LEFT" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing align.
+        """
+        if value is not None:
+            self.align = value
+        return self
+
+    def getCols(self) -> Optional[Integer]:
+        """
+        This attribute represents the number of columns in the table. Tags: xml.attribute=true
+        """
+        return self.cols
+
+    def setCols(self, value: Optional[Integer]) -> "Tgroup":
+        """
+        This attribute represents the number of columns in the table. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing cols.
+        """
+        if value is not None:
+            self.cols = value
+        return self
+
+    def getColsep(self) -> Optional[TableSeparatorString]:
+        """
+        Indicates if by default a line shall be drawn between the columns of this table group. Tags: xml.attribute=true
+        """
+        return self.colsep
+
+    def setColsep(self, value: Optional[TableSeparatorString]) -> "Tgroup":
+        """
+        Indicates if by default a line shall be drawn between the columns of this table group. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing colsep.
+        """
+        if value is not None:
+            self.colsep = value
+        return self
+
+    def getRowsep(self) -> Optional[TableSeparatorString]:
+        """
+        Indicates if by default a line shall be drawn at the bottom of the rows in this table group. Tags: xml.attribute=true
+        """
+        return self.rowsep
+
+    def setRowsep(self, value: Optional[TableSeparatorString]) -> "Tgroup":
+        """
+        Indicates if by default a line shall be drawn at the bottom of the rows in this table group. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing rowsep.
+        """
+        if value is not None:
+            self.rowsep = value
+        return self
+
+    def getTbody(self) -> Optional[Tbody]:
+        """
+        This is the main part of the table segment, called the table body. Tags: xml.sequenceOffset=60
+        """
+        return self.tbody
+
+    def setTbody(self, value: Optional[Tbody]) -> "Tgroup":
+        """
+        This is the main part of the table segment, called the table body. Tags: xml.sequenceOffset=60. A None value is a no-op and does not overwrite an existing tbody.
+        """
+        if value is not None:
+            self.tbody = value
+        return self
+
+    def getTfoot(self) -> Optional[Tbody]:
+        """
+        This represents the footer of the table segment. This segment is printed at the end of the table or before a page break. Tags: xml.sequenceOffset=50
+        """
+        return self.tfoot
+
+    def setTfoot(self, value: Optional[Tbody]) -> "Tgroup":
+        """
+        This represents the footer of the table segment. This segment is printed at the end of the table or before a page break. Tags: xml.sequenceOffset=50. A None value is a no-op and does not overwrite an existing tfoot.
+        """
+        if value is not None:
+            self.tfoot = value
+        return self
+
+    def getThead(self) -> Optional[Tbody]:
+        """
+        This represents the heading of the table section. The heading is usually repeated at the beginning of each new page. Tags: xml.sequenceOffset=40
+        """
+        return self.thead
+
+    def setThead(self, value: Optional[Tbody]) -> "Tgroup":
+        """
+        This represents the heading of the table section. The heading is usually repeated at the beginning of each new page. Tags: xml.sequenceOffset=40. A None value is a no-op and does not overwrite an existing thead.
+        """
+        if value is not None:
+            self.thead = value
         return self

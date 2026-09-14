@@ -493,16 +493,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [5 method rows with six columns and R23-11 release; marker deferred to 9b]
    - [x] Step 8 — Deviations  [none: both Table 9.68 members modeled with PDF types; XSD sequence offset 20 preserved; no fabrication or missing dependencies]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 9001 unit tests, focused Tbody tests, lint, Black check, and diff check pass; 9b: user-confirmed matched base, members, docstrings, reader/writer coverage, member order, package location, and no deviations; marker `# Spec verified: R23-11` written; commit 004d3f12]
-- [ ] `Tgroup` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.66 · **NOT in src — created** · Package OasisExchangeTable · Base `ARObject` · attrs align(AlignEnum)/cols(Integer 1)/colsep(TableSeparatorString)/colspec(Colspec * aggr)/rowsep(TableSeparatorString)/tbody(Tbody 1)/tfoot(Tbody 0..1)/thead(Tbody 0..1) · member type of `Table.tgroup`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `Tgroup` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.66 · **NOT in src — created** · Package OasisExchangeTable · Base `ARObject` · attrs align(AlignEnum)/cols(Integer 1)/colsep(TableSeparatorString)/colspec(Colspec * aggr)/rowsep(TableSeparatorString)/tbody(Tbody 1)/tfoot(Tbody 0..1)/thead(Tbody 0..1) · member type of `Table.tgroup`) — verified R23-11 (commit pending)
+   - [x] Step 1 — Sync members & description from spec  [Table 9.66, p.335; Base ARObject; attrs in displayed order: align, cols, colsep, colspec, rowsep, tbody, tfoot, thead; XSD sequence COLSPEC*, THEAD, TFOOT, TBODY confirmed]
+   - [x] Step 2 — Write model class unit test (Red)  [TestTgroup in test_OasisExchangeTable.py: defaults, typed aggregation, single-child accessors, typed attributes, and None no-op behavior; ImportError = Red]
+   - [x] Step 3 — Implement model class (Green)  [new Tgroup(ARObject) with typed align/cols/colsep/colspecs/rowsep/tbody/tfoot/thead fields and accessors; exported via BlockElements __init__; model tests pass]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note and all seven member/accessor docs copied from Table 9.66; PEP 526 members]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [test_tgroup.py parser/writer: S/T, all attributes, ordered COLSPEC/THEAD/TFOOT/TBODY children, and empty optional content; missing readTgroup/writeTgroup caused expected failures]
+   - [x] Step 6 — Update parser & writer (Green)  [readTgroup/writeTgroup reuse Colspec/Tbody helpers, preserve XSD child order, parse Integer COLS, and serialize all attributes; 4 focused tests pass]
+   - [x] Step 7 — Update checklist comment  [17 method rows with six columns and R23-11 release; marker deferred to 9b]
+   - [x] Step 8 — Deviations  [none: all seven Table 9.66 members modeled with PDF types; XSD sequence offsets 20/40/50/60 preserved; no fabrication or missing dependencies]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 9006 unit tests, focused Tgroup tests, lint, Black check, and diff check pass; 9b: user-confirmed matched member/accessor order, base, members, docstrings, reader/writer coverage, XSD XML order, package location, and no deviations; marker `# Spec verified: R23-11` written; commit pending]
 - [ ] `Table` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.63 · member type of `TopicContent.table` + `TraceableTable.table` · **NOT in src — created** · Package OasisExchangeTable · Base `ARObject , DocumentViewSelectable , Paginateable` · 10 attrs colsep(TableSeparatorString)/float(FloatEnum ✓)/frame(FrameEnum)/helpEntry(String)/orient(OrientEnum)/pgwide(NameToken)/rowsep(TableSeparatorString)/tableCaption(Caption ✓ aggr)/tabstyle(NameToken)/tgroup(Tgroup 1..* aggr) · **unblocked once the 10 dependency rows above are synced**)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

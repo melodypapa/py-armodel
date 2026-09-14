@@ -397,6 +397,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     CIdentifier,
     DateTime,
+    Integer,
     IntervalTypeEnum,
     MacAddressString,
     MimeTypeString,
@@ -963,7 +964,7 @@ from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, Sw
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
-from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Colspec, Entry, Row, Tbody, Url
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Colspec, Entry, Row, Tbody, Tgroup, Url
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, GraphicFitEnum, GraphicNotationEnum, LGraphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, PgwideEnum, TableSeparatorString, ValignEnum
@@ -5193,6 +5194,36 @@ class ARXMLParser(AbstractARXMLParser):
             tbody.addRow(row)
         if "VALIGN" in element.attrib:
             tbody.setValign(ValignEnum().setValue(element.attrib["VALIGN"]))
+
+    def readTgroup(self, element: ET.Element, tgroup: Tgroup):
+        self.readARObject(element, tgroup)
+        for child_element in self.findall(element, "COLSPEC"):
+            colspec = Colspec()
+            self.readColspec(child_element, colspec)
+            tgroup.addColspec(colspec)
+        thead_element = self.find(element, "THEAD")
+        if thead_element is not None:
+            thead = Tbody()
+            self.readTbody(thead_element, thead)
+            tgroup.setThead(thead)
+        tfoot_element = self.find(element, "TFOOT")
+        if tfoot_element is not None:
+            tfoot = Tbody()
+            self.readTbody(tfoot_element, tfoot)
+            tgroup.setTfoot(tfoot)
+        tbody_element = self.find(element, "TBODY")
+        if tbody_element is not None:
+            tbody = Tbody()
+            self.readTbody(tbody_element, tbody)
+            tgroup.setTbody(tbody)
+        if "ALIGN" in element.attrib:
+            tgroup.setAlign(AlignEnum().setValue(element.attrib["ALIGN"]))
+        if "COLS" in element.attrib:
+            tgroup.setCols(Integer().setValue(element.attrib["COLS"]))
+        if "COLSEP" in element.attrib:
+            tgroup.setColsep(TableSeparatorString().setValue(element.attrib["COLSEP"]))
+        if "ROWSEP" in element.attrib:
+            tgroup.setRowsep(TableSeparatorString().setValue(element.attrib["ROWSEP"]))
 
     def readPaginateable(self, element: ET.Element, paginateable: Paginateable):
         self.readDocumentViewSelectable(element, paginateable)

@@ -874,7 +874,7 @@ from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQue
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note
-from armodel.models.M2.MSR.Documentation.BlockElements import Colspec, Entry, Row, Tbody
+from armodel.models.M2.MSR.Documentation.BlockElements import Colspec, Entry, Row, Tbody, Tgroup
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     StructuredReq,
@@ -2412,6 +2412,29 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeRow(child_element, row)
         if tbody.getValign() is not None:
             element.attrib["VALIGN"] = tbody.getValign().getValue()
+
+    def writeTgroup(self, element: ET.Element, tgroup: Tgroup):
+        self.writeARObject(element, tgroup)
+        for colspec in tgroup.getColspecs():
+            child_element = ET.SubElement(element, "COLSPEC")
+            self.writeColspec(child_element, colspec)
+        if tgroup.getThead() is not None:
+            child_element = ET.SubElement(element, "THEAD")
+            self.writeTbody(child_element, tgroup.getThead())
+        if tgroup.getTfoot() is not None:
+            child_element = ET.SubElement(element, "TFOOT")
+            self.writeTbody(child_element, tgroup.getTfoot())
+        if tgroup.getTbody() is not None:
+            child_element = ET.SubElement(element, "TBODY")
+            self.writeTbody(child_element, tgroup.getTbody())
+        if tgroup.getAlign() is not None:
+            element.attrib["ALIGN"] = tgroup.getAlign().getValue()
+        if tgroup.getCols() is not None:
+            element.attrib["COLS"] = str(tgroup.getCols().getValue())
+        if tgroup.getColsep() is not None:
+            element.attrib["COLSEP"] = tgroup.getColsep().getValue()
+        if tgroup.getRowsep() is not None:
+            element.attrib["ROWSEP"] = tgroup.getRowsep().getValue()
 
     def writePaginateable(self, element: ET.Element, paginateable: Paginateable):
         self.writeDocumentViewSelectable(element, paginateable)
