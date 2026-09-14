@@ -1,6 +1,6 @@
-"""Tests for the OasisExchangeTable enums (FloatEnum, PgwideEnum)."""
+"""Tests for the OasisExchangeTable enums (FloatEnum, PgwideEnum, FrameEnum)."""
 
-from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, FrameEnum, PgwideEnum
 
 
 class TestFloatEnum:
@@ -33,3 +33,29 @@ class TestPgwideEnum:
         assert pgwide_enum.validateEnumValue("noPgwide")
         assert pgwide_enum.validateEnumValue("pgwide")
         assert not pgwide_enum.validateEnumValue("unknown")
+
+
+class TestFrameEnum:
+    """Test class for FrameEnum class."""
+
+    def test_frame_enum_members(self):
+        """Test that FrameEnum has the six XSD literals in index order."""
+        assert FrameEnum.ALL == "ALL"
+        assert FrameEnum.BOTTOM == "BOTTOM"
+        assert FrameEnum.NONE == "NONE"
+        assert FrameEnum.SIDES == "SIDES"
+        assert FrameEnum.TOP == "TOP"
+        assert FrameEnum.TOPBOT == "TOPBOT"
+
+    def test_frame_enum_initialization(self):
+        """Test that a FrameEnum object validates its literals."""
+        frame_enum = FrameEnum()
+        assert frame_enum.validateEnumValue("ALL")
+        assert frame_enum.validateEnumValue("TOPBOT")
+        assert not frame_enum.validateEnumValue("unknown")
+
+    def test_frame_enum_set_get_value(self):
+        """Test that the enum value round-trips via setValue/getValue."""
+        frame_enum = FrameEnum()
+        frame_enum.setValue(FrameEnum.SIDES)
+        assert frame_enum.getValue() == "SIDES"
