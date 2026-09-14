@@ -1,7 +1,8 @@
 """Tests for the OasisExchangeTable enums (FloatEnum, PgwideEnum, FrameEnum)."""
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, String
-from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, Colspec, Entry, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, TableSeparatorString, ValignEnum
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, Colspec, Entry, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, Row, TableSeparatorString, ValignEnum
+from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
@@ -214,3 +215,35 @@ class TestEntry:
             assert getattr(entry, "get" + name)() is value
             assert getattr(entry, "set" + name)(None) is entry
             assert getattr(entry, "get" + name)() is value
+
+
+class TestRow:
+    """Test class for Row (Table 9.70)."""
+
+    def test_initialization_and_bases(self):
+        row = Row()
+
+        assert isinstance(row, DocumentViewSelectable)
+        assert isinstance(row, Paginateable)
+        assert row.getEntries() == []
+        assert row.getRowsep() is None
+        assert row.getValign() is None
+
+    def test_entry_aggregation_and_optional_attributes(self):
+        row = Row()
+        entry = Entry()
+        row.addEntry(entry)
+
+        assert row.getEntries() == [entry]
+        assert row.setRowsep(TableSeparatorString().setValue("1")) is row
+        assert row.getRowsep().getValue() == "1"
+        assert row.setValign(ValignEnum().setValue(ValignEnum.MIDDLE)) is row
+        assert row.getValign().getValue() == ValignEnum.MIDDLE
+
+    def test_none_setters_are_no_ops(self):
+        row = Row()
+        row.setRowsep(TableSeparatorString().setValue("0"))
+        row.setValign(ValignEnum().setValue(ValignEnum.TOP))
+
+        assert row.setRowsep(None).getRowsep().getValue() == "0"
+        assert row.setValign(None).getValign().getValue() == ValignEnum.TOP

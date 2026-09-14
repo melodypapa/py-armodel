@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from typing import Optional, TYPE_CHECKING
+from typing import List, Optional, TYPE_CHECKING
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, AREnum, String
+from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
 
 if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -584,6 +585,76 @@ class Entry(ARObject):
     def setValign(self, value: Optional[ValignEnum]) -> "Entry":
         """
         Indicates how the content of the cell shall be aligned. Default is inherited from row or tbody, otherwise "TOP" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing valign.
+        """
+        if value is not None:
+            self.valign = value
+        return self
+
+
+class Row(Paginateable):
+    """
+    This meta-class represents the ability to express one row in a table.
+    """
+
+    # Row method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.70, p.336
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addEntry     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEntries   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getRowsep    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRowsep    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getValign    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setValign    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+        # This represents one particular table cell. It is an entry in the table. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        self.entries: List[Entry] = []
+
+        # Indicates if by default a line should be displayed below the row. Tags: xml.attribute=true
+        self.rowsep: Optional[TableSeparatorString] = None
+
+        # Indicates how the cells in the rows shall be aligned. Default is inherited from tbody, otherwise it is "TOP" Tags: xml.attribute=true
+        self.valign: Optional[ValignEnum] = None
+
+    def addEntry(self, value: Entry) -> "Row":
+        """
+        This represents one particular table cell. It is an entry in the table. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        """
+        self.entries.append(value)
+        return self
+
+    def getEntries(self) -> List[Entry]:
+        """
+        This represents one particular table cell. It is an entry in the table. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        """
+        return self.entries
+
+    def getRowsep(self) -> Optional[TableSeparatorString]:
+        """
+        Indicates if by default a line should be displayed below the row. Tags: xml.attribute=true
+        """
+        return self.rowsep
+
+    def setRowsep(self, value: Optional[TableSeparatorString]) -> "Row":
+        """
+        Indicates if by default a line should be displayed below the row. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing rowsep.
+        """
+        if value is not None:
+            self.rowsep = value
+        return self
+
+    def getValign(self) -> Optional[ValignEnum]:
+        """
+        Indicates how the cells in the rows shall be aligned. Default is inherited from tbody, otherwise it is "TOP" Tags: xml.attribute=true
+        """
+        return self.valign
+
+    def setValign(self, value: Optional[ValignEnum]) -> "Row":
+        """
+        Indicates how the cells in the rows shall be aligned. Default is inherited from tbody, otherwise it is "TOP" Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing valign.
         """
         if value is not None:
             self.valign = value

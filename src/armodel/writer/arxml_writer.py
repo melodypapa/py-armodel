@@ -874,7 +874,7 @@ from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQue
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note
-from armodel.models.M2.MSR.Documentation.BlockElements import Colspec, Entry
+from armodel.models.M2.MSR.Documentation.BlockElements import Colspec, Entry, Row
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     StructuredReq,
@@ -2394,6 +2394,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             element.attrib["SPANNAME"] = entry.getSpanname().getValue()
         if entry.getValign() is not None:
             element.attrib["VALIGN"] = entry.getValign().getValue()
+
+    def writeRow(self, element: ET.Element, row: Row):
+        self.writePaginateable(element, row)
+        for entry in row.getEntries():
+            child_element = ET.SubElement(element, "ENTRY")
+            self.writeEntry(child_element, entry)
+        if row.getRowsep() is not None:
+            element.attrib["ROWSEP"] = row.getRowsep().getValue()
+        if row.getValign() is not None:
+            element.attrib["VALIGN"] = row.getValign().getValue()
 
     def writePaginateable(self, element: ET.Element, paginateable: Paginateable):
         self.writeDocumentViewSelectable(element, paginateable)
