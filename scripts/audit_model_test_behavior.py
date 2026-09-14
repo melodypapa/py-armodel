@@ -53,7 +53,9 @@ def method_names(node: ast.ClassDef) -> Set[str]:
 def normalized_methods(node: ast.ClassDef) -> Set[str]:
     values = set()
     for name in method_names(node):
-        values.add(name.removeprefix("test_").replace("_", "").lower())
+        if name.startswith("test_"):
+            name = name[5:]
+        values.add(name.replace("_", "").lower())
     return values
 
 
