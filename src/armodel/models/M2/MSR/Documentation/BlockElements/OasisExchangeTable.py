@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, AREnum
 
 
 class FloatEnum(AREnum):
@@ -191,3 +191,23 @@ class PgwideEnum(AREnum):
                 PgwideEnum.PGWIDE,
             )
         )
+
+
+class TableSeparatorString(ARLiteral):
+    """
+    This represents the ability to denote a separator string within an OASIS exchange table. • 0 : no line is displayed • 1 : line is displayed
+
+    Tags:
+        * xml.xsd.customType=TABLE-SEPARATOR-STRING
+        * xml.xsd.pattern=[0-1]
+        * xml.xsd.type=string
+    """
+
+    # TableSeparatorString method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.72, p.337
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()

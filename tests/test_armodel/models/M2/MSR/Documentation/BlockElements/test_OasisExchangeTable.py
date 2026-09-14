@@ -1,6 +1,7 @@
 """Tests for the OasisExchangeTable enums (FloatEnum, PgwideEnum, FrameEnum)."""
 
-from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, ValignEnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, TableSeparatorString, ValignEnum
 
 
 class TestFloatEnum:
@@ -128,3 +129,21 @@ class TestOrientEnum:
         orient_enum = OrientEnum()
         orient_enum.setValue(OrientEnum.PORT)
         assert orient_enum.getValue() == "PORT"
+
+
+class TestTableSeparatorString:
+    """Test class for TableSeparatorString (Table 9.72, Primitive)."""
+
+    def test_initialization(self):
+        """Test that TableSeparatorString initializes as an ARLiteral with no value."""
+        separator = TableSeparatorString()
+        assert separator is not None
+        assert isinstance(separator, ARLiteral)
+        assert separator._value is None
+
+    def test_set_get_value(self):
+        """Test that the value round-trips via setValue and str()."""
+        separator = TableSeparatorString()
+        assert separator.setValue("1") is separator
+        assert separator.value == "1"
+        assert str(separator) == "1"
