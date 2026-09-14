@@ -1,6 +1,6 @@
 """Tests for the OasisExchangeTable enums (FloatEnum, PgwideEnum, FrameEnum)."""
 
-from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, FrameEnum, PgwideEnum, ValignEnum
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, ValignEnum
 
 
 class TestFloatEnum:
@@ -106,3 +106,25 @@ class TestValignEnum:
         valign_enum = ValignEnum()
         valign_enum.setValue(ValignEnum.MIDDLE)
         assert valign_enum.getValue() == "MIDDLE"
+
+
+class TestOrientEnum:
+    """Test class for OrientEnum class."""
+
+    def test_orient_enum_members(self):
+        """Test that OrientEnum has the two XSD literals in index order."""
+        assert OrientEnum.LAND == "LAND"
+        assert OrientEnum.PORT == "PORT"
+
+    def test_orient_enum_initialization(self):
+        """Test that an OrientEnum object validates its literals."""
+        orient_enum = OrientEnum()
+        assert orient_enum.validateEnumValue("LAND")
+        assert orient_enum.validateEnumValue("PORT")
+        assert not orient_enum.validateEnumValue("unknown")
+
+    def test_orient_enum_set_get_value(self):
+        """Test that the enum value round-trips via setValue/getValue."""
+        orient_enum = OrientEnum()
+        orient_enum.setValue(OrientEnum.PORT)
+        assert orient_enum.getValue() == "PORT"

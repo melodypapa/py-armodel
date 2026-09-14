@@ -139,6 +139,33 @@ class ValignEnum(AREnum):
         )
 
 
+class OrientEnum(AREnum):
+    """
+    Indicate whether a table should be represented as landscape or portrait.
+    """
+
+    # OrientEnum method parity checklist:
+    # Spec: AUTOSAR_00052.xsd, simpleType ORIENT-ENUM--SIMPLE line 140997 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Table.orient (ORIENT attribute)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This indicates that the table is rendered in landscape which results in turning the table 90 degree clockwise. Tags: atp.EnumerationLiteralIndex=0
+    LAND = "LAND"
+
+    # This indicates that the table is rendered in portrait, which is the regular text flow. Tags: atp.EnumerationLiteralIndex=1
+    PORT = "PORT"
+
+    def __init__(self):
+        super().__init__(
+            (
+                OrientEnum.LAND,
+                OrientEnum.PORT,
+            )
+        )
+
+
 class PgwideEnum(AREnum):
     """
     This enumerator specifies, if the table shall be rendered across the entire page, even if it is placed in side-head layouts.
