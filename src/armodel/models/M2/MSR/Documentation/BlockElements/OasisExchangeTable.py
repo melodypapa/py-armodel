@@ -108,6 +108,37 @@ class AlignEnum(AREnum):
         )
 
 
+class ValignEnum(AREnum):
+    """
+    This enumerator specifies vertical alignment.
+    """
+
+    # ValignEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.69, p.336
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Entry.valign / Row.valign / Tbody.valign (VALIGN attribute)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The contents of the table cell is bottom aligned. Tags: atp.EnumerationLiteralIndex=0
+    BOTTOM = "BOTTOM"
+
+    # The contents of the table is vertically centered. Tags: atp.EnumerationLiteralIndex=1
+    MIDDLE = "MIDDLE"
+
+    # The contents of the table cell is top aligned. Tags: atp.EnumerationLiteralIndex=2
+    TOP = "TOP"
+
+    def __init__(self):
+        super().__init__(
+            (
+                ValignEnum.BOTTOM,
+                ValignEnum.MIDDLE,
+                ValignEnum.TOP,
+            )
+        )
+
+
 class PgwideEnum(AREnum):
     """
     This enumerator specifies, if the table shall be rendered across the entire page, even if it is placed in side-head layouts.

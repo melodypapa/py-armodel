@@ -1,6 +1,6 @@
 """Tests for the OasisExchangeTable enums (FloatEnum, PgwideEnum, FrameEnum)."""
 
-from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, FrameEnum, PgwideEnum
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, FrameEnum, PgwideEnum, ValignEnum
 
 
 class TestFloatEnum:
@@ -83,3 +83,26 @@ class TestAlignEnum:
         align_enum = AlignEnum()
         align_enum.setValue(AlignEnum.JUSTIFY)
         assert align_enum.getValue() == "JUSTIFY"
+
+
+class TestValignEnum:
+    """Test class for ValignEnum class."""
+
+    def test_valign_enum_members(self):
+        """Test that ValignEnum has the three XSD literals in index order."""
+        assert ValignEnum.BOTTOM == "BOTTOM"
+        assert ValignEnum.MIDDLE == "MIDDLE"
+        assert ValignEnum.TOP == "TOP"
+
+    def test_valign_enum_initialization(self):
+        """Test that a ValignEnum object validates its literals."""
+        valign_enum = ValignEnum()
+        assert valign_enum.validateEnumValue("BOTTOM")
+        assert valign_enum.validateEnumValue("TOP")
+        assert not valign_enum.validateEnumValue("unknown")
+
+    def test_valign_enum_set_get_value(self):
+        """Test that the enum value round-trips via setValue/getValue."""
+        valign_enum = ValignEnum()
+        valign_enum.setValue(ValignEnum.MIDDLE)
+        assert valign_enum.getValue() == "MIDDLE"
