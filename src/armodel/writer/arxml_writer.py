@@ -2348,6 +2348,10 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeDocumentViewSelectable(self, element: ET.Element, selectable: DocumentViewSelectable):
         self.writeARObject(element, selectable)
+        if selectable.getSi() is not None:
+            element.attrib["SI"] = selectable.getSi().getValue()
+        if selectable.getView() is not None:
+            element.attrib["VIEW"] = selectable.getView().getValue()
 
     def writePaginateable(self, element: ET.Element, paginateable: Paginateable):
         self.writeDocumentViewSelectable(element, paginateable)

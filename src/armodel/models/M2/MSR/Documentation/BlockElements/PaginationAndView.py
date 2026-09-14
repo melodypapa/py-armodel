@@ -2,7 +2,7 @@ from abc import ABC
 from typing import Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, NameTokens, ViewTokens
 
 
 class ChapterEnumBreak(AREnum):
@@ -49,17 +49,57 @@ class KeepWithPreviousEnum(AREnum):
 
 class DocumentViewSelectable(ARObject, ABC):
     """
-    Abstract base class for elements that can be selected in a document
-    view.
+    This meta-class represents the ability to be dedicated to a particular audience or document view.
     """
 
     # DocumentViewSelectable method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.77, p.340
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__ [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSi   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSi   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getView [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setView [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is DocumentViewSelectable:
             raise TypeError("DocumentViewSelectable is an abstract class.")
         super().__init__()
+
+        # This attribute allows to denote a semantic information which is used to identify documentation objects to be selected in customizable document views. It shall be defined in agreement between the involved parties. Tags: xml.attribute=true
+        self.si: Optional[NameTokens] = None
+
+        # This attribute lists the document views in which the object shall appear. If it is missing, the object appears in all document views. Tags: xml.attribute=true
+        self.view: Optional[ViewTokens] = None
+
+    def getSi(self) -> Optional[NameTokens]:
+        """
+        This attribute allows to denote a semantic information which is used to identify documentation objects to be selected in customizable document views. It shall be defined in agreement between the involved parties. Tags: xml.attribute=true
+        """
+        return self.si
+
+    def setSi(self, value: Optional[NameTokens]) -> "DocumentViewSelectable":
+        """
+        This attribute allows to denote a semantic information which is used to identify documentation objects to be selected in customizable document views. It shall be defined in agreement between the involved parties. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing si.
+        """
+        if value is not None:
+            self.si = value
+        return self
+
+    def getView(self) -> Optional[ViewTokens]:
+        """
+        This attribute lists the document views in which the object shall appear. If it is missing, the object appears in all document views. Tags: xml.attribute=true
+        """
+        return self.view
+
+    def setView(self, value: Optional[ViewTokens]) -> "DocumentViewSelectable":
+        """
+        This attribute lists the document views in which the object shall appear. If it is missing, the object appears in all document views. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing view.
+        """
+        if value is not None:
+            self.view = value
+        return self
 
 
 class Paginateable(DocumentViewSelectable, ABC):

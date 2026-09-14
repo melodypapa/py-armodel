@@ -401,6 +401,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     MacAddressString,
     MimeTypeString,
     NameToken,
+    NameTokens,
     Numerical,
     PositiveInteger,
     PrimitiveIdentifier,
@@ -411,6 +412,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     UriString,
     VerbatimString,
     VerbatimStringPlain,
+    ViewTokens,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
@@ -5126,6 +5128,10 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDocumentViewSelectable(self, element: ET.Element, selectable: DocumentViewSelectable):
         self.readARObject(element, selectable)
+        if "SI" in element.attrib:
+            selectable.setSi(NameTokens().setValue(element.attrib["SI"]))
+        if "VIEW" in element.attrib:
+            selectable.setView(ViewTokens().setValue(element.attrib["VIEW"]))
 
     def readPaginateable(self, element: ET.Element, paginateable: Paginateable):
         self.readDocumentViewSelectable(element, paginateable)

@@ -452,16 +452,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [one __init__ row with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none: Primitive modeled as ARLiteral; note/tags match Table 9.78; no own XML element]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 109 PrimitiveTypes tests, model-import test, lint, Black check, and diff check pass; 9b: user-confirmed Primitive kind, ARLiteral base, verbatim Note/Tags, N/A standalone XML coverage, package location, and no deviations; marker `# Spec verified: R23-11` written; commit pending]
-- [ ] `DocumentViewSelectable` (tracker input · **moved 2026-09-14 Table closure audit ahead of `Table`/`Row`** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.77 · abstract `ARObject` mixin · **in src** (`PaginationAndView.py`) · **unstamped** (checklist `[ ] __init__ [x] impl [ ] docstring [ ] test`, no marker) — needs 2 new attrs `si`(NameTokens 1)/`view`(ViewTokens 0..1) + reusable read/write helpers (Rule 0001.7) · **BLOCKED** until `NameTokens` + `ViewTokens` (above) are synced · Base of `Table`, `Row`, and `MultiLanguageParagraph`/`MlFigure`/`MsrQueryChapter`/`MsrQueryTopic1`/`MsrQueryP1`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `DocumentViewSelectable` (tracker input · **moved 2026-09-14 Table closure audit ahead of `Table`/`Row`** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.77 · abstract `ARObject` mixin · **in src** (`PaginationAndView.py`) · needs 2 new attrs `si`(NameTokens 1)/`view`(ViewTokens 0..1) + reusable read/write helpers (Rule 0001.7) · **unblocked after `NameTokens` + `ViewTokens` synced** · Base of `Table`, `Row`, and `MultiLanguageParagraph`/`MlFigure`/`MsrQueryChapter`/`MsrQueryTopic1`/`MsrQueryP1`) — verified R23-11 (commit pending)
+   - [x] Step 1 — Sync members & description from spec  [Table 9.77, p.340; Base ARObject; attrs si NameTokens 1 and view ViewTokens 0..1; XSD SI/VIEW attribute group confirmed]
+   - [x] Step 2 — Write model class unit test (Red)  [extended test_PaginationAndView.py with abstract/default tests, typed get/set and None no-op assertions; missing getSi = Red]
+   - [x] Step 3 — Implement model class (Green)  [added si/view typed members and getSi/setSi/getView/setView to abstract DocumentViewSelectable]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note and both attribute Notes copied verbatim from Table 9.77; checklist added]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser both attrs + absent VIEW; writer both attrs + absent VIEW; missing serialization = Red]
+   - [x] Step 6 — Update parser & writer (Green)  [read/writeDocumentViewSelectable cover SI and VIEW; inherited Paginateable dispatch retains BREAK/KEEP coverage]
+   - [x] Step 7 — Update checklist comment  [init + 4 accessors, six-column checklist with R23-11 release]
+   - [x] Step 8 — Deviations  [none: both PDF attrs modeled with PDF types; abstract reusable XML helper covers every member; no fabrication or missing dependencies]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 18 model + 4 parser/writer focused tests, model imports, lint, Black check, and diff check pass; 9b: user-confirmed abstract ARObject base, member order/types, verbatim docs, SI/VIEW reader+writer coverage, package location, and no deviations; marker `# Spec verified: R23-11` written; commit pending]
 - [ ] `Colspec` (dependency · **added 2026-09-14 Table closure audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · **Table E.21** (appendix letter-numbered table — same class of miss as E.71/E.81) · **NOT in src — created** · Package OasisExchangeTable · class; member type of `Tgroup.colspec`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

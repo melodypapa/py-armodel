@@ -4,6 +4,7 @@ This module contains tests for the PaginationAndView module in MSR.Documentation
 
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameTokens, ViewTokens
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
     ChapterEnumBreak,
     DocumentViewSelectable,
@@ -98,6 +99,28 @@ class TestDocumentViewSelectable:
         # Test that Paginateable is also abstract
         with pytest.raises(TypeError, match="Paginateable is an abstract class"):
             Paginateable()
+
+    def test_document_view_selectable_attributes(self):
+        """DocumentViewSelectable exposes the Table 9.77 SI and VIEW attributes."""
+
+        class ConcreteSelectable(DocumentViewSelectable):
+            def __init__(self):
+                super().__init__()
+
+        selectable = ConcreteSelectable()
+        assert selectable.getSi() is None
+        assert selectable.getView() is None
+
+        si = NameTokens().setValue("INTERNAL")
+        view = ViewTokens().setValue("DETAILED")
+        assert selectable.setSi(si) is selectable
+        assert selectable.setView(view) is selectable
+        assert selectable.getSi() is si
+        assert selectable.getView() is view
+        assert selectable.setSi(None) is selectable
+        assert selectable.setView(None) is selectable
+        assert selectable.getSi() is si
+        assert selectable.getView() is view
 
 
 class TestPaginateable:

@@ -28,6 +28,7 @@ from armodel.models import (
     SwDataDefProps,
 )
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameTokens
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
     J1939NodeName,
 )
@@ -512,9 +513,19 @@ class TestGraphicAndFigureHandlers:
         assert len(figure.getLGraphics()) == 2
 
     def test_readDocumentViewSelectable(self, parser):
-        element = _snip("", root_tag="SELECTABLE")
+        element = _snip("", root_tag="SELECTABLE", SI="INTERNAL", VIEW="DETAILED")
         selectable = MlFigure()
         parser.readDocumentViewSelectable(element, selectable)
+        assert selectable.getSi().getValue() == "INTERNAL"
+        assert selectable.getView().getValue() == "DETAILED"
+
+    def test_readDocumentViewSelectable_without_optional_view(self, parser):
+        element = _snip("", root_tag="SELECTABLE", SI="INTERNAL")
+        selectable = MlFigure()
+        parser.readDocumentViewSelectable(element, selectable)
+        assert isinstance(selectable.getSi(), NameTokens)
+        assert selectable.getSi().getValue() == "INTERNAL"
+        assert selectable.getView() is None
 
     def test_readPaginateable(self, parser):
         element = _snip("", root_tag="PAGINATE", BREAK="BREAK", **{"KEEP-WITH-PREVIOUS": "KEEP"})
