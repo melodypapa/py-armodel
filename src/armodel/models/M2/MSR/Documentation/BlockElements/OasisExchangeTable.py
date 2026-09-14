@@ -73,6 +73,41 @@ class FrameEnum(AREnum):
         )
 
 
+class AlignEnum(AREnum):
+    """
+    This enumerator specifies horizontal alignment.
+    """
+
+    # AlignEnum method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.67, p.335
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Colspec.align / Entry.align / Tgroup.align (ALIGN attribute)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The content of the table is horizontally centered. Tags: atp.EnumerationLiteralIndex=0
+    CENTER = "CENTER"
+
+    # This indicates that the content of table cell shall be justified (rendered as a block where white-space is expanded such that all lines are filled up). Tags: atp.EnumerationLiteralIndex=1
+    JUSTIFY = "JUSTIFY"
+
+    # This indicates that the content of a table cell is left justified. Tags: atp.EnumerationLiteralIndex=2
+    LEFT = "LEFT"
+
+    # This indicates that the content of a table cell is left justified. Tags: atp.EnumerationLiteralIndex=3
+    RIGHT = "RIGHT"
+
+    def __init__(self):
+        super().__init__(
+            (
+                AlignEnum.CENTER,
+                AlignEnum.JUSTIFY,
+                AlignEnum.LEFT,
+                AlignEnum.RIGHT,
+            )
+        )
+
+
 class PgwideEnum(AREnum):
     """
     This enumerator specifies, if the table shall be rendered across the entire page, even if it is placed in side-head layouts.

@@ -1,6 +1,6 @@
 """Tests for the OasisExchangeTable enums (FloatEnum, PgwideEnum, FrameEnum)."""
 
-from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, FrameEnum, PgwideEnum
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, FrameEnum, PgwideEnum
 
 
 class TestFloatEnum:
@@ -59,3 +59,27 @@ class TestFrameEnum:
         frame_enum = FrameEnum()
         frame_enum.setValue(FrameEnum.SIDES)
         assert frame_enum.getValue() == "SIDES"
+
+
+class TestAlignEnum:
+    """Test class for AlignEnum class."""
+
+    def test_align_enum_members(self):
+        """Test that AlignEnum has the four XSD literals in index order."""
+        assert AlignEnum.CENTER == "CENTER"
+        assert AlignEnum.JUSTIFY == "JUSTIFY"
+        assert AlignEnum.LEFT == "LEFT"
+        assert AlignEnum.RIGHT == "RIGHT"
+
+    def test_align_enum_initialization(self):
+        """Test that an AlignEnum object validates its literals."""
+        align_enum = AlignEnum()
+        assert align_enum.validateEnumValue("CENTER")
+        assert align_enum.validateEnumValue("RIGHT")
+        assert not align_enum.validateEnumValue("unknown")
+
+    def test_align_enum_set_get_value(self):
+        """Test that the enum value round-trips via setValue/getValue."""
+        align_enum = AlignEnum()
+        align_enum.setValue(AlignEnum.JUSTIFY)
+        assert align_enum.getValue() == "JUSTIFY"
