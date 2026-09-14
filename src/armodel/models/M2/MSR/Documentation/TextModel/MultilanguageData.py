@@ -72,25 +72,35 @@ class MultiLanguageOverviewParagraph(ARObject):
 
 class MultilanguageLongName(ARObject):
     """
-    Multi-language long name containing language-specific long name
-    entries.
+    This meta-class represents the ability to specify a long name which acts in the role of a headline. It is intended for human readers. Per language it should be around max 80 characters.
     """
 
     # MultilanguageLongName method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addL4                        [x] impl  [ ] docstring  [ ] test
-    # [ ] getL4s                       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 4.6, p.62
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addL4        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getL4s       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # This is the long name in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         self.l4: List[LLongName] = []
 
-    def addL4(self, l4: LLongName):
-        self.l4.append(l4)
+    def addL4(self, l4: Optional[LLongName]) -> "MultilanguageLongName":
+        """
+        This is the long name in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and is not appended.
+        """
+        if l4 is not None:
+            self.l4.append(l4)
         return self
 
     def getL4s(self) -> List[LLongName]:
+        """
+        This is the long name in one particular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        """
         return self.l4
 
 

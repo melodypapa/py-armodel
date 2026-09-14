@@ -2,10 +2,11 @@
 This module contains tests for the Figure module in MSR.Documentation.BlockElements.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
     Graphic,
     GraphicFitEnum,
+    GraphicNotationEnum,
     LGraphic,
     Map,
     MlFigure,
@@ -17,8 +18,69 @@ class TestGraphicFitEnum:
 
     def test_graphic_fit_enum_initialization(self):
         """Test that a GraphicFitEnum object can be initialized."""
-        graphic_fit_enum = GraphicFitEnum([])
+        graphic_fit_enum = GraphicFitEnum()
         assert graphic_fit_enum is not None
+
+    def test_graphic_fit_enum_spec_literals(self):
+        """GraphicFitEnum shall expose the 13 spec literals with their XSD string values."""
+        enum = GraphicFitEnum()
+        expected = {
+            GraphicFitEnum.ASIS: "AS-IS",
+            GraphicFitEnum.FIT_TO_PAGE: "FIT-TO-PAGE",
+            GraphicFitEnum.FIT_TO_TEXT: "FIT-TO-TEXT",
+            GraphicFitEnum.LIMIT_TO_PAGE: "LIMIT-TO-PAGE",
+            GraphicFitEnum.LIMIT_TO_TEXT: "LIMIT-TO-TEXT",
+            GraphicFitEnum.ROTATE_180: "ROTATE-180",
+            GraphicFitEnum.ROTATE_180_LIMIT_TO_TEXT: "ROTATE-180-LIMIT-TO-TEXT",
+            GraphicFitEnum.ROTATE_90CCW: "ROTATE-90-CCW",
+            GraphicFitEnum.ROTATE_90CCW_FIT_TO_TEXT: "ROTATE-90-CCW-FIT-TO-TEXT",
+            GraphicFitEnum.ROTATE_90CCW_LIMIT_TO_TEXT: "ROTATE-90-CCW-LIMIT-TO-TEXT",
+            GraphicFitEnum.ROTATE_90CW: "ROTATE-90-CW",
+            GraphicFitEnum.ROTATE_90CW_FIT_TO_TEXT: "ROTATE-90-CW-FIT-TO-TEXT",
+            GraphicFitEnum.ROTATE_90CW_LIMIT_TO_TEXT: "ROTATE-90-CW-LIMIT-TO-TEXT",
+        }
+        for const, value in expected.items():
+            assert const == value
+        assert set(enum.getEnumValues()) == set(expected.values())
+
+
+class TestGraphicNotationEnum:
+    """Test class for GraphicNotationEnum (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.22)."""
+
+    def test_graphic_notation_enum_initialization(self):
+        """Test that a GraphicNotationEnum object can be initialized."""
+        graphic_notation_enum = GraphicNotationEnum()
+        assert graphic_notation_enum is not None
+        assert isinstance(graphic_notation_enum, GraphicNotationEnum)
+
+    def test_graphic_notation_enum_spec_literals(self):
+        """GraphicNotationEnum shall expose the 8 spec literals with their XSD string values."""
+        enum = GraphicNotationEnum()
+        expected = {
+            GraphicNotationEnum.BMP: "BMP",
+            GraphicNotationEnum.EPS: "EPS",
+            GraphicNotationEnum.GIF: "GIF",
+            GraphicNotationEnum.JPG: "JPG",
+            GraphicNotationEnum.PDF: "PDF",
+            GraphicNotationEnum.PNG: "PNG",
+            GraphicNotationEnum.SVG: "SVG",
+            GraphicNotationEnum.TIFF: "TIFF",
+        }
+        for const, value in expected.items():
+            assert const == value
+        assert set(enum.getEnumValues()) == set(expected.values())
+
+    def test_graphic_notation_enum_set_get_value(self):
+        """setValue/getValue shall round-trip a spec literal."""
+        enum = GraphicNotationEnum().setValue(GraphicNotationEnum.SVG)
+        assert enum.getValue() == "SVG"
+
+    def test_graphic_notation_enum_validate_enum_value(self):
+        """validateEnumValue shall accept the XSD literal values only."""
+        enum = GraphicNotationEnum()
+        assert enum.validateEnumValue("BMP") is True
+        assert enum.validateEnumValue("TIFF") is True
+        assert enum.validateEnumValue("bmp") is False
 
 
 class TestGraphic:
@@ -33,15 +95,27 @@ class TestGraphic:
         assert graphic.editWidth is None
         assert graphic.filename is None
         assert graphic.fit is None
+        assert graphic.generator is None
+        assert graphic.height is None
+        assert graphic.htmlFit is None
+        assert graphic.htmlHeight is None
+        assert graphic.htmlScale is None
+        assert graphic.htmlWidth is None
+        assert graphic.notation is None
+        assert graphic.scale is None
+        assert graphic.width is None
 
     def test_graphic_editfit_methods(self):
         """Test the editfit getter and setter."""
         graphic = Graphic()
-        editfit = GraphicFitEnum([])
+        editfit = GraphicFitEnum()
 
         result = graphic.setEditfit(editfit)
         assert graphic.getEditfit() == editfit
         assert result == graphic
+
+        graphic.setEditfit(None)
+        assert graphic.getEditfit() == editfit
 
     def test_graphic_edit_height_methods(self):
         """Test the editHeight getter and setter."""
@@ -52,6 +126,9 @@ class TestGraphic:
         assert graphic.getEditHeight() == height
         assert result == graphic
 
+        graphic.setEditHeight(None)
+        assert graphic.getEditHeight() == height
+
     def test_graphic_editscale_methods(self):
         """Test the editscale getter and setter."""
         graphic = Graphic()
@@ -60,6 +137,9 @@ class TestGraphic:
         result = graphic.setEditscale(scale)
         assert graphic.getEditscale() == scale
         assert result == graphic
+
+        graphic.setEditscale(None)
+        assert graphic.getEditscale() == scale
 
     def test_graphic_edit_width_methods(self):
         """Test the editWidth getter and setter."""
@@ -70,6 +150,9 @@ class TestGraphic:
         assert graphic.getEditWidth() == width
         assert result == graphic
 
+        graphic.setEditWidth(None)
+        assert graphic.getEditWidth() == width
+
     def test_graphic_filename_methods(self):
         """Test the filename getter and setter."""
         graphic = Graphic()
@@ -79,14 +162,128 @@ class TestGraphic:
         assert graphic.getFilename() == filename
         assert result == graphic
 
+        graphic.setFilename(None)
+        assert graphic.getFilename() == filename
+
     def test_graphic_fit_methods(self):
         """Test the fit getter and setter."""
         graphic = Graphic()
-        fit = GraphicFitEnum([])
+        fit = GraphicFitEnum()
 
         result = graphic.setFit(fit)
         assert graphic.getFit() == fit
         assert result == graphic
+
+        graphic.setFit(None)
+        assert graphic.getFit() == fit
+
+    def test_graphic_generator_methods(self):
+        """Test the generator getter and setter."""
+        graphic = Graphic()
+        generator = NameToken()
+
+        result = graphic.setGenerator(generator)
+        assert graphic.getGenerator() == generator
+        assert result == graphic
+
+        graphic.setGenerator(None)
+        assert graphic.getGenerator() == generator
+
+    def test_graphic_height_methods(self):
+        """Test the height getter and setter."""
+        graphic = Graphic()
+        height = String()
+
+        result = graphic.setHeight(height)
+        assert graphic.getHeight() == height
+        assert result == graphic
+
+        graphic.setHeight(None)
+        assert graphic.getHeight() == height
+
+    def test_graphic_html_fit_methods(self):
+        """Test the htmlFit getter and setter."""
+        graphic = Graphic()
+        html_fit = GraphicFitEnum()
+
+        result = graphic.setHtmlFit(html_fit)
+        assert graphic.getHtmlFit() == html_fit
+        assert result == graphic
+
+        graphic.setHtmlFit(None)
+        assert graphic.getHtmlFit() == html_fit
+
+    def test_graphic_html_height_methods(self):
+        """Test the htmlHeight getter and setter."""
+        graphic = Graphic()
+        html_height = String()
+
+        result = graphic.setHtmlHeight(html_height)
+        assert graphic.getHtmlHeight() == html_height
+        assert result == graphic
+
+        graphic.setHtmlHeight(None)
+        assert graphic.getHtmlHeight() == html_height
+
+    def test_graphic_html_scale_methods(self):
+        """Test the htmlScale getter and setter."""
+        graphic = Graphic()
+        html_scale = String()
+
+        result = graphic.setHtmlScale(html_scale)
+        assert graphic.getHtmlScale() == html_scale
+        assert result == graphic
+
+        graphic.setHtmlScale(None)
+        assert graphic.getHtmlScale() == html_scale
+
+    def test_graphic_html_width_methods(self):
+        """Test the htmlWidth getter and setter."""
+        graphic = Graphic()
+        html_width = String()
+
+        result = graphic.setHtmlWidth(html_width)
+        assert graphic.getHtmlWidth() == html_width
+        assert result == graphic
+
+        graphic.setHtmlWidth(None)
+        assert graphic.getHtmlWidth() == html_width
+
+    def test_graphic_notation_methods(self):
+        """Test the notation getter and setter."""
+        graphic = Graphic()
+        notation = GraphicNotationEnum()
+
+        result = graphic.setNotation(notation)
+        assert graphic.getNotation() == notation
+        assert result == graphic
+
+        graphic.setNotation(None)
+        assert graphic.getNotation() == notation
+
+    def test_graphic_scale_methods(self):
+        """Test the scale getter and setter."""
+        graphic = Graphic()
+        scale = String()
+
+        result = graphic.setScale(scale)
+        assert graphic.getScale() == scale
+        assert result == graphic
+
+        graphic.setScale(None)
+        assert graphic.getScale() == scale
+
+    def test_graphic_width_methods(self):
+        """Test the width getter and setter."""
+        graphic = Graphic()
+        width = String()
+
+        result = graphic.setWidth(width)
+        assert graphic.getWidth() == width
+        assert result == graphic
+
+        graphic.setWidth(None)
+        assert graphic.getWidth() == width
 
 
 class TestMap:

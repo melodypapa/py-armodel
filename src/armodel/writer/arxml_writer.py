@@ -270,7 +270,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage, ReferenceBase
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+    Identifiable,
+    MultilanguageReferrable,
+    Referrable,
+    ShortNameFragment,
+    SingleLanguageReferrable,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.TagWithOptionalValue import TagWithOptionalValue
@@ -851,7 +858,7 @@ from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, Sw
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
-from armodel.models.M2.MSR.Documentation.BlockElements import Caption
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Url
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.Chapters import (
@@ -867,16 +874,18 @@ from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQue
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note
+from armodel.models.M2.MSR.Documentation.BlockElements import Colspec, Entry, Row, Tbody, Tgroup
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     StructuredReq,
     Traceable,
     TraceableText,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Tt
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Tt, Xdoc, Xfile, Xref, XrefTarget
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LPlainText, LVerbatim, MixedContentForLongName, MixedContentForParagraph, SlParagraph
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
+from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
 from armodel.writer.abstract_arxml_writer import AbstractARXMLWriter
 
 #: Mapping between BindingTimeEnum camelCase values and their XML attribute tokens
@@ -1113,20 +1122,142 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def setLLongName(self, element: ET.Element, name: LLongName):
         child_element = ET.SubElement(element, "L-4")
-        self.writeARObject(child_element, name)
         if name.getL() is not None:
             child_element.attrib["L"] = name.getL()
-        if name.getSup() is not None:
-            child_element.attrib["SUP"] = name.getSup().getValue()
-        if name.getSub() is not None:
-            child_element.attrib["SUB"] = name.getSub().getValue()
         child_element.text = name.getValue()
-        if name.getE() is not None:
-            self.setEmphasisText(child_element, "E", name.getE())
-        if name.getIe() is not None:
-            self.setIndexEntry(child_element, "IE", name.getIe())
-        if name.getTt() is not None:
-            self.setTt(child_element, "TT", name.getTt())
+        self.writeMixedContentForLongName(child_element, name)
+
+    def writeMixedContentForLongName(self, element: ET.Element, content: MixedContentForLongName):
+        self.writeARObject(element, content)
+        if content.getSup() is not None:
+            element.attrib["SUP"] = content.getSup().getValue()
+        if content.getSub() is not None:
+            element.attrib["SUB"] = content.getSub().getValue()
+        if content.getE() is not None:
+            self.setEmphasisText(element, "E", content.getE())
+        if content.getIe() is not None:
+            self.setIndexEntry(element, "IE", content.getIe())
+        if content.getTt() is not None:
+            self.setTt(element, "TT", content.getTt())
+
+    def setBr(self, element: ET.Element, key: str, br: Br):
+        if br is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, br)
+
+    def setStd(self, element: ET.Element, key: str, std: Std):
+        if std is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeSingleLanguageReferrable(child_element, std)
+            if std.getDate() is not None:
+                child_element.attrib["DATE"] = std.getDate().getValue()
+            if std.getPosition() is not None:
+                child_element.attrib["POSITION"] = std.getPosition().getValue()
+            if std.getState() is not None:
+                child_element.attrib["STATE"] = std.getState().getValue()
+            if std.getSubtitle() is not None:
+                child_element.attrib["SUBTITLE"] = std.getSubtitle().getValue()
+            self.setUrl(child_element, "URL", std.getUrl())
+
+    def setXdoc(self, element: ET.Element, key: str, xdoc: Xdoc):
+        if xdoc is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeSingleLanguageReferrable(child_element, xdoc)
+            if xdoc.getDate() is not None:
+                child_element.attrib["DATE"] = xdoc.getDate().getValue()
+            if xdoc.getNumber() is not None:
+                child_element.attrib["NUMBER"] = xdoc.getNumber().getValue()
+            if xdoc.getPosition() is not None:
+                child_element.attrib["POSITION"] = xdoc.getPosition().getValue()
+            if xdoc.getPublisher() is not None:
+                child_element.attrib["PUBLISHER"] = xdoc.getPublisher().getValue()
+            if xdoc.getState() is not None:
+                child_element.attrib["STATE"] = xdoc.getState().getValue()
+            self.setUrl(child_element, "URL", xdoc.getUrl())
+
+    def setXfile(self, element: ET.Element, key: str, xfile: Xfile):
+        if xfile is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeSingleLanguageReferrable(child_element, xfile)
+            self.setUrl(child_element, "URL", xfile.getUrl())
+            self.setChildElementOptionalString(child_element, "TOOL", xfile.getTool())
+            self.setChildElementOptionalString(child_element, "TOOL-VERSION", xfile.getToolVersion())
+
+    def setXrefTarget(self, element: ET.Element, key: str, target: XrefTarget):
+        if target is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeSingleLanguageReferrable(child_element, target)
+
+    def setXref(self, element: ET.Element, key: str, xref: Xref):
+        if xref is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, xref)
+            if xref.getLabel1() is not None:
+                self.setSingleLanguageLongName(child_element, "LABEL-1", xref.getLabel1())
+            self.setChildElementOptionalRefType(child_element, "REFERRABLE-REF", xref.getReferrableRef())
+            if xref.getResolutionPolicy() is not None:
+                child_element.attrib["RESOLUTION-POLICY"] = xref.getResolutionPolicy().getValue()
+            if xref.getShowContent() is not None:
+                child_element.attrib["SHOW-CONTENT"] = xref.getShowContent().getValue()
+            if xref.getShowResourceAliasName() is not None:
+                child_element.attrib["SHOW-RESOURCE-ALIAS-NAME"] = xref.getShowResourceAliasName().getValue()
+            if xref.getShowResourceCategory() is not None:
+                child_element.attrib["SHOW-RESOURCE-CATEGORY"] = xref.getShowResourceCategory().getValue()
+            if xref.getShowResourceLongName() is not None:
+                child_element.attrib["SHOW-RESOURCE-LONG-NAME"] = xref.getShowResourceLongName().getValue()
+            if xref.getShowResourceNumber() is not None:
+                child_element.attrib["SHOW-RESOURCE-NUMBER"] = xref.getShowResourceNumber().getValue()
+            if xref.getShowResourcePage() is not None:
+                child_element.attrib["SHOW-RESOURCE-PAGE"] = xref.getShowResourcePage().getValue()
+            if xref.getShowResourceShortName() is not None:
+                child_element.attrib["SHOW-RESOURCE-SHORT-NAME"] = xref.getShowResourceShortName().getValue()
+            if xref.getShowResourceType() is not None:
+                child_element.attrib["SHOW-RESOURCE-TYPE"] = xref.getShowResourceType().getValue()
+            if xref.getShowSee() is not None:
+                child_element.attrib["SHOW-SEE"] = xref.getShowSee().getValue()
+
+    def writeMixedContentForParagraph(self, element: ET.Element, content):
+        self.setBr(element, "BR", content.getBr())
+        if content.getFt() is not None:
+            footnote = ET.SubElement(element, "FT")
+            self.writeSlParagraphContent(footnote, content.getFt())
+        if content.getE() is not None:
+            self.setEmphasisText(element, "E", content.getE())
+        if content.getIe() is not None:
+            self.setIndexEntry(element, "IE", content.getIe())
+        if content.getStd() is not None:
+            self.setStd(element, "STD", content.getStd())
+        if content.getSub() is not None:
+            element.attrib["SUB"] = content.getSub().getValue()
+        if content.getSup() is not None:
+            element.attrib["SUP"] = content.getSup().getValue()
+        self.setChildElementOptionalRefType(element, "TRACE-REF", content.getTraceRef())
+        if content.getTt() is not None:
+            self.setTt(element, "TT", content.getTt())
+        if content.getXdoc() is not None:
+            self.setXdoc(element, "XDOC", content.getXdoc())
+        if content.getXfile() is not None:
+            self.setXfile(element, "XFILE", content.getXfile())
+        if content.getXref() is not None:
+            self.setXref(element, "XREF", content.getXref())
+        if content.getXrefTarget() is not None:
+            self.setXrefTarget(element, "XREF-TARGET", content.getXrefTarget())
+
+    def writeSlParagraph(self, parent: ET.Element, paragraph: SlParagraph):
+        element = ET.SubElement(parent, "SL-PARAGRAPH")
+        self.writeSlParagraphContent(element, paragraph)
+
+    def writeSlParagraphContent(self, element: ET.Element, paragraph: SlParagraph):
+        self.writeARObject(element, paragraph)
+        self.writeMixedContentForParagraph(element, paragraph)
+        element.text = paragraph.getValue()
+        if paragraph.getL() is not None:
+            element.attrib["L"] = paragraph.getL()
+
+    def setSingleLanguageLongName(self, element: ET.Element, key: str, name: SingleLanguageLongName):
+        child_element = ET.SubElement(element, key)
+        child_element.text = name.getValue().getValue() if name.getValue() is not None else None
+        self.writeMixedContentForLongName(child_element, name)
 
     def setEmphasisText(self, element: ET.Element, key: str, emphasis: EmphasisText):
         child_element = ET.SubElement(element, key)
@@ -1177,6 +1308,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeReferrable(element, referrable)
         if referrable.getLongName() is not None:
             self.setMultiLongName(element, "LONG-NAME", referrable.getLongName())
+
+    def writeSingleLanguageReferrable(self, element: ET.Element, referrable: SingleLanguageReferrable):
+        self.writeReferrable(element, referrable)
+        if referrable.getLongName1() is not None:
+            self.setSingleLanguageLongName(element, "LONG-NAME-1", referrable.getLongName1())
 
     def setCaption(self, element: ET.Element, key: str, caption: Caption):
         if caption is not None:
@@ -2137,9 +2273,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         for l1 in paragraph.getL1s():
             l1_tag = ET.SubElement(element, "L-1")
             self.writeARObject(l1_tag, l1)
-            if l1.l is not None:
-                l1_tag.attrib["L"] = l1.l
-                l1_tag.text = l1.value
+            if isinstance(l1, MixedContentForParagraph):
+                self.writeMixedContentForParagraph(l1_tag, l1)
+            l1_tag.text = l1.getValue()
+            if l1.getL() is not None:
+                l1_tag.attrib["L"] = l1.getL()
 
     def setMultiLanguageParagraphs(self, element: ET.Element, key: str, paragraphs: List[MultiLanguageParagraph]):
         for paragraph in paragraphs:
@@ -2151,6 +2289,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setListElement(self, element: ET.Element, key: str, list: ARList):
         if list is not None:
             child_element = ET.SubElement(element, key)
+            self.writePaginateable(child_element, list)
             type = list.getType()
             if type is not None:
                 child_element.attrib["TYPE"] = type
@@ -2160,8 +2299,45 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setGraphic(self, element: ET.Element, key: str, graphic: Graphic):
         if graphic is not None:
             child_element = ET.SubElement(element, key)
+            if graphic.getEditfit() is not None:
+                child_element.attrib["EDITFIT"] = graphic.getEditfit().getValue()
+            if graphic.getEditHeight() is not None:
+                child_element.attrib["EDIT-HEIGHT"] = graphic.getEditHeight().getValue()
+            if graphic.getEditscale() is not None:
+                child_element.attrib["EDITSCALE"] = graphic.getEditscale().getValue()
+            if graphic.getEditWidth() is not None:
+                child_element.attrib["EDIT-WIDTH"] = graphic.getEditWidth().getValue()
             if graphic.getFilename() is not None:
-                child_element.attrib["FILENAME"] = graphic.getFilename()
+                child_element.attrib["FILENAME"] = graphic.getFilename().getValue()
+            if graphic.getFit() is not None:
+                child_element.attrib["FIT"] = graphic.getFit().getValue()
+            if graphic.getGenerator() is not None:
+                child_element.attrib["GENERATOR"] = graphic.getGenerator().getValue()
+            if graphic.getHeight() is not None:
+                child_element.attrib["HEIGHT"] = graphic.getHeight().getValue()
+            if graphic.getHtmlFit() is not None:
+                child_element.attrib["HTML-FIT"] = graphic.getHtmlFit().getValue()
+            if graphic.getHtmlHeight() is not None:
+                child_element.attrib["HTML-HEIGHT"] = graphic.getHtmlHeight().getValue()
+            if graphic.getHtmlScale() is not None:
+                child_element.attrib["HTML-SCALE"] = graphic.getHtmlScale().getValue()
+            if graphic.getHtmlWidth() is not None:
+                child_element.attrib["HTML-WIDTH"] = graphic.getHtmlWidth().getValue()
+            if graphic.getNotation() is not None:
+                child_element.attrib["NOTATION"] = graphic.getNotation().getValue()
+            if graphic.getScale() is not None:
+                child_element.attrib["SCALE"] = graphic.getScale().getValue()
+            if graphic.getWidth() is not None:
+                child_element.attrib["WIDTH"] = graphic.getWidth().getValue()
+
+    def setUrl(self, element: ET.Element, key: str, url: Url):
+        if url is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, url)
+            if url.getMimeType() is not None:
+                child_element.attrib["MIME-TYPE"] = url.getMimeType().getValue()
+            if url.getValue() is not None:
+                child_element.text = url.getValue().getText()
 
     def writeMlFigureLGraphics(self, element: ET.Element, figure: MlFigure):
         graphics = figure.getLGraphics()
@@ -2173,9 +2349,99 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeDocumentViewSelectable(self, element: ET.Element, selectable: DocumentViewSelectable):
         self.writeARObject(element, selectable)
+        if selectable.getSi() is not None:
+            element.attrib["SI"] = selectable.getSi().getValue()
+        if selectable.getView() is not None:
+            element.attrib["VIEW"] = selectable.getView().getValue()
+
+    def writeColspec(self, element: ET.Element, colspec: Colspec):
+        self.writeARObject(element, colspec)
+        if colspec.getAlign() is not None:
+            element.attrib["ALIGN"] = colspec.getAlign().getValue()
+        if colspec.getColname() is not None:
+            element.attrib["COLNAME"] = colspec.getColname().getValue()
+        if colspec.getColnum() is not None:
+            element.attrib["COLNUM"] = colspec.getColnum().getValue()
+        if colspec.getColsep() is not None:
+            element.attrib["COLSEP"] = colspec.getColsep().getValue()
+        if colspec.getColwidth() is not None:
+            element.attrib["COLWIDTH"] = colspec.getColwidth().getValue()
+        if colspec.getRowsep() is not None:
+            element.attrib["ROWSEP"] = colspec.getRowsep().getValue()
+
+    def writeEntry(self, element: ET.Element, entry: Entry):
+        self.writeARObject(element, entry)
+        if entry.getAlign() is not None:
+            element.attrib["ALIGN"] = entry.getAlign().getValue()
+        if entry.getBgcolor() is not None:
+            element.attrib["BGCOLOR"] = entry.getBgcolor().getValue()
+        if entry.getColname() is not None:
+            element.attrib["COLNAME"] = entry.getColname().getValue()
+        if entry.getColsep() is not None:
+            element.attrib["COLSEP"] = entry.getColsep().getValue()
+        self.writeDocumentationBlock(element, "DOCUMENTATION-BLOCK", entry.getEntryContents())
+        if entry.getMorerows() is not None:
+            element.attrib["MOREROWS"] = entry.getMorerows().getValue()
+        if entry.getNameend() is not None:
+            element.attrib["NAMEEND"] = entry.getNameend().getValue()
+        if entry.getNamest() is not None:
+            element.attrib["NAMEST"] = entry.getNamest().getValue()
+        if entry.getRotate() is not None:
+            element.attrib["ROTATE"] = entry.getRotate().getValue()
+        if entry.getRowsep() is not None:
+            element.attrib["ROWSEP"] = entry.getRowsep().getValue()
+        if entry.getSpanname() is not None:
+            element.attrib["SPANNAME"] = entry.getSpanname().getValue()
+        if entry.getValign() is not None:
+            element.attrib["VALIGN"] = entry.getValign().getValue()
+
+    def writeRow(self, element: ET.Element, row: Row):
+        self.writePaginateable(element, row)
+        for entry in row.getEntries():
+            child_element = ET.SubElement(element, "ENTRY")
+            self.writeEntry(child_element, entry)
+        if row.getRowsep() is not None:
+            element.attrib["ROWSEP"] = row.getRowsep().getValue()
+        if row.getValign() is not None:
+            element.attrib["VALIGN"] = row.getValign().getValue()
+
+    def writeTbody(self, element: ET.Element, tbody: Tbody):
+        self.writeARObject(element, tbody)
+        for row in tbody.getRows():
+            child_element = ET.SubElement(element, "ROW")
+            self.writeRow(child_element, row)
+        if tbody.getValign() is not None:
+            element.attrib["VALIGN"] = tbody.getValign().getValue()
+
+    def writeTgroup(self, element: ET.Element, tgroup: Tgroup):
+        self.writeARObject(element, tgroup)
+        for colspec in tgroup.getColspecs():
+            child_element = ET.SubElement(element, "COLSPEC")
+            self.writeColspec(child_element, colspec)
+        if tgroup.getThead() is not None:
+            child_element = ET.SubElement(element, "THEAD")
+            self.writeTbody(child_element, tgroup.getThead())
+        if tgroup.getTfoot() is not None:
+            child_element = ET.SubElement(element, "TFOOT")
+            self.writeTbody(child_element, tgroup.getTfoot())
+        if tgroup.getTbody() is not None:
+            child_element = ET.SubElement(element, "TBODY")
+            self.writeTbody(child_element, tgroup.getTbody())
+        if tgroup.getAlign() is not None:
+            element.attrib["ALIGN"] = tgroup.getAlign().getValue()
+        if tgroup.getCols() is not None:
+            element.attrib["COLS"] = str(tgroup.getCols().getValue())
+        if tgroup.getColsep() is not None:
+            element.attrib["COLSEP"] = tgroup.getColsep().getValue()
+        if tgroup.getRowsep() is not None:
+            element.attrib["ROWSEP"] = tgroup.getRowsep().getValue()
 
     def writePaginateable(self, element: ET.Element, paginateable: Paginateable):
         self.writeDocumentViewSelectable(element, paginateable)
+        if paginateable.getBreak() is not None:
+            element.attrib["BREAK"] = paginateable.getBreak().getValue()
+        if paginateable.getKeepWithPrevious() is not None:
+            element.attrib["KEEP-WITH-PREVIOUS"] = paginateable.getKeepWithPrevious().getValue()
 
     def writeMlFigure(self, element: ET.Element, figure: MlFigure):
         self.writePaginateable(element, figure)

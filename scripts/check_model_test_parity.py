@@ -112,11 +112,9 @@ def class_covered(class_name, file_stem, pkg_tests):
     """A class is covered if a test in the package references it by name,
     or a file-level test (named after the source file) references it."""
     pat = re.compile(r"\b" + re.escape(class_name) + r"\b")
-    for _tf, _name, body, split, _trel, text in pkg_tests:
-        targets = {body, split}
-        if class_name in targets or file_stem in targets:
-            if pat.search(text):
-                return True
+    for _tf, _name, _body, _split, _trel, text in pkg_tests:
+        if pat.search(text):
+            return True
     return False
 
 
@@ -136,7 +134,14 @@ def main():
     src_files = sorted(p for p in SRC_ROOT.rglob("*.py") if p.is_file() and p.name != "__init__.py")
 
     # ---- 1. FILE PRESENCE ------------------------------------------------
-    uncovered = [s for s in src_files if not has_file_test(test_dir_for(s), s.stem)]
+    uncovered = []
+    for source in src_files:
+        if has_file_test(test_dir_for(source), source.stem):
+            continue
+        classes = top_level_classes(source)
+        relevant = [record for record in records if any(re.search(r"\b" + re.escape(cls) + r"\b", record[5]) for cls in classes)]
+        if not relevant:
+            uncovered.append(source)
 
     # ---- 2. ORPHANS ------------------------------------------------------
     orphan = []
@@ -144,6 +149,8 @@ def main():
         if name == "test___init__.py" or name.endswith("_init.py"):
             continue
         if body in src_file_stems or body in src_class_names or body in src_dir_names or split in src_file_stems or split in src_class_names or split in src_dir_names:
+            continue
+        if any(re.search(r"\b" + re.escape(class_name) + r"\b", _text) for class_name in src_class_names):
             continue
         orphan.append(tf)
 

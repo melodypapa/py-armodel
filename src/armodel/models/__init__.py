@@ -18,6 +18,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing impor
 from armodel.models.M2.MSR.Documentation.MsrQuery import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import *  # noqa: F403
+from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.ECUCDescriptionTemplate import *  # noqa: F403
 from armodel.models.M2.AUTOSARTemplates.EcuResourceTemplate import *  # noqa: F403
@@ -118,6 +119,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import *  # noqa: F403
 from armodel.models.M2.MSR.Documentation.Chapters import *  # noqa: F403
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import *  # noqa: F403
 
 # Additional CommonStructure imports
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import *  # noqa: F403

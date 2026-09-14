@@ -282,6 +282,50 @@ class TestAdminDataAndReferrableHandlers:
         parser.readMultilanguageReferrable(element, obj)
         assert obj.getLongName() is not None
 
+    def test_readSingleLanguageReferrable_sets_longName1(self, parser):
+        from armodel.models import SingleLanguageReferrable
+
+        class ConcreteSingleLanguageReferrable(SingleLanguageReferrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteSingleLanguageReferrable(_autosar_root(), "sl")
+        element = _snip(
+            "<LONG-NAME-1>MyLong</LONG-NAME-1>",
+            root_tag="ELEM",
+        )
+        parser.readSingleLanguageReferrable(element, obj)
+        assert obj.getLongName1() is not None
+        assert obj.getLongName1().getValue().getValue() == "MyLong"
+
+    def test_readSingleLanguageReferrable_parses_long_name1_inline(self, parser):
+        from armodel.models import SingleLanguageReferrable
+
+        class ConcreteSingleLanguageReferrable(SingleLanguageReferrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteSingleLanguageReferrable(_autosar_root(), "sl")
+        element = _snip(
+            "<LONG-NAME-1 SUP='2'>H2O</LONG-NAME-1>",
+            root_tag="ELEM",
+        )
+        parser.readSingleLanguageReferrable(element, obj)
+        assert obj.getLongName1().getValue().getValue() == "H2O"
+        assert obj.getLongName1().getSup().getValue() == "2"
+
+    def test_readSingleLanguageReferrable_without_long_name1(self, parser):
+        from armodel.models import SingleLanguageReferrable
+
+        class ConcreteSingleLanguageReferrable(SingleLanguageReferrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteSingleLanguageReferrable(_autosar_root(), "sl")
+        element = _snip("<SHORT-NAME>sl</SHORT-NAME>", root_tag="ELEM")
+        parser.readSingleLanguageReferrable(element, obj)
+        assert obj.getLongName1() is None
+
     def test_readIdentifiable_populates_category_desc_admin(self, parser):
         from armodel.models import Unit
 
@@ -336,6 +380,45 @@ class TestAdminDataAndReferrableHandlers:
     def test_getMultilanguageLongName_missing_returns_None(self, parser):
         element = _snip("<X/>")
         assert parser.getMultilanguageLongName(element, "LONG-NAME") is None
+
+    def test_getMultilanguageLongName_parses_l4_fields(self, parser):
+        element = _snip(
+            "<LONG-NAME>" "<L-4 L='EN'>Engine</L-4>" "<L-4 L='DE'>Motor</L-4>" "</LONG-NAME>",
+            root_tag="PARENT",
+        )
+        long_name = parser.getMultilanguageLongName(element, "LONG-NAME")
+        assert long_name is not None
+        l4s = long_name.getL4s()
+        assert len(l4s) == 2
+        assert l4s[0].getValue() == "Engine"
+        assert l4s[0].getL() == "EN"
+        assert l4s[1].getValue() == "Motor"
+        assert l4s[1].getL() == "DE"
+
+    def test_getSingleLanguageLongName_parses_value_and_inline(self, parser):
+        element = _snip(
+            "<LONG-NAME-1>Engine<TT TYPE='VARIABLE'>term</TT></LONG-NAME-1>",
+            root_tag="PARENT",
+        )
+        long_name = parser.getSingleLanguageLongName(element, "LONG-NAME-1")
+        assert long_name is not None
+        assert long_name.getValue().getValue() == "Engine"
+        assert long_name.getTt() is not None
+        assert long_name.getTt().getValue().getValue() == "term"
+
+    def test_getSingleLanguageLongName_parses_sup_sub(self, parser):
+        element = _snip(
+            "<LONG-NAME-1 SUP='2' SUB='3'>H2O</LONG-NAME-1>",
+            root_tag="PARENT",
+        )
+        long_name = parser.getSingleLanguageLongName(element, "LONG-NAME-1")
+        assert long_name.getValue().getValue() == "H2O"
+        assert long_name.getSup().getValue() == "2"
+        assert long_name.getSub().getValue() == "3"
+
+    def test_getSingleLanguageLongName_missing_returns_None(self, parser):
+        element = _snip("<X/>")
+        assert parser.getSingleLanguageLongName(element, "LONG-NAME-1") is None
 
     def test_getMultiLanguageOverviewParagraph_with_L2(self, parser):
         element = _snip(

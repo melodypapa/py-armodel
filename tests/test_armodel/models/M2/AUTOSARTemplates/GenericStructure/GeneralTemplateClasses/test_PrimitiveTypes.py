@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     ARNumerical,
     ARType,
+    BaseTypeEncodingString,
     Boolean,
     ByteOrderEnum,
     CategoryString,
@@ -30,22 +31,30 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Ip6AddressString,
     Limit,
     MacAddressString,
+    McdIdentifier,
+    MimeTypeString,
     MonotonyEnum,
     NameToken,
+    NameTokens,
     NativeDeclarationString,
     Numerical,
     PositiveInteger,
+    PositiveUnlimitedInteger,
     PrimitiveIdentifier,
     ReferrableSubtypesEnum,
     RefType,
     RegularExpression,
+    RevisionLabelString,
     SectionInitializationPolicyType,
     String,
+    SymbolString,
     TimeValue,
     TRefType,
     UnlimitedInteger,
+    UriString,
     VerbatimString,
     VerbatimStringPlain,
+    ViewTokens,
 )
 
 
@@ -489,6 +498,26 @@ class TestPrimitiveIdentifier:
         """
         primitive_identifier = PrimitiveIdentifier().setValue("INFORMAL")
         assert primitive_identifier.getValue() == "INFORMAL"
+
+
+@pytest.mark.parametrize(
+    "primitive_type, value, expected",
+    [
+        (UriString, "https://example.com/resource", "https://example.com/resource"),
+        (BaseTypeEncodingString, "PACKED", "PACKED"),
+        (PositiveUnlimitedInteger, "1", 1.0),
+        (RevisionLabelString, "R23-11", "R23-11"),
+        (SymbolString, "MySymbol", "MySymbol"),
+        (McdIdentifier, "MCD-1", "MCD-1"),
+    ],
+)
+def test_remaining_primitive_types_support_initialization_and_value_roundtrip(primitive_type, value, expected):
+    primitive = primitive_type()
+
+    assert primitive is not None
+    assert primitive._value is None
+    assert primitive.setValue(value) is primitive
+    assert primitive.getValue() == expected
 
 
 class TestReferrableSubtypesEnum:
@@ -1300,3 +1329,72 @@ class TestAnyVersionString:
     def test_any_literal(self):
         """Test that the ANY literal is stored verbatim."""
         assert AnyVersionString().setValue("ANY").value == "ANY"
+
+
+class TestMimeTypeString:
+    """
+    Test class for MimeTypeString functionality (Table 4.55).
+    """
+
+    def test_initialization(self):
+        """
+        Test MimeTypeString initialization.
+        """
+        mime_type = MimeTypeString()
+
+        assert mime_type is not None
+        assert isinstance(mime_type, ARLiteral)
+        assert mime_type._value is None
+
+    def test_set_get_value(self):
+        """Test setValue round-trip and method chaining."""
+        mime_type = MimeTypeString()
+        assert mime_type.setValue("application/xml") is mime_type
+        assert mime_type.value == "application/xml"
+        assert str(mime_type) == "application/xml"
+
+
+class TestNameTokens:
+    """
+    Test class for NameTokens functionality (Table 4.56).
+    """
+
+    def test_initialization(self):
+        """
+        Test NameTokens initialization.
+        """
+        name_tokens = NameTokens()
+
+        assert name_tokens is not None
+        assert isinstance(name_tokens, ARLiteral)
+        assert name_tokens._value is None
+
+    def test_set_get_value(self):
+        """Test setValue round-trip and method chaining."""
+        name_tokens = NameTokens()
+        assert name_tokens.setValue("TokenA TokenB") is name_tokens
+        assert name_tokens.value == "TokenA TokenB"
+        assert str(name_tokens) == "TokenA TokenB"
+
+
+class TestViewTokens:
+    """
+    Test class for ViewTokens functionality (Table 9.78).
+    """
+
+    def test_initialization(self):
+        """
+        Test ViewTokens initialization.
+        """
+        view_tokens = ViewTokens()
+
+        assert view_tokens is not None
+        assert isinstance(view_tokens, ARLiteral)
+        assert view_tokens._value is None
+
+    def test_set_get_value(self):
+        """Test setValue round-trip and method chaining."""
+        view_tokens = ViewTokens()
+        assert view_tokens.setValue("INTERNAL DETAILED") is view_tokens
+        assert view_tokens.value == "INTERNAL DETAILED"
+        assert str(view_tokens) == "INTERNAL DETAILED"

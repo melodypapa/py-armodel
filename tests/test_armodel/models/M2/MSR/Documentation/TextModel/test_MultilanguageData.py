@@ -76,6 +76,21 @@ class TestMultilanguageLongName:
         assert l_long_name in l4s
         assert result == multilang_long_name
 
+    def test_multilanguage_long_name_l4_none_noop(self):
+        """A None passed to addL4 must be a no-op and not be appended."""
+        multilang_long_name = MultilanguageLongName()
+        result = multilang_long_name.addL4(None)
+        assert multilang_long_name.getL4s() == []
+        assert result == multilang_long_name
+
+    def test_multilanguage_long_name_l4_multiple(self):
+        """Multiple LLongName entries shall be retained in insertion order."""
+        multilang_long_name = MultilanguageLongName()
+        first = LLongName()
+        second = LLongName()
+        multilang_long_name.addL4(first).addL4(second)
+        assert multilang_long_name.getL4s() == [first, second]
+
 
 class TestMultiLanguagePlainText:
     """Test class for MultiLanguagePlainText class."""

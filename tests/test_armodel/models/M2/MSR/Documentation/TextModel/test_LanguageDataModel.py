@@ -5,14 +5,7 @@ This module contains tests for the LanguageDataModel module in MSR.Documentation
 import pytest
 
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
-    LanguageSpecific,
-    LEnum,
-    LLongName,
-    LOverviewParagraph,
-    LParagraph,
-    LPlainText,
-)
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LEnum, LLongName, LOverviewParagraph, LParagraph, LPlainText, MixedContentForParagraph, SlParagraph
 
 
 class TestLEnum:
@@ -112,6 +105,99 @@ class TestLParagraph:
         l_paragraph = LParagraph()
         assert l_paragraph.l is None
         assert l_paragraph.value == ""
+
+    def test_l_paragraph_base_chain(self):
+        """LParagraph must extend MixedContentForParagraph and LanguageSpecific per Table 9.92."""
+        assert issubclass(LParagraph, MixedContentForParagraph)
+        assert issubclass(LParagraph, LanguageSpecific)
+        assert isinstance(LParagraph(), LParagraph)
+
+    def test_l_paragraph_docstring_verbatim(self):
+        """Docstring must equal the spec Note from Table 9.92 verbatim."""
+        import inspect
+
+        expected = "This is the text for a paragraph in one particular language. " "The language is denoted in the attribute l."
+        assert inspect.cleandoc(LParagraph.__doc__) == expected
+
+    def test_l_paragraph_inherits_mixed_content_accessors(self):
+        """LParagraph inherits the mixed-content accessors from MixedContentForParagraph."""
+        l_paragraph = LParagraph()
+        tt = Tt()
+        assert l_paragraph.setTt(tt) is l_paragraph
+        assert l_paragraph.getTt() is tt
+        assert l_paragraph.setTt(None) is l_paragraph
+        assert l_paragraph.getTt() is tt
+
+
+class TestSlParagraph:
+    def test_initialization(self):
+        paragraph = SlParagraph()
+
+        assert paragraph.l is None
+        assert paragraph.value == ""
+        assert paragraph.br is None
+        assert paragraph.xref is None
+
+    def test_l_getter_and_setter(self):
+        paragraph = SlParagraph()
+
+        assert paragraph.getL() is None
+        assert paragraph.setL("en") is paragraph
+        assert paragraph.getL() == "en"
+        assert paragraph.setL(None) is paragraph
+        assert paragraph.getL() == "en"
+
+
+class TestMixedContentForParagraph:
+    def test_abstract_guard_and_defaults(self):
+        with pytest.raises(TypeError):
+            MixedContentForParagraph()
+
+        class ConcreteMixedContent(MixedContentForParagraph):
+            pass
+
+        content = ConcreteMixedContent()
+        assert content.br is None
+        assert content.e is None
+        assert content.ft is None
+        assert content.ie is None
+        assert content.std is None
+        assert content.sub is None
+        assert content.sup is None
+        assert content.traceRef is None
+        assert content.tt is None
+        assert content.xdoc is None
+        assert content.xfile is None
+        assert content.xref is None
+        assert content.xrefTarget is None
+
+    def test_typed_getters_and_setters(self):
+        class ConcreteMixedContent(MixedContentForParagraph):
+            pass
+
+        content = ConcreteMixedContent()
+        values = {
+            "Br": object(),
+            "E": object(),
+            "Ft": object(),
+            "Ie": object(),
+            "Std": object(),
+            "Sub": object(),
+            "Sup": object(),
+            "TraceRef": object(),
+            "Tt": object(),
+            "Xdoc": object(),
+            "Xfile": object(),
+            "Xref": object(),
+            "XrefTarget": object(),
+        }
+        for name, value in values.items():
+            setter = getattr(content, "set" + name)
+            getter = getattr(content, "get" + name)
+            assert setter(value) is content
+            assert getter() is value
+            assert setter(None) is content
+            assert getter() is value
 
 
 class TestLLongName:

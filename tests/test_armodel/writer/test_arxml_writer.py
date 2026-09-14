@@ -17,7 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.Constants import (
     NumericalRuleBasedValueSpecification,
     RuleArguments,
 )
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, ShortNameFragment
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable, ShortNameFragment, SingleLanguageReferrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     ARNumerical,
@@ -31,6 +31,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     NameToken,
     RefType,
     RevisionLabelString,
+    String,
     VerbatimStringPlain,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
@@ -42,8 +43,10 @@ from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisIndiv
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwCalibrationAccessEnum, SwDataDefProps
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName, LOverviewParagraph, LPlainText
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguagePlainText
+from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -443,6 +446,29 @@ class TestARXMLWriterLanguageSpecificMethods:
         assert child[1].tag == "L-4"
         assert child[1].text == "German name"
 
+    def test_set_multi_long_name_roundtrip(self):
+        """Write a MultilanguageLongName, reparse it, and assert field values survive."""
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+
+        long_name = MultilanguageLongName()
+        name1 = LLongName()
+        name1.setL("EN")
+        name1.setValue("Engine")
+        long_name.addL4(name1)
+        writer.setMultiLongName(parent, "LONG-NAME", long_name)
+
+        # The writer emits un-namespaced tags; wrap in the AUTOSAR NS so the
+        # namespace-aware parser can locate the LONG-NAME element.
+        written = parent.find("LONG-NAME")
+        wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(written, encoding="unicode"))
+        reparsed = ARXMLParser().getMultilanguageLongName(wrapped, "LONG-NAME")
+        assert reparsed is not None
+        l4s = reparsed.getL4s()
+        assert len(l4s) == 1
+        assert l4s[0].getValue() == "Engine"
+        assert l4s[0].getL() == "EN"
+
     def test_set_multi_long_name_none(self):
         """Test setMultiLongName with None"""
         writer = ARXMLWriter()
@@ -451,6 +477,86 @@ class TestARXMLWriterLanguageSpecificMethods:
         writer.setMultiLongName(parent, "LONG-NAME", None)
 
         assert len(parent) == 0
+
+    def test_set_single_language_long_name(self):
+        """Test setSingleLanguageLongName method"""
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+
+        name = SingleLanguageLongName()
+        name.setValue(String().setValue("Long name"))
+
+        writer.setSingleLanguageLongName(parent, "LONG-NAME-1", name)
+
+        assert len(parent) == 1
+        child = parent[0]
+        assert child.tag == "LONG-NAME-1"
+        assert child.text == "Long name"
+
+    def test_set_single_language_long_name_roundtrip(self):
+        """Write a SingleLanguageLongName, reparse it, and assert field values survive."""
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+
+        name = SingleLanguageLongName()
+        name.setValue(String().setValue("Engine"))
+        writer.setSingleLanguageLongName(parent, "LONG-NAME-1", name)
+
+        # The writer emits un-namespaced tags; wrap in the AUTOSAR NS so the
+        # namespace-aware parser can locate the LONG-NAME-1 element.
+        written = parent.find("LONG-NAME-1")
+        wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(written, encoding="unicode"))
+        reparsed = ARXMLParser().getSingleLanguageLongName(wrapped, "LONG-NAME-1")
+        assert reparsed is not None
+        assert reparsed.getValue().getValue() == "Engine"
+
+    def test_set_single_language_long_name_inline_roundtrip(self):
+        """SUP/SUB attributes and E/IE/TT inline elements survive a round-trip."""
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+
+        name = SingleLanguageLongName()
+        name.setValue(String().setValue("Engine"))
+        name.setSup(Superscript().setValue("2"))
+        name.setSub(Superscript().setValue("3"))
+        name.setE(EmphasisText().setValue(String().setValue("bold")))
+        name.setIe(IndexEntry().setValue(String().setValue("idx")))
+        name.setTt(Tt().setValue(String().setValue("term")))
+        writer.setSingleLanguageLongName(parent, "LONG-NAME-1", name)
+
+        written = parent.find("LONG-NAME-1")
+        wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(written, encoding="unicode"))
+        reparsed = ARXMLParser().getSingleLanguageLongName(wrapped, "LONG-NAME-1")
+        assert reparsed.getValue().getValue() == "Engine"
+        assert reparsed.getSup().getValue() == "2"
+        assert reparsed.getSub().getValue() == "3"
+        assert reparsed.getE().getValue().getValue() == "bold"
+        assert reparsed.getIe().getValue().getValue() == "idx"
+        assert reparsed.getTt().getValue().getValue() == "term"
+
+    def test_set_single_language_long_name_optional_attributes_absent(self):
+        """An optional-attribute-free name serializes no inline child elements."""
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+
+        name = SingleLanguageLongName()
+        name.setValue(String().setValue("Plain"))
+        writer.setSingleLanguageLongName(parent, "LONG-NAME-1", name)
+
+        written = parent.find("LONG-NAME-1")
+        assert written.text == "Plain"
+        assert len(list(written)) == 0
+        assert "SUP" not in written.attrib
+        assert "SUB" not in written.attrib
+
+        wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % ET.tostring(written, encoding="unicode"))
+        reparsed = ARXMLParser().getSingleLanguageLongName(wrapped, "LONG-NAME-1")
+        assert reparsed.getValue().getValue() == "Plain"
+        assert reparsed.getE() is None
+        assert reparsed.getIe() is None
+        assert reparsed.getTt() is None
+        assert reparsed.getSup() is None
+        assert reparsed.getSub() is None
 
     def test_set_l_overview_paragraph(self):
         """Test setLOverviewParagraph method"""
@@ -521,6 +627,50 @@ class TestARXMLWriterLanguageSpecificMethods:
         short_name = element[0]
         assert short_name.tag == "SHORT-NAME"
         assert short_name.text == "TestBaseType"
+
+    def test_write_single_language_referrable(self):
+        """Test writeSingleLanguageReferrable method and LONG-NAME-1 round-trip."""
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+
+        class ConcreteSingleLanguageReferrable(SingleLanguageReferrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteSingleLanguageReferrable(AUTOSAR.getInstance(), "sl")
+        name = SingleLanguageLongName()
+        name.setValue(String().setValue("MyLong"))
+        obj.setLongName1(name)
+        writer.writeSingleLanguageReferrable(parent, obj)
+
+        assert parent.find("SHORT-NAME").text == "sl"
+        written = parent.find("LONG-NAME-1")
+        assert written is not None
+        assert written.text == "MyLong"
+
+        # The writer emits un-namespaced tags; re-parse the children inside the
+        # AUTOSAR NS so the namespace-aware parser can locate LONG-NAME-1.
+        inner = "".join(ET.tostring(child, encoding="unicode") for child in parent)
+        wrapped = ET.fromstring("<WRAP xmlns='http://autosar.org/schema/r4.0'>%s</WRAP>" % inner)
+        reparsed = ConcreteSingleLanguageReferrable(AUTOSAR.getInstance(), "sl")
+        ARXMLParser().readSingleLanguageReferrable(wrapped, reparsed)
+        assert reparsed.getLongName1() is not None
+        assert reparsed.getLongName1().getValue().getValue() == "MyLong"
+
+    def test_write_single_language_referrable_without_long_name1(self):
+        """No LONG-NAME-1 element is emitted when longName1 is None."""
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+
+        class ConcreteSingleLanguageReferrable(SingleLanguageReferrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        obj = ConcreteSingleLanguageReferrable(AUTOSAR.getInstance(), "sl")
+        writer.writeSingleLanguageReferrable(parent, obj)
+
+        assert parent.find("SHORT-NAME").text == "sl"
+        assert parent.find("LONG-NAME-1") is None
 
     def test_set_l_plain_text(self):
         """Test setLPlainText method"""

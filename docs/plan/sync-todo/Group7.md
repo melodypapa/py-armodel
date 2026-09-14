@@ -148,6 +148,26 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `CommunicationControllerMapping` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.134 · aggregated by `ECUMapping` · **NOT in src** — class must be created when this row is synced)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `HwPortMapping` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.135 · aggregated by `ECUMapping` · **NOT in src** — class must be created when this row is synced)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `ECUMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 3.133 · after both NEW classes above (aggrs))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -218,6 +238,16 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DiagnosticServiceInstance` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.26 · ref target of `DiagnosticServiceTable.serviceInstance` · **NOT in src** — class must be created when this row is synced)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `DiagnosticServiceTable` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_DiagnosticExtractTemplate · Table 4.16 · after `DiagnosticServiceInstance` (ref `serviceInstance`))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
@@ -242,9 +272,9 @@ Input: `Group 7 — ECU resource, Crypto/IDS, DoIP, Firewall, remaining` of `doc
 ## Pending 16.4 resolution (NEW — not in src)
 
 - [x] `FirewallActionEnum` — not in `src` (NEW) → **Derive-from-XSD DONE 2026-08-31** (XSD FIREWALL-ACTION-ENUM complexType: literals BLOCK index 0 "Firewall blocks the communication" / ALLOW index 1 "Firewall allows the communication"; AREnum subclass in Firewall/__init__.py, `# XSD` spec line in checklist; unstamped per user decision 2026-08-31)
-- `CommunicationControllerMapping` — not in `src` (NEW) · R23-11 markdown · Table 3.134 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist)
-- `HwPortMapping` — not in `src` (NEW) · R23-11 markdown · Table 3.135 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist)
-- `DiagnosticServiceInstance` — not in `src` (NEW) · R23-11 markdown · Table 4.26 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist)
+- `CommunicationControllerMapping` — not in `src` (NEW) · R23-11 markdown · Table 3.134 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist) → **QUEUED 2026-09-11** as a 9-step row before `ECUMapping`
+- `HwPortMapping` — not in `src` (NEW) · R23-11 markdown · Table 3.135 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist) → **QUEUED 2026-09-11** as a 9-step row before `ECUMapping`
+- `DiagnosticServiceInstance` — not in `src` (NEW) · R23-11 markdown · Table 4.26 · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist) → **QUEUED 2026-09-11** as a 9-step row before `DiagnosticServiceTable`
 
 ## Not queued
 

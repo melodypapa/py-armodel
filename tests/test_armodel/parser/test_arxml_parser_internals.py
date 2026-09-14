@@ -28,12 +28,14 @@ from armodel.models import (
     SwDataDefProps,
 )
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameTokens
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.NetworkManagement import (
     J1939NodeName,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import (
     EndToEndTransformationDescription,
 )
+from armodel.models.M2.MSR.Documentation.BlockElements import Colspec
 from armodel.parser.arxml_parser import ARXMLParser
 
 NS = "http://autosar.org/schema/r4.0"
@@ -52,8 +54,9 @@ def parser():
     return ARXMLParser()
 
 
-def _snip(inner: str, root_tag: str = "ROOT") -> ET.Element:
-    return ET.fromstring(f"<{root_tag} xmlns='{NS}'>{inner}</{root_tag}>")
+def _snip(inner: str, root_tag: str = "ROOT", **attributes) -> ET.Element:
+    attrs = " ".join(f'{key}="{value}"' for key, value in attributes.items())
+    return ET.fromstring(f"<{root_tag} xmlns='{NS}' {attrs}>{inner}</{root_tag}>")
 
 
 # ==================== SDG (Service Data Group) ====================
@@ -404,7 +407,7 @@ class TestDocumentationBlockHandlers:
         assert formula.getFormulaCaption() is not None
         assert formula.getFormulaCaption().getShortName() == "cap"
         assert len(formula.getLGraphics()) == 1
-        assert formula.getLGraphics()[0].getGraphic().getFilename() == "g.png"
+        assert formula.getLGraphics()[0].getGraphic().getFilename().getValue() == "g.png"
         assert formula.getVerbatim() is not None
         assert [l5.value for l5 in formula.getVerbatim().getL5s()] == ["x*x"]
         assert formula.getTexMath() is not None
@@ -437,6 +440,14 @@ class TestDocumentationBlockHandlers:
         lists = parser.getListElements(element, "LIST")
         assert len(lists) == 1
 
+    def test_getListElements_paginateable_attributes(self, parser):
+        element = _snip(
+            "<LIST TYPE='number' BREAK='BREAK' KEEP-WITH-PREVIOUS='KEEP'>" "<ITEM><P><L-1 L='en'>item</L-1></P></ITEM>" "</LIST>",
+        )
+        lists = parser.getListElements(element, "LIST")
+        assert lists[0].getBreak().getValue() == "BREAK"
+        assert lists[0].getKeepWithPrevious().getValue() == "KEEP"
+
 
 # ==================== Graphic and Figure Handlers ====================
 
@@ -448,7 +459,30 @@ class TestGraphicAndFigureHandlers:
         )
         graphic = parser.getGraphic(element, "MY-GRAPHIC")
         assert graphic is not None
-        assert graphic.getFilename() == "test.png"
+        assert graphic.getFilename().getValue() == "test.png"
+
+    def test_getGraphic_all_attributes(self, parser):
+        element = _snip(
+            "<MY-GRAPHIC EDITFIT='AS-IS' EDIT-HEIGHT='10' EDITSCALE='0.5' EDIT-WIDTH='20' FILENAME='f.png' FIT='FIT-TO-PAGE'"
+            " GENERATOR='gen' HEIGHT='11' HTML-FIT='AS-IS' HTML-HEIGHT='12' HTML-SCALE='0.6' HTML-WIDTH='22'"
+            " NOTATION='PNG' SCALE='0.7' WIDTH='21'/>",
+        )
+        graphic = parser.getGraphic(element, "MY-GRAPHIC")
+        assert graphic.getEditfit().getValue() == "AS-IS"
+        assert graphic.getEditHeight().getValue() == "10"
+        assert graphic.getEditscale().getValue() == "0.5"
+        assert graphic.getEditWidth().getValue() == "20"
+        assert graphic.getFilename().getValue() == "f.png"
+        assert graphic.getFit().getValue() == "FIT-TO-PAGE"
+        assert graphic.getGenerator().getValue() == "gen"
+        assert graphic.getHeight().getValue() == "11"
+        assert graphic.getHtmlFit().getValue() == "AS-IS"
+        assert graphic.getHtmlHeight().getValue() == "12"
+        assert graphic.getHtmlScale().getValue() == "0.6"
+        assert graphic.getHtmlWidth().getValue() == "22"
+        assert graphic.getNotation().getValue() == "PNG"
+        assert graphic.getScale().getValue() == "0.7"
+        assert graphic.getWidth().getValue() == "21"
 
     def test_getGraphic_missing(self, parser):
         element = _snip("<X/>")
@@ -480,14 +514,46 @@ class TestGraphicAndFigureHandlers:
         assert len(figure.getLGraphics()) == 2
 
     def test_readDocumentViewSelectable(self, parser):
-        element = _snip("", root_tag="SELECTABLE")
+        element = _snip("", root_tag="SELECTABLE", SI="INTERNAL", VIEW="DETAILED")
         selectable = MlFigure()
         parser.readDocumentViewSelectable(element, selectable)
+        assert selectable.getSi().getValue() == "INTERNAL"
+        assert selectable.getView().getValue() == "DETAILED"
+
+    def test_readDocumentViewSelectable_without_optional_view(self, parser):
+        element = _snip("", root_tag="SELECTABLE", SI="INTERNAL")
+        selectable = MlFigure()
+        parser.readDocumentViewSelectable(element, selectable)
+        assert isinstance(selectable.getSi(), NameTokens)
+        assert selectable.getSi().getValue() == "INTERNAL"
+        assert selectable.getView() is None
+
+    def test_readColspec(self, parser):
+        element = _snip(
+            "",
+            root_tag="COLSPEC",
+            ALIGN="CENTER",
+            COLNAME="name",
+            COLNUM="1",
+            COLSEP="1",
+            COLWIDTH="2*",
+            ROWSEP="0",
+        )
+        colspec = Colspec()
+        parser.readColspec(element, colspec)
+        assert colspec.getAlign().getValue() == "CENTER"
+        assert colspec.getColname().getValue() == "name"
+        assert colspec.getColnum().getValue() == "1"
+        assert colspec.getColsep().getValue() == "1"
+        assert colspec.getColwidth().getValue() == "2*"
+        assert colspec.getRowsep().getValue() == "0"
 
     def test_readPaginateable(self, parser):
-        element = _snip("", root_tag="PAGINATE")
+        element = _snip("", root_tag="PAGINATE", BREAK="BREAK", **{"KEEP-WITH-PREVIOUS": "KEEP"})
         paginateable = MlFigure()
         parser.readPaginateable(element, paginateable)
+        assert paginateable.getBreak().getValue() == "BREAK"
+        assert paginateable.getKeepWithPrevious().getValue() == "KEEP"
 
     def test_getMlFigures(self, parser):
         element = _snip(

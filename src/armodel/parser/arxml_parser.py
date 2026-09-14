@@ -380,7 +380,14 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ElementCollection import AutoCollectEnum, Collection
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import AutosarEngineeringObject, EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Enumerations import BindingTimeEnum
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+    Identifiable,
+    MultilanguageReferrable,
+    Referrable,
+    ShortNameFragment,
+    SingleLanguageReferrable,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.MultidimensionalTime import MultidimensionalTime
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
@@ -390,9 +397,12 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Boolean,
     CIdentifier,
     DateTime,
+    Integer,
     IntervalTypeEnum,
     MacAddressString,
+    MimeTypeString,
     NameToken,
+    NameTokens,
     Numerical,
     PositiveInteger,
     PrimitiveIdentifier,
@@ -400,8 +410,10 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ReferrableSubtypesEnum,
     SectionInitializationPolicyType,
     String,
+    UriString,
     VerbatimString,
     VerbatimStringPlain,
+    ViewTokens,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.LifeCycles import LifeCycleInfo, LifeCycleInfoSet, LifeCyclePeriod
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import (
@@ -952,10 +964,10 @@ from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, Sw
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
-from armodel.models.M2.MSR.Documentation.BlockElements import Caption
-from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, LGraphic, MlFigure
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Colspec, Entry, Row, Tbody, Tgroup, Url
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, GraphicFitEnum, GraphicNotationEnum, LGraphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
-from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, PgwideEnum, TableSeparatorString, ValignEnum
 from armodel.models.M2.MSR.Documentation.Chapters import (
     Chapter,
     ChapterContent,
@@ -971,16 +983,29 @@ from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQue
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note, NoteTypeEnum
-from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import ChapterEnumBreak, DocumentViewSelectable, KeepWithPreviousEnum, Paginateable
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     StructuredReq,
     Traceable,
     TraceableText,
 )
-from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import EmphasisText, IndexEntry, Superscript, Tt
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim
+from armodel.models.M2.MSR.Documentation.TextModel.InlineAttributeEnums import (
+    ResolutionPolicyEnum,
+    ShowContentEnum,
+    ShowResourceAliasNameEnum,
+    ShowResourceCategoryEnum,
+    ShowResourceLongNameEnum,
+    ShowResourceNumberEnum,
+    ShowResourcePageEnum,
+    ShowResourceShortNameEnum,
+    ShowResourceTypeEnum,
+    ShowSeeEnum,
+)
+from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Superscript, Tt, Xdoc, Xfile, Xref, XrefTarget
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific, LLongName, LOverviewParagraph, LParagraph, LVerbatim, MixedContentForLongName, SlParagraph
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP1, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguagePlainText, MultiLanguageVerbatim
+from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
 from armodel.parser.abstract_arxml_parser import AbstractARXMLParser
 
 #: Mapping between BindingTimeEnum camelCase values and their XML attribute tokens
@@ -1248,6 +1273,10 @@ class ARXMLParser(AbstractARXMLParser):
         self.readReferrable(element, referrable)
         referrable.setLongName(self.getMultilanguageLongName(element, "LONG-NAME"))
 
+    def readSingleLanguageReferrable(self, element: ET.Element, referrable: SingleLanguageReferrable):
+        self.readReferrable(element, referrable)
+        referrable.setLongName1(self.getSingleLanguageLongName(element, "LONG-NAME-1"))
+
     def getCaption(self, element: ET.Element, key: str) -> Caption:
         caption = None
         child_element = self.find(element, key)
@@ -1294,23 +1323,171 @@ class ARXMLParser(AbstractARXMLParser):
     def readLLongName(self, element: ET.Element, long_name: MultilanguageLongName):
         for child_element in self.findall(element, "L-4"):
             l4 = LLongName()
-            self.readARObject(child_element, l4)
             l4.setValue(child_element.text)
             if "L" in child_element.attrib:
                 l4.setL(child_element.attrib["L"])  # noqa: E741
-            if "SUP" in child_element.attrib:
-                l4.setSup(Superscript().setValue(child_element.attrib["SUP"]))
-            if "SUB" in child_element.attrib:
-                l4.setSub(Superscript().setValue(child_element.attrib["SUB"]))
-            for inline in child_element:
-                tag_name = self.getTagName(inline)
-                if tag_name == "E":
-                    l4.setE(self.readEmphasisText(inline))
-                elif tag_name == "IE":
-                    l4.setIe(self.readIndexEntry(inline))
-                elif tag_name == "TT":
-                    l4.setTt(self.readTt(inline))
+            self.readMixedContentForLongName(child_element, l4)
             long_name.addL4(l4)
+
+    def readMixedContentForLongName(self, element: ET.Element, content: MixedContentForLongName):
+        self.readARObject(element, content)
+        if "SUP" in element.attrib:
+            content.setSup(Superscript().setValue(element.attrib["SUP"]))
+        if "SUB" in element.attrib:
+            content.setSub(Superscript().setValue(element.attrib["SUB"]))
+        for inline in element:
+            tag_name = self.getTagName(inline)
+            if tag_name == "E":
+                content.setE(self.readEmphasisText(inline))
+            elif tag_name == "IE":
+                content.setIe(self.readIndexEntry(inline))
+            elif tag_name == "TT":
+                content.setTt(self.readTt(inline))
+
+    def getBr(self, element: ET.Element, key: str) -> Br:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+
+        br = Br()
+        self.readARObject(child_element, br)
+        return br
+
+    def getStd(self, element: ET.Element, key: str) -> Std:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+
+        std = Std(None, "STD")
+        self.readSingleLanguageReferrable(child_element, std)
+        if "DATE" in child_element.attrib:
+            std.setDate(DateTime().setValue(child_element.attrib["DATE"]))
+        if "POSITION" in child_element.attrib:
+            std.setPosition(String().setValue(child_element.attrib["POSITION"]))
+        if "STATE" in child_element.attrib:
+            std.setState(String().setValue(child_element.attrib["STATE"]))
+        if "SUBTITLE" in child_element.attrib:
+            std.setSubtitle(String().setValue(child_element.attrib["SUBTITLE"]))
+        std.setUrl(self.getUrl(child_element, "URL"))
+        return std
+
+    def getXdoc(self, element: ET.Element, key: str) -> Xdoc:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+
+        xdoc = Xdoc(None, "XDOC")
+        self.readSingleLanguageReferrable(child_element, xdoc)
+        if "DATE" in child_element.attrib:
+            xdoc.setDate(DateTime().setValue(child_element.attrib["DATE"]))
+        if "NUMBER" in child_element.attrib:
+            xdoc.setNumber(String().setValue(child_element.attrib["NUMBER"]))
+        if "POSITION" in child_element.attrib:
+            xdoc.setPosition(String().setValue(child_element.attrib["POSITION"]))
+        if "PUBLISHER" in child_element.attrib:
+            xdoc.setPublisher(String().setValue(child_element.attrib["PUBLISHER"]))
+        if "STATE" in child_element.attrib:
+            xdoc.setState(String().setValue(child_element.attrib["STATE"]))
+        xdoc.setUrl(self.getUrl(child_element, "URL"))
+        return xdoc
+
+    def getXfile(self, element: ET.Element, key: str) -> Xfile:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+
+        xfile = Xfile(None, "XFILE")
+        self.readSingleLanguageReferrable(child_element, xfile)
+        xfile.setUrl(self.getUrl(child_element, "URL"))
+        xfile.setTool(self.getChildElementOptionalString(child_element, "TOOL"))
+        xfile.setToolVersion(self.getChildElementOptionalString(child_element, "TOOL-VERSION"))
+        return xfile
+
+    def getXrefTarget(self, element: ET.Element, key: str) -> XrefTarget:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+
+        target = XrefTarget(None, self.getShortName(child_element))
+        self.readSingleLanguageReferrable(child_element, target)
+        return target
+
+    def getXref(self, element: ET.Element, key: str) -> Xref:
+        child_element = self.find(element, key) if key != "." else element
+        if child_element is None:
+            return None
+
+        xref = Xref()
+        self.readARObject(child_element, xref)
+        xref.setLabel1(self.getSingleLanguageLongName(child_element, "LABEL-1"))
+        xref.setReferrableRef(self.getChildElementOptionalRefType(child_element, "REFERRABLE-REF"))
+        if "RESOLUTION-POLICY" in child_element.attrib:
+            xref.setResolutionPolicy(ResolutionPolicyEnum().setValue(child_element.attrib["RESOLUTION-POLICY"]))
+        if "SHOW-CONTENT" in child_element.attrib:
+            xref.setShowContent(ShowContentEnum().setValue(child_element.attrib["SHOW-CONTENT"]))
+        if "SHOW-RESOURCE-ALIAS-NAME" in child_element.attrib:
+            xref.setShowResourceAliasName(ShowResourceAliasNameEnum().setValue(child_element.attrib["SHOW-RESOURCE-ALIAS-NAME"]))
+        if "SHOW-RESOURCE-CATEGORY" in child_element.attrib:
+            xref.setShowResourceCategory(ShowResourceCategoryEnum().setValue(child_element.attrib["SHOW-RESOURCE-CATEGORY"]))
+        if "SHOW-RESOURCE-LONG-NAME" in child_element.attrib:
+            xref.setShowResourceLongName(ShowResourceLongNameEnum().setValue(child_element.attrib["SHOW-RESOURCE-LONG-NAME"]))
+        if "SHOW-RESOURCE-NUMBER" in child_element.attrib:
+            xref.setShowResourceNumber(ShowResourceNumberEnum().setValue(child_element.attrib["SHOW-RESOURCE-NUMBER"]))
+        if "SHOW-RESOURCE-PAGE" in child_element.attrib:
+            xref.setShowResourcePage(ShowResourcePageEnum().setValue(child_element.attrib["SHOW-RESOURCE-PAGE"]))
+        if "SHOW-RESOURCE-SHORT-NAME" in child_element.attrib:
+            xref.setShowResourceShortName(ShowResourceShortNameEnum().setValue(child_element.attrib["SHOW-RESOURCE-SHORT-NAME"]))
+        if "SHOW-RESOURCE-TYPE" in child_element.attrib:
+            xref.setShowResourceType(ShowResourceTypeEnum().setValue(child_element.attrib["SHOW-RESOURCE-TYPE"]))
+        if "SHOW-SEE" in child_element.attrib:
+            xref.setShowSee(ShowSeeEnum().setValue(child_element.attrib["SHOW-SEE"]))
+        return xref
+
+    def readMixedContentForParagraph(self, element: ET.Element, content):
+        br = self.getBr(element, "BR")
+        if br is not None:
+            content.setBr(br)
+        ft_element = self.find(element, "FT")
+        if ft_element is not None:
+            footnote = SlParagraph()
+            self.readSlParagraph(ft_element, footnote)
+            content.setFt(footnote)
+        emphasis_element = self.find(element, "E")
+        if emphasis_element is not None:
+            content.setE(self.readEmphasisText(emphasis_element))
+        index_element = self.find(element, "IE")
+        if index_element is not None:
+            content.setIe(self.readIndexEntry(index_element))
+        std = self.getStd(element, "STD")
+        if std is not None:
+            content.setStd(std)
+        if "SUB" in element.attrib:
+            content.setSub(Superscript().setValue(element.attrib["SUB"]))
+        if "SUP" in element.attrib:
+            content.setSup(Superscript().setValue(element.attrib["SUP"]))
+        content.setTraceRef(self.getChildElementOptionalRefType(element, "TRACE-REF"))
+        tt_element = self.find(element, "TT")
+        if tt_element is not None:
+            content.setTt(self.readTt(tt_element))
+        xdoc = self.getXdoc(element, "XDOC")
+        if xdoc is not None:
+            content.setXdoc(xdoc)
+        xfile = self.getXfile(element, "XFILE")
+        if xfile is not None:
+            content.setXfile(xfile)
+        xref = self.getXref(element, "XREF")
+        if xref is not None:
+            content.setXref(xref)
+        xref_target = self.getXrefTarget(element, "XREF-TARGET")
+        if xref_target is not None:
+            content.setXrefTarget(xref_target)
+
+    def readSlParagraph(self, element: ET.Element, paragraph: SlParagraph):
+        self.readARObject(element, paragraph)
+        self.readMixedContentForParagraph(element, paragraph)
+        paragraph.setValue(element.text or "")
+        if "L" in element.attrib:
+            paragraph.setL(element.attrib["L"])
 
     def readEmphasisText(self, element: ET.Element) -> EmphasisText:
         emphasis = EmphasisText()
@@ -1355,6 +1532,19 @@ class ARXMLParser(AbstractARXMLParser):
             long_name = MultilanguageLongName()
             self.readARObject(child_element, long_name)
             self.readLLongName(child_element, long_name)
+        return long_name
+
+    def readSingleLanguageLongName(self, element: ET.Element, long_name: SingleLanguageLongName):
+        if element.text is not None:
+            long_name.setValue(String().setValue(element.text))
+        self.readMixedContentForLongName(element, long_name)
+
+    def getSingleLanguageLongName(self, element: ET.Element, key: str) -> SingleLanguageLongName:
+        long_name = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            long_name = SingleLanguageLongName()
+            self.readSingleLanguageLongName(child_element, long_name)
         return long_name
 
     def readLOverviewParagraph(self, element: ET.Element, paragraph: MultiLanguageOverviewParagraph):
@@ -4838,7 +5028,11 @@ class ARXMLParser(AbstractARXMLParser):
         results = []
         for child_element in self.findall(element, key):
             l1 = LParagraph()
-            self.readLanguageSpecific(child_element, l1)
+            self.readARObject(child_element, l1)
+            self.readMixedContentForParagraph(child_element, l1)
+            l1.setValue(child_element.text or "")
+            if "L" in child_element.attrib:
+                l1.setL(child_element.attrib["L"])  # noqa E741
             results.append(l1)
         return results
 
@@ -4867,6 +5061,7 @@ class ARXMLParser(AbstractARXMLParser):
         result = []
         for child_element in self.findall(element, key):
             list = ARList()
+            self.readPaginateable(child_element, list)
             if "TYPE" in child_element.attrib:
                 list.setType(child_element.attrib["TYPE"])
             for block in self.getDocumentationBlockList(child_element, "ITEM"):
@@ -4879,9 +5074,50 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             graphic = Graphic()
+            if "EDITFIT" in child_element.attrib:
+                graphic.setEditfit(GraphicFitEnum().setValue(child_element.attrib["EDITFIT"]))
+            if "EDIT-HEIGHT" in child_element.attrib:
+                graphic.setEditHeight(String().setValue(child_element.attrib["EDIT-HEIGHT"]))
+            if "EDITSCALE" in child_element.attrib:
+                graphic.setEditscale(String().setValue(child_element.attrib["EDITSCALE"]))
+            if "EDIT-WIDTH" in child_element.attrib:
+                graphic.setEditWidth(String().setValue(child_element.attrib["EDIT-WIDTH"]))
             if "FILENAME" in child_element.attrib:
-                graphic.setFilename(child_element.attrib["FILENAME"])
+                graphic.setFilename(String().setValue(child_element.attrib["FILENAME"]))
+            if "FIT" in child_element.attrib:
+                graphic.setFit(GraphicFitEnum().setValue(child_element.attrib["FIT"]))
+            if "GENERATOR" in child_element.attrib:
+                graphic.setGenerator(NameToken().setValue(child_element.attrib["GENERATOR"]))
+            if "HEIGHT" in child_element.attrib:
+                graphic.setHeight(String().setValue(child_element.attrib["HEIGHT"]))
+            if "HTML-FIT" in child_element.attrib:
+                graphic.setHtmlFit(GraphicFitEnum().setValue(child_element.attrib["HTML-FIT"]))
+            if "HTML-HEIGHT" in child_element.attrib:
+                graphic.setHtmlHeight(String().setValue(child_element.attrib["HTML-HEIGHT"]))
+            if "HTML-SCALE" in child_element.attrib:
+                graphic.setHtmlScale(String().setValue(child_element.attrib["HTML-SCALE"]))
+            if "HTML-WIDTH" in child_element.attrib:
+                graphic.setHtmlWidth(String().setValue(child_element.attrib["HTML-WIDTH"]))
+            if "NOTATION" in child_element.attrib:
+                graphic.setNotation(GraphicNotationEnum().setValue(child_element.attrib["NOTATION"]))
+            if "SCALE" in child_element.attrib:
+                graphic.setScale(String().setValue(child_element.attrib["SCALE"]))
+            if "WIDTH" in child_element.attrib:
+                graphic.setWidth(String().setValue(child_element.attrib["WIDTH"]))
         return graphic
+
+    def getUrl(self, element: ET.Element, key: str) -> Url:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+
+        url = Url()
+        self.readARObject(child_element, url)
+        if "MIME-TYPE" in child_element.attrib:
+            url.setMimeType(MimeTypeString().setValue(child_element.attrib["MIME-TYPE"]))
+        if child_element.text is not None:
+            url.setValue(UriString().setValue(child_element.text))
+        return url
 
     def readMlFigureLGraphics(self, element: ET.Element, figure: MlFigure):
         for child_element in self.findall(element, "L-GRAPHIC"):
@@ -4893,9 +5129,108 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readDocumentViewSelectable(self, element: ET.Element, selectable: DocumentViewSelectable):
         self.readARObject(element, selectable)
+        if "SI" in element.attrib:
+            selectable.setSi(NameTokens().setValue(element.attrib["SI"]))
+        if "VIEW" in element.attrib:
+            selectable.setView(ViewTokens().setValue(element.attrib["VIEW"]))
+
+    def readColspec(self, element: ET.Element, colspec: Colspec):
+        self.readARObject(element, colspec)
+        if "ALIGN" in element.attrib:
+            colspec.setAlign(AlignEnum().setValue(element.attrib["ALIGN"]))
+        if "COLNAME" in element.attrib:
+            colspec.setColname(String().setValue(element.attrib["COLNAME"]))
+        if "COLNUM" in element.attrib:
+            colspec.setColnum(String().setValue(element.attrib["COLNUM"]))
+        if "COLSEP" in element.attrib:
+            colspec.setColsep(TableSeparatorString().setValue(element.attrib["COLSEP"]))
+        if "COLWIDTH" in element.attrib:
+            colspec.setColwidth(String().setValue(element.attrib["COLWIDTH"]))
+        if "ROWSEP" in element.attrib:
+            colspec.setRowsep(TableSeparatorString().setValue(element.attrib["ROWSEP"]))
+
+    def readEntry(self, element: ET.Element, entry: Entry):
+        self.readARObject(element, entry)
+        if "ALIGN" in element.attrib:
+            entry.setAlign(AlignEnum().setValue(element.attrib["ALIGN"]))
+        if "BGCOLOR" in element.attrib:
+            entry.setBgcolor(String().setValue(element.attrib["BGCOLOR"]))
+        if "COLNAME" in element.attrib:
+            entry.setColname(String().setValue(element.attrib["COLNAME"]))
+        if "COLSEP" in element.attrib:
+            entry.setColsep(TableSeparatorString().setValue(element.attrib["COLSEP"]))
+        entry.setEntryContents(self.getDocumentationBlock(element, "DOCUMENTATION-BLOCK"))
+        if "MOREROWS" in element.attrib:
+            entry.setMorerows(String().setValue(element.attrib["MOREROWS"]))
+        if "NAMEEND" in element.attrib:
+            entry.setNameend(String().setValue(element.attrib["NAMEEND"]))
+        if "NAMEST" in element.attrib:
+            entry.setNamest(String().setValue(element.attrib["NAMEST"]))
+        if "ROTATE" in element.attrib:
+            entry.setRotate(String().setValue(element.attrib["ROTATE"]))
+        if "ROWSEP" in element.attrib:
+            entry.setRowsep(TableSeparatorString().setValue(element.attrib["ROWSEP"]))
+        if "SPANNAME" in element.attrib:
+            entry.setSpanname(String().setValue(element.attrib["SPANNAME"]))
+        if "VALIGN" in element.attrib:
+            entry.setValign(ValignEnum().setValue(element.attrib["VALIGN"]))
+
+    def readRow(self, element: ET.Element, row: Row):
+        self.readPaginateable(element, row)
+        for child_element in self.findall(element, "ENTRY"):
+            entry = Entry()
+            self.readEntry(child_element, entry)
+            row.addEntry(entry)
+        if "ROWSEP" in element.attrib:
+            row.setRowsep(TableSeparatorString().setValue(element.attrib["ROWSEP"]))
+        if "VALIGN" in element.attrib:
+            row.setValign(ValignEnum().setValue(element.attrib["VALIGN"]))
+
+    def readTbody(self, element: ET.Element, tbody: Tbody):
+        self.readARObject(element, tbody)
+        for child_element in self.findall(element, "ROW"):
+            row = Row()
+            self.readRow(child_element, row)
+            tbody.addRow(row)
+        if "VALIGN" in element.attrib:
+            tbody.setValign(ValignEnum().setValue(element.attrib["VALIGN"]))
+
+    def readTgroup(self, element: ET.Element, tgroup: Tgroup):
+        self.readARObject(element, tgroup)
+        for child_element in self.findall(element, "COLSPEC"):
+            colspec = Colspec()
+            self.readColspec(child_element, colspec)
+            tgroup.addColspec(colspec)
+        thead_element = self.find(element, "THEAD")
+        if thead_element is not None:
+            thead = Tbody()
+            self.readTbody(thead_element, thead)
+            tgroup.setThead(thead)
+        tfoot_element = self.find(element, "TFOOT")
+        if tfoot_element is not None:
+            tfoot = Tbody()
+            self.readTbody(tfoot_element, tfoot)
+            tgroup.setTfoot(tfoot)
+        tbody_element = self.find(element, "TBODY")
+        if tbody_element is not None:
+            tbody = Tbody()
+            self.readTbody(tbody_element, tbody)
+            tgroup.setTbody(tbody)
+        if "ALIGN" in element.attrib:
+            tgroup.setAlign(AlignEnum().setValue(element.attrib["ALIGN"]))
+        if "COLS" in element.attrib:
+            tgroup.setCols(Integer().setValue(element.attrib["COLS"]))
+        if "COLSEP" in element.attrib:
+            tgroup.setColsep(TableSeparatorString().setValue(element.attrib["COLSEP"]))
+        if "ROWSEP" in element.attrib:
+            tgroup.setRowsep(TableSeparatorString().setValue(element.attrib["ROWSEP"]))
 
     def readPaginateable(self, element: ET.Element, paginateable: Paginateable):
         self.readDocumentViewSelectable(element, paginateable)
+        if "BREAK" in element.attrib:
+            paginateable.setBreak(ChapterEnumBreak().setValue(element.attrib["BREAK"]))
+        if "KEEP-WITH-PREVIOUS" in element.attrib:
+            paginateable.setKeepWithPrevious(KeepWithPreviousEnum().setValue(element.attrib["KEEP-WITH-PREVIOUS"]))
 
     def readMlFigure(self, element: ET.Element, figure: MlFigure):
         self.readPaginateable(element, figure)

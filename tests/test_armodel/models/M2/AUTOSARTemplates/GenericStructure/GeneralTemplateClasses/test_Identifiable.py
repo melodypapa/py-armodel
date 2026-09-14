@@ -4,12 +4,20 @@ in the AUTOSAR GenericStructure module.
 """
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Describable, Identifiable, MultilanguageReferrable, Referrable, ShortNameFragment
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import (
+    Describable,
+    Identifiable,
+    MultilanguageReferrable,
+    Referrable,
+    ShortNameFragment,
+    SingleLanguageReferrable,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CategoryString, Identifier, String
 from armodel.models.M2.MSR.AsamHdo.AdminData import AdminData
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultilanguageLongName, MultiLanguageOverviewParagraph
+from armodel.models.M2.MSR.Documentation.TextModel.SingleLanguageData import SingleLanguageLongName
 
 
 class TestReferrable:
@@ -248,6 +256,68 @@ class TestMultilanguageReferrable:
         result = obj.setLongName(None)
         assert result is obj  # method chaining with None
         assert obj.getLongName() is long_name  # None is a no-op
+
+
+class TestSingleLanguageReferrable:
+    """
+    Test class for SingleLanguageReferrable functionality (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 4.12).
+    """
+
+    def test_abstract_initialization(self):
+        """
+        Test that SingleLanguageReferrable cannot be instantiated directly (abstract class).
+        """
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        try:
+            _obj = SingleLanguageReferrable(ar_root, "TestSLReferrable")
+            assert False, "SingleLanguageReferrable should not be instantiable"
+        except TypeError:
+            pass  # Expected behavior
+
+    def _make_obj(self):
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+
+        class ConcreteSingleLanguageReferrable(SingleLanguageReferrable):
+            def __init__(self, parent, short_name):
+                super().__init__(parent, short_name)
+
+        return ConcreteSingleLanguageReferrable(ar_root, "TestName")
+
+    def test_initialization_default_none(self):
+        """
+        Test that longName1 is None by default and the Referrable base is initialized.
+        """
+        obj = self._make_obj()
+        assert obj.getLongName1() is None
+        assert obj.getShortName() == "TestName"
+        assert obj.getParent() is not None
+
+    def test_get_set_long_name1(self):
+        """
+        Test getLongName1 and setLongName1 round-trip and chaining.
+        """
+        obj = self._make_obj()
+
+        long_name = SingleLanguageLongName()
+        result = obj.setLongName1(long_name)
+        assert result is obj  # method chaining
+        assert obj.getLongName1() is long_name
+
+    def test_set_long_name1_none_is_noop(self):
+        """
+        Test that setLongName1(None) does not overwrite an existing longName1.
+        """
+        obj = self._make_obj()
+
+        long_name = SingleLanguageLongName()
+        obj.setLongName1(long_name)
+        assert obj.getLongName1() is long_name
+
+        result = obj.setLongName1(None)
+        assert result is obj  # method chaining with None
+        assert obj.getLongName1() is long_name  # None is a no-op
 
 
 class TestIdentifiable:

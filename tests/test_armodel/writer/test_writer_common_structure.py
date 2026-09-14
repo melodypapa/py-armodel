@@ -26,6 +26,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     NameToken,
     RefType,
     RevisionLabelString,
+    String,
     VerbatimStringPlain,
 )
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
@@ -42,6 +43,8 @@ from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.BlockElements import Caption
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
     Graphic,
+    GraphicFitEnum,
+    GraphicNotationEnum,
     LGraphic,
     MlFigure,
 )
@@ -49,6 +52,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import (  # noqa: E501
     ARList,
 )
+from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import ChapterEnumBreak, KeepWithPreviousEnum
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import (
     DocumentationBlock,
 )
@@ -490,7 +494,7 @@ class TestSetMlFormula:
         formula.setFormulaCaption(caption)
         l_graphic = LGraphic()
         graphic = Graphic()
-        graphic.setFilename("g.png")
+        graphic.setFilename(String().setValue("g.png"))
         l_graphic.setGraphic(graphic)
         formula.addLGraphic(l_graphic)
         tex_math = MultiLanguagePlainText()
@@ -660,6 +664,17 @@ class TestSetListElement:
         writer.setListElement(parent, "LIST", None)
         assert len(parent) == 0
 
+    def test_with_paginateable_attributes(self, writer):
+        parent = _parent()
+        lst = ARList()
+        lst.setBreak(ChapterEnumBreak().setValue(ChapterEnumBreak.BREAK))
+        lst.setKeepWithPrevious(KeepWithPreviousEnum().setValue(KeepWithPreviousEnum.KEEP))
+
+        writer.setListElement(parent, "LIST", lst)
+
+        assert parent[0].attrib["BREAK"] == "BREAK"
+        assert parent[0].attrib["KEEP-WITH-PREVIOUS"] == "KEEP"
+
     def test_with_documentation_block_item(self, writer):
         parent = _parent()
         lst = ARList()
@@ -680,7 +695,7 @@ class TestSetGraphic:
     def test_with_filename(self, writer):
         parent = _parent()
         g = Graphic()
-        g.setFilename("img.png")
+        g.setFilename(String().setValue("img.png"))
         writer.setGraphic(parent, "GRAPHIC", g)
         assert parent[0].tag == "GRAPHIC"
         assert parent[0].attrib["FILENAME"] == "img.png"
@@ -690,6 +705,44 @@ class TestSetGraphic:
         g = Graphic()
         writer.setGraphic(parent, "GRAPHIC", g)
         assert "FILENAME" not in parent[0].attrib
+
+    def test_with_all_attributes(self, writer):
+        parent = _parent()
+        g = Graphic()
+        g.setEditfit(GraphicFitEnum().setValue(GraphicFitEnum.ASIS))
+        g.setEditHeight(String().setValue("10"))
+        g.setEditscale(String().setValue("0.5"))
+        g.setEditWidth(String().setValue("20"))
+        g.setFilename(String().setValue("f.png"))
+        g.setFit(GraphicFitEnum().setValue(GraphicFitEnum.FIT_TO_PAGE))
+        g.setGenerator(NameToken().setValue("gen"))
+        g.setHeight(String().setValue("11"))
+        g.setHtmlFit(GraphicFitEnum().setValue(GraphicFitEnum.ASIS))
+        g.setHtmlHeight(String().setValue("12"))
+        g.setHtmlScale(String().setValue("0.6"))
+        g.setHtmlWidth(String().setValue("22"))
+        g.setNotation(GraphicNotationEnum().setValue(GraphicNotationEnum.PNG))
+        g.setScale(String().setValue("0.7"))
+        g.setWidth(String().setValue("21"))
+
+        writer.setGraphic(parent, "GRAPHIC", g)
+
+        attrib = parent[0].attrib
+        assert attrib["EDITFIT"] == "AS-IS"
+        assert attrib["EDIT-HEIGHT"] == "10"
+        assert attrib["EDITSCALE"] == "0.5"
+        assert attrib["EDIT-WIDTH"] == "20"
+        assert attrib["FILENAME"] == "f.png"
+        assert attrib["FIT"] == "FIT-TO-PAGE"
+        assert attrib["GENERATOR"] == "gen"
+        assert attrib["HEIGHT"] == "11"
+        assert attrib["HTML-FIT"] == "AS-IS"
+        assert attrib["HTML-HEIGHT"] == "12"
+        assert attrib["HTML-SCALE"] == "0.6"
+        assert attrib["HTML-WIDTH"] == "22"
+        assert attrib["NOTATION"] == "PNG"
+        assert attrib["SCALE"] == "0.7"
+        assert attrib["WIDTH"] == "21"
 
     def test_none(self, writer):
         parent = _parent()
@@ -704,7 +757,7 @@ class TestWriteMlFigureLGraphics:
         lg = LGraphic()
         lg.setL("en")
         g = Graphic()
-        g.setFilename("f.png")
+        g.setFilename(String().setValue("f.png"))
         lg.setGraphic(g)
         fig.addLGraphics(lg)
         writer.writeMlFigureLGraphics(parent, fig)
@@ -738,6 +791,17 @@ class TestWriteMlFigure:
         fig.addLGraphics(lg)
         writer.writeMlFigure(parent, fig)
         assert parent[0].tag == "L-GRAPHIC"
+
+    def test_writes_paginateable_attributes(self, writer):
+        parent = _parent()
+        fig = MlFigure()
+        fig.setBreak(ChapterEnumBreak().setValue(ChapterEnumBreak.BREAK))
+        fig.setKeepWithPrevious(KeepWithPreviousEnum().setValue(KeepWithPreviousEnum.KEEP))
+
+        writer.writeMlFigure(parent, fig)
+
+        assert parent.attrib["BREAK"] == "BREAK"
+        assert parent.attrib["KEEP-WITH-PREVIOUS"] == "KEEP"
 
 
 class TestSetMlFigures:
