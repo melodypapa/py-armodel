@@ -503,16 +503,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [17 method rows with six columns and R23-11 release; marker deferred to 9b]
    - [x] Step 8 — Deviations  [none: all seven Table 9.66 members modeled with PDF types; XSD sequence offsets 20/40/50/60 preserved; no fabrication or missing dependencies]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 9006 unit tests, focused Tgroup tests, lint, Black check, and diff check pass; 9b: user-confirmed matched member/accessor order, base, members, docstrings, reader/writer coverage, XSD XML order, package location, and no deviations; marker `# Spec verified: R23-11` written; commit 278d4674]
-- [ ] `Table` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.63 · member type of `TopicContent.table` + `TraceableTable.table` · **NOT in src — created** · Package OasisExchangeTable · Base `ARObject , DocumentViewSelectable , Paginateable` · 10 attrs colsep(TableSeparatorString)/float(FloatEnum ✓)/frame(FrameEnum)/helpEntry(String)/orient(OrientEnum)/pgwide(NameToken)/rowsep(TableSeparatorString)/tableCaption(Caption ✓ aggr)/tabstyle(NameToken)/tgroup(Tgroup 1..* aggr) · **unblocked once the 10 dependency rows above are synced**)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `Table` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.63 · member type of `TopicContent.table` + `TraceableTable.table` · **NOT in src — created** · Package OasisExchangeTable · Base `ARObject , DocumentViewSelectable , Paginateable` · 10 attrs colsep(TableSeparatorString)/float(FloatEnum ✓)/frame(FrameEnum)/helpEntry(String)/orient(OrientEnum)/pgwide(NameToken)/rowsep(TableSeparatorString)/tableCaption(Caption ✓ aggr)/tabstyle(NameToken)/tgroup(Tgroup 1..* aggr) · **unblocked once the 10 dependency rows above are synced**)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 9 focused Table tests (model 4/parser 2/writer 3), lint, Black check pass; 9b: user-confirmed matched member/accessor order, base, members, docstrings, reader/writer coverage, package location, resolved quoted Caption forward-reference, and no blocking deviations (float modeled 0..1 vs spec 1, uniform optional handling); marker `# Spec verified: R23-11` written; commit e347fbbf]
 - [ ] `TraceableTable` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · member type of `TopicContent.traceableTable` · **NOT in src** — class must be created when this row is synced)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
