@@ -874,7 +874,7 @@ from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQue
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note
-from armodel.models.M2.MSR.Documentation.BlockElements import Colspec, Entry, Row, Tbody, Tgroup
+from armodel.models.M2.MSR.Documentation.BlockElements import Colspec, Entry, Row, Table, Tbody, Tgroup
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     StructuredReq,
@@ -2435,6 +2435,29 @@ class ARXMLWriter(AbstractARXMLWriter):
             element.attrib["COLSEP"] = tgroup.getColsep().getValue()
         if tgroup.getRowsep() is not None:
             element.attrib["ROWSEP"] = tgroup.getRowsep().getValue()
+
+    def writeTable(self, element: ET.Element, table: Table):
+        self.writePaginateable(element, table)
+        self.setCaption(element, "TABLE-CAPTION", table.getTableCaption())
+        for tgroup in table.getTgroups():
+            child_element = ET.SubElement(element, "TGROUP")
+            self.writeTgroup(child_element, tgroup)
+        if table.getColsep() is not None:
+            element.attrib["COLSEP"] = table.getColsep().getValue()
+        if table.getFloat() is not None:
+            element.attrib["FLOAT"] = table.getFloat().getValue()
+        if table.getFrame() is not None:
+            element.attrib["FRAME"] = table.getFrame().getValue()
+        if table.getHelpEntry() is not None:
+            element.attrib["HELP-ENTRY"] = table.getHelpEntry().getValue()
+        if table.getOrient() is not None:
+            element.attrib["ORIENT"] = table.getOrient().getValue()
+        if table.getPgwide() is not None:
+            element.attrib["PGWIDE"] = table.getPgwide().getValue()
+        if table.getRowsep() is not None:
+            element.attrib["ROWSEP"] = table.getRowsep().getValue()
+        if table.getTabstyle() is not None:
+            element.attrib["TABSTYLE"] = table.getTabstyle().getValue()
 
     def writePaginateable(self, element: ET.Element, paginateable: Paginateable):
         self.writeDocumentViewSelectable(element, paginateable)

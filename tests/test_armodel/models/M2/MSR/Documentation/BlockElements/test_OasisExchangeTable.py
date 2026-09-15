@@ -1,6 +1,7 @@
 """Tests for the OasisExchangeTable enums (FloatEnum, PgwideEnum, FrameEnum)."""
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Integer, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, Integer, NameToken, String
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import (
     AlignEnum,
     Colspec,
@@ -10,12 +11,18 @@ from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import
     OrientEnum,
     PgwideEnum,
     Row,
+    Table,
     TableSeparatorString,
     Tbody,
     Tgroup,
     ValignEnum,
 )
-from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import (
+    ChapterEnumBreak,
+    DocumentViewSelectable,
+    KeepWithPreviousEnum,
+    Paginateable,
+)
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
@@ -306,3 +313,58 @@ class TestTgroup:
         assert tgroup.getCols().getValue() == 2
         assert tgroup.getColsep().getValue() == "1"
         assert tgroup.getRowsep().getValue() == "0"
+
+
+class TestTable:
+    """Test class for Table (Table 9.63)."""
+
+    def test_initialization_and_bases(self):
+        table = Table()
+
+        assert isinstance(table, DocumentViewSelectable)
+        assert isinstance(table, Paginateable)
+        assert table.getColsep() is None
+        assert table.getFloat() is None
+        assert table.getFrame() is None
+        assert table.getHelpEntry() is None
+        assert table.getOrient() is None
+        assert table.getPgwide() is None
+        assert table.getRowsep() is None
+        assert table.getTableCaption() is None
+        assert table.getTabstyle() is None
+        assert table.getTgroups() == []
+
+    def test_attribute_accessors_and_none_no_op(self):
+        table = Table()
+        values = {
+            "Colsep": TableSeparatorString().setValue("1"),
+            "Float": FloatEnum().setValue(FloatEnum.FLOAT),
+            "Frame": FrameEnum().setValue(FrameEnum.ALL),
+            "HelpEntry": String().setValue("help"),
+            "Orient": OrientEnum().setValue(OrientEnum.LAND),
+            "Pgwide": NameToken().setValue("pgwide"),
+            "Rowsep": TableSeparatorString().setValue("0"),
+            "Tabstyle": NameToken().setValue("style"),
+        }
+        for name, value in values.items():
+            assert getattr(table, "set" + name)(value) is table
+            assert getattr(table, "get" + name)() is value
+            assert getattr(table, "set" + name)(None) is table
+            assert getattr(table, "get" + name)() is value
+
+    def test_tgroup_aggregation_and_table_caption(self):
+        table = Table()
+        tgroup = Tgroup()
+        caption = Caption(None, "table_1")
+
+        assert table.addTgroup(tgroup) is table
+        assert table.getTgroups() == [tgroup]
+        assert table.setTableCaption(caption) is table
+        assert table.getTableCaption() is caption
+
+    def test_inherited_pagination_accessors(self):
+        table = Table()
+        assert table.setBreak(ChapterEnumBreak().setValue(ChapterEnumBreak.BREAK)) is table
+        assert table.getBreak().getValue() == ChapterEnumBreak.BREAK
+        assert table.setKeepWithPrevious(KeepWithPreviousEnum().setValue(KeepWithPreviousEnum.KEEP)) is table
+        assert table.getKeepWithPrevious().getValue() == KeepWithPreviousEnum.KEEP
