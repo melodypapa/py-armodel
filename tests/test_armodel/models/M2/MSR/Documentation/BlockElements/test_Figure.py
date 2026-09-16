@@ -5,6 +5,7 @@ This module contains tests for the Figure module in MSR.Documentation.BlockEleme
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
     AreaEnumNohref,
+    AreaEnumShape,
     Graphic,
     GraphicFitEnum,
     GraphicNotationEnum,
@@ -422,3 +423,37 @@ class TestAreaEnumNohref:
         enum = AreaEnumNohref()
         assert enum.validateEnumValue("NOHREF") is True
         assert enum.validateEnumValue("HREF") is False
+
+
+class TestAreaEnumShape:
+    """Test class for AreaEnumShape (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.19)."""
+
+    def test_area_enum_shape_initialization(self):
+        """Test that an AreaEnumShape object can be initialized."""
+        area_enum_shape = AreaEnumShape()
+        assert area_enum_shape is not None
+        assert isinstance(area_enum_shape, AreaEnumShape)
+
+    def test_area_enum_shape_spec_literals(self):
+        """AreaEnumShape shall expose the 4 spec literals with their XSD string values."""
+        enum = AreaEnumShape()
+        expected = {
+            AreaEnumShape.CIRCLE: "CIRCLE",
+            AreaEnumShape.DEFAULT: "DEFAULT",
+            AreaEnumShape.POLY: "POLY",
+            AreaEnumShape.RECT: "RECT",
+        }
+        for const, value in expected.items():
+            assert const == value
+        assert set(enum.getEnumValues()) == set(expected.values())
+
+    def test_area_enum_shape_set_get_value(self):
+        """setValue/getValue shall round-trip a spec literal."""
+        enum = AreaEnumShape().setValue(AreaEnumShape.RECT)
+        assert enum.getValue() == "RECT"
+
+    def test_area_enum_shape_validate_enum_value(self):
+        """An invalid literal shall be rejected by validateEnumValue."""
+        enum = AreaEnumShape()
+        assert enum.validateEnumValue("RECT") is True
+        assert enum.validateEnumValue("SQUARE") is False

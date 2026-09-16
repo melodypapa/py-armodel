@@ -149,6 +149,41 @@ class AreaEnumNohref(AREnum):
         super().__init__((AreaEnumNohref.NOHREF,))
 
 
+class AreaEnumShape(AREnum):
+    """
+    This enumerator specifies the shape of the area.
+    """
+
+    # AreaEnumShape method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.19, p.302
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Area.shape (SHAPE attribute)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The shape is a circle. Tags: atp.EnumerationLiteralIndex=0
+    CIRCLE = "CIRCLE"
+
+    # This specifies the fact that the area covers the rest of the figure. Tags: atp.EnumerationLiteralIndex=1
+    DEFAULT = "DEFAULT"
+
+    # The area is specified as polygon. Tags: atp.EnumerationLiteralIndex=2
+    POLY = "POLY"
+
+    # The shape is specified as rectangle. Tags: atp.EnumerationLiteralIndex=3
+    RECT = "RECT"
+
+    def __init__(self):
+        super().__init__(
+            (
+                AreaEnumShape.CIRCLE,
+                AreaEnumShape.DEFAULT,
+                AreaEnumShape.POLY,
+                AreaEnumShape.RECT,
+            )
+        )
+
+
 class Graphic(EngineeringObject):
     """
     This class represents an artifact containing the image to be inserted in the document
