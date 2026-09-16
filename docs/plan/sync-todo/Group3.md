@@ -653,16 +653,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [# Spec: FO_TPS Table 9.84, p.343 (pdf_page.py verified); 5 method rows (init + 2 getter/setter pairs) with 6 columns + release R23-11, written during the Step 3 full-class rewrite (stale 5-column stub wiped); marker deferred to 9b]
   - [x] Step 8 — Deviations  [none remaining — all five Step-1 findings FIXED this pass, per Rule 0014 no rows kept: (1) base → (Paginateable), (2) msrQueryResultChapter added with the stamped MsrQueryResultChapter type (stub NOTE removed), (3) docstrings wiped/rewritten verbatim, (4) checklist rewritten to 6-column format, (5) reader/writer wired for the mixin chain + result child; accepted handling notes: msrQueryProps pureMM minOccurs=1 vs XSD element minOccurs=0 → uniform-optional Optional modeling (family precedent msrQueryResultChapter/MsrQueryP2); no missing referenced classes (MsrQueryProps ✓, MsrQueryResultChapter ✓, Paginateable ✓)]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a GREEN: 9,111 tests + integration round-trips pass; flake8/ruff/black-check clean (black reflowed 1 file); checklist==methods (5 rows); docstrings byte-verbatim re-verified post-black; 9b: user-confirmed the 11-item pre-stamp checklist; marker `# Spec verified: R23-11` written]
-- [ ] `MsrQueryResultTopic1` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.88 · member type of `MsrQueryTopic1.msrQueryResultTopic1` · **NOT in src** — class must be created when this row is synced)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `MsrQueryResultTopic1` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.88 · member type of `MsrQueryTopic1.msrQueryResultTopic1` · **created** · one ordered `topic1` aggregation) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec  [Table 9.88, p.345 via pdf_page.py; Class MsrQueryResultTopic1; Package M2::MSR::Documentation::MsrQuery → MsrQuery.py; Note and Base ARObject confirmed; one ordered attr `topic1` — Topic1 * aggr, Tags xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false; XSD MSR-QUERY-RESULT-TOPIC-1 group lines 83509-83524 confirms TOPIC-1 unbounded and AR-OBJECT S/T attributes]
+  - [x] Step 2 — Write model class unit test (Red)  [TestMsrQueryResultTopic1 in test_MsrQuery.py: initialization, ordered addTopic1/getTopic1s, None no-op; ImportError = Red]
+  - [x] Step 3 — Implement model class (Green)  [MsrQueryResultTopic1(ARObject) added to MsrQuery.py; typed `topic1: List[Topic1]` + addTopic1/getTopic1s; exported through existing wildcard chain; 2 focused tests pass]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note and topic1 member/accessor docs copied from Table 9.88; PEP 526 annotation; __init__ has no docstring]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [new parser/writer tests: S/T + ordered TOPIC-1 values, empty wrapper, missing wrapper, None writer no-op, write→read roundtrip; 7 failed = helpers missing]
+  - [x] Step 6 — Update parser & writer (Green)  [parser readMsrQueryResultTopic1/getMsrQueryResultTopic1 reads ordered TOPIC-1 via readTopic1; writer setMsrQueryResultTopic1 writes ordered TOPIC-1 via writeTopic1; imports added; 7 focused tests pass]
+  - [x] Step 7 — Update checklist comment  [# Spec: FO_TPS Table 9.88, p.345; 3 method rows (init + add/get) with 6 columns + release R23-11; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none for this class: PDF attr and XSD group fully modeled with typed list and matched reader/writer helpers; accepted consumer deferral: MsrQueryTopic1 remains queued next and will own MSR-QUERY-RESULT-TOPIC-1 placement/coverage]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 9118 unit tests, lint, Black check, and diff check pass; 9b: user-confirmed 8-item pre-stamp checklist; marker `# Spec verified: R23-11` written]
 - [ ] `MsrQueryTopic1` (tracker input · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.83 · after `DocumentViewSelectable`+`Paginateable` (parents) · deps: `msrQueryProps` stamped ✓ / `msrQueryResultTopic1` NOT in src — pending 16.4 below)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

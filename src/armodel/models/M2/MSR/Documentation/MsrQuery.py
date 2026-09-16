@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
-from armodel.models.M2.MSR.Documentation.Chapters import Chapter
+from armodel.models.M2.MSR.Documentation.Chapters import Chapter, Topic1
 
 if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -389,3 +389,40 @@ class MsrQueryResultChapter(ARObject):
         This is one particular chapter in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
         """
         return self.chapters
+
+
+class MsrQueryResultTopic1(ARObject):
+    """
+    This metaclass represents the ability to express the result of a query which is a set of topics.
+    """
+
+    # MsrQueryResultTopic1 method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.88, p.345
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addTopic1      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTopic1s     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This represents one particular topic in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        self.topic1: List[Topic1] = []
+
+    def addTopic1(self, value: Optional[Topic1]) -> "MsrQueryResultTopic1":
+        """
+        This represents one particular topic in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and does not append to the existing topic1.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.topic1.append(value)
+        return self
+
+    def getTopic1s(self) -> List[Topic1]:
+        """
+        This represents one particular topic in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        """
+        return self.topic1

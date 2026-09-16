@@ -979,7 +979,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     TopicContentOrMsrQuery,
     TopicOrMsrQuery,
 )
-from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryTopic1
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryResultTopic1, MsrQueryTopic1
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note, NoteTypeEnum
@@ -6573,12 +6573,25 @@ class ARXMLParser(AbstractARXMLParser):
         for child_element in self.findall(element, "CHAPTER"):
             result.addChapter(self.readChapter(child_element, parent))
 
+    def readMsrQueryResultTopic1(self, element: ET.Element, parent: ARObject, result: MsrQueryResultTopic1):
+        self.readARObject(element, result)
+        for child_element in self.findall(element, "TOPIC-1"):
+            result.addTopic1(self.readTopic1(child_element, parent))
+
     def getMsrQueryResultChapter(self, element: ET.Element, key: str) -> MsrQueryResultChapter:
         result = None
         child_element = self.find(element, key)
         if child_element is not None:
             result = MsrQueryResultChapter()
             self.readMsrQueryResultChapter(child_element, result, result)
+        return result
+
+    def getMsrQueryResultTopic1(self, element: ET.Element, key: str) -> MsrQueryResultTopic1:
+        result = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            result = MsrQueryResultTopic1()
+            self.readMsrQueryResultTopic1(child_element, result, result)
         return result
 
     def readMsrQueryChapter(self, element: ET.Element, parent: Chapter) -> MsrQueryChapter:
