@@ -11,6 +11,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import
     OrientEnum,
     PgwideEnum,
     Row,
+    Table,
     TableSeparatorString,
     Tbody,
     Tgroup,
@@ -117,4 +118,4 @@ class Url(ARObject):
         return self.value
 
 
-__all__ = ["AlignEnum", "Colspec", "Entry", "FloatEnum", "FrameEnum", "OrientEnum", "PgwideEnum", "Row", "TableSeparatorString", "Tbody", "Tgroup", "ValignEnum", "Caption", "Url"]
+__all__ = ["AlignEnum", "Colspec", "Entry", "FloatEnum", "FrameEnum", "OrientEnum", "PgwideEnum", "Row", "Table", "TableSeparatorString", "Tbody", "Tgroup", "ValignEnum", "Caption", "Url"]

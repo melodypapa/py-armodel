@@ -964,10 +964,10 @@ from armodel.models.M2.MSR.DataDictionary.RecordLayout import SwRecordLayout, Sw
 from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
-from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Colspec, Entry, Row, Tbody, Tgroup, Url
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Colspec, Entry, Row, Table, Tbody, Tgroup, Url
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, GraphicFitEnum, GraphicNotationEnum, LGraphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
-from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, PgwideEnum, TableSeparatorString, ValignEnum
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, TableSeparatorString, ValignEnum
 from armodel.models.M2.MSR.Documentation.Chapters import (
     Chapter,
     ChapterContent,
@@ -987,6 +987,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import 
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     StructuredReq,
     Traceable,
+    TraceableTable,
     TraceableText,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.InlineAttributeEnums import (
@@ -5225,6 +5226,30 @@ class ARXMLParser(AbstractARXMLParser):
         if "ROWSEP" in element.attrib:
             tgroup.setRowsep(TableSeparatorString().setValue(element.attrib["ROWSEP"]))
 
+    def readTable(self, element: ET.Element, table: Table):
+        self.readPaginateable(element, table)
+        table.setTableCaption(self.getCaption(element, "TABLE-CAPTION"))
+        for child_element in self.findall(element, "TGROUP"):
+            tgroup = Tgroup()
+            self.readTgroup(child_element, tgroup)
+            table.addTgroup(tgroup)
+        if "COLSEP" in element.attrib:
+            table.setColsep(TableSeparatorString().setValue(element.attrib["COLSEP"]))
+        if "FLOAT" in element.attrib:
+            table.setFloat(FloatEnum().setValue(element.attrib["FLOAT"]))
+        if "FRAME" in element.attrib:
+            table.setFrame(FrameEnum().setValue(element.attrib["FRAME"]))
+        if "HELP-ENTRY" in element.attrib:
+            table.setHelpEntry(String().setValue(element.attrib["HELP-ENTRY"]))
+        if "ORIENT" in element.attrib:
+            table.setOrient(OrientEnum().setValue(element.attrib["ORIENT"]))
+        if "PGWIDE" in element.attrib:
+            table.setPgwide(NameToken().setValue(element.attrib["PGWIDE"]))
+        if "ROWSEP" in element.attrib:
+            table.setRowsep(TableSeparatorString().setValue(element.attrib["ROWSEP"]))
+        if "TABSTYLE" in element.attrib:
+            table.setTabstyle(NameToken().setValue(element.attrib["TABSTYLE"]))
+
     def readPaginateable(self, element: ET.Element, paginateable: Paginateable):
         self.readDocumentViewSelectable(element, paginateable)
         if "BREAK" in element.attrib:
@@ -5286,6 +5311,36 @@ class ARXMLParser(AbstractARXMLParser):
             traceable_text.setText(self.getDocumentationBlock(child_element, "TEXT"))
             self.readTraceable(child_element, traceable_text)
         return traceable_text
+
+    def readTraceableTable(self, element: ET.Element, traceable_table: TraceableTable):
+        self.readIdentifiable(element, traceable_table)
+        # SI/VIEW (DOCUMENT-VIEW-SELECTABLE) and BREAK/KEEP-WITH-PREVIOUS (PAGINATEABLE) are read
+        # as plain attributes: readDocumentViewSelectable/readPaginateable would re-invoke
+        # readARObject on top of readIdentifiable (duplicate UUIDMgr registration, Rule 0013.1).
+        if "SI" in element.attrib:
+            traceable_table.setSi(NameTokens().setValue(element.attrib["SI"]))
+        if "VIEW" in element.attrib:
+            traceable_table.setView(ViewTokens().setValue(element.attrib["VIEW"]))
+        self.readTraceable(element, traceable_table)
+        if "BREAK" in element.attrib:
+            traceable_table.setBreak(ChapterEnumBreak().setValue(element.attrib["BREAK"]))
+        if "KEEP-WITH-PREVIOUS" in element.attrib:
+            traceable_table.setKeepWithPrevious(KeepWithPreviousEnum().setValue(element.attrib["KEEP-WITH-PREVIOUS"]))
+        table_element = self.find(element, "TABLE")
+        if table_element is not None:
+            table = Table()
+            self.readTable(table_element, table)
+            traceable_table.setTable(table)
+
+    def getTraceableTable(self, element: ET.Element, key: str, parent: ARObject = None) -> TraceableTable:
+        traceable_table = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            short_name_element = self.find(child_element, "SHORT-NAME")
+            short_name = short_name_element.text if short_name_element is not None else key
+            traceable_table = TraceableTable(parent, short_name)
+            self.readTraceableTable(child_element, traceable_table)
+        return traceable_table
 
     def getStructuredReq(self, element: ET.Element, key: str, block: "DocumentationBlock" = None) -> StructuredReq:
         structured_req = None

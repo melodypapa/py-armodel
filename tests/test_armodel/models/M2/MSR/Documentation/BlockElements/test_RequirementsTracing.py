@@ -3,7 +3,9 @@
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import StandardNameEnum
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
-from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import StructuredReq, TraceableText
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import Table
+from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
+from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import StructuredReq, Traceable, TraceableTable, TraceableText
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
@@ -235,3 +237,51 @@ class TestStructuredReq:
 
         structured_req.setVariationPoint(None)
         assert structured_req.getVariationPoint() is variation_point
+
+
+class TestTraceableTable:
+    """Test class for TraceableTable class (XSD-only, AUTOSAR_00052.xsd line 125345)."""
+
+    def test_traceable_table_matches_xsd_note(self):
+        assert TraceableTable.__doc__.strip() == ("This meta-class represents the ability to denote a traceable table item such as requirements etc..")
+
+    def test_traceable_table_base_chain(self):
+        """TraceableTable derives from Traceable (Identifiable chain) and Paginateable (mixin)."""
+        assert issubclass(TraceableTable, Traceable)
+        assert issubclass(TraceableTable, Paginateable)
+
+    def test_traceable_table_initialization(self):
+        """Test that a TraceableTable object can be initialized with default values."""
+        traceable_table = TraceableTable(None, "TraceableTable")
+        assert traceable_table.parent is None
+        assert traceable_table.short_name == "TraceableTable"
+        assert traceable_table.table is None
+        assert traceable_table.traceRefs == []
+        assert traceable_table.si is None
+        assert traceable_table.view is None
+        assert traceable_table.chapterBreak is None
+        assert traceable_table.keepWithPrevious is None
+
+    def test_traceable_table_table_methods(self):
+        """Test the table getter and setter."""
+        traceable_table = TraceableTable(None, "TraceableTable")
+        table = Table()
+
+        result = traceable_table.setTable(table)
+        assert traceable_table.getTable() is table
+        assert result is traceable_table
+
+        traceable_table.setTable(None)
+        assert traceable_table.getTable() is table
+
+    def test_traceable_table_inherited_trace_refs_methods(self):
+        """Test the inherited traceRefs getter and addTraceRef from Traceable."""
+        traceable_table = TraceableTable(None, "TraceableTable")
+        trace_ref = RefType()
+
+        result = traceable_table.addTraceRef(trace_ref)
+        assert traceable_table.getTraceRefs() == [trace_ref]
+        assert result is traceable_table
+
+        traceable_table.addTraceRef(None)
+        assert traceable_table.getTraceRefs() == [trace_ref]

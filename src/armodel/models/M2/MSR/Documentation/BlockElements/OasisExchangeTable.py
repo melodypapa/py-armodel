@@ -3,10 +3,11 @@ from __future__ import annotations
 from typing import List, Optional, TYPE_CHECKING
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, AREnum, Integer, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, AREnum, Integer, NameToken, String
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
 
 if TYPE_CHECKING:
+    from armodel.models.M2.MSR.Documentation.BlockElements import Caption
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
@@ -876,4 +877,208 @@ class Tgroup(ARObject):
         """
         if value is not None:
             self.thead = value
+        return self
+
+
+class Table(Paginateable):
+    """
+    This class implements an exchange table according to OASIS Technical Resolution TR 9503:1995. http://www.oasis-open.org/specs/a503.htm
+    """
+
+    # Table method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.63, p.333
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__       [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getColsep      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setColsep      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFloat       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFloat       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFrame       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFrame       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHelpEntry   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHelpEntry   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOrient      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOrient      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPgwide      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPgwide      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRowsep      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRowsep      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTableCaption [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTableCaption [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTabstyle    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTabstyle    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addTgroup      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTgroups     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # Indicates if by default a line should be drawn between the columns of this table. Tags: xml.attribute=true
+        self.colsep: Optional[TableSeparatorString] = None
+
+        # Indicate whether it is allowed to break the element. Tags: xml.attribute=true
+        self.float: Optional[FloatEnum] = None
+
+        # Used to defined the frame line around a table. Tags: xml.attribute=true
+        self.frame: Optional[FrameEnum] = None
+
+        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
+        self.helpEntry: Optional[String] = None
+
+        # Indicate whether a table should be represented as landscape or portrait. • land : landscape • port : portrait Tags: xml.attribute=true
+        self.orient: Optional[OrientEnum] = None
+
+        # Used to indicate whether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). Tags: xml.attribute=true
+        self.pgwide: Optional[NameToken] = None
+
+        # Indicates if by default a line should be drawn at the bottom of table rows. Tags: xml.attribute=true
+        self.rowsep: Optional[TableSeparatorString] = None
+
+        # This element specifies the table heading. Tags: xml.sequenceOffset=20
+        self.tableCaption: Optional[Caption] = None
+
+        # Indicates an external table style. Tags: xml.attribute=true
+        self.tabstyle: Optional[NameToken] = None
+
+        # A table can be built of individual segments. Such a segment is called tgroup. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
+        self.tgroups: List[Tgroup] = []
+
+    def addTgroup(self, value: Tgroup) -> "Table":
+        """
+        A table can be built of individual segments. Such a segment is called tgroup. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
+        """
+        self.tgroups.append(value)
+        return self
+
+    def getTgroups(self) -> List[Tgroup]:
+        """
+        A table can be built of individual segments. Such a segment is called tgroup. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
+        """
+        return self.tgroups
+
+    def getColsep(self) -> Optional[TableSeparatorString]:
+        """
+        Indicates if by default a line should be drawn between the columns of this table. Tags: xml.attribute=true
+        """
+        return self.colsep
+
+    def setColsep(self, value: Optional[TableSeparatorString]) -> "Table":
+        """
+        Indicates if by default a line should be drawn between the columns of this table. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing colsep.
+        """
+        if value is not None:
+            self.colsep = value
+        return self
+
+    def getFloat(self) -> Optional[FloatEnum]:
+        """
+        Indicate whether it is allowed to break the element. Tags: xml.attribute=true
+        """
+        return self.float
+
+    def setFloat(self, value: Optional[FloatEnum]) -> "Table":
+        """
+        Indicate whether it is allowed to break the element. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing float.
+        """
+        if value is not None:
+            self.float = value
+        return self
+
+    def getFrame(self) -> Optional[FrameEnum]:
+        """
+        Used to defined the frame line around a table. Tags: xml.attribute=true
+        """
+        return self.frame
+
+    def setFrame(self, value: Optional[FrameEnum]) -> "Table":
+        """
+        Used to defined the frame line around a table. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing frame.
+        """
+        if value is not None:
+            self.frame = value
+        return self
+
+    def getHelpEntry(self) -> Optional[String]:
+        """
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
+        """
+        return self.helpEntry
+
+    def setHelpEntry(self, value: Optional[String]) -> "Table":
+        """
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing helpEntry.
+        """
+        if value is not None:
+            self.helpEntry = value
+        return self
+
+    def getOrient(self) -> Optional[OrientEnum]:
+        """
+        Indicate whether a table should be represented as landscape or portrait. • land : landscape • port : portrait Tags: xml.attribute=true
+        """
+        return self.orient
+
+    def setOrient(self, value: Optional[OrientEnum]) -> "Table":
+        """
+        Indicate whether a table should be represented as landscape or portrait. • land : landscape • port : portrait Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing orient.
+        """
+        if value is not None:
+            self.orient = value
+        return self
+
+    def getPgwide(self) -> Optional[NameToken]:
+        """
+        Used to indicate whether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). Tags: xml.attribute=true
+        """
+        return self.pgwide
+
+    def setPgwide(self, value: Optional[NameToken]) -> "Table":
+        """
+        Used to indicate whether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing pgwide.
+        """
+        if value is not None:
+            self.pgwide = value
+        return self
+
+    def getRowsep(self) -> Optional[TableSeparatorString]:
+        """
+        Indicates if by default a line should be drawn at the bottom of table rows. Tags: xml.attribute=true
+        """
+        return self.rowsep
+
+    def setRowsep(self, value: Optional[TableSeparatorString]) -> "Table":
+        """
+        Indicates if by default a line should be drawn at the bottom of table rows. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing rowsep.
+        """
+        if value is not None:
+            self.rowsep = value
+        return self
+
+    def getTableCaption(self) -> Optional[Caption]:
+        """
+        This element specifies the table heading. Tags: xml.sequenceOffset=20
+        """
+        return self.tableCaption
+
+    def setTableCaption(self, value: Optional[Caption]) -> "Table":
+        """
+        This element specifies the table heading. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing tableCaption.
+        """
+        if value is not None:
+            self.tableCaption = value
+        return self
+
+    def getTabstyle(self) -> Optional[NameToken]:
+        """
+        Indicates an external table style. Tags: xml.attribute=true
+        """
+        return self.tabstyle
+
+    def setTabstyle(self, value: Optional[NameToken]) -> "Table":
+        """
+        Indicates an external table style. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing tabstyle.
+        """
+        if value is not None:
+            self.tabstyle = value
         return self
