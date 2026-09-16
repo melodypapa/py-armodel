@@ -5041,7 +5041,10 @@ class ARXMLParser(AbstractARXMLParser):
         paragraphs = []
         for child_element in self.findall(element, key):
             paragraph = MultiLanguageParagraph()
-            self.readARObject(child_element, paragraph)
+            self.readPaginateable(child_element, paragraph)
+            help_entry = child_element.get("HELP-ENTRY")
+            if help_entry is not None:
+                paragraph.setHelpEntry(String().setValue(help_entry))
             for l1 in self.getLParagraphs(child_element, "L-1"):
                 paragraph.addL1(l1)
             paragraphs.append(paragraph)

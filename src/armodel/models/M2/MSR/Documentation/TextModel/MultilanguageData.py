@@ -4,34 +4,79 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph, LPlainText
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph, LParagraph, LPlainText
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LLongName
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LVerbatim
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FloatEnum, PgwideEnum
 
 
-class MultiLanguageParagraph(Paginateable, VariationPointCapable):
+class MultiLanguageParagraph(Paginateable):
     """
-    Multi-language paragraph containing language-specific long name
-    entries.
+    This is the content model of a multilingual paragraph in a documentation.
     """
 
     # MultiLanguageParagraph method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addL1                        [x] impl  [ ] docstring  [ ] test
-    # [ ] getL1s                       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.4, p.290
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setHelpEntry  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHelpEntry  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addL1         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getL1s        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.l1: List[LLongName] = []
+        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
+        self.helpEntry: Optional[String] = None
 
-    def addL1(self, l1: LLongName):
-        self.l1.append(l1)
+        # This is the paragraph content in one partiucular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        self.l1: List[LParagraph] = []
+
+    def setHelpEntry(self, value: Optional[String]) -> "MultiLanguageParagraph":
+        """
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
+
+        A None value is a no-op and does not overwrite an existing helpEntry.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.helpEntry = value
         return self
 
-    def getL1s(self) -> List[LLongName]:
+    def getHelpEntry(self) -> Optional[String]:
+        """
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
+
+        Returns:
+            The help entry linked with the parent paragraph
+        """
+        return self.helpEntry
+
+    def addL1(self, value: Optional[LParagraph]) -> "MultiLanguageParagraph":
+        """
+        This is the paragraph content in one partiucular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+
+        A None value is a no-op and is not appended.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.l1.append(value)
+        return self
+
+    def getL1s(self) -> List[LParagraph]:
+        """
+        This is the paragraph content in one partiucular language. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+
+        Returns:
+            List of the paragraph content entries
+        """
         return self.l1
 
 

@@ -14,7 +14,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import StructuredReq, TraceableText
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP2, MsrQueryProps
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
-from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph, LVerbatim
+from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LOverviewParagraph, LParagraph, LVerbatim
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph, MultiLanguageParagraph, MultiLanguageVerbatim
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
@@ -28,7 +28,7 @@ class TestDocumentationBlockRoundTrip:
         intro = DocumentationBlock()
 
         paragraph = MultiLanguageParagraph()
-        l1 = LOverviewParagraph()
+        l1 = LParagraph()
         l1.setL("EN")
         l1.setValue("paragraph text")
         paragraph.addL1(l1)
@@ -36,7 +36,7 @@ class TestDocumentationBlockRoundTrip:
 
         note_text = DocumentationBlock()
         note_paragraph = MultiLanguageParagraph()
-        l1_note = LOverviewParagraph()
+        l1_note = LParagraph()
         l1_note.setL("EN")
         l1_note.setValue("note paragraph")
         note_paragraph.addL1(l1_note)
