@@ -28,6 +28,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     IntervalTypeEnum,
     Limit,
     MonotonyEnum,
+    Numerical,
     RefType,
     VerbatimString,
 )
@@ -649,8 +650,8 @@ class TestSwBaseTypeWriter:
 class TestCompuNominatorDenominatorWriter:
     def test_write_compu_nominator_denominator(self, writer):
         nd = CompuNominatorDenominator()
-        nd.add_v("1.0")
-        nd.add_v("2.0")
+        nd.addV(Numerical().setValue("1.0"))
+        nd.addV(Numerical().setValue("2.0"))
 
         parent = _parent()
         writer.writeCompuNominatorDenominator(parent, "COMPU-NUMERATOR", nd)
@@ -684,10 +685,10 @@ class TestCompuScaleRationalFormulaWriter:
         contents = CompuScaleRationalFormula()
         coeffs = CompuRationalCoeffs()
         num = CompuNominatorDenominator()
-        num.add_v("1.0")
-        num.add_v("2.0")
+        num.addV(Numerical().setValue("1.0"))
+        num.addV(Numerical().setValue("2.0"))
         den = CompuNominatorDenominator()
-        den.add_v("3.0")
+        den.addV(Numerical().setValue("3.0"))
         coeffs.setCompuNumerator(num)
         coeffs.setCompuDenominator(den)
         contents.setCompuRationalCoeffs(coeffs)
@@ -758,7 +759,7 @@ class TestCompuScaleContentsWriter:
         contents = CompuScaleRationalFormula()
         coeffs = CompuRationalCoeffs()
         num = CompuNominatorDenominator()
-        num.add_v("1.0")
+        num.addV(Numerical().setValue("1.0"))
         coeffs.setCompuNumerator(num)
         contents.setCompuRationalCoeffs(coeffs)
         scale.compuScaleContents = contents

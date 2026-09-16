@@ -3047,9 +3047,9 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeCompuNominatorDenominator(self, element: ET.Element, key: str, parent: CompuNominatorDenominator):
         child_element = ET.SubElement(element, key)
-        for v in parent.get_vs():
+        for v in parent.getVs():
             v_tag = ET.SubElement(child_element, "V")
-            v_tag.text = v
+            v_tag.text = str(v)
 
     def writeCompuScaleRationalFormula(self, element: ET.Element, contents: CompuScaleRationalFormula):
         if contents.compuRationalCoeffs is not None:

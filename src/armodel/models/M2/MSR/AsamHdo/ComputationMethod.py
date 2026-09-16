@@ -4,7 +4,7 @@ from abc import ABC
 
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, CIdentifier, Identifier, PositiveUnlimitedInteger, String, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, CIdentifier, Identifier, Numerical, PositiveUnlimitedInteger, String, VerbatimString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
@@ -288,26 +288,30 @@ class CompuScaleRationalFormula(CompuScaleContents):
 
 
 class CompuNominatorDenominator(ARObject):
-    """
-    This class represents the ability to express a polynomial either as Nominator or as Denominator.
-    Base          : ARObject
-    Aggregated by : CompuRationalCoeffs.compuDenominator, CompuRationalCoeffs.compuNumerator
-    """
+    """This class represents the ability to express a polynomial either as Nominator or as Denominator."""
 
     # CompuNominatorDenominator method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] add_v                        [x] impl  [ ] docstring  [ ] test
-    # [ ] get_vs                       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.75, p.391
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__ [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addV [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.v: List[float] = []
+        # this is the list of polynomial factors. Note that the first vf represents the power=0. The polynomial is v[0] * xˆ0 + v[1] * xˆ1 ... Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        self.v: List[Numerical] = []
 
-    def add_v(self, v: float):
-        self.v.append(v)
+    def addV(self, value: Numerical):
+        """this is the list of polynomial factors. Note that the first vf represents the power=0. The polynomial is v[0] * xˆ0 + v[1] * xˆ1 ... Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. Does nothing if value is None."""
+        if value is not None:
+            self.v.append(value)
+        return self
 
-    def get_vs(self) -> List[float]:
+    def getVs(self) -> List[Numerical]:
+        """this is the list of polynomial factors. Note that the first vf represents the power=0. The polynomial is v[0] * xˆ0 + v[1] * xˆ1 ... Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false."""
         return self.v
 
 

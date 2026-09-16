@@ -753,16 +753,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [Table 5.66, p.388; one __init__ row with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none: abstract ARObject base, no own attributes, exact Note, and consumer coverage match the spec]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 300 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed abstract base, no own attributes, verbatim Note, consumer reader/writer coverage, package location, and no deviations; marker `# Spec verified: R23-11` written]
-- [ ] `CompuNominatorDenominator` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.75)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `CompuNominatorDenominator` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.75) — verified R23-11 (commit pending)
+   - [x] Step 1 — Sync members & description from spec  [Table 5.75, p.391; Base ARObject; one ordered `v` attribute of type Numerical with multiplicity `*`, kind attr; Note copied verbatim; aggregated by CompuRationalCoeffs.compuDenominator and compuNumerator]
+   - [x] Step 2 — Write model class unit test (Red)  [updated TestCompuNominatorDenominator for abstract-free initialization, typed Numerical values, addV/getVs naming, chaining, and None no-op; failed before implementation]
+   - [x] Step 3 — Implement model class (Green)  [v retyped from float to List[Numerical]; addV/getVs project accessors added with None no-op and chaining]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note and v attribute Note copied verbatim from Table 5.75; PEP 526 typed list declaration]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [updated existing parser/writer tests to assert typed Numerical values and XML value order; old API failed before implementation]
+   - [x] Step 6 — Update parser & writer (Green)  [readCompuNominatorDenominator creates Numerical values through addV; writer uses getVs and serializes each value]
+   - [x] Step 7 — Update checklist comment  [Table 5.75, p.391; init/addV/getVs rows with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: ARObject base, one ordered Numerical list, spec naming, typed parser/writer coverage, and XML order match]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 300 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed ARObject base, ordered Numerical list, API naming, verbatim docs, typed reader/writer coverage, XML order, package location, and no deviations; marker `# Spec verified: R23-11` written]
 - [ ] `CompuRationalCoeffs` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.69 · member type of `CompuScaleRationalFormula.compuRationalCoeffs`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

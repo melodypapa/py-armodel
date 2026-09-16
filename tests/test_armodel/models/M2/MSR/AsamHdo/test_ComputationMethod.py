@@ -9,7 +9,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier, Identifier, Limit, PositiveUnlimitedInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier, Identifier, Limit, Numerical, PositiveUnlimitedInteger, RefType, String
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
     Compu,
     CompuConst,
@@ -308,16 +308,18 @@ class TestCompuNominatorDenominator:
         """Test that a CompuNominatorDenominator object can be initialized with default values."""
         compu_nominator_denominator = CompuNominatorDenominator()
         assert compu_nominator_denominator.v == []
+        assert "This class represents the ability to express a polynomial either as Nominator or as Denominator." in CompuNominatorDenominator.__doc__
 
     def test_compu_nominator_denominator_v_methods(self):
-        """Test the add_v and get_vs methods."""
+        """Test the v aggregation mutators and accessor."""
         compu_nominator_denominator = CompuNominatorDenominator()
-        value = 1.5
+        value = Numerical().setValue("1.5")
 
-        compu_nominator_denominator.add_v(value)
-        vs = compu_nominator_denominator.get_vs()
-        assert value in vs
-        assert len(vs) == 1
+        result = compu_nominator_denominator.addV(value)
+        assert compu_nominator_denominator.getVs() == [value]
+        assert result == compu_nominator_denominator
+        assert compu_nominator_denominator.addV(None) == compu_nominator_denominator
+        assert compu_nominator_denominator.getVs() == [value]
 
 
 class TestCompuScale:

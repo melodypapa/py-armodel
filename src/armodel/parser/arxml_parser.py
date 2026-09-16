@@ -7062,7 +7062,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readCompuNominatorDenominator(self, element: ET.Element, key: str, parent: CompuNominatorDenominator):
         for child_element in self.findall(element, "%s/V" % key):
             # self.logger.debug("Read CompuNominatorDenominator - %s: %s" % (key, child_element.text))
-            parent.add_v(child_element.text)
+            parent.addV(Numerical().setValue(child_element.text))
 
     def readCompuRationCoeffs(self, element: ET.Element, parent: CompuScale):
         child_element = self.find(element, "COMPU-RATIONAL-COEFFS")

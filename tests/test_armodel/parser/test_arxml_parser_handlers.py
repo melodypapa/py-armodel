@@ -162,7 +162,7 @@ class TestPortInterfaceAndCompuHandlers:
             root_tag="PARENT",
         )
         parser.readCompuNominatorDenominator(element, "COMPU-NUMERATOR", cnd)
-        assert len(cnd.get_vs()) == 3
+        assert [str(v) for v in cnd.getVs()] == ["1", "2", "3"]
 
     def test_readCompuNominatorDenominator_empty(self, parser):
         from armodel.models import CompuNominatorDenominator
@@ -170,7 +170,7 @@ class TestPortInterfaceAndCompuHandlers:
         cnd = CompuNominatorDenominator()
         element = _snip("<COMPU-NUMERATOR/>", root_tag="PARENT")
         parser.readCompuNominatorDenominator(element, "COMPU-NUMERATOR", cnd)
-        assert len(cnd.get_vs()) == 0
+        assert cnd.getVs() == []
 
     def test_readCompuRationCoeffs_populates_contents(self, parser):
         from armodel.models import CompuScale, CompuScaleRationalFormula
@@ -184,8 +184,8 @@ class TestPortInterfaceAndCompuHandlers:
         assert isinstance(scale.compuScaleContents, CompuScaleRationalFormula)
         coeffs = scale.compuScaleContents.compuRationalCoeffs
         assert coeffs is not None
-        assert len(coeffs.compuDenominator.get_vs()) == 1
-        assert len(coeffs.compuNumerator.get_vs()) == 2
+        assert [str(v) for v in coeffs.compuDenominator.getVs()] == ["1"]
+        assert [str(v) for v in coeffs.compuNumerator.getVs()] == ["2", "3"]
 
     def test_readCompuRationCoeffs_missing_no_op(self, parser):
         from armodel.models import CompuScale
