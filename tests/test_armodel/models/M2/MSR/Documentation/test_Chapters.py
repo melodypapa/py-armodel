@@ -6,6 +6,8 @@ ChapterOrMsrQuery, TopicOrMsrQuery and the MSR query stub types).
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import Table
+from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import TraceableTable
 from armodel.models.M2.MSR.Documentation.Chapters import (
     Chapter,
     ChapterContent,
@@ -18,6 +20,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     TopicOrMsrQuery,
 )
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryP1, MsrQueryTopic1
+from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
 class TestChapter:
@@ -146,3 +149,53 @@ class TestTopicContentOrMsrQuery:
         assert content.getTopicContent() is topic_content
         content.setTopicContent(None)
         assert content.getTopicContent() is topic_content
+
+
+class TestTopicContent:
+    """Test class for TopicContent class."""
+
+    def test_initialization(self):
+        topic_content = TopicContent()
+        assert isinstance(topic_content, object)
+        assert topic_content.getBlockLevelContent() is None
+        assert topic_content.getTable() is None
+        assert topic_content.getTraceableTable() is None
+
+    def test_set_get_block_level_content(self):
+        topic_content = TopicContent()
+        block = DocumentationBlock()
+        assert topic_content.setBlockLevelContent(block) is topic_content
+        assert topic_content.getBlockLevelContent() is block
+        topic_content.setBlockLevelContent(None)
+        assert topic_content.getBlockLevelContent() is block
+
+    def test_set_get_table(self):
+        topic_content = TopicContent()
+        table = Table()
+        assert topic_content.setTable(table) is topic_content
+        assert topic_content.getTable() is table
+        topic_content.setTable(None)
+        assert topic_content.getTable() is table
+
+    def test_create_traceable_table(self):
+        topic_content = TopicContent()
+        traceable_table = topic_content.createTraceableTable("TRACEABLE_TABLE")
+        assert isinstance(traceable_table, TraceableTable)
+        assert traceable_table.getShortName() == "TRACEABLE_TABLE"
+        assert traceable_table.getParent() is topic_content
+        assert topic_content.getTraceableTable() is traceable_table
+
+    def test_create_traceable_table_returns_existing(self):
+        topic_content = TopicContent()
+        first = topic_content.createTraceableTable("TRACEABLE_TABLE")
+        second = topic_content.createTraceableTable("TRACEABLE_TABLE")
+        assert second is first
+        assert topic_content.getTraceableTable() is first
+
+    def test_create_traceable_table_replaces_different_short_name(self):
+        topic_content = TopicContent()
+        first = topic_content.createTraceableTable("FIRST")
+        second = topic_content.createTraceableTable("SECOND")
+        assert second is not first
+        assert second.getShortName() == "SECOND"
+        assert topic_content.getTraceableTable() is second

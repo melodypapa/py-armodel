@@ -15,6 +15,8 @@ from typing import TYPE_CHECKING, List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import Table
+from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import TraceableTable
 from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryP1
 
 if TYPE_CHECKING:
@@ -499,28 +501,31 @@ class TopicContent(ARObject):
 
     # TopicContent method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table E.81, p.478
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setBlockLevelContent        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getBlockLevelContent        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [ ] setTable                    [ ] impl  [ ] docstring  [ ] test  [ ] reader  [ ] writer
-    # [ ] getTable                    [ ] impl  [ ] docstring  [ ] test  [ ] reader  [ ] writer
-    # [ ] setTraceableTable           [ ] impl  [ ] docstring  [ ] test  [ ] reader  [ ] writer
-    # [ ] getTraceableTable           [ ] impl  [ ] docstring  [ ] test  [ ] reader  [ ] writer
-    #
-    # NOTE: table (Table, 0..1, aggr) and traceableTable (TraceableTable, 1, aggr) are
-    # not modeled yet — the Table and TraceableTable classes are deferred placeholders
-    # (Rule 0001.10); the stamp is omitted until the real types land.
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setBlockLevelContent        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBlockLevelContent        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTable                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTable                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createTraceableTable        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTraceableTable           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This is that part of the content which may also occur in a table cell.
-        self.blockLevelContent: Optional["DocumentationBlock"] = None
+        # This is that part of the content which may also occur in a table cell. Tags: xml.roleElement=false
+        self.blockLevelContent: Optional[DocumentationBlock] = None
 
-    def setBlockLevelContent(self, value: Optional["DocumentationBlock"]) -> "TopicContent":
+        # This represents a table within a topic. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=table, table.variationPoint.shortLabel vh.latestBindingTime=postBuild
+        self.table: Optional[Table] = None
+
+        # This represents a traceable table within a topic.
+        self.traceableTable: Optional[TraceableTable] = None
+
+    def setBlockLevelContent(self, value: Optional[DocumentationBlock]) -> "TopicContent":
         """
-        This is that part of the content which may also occur in a table cell.
+        This is that part of the content which may also occur in a table cell. Tags: xml.roleElement=false
 
         A None value is a no-op and does not overwrite an existing blockLevelContent.
 
@@ -531,14 +536,61 @@ class TopicContent(ARObject):
             self.blockLevelContent = value
         return self
 
-    def getBlockLevelContent(self) -> Optional["DocumentationBlock"]:
+    def getBlockLevelContent(self) -> Optional[DocumentationBlock]:
         """
-        This is that part of the content which may also occur in a table cell.
+        This is that part of the content which may also occur in a table cell. Tags: xml.roleElement=false
 
         Returns:
             The part of the content which may also occur in a table cell
         """
         return self.blockLevelContent
+
+    def setTable(self, value: Optional[Table]) -> "TopicContent":
+        """
+        This represents a table within a topic. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=table, table.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        A None value is a no-op and does not overwrite an existing table.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.table = value
+        return self
+
+    def getTable(self) -> Optional[Table]:
+        """
+        This represents a table within a topic. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=table, table.variationPoint.shortLabel vh.latestBindingTime=postBuild
+
+        Returns:
+            The table within a topic
+        """
+        return self.table
+
+    def createTraceableTable(self, short_name: str) -> TraceableTable:
+        """
+        This represents a traceable table within a topic.
+
+        Args:
+            short_name: The short name of the traceable table
+
+        Returns:
+            The created (or existing) TraceableTable
+        """
+        if self.traceableTable is not None and self.traceableTable.getShortName() == short_name:
+            return self.traceableTable
+        traceable_table = TraceableTable(self, short_name)
+        self.traceableTable = traceable_table
+        return traceable_table
+
+    def getTraceableTable(self) -> Optional[TraceableTable]:
+        """
+        This represents a traceable table within a topic.
+
+        Returns:
+            The traceable table within a topic
+        """
+        return self.traceableTable
 
 
 class TopicContentOrMsrQuery(ARObject):
