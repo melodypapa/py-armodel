@@ -307,35 +307,33 @@ class MsrQueryChapter(Paginateable):
         return self.msrQueryResultChapter
 
 
-class MsrQueryTopic1(ARObject):
+class MsrQueryTopic1(Paginateable):
     """
     This meta-class represents the ability to specify a query which yields a set of topics as a result.
     """
 
     # MsrQueryTopic1 method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.83, p.343
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setMsrQueryProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMsrQueryProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [ ] setMsrQueryResultTopic1  [x] impl  [ ] docstring  [ ] test  [ ] reader  [ ] writer
-    # [ ] getMsrQueryResultTopic1  [x] impl  [ ] docstring  [ ] test  [ ] reader  [ ] writer
-    #
-    # NOTE: msrQueryResultTopic1 (MsrQueryResultTopic1, 0..1, aggr) is not modeled
-    # yet — the MsrQueryResultTopic1 class is a deferred placeholder (Rule 0001.10);
-    # the stamp is omitted until the real type lands.
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setMsrQueryProps         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMsrQueryProps         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMsrQueryResultTopic1  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMsrQueryResultTopic1  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This is argument and properties of the topic query.
+        # This is argument and properties of the topic query. Tags: xml.sequenceOffset=20
         self.msrQueryProps: Optional[MsrQueryProps] = None
+
+        # This represents the result of the query. Tags: xml.sequenceOffset=30
+        self.msrQueryResultTopic1: Optional[MsrQueryResultTopic1] = None
 
     def setMsrQueryProps(self, value: Optional[MsrQueryProps]) -> "MsrQueryTopic1":
         """
-        This is argument and properties of the topic query.
-
-        A None value is a no-op and does not overwrite an existing msrQueryProps.
+        This is argument and properties of the topic query. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing msrQueryProps.
 
         Returns:
             self for method chaining
@@ -346,12 +344,26 @@ class MsrQueryTopic1(ARObject):
 
     def getMsrQueryProps(self) -> Optional[MsrQueryProps]:
         """
-        This is argument and properties of the topic query.
-
-        Returns:
-            The argument and properties of the topic query
+        This is argument and properties of the topic query. Tags: xml.sequenceOffset=20
         """
         return self.msrQueryProps
+
+    def setMsrQueryResultTopic1(self, value: Optional[MsrQueryResultTopic1]) -> "MsrQueryTopic1":
+        """
+        This represents the result of the query. Tags: xml.sequenceOffset=30. A None value is a no-op and does not overwrite an existing msrQueryResultTopic1.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.msrQueryResultTopic1 = value
+        return self
+
+    def getMsrQueryResultTopic1(self) -> Optional[MsrQueryResultTopic1]:
+        """
+        This represents the result of the query. Tags: xml.sequenceOffset=30
+        """
+        return self.msrQueryResultTopic1
 
 
 class MsrQueryResultChapter(ARObject):

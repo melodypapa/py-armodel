@@ -2104,9 +2104,11 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMsrQueryTopic1(self, element: ET.Element, msr_query_topic1: MsrQueryTopic1):
         child_element = ET.SubElement(element, "MSR-QUERY-TOPIC-1")
-        self.writeARObject(child_element, msr_query_topic1)
+        self.writePaginateable(child_element, msr_query_topic1)
         if msr_query_topic1.getMsrQueryProps() is not None:
             self.setMsrQueryProps(child_element, msr_query_topic1.getMsrQueryProps())
+        if msr_query_topic1.getMsrQueryResultTopic1() is not None:
+            self.setMsrQueryResultTopic1(child_element, "MSR-QUERY-RESULT-TOPIC-1", msr_query_topic1.getMsrQueryResultTopic1())
 
     def setMsrQueryResultChapter(self, element: ET.Element, key: str, result: MsrQueryResultChapter):
         if result is not None:

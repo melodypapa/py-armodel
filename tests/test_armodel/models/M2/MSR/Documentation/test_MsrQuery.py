@@ -9,6 +9,7 @@ from armodel.models.M2.MSR.Documentation.MsrQuery import (
     MsrQueryProps,
     MsrQueryResultChapter,
     MsrQueryResultTopic1,
+    MsrQueryTopic1,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
@@ -173,6 +174,49 @@ class TestMsrQueryResultTopic1:
         result.addTopic1(None)
         assert result.getTopic1s() == [topic1, topic2]
         assert ret == result
+
+
+class TestMsrQueryTopic1:
+    """Test class for MsrQueryTopic1 class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.83)."""
+
+    def test_msr_query_topic1_base_chain(self):
+        """MsrQueryTopic1 derives from Paginateable only (spec Base: ARObject, DocumentViewSelectable, Paginateable)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+
+        assert issubclass(MsrQueryTopic1, Paginateable)
+        assert issubclass(MsrQueryTopic1, DocumentViewSelectable)
+        assert not issubclass(MsrQueryTopic1, VariationPointCapable)
+
+    def test_msr_query_topic1_initialization(self):
+        """Test that an MsrQueryTopic1 object can be initialized with default values."""
+        result = MsrQueryTopic1()
+        assert result.msrQueryProps is None
+        assert result.msrQueryResultTopic1 is None
+
+    def test_msr_query_topic1_props_methods(self):
+        """Test the msrQueryProps getter and setter with chaining and None no-op."""
+        result = MsrQueryTopic1()
+        props = MsrQueryProps()
+
+        ret = result.setMsrQueryProps(props)
+        assert result.getMsrQueryProps() == props
+        assert ret == result
+
+        result.setMsrQueryProps(None)
+        assert result.getMsrQueryProps() == props
+
+    def test_msr_query_topic1_result_methods(self):
+        """Test the msrQueryResultTopic1 getter and setter with chaining and None no-op."""
+        result = MsrQueryTopic1()
+        query_result = MsrQueryResultTopic1()
+
+        ret = result.setMsrQueryResultTopic1(query_result)
+        assert result.getMsrQueryResultTopic1() == query_result
+        assert ret == result
+
+        result.setMsrQueryResultTopic1(None)
+        assert result.getMsrQueryResultTopic1() == query_result
 
 
 class TestMsrQueryChapter:
