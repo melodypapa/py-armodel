@@ -879,6 +879,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import 
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     StructuredReq,
     Traceable,
+    TraceableTable,
     TraceableText,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.InlineTextElements import Br, EmphasisText, IndexEntry, Std, Tt, Xdoc, Xfile, Xref, XrefTarget
@@ -2560,6 +2561,27 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeARObject(child_element, traceable_text)
             self.writeDocumentationBlock(child_element, "TEXT", traceable_text.getText())
             self.writeTraceable(child_element, traceable_text)
+
+    def setTraceableTable(self, element: ET.Element, key: str, traceable_table: TraceableTable):
+        if traceable_table is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeIdentifiable(child_element, traceable_table)
+            # SI/VIEW (DOCUMENT-VIEW-SELECTABLE) and BREAK/KEEP-WITH-PREVIOUS (PAGINATEABLE) are
+            # written as plain attributes: writeDocumentViewSelectable/writePaginateable would
+            # re-invoke writeARObject on top of writeIdentifiable (Rule 0013.1).
+            if traceable_table.getSi() is not None:
+                child_element.attrib["SI"] = traceable_table.getSi().getValue()
+            if traceable_table.getView() is not None:
+                child_element.attrib["VIEW"] = traceable_table.getView().getValue()
+            self.writeTraceable(child_element, traceable_table)
+            if traceable_table.getBreak() is not None:
+                child_element.attrib["BREAK"] = traceable_table.getBreak().getValue()
+            if traceable_table.getKeepWithPrevious() is not None:
+                child_element.attrib["KEEP-WITH-PREVIOUS"] = traceable_table.getKeepWithPrevious().getValue()
+            table = traceable_table.getTable()
+            if table is not None:
+                table_element = ET.SubElement(child_element, "TABLE")
+                self.writeTable(table_element, table)
 
     def setStructuredReq(self, element: ET.Element, structured_req: StructuredReq):
         if structured_req is not None:

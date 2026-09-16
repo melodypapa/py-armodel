@@ -987,6 +987,7 @@ from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import 
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import (
     StructuredReq,
     Traceable,
+    TraceableTable,
     TraceableText,
 )
 from armodel.models.M2.MSR.Documentation.TextModel.InlineAttributeEnums import (
@@ -5310,6 +5311,36 @@ class ARXMLParser(AbstractARXMLParser):
             traceable_text.setText(self.getDocumentationBlock(child_element, "TEXT"))
             self.readTraceable(child_element, traceable_text)
         return traceable_text
+
+    def readTraceableTable(self, element: ET.Element, traceable_table: TraceableTable):
+        self.readIdentifiable(element, traceable_table)
+        # SI/VIEW (DOCUMENT-VIEW-SELECTABLE) and BREAK/KEEP-WITH-PREVIOUS (PAGINATEABLE) are read
+        # as plain attributes: readDocumentViewSelectable/readPaginateable would re-invoke
+        # readARObject on top of readIdentifiable (duplicate UUIDMgr registration, Rule 0013.1).
+        if "SI" in element.attrib:
+            traceable_table.setSi(NameTokens().setValue(element.attrib["SI"]))
+        if "VIEW" in element.attrib:
+            traceable_table.setView(ViewTokens().setValue(element.attrib["VIEW"]))
+        self.readTraceable(element, traceable_table)
+        if "BREAK" in element.attrib:
+            traceable_table.setBreak(ChapterEnumBreak().setValue(element.attrib["BREAK"]))
+        if "KEEP-WITH-PREVIOUS" in element.attrib:
+            traceable_table.setKeepWithPrevious(KeepWithPreviousEnum().setValue(element.attrib["KEEP-WITH-PREVIOUS"]))
+        table_element = self.find(element, "TABLE")
+        if table_element is not None:
+            table = Table()
+            self.readTable(table_element, table)
+            traceable_table.setTable(table)
+
+    def getTraceableTable(self, element: ET.Element, key: str, parent: ARObject = None) -> TraceableTable:
+        traceable_table = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            short_name_element = self.find(child_element, "SHORT-NAME")
+            short_name = short_name_element.text if short_name_element is not None else key
+            traceable_table = TraceableTable(parent, short_name)
+            self.readTraceableTable(child_element, traceable_table)
+        return traceable_table
 
     def getStructuredReq(self, element: ET.Element, key: str, block: "DocumentationBlock" = None) -> StructuredReq:
         structured_req = None

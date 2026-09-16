@@ -8,6 +8,8 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import DateTime, RefType, String
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import Table
+from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
 
 if TYPE_CHECKING:
     from armodel.models.M2.AUTOSARTemplates.GenericStructure.DocumentationOnM1 import StandardNameEnum
@@ -437,4 +439,50 @@ class StructuredReq(Traceable, VariationPointCapable):
         """
         if value is not None:
             self.useCase = value
+        return self
+
+
+class TraceableTable(Traceable, Paginateable):
+    """
+    This meta-class represents the ability to denote a traceable table item such as requirements etc..
+    """
+
+    # TraceableTable method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate (GST), class TraceableTable, AUTOSAR_00052.xsd line 125345 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getTable     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTable     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTraceRefs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (inherited from Traceable, XSD TRACEABLE group)
+    # [x] addTraceRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  (inherited from Traceable, XSD TRACEABLE group)
+
+    def __init__(self, parent, short_name: str):
+        # Referrable.__init__ invokes ARObject.__init__ directly, bypassing the Paginateable branch
+        # of the MRO; the Paginateable/DocumentViewSelectable members must therefore be initialized
+        # first, so that the following super() chain ends with parent/short_name set.
+        Paginateable.__init__(self)
+        super().__init__(parent, short_name)
+
+        # This represents a table with a traceable table. This aggregation contains a variation point although it is not variant. Therefore, this variation point shall not exist in models. See constr_2638.
+        self.table: Optional[Table] = None
+
+    def getTable(self) -> Optional[Table]:
+        """
+        This represents a table with a traceable table. This aggregation contains a variation point although it is not variant. Therefore, this variation point shall not exist in models. See constr_2638.
+
+        Returns:
+            The table with a traceable table
+        """
+        return self.table
+
+    def setTable(self, value: Optional[Table]) -> "TraceableTable":
+        """
+        This represents a table with a traceable table. This aggregation contains a variation point although it is not variant. Therefore, this variation point shall not exist in models. See constr_2638. A None value is a no-op and does not overwrite an existing table.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.table = value
         return self
