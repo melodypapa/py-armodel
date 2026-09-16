@@ -5041,7 +5041,10 @@ class ARXMLParser(AbstractARXMLParser):
         paragraphs = []
         for child_element in self.findall(element, key):
             paragraph = MultiLanguageParagraph()
-            self.readARObject(child_element, paragraph)
+            self.readPaginateable(child_element, paragraph)
+            help_entry = child_element.get("HELP-ENTRY")
+            if help_entry is not None:
+                paragraph.setHelpEntry(String().setValue(help_entry))
             for l1 in self.getLParagraphs(child_element, "L-1"):
                 paragraph.addL1(l1)
             paragraphs.append(paragraph)
@@ -6416,6 +6419,17 @@ class ARXMLParser(AbstractARXMLParser):
         block_level_content = self.getDocumentationBlock(element, "DOCUMENTATION-BLOCK")
         if block_level_content is not None:
             topic_content.setBlockLevelContent(block_level_content)
+        table_element = self.find(element, "TABLE")
+        if table_element is not None:
+            table = Table()
+            self.readTable(table_element, table)
+            topic_content.setTable(table)
+        traceable_table_element = self.find(element, "TRACEABLE-TABLE")
+        if traceable_table_element is not None:
+            short_name_element = self.find(traceable_table_element, "SHORT-NAME")
+            short_name = short_name_element.text if short_name_element is not None else "TRACEABLE-TABLE"
+            traceable_table = topic_content.createTraceableTable(short_name)
+            self.readTraceableTable(traceable_table_element, traceable_table)
         return topic_content
 
     def readTopic1(self, element: ET.Element, parent: Chapter) -> Topic1:

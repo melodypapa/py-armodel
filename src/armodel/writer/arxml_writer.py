@@ -2089,6 +2089,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "TOPIC-CONTENT")
         self.writeARObject(child_element, topic_content)
         self.writeDocumentationBlock(child_element, "DOCUMENTATION-BLOCK", topic_content.getBlockLevelContent())
+        if topic_content.getTable() is not None:
+            table_element = ET.SubElement(child_element, "TABLE")
+            self.writeTable(table_element, topic_content.getTable())
+        if topic_content.getTraceableTable() is not None:
+            self.setTraceableTable(child_element, "TRACEABLE-TABLE", topic_content.getTraceableTable())
 
     def writeTopic1(self, element: ET.Element, topic1: Topic1):
         child_element = ET.SubElement(element, "TOPIC-1")
@@ -2283,7 +2288,9 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setMultiLanguageParagraphs(self, element: ET.Element, key: str, paragraphs: List[MultiLanguageParagraph]):
         for paragraph in paragraphs:
             child_element = ET.SubElement(element, key)
-            self.writeARObject(child_element, paragraph)
+            self.writePaginateable(child_element, paragraph)
+            if paragraph.getHelpEntry() is not None:
+                child_element.attrib["HELP-ENTRY"] = paragraph.getHelpEntry().getValue()
             self.writeLParagraphs(child_element, paragraph)
         return paragraphs
 

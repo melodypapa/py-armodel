@@ -4,6 +4,7 @@ This module contains tests for the Figure module in MSR.Documentation.BlockEleme
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
+    AreaEnumNohref,
     Graphic,
     GraphicFitEnum,
     GraphicNotationEnum,
@@ -390,3 +391,34 @@ class TestMlFigure:
         result = ml_figure.setVerbatim(verbatim)
         assert ml_figure.getVerbatim() == verbatim
         assert result == ml_figure
+
+
+class TestAreaEnumNohref:
+    """Test class for AreaEnumNohref (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.18)."""
+
+    def test_area_enum_nohref_initialization(self):
+        """Test that an AreaEnumNohref object can be initialized."""
+        area_enum_nohref = AreaEnumNohref()
+        assert area_enum_nohref is not None
+        assert isinstance(area_enum_nohref, AreaEnumNohref)
+
+    def test_area_enum_nohref_spec_literals(self):
+        """AreaEnumNohref shall expose the 1 spec literal with its XSD string value."""
+        enum = AreaEnumNohref()
+        expected = {
+            AreaEnumNohref.NOHREF: "NOHREF",
+        }
+        for const, value in expected.items():
+            assert const == value
+        assert set(enum.getEnumValues()) == set(expected.values())
+
+    def test_area_enum_nohref_set_get_value(self):
+        """setValue/getValue shall round-trip a spec literal."""
+        enum = AreaEnumNohref().setValue(AreaEnumNohref.NOHREF)
+        assert enum.getValue() == "NOHREF"
+
+    def test_area_enum_nohref_validate_enum_value(self):
+        """An invalid literal shall be rejected by validateEnumValue."""
+        enum = AreaEnumNohref()
+        assert enum.validateEnumValue("NOHREF") is True
+        assert enum.validateEnumValue("HREF") is False

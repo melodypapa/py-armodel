@@ -2,9 +2,13 @@
 This module contains tests for the MultilanguageData module in MSR.Documentation.TextModel.
 """
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import (
     LLongName,
     LOverviewParagraph,
+    LParagraph,
     LPlainText,
     LVerbatim,
 )
@@ -24,16 +28,54 @@ class TestMultiLanguageParagraph:
         """Test that a MultiLanguageParagraph object can be initialized with default values."""
         multi_lang_paragraph = MultiLanguageParagraph()
         assert multi_lang_paragraph.l1 == []
+        assert multi_lang_paragraph.getHelpEntry() is None
+        assert multi_lang_paragraph.getSi() is None
+        assert multi_lang_paragraph.getView() is None
+        assert multi_lang_paragraph.getBreak() is None
+        assert multi_lang_paragraph.getKeepWithPrevious() is None
+
+    def test_multi_language_paragraph_base_chain(self):
+        """MultiLanguageParagraph derives from Paginateable (which extends DocumentViewSelectable), not VariationPointCapable."""
+        assert issubclass(MultiLanguageParagraph, Paginateable)
+        assert issubclass(MultiLanguageParagraph, DocumentViewSelectable)
+        assert not issubclass(MultiLanguageParagraph, VariationPointCapable)
 
     def test_multi_language_paragraph_l1_methods(self):
-        """Test adding and getting LLongName objects."""
+        """Test adding and getting LParagraph objects."""
         multi_lang_paragraph = MultiLanguageParagraph()
-        l_long_name = LLongName()
+        l_paragraph = LParagraph()
 
-        result = multi_lang_paragraph.addL1(l_long_name)
+        result = multi_lang_paragraph.addL1(l_paragraph)
         l1s = multi_lang_paragraph.getL1s()
-        assert l_long_name in l1s
+        assert l1s == [l_paragraph]
         assert result == multi_lang_paragraph
+
+    def test_multi_language_paragraph_l1_none_noop(self):
+        """A None passed to addL1 must be a no-op and not be appended."""
+        multi_lang_paragraph = MultiLanguageParagraph()
+        result = multi_lang_paragraph.addL1(None)
+        assert multi_lang_paragraph.getL1s() == []
+        assert result == multi_lang_paragraph
+
+    def test_multi_language_paragraph_l1_multiple(self):
+        """Multiple LParagraph entries shall be retained in insertion order."""
+        multi_lang_paragraph = MultiLanguageParagraph()
+        first = LParagraph()
+        second = LParagraph()
+        multi_lang_paragraph.addL1(first).addL1(second)
+        assert multi_lang_paragraph.getL1s() == [first, second]
+
+    def test_multi_language_paragraph_help_entry_methods(self):
+        """Test the helpEntry getter and setter."""
+        multi_lang_paragraph = MultiLanguageParagraph()
+        help_entry = String().setValue("help")
+
+        result = multi_lang_paragraph.setHelpEntry(help_entry)
+        assert multi_lang_paragraph.getHelpEntry() == help_entry
+        assert result == multi_lang_paragraph
+
+        multi_lang_paragraph.setHelpEntry(None)
+        assert multi_lang_paragraph.getHelpEntry() == help_entry
 
 
 class TestMultiLanguageOverviewParagraph:
