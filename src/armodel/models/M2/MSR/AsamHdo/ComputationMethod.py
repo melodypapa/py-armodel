@@ -4,7 +4,7 @@ from abc import ABC
 
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier, Identifier, PositiveUnlimitedInteger, String, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, CIdentifier, Identifier, PositiveUnlimitedInteger, String, VerbatimString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
@@ -130,26 +130,30 @@ class CompuConstTextContent(CompuConstContent):
 
 
 class CompuConstNumericContent(CompuConstContent):
-    """
-    This meta-class represents the numeric content of a scale.
-    Base: ARObject, CompuConstContent
-    """
+    """This meta-class represents the fact that the constant value of the computation method is a numerical value. It is separated from CompuConstFormulaContent to support compatibility with ASAM HDO."""
 
     # CompuConstNumericContent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getV                         [x] impl  [ ] docstring  [ ] test
-    # [ ] setV                         [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.68, p.389
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__ [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getV [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setV [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.v: float = None
+        # This represents the numerical value.
+        self.v: Optional[ARNumerical] = None
 
-    def getV(self) -> float:
+    def getV(self) -> Optional[ARNumerical]:
+        """This represents the numerical value."""
         return self.v
 
-    def setV(self, value: float):
-        self.v = value
+    def setV(self, value: Optional[ARNumerical]):
+        """This represents the numerical value. Does nothing if value is None."""
+        if value is not None:
+            self.v = value
         return self
 
 

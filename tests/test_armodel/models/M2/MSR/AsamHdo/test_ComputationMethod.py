@@ -145,6 +145,11 @@ class TestCompuConstTextContent:
 class TestCompuConstNumericContent:
     """Test class for CompuConstNumericContent class."""
 
+    def test_compu_const_numeric_content_has_spec_note(self):
+        assert cleandoc(CompuConstNumericContent.__doc__) == (
+            "This meta-class represents the fact that the constant value of the computation method is a numerical value. It is separated from CompuConstFormulaContent to support compatibility with ASAM HDO."
+        )
+
     def test_compu_const_numeric_content_initialization(self):
         """Test that a CompuConstNumericContent object can be initialized with default values."""
         compu_const_numeric = CompuConstNumericContent()
@@ -152,12 +157,17 @@ class TestCompuConstNumericContent:
 
     def test_compu_const_numeric_content_v_methods(self):
         """Test the v getter and setter."""
+        from armodel.models import ARNumerical
+
         compu_const_numeric = CompuConstNumericContent()
-        numeric_value = 123.45
+        numeric_value = ARNumerical().setValue("123")
 
         result = compu_const_numeric.setV(numeric_value)
         assert compu_const_numeric.getV() == numeric_value
         assert result == compu_const_numeric
+
+        assert compu_const_numeric.setV(None) == compu_const_numeric
+        assert compu_const_numeric.getV() == numeric_value
 
 
 class TestCompuConstFormulaContent:
