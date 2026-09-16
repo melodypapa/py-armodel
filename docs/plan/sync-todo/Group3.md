@@ -683,16 +683,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [# Spec: FO_TPS Table 9.82, p.343; 5 method rows (init + 2 getter/setter pairs) with 6 columns + release R23-11; marker deferred to 9b]
   - [x] Step 8 — Deviations  [none: both PDF attrs modeled with PDF types and matched reader/writer coverage; most-derived Paginateable base restored; XSD order respected; TopicContent dependency stamped ✓; no fabricated or flattened members]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 9138 unit tests, lint, Black check, and diff check pass; 9b: user-confirmed 9-item pre-stamp checklist; marker `# Spec verified: R23-11` written]
-- [ ] `CompuContent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.63 (abstract) · parent of `CompuScales` below · member of `Compu.compuContent` below)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `CompuContent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.63 (abstract) · parent of `CompuScales` below · member of `Compu.compuContent` below · existing stub completed)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.63, p.387 via pdf_page.py; Class CompuContent (abstract); Package M2::MSR::AsamHdo::ComputationMethod; Note supplied for the abstract meta-class; no Attribute rows (`-`); Base ARObject confirmed by existing implementation; no own XML element]
+  - [x] Step 2 — Write model class unit test (Red)  [TestCompuContent in test_ComputationMethod.py: direct abstract TypeError, concrete subclass ARObject defaults, and exact supplied spec Note; initial abstract contract exposed stub coverage gap]
+  - [x] Step 3 — Implement model class (Green)  [existing CompuContent(ARObject, ABC) abstract guard retained; no fields or accessors fabricated; focused test passes]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class docstring set to the supplied Note verbatim; no own attributes/member docstrings; removed the pre-existing non-spec "Abstract base class"/Base wording; __init__ has no docstring]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: abstract type has no own XML element or attributes; concrete consumer CompuScales owns COMPU-SCALES coverage]
+  - [x] Step 6 — Update parser & writer (Green)  [N/A: no own XML helper; existing consumer dispatch remains unchanged]
+  - [x] Step 7 — Update checklist comment  [# Spec: CP_TPS_SoftwareComponentTemplate.pdf, Table 5.63, p.387; one __init__ row with 6 columns + release R23-11; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none: abstract class has no own attributes; ARObject base and abstract guard match the class shape; no XML coverage applicable; concrete consumers remain responsible for serialization]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused model tests, full test module, lint, and Black check pass; 9b: user-confirmed no-own-attributes abstract shape, ARObject base, supplied Note verbatim, and concrete-consumer XML coverage; marker `# Spec verified: R23-11` written]
 - [ ] `CompuConstContent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.72 (abstract) · parent of `CompuConstTextContent`, `CompuConstNumericContent`, `CompuConstFormulaContent` · member type of `CompuConst.compuConstContentType`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

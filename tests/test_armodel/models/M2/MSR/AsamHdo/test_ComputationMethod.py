@@ -2,6 +2,8 @@
 This module contains tests for the ComputationMethod module in MSR.AsamHdo.
 """
 
+from inspect import cleandoc
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
@@ -27,13 +29,22 @@ from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import Mult
 
 
 class TestCompuContent:
-    """Test class for CompuContent abstract class."""
+    """Test class for CompuContent (AUTOSAR_CP_TPS_SoftwareComponentTemplate, Table 5.63)."""
+
+    def test_compu_content_has_spec_note(self):
+        assert cleandoc(CompuContent.__doc__) == "This abstract meta-class represents the various definition means of a computation method."
 
     def test_compu_content_abstract_class(self):
-        """Test that CompuContent cannot be instantiated directly."""
-        # This should raise NotImplementedError
-        with pytest.raises(TypeError):
+        with pytest.raises(TypeError, match="CompuContent is an abstract class"):
             CompuContent()
+
+    def test_compu_content_concrete_subclass_has_arobject_defaults(self):
+        class ConcreteCompuContent(CompuContent):
+            pass
+
+        content = ConcreteCompuContent()
+        assert content.getChecksum() is None
+        assert content.getTimestamp() is None
 
 
 class TestCompuConst:
