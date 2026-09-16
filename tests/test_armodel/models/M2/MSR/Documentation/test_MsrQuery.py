@@ -1,7 +1,8 @@
 """This module contains tests for the MsrQuery module in MSR.Documentation.TextModel."""
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
-from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP2, MsrQueryProps
+from armodel.models.M2.MSR.Documentation.Chapters import Chapter
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP2, MsrQueryProps, MsrQueryResultChapter
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
@@ -118,3 +119,26 @@ class TestMsrQueryP2:
 
         msr_query_p2.setMsrQueryResultP2(None)
         assert msr_query_p2.getMsrQueryResultP2() == result
+
+
+class TestMsrQueryResultChapter:
+    """Test class for MsrQueryResultChapter class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.87)."""
+
+    def test_msr_query_result_chapter_initialization(self):
+        """Test that an MsrQueryResultChapter object can be initialized with default values."""
+        result = MsrQueryResultChapter()
+        assert result.chapters == []
+
+    def test_msr_query_result_chapter_add_methods(self):
+        """Test adding chapters with insertion order and None no-op."""
+        result = MsrQueryResultChapter()
+        chapter1 = Chapter(None, "ch1")
+        chapter2 = Chapter(None, "ch2")
+
+        ret = result.addChapter(chapter1)
+        result.addChapter(chapter2)
+        assert result.getChapters() == [chapter1, chapter2]
+        assert ret == result
+
+        result.addChapter(None)
+        assert result.getChapters() == [chapter1, chapter2]

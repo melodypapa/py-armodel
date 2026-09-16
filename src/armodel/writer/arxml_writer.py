@@ -870,7 +870,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     TopicContent,
     TopicContentOrMsrQuery,
 )
-from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryTopic1
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryTopic1
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note
@@ -2107,6 +2107,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObject(child_element, msr_query_topic1)
         if msr_query_topic1.getMsrQueryProps() is not None:
             self.setMsrQueryProps(child_element, msr_query_topic1.getMsrQueryProps())
+
+    def setMsrQueryResultChapter(self, element: ET.Element, key: str, result: MsrQueryResultChapter):
+        if result is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, result)
+            for chapter in result.getChapters():
+                self.writeChapter(child_element, chapter, "CHAPTER")
 
     def writeMsrQueryChapter(self, element: ET.Element, msr_query_chapter: MsrQueryChapter):
         child_element = ET.SubElement(element, "MSR-QUERY-CHAPTER")

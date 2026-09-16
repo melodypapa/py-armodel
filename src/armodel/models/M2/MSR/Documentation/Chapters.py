@@ -17,10 +17,9 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import String
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import Table
 from armodel.models.M2.MSR.Documentation.BlockElements.RequirementsTracing import TraceableTable
-from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryP1
 
 if TYPE_CHECKING:
-    from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryTopic1
+    from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryP1, MsrQueryTopic1
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 

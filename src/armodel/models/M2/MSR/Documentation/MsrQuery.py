@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
+from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 
 if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -338,3 +339,40 @@ class MsrQueryTopic1(ARObject):
             The argument and properties of the topic query
         """
         return self.msrQueryProps
+
+
+class MsrQueryResultChapter(ARObject):
+    """
+    This metaclass represents the result of an msrquery which is a set of chapters.
+    """
+
+    # MsrQueryResultChapter method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.87, p.345
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addChapter      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getChapters     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This is one particular chapter in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        self.chapters: List[Chapter] = []
+
+    def addChapter(self, value: Optional[Chapter]) -> "MsrQueryResultChapter":
+        """
+        This is one particular chapter in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. A None value is a no-op and does not append to the existing chapters.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.chapters.append(value)
+        return self
+
+    def getChapters(self) -> List[Chapter]:
+        """
+        This is one particular chapter in the query result. Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        """
+        return self.chapters
