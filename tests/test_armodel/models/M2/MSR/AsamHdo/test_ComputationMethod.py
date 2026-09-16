@@ -263,6 +263,7 @@ class TestCompuRationalCoeffs:
         compu_rational_coeffs = CompuRationalCoeffs()
         assert compu_rational_coeffs.compuDenominator is None
         assert compu_rational_coeffs.compuNumerator is None
+        assert "This meta-class represents the ability to express a rational function by specifying the coefficients of nominator and denominator." in CompuRationalCoeffs.__doc__
 
     def test_compu_rational_coeffs_denominator_methods(self):
         """Test the compuDenominator getter and setter."""
@@ -272,6 +273,8 @@ class TestCompuRationalCoeffs:
         result = compu_rational_coeffs.setCompuDenominator(denominator)
         assert compu_rational_coeffs.getCompuDenominator() == denominator
         assert result == compu_rational_coeffs
+        assert compu_rational_coeffs.setCompuDenominator(None) == compu_rational_coeffs
+        assert compu_rational_coeffs.getCompuDenominator() == denominator
 
     def test_compu_rational_coeffs_numerator_methods(self):
         """Test the compuNumerator getter and setter."""
@@ -281,6 +284,8 @@ class TestCompuRationalCoeffs:
         result = compu_rational_coeffs.setCompuNumerator(numerator)
         assert compu_rational_coeffs.getCompuNumerator() == numerator
         assert result == compu_rational_coeffs
+        assert compu_rational_coeffs.setCompuNumerator(None) == compu_rational_coeffs
+        assert compu_rational_coeffs.getCompuNumerator() == numerator
 
 
 class TestCompuScaleRationalFormula:

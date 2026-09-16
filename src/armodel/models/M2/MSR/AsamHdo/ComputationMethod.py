@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from abc import ABC
@@ -229,37 +231,44 @@ class CompuScaleConstantContents(CompuScaleContents):
 
 
 class CompuRationalCoeffs(ARObject):
-    """
-    This meta-class represents the ability to express a rational function by specifying the coefficients of nominator and denominator.
-    Base            : ARObject
-    Aggregated by   : CompuScaleRationalFormula.compuRationalCoeffs
-    """
+    """This meta-class represents the ability to express a rational function by specifying the coefficients of nominator and denominator."""
 
     # CompuRationalCoeffs method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCompuDenominator          [x] impl  [ ] docstring  [ ] test
-    # [ ] setCompuDenominator          [x] impl  [ ] docstring  [ ] test
-    # [ ] getCompuNumerator            [x] impl  [ ] docstring  [ ] test
-    # [ ] setCompuNumerator            [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.69, p.389
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__ [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCompuDenominator [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompuDenominator [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCompuNumerator [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompuNumerator [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.compuDenominator: "CompuNominatorDenominator" = None
-        self.compuNumerator: "CompuNominatorDenominator" = None
+        # This is the denominator of the expression. Tags: xml.sequenceOffset=30
+        self.compuDenominator: Optional[CompuNominatorDenominator] = None
+        # This is the numerator of the rational expression. Tags: xml.sequenceOffset=20
+        self.compuNumerator: Optional[CompuNominatorDenominator] = None
 
-    def getCompuDenominator(self) -> "CompuNominatorDenominator":
+    def getCompuDenominator(self) -> CompuNominatorDenominator:
+        """This is the denominator of the expression. Tags: xml.sequenceOffset=30"""
         return self.compuDenominator
 
-    def setCompuDenominator(self, value: "CompuNominatorDenominator"):
-        self.compuDenominator = value
+    def setCompuDenominator(self, value: CompuNominatorDenominator):
+        """This is the denominator of the expression. Tags: xml.sequenceOffset=30. Does nothing if value is None."""
+        if value is not None:
+            self.compuDenominator = value
         return self
 
-    def getCompuNumerator(self) -> "CompuNominatorDenominator":
+    def getCompuNumerator(self) -> CompuNominatorDenominator:
+        """This is the numerator of the rational expression. Tags: xml.sequenceOffset=20"""
         return self.compuNumerator
 
-    def setCompuNumerator(self, value: "CompuNominatorDenominator"):
-        self.compuNumerator = value
+    def setCompuNumerator(self, value: CompuNominatorDenominator):
+        """This is the numerator of the rational expression. Tags: xml.sequenceOffset=20. Does nothing if value is None."""
+        if value is not None:
+            self.compuNumerator = value
         return self
 
 
