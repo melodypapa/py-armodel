@@ -773,7 +773,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [Table 5.69, p.389; init/get/set rows for denominator then numerator with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none: ARObject base, both PDF aggregates typed and ordered, verbatim docs, and existing reader/writer coverage match]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 300 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed ARObject base, typed denominator/numerator aggregates, API naming, verbatim docs, reader/writer coverage, XML order, package location, and no deviations; marker `# Spec verified: R23-11` written]
- - [x] `CompuScaleRationalFormula` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.73 · subtype of `CompuScaleContents` · member type of `CompuScale.compuScaleContents`) — verified R23-11 (commit pending)
+ - [x] `CompuScaleRationalFormula` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.73 · subtype of `CompuScaleContents` · member type of `CompuScale.compuScaleContents`) — verified R23-11 (commit 5a21470c)
    - [x] Step 1 — Sync members & description from spec  [Table 5.73, p.390; Base ARObject + CompuScaleContents, most-derived base CompuScaleContents; one optional aggregate compuRationalCoeffs of type CompuRationalCoeffs; Note and attribute Note copied verbatim]
    - [x] Step 2 — Write model class unit test (Red)  [initialization, Note assertion, typed aggregate setter, chaining, and None no-op; stale setter failed before implementation]
    - [x] Step 3 — Implement model class (Green)  [typed Optional[CompuRationalCoeffs] member and None-preserving setter]
