@@ -15,7 +15,7 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
 
 ## Queue (dependency-first)
 
-- [ ] `BswPerInstanceMemoryPolicy` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 5.2 · aggregated by `BswInternalBehavior` · **NOT in src** — class must be created when this row is synced · **Step 1 finding: XSD-only — no table in any markdown corpus (R23-11/R4.3.1/R4.4.0 grep → XSD hits only); syncs from `AUTOSAR_00052.xsd` complexType `BSW-PER-INSTANCE-MEMORY-POLICY` line 12370 → `# XSD verified:` marker. Base chain ARObject→BswApiOptions→own; own attr `arTypedPerInstanceMemory` (ref, 0..1, DEST VARIABLE-DATA-PROTOTYPE) → `arTypedPerInstanceMemoryRef: Optional[RefType]`; VARIATION-POINT present → VariationPointCapable mixin)
+- [x] `BswPerInstanceMemoryPolicy` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 5.2 · aggregated by `BswInternalBehavior` · **NOT in src** — class must be created when this row is synced · **Step 1 finding: XSD-only — no table in any markdown corpus (R23-11/R4.3.1/R4.4.0 grep → XSD hits only); syncs from `AUTOSAR_00052.xsd` complexType `BSW-PER-INSTANCE-MEMORY-POLICY` line 12370 → `# XSD verified:` marker. Base chain ARObject→BswApiOptions→own; own attr `arTypedPerInstanceMemory` (ref, 0..1, DEST VARIABLE-DATA-PROTOTYPE) → `arTypedPerInstanceMemoryRef: Optional[RefType]`; VARIATION-POINT present → VariationPointCapable mixin) — verified R23-11 XSD `AUTOSAR_00052.xsd` (commit b89ad783)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
