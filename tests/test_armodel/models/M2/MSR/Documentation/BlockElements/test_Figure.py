@@ -4,6 +4,7 @@ This module contains tests for the Figure module in MSR.Documentation.BlockEleme
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
+    Area,
     AreaEnumNohref,
     AreaEnumShape,
     Graphic,
@@ -457,3 +458,66 @@ class TestAreaEnumShape:
         enum = AreaEnumShape()
         assert enum.validateEnumValue("RECT") is True
         assert enum.validateEnumValue("SQUARE") is False
+
+
+class TestArea:
+    """Test class for Area (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.17)."""
+
+    AREA_STRING_ATTRS = [
+        ("accesskey", "setAccesskey", "getAccesskey"),
+        ("alt", "setAlt", "getAlt"),
+        ("class", "setClass", "getClass"),
+        ("coords", "setCoords", "getCoords"),
+        ("href", "setHref", "getHref"),
+        ("onblur", "setOnblur", "getOnblur"),
+        ("onclick", "setOnclick", "getOnclick"),
+        ("ondblclick", "setOndblclick", "getOndblclick"),
+        ("onfocus", "setOnfocus", "getOnfocus"),
+        ("onkeydown", "setOnkeydown", "getOnkeydown"),
+        ("onkeypress", "setOnkeypress", "getOnkeypress"),
+        ("onkeyup", "setOnkeyup", "getOnkeyup"),
+        ("onmousedown", "setOnmousedown", "getOnmousedown"),
+        ("onmousemove", "setOnmousemove", "getOnmousemove"),
+        ("onmouseout", "setOnmouseout", "getOnmouseout"),
+        ("onmouseover", "setOnmouseover", "getOnmouseover"),
+        ("onmouseup", "setOnmouseup", "getOnmouseup"),
+        ("style", "setStyle", "getStyle"),
+        ("tabindex", "setTabindex", "getTabindex"),
+        ("title", "setTitle", "getTitle"),
+    ]
+
+    def test_area_initialization(self):
+        """A new Area shall have all 22 spec attributes unset."""
+        area = Area()
+        assert area is not None
+        assert isinstance(area, Area)
+        for _, _, getter in self.AREA_STRING_ATTRS:
+            assert getattr(area, getter)() is None
+        assert area.getNohref() is None
+        assert area.getShape() is None
+
+    def test_area_string_attributes_get_set(self):
+        """Each String attribute shall round-trip via set/get with chaining and a None no-op."""
+        for _, setter, getter in self.AREA_STRING_ATTRS:
+            area = Area()
+            result = getattr(area, setter)(String().setValue("value"))
+            assert result is area
+            assert getattr(area, getter)().getValue() == "value"
+            getattr(area, setter)(None)
+            assert getattr(area, getter)().getValue() == "value"
+
+    def test_area_nohref_get_set(self):
+        """nohref shall accept an AreaEnumNohref value with chaining and a None no-op."""
+        area = Area().setNohref(AreaEnumNohref().setValue(AreaEnumNohref.NOHREF))
+        assert area.getNohref() is not None
+        assert area.getNohref().getValue() == "NOHREF"
+        area.setNohref(None)
+        assert area.getNohref().getValue() == "NOHREF"
+
+    def test_area_shape_get_set(self):
+        """shape shall accept an AreaEnumShape value with chaining and a None no-op."""
+        area = Area().setShape(AreaEnumShape().setValue(AreaEnumShape.RECT))
+        assert area.getShape() is not None
+        assert area.getShape().getValue() == "RECT"
+        area.setShape(None)
+        assert area.getShape().getValue() == "RECT"

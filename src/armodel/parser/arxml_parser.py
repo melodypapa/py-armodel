@@ -965,7 +965,7 @@ from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
 from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Colspec, Entry, Row, Table, Tbody, Tgroup, Url
-from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, GraphicFitEnum, GraphicNotationEnum, LGraphic, MlFigure
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Area, AreaEnumNohref, AreaEnumShape, Graphic, GraphicFitEnum, GraphicNotationEnum, LGraphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, TableSeparatorString, ValignEnum
 from armodel.models.M2.MSR.Documentation.Chapters import (
@@ -5109,6 +5109,59 @@ class ARXMLParser(AbstractARXMLParser):
             if "WIDTH" in child_element.attrib:
                 graphic.setWidth(String().setValue(child_element.attrib["WIDTH"]))
         return graphic
+
+    def getArea(self, element: ET.Element, key: str) -> Area:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+
+        area = Area()
+        self.readARObject(child_element, area)
+        if "ACCESSKEY" in child_element.attrib:
+            area.setAccesskey(String().setValue(child_element.attrib["ACCESSKEY"]))
+        if "ALT" in child_element.attrib:
+            area.setAlt(String().setValue(child_element.attrib["ALT"]))
+        if "CLASS" in child_element.attrib:
+            area.setClass(String().setValue(child_element.attrib["CLASS"]))
+        if "COORDS" in child_element.attrib:
+            area.setCoords(String().setValue(child_element.attrib["COORDS"]))
+        if "HREF" in child_element.attrib:
+            area.setHref(String().setValue(child_element.attrib["HREF"]))
+        if "NOHREF" in child_element.attrib:
+            area.setNohref(AreaEnumNohref().setValue(child_element.attrib["NOHREF"]))
+        if "ONBLUR" in child_element.attrib:
+            area.setOnblur(String().setValue(child_element.attrib["ONBLUR"]))
+        if "ONCLICK" in child_element.attrib:
+            area.setOnclick(String().setValue(child_element.attrib["ONCLICK"]))
+        if "ONDBLCLICK" in child_element.attrib:
+            area.setOndblclick(String().setValue(child_element.attrib["ONDBLCLICK"]))
+        if "ONFOCUS" in child_element.attrib:
+            area.setOnfocus(String().setValue(child_element.attrib["ONFOCUS"]))
+        if "ONKEYDOWN" in child_element.attrib:
+            area.setOnkeydown(String().setValue(child_element.attrib["ONKEYDOWN"]))
+        if "ONKEYPRESS" in child_element.attrib:
+            area.setOnkeypress(String().setValue(child_element.attrib["ONKEYPRESS"]))
+        if "ONKEYUP" in child_element.attrib:
+            area.setOnkeyup(String().setValue(child_element.attrib["ONKEYUP"]))
+        if "ONMOUSEDOWN" in child_element.attrib:
+            area.setOnmousedown(String().setValue(child_element.attrib["ONMOUSEDOWN"]))
+        if "ONMOUSEMOVE" in child_element.attrib:
+            area.setOnmousemove(String().setValue(child_element.attrib["ONMOUSEMOVE"]))
+        if "ONMOUSEOUT" in child_element.attrib:
+            area.setOnmouseout(String().setValue(child_element.attrib["ONMOUSEOUT"]))
+        if "ONMOUSEOVER" in child_element.attrib:
+            area.setOnmouseover(String().setValue(child_element.attrib["ONMOUSEOVER"]))
+        if "ONMOUSEUP" in child_element.attrib:
+            area.setOnmouseup(String().setValue(child_element.attrib["ONMOUSEUP"]))
+        if "SHAPE" in child_element.attrib:
+            area.setShape(AreaEnumShape().setValue(child_element.attrib["SHAPE"]))
+        if "STYLE" in child_element.attrib:
+            area.setStyle(String().setValue(child_element.attrib["STYLE"]))
+        if "TABINDEX" in child_element.attrib:
+            area.setTabindex(String().setValue(child_element.attrib["TABINDEX"]))
+        if "TITLE" in child_element.attrib:
+            area.setTitle(String().setValue(child_element.attrib["TITLE"]))
+        return area
 
     def getUrl(self, element: ET.Element, key: str) -> Url:
         child_element = self.find(element, key)

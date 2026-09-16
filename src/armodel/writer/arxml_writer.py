@@ -859,7 +859,7 @@ from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Url
-from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, MlFigure
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Area, Graphic, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.Chapters import (
     Chapter,
@@ -2337,6 +2337,55 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element.attrib["SCALE"] = graphic.getScale().getValue()
             if graphic.getWidth() is not None:
                 child_element.attrib["WIDTH"] = graphic.getWidth().getValue()
+
+    def setArea(self, element: ET.Element, key: str, area: Area):
+        if area is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, area)
+            if area.getAccesskey() is not None:
+                child_element.attrib["ACCESSKEY"] = area.getAccesskey().getValue()
+            if area.getAlt() is not None:
+                child_element.attrib["ALT"] = area.getAlt().getValue()
+            if area.getClass() is not None:
+                child_element.attrib["CLASS"] = area.getClass().getValue()
+            if area.getCoords() is not None:
+                child_element.attrib["COORDS"] = area.getCoords().getValue()
+            if area.getHref() is not None:
+                child_element.attrib["HREF"] = area.getHref().getValue()
+            if area.getNohref() is not None:
+                child_element.attrib["NOHREF"] = area.getNohref().getValue()
+            if area.getOnblur() is not None:
+                child_element.attrib["ONBLUR"] = area.getOnblur().getValue()
+            if area.getOnclick() is not None:
+                child_element.attrib["ONCLICK"] = area.getOnclick().getValue()
+            if area.getOndblclick() is not None:
+                child_element.attrib["ONDBLCLICK"] = area.getOndblclick().getValue()
+            if area.getOnfocus() is not None:
+                child_element.attrib["ONFOCUS"] = area.getOnfocus().getValue()
+            if area.getOnkeydown() is not None:
+                child_element.attrib["ONKEYDOWN"] = area.getOnkeydown().getValue()
+            if area.getOnkeypress() is not None:
+                child_element.attrib["ONKEYPRESS"] = area.getOnkeypress().getValue()
+            if area.getOnkeyup() is not None:
+                child_element.attrib["ONKEYUP"] = area.getOnkeyup().getValue()
+            if area.getOnmousedown() is not None:
+                child_element.attrib["ONMOUSEDOWN"] = area.getOnmousedown().getValue()
+            if area.getOnmousemove() is not None:
+                child_element.attrib["ONMOUSEMOVE"] = area.getOnmousemove().getValue()
+            if area.getOnmouseout() is not None:
+                child_element.attrib["ONMOUSEOUT"] = area.getOnmouseout().getValue()
+            if area.getOnmouseover() is not None:
+                child_element.attrib["ONMOUSEOVER"] = area.getOnmouseover().getValue()
+            if area.getOnmouseup() is not None:
+                child_element.attrib["ONMOUSEUP"] = area.getOnmouseup().getValue()
+            if area.getShape() is not None:
+                child_element.attrib["SHAPE"] = area.getShape().getValue()
+            if area.getStyle() is not None:
+                child_element.attrib["STYLE"] = area.getStyle().getValue()
+            if area.getTabindex() is not None:
+                child_element.attrib["TABINDEX"] = area.getTabindex().getValue()
+            if area.getTitle() is not None:
+                child_element.attrib["TITLE"] = area.getTitle().getValue()
 
     def setUrl(self, element: ET.Element, key: str, url: Url):
         if url is not None:
