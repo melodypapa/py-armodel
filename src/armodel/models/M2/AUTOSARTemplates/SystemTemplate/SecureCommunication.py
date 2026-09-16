@@ -403,7 +403,7 @@ class MacSecCryptoAlgoConfig(ARObject):
             self.capability = value
         return self
 
-    def createCipherSuiteConfig(self) -> "MacSecCipherSuiteConfig":
+    def createCipherSuiteConfig(self) -> MacSecCipherSuiteConfig:
         """Cipher suite configuration to use with MACsec."""
         config = MacSecCipherSuiteConfig()
         self.cipherSuiteConfigs.append(config)

@@ -256,9 +256,9 @@ class HwCategory(PackageableElement, AtpDefinition):
         PackageableElement.__init__(self, parent, short_name)
         AtpDefinition.__init__(self, parent, short_name)
 
-        self.hwAttributeDefs: List["HwAttributeDef"] = []
+        self.hwAttributeDefs: List[HwAttributeDef] = []
 
-    def getHwAttributeDefs(self) -> List["HwAttributeDef"]:
+    def getHwAttributeDefs(self) -> List[HwAttributeDef]:
         """
         Gets the list of hardware attribute definitions for this category.
 
@@ -267,7 +267,7 @@ class HwCategory(PackageableElement, AtpDefinition):
         """
         return self.hwAttributeDefs
 
-    def createHwAttributeDef(self, short_name: str) -> "HwAttributeDef":
+    def createHwAttributeDef(self, short_name: str) -> HwAttributeDef:
         """
         Creates and adds a new hardware attribute definition to this category.
 

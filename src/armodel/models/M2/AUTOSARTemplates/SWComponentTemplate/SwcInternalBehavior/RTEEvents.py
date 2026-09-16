@@ -35,18 +35,18 @@ class RTEEvent(AtpStructureElement, AbstractEvent, VariationPointCapable, ABC):
         super().__init__(parent, short_name)
 
         # Reference to the Modes that disable the Event.
-        self.disabledModeIRefs: List["RModeInAtomicSwcInstanceRef"] = []
+        self.disabledModeIRefs: List[RModeInAtomicSwcInstanceRef] = []
 
         # The referenced RunnableEntity starts when the corresponding RTEEvent is raised.
         self.startOnEventRef: Optional[RefType] = None
 
-    def getDisabledModeIRefs(self) -> List["RModeInAtomicSwcInstanceRef"]:
+    def getDisabledModeIRefs(self) -> List[RModeInAtomicSwcInstanceRef]:
         """
         Reference to the Modes that disable the Event.
         """
         return self.disabledModeIRefs
 
-    def addDisabledModeIRef(self, value: Optional["RModeInAtomicSwcInstanceRef"]) -> "RTEEvent":
+    def addDisabledModeIRef(self, value: Optional[RModeInAtomicSwcInstanceRef]) -> "RTEEvent":
         """
         Reference to the Modes that disable the Event.
         A None value is a no-op and does not append anything.
@@ -123,7 +123,7 @@ class DataSendCompletedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventSourceRef: "RefType" = None
+        self.eventSourceRef: RefType = None
 
     def getEventSourceRef(self):
         """
@@ -162,7 +162,7 @@ class DataWriteCompletedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventSourceRef: "RefType" = None
+        self.eventSourceRef: RefType = None
 
     def getEventSourceRef(self):
         """
@@ -200,7 +200,7 @@ class DataReceivedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataIRef: "RVariableInAtomicSwcInstanceRef" = None
+        self.dataIRef: RVariableInAtomicSwcInstanceRef = None
 
     def getDataIRef(self):
         """
@@ -294,7 +294,7 @@ class DataReceiveErrorEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataIRef: "RVariableInAtomicSwcInstanceRef" = None
+        self.dataIRef: RVariableInAtomicSwcInstanceRef = None
 
     def getDataIRef(self):
         """
@@ -333,7 +333,7 @@ class OperationInvokedEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.operationIRef: "POperationInAtomicSwcInstanceRef" = None
+        self.operationIRef: POperationInAtomicSwcInstanceRef = None
 
     def getOperationIRef(self):
         """
@@ -391,8 +391,8 @@ class TimingEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.offset: "TimeValue" = None
-        self.period: "TimeValue" = None
+        self.offset: TimeValue = None
+        self.period: TimeValue = None
 
     @property
     def periodMs(self):
@@ -466,7 +466,7 @@ class InternalTriggerOccurredEvent(RTEEvent):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.eventSourceRef: "RefType" = None
+        self.eventSourceRef: RefType = None
 
     def getEventSourceRef(self):
         """

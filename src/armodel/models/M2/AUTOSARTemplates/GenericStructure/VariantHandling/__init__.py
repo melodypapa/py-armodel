@@ -423,9 +423,9 @@ class ConditionByFormula(ARObject):
         super().__init__()
 
         # This attribute specifies the point in time when condition may be evaluated at earliest. At this point in time all referenced system constants shall have a value.
-        self.bindingTime: Optional["BindingTimeEnum"] = None
+        self.bindingTime: Optional[BindingTimeEnum] = None
 
-    def getBindingTime(self) -> Optional["BindingTimeEnum"]:
+    def getBindingTime(self) -> Optional[BindingTimeEnum]:
         """
         This attribute specifies the point in time when condition may be evaluated at
         earliest. At this point in time all referenced system constants shall have a
@@ -433,7 +433,7 @@ class ConditionByFormula(ARObject):
         """
         return self.bindingTime
 
-    def setBindingTime(self, value: Optional["BindingTimeEnum"]) -> "ConditionByFormula":
+    def setBindingTime(self, value: Optional[BindingTimeEnum]) -> "ConditionByFormula":
         """
         This attribute specifies the point in time when condition may be evaluated at
         earliest. At this point in time all referenced system constants shall have a
@@ -516,7 +516,7 @@ class VariationPoint(ARObject):
         self.formalBlueprintGenerator: Optional[BlueprintGenerator] = None
 
         # This is the set of post build variant conditions which all shall be fulfilled in order to (postbuild) bind the variation point.
-        self.postBuildVariantConditions: List["PostBuildVariantCondition"] = []
+        self.postBuildVariantConditions: List[PostBuildVariantCondition] = []
 
         # An optional special data group is attached to every variation point. These data can be used by external software systems to attach application specific data. For example, a variant management system might add an identifier, an URL or a specific classifier.
         self.sdg: Optional[Sdg] = None
@@ -525,7 +525,7 @@ class VariationPoint(ARObject):
         self.shortLabel: Optional[Identifier] = None
 
         # This condition acts as Binding Function for the Variation Point. Note that the multiplicity is 0..1 in order to support pure postBuild variants.
-        self.swSyscond: Optional["ConditionByFormula"] = None
+        self.swSyscond: Optional[ConditionByFormula] = None
 
     def getBlueprintCondition(self) -> Optional[DocumentationBlock]:
         """
@@ -580,14 +580,14 @@ class VariationPoint(ARObject):
             self.formalBlueprintGenerator = value
         return self
 
-    def getPostBuildVariantConditions(self) -> List["PostBuildVariantCondition"]:
+    def getPostBuildVariantConditions(self) -> List[PostBuildVariantCondition]:
         """
         This is the set of post build variant conditions which all shall be fulfilled in
         order to (postbuild) bind the variation point.
         """
         return self.postBuildVariantConditions
 
-    def addPostBuildVariantCondition(self, value: "PostBuildVariantCondition") -> "VariationPoint":
+    def addPostBuildVariantCondition(self, value: PostBuildVariantCondition) -> "VariationPoint":
         """
         This is the set of post build variant conditions which all shall be fulfilled in
         order to (postbuild) bind the variation point. A None value is a no-op and is
@@ -639,14 +639,14 @@ class VariationPoint(ARObject):
             self.shortLabel = value
         return self
 
-    def getSwSyscond(self) -> Optional["ConditionByFormula"]:
+    def getSwSyscond(self) -> Optional[ConditionByFormula]:
         """
         This condition acts as Binding Function for the Variation Point. Note that the
         multiplicity is 0..1 in order to support pure postBuild variants.
         """
         return self.swSyscond
 
-    def setSwSyscond(self, value: Optional["ConditionByFormula"]) -> "VariationPoint":
+    def setSwSyscond(self, value: Optional[ConditionByFormula]) -> "VariationPoint":
         """
         This condition acts as Binding Function for the Variation Point. Note that the
         multiplicity is 0..1 in order to support pure postBuild variants. A None value is

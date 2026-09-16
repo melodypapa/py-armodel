@@ -355,7 +355,7 @@ class InternalBehavior(AtpStructureElement, ABC):
         self.dataTypeMappingRefs: List[RefType] = []
 
         # This specifies an ExclusiveArea for this InternalBehavior. The exclusiveArea is local to the component resp. module. The aggregation of ExclusiveAreas is subject to variability. Note: the number of ExclusiveAreas might vary due to the conditional existence of RunnableEntities or BswModuleEntities. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=exclusiveArea.shortName, exclusiveArea.variationPoint.shortLabel
-        self.exclusiveAreas: List["ExclusiveArea"] = []
+        self.exclusiveAreas: List[ExclusiveArea] = []
 
         # This represents the set of ExclusiveAreaNestingOrder owned by the InternalBehavior. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=exclusiveAreaNestingOrder.shortName, exclusiveAreaNestingOrder.variationPoint.shortLabel vh.latestBindingTime=preCompileTime
         self.exclusiveAreaNestingOrders: List["ExclusiveAreaNestingOrder"] = []
@@ -427,7 +427,7 @@ class InternalBehavior(AtpStructureElement, ABC):
         """
         return self.dataTypeMappingRefs
 
-    def createExclusiveArea(self, short_name: str) -> "ExclusiveArea":
+    def createExclusiveArea(self, short_name: str) -> ExclusiveArea:
         """
         This specifies an ExclusiveArea for this InternalBehavior. The exclusiveArea is local to the component resp. module. The aggregation of ExclusiveAreas is subject to variability. Note: the number of ExclusiveAreas might vary due to the conditional existence of RunnableEntities or BswModuleEntities. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=exclusiveArea.shortName, exclusiveArea.variationPoint.shortLabel
 
@@ -443,7 +443,7 @@ class InternalBehavior(AtpStructureElement, ABC):
             self.exclusiveAreas.append(area)
         return self.getElement(short_name, ExclusiveArea)
 
-    def getExclusiveAreas(self) -> List["ExclusiveArea"]:
+    def getExclusiveAreas(self) -> List[ExclusiveArea]:
         """
         This specifies an ExclusiveArea for this InternalBehavior. The exclusiveArea is local to the component resp. module. The aggregation of ExclusiveAreas is subject to variability. Note: the number of ExclusiveAreas might vary due to the conditional existence of RunnableEntities or BswModuleEntities. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=exclusiveArea.shortName, exclusiveArea.variationPoint.shortLabel
 

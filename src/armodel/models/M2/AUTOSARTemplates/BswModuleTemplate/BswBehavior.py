@@ -567,7 +567,7 @@ class BswModuleEntity(ExecutableEntity, VariationPointCapable, ABC):
             self.callPoints.append(access)
         return self.getElement(short_name, BswAsynchronousServerCallPoint)
 
-    def createBswAsynchronousServerCallResultPoint(self, short_name: str) -> "BswAsynchronousServerCallResultPoint":
+    def createBswAsynchronousServerCallResultPoint(self, short_name: str) -> BswAsynchronousServerCallResultPoint:
         """
         Creates and adds a BswAsynchronousServerCallResultPoint to the call
         points used in the code of this entity. Returns the existing call point
@@ -2799,7 +2799,7 @@ class BswInternalBehavior(InternalBehavior):
             self.releasedTriggerPolicies = value
         return self
 
-    def getSchedulerNamePrefixes(self) -> List["BswSchedulerNamePrefix"]:
+    def getSchedulerNamePrefixes(self) -> List[BswSchedulerNamePrefix]:
         """
         Gets the list of BSW scheduler name prefixes.
 
@@ -2808,7 +2808,7 @@ class BswInternalBehavior(InternalBehavior):
         """
         return self.schedulerNamePrefixes
 
-    def createSchedulerNamePrefix(self, short_name: str) -> "BswSchedulerNamePrefix":
+    def createSchedulerNamePrefix(self, short_name: str) -> BswSchedulerNamePrefix:
         """
         Creates and adds a BswSchedulerNamePrefix to this behavior's scheduler
         name prefixes. Returns the existing prefix if the short name is already

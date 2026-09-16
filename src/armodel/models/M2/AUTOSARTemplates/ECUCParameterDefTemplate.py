@@ -2379,7 +2379,7 @@ class EcucModuleDef(EcucDefinitionElement):
         """
         return self.containers
 
-    def createEcucParamConfContainerDef(self, short_name: str) -> "EcucParamConfContainerDef":
+    def createEcucParamConfContainerDef(self, short_name: str) -> EcucParamConfContainerDef:
         """
         Aggregates the top-level container definitions of this specific module definition. Stereotypes: atpSplitable Tags: atp.Splitkey=container.shortName xml.sequenceOffset=11
         """

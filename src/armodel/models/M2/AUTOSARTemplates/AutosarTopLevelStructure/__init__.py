@@ -195,11 +195,11 @@ class AbstractAUTOSAR(ARObject):
             self._ar_package_index[short_name] = ar_package
         return self._ar_package_index[short_name]
 
-    def getFileInfoComment(self) -> Optional["FileInfoComment"]:
+    def getFileInfoComment(self) -> Optional[FileInfoComment]:
         """This represents a possibility to provide a structured comment in an AUTOSAR file."""
         return self.fileInfoComment
 
-    def setFileInfoComment(self, value: Optional["FileInfoComment"]) -> "AbstractAUTOSAR":
+    def setFileInfoComment(self, value: Optional[FileInfoComment]) -> "AbstractAUTOSAR":
         """This represents a possibility to provide a structured comment in an AUTOSAR file."""
         self.fileInfoComment = value
         return self

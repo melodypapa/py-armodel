@@ -300,7 +300,7 @@ class TransmissionComSpecProps(ARObject):
         self.minimumSendInterval: Optional[TimeValue] = None
 
         # The attribute defines the mode in which the application is assumed to transmit the respective data.
-        self.transmissionMode: Optional["TransmissionModeDefinitionEnum"] = None
+        self.transmissionMode: Optional[TransmissionModeDefinitionEnum] = None
 
     def getDataUpdatePeriod(self) -> Optional[TimeValue]:
         """
@@ -332,13 +332,13 @@ class TransmissionComSpecProps(ARObject):
             self.minimumSendInterval = value
         return self
 
-    def getTransmissionMode(self) -> Optional["TransmissionModeDefinitionEnum"]:
+    def getTransmissionMode(self) -> Optional[TransmissionModeDefinitionEnum]:
         """
         The attribute defines the mode in which the application is assumed to transmit the respective data.
         """
         return self.transmissionMode
 
-    def setTransmissionMode(self, value: Optional["TransmissionModeDefinitionEnum"]) -> "TransmissionComSpecProps":
+    def setTransmissionMode(self, value: Optional[TransmissionModeDefinitionEnum]) -> "TransmissionComSpecProps":
         """
         The attribute defines the mode in which the application is assumed to transmit the respective data.
         A None value is a no-op and does not overwrite an existing transmissionMode.
@@ -1090,13 +1090,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
             self.networkRepresentation = value
         return self
 
-    def getReceptionProps(self) -> Optional["ReceptionComSpecProps"]:
+    def getReceptionProps(self) -> Optional[ReceptionComSpecProps]:
         """
         This aggregation represents the definition transmission props in the context of the enclosing ReceiverComSpec.
         """
         return self.receptionProps
 
-    def setReceptionProps(self, value: Optional["ReceptionComSpecProps"]) -> "ReceiverComSpec":
+    def setReceptionProps(self, value: Optional[ReceptionComSpecProps]) -> "ReceiverComSpec":
         """
         This aggregation represents the definition transmission props in the context of the enclosing ReceiverComSpec.
         A None value is a no-op and does not overwrite an existing receptionProps.
@@ -1105,13 +1105,13 @@ class ReceiverComSpec(RPortComSpec, ABC):
             self.receptionProps = value
         return self
 
-    def getReplaceWith(self) -> Optional["VariableAccess"]:
+    def getReplaceWith(self) -> Optional[VariableAccess]:
         """
         This aggregation is used to identify the AutosarData Prototype to be taken for sourcing an external replacement in the out-of-range and invalidValue handling.
         """
         return self.replaceWith
 
-    def setReplaceWith(self, value: Optional["VariableAccess"]) -> "ReceiverComSpec":
+    def setReplaceWith(self, value: Optional[VariableAccess]) -> "ReceiverComSpec":
         """
         This aggregation is used to identify the AutosarData Prototype to be taken for sourcing an external replacement in the out-of-range and invalidValue handling.
         A None value is a no-op and does not overwrite an existing replaceWith.
@@ -1468,7 +1468,7 @@ class ServerComSpec(PPortComSpec):
             self.queueLength = value
         return self
 
-    def addTransformationComSpecProps(self, value: Optional["TransformationComSpecProps"]) -> "ServerComSpec":
+    def addTransformationComSpecProps(self, value: Optional[TransformationComSpecProps]) -> "ServerComSpec":
         """
         This references the TransformationComSpecProps which define port-specific configuration for data transformation.
         A None value is a no-op and does not append anything.
@@ -1477,7 +1477,7 @@ class ServerComSpec(PPortComSpec):
             self.transformationComSpecProps.append(value)
         return self
 
-    def getTransformationComSpecProps(self) -> List["TransformationComSpecProps"]:
+    def getTransformationComSpecProps(self) -> List[TransformationComSpecProps]:
         """
         This references the TransformationComSpecProps which define port-specific configuration for data transformation.
         """

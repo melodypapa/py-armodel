@@ -34,7 +34,7 @@ class ParameterAccess(AbstractAccessPoint, VariationPointCapable):
         super().__init__(parent, short_name)
 
         self.accessedParameter: "AutosarParameterRef" = None
-        self.swDataDefProps: "SwDataDefProps" = None
+        self.swDataDefProps: SwDataDefProps = None
 
     def getAccessedParameter(self):
         """
@@ -251,7 +251,7 @@ class AutosarParameterRef(ARObject):
     def __init__(self):
         super().__init__()
 
-        self.autosarParameterIRef: "ParameterInAtomicSWCTypeInstanceRef" = None
+        self.autosarParameterIRef: ParameterInAtomicSWCTypeInstanceRef = None
         self.localParameterRef: RefType = None
 
     def getAutosarParameterIRef(self):
@@ -320,7 +320,7 @@ class AutosarVariableRef(ARObject):
 
         self.autosarVariableIRef: VariableInAtomicSWCTypeInstanceRef = None
         self.autosarVariableInImplDatatype: ArVariableInImplementationDataInstanceRef = None
-        self.localVariableRef: "VariableInAtomicSWCTypeInstanceRef" = None
+        self.localVariableRef: VariableInAtomicSWCTypeInstanceRef = None
 
     def getAutosarVariableIRef(self) -> VariableInAtomicSWCTypeInstanceRef:
         """

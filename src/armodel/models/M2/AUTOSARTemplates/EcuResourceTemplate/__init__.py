@@ -214,10 +214,10 @@ class HwPinGroupContent(ARObject):
         """
         super().__init__()
 
-        self.hwPin: Optional["HwPin"] = None
+        self.hwPin: Optional[HwPin] = None
         self.hwPinGroup: Optional["HwPinGroup"] = None
 
-    def getHwPin(self) -> Optional["HwPin"]:
+    def getHwPin(self) -> Optional[HwPin]:
         """
         Gets the hardware pin in this pin group content.
 
@@ -226,7 +226,7 @@ class HwPinGroupContent(ARObject):
         """
         return self.hwPin
 
-    def createHwPin(self, short_name: str) -> "HwPin":
+    def createHwPin(self, short_name: str) -> HwPin:
         """
         Creates a new hardware pin in this pin group content.
 

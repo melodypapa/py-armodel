@@ -817,7 +817,7 @@ class StateDependentFirewall(ARElement):
         self.defaultAction: Optional[FirewallActionEnum] = None
 
         # Collection of firewall rules that apply in the vehicle mode
-        self.firewallRuleProps: List["FirewallRuleProps"] = []
+        self.firewallRuleProps: List[FirewallRuleProps] = []
 
         # Reference to firewall states in which the Firewall is active. If one of the referenced ModeDeclarations is the current firewall state then the firewall rule shall be considered as active.
         self.firewallStateModeDeclarationRefs: List[RefType] = []
@@ -839,7 +839,7 @@ class StateDependentFirewall(ARElement):
             self.defaultAction = value
         return self
 
-    def addFirewallRuleProps(self, value: "FirewallRuleProps"):
+    def addFirewallRuleProps(self, value: FirewallRuleProps):
         """
         Collection of firewall rules that apply in the vehicle mode
 
@@ -849,7 +849,7 @@ class StateDependentFirewall(ARElement):
         self.firewallRuleProps.append(value)
         return self
 
-    def getFirewallRuleProps(self) -> List["FirewallRuleProps"]:
+    def getFirewallRuleProps(self) -> List[FirewallRuleProps]:
         """
         Collection of firewall rules that apply in the vehicle mode
         """

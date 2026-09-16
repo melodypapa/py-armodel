@@ -3236,7 +3236,7 @@ class EthernetPhysicalChannel(PhysicalChannel):
     def getNetworkEndpoints(self):
         return self.networkEndpoints
 
-    def createNetworkEndPoint(self, short_name: str) -> "NetworkEndpoint":
+    def createNetworkEndPoint(self, short_name: str) -> NetworkEndpoint:
         from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Fibex.Fibex4Ethernet.EthernetTopology import NetworkEndpoint
 
         if not self.IsElementExists(short_name, NetworkEndpoint):
