@@ -783,16 +783,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [Table 5.73, p.390; init/get/set rows with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none: CompuScaleContents base, one PDF aggregate, verbatim docs, and existing reader/writer coverage match]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 300 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed CompuScaleContents base, typed aggregate, API naming, verbatim docs, reader/writer coverage, package location, and no deviations; marker `# Spec verified: R23-11` written]
-- [ ] `CompuScaleConstantContents` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.74 · subtype of `CompuScaleContents` · member type of `CompuScale.compuScaleContents`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `CompuScaleConstantContents` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.74 · subtype of `CompuScaleContents` · member type of `CompuScale.compuScaleContents`) — verified R23-11 (commit pending)
+   - [x] Step 1 — Sync members & description from spec  [Table 5.74, p.391; Base ARObject + CompuScaleContents, most-derived base CompuScaleContents; one optional aggregate compuConst of type CompuConst; Note and attribute Note copied verbatim]
+   - [x] Step 2 — Write model class unit test (Red)  [initialization, Note assertion, typed compuConst setter, chaining, and None no-op; stale setter/docstring failed before implementation]
+   - [x] Step 3 — Implement model class (Green)  [typed Optional[CompuConst] member and None-preserving setter]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class and compuConst Notes copied verbatim from Table 5.74, including sequence-offset Tag]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [existing COMPU-CONST parser/writer tests assert constant content values]
+   - [x] Step 6 — Update parser & writer (Green)  [existing readCompuConst/writeCompuScaleConstantContents coverage uses the synced accessor pair]
+   - [x] Step 7 — Update checklist comment  [Table 5.74, p.391; init/get/set rows with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: CompuScaleContents base, one PDF aggregate, verbatim docs, and existing reader/writer coverage match]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 300 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed CompuScaleContents base, typed aggregate, API naming, verbatim docs, reader/writer coverage, package location, and no deviations; marker `# Spec verified: R23-11` written]
 - [ ] `Compu` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.62 · member type of `CompuMethod.compuInternalToPhys`/`compuPhysToInternal` below · after `CompuContent` (aggr `compuContent`) + `CompuConst` (aggr `compuDefaultValue`))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

@@ -207,26 +207,30 @@ class CompuScaleContents(ARObject, ABC):
 
 
 class CompuScaleConstantContents(CompuScaleContents):
-    """
-    Represents constant contents of a computation scale.
-    Base: CompuScaleContents
-    """
+    """This meta-class represents the fact that a particular scale of the computation method is constant."""
 
     # CompuScaleConstantContents method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCompuConst                [x] impl  [ ] docstring  [ ] test
-    # [ ] setCompuConst                [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.74, p.391
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__ [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCompuConst [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompuConst [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.compuConst: CompuConst = None
+        # This represents the fact that the scale is a constant. The use case is mainly a non interpolated scale. It is a simplification of the fact that a constant scale can also be expressed as rational function of order 0. Tags: xml.sequenceOffset=90
+        self.compuConst: Optional[CompuConst] = None
 
     def getCompuConst(self) -> CompuConst:
+        """This represents the fact that the scale is a constant. The use case is mainly a non interpolated scale. It is a simplification of the fact that a constant scale can also be expressed as rational function of order 0. Tags: xml.sequenceOffset=90"""
         return self.compuConst
 
     def setCompuConst(self, value: CompuConst):
-        self.compuConst = value
+        """This represents the fact that the scale is a constant. The use case is mainly a non interpolated scale. It is a simplification of the fact that a constant scale can also be expressed as rational function of order 0. Tags: xml.sequenceOffset=90. Does nothing if value is None."""
+        if value is not None:
+            self.compuConst = value
         return self
 
 

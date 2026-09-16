@@ -244,6 +244,7 @@ class TestCompuScaleConstantContents:
         """Test that a CompuScaleConstantContents object can be initialized with default values."""
         compu_scale_constant = CompuScaleConstantContents()
         assert compu_scale_constant.compuConst is None
+        assert "This meta-class represents the fact that a particular scale of the computation method is constant." in CompuScaleConstantContents.__doc__
 
     def test_compu_scale_constant_contents_compu_const_methods(self):
         """Test the compuConst getter and setter."""
@@ -253,6 +254,8 @@ class TestCompuScaleConstantContents:
         result = compu_scale_constant.setCompuConst(compu_const)
         assert compu_scale_constant.getCompuConst() == compu_const
         assert result == compu_scale_constant
+        assert compu_scale_constant.setCompuConst(None) == compu_scale_constant
+        assert compu_scale_constant.getCompuConst() == compu_const
 
 
 class TestCompuRationalCoeffs:
