@@ -733,7 +733,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [Table B.1, p.900 appendix; init/getVf/setVf rows with six columns and R23-11 release; marker deferred to 9b]
   - [x] Step 8 — Deviations  [none: appendix class table is authoritative despite stale numeric queue citation; one PDF attribute modeled with ARNumerical; parser/writer coverage present]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 296 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed appendix table citation p.900, base, typed member, naming, docstrings, reader/writer coverage, and no deviations; marker written]
-- [ ] `CompuConst` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.71 · member type of `Compu.compuDefaultValue` + `CompuScale.compuInverseValue` below)
+- [x] `CompuConst` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.71 · member type of `Compu.compuDefaultValue` + `CompuScale.compuInverseValue` below) — verified R23-11 (commit eddddc99)
   - [x] Step 1 — Sync members & description from spec  [Table 5.71, p.390: Base ARObject; one optional aggregate `compuConstContentType` typed CompuConstContent; class and attribute Notes copied verbatim]
   - [x] Step 2 — Write model class unit test (Red)  [added class Note, typed member, chaining, and None-no-op coverage; initial run failed on stale docstring and clearing setter]
   - [x] Step 3 — Implement model class (Green)  [typed optional CompuConstContent member; setter preserves existing value on None]
