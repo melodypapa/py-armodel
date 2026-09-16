@@ -290,12 +290,108 @@ class TestGraphic:
 
 
 class TestMap:
-    """Test class for Map class."""
+    """Test class for Map class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.23)."""
 
     def test_map_initialization(self):
-        """Test that a Map object can be initialized."""
+        """A new Map shall have an empty area list and all attributes unset."""
         map_obj = Map()
         assert map_obj is not None
+        assert isinstance(map_obj, Map)
+        assert map_obj.getAreas() == []
+        assert map_obj.getClass() is None
+        assert map_obj.getName() is None
+        assert map_obj.getOnclick() is None
+        assert map_obj.getOndblclick() is None
+        assert map_obj.getOnkeydown() is None
+        assert map_obj.getOnkeypress() is None
+        assert map_obj.getOnkeyup() is None
+        assert map_obj.getOnmousedown() is None
+        assert map_obj.getOnmousemove() is None
+        assert map_obj.getOnmouseout() is None
+        assert map_obj.getOnmouseover() is None
+        assert map_obj.getOnmouseup() is None
+        assert map_obj.getTitle() is None
+
+    def test_map_add_area(self):
+        """addArea shall append Areas in insertion order with chaining."""
+        map_obj = Map()
+        area1 = Area()
+        area2 = Area()
+
+        result = map_obj.addArea(area1)
+        assert result is map_obj
+        map_obj.addArea(area2)
+        assert map_obj.getAreas() == [area1, area2]
+
+    def test_map_class_methods(self):
+        """class shall round-trip via set/get with chaining and a None no-op."""
+        map_obj = Map()
+        value = String().setValue("c1 c2")
+
+        result = map_obj.setClass(value)
+        assert result is map_obj
+        assert map_obj.getClass() is value
+
+        map_obj.setClass(None)
+        assert map_obj.getClass() is value
+
+    def test_map_name_methods(self):
+        """name shall round-trip via set/get with chaining and a None no-op."""
+        map_obj = Map()
+        value = NameToken().setValue("map1")
+
+        result = map_obj.setName(value)
+        assert result is map_obj
+        assert map_obj.getName() is value
+
+        map_obj.setName(None)
+        assert map_obj.getName() is value
+
+    def test_map_onclick_methods(self):
+        """onclick shall round-trip via set/get with chaining and a None no-op."""
+        map_obj = Map()
+        value = String().setValue("click()")
+
+        result = map_obj.setOnclick(value)
+        assert result is map_obj
+        assert map_obj.getOnclick() is value
+
+        map_obj.setOnclick(None)
+        assert map_obj.getOnclick() is value
+
+    def test_map_ondblclick_methods(self):
+        """ondblclick shall round-trip via set/get with chaining and a None no-op."""
+        map_obj = Map()
+        value = String().setValue("dblclick()")
+
+        result = map_obj.setOndblclick(value)
+        assert result is map_obj
+        assert map_obj.getOndblclick() is value
+
+        map_obj.setOndblclick(None)
+        assert map_obj.getOndblclick() is value
+
+    MAP_PAGE_SPLIT_ATTRS = [
+        ("setOnkeydown", "getOnkeydown", "keydown()"),
+        ("setOnkeypress", "getOnkeypress", "keypress()"),
+        ("setOnkeyup", "getOnkeyup", "keyup()"),
+        ("setOnmousedown", "getOnmousedown", "mousedown()"),
+        ("setOnmousemove", "getOnmousemove", "mousemove()"),
+        ("setOnmouseout", "getOnmouseout", "mouseout()"),
+        ("setOnmouseover", "getOnmouseover", "mouseover()"),
+        ("setOnmouseup", "getOnmouseup", "mouseup()"),
+        ("setTitle", "getTitle", "map title"),
+    ]
+
+    def test_map_page_split_attributes_get_set(self):
+        """The page-split-fragment attributes shall round-trip with chaining and a None no-op."""
+        for setter, getter, text in self.MAP_PAGE_SPLIT_ATTRS:
+            map_obj = Map()
+            result = getattr(map_obj, setter)(String().setValue(text))
+            assert result is map_obj
+            assert getattr(map_obj, getter)().getValue() == text
+            getattr(map_obj, setter)(None)
+            assert getattr(map_obj, getter)().getValue() == text
 
 
 class TestLGraphic:

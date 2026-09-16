@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
@@ -985,14 +985,324 @@ class Graphic(EngineeringObject):
 
 class Map(ARObject):
     """
-    Image map definition for clickable regions within a graphic.
+    Image maps enable authors to specify regions of an image or object and assign a specific action to each region (e.g., retrieve a document, run a program, etc.) When the region is activated by the user, the action is executed. The class follows the html approach and is intended to support interactive documents.
     """
 
     # Map method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.23, p.306
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addArea          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAreas         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClass         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClass         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setName          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getName          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnclick       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnclick       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOndblclick    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOndblclick    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnkeydown     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnkeydown     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnkeypress    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnkeypress    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnkeyup       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnkeyup       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnmousedown   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnmousedown   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnmousemove   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnmousemove   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnmouseout    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnmouseout    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnmouseover   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnmouseover   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnmouseup     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnmouseup     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTitle         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTitle         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
+
+        # This element specifies a region in an image map. Image maps enable authors to specify regions in an object (e.g. a graphic) and to assign a specific activity to each region (e.g. load a document, launch a program etc.). Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        self.areas: List[Area] = []
+
+        # This attribute assigns a class name or set of class names to an element. Any number of elements may be assigned the same class name or set of class names. Multiple class names shall be separated by white space characters. Class names are typically used to apply CSS formatting rules to an element. Tags: xml.attribute=true
+        self.class_: Optional[String] = None
+
+        # This attribute assigns a name to the image map in the MAP element. This name can be used to be referenced in an HTML image through the attribute USEMAP. Although this is not actually necessary in the MSR model, it was inserted in order to support the MAPs which were created for HTML.
+        self.name: Optional[NameToken] = None
+
+        # The ONCLICK-Event occurs, if the current element is clicked on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onclick: Optional[String] = None
+
+        # The ONDBLCLICK-Event occurs, if the current Event is "double" clicked-on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.ondblclick: Optional[String] = None
+
+        # The ONKEYDOWN-Event occurs, if a button on the current element is pressed down. A script can be stored in this attribute to be performed in the event. Tags: xml.attribute=true
+        self.onkeydown: Optional[String] = None
+
+        # The ONKEYPRESS-Event occurs, if a button on the current element is pressed down and released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onkeypress: Optional[String] = None
+
+        # The ONKEYUP-Event occurs, if a button on the current element is released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onkeyup: Optional[String] = None
+
+        # The ONMOUSEDOWN-Event occurs, if the mouse button used for clicking is held down on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onmousedown: Optional[String] = None
+
+        # The ONMOUSEMOVE-Event occurs, if the mouse pointer is moved on the current element (i.e. it is located on the current element). A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onmousemove: Optional[String] = None
+
+        # The ONMOUSEOUT-Event occurs, if the mouse pointer is moved from the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onmouseout: Optional[String] = None
+
+        # The ONMOUSEOVER-Event occurs, if the mouse pointer is moved to the current element from another location outside it. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onmouseover: Optional[String] = None
+
+        # The ONMOUSEUP-Event occurs if the mouse button used for clicking is released on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onmouseup: Optional[String] = None
+
+        # This attribute offers advisory information. Some Web browsers will display this information as tooltips. Authoring tools may make this information available to users as additional information about the element. Tags: xml.attribute=true
+        self.title: Optional[String] = None
+
+    def addArea(self, value: Area) -> "Map":
+        """
+        This element specifies a region in an image map. Image maps enable authors to specify regions in an object (e.g. a graphic) and to assign a specific activity to each region (e.g. load a document, launch a program etc.). Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+
+        Returns:
+            self for method chaining
+        """
+        self.areas.append(value)
+        return self
+
+    def getAreas(self) -> List[Area]:
+        """
+        This element specifies a region in an image map. Image maps enable authors to specify regions in an object (e.g. a graphic) and to assign a specific activity to each region (e.g. load a document, launch a program etc.). Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        """
+        return self.areas
+
+    def setClass(self, value: Optional[String]) -> "Map":
+        """
+        This attribute assigns a class name or set of class names to an element. Any number of elements may be assigned the same class name or set of class names. Multiple class names shall be separated by white space characters. Class names are typically used to apply CSS formatting rules to an element. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing class.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.class_ = value
+        return self
+
+    def getClass(self) -> Optional[String]:
+        """
+        This attribute assigns a class name or set of class names to an element. Any number of elements may be assigned the same class name or set of class names. Multiple class names shall be separated by white space characters. Class names are typically used to apply CSS formatting rules to an element. Tags: xml.attribute=true
+        """
+        return self.class_
+
+    def setName(self, value: Optional[NameToken]) -> "Map":
+        """
+        This attribute assigns a name to the image map in the MAP element. This name can be used to be referenced in an HTML image through the attribute USEMAP. Although this is not actually necessary in the MSR model, it was inserted in order to support the MAPs which were created for HTML. A None value is a no-op and does not overwrite an existing name.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.name = value
+        return self
+
+    def getName(self) -> Optional[NameToken]:
+        """
+        This attribute assigns a name to the image map in the MAP element. This name can be used to be referenced in an HTML image through the attribute USEMAP. Although this is not actually necessary in the MSR model, it was inserted in order to support the MAPs which were created for HTML.
+        """
+        return self.name
+
+    def setOnclick(self, value: Optional[String]) -> "Map":
+        """
+        The ONCLICK-Event occurs, if the current element is clicked on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onclick.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onclick = value
+        return self
+
+    def getOnclick(self) -> Optional[String]:
+        """
+        The ONCLICK-Event occurs, if the current element is clicked on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onclick
+
+    def setOndblclick(self, value: Optional[String]) -> "Map":
+        """
+        The ONDBLCLICK-Event occurs, if the current Event is "double" clicked-on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing ondblclick.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.ondblclick = value
+        return self
+
+    def getOndblclick(self) -> Optional[String]:
+        """
+        The ONDBLCLICK-Event occurs, if the current Event is "double" clicked-on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.ondblclick
+
+    def setOnkeydown(self, value: Optional[String]) -> "Map":
+        """
+        The ONKEYDOWN-Event occurs, if a button on the current element is pressed down. A script can be stored in this attribute to be performed in the event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onkeydown.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onkeydown = value
+        return self
+
+    def getOnkeydown(self) -> Optional[String]:
+        """
+        The ONKEYDOWN-Event occurs, if a button on the current element is pressed down. A script can be stored in this attribute to be performed in the event. Tags: xml.attribute=true
+        """
+        return self.onkeydown
+
+    def setOnkeypress(self, value: Optional[String]) -> "Map":
+        """
+        The ONKEYPRESS-Event occurs, if a button on the current element is pressed down and released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onkeypress.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onkeypress = value
+        return self
+
+    def getOnkeypress(self) -> Optional[String]:
+        """
+        The ONKEYPRESS-Event occurs, if a button on the current element is pressed down and released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onkeypress
+
+    def setOnkeyup(self, value: Optional[String]) -> "Map":
+        """
+        The ONKEYUP-Event occurs, if a button on the current element is released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onkeyup.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onkeyup = value
+        return self
+
+    def getOnkeyup(self) -> Optional[String]:
+        """
+        The ONKEYUP-Event occurs, if a button on the current element is released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onkeyup
+
+    def setOnmousedown(self, value: Optional[String]) -> "Map":
+        """
+        The ONMOUSEDOWN-Event occurs, if the mouse button used for clicking is held down on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onmousedown.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onmousedown = value
+        return self
+
+    def getOnmousedown(self) -> Optional[String]:
+        """
+        The ONMOUSEDOWN-Event occurs, if the mouse button used for clicking is held down on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onmousedown
+
+    def setOnmousemove(self, value: Optional[String]) -> "Map":
+        """
+        The ONMOUSEMOVE-Event occurs, if the mouse pointer is moved on the current element (i.e. it is located on the current element). A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onmousemove.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onmousemove = value
+        return self
+
+    def getOnmousemove(self) -> Optional[String]:
+        """
+        The ONMOUSEMOVE-Event occurs, if the mouse pointer is moved on the current element (i.e. it is located on the current element). A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onmousemove
+
+    def setOnmouseout(self, value: Optional[String]) -> "Map":
+        """
+        The ONMOUSEOUT-Event occurs, if the mouse pointer is moved from the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onmouseout.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onmouseout = value
+        return self
+
+    def getOnmouseout(self) -> Optional[String]:
+        """
+        The ONMOUSEOUT-Event occurs, if the mouse pointer is moved from the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onmouseout
+
+    def setOnmouseover(self, value: Optional[String]) -> "Map":
+        """
+        The ONMOUSEOVER-Event occurs, if the mouse pointer is moved to the current element from another location outside it. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onmouseover.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onmouseover = value
+        return self
+
+    def getOnmouseover(self) -> Optional[String]:
+        """
+        The ONMOUSEOVER-Event occurs, if the mouse pointer is moved to the current element from another location outside it. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onmouseover
+
+    def setOnmouseup(self, value: Optional[String]) -> "Map":
+        """
+        The ONMOUSEUP-Event occurs if the mouse button used for clicking is released on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onmouseup.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onmouseup = value
+        return self
+
+    def getOnmouseup(self) -> Optional[String]:
+        """
+        The ONMOUSEUP-Event occurs if the mouse button used for clicking is released on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onmouseup
+
+    def setTitle(self, value: Optional[String]) -> "Map":
+        """
+        This attribute offers advisory information. Some Web browsers will display this information as tooltips. Authoring tools may make this information available to users as additional information about the element. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing title.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.title = value
+        return self
+
+    def getTitle(self) -> Optional[String]:
+        """
+        This attribute offers advisory information. Some Web browsers will display this information as tooltips. Authoring tools may make this information available to users as additional information about the element. Tags: xml.attribute=true
+        """
+        return self.title
 
 
 class LGraphic(LanguageSpecific):

@@ -965,7 +965,7 @@ from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
 from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Colspec, Entry, Row, Table, Tbody, Tgroup, Url
-from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Area, AreaEnumNohref, AreaEnumShape, Graphic, GraphicFitEnum, GraphicNotationEnum, LGraphic, MlFigure
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Area, AreaEnumNohref, AreaEnumShape, Graphic, GraphicFitEnum, GraphicNotationEnum, LGraphic, Map, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, TableSeparatorString, ValignEnum
 from armodel.models.M2.MSR.Documentation.Chapters import (
@@ -5110,58 +5110,103 @@ class ARXMLParser(AbstractARXMLParser):
                 graphic.setWidth(String().setValue(child_element.attrib["WIDTH"]))
         return graphic
 
+    def readArea(self, element: ET.Element, area: Area):
+        self.readARObject(element, area)
+        if "ACCESSKEY" in element.attrib:
+            area.setAccesskey(String().setValue(element.attrib["ACCESSKEY"]))
+        if "ALT" in element.attrib:
+            area.setAlt(String().setValue(element.attrib["ALT"]))
+        if "CLASS" in element.attrib:
+            area.setClass(String().setValue(element.attrib["CLASS"]))
+        if "COORDS" in element.attrib:
+            area.setCoords(String().setValue(element.attrib["COORDS"]))
+        if "HREF" in element.attrib:
+            area.setHref(String().setValue(element.attrib["HREF"]))
+        if "NOHREF" in element.attrib:
+            area.setNohref(AreaEnumNohref().setValue(element.attrib["NOHREF"]))
+        if "ONBLUR" in element.attrib:
+            area.setOnblur(String().setValue(element.attrib["ONBLUR"]))
+        if "ONCLICK" in element.attrib:
+            area.setOnclick(String().setValue(element.attrib["ONCLICK"]))
+        if "ONDBLCLICK" in element.attrib:
+            area.setOndblclick(String().setValue(element.attrib["ONDBLCLICK"]))
+        if "ONFOCUS" in element.attrib:
+            area.setOnfocus(String().setValue(element.attrib["ONFOCUS"]))
+        if "ONKEYDOWN" in element.attrib:
+            area.setOnkeydown(String().setValue(element.attrib["ONKEYDOWN"]))
+        if "ONKEYPRESS" in element.attrib:
+            area.setOnkeypress(String().setValue(element.attrib["ONKEYPRESS"]))
+        if "ONKEYUP" in element.attrib:
+            area.setOnkeyup(String().setValue(element.attrib["ONKEYUP"]))
+        if "ONMOUSEDOWN" in element.attrib:
+            area.setOnmousedown(String().setValue(element.attrib["ONMOUSEDOWN"]))
+        if "ONMOUSEMOVE" in element.attrib:
+            area.setOnmousemove(String().setValue(element.attrib["ONMOUSEMOVE"]))
+        if "ONMOUSEOUT" in element.attrib:
+            area.setOnmouseout(String().setValue(element.attrib["ONMOUSEOUT"]))
+        if "ONMOUSEOVER" in element.attrib:
+            area.setOnmouseover(String().setValue(element.attrib["ONMOUSEOVER"]))
+        if "ONMOUSEUP" in element.attrib:
+            area.setOnmouseup(String().setValue(element.attrib["ONMOUSEUP"]))
+        if "SHAPE" in element.attrib:
+            area.setShape(AreaEnumShape().setValue(element.attrib["SHAPE"]))
+        if "STYLE" in element.attrib:
+            area.setStyle(String().setValue(element.attrib["STYLE"]))
+        if "TABINDEX" in element.attrib:
+            area.setTabindex(String().setValue(element.attrib["TABINDEX"]))
+        if "TITLE" in element.attrib:
+            area.setTitle(String().setValue(element.attrib["TITLE"]))
+
     def getArea(self, element: ET.Element, key: str) -> Area:
         child_element = self.find(element, key)
         if child_element is None:
             return None
 
         area = Area()
-        self.readARObject(child_element, area)
-        if "ACCESSKEY" in child_element.attrib:
-            area.setAccesskey(String().setValue(child_element.attrib["ACCESSKEY"]))
-        if "ALT" in child_element.attrib:
-            area.setAlt(String().setValue(child_element.attrib["ALT"]))
-        if "CLASS" in child_element.attrib:
-            area.setClass(String().setValue(child_element.attrib["CLASS"]))
-        if "COORDS" in child_element.attrib:
-            area.setCoords(String().setValue(child_element.attrib["COORDS"]))
-        if "HREF" in child_element.attrib:
-            area.setHref(String().setValue(child_element.attrib["HREF"]))
-        if "NOHREF" in child_element.attrib:
-            area.setNohref(AreaEnumNohref().setValue(child_element.attrib["NOHREF"]))
-        if "ONBLUR" in child_element.attrib:
-            area.setOnblur(String().setValue(child_element.attrib["ONBLUR"]))
-        if "ONCLICK" in child_element.attrib:
-            area.setOnclick(String().setValue(child_element.attrib["ONCLICK"]))
-        if "ONDBLCLICK" in child_element.attrib:
-            area.setOndblclick(String().setValue(child_element.attrib["ONDBLCLICK"]))
-        if "ONFOCUS" in child_element.attrib:
-            area.setOnfocus(String().setValue(child_element.attrib["ONFOCUS"]))
-        if "ONKEYDOWN" in child_element.attrib:
-            area.setOnkeydown(String().setValue(child_element.attrib["ONKEYDOWN"]))
-        if "ONKEYPRESS" in child_element.attrib:
-            area.setOnkeypress(String().setValue(child_element.attrib["ONKEYPRESS"]))
-        if "ONKEYUP" in child_element.attrib:
-            area.setOnkeyup(String().setValue(child_element.attrib["ONKEYUP"]))
-        if "ONMOUSEDOWN" in child_element.attrib:
-            area.setOnmousedown(String().setValue(child_element.attrib["ONMOUSEDOWN"]))
-        if "ONMOUSEMOVE" in child_element.attrib:
-            area.setOnmousemove(String().setValue(child_element.attrib["ONMOUSEMOVE"]))
-        if "ONMOUSEOUT" in child_element.attrib:
-            area.setOnmouseout(String().setValue(child_element.attrib["ONMOUSEOUT"]))
-        if "ONMOUSEOVER" in child_element.attrib:
-            area.setOnmouseover(String().setValue(child_element.attrib["ONMOUSEOVER"]))
-        if "ONMOUSEUP" in child_element.attrib:
-            area.setOnmouseup(String().setValue(child_element.attrib["ONMOUSEUP"]))
-        if "SHAPE" in child_element.attrib:
-            area.setShape(AreaEnumShape().setValue(child_element.attrib["SHAPE"]))
-        if "STYLE" in child_element.attrib:
-            area.setStyle(String().setValue(child_element.attrib["STYLE"]))
-        if "TABINDEX" in child_element.attrib:
-            area.setTabindex(String().setValue(child_element.attrib["TABINDEX"]))
-        if "TITLE" in child_element.attrib:
-            area.setTitle(String().setValue(child_element.attrib["TITLE"]))
+        self.readArea(child_element, area)
         return area
+
+    def readMap(self, element: ET.Element, map_obj: Map):
+        self.readARObject(element, map_obj)
+        for child_element in self.findall(element, "AREA"):
+            area = Area()
+            self.readArea(child_element, area)
+            map_obj.addArea(area)
+        if "CLASS" in element.attrib:
+            map_obj.setClass(String().setValue(element.attrib["CLASS"]))
+        if "NAME" in element.attrib:
+            map_obj.setName(NameToken().setValue(element.attrib["NAME"]))
+        if "ONCLICK" in element.attrib:
+            map_obj.setOnclick(String().setValue(element.attrib["ONCLICK"]))
+        if "ONDBLCLICK" in element.attrib:
+            map_obj.setOndblclick(String().setValue(element.attrib["ONDBLCLICK"]))
+        if "ONKEYDOWN" in element.attrib:
+            map_obj.setOnkeydown(String().setValue(element.attrib["ONKEYDOWN"]))
+        if "ONKEYPRESS" in element.attrib:
+            map_obj.setOnkeypress(String().setValue(element.attrib["ONKEYPRESS"]))
+        if "ONKEYUP" in element.attrib:
+            map_obj.setOnkeyup(String().setValue(element.attrib["ONKEYUP"]))
+        if "ONMOUSEDOWN" in element.attrib:
+            map_obj.setOnmousedown(String().setValue(element.attrib["ONMOUSEDOWN"]))
+        if "ONMOUSEMOVE" in element.attrib:
+            map_obj.setOnmousemove(String().setValue(element.attrib["ONMOUSEMOVE"]))
+        if "ONMOUSEOUT" in element.attrib:
+            map_obj.setOnmouseout(String().setValue(element.attrib["ONMOUSEOUT"]))
+        if "ONMOUSEOVER" in element.attrib:
+            map_obj.setOnmouseover(String().setValue(element.attrib["ONMOUSEOVER"]))
+        if "ONMOUSEUP" in element.attrib:
+            map_obj.setOnmouseup(String().setValue(element.attrib["ONMOUSEUP"]))
+        if "TITLE" in element.attrib:
+            map_obj.setTitle(String().setValue(element.attrib["TITLE"]))
+
+    def getMap(self, element: ET.Element, key: str) -> Map:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+
+        map_obj = Map()
+        self.readMap(child_element, map_obj)
+        return map_obj
 
     def getUrl(self, element: ET.Element, key: str) -> Url:
         child_element = self.find(element, key)

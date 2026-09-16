@@ -859,7 +859,7 @@ from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Url
-from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Area, Graphic, MlFigure
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Area, Graphic, Map, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.Chapters import (
     Chapter,
@@ -2338,54 +2338,94 @@ class ARXMLWriter(AbstractARXMLWriter):
             if graphic.getWidth() is not None:
                 child_element.attrib["WIDTH"] = graphic.getWidth().getValue()
 
+    def writeArea(self, element: ET.Element, area: Area):
+        self.writeARObject(element, area)
+        if area.getAccesskey() is not None:
+            element.attrib["ACCESSKEY"] = area.getAccesskey().getValue()
+        if area.getAlt() is not None:
+            element.attrib["ALT"] = area.getAlt().getValue()
+        if area.getClass() is not None:
+            element.attrib["CLASS"] = area.getClass().getValue()
+        if area.getCoords() is not None:
+            element.attrib["COORDS"] = area.getCoords().getValue()
+        if area.getHref() is not None:
+            element.attrib["HREF"] = area.getHref().getValue()
+        if area.getNohref() is not None:
+            element.attrib["NOHREF"] = area.getNohref().getValue()
+        if area.getOnblur() is not None:
+            element.attrib["ONBLUR"] = area.getOnblur().getValue()
+        if area.getOnclick() is not None:
+            element.attrib["ONCLICK"] = area.getOnclick().getValue()
+        if area.getOndblclick() is not None:
+            element.attrib["ONDBLCLICK"] = area.getOndblclick().getValue()
+        if area.getOnfocus() is not None:
+            element.attrib["ONFOCUS"] = area.getOnfocus().getValue()
+        if area.getOnkeydown() is not None:
+            element.attrib["ONKEYDOWN"] = area.getOnkeydown().getValue()
+        if area.getOnkeypress() is not None:
+            element.attrib["ONKEYPRESS"] = area.getOnkeypress().getValue()
+        if area.getOnkeyup() is not None:
+            element.attrib["ONKEYUP"] = area.getOnkeyup().getValue()
+        if area.getOnmousedown() is not None:
+            element.attrib["ONMOUSEDOWN"] = area.getOnmousedown().getValue()
+        if area.getOnmousemove() is not None:
+            element.attrib["ONMOUSEMOVE"] = area.getOnmousemove().getValue()
+        if area.getOnmouseout() is not None:
+            element.attrib["ONMOUSEOUT"] = area.getOnmouseout().getValue()
+        if area.getOnmouseover() is not None:
+            element.attrib["ONMOUSEOVER"] = area.getOnmouseover().getValue()
+        if area.getOnmouseup() is not None:
+            element.attrib["ONMOUSEUP"] = area.getOnmouseup().getValue()
+        if area.getShape() is not None:
+            element.attrib["SHAPE"] = area.getShape().getValue()
+        if area.getStyle() is not None:
+            element.attrib["STYLE"] = area.getStyle().getValue()
+        if area.getTabindex() is not None:
+            element.attrib["TABINDEX"] = area.getTabindex().getValue()
+        if area.getTitle() is not None:
+            element.attrib["TITLE"] = area.getTitle().getValue()
+
     def setArea(self, element: ET.Element, key: str, area: Area):
         if area is not None:
             child_element = ET.SubElement(element, key)
-            self.writeARObject(child_element, area)
-            if area.getAccesskey() is not None:
-                child_element.attrib["ACCESSKEY"] = area.getAccesskey().getValue()
-            if area.getAlt() is not None:
-                child_element.attrib["ALT"] = area.getAlt().getValue()
-            if area.getClass() is not None:
-                child_element.attrib["CLASS"] = area.getClass().getValue()
-            if area.getCoords() is not None:
-                child_element.attrib["COORDS"] = area.getCoords().getValue()
-            if area.getHref() is not None:
-                child_element.attrib["HREF"] = area.getHref().getValue()
-            if area.getNohref() is not None:
-                child_element.attrib["NOHREF"] = area.getNohref().getValue()
-            if area.getOnblur() is not None:
-                child_element.attrib["ONBLUR"] = area.getOnblur().getValue()
-            if area.getOnclick() is not None:
-                child_element.attrib["ONCLICK"] = area.getOnclick().getValue()
-            if area.getOndblclick() is not None:
-                child_element.attrib["ONDBLCLICK"] = area.getOndblclick().getValue()
-            if area.getOnfocus() is not None:
-                child_element.attrib["ONFOCUS"] = area.getOnfocus().getValue()
-            if area.getOnkeydown() is not None:
-                child_element.attrib["ONKEYDOWN"] = area.getOnkeydown().getValue()
-            if area.getOnkeypress() is not None:
-                child_element.attrib["ONKEYPRESS"] = area.getOnkeypress().getValue()
-            if area.getOnkeyup() is not None:
-                child_element.attrib["ONKEYUP"] = area.getOnkeyup().getValue()
-            if area.getOnmousedown() is not None:
-                child_element.attrib["ONMOUSEDOWN"] = area.getOnmousedown().getValue()
-            if area.getOnmousemove() is not None:
-                child_element.attrib["ONMOUSEMOVE"] = area.getOnmousemove().getValue()
-            if area.getOnmouseout() is not None:
-                child_element.attrib["ONMOUSEOUT"] = area.getOnmouseout().getValue()
-            if area.getOnmouseover() is not None:
-                child_element.attrib["ONMOUSEOVER"] = area.getOnmouseover().getValue()
-            if area.getOnmouseup() is not None:
-                child_element.attrib["ONMOUSEUP"] = area.getOnmouseup().getValue()
-            if area.getShape() is not None:
-                child_element.attrib["SHAPE"] = area.getShape().getValue()
-            if area.getStyle() is not None:
-                child_element.attrib["STYLE"] = area.getStyle().getValue()
-            if area.getTabindex() is not None:
-                child_element.attrib["TABINDEX"] = area.getTabindex().getValue()
-            if area.getTitle() is not None:
-                child_element.attrib["TITLE"] = area.getTitle().getValue()
+            self.writeArea(child_element, area)
+
+    def writeMap(self, element: ET.Element, map_obj: Map):
+        self.writeARObject(element, map_obj)
+        for area in map_obj.getAreas():
+            area_element = ET.SubElement(element, "AREA")
+            self.writeArea(area_element, area)
+        if map_obj.getClass() is not None:
+            element.attrib["CLASS"] = map_obj.getClass().getValue()
+        if map_obj.getName() is not None:
+            element.attrib["NAME"] = map_obj.getName().getValue()
+        if map_obj.getOnclick() is not None:
+            element.attrib["ONCLICK"] = map_obj.getOnclick().getValue()
+        if map_obj.getOndblclick() is not None:
+            element.attrib["ONDBLCLICK"] = map_obj.getOndblclick().getValue()
+        if map_obj.getOnkeydown() is not None:
+            element.attrib["ONKEYDOWN"] = map_obj.getOnkeydown().getValue()
+        if map_obj.getOnkeypress() is not None:
+            element.attrib["ONKEYPRESS"] = map_obj.getOnkeypress().getValue()
+        if map_obj.getOnkeyup() is not None:
+            element.attrib["ONKEYUP"] = map_obj.getOnkeyup().getValue()
+        if map_obj.getOnmousedown() is not None:
+            element.attrib["ONMOUSEDOWN"] = map_obj.getOnmousedown().getValue()
+        if map_obj.getOnmousemove() is not None:
+            element.attrib["ONMOUSEMOVE"] = map_obj.getOnmousemove().getValue()
+        if map_obj.getOnmouseout() is not None:
+            element.attrib["ONMOUSEOUT"] = map_obj.getOnmouseout().getValue()
+        if map_obj.getOnmouseover() is not None:
+            element.attrib["ONMOUSEOVER"] = map_obj.getOnmouseover().getValue()
+        if map_obj.getOnmouseup() is not None:
+            element.attrib["ONMOUSEUP"] = map_obj.getOnmouseup().getValue()
+        if map_obj.getTitle() is not None:
+            element.attrib["TITLE"] = map_obj.getTitle().getValue()
+
+    def setMap(self, element: ET.Element, key: str, map_obj: Map):
+        if map_obj is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeMap(child_element, map_obj)
 
     def setUrl(self, element: ET.Element, key: str, url: Url):
         if url is not None:
