@@ -1628,6 +1628,71 @@ class TestBswParameterPolicyHandlers:
         assert any("Unsupported Parameter Policies" in r.getMessage() for r in caplog.records)
 
 
+class TestBswReleasedTriggerPolicyHandlers:
+    """Exercise readBswReleasedTriggerPolicy and the BswInternalBehavior
+    RELEASED-TRIGGER-POLICYS wrapper."""
+
+    def test_readBswReleasedTriggerPolicy_sets_ref(self, parser):
+        from armodel.models import BswReleasedTriggerPolicy
+
+        policy = BswReleasedTriggerPolicy()
+        element = _snip(
+            "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>" "<RELEASED-TRIGGER-REF DEST='TRIGGER'>/d</RELEASED-TRIGGER-REF>",
+            root_tag="P",
+        )
+        parser.readBswReleasedTriggerPolicy(element, policy)
+        assert policy.getEnableTakeAddress().value is True
+        assert policy.getReleasedTriggerRef().getValue() == "/d"
+        assert policy.getReleasedTriggerRef().getDest() == "TRIGGER"
+
+    def test_readBswInternalBehaviorReleasedTriggerPolicies_adds(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<RELEASED-TRIGGER-POLICYS>"
+            "<BSW-RELEASED-TRIGGER-POLICY>"
+            "<RELEASED-TRIGGER-REF DEST='TRIGGER'>/trig</RELEASED-TRIGGER-REF>"
+            "</BSW-RELEASED-TRIGGER-POLICY>"
+            "</RELEASED-TRIGGER-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorReleasedTriggerPolicies(element, behavior)
+        policies = behavior.getReleasedTriggerPolicies()
+        assert len(policies) == 1
+        assert policies[0].getReleasedTriggerRef().getValue() == "/trig"
+
+    def test_readBswInternalBehaviorReleasedTriggerPolicies_reads_variation_point(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<RELEASED-TRIGGER-POLICYS>"
+            "<BSW-RELEASED-TRIGGER-POLICY>"
+            "<RELEASED-TRIGGER-REF DEST='TRIGGER'>/trig</RELEASED-TRIGGER-REF>"
+            "<VARIATION-POINT><SHORT-LABEL>lbl</SHORT-LABEL></VARIATION-POINT>"
+            "</BSW-RELEASED-TRIGGER-POLICY>"
+            "</RELEASED-TRIGGER-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorReleasedTriggerPolicies(element, behavior)
+        policy = behavior.getReleasedTriggerPolicies()[0]
+        assert policy.getVariationPoint() is not None
+        assert policy.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_readBswInternalBehaviorReleasedTriggerPolicies_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<RELEASED-TRIGGER-POLICYS><BAD/></RELEASED-TRIGGER-POLICYS>",
+            root_tag="BH",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readBswInternalBehaviorReleasedTriggerPolicies(element, behavior)
+        assert any("Unsupported Released Trigger Policies" in r.getMessage() for r in caplog.records)
+
+
 # ==================== BswInternalTriggeringPoint & BswInternalBehavior orchestrator ====================
 
 

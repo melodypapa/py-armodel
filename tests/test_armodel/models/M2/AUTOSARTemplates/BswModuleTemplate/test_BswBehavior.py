@@ -40,6 +40,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswParameterPolicy,
     BswPerInstanceMemoryPolicy,
     BswQueuedDataReceptionPolicy,
+    BswReleasedTriggerPolicy,
     BswSchedulableEntity,
     BswScheduleEvent,
     BswServiceDependency,
@@ -1418,6 +1419,55 @@ class TestBswParameterPolicy:
         assert policy.getVariationPoint() is variation_point
 
 
+class TestBswReleasedTriggerPolicy:
+    """Test cases for BswReleasedTriggerPolicy class - BSW released trigger policy (XSD-only class)."""
+
+    def test_initialization(self):
+        policy = BswReleasedTriggerPolicy()
+        assert policy.getEnableTakeAddress() is None
+        assert policy.getReleasedTriggerRef() is None
+        assert policy.getVariationPoint() is None
+
+    def test_get_set_released_trigger_ref(self):
+        policy = BswReleasedTriggerPolicy()
+        ref = RefType()
+
+        result = policy.setReleasedTriggerRef(ref)
+        assert result == policy
+        assert policy.getReleasedTriggerRef() == ref
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setReleasedTriggerRef(None)
+        assert result == policy
+        assert policy.getReleasedTriggerRef() == ref
+
+    def test_inherited_enable_take_address(self):
+        policy = BswReleasedTriggerPolicy()
+        value = Boolean()
+        value.setValue(True)
+
+        result = policy.setEnableTakeAddress(value)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setEnableTakeAddress(None)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+    def test_inherited_variation_point(self):
+        policy = BswReleasedTriggerPolicy()
+        variation_point = VariationPoint()
+
+        result = policy.setVariationPoint(variation_point)
+        assert result == policy
+        assert policy.getVariationPoint() is variation_point
+
+        # Setting None is a no-op: the existing value is preserved
+        policy.setVariationPoint(None)
+        assert policy.getVariationPoint() is variation_point
+
+
 class TestBswDataReceptionPolicy:
     """Test cases for BswDataReceptionPolicy class - abstract base class for BSW data reception policies."""
 
@@ -1614,6 +1664,21 @@ class TestBswInternalBehavior:
         result = behavior.setReleasedTriggerPolicies([])
         assert result == behavior
         assert behavior.getReleasedTriggerPolicies() == []
+
+    def test_add_released_trigger_policy(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "test_internal_behavior")
+        policy = BswReleasedTriggerPolicy()
+
+        result = behavior.addReleasedTriggerPolicy(policy)
+
+        assert result == behavior
+        assert behavior.getReleasedTriggerPolicies() == [policy]
+
+        # Adding None is a no-op: the list is unchanged
+        behavior.addReleasedTriggerPolicy(None)
+        assert behavior.getReleasedTriggerPolicies() == [policy]
 
     def test_get_set_scheduler_name_prefixes(self):
         document = AUTOSAR.getInstance()

@@ -57,6 +57,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswParameterPolicy,
     BswPerInstanceMemoryPolicy,
     BswQueuedDataReceptionPolicy,
+    BswReleasedTriggerPolicy,
     BswSchedulableEntity,
     BswScheduleEvent,
     BswServiceDependency,
@@ -3639,6 +3640,26 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Parameter Policies <%s>" % tag_name)
 
+    def readBswReleasedTriggerPolicy(self, element: ET.Element, policy: BswReleasedTriggerPolicy):
+        self.readBswApiOptions(element, policy)
+        policy.setReleasedTriggerRef(self.getChildElementOptionalRefType(element, "RELEASED-TRIGGER-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(policy, VariationPointCapable):
+                policy.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readBswInternalBehaviorReleasedTriggerPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "RELEASED-TRIGGER-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-RELEASED-TRIGGER-POLICY":
+                policy = BswReleasedTriggerPolicy()
+                self.readBswReleasedTriggerPolicy(child_element, policy)
+                behavior.addReleasedTriggerPolicy(policy)
+            else:
+                self.notImplemented("Unsupported Released Trigger Policies <%s>" % tag_name)
+
     def readBswInternalTriggeringPoint(self, element: ET.Element, point: BswInternalTriggeringPoint):
         self.readIdentifiable(element, point)
 
@@ -3676,6 +3697,7 @@ class ARXMLParser(AbstractARXMLParser):
             behavior.addIncludedModeDeclarationGroupSet(group_set)
         self.readBswInternalBehaviorInternalTriggeringPointPolicies(element, behavior)
         self.readBswInternalBehaviorParameterPolicies(element, behavior)
+        self.readBswInternalBehaviorReleasedTriggerPolicies(element, behavior)
         self.readBswInternalBehaviorReceptionPolicies(element, behavior)
         self.readBswInternalBehaviorSchedulerNamePrefixes(element, behavior)
         self.readBswInternalBehaviorDistinguishedPartitions(element, behavior)

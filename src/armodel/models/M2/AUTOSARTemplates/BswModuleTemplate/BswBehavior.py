@@ -2111,6 +2111,42 @@ class BswParameterPolicy(BswApiOptions, VariationPointCapable):
         return self
 
 
+class BswReleasedTriggerPolicy(BswApiOptions, VariationPointCapable):
+    """
+    The Trigger for which the BSW Scheduler using this policy.
+    """
+
+    # BswReleasedTriggerPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate (BSW behavior policies), class BswReleasedTriggerPolicy, AUTOSAR_00052.xsd line 12446 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReleasedTriggerRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReleasedTriggerRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The Trigger for which the BSW Scheduler using this policy.
+        self.releasedTriggerRef: Optional[RefType] = None
+
+    def getReleasedTriggerRef(self) -> Optional[RefType]:
+        """
+        The Trigger for which the BSW Scheduler using this policy.
+        """
+        return self.releasedTriggerRef
+
+    def setReleasedTriggerRef(self, value: Optional[RefType]) -> "BswReleasedTriggerPolicy":
+        """
+        The Trigger for which the BSW Scheduler using this policy.
+
+        A None value is a no-op and does not overwrite an existing releasedTriggerRef.
+        """
+        if value is not None:
+            self.releasedTriggerRef = value
+        return self
+
+
 class BswDataReceptionPolicy(BswApiOptions, VariationPointCapable, ABC):
     """
     Abstract base class for BSW data reception policies.
@@ -2533,6 +2569,7 @@ class BswInternalBehavior(InternalBehavior):
     # [x] getParameterPolicies         [x] impl  [x] docstring  [x] test
     # [x] setParameterPolicies         [x] impl  [x] docstring  [x] test
     # [x] addParameterPolicy           [x] impl  [x] docstring  [x] test
+    # [x] addReleasedTriggerPolicy     [x] impl  [x] docstring  [x] test
     # [x] getPerInstanceParameters     [x] impl  [x] docstring  [x] test
     # [x] setPerInstanceParameters     [x] impl  [x] docstring  [x] test
     # [x] getReceptionPolicies         [x] impl  [x] docstring  [x] test
@@ -3005,6 +3042,21 @@ class BswInternalBehavior(InternalBehavior):
         """
         if value is not None:
             self.releasedTriggerPolicies = value
+        return self
+
+    def addReleasedTriggerPolicy(self, value: Optional[BswReleasedTriggerPolicy]) -> "BswInternalBehavior":
+        """
+        Adds a BSW released trigger policy.
+        Only adds the value if it is not None.
+
+        Args:
+            value: The BswReleasedTriggerPolicy to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.releasedTriggerPolicies.append(value)
         return self
 
     def getSchedulerNamePrefixes(self) -> List[BswSchedulerNamePrefix]:
