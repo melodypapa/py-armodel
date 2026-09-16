@@ -965,7 +965,7 @@ from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation, GeneralAnnotation
 from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Colspec, Entry, Row, Table, Tbody, Tgroup, Url
-from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, GraphicFitEnum, GraphicNotationEnum, LGraphic, MlFigure
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Area, AreaEnumNohref, AreaEnumShape, Graphic, GraphicFitEnum, GraphicNotationEnum, LGraphic, Map, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import AlignEnum, FloatEnum, FrameEnum, OrientEnum, PgwideEnum, TableSeparatorString, ValignEnum
 from armodel.models.M2.MSR.Documentation.Chapters import (
@@ -979,7 +979,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     TopicContentOrMsrQuery,
     TopicOrMsrQuery,
 )
-from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryTopic1
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryTopic1
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, ItemLabelPosEnum, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note, NoteTypeEnum
@@ -5110,6 +5110,104 @@ class ARXMLParser(AbstractARXMLParser):
                 graphic.setWidth(String().setValue(child_element.attrib["WIDTH"]))
         return graphic
 
+    def readArea(self, element: ET.Element, area: Area):
+        self.readARObject(element, area)
+        if "ACCESSKEY" in element.attrib:
+            area.setAccesskey(String().setValue(element.attrib["ACCESSKEY"]))
+        if "ALT" in element.attrib:
+            area.setAlt(String().setValue(element.attrib["ALT"]))
+        if "CLASS" in element.attrib:
+            area.setClass(String().setValue(element.attrib["CLASS"]))
+        if "COORDS" in element.attrib:
+            area.setCoords(String().setValue(element.attrib["COORDS"]))
+        if "HREF" in element.attrib:
+            area.setHref(String().setValue(element.attrib["HREF"]))
+        if "NOHREF" in element.attrib:
+            area.setNohref(AreaEnumNohref().setValue(element.attrib["NOHREF"]))
+        if "ONBLUR" in element.attrib:
+            area.setOnblur(String().setValue(element.attrib["ONBLUR"]))
+        if "ONCLICK" in element.attrib:
+            area.setOnclick(String().setValue(element.attrib["ONCLICK"]))
+        if "ONDBLCLICK" in element.attrib:
+            area.setOndblclick(String().setValue(element.attrib["ONDBLCLICK"]))
+        if "ONFOCUS" in element.attrib:
+            area.setOnfocus(String().setValue(element.attrib["ONFOCUS"]))
+        if "ONKEYDOWN" in element.attrib:
+            area.setOnkeydown(String().setValue(element.attrib["ONKEYDOWN"]))
+        if "ONKEYPRESS" in element.attrib:
+            area.setOnkeypress(String().setValue(element.attrib["ONKEYPRESS"]))
+        if "ONKEYUP" in element.attrib:
+            area.setOnkeyup(String().setValue(element.attrib["ONKEYUP"]))
+        if "ONMOUSEDOWN" in element.attrib:
+            area.setOnmousedown(String().setValue(element.attrib["ONMOUSEDOWN"]))
+        if "ONMOUSEMOVE" in element.attrib:
+            area.setOnmousemove(String().setValue(element.attrib["ONMOUSEMOVE"]))
+        if "ONMOUSEOUT" in element.attrib:
+            area.setOnmouseout(String().setValue(element.attrib["ONMOUSEOUT"]))
+        if "ONMOUSEOVER" in element.attrib:
+            area.setOnmouseover(String().setValue(element.attrib["ONMOUSEOVER"]))
+        if "ONMOUSEUP" in element.attrib:
+            area.setOnmouseup(String().setValue(element.attrib["ONMOUSEUP"]))
+        if "SHAPE" in element.attrib:
+            area.setShape(AreaEnumShape().setValue(element.attrib["SHAPE"]))
+        if "STYLE" in element.attrib:
+            area.setStyle(String().setValue(element.attrib["STYLE"]))
+        if "TABINDEX" in element.attrib:
+            area.setTabindex(String().setValue(element.attrib["TABINDEX"]))
+        if "TITLE" in element.attrib:
+            area.setTitle(String().setValue(element.attrib["TITLE"]))
+
+    def getArea(self, element: ET.Element, key: str) -> Area:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+
+        area = Area()
+        self.readArea(child_element, area)
+        return area
+
+    def readMap(self, element: ET.Element, map_obj: Map):
+        self.readARObject(element, map_obj)
+        for child_element in self.findall(element, "AREA"):
+            area = Area()
+            self.readArea(child_element, area)
+            map_obj.addArea(area)
+        if "CLASS" in element.attrib:
+            map_obj.setClass(String().setValue(element.attrib["CLASS"]))
+        if "NAME" in element.attrib:
+            map_obj.setName(NameToken().setValue(element.attrib["NAME"]))
+        if "ONCLICK" in element.attrib:
+            map_obj.setOnclick(String().setValue(element.attrib["ONCLICK"]))
+        if "ONDBLCLICK" in element.attrib:
+            map_obj.setOndblclick(String().setValue(element.attrib["ONDBLCLICK"]))
+        if "ONKEYDOWN" in element.attrib:
+            map_obj.setOnkeydown(String().setValue(element.attrib["ONKEYDOWN"]))
+        if "ONKEYPRESS" in element.attrib:
+            map_obj.setOnkeypress(String().setValue(element.attrib["ONKEYPRESS"]))
+        if "ONKEYUP" in element.attrib:
+            map_obj.setOnkeyup(String().setValue(element.attrib["ONKEYUP"]))
+        if "ONMOUSEDOWN" in element.attrib:
+            map_obj.setOnmousedown(String().setValue(element.attrib["ONMOUSEDOWN"]))
+        if "ONMOUSEMOVE" in element.attrib:
+            map_obj.setOnmousemove(String().setValue(element.attrib["ONMOUSEMOVE"]))
+        if "ONMOUSEOUT" in element.attrib:
+            map_obj.setOnmouseout(String().setValue(element.attrib["ONMOUSEOUT"]))
+        if "ONMOUSEOVER" in element.attrib:
+            map_obj.setOnmouseover(String().setValue(element.attrib["ONMOUSEOVER"]))
+        if "ONMOUSEUP" in element.attrib:
+            map_obj.setOnmouseup(String().setValue(element.attrib["ONMOUSEUP"]))
+        if "TITLE" in element.attrib:
+            map_obj.setTitle(String().setValue(element.attrib["TITLE"]))
+
+    def getMap(self, element: ET.Element, key: str) -> Map:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+
+        map_obj = Map()
+        self.readMap(child_element, map_obj)
+        return map_obj
+
     def getUrl(self, element: ET.Element, key: str) -> Url:
         child_element = self.find(element, key)
         if child_element is None:
@@ -5123,12 +5221,25 @@ class ARXMLParser(AbstractARXMLParser):
             url.setValue(UriString().setValue(child_element.text))
         return url
 
+    def readLGraphic(self, element: ET.Element, graphic: LGraphic):
+        self.readARObject(element, graphic)
+        if "L" in element.attrib:
+            graphic.setL(element.attrib["L"])  # noqa E741
+        graphic.setGraphic(self.getGraphic(element, "GRAPHIC"))
+        graphic.setMap(self.getMap(element, "MAP"))
+
+    def getLGraphic(self, element: ET.Element, key: str) -> LGraphic:
+        graphic = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            graphic = LGraphic()
+            self.readLGraphic(child_element, graphic)
+        return graphic
+
     def readMlFigureLGraphics(self, element: ET.Element, figure: MlFigure):
         for child_element in self.findall(element, "L-GRAPHIC"):
             graphic = LGraphic()
-            if "L" in child_element.attrib:
-                graphic.setL(child_element.attrib["L"])
-            graphic.setGraphic(self.getGraphic(child_element, "GRAPHIC"))
+            self.readLGraphic(child_element, graphic)
             figure.addLGraphics(graphic)
 
     def readDocumentViewSelectable(self, element: ET.Element, selectable: DocumentViewSelectable):
@@ -5262,7 +5373,15 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMlFigure(self, element: ET.Element, figure: MlFigure):
         self.readPaginateable(element, figure)
+        if "FRAME" in element.attrib:
+            figure.setFrame(FrameEnum().setValue(element.attrib["FRAME"]))
+        if "HELP-ENTRY" in element.attrib:
+            figure.setHelpEntry(String().setValue(element.attrib["HELP-ENTRY"]))
+        if "PGWIDE" in element.attrib:
+            figure.setPgwide(PgwideEnum().setValue(element.attrib["PGWIDE"]))
+        figure.setFigureCaption(self.getCaption(element, "FIGURE-CAPTION"))
         self.readMlFigureLGraphics(element, figure)
+        figure.setVerbatim(self.getMultiLanguageVerbatim(element, "VERBATIM"))
 
     def getMlFigures(self, element: ET.Element, key: str) -> List[MlFigure]:
         result = []
@@ -5493,9 +5612,7 @@ class ARXMLParser(AbstractARXMLParser):
             formula.setFormulaCaption(self.getCaption(child_element, "FORMULA-CAPTION"))
             for l_graphic in self.findall(child_element, "L-GRAPHIC"):
                 graphic = LGraphic()
-                if "L" in l_graphic.attrib:
-                    graphic.setL(l_graphic.attrib["L"])
-                graphic.setGraphic(self.getGraphic(l_graphic, "GRAPHIC"))
+                self.readLGraphic(l_graphic, graphic)
                 formula.addLGraphic(graphic)
             formula.setVerbatim(self.getMultiLanguageVerbatim(child_element, "VERBATIM"))
             formula.setTexMath(self.getMultiLanguagePlainText(child_element, "TEX-MATH"))
@@ -6451,12 +6568,30 @@ class ARXMLParser(AbstractARXMLParser):
             msr_query_topic1.setMsrQueryProps(self.getMsrQueryProps(msr_query_props))
         return msr_query_topic1
 
+    def readMsrQueryResultChapter(self, element: ET.Element, parent: ARObject, result: MsrQueryResultChapter):
+        self.readARObject(element, result)
+        for child_element in self.findall(element, "CHAPTER"):
+            result.addChapter(self.readChapter(child_element, parent))
+
+    def getMsrQueryResultChapter(self, element: ET.Element, key: str) -> MsrQueryResultChapter:
+        result = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            result = MsrQueryResultChapter()
+            self.readMsrQueryResultChapter(child_element, result, result)
+        return result
+
     def readMsrQueryChapter(self, element: ET.Element, parent: Chapter) -> MsrQueryChapter:
         msr_query_chapter = MsrQueryChapter()
-        self.readARObject(element, msr_query_chapter)
+        self.readPaginateable(element, msr_query_chapter)
         msr_query_props = self.find(element, "MSR-QUERY-PROPS")
         if msr_query_props is not None:
             msr_query_chapter.setMsrQueryProps(self.getMsrQueryProps(msr_query_props))
+        msr_query_result_chapter = self.find(element, "MSR-QUERY-RESULT-CHAPTER")
+        if msr_query_result_chapter is not None:
+            result = MsrQueryResultChapter()
+            msr_query_chapter.setMsrQueryResultChapter(result)
+            self.readMsrQueryResultChapter(msr_query_result_chapter, msr_query_chapter, result)
         return msr_query_chapter
 
     def readSwComponentType(self, element: ET.Element, parent: SwComponentType):

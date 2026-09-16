@@ -1,7 +1,8 @@
 """This module contains tests for the MsrQuery module in MSR.Documentation.TextModel."""
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
-from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP2, MsrQueryProps
+from armodel.models.M2.MSR.Documentation.Chapters import Chapter
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryChapter, MsrQueryP2, MsrQueryProps, MsrQueryResultChapter
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
@@ -118,3 +119,69 @@ class TestMsrQueryP2:
 
         msr_query_p2.setMsrQueryResultP2(None)
         assert msr_query_p2.getMsrQueryResultP2() == result
+
+
+class TestMsrQueryResultChapter:
+    """Test class for MsrQueryResultChapter class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.87)."""
+
+    def test_msr_query_result_chapter_initialization(self):
+        """Test that an MsrQueryResultChapter object can be initialized with default values."""
+        result = MsrQueryResultChapter()
+        assert result.chapters == []
+
+    def test_msr_query_result_chapter_add_methods(self):
+        """Test adding chapters with insertion order and None no-op."""
+        result = MsrQueryResultChapter()
+        chapter1 = Chapter(None, "ch1")
+        chapter2 = Chapter(None, "ch2")
+
+        ret = result.addChapter(chapter1)
+        result.addChapter(chapter2)
+        assert result.getChapters() == [chapter1, chapter2]
+        assert ret == result
+
+        result.addChapter(None)
+        assert result.getChapters() == [chapter1, chapter2]
+
+
+class TestMsrQueryChapter:
+    """Test class for MsrQueryChapter class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.84)."""
+
+    def test_msr_query_chapter_base_chain(self):
+        """MsrQueryChapter derives from Paginateable only (spec Base: ARObject , DocumentViewSelectable , Paginateable)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+
+        assert issubclass(MsrQueryChapter, Paginateable)
+        assert issubclass(MsrQueryChapter, DocumentViewSelectable)
+        assert not issubclass(MsrQueryChapter, VariationPointCapable)
+
+    def test_msr_query_chapter_initialization(self):
+        """Test that an MsrQueryChapter object can be initialized with default values."""
+        msr_query_chapter = MsrQueryChapter()
+        assert msr_query_chapter.msrQueryProps is None
+        assert msr_query_chapter.msrQueryResultChapter is None
+
+    def test_msr_query_chapter_props_methods(self):
+        """Test the msrQueryProps getter and setter with chaining and None no-op."""
+        msr_query_chapter = MsrQueryChapter()
+        props = MsrQueryProps()
+
+        result = msr_query_chapter.setMsrQueryProps(props)
+        assert msr_query_chapter.getMsrQueryProps() == props
+        assert result == msr_query_chapter
+
+        msr_query_chapter.setMsrQueryProps(None)
+        assert msr_query_chapter.getMsrQueryProps() == props
+
+    def test_msr_query_chapter_result_methods(self):
+        """Test the msrQueryResultChapter getter and setter with chaining and None no-op."""
+        msr_query_chapter = MsrQueryChapter()
+        result = MsrQueryResultChapter()
+
+        ret = msr_query_chapter.setMsrQueryResultChapter(result)
+        assert msr_query_chapter.getMsrQueryResultChapter() == result
+        assert ret == msr_query_chapter
+
+        msr_query_chapter.setMsrQueryResultChapter(None)
+        assert msr_query_chapter.getMsrQueryResultChapter() == result

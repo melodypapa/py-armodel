@@ -1,8 +1,10 @@
-from typing import Optional
+from typing import List, Optional
 
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FrameEnum, PgwideEnum
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageVerbatim
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, NameToken, String
@@ -137,6 +139,7 @@ class AreaEnumNohref(AREnum):
 
     # AreaEnumNohref method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.18, p.301
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # (no methods) — enum value form serialized on Area.nohref (NOHREF attribute)
     # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
@@ -146,6 +149,540 @@ class AreaEnumNohref(AREnum):
 
     def __init__(self):
         super().__init__((AreaEnumNohref.NOHREF,))
+
+
+class AreaEnumShape(AREnum):
+    """
+    This enumerator specifies the shape of the area.
+    """
+
+    # AreaEnumShape method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.19, p.302
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Area.shape (SHAPE attribute)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # The shape is a circle. Tags: atp.EnumerationLiteralIndex=0
+    CIRCLE = "CIRCLE"
+
+    # This specifies the fact that the area covers the rest of the figure. Tags: atp.EnumerationLiteralIndex=1
+    DEFAULT = "DEFAULT"
+
+    # The area is specified as polygon. Tags: atp.EnumerationLiteralIndex=2
+    POLY = "POLY"
+
+    # The shape is specified as rectangle. Tags: atp.EnumerationLiteralIndex=3
+    RECT = "RECT"
+
+    def __init__(self):
+        super().__init__(
+            (
+                AreaEnumShape.CIRCLE,
+                AreaEnumShape.DEFAULT,
+                AreaEnumShape.POLY,
+                AreaEnumShape.RECT,
+            )
+        )
+
+
+class Area(ARObject):
+    """
+    This element specifies a region in an image map. Image maps enable authors to specify regions in an object (e.g. a graphic) and to assign a specific activity to each region (e.g. load a document, launch a program etc.). For more details refer to the specification of HTML.
+    """
+
+    # Area method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.17, p.301
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setAccesskey      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAccesskey      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setAlt            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAlt            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClass          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClass          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCoords         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCoords         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHref           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHref           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setNohref         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getNohref         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnblur         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnblur         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnclick        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnclick        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOndblclick     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOndblclick     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnfocus        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnfocus        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnkeydown      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnkeydown      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnkeypress     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnkeypress     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnkeyup        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnkeyup        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnmousedown    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnmousedown    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnmousemove    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnmousemove    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnmouseout     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnmouseout     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnmouseover    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnmouseover    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnmouseup      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnmouseup      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShape          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShape          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setStyle          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getStyle          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTabindex       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTabindex       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTitle          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTitle          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This attribute assigns an access key to an element. An access key is an individual character (e.g. "B") within the document character range. If an access key with an element assigned to it is pressed, the element comes into focus. The activity performed when an element comes into focus, is dependent on the element itself Tags: xml.attribute=true
+        self.accesskey: Optional[String] = None
+
+        # This attribute specifies the text to be inserted as an alternative to illustrations, shapes or applets, where these cannot be displayed by user agents. Tags: xml.attribute=true
+        self.alt: Optional[String] = None
+
+        # Blank separated list of classes Tags: xml.attribute=true
+        self.class_: Optional[String] = None
+
+        # This attribute specifies the position and shape on the screen. The number of values and their order depend on the geometrical figure defined. Tags: xml.attribute=true
+        self.coords: Optional[String] = None
+
+        # This attribute specifies the memory location of a web resource. It is therefore able to specify a link between the current element and the target element. Tags: xml.attribute=true
+        self.href: Optional[String] = None
+
+        # If this attribute is set, the Area has no associated link. Tags: xml.attribute=true
+        self.nohref: Optional[AreaEnumNohref] = None
+
+        # The ONBLUR-Event occurs, when focus is switched away from an element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onblur: Optional[String] = None
+
+        # The ONCLICK-Event occurs, if the current element is clicked-on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onclick: Optional[String] = None
+
+        # The ONCLICK-Event occurs, if the current element is "double" clicked-on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.ondblclick: Optional[String] = None
+
+        # The ONFOCUS-Event occurs, if an element comes into focus (e.g., through navigation using the tab button). A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onfocus: Optional[String] = None
+
+        # The ONKEYDOWN-Event occurs, if a button on the current element is pressed down. A script can be stored in this attribute to be performed in the event. Tags: xml.attribute=true
+        self.onkeydown: Optional[String] = None
+
+        # The ONKEYPRESS-Event occurs, if a button on the current element is pressed down and released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onkeypress: Optional[String] = None
+
+        # The ONKEYUP-Event occurs, if a button on the current element is released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onkeyup: Optional[String] = None
+
+        # The ONMOUSEDOWN-Event occurs, if the mouse button used for clicking is held down on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onmousedown: Optional[String] = None
+
+        # The ONMOUSEMOVE-Event occurs, if the mouse pointer is moved on the current element (i.e. it is located on the current element). A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onmousemove: Optional[String] = None
+
+        # The ONMOUSEOUT-Event occurs, if the mouse pointer is moved from the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onmouseout: Optional[String] = None
+
+        # The ONMOUSEOVER-Event occurs, if the mouse pointer is moved to the current element from another location outside it. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onmouseover: Optional[String] = None
+
+        # The ONMOUSEUP-Event occurs if the mouse button used for clicking is released on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onmouseup: Optional[String] = None
+
+        # The shape of the area. Note that in HTML this is defaulted to RECT. Tags: xml.attribute=true
+        self.shape: Optional[AreaEnumShape] = None
+
+        # Information on the associated style Tags: xml.attribute=true
+        self.style: Optional[String] = None
+
+        # This attribute specifies the position of the current element in tabbing-order for the corresponding document. The value shall lie between 0 and 32767. The Tabbing Order defines the sequence in which elements are focused on, when the user navigates using the keyboard. Tags: xml.attribute=true
+        self.tabindex: Optional[String] = None
+
+        # Title information of the Area element Tags: xml.attribute=true
+        self.title: Optional[String] = None
+
+    def setAccesskey(self, value: Optional[String]) -> "Area":
+        """
+        This attribute assigns an access key to an element. An access key is an individual character (e.g. "B") within the document character range. If an access key with an element assigned to it is pressed, the element comes into focus. The activity performed when an element comes into focus, is dependent on the element itself Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing accesskey.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.accesskey = value
+        return self
+
+    def getAccesskey(self) -> Optional[String]:
+        """
+        This attribute assigns an access key to an element. An access key is an individual character (e.g. "B") within the document character range. If an access key with an element assigned to it is pressed, the element comes into focus. The activity performed when an element comes into focus, is dependent on the element itself Tags: xml.attribute=true
+        """
+        return self.accesskey
+
+    def setAlt(self, value: Optional[String]) -> "Area":
+        """
+        This attribute specifies the text to be inserted as an alternative to illustrations, shapes or applets, where these cannot be displayed by user agents. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing alt.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.alt = value
+        return self
+
+    def getAlt(self) -> Optional[String]:
+        """
+        This attribute specifies the text to be inserted as an alternative to illustrations, shapes or applets, where these cannot be displayed by user agents. Tags: xml.attribute=true
+        """
+        return self.alt
+
+    def setClass(self, value: Optional[String]) -> "Area":
+        """
+        Blank separated list of classes Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing class.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.class_ = value
+        return self
+
+    def getClass(self) -> Optional[String]:
+        """
+        Blank separated list of classes Tags: xml.attribute=true
+        """
+        return self.class_
+
+    def setCoords(self, value: Optional[String]) -> "Area":
+        """
+        This attribute specifies the position and shape on the screen. The number of values and their order depend on the geometrical figure defined. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing coords.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.coords = value
+        return self
+
+    def getCoords(self) -> Optional[String]:
+        """
+        This attribute specifies the position and shape on the screen. The number of values and their order depend on the geometrical figure defined. Tags: xml.attribute=true
+        """
+        return self.coords
+
+    def setHref(self, value: Optional[String]) -> "Area":
+        """
+        This attribute specifies the memory location of a web resource. It is therefore able to specify a link between the current element and the target element. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing href.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.href = value
+        return self
+
+    def getHref(self) -> Optional[String]:
+        """
+        This attribute specifies the memory location of a web resource. It is therefore able to specify a link between the current element and the target element. Tags: xml.attribute=true
+        """
+        return self.href
+
+    def setNohref(self, value: Optional[AreaEnumNohref]) -> "Area":
+        """
+        If this attribute is set, the Area has no associated link. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing nohref.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.nohref = value
+        return self
+
+    def getNohref(self) -> Optional[AreaEnumNohref]:
+        """
+        If this attribute is set, the Area has no associated link. Tags: xml.attribute=true
+        """
+        return self.nohref
+
+    def setOnblur(self, value: Optional[String]) -> "Area":
+        """
+        The ONBLUR-Event occurs, when focus is switched away from an element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onblur.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onblur = value
+        return self
+
+    def getOnblur(self) -> Optional[String]:
+        """
+        The ONBLUR-Event occurs, when focus is switched away from an element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onblur
+
+    def setOnclick(self, value: Optional[String]) -> "Area":
+        """
+        The ONCLICK-Event occurs, if the current element is clicked-on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onclick.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onclick = value
+        return self
+
+    def getOnclick(self) -> Optional[String]:
+        """
+        The ONCLICK-Event occurs, if the current element is clicked-on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onclick
+
+    def setOndblclick(self, value: Optional[String]) -> "Area":
+        """
+        The ONCLICK-Event occurs, if the current element is "double" clicked-on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing ondblclick.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.ondblclick = value
+        return self
+
+    def getOndblclick(self) -> Optional[String]:
+        """
+        The ONCLICK-Event occurs, if the current element is "double" clicked-on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.ondblclick
+
+    def setOnfocus(self, value: Optional[String]) -> "Area":
+        """
+        The ONFOCUS-Event occurs, if an element comes into focus (e.g., through navigation using the tab button). A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onfocus.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onfocus = value
+        return self
+
+    def getOnfocus(self) -> Optional[String]:
+        """
+        The ONFOCUS-Event occurs, if an element comes into focus (e.g., through navigation using the tab button). A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onfocus
+
+    def setOnkeydown(self, value: Optional[String]) -> "Area":
+        """
+        The ONKEYDOWN-Event occurs, if a button on the current element is pressed down. A script can be stored in this attribute to be performed in the event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onkeydown.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onkeydown = value
+        return self
+
+    def getOnkeydown(self) -> Optional[String]:
+        """
+        The ONKEYDOWN-Event occurs, if a button on the current element is pressed down. A script can be stored in this attribute to be performed in the event. Tags: xml.attribute=true
+        """
+        return self.onkeydown
+
+    def setOnkeypress(self, value: Optional[String]) -> "Area":
+        """
+        The ONKEYPRESS-Event occurs, if a button on the current element is pressed down and released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onkeypress.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onkeypress = value
+        return self
+
+    def getOnkeypress(self) -> Optional[String]:
+        """
+        The ONKEYPRESS-Event occurs, if a button on the current element is pressed down and released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onkeypress
+
+    def setOnkeyup(self, value: Optional[String]) -> "Area":
+        """
+        The ONKEYUP-Event occurs, if a button on the current element is released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onkeyup.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onkeyup = value
+        return self
+
+    def getOnkeyup(self) -> Optional[String]:
+        """
+        The ONKEYUP-Event occurs, if a button on the current element is released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onkeyup
+
+    def setOnmousedown(self, value: Optional[String]) -> "Area":
+        """
+        The ONMOUSEDOWN-Event occurs, if the mouse button used for clicking is held down on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onmousedown.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onmousedown = value
+        return self
+
+    def getOnmousedown(self) -> Optional[String]:
+        """
+        The ONMOUSEDOWN-Event occurs, if the mouse button used for clicking is held down on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onmousedown
+
+    def setOnmousemove(self, value: Optional[String]) -> "Area":
+        """
+        The ONMOUSEMOVE-Event occurs, if the mouse pointer is moved on the current element (i.e. it is located on the current element). A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onmousemove.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onmousemove = value
+        return self
+
+    def getOnmousemove(self) -> Optional[String]:
+        """
+        The ONMOUSEMOVE-Event occurs, if the mouse pointer is moved on the current element (i.e. it is located on the current element). A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onmousemove
+
+    def setOnmouseout(self, value: Optional[String]) -> "Area":
+        """
+        The ONMOUSEOUT-Event occurs, if the mouse pointer is moved from the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onmouseout.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onmouseout = value
+        return self
+
+    def getOnmouseout(self) -> Optional[String]:
+        """
+        The ONMOUSEOUT-Event occurs, if the mouse pointer is moved from the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onmouseout
+
+    def setOnmouseover(self, value: Optional[String]) -> "Area":
+        """
+        The ONMOUSEOVER-Event occurs, if the mouse pointer is moved to the current element from another location outside it. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onmouseover.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onmouseover = value
+        return self
+
+    def getOnmouseover(self) -> Optional[String]:
+        """
+        The ONMOUSEOVER-Event occurs, if the mouse pointer is moved to the current element from another location outside it. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onmouseover
+
+    def setOnmouseup(self, value: Optional[String]) -> "Area":
+        """
+        The ONMOUSEUP-Event occurs if the mouse button used for clicking is released on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onmouseup.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onmouseup = value
+        return self
+
+    def getOnmouseup(self) -> Optional[String]:
+        """
+        The ONMOUSEUP-Event occurs if the mouse button used for clicking is released on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onmouseup
+
+    def setShape(self, value: Optional[AreaEnumShape]) -> "Area":
+        """
+        The shape of the area. Note that in HTML this is defaulted to RECT. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing shape.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.shape = value
+        return self
+
+    def getShape(self) -> Optional[AreaEnumShape]:
+        """
+        The shape of the area. Note that in HTML this is defaulted to RECT. Tags: xml.attribute=true
+        """
+        return self.shape
+
+    def setStyle(self, value: Optional[String]) -> "Area":
+        """
+        Information on the associated style Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing style.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.style = value
+        return self
+
+    def getStyle(self) -> Optional[String]:
+        """
+        Information on the associated style Tags: xml.attribute=true
+        """
+        return self.style
+
+    def setTabindex(self, value: Optional[String]) -> "Area":
+        """
+        This attribute specifies the position of the current element in tabbing-order for the corresponding document. The value shall lie between 0 and 32767. The Tabbing Order defines the sequence in which elements are focused on, when the user navigates using the keyboard. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing tabindex.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.tabindex = value
+        return self
+
+    def getTabindex(self) -> Optional[String]:
+        """
+        This attribute specifies the position of the current element in tabbing-order for the corresponding document. The value shall lie between 0 and 32767. The Tabbing Order defines the sequence in which elements are focused on, when the user navigates using the keyboard. Tags: xml.attribute=true
+        """
+        return self.tabindex
+
+    def setTitle(self, value: Optional[String]) -> "Area":
+        """
+        Title information of the Area element Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing title.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.title = value
+        return self
+
+    def getTitle(self) -> Optional[String]:
+        """
+        Title information of the Area element Tags: xml.attribute=true
+        """
+        return self.title
 
 
 class Graphic(EngineeringObject):
@@ -450,14 +987,324 @@ class Graphic(EngineeringObject):
 
 class Map(ARObject):
     """
-    Image map definition for clickable regions within a graphic.
+    Image maps enable authors to specify regions of an image or object and assign a specific action to each region (e.g., retrieve a document, run a program, etc.) When the region is activated by the user, the action is executed. The class follows the html approach and is intended to support interactive documents.
     """
 
     # Map method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.23, p.306
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__         [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addArea          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getAreas         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClass         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClass         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setName          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getName          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnclick       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnclick       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOndblclick    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOndblclick    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnkeydown     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnkeydown     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnkeypress    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnkeypress    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnkeyup       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnkeyup       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnmousedown   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnmousedown   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnmousemove   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnmousemove   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnmouseout    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnmouseout    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnmouseover   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnmouseover   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setOnmouseup     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getOnmouseup     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTitle         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTitle         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
+
+        # This element specifies a region in an image map. Image maps enable authors to specify regions in an object (e.g. a graphic) and to assign a specific activity to each region (e.g. load a document, launch a program etc.). Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        self.areas: List[Area] = []
+
+        # This attribute assigns a class name or set of class names to an element. Any number of elements may be assigned the same class name or set of class names. Multiple class names shall be separated by white space characters. Class names are typically used to apply CSS formatting rules to an element. Tags: xml.attribute=true
+        self.class_: Optional[String] = None
+
+        # This attribute assigns a name to the image map in the MAP element. This name can be used to be referenced in an HTML image through the attribute USEMAP. Although this is not actually necessary in the MSR model, it was inserted in order to support the MAPs which were created for HTML.
+        self.name: Optional[NameToken] = None
+
+        # The ONCLICK-Event occurs, if the current element is clicked on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onclick: Optional[String] = None
+
+        # The ONDBLCLICK-Event occurs, if the current Event is "double" clicked-on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.ondblclick: Optional[String] = None
+
+        # The ONKEYDOWN-Event occurs, if a button on the current element is pressed down. A script can be stored in this attribute to be performed in the event. Tags: xml.attribute=true
+        self.onkeydown: Optional[String] = None
+
+        # The ONKEYPRESS-Event occurs, if a button on the current element is pressed down and released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onkeypress: Optional[String] = None
+
+        # The ONKEYUP-Event occurs, if a button on the current element is released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onkeyup: Optional[String] = None
+
+        # The ONMOUSEDOWN-Event occurs, if the mouse button used for clicking is held down on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onmousedown: Optional[String] = None
+
+        # The ONMOUSEMOVE-Event occurs, if the mouse pointer is moved on the current element (i.e. it is located on the current element). A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onmousemove: Optional[String] = None
+
+        # The ONMOUSEOUT-Event occurs, if the mouse pointer is moved from the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onmouseout: Optional[String] = None
+
+        # The ONMOUSEOVER-Event occurs, if the mouse pointer is moved to the current element from another location outside it. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onmouseover: Optional[String] = None
+
+        # The ONMOUSEUP-Event occurs if the mouse button used for clicking is released on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        self.onmouseup: Optional[String] = None
+
+        # This attribute offers advisory information. Some Web browsers will display this information as tooltips. Authoring tools may make this information available to users as additional information about the element. Tags: xml.attribute=true
+        self.title: Optional[String] = None
+
+    def addArea(self, value: Area) -> "Map":
+        """
+        This element specifies a region in an image map. Image maps enable authors to specify regions in an object (e.g. a graphic) and to assign a specific activity to each region (e.g. load a document, launch a program etc.). Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+
+        Returns:
+            self for method chaining
+        """
+        self.areas.append(value)
+        return self
+
+    def getAreas(self) -> List[Area]:
+        """
+        This element specifies a region in an image map. Image maps enable authors to specify regions in an object (e.g. a graphic) and to assign a specific activity to each region (e.g. load a document, launch a program etc.). Tags: xml.roleElement=true xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        """
+        return self.areas
+
+    def setClass(self, value: Optional[String]) -> "Map":
+        """
+        This attribute assigns a class name or set of class names to an element. Any number of elements may be assigned the same class name or set of class names. Multiple class names shall be separated by white space characters. Class names are typically used to apply CSS formatting rules to an element. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing class.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.class_ = value
+        return self
+
+    def getClass(self) -> Optional[String]:
+        """
+        This attribute assigns a class name or set of class names to an element. Any number of elements may be assigned the same class name or set of class names. Multiple class names shall be separated by white space characters. Class names are typically used to apply CSS formatting rules to an element. Tags: xml.attribute=true
+        """
+        return self.class_
+
+    def setName(self, value: Optional[NameToken]) -> "Map":
+        """
+        This attribute assigns a name to the image map in the MAP element. This name can be used to be referenced in an HTML image through the attribute USEMAP. Although this is not actually necessary in the MSR model, it was inserted in order to support the MAPs which were created for HTML. A None value is a no-op and does not overwrite an existing name.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.name = value
+        return self
+
+    def getName(self) -> Optional[NameToken]:
+        """
+        This attribute assigns a name to the image map in the MAP element. This name can be used to be referenced in an HTML image through the attribute USEMAP. Although this is not actually necessary in the MSR model, it was inserted in order to support the MAPs which were created for HTML.
+        """
+        return self.name
+
+    def setOnclick(self, value: Optional[String]) -> "Map":
+        """
+        The ONCLICK-Event occurs, if the current element is clicked on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onclick.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onclick = value
+        return self
+
+    def getOnclick(self) -> Optional[String]:
+        """
+        The ONCLICK-Event occurs, if the current element is clicked on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onclick
+
+    def setOndblclick(self, value: Optional[String]) -> "Map":
+        """
+        The ONDBLCLICK-Event occurs, if the current Event is "double" clicked-on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing ondblclick.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.ondblclick = value
+        return self
+
+    def getOndblclick(self) -> Optional[String]:
+        """
+        The ONDBLCLICK-Event occurs, if the current Event is "double" clicked-on. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.ondblclick
+
+    def setOnkeydown(self, value: Optional[String]) -> "Map":
+        """
+        The ONKEYDOWN-Event occurs, if a button on the current element is pressed down. A script can be stored in this attribute to be performed in the event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onkeydown.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onkeydown = value
+        return self
+
+    def getOnkeydown(self) -> Optional[String]:
+        """
+        The ONKEYDOWN-Event occurs, if a button on the current element is pressed down. A script can be stored in this attribute to be performed in the event. Tags: xml.attribute=true
+        """
+        return self.onkeydown
+
+    def setOnkeypress(self, value: Optional[String]) -> "Map":
+        """
+        The ONKEYPRESS-Event occurs, if a button on the current element is pressed down and released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onkeypress.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onkeypress = value
+        return self
+
+    def getOnkeypress(self) -> Optional[String]:
+        """
+        The ONKEYPRESS-Event occurs, if a button on the current element is pressed down and released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onkeypress
+
+    def setOnkeyup(self, value: Optional[String]) -> "Map":
+        """
+        The ONKEYUP-Event occurs, if a button on the current element is released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onkeyup.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onkeyup = value
+        return self
+
+    def getOnkeyup(self) -> Optional[String]:
+        """
+        The ONKEYUP-Event occurs, if a button on the current element is released. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onkeyup
+
+    def setOnmousedown(self, value: Optional[String]) -> "Map":
+        """
+        The ONMOUSEDOWN-Event occurs, if the mouse button used for clicking is held down on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onmousedown.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onmousedown = value
+        return self
+
+    def getOnmousedown(self) -> Optional[String]:
+        """
+        The ONMOUSEDOWN-Event occurs, if the mouse button used for clicking is held down on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onmousedown
+
+    def setOnmousemove(self, value: Optional[String]) -> "Map":
+        """
+        The ONMOUSEMOVE-Event occurs, if the mouse pointer is moved on the current element (i.e. it is located on the current element). A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onmousemove.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onmousemove = value
+        return self
+
+    def getOnmousemove(self) -> Optional[String]:
+        """
+        The ONMOUSEMOVE-Event occurs, if the mouse pointer is moved on the current element (i.e. it is located on the current element). A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onmousemove
+
+    def setOnmouseout(self, value: Optional[String]) -> "Map":
+        """
+        The ONMOUSEOUT-Event occurs, if the mouse pointer is moved from the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onmouseout.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onmouseout = value
+        return self
+
+    def getOnmouseout(self) -> Optional[String]:
+        """
+        The ONMOUSEOUT-Event occurs, if the mouse pointer is moved from the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onmouseout
+
+    def setOnmouseover(self, value: Optional[String]) -> "Map":
+        """
+        The ONMOUSEOVER-Event occurs, if the mouse pointer is moved to the current element from another location outside it. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onmouseover.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onmouseover = value
+        return self
+
+    def getOnmouseover(self) -> Optional[String]:
+        """
+        The ONMOUSEOVER-Event occurs, if the mouse pointer is moved to the current element from another location outside it. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onmouseover
+
+    def setOnmouseup(self, value: Optional[String]) -> "Map":
+        """
+        The ONMOUSEUP-Event occurs if the mouse button used for clicking is released on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing onmouseup.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.onmouseup = value
+        return self
+
+    def getOnmouseup(self) -> Optional[String]:
+        """
+        The ONMOUSEUP-Event occurs if the mouse button used for clicking is released on the current element. A script can be stored in this attribute to be performed in the Event. Tags: xml.attribute=true
+        """
+        return self.onmouseup
+
+    def setTitle(self, value: Optional[String]) -> "Map":
+        """
+        This attribute offers advisory information. Some Web browsers will display this information as tooltips. Authoring tools may make this information available to users as additional information about the element. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing title.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.title = value
+        return self
+
+    def getTitle(self) -> Optional[String]:
+        """
+        This attribute offers advisory information. Some Web browsers will display this information as tooltips. Authoring tools may make this information available to users as additional information about the element. Tags: xml.attribute=true
+        """
+        return self.title
 
 
 class LGraphic(LanguageSpecific):
@@ -467,28 +1314,28 @@ class LGraphic(LanguageSpecific):
 
     # LGraphic method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.25, p.308
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getGraphic   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setGraphic   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMap       [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
-    # [x] setMap       [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getGraphic   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGraphic   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMap       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMap       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (inherited LanguageSpecific L attribute is read/written by readLGraphic/writeLGraphic;
+    #  the accessors remain on the declaring class)
 
     def __init__(self):
         super().__init__()
 
         # Reference to the actual graphic represented in the figure. Tags: xml.sequenceOffset=20
-        self.graphic = None  # type: Graphic
+        self.graphic: Optional[Graphic] = None
 
         # Image maps enable authors to specify regions of an image or object and assign a specific action to each region. Tags: xml.sequenceOffset=30
-        self.map = None  # type: Map
+        self.map: Optional[Map] = None
 
     def getGraphic(self):
         """
         Reference to the actual graphic represented in the figure. Tags: xml.sequenceOffset=20
-
-        Returns:
-            The graphic represented in the figure
         """
         return self.graphic
 
@@ -506,9 +1353,6 @@ class LGraphic(LanguageSpecific):
     def getMap(self):
         """
         Image maps enable authors to specify regions of an image or object and assign a specific action to each region. Tags: xml.sequenceOffset=30
-
-        Returns:
-            The image map of the figure
         """
         return self.map
 
@@ -524,70 +1368,148 @@ class LGraphic(LanguageSpecific):
         return self
 
 
-class MlFigure(Paginateable, VariationPointCapable):
+class MlFigure(Paginateable):
     """
-    Multi-language figure with caption, graphics, and optional verbatim
-    content.
+    This metaclass represents the ability to embed a figure.
     """
 
     # MlFigure method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getFigureCaption             [x] impl  [ ] docstring  [ ] test
-    # [ ] setFigureCaption             [x] impl  [ ] docstring  [ ] test
-    # [ ] getHelpEntry                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setHelpEntry                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getLGraphics                 [x] impl  [ ] docstring  [ ] test
-    # [ ] addLGraphics                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getPgwide                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setPgwide                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getVerbatim                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setVerbatim                  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.24, p.307
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFigureCaption   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFigureCaption   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFrame           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFrame           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHelpEntry       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHelpEntry       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLGraphics       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addLGraphics       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPgwide          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPgwide          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVerbatim        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVerbatim        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.figureCaption = None  # type: Caption
-        self.helpEntry = None  # type: String
-        self.lGraphics = []  # type: List[LGraphic]
-        self.pgwide = None  # type: PgwideEnum
-        self.verbatim = None  # type: MultiLanguageVerbatim
+        # This element specifies the title of an illustration.
+        self.figureCaption: Optional[Caption] = None
+
+        # Used to defined the frame line around a figure. It can assume the following values: • TOP - Border at the top of the figure • BOTTOM - Border at the bottom of the figure • TOPBOT - Borders at the top and bottom of the figure • ALL - Borders all around the figure • SIDES - Borders at the sides of the figure • NONE - No borders around the figure Tags: xml.attribute=true
+        self.frame: Optional[FrameEnum] = None
+
+        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
+        self.helpEntry: Optional[String] = None
+
+        # Container of the graphic (or diagram) and optional map of the figure in a given language. Tags: xml.roleWrapperElement=false xml.sequenceOffset=30
+        self.lGraphics: List[LGraphic] = []
+
+        # Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). Tags: xml.attribute=true
+        self.pgwide: Optional[PgwideEnum] = None
+
+        # <verbatim> is a paragraph in which white-space (in particular blanks and line feeds) is obeyed. This enables basic preformatting to be carried out, which can even be displayed on simple devices. Behavior is the same as PRE in HTML . Tags: xml.sequenceOffset=50
+        self.verbatim: Optional[MultiLanguageVerbatim] = None
 
     def getFigureCaption(self):
+        """
+        This element specifies the title of an illustration.
+        """
         return self.figureCaption
 
     def setFigureCaption(self, value):
+        """
+        This element specifies the title of an illustration. A None value is a no-op and does not overwrite an existing figureCaption.
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.figureCaption = value
         return self
 
+    def getFrame(self):
+        """
+        Used to defined the frame line around a figure. It can assume the following values: • TOP - Border at the top of the figure • BOTTOM - Border at the bottom of the figure • TOPBOT - Borders at the top and bottom of the figure • ALL - Borders all around the figure • SIDES - Borders at the sides of the figure • NONE - No borders around the figure Tags: xml.attribute=true
+        """
+        return self.frame
+
+    def setFrame(self, value):
+        """
+        Used to defined the frame line around a figure. It can assume the following values: • TOP - Border at the top of the figure • BOTTOM - Border at the bottom of the figure • TOPBOT - Borders at the top and bottom of the figure • ALL - Borders all around the figure • SIDES - Borders at the sides of the figure • NONE - No borders around the figure Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing frame.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.frame = value
+        return self
+
     def getHelpEntry(self):
+        """
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
+        """
         return self.helpEntry
 
     def setHelpEntry(self, value):
+        """
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing helpEntry.
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.helpEntry = value
         return self
 
     def getLGraphics(self):
+        """
+        Container of the graphic (or diagram) and optional map of the figure in a given language. Tags: xml.roleWrapperElement=false xml.sequenceOffset=30
+        """
         return self.lGraphics
 
     def addLGraphics(self, value):
+        """
+        Container of the graphic (or diagram) and optional map of the figure in a given language. Tags: xml.roleWrapperElement=false xml.sequenceOffset=30. A None value is a no-op and does not append to the existing lGraphics.
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.lGraphics.append(value)
         return self
 
     def getPgwide(self):
+        """
+        Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). Tags: xml.attribute=true
+        """
         return self.pgwide
 
     def setPgwide(self, value):
+        """
+        Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing pgwide.
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.pgwide = value
         return self
 
     def getVerbatim(self):
+        """
+        <verbatim> is a paragraph in which white-space (in particular blanks and line feeds) is obeyed. This enables basic preformatting to be carried out, which can even be displayed on simple devices. Behavior is the same as PRE in HTML . Tags: xml.sequenceOffset=50
+        """
         return self.verbatim
 
     def setVerbatim(self, value):
+        """
+        <verbatim> is a paragraph in which white-space (in particular blanks and line feeds) is obeyed. This enables basic preformatting to be carried out, which can even be displayed on simple devices. Behavior is the same as PRE in HTML . Tags: xml.sequenceOffset=50. A None value is a no-op and does not overwrite an existing verbatim.
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.verbatim = value
         return self

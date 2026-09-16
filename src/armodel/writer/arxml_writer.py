@@ -859,7 +859,7 @@ from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Url
-from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Graphic, MlFigure
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Area, Graphic, LGraphic, Map, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.Chapters import (
     Chapter,
@@ -870,7 +870,7 @@ from armodel.models.M2.MSR.Documentation.Chapters import (
     TopicContent,
     TopicContentOrMsrQuery,
 )
-from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryTopic1
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryChapter, MsrQueryResultChapter, MsrQueryTopic1
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 from armodel.models.M2.MSR.Documentation.BlockElements.ListElements import ARList, DefItem, DefList, IndentSample, LabeledItem, LabeledList
 from armodel.models.M2.MSR.Documentation.BlockElements.Note import Note
@@ -2108,11 +2108,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         if msr_query_topic1.getMsrQueryProps() is not None:
             self.setMsrQueryProps(child_element, msr_query_topic1.getMsrQueryProps())
 
+    def setMsrQueryResultChapter(self, element: ET.Element, key: str, result: MsrQueryResultChapter):
+        if result is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeARObject(child_element, result)
+            for chapter in result.getChapters():
+                self.writeChapter(child_element, chapter, "CHAPTER")
+
     def writeMsrQueryChapter(self, element: ET.Element, msr_query_chapter: MsrQueryChapter):
         child_element = ET.SubElement(element, "MSR-QUERY-CHAPTER")
-        self.writeARObject(child_element, msr_query_chapter)
+        self.writePaginateable(child_element, msr_query_chapter)
         if msr_query_chapter.getMsrQueryProps() is not None:
             self.setMsrQueryProps(child_element, msr_query_chapter.getMsrQueryProps())
+        if msr_query_chapter.getMsrQueryResultChapter() is not None:
+            self.setMsrQueryResultChapter(child_element, "MSR-QUERY-RESULT-CHAPTER", msr_query_chapter.getMsrQueryResultChapter())
 
     def writeSwComponentTypeUnitGroups(self, element: ET.Element, parent: SwComponentType):
         refs = parent.getUnitGroupRefs()
@@ -2338,6 +2347,95 @@ class ARXMLWriter(AbstractARXMLWriter):
             if graphic.getWidth() is not None:
                 child_element.attrib["WIDTH"] = graphic.getWidth().getValue()
 
+    def writeArea(self, element: ET.Element, area: Area):
+        self.writeARObject(element, area)
+        if area.getAccesskey() is not None:
+            element.attrib["ACCESSKEY"] = area.getAccesskey().getValue()
+        if area.getAlt() is not None:
+            element.attrib["ALT"] = area.getAlt().getValue()
+        if area.getClass() is not None:
+            element.attrib["CLASS"] = area.getClass().getValue()
+        if area.getCoords() is not None:
+            element.attrib["COORDS"] = area.getCoords().getValue()
+        if area.getHref() is not None:
+            element.attrib["HREF"] = area.getHref().getValue()
+        if area.getNohref() is not None:
+            element.attrib["NOHREF"] = area.getNohref().getValue()
+        if area.getOnblur() is not None:
+            element.attrib["ONBLUR"] = area.getOnblur().getValue()
+        if area.getOnclick() is not None:
+            element.attrib["ONCLICK"] = area.getOnclick().getValue()
+        if area.getOndblclick() is not None:
+            element.attrib["ONDBLCLICK"] = area.getOndblclick().getValue()
+        if area.getOnfocus() is not None:
+            element.attrib["ONFOCUS"] = area.getOnfocus().getValue()
+        if area.getOnkeydown() is not None:
+            element.attrib["ONKEYDOWN"] = area.getOnkeydown().getValue()
+        if area.getOnkeypress() is not None:
+            element.attrib["ONKEYPRESS"] = area.getOnkeypress().getValue()
+        if area.getOnkeyup() is not None:
+            element.attrib["ONKEYUP"] = area.getOnkeyup().getValue()
+        if area.getOnmousedown() is not None:
+            element.attrib["ONMOUSEDOWN"] = area.getOnmousedown().getValue()
+        if area.getOnmousemove() is not None:
+            element.attrib["ONMOUSEMOVE"] = area.getOnmousemove().getValue()
+        if area.getOnmouseout() is not None:
+            element.attrib["ONMOUSEOUT"] = area.getOnmouseout().getValue()
+        if area.getOnmouseover() is not None:
+            element.attrib["ONMOUSEOVER"] = area.getOnmouseover().getValue()
+        if area.getOnmouseup() is not None:
+            element.attrib["ONMOUSEUP"] = area.getOnmouseup().getValue()
+        if area.getShape() is not None:
+            element.attrib["SHAPE"] = area.getShape().getValue()
+        if area.getStyle() is not None:
+            element.attrib["STYLE"] = area.getStyle().getValue()
+        if area.getTabindex() is not None:
+            element.attrib["TABINDEX"] = area.getTabindex().getValue()
+        if area.getTitle() is not None:
+            element.attrib["TITLE"] = area.getTitle().getValue()
+
+    def setArea(self, element: ET.Element, key: str, area: Area):
+        if area is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeArea(child_element, area)
+
+    def writeMap(self, element: ET.Element, map_obj: Map):
+        self.writeARObject(element, map_obj)
+        for area in map_obj.getAreas():
+            area_element = ET.SubElement(element, "AREA")
+            self.writeArea(area_element, area)
+        if map_obj.getClass() is not None:
+            element.attrib["CLASS"] = map_obj.getClass().getValue()
+        if map_obj.getName() is not None:
+            element.attrib["NAME"] = map_obj.getName().getValue()
+        if map_obj.getOnclick() is not None:
+            element.attrib["ONCLICK"] = map_obj.getOnclick().getValue()
+        if map_obj.getOndblclick() is not None:
+            element.attrib["ONDBLCLICK"] = map_obj.getOndblclick().getValue()
+        if map_obj.getOnkeydown() is not None:
+            element.attrib["ONKEYDOWN"] = map_obj.getOnkeydown().getValue()
+        if map_obj.getOnkeypress() is not None:
+            element.attrib["ONKEYPRESS"] = map_obj.getOnkeypress().getValue()
+        if map_obj.getOnkeyup() is not None:
+            element.attrib["ONKEYUP"] = map_obj.getOnkeyup().getValue()
+        if map_obj.getOnmousedown() is not None:
+            element.attrib["ONMOUSEDOWN"] = map_obj.getOnmousedown().getValue()
+        if map_obj.getOnmousemove() is not None:
+            element.attrib["ONMOUSEMOVE"] = map_obj.getOnmousemove().getValue()
+        if map_obj.getOnmouseout() is not None:
+            element.attrib["ONMOUSEOUT"] = map_obj.getOnmouseout().getValue()
+        if map_obj.getOnmouseover() is not None:
+            element.attrib["ONMOUSEOVER"] = map_obj.getOnmouseover().getValue()
+        if map_obj.getOnmouseup() is not None:
+            element.attrib["ONMOUSEUP"] = map_obj.getOnmouseup().getValue()
+        if map_obj.getTitle() is not None:
+            element.attrib["TITLE"] = map_obj.getTitle().getValue()
+
+    def setMap(self, element: ET.Element, key: str, map_obj: Map):
+        if map_obj is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeMap(child_element, map_obj)
+
     def setUrl(self, element: ET.Element, key: str, url: Url):
         if url is not None:
             child_element = ET.SubElement(element, key)
@@ -2347,13 +2445,23 @@ class ARXMLWriter(AbstractARXMLWriter):
             if url.getValue() is not None:
                 child_element.text = url.getValue().getText()
 
+    def writeLGraphic(self, element: ET.Element, graphic: LGraphic):
+        self.writeARObject(element, graphic)
+        if graphic.getL() is not None:
+            element.attrib["L"] = graphic.getL()
+        self.setGraphic(element, "GRAPHIC", graphic.getGraphic())
+        self.setMap(element, "MAP", graphic.getMap())
+
+    def setLGraphic(self, element: ET.Element, key: str, graphic: LGraphic):
+        if graphic is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeLGraphic(child_element, graphic)
+
     def writeMlFigureLGraphics(self, element: ET.Element, figure: MlFigure):
         graphics = figure.getLGraphics()
         for graphic in graphics:
             child_element = ET.SubElement(element, "L-GRAPHIC")
-            if graphic.getL() is not None:
-                child_element.attrib["L"] = graphic.getL()
-            self.setGraphic(child_element, "GRAPHIC", graphic.getGraphic())
+            self.writeLGraphic(child_element, graphic)
 
     def writeDocumentViewSelectable(self, element: ET.Element, selectable: DocumentViewSelectable):
         self.writeARObject(element, selectable)
@@ -2476,7 +2584,15 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMlFigure(self, element: ET.Element, figure: MlFigure):
         self.writePaginateable(element, figure)
+        if figure.getFrame() is not None:
+            element.attrib["FRAME"] = figure.getFrame().getValue()
+        if figure.getHelpEntry() is not None:
+            element.attrib["HELP-ENTRY"] = figure.getHelpEntry().getValue()
+        if figure.getPgwide() is not None:
+            element.attrib["PGWIDE"] = figure.getPgwide().getValue()
+        self.setCaption(element, "FIGURE-CAPTION", figure.getFigureCaption())
         self.writeMlFigureLGraphics(element, figure)
+        self.setMultiLanguageVerbatim(element, "VERBATIM", figure.getVerbatim())
 
     def setMlFigures(self, element: ET.Element, key: str, figures: List[MlFigure]):
         for figure in figures:
@@ -2520,10 +2636,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writePaginateable(child_element, formula)
             self.setCaption(child_element, "FORMULA-CAPTION", formula.getFormulaCaption())
             for graphic in formula.getLGraphics():
-                l_graphic_element = ET.SubElement(child_element, "L-GRAPHIC")
-                if graphic.getL() is not None:
-                    l_graphic_element.attrib["L"] = graphic.getL()
-                self.setGraphic(l_graphic_element, "GRAPHIC", graphic.getGraphic())
+                self.setLGraphic(child_element, "L-GRAPHIC", graphic)
             self.setMultiLanguageVerbatim(child_element, "VERBATIM", formula.getVerbatim())
             self.setMultiLanguagePlainText(child_element, "TEX-MATH", formula.getTexMath())
             self.setMultiLanguagePlainText(child_element, "GENERIC-MATH", formula.getGenericMath())

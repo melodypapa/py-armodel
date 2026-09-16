@@ -2,9 +2,15 @@
 This module contains tests for the Figure module in MSR.Documentation.BlockElements.
 """
 
+import inspect
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
+    Area,
     AreaEnumNohref,
+    AreaEnumShape,
     Graphic,
     GraphicFitEnum,
     GraphicNotationEnum,
@@ -12,6 +18,8 @@ from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
     Map,
     MlFigure,
 )
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FrameEnum, PgwideEnum
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageVerbatim
 
 
 class TestGraphicFitEnum:
@@ -288,16 +296,119 @@ class TestGraphic:
 
 
 class TestMap:
-    """Test class for Map class."""
+    """Test class for Map class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.23)."""
 
     def test_map_initialization(self):
-        """Test that a Map object can be initialized."""
+        """A new Map shall have an empty area list and all attributes unset."""
         map_obj = Map()
         assert map_obj is not None
+        assert isinstance(map_obj, Map)
+        assert map_obj.getAreas() == []
+        assert map_obj.getClass() is None
+        assert map_obj.getName() is None
+        assert map_obj.getOnclick() is None
+        assert map_obj.getOndblclick() is None
+        assert map_obj.getOnkeydown() is None
+        assert map_obj.getOnkeypress() is None
+        assert map_obj.getOnkeyup() is None
+        assert map_obj.getOnmousedown() is None
+        assert map_obj.getOnmousemove() is None
+        assert map_obj.getOnmouseout() is None
+        assert map_obj.getOnmouseover() is None
+        assert map_obj.getOnmouseup() is None
+        assert map_obj.getTitle() is None
+
+    def test_map_add_area(self):
+        """addArea shall append Areas in insertion order with chaining."""
+        map_obj = Map()
+        area1 = Area()
+        area2 = Area()
+
+        result = map_obj.addArea(area1)
+        assert result is map_obj
+        map_obj.addArea(area2)
+        assert map_obj.getAreas() == [area1, area2]
+
+    def test_map_class_methods(self):
+        """class shall round-trip via set/get with chaining and a None no-op."""
+        map_obj = Map()
+        value = String().setValue("c1 c2")
+
+        result = map_obj.setClass(value)
+        assert result is map_obj
+        assert map_obj.getClass() is value
+
+        map_obj.setClass(None)
+        assert map_obj.getClass() is value
+
+    def test_map_name_methods(self):
+        """name shall round-trip via set/get with chaining and a None no-op."""
+        map_obj = Map()
+        value = NameToken().setValue("map1")
+
+        result = map_obj.setName(value)
+        assert result is map_obj
+        assert map_obj.getName() is value
+
+        map_obj.setName(None)
+        assert map_obj.getName() is value
+
+    def test_map_onclick_methods(self):
+        """onclick shall round-trip via set/get with chaining and a None no-op."""
+        map_obj = Map()
+        value = String().setValue("click()")
+
+        result = map_obj.setOnclick(value)
+        assert result is map_obj
+        assert map_obj.getOnclick() is value
+
+        map_obj.setOnclick(None)
+        assert map_obj.getOnclick() is value
+
+    def test_map_ondblclick_methods(self):
+        """ondblclick shall round-trip via set/get with chaining and a None no-op."""
+        map_obj = Map()
+        value = String().setValue("dblclick()")
+
+        result = map_obj.setOndblclick(value)
+        assert result is map_obj
+        assert map_obj.getOndblclick() is value
+
+        map_obj.setOndblclick(None)
+        assert map_obj.getOndblclick() is value
+
+    MAP_PAGE_SPLIT_ATTRS = [
+        ("setOnkeydown", "getOnkeydown", "keydown()"),
+        ("setOnkeypress", "getOnkeypress", "keypress()"),
+        ("setOnkeyup", "getOnkeyup", "keyup()"),
+        ("setOnmousedown", "getOnmousedown", "mousedown()"),
+        ("setOnmousemove", "getOnmousemove", "mousemove()"),
+        ("setOnmouseout", "getOnmouseout", "mouseout()"),
+        ("setOnmouseover", "getOnmouseover", "mouseover()"),
+        ("setOnmouseup", "getOnmouseup", "mouseup()"),
+        ("setTitle", "getTitle", "map title"),
+    ]
+
+    def test_map_page_split_attributes_get_set(self):
+        """The page-split-fragment attributes shall round-trip with chaining and a None no-op."""
+        for setter, getter, text in self.MAP_PAGE_SPLIT_ATTRS:
+            map_obj = Map()
+            result = getattr(map_obj, setter)(String().setValue(text))
+            assert result is map_obj
+            assert getattr(map_obj, getter)().getValue() == text
+            getattr(map_obj, setter)(None)
+            assert getattr(map_obj, getter)().getValue() == text
 
 
 class TestLGraphic:
-    """Test class for LGraphic class."""
+    """Test class for LGraphic class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.25)."""
+
+    def test_l_graphic_base_chain(self):
+        """LGraphic derives from LanguageSpecific (spec Base: ARObject , LanguageSpecific)."""
+        from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific
+
+        assert issubclass(LGraphic, LanguageSpecific)
+        assert issubclass(LGraphic, ARObject)
 
     def test_l_graphic_initialization(self):
         """Test that an LGraphic object can be initialized with default values."""
@@ -316,7 +427,7 @@ class TestLGraphic:
         assert result == l_graphic
 
     def test_l_graphic_graphic_methods(self):
-        """Test the graphic getter and setter."""
+        """Test the graphic getter and setter with chaining and None no-op."""
         l_graphic = LGraphic()
         graphic = Graphic()
 
@@ -324,8 +435,12 @@ class TestLGraphic:
         assert l_graphic.getGraphic() == graphic
         assert result == l_graphic
 
+        # A None value is a no-op and does not overwrite an existing graphic
+        l_graphic.setGraphic(None)
+        assert l_graphic.getGraphic() == graphic
+
     def test_l_graphic_map_methods(self):
-        """Test the map getter and setter."""
+        """Test the map getter and setter with chaining and None no-op."""
         l_graphic = LGraphic()
         map_obj = Map()
 
@@ -333,64 +448,125 @@ class TestLGraphic:
         assert l_graphic.getMap() == map_obj
         assert result == l_graphic
 
+        # A None value is a no-op and does not overwrite an existing map
+        l_graphic.setMap(None)
+        assert l_graphic.getMap() == map_obj
+
+    def test_l_graphic_docstrings_verbatim(self):
+        """Class and accessor docstrings must be the spec Note verbatim (Table 9.25)."""
+        class_note = "This meta-class represents the figure in one particular language."
+        graphic_note = "Reference to the actual graphic represented in the figure. Tags: xml.sequenceOffset=20"
+        map_note = "Image maps enable authors to specify regions of an image or object and assign a specific action to each region. Tags: xml.sequenceOffset=30"
+
+        assert inspect.cleandoc(LGraphic.__doc__) == class_note
+        assert inspect.cleandoc(LGraphic.getGraphic.__doc__) == graphic_note
+        assert inspect.cleandoc(LGraphic.getMap.__doc__) == map_note
+        assert inspect.cleandoc(LGraphic.setGraphic.__doc__).startswith(graphic_note + ". A None value is a no-op")
+        assert inspect.cleandoc(LGraphic.setMap.__doc__).startswith(map_note + ". A None value is a no-op")
+
 
 class TestMlFigure:
-    """Test class for MlFigure class."""
+    """Test class for MlFigure class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.24)."""
+
+    def test_ml_figure_base_chain(self):
+        """MlFigure derives from Paginateable only (spec Base: ARObject , DocumentViewSelectable , Paginateable)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+
+        assert issubclass(MlFigure, Paginateable)
+        assert issubclass(MlFigure, DocumentViewSelectable)
+        assert not issubclass(MlFigure, VariationPointCapable)
 
     def test_ml_figure_initialization(self):
         """Test that an MlFigure object can be initialized with default values."""
         ml_figure = MlFigure()
         assert ml_figure.figureCaption is None
+        assert ml_figure.frame is None
         assert ml_figure.helpEntry is None
         assert ml_figure.lGraphics == []
         assert ml_figure.pgwide is None
         assert ml_figure.verbatim is None
 
     def test_ml_figure_figure_caption_methods(self):
-        """Test the figureCaption getter and setter."""
+        """Test the figureCaption getter and setter with chaining and None no-op."""
         ml_figure = MlFigure()
-        caption = "Test Caption"
+        caption = Caption(None, "CAPTION")
 
         result = ml_figure.setFigureCaption(caption)
         assert ml_figure.getFigureCaption() == caption
         assert result == ml_figure
 
-    def test_ml_figure_help_entry_methods(self):
-        """Test the helpEntry getter and setter."""
+        ml_figure.setFigureCaption(None)
+        assert ml_figure.getFigureCaption() == caption
+
+    def test_ml_figure_frame_methods(self):
+        """Test the frame getter and setter with chaining and None no-op."""
         ml_figure = MlFigure()
-        help_entry = String()
+        frame = FrameEnum().setValue(FrameEnum.ALL)
+
+        result = ml_figure.setFrame(frame)
+        assert ml_figure.getFrame() == frame
+        assert result == ml_figure
+
+        ml_figure.setFrame(None)
+        assert ml_figure.getFrame() == frame
+
+    def test_ml_figure_help_entry_methods(self):
+        """Test the helpEntry getter and setter with chaining and None no-op."""
+        ml_figure = MlFigure()
+        help_entry = String().setValue("help-topic")
 
         result = ml_figure.setHelpEntry(help_entry)
         assert ml_figure.getHelpEntry() == help_entry
         assert result == ml_figure
 
-    def test_ml_figure_l_graphics_methods(self):
-        """Test adding language-specific graphics."""
-        ml_figure = MlFigure()
-        l_graphic = LGraphic()
+        ml_figure.setHelpEntry(None)
+        assert ml_figure.getHelpEntry() == help_entry
 
-        result = ml_figure.addLGraphics(l_graphic)
+    def test_ml_figure_l_graphics_methods(self):
+        """Test adding language-specific graphics with insertion order and None no-op."""
+        ml_figure = MlFigure()
+        l_graphic1 = LGraphic()
+        l_graphic2 = LGraphic()
+
+        result = ml_figure.addLGraphics(l_graphic1)
+        ml_figure.addLGraphics(l_graphic2)
         l_graphics = ml_figure.getLGraphics()
-        assert l_graphic in l_graphics
+        assert l_graphics == [l_graphic1, l_graphic2]
         assert result == ml_figure
 
+        ml_figure.addLGraphics(None)
+        assert ml_figure.getLGraphics() == [l_graphic1, l_graphic2]
+
     def test_ml_figure_pgwide_methods(self):
-        """Test the pgwide getter and setter."""
+        """Test the pgwide getter and setter with chaining and None no-op."""
         ml_figure = MlFigure()
-        pgwide = "wide"
+        pgwide = PgwideEnum().setValue(PgwideEnum.PGWIDE)
 
         result = ml_figure.setPgwide(pgwide)
         assert ml_figure.getPgwide() == pgwide
         assert result == ml_figure
 
+        ml_figure.setPgwide(None)
+        assert ml_figure.getPgwide() == pgwide
+
     def test_ml_figure_verbatim_methods(self):
-        """Test the verbatim getter and setter."""
+        """Test the verbatim getter and setter with chaining and None no-op."""
         ml_figure = MlFigure()
-        verbatim = "verbatim_text"
+        verbatim = MultiLanguageVerbatim()
 
         result = ml_figure.setVerbatim(verbatim)
         assert ml_figure.getVerbatim() == verbatim
         assert result == ml_figure
+
+        ml_figure.setVerbatim(None)
+        assert ml_figure.getVerbatim() == verbatim
+
+    def test_ml_figure_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 9.24)."""
+        class_note = "This metaclass represents the ability to embed a figure."
+
+        assert inspect.cleandoc(MlFigure.__doc__) == class_note
 
 
 class TestAreaEnumNohref:
@@ -422,3 +598,100 @@ class TestAreaEnumNohref:
         enum = AreaEnumNohref()
         assert enum.validateEnumValue("NOHREF") is True
         assert enum.validateEnumValue("HREF") is False
+
+
+class TestAreaEnumShape:
+    """Test class for AreaEnumShape (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.19)."""
+
+    def test_area_enum_shape_initialization(self):
+        """Test that an AreaEnumShape object can be initialized."""
+        area_enum_shape = AreaEnumShape()
+        assert area_enum_shape is not None
+        assert isinstance(area_enum_shape, AreaEnumShape)
+
+    def test_area_enum_shape_spec_literals(self):
+        """AreaEnumShape shall expose the 4 spec literals with their XSD string values."""
+        enum = AreaEnumShape()
+        expected = {
+            AreaEnumShape.CIRCLE: "CIRCLE",
+            AreaEnumShape.DEFAULT: "DEFAULT",
+            AreaEnumShape.POLY: "POLY",
+            AreaEnumShape.RECT: "RECT",
+        }
+        for const, value in expected.items():
+            assert const == value
+        assert set(enum.getEnumValues()) == set(expected.values())
+
+    def test_area_enum_shape_set_get_value(self):
+        """setValue/getValue shall round-trip a spec literal."""
+        enum = AreaEnumShape().setValue(AreaEnumShape.RECT)
+        assert enum.getValue() == "RECT"
+
+    def test_area_enum_shape_validate_enum_value(self):
+        """An invalid literal shall be rejected by validateEnumValue."""
+        enum = AreaEnumShape()
+        assert enum.validateEnumValue("RECT") is True
+        assert enum.validateEnumValue("SQUARE") is False
+
+
+class TestArea:
+    """Test class for Area (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.17)."""
+
+    AREA_STRING_ATTRS = [
+        ("accesskey", "setAccesskey", "getAccesskey"),
+        ("alt", "setAlt", "getAlt"),
+        ("class", "setClass", "getClass"),
+        ("coords", "setCoords", "getCoords"),
+        ("href", "setHref", "getHref"),
+        ("onblur", "setOnblur", "getOnblur"),
+        ("onclick", "setOnclick", "getOnclick"),
+        ("ondblclick", "setOndblclick", "getOndblclick"),
+        ("onfocus", "setOnfocus", "getOnfocus"),
+        ("onkeydown", "setOnkeydown", "getOnkeydown"),
+        ("onkeypress", "setOnkeypress", "getOnkeypress"),
+        ("onkeyup", "setOnkeyup", "getOnkeyup"),
+        ("onmousedown", "setOnmousedown", "getOnmousedown"),
+        ("onmousemove", "setOnmousemove", "getOnmousemove"),
+        ("onmouseout", "setOnmouseout", "getOnmouseout"),
+        ("onmouseover", "setOnmouseover", "getOnmouseover"),
+        ("onmouseup", "setOnmouseup", "getOnmouseup"),
+        ("style", "setStyle", "getStyle"),
+        ("tabindex", "setTabindex", "getTabindex"),
+        ("title", "setTitle", "getTitle"),
+    ]
+
+    def test_area_initialization(self):
+        """A new Area shall have all 22 spec attributes unset."""
+        area = Area()
+        assert area is not None
+        assert isinstance(area, Area)
+        for _, _, getter in self.AREA_STRING_ATTRS:
+            assert getattr(area, getter)() is None
+        assert area.getNohref() is None
+        assert area.getShape() is None
+
+    def test_area_string_attributes_get_set(self):
+        """Each String attribute shall round-trip via set/get with chaining and a None no-op."""
+        for _, setter, getter in self.AREA_STRING_ATTRS:
+            area = Area()
+            result = getattr(area, setter)(String().setValue("value"))
+            assert result is area
+            assert getattr(area, getter)().getValue() == "value"
+            getattr(area, setter)(None)
+            assert getattr(area, getter)().getValue() == "value"
+
+    def test_area_nohref_get_set(self):
+        """nohref shall accept an AreaEnumNohref value with chaining and a None no-op."""
+        area = Area().setNohref(AreaEnumNohref().setValue(AreaEnumNohref.NOHREF))
+        assert area.getNohref() is not None
+        assert area.getNohref().getValue() == "NOHREF"
+        area.setNohref(None)
+        assert area.getNohref().getValue() == "NOHREF"
+
+    def test_area_shape_get_set(self):
+        """shape shall accept an AreaEnumShape value with chaining and a None no-op."""
+        area = Area().setShape(AreaEnumShape().setValue(AreaEnumShape.RECT))
+        assert area.getShape() is not None
+        assert area.getShape().getValue() == "RECT"
+        area.setShape(None)
+        assert area.getShape().getValue() == "RECT"
