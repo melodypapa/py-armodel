@@ -693,16 +693,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [# Spec: CP_TPS_SoftwareComponentTemplate.pdf, Table 5.63, p.387; one __init__ row with 6 columns + release R23-11; marker deferred to 9b]
   - [x] Step 8 — Deviations  [none: abstract class has no own attributes; ARObject base and abstract guard match the class shape; no XML coverage applicable; concrete consumers remain responsible for serialization]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused model tests, full test module, lint, and Black check pass; 9b: user-confirmed no-own-attributes abstract shape, ARObject base, supplied Note verbatim, and concrete-consumer XML coverage; marker `# Spec verified: R23-11` written]
-- [ ] `CompuConstContent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.72 (abstract) · parent of `CompuConstTextContent`, `CompuConstNumericContent`, `CompuConstFormulaContent` · member type of `CompuConst.compuConstContentType`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `CompuConstContent` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.72 (abstract) · parent of `CompuConstTextContent`, `CompuConstNumericContent`, `CompuConstFormulaContent` · member type of `CompuConst.compuConstContentType`) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.72, p.390: abstract class, Base ARObject, no own attributes; Note copied verbatim]
+  - [x] Step 2 — Write model class unit test (Red)  [added spec Note, abstract guard, and inherited ARObject default assertions; Note assertion failed before docstring sync]
+  - [x] Step 3 — Implement model class (Green)  [existing CompuConstContent(ARObject, ABC) abstract guard retained; no fields or accessors fabricated; focused tests pass]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class docstring replaced with the verbatim Table 5.72 Note; removed stale Base/Subclasses/Aggregated by wording; __init__ has no docstring]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: abstract type has no own XML element or attributes; concrete consumer CompuConst owns COMPU-CONST-CONTENT-TYPE coverage]
+  - [x] Step 6 — Update parser & writer (Green)  [N/A: no own XML helper; existing consumer dispatch remains unchanged]
+  - [x] Step 7 — Update checklist comment  [Table 5.72, p.390; one __init__ row with six columns and R23-11 release; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none: abstract class has no own attributes; ARObject base and abstract guard match the class shape; no XML coverage applicable]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 45 focused model tests, lint, Black check, and diff check pass; 9b: user-confirmed abstract shape, ARObject base, verbatim Note, and concrete-consumer XML coverage; marker written]
 - [ ] `CompuConstTextContent` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.67 · subtype of `CompuConstContent`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

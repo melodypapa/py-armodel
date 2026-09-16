@@ -98,11 +98,22 @@ class TestCompu:
 class TestCompuConstContent:
     """Test class for CompuConstContent abstract class."""
 
+    def test_compu_const_content_has_spec_note(self):
+        assert cleandoc(CompuConstContent.__doc__) == ("This meta-class represents the fact that the constant value of the computation method can be numerical or textual.")
+
     def test_compu_const_content_abstract_class(self):
         """Test that CompuConstContent cannot be instantiated directly."""
         # This should raise NotImplementedError
         with pytest.raises(TypeError):
             CompuConstContent()
+
+    def test_compu_const_content_concrete_subclass_has_arobject_defaults(self):
+        class ConcreteCompuConstContent(CompuConstContent):
+            pass
+
+        content = ConcreteCompuConstContent()
+        assert content.getChecksum() is None
+        assert content.getTimestamp() is None
 
 
 class TestCompuConstTextContent:

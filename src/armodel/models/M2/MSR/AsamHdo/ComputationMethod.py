@@ -86,15 +86,13 @@ class Compu(ARObject):
 
 
 class CompuConstContent(ARObject, ABC):
-    """
-    This meta-class represents the fact that the constant value of the computation method can be numerical or textual.
-    Base            : ARObject
-    Subclasses      : CompuConstFormulaContent, CompuConstNumericContent, CompuConstTextContent
-    Aggregated by   : CompuConst.compuConstContentType
-    """
+    """This meta-class represents the fact that the constant value of the computation method can be numerical or textual."""
 
     # CompuConstContent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.72, p.390
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__ [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is CompuConstContent:
