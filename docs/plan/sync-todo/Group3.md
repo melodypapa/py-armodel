@@ -703,16 +703,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [Table 5.72, p.390; one __init__ row with six columns and R23-11 release; marker deferred to 9b]
   - [x] Step 8 — Deviations  [none: abstract class has no own attributes; ARObject base and abstract guard match the class shape; no XML coverage applicable]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 45 focused model tests, lint, Black check, and diff check pass; 9b: user-confirmed abstract shape, ARObject base, verbatim Note, and concrete-consumer XML coverage; marker written]
-- [ ] `CompuConstTextContent` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.67 · subtype of `CompuConstContent`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `CompuConstTextContent` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.67 · subtype of `CompuConstContent`) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.67, p.388: Base ARObject + CompuConstContent; one optional `vt` attribute typed VerbatimString; Note and attribute Note copied verbatim]
+  - [x] Step 2 — Write model class unit test (Red)  [added spec Note, VerbatimString type assertion, and None-no-op setter assertion; initial run failed on stale docstring and setter behavior]
+  - [x] Step 3 — Implement model class (Green)  [`vt` changed from str to Optional[VerbatimString]; setter now ignores None; focused model tests pass]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note replaced verbatim; vt inline/getter/setter docs use the Table 5.67 attribute Note; setter includes the required None-no-op sentence]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser asserts VT produces VerbatimString; writer asserts VT value and omitted empty VT wrapper]
+  - [x] Step 6 — Update parser & writer (Green)  [parser VT branch now uses getChildElementOptionalVerbatimString; writer's existing setChildElementOptionalLiteral correctly serializes VerbatimString]
+  - [x] Step 7 — Update checklist comment  [Table 5.67, p.388; init/getVt/setVt rows with six columns and R23-11 release; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none: one PDF attribute modeled with its exact VerbatimString type; inherited abstract base not flattened; parser/writer coverage present]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 294 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed base, typed member, naming, docstrings, reader/writer coverage, and no deviations; marker written]
 - [ ] `CompuConstNumericContent` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.68 · subtype of `CompuConstContent`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

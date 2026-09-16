@@ -119,6 +119,9 @@ class TestCompuConstContent:
 class TestCompuConstTextContent:
     """Test class for CompuConstTextContent class."""
 
+    def test_compu_const_text_content_has_spec_note(self):
+        assert cleandoc(CompuConstTextContent.__doc__) == "This meta-class represents the textual content of a scale."
+
     def test_compu_const_text_content_initialization(self):
         """Test that a CompuConstTextContent object can be initialized with default values."""
         compu_const_text = CompuConstTextContent()
@@ -126,12 +129,17 @@ class TestCompuConstTextContent:
 
     def test_compu_const_text_content_vt_methods(self):
         """Test the vt getter and setter."""
+        from armodel.models import VerbatimString
+
         compu_const_text = CompuConstTextContent()
-        text_value = "test_text"
+        text_value = VerbatimString().setValue("test_text")
 
         result = compu_const_text.setVt(text_value)
         assert compu_const_text.getVt() == text_value
         assert result == compu_const_text
+
+        assert compu_const_text.setVt(None) == compu_const_text
+        assert compu_const_text.getVt() == text_value
 
 
 class TestCompuConstNumericContent:

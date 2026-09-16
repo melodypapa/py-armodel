@@ -1,10 +1,10 @@
-from typing import List
+from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from abc import ABC
 
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier, Identifier, PositiveUnlimitedInteger, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier, Identifier, PositiveUnlimitedInteger, String, VerbatimString
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
@@ -102,27 +102,30 @@ class CompuConstContent(ARObject, ABC):
 
 
 class CompuConstTextContent(CompuConstContent):
-    """
-    This meta-class represents the textual content of a scale.
-    Base:           ARObject, CompuConstContent
-    Aggregated by:  CompuConst.compuConstContentType
-    """
+    """This meta-class represents the textual content of a scale."""
 
     # CompuConstTextContent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getVt                        [x] impl  [ ] docstring  [ ] test
-    # [ ] setVt                        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.67, p.388
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__ [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getVt [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setVt [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.vt: str = None
+        # This represents a textual constant in the computation method.
+        self.vt: Optional[VerbatimString] = None
 
-    def getVt(self) -> str:
+    def getVt(self) -> Optional[VerbatimString]:
+        """This represents a textual constant in the computation method."""
         return self.vt
 
-    def setVt(self, value: str):
-        self.vt = value
+    def setVt(self, value: Optional[VerbatimString]):
+        """This represents a textual constant in the computation method. Does nothing if value is None."""
+        if value is not None:
+            self.vt = value
         return self
 
 

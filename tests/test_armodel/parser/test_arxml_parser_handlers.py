@@ -100,6 +100,9 @@ class TestPortInterfaceAndCompuHandlers:
         element = _snip("<VT>label</VT>", root_tag="PARENT")
         content = parser.getCompuConstContent(element)
         assert isinstance(content, CompuConstTextContent)
+        from armodel.models import VerbatimString
+
+        assert isinstance(content.getVt(), VerbatimString)
         assert content.getVt().getValue() == "label"
 
     def test_getCompuConstContent_unsupported_tag_warns(self, warning_parser, caplog):

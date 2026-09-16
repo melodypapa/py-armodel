@@ -7034,7 +7034,7 @@ class ARXMLParser(AbstractARXMLParser):
                 content.setV(self.getChildElementOptionalNumericalValue(element, "V"))
             elif tag_name == "VT":
                 content = CompuConstTextContent()
-                content.setVt(self.getChildElementOptionalLiteral(element, "VT"))
+                content.setVt(self.getChildElementOptionalVerbatimString(element, "VT"))
             else:
                 self.notImplemented("Unsupported CompuConstContent <%s>" % tag_name)
         return content

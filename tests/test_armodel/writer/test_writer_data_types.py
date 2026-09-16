@@ -711,7 +711,7 @@ class TestCompuScaleConstantContentsWriter:
         contents = CompuScaleConstantContents()
         const = CompuConst()
         text_content = CompuConstTextContent()
-        text_content.vt = _literal("Active")
+        text_content.setVt(_verbatim("Active"))
         const.setCompuConstContentType(text_content)
         contents.setCompuConst(const)
 
@@ -724,6 +724,17 @@ class TestCompuScaleConstantContentsWriter:
         vt = const_tag.find("VT")
         assert vt is not None
         assert vt.text == "Active"
+
+    def test_write_compu_const_text_content_without_vt(self, writer):
+        contents = CompuScaleConstantContents()
+        const = CompuConst()
+        const.setCompuConstContentType(CompuConstTextContent())
+        contents.setCompuConst(const)
+
+        parent = _parent()
+        writer.writeCompuScaleConstantContents(parent, contents)
+
+        assert parent.find("COMPU-CONST/VT") is None
 
 
 class TestCompuScaleContentsWriter:
