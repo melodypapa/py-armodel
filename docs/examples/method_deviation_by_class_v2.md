@@ -122,7 +122,7 @@ reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 | `exclusiveAreaPolicies` | `List` | `exclusiveAreaPolicy` | ``BswExclusiveAreaPolicy`` | aggr | naming (plural); untyped |
 | `includedDataTypeSets` | `List[IncludedDataTypeSet]` | `includedDataTypeSet` | ``IncludedDataTypeSet`` | aggr | naming (plural) |
 | `includedModeDeclarationGroupSets` | `List[IncludedModeDeclarationGroupSet]` | `includedModeDeclarationGroupSet` | ``IncludedModeDeclarationGroupSet`` | aggr | naming (plural) |
-| `internalTriggeringPointPolicies` | `List` | `internalTriggeringPointPolicy` | ``BswInternalTriggeringPointPolicy`` | aggr | member class `BswInternalTriggeringPointPolicy` missing |
+| `internalTriggeringPointPolicies` | `List` | `internalTriggeringPointPolicy` | ``BswInternalTriggeringPointPolicy`` | aggr | naming (plural); untyped — member class synced 2026-09-17 (`# XSD verified: AUTOSAR_00052.xsd`); field typing deferred to the BswInternalBehavior full sync |
 | `modeReceiverPolicies` | `List` | `modeReceiverPolicy` | ``BswModeReceiverPolicy`` | aggr | naming (plural); untyped |
 | `modeSenderPolicies` | `List` | `modeSenderPolicy` | ``BswModeSenderPolicy`` | aggr | naming (plural); untyped |
 | `parameterPolicies` | `List` | `parameterPolicy` | ``BswParameterPolicy`` | aggr | member class `BswParameterPolicy` missing |
@@ -153,6 +153,15 @@ reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-CLIENT-POLICY`; attr `requiredClientServerEntry` → `requiredClientServerEntryRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class itself un-stamped, queued separately) |
+
+## `BswInternalTriggeringPointPolicy`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf` (upstream document; class XSD-only)  | **XSD:** `AUTOSAR_00052.xsd` line 10850
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-INTERNAL-TRIGGERING-POINT-POLICY`; attr `bswInternalTriggeringPoint` → `bswInternalTriggeringPointRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class itself un-stamped, queued separately) |
 
 ## `FlatMap`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —

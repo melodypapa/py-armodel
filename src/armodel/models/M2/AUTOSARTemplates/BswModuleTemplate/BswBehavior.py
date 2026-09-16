@@ -2039,6 +2039,42 @@ class BswClientPolicy(BswApiOptions, VariationPointCapable):
         return self
 
 
+class BswInternalTriggeringPointPolicy(BswApiOptions, VariationPointCapable):
+    """
+    The internal triggering point for which the BSW Scheduler using this policy.
+    """
+
+    # BswInternalTriggeringPointPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate (BSW behavior policies), class BswInternalTriggeringPointPolicy, AUTOSAR_00052.xsd line 10850 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBswInternalTriggeringPointRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBswInternalTriggeringPointRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The BswInternalTriggeringPoint for which the BSW Scheduler using this policy.
+        self.bswInternalTriggeringPointRef: Optional[RefType] = None
+
+    def getBswInternalTriggeringPointRef(self) -> Optional[RefType]:
+        """
+        The BswInternalTriggeringPoint for which the BSW Scheduler using this policy.
+        """
+        return self.bswInternalTriggeringPointRef
+
+    def setBswInternalTriggeringPointRef(self, value: Optional[RefType]) -> "BswInternalTriggeringPointPolicy":
+        """
+        The BswInternalTriggeringPoint for which the BSW Scheduler using this policy.
+
+        A None value is a no-op and does not overwrite an existing bswInternalTriggeringPointRef.
+        """
+        if value is not None:
+            self.bswInternalTriggeringPointRef = value
+        return self
+
+
 class BswDataReceptionPolicy(BswApiOptions, VariationPointCapable, ABC):
     """
     Abstract base class for BSW data reception policies.
@@ -2455,6 +2491,7 @@ class BswInternalBehavior(InternalBehavior):
     # [x] createBswInternalTriggeringPoint [x] impl  [x] docstring  [x] test
     # [x] getInternalTriggeringPointPolicies [x] impl  [x] docstring  [x] test
     # [x] setInternalTriggeringPointPolicies [x] impl  [x] docstring  [x] test
+    # [x] addInternalTriggeringPointPolicy [x] impl  [x] docstring  [x] test
     # [x] getModeReceiverPolicies      [x] impl  [x] docstring  [x] test
     # [x] setModeSenderPolicies        [x] impl  [x] docstring  [x] test
     # [x] getParameterPolicies         [x] impl  [x] docstring  [x] test
@@ -2781,6 +2818,21 @@ class BswInternalBehavior(InternalBehavior):
         """
         if value is not None:
             self.internalTriggeringPointPolicies = value
+        return self
+
+    def addInternalTriggeringPointPolicy(self, value: Optional[BswInternalTriggeringPointPolicy]) -> "BswInternalBehavior":
+        """
+        Adds a BSW internal triggering point policy.
+        Only adds the value if it is not None.
+
+        Args:
+            value: The BswInternalTriggeringPointPolicy to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.internalTriggeringPointPolicies.append(value)
         return self
 
     def getModeReceiverPolicies(self):

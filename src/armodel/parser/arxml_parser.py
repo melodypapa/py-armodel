@@ -43,6 +43,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswExternalTriggerOccurredEvent,
     BswInternalBehavior,
     BswInternalTriggeringPoint,
+    BswInternalTriggeringPointPolicy,
     BswInternalTriggerOccurredEvent,
     BswInterruptEntity,
     BswModeManagerErrorEvent,
@@ -3597,6 +3598,26 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Client Policies <%s>" % tag_name)
 
+    def readBswInternalTriggeringPointPolicy(self, element: ET.Element, policy: BswInternalTriggeringPointPolicy):
+        self.readBswApiOptions(element, policy)
+        policy.setBswInternalTriggeringPointRef(self.getChildElementOptionalRefType(element, "BSW-INTERNAL-TRIGGERING-POINT-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(policy, VariationPointCapable):
+                policy.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readBswInternalBehaviorInternalTriggeringPointPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "INTERNAL-TRIGGERING-POINT-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-INTERNAL-TRIGGERING-POINT-POLICY":
+                policy = BswInternalTriggeringPointPolicy()
+                self.readBswInternalTriggeringPointPolicy(child_element, policy)
+                behavior.addInternalTriggeringPointPolicy(policy)
+            else:
+                self.notImplemented("Unsupported Internal Triggering Point Policies <%s>" % tag_name)
+
     def readBswInternalTriggeringPoint(self, element: ET.Element, point: BswInternalTriggeringPoint):
         self.readIdentifiable(element, point)
 
@@ -3632,6 +3653,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswInternalBehaviorModeSenderPolicy(element, behavior)
         for group_set in self.getIncludedModeDeclarationGroupSets(element):
             behavior.addIncludedModeDeclarationGroupSet(group_set)
+        self.readBswInternalBehaviorInternalTriggeringPointPolicies(element, behavior)
         self.readBswInternalBehaviorReceptionPolicies(element, behavior)
         self.readBswInternalBehaviorSchedulerNamePrefixes(element, behavior)
         self.readBswInternalBehaviorDistinguishedPartitions(element, behavior)

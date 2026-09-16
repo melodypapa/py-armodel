@@ -32,6 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswExternalTriggerOccurredEvent,
     BswInternalBehavior,
     BswInternalTriggeringPoint,
+    BswInternalTriggeringPointPolicy,
     BswInternalTriggerOccurredEvent,
     BswInterruptEntity,
     BswInterruptEvent,
@@ -6592,6 +6593,22 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Client Policies <%s>" % type(policy))
 
+    def writeBswInternalTriggeringPointPolicy(self, element: ET.Element, policy: BswInternalTriggeringPointPolicy):
+        child_element = ET.SubElement(element, "BSW-INTERNAL-TRIGGERING-POINT-POLICY")
+        self.writeBswApiOptions(child_element, policy)
+        self.setChildElementOptionalRefType(child_element, "BSW-INTERNAL-TRIGGERING-POINT-REF", policy.getBswInternalTriggeringPointRef())
+        self.writeVariationPoint(child_element, policy.getVariationPoint())
+
+    def writeBswInternalBehaviorInternalTriggeringPointPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        policies = behavior.getInternalTriggeringPointPolicies()
+        if len(policies) > 0:
+            child_element = ET.SubElement(element, "INTERNAL-TRIGGERING-POINT-POLICYS")
+            for policy in policies:
+                if isinstance(policy, BswInternalTriggeringPointPolicy):
+                    self.writeBswInternalTriggeringPointPolicy(child_element, policy)
+                else:
+                    self.notImplemented("Unsupported Internal Triggering Point Policies <%s>" % type(policy))
+
     def writeBswInternalBehaviorReceptionPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
         policies = behavior.getReceptionPolicies()
         if len(policies) > 0:
@@ -6626,6 +6643,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswInternalBehaviorEvents(child_element, behavior)
         self.writeBswInternalBehaviorModeSenderPolicy(child_element, behavior)
         self.writeBswInternalBehaviorIncludedModeDeclarationGroupSets(child_element, behavior)
+        self.writeBswInternalBehaviorInternalTriggeringPointPolicies(child_element, behavior)
         self.writeBswInternalBehaviorReceptionPolicies(child_element, behavior)
         self.writeBswInternalBehaviorSchedulerNamePrefixes(child_element, behavior)
         self.writeBswInternalBehaviorDistinguishedPartitions(child_element, behavior)

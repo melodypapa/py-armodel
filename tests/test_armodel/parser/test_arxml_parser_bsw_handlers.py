@@ -1499,6 +1499,71 @@ class TestBswClientPolicyHandlers:
         assert any("Unsupported Client Policies" in r.getMessage() for r in caplog.records)
 
 
+class TestBswInternalTriggeringPointPolicyHandlers:
+    """Exercise readBswInternalTriggeringPointPolicy and the BswInternalBehavior
+    INTERNAL-TRIGGERING-POINT-POLICYS wrapper."""
+
+    def test_readBswInternalTriggeringPointPolicy_sets_ref(self, parser):
+        from armodel.models import BswInternalTriggeringPointPolicy
+
+        policy = BswInternalTriggeringPointPolicy()
+        element = _snip(
+            "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>" "<BSW-INTERNAL-TRIGGERING-POINT-REF DEST='BSW-INTERNAL-TRIGGERING-POINT'>/d</BSW-INTERNAL-TRIGGERING-POINT-REF>",
+            root_tag="P",
+        )
+        parser.readBswInternalTriggeringPointPolicy(element, policy)
+        assert policy.getEnableTakeAddress().value is True
+        assert policy.getBswInternalTriggeringPointRef().getValue() == "/d"
+        assert policy.getBswInternalTriggeringPointRef().getDest() == "BSW-INTERNAL-TRIGGERING-POINT"
+
+    def test_readBswInternalBehaviorInternalTriggeringPointPolicies_adds(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<INTERNAL-TRIGGERING-POINT-POLICYS>"
+            "<BSW-INTERNAL-TRIGGERING-POINT-POLICY>"
+            "<BSW-INTERNAL-TRIGGERING-POINT-REF DEST='BSW-INTERNAL-TRIGGERING-POINT'>/itp</BSW-INTERNAL-TRIGGERING-POINT-REF>"
+            "</BSW-INTERNAL-TRIGGERING-POINT-POLICY>"
+            "</INTERNAL-TRIGGERING-POINT-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorInternalTriggeringPointPolicies(element, behavior)
+        policies = behavior.getInternalTriggeringPointPolicies()
+        assert len(policies) == 1
+        assert policies[0].getBswInternalTriggeringPointRef().getValue() == "/itp"
+
+    def test_readBswInternalBehaviorInternalTriggeringPointPolicies_reads_variation_point(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<INTERNAL-TRIGGERING-POINT-POLICYS>"
+            "<BSW-INTERNAL-TRIGGERING-POINT-POLICY>"
+            "<BSW-INTERNAL-TRIGGERING-POINT-REF DEST='BSW-INTERNAL-TRIGGERING-POINT'>/itp</BSW-INTERNAL-TRIGGERING-POINT-REF>"
+            "<VARIATION-POINT><SHORT-LABEL>lbl</SHORT-LABEL></VARIATION-POINT>"
+            "</BSW-INTERNAL-TRIGGERING-POINT-POLICY>"
+            "</INTERNAL-TRIGGERING-POINT-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorInternalTriggeringPointPolicies(element, behavior)
+        policy = behavior.getInternalTriggeringPointPolicies()[0]
+        assert policy.getVariationPoint() is not None
+        assert policy.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_readBswInternalBehaviorInternalTriggeringPointPolicies_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<INTERNAL-TRIGGERING-POINT-POLICYS><BAD/></INTERNAL-TRIGGERING-POINT-POLICYS>",
+            root_tag="BH",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readBswInternalBehaviorInternalTriggeringPointPolicies(element, behavior)
+        assert any("Unsupported Internal Triggering Point Policies" in r.getMessage() for r in caplog.records)
+
+
 # ==================== BswInternalTriggeringPoint & BswInternalBehavior orchestrator ====================
 
 
