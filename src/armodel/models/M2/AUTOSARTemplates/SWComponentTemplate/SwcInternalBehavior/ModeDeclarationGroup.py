@@ -29,10 +29,10 @@ class ModeAccessPoint(ARObject, VariationPointCapable):
     def __init__(self):
         super().__init__()
 
-        self.ident: "ModeAccessPointIdent" = None
-        self.modeGroupIRef: "RModeGroupInAtomicSWCInstanceRef" = None
+        self.ident: ModeAccessPointIdent = None
+        self.modeGroupIRef: RModeGroupInAtomicSWCInstanceRef = None
 
-    def createIdent(self, short_name: str) -> "ModeAccessPointIdent":
+    def createIdent(self, short_name: str) -> ModeAccessPointIdent:
         """
         Creates the identification of this mode access point.
 
@@ -102,7 +102,7 @@ class ModeSwitchPoint(AbstractAccessPoint, VariationPointCapable):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.modeGroupIRef: "PModeGroupInAtomicSwcInstanceRef" = None
+        self.modeGroupIRef: PModeGroupInAtomicSwcInstanceRef = None
 
     def getModeGroupIRef(self):
         """

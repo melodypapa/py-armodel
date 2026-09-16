@@ -1477,8 +1477,8 @@ class ClientServerInterfaceMapping(PortInterfaceMapping):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.errorMappings: List["ClientServerApplicationErrorMapping"] = []
-        self.operationMappings: List["ClientServerOperationMapping"] = []
+        self.errorMappings: List[ClientServerApplicationErrorMapping] = []
+        self.operationMappings: List[ClientServerOperationMapping] = []
 
     def getErrorMappings(self):
         return self.errorMappings
@@ -1506,7 +1506,7 @@ class VariableAndParameterInterfaceMapping(PortInterfaceMapping):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.dataMappings: List["DataPrototypeMapping"] = []
+        self.dataMappings: List[DataPrototypeMapping] = []
 
     def getDataMappings(self):
         return self.dataMappings
@@ -1525,7 +1525,7 @@ class ModeInterfaceMapping(PortInterfaceMapping):
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.modeMapping: "ModeDeclarationGroupPrototypeMapping" = None
+        self.modeMapping: ModeDeclarationGroupPrototypeMapping = None
 
     def getModeMapping(self):
         return self.modeMapping

@@ -486,7 +486,7 @@ class ModeDeclarationGroupPrototype(AtpPrototype, VariationPointCapable):
         # The "collection of ModeDeclarations" ( = ModeDeclarationGroup) supported by a component
         self.typeTRef: Optional[TRefType] = None
 
-    def getSwCalibrationAccess(self) -> Optional["SwCalibrationAccessEnum"]:
+    def getSwCalibrationAccess(self) -> Optional[SwCalibrationAccessEnum]:
         """
         This allows for specifying whether or not the enclosing ModeDeclarationGroupPrototype can be measured at run-time.
 
@@ -495,7 +495,7 @@ class ModeDeclarationGroupPrototype(AtpPrototype, VariationPointCapable):
         """
         return self.swCalibrationAccess
 
-    def setSwCalibrationAccess(self, value: Optional["SwCalibrationAccessEnum"]) -> "ModeDeclarationGroupPrototype":
+    def setSwCalibrationAccess(self, value: Optional[SwCalibrationAccessEnum]) -> "ModeDeclarationGroupPrototype":
         """
         This allows for specifying whether or not the enclosing ModeDeclarationGroupPrototype can be measured at run-time. A None value is a no-op and does not overwrite an existing calibration access.
 

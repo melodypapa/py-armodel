@@ -679,7 +679,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
         """Collection of blocklisted versions"""
         return self.blocklistedVersions
 
-    def createConsumedEventGroup(self, short_name: str) -> "ConsumedEventGroup":
+    def createConsumedEventGroup(self, short_name: str) -> ConsumedEventGroup:
         """Selection of event-groups the consumer wants to subscribe for."""
         if not self.IsElementExists(short_name, ConsumedEventGroup):
             group = ConsumedEventGroup(self, short_name)
@@ -687,7 +687,7 @@ class ConsumedServiceInstance(AbstractServiceInstance):
             self.consumedEventGroups.append(group)
         return self.getElement(short_name, ConsumedEventGroup)
 
-    def getConsumedEventGroups(self) -> List["ConsumedEventGroup"]:
+    def getConsumedEventGroups(self) -> List[ConsumedEventGroup]:
         """Selection of event-groups the consumer wants to subscribe for."""
         return self.consumedEventGroups
 
