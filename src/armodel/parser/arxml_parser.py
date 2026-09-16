@@ -6416,6 +6416,17 @@ class ARXMLParser(AbstractARXMLParser):
         block_level_content = self.getDocumentationBlock(element, "DOCUMENTATION-BLOCK")
         if block_level_content is not None:
             topic_content.setBlockLevelContent(block_level_content)
+        table_element = self.find(element, "TABLE")
+        if table_element is not None:
+            table = Table()
+            self.readTable(table_element, table)
+            topic_content.setTable(table)
+        traceable_table_element = self.find(element, "TRACEABLE-TABLE")
+        if traceable_table_element is not None:
+            short_name_element = self.find(traceable_table_element, "SHORT-NAME")
+            short_name = short_name_element.text if short_name_element is not None else "TRACEABLE-TABLE"
+            traceable_table = topic_content.createTraceableTable(short_name)
+            self.readTraceableTable(traceable_table_element, traceable_table)
         return topic_content
 
     def readTopic1(self, element: ET.Element, parent: Chapter) -> Topic1:
