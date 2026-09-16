@@ -130,6 +130,24 @@ class GraphicNotationEnum(AREnum):
         )
 
 
+class AreaEnumNohref(AREnum):
+    """
+    This enumerator specifies the fact that the area has no reference.
+    """
+
+    # AreaEnumNohref method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.18, p.301
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # (no methods) — enum value form serialized on Area.nohref (NOHREF attribute)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+
+    # This indicates that the area has no active link. Tags: atp.EnumerationLiteralIndex=0
+    NOHREF = "NOHREF"
+
+    def __init__(self):
+        super().__init__((AreaEnumNohref.NOHREF,))
+
+
 class Graphic(EngineeringObject):
     """
     This class represents an artifact containing the image to be inserted in the document

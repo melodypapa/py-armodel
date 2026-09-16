@@ -80,6 +80,20 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
 >   `Caption` ✓, `DocumentationBlock` ✓. `MlFigure.frame` (Table 9.24) is the other `FrameEnum` consumer.
 > - `Table` is now blocked only on the 10 new rows above it.
 
+> **Dependency audit 2026-09-16 (`Area` closure)** (run at the start of the `Area` row — the 2026-09-11
+> missing-class audit queued `Area` but missed its two enum member types):
+> - **Added 2 missing dependency rows**: `AreaEnumNohref` (Table 9.18, p.301) and `AreaEnumShape`
+>   (Table 9.19, p.302) — both NOT in src (grep of src/ and tests/); member types of `Area.nohref` /
+>   `Area.shape` → queued immediately **before** `Area` (Rule 0016.5 dependency-first; a dependent must
+>   never precede its member type, or Step 3 would fabricate the type — Rule 0001.10).
+> - Same class of miss as the 2026-09-11 `GraphicNotationEnum` audit (Graphic's member-type enum).
+> - XSD cross-check: `AREA-ENUM-NOHREF--SIMPLE` (line 131467; literal NOHREF, index 0) and
+>   `AREA-ENUM-SHAPE--SIMPLE` (line 131484; CIRCLE/DEFAULT/POLY/RECT, indices 0-3); `NOHREF`/`SHAPE`
+>   are XML attributes on the AREA attributeGroup (lines 5873/5978).
+> - `Area` itself (Table 9.17, p.301): 22 attrs (all 0..1 xml.attribute=true; String except the two
+>   enums), Base `ARObject`, Package M2::MSR::Documentation::BlockElements::Figure → `Figure.py`.
+> - Dependency closure of the enums otherwise clear (AREnum → ARObject base); primitives not queued.
+
 - [x] `ChapterEnumBreak` (dependency · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.61 · enum member type of `Paginateable.chapterBreak`) — verified R23-11 (commit 20e6ee88)
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
@@ -543,7 +557,43 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [# Spec: FO_TPS Table 9.4, p.290 (verified via pdf_page.py); 5 method rows (init + 2 accessor pairs) with 6 columns + release R23-11 written at Step 3; marker deferred to 9b]
   - [x] Step 8 — Deviations  [none remaining: all four Step-1 src deviations were FIXED during this sync and per Rule 0014 no rows are kept — (1) base VariationPointCapable removed (spec Base wins, Rule 0001.2), (2) l1 retyped LLongName → LParagraph (spec type wins), (3) missing helpEntry added, (4) addL1 None-append fixed to no-op; accepted handling notes: XSD generated VARIATION-POINT element (atpVariation, Applicable for DocumentationBlock.p) not modeled per Rule 0015 PDF-Base-wins, consistent with the stamped Paginateable family (Table/Tgroup/SlParagraph model no VP); l1 pureMM minOccurs=1 vs XSD element minOccurs=0 → list defaults [] (uniform-optional family handling); Step-3 referenced classes all stamped: LParagraph ✓ Paginateable ✓ DocumentViewSelectable ✓]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 9,032 unit + integration round-trips pass; flake8/ruff/black-check clean (ruff I001 import order fixed in the new writer test); set-based checklist==methods exact match in order; 9b: user-confirmed base collapse to (Paginateable) with VariationPointCapable removal, l1 retype LLongName→LParagraph, added helpEntry with XSD HELP-ENTRY coverage, addL1 None no-op, verbatim docstrings incl. spec typo "partiucular", reader+writer mixin coverage (SI/VIEW/BREAK/KEEP/HELP-ENTRY) with single readARObject, member order, Rule 0015 VP arbitration, package location, no remaining deviations; marker `# Spec verified: R23-11` written]
-- [ ] `Area` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.17 · member type of `Map.area` · **NOT in src** — class must be created when this row is synced)
+> **Dependency audit 2026-09-16 (`Area` closure)** (run at the start of the `Area` row — the 2026-09-11
+> missing-class audit queued `Area` but missed its two enum member types):
+> - **Added 2 missing dependency rows**: `AreaEnumNohref` (Table 9.18, p.301) and `AreaEnumShape`
+>   (Table 9.19, p.302) — both NOT in src (grep of src/ and tests/); member types of `Area.nohref` /
+>   `Area.shape` → queued immediately **before** `Area` (Rule 0016.5 dependency-first; a dependent must
+>   never precede its member type, or Step 3 would fabricate the type — Rule 0001.10).
+> - Same class of miss as the 2026-09-11 `GraphicNotationEnum` audit (Graphic's member-type enum).
+> - XSD cross-check: `AREA-ENUM-NOHREF--SIMPLE` (line 131467; literal NOHREF, index 0) and
+>   `AREA-ENUM-SHAPE--SIMPLE` (line 131484; CIRCLE/DEFAULT/POLY/RECT, indices 0-3); `NOHREF`/`SHAPE`
+>   are XML attributes on the AREA attributeGroup (lines 5873/5978).
+> - `Area` itself (Table 9.17, p.301): 22 attrs (accesskey/alt/class/coords/href/nohref/onblur/onclick/
+>   ondblclick/onfocus/onkeydown/onkeypress/onkeyup/onmousedown/onmousemove/onmouseout/onmouseover/
+>   onmouseup/shape/style/tabindex/title, all 0..1 xml.attribute=true; String except the two enums),
+>   Base `ARObject`, Package M2::MSR::Documentation::BlockElements::Figure → `Figure.py`.
+> - Dependency closure of the enums otherwise clear (AREnum → ARObject base); primitives not queued.
+>
+- [ ] `AreaEnumNohref` (dependency · **added 2026-09-16 Area dependency audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.18, p.301 · **NOT in src — created** · Package M2::MSR::Documentation::BlockElements::Figure → `Figure.py` · AREnum; literal nohref (XSD NOHREF) index 0 · aggregated by `Area.nohref` · queued dependency-first per Rule 0016.5)
+  - [x] Step 1 — Sync members & description from spec  [Table 9.18 markdown (trailing-caption render after the Area class table) + pdf_page.py p.301 confirmed; Enumeration AreaEnumNohref; Package M2::MSR::Documentation::BlockElements::Figure → Figure.py (after GraphicNotationEnum); Note = "This enumerator specifies the fact that the area has no reference."; Aggregated by Area.nohref; 1 literal: nohref = XSD NOHREF index 0, doc "This indicates that the area has no active link." + Tags atp.EnumerationLiteralIndex=0; XSD AREA-ENUM-NOHREF complexType line 131455 (simpleContent extension of --SIMPLE + AR-OBJECT attributeGroup → ARLiteral-style enum value form), --SIMPLE line 131467; serialized as the NOHREF attribute on Area — NOHREF attribute coverage belongs to the Area row]
+  - [x] Step 2 — Write model class unit test (Red)  [TestAreaEnumNohref appended to test_Figure.py: initialization, 1 spec literal NOHREF with XSD value + getEnumValues, setValue/getValue round-trip, validateEnumValue accept/reject; ImportError = Red]
+  - [x] Step 3 — Implement model class (Green)  [AreaEnumNohref(AREnum) added to Figure.py after GraphicNotationEnum; no-arg __init__ registering (NOHREF,); literal const NOHREF = XSD value NOHREF index 0; 37 passed]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [brand-new class — class docstring = Table 9.18 Note verbatim ("...the area has no reference."); NOHREF literal comment = literal description verbatim + EnumerationLiteralIndex tag; byte-diff script verified both surfaces]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: standalone AREnum — no own XML element; serialized as the NOHREF attribute on Area; coverage belongs to the Area row (queued below)]
+  - [x] Step 6 — Update parser & writer (Green)  [N/A: see Step 5]
+  - [x] Step 7 — Update checklist comment  [# Spec: FO_TPS Table 9.18, p.301 (pdf_page.py verified); (no methods) enum-form checklist with __init__ row, 6 columns + release R23-11; marker deferred to 9b]
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)  [9a GREEN: 9,036 unit + integration round-trips pass; flake8/ruff/black-check clean; checklist==methods exact; XSD cross-check NOHREF index 0; docstrings byte-verbatim; 9b PENDING — the user-confirmation question went unanswered, so per Rule 0006.1/0012.1 the `# Spec verified: R23-11` marker is WITHHELD and the row stays [ ] until explicit confirmation; work secured by a WIP commit on feature/sync-multi-language-paragraph]
+- [ ] `AreaEnumShape` (dependency · **added 2026-09-16 Area dependency audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.19, p.302 · **NOT in src — created** · Package M2::MSR::Documentation::BlockElements::Figure → `Figure.py` · AREnum; literals circle/default/poly/rect (XSD CIRCLE/DEFAULT/POLY/RECT) indices 0-3 · aggregated by `Area.shape` · queued dependency-first per Rule 0016.5)
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  - [ ] Step 3 — Implement model class (Green)
+  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [ ] Step 5 — Write reader/writer round-trip test (Red)
+  - [ ] Step 6 — Update parser & writer (Green)
+  - [ ] Step 7 — Update checklist comment
+  - [ ] Step 8 — Deviations
+  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `Area` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_FO_TPS_GenericStructureTemplate · Table 9.17, p.301 · member type of `Map.area` · **NOT in src** — class must be created when this row is synced · 22 attrs (see 2026-09-16 audit note) · Base `ARObject` · deps `AreaEnumNohref` + `AreaEnumShape` queued immediately above)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
