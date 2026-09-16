@@ -2003,6 +2003,42 @@ class BswPerInstanceMemoryPolicy(BswApiOptions, VariationPointCapable):
         return self
 
 
+class BswClientPolicy(BswApiOptions, VariationPointCapable):
+    """
+    The requiredClientServerEntry for which the BSW Scheduler using this policy.
+    """
+
+    # BswClientPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate (BSW behavior policies), class BswClientPolicy, AUTOSAR_00052.xsd line 9616 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequiredClientServerEntryRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequiredClientServerEntryRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The requiredClientServerEntry for which the BSW Scheduler using this policy.
+        self.requiredClientServerEntryRef: Optional[RefType] = None
+
+    def getRequiredClientServerEntryRef(self) -> Optional[RefType]:
+        """
+        The requiredClientServerEntry for which the BSW Scheduler using this policy.
+        """
+        return self.requiredClientServerEntryRef
+
+    def setRequiredClientServerEntryRef(self, value: Optional[RefType]) -> "BswClientPolicy":
+        """
+        The requiredClientServerEntry for which the BSW Scheduler using this policy.
+
+        A None value is a no-op and does not overwrite an existing requiredClientServerEntryRef.
+        """
+        if value is not None:
+            self.requiredClientServerEntryRef = value
+        return self
+
+
 class BswDataReceptionPolicy(BswApiOptions, VariationPointCapable, ABC):
     """
     Abstract base class for BSW data reception policies.
@@ -2408,6 +2444,7 @@ class BswInternalBehavior(InternalBehavior):
     # [x] getBswPerInstanceMemoryPolicies [x] impl  [x] docstring  [x] test
     # [x] setBswPerInstanceMemoryPolicies [x] impl  [x] docstring  [x] test
     # [x] addBswPerInstanceMemoryPolicy   [x] impl  [x] docstring  [x] test
+    # [x] addClientPolicy              [x] impl  [x] docstring  [x] test
     # [x] getClientPolicies            [x] impl  [x] docstring  [x] test
     # [x] setClientPolicies            [x] impl  [x] docstring  [x] test
     # [x] getDistinguishedPartitions   [x] impl  [x] docstring  [x] test
@@ -2590,6 +2627,21 @@ class BswInternalBehavior(InternalBehavior):
         """
         if value is not None:
             self.bswPerInstanceMemoryPolicies.append(value)
+        return self
+
+    def addClientPolicy(self, value: Optional[BswClientPolicy]) -> "BswInternalBehavior":
+        """
+        Adds a BSW client policy.
+        Only adds the value if it is not None.
+
+        Args:
+            value: The BswClientPolicy to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.clientPolicies.append(value)
         return self
 
     def getClientPolicies(self):

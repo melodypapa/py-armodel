@@ -37,6 +37,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswAsynchronousServerCallReturnsEvent,
     BswBackgroundEvent,
     BswCalledEntity,
+    BswClientPolicy,
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
     BswExternalTriggerOccurredEvent,
@@ -3576,6 +3577,26 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Per Instance Memory Policies <%s>" % tag_name)
 
+    def readBswClientPolicy(self, element: ET.Element, policy: BswClientPolicy):
+        self.readBswApiOptions(element, policy)
+        policy.setRequiredClientServerEntryRef(self.getChildElementOptionalRefType(element, "REQUIRED-CLIENT-SERVER-ENTRY-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(policy, VariationPointCapable):
+                policy.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readBswInternalBehaviorClientPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "CLIENT-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-CLIENT-POLICY":
+                policy = BswClientPolicy()
+                self.readBswClientPolicy(child_element, policy)
+                behavior.addClientPolicy(policy)
+            else:
+                self.notImplemented("Unsupported Client Policies <%s>" % tag_name)
+
     def readBswInternalTriggeringPoint(self, element: ET.Element, point: BswInternalTriggeringPoint):
         self.readIdentifiable(element, point)
 
@@ -3604,6 +3625,7 @@ class ARXMLParser(AbstractARXMLParser):
         # read the internal behavior
         self.readInternalBehavior(element, behavior)
         self.readBswInternalBehaviorBswPerInstanceMemoryPolicies(element, behavior)
+        self.readBswInternalBehaviorClientPolicies(element, behavior)
         self.readBswInternalBehaviorInternalTriggeringPoints(element, behavior)
         self.readBswInternalBehaviorEntities(element, behavior)
         self.readBswInternalBehaviorEvents(element, behavior)

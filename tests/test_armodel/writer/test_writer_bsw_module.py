@@ -6,6 +6,7 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswClientPolicy,
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
     BswModeSwitchEvent,
@@ -835,6 +836,112 @@ class TestWriterBswPerInstanceMemoryPolicyRoundTrip:
         policies = behavior_2.getBswPerInstanceMemoryPolicies()
         assert len(policies) == 1
         assert policies[0].getArTypedPerInstanceMemoryRef() is None
+        assert policies[0].getEnableTakeAddress() is None
+
+
+class TestWriterBswClientPolicies:
+    def test_client_policy(self, writer):
+        policy = BswClientPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setRequiredClientServerEntryRef(_ref("/d", "BSW-MODULE-CLIENT-SERVER-ENTRY"))
+        parent = _parent()
+        writer.writeBswClientPolicy(parent, policy)
+        assert parent[0].tag == "BSW-CLIENT-POLICY"
+        assert parent[0].find("ENABLE-TAKE-ADDRESS") is not None
+        ref_element = parent[0].find("REQUIRED-CLIENT-SERVER-ENTRY-REF")
+        assert ref_element is not None
+        assert ref_element.text == "/d"
+        assert ref_element.attrib["DEST"] == "BSW-MODULE-CLIENT-SERVER-ENTRY"
+
+    def test_client_policy_variation_point(self, writer):
+        policy = BswClientPolicy()
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        parent = _parent()
+        writer.writeBswClientPolicy(parent, policy)
+        assert parent[0].find("VARIATION-POINT") is not None
+
+    def test_behavior_client_policies(self, writer):
+        behavior = _make_behavior()
+        policy = BswClientPolicy()
+        policy.setRequiredClientServerEntryRef(_ref("/d", "BSW-MODULE-CLIENT-SERVER-ENTRY"))
+        behavior.addClientPolicy(policy)
+        parent = _parent()
+        writer.writeBswInternalBehaviorClientPolicies(parent, behavior)
+        assert parent[0].tag == "CLIENT-POLICYS"
+        assert parent[0].find("BSW-CLIENT-POLICY") is not None
+
+    def test_behavior_client_policies_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeBswInternalBehaviorClientPolicies(parent, behavior)
+        assert len(parent) == 0
+
+    def test_writeBswInternalBehavior_emits_client_policies(self, writer):
+        behavior = _make_behavior()
+        behavior.addClientPolicy(BswClientPolicy())
+        parent = _parent()
+        writer.writeBswInternalBehavior(parent, behavior)
+        assert parent[0].find("CLIENT-POLICYS") is not None
+
+
+class TestWriterBswClientPolicyRoundTrip:
+    def test_round_trip_client_policies(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        policy = BswClientPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setRequiredClientServerEntryRef(_ref("/mod/Entry", "BSW-MODULE-CLIENT-SERVER-ENTRY"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        behavior.addClientPolicy(policy)
+
+        out_file = tmp_path / "cp_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policies = behavior_2.getClientPolicies()
+        assert len(policies) == 1
+        assert policies[0].getEnableTakeAddress().value is True
+        assert policies[0].getRequiredClientServerEntryRef().getValue() == "/mod/Entry"
+        assert policies[0].getRequiredClientServerEntryRef().getDest() == "BSW-MODULE-CLIENT-SERVER-ENTRY"
+        assert policies[0].getVariationPoint() is not None
+        assert policies[0].getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_round_trip_empty_client_policies(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.addClientPolicy(BswClientPolicy())
+
+        out_file = tmp_path / "cp_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policies = behavior_2.getClientPolicies()
+        assert len(policies) == 1
+        assert policies[0].getRequiredClientServerEntryRef() is None
         assert policies[0].getEnableTakeAddress() is None
 
 

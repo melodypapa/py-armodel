@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswAsynchronousServerCallReturnsEvent,
     BswBackgroundEvent,
     BswCalledEntity,
+    BswClientPolicy,
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
     BswDirectCallPoint,
@@ -1268,6 +1269,55 @@ class TestBswPerInstanceMemoryPolicy:
         assert policy.getVariationPoint() is variation_point
 
 
+class TestBswClientPolicy:
+    """Test cases for BswClientPolicy class - BSW client policy (XSD-only class)."""
+
+    def test_initialization(self):
+        policy = BswClientPolicy()
+        assert policy.getEnableTakeAddress() is None
+        assert policy.getRequiredClientServerEntryRef() is None
+        assert policy.getVariationPoint() is None
+
+    def test_get_set_required_client_server_entry_ref(self):
+        policy = BswClientPolicy()
+        ref = RefType()
+
+        result = policy.setRequiredClientServerEntryRef(ref)
+        assert result == policy
+        assert policy.getRequiredClientServerEntryRef() == ref
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setRequiredClientServerEntryRef(None)
+        assert result == policy
+        assert policy.getRequiredClientServerEntryRef() == ref
+
+    def test_inherited_enable_take_address(self):
+        policy = BswClientPolicy()
+        value = Boolean()
+        value.setValue(True)
+
+        result = policy.setEnableTakeAddress(value)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setEnableTakeAddress(None)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+    def test_inherited_variation_point(self):
+        policy = BswClientPolicy()
+        variation_point = VariationPoint()
+
+        result = policy.setVariationPoint(variation_point)
+        assert result == policy
+        assert policy.getVariationPoint() is variation_point
+
+        # Setting None is a no-op: the existing value is preserved
+        policy.setVariationPoint(None)
+        assert policy.getVariationPoint() is variation_point
+
+
 class TestBswDataReceptionPolicy:
     """Test cases for BswDataReceptionPolicy class - abstract base class for BSW data reception policies."""
 
@@ -1374,6 +1424,21 @@ class TestBswInternalBehavior:
         result = behavior.setClientPolicies([])
         assert result == behavior
         assert behavior.getClientPolicies() == []
+
+    def test_add_client_policy(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "test_internal_behavior")
+        policy = BswClientPolicy()
+
+        result = behavior.addClientPolicy(policy)
+
+        assert result == behavior
+        assert behavior.getClientPolicies() == [policy]
+
+        # Adding None is a no-op: the list is unchanged
+        behavior.addClientPolicy(None)
+        assert behavior.getClientPolicies() == [policy]
 
     def test_get_set_distinguished_partitions(self):
         document = AUTOSAR.getInstance()

@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswAsynchronousServerCallReturnsEvent,
     BswBackgroundEvent,
     BswCalledEntity,
+    BswClientPolicy,
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
     BswDistinguishedPartition,
@@ -6575,6 +6576,22 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Per Instance Memory Policies <%s>" % type(policy))
 
+    def writeBswClientPolicy(self, element: ET.Element, policy: BswClientPolicy):
+        child_element = ET.SubElement(element, "BSW-CLIENT-POLICY")
+        self.writeBswApiOptions(child_element, policy)
+        self.setChildElementOptionalRefType(child_element, "REQUIRED-CLIENT-SERVER-ENTRY-REF", policy.getRequiredClientServerEntryRef())
+        self.writeVariationPoint(child_element, policy.getVariationPoint())
+
+    def writeBswInternalBehaviorClientPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        policies = behavior.getClientPolicies()
+        if len(policies) > 0:
+            child_element = ET.SubElement(element, "CLIENT-POLICYS")
+            for policy in policies:
+                if isinstance(policy, BswClientPolicy):
+                    self.writeBswClientPolicy(child_element, policy)
+                else:
+                    self.notImplemented("Unsupported Client Policies <%s>" % type(policy))
+
     def writeBswInternalBehaviorReceptionPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
         policies = behavior.getReceptionPolicies()
         if len(policies) > 0:
@@ -6603,6 +6620,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "BSW-INTERNAL-BEHAVIOR")
         self.writeInternalBehavior(child_element, behavior)
         self.writeBswInternalBehaviorBswPerInstanceMemoryPolicies(child_element, behavior)
+        self.writeBswInternalBehaviorClientPolicies(child_element, behavior)
         self.writeBswInternalBehaviorInternalTriggeringPoints(child_element, behavior)
         self.writeBswInternalBehaviorEntities(child_element, behavior)
         self.writeBswInternalBehaviorEvents(child_element, behavior)

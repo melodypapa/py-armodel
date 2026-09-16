@@ -1435,6 +1435,70 @@ class TestBswPerInstanceMemoryPolicyHandlers:
         assert any("Unsupported Per Instance Memory Policies" in r.getMessage() for r in caplog.records)
 
 
+class TestBswClientPolicyHandlers:
+    """Exercise readBswClientPolicy and the BswInternalBehavior CLIENT-POLICYS wrapper."""
+
+    def test_readBswClientPolicy_sets_ref(self, parser):
+        from armodel.models import BswClientPolicy
+
+        policy = BswClientPolicy()
+        element = _snip(
+            "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>" "<REQUIRED-CLIENT-SERVER-ENTRY-REF DEST='BSW-MODULE-CLIENT-SERVER-ENTRY'>/d</REQUIRED-CLIENT-SERVER-ENTRY-REF>",
+            root_tag="P",
+        )
+        parser.readBswClientPolicy(element, policy)
+        assert policy.getEnableTakeAddress().value is True
+        assert policy.getRequiredClientServerEntryRef().getValue() == "/d"
+        assert policy.getRequiredClientServerEntryRef().getDest() == "BSW-MODULE-CLIENT-SERVER-ENTRY"
+
+    def test_readBswInternalBehaviorClientPolicies_adds(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<CLIENT-POLICYS>"
+            "<BSW-CLIENT-POLICY>"
+            "<REQUIRED-CLIENT-SERVER-ENTRY-REF DEST='BSW-MODULE-CLIENT-SERVER-ENTRY'>/cs</REQUIRED-CLIENT-SERVER-ENTRY-REF>"
+            "</BSW-CLIENT-POLICY>"
+            "</CLIENT-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorClientPolicies(element, behavior)
+        policies = behavior.getClientPolicies()
+        assert len(policies) == 1
+        assert policies[0].getRequiredClientServerEntryRef().getValue() == "/cs"
+
+    def test_readBswInternalBehaviorClientPolicies_reads_variation_point(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<CLIENT-POLICYS>"
+            "<BSW-CLIENT-POLICY>"
+            "<REQUIRED-CLIENT-SERVER-ENTRY-REF DEST='BSW-MODULE-CLIENT-SERVER-ENTRY'>/cs</REQUIRED-CLIENT-SERVER-ENTRY-REF>"
+            "<VARIATION-POINT><SHORT-LABEL>lbl</SHORT-LABEL></VARIATION-POINT>"
+            "</BSW-CLIENT-POLICY>"
+            "</CLIENT-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorClientPolicies(element, behavior)
+        policy = behavior.getClientPolicies()[0]
+        assert policy.getVariationPoint() is not None
+        assert policy.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_readBswInternalBehaviorClientPolicies_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<CLIENT-POLICYS><BAD/></CLIENT-POLICYS>",
+            root_tag="BH",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readBswInternalBehaviorClientPolicies(element, behavior)
+        assert any("Unsupported Client Policies" in r.getMessage() for r in caplog.records)
+
+
 # ==================== BswInternalTriggeringPoint & BswInternalBehavior orchestrator ====================
 
 
