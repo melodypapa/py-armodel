@@ -25,6 +25,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswClientPolicy,
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
+    BswDataSendPolicy,
     BswDistinguishedPartition,
     BswOsTaskExecutionEvent,
     BswSchedulerNamePrefix,
@@ -6643,6 +6644,23 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Released Trigger Policies <%s>" % type(policy))
 
+    def writeBswDataSendPolicy(self, element: ET.Element, policy: BswDataSendPolicy):
+        child_element = ET.SubElement(element, "BSW-DATA-SEND-POLICY")
+        self.writeBswApiOptions(child_element, policy)
+        self.setChildElementOptionalRefType(child_element, "PROVIDED-DATA-REF", policy.getProvidedDataRef())
+        self.setChildElementOptionalRefType(child_element, "PROVIEDE-DATA-REF", policy.getProviedeDataRef())
+        self.writeVariationPoint(child_element, policy.getVariationPoint())
+
+    def writeBswInternalBehaviorDataSendPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        policies = behavior.getSendPolicies()
+        if len(policies) > 0:
+            child_element = ET.SubElement(element, "SEND-POLICYS")
+            for policy in policies:
+                if isinstance(policy, BswDataSendPolicy):
+                    self.writeBswDataSendPolicy(child_element, policy)
+                else:
+                    self.notImplemented("Unsupported Data Send Policies <%s>" % type(policy))
+
     def writeBswInternalBehaviorReceptionPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
         policies = behavior.getReceptionPolicies()
         if len(policies) > 0:
@@ -6680,6 +6698,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswInternalBehaviorInternalTriggeringPointPolicies(child_element, behavior)
         self.writeBswInternalBehaviorParameterPolicies(child_element, behavior)
         self.writeBswInternalBehaviorReleasedTriggerPolicies(child_element, behavior)
+        self.writeBswInternalBehaviorDataSendPolicies(child_element, behavior)
         self.writeBswInternalBehaviorReceptionPolicies(child_element, behavior)
         self.writeBswInternalBehaviorSchedulerNamePrefixes(child_element, behavior)
         self.writeBswInternalBehaviorDistinguishedPartitions(child_element, behavior)

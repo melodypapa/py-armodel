@@ -2147,6 +2147,63 @@ class BswReleasedTriggerPolicy(BswApiOptions, VariationPointCapable):
         return self
 
 
+class BswDataSendPolicy(BswApiOptions, VariationPointCapable):
+    """
+    The data sent over the BSW Scheduler using this policy.
+    """
+
+    # BswDataSendPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate (BSW behavior policies), class BswDataSendPolicy, AUTOSAR_00052.xsd line 9802 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getProvidedDataRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProvidedDataRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProviedeDataRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (obsolete, PROVIEDE-DATA-REF)
+    # [x] setProviedeDataRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  (obsolete, PROVIEDE-DATA-REF)
+
+    def __init__(self):
+        super().__init__()
+
+        # The data sent over the BSW Scheduler using this policy.
+        self.providedDataRef: Optional[RefType] = None
+
+        # The data sent over the BSW Scheduler using this policy. (obsolete, PROVIEDE-DATA-REF)
+        self.proviedeDataRef: Optional[RefType] = None
+
+    def getProvidedDataRef(self) -> Optional[RefType]:
+        """
+        The data sent over the BSW Scheduler using this policy.
+        """
+        return self.providedDataRef
+
+    def setProvidedDataRef(self, value: Optional[RefType]) -> "BswDataSendPolicy":
+        """
+        The data sent over the BSW Scheduler using this policy.
+
+        A None value is a no-op and does not overwrite an existing providedDataRef.
+        """
+        if value is not None:
+            self.providedDataRef = value
+        return self
+
+    def getProviedeDataRef(self) -> Optional[RefType]:
+        """
+        The data sent over the BSW Scheduler using this policy.
+        """
+        return self.proviedeDataRef
+
+    def setProviedeDataRef(self, value: Optional[RefType]) -> "BswDataSendPolicy":
+        """
+        The data sent over the BSW Scheduler using this policy.
+
+        A None value is a no-op and does not overwrite an existing proviedeDataRef.
+        """
+        if value is not None:
+            self.proviedeDataRef = value
+        return self
+
+
 class BswDataReceptionPolicy(BswApiOptions, VariationPointCapable, ABC):
     """
     Abstract base class for BSW data reception policies.
@@ -2580,6 +2637,7 @@ class BswInternalBehavior(InternalBehavior):
     # [x] setSchedulerNamePrefixes     [x] impl  [x] docstring  [x] test
     # [x] getSendPolicies              [x] impl  [x] docstring  [x] test
     # [x] setSendPolicies              [x] impl  [x] docstring  [x] test
+    # [x] addSendPolicy                [x] impl  [x] docstring  [x] test
     # [x] getServiceDependencies       [x] impl  [x] docstring  [x] test
     # [x] setServiceDependencies       [x] impl  [x] docstring  [x] test
     # [x] addServiceDependency         [x] impl  [x] docstring  [x] test
@@ -3123,6 +3181,21 @@ class BswInternalBehavior(InternalBehavior):
         """
         if value is not None:
             self.sendPolicies = value
+        return self
+
+    def addSendPolicy(self, value: Optional[BswDataSendPolicy]) -> "BswInternalBehavior":
+        """
+        Adds a BSW data send policy.
+        Only adds the value if it is not None.
+
+        Args:
+            value: The BswDataSendPolicy to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.sendPolicies.append(value)
         return self
 
     def getServiceDependencies(self):

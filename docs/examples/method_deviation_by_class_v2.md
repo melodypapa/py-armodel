@@ -130,7 +130,7 @@ reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 | `receptionPolicies` | `List` | `receptionPolicy` | ``BswDataReceptionPolicy`` | aggr | naming (plural); untyped |
 | `releasedTriggerPolicies` | `List` | `releasedTriggerPolicy` | ``BswReleasedTriggerPolicy`` | aggr | naming (plural); untyped — member class synced 2026-09-17 (`# XSD verified: AUTOSAR_00052.xsd`); field typing deferred to the BswInternalBehavior full sync |
 | `schedulerNamePrefixes` | `List` | `schedulerNamePrefix` | ``BswSchedulerNamePrefix`` | aggr | naming (plural) |
-| `sendPolicies` | `List` | `sendPolicy` | ``BswDataSendPolicy`` | aggr | member class `BswDataSendPolicy` missing |
+| `sendPolicies` | `List` | `sendPolicy` | ``BswDataSendPolicy`` | aggr | naming (plural); untyped — member class synced 2026-09-17 (`# XSD verified: AUTOSAR_00052.xsd`); field typing deferred to the BswInternalBehavior full sync |
 | `serviceDependencies` | `List` | `serviceDependency` | ``BswServiceDependency`` | aggr | naming (plural) |
 | `triggerDirectImplementations` | `List` | `triggerDirectImplementation` | ``BswTriggerDirectImplementation`` | aggr | naming (plural) |
 | `variationPointProxies` | `List` | `variationPointProxy` | ``VariationPointProxy`` | aggr | naming (plural) |
@@ -180,6 +180,16 @@ reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | — *(no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-RELEASED-TRIGGER-POLICY`; attr `releasedTrigger` → `releasedTriggerRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class itself un-stamped, queued separately) |
+
+## `BswDataSendPolicy`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf` (upstream document; class XSD-only)  | **XSD:** `AUTOSAR_00052.xsd` line 9802
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| `proviedeDataRef` | `Optional[RefType]` | `proviedeData` | ``VariableDataPrototype`` | ref | **accepted legacy** — `PROVIEDE-DATA-REF` carries `atp.Status="obsolete"` in R23-11 (old misspelling of providedData); modeled as optional member with full reader/writer coverage for legacy ARXML compatibility, per Rule 0019 combine-case pattern |
+| — *(otherwise no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-DATA-SEND-POLICY`; attr `providedData` → `providedDataRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class itself un-stamped, queued separately) |
 
 ## `FlatMap`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —

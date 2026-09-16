@@ -17,6 +17,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswClientPolicy,
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
+    BswDataSendPolicy,
     BswDirectCallPoint,
     BswDistinguishedPartition,
     BswEvent,
@@ -1468,6 +1469,69 @@ class TestBswReleasedTriggerPolicy:
         assert policy.getVariationPoint() is variation_point
 
 
+class TestBswDataSendPolicy:
+    """Test cases for BswDataSendPolicy class - BSW data send policy (XSD-only class)."""
+
+    def test_initialization(self):
+        policy = BswDataSendPolicy()
+        assert policy.getEnableTakeAddress() is None
+        assert policy.getProvidedDataRef() is None
+        assert policy.getProviedeDataRef() is None
+        assert policy.getVariationPoint() is None
+
+    def test_get_set_provided_data_ref(self):
+        policy = BswDataSendPolicy()
+        ref = RefType()
+
+        result = policy.setProvidedDataRef(ref)
+        assert result == policy
+        assert policy.getProvidedDataRef() == ref
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setProvidedDataRef(None)
+        assert result == policy
+        assert policy.getProvidedDataRef() == ref
+
+    def test_get_set_proviede_data_ref(self):
+        policy = BswDataSendPolicy()
+        ref = RefType()
+
+        result = policy.setProviedeDataRef(ref)
+        assert result == policy
+        assert policy.getProviedeDataRef() == ref
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setProviedeDataRef(None)
+        assert result == policy
+        assert policy.getProviedeDataRef() == ref
+
+    def test_inherited_enable_take_address(self):
+        policy = BswDataSendPolicy()
+        value = Boolean()
+        value.setValue(True)
+
+        result = policy.setEnableTakeAddress(value)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setEnableTakeAddress(None)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+    def test_inherited_variation_point(self):
+        policy = BswDataSendPolicy()
+        variation_point = VariationPoint()
+
+        result = policy.setVariationPoint(variation_point)
+        assert result == policy
+        assert policy.getVariationPoint() is variation_point
+
+        # Setting None is a no-op: the existing value is preserved
+        policy.setVariationPoint(None)
+        assert policy.getVariationPoint() is variation_point
+
+
 class TestBswDataReceptionPolicy:
     """Test cases for BswDataReceptionPolicy class - abstract base class for BSW data reception policies."""
 
@@ -1697,6 +1761,21 @@ class TestBswInternalBehavior:
         result = behavior.setSendPolicies([])
         assert result == behavior
         assert behavior.getSendPolicies() == []
+
+    def test_add_send_policy(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "test_internal_behavior")
+        policy = BswDataSendPolicy()
+
+        result = behavior.addSendPolicy(policy)
+
+        assert result == behavior
+        assert behavior.getSendPolicies() == [policy]
+
+        # Adding None is a no-op: the list is unchanged
+        behavior.addSendPolicy(None)
+        assert behavior.getSendPolicies() == [policy]
 
     def test_get_set_service_dependencies(self):
         document = AUTOSAR.getInstance()

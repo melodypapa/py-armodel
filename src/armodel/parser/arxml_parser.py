@@ -40,6 +40,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswClientPolicy,
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
+    BswDataSendPolicy,
     BswExternalTriggerOccurredEvent,
     BswInternalBehavior,
     BswInternalTriggeringPoint,
@@ -3660,6 +3661,27 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Released Trigger Policies <%s>" % tag_name)
 
+    def readBswDataSendPolicy(self, element: ET.Element, policy: BswDataSendPolicy):
+        self.readBswApiOptions(element, policy)
+        policy.setProvidedDataRef(self.getChildElementOptionalRefType(element, "PROVIDED-DATA-REF"))
+        policy.setProviedeDataRef(self.getChildElementOptionalRefType(element, "PROVIEDE-DATA-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(policy, VariationPointCapable):
+                policy.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readBswInternalBehaviorDataSendPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "SEND-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-DATA-SEND-POLICY":
+                policy = BswDataSendPolicy()
+                self.readBswDataSendPolicy(child_element, policy)
+                behavior.addSendPolicy(policy)
+            else:
+                self.notImplemented("Unsupported Data Send Policies <%s>" % tag_name)
+
     def readBswInternalTriggeringPoint(self, element: ET.Element, point: BswInternalTriggeringPoint):
         self.readIdentifiable(element, point)
 
@@ -3698,6 +3720,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readBswInternalBehaviorInternalTriggeringPointPolicies(element, behavior)
         self.readBswInternalBehaviorParameterPolicies(element, behavior)
         self.readBswInternalBehaviorReleasedTriggerPolicies(element, behavior)
+        self.readBswInternalBehaviorDataSendPolicies(element, behavior)
         self.readBswInternalBehaviorReceptionPolicies(element, behavior)
         self.readBswInternalBehaviorSchedulerNamePrefixes(element, behavior)
         self.readBswInternalBehaviorDistinguishedPartitions(element, behavior)

@@ -1693,6 +1693,69 @@ class TestBswReleasedTriggerPolicyHandlers:
         assert any("Unsupported Released Trigger Policies" in r.getMessage() for r in caplog.records)
 
 
+class TestBswDataSendPolicyHandlers:
+    """Exercise readBswDataSendPolicy and the BswInternalBehavior SEND-POLICYS wrapper."""
+
+    def test_readBswDataSendPolicy_sets_refs(self, parser):
+        from armodel.models import BswDataSendPolicy
+
+        policy = BswDataSendPolicy()
+        element = _snip(
+            "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>"
+            "<PROVIDED-DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/d</PROVIDED-DATA-REF>"
+            "<PROVIEDE-DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/old</PROVIEDE-DATA-REF>",
+            root_tag="P",
+        )
+        parser.readBswDataSendPolicy(element, policy)
+        assert policy.getEnableTakeAddress().value is True
+        assert policy.getProvidedDataRef().getValue() == "/d"
+        assert policy.getProvidedDataRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+        assert policy.getProviedeDataRef().getValue() == "/old"
+
+    def test_readBswInternalBehaviorDataSendPolicies_adds(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<SEND-POLICYS>" "<BSW-DATA-SEND-POLICY>" "<PROVIDED-DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/data</PROVIDED-DATA-REF>" "</BSW-DATA-SEND-POLICY>" "</SEND-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorDataSendPolicies(element, behavior)
+        policies = behavior.getSendPolicies()
+        assert len(policies) == 1
+        assert policies[0].getProvidedDataRef().getValue() == "/data"
+
+    def test_readBswInternalBehaviorDataSendPolicies_reads_variation_point(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<SEND-POLICYS>"
+            "<BSW-DATA-SEND-POLICY>"
+            "<PROVIDED-DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/data</PROVIDED-DATA-REF>"
+            "<VARIATION-POINT><SHORT-LABEL>lbl</SHORT-LABEL></VARIATION-POINT>"
+            "</BSW-DATA-SEND-POLICY>"
+            "</SEND-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorDataSendPolicies(element, behavior)
+        policy = behavior.getSendPolicies()[0]
+        assert policy.getVariationPoint() is not None
+        assert policy.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_readBswInternalBehaviorDataSendPolicies_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<SEND-POLICYS><BAD/></SEND-POLICYS>",
+            root_tag="BH",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readBswInternalBehaviorDataSendPolicies(element, behavior)
+        assert any("Unsupported Data Send Policies" in r.getMessage() for r in caplog.records)
+
+
 # ==================== BswInternalTriggeringPoint & BswInternalBehavior orchestrator ====================
 
 
