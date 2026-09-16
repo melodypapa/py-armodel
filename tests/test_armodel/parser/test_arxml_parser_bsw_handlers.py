@@ -1564,6 +1564,70 @@ class TestBswInternalTriggeringPointPolicyHandlers:
         assert any("Unsupported Internal Triggering Point Policies" in r.getMessage() for r in caplog.records)
 
 
+class TestBswParameterPolicyHandlers:
+    """Exercise readBswParameterPolicy and the BswInternalBehavior PARAMETER-POLICYS wrapper."""
+
+    def test_readBswParameterPolicy_sets_ref(self, parser):
+        from armodel.models import BswParameterPolicy
+
+        policy = BswParameterPolicy()
+        element = _snip(
+            "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>" "<PER-INSTANCE-PARAMETER-REF DEST='PARAMETER-DATA-PROTOTYPE'>/d</PER-INSTANCE-PARAMETER-REF>",
+            root_tag="P",
+        )
+        parser.readBswParameterPolicy(element, policy)
+        assert policy.getEnableTakeAddress().value is True
+        assert policy.getPerInstanceParameterRef().getValue() == "/d"
+        assert policy.getPerInstanceParameterRef().getDest() == "PARAMETER-DATA-PROTOTYPE"
+
+    def test_readBswInternalBehaviorParameterPolicies_adds(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<PARAMETER-POLICYS>"
+            "<BSW-PARAMETER-POLICY>"
+            "<PER-INSTANCE-PARAMETER-REF DEST='PARAMETER-DATA-PROTOTYPE'>/pip</PER-INSTANCE-PARAMETER-REF>"
+            "</BSW-PARAMETER-POLICY>"
+            "</PARAMETER-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorParameterPolicies(element, behavior)
+        policies = behavior.getParameterPolicies()
+        assert len(policies) == 1
+        assert policies[0].getPerInstanceParameterRef().getValue() == "/pip"
+
+    def test_readBswInternalBehaviorParameterPolicies_reads_variation_point(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<PARAMETER-POLICYS>"
+            "<BSW-PARAMETER-POLICY>"
+            "<PER-INSTANCE-PARAMETER-REF DEST='PARAMETER-DATA-PROTOTYPE'>/pip</PER-INSTANCE-PARAMETER-REF>"
+            "<VARIATION-POINT><SHORT-LABEL>lbl</SHORT-LABEL></VARIATION-POINT>"
+            "</BSW-PARAMETER-POLICY>"
+            "</PARAMETER-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorParameterPolicies(element, behavior)
+        policy = behavior.getParameterPolicies()[0]
+        assert policy.getVariationPoint() is not None
+        assert policy.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_readBswInternalBehaviorParameterPolicies_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<PARAMETER-POLICYS><BAD/></PARAMETER-POLICYS>",
+            root_tag="BH",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readBswInternalBehaviorParameterPolicies(element, behavior)
+        assert any("Unsupported Parameter Policies" in r.getMessage() for r in caplog.records)
+
+
 # ==================== BswInternalTriggeringPoint & BswInternalBehavior orchestrator ====================
 
 

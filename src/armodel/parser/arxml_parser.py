@@ -54,6 +54,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswModuleCallPoint,
     BswModuleEntity,
     BswOperationInvokedEvent,
+    BswParameterPolicy,
     BswPerInstanceMemoryPolicy,
     BswQueuedDataReceptionPolicy,
     BswSchedulableEntity,
@@ -3618,6 +3619,26 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Internal Triggering Point Policies <%s>" % tag_name)
 
+    def readBswParameterPolicy(self, element: ET.Element, policy: BswParameterPolicy):
+        self.readBswApiOptions(element, policy)
+        policy.setPerInstanceParameterRef(self.getChildElementOptionalRefType(element, "PER-INSTANCE-PARAMETER-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(policy, VariationPointCapable):
+                policy.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readBswInternalBehaviorParameterPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "PARAMETER-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-PARAMETER-POLICY":
+                policy = BswParameterPolicy()
+                self.readBswParameterPolicy(child_element, policy)
+                behavior.addParameterPolicy(policy)
+            else:
+                self.notImplemented("Unsupported Parameter Policies <%s>" % tag_name)
+
     def readBswInternalTriggeringPoint(self, element: ET.Element, point: BswInternalTriggeringPoint):
         self.readIdentifiable(element, point)
 
@@ -3654,6 +3675,7 @@ class ARXMLParser(AbstractARXMLParser):
         for group_set in self.getIncludedModeDeclarationGroupSets(element):
             behavior.addIncludedModeDeclarationGroupSet(group_set)
         self.readBswInternalBehaviorInternalTriggeringPointPolicies(element, behavior)
+        self.readBswInternalBehaviorParameterPolicies(element, behavior)
         self.readBswInternalBehaviorReceptionPolicies(element, behavior)
         self.readBswInternalBehaviorSchedulerNamePrefixes(element, behavior)
         self.readBswInternalBehaviorDistinguishedPartitions(element, behavior)

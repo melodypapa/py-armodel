@@ -2075,6 +2075,42 @@ class BswInternalTriggeringPointPolicy(BswApiOptions, VariationPointCapable):
         return self
 
 
+class BswParameterPolicy(BswApiOptions, VariationPointCapable):
+    """
+    The perInstanceParameter for which the BSW Scheduler using this policy.
+    """
+
+    # BswParameterPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate (BSW behavior policies), class BswParameterPolicy, AUTOSAR_00052.xsd line 12325 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPerInstanceParameterRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPerInstanceParameterRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The perInstanceParameter for which the BSW Scheduler using this policy.
+        self.perInstanceParameterRef: Optional[RefType] = None
+
+    def getPerInstanceParameterRef(self) -> Optional[RefType]:
+        """
+        The perInstanceParameter for which the BSW Scheduler using this policy.
+        """
+        return self.perInstanceParameterRef
+
+    def setPerInstanceParameterRef(self, value: Optional[RefType]) -> "BswParameterPolicy":
+        """
+        The perInstanceParameter for which the BSW Scheduler using this policy.
+
+        A None value is a no-op and does not overwrite an existing perInstanceParameterRef.
+        """
+        if value is not None:
+            self.perInstanceParameterRef = value
+        return self
+
+
 class BswDataReceptionPolicy(BswApiOptions, VariationPointCapable, ABC):
     """
     Abstract base class for BSW data reception policies.
@@ -2496,6 +2532,7 @@ class BswInternalBehavior(InternalBehavior):
     # [x] setModeSenderPolicies        [x] impl  [x] docstring  [x] test
     # [x] getParameterPolicies         [x] impl  [x] docstring  [x] test
     # [x] setParameterPolicies         [x] impl  [x] docstring  [x] test
+    # [x] addParameterPolicy           [x] impl  [x] docstring  [x] test
     # [x] getPerInstanceParameters     [x] impl  [x] docstring  [x] test
     # [x] setPerInstanceParameters     [x] impl  [x] docstring  [x] test
     # [x] getReceptionPolicies         [x] impl  [x] docstring  [x] test
@@ -2881,6 +2918,21 @@ class BswInternalBehavior(InternalBehavior):
         """
         if value is not None:
             self.parameterPolicies = value
+        return self
+
+    def addParameterPolicy(self, value: Optional[BswParameterPolicy]) -> "BswInternalBehavior":
+        """
+        Adds a BSW parameter policy.
+        Only adds the value if it is not None.
+
+        Args:
+            value: The BswParameterPolicy to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.parameterPolicies.append(value)
         return self
 
     def getPerInstanceParameters(self):

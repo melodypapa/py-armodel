@@ -44,6 +44,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswModuleCallPoint,
     BswModuleEntity,
     BswOperationInvokedEvent,
+    BswParameterPolicy,
     BswPerInstanceMemoryPolicy,
     BswQueuedDataReceptionPolicy,
     BswSchedulableEntity,
@@ -6609,6 +6610,22 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Internal Triggering Point Policies <%s>" % type(policy))
 
+    def writeBswParameterPolicy(self, element: ET.Element, policy: BswParameterPolicy):
+        child_element = ET.SubElement(element, "BSW-PARAMETER-POLICY")
+        self.writeBswApiOptions(child_element, policy)
+        self.setChildElementOptionalRefType(child_element, "PER-INSTANCE-PARAMETER-REF", policy.getPerInstanceParameterRef())
+        self.writeVariationPoint(child_element, policy.getVariationPoint())
+
+    def writeBswInternalBehaviorParameterPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        policies = behavior.getParameterPolicies()
+        if len(policies) > 0:
+            child_element = ET.SubElement(element, "PARAMETER-POLICYS")
+            for policy in policies:
+                if isinstance(policy, BswParameterPolicy):
+                    self.writeBswParameterPolicy(child_element, policy)
+                else:
+                    self.notImplemented("Unsupported Parameter Policies <%s>" % type(policy))
+
     def writeBswInternalBehaviorReceptionPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
         policies = behavior.getReceptionPolicies()
         if len(policies) > 0:
@@ -6644,6 +6661,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswInternalBehaviorModeSenderPolicy(child_element, behavior)
         self.writeBswInternalBehaviorIncludedModeDeclarationGroupSets(child_element, behavior)
         self.writeBswInternalBehaviorInternalTriggeringPointPolicies(child_element, behavior)
+        self.writeBswInternalBehaviorParameterPolicies(child_element, behavior)
         self.writeBswInternalBehaviorReceptionPolicies(child_element, behavior)
         self.writeBswInternalBehaviorSchedulerNamePrefixes(child_element, behavior)
         self.writeBswInternalBehaviorDistinguishedPartitions(child_element, behavior)
