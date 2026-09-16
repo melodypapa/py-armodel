@@ -295,6 +295,7 @@ class TestCompuScaleRationalFormula:
         """Test that a CompuScaleRationalFormula object can be initialized with default values."""
         compu_scale_rational = CompuScaleRationalFormula()
         assert compu_scale_rational.compuRationalCoeffs is None
+        assert "This meta-class represents the fact that the computation in this scale is represented as rational term." in CompuScaleRationalFormula.__doc__
 
     def test_compu_scale_rational_formula_coeffs_methods(self):
         """Test the compuRationalCoeffs getter and setter."""
@@ -304,6 +305,8 @@ class TestCompuScaleRationalFormula:
         result = compu_scale_rational.setCompuRationalCoeffs(coeffs)
         assert compu_scale_rational.getCompuRationalCoeffs() == coeffs
         assert result == compu_scale_rational
+        assert compu_scale_rational.setCompuRationalCoeffs(None) == compu_scale_rational
+        assert compu_scale_rational.getCompuRationalCoeffs() == coeffs
 
 
 class TestCompuNominatorDenominator:

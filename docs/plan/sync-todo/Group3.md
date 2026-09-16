@@ -773,16 +773,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [Table 5.69, p.389; init/get/set rows for denominator then numerator with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none: ARObject base, both PDF aggregates typed and ordered, verbatim docs, and existing reader/writer coverage match]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 300 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed ARObject base, typed denominator/numerator aggregates, API naming, verbatim docs, reader/writer coverage, XML order, package location, and no deviations; marker `# Spec verified: R23-11` written]
-- [ ] `CompuScaleRationalFormula` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.73 · subtype of `CompuScaleContents` · member type of `CompuScale.compuScaleContents`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `CompuScaleRationalFormula` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.73 · subtype of `CompuScaleContents` · member type of `CompuScale.compuScaleContents`) — verified R23-11 (commit pending)
+   - [x] Step 1 — Sync members & description from spec  [Table 5.73, p.390; Base ARObject + CompuScaleContents, most-derived base CompuScaleContents; one optional aggregate compuRationalCoeffs of type CompuRationalCoeffs; Note and attribute Note copied verbatim]
+   - [x] Step 2 — Write model class unit test (Red)  [initialization, Note assertion, typed aggregate setter, chaining, and None no-op; stale setter failed before implementation]
+   - [x] Step 3 — Implement model class (Green)  [typed Optional[CompuRationalCoeffs] member and None-preserving setter]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class and compuRationalCoeffs Notes copied verbatim from Table 5.73, including sequence-offset Tag]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [existing rational-formula parser/writer tests assert the aggregate and serialized numerator/denominator values]
+   - [x] Step 6 — Update parser & writer (Green)  [existing readCompuRationCoeffs/writeCompuScaleRationalFormula coverage uses the synced accessor pair]
+   - [x] Step 7 — Update checklist comment  [Table 5.73, p.390; init/get/set rows with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: CompuScaleContents base, one PDF aggregate, verbatim docs, and existing reader/writer coverage match]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 300 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed CompuScaleContents base, typed aggregate, API naming, verbatim docs, reader/writer coverage, package location, and no deviations; marker `# Spec verified: R23-11` written]
 - [ ] `CompuScaleConstantContents` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.74 · subtype of `CompuScaleContents` · member type of `CompuScale.compuScaleContents`)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

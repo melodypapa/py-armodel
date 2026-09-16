@@ -273,26 +273,30 @@ class CompuRationalCoeffs(ARObject):
 
 
 class CompuScaleRationalFormula(CompuScaleContents):
-    """
-    This meta-class represents the fact that the computation in this scale is represented as rational term.
-    Base: CompuScaleContents
-    """
+    """This meta-class represents the fact that the computation in this scale is represented as rational term."""
 
     # CompuScaleRationalFormula method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCompuRationalCoeffs       [x] impl  [ ] docstring  [ ] test
-    # [ ] setCompuRationalCoeffs       [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.73, p.390
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__ [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCompuRationalCoeffs [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompuRationalCoeffs [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.compuRationalCoeffs: CompuRationalCoeffs = None
+        # This specifies the coefficients of the rational formula. Tags: xml.sequenceOffset=110
+        self.compuRationalCoeffs: Optional[CompuRationalCoeffs] = None
 
     def getCompuRationalCoeffs(self) -> CompuRationalCoeffs:
+        """This specifies the coefficients of the rational formula. Tags: xml.sequenceOffset=110"""
         return self.compuRationalCoeffs
 
     def setCompuRationalCoeffs(self, value: CompuRationalCoeffs):
-        self.compuRationalCoeffs = value
+        """This specifies the coefficients of the rational formula. Tags: xml.sequenceOffset=110. Does nothing if value is None."""
+        if value is not None:
+            self.compuRationalCoeffs = value
         return self
 
 
