@@ -945,6 +945,16 @@ class TestSetCompuWriter:
         assert child.find("COMPU-SCALES/COMPU-SCALE/SHORT-LABEL").text == "Scale1"
         assert child.find("COMPU-DEFAULT-VALUE/VT").text == "Def"
 
+    def test_set_compu_preserves_both_spec_members(self, writer):
+        compu = Compu().setCompuContent(CompuScales()).setCompuDefaultValue(CompuConst())
+        parent = _parent()
+
+        writer.setCompu(parent, "COMPU-INTERNAL-TO-PHYS", compu)
+
+        child = parent[0]
+        assert child.find("COMPU-SCALES") is not None
+        assert child.find("COMPU-DEFAULT-VALUE") is not None
+
 
 class TestWriteCompuMethodWriter:
     def test_write_compu_method_basic(self, writer):

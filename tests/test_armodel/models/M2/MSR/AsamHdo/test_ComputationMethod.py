@@ -90,6 +90,9 @@ class TestCompuConst:
 class TestCompu:
     """Test class for Compu class."""
 
+    def test_compu_has_spec_note(self):
+        assert cleandoc(Compu.__doc__) == "This meta-class represents the ability to express one particular computation."
+
     def test_compu_initialization(self):
         """Test that a Compu object can be initialized with default values."""
         compu = Compu()
@@ -114,6 +117,18 @@ class TestCompu:
         result = compu.setCompuDefaultValue(default_value)
         assert compu.getCompuDefaultValue() == default_value
         assert result == compu
+
+    def test_compu_setters_none_are_no_ops(self):
+        compu = Compu()
+        content = CompuScales()
+        default_value = CompuConst()
+        compu.setCompuContent(content)
+        compu.setCompuDefaultValue(default_value)
+
+        assert compu.setCompuContent(None) is compu
+        assert compu.setCompuDefaultValue(None) is compu
+        assert compu.getCompuContent() is content
+        assert compu.getCompuDefaultValue() is default_value
 
 
 class TestCompuConstContent:
@@ -438,16 +453,20 @@ class TestCompuScales:
         """Test that a CompuScales object can be initialized with default values."""
         compu_scales = CompuScales()
         assert compu_scales.compuScales == []
+        assert "This meta-class represents the ability to stepwise express a computation method." in CompuScales.__doc__
 
     def test_compu_scales_add_compu_scale(self):
         """Test adding computation scales."""
         compu_scales = CompuScales()
         compu_scale = CompuScale()
 
-        compu_scales.addCompuScale(compu_scale)
+        result = compu_scales.addCompuScale(compu_scale)
         scales = compu_scales.getCompuScales()
         assert compu_scale in scales
         assert len(scales) == 1
+        assert result == compu_scales
+        assert compu_scales.addCompuScale(None) == compu_scales
+        assert compu_scales.getCompuScales() == [compu_scale]
 
 
 class TestCompuMethod:

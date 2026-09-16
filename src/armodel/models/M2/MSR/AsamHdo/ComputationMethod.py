@@ -157,36 +157,45 @@ class CompuConst(ARObject):
 
 
 class Compu(ARObject):
-    """
-    Base class for computation methods.
-    Base: ARObject
-    """
+    """This meta-class represents the ability to express one particular computation."""
 
     # Compu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCompuContent              [x] impl  [ ] docstring  [ ] test
-    # [ ] setCompuContent              [x] impl  [ ] docstring  [ ] test
-    # [ ] getCompuDefaultValue         [x] impl  [ ] docstring  [ ] test
-    # [ ] setCompuDefaultValue         [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.62, p.386
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCompuContent              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompuContent              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCompuDefaultValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompuDefaultValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.compuContent: CompuContent = None
-        self.compuDefaultValue: CompuConst = None
+        # This specifies the details of the computation. Stereotypes: atpSplitable Tags: atp.Splitkey=compuContent xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false
+        self.compuContent: Optional[CompuContent] = None
 
-    def getCompuContent(self) -> CompuContent:
+        # This property can be used to specify an output value for a conversion formula, if the value to be converted lies outside the plausibility limit. Although this is possible for all conversion formulae, it is especially valid for variables with tabular conversion formulae. Tags: xml.sequenceOffset=70
+        self.compuDefaultValue: Optional[CompuConst] = None
+
+    def getCompuContent(self) -> Optional[CompuContent]:
+        """This specifies the details of the computation. Stereotypes: atpSplitable Tags: atp.Splitkey=compuContent xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false"""
         return self.compuContent
 
-    def setCompuContent(self, value: CompuContent):
-        self.compuContent = value
+    def setCompuContent(self, value: Optional[CompuContent]):
+        """This specifies the details of the computation. Stereotypes: atpSplitable Tags: atp.Splitkey=compuContent xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=20 xml.typeElement=false xml.typeWrapperElement=false. None leaves the current value unchanged."""
+        if value is not None:
+            self.compuContent = value
         return self
 
-    def getCompuDefaultValue(self) -> CompuConst:
+    def getCompuDefaultValue(self) -> Optional[CompuConst]:
+        """This property can be used to specify an output value for a conversion formula, if the value to be converted lies outside the plausibility limit. Although this is possible for all conversion formulae, it is especially valid for variables with tabular conversion formulae. Tags: xml.sequenceOffset=70"""
         return self.compuDefaultValue
 
-    def setCompuDefaultValue(self, value: CompuConst):
-        self.compuDefaultValue = value
+    def setCompuDefaultValue(self, value: Optional[CompuConst]):
+        """This property can be used to specify an output value for a conversion formula, if the value to be converted lies outside the plausibility limit. Although this is possible for all conversion formulae, it is especially valid for variables with tabular conversion formulae. Tags: xml.sequenceOffset=70. None leaves the current value unchanged."""
+        if value is not None:
+            self.compuDefaultValue = value
         return self
 
 

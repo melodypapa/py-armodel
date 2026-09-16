@@ -1411,6 +1411,9 @@ class TestDataTypeAndCompuHandlers:
         )
         parser.readCompuMethod(element, method)
         assert method.getUnitRef().getValue() == "/unit"
+        compu = method.getCompuInternalToPhys()
+        assert compu.getCompuContent().getCompuScales()[0].getShortLabel().getValue() == "scale1"
+        assert compu.getCompuDefaultValue() is None
 
     def test_readDataConstr_full(self, parser):
         from armodel.models import DataConstr

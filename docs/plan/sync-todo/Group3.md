@@ -793,16 +793,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [Table 5.74, p.391; init/get/set rows with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none: CompuScaleContents base, one PDF aggregate, verbatim docs, and existing reader/writer coverage match]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 300 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed CompuScaleContents base, typed aggregate, API naming, verbatim docs, reader/writer coverage, package location, and no deviations; marker `# Spec verified: R23-11` written]
-- [ ] `Compu` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.62 · member type of `CompuMethod.compuInternalToPhys`/`compuPhysToInternal` below · after `CompuContent` (aggr `compuContent`) + `CompuConst` (aggr `compuDefaultValue`))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `Compu` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.62 · member type of `CompuMethod.compuInternalToPhys`/`compuPhysToInternal` below · after `CompuContent` (aggr `compuContent`) + `CompuConst` (aggr `compuDefaultValue`)) — verified R23-11 (pending commit)
+   - [x] Step 1 — Sync members & description from spec  [Table 5.62, p.386; Base ARObject; compuContent CompuContent 0..1 aggr and compuDefaultValue CompuConst 0..1 aggr; XML sequence offsets 20/70]
+   - [x] Step 2 — Write model class unit test (Red)  [added spec Note, defaults, typed members, getter/setter chaining, and None no-op assertions; stale docstring and overwrite behavior failed before implementation]
+   - [x] Step 3 — Implement model class (Green)  [typed Optional members and guarded setters]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class and both member Notes copied verbatim from Table 5.62; getter/setter docstrings include the None no-op sentence]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser now asserts parsed Compu aggregates; writer now asserts both COMPU-SCALES and COMPU-DEFAULT-VALUE wrappers]
+   - [x] Step 6 — Update parser & writer (Green)  [existing getCompu/setCompu coverage uses get/set accessors for both members; focused parser/writer tests pass]
+   - [x] Step 7 — Update checklist comment  [Table 5.62, p.386; init + 4 accessor rows with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: both PDF aggregates modeled with PDF types, names/order/docstrings match, and existing reader/writer helpers cover both]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused Compu model/parser/writer tests, lint, and Black check pass; 9b: user-confirmed base, members, naming, docstrings, reader/writer coverage, member order, package location, and no deviations; marker written]
 - [ ] `CompuMethod` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.61 · ref target of `SwAxisIndividual.compuMethod` below · after `Compu` (aggr `compuInternalToPhys`/`compuPhysToInternal`) · `unit` Unit stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
