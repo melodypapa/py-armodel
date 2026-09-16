@@ -734,15 +734,15 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 8 — Deviations  [none: appendix class table is authoritative despite stale numeric queue citation; one PDF attribute modeled with ARNumerical; parser/writer coverage present]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 296 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed appendix table citation p.900, base, typed member, naming, docstrings, reader/writer coverage, and no deviations; marker written]
 - [ ] `CompuConst` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.71 · member type of `Compu.compuDefaultValue` + `CompuScale.compuInverseValue` below)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.71, p.390: Base ARObject; one optional aggregate `compuConstContentType` typed CompuConstContent; class and attribute Notes copied verbatim]
+  - [x] Step 2 — Write model class unit test (Red)  [added class Note, typed member, chaining, and None-no-op coverage; initial run failed on stale docstring and clearing setter]
+  - [x] Step 3 — Implement model class (Green)  [typed optional CompuConstContent member; setter preserves existing value on None]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note, inline member comment, getter docstring, and setter docstring now copied from Table 5.71; XML tags retained verbatim; stale base/aggregation prose removed]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [existing focused parser/writer coverage asserts typed COMPU-CONST content values and omitted wrapper]
+  - [x] Step 6 — Update parser & writer (Green)  [existing getCompuConst/setCompuConst helpers cover the member via get/set accessors]
+  - [x] Step 7 — Update checklist comment  [Table 5.71, p.390; init/get/set rows with six columns and R23-11 release; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none: one optional PDF aggregate modeled with exact type/name; reader and writer coverage already present]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed Table 5.71 base/member/type/naming/docstrings/reader-writer coverage and no deviations; marker `# Spec verified: R23-11` written]
 - [ ] `CompuScaleContents` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.66 (abstract) · parent of `CompuScaleRationalFormula` and `CompuScaleConstantContents` · member type of `CompuScale.compuScaleContents` below)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

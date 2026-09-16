@@ -2,7 +2,7 @@
 This module contains tests for the ComputationMethod module in MSR.AsamHdo.
 """
 
-from inspect import cleandoc
+from inspect import cleandoc, getsource
 
 import pytest
 
@@ -48,7 +48,10 @@ class TestCompuContent:
 
 
 class TestCompuConst:
-    """Test class for CompuConst class."""
+    """Test class for CompuConst (AUTOSAR_CP_TPS_SoftwareComponentTemplate, Table 5.71)."""
+
+    def test_compu_const_has_spec_note(self):
+        assert cleandoc(CompuConst.__doc__) == "This meta-class represents the fact that the value of a computation method scale is constant."
 
     def test_compu_const_initialization(self):
         """Test that a CompuConst object can be initialized with default values."""
@@ -58,12 +61,28 @@ class TestCompuConst:
     def test_compu_const_content_type_methods(self):
         """Test the compuConstContentType getter and setter."""
         compu_const = CompuConst()
-        # Use a concrete implementation like CompuConstTextContent instead of abstract CompuConstContent
         content_type = CompuConstTextContent()
 
         result = compu_const.setCompuConstContentType(content_type)
         assert compu_const.getCompuConstContentType() == content_type
         assert result == compu_const
+
+    def test_compu_const_content_type_none_is_no_op(self):
+        compu_const = CompuConst()
+        content_type = CompuConstTextContent()
+        compu_const.setCompuConstContentType(content_type)
+
+        result = compu_const.setCompuConstContentType(None)
+
+        assert result == compu_const
+        assert compu_const.getCompuConstContentType() == content_type
+
+    def test_compu_const_content_type_has_verbatim_spec_member_note(self):
+        source = getsource(CompuConst.__init__)
+        assert (
+            "# This is the actual content of the constant compu method scale. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=10 xml.typeElement=false xml.typeWrapperElement=false"
+            in source
+        )
 
 
 class TestCompu:
@@ -203,7 +222,6 @@ class TestCompuScaleContents:
 
     def test_compu_scale_contents_abstract_class(self):
         """Test that CompuScaleContents cannot be instantiated directly."""
-        # This should raise NotImplementedError
         with pytest.raises(TypeError):
             CompuScaleContents()
 

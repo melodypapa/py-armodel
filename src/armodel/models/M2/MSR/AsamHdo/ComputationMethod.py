@@ -26,65 +26,6 @@ class CompuContent(ARObject, ABC):
         super().__init__()
 
 
-class CompuConst(ARObject):
-    """
-    This meta-class represents the fact that the value of a computation method scale is constant.
-    Base            : ARObject
-    Aggregated by   : Compu.compuDefaultValue, CompuScale.compuInverseValue, CompuScaleConstantContents.compuCons
-    """
-
-    # CompuConst method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCompuConstContentType     [x] impl  [ ] docstring  [ ] test
-    # [ ] setCompuConstContentType     [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        super().__init__()
-
-        self.compuConstContentType: "CompuConstContent" = None
-
-    def getCompuConstContentType(self) -> "CompuConstContent":
-        return self.compuConstContentType
-
-    def setCompuConstContentType(self, value: "CompuConstContent"):
-        self.compuConstContentType = value
-        return self
-
-
-class Compu(ARObject):
-    """
-    Base class for computation methods.
-    Base: ARObject
-    """
-
-    # Compu method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCompuContent              [x] impl  [ ] docstring  [ ] test
-    # [ ] setCompuContent              [x] impl  [ ] docstring  [ ] test
-    # [ ] getCompuDefaultValue         [x] impl  [ ] docstring  [ ] test
-    # [ ] setCompuDefaultValue         [x] impl  [ ] docstring  [ ] test
-
-    def __init__(self):
-        super().__init__()
-
-        self.compuContent: CompuContent = None
-        self.compuDefaultValue: CompuConst = None
-
-    def getCompuContent(self) -> CompuContent:
-        return self.compuContent
-
-    def setCompuContent(self, value: CompuContent):
-        self.compuContent = value
-        return self
-
-    def getCompuDefaultValue(self) -> CompuConst:
-        return self.compuDefaultValue
-
-    def setCompuDefaultValue(self, value: CompuConst):
-        self.compuDefaultValue = value
-        return self
-
-
 class CompuConstContent(ARObject, ABC):
     """This meta-class represents the fact that the constant value of the computation method can be numerical or textual."""
 
@@ -182,6 +123,68 @@ class CompuConstFormulaContent(CompuConstContent):
         """Value calculated via a system constant. This element is included in every case where parameters should be generated from numerical values during compile time (not runtime!). Thus for example, the influence of the cylinder number on conversion formulae can be introduced in a repeatable manner. Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime xml.sequenceOffset=30. Does nothing if value is None."""
         if value is not None:
             self.vf = value
+        return self
+
+
+class CompuConst(ARObject):
+    """This meta-class represents the fact that the value of a computation method scale is constant."""
+
+    # CompuConst method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.71, p.390
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCompuConstContentType     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompuConstContentType     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # This is the actual content of the constant compu method scale. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=10 xml.typeElement=false xml.typeWrapperElement=false
+        self.compuConstContentType: Optional[CompuConstContent] = None
+
+    def getCompuConstContentType(self) -> Optional[CompuConstContent]:
+        """This is the actual content of the constant compu method scale."""
+        return self.compuConstContentType
+
+    def setCompuConstContentType(self, value: Optional[CompuConstContent]):
+        """This is the actual content of the constant compu method scale. None leaves the current value unchanged."""
+        if value is not None:
+            self.compuConstContentType = value
+        return self
+
+
+class Compu(ARObject):
+    """
+    Base class for computation methods.
+    Base: ARObject
+    """
+
+    # Compu method parity checklist:
+    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuContent              [x] impl  [ ] docstring  [ ] test
+    # [ ] setCompuContent              [x] impl  [ ] docstring  [ ] test
+    # [ ] getCompuDefaultValue         [x] impl  [ ] docstring  [ ] test
+    # [ ] setCompuDefaultValue         [x] impl  [ ] docstring  [ ] test
+
+    def __init__(self):
+        super().__init__()
+
+        self.compuContent: CompuContent = None
+        self.compuDefaultValue: CompuConst = None
+
+    def getCompuContent(self) -> CompuContent:
+        return self.compuContent
+
+    def setCompuContent(self, value: CompuContent):
+        self.compuContent = value
+        return self
+
+    def getCompuDefaultValue(self) -> CompuConst:
+        return self.compuDefaultValue
+
+    def setCompuDefaultValue(self, value: CompuConst):
+        self.compuDefaultValue = value
         return self
 
 
