@@ -6528,7 +6528,21 @@ class ARXMLParser(AbstractARXMLParser):
         return result
 
     def readMsrQueryP1(self, element: ET.Element, parent: ARObject) -> MsrQueryP1:
-        return MsrQueryP1()
+        msr_query_p1 = MsrQueryP1()
+        self.readPaginateable(element, msr_query_p1)
+        msr_query_props = self.find(element, "MSR-QUERY-PROPS")
+        if msr_query_props is not None:
+            msr_query_p1.setMsrQueryProps(self.getMsrQueryProps(msr_query_props))
+        topic_content = self.find(element, "TOPIC-CONTENT")
+        if topic_content is not None:
+            msr_query_p1.setMsrQueryResultP1(self.readTopicContent(topic_content, msr_query_p1))
+        return msr_query_p1
+
+    def getMsrQueryP1(self, element: ET.Element, key: str) -> MsrQueryP1:
+        child_element = self.find(element, key)
+        if child_element is None:
+            return None
+        return self.readMsrQueryP1(child_element, None)
 
     def readTopicContent(self, element: ET.Element, parent: ARObject) -> TopicContent:
         topic_content = TopicContent()

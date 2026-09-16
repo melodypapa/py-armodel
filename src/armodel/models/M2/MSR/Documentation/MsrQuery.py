@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING, List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
-from armodel.models.M2.MSR.Documentation.Chapters import Chapter, Topic1
+from armodel.models.M2.MSR.Documentation.Chapters import Chapter, Topic1, TopicContent
 
 if TYPE_CHECKING:
     from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
@@ -231,21 +231,63 @@ class MsrQueryP2(ARObject):
         return self
 
 
-class MsrQueryP1(ARObject):
+class MsrQueryP1(Paginateable):
     """
     This meta-class represents the ability to express a query which yields the content of a topic as a result.
-
-    NOTE: stub placeholder for the MSR::Documentation::MsrQuery MsrQueryP1 type
-    (Table 9.82); the full content model is not yet synced. Referred to by
-    TopicContentOrMsrQuery.msrQueryP1.
     """
 
-    # MsrQueryP1 method parity checklist (stub):
-    # Spec: not synced (MSR Documentation subtree)
-    # (no methods)
+    # MsrQueryP1 method parity checklist:
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.82, p.343
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setMsrQueryProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMsrQueryProps     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMsrQueryResultP1  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMsrQueryResultP1  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
+
+        # This is argument and properties of the paragraph query. Tags: xml.sequenceOffset=20
+        self.msrQueryProps: Optional[MsrQueryProps] = None
+
+        # This represents the result of the query. Tags: xml.sequenceOffset=30
+        self.msrQueryResultP1: Optional[TopicContent] = None
+
+    def setMsrQueryProps(self, value: Optional[MsrQueryProps]) -> "MsrQueryP1":
+        """
+        This is argument and properties of the paragraph query. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing msrQueryProps.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.msrQueryProps = value
+        return self
+
+    def getMsrQueryProps(self) -> Optional[MsrQueryProps]:
+        """
+        This is argument and properties of the paragraph query. Tags: xml.sequenceOffset=20
+        """
+        return self.msrQueryProps
+
+    def setMsrQueryResultP1(self, value: Optional[TopicContent]) -> "MsrQueryP1":
+        """
+        This represents the result of the query. Tags: xml.sequenceOffset=30. A None value is a no-op and does not overwrite an existing msrQueryResultP1.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.msrQueryResultP1 = value
+        return self
+
+    def getMsrQueryResultP1(self) -> Optional[TopicContent]:
+        """
+        This represents the result of the query. Tags: xml.sequenceOffset=30
+        """
+        return self.msrQueryResultP1
 
 
 class MsrQueryChapter(Paginateable):
@@ -324,45 +366,23 @@ class MsrQueryTopic1(Paginateable):
 
     def __init__(self):
         super().__init__()
-
-        # This is argument and properties of the topic query. Tags: xml.sequenceOffset=20
         self.msrQueryProps: Optional[MsrQueryProps] = None
-
-        # This represents the result of the query. Tags: xml.sequenceOffset=30
         self.msrQueryResultTopic1: Optional[MsrQueryResultTopic1] = None
 
     def setMsrQueryProps(self, value: Optional[MsrQueryProps]) -> "MsrQueryTopic1":
-        """
-        This is argument and properties of the topic query. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing msrQueryProps.
-
-        Returns:
-            self for method chaining
-        """
         if value is not None:
             self.msrQueryProps = value
         return self
 
     def getMsrQueryProps(self) -> Optional[MsrQueryProps]:
-        """
-        This is argument and properties of the topic query. Tags: xml.sequenceOffset=20
-        """
         return self.msrQueryProps
 
     def setMsrQueryResultTopic1(self, value: Optional[MsrQueryResultTopic1]) -> "MsrQueryTopic1":
-        """
-        This represents the result of the query. Tags: xml.sequenceOffset=30. A None value is a no-op and does not overwrite an existing msrQueryResultTopic1.
-
-        Returns:
-            self for method chaining
-        """
         if value is not None:
             self.msrQueryResultTopic1 = value
         return self
 
     def getMsrQueryResultTopic1(self) -> Optional[MsrQueryResultTopic1]:
-        """
-        This represents the result of the query. Tags: xml.sequenceOffset=30
-        """
         return self.msrQueryResultTopic1
 
 
