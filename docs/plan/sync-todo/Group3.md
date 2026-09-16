@@ -703,7 +703,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [Table 5.72, p.390; one __init__ row with six columns and R23-11 release; marker deferred to 9b]
   - [x] Step 8 — Deviations  [none: abstract class has no own attributes; ARObject base and abstract guard match the class shape; no XML coverage applicable]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 45 focused model tests, lint, Black check, and diff check pass; 9b: user-confirmed abstract shape, ARObject base, verbatim Note, and concrete-consumer XML coverage; marker written]
-- [x] `CompuConstTextContent` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.67 · subtype of `CompuConstContent`) — verified R23-11 (commit pending)
+- [x] `CompuConstTextContent` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.67 · subtype of `CompuConstContent`) — verified R23-11 (commit 4cb82851)
   - [x] Step 1 — Sync members & description from spec  [Table 5.67, p.388: Base ARObject + CompuConstContent; one optional `vt` attribute typed VerbatimString; Note and attribute Note copied verbatim]
   - [x] Step 2 — Write model class unit test (Red)  [added spec Note, VerbatimString type assertion, and None-no-op setter assertion; initial run failed on stale docstring and setter behavior]
   - [x] Step 3 — Implement model class (Green)  [`vt` changed from str to Optional[VerbatimString]; setter now ignores None; focused model tests pass]
