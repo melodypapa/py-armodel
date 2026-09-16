@@ -6,6 +6,7 @@ import inspect
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
     Area,
     AreaEnumNohref,
@@ -17,6 +18,8 @@ from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
     Map,
     MlFigure,
 )
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FrameEnum, PgwideEnum
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageVerbatim
 
 
 class TestGraphicFitEnum:
@@ -463,62 +466,107 @@ class TestLGraphic:
 
 
 class TestMlFigure:
-    """Test class for MlFigure class."""
+    """Test class for MlFigure class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.24)."""
+
+    def test_ml_figure_base_chain(self):
+        """MlFigure derives from Paginateable only (spec Base: ARObject , DocumentViewSelectable , Paginateable)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+
+        assert issubclass(MlFigure, Paginateable)
+        assert issubclass(MlFigure, DocumentViewSelectable)
+        assert not issubclass(MlFigure, VariationPointCapable)
 
     def test_ml_figure_initialization(self):
         """Test that an MlFigure object can be initialized with default values."""
         ml_figure = MlFigure()
         assert ml_figure.figureCaption is None
+        assert ml_figure.frame is None
         assert ml_figure.helpEntry is None
         assert ml_figure.lGraphics == []
         assert ml_figure.pgwide is None
         assert ml_figure.verbatim is None
 
     def test_ml_figure_figure_caption_methods(self):
-        """Test the figureCaption getter and setter."""
+        """Test the figureCaption getter and setter with chaining and None no-op."""
         ml_figure = MlFigure()
-        caption = "Test Caption"
+        caption = Caption(None, "CAPTION")
 
         result = ml_figure.setFigureCaption(caption)
         assert ml_figure.getFigureCaption() == caption
         assert result == ml_figure
 
-    def test_ml_figure_help_entry_methods(self):
-        """Test the helpEntry getter and setter."""
+        ml_figure.setFigureCaption(None)
+        assert ml_figure.getFigureCaption() == caption
+
+    def test_ml_figure_frame_methods(self):
+        """Test the frame getter and setter with chaining and None no-op."""
         ml_figure = MlFigure()
-        help_entry = String()
+        frame = FrameEnum().setValue(FrameEnum.ALL)
+
+        result = ml_figure.setFrame(frame)
+        assert ml_figure.getFrame() == frame
+        assert result == ml_figure
+
+        ml_figure.setFrame(None)
+        assert ml_figure.getFrame() == frame
+
+    def test_ml_figure_help_entry_methods(self):
+        """Test the helpEntry getter and setter with chaining and None no-op."""
+        ml_figure = MlFigure()
+        help_entry = String().setValue("help-topic")
 
         result = ml_figure.setHelpEntry(help_entry)
         assert ml_figure.getHelpEntry() == help_entry
         assert result == ml_figure
 
-    def test_ml_figure_l_graphics_methods(self):
-        """Test adding language-specific graphics."""
-        ml_figure = MlFigure()
-        l_graphic = LGraphic()
+        ml_figure.setHelpEntry(None)
+        assert ml_figure.getHelpEntry() == help_entry
 
-        result = ml_figure.addLGraphics(l_graphic)
+    def test_ml_figure_l_graphics_methods(self):
+        """Test adding language-specific graphics with insertion order and None no-op."""
+        ml_figure = MlFigure()
+        l_graphic1 = LGraphic()
+        l_graphic2 = LGraphic()
+
+        result = ml_figure.addLGraphics(l_graphic1)
+        ml_figure.addLGraphics(l_graphic2)
         l_graphics = ml_figure.getLGraphics()
-        assert l_graphic in l_graphics
+        assert l_graphics == [l_graphic1, l_graphic2]
         assert result == ml_figure
 
+        ml_figure.addLGraphics(None)
+        assert ml_figure.getLGraphics() == [l_graphic1, l_graphic2]
+
     def test_ml_figure_pgwide_methods(self):
-        """Test the pgwide getter and setter."""
+        """Test the pgwide getter and setter with chaining and None no-op."""
         ml_figure = MlFigure()
-        pgwide = "wide"
+        pgwide = PgwideEnum().setValue(PgwideEnum.PGWIDE)
 
         result = ml_figure.setPgwide(pgwide)
         assert ml_figure.getPgwide() == pgwide
         assert result == ml_figure
 
+        ml_figure.setPgwide(None)
+        assert ml_figure.getPgwide() == pgwide
+
     def test_ml_figure_verbatim_methods(self):
-        """Test the verbatim getter and setter."""
+        """Test the verbatim getter and setter with chaining and None no-op."""
         ml_figure = MlFigure()
-        verbatim = "verbatim_text"
+        verbatim = MultiLanguageVerbatim()
 
         result = ml_figure.setVerbatim(verbatim)
         assert ml_figure.getVerbatim() == verbatim
         assert result == ml_figure
+
+        ml_figure.setVerbatim(None)
+        assert ml_figure.getVerbatim() == verbatim
+
+    def test_ml_figure_docstring_verbatim(self):
+        """Class docstring must be the spec Note verbatim (Table 9.24)."""
+        class_note = "This metaclass represents the ability to embed a figure."
+
+        assert inspect.cleandoc(MlFigure.__doc__) == class_note
 
 
 class TestAreaEnumNohref:

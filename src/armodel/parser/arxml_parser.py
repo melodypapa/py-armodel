@@ -5373,7 +5373,15 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMlFigure(self, element: ET.Element, figure: MlFigure):
         self.readPaginateable(element, figure)
+        if "FRAME" in element.attrib:
+            figure.setFrame(FrameEnum().setValue(element.attrib["FRAME"]))
+        if "HELP-ENTRY" in element.attrib:
+            figure.setHelpEntry(String().setValue(element.attrib["HELP-ENTRY"]))
+        if "PGWIDE" in element.attrib:
+            figure.setPgwide(PgwideEnum().setValue(element.attrib["PGWIDE"]))
+        figure.setFigureCaption(self.getCaption(element, "FIGURE-CAPTION"))
         self.readMlFigureLGraphics(element, figure)
+        figure.setVerbatim(self.getMultiLanguageVerbatim(element, "VERBATIM"))
 
     def getMlFigures(self, element: ET.Element, key: str) -> List[MlFigure]:
         result = []

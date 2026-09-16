@@ -1,8 +1,10 @@
 from typing import List, Optional
 
 from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+from armodel.models.M2.MSR.Documentation.BlockElements import Caption
 from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
+from armodel.models.M2.MSR.Documentation.BlockElements.OasisExchangeTable import FrameEnum, PgwideEnum
+from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageVerbatim
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.EngineeringObject import EngineeringObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import AREnum, NameToken, String
@@ -1366,70 +1368,148 @@ class LGraphic(LanguageSpecific):
         return self
 
 
-class MlFigure(Paginateable, VariationPointCapable):
+class MlFigure(Paginateable):
     """
-    Multi-language figure with caption, graphics, and optional verbatim
-    content.
+    This metaclass represents the ability to embed a figure.
     """
 
     # MlFigure method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getFigureCaption             [x] impl  [ ] docstring  [ ] test
-    # [ ] setFigureCaption             [x] impl  [ ] docstring  [ ] test
-    # [ ] getHelpEntry                 [x] impl  [ ] docstring  [ ] test
-    # [ ] setHelpEntry                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getLGraphics                 [x] impl  [ ] docstring  [ ] test
-    # [ ] addLGraphics                 [x] impl  [ ] docstring  [ ] test
-    # [ ] getPgwide                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setPgwide                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getVerbatim                  [x] impl  [ ] docstring  [ ] test
-    # [ ] setVerbatim                  [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.24, p.307
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getFigureCaption   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFigureCaption   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getFrame           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setFrame           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getHelpEntry       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setHelpEntry       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLGraphics       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addLGraphics       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPgwide          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPgwide          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVerbatim        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVerbatim        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.figureCaption = None  # type: Caption
-        self.helpEntry = None  # type: String
-        self.lGraphics = []  # type: List[LGraphic]
-        self.pgwide = None  # type: PgwideEnum
-        self.verbatim = None  # type: MultiLanguageVerbatim
+        # This element specifies the title of an illustration.
+        self.figureCaption: Optional[Caption] = None
+
+        # Used to defined the frame line around a figure. It can assume the following values: • TOP - Border at the top of the figure • BOTTOM - Border at the bottom of the figure • TOPBOT - Borders at the top and bottom of the figure • ALL - Borders all around the figure • SIDES - Borders at the sides of the figure • NONE - No borders around the figure Tags: xml.attribute=true
+        self.frame: Optional[FrameEnum] = None
+
+        # This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
+        self.helpEntry: Optional[String] = None
+
+        # Container of the graphic (or diagram) and optional map of the figure in a given language. Tags: xml.roleWrapperElement=false xml.sequenceOffset=30
+        self.lGraphics: List[LGraphic] = []
+
+        # Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). Tags: xml.attribute=true
+        self.pgwide: Optional[PgwideEnum] = None
+
+        # <verbatim> is a paragraph in which white-space (in particular blanks and line feeds) is obeyed. This enables basic preformatting to be carried out, which can even be displayed on simple devices. Behavior is the same as PRE in HTML . Tags: xml.sequenceOffset=50
+        self.verbatim: Optional[MultiLanguageVerbatim] = None
 
     def getFigureCaption(self):
+        """
+        This element specifies the title of an illustration.
+        """
         return self.figureCaption
 
     def setFigureCaption(self, value):
+        """
+        This element specifies the title of an illustration. A None value is a no-op and does not overwrite an existing figureCaption.
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.figureCaption = value
         return self
 
+    def getFrame(self):
+        """
+        Used to defined the frame line around a figure. It can assume the following values: • TOP - Border at the top of the figure • BOTTOM - Border at the bottom of the figure • TOPBOT - Borders at the top and bottom of the figure • ALL - Borders all around the figure • SIDES - Borders at the sides of the figure • NONE - No borders around the figure Tags: xml.attribute=true
+        """
+        return self.frame
+
+    def setFrame(self, value):
+        """
+        Used to defined the frame line around a figure. It can assume the following values: • TOP - Border at the top of the figure • BOTTOM - Border at the bottom of the figure • TOPBOT - Borders at the top and bottom of the figure • ALL - Borders all around the figure • SIDES - Borders at the sides of the figure • NONE - No borders around the figure Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing frame.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.frame = value
+        return self
+
     def getHelpEntry(self):
+        """
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true
+        """
         return self.helpEntry
 
     def setHelpEntry(self, value):
+        """
+        This specifies an entry point in an online help system to be linked with the parent class. The syntax shall be defined by the applied help system respectively help system generator. Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing helpEntry.
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.helpEntry = value
         return self
 
     def getLGraphics(self):
+        """
+        Container of the graphic (or diagram) and optional map of the figure in a given language. Tags: xml.roleWrapperElement=false xml.sequenceOffset=30
+        """
         return self.lGraphics
 
     def addLGraphics(self, value):
+        """
+        Container of the graphic (or diagram) and optional map of the figure in a given language. Tags: xml.roleWrapperElement=false xml.sequenceOffset=30. A None value is a no-op and does not append to the existing lGraphics.
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.lGraphics.append(value)
         return self
 
     def getPgwide(self):
+        """
+        Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). Tags: xml.attribute=true
+        """
         return self.pgwide
 
     def setPgwide(self, value):
+        """
+        Used to indicate wether the figure should take the complete page width (value = "pgwide") or not (value = "noPgwide"). Tags: xml.attribute=true. A None value is a no-op and does not overwrite an existing pgwide.
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.pgwide = value
         return self
 
     def getVerbatim(self):
+        """
+        <verbatim> is a paragraph in which white-space (in particular blanks and line feeds) is obeyed. This enables basic preformatting to be carried out, which can even be displayed on simple devices. Behavior is the same as PRE in HTML . Tags: xml.sequenceOffset=50
+        """
         return self.verbatim
 
     def setVerbatim(self, value):
+        """
+        <verbatim> is a paragraph in which white-space (in particular blanks and line feeds) is obeyed. This enables basic preformatting to be carried out, which can even be displayed on simple devices. Behavior is the same as PRE in HTML . Tags: xml.sequenceOffset=50. A None value is a no-op and does not overwrite an existing verbatim.
+
+        Returns:
+            self for method chaining
+        """
         if value is not None:
             self.verbatim = value
         return self

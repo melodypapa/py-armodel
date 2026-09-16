@@ -2575,7 +2575,15 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMlFigure(self, element: ET.Element, figure: MlFigure):
         self.writePaginateable(element, figure)
+        if figure.getFrame() is not None:
+            element.attrib["FRAME"] = figure.getFrame().getValue()
+        if figure.getHelpEntry() is not None:
+            element.attrib["HELP-ENTRY"] = figure.getHelpEntry().getValue()
+        if figure.getPgwide() is not None:
+            element.attrib["PGWIDE"] = figure.getPgwide().getValue()
+        self.setCaption(element, "FIGURE-CAPTION", figure.getFigureCaption())
         self.writeMlFigureLGraphics(element, figure)
+        self.setMultiLanguageVerbatim(element, "VERBATIM", figure.getVerbatim())
 
     def setMlFigures(self, element: ET.Element, key: str, figures: List[MlFigure]):
         for figure in figures:
