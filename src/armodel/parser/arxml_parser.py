@@ -6583,10 +6583,15 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readMsrQueryChapter(self, element: ET.Element, parent: Chapter) -> MsrQueryChapter:
         msr_query_chapter = MsrQueryChapter()
-        self.readARObject(element, msr_query_chapter)
+        self.readPaginateable(element, msr_query_chapter)
         msr_query_props = self.find(element, "MSR-QUERY-PROPS")
         if msr_query_props is not None:
             msr_query_chapter.setMsrQueryProps(self.getMsrQueryProps(msr_query_props))
+        msr_query_result_chapter = self.find(element, "MSR-QUERY-RESULT-CHAPTER")
+        if msr_query_result_chapter is not None:
+            result = MsrQueryResultChapter()
+            msr_query_chapter.setMsrQueryResultChapter(result)
+            self.readMsrQueryResultChapter(msr_query_result_chapter, msr_query_chapter, result)
         return msr_query_chapter
 
     def readSwComponentType(self, element: ET.Element, parent: SwComponentType):

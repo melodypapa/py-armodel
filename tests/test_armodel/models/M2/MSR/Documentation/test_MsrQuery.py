@@ -2,7 +2,7 @@
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
 from armodel.models.M2.MSR.Documentation.Chapters import Chapter
-from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryP2, MsrQueryProps, MsrQueryResultChapter
+from armodel.models.M2.MSR.Documentation.MsrQuery import MsrQueryArg, MsrQueryChapter, MsrQueryP2, MsrQueryProps, MsrQueryResultChapter
 from armodel.models.M2.MSR.Documentation.TextModel.BlockElements import DocumentationBlock
 
 
@@ -142,3 +142,46 @@ class TestMsrQueryResultChapter:
 
         result.addChapter(None)
         assert result.getChapters() == [chapter1, chapter2]
+
+
+class TestMsrQueryChapter:
+    """Test class for MsrQueryChapter class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.84)."""
+
+    def test_msr_query_chapter_base_chain(self):
+        """MsrQueryChapter derives from Paginateable only (spec Base: ARObject , DocumentViewSelectable , Paginateable)."""
+        from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
+        from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import DocumentViewSelectable, Paginateable
+
+        assert issubclass(MsrQueryChapter, Paginateable)
+        assert issubclass(MsrQueryChapter, DocumentViewSelectable)
+        assert not issubclass(MsrQueryChapter, VariationPointCapable)
+
+    def test_msr_query_chapter_initialization(self):
+        """Test that an MsrQueryChapter object can be initialized with default values."""
+        msr_query_chapter = MsrQueryChapter()
+        assert msr_query_chapter.msrQueryProps is None
+        assert msr_query_chapter.msrQueryResultChapter is None
+
+    def test_msr_query_chapter_props_methods(self):
+        """Test the msrQueryProps getter and setter with chaining and None no-op."""
+        msr_query_chapter = MsrQueryChapter()
+        props = MsrQueryProps()
+
+        result = msr_query_chapter.setMsrQueryProps(props)
+        assert msr_query_chapter.getMsrQueryProps() == props
+        assert result == msr_query_chapter
+
+        msr_query_chapter.setMsrQueryProps(None)
+        assert msr_query_chapter.getMsrQueryProps() == props
+
+    def test_msr_query_chapter_result_methods(self):
+        """Test the msrQueryResultChapter getter and setter with chaining and None no-op."""
+        msr_query_chapter = MsrQueryChapter()
+        result = MsrQueryResultChapter()
+
+        ret = msr_query_chapter.setMsrQueryResultChapter(result)
+        assert msr_query_chapter.getMsrQueryResultChapter() == result
+        assert ret == msr_query_chapter
+
+        msr_query_chapter.setMsrQueryResultChapter(None)
+        assert msr_query_chapter.getMsrQueryResultChapter() == result

@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, List, Optional
 
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
+from armodel.models.M2.MSR.Documentation.BlockElements.PaginationAndView import Paginateable
 from armodel.models.M2.MSR.Documentation.Chapters import Chapter
 
 if TYPE_CHECKING:
@@ -247,35 +248,33 @@ class MsrQueryP1(ARObject):
         super().__init__()
 
 
-class MsrQueryChapter(ARObject):
+class MsrQueryChapter(Paginateable):
     """
     This meta-class represents the ability to express a query which yields a set of chapters as a result.
     """
 
     # MsrQueryChapter method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.84, p.343
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] setMsrQueryProps       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMsrQueryProps       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [ ] setMsrQueryResultChapter  [x] impl  [ ] docstring  [ ] test  [ ] reader  [ ] writer
-    # [ ] getMsrQueryResultChapter  [x] impl  [ ] docstring  [ ] test  [ ] reader  [ ] writer
-    #
-    # NOTE: msrQueryResultChapter (MsrQueryResultChapter, 0..1, aggr) is not modeled
-    # yet — the MsrQueryResultChapter class is a deferred placeholder (Rule 0001.10);
-    # the stamp is omitted until the real type lands.
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] setMsrQueryProps            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMsrQueryProps            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMsrQueryResultChapter    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMsrQueryResultChapter    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        # This is argument and properties of the chapter query.
+        # This is argument and properties of the chapter query. Tags: xml.sequenceOffset=20
         self.msrQueryProps: Optional[MsrQueryProps] = None
+
+        # This represents the result of the query. Tags: xml.sequenceOffset=30
+        self.msrQueryResultChapter: Optional[MsrQueryResultChapter] = None
 
     def setMsrQueryProps(self, value: Optional[MsrQueryProps]) -> "MsrQueryChapter":
         """
-        This is argument and properties of the chapter query.
-
-        A None value is a no-op and does not overwrite an existing msrQueryProps.
+        This is argument and properties of the chapter query. Tags: xml.sequenceOffset=20. A None value is a no-op and does not overwrite an existing msrQueryProps.
 
         Returns:
             self for method chaining
@@ -286,12 +285,26 @@ class MsrQueryChapter(ARObject):
 
     def getMsrQueryProps(self) -> Optional[MsrQueryProps]:
         """
-        This is argument and properties of the chapter query.
-
-        Returns:
-            The argument and properties of the chapter query
+        This is argument and properties of the chapter query. Tags: xml.sequenceOffset=20
         """
         return self.msrQueryProps
+
+    def setMsrQueryResultChapter(self, value: Optional[MsrQueryResultChapter]) -> "MsrQueryChapter":
+        """
+        This represents the result of the query. Tags: xml.sequenceOffset=30. A None value is a no-op and does not overwrite an existing msrQueryResultChapter.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.msrQueryResultChapter = value
+        return self
+
+    def getMsrQueryResultChapter(self) -> Optional[MsrQueryResultChapter]:
+        """
+        This represents the result of the query. Tags: xml.sequenceOffset=30
+        """
+        return self.msrQueryResultChapter
 
 
 class MsrQueryTopic1(ARObject):

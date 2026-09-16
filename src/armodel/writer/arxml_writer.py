@@ -2117,9 +2117,11 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeMsrQueryChapter(self, element: ET.Element, msr_query_chapter: MsrQueryChapter):
         child_element = ET.SubElement(element, "MSR-QUERY-CHAPTER")
-        self.writeARObject(child_element, msr_query_chapter)
+        self.writePaginateable(child_element, msr_query_chapter)
         if msr_query_chapter.getMsrQueryProps() is not None:
             self.setMsrQueryProps(child_element, msr_query_chapter.getMsrQueryProps())
+        if msr_query_chapter.getMsrQueryResultChapter() is not None:
+            self.setMsrQueryResultChapter(child_element, "MSR-QUERY-RESULT-CHAPTER", msr_query_chapter.getMsrQueryResultChapter())
 
     def writeSwComponentTypeUnitGroups(self, element: ET.Element, parent: SwComponentType):
         refs = parent.getUnitGroupRefs()
