@@ -783,7 +783,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [Table 5.73, p.390; init/get/set rows with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none: CompuScaleContents base, one PDF aggregate, verbatim docs, and existing reader/writer coverage match]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 300 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed CompuScaleContents base, typed aggregate, API naming, verbatim docs, reader/writer coverage, package location, and no deviations; marker `# Spec verified: R23-11` written]
- - [x] `CompuScaleConstantContents` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.74 · subtype of `CompuScaleContents` · member type of `CompuScale.compuScaleContents`) — verified R23-11 (commit pending)
+ - [x] `CompuScaleConstantContents` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.74 · subtype of `CompuScaleContents` · member type of `CompuScale.compuScaleContents`) — verified R23-11 (commit 3d859c80)
    - [x] Step 1 — Sync members & description from spec  [Table 5.74, p.391; Base ARObject + CompuScaleContents, most-derived base CompuScaleContents; one optional aggregate compuConst of type CompuConst; Note and attribute Note copied verbatim]
    - [x] Step 2 — Write model class unit test (Red)  [initialization, Note assertion, typed compuConst setter, chaining, and None no-op; stale setter/docstring failed before implementation]
    - [x] Step 3 — Implement model class (Green)  [typed Optional[CompuConst] member and None-preserving setter]
