@@ -52,6 +52,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswModuleCallPoint,
     BswModuleEntity,
     BswOperationInvokedEvent,
+    BswPerInstanceMemoryPolicy,
     BswQueuedDataReceptionPolicy,
     BswSchedulableEntity,
     BswScheduleEvent,
@@ -3555,6 +3556,26 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Reception Policies <%s>" % tag_name)
 
+    def readBswPerInstanceMemoryPolicy(self, element: ET.Element, policy: BswPerInstanceMemoryPolicy):
+        self.readBswApiOptions(element, policy)
+        policy.setArTypedPerInstanceMemoryRef(self.getChildElementOptionalRefType(element, "AR-TYPED-PER-INSTANCE-MEMORY-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(policy, VariationPointCapable):
+                policy.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readBswInternalBehaviorBswPerInstanceMemoryPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "BSW-PER-INSTANCE-MEMORY-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-PER-INSTANCE-MEMORY-POLICY":
+                policy = BswPerInstanceMemoryPolicy()
+                self.readBswPerInstanceMemoryPolicy(child_element, policy)
+                behavior.addBswPerInstanceMemoryPolicy(policy)
+            else:
+                self.notImplemented("Unsupported Per Instance Memory Policies <%s>" % tag_name)
+
     def readBswInternalTriggeringPoint(self, element: ET.Element, point: BswInternalTriggeringPoint):
         self.readIdentifiable(element, point)
 
@@ -3582,6 +3603,7 @@ class ARXMLParser(AbstractARXMLParser):
 
         # read the internal behavior
         self.readInternalBehavior(element, behavior)
+        self.readBswInternalBehaviorBswPerInstanceMemoryPolicies(element, behavior)
         self.readBswInternalBehaviorInternalTriggeringPoints(element, behavior)
         self.readBswInternalBehaviorEntities(element, behavior)
         self.readBswInternalBehaviorEvents(element, behavior)

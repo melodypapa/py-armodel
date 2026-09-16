@@ -15,16 +15,16 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
 
 ## Queue (dependency-first)
 
-- [ ] `BswPerInstanceMemoryPolicy` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 5.2 · aggregated by `BswInternalBehavior` · **NOT in src** — class must be created when this row is synced)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `BswPerInstanceMemoryPolicy` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 5.2 · aggregated by `BswInternalBehavior` · **NOT in src** — class must be created when this row is synced · **Step 1 finding: XSD-only — no table in any markdown corpus (R23-11/R4.3.1/R4.4.0 grep → XSD hits only); syncs from `AUTOSAR_00052.xsd` complexType `BSW-PER-INSTANCE-MEMORY-POLICY` line 12370 → `# XSD verified:` marker. Base chain ARObject→BswApiOptions→own; own attr `arTypedPerInstanceMemory` (ref, 0..1, DEST VARIABLE-DATA-PROTOTYPE) → `arTypedPerInstanceMemoryRef: Optional[RefType]`; VARIATION-POINT present → VariationPointCapable mixin)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations
+  - [x] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `BswClientPolicy` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 5.2 · aggregated by `BswInternalBehavior` · **NOT in src** — class must be created when this row is synced)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

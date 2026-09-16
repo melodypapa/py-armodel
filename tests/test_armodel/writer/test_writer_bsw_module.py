@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
     BswModeSwitchEvent,
+    BswPerInstanceMemoryPolicy,
     BswQueuedDataReceptionPolicy,
     BswServiceDependency,
     BswServiceDependencyIdent,
@@ -32,6 +33,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     TimeValue,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import (  # noqa E501
     IncludedModeDeclarationGroupSet,
 )
@@ -728,6 +730,112 @@ class TestWriterBswReceptionPolicies:
         writer.writeBswDataReceptionPolicy(parent, policy)
         assert parent.find("ENABLE-TAKE-ADDRESS") is not None
         assert parent.find("RECEIVED-DATA-REF") is not None
+
+
+class TestWriterBswPerInstanceMemoryPolicies:
+    def test_per_instance_memory_policy(self, writer):
+        policy = BswPerInstanceMemoryPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setArTypedPerInstanceMemoryRef(_ref("/d", "VARIABLE-DATA-PROTOTYPE"))
+        parent = _parent()
+        writer.writeBswPerInstanceMemoryPolicy(parent, policy)
+        assert parent[0].tag == "BSW-PER-INSTANCE-MEMORY-POLICY"
+        assert parent[0].find("ENABLE-TAKE-ADDRESS") is not None
+        ref_element = parent[0].find("AR-TYPED-PER-INSTANCE-MEMORY-REF")
+        assert ref_element is not None
+        assert ref_element.text == "/d"
+        assert ref_element.attrib["DEST"] == "VARIABLE-DATA-PROTOTYPE"
+
+    def test_per_instance_memory_policy_variation_point(self, writer):
+        policy = BswPerInstanceMemoryPolicy()
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        parent = _parent()
+        writer.writeBswPerInstanceMemoryPolicy(parent, policy)
+        assert parent[0].find("VARIATION-POINT") is not None
+
+    def test_behavior_bsw_per_instance_memory_policies(self, writer):
+        behavior = _make_behavior()
+        policy = BswPerInstanceMemoryPolicy()
+        policy.setArTypedPerInstanceMemoryRef(_ref("/d", "VARIABLE-DATA-PROTOTYPE"))
+        behavior.addBswPerInstanceMemoryPolicy(policy)
+        parent = _parent()
+        writer.writeBswInternalBehaviorBswPerInstanceMemoryPolicies(parent, behavior)
+        assert parent[0].tag == "BSW-PER-INSTANCE-MEMORY-POLICYS"
+        assert parent[0].find("BSW-PER-INSTANCE-MEMORY-POLICY") is not None
+
+    def test_behavior_bsw_per_instance_memory_policies_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeBswInternalBehaviorBswPerInstanceMemoryPolicies(parent, behavior)
+        assert len(parent) == 0
+
+    def test_writeBswInternalBehavior_emits_policies(self, writer):
+        behavior = _make_behavior()
+        behavior.addBswPerInstanceMemoryPolicy(BswPerInstanceMemoryPolicy())
+        parent = _parent()
+        writer.writeBswInternalBehavior(parent, behavior)
+        assert parent[0].find("BSW-PER-INSTANCE-MEMORY-POLICYS") is not None
+
+
+class TestWriterBswPerInstanceMemoryPolicyRoundTrip:
+    def test_round_trip_per_instance_memory_policies(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        policy = BswPerInstanceMemoryPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setArTypedPerInstanceMemoryRef(_ref("/mod/Mem", "VARIABLE-DATA-PROTOTYPE"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        behavior.addBswPerInstanceMemoryPolicy(policy)
+
+        out_file = tmp_path / "pimp_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policies = behavior_2.getBswPerInstanceMemoryPolicies()
+        assert len(policies) == 1
+        assert policies[0].getEnableTakeAddress().value is True
+        assert policies[0].getArTypedPerInstanceMemoryRef().getValue() == "/mod/Mem"
+        assert policies[0].getArTypedPerInstanceMemoryRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+        assert policies[0].getVariationPoint() is not None
+        assert policies[0].getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_round_trip_empty_per_instance_memory_policies(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.addBswPerInstanceMemoryPolicy(BswPerInstanceMemoryPolicy())
+
+        out_file = tmp_path / "pimp_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policies = behavior_2.getBswPerInstanceMemoryPolicies()
+        assert len(policies) == 1
+        assert policies[0].getArTypedPerInstanceMemoryRef() is None
+        assert policies[0].getEnableTakeAddress() is None
 
 
 class TestWriterBswInternalTriggeringPoints:

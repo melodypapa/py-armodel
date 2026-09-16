@@ -35,6 +35,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswModuleEntity,
     BswOperationInvokedEvent,
     BswOsTaskExecutionEvent,
+    BswPerInstanceMemoryPolicy,
     BswQueuedDataReceptionPolicy,
     BswSchedulableEntity,
     BswScheduleEvent,
@@ -50,7 +51,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import M
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds, RoleBasedDataAssignment, SymbolicNameProps
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Float, Identifier, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, Float, Identifier, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 
@@ -1215,6 +1217,55 @@ class TestBswExclusiveAreaPolicy:
         result = policy.setExclusiveAreaRef(None)
         assert result == policy
         assert policy.getExclusiveAreaRef() == ref
+
+
+class TestBswPerInstanceMemoryPolicy:
+    """Test cases for BswPerInstanceMemoryPolicy class - BSW per-instance memory policy (XSD-only class)."""
+
+    def test_initialization(self):
+        policy = BswPerInstanceMemoryPolicy()
+        assert policy.getEnableTakeAddress() is None
+        assert policy.getArTypedPerInstanceMemoryRef() is None
+        assert policy.getVariationPoint() is None
+
+    def test_get_set_ar_typed_per_instance_memory_ref(self):
+        policy = BswPerInstanceMemoryPolicy()
+        ref = RefType()
+
+        result = policy.setArTypedPerInstanceMemoryRef(ref)
+        assert result == policy
+        assert policy.getArTypedPerInstanceMemoryRef() == ref
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setArTypedPerInstanceMemoryRef(None)
+        assert result == policy
+        assert policy.getArTypedPerInstanceMemoryRef() == ref
+
+    def test_inherited_enable_take_address(self):
+        policy = BswPerInstanceMemoryPolicy()
+        value = Boolean()
+        value.setValue(True)
+
+        result = policy.setEnableTakeAddress(value)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setEnableTakeAddress(None)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+    def test_inherited_variation_point(self):
+        policy = BswPerInstanceMemoryPolicy()
+        variation_point = VariationPoint()
+
+        result = policy.setVariationPoint(variation_point)
+        assert result == policy
+        assert policy.getVariationPoint() is variation_point
+
+        # Setting None is a no-op: the existing value is preserved
+        policy.setVariationPoint(None)
+        assert policy.getVariationPoint() is variation_point
 
 
 class TestBswDataReceptionPolicy:

@@ -42,6 +42,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswModuleCallPoint,
     BswModuleEntity,
     BswOperationInvokedEvent,
+    BswPerInstanceMemoryPolicy,
     BswQueuedDataReceptionPolicy,
     BswSchedulableEntity,
     BswScheduleEvent,
@@ -6558,6 +6559,22 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeBswDataReceptionPolicy(child_element, policy)
         self.setChildElementOptionalPositiveInteger(child_element, "QUEUE-LENGTH", policy.getQueueLength())
 
+    def writeBswPerInstanceMemoryPolicy(self, element: ET.Element, policy: BswPerInstanceMemoryPolicy):
+        child_element = ET.SubElement(element, "BSW-PER-INSTANCE-MEMORY-POLICY")
+        self.writeBswApiOptions(child_element, policy)
+        self.setChildElementOptionalRefType(child_element, "AR-TYPED-PER-INSTANCE-MEMORY-REF", policy.getArTypedPerInstanceMemoryRef())
+        self.writeVariationPoint(child_element, policy.getVariationPoint())
+
+    def writeBswInternalBehaviorBswPerInstanceMemoryPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        policies = behavior.getBswPerInstanceMemoryPolicies()
+        if len(policies) > 0:
+            child_element = ET.SubElement(element, "BSW-PER-INSTANCE-MEMORY-POLICYS")
+            for policy in policies:
+                if isinstance(policy, BswPerInstanceMemoryPolicy):
+                    self.writeBswPerInstanceMemoryPolicy(child_element, policy)
+                else:
+                    self.notImplemented("Unsupported Per Instance Memory Policies <%s>" % type(policy))
+
     def writeBswInternalBehaviorReceptionPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
         policies = behavior.getReceptionPolicies()
         if len(policies) > 0:
@@ -6585,6 +6602,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeBswInternalBehavior(self, element: ET.Element, behavior: BswInternalBehavior):
         child_element = ET.SubElement(element, "BSW-INTERNAL-BEHAVIOR")
         self.writeInternalBehavior(child_element, behavior)
+        self.writeBswInternalBehaviorBswPerInstanceMemoryPolicies(child_element, behavior)
         self.writeBswInternalBehaviorInternalTriggeringPoints(child_element, behavior)
         self.writeBswInternalBehaviorEntities(child_element, behavior)
         self.writeBswInternalBehaviorEvents(child_element, behavior)

@@ -1370,6 +1370,71 @@ class TestBswReceptionAndApiOptions:
         assert any("Unsupported Reception Policies" in r.getMessage() for r in caplog.records)
 
 
+class TestBswPerInstanceMemoryPolicyHandlers:
+    """Exercise readBswPerInstanceMemoryPolicy and the BswInternalBehavior
+    BSW-PER-INSTANCE-MEMORY-POLICYS wrapper."""
+
+    def test_readBswPerInstanceMemoryPolicy_sets_ref(self, parser):
+        from armodel.models import BswPerInstanceMemoryPolicy
+
+        policy = BswPerInstanceMemoryPolicy()
+        element = _snip(
+            "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>" "<AR-TYPED-PER-INSTANCE-MEMORY-REF DEST='VARIABLE-DATA-PROTOTYPE'>/d</AR-TYPED-PER-INSTANCE-MEMORY-REF>",
+            root_tag="P",
+        )
+        parser.readBswPerInstanceMemoryPolicy(element, policy)
+        assert policy.getEnableTakeAddress().value is True
+        assert policy.getArTypedPerInstanceMemoryRef().getValue() == "/d"
+        assert policy.getArTypedPerInstanceMemoryRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+
+    def test_readBswInternalBehaviorBswPerInstanceMemoryPolicies_adds(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<BSW-PER-INSTANCE-MEMORY-POLICYS>"
+            "<BSW-PER-INSTANCE-MEMORY-POLICY>"
+            "<AR-TYPED-PER-INSTANCE-MEMORY-REF DEST='VARIABLE-DATA-PROTOTYPE'>/mem</AR-TYPED-PER-INSTANCE-MEMORY-REF>"
+            "</BSW-PER-INSTANCE-MEMORY-POLICY>"
+            "</BSW-PER-INSTANCE-MEMORY-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorBswPerInstanceMemoryPolicies(element, behavior)
+        policies = behavior.getBswPerInstanceMemoryPolicies()
+        assert len(policies) == 1
+        assert policies[0].getArTypedPerInstanceMemoryRef().getValue() == "/mem"
+
+    def test_readBswInternalBehaviorBswPerInstanceMemoryPolicies_reads_variation_point(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<BSW-PER-INSTANCE-MEMORY-POLICYS>"
+            "<BSW-PER-INSTANCE-MEMORY-POLICY>"
+            "<AR-TYPED-PER-INSTANCE-MEMORY-REF DEST='VARIABLE-DATA-PROTOTYPE'>/mem</AR-TYPED-PER-INSTANCE-MEMORY-REF>"
+            "<VARIATION-POINT><SHORT-LABEL>lbl</SHORT-LABEL></VARIATION-POINT>"
+            "</BSW-PER-INSTANCE-MEMORY-POLICY>"
+            "</BSW-PER-INSTANCE-MEMORY-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorBswPerInstanceMemoryPolicies(element, behavior)
+        policy = behavior.getBswPerInstanceMemoryPolicies()[0]
+        assert policy.getVariationPoint() is not None
+        assert policy.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_readBswInternalBehaviorBswPerInstanceMemoryPolicies_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<BSW-PER-INSTANCE-MEMORY-POLICYS><BAD/></BSW-PER-INSTANCE-MEMORY-POLICYS>",
+            root_tag="BH",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readBswInternalBehaviorBswPerInstanceMemoryPolicies(element, behavior)
+        assert any("Unsupported Per Instance Memory Policies" in r.getMessage() for r in caplog.records)
+
+
 # ==================== BswInternalTriggeringPoint & BswInternalBehavior orchestrator ====================
 
 

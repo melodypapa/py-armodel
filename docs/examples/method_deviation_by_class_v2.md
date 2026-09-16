@@ -114,7 +114,7 @@ reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | `arTypedPerInstanceMemories` | `List[VariableDataPrototype]` | `arTypedPerInstanceMemory` | ``VariableDataPrototype`` | aggr | naming (plural) |
-| `bswPerInstanceMemoryPolicies` | `List` | `bswPerInstanceMemoryPolicy` | ``BswPerInstanceMemoryPolicy`` | aggr | member class `BswPerInstanceMemoryPolicy` missing |
+| `bswPerInstanceMemoryPolicies` | `List` | `bswPerInstanceMemoryPolicy` | ``BswPerInstanceMemoryPolicy`` | aggr | naming (plural); untyped — member class synced 2026-09-17 (`# XSD verified: AUTOSAR_00052.xsd`); field typing deferred to the BswInternalBehavior full sync |
 | `clientPolicies` | `List` | `clientPolicy` | ``BswClientPolicy`` | aggr | member class `BswClientPolicy` missing |
 | `distinguishedPartitions` | `List[BswDistinguishedPartition]` | `distinguishedPartition` | ``BswDistinguishedPartition`` | aggr | naming (plural) |
 | `entities` | `List` | `entity` | ``BswModuleEntity`` | aggr | naming (plural); untyped |
@@ -135,6 +135,15 @@ reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 | `triggerDirectImplementations` | `List` | `triggerDirectImplementation` | ``BswTriggerDirectImplementation`` | aggr | naming (plural) |
 | `variationPointProxies` | `List` | `variationPointProxy` | ``VariationPointProxy`` | aggr | naming (plural) |
 | `addModeSenderPolicy`/`getModeSenderPolicies` | — | `modeSenderPolicy` | ``BswModeSenderPolicy`` | aggr | **fixed** — previously operated on `modeReceiverPolicies`; now uses `modeSenderPolicies` |
+
+## `BswPerInstanceMemoryPolicy`
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf` (upstream document; class XSD-only)  | **XSD:** `AUTOSAR_00052.xsd` line 12370
+- **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
+- **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
+
+| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
+|---|---|---|---|---|---|
+| — *(no deviations)* | — | — | — | - | none (2026-09-17 sync: XSD-only class, complexType `BSW-PER-INSTANCE-MEMORY-POLICY`; attr `arTypedPerInstanceMemory` → `arTypedPerInstanceMemoryRef` RefType 0..1 with full reader/writer coverage incl. VARIATION-POINT; `enableTakeAddress` inherited from `BswApiOptions` — base class itself un-stamped, queued separately) |
 
 ## `FlatMap`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —

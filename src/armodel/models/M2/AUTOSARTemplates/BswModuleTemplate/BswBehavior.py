@@ -1967,6 +1967,42 @@ class BswExclusiveAreaPolicy(BswApiOptions, VariationPointCapable):
         return self
 
 
+class BswPerInstanceMemoryPolicy(BswApiOptions, VariationPointCapable):
+    """
+    The per-instance memory for which the BSW Scheduler using this policy.
+    """
+
+    # BswPerInstanceMemoryPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate (BSW behavior policies), class BswPerInstanceMemoryPolicy, AUTOSAR_00052.xsd line 12370 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArTypedPerInstanceMemoryRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArTypedPerInstanceMemoryRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The arTypedPerInstanceMemory for which the BSW Scheduler using this policy
+        self.arTypedPerInstanceMemoryRef: Optional[RefType] = None
+
+    def getArTypedPerInstanceMemoryRef(self) -> Optional[RefType]:
+        """
+        The arTypedPerInstanceMemory for which the BSW Scheduler using this policy
+        """
+        return self.arTypedPerInstanceMemoryRef
+
+    def setArTypedPerInstanceMemoryRef(self, value: Optional[RefType]) -> "BswPerInstanceMemoryPolicy":
+        """
+        The arTypedPerInstanceMemory for which the BSW Scheduler using this policy
+
+        A None value is a no-op and does not overwrite an existing arTypedPerInstanceMemoryRef.
+        """
+        if value is not None:
+            self.arTypedPerInstanceMemoryRef = value
+        return self
+
+
 class BswDataReceptionPolicy(BswApiOptions, VariationPointCapable, ABC):
     """
     Abstract base class for BSW data reception policies.
@@ -2371,6 +2407,7 @@ class BswInternalBehavior(InternalBehavior):
     # [x] setArTypedPerInstanceMemories [x] impl  [x] docstring  [x] test
     # [x] getBswPerInstanceMemoryPolicies [x] impl  [x] docstring  [x] test
     # [x] setBswPerInstanceMemoryPolicies [x] impl  [x] docstring  [x] test
+    # [x] addBswPerInstanceMemoryPolicy   [x] impl  [x] docstring  [x] test
     # [x] getClientPolicies            [x] impl  [x] docstring  [x] test
     # [x] setClientPolicies            [x] impl  [x] docstring  [x] test
     # [x] getDistinguishedPartitions   [x] impl  [x] docstring  [x] test
@@ -2538,6 +2575,21 @@ class BswInternalBehavior(InternalBehavior):
         """
         if value is not None:
             self.bswPerInstanceMemoryPolicies = value
+        return self
+
+    def addBswPerInstanceMemoryPolicy(self, value: Optional[BswPerInstanceMemoryPolicy]) -> "BswInternalBehavior":
+        """
+        Adds a BSW per-instance memory policy.
+        Only adds the value if it is not None.
+
+        Args:
+            value: The BswPerInstanceMemoryPolicy to add
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.bswPerInstanceMemoryPolicies.append(value)
         return self
 
     def getClientPolicies(self):
