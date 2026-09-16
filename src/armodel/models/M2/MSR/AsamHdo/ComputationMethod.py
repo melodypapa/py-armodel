@@ -189,13 +189,13 @@ class Compu(ARObject):
 
 
 class CompuScaleContents(ARObject, ABC):
-    """
-    Abstract base class for computation scale contents.
-    Base: ARObject
-    """
+    """This abstract meta-class represents the content of one particular scale."""
 
     # CompuScaleContents method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.66, p.388
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__ [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
         if type(self) is CompuScaleContents:

@@ -743,16 +743,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [Table 5.71, p.390; init/get/set rows with six columns and R23-11 release; marker deferred to 9b]
   - [x] Step 8 — Deviations  [none: one optional PDF aggregate modeled with exact type/name; reader and writer coverage already present]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed Table 5.71 base/member/type/naming/docstrings/reader-writer coverage and no deviations; marker `# Spec verified: R23-11` written]
-- [ ] `CompuScaleContents` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.66 (abstract) · parent of `CompuScaleRationalFormula` and `CompuScaleConstantContents` · member type of `CompuScale.compuScaleContents` below)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `CompuScaleContents` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.66 (abstract) · parent of `CompuScaleRationalFormula` and `CompuScaleConstantContents` · member type of `CompuScale.compuScaleContents` below) — verified R23-11 (commit pending)
+   - [x] Step 1 — Sync members & description from spec  [Table 5.66, p.388; abstract Base ARObject; no own attributes; Note copied verbatim; subclasses CompuScaleConstantContents and CompuScaleRationalFormula; consumer CompuScale.compuScaleContents]
+   - [x] Step 2 — Write model class unit test (Red)  [abstract guard, inherited ARObject state, and verbatim Note assertion; failed before import/test-support fix]
+   - [x] Step 3 — Implement model class (Green)  [existing abstract class retained; spec shape now represented by the exact Note and ARObject base]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class docstring replaced with the verbatim Table 5.66 Note; no own members or method docstrings]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: abstract class has no XML element or own attributes; coverage belongs to CompuScale consumer dispatch]
+   - [x] Step 6 — Update parser & writer (Green)  [N/A: existing readCompuScaleContents/writeCompuScaleContents dispatch covers the CompuScaleContents subclasses]
+   - [x] Step 7 — Update checklist comment  [Table 5.66, p.388; one __init__ row with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: abstract ARObject base, no own attributes, exact Note, and consumer coverage match the spec]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 300 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed abstract base, no own attributes, verbatim Note, consumer reader/writer coverage, package location, and no deviations; marker `# Spec verified: R23-11` written]
 - [ ] `CompuNominatorDenominator` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.75)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

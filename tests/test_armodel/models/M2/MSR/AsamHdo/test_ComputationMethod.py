@@ -2,10 +2,12 @@
 This module contains tests for the ComputationMethod module in MSR.AsamHdo.
 """
 
+from abc import ABC
 from inspect import cleandoc, getsource
 
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier, Identifier, Limit, PositiveUnlimitedInteger, RefType, String
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
@@ -224,6 +226,15 @@ class TestCompuScaleContents:
         """Test that CompuScaleContents cannot be instantiated directly."""
         with pytest.raises(TypeError):
             CompuScaleContents()
+
+    def test_compu_scale_contents_spec_shape(self):
+        """Test the abstract base and its inherited ARObject state."""
+        assert CompuScaleContents.__bases__ == (ARObject, ABC)
+        contents = CompuScaleConstantContents()
+        assert isinstance(contents, CompuScaleContents)
+        assert contents.parent is None
+        assert contents.timestamp is None
+        assert "This abstract meta-class represents the content of one particular scale." in CompuScaleContents.__doc__
 
 
 class TestCompuScaleConstantContents:
