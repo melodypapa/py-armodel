@@ -15,7 +15,6 @@ class MlFormula(Paginateable, VariationPointCapable):
     # MlFormula method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.26, p.310
     # Spec verified: R23-11
-    # Deviation: LGraphic.map reader/writer not wired (Map/Area classes out of scope) - transitive round-trip gap
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
     # [x] getFormulaCaption  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer

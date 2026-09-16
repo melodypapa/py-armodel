@@ -859,7 +859,7 @@ from armodel.models.M2.MSR.DataDictionary.ServiceProcessTask import SwServiceArg
 from armodel.models.M2.MSR.DataDictionary.SystemConstant import SwSystemconst
 from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 from armodel.models.M2.MSR.Documentation.BlockElements import Caption, Url
-from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Area, Graphic, Map, MlFigure
+from armodel.models.M2.MSR.Documentation.BlockElements.Figure import Area, Graphic, LGraphic, Map, MlFigure
 from armodel.models.M2.MSR.Documentation.BlockElements.Formula import MlFormula
 from armodel.models.M2.MSR.Documentation.Chapters import (
     Chapter,
@@ -2436,13 +2436,23 @@ class ARXMLWriter(AbstractARXMLWriter):
             if url.getValue() is not None:
                 child_element.text = url.getValue().getText()
 
+    def writeLGraphic(self, element: ET.Element, graphic: LGraphic):
+        self.writeARObject(element, graphic)
+        if graphic.getL() is not None:
+            element.attrib["L"] = graphic.getL()
+        self.setGraphic(element, "GRAPHIC", graphic.getGraphic())
+        self.setMap(element, "MAP", graphic.getMap())
+
+    def setLGraphic(self, element: ET.Element, key: str, graphic: LGraphic):
+        if graphic is not None:
+            child_element = ET.SubElement(element, key)
+            self.writeLGraphic(child_element, graphic)
+
     def writeMlFigureLGraphics(self, element: ET.Element, figure: MlFigure):
         graphics = figure.getLGraphics()
         for graphic in graphics:
             child_element = ET.SubElement(element, "L-GRAPHIC")
-            if graphic.getL() is not None:
-                child_element.attrib["L"] = graphic.getL()
-            self.setGraphic(child_element, "GRAPHIC", graphic.getGraphic())
+            self.writeLGraphic(child_element, graphic)
 
     def writeDocumentViewSelectable(self, element: ET.Element, selectable: DocumentViewSelectable):
         self.writeARObject(element, selectable)
@@ -2609,10 +2619,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writePaginateable(child_element, formula)
             self.setCaption(child_element, "FORMULA-CAPTION", formula.getFormulaCaption())
             for graphic in formula.getLGraphics():
-                l_graphic_element = ET.SubElement(child_element, "L-GRAPHIC")
-                if graphic.getL() is not None:
-                    l_graphic_element.attrib["L"] = graphic.getL()
-                self.setGraphic(l_graphic_element, "GRAPHIC", graphic.getGraphic())
+                self.setLGraphic(child_element, "L-GRAPHIC", graphic)
             self.setMultiLanguageVerbatim(child_element, "VERBATIM", formula.getVerbatim())
             self.setMultiLanguagePlainText(child_element, "TEX-MATH", formula.getTexMath())
             self.setMultiLanguagePlainText(child_element, "GENERIC-MATH", formula.getGenericMath())

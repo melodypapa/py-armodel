@@ -1312,28 +1312,28 @@ class LGraphic(LanguageSpecific):
 
     # LGraphic method parity checklist:
     # Spec: AUTOSAR_FO_TPS_GenericStructureTemplate.pdf, Table 9.25, p.308
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getGraphic   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setGraphic   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMap       [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
-    # [x] setMap       [x] impl  [x] docstring  [x] test  [ ] reader  [ ] writer
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getGraphic   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setGraphic   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMap       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMap       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # (inherited LanguageSpecific L attribute is read/written by readLGraphic/writeLGraphic;
+    #  the accessors remain on the declaring class)
 
     def __init__(self):
         super().__init__()
 
         # Reference to the actual graphic represented in the figure. Tags: xml.sequenceOffset=20
-        self.graphic = None  # type: Graphic
+        self.graphic: Optional[Graphic] = None
 
         # Image maps enable authors to specify regions of an image or object and assign a specific action to each region. Tags: xml.sequenceOffset=30
-        self.map = None  # type: Map
+        self.map: Optional[Map] = None
 
     def getGraphic(self):
         """
         Reference to the actual graphic represented in the figure. Tags: xml.sequenceOffset=20
-
-        Returns:
-            The graphic represented in the figure
         """
         return self.graphic
 
@@ -1351,9 +1351,6 @@ class LGraphic(LanguageSpecific):
     def getMap(self):
         """
         Image maps enable authors to specify regions of an image or object and assign a specific action to each region. Tags: xml.sequenceOffset=30
-
-        Returns:
-            The image map of the figure
         """
         return self.map
 

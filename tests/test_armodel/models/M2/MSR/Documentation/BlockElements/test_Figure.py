@@ -2,6 +2,9 @@
 This module contains tests for the Figure module in MSR.Documentation.BlockElements.
 """
 
+import inspect
+
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import NameToken, String
 from armodel.models.M2.MSR.Documentation.BlockElements.Figure import (
     Area,
@@ -395,7 +398,14 @@ class TestMap:
 
 
 class TestLGraphic:
-    """Test class for LGraphic class."""
+    """Test class for LGraphic class (AUTOSAR_FO_TPS_GenericStructureTemplate, Table 9.25)."""
+
+    def test_l_graphic_base_chain(self):
+        """LGraphic derives from LanguageSpecific (spec Base: ARObject , LanguageSpecific)."""
+        from armodel.models.M2.MSR.Documentation.TextModel.LanguageDataModel import LanguageSpecific
+
+        assert issubclass(LGraphic, LanguageSpecific)
+        assert issubclass(LGraphic, ARObject)
 
     def test_l_graphic_initialization(self):
         """Test that an LGraphic object can be initialized with default values."""
@@ -414,7 +424,7 @@ class TestLGraphic:
         assert result == l_graphic
 
     def test_l_graphic_graphic_methods(self):
-        """Test the graphic getter and setter."""
+        """Test the graphic getter and setter with chaining and None no-op."""
         l_graphic = LGraphic()
         graphic = Graphic()
 
@@ -422,14 +432,34 @@ class TestLGraphic:
         assert l_graphic.getGraphic() == graphic
         assert result == l_graphic
 
+        # A None value is a no-op and does not overwrite an existing graphic
+        l_graphic.setGraphic(None)
+        assert l_graphic.getGraphic() == graphic
+
     def test_l_graphic_map_methods(self):
-        """Test the map getter and setter."""
+        """Test the map getter and setter with chaining and None no-op."""
         l_graphic = LGraphic()
         map_obj = Map()
 
         result = l_graphic.setMap(map_obj)
         assert l_graphic.getMap() == map_obj
         assert result == l_graphic
+
+        # A None value is a no-op and does not overwrite an existing map
+        l_graphic.setMap(None)
+        assert l_graphic.getMap() == map_obj
+
+    def test_l_graphic_docstrings_verbatim(self):
+        """Class and accessor docstrings must be the spec Note verbatim (Table 9.25)."""
+        class_note = "This meta-class represents the figure in one particular language."
+        graphic_note = "Reference to the actual graphic represented in the figure. Tags: xml.sequenceOffset=20"
+        map_note = "Image maps enable authors to specify regions of an image or object and assign a specific action to each region. Tags: xml.sequenceOffset=30"
+
+        assert inspect.cleandoc(LGraphic.__doc__) == class_note
+        assert inspect.cleandoc(LGraphic.getGraphic.__doc__) == graphic_note
+        assert inspect.cleandoc(LGraphic.getMap.__doc__) == map_note
+        assert inspect.cleandoc(LGraphic.setGraphic.__doc__).startswith(graphic_note + ". A None value is a no-op")
+        assert inspect.cleandoc(LGraphic.setMap.__doc__).startswith(map_note + ". A None value is a no-op")
 
 
 class TestMlFigure:

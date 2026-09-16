@@ -5221,12 +5221,25 @@ class ARXMLParser(AbstractARXMLParser):
             url.setValue(UriString().setValue(child_element.text))
         return url
 
+    def readLGraphic(self, element: ET.Element, graphic: LGraphic):
+        self.readARObject(element, graphic)
+        if "L" in element.attrib:
+            graphic.setL(element.attrib["L"])  # noqa E741
+        graphic.setGraphic(self.getGraphic(element, "GRAPHIC"))
+        graphic.setMap(self.getMap(element, "MAP"))
+
+    def getLGraphic(self, element: ET.Element, key: str) -> LGraphic:
+        graphic = None
+        child_element = self.find(element, key)
+        if child_element is not None:
+            graphic = LGraphic()
+            self.readLGraphic(child_element, graphic)
+        return graphic
+
     def readMlFigureLGraphics(self, element: ET.Element, figure: MlFigure):
         for child_element in self.findall(element, "L-GRAPHIC"):
             graphic = LGraphic()
-            if "L" in child_element.attrib:
-                graphic.setL(child_element.attrib["L"])
-            graphic.setGraphic(self.getGraphic(child_element, "GRAPHIC"))
+            self.readLGraphic(child_element, graphic)
             figure.addLGraphics(graphic)
 
     def readDocumentViewSelectable(self, element: ET.Element, selectable: DocumentViewSelectable):
@@ -5591,9 +5604,7 @@ class ARXMLParser(AbstractARXMLParser):
             formula.setFormulaCaption(self.getCaption(child_element, "FORMULA-CAPTION"))
             for l_graphic in self.findall(child_element, "L-GRAPHIC"):
                 graphic = LGraphic()
-                if "L" in l_graphic.attrib:
-                    graphic.setL(l_graphic.attrib["L"])
-                graphic.setGraphic(self.getGraphic(l_graphic, "GRAPHIC"))
+                self.readLGraphic(l_graphic, graphic)
                 formula.addLGraphic(graphic)
             formula.setVerbatim(self.getMultiLanguageVerbatim(child_element, "VERBATIM"))
             formula.setTexMath(self.getMultiLanguagePlainText(child_element, "TEX-MATH"))
