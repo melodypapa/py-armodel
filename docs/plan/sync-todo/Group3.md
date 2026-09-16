@@ -713,7 +713,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [Table 5.67, p.388; init/getVt/setVt rows with six columns and R23-11 release; marker deferred to 9b]
   - [x] Step 8 — Deviations  [none: one PDF attribute modeled with its exact VerbatimString type; inherited abstract base not flattened; parser/writer coverage present]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 294 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed base, typed member, naming, docstrings, reader/writer coverage, and no deviations; marker written]
-- [x] `CompuConstNumericContent` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.68 · subtype of `CompuConstContent`) — verified R23-11 (commit pending)
+- [x] `CompuConstNumericContent` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.68 · subtype of `CompuConstContent`) — verified R23-11 (commit 4b82220e)
   - [x] Step 1 — Sync members & description from spec  [Table 5.68, p.389: Base ARObject + CompuConstContent; one optional `v` attribute typed Numerical; Note and attribute Note copied verbatim]
   - [x] Step 2 — Write model class unit test (Red)  [added spec Note, ARNumerical type assertion, and None-no-op setter assertion; initial run failed on stale docstring and setter behavior]
   - [x] Step 3 — Implement model class (Green)  [`v` corrected to Optional[ARNumerical]; setter now ignores None; focused model tests pass]
