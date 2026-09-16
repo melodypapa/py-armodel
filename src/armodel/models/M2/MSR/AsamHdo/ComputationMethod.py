@@ -158,26 +158,30 @@ class CompuConstNumericContent(CompuConstContent):
 
 
 class CompuConstFormulaContent(CompuConstContent):
-    """
-    This meta-class represents the formula content of a scale.
-    Base: ARObject, CompuConstContent
-    """
+    """This meta-class represents the fact that the constant value of the computation method is represented by a variation point. This difference is due to compatibility with ASAM HDO."""
 
     # CompuConstFormulaContent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getVf                        [x] impl  [ ] docstring  [ ] test
-    # [ ] setVf                        [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table B.1, p.900 (appendix)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__ [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getVf [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] setVf [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.vf: str = None
+        # Value calculated via a system constant. This element is included in every case where parameters should be generated from numerical values during compile time (not runtime!). Thus for example, the influence of the cylinder number on conversion formulae can be introduced in a repeatable manner. Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime xml.sequenceOffset=30
+        self.vf: Optional[ARNumerical] = None
 
-    def getVf(self) -> str:
+    def getVf(self) -> Optional[ARNumerical]:
+        """Value calculated via a system constant. This element is included in every case where parameters should be generated from numerical values during compile time (not runtime!). Thus for example, the influence of the cylinder number on conversion formulae can be introduced in a repeatable manner. Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime xml.sequenceOffset=30"""
         return self.vf
 
-    def setVf(self, value: str):
-        self.vf = value
+    def setVf(self, value: Optional[ARNumerical]):
+        """Value calculated via a system constant. This element is included in every case where parameters should be generated from numerical values during compile time (not runtime!). Thus for example, the influence of the cylinder number on conversion formulae can be introduced in a repeatable manner. Stereotypes: atpVariation Tags: vh.latestBindingTime=codeGenerationTime xml.sequenceOffset=30. Does nothing if value is None."""
+        if value is not None:
+            self.vf = value
         return self
 
 

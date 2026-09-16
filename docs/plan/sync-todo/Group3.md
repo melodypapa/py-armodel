@@ -723,16 +723,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [Table 5.68, p.389; init/getV/setV rows with six columns and R23-11 release; marker deferred to 9b]
   - [x] Step 8 — Deviations  [none: one PDF attribute modeled with the established ARNumerical wrapper type; inherited abstract base not flattened; parser/writer coverage present]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 295 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed base, typed member, naming, docstrings, reader/writer coverage, and no deviations; marker written]
-- [ ] `CompuConstFormulaContent` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.70 · subtype of `CompuConstContent`)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `CompuConstFormulaContent` (dependency · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · **Table B.1** (appendix; stale queue citation was 5.70) · subtype of `CompuConstContent`) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec  [Table B.1, p.900 (appendix): Base ARObject + CompuConstContent; required `vf` attribute typed Numerical; Note and attribute Note copied verbatim from markdown/PDF]
+  - [x] Step 2 — Write model class unit test (Red)  [added spec Note, ARNumerical type assertion, and None-no-op setter assertion; initial run failed on stale docstring and setter behavior]
+  - [x] Step 3 — Implement model class (Green)  [`vf` corrected to Optional[ARNumerical]; setter now ignores None; focused model tests pass]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note replaced verbatim; vf inline/getter/setter docs use the full Table B.1 attribute Note including stereotypes/tags; setter includes the required None-no-op sentence]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser asserts VF produces ARNumerical; writer asserts numerical VF value]
+  - [x] Step 6 — Update parser & writer (Green)  [VF branches now use getChildElementOptionalNumericalValue/setChildElementOptionalNumericalValue]
+  - [x] Step 7 — Update checklist comment  [Table B.1, p.900 appendix; init/getVf/setVf rows with six columns and R23-11 release; marker deferred to 9b]
+  - [x] Step 8 — Deviations  [none: appendix class table is authoritative despite stale numeric queue citation; one PDF attribute modeled with ARNumerical; parser/writer coverage present]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 296 focused model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed appendix table citation p.900, base, typed member, naming, docstrings, reader/writer coverage, and no deviations; marker written]
 - [ ] `CompuConst` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.71 · member type of `Compu.compuDefaultValue` + `CompuScale.compuInverseValue` below)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

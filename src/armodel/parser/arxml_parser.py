@@ -7028,7 +7028,7 @@ class ARXMLParser(AbstractARXMLParser):
             tag_name = self.getTagName(child_element)
             if tag_name == "VF":
                 content = CompuConstFormulaContent()
-                content.setVf(self.getChildElementOptionalLiteral(element, "VF"))
+                content.setVf(self.getChildElementOptionalNumericalValue(element, "VF"))
             elif tag_name == "V":
                 content = CompuConstNumericContent()
                 content.setV(self.getChildElementOptionalNumericalValue(element, "V"))

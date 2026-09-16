@@ -786,10 +786,10 @@ class TestSetCompuConstContentWriter:
 
     def test_set_compu_const_content_formula(self, writer):
         content = CompuConstFormulaContent()
-        content.setVf(_literal("x*2"))
+        content.setVf(_numerical("42"))
         parent = _parent()
         writer.setCompuConstContent(parent, content)
-        assert parent.find("VF").text == "x*2"
+        assert parent.find("VF").text == "42"
 
     def test_set_compu_const_content_numeric(self, writer):
         content = CompuConstNumericContent()

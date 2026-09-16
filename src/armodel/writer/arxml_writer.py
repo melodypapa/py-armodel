@@ -3070,7 +3070,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setCompuConstContent(self, element: ET.Element, content: CompuConstContent):
         if content is not None:
             if isinstance(content, CompuConstFormulaContent):
-                self.setChildElementOptionalLiteral(element, "VF", content.getVf())
+                self.setChildElementOptionalNumericalValue(element, "VF", content.getVf())
             elif isinstance(content, CompuConstNumericContent):
                 self.setChildElementOptionalNumericalValue(element, "V", content.getV())
             elif isinstance(content, CompuConstTextContent):

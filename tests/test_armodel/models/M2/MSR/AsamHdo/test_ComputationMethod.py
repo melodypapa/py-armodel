@@ -173,6 +173,11 @@ class TestCompuConstNumericContent:
 class TestCompuConstFormulaContent:
     """Test class for CompuConstFormulaContent class."""
 
+    def test_compu_const_formula_content_has_spec_note(self):
+        assert cleandoc(CompuConstFormulaContent.__doc__) == (
+            "This meta-class represents the fact that the constant value of the computation method is represented by a variation point. This difference is due to compatibility with ASAM HDO."
+        )
+
     def test_compu_const_formula_content_initialization(self):
         """Test that a CompuConstFormulaContent object can be initialized with default values."""
         compu_const_formula = CompuConstFormulaContent()
@@ -180,12 +185,17 @@ class TestCompuConstFormulaContent:
 
     def test_compu_const_formula_content_vf_methods(self):
         """Test the vf getter and setter."""
+        from armodel.models import ARNumerical
+
         compu_const_formula = CompuConstFormulaContent()
-        formula_value = "a + b"
+        formula_value = ARNumerical().setValue("42")
 
         result = compu_const_formula.setVf(formula_value)
         assert compu_const_formula.getVf() == formula_value
         assert result == compu_const_formula
+
+        assert compu_const_formula.setVf(None) == compu_const_formula
+        assert compu_const_formula.getVf() == formula_value
 
 
 class TestCompuScaleContents:

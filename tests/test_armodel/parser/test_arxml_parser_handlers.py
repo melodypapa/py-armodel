@@ -81,10 +81,13 @@ class TestPortInterfaceAndCompuHandlers:
     def test_getCompuConstContent_VF_branch(self, parser):
         from armodel.models import CompuConstFormulaContent
 
-        element = _snip("<VF>formula</VF>", root_tag="PARENT")
+        element = _snip("<VF>42</VF>", root_tag="PARENT")
         content = parser.getCompuConstContent(element)
         assert isinstance(content, CompuConstFormulaContent)
-        assert content.getVf().getValue() == "formula"
+        from armodel.models import ARNumerical
+
+        assert isinstance(content.getVf(), ARNumerical)
+        assert content.getVf().getValue() == 42
 
     def test_getCompuConstContent_V_branch(self, parser):
         from armodel.models import CompuConstNumericContent
