@@ -7393,7 +7393,7 @@ class ARXMLParser(AbstractARXMLParser):
             # self.logger.debug("Read DataConstrRule")
             rule = DataConstrRule()
             self.readARObject(child_element, rule)
-            rule.constrLevel = self.getChildElementOptionalNumericalValue(child_element, "CONSTR-LEVEL")
+            rule.setConstrLevel(self.getChildElementOptionalIntegerValue(child_element, "CONSTR-LEVEL"))
             self.readInternalConstrs(child_element, rule)
             self.readPhysConstrs(child_element, rule)
             parent.addDataConstrRule(rule)

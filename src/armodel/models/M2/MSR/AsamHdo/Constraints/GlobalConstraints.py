@@ -5,7 +5,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     AREnum,
-    ARNumerical,
+    Integer,
     Identifier,
     Limit,
     MonotonyEnum,
@@ -440,20 +440,60 @@ class PhysConstrs(ARObject):
 
 
 class DataConstrRule(ARObject):
-    """
-    Represents a single data constraint rule with internal and physical constraints.
-    Base: ARObject
-    """
+    """This meta-class represents the ability to express one specific data constraint rule."""
 
     # DataConstrRule method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.83, p.406
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getConstrLevel               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setConstrLevel               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInternalConstrs           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInternalConstrs           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPhysConstrs               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPhysConstrs               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.constrLevel: ARNumerical = None
-        self.internalConstrs: InternalConstrs = None
-        self.physConstrs: PhysConstrs = None
+        # This attribute describes the category of a constraint. One of its functions is in the area of constraint violation, where it can be used from a certain level, to produce error messages. The lower the level, the more stringent the check. Used to distinguish hard or soft limits. Tags: xml.sequenceOffset=20
+        self.constrLevel: Optional[Integer] = None
+
+        # Describes the limitations applicable on the internal domain (as opposed to the physical domain). Tags: xml.sequenceOffset=40
+        self.internalConstrs: Optional[InternalConstrs] = None
+
+        # Describes the limitations applicable on the physical domain (as opposed to the internal domain). Tags: xml.sequenceOffset=30
+        self.physConstrs: Optional[PhysConstrs] = None
+
+    def getConstrLevel(self) -> Optional[Integer]:
+        """This attribute describes the category of a constraint. One of its functions is in the area of constraint violation, where it can be used from a certain level, to produce error messages. The lower the level, the more stringent the check. Used to distinguish hard or soft limits. Tags: xml.sequenceOffset=20"""
+        return self.constrLevel
+
+    def setConstrLevel(self, value: Optional[Integer]) -> "DataConstrRule":
+        """This attribute describes the category of a constraint. One of its functions is in the area of constraint violation, where it can be used from a certain level, to produce error messages. The lower the level, the more stringent the check. Used to distinguish hard or soft limits. Tags: xml.sequenceOffset=20. None leaves the current value unchanged."""
+        if value is not None:
+            self.constrLevel = value
+        return self
+
+    def getInternalConstrs(self) -> Optional[InternalConstrs]:
+        """Describes the limitations applicable on the internal domain (as opposed to the physical domain). Tags: xml.sequenceOffset=40"""
+        return self.internalConstrs
+
+    def setInternalConstrs(self, value: Optional[InternalConstrs]) -> "DataConstrRule":
+        """Describes the limitations applicable on the internal domain (as opposed to the physical domain). Tags: xml.sequenceOffset=40. None leaves the current value unchanged."""
+        if value is not None:
+            self.internalConstrs = value
+        return self
+
+    def getPhysConstrs(self) -> Optional[PhysConstrs]:
+        """Describes the limitations applicable on the physical domain (as opposed to the internal domain). Tags: xml.sequenceOffset=30"""
+        return self.physConstrs
+
+    def setPhysConstrs(self, value: Optional[PhysConstrs]) -> "DataConstrRule":
+        """Describes the limitations applicable on the physical domain (as opposed to the internal domain). Tags: xml.sequenceOffset=30. None leaves the current value unchanged."""
+        if value is not None:
+            self.physConstrs = value
+        return self
 
 
 class DataConstr(AtpBlueprintable):

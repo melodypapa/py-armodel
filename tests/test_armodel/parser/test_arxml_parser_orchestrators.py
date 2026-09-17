@@ -1451,6 +1451,7 @@ class TestDataTypeAndCompuHandlers:
         rule = constr.getDataConstrRules()[0]
         internal = rule.internalConstrs
         assert internal is not None
+        assert rule.getConstrLevel().getValue() == 1
         assert internal.getLowerLimit().value == "0"
         assert internal.getUpperLimit().value == "100"
         assert internal.getMaxGradient().getValue() == 1.5

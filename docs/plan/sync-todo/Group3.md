@@ -834,14 +834,14 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 8 — Deviations  [none: one ordered PDF aggregation modeled with exact type/name/order; existing reader/writer helpers cover it]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 45 focused Compu model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed base, ordered aggregation, naming, docstrings, reader/writer coverage, XML order, package location, and no deviations; marker written]
 - [ ] `DataConstrRule` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.83 · deps stamped: `internalConstrs` InternalConstrs ✓ / `physConstrs` PhysConstrs ✓ · member type of `DataConstr.dataConstrRule` below)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
+  - [x] Step 1 — Sync members & description from spec  [Table 5.83, p.406; Base ARObject; ordered members constrLevel Integer attr offset 20, internalConstrs InternalConstrs aggr offset 40, physConstrs PhysConstrs aggr offset 30]
+  - [x] Step 2 — Write model class unit test (Red)  [added exact class Note, typed defaults, getter/setter chaining, and None no-op assertions; stale docstring and missing accessors failed before implementation]
+  - [x] Step 3 — Implement model class (Green)  [typed Optional members, six accessors, and guarded setters]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class and all three member Notes copied verbatim from Table 5.83; inline comments and accessor docstrings include required no-op wording]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser asserts constrLevel through accessor; writer setup uses all three accessor pairs; existing XML helpers cover rule serialization]
+  - [x] Step 6 — Update parser & writer (Green)  [existing readDataConstrRule/writeDataConstrRules paths serialize all three members; no helper changes required]
+  - [x] Step 7 — Update checklist comment  [Table 5.83, p.406; init + 6 accessor rows with six columns and R23-11 release]
+  - [x] Step 8 — Deviations  [none: all three PDF members modeled with PDF types, names/order/docs match, and existing parser/writer coverage exists]
   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `DataConstr` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.82 · ref target of `SwAxisIndividual.dataConstr` below · after `DataConstrRule` (aggr `dataConstrRule`))
   - [ ] Step 1 — Sync members & description from spec

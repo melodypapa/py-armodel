@@ -1546,14 +1546,14 @@ class TestDataConstrRulesWriter:
         constr = pkg.createDataConstr("WithRules")
 
         rule = DataConstrRule()
-        rule.constrLevel = _numerical("1")
-        rule.physConstrs = PhysConstrs()
-        rule.physConstrs.setLowerLimit(Limit())
-        rule.physConstrs.getLowerLimit().value = "0"
-        rule.internalConstrs = InternalConstrs()
+        rule.setConstrLevel(_numerical("1"))
+        rule.setPhysConstrs(PhysConstrs())
+        rule.getPhysConstrs().setLowerLimit(Limit())
+        rule.getPhysConstrs().getLowerLimit().value = "0"
+        rule.setInternalConstrs(InternalConstrs())
         internal_lower = Limit()
         internal_lower.value = "0"
-        rule.internalConstrs.setLowerLimit(internal_lower)
+        rule.getInternalConstrs().setLowerLimit(internal_lower)
         constr.addDataConstrRule(rule)
 
         parent = _parent()
