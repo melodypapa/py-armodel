@@ -167,6 +167,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     SecureOnBoardCommunicationNeeds,
     ServiceDependency,
     ServiceNeeds,
+    SupervisedEntityCheckpointNeeds,
     SupervisedEntityNeeds,
     TracedFailure,
     TransientFault,
@@ -4814,6 +4815,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDltUserNeeds(child_element, needs)
         elif isinstance(needs, ComMgrUserNeeds):
             self.writeComMgrUserNeeds(child_element, needs)
+        elif isinstance(needs, SupervisedEntityCheckpointNeeds):
+            self.writeSupervisedEntityCheckpointNeeds(child_element, needs)
         elif isinstance(needs, SupervisedEntityNeeds):
             self.writeSupervisedEntityNeeds(child_element, needs)
         elif isinstance(needs, ErrorTracerNeeds):
@@ -5167,6 +5170,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeServiceNeeds(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "MAX-COMM-MODE", needs.getMaxCommMode())
 
+    def writeSupervisedEntityCheckpointNeeds(self, element: ET.Element, needs: SupervisedEntityCheckpointNeeds):
+        child_element = ET.SubElement(element, "SUPERVISED-ENTITY-CHECKPOINT-NEEDS")
+        self.logger.debug("write SupervisedEntityCheckpointNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
     def writeSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
         child_element = ET.SubElement(element, "SUPERVISED-ENTITY-NEEDS")
         self.writeServiceNeeds(child_element, needs)
@@ -5267,6 +5275,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeGlobalSupervisionNeeds(child_element, needs)
                 elif isinstance(needs, HardwareTestNeeds):
                     self.writeHardwareTestNeeds(child_element, needs)
+                elif isinstance(needs, SupervisedEntityCheckpointNeeds):
+                    self.writeSupervisedEntityCheckpointNeeds(child_element, needs)
                 elif isinstance(needs, CryptoServiceNeeds):
                     self.writeCryptoServiceNeeds(child_element, needs)
                 elif isinstance(needs, EcuStateMgrUserNeeds):

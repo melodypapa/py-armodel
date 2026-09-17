@@ -1621,6 +1621,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("MAX-COMM-MODE").text == "full"
 
+    def test_writeSupervisedEntityCheckpointNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createSupervisedEntityCheckpointNeeds("secn1")
+        parent = _parent()
+        writer.writeSupervisedEntityCheckpointNeeds(parent, needs)
+        elem = parent.find("SUPERVISED-ENTITY-CHECKPOINT-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "secn1"
+
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
@@ -1645,6 +1655,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createFunctionInhibitionNeeds("fin")
         dep.createGlobalSupervisionNeeds("gsn")
         dep.createHardwareTestNeeds("htn")
+        dep.createSupervisedEntityCheckpointNeeds("secn")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1669,6 +1680,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "FUNCTION-INHIBITION-NEEDS" in tags
         assert "GLOBAL-SUPERVISION-NEEDS" in tags
         assert "HARDWARE-TEST-NEEDS" in tags
+        assert "SUPERVISED-ENTITY-CHECKPOINT-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()

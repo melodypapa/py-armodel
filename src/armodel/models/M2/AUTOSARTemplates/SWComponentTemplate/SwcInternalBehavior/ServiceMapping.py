@@ -44,6 +44,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ObdRatioDenominatorNeeds,
     ObdRatioServiceNeeds,
     SecureOnBoardCommunicationNeeds,
+    SupervisedEntityCheckpointNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceNeeds, ServiceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -751,6 +752,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, SecureOnBoardCommunicationNeeds)
+
+    def createSupervisedEntityCheckpointNeeds(self, short_name: str) -> SupervisedEntityCheckpointNeeds:
+        """
+        Creates or retrieves a SupervisedEntityCheckpointNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            SupervisedEntityCheckpointNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, SupervisedEntityCheckpointNeeds):
+            needs = SupervisedEntityCheckpointNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, SupervisedEntityCheckpointNeeds)
 
     def createIdsMgrNeeds(self, short_name: str) -> IdsMgrNeeds:
         """

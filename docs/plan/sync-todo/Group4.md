@@ -195,16 +195,16 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (concrete Class + ServiceNeeds base + 0 attrs + Note verbatim all match spec; XSD abstract="false" → not abstract; no VARIATION-POINT → not VP-capable; no placeholders; no Step-3 referenced missing classes — zero own attrs, base ServiceNeeds already stamped `# Spec verified: R23-11`. Base row does NOT reference DiagnosticCapabilityElement — nothing to report there. Concrete-element reader/writer dispatch was MISSING and added in-pass per Rule 0001.7 five-place pattern (read/writeHardwareTestNeeds helpers + both dispatch sites + createHardwareTestNeeds factory on SwcServiceDependency + 3 dispatch tests — precedent 75f98f45). Legacy tracker `docs/examples/method_deviation_by_class_v2.md` §HardwareTestNeeds still carries a stale `missing` row + no page — untouched, same as all sibling syncs in this batch)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (412 model+parser/writer tests incl. 3 new model + 3 new dispatch tests, flake8/ruff/black, parity script, integration round-trip 2/2, set-based checklist check); 9b DEFERRED to batch stamp
-- [ ] `SupervisedEntityCheckpointNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.30 (multiple tables — resolve in per-class Phase 0))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SupervisedEntityCheckpointNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.30 (multiple tables — resolve in per-class Phase 0) · **Step 1 finding: own table = BSW TPS Table 12.30, p.254 (clean render); sibling copy Swc TPS Table 13.3, p.708; concrete Class (XSD complexType `abstract="false"`, no Subclasses row), Base most-derived = `ServiceNeeds` (matches src), ZERO own attributes (Attribute section = `-`); Note verbatim identical in XSD group doc (AUTOSAR_00052.xsd group line 113921 `<xsd:sequence/>` empty → no own XML-bearing attrs; no VARIATION-POINT → not VP-capable); Package row M2::AUTOSARTemplates::CommonStructure::ServiceNeeds matches src; concrete-element dispatch was MISSING (only unrelated `...-NEEDS-REF` hits) → added 5-place pattern: readSupervisedEntityCheckpointNeeds/writeSupervisedEntityCheckpointNeeds + BSW & Swc dispatch branches + createSupervisedEntityCheckpointNeeds factory (XSD choice order: after SECURE-ON-BOARD-COMMUNICATION-NEEDS, before SUPERVISED-ENTITY-NEEDS); NOTE: an uncommitted Step-3/4 rewrite of this class was lost to an external ServiceNeeds.py revert mid-batch and re-applied)**
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 2/3 failed pre-implementation (docstring verbatim + __init__-docless)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Note verbatim (Table 12.30 p.254); __init__ docless
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 3 dispatch tests failed pre-implementation
+  - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (concrete + ServiceNeeds base + 0 attrs + Note verbatim; base row does NOT reference DiagnosticCapabilityElement)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (159 touched tests, flake8/ruff/black, parity script, integration 2/2); 9b DEFERRED to batch stamp
 - [ ] `SyncTimeBaseMgrUserNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.17 (multiple tables — resolve in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

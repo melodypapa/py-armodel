@@ -192,6 +192,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     SecureOnBoardCommunicationNeeds,
     ServiceDependency,
     ServiceNeeds,
+    SupervisedEntityCheckpointNeeds,
     SupervisedEntityNeeds,
     SymbolicNameProps,
     TracedFailure,
@@ -2115,6 +2116,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = ComMgrUserNeeds(dependency, short_name)
                 self.readComMgrUserNeeds(child_element, needs)
+            elif tag_name == "SUPERVISED-ENTITY-CHECKPOINT-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = SupervisedEntityCheckpointNeeds(dependency, short_name)
+                self.readSupervisedEntityCheckpointNeeds(child_element, needs)
             elif tag_name == "SUPERVISED-ENTITY-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = SupervisedEntityNeeds(dependency, short_name)
@@ -2416,6 +2421,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readServiceNeeds(element, needs)
         needs.setMaxCommMode(self.getChildElementOptionalLiteral(element, "MAX-COMM-MODE"))
 
+    def readSupervisedEntityCheckpointNeeds(self, element: ET.Element, needs: SupervisedEntityCheckpointNeeds):
+        self.readServiceNeeds(element, needs)
+
     def readSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
         self.readServiceNeeds(element, needs)
         needs.setActivateAtStart(self.getChildElementOptionalBooleanValue(element, "ACTIVATE-AT-START"))
@@ -2543,6 +2551,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "HARDWARE-TEST-NEEDS":
                 needs = parent.createHardwareTestNeeds(self.getShortName(child_element))
                 self.readHardwareTestNeeds(child_element, needs)
+            elif tag_name == "SUPERVISED-ENTITY-CHECKPOINT-NEEDS":
+                needs = parent.createSupervisedEntityCheckpointNeeds(self.getShortName(child_element))
+                self.readSupervisedEntityCheckpointNeeds(child_element, needs)
             elif tag_name == "OBD-INFO-SERVICE-NEEDS":
                 needs = parent.createObdInfoServiceNeeds(self.getShortName(child_element))
                 self.readObdInfoServiceNeeds(child_element, needs)

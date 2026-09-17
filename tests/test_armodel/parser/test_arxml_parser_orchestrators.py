@@ -627,6 +627,19 @@ class TestServiceNeedsHandlers:
         parser.readHardwareTestNeeds(element, needs)
         assert needs.getShortName() == "htnNeeds"
 
+    def test_readSupervisedEntityCheckpointNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SupervisedEntityCheckpointNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>secnNeeds</SHORT-NAME>", root_tag="SUPERVISED-ENTITY-CHECKPOINT-NEEDS")
+        needs = dependency.createSupervisedEntityCheckpointNeeds("secnNeeds")
+        assert isinstance(needs, SupervisedEntityCheckpointNeeds)
+        parser.readSupervisedEntityCheckpointNeeds(element, needs)
+        assert needs.getShortName() == "secnNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 
