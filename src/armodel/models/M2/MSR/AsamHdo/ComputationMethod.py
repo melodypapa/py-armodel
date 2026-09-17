@@ -499,25 +499,29 @@ class CompuScale(ARObject, VariationPointCapable):
 
 
 class CompuScales(CompuContent):
-    """
-    Container for multiple computation scales.
-    Base: CompuContent
-    """
+    """This meta-class represents the ability to stepwise express a computation method."""
 
     # CompuScales method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addCompuScale                [x] impl  [ ] docstring  [ ] test
-    # [ ] getCompuScales               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.65, p.388
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addCompuScale                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCompuScales               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
+        # This represents one scale within the compu method. Note that it contains a Variationpoint in order to support blueprints of enumerations. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=compuScale, compuScale.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=40 xml.typeElement=false xml.typeWrapperElement=false
         self.compuScales: List[CompuScale] = []
 
     def addCompuScale(self, compu_scale: CompuScale):
-        self.compuScales.append(compu_scale)
+        """This represents one scale within the compu method. Note that it contains a Variationpoint in order to support blueprints of enumerations. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=compuScale, compuScale.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=40 xml.typeElement=false xml.typeWrapperElement=false. None leaves the current value unchanged."""
+        if compu_scale is not None:
+            self.compuScales.append(compu_scale)
+        return self
 
     def getCompuScales(self) -> List[CompuScale]:
+        """This represents one scale within the compu method. Note that it contains a Variationpoint in order to support blueprints of enumerations. Stereotypes: atpSplitable; atpVariation Tags: atp.Splitkey=compuScale, compuScale.variation Point.shortLabel vh.latestBindingTime=blueprintDerivationTime xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=40 xml.typeElement=false xml.typeWrapperElement=false"""
         return self.compuScales
 
 

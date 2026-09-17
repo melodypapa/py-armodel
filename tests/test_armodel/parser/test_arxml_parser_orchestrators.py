@@ -1406,6 +1406,7 @@ class TestDataTypeAndCompuHandlers:
             "<UPPER-LIMIT>10</UPPER-LIMIT>"
             "<COMPU-CONST><VT>value1</VT></COMPU-CONST>"
             "</COMPU-SCALE>"
+            "<COMPU-SCALE><SHORT-LABEL>scale2</SHORT-LABEL></COMPU-SCALE>"
             "</COMPU-SCALES>"
             "</COMPU-INTERNAL-TO-PHYS>",
             root_tag="COMPU-METHOD",
@@ -1414,7 +1415,8 @@ class TestDataTypeAndCompuHandlers:
         assert method.getUnitRef().getValue() == "/unit"
         assert method.getDisplayFormat().getValue() == "%1.2"
         compu = method.getCompuInternalToPhys()
-        assert compu.getCompuContent().getCompuScales()[0].getShortLabel().getValue() == "scale1"
+        scales = compu.getCompuContent().getCompuScales()
+        assert [scale.getShortLabel().getValue() for scale in scales] == ["scale1", "scale2"]
         assert compu.getCompuDefaultValue() is None
 
     def test_readDataConstr_full(self, parser):

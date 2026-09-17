@@ -823,16 +823,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [Table 5.64, p.388; init + 18 accessor rows with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none: all nine PDF members modeled with PDF types, names/order/docs match, and parser/writer coverage exists]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 30 isolated CompuScale model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed base, all nine members, naming, docstrings including inline member comments, reader/writer coverage, XML order, package location, and no deviations; marker written]
-- [ ] `CompuScales` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.65 · after `CompuScale` (aggr `compuScale`, row added 2026-09-03) + `CompuContent` (parent))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [ ] `CompuScales` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.65 · after `CompuScale` (aggr `compuScale`, row added 2026-09-03) + `CompuContent` (parent))
+   - [x] Step 1 — Sync members & description from spec  [Table 5.65, p.388; Base ARObject + CompuContent; ordered compuScale CompuScale * aggregation; Note and XML tags copied verbatim]
+   - [x] Step 2 — Write model class unit test (Red)  [updated TestCompuScales for exact Note, base, ordered list, chaining, and None no-op; stale docs and setter behavior failed]
+   - [x] Step 3 — Implement model class (Green)  [typed List[CompuScale] retained; addCompuScale now ignores None and returns self]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class/member/accessor docs synchronized to Table 5.65 Note; checklist upgraded to six-column format]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser and writer assertions now verify ordered COMPU-SCALE values]
+   - [x] Step 6 — Update parser & writer (Green)  [existing getCompuScales/setCompuScales helpers cover ordered child parsing/writing; no implementation change required]
+   - [x] Step 7 — Update checklist comment  [Table 5.65, p.388; init/add/get rows with reader/writer ownership and R23-11 release]
+   - [x] Step 8 — Deviations  [none: one ordered PDF aggregation modeled with exact type/name/order; existing reader/writer helpers cover it]
+   - [ ] Step 9 — Verify (9a) + confirm (9b)
 - [ ] `DataConstrRule` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.83 · deps stamped: `internalConstrs` InternalConstrs ✓ / `physConstrs` PhysConstrs ✓ · member type of `DataConstr.dataConstrRule` below)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

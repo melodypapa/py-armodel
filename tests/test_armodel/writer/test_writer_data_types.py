@@ -907,7 +907,7 @@ class TestSetCompuScalesWriter:
 
         outer = parent[0]
         assert outer.tag == "COMPU-SCALES"
-        assert len(outer.findall("COMPU-SCALE")) == 2
+        assert [scale.find("SHORT-LABEL").text for scale in outer.findall("COMPU-SCALE")] == ["A", "B"]
 
 
 class TestSetCompuConstWriter:

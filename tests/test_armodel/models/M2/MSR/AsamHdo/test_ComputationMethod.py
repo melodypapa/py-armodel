@@ -487,7 +487,8 @@ class TestCompuScales:
         """Test that a CompuScales object can be initialized with default values."""
         compu_scales = CompuScales()
         assert compu_scales.compuScales == []
-        assert "This meta-class represents the ability to stepwise express a computation method." in CompuScales.__doc__
+        assert cleandoc(CompuScales.__doc__) == "This meta-class represents the ability to stepwise express a computation method."
+        assert issubclass(CompuScales, CompuContent)
 
     def test_compu_scales_add_compu_scale(self):
         """Test adding computation scales."""
@@ -496,11 +497,20 @@ class TestCompuScales:
 
         result = compu_scales.addCompuScale(compu_scale)
         scales = compu_scales.getCompuScales()
-        assert compu_scale in scales
-        assert len(scales) == 1
+        assert scales == [compu_scale]
         assert result == compu_scales
         assert compu_scales.addCompuScale(None) == compu_scales
         assert compu_scales.getCompuScales() == [compu_scale]
+
+    def test_compu_scales_preserve_order(self):
+        compu_scales = CompuScales()
+        first = CompuScale()
+        second = CompuScale()
+
+        compu_scales.addCompuScale(first)
+        compu_scales.addCompuScale(second)
+
+        assert compu_scales.getCompuScales() == [first, second]
 
 
 class TestCompuMethod:
