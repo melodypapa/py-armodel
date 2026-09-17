@@ -156,6 +156,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagEventDebounceTimeBased,
     DiagnosticCapabilityElement,
     DiagnosticCommunicationManagerNeeds,
+    DiagnosticComponentNeeds,
     DiagnosticEnableConditionNeeds,
     DiagnosticEventInfoNeeds,
     DiagnosticEventNeeds,
@@ -2025,6 +2026,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticCommunicationManagerNeeds(dependency, short_name)
                 self.readDiagnosticCommunicationManagerNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-COMPONENT-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticComponentNeeds(dependency, short_name)
+                self.readDiagnosticComponentNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-ROUTINE-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticRoutineNeeds(dependency, short_name)
@@ -2255,6 +2260,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readDiagnosticCapabilityElement(element, needs)
         needs.setServiceRequestCallbackType(self.getChildElementOptionalLiteral(element, "SERVICE-REQUEST-CALLBACK-TYPE"))
 
+    def readDiagnosticComponentNeeds(self, element: ET.Element, needs: DiagnosticComponentNeeds):
+        self.readDiagnosticCapabilityElement(element, needs)
+
     def readDiagnosticRoutineNeeds(self, element: ET.Element, needs: DiagnosticRoutineNeeds):
         # self.logger.debug("Read DiagnosticRoutineNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
@@ -2429,6 +2437,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS":
                 needs = parent.createDiagnosticCommunicationManagerNeeds(self.getShortName(child_element))
                 self.readDiagnosticCommunicationManagerNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-COMPONENT-NEEDS":
+                needs = parent.createDiagnosticComponentNeeds(self.getShortName(child_element))
+                self.readDiagnosticComponentNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-ROUTINE-NEEDS":
                 needs = parent.createDiagnosticRoutineNeeds(self.getShortName(child_element))
                 self.readDiagnosticRoutineNeeds(child_element, needs)

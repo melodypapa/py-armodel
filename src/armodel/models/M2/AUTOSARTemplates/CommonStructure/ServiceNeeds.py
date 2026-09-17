@@ -2182,23 +2182,17 @@ class DevelopmentError(TracedFailure):
         super().__init__(parent, short_name)
 
 
-class DiagnosticComponentNeeds(ServiceNeeds):
+class DiagnosticComponentNeeds(DiagnosticCapabilityElement):
     """
-    Represents Diagnostic Component needs in AUTOSAR models.
-    This class defines requirements for diagnostic component services.
+    This meta-class represents the ability to specify the service needs for the configuration of component events.
     """
 
     # DiagnosticComponentNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.64, p.816
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticComponentNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic component needs
-            short_name: The unique short name of this diagnostic component needs
-        """
         super().__init__(parent, short_name)
 
 

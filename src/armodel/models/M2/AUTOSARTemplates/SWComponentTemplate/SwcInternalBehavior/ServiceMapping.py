@@ -9,6 +9,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ComMgrUserNeeds,
     CryptoServiceNeeds,
     DiagnosticCommunicationManagerNeeds,
+    DiagnosticComponentNeeds,
     DiagnosticEnableConditionNeeds,
     DiagnosticEventInfoNeeds,
 )
@@ -248,6 +249,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, DiagnosticCommunicationManagerNeeds)
+
+    def createDiagnosticComponentNeeds(self, short_name: str) -> DiagnosticComponentNeeds:
+        """
+        Creates or retrieves a DiagnosticComponentNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DiagnosticComponentNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, DiagnosticComponentNeeds):
+            needs = DiagnosticComponentNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, DiagnosticComponentNeeds)
 
     def createDiagnosticRoutineNeeds(self, short_name: str) -> DiagnosticRoutineNeeds:
         """

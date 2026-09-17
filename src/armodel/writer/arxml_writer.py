@@ -131,6 +131,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagEventDebounceTimeBased,
     DiagnosticCapabilityElement,
     DiagnosticCommunicationManagerNeeds,
+    DiagnosticComponentNeeds,
     DiagnosticEnableConditionNeeds,
     DiagnosticEventInfoNeeds,
     DiagnosticEventNeeds,
@@ -4766,6 +4767,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeNvBlockNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticCommunicationManagerNeeds):
             self.writeDiagnosticCommunicationManagerNeeds(child_element, needs)
+        elif isinstance(needs, DiagnosticComponentNeeds):
+            self.writeDiagnosticComponentNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticRoutineNeeds):
             self.writeDiagnosticRoutineNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticValueNeeds):
@@ -4917,6 +4920,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write DiagnosticCommunicationManagerNeeds %s" % needs.getShortName())
         self.writeDiagnosticCapabilityElement(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "SERVICE-REQUEST-CALLBACK-TYPE", needs.getServiceRequestCallbackType())
+
+    def writeDiagnosticComponentNeeds(self, element: ET.Element, needs: DiagnosticComponentNeeds):
+        child_element = ET.SubElement(element, "DIAGNOSTIC-COMPONENT-NEEDS")
+        self.logger.debug("write DiagnosticComponentNeeds %s" % needs.getShortName())
+        self.writeDiagnosticCapabilityElement(child_element, needs)
 
     def writeDiagnosticRoutineNeeds(self, element: ET.Element, needs: DiagnosticRoutineNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-ROUTINE-NEEDS")
@@ -5187,6 +5195,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeNvBlockNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticCommunicationManagerNeeds):
                     self.writeDiagnosticCommunicationManagerNeeds(child_element, needs)
+                elif isinstance(needs, DiagnosticComponentNeeds):
+                    self.writeDiagnosticComponentNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticRoutineNeeds):
                     self.writeDiagnosticRoutineNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticValueNeeds):

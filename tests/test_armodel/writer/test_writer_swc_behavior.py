@@ -1541,6 +1541,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("DTC-FORMAT-TYPE") is not None
 
+    def test_writeDiagnosticComponentNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDiagnosticComponentNeeds("dcn1")
+        parent = _parent()
+        writer.writeDiagnosticComponentNeeds(parent, needs)
+        elem = parent.find("DIAGNOSTIC-COMPONENT-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "dcn1"
+
     def test_writeDltUserNeeds(self, writer):
         behavior = _make_behavior()
         dep = behavior.createSwcServiceDependency("dep1")
@@ -1568,6 +1578,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep = behavior.createSwcServiceDependency("dep1")
         dep.createNvBlockNeeds("nv")
         dep.createDiagnosticCommunicationManagerNeeds("dcm")
+        dep.createDiagnosticComponentNeeds("dcn")
         dep.createDiagnosticRoutineNeeds("drn")
         dep.createDiagnosticValueNeeds("dvn")
         dep.createDiagnosticEventNeeds("den")
@@ -1586,6 +1597,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         tags = {c.tag for c in needs_tag}
         assert "NV-BLOCK-NEEDS" in tags
         assert "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS" in tags
+        assert "DIAGNOSTIC-COMPONENT-NEEDS" in tags
         assert "DIAGNOSTIC-ROUTINE-NEEDS" in tags
         assert "DIAGNOSTIC-VALUE-NEEDS" in tags
         assert "DIAGNOSTIC-EVENT-NEEDS" in tags

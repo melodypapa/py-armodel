@@ -549,6 +549,19 @@ class TestServiceNeedsHandlers:
         parser.readDtcStatusChangeNotificationNeeds(element, needs)
         assert needs.getDtcFormatType().getValue() == "format"
 
+    def test_readDiagnosticComponentNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticComponentNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>componentNeeds</SHORT-NAME>", root_tag="DIAGNOSTIC-COMPONENT-NEEDS")
+        needs = dependency.createDiagnosticComponentNeeds("componentNeeds")
+        assert isinstance(needs, DiagnosticComponentNeeds)
+        parser.readDiagnosticComponentNeeds(element, needs)
+        assert needs.getShortName() == "componentNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 
@@ -2613,6 +2626,7 @@ class TestSwcServiceDependencyServiceNeeds:
         "tag",
         [
             "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS",
+            "DIAGNOSTIC-COMPONENT-NEEDS",
             "DIAGNOSTIC-ROUTINE-NEEDS",
             "DIAGNOSTIC-VALUE-NEEDS",
             "DIAGNOSTIC-EVENT-NEEDS",
