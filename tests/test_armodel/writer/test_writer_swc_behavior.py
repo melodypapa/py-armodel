@@ -1561,6 +1561,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "dudn1"
 
+    def test_writeDiagnosticsCommunicationSecurityNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDiagnosticsCommunicationSecurityNeeds("dcsn1")
+        parent = _parent()
+        writer.writeDiagnosticsCommunicationSecurityNeeds(parent, needs)
+        elem = parent.find("DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "dcsn1"
+
     def test_writeDltUserNeeds(self, writer):
         behavior = _make_behavior()
         dep = behavior.createSwcServiceDependency("dep1")
@@ -1590,6 +1600,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createDiagnosticCommunicationManagerNeeds("dcm")
         dep.createDiagnosticComponentNeeds("dcn")
         dep.createDiagnosticUploadDownloadNeeds("dudn")
+        dep.createDiagnosticsCommunicationSecurityNeeds("dcsn")
         dep.createDiagnosticRoutineNeeds("drn")
         dep.createDiagnosticValueNeeds("dvn")
         dep.createDiagnosticEventNeeds("den")
@@ -1610,6 +1621,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS" in tags
         assert "DIAGNOSTIC-COMPONENT-NEEDS" in tags
         assert "DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS" in tags
+        assert "DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS" in tags
         assert "DIAGNOSTIC-ROUTINE-NEEDS" in tags
         assert "DIAGNOSTIC-VALUE-NEEDS" in tags
         assert "DIAGNOSTIC-EVENT-NEEDS" in tags

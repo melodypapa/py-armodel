@@ -141,6 +141,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticStorageConditionNeeds,
     DiagnosticUploadDownloadNeeds,
     DiagnosticValueNeeds,
+    DiagnosticsCommunicationSecurityNeeds,
     DltUserNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
     DoIpRoutingActivationConfirmationNeeds,
@@ -4772,6 +4773,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticComponentNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticUploadDownloadNeeds):
             self.writeDiagnosticUploadDownloadNeeds(child_element, needs)
+        elif isinstance(needs, DiagnosticsCommunicationSecurityNeeds):
+            self.writeDiagnosticsCommunicationSecurityNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticRoutineNeeds):
             self.writeDiagnosticRoutineNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticValueNeeds):
@@ -4932,6 +4935,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDiagnosticUploadDownloadNeeds(self, element: ET.Element, needs: DiagnosticUploadDownloadNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS")
         self.logger.debug("write DiagnosticUploadDownloadNeeds %s" % needs.getShortName())
+        self.writeDiagnosticCapabilityElement(child_element, needs)
+
+    def writeDiagnosticsCommunicationSecurityNeeds(self, element: ET.Element, needs: DiagnosticsCommunicationSecurityNeeds):
+        child_element = ET.SubElement(element, "DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS")
+        self.logger.debug("write DiagnosticsCommunicationSecurityNeeds %s" % needs.getShortName())
         self.writeDiagnosticCapabilityElement(child_element, needs)
 
     def writeDiagnosticRoutineNeeds(self, element: ET.Element, needs: DiagnosticRoutineNeeds):
@@ -5207,6 +5215,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDiagnosticComponentNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticUploadDownloadNeeds):
                     self.writeDiagnosticUploadDownloadNeeds(child_element, needs)
+                elif isinstance(needs, DiagnosticsCommunicationSecurityNeeds):
+                    self.writeDiagnosticsCommunicationSecurityNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticRoutineNeeds):
                     self.writeDiagnosticRoutineNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticValueNeeds):

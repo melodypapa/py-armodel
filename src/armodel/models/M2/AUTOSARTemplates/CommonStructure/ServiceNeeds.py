@@ -2622,23 +2622,17 @@ class DiagnosticUploadDownloadNeeds(DiagnosticCapabilityElement):
         super().__init__(parent, short_name)
 
 
-class DiagnosticsCommunicationSecurityNeeds(ServiceNeeds):
+class DiagnosticsCommunicationSecurityNeeds(DiagnosticCapabilityElement):
     """
-    Represents Diagnostics Communication Security needs in AUTOSAR models.
-    This class defines requirements for secure diagnostic communication services.
+    This meta-class represents the needs of a software-component to verify the access to security level via diagnostic services.
     """
 
     # DiagnosticsCommunicationSecurityNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.27, p.248
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticsCommunicationSecurityNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostics communication security needs
-            short_name: The unique short name of this diagnostics communication security needs
-        """
         super().__init__(parent, short_name)
 
 

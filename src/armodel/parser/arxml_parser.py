@@ -166,6 +166,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticStorageConditionNeeds,
     DiagnosticUploadDownloadNeeds,
     DiagnosticValueNeeds,
+    DiagnosticsCommunicationSecurityNeeds,
     DltUserNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
     DoIpRoutingActivationConfirmationNeeds,
@@ -2035,6 +2036,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticUploadDownloadNeeds(dependency, short_name)
                 self.readDiagnosticUploadDownloadNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticsCommunicationSecurityNeeds(dependency, short_name)
+                self.readDiagnosticsCommunicationSecurityNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-ROUTINE-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticRoutineNeeds(dependency, short_name)
@@ -2271,6 +2276,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticUploadDownloadNeeds(self, element: ET.Element, needs: DiagnosticUploadDownloadNeeds):
         self.readDiagnosticCapabilityElement(element, needs)
 
+    def readDiagnosticsCommunicationSecurityNeeds(self, element: ET.Element, needs: DiagnosticsCommunicationSecurityNeeds):
+        self.readDiagnosticCapabilityElement(element, needs)
+
     def readDiagnosticRoutineNeeds(self, element: ET.Element, needs: DiagnosticRoutineNeeds):
         # self.logger.debug("Read DiagnosticRoutineNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
@@ -2451,6 +2459,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS":
                 needs = parent.createDiagnosticUploadDownloadNeeds(self.getShortName(child_element))
                 self.readDiagnosticUploadDownloadNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS":
+                needs = parent.createDiagnosticsCommunicationSecurityNeeds(self.getShortName(child_element))
+                self.readDiagnosticsCommunicationSecurityNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-ROUTINE-NEEDS":
                 needs = parent.createDiagnosticRoutineNeeds(self.getShortName(child_element))
                 self.readDiagnosticRoutineNeeds(child_element, needs)

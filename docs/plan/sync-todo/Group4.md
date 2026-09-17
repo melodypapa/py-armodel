@@ -155,16 +155,16 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (wrong base `ServiceNeeds` → `DiagnosticCapabilityElement` fixed in-pass per Rule 0001.2; missing concrete-element reader/writer dispatch added in-pass per Rule 0001.7 five-place pattern incl. `createDiagnosticUploadDownloadNeeds` factory on SwcServiceDependency; Note verbatim from Table 12.29; zero own attrs; no VARIATION-POINT → not VP-capable; no placeholders. Reported per Rule 0001.10: base class `DiagnosticCapabilityElement` exists but is an unstamped stub vs its own table — needs its own sync pass, same precedent as DiagnosticComponentNeeds)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (401 touched tests incl. 3 model, flake8/ruff/black, parity script, integration round-trip 2/2); 9b DEFERRED to batch stamp
-- [ ] `DiagnosticsCommunicationSecurityNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.27 (multiple tables — resolve in per-class Phase 0))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DiagnosticsCommunicationSecurityNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.27 (multiple tables — resolve in per-class Phase 0) · **Step 1 finding: own table = BSW TPS Table 12.27, p.248 (clean render — caption line 6132 followed by body lines 6134-6141); sibling copy Swc TPS Table 13.42, p.783 — Note verbatim identical (byte diff clean); concrete Class (XSD complexType `DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd line 47378; no Subclasses row in own table), Base most-derived = `DiagnosticCapabilityElement` (XSD group chain order SERVICE-NEEDS → DIAGNOSTIC-CAPABILITY-ELEMENT → DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS, complexType lines 47385-47391; src wrongly derives from `ServiceNeeds` → Rule 0001.2 fix; matches DiagnosticComponentNeeds/DiagnosticUploadDownloadNeeds), ZERO own attributes (Attribute section = `-`), not VP-capable (no VARIATION-POINT in XSD block); Note verbatim identical in BSW render + Swc copy + XSD group doc (line 47372); own XSD group = `<xsd:sequence/>` empty (line 47374) → no own XML-bearing attributes, BUT concrete-element reader/writer dispatch MISSING in parser/writer (grep zero hits) → Steps 5/6 apply: read/writeDiagnosticsCommunicationSecurityNeeds helpers + dispatch branches in both Bsw/Swc serviceNeeds sites + createDiagnosticsCommunicationSecurityNeeds factory on SwcServiceDependency + dispatch tests (Rule 0001.7 five-place pattern); DiagnosticCapabilityElement exists but is an unstamped stub (reported Step 8, Rule 0001.10)**
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (wrong base `ServiceNeeds` → `DiagnosticCapabilityElement` fixed in-pass per Rule 0001.2; missing concrete-element reader/writer dispatch added in-pass per Rule 0001.7 five-place pattern incl. `createDiagnosticsCommunicationSecurityNeeds` factory on SwcServiceDependency; Note verbatim from Table 12.27; zero own attrs; no VARIATION-POINT → not VP-capable; no placeholders. Reported per Rule 0001.10: base class `DiagnosticCapabilityElement` exists but is an unstamped stub vs its own table — needs its own sync pass, same precedent as DiagnosticComponentNeeds/DiagnosticUploadDownloadNeeds. Legacy tracker `docs/examples/method_deviation_by_class_v2.md` §DiagnosticsCommunicationSecurityNeeds still carries a stale `missing` row + wrong table id 12.28 — untouched, same as all sibling syncs in this batch)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (404 model+parser/writer tests incl. 3 new model tests, flake8/ruff/black, parity script, integration round-trip 2/2); 9b DEFERRED to batch stamp
 - [ ] `FunctionInhibitionNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.19 (multiple tables — resolve in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

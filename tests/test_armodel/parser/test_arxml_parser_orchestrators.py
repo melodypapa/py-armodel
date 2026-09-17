@@ -575,6 +575,19 @@ class TestServiceNeedsHandlers:
         parser.readDiagnosticUploadDownloadNeeds(element, needs)
         assert needs.getShortName() == "uploadDownloadNeeds"
 
+    def test_readDiagnosticsCommunicationSecurityNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticsCommunicationSecurityNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>commSecNeeds</SHORT-NAME>", root_tag="DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS")
+        needs = dependency.createDiagnosticsCommunicationSecurityNeeds("commSecNeeds")
+        assert isinstance(needs, DiagnosticsCommunicationSecurityNeeds)
+        parser.readDiagnosticsCommunicationSecurityNeeds(element, needs)
+        assert needs.getShortName() == "commSecNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 
@@ -2641,6 +2654,7 @@ class TestSwcServiceDependencyServiceNeeds:
             "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS",
             "DIAGNOSTIC-COMPONENT-NEEDS",
             "DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS",
+            "DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS",
             "DIAGNOSTIC-ROUTINE-NEEDS",
             "DIAGNOSTIC-VALUE-NEEDS",
             "DIAGNOSTIC-EVENT-NEEDS",
