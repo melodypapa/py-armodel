@@ -31,6 +31,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     EcuStateMgrUserNeeds,
     ErrorTracerNeeds,
     FunctionInhibitionAvailabilityNeeds,
+    FunctionInhibitionNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
@@ -492,6 +493,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, FunctionInhibitionAvailabilityNeeds)
+
+    def createFunctionInhibitionNeeds(self, short_name: str) -> FunctionInhibitionNeeds:
+        """
+        Creates or retrieves a FunctionInhibitionNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            FunctionInhibitionNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, FunctionInhibitionNeeds):
+            needs = FunctionInhibitionNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, FunctionInhibitionNeeds)
 
     def createIndicatorStatusNeeds(self, short_name: str) -> IndicatorStatusNeeds:
         """

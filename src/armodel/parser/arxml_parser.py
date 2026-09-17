@@ -174,6 +174,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     EcuStateMgrUserNeeds,
     ErrorTracerNeeds,
     FunctionInhibitionAvailabilityNeeds,
+    FunctionInhibitionNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
@@ -2080,6 +2081,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = FunctionInhibitionAvailabilityNeeds(dependency, short_name)
                 self.readFunctionInhibitionAvailabilityNeeds(child_element, needs)
+            elif tag_name == "FUNCTION-INHIBITION-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = FunctionInhibitionNeeds(dependency, short_name)
+                self.readFunctionInhibitionNeeds(child_element, needs)
             elif tag_name == "CRYPTO-SERVICE-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = CryptoServiceNeeds(dependency, short_name)
@@ -2369,6 +2374,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readServiceNeeds(element, needs)
         needs.setControlledFidRef(self.getChildElementOptionalRefType(element, "CONTROLLED-FID-REF"))
 
+    def readFunctionInhibitionNeeds(self, element: ET.Element, needs: FunctionInhibitionNeeds):
+        self.readServiceNeeds(element, needs)
+
     def readCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
         # self.logger.debug("Read CryptoServiceNeeds <%s>" % needs.getShortName())
         self.readServiceNeeds(element, needs)
@@ -2510,6 +2518,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "FUNCTION-INHIBITION-AVAILABILITY-NEEDS":
                 needs = parent.createFunctionInhibitionAvailabilityNeeds(self.getShortName(child_element))
                 self.readFunctionInhibitionAvailabilityNeeds(child_element, needs)
+            elif tag_name == "FUNCTION-INHIBITION-NEEDS":
+                needs = parent.createFunctionInhibitionNeeds(self.getShortName(child_element))
+                self.readFunctionInhibitionNeeds(child_element, needs)
             elif tag_name == "OBD-INFO-SERVICE-NEEDS":
                 needs = parent.createObdInfoServiceNeeds(self.getShortName(child_element))
                 self.readObdInfoServiceNeeds(child_element, needs)

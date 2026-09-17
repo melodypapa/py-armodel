@@ -588,6 +588,19 @@ class TestServiceNeedsHandlers:
         parser.readDiagnosticsCommunicationSecurityNeeds(element, needs)
         assert needs.getShortName() == "commSecNeeds"
 
+    def test_readFunctionInhibitionNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import FunctionInhibitionNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>fidNeeds</SHORT-NAME>", root_tag="FUNCTION-INHIBITION-NEEDS")
+        needs = dependency.createFunctionInhibitionNeeds("fidNeeds")
+        assert isinstance(needs, FunctionInhibitionNeeds)
+        parser.readFunctionInhibitionNeeds(element, needs)
+        assert needs.getShortName() == "fidNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 
@@ -2665,6 +2678,7 @@ class TestSwcServiceDependencyServiceNeeds:
             "DIAGNOSTIC-STORAGE-CONDITION-NEEDS",
             "INDICATOR-STATUS-NEEDS",
             "FUNCTION-INHIBITION-AVAILABILITY-NEEDS",
+            "FUNCTION-INHIBITION-NEEDS",
             "CRYPTO-SERVICE-NEEDS",
             "ECU-STATE-MGR-USER-NEEDS",
             "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS",

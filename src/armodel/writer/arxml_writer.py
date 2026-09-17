@@ -149,6 +149,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     EcuStateMgrUserNeeds,
     ErrorTracerNeeds,
     FunctionInhibitionAvailabilityNeeds,
+    FunctionInhibitionNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
@@ -4795,6 +4796,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIndicatorStatusNeeds(child_element, needs)
         elif isinstance(needs, FunctionInhibitionAvailabilityNeeds):
             self.writeFunctionInhibitionAvailabilityNeeds(child_element, needs)
+        elif isinstance(needs, FunctionInhibitionNeeds):
+            self.writeFunctionInhibitionNeeds(child_element, needs)
         elif isinstance(needs, CryptoServiceNeeds):
             self.writeCryptoServiceNeeds(child_element, needs)
         elif isinstance(needs, EcuStateMgrUserNeeds):
@@ -5115,6 +5118,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeServiceNeeds(child_element, needs)
         self.setChildElementOptionalRefType(child_element, "CONTROLLED-FID-REF", needs.getControlledFidRef())
 
+    def writeFunctionInhibitionNeeds(self, element: ET.Element, needs: FunctionInhibitionNeeds):
+        child_element = ET.SubElement(element, "FUNCTION-INHIBITION-NEEDS")
+        self.logger.debug("write FunctionInhibitionNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
     def writeCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
         # self.logger.debug("Write CryptoServiceNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "CRYPTO-SERVICE-NEEDS")
@@ -5237,6 +5245,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeIndicatorStatusNeeds(child_element, needs)
                 elif isinstance(needs, FunctionInhibitionAvailabilityNeeds):
                     self.writeFunctionInhibitionAvailabilityNeeds(child_element, needs)
+                elif isinstance(needs, FunctionInhibitionNeeds):
+                    self.writeFunctionInhibitionNeeds(child_element, needs)
                 elif isinstance(needs, CryptoServiceNeeds):
                     self.writeCryptoServiceNeeds(child_element, needs)
                 elif isinstance(needs, EcuStateMgrUserNeeds):

@@ -3094,21 +3094,15 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
 
 class FunctionInhibitionNeeds(ServiceNeeds):
     """
-    Represents Function Inhibition needs in AUTOSAR models.
-    This class defines requirements for function inhibition services.
+    Specifies the abstract needs on the configuration of the Function Inhibition Manager for one Function Identifier (FID). This class currently contains no attributes. Its name can be regarded as a symbol identifying the FID from the viewpoint of the component or module which owns this class.
     """
 
     # FunctionInhibitionNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.19, p.237
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the FunctionInhibitionNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this function inhibition needs
-            short_name: The unique short name of this function inhibition needs
-        """
         super().__init__(parent, short_name)
 
 

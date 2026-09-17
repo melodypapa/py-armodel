@@ -1571,6 +1571,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "dcsn1"
 
+    def test_writeFunctionInhibitionNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createFunctionInhibitionNeeds("fin1")
+        parent = _parent()
+        writer.writeFunctionInhibitionNeeds(parent, needs)
+        elem = parent.find("FUNCTION-INHIBITION-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "fin1"
+
     def test_writeDltUserNeeds(self, writer):
         behavior = _make_behavior()
         dep = behavior.createSwcServiceDependency("dep1")
@@ -1612,6 +1622,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createDltUserNeeds("dlt")
         dep.createComMgrUserNeeds("com")
         dep.createErrorTracerNeeds("etn")
+        dep.createFunctionInhibitionNeeds("fin")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1633,6 +1644,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "DLT-USER-NEEDS" in tags
         assert "COM-MGR-USER-NEEDS" in tags
         assert "ERROR-TRACER-NEEDS" in tags
+        assert "FUNCTION-INHIBITION-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()
