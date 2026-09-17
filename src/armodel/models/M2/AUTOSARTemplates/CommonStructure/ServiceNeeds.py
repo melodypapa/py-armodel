@@ -1176,22 +1176,15 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
 
 class DiagEventDebounceAlgorithm(Identifiable, ABC):
     """
-    Abstract base class for diagnostic event debounce algorithms in AUTOSAR models.
-    This class defines the base structure for algorithms that debounce diagnostic events to prevent false triggers.
+    This class represents the ability to specify the pre-debounce algorithm which is selected and/or required by the particular monitor. This class inherits from Identifiable in order to allow further documentation of the expected or implemented debouncing and to use the category for the identification of the expected / implemented debouncing.
     """
 
     # DiagEventDebounceAlgorithm method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.32, p.259
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagEventDebounceAlgorithm with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic event debounce algorithm
-            short_name: The unique short name of this diagnostic event debounce algorithm
-        """
         if type(self) is DiagEventDebounceAlgorithm:
             raise TypeError("DiagEventDebounceAlgorithm is an abstract class.")
 
