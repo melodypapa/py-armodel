@@ -1313,21 +1313,15 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
 
 class DiagEventDebounceMonitorInternal(DiagEventDebounceAlgorithm):
     """
-    Represents an internal monitor-based diagnostic event debounce algorithm in AUTOSAR models.
-    This class defines debounce algorithms based on internal monitoring mechanisms rather than counters or time thresholds.
+    This meta-class represents the ability to indicate that no Dem pre-debounce algorithm shall be used for this diagnostic monitor. The SWC might implement an internal debouncing algorithm and report qualified (debounced) results to the Dem/DM.
     """
 
     # DiagEventDebounceMonitorInternal method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.35, p.260
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagEventDebounceMonitorInternal with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this internal monitor debounce algorithm
-            short_name: The unique short name of this internal monitor debounce algorithm
-        """
         super().__init__(parent, short_name)
 
 

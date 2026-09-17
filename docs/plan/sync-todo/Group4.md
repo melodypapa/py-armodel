@@ -105,16 +105,16 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (abstract + Identifiable base + 0 attrs + Note verbatim all match spec; no VARIATION-POINT in XSD group → not VP-capable; no placeholders; no Step-3 referenced missing classes)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (252 model tests, flake8/ruff/black, parity script, integration round-trip 2/2); 9b DEFERRED to batch stamp
-- [ ] `DiagEventDebounceMonitorInternal` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.35 (multiple tables — resolve in per-class Phase 0))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DiagEventDebounceMonitorInternal` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.35 (multiple tables — resolve in per-class Phase 0) · **Step 1 finding: own table = BSW TPS Table 12.35, p.260 (clean render — caption line 6656 followed by body); sibling copies Swc TPS Table 13.22, p.758 + DEXT Table 4.191, p.199 — Note verbatim identical in all three + XSD group doc (AUTOSAR_00052.xsd line 31317); concrete Class (XSD `abstract="false"`, no Subclasses row in own table), Base most-derived = `DiagEventDebounceAlgorithm` (matches src), ZERO own attributes (Attribute section = `-`), not VP-capable (no VARIATION-POINT in XSD block); XSD group = `<xsd:sequence/>` empty → no own XML element → Steps 5/6 N/A; reader/writer concrete dispatch (read/setDiagEventDebounceMonitorInternal) already exists)**
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — **N/A: no own XML-bearing attributes** (Attribute section = `-`; XSD group `DIAG-EVENT-DEBOUNCE-MONITOR-INTERNAL` = `<xsd:sequence/>` empty, AUTOSAR_00052.xsd line 31317); concrete-element reader dispatch already exists + covered (test_arxml_parser_orchestrators.py::test_readDiagEventDebounceMonitorInternal_minimal)
+  - [x] Step 6 — Update parser & writer (Green) — **N/A: same reason**; concrete dispatch `readDiagEventDebounceMonitorInternal`/`setDiagEventDebounceMonitorInternal` + `createDiagEventDebounceMonitorInternal` already exist with matched name pairs and writer coverage (test_writer_swc_behavior.py)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (concrete Class + DiagEventDebounceAlgorithm base + 0 attrs + Note verbatim all match spec; XSD abstract="false" → not abstract; no VARIATION-POINT → not VP-capable; no placeholders; no Step-3 referenced missing classes)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (7 model tests, flake8/ruff/black, parity script, integration round-trip 2/2); 9b DEFERRED to batch stamp
 - [ ] `EcuStateMgrUserNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.14 (multiple tables — resolve in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
