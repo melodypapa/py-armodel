@@ -30,6 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswInterruptCategory,
     BswInterruptEntity,
     BswModeManagerErrorEvent,
+    BswModeReceiverPolicy,
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
     BswModeSwitchedAckEvent,
@@ -47,6 +48,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswServiceDependency,
     BswSynchronousServerCallPoint,
     BswTimingEvent,
+    BswTriggerDirectImplementation,
     BswVariableAccess,
     RoleBasedBswModuleEntryAssignment,
 )
@@ -58,7 +60,9 @@ from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.Serv
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, Float, Identifier, PositiveInteger, RefType, TimeValue
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 
 
@@ -2231,6 +2235,100 @@ class TestBswInternalBehavior:
         # This method adds to modeSenderPolicies
         assert len(behavior.getModeSenderPolicies()) == 1
         assert behavior.getModeSenderPolicies()[0] == policy
+
+
+class TestBswInternalBehaviorFullSync:
+    """Accessor coverage for the remaining Table 5.2 attributes (full sync 2026-09-17)."""
+
+    def _make_behavior(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        return BswInternalBehavior(ar_root, "test_internal_behavior")
+
+    def test_add_ar_typed_per_instance_memory(self):
+        behavior = self._make_behavior()
+        prototype = VariableDataPrototype(parent=behavior, short_name="mem")
+
+        result = behavior.addArTypedPerInstanceMemory(prototype)
+
+        assert result == behavior
+        assert behavior.getArTypedPerInstanceMemories() == [prototype]
+
+        # Adding None is a no-op: the list is unchanged
+        behavior.addArTypedPerInstanceMemory(None)
+        assert behavior.getArTypedPerInstanceMemories() == [prototype]
+
+    def test_add_exclusive_area_policy(self):
+        behavior = self._make_behavior()
+        policy = BswExclusiveAreaPolicy()
+
+        result = behavior.addExclusiveAreaPolicy(policy)
+
+        assert result == behavior
+        assert behavior.getExclusiveAreaPolicies() == [policy]
+
+        behavior.addExclusiveAreaPolicy(None)
+        assert behavior.getExclusiveAreaPolicies() == [policy]
+
+    def test_add_mode_receiver_policy(self):
+        behavior = self._make_behavior()
+        policy = BswModeReceiverPolicy()
+
+        result = behavior.addModeReceiverPolicy(policy)
+
+        assert result == behavior
+        assert behavior.getModeReceiverPolicies() == [policy]
+
+        behavior.addModeReceiverPolicy(None)
+        assert behavior.getModeReceiverPolicies() == [policy]
+
+    def test_set_mode_receiver_policies(self):
+        behavior = self._make_behavior()
+        policy = BswModeReceiverPolicy()
+
+        result = behavior.setModeReceiverPolicies([policy])
+        assert result == behavior
+        assert behavior.getModeReceiverPolicies() == [policy]
+
+        result = behavior.setModeReceiverPolicies([])
+        assert result == behavior
+        assert behavior.getModeReceiverPolicies() == []
+
+    def test_add_per_instance_parameter(self):
+        behavior = self._make_behavior()
+        prototype = ParameterDataPrototype(parent=behavior, short_name="pip")
+
+        result = behavior.addPerInstanceParameter(prototype)
+
+        assert result == behavior
+        assert behavior.getPerInstanceParameters() == [prototype]
+
+        behavior.addPerInstanceParameter(None)
+        assert behavior.getPerInstanceParameters() == [prototype]
+
+    def test_add_trigger_direct_implementation(self):
+        behavior = self._make_behavior()
+        implementation = BswTriggerDirectImplementation()
+
+        result = behavior.addTriggerDirectImplementation(implementation)
+
+        assert result == behavior
+        assert behavior.getTriggerDirectImplementations() == [implementation]
+
+        behavior.addTriggerDirectImplementation(None)
+        assert behavior.getTriggerDirectImplementations() == [implementation]
+
+    def test_add_variation_point_proxy(self):
+        behavior = self._make_behavior()
+        proxy = VariationPointProxy(parent=behavior, short_name="vp")
+
+        result = behavior.addVariationPointProxy(proxy)
+
+        assert result == behavior
+        assert behavior.getVariationPointProxies() == [proxy]
+
+        behavior.addVariationPointProxy(None)
+        assert behavior.getVariationPointProxies() == [proxy]
 
 
 class TestBswDistinguishedPartition:

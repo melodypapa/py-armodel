@@ -106,34 +106,35 @@ reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 | — *(no own members)* | `—` | — | — | - | none (2026-08-30 sync: Table 4.3 has no Attribute rows — abstract marker class; all members inherited from the PackageableElement chain) |
 
 ## `BswInternalBehavior`
-- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 68  | **table:** Table 5.2
+- **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** 68  | **table:** Table 5.2 (page-split pp.67-68)
 - **Package:** `M2::AUTOSARTemplates::BswModuleTemplate::BswBehavior`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/BswModuleTemplate/BswBehavior.py`
-- **Deferred:** full sync (member policy classes missing; reader/writer partial)
+- **Full sync 2026-09-17:** all 22 own attributes typed (`List[T]` PEP 526); missing accessors added (`addArTypedPerInstanceMemory`, `addExclusiveAreaPolicy`, `addModeReceiverPolicy`, `setModeReceiverPolicies`, `addPerInstanceParameter`, `addTriggerDirectImplementation`, `addVariationPointProxy`); the 7 previously BSW-missing wrappers (`AR-TYPED-PER-INSTANCE-MEMORYS`, `EXCLUSIVE-AREA-POLICYS`, `INCLUDED-DATA-TYPE-SETS`, `MODE-RECEIVER-POLICYS`, `PER-INSTANCE-PARAMETERS`, `VARIATION-POINT-PROXYS`, `TRIGGER-DIRECT-IMPLEMENTATIONS`) now have reader+writer coverage; docstrings rewritten verbatim from Table 5.2 notes; reader fixed to read VARIATION-POINT-PROXYS exactly once
 
 | Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
 |---|---|---|---|---|---|
 | `arTypedPerInstanceMemories` | `List[VariableDataPrototype]` | `arTypedPerInstanceMemory` | ``VariableDataPrototype`` | aggr | naming (plural) |
-| `bswPerInstanceMemoryPolicies` | `List` | `bswPerInstanceMemoryPolicy` | ``BswPerInstanceMemoryPolicy`` | aggr | naming (plural); untyped — member class synced 2026-09-17 (`# XSD verified: AUTOSAR_00052.xsd`); field typing deferred to the BswInternalBehavior full sync |
-| `clientPolicies` | `List` | `clientPolicy` | ``BswClientPolicy`` | aggr | naming (plural); untyped — member class synced 2026-09-17 (`# XSD verified: AUTOSAR_00052.xsd`); field typing deferred to the BswInternalBehavior full sync |
+| `bswPerInstanceMemoryPolicies` | `List[BswPerInstanceMemoryPolicy]` | `bswPerInstanceMemoryPolicy` | ``BswPerInstanceMemoryPolicy`` | aggr | naming (plural) |
+| `clientPolicies` | `List[BswClientPolicy]` | `clientPolicy` | ``BswClientPolicy`` | aggr | naming (plural) |
 | `distinguishedPartitions` | `List[BswDistinguishedPartition]` | `distinguishedPartition` | ``BswDistinguishedPartition`` | aggr | naming (plural) |
-| `entities` | `List` | `entity` | ``BswModuleEntity`` | aggr | naming (plural); untyped |
-| `events` | `List` | `event` | ``BswEvent`` | aggr | naming (plural); untyped |
-| `exclusiveAreaPolicies` | `List` | `exclusiveAreaPolicy` | ``BswExclusiveAreaPolicy`` | aggr | naming (plural); untyped |
+| `entities` | `List[BswModuleEntity]` | `entity` | ``BswModuleEntity`` | aggr | naming (plural) |
+| `events` | `List[BswEvent]` | `event` | ``BswEvent`` | aggr | naming (plural) |
+| `exclusiveAreaPolicies` | `List[BswExclusiveAreaPolicy]` | `exclusiveAreaPolicy` | ``BswExclusiveAreaPolicy`` | aggr | naming (plural) |
 | `includedDataTypeSets` | `List[IncludedDataTypeSet]` | `includedDataTypeSet` | ``IncludedDataTypeSet`` | aggr | naming (plural) |
 | `includedModeDeclarationGroupSets` | `List[IncludedModeDeclarationGroupSet]` | `includedModeDeclarationGroupSet` | ``IncludedModeDeclarationGroupSet`` | aggr | naming (plural) |
-| `internalTriggeringPointPolicies` | `List` | `internalTriggeringPointPolicy` | ``BswInternalTriggeringPointPolicy`` | aggr | naming (plural); untyped — member class synced 2026-09-17 (`# XSD verified: AUTOSAR_00052.xsd`); field typing deferred to the BswInternalBehavior full sync |
-| `modeReceiverPolicies` | `List` | `modeReceiverPolicy` | ``BswModeReceiverPolicy`` | aggr | naming (plural); untyped |
-| `modeSenderPolicies` | `List` | `modeSenderPolicy` | ``BswModeSenderPolicy`` | aggr | naming (plural); untyped |
-| `parameterPolicies` | `List` | `parameterPolicy` | ``BswParameterPolicy`` | aggr | naming (plural); untyped — member class synced 2026-09-17 (`# XSD verified: AUTOSAR_00052.xsd`); field typing deferred to the BswInternalBehavior full sync |
-| `perInstanceParameters` | `List` | `perInstanceParameter` | ``ParameterDataPrototype`` | aggr | naming (plural) |
-| `receptionPolicies` | `List` | `receptionPolicy` | ``BswDataReceptionPolicy`` | aggr | naming (plural); untyped |
-| `releasedTriggerPolicies` | `List` | `releasedTriggerPolicy` | ``BswReleasedTriggerPolicy`` | aggr | naming (plural); untyped — member class synced 2026-09-17 (`# XSD verified: AUTOSAR_00052.xsd`); field typing deferred to the BswInternalBehavior full sync |
-| `schedulerNamePrefixes` | `List` | `schedulerNamePrefix` | ``BswSchedulerNamePrefix`` | aggr | naming (plural) |
-| `sendPolicies` | `List` | `sendPolicy` | ``BswDataSendPolicy`` | aggr | naming (plural); untyped — member class synced 2026-09-17 (`# XSD verified: AUTOSAR_00052.xsd`); field typing deferred to the BswInternalBehavior full sync |
-| `serviceDependencies` | `List` | `serviceDependency` | ``BswServiceDependency`` | aggr | naming (plural) |
-| `triggerDirectImplementations` | `List` | `triggerDirectImplementation` | ``BswTriggerDirectImplementation`` | aggr | naming (plural) |
-| `variationPointProxies` | `List` | `variationPointProxy` | ``VariationPointProxy`` | aggr | naming (plural) |
+| `internalTriggeringPoints` | `List[BswInternalTriggeringPoint]` | `internalTriggeringPoint` | ``BswInternalTriggeringPoint`` | aggr | naming (plural) |
+| `internalTriggeringPointPolicies` | `List[BswInternalTriggeringPointPolicy]` | `internalTriggeringPointPolicy` | ``BswInternalTriggeringPointPolicy`` | aggr | naming (plural) |
+| `modeReceiverPolicies` | `List[BswModeReceiverPolicy]` | `modeReceiverPolicy` | ``BswModeReceiverPolicy`` | aggr | naming (plural) |
+| `modeSenderPolicies` | `List[BswModeSenderPolicy]` | `modeSenderPolicy` | ``BswModeSenderPolicy`` | aggr | naming (plural) |
+| `parameterPolicies` | `List[BswParameterPolicy]` | `parameterPolicy` | ``BswParameterPolicy`` | aggr | naming (plural) |
+| `perInstanceParameters` | `List[ParameterDataPrototype]` | `perInstanceParameter` | ``ParameterDataPrototype`` | aggr | naming (plural) |
+| `receptionPolicies` | `List[BswDataReceptionPolicy]` | `receptionPolicy` | ``BswDataReceptionPolicy`` | aggr | naming (plural) |
+| `releasedTriggerPolicies` | `List[BswReleasedTriggerPolicy]` | `releasedTriggerPolicy` | ``BswReleasedTriggerPolicy`` | aggr | naming (plural) |
+| `schedulerNamePrefixes` | `List[BswSchedulerNamePrefix]` | `schedulerNamePrefix` | ``BswSchedulerNamePrefix`` | aggr | naming (plural) |
+| `sendPolicies` | `List[BswDataSendPolicy]` | `sendPolicy` | ``BswDataSendPolicy`` | aggr | naming (plural) |
+| `serviceDependencies` | `List[BswServiceDependency]` | `serviceDependency` | ``BswServiceDependency`` | aggr | naming (plural) |
+| `triggerDirectImplementations` | `List[BswTriggerDirectImplementation]` | `triggerDirectImplementation` | ``BswTriggerDirectImplementation`` | aggr | naming (plural) |
+| `variationPointProxies` | `List[VariationPointProxy]` | `variationPointProxy` | ``VariationPointProxy`` | aggr | naming (plural) |
 | `addModeSenderPolicy`/`getModeSenderPolicies` | — | `modeSenderPolicy` | ``BswModeSenderPolicy`` | aggr | **fixed** — previously operated on `modeReceiverPolicies`; now uses `modeSenderPolicies` |
 
 ## `BswPerInstanceMemoryPolicy`

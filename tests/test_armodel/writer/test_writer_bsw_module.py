@@ -8,7 +8,9 @@ from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswClientPolicy,
     BswDataSendPolicy,
+    BswExclusiveAreaPolicy,
     BswInternalTriggeringPointPolicy,
+    BswModeReceiverPolicy,
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
     BswModeSwitchEvent,
@@ -18,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswReleasedTriggerPolicy,
     BswServiceDependency,
     BswServiceDependencyIdent,
+    BswTriggerDirectImplementation,
     BswVariableAccess,
     RoleBasedBswModuleEntryAssignment,
 )
@@ -34,14 +37,21 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARNumerical,
     Boolean,
     CIdentifier,
+    Identifier,
     PositiveInteger,
     RefType,
     TimeValue,
 )
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+    ParameterDataPrototype,
+    VariableDataPrototype,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import (  # noqa E501
     IncludedModeDeclarationGroupSet,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -1376,6 +1386,161 @@ class TestWriterBswDataSendPolicyRoundTrip:
         assert policies[0].getProvidedDataRef() is None
         assert policies[0].getProviedeDataRef() is None
         assert policies[0].getEnableTakeAddress() is None
+
+
+class TestWriterBswInternalBehaviorFullSync:
+    """Writer + round-trip coverage for the BswInternalBehavior wrappers added in the 2026-09-17 full sync."""
+
+    def test_ar_typed_per_instance_memories(self, writer):
+        behavior = _make_behavior()
+        prototype = VariableDataPrototype(parent=behavior, short_name="mem")
+        behavior.addArTypedPerInstanceMemory(prototype)
+        parent = _parent()
+        writer.writeBswInternalBehaviorArTypedPerInstanceMemories(parent, behavior)
+        assert parent[0].tag == "AR-TYPED-PER-INSTANCE-MEMORYS"
+        assert parent[0].find("VARIABLE-DATA-PROTOTYPE") is not None
+
+    def test_ar_typed_per_instance_memories_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeBswInternalBehaviorArTypedPerInstanceMemories(parent, behavior)
+        assert len(parent) == 0
+
+    def test_exclusive_area_policies(self, writer):
+        behavior = _make_behavior()
+        policy = BswExclusiveAreaPolicy()
+        policy.setExclusiveAreaRef(_ref("/ea", "EXCLUSIVE-AREA"))
+        behavior.addExclusiveAreaPolicy(policy)
+        parent = _parent()
+        writer.writeBswInternalBehaviorExclusiveAreaPolicies(parent, behavior)
+        assert parent[0].tag == "EXCLUSIVE-AREA-POLICYS"
+        child = parent[0].find("BSW-EXCLUSIVE-AREA-POLICY")
+        assert child is not None
+        assert child.find("EXCLUSIVE-AREA-REF") is not None
+
+    def test_included_data_type_sets(self, writer):
+        behavior = _make_behavior()
+        type_set = IncludedDataTypeSet()
+        behavior.addIncludedDataTypeSet(type_set)
+        parent = _parent()
+        writer.writeBswInternalBehaviorIncludedDataTypeSets(parent, behavior)
+        assert parent[0].tag == "INCLUDED-DATA-TYPE-SETS"
+        assert parent[0].find("INCLUDED-DATA-TYPE-SET") is not None
+
+    def test_mode_receiver_policies(self, writer):
+        behavior = _make_behavior()
+        policy = BswModeReceiverPolicy()
+        policy.setEnhancedModeApi(_bool(True))
+        policy.setRequiredModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        behavior.addModeReceiverPolicy(policy)
+        parent = _parent()
+        writer.writeBswInternalBehaviorModeReceiverPolicies(parent, behavior)
+        assert parent[0].tag == "MODE-RECEIVER-POLICYS"
+        child = parent[0].find("BSW-MODE-RECEIVER-POLICY")
+        assert child is not None
+        assert child.find("ENHANCED-MODE-API") is not None
+        assert child.find("REQUIRED-MODE-GROUP-REF") is not None
+
+    def test_per_instance_parameters(self, writer):
+        behavior = _make_behavior()
+        prototype = ParameterDataPrototype(parent=behavior, short_name="pip")
+        behavior.addPerInstanceParameter(prototype)
+        parent = _parent()
+        writer.writeBswInternalBehaviorPerInstanceParameters(parent, behavior)
+        assert parent[0].tag == "PER-INSTANCE-PARAMETERS"
+        assert parent[0].find("PARAMETER-DATA-PROTOTYPE") is not None
+
+    def test_trigger_direct_implementations(self, writer):
+        behavior = _make_behavior()
+        implementation = BswTriggerDirectImplementation()
+        cat2_isr = Identifier()
+        cat2_isr.setValue("isr1")
+        implementation.setCat2Isr(cat2_isr)
+        implementation.setMasteredTriggerRef(_ref("/trig", "TRIGGER"))
+        behavior.addTriggerDirectImplementation(implementation)
+        parent = _parent()
+        writer.writeBswInternalBehaviorTriggerDirectImplementations(parent, behavior)
+        assert parent[0].tag == "TRIGGER-DIRECT-IMPLEMENTATIONS"
+        child = parent[0].find("BSW-TRIGGER-DIRECT-IMPLEMENTATION")
+        assert child is not None
+        assert child.find("CAT-2-ISR") is not None
+        assert child.find("MASTERED-TRIGGER-REF") is not None
+
+    def test_variation_point_proxies(self, writer):
+        behavior = _make_behavior()
+        proxy = VariationPointProxy(behavior, "vpx")
+        behavior.addVariationPointProxy(proxy)
+        parent = _parent()
+        writer.writeBswInternalBehaviorVariationPointProxies(parent, behavior)
+        assert parent[0].tag == "VARIATION-POINT-PROXYS"
+        assert parent[0].find("VARIATION-POINT-PROXY") is not None
+
+    def test_round_trip_full_sync_wrappers(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+
+        behavior.addArTypedPerInstanceMemory(VariableDataPrototype(parent=behavior, short_name="mem"))
+        exclusive_policy = BswExclusiveAreaPolicy()
+        exclusive_policy.setExclusiveAreaRef(_ref("/mod/Ea", "EXCLUSIVE-AREA"))
+        behavior.addExclusiveAreaPolicy(exclusive_policy)
+        behavior.addIncludedDataTypeSet(IncludedDataTypeSet())
+        receiver_policy = BswModeReceiverPolicy()
+        receiver_policy.setEnhancedModeApi(_bool(True))
+        receiver_policy.setRequiredModeGroupRef(_ref("/mod/Mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        behavior.addModeReceiverPolicy(receiver_policy)
+        behavior.addPerInstanceParameter(ParameterDataPrototype(parent=behavior, short_name="pip"))
+        implementation = BswTriggerDirectImplementation()
+        cat2_isr = Identifier()
+        cat2_isr.setValue("isr1")
+        implementation.setCat2Isr(cat2_isr)
+        implementation.setMasteredTriggerRef(_ref("/mod/Trig", "TRIGGER"))
+        behavior.addTriggerDirectImplementation(implementation)
+        behavior.addVariationPointProxy(VariationPointProxy(behavior, "vpx"))
+
+        out_file = tmp_path / "bib_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+
+        memories = behavior_2.getArTypedPerInstanceMemories()
+        assert len(memories) == 1
+        assert memories[0].getShortName() == "mem"
+
+        exclusive_policies = behavior_2.getExclusiveAreaPolicies()
+        assert len(exclusive_policies) == 1
+        assert exclusive_policies[0].getExclusiveAreaRef().getValue() == "/mod/Ea"
+        assert exclusive_policies[0].getExclusiveAreaRef().getDest() == "EXCLUSIVE-AREA"
+
+        assert len(behavior_2.getIncludedDataTypeSets()) == 1
+
+        receiver_policies = behavior_2.getModeReceiverPolicies()
+        assert len(receiver_policies) == 1
+        assert receiver_policies[0].getEnhancedModeApi().value is True
+        assert receiver_policies[0].getRequiredModeGroupRef().getValue() == "/mod/Mg"
+
+        parameters = behavior_2.getPerInstanceParameters()
+        assert len(parameters) == 1
+        assert parameters[0].getShortName() == "pip"
+
+        implementations = behavior_2.getTriggerDirectImplementations()
+        assert len(implementations) == 1
+        assert implementations[0].getCat2Isr().getValue() == "isr1"
+        assert implementations[0].getMasteredTriggerRef().getValue() == "/mod/Trig"
+        assert implementations[0].getTask() is None
+
+        proxies = behavior_2.getVariationPointProxies()
+        assert len(proxies) == 1
+        assert proxies[0].getShortName() == "vpx"
 
 
 class TestWriterBswInternalTriggeringPoints:

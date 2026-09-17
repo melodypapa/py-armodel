@@ -30,6 +30,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswOsTaskExecutionEvent,
     BswSchedulerNamePrefix,
     BswEvent,
+    BswExclusiveAreaPolicy,
     BswExternalTriggerOccurredEvent,
     BswInternalBehavior,
     BswInternalTriggeringPoint,
@@ -38,6 +39,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswInterruptEntity,
     BswInterruptEvent,
     BswModeManagerErrorEvent,
+    BswModeReceiverPolicy,
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
     BswModeSwitchedAckEvent,
@@ -54,6 +56,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswServiceDependency,
     BswSynchronousServerCallPoint,
     BswTimingEvent,
+    BswTriggerDirectImplementation,
     BswVariableAccess,
     RoleBasedBswModuleEntryAssignment,
 )
@@ -6685,24 +6688,125 @@ class ARXMLWriter(AbstractARXMLWriter):
                 else:
                     self.notImplemented("Unsupported Internal Triggering Points <%s>" % type(point))
 
+    def writeBswInternalBehaviorArTypedPerInstanceMemories(self, element: ET.Element, behavior: BswInternalBehavior):
+        memories = behavior.getArTypedPerInstanceMemories()
+        if len(memories) > 0:
+            memories_tag = ET.SubElement(element, "AR-TYPED-PER-INSTANCE-MEMORYS")
+            for memory in memories:
+                if isinstance(memory, VariableDataPrototype):
+                    self.writeVariableDataPrototype(memories_tag, memory)
+                else:
+                    self.notImplemented("Unsupported ArTypedPerInstanceMemory <%s>" % type(memory))
+
+    def setBswExclusiveAreaPolicy(self, element: ET.Element, policy: BswExclusiveAreaPolicy):
+        child_element = ET.SubElement(element, "BSW-EXCLUSIVE-AREA-POLICY")
+        self.setChildElementOptionalLiteral(child_element, "API-PRINCIPLE", policy.getApiPrinciple())
+        self.setChildElementOptionalRefType(child_element, "EXCLUSIVE-AREA-REF", policy.getExclusiveAreaRef())
+
+    def writeBswInternalBehaviorExclusiveAreaPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        policies = behavior.getExclusiveAreaPolicies()
+        if len(policies) > 0:
+            policies_tag = ET.SubElement(element, "EXCLUSIVE-AREA-POLICYS")
+            for policy in policies:
+                if isinstance(policy, BswExclusiveAreaPolicy):
+                    self.setBswExclusiveAreaPolicy(policies_tag, policy)
+                else:
+                    self.notImplemented("Unsupported ExclusiveAreaPolicy <%s>" % type(policy))
+
+    def writeBswInternalBehaviorIncludedDataTypeSets(self, element: ET.Element, behavior: BswInternalBehavior):
+        data_type_sets = behavior.getIncludedDataTypeSets()
+        if len(data_type_sets) > 0:
+            sets_tag = ET.SubElement(element, "INCLUDED-DATA-TYPE-SETS")
+            for data_type_set in data_type_sets:
+                if isinstance(data_type_set, IncludedDataTypeSet):
+                    child_element = ET.SubElement(sets_tag, "INCLUDED-DATA-TYPE-SET")
+                    self.writeARObject(child_element, data_type_set)
+                    self.setChildElementOptionalLiteral(child_element, "LITERAL-PREFIX", data_type_set.getLiteralPrefix())
+                    type_refs = data_type_set.getDataTypeRefs()
+                    if len(type_refs) > 0:
+                        data_type_refs_tag = ET.SubElement(child_element, "DATA-TYPE-REFS")
+                        for type_ref in type_refs:
+                            self.setChildElementOptionalRefType(data_type_refs_tag, "DATA-TYPE-REF", type_ref)
+                else:
+                    self.notImplemented("Unsupported IncludedDataTypeSet <%s>" % type(data_type_set))
+
+    def setBswModeReceiverPolicy(self, element: ET.Element, policy: BswModeReceiverPolicy):
+        child_element = ET.SubElement(element, "BSW-MODE-RECEIVER-POLICY")
+        self.setChildElementOptionalBooleanValue(child_element, "ENHANCED-MODE-API", policy.getEnhancedModeApi())
+        self.setChildElementOptionalRefType(child_element, "REQUIRED-MODE-GROUP-REF", policy.getRequiredModeGroupRef())
+        self.setChildElementOptionalBooleanValue(child_element, "SUPPORTS-ASYNCHRONOUS-MODE-SWITCH", policy.getSupportsAsynchronousModeSwitch())
+
+    def writeBswInternalBehaviorModeReceiverPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        policies = behavior.getModeReceiverPolicies()
+        if len(policies) > 0:
+            policies_tag = ET.SubElement(element, "MODE-RECEIVER-POLICYS")
+            for policy in policies:
+                if isinstance(policy, BswModeReceiverPolicy):
+                    self.setBswModeReceiverPolicy(policies_tag, policy)
+                else:
+                    self.notImplemented("Unsupported ModeReceiverPolicy <%s>" % type(policy))
+
+    def writeBswInternalBehaviorPerInstanceParameters(self, element: ET.Element, behavior: BswInternalBehavior):
+        parameters = behavior.getPerInstanceParameters()
+        if len(parameters) > 0:
+            parameters_tag = ET.SubElement(element, "PER-INSTANCE-PARAMETERS")
+            for parameter in parameters:
+                if isinstance(parameter, ParameterDataPrototype):
+                    self.writeParameterDataPrototype(parameters_tag, parameter)
+                else:
+                    self.notImplemented("Unsupported PerInstanceParameter <%s>" % type(parameter))
+
+    def setBswTriggerDirectImplementation(self, element: ET.Element, implementation: BswTriggerDirectImplementation):
+        child_element = ET.SubElement(element, "BSW-TRIGGER-DIRECT-IMPLEMENTATION")
+        self.setChildElementOptionalIdentifier(child_element, "CAT-2-ISR", implementation.getCat2Isr())
+        self.setChildElementOptionalRefType(child_element, "MASTERED-TRIGGER-REF", implementation.getMasteredTriggerRef())
+        self.setChildElementOptionalIdentifier(child_element, "TASK", implementation.getTask())
+
+    def writeBswInternalBehaviorTriggerDirectImplementations(self, element: ET.Element, behavior: BswInternalBehavior):
+        implementations = behavior.getTriggerDirectImplementations()
+        if len(implementations) > 0:
+            implementations_tag = ET.SubElement(element, "TRIGGER-DIRECT-IMPLEMENTATIONS")
+            for implementation in implementations:
+                if isinstance(implementation, BswTriggerDirectImplementation):
+                    self.setBswTriggerDirectImplementation(implementations_tag, implementation)
+                else:
+                    self.notImplemented("Unsupported TriggerDirectImplementation <%s>" % type(implementation))
+
+    def writeBswInternalBehaviorVariationPointProxies(self, element: ET.Element, behavior: BswInternalBehavior):
+        proxies = behavior.getVariationPointProxies()
+        if len(proxies) > 0:
+            proxies_tag = ET.SubElement(element, "VARIATION-POINT-PROXYS")
+            for proxy in proxies:
+                if isinstance(proxy, VariationPointProxy):
+                    self.writeVariationPointProxy(proxies_tag, proxy)
+                else:
+                    self.notImplemented("Unsupported VariationPointProxy <%s>" % type(proxy))
+
     def writeBswInternalBehavior(self, element: ET.Element, behavior: BswInternalBehavior):
         child_element = ET.SubElement(element, "BSW-INTERNAL-BEHAVIOR")
         self.writeInternalBehavior(child_element, behavior)
+        self.writeBswInternalBehaviorArTypedPerInstanceMemories(child_element, behavior)
         self.writeBswInternalBehaviorBswPerInstanceMemoryPolicies(child_element, behavior)
         self.writeBswInternalBehaviorClientPolicies(child_element, behavior)
+        self.writeBswInternalBehaviorExclusiveAreaPolicies(child_element, behavior)
+        self.writeBswInternalBehaviorIncludedDataTypeSets(child_element, behavior)
         self.writeBswInternalBehaviorInternalTriggeringPoints(child_element, behavior)
         self.writeBswInternalBehaviorEntities(child_element, behavior)
         self.writeBswInternalBehaviorEvents(child_element, behavior)
+        self.writeBswInternalBehaviorModeReceiverPolicies(child_element, behavior)
         self.writeBswInternalBehaviorModeSenderPolicy(child_element, behavior)
+        self.writeBswInternalBehaviorPerInstanceParameters(child_element, behavior)
         self.writeBswInternalBehaviorIncludedModeDeclarationGroupSets(child_element, behavior)
         self.writeBswInternalBehaviorInternalTriggeringPointPolicies(child_element, behavior)
         self.writeBswInternalBehaviorParameterPolicies(child_element, behavior)
         self.writeBswInternalBehaviorReleasedTriggerPolicies(child_element, behavior)
         self.writeBswInternalBehaviorDataSendPolicies(child_element, behavior)
+        self.writeBswInternalBehaviorVariationPointProxies(child_element, behavior)
         self.writeBswInternalBehaviorReceptionPolicies(child_element, behavior)
         self.writeBswInternalBehaviorSchedulerNamePrefixes(child_element, behavior)
         self.writeBswInternalBehaviorDistinguishedPartitions(child_element, behavior)
         self.writeBswInternalBehaviorServiceDependencies(child_element, behavior)
+        self.writeBswInternalBehaviorTriggerDirectImplementations(child_element, behavior)
 
     def writeBswInternalBehaviorSchedulerNamePrefixes(self, element: ET.Element, behavior: BswInternalBehavior):
         prefixes = behavior.getSchedulerNamePrefixes()

@@ -1756,6 +1756,123 @@ class TestBswDataSendPolicyHandlers:
         assert any("Unsupported Data Send Policies" in r.getMessage() for r in caplog.records)
 
 
+class TestBswInternalBehaviorFullSyncHandlers:
+    """Reader coverage for the BswInternalBehavior wrappers added in the 2026-09-17 full sync."""
+
+    def test_readBswInternalBehaviorArTypedPerInstanceMemories(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<AR-TYPED-PER-INSTANCE-MEMORYS>" "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>mem</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>" "</AR-TYPED-PER-INSTANCE-MEMORYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorArTypedPerInstanceMemories(element, behavior)
+        memories = behavior.getArTypedPerInstanceMemories()
+        assert len(memories) == 1
+        assert memories[0].getShortName() == "mem"
+
+    def test_readBswInternalBehaviorExclusiveAreaPolicies(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<EXCLUSIVE-AREA-POLICYS>"
+            "<BSW-EXCLUSIVE-AREA-POLICY>"
+            "<API-PRINCIPLE>perEntity</API-PRINCIPLE>"
+            "<EXCLUSIVE-AREA-REF DEST='EXCLUSIVE-AREA'>/ea</EXCLUSIVE-AREA-REF>"
+            "</BSW-EXCLUSIVE-AREA-POLICY>"
+            "</EXCLUSIVE-AREA-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorExclusiveAreaPolicies(element, behavior)
+        policies = behavior.getExclusiveAreaPolicies()
+        assert len(policies) == 1
+        assert policies[0].getApiPrinciple() is not None
+        assert policies[0].getExclusiveAreaRef().getValue() == "/ea"
+
+    def test_readBswInternalBehaviorIncludedDataTypeSets(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<INCLUDED-DATA-TYPE-SETS>" "<INCLUDED-DATA-TYPE-SET><LITERAL-PREFIX>pfx</LITERAL-PREFIX></INCLUDED-DATA-TYPE-SET>" "</INCLUDED-DATA-TYPE-SETS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorIncludedDataTypeSets(element, behavior)
+        sets = behavior.getIncludedDataTypeSets()
+        assert len(sets) == 1
+        assert sets[0].getLiteralPrefix() is not None
+
+    def test_readBswInternalBehaviorModeReceiverPolicies(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<MODE-RECEIVER-POLICYS>"
+            "<BSW-MODE-RECEIVER-POLICY>"
+            "<ENHANCED-MODE-API>true</ENHANCED-MODE-API>"
+            "<REQUIRED-MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/mg</REQUIRED-MODE-GROUP-REF>"
+            "<SUPPORTS-ASYNCHRONOUS-MODE-SWITCH>false</SUPPORTS-ASYNCHRONOUS-MODE-SWITCH>"
+            "</BSW-MODE-RECEIVER-POLICY>"
+            "</MODE-RECEIVER-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorModeReceiverPolicies(element, behavior)
+        policies = behavior.getModeReceiverPolicies()
+        assert len(policies) == 1
+        assert policies[0].getEnhancedModeApi().value is True
+        assert policies[0].getRequiredModeGroupRef().getValue() == "/mg"
+        assert policies[0].getSupportsAsynchronousModeSwitch().value is False
+
+    def test_readBswInternalBehaviorPerInstanceParameters(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<PER-INSTANCE-PARAMETERS>" "<PARAMETER-DATA-PROTOTYPE><SHORT-NAME>pip</SHORT-NAME></PARAMETER-DATA-PROTOTYPE>" "</PER-INSTANCE-PARAMETERS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorPerInstanceParameters(element, behavior)
+        parameters = behavior.getPerInstanceParameters()
+        assert len(parameters) == 1
+        assert parameters[0].getShortName() == "pip"
+
+    def test_readBswInternalBehaviorTriggerDirectImplementations(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<TRIGGER-DIRECT-IMPLEMENTATIONS>"
+            "<BSW-TRIGGER-DIRECT-IMPLEMENTATION>"
+            "<CAT-2-ISR>isr1</CAT-2-ISR>"
+            "<MASTERED-TRIGGER-REF DEST='TRIGGER'>/trig</MASTERED-TRIGGER-REF>"
+            "<TASK>task1</TASK>"
+            "</BSW-TRIGGER-DIRECT-IMPLEMENTATION>"
+            "</TRIGGER-DIRECT-IMPLEMENTATIONS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorTriggerDirectImplementations(element, behavior)
+        implementations = behavior.getTriggerDirectImplementations()
+        assert len(implementations) == 1
+        assert implementations[0].getCat2Isr().getValue() == "isr1"
+        assert implementations[0].getMasteredTriggerRef().getValue() == "/trig"
+        assert implementations[0].getTask().getValue() == "task1"
+
+    def test_readBswInternalBehaviorVariationPointProxies(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<VARIATION-POINT-PROXYS>" "<VARIATION-POINT-PROXY><SHORT-NAME>vpx</SHORT-NAME></VARIATION-POINT-PROXY>" "</VARIATION-POINT-PROXYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorVariationPointProxies(element, behavior)
+        proxies = behavior.getVariationPointProxies()
+        assert len(proxies) == 1
+        assert proxies[0].getShortName() == "vpx"
+
+
 # ==================== BswInternalTriggeringPoint & BswInternalBehavior orchestrator ====================
 
 

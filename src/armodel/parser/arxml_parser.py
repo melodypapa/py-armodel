@@ -41,6 +41,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
     BswDataSendPolicy,
+    BswExclusiveAreaPolicy,
     BswExternalTriggerOccurredEvent,
     BswInternalBehavior,
     BswInternalTriggeringPoint,
@@ -48,6 +49,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswInternalTriggerOccurredEvent,
     BswInterruptEntity,
     BswModeManagerErrorEvent,
+    BswModeReceiverPolicy,
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
     BswModeSwitchedAckEvent,
@@ -64,6 +66,7 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswServiceDependency,
     BswSynchronousServerCallPoint,
     BswTimingEvent,
+    BswTriggerDirectImplementation,
     BswVariableAccess,
     RoleBasedBswModuleEntryAssignment,
 )
@@ -3682,6 +3685,84 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Data Send Policies <%s>" % tag_name)
 
+    def readBswInternalBehaviorArTypedPerInstanceMemories(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "AR-TYPED-PER-INSTANCE-MEMORYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "VARIABLE-DATA-PROTOTYPE":
+                memory = VariableDataPrototype(self, self.getShortName(child_element))
+                self.readVariableDataPrototype(child_element, memory)
+                behavior.addArTypedPerInstanceMemory(memory)
+            else:
+                self.notImplemented("Unsupported ArTypedPerInstanceMemory <%s>" % tag_name)
+
+    def getBswExclusiveAreaPolicy(self, element: ET.Element) -> BswExclusiveAreaPolicy:
+        policy = BswExclusiveAreaPolicy()
+        policy.setApiPrinciple(self.getChildElementOptionalLiteral(element, "API-PRINCIPLE"))
+        policy.setExclusiveAreaRef(self.getChildElementOptionalRefType(element, "EXCLUSIVE-AREA-REF"))
+        return policy
+
+    def readBswInternalBehaviorExclusiveAreaPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "EXCLUSIVE-AREA-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-EXCLUSIVE-AREA-POLICY":
+                behavior.addExclusiveAreaPolicy(self.getBswExclusiveAreaPolicy(child_element))
+            else:
+                self.notImplemented("Unsupported ExclusiveAreaPolicy <%s>" % tag_name)
+
+    def readBswInternalBehaviorIncludedDataTypeSets(self, element: ET.Element, behavior: BswInternalBehavior):
+        for data_type_set in self.getIncludedDataTypeSets(element):
+            behavior.addIncludedDataTypeSet(data_type_set)
+
+    def getBswModeReceiverPolicy(self, element: ET.Element) -> BswModeReceiverPolicy:
+        policy = BswModeReceiverPolicy()
+        policy.setEnhancedModeApi(self.getChildElementOptionalBooleanValue(element, "ENHANCED-MODE-API"))
+        policy.setRequiredModeGroupRef(self.getChildElementOptionalRefType(element, "REQUIRED-MODE-GROUP-REF"))
+        policy.setSupportsAsynchronousModeSwitch(self.getChildElementOptionalBooleanValue(element, "SUPPORTS-ASYNCHRONOUS-MODE-SWITCH"))
+        return policy
+
+    def readBswInternalBehaviorModeReceiverPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "MODE-RECEIVER-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-MODE-RECEIVER-POLICY":
+                behavior.addModeReceiverPolicy(self.getBswModeReceiverPolicy(child_element))
+            else:
+                self.notImplemented("Unsupported ModeReceiverPolicy <%s>" % tag_name)
+
+    def readBswInternalBehaviorPerInstanceParameters(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "PER-INSTANCE-PARAMETERS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "PARAMETER-DATA-PROTOTYPE":
+                parameter = ParameterDataPrototype(self, self.getShortName(child_element))
+                self.readParameterDataPrototype(child_element, parameter)
+                behavior.addPerInstanceParameter(parameter)
+            else:
+                self.notImplemented("Unsupported PerInstanceParameter <%s>" % tag_name)
+
+    def getBswTriggerDirectImplementation(self, element: ET.Element) -> BswTriggerDirectImplementation:
+        implementation = BswTriggerDirectImplementation()
+        implementation.setCat2Isr(self.getChildElementOptionalIdentifier(element, "CAT-2-ISR"))
+        implementation.setMasteredTriggerRef(self.getChildElementOptionalRefType(element, "MASTERED-TRIGGER-REF"))
+        implementation.setTask(self.getChildElementOptionalIdentifier(element, "TASK"))
+        return implementation
+
+    def readBswInternalBehaviorTriggerDirectImplementations(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "TRIGGER-DIRECT-IMPLEMENTATIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-TRIGGER-DIRECT-IMPLEMENTATION":
+                behavior.addTriggerDirectImplementation(self.getBswTriggerDirectImplementation(child_element))
+            else:
+                self.notImplemented("Unsupported TriggerDirectImplementation <%s>" % tag_name)
+
+    def readBswInternalBehaviorVariationPointProxies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "VARIATION-POINT-PROXYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "VARIATION-POINT-PROXY":
+                proxy = VariationPointProxy(behavior, self.getShortName(child_element))
+                self.readVariationPointProxy(child_element, proxy)
+                behavior.addVariationPointProxy(proxy)
+            else:
+                self.notImplemented("Unsupported VariationPointProxy <%s>" % tag_name)
+
     def readBswInternalTriggeringPoint(self, element: ET.Element, point: BswInternalTriggeringPoint):
         self.readIdentifiable(element, point)
 
@@ -3709,22 +3790,29 @@ class ARXMLParser(AbstractARXMLParser):
 
         # read the internal behavior
         self.readInternalBehavior(element, behavior)
+        self.readBswInternalBehaviorArTypedPerInstanceMemories(element, behavior)
         self.readBswInternalBehaviorBswPerInstanceMemoryPolicies(element, behavior)
         self.readBswInternalBehaviorClientPolicies(element, behavior)
+        self.readBswInternalBehaviorExclusiveAreaPolicies(element, behavior)
+        self.readBswInternalBehaviorIncludedDataTypeSets(element, behavior)
         self.readBswInternalBehaviorInternalTriggeringPoints(element, behavior)
         self.readBswInternalBehaviorEntities(element, behavior)
         self.readBswInternalBehaviorEvents(element, behavior)
+        self.readBswInternalBehaviorModeReceiverPolicies(element, behavior)
         self.readBswInternalBehaviorModeSenderPolicy(element, behavior)
+        self.readBswInternalBehaviorPerInstanceParameters(element, behavior)
         for group_set in self.getIncludedModeDeclarationGroupSets(element):
             behavior.addIncludedModeDeclarationGroupSet(group_set)
         self.readBswInternalBehaviorInternalTriggeringPointPolicies(element, behavior)
         self.readBswInternalBehaviorParameterPolicies(element, behavior)
         self.readBswInternalBehaviorReleasedTriggerPolicies(element, behavior)
         self.readBswInternalBehaviorDataSendPolicies(element, behavior)
+        self.readBswInternalBehaviorVariationPointProxies(element, behavior)
         self.readBswInternalBehaviorReceptionPolicies(element, behavior)
         self.readBswInternalBehaviorSchedulerNamePrefixes(element, behavior)
         self.readBswInternalBehaviorDistinguishedPartitions(element, behavior)
         self.readBswInternalBehaviorServiceDependencies(element, behavior)
+        self.readBswInternalBehaviorTriggerDirectImplementations(element, behavior)
 
     def readBswInternalBehaviorSchedulerNamePrefixes(self, element: ET.Element, behavior: BswInternalBehavior):
         for child_element in self.findall(element, "SCHEDULER-NAME-PREFIXS/BSW-SCHEDULER-NAME-PREFIX"):
