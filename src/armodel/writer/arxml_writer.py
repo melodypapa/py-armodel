@@ -3113,6 +3113,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         child_element = ET.SubElement(element, "COMPU-METHOD")
         self.logger.debug("write CompuMethods %s" % compu_method.getShortName())
         self.writeIdentifiable(child_element, compu_method)
+        self.setChildElementOptionalLiteral(child_element, "DISPLAY-FORMAT", compu_method.getDisplayFormat())
         self.setChildElementOptionalRefType(child_element, "UNIT-REF", compu_method.getUnitRef())
         self.setCompu(child_element, "COMPU-INTERNAL-TO-PHYS", compu_method.getCompuInternalToPhys())
         self.setCompu(child_element, "COMPU-PHYS-TO-INTERNAL", compu_method.getCompuPhysToInternal())

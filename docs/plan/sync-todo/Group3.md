@@ -803,16 +803,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [Table 5.62, p.386; init + 4 accessor rows with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none: both PDF aggregates modeled with PDF types, names/order/docstrings match, and existing reader/writer helpers cover both]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused Compu model/parser/writer tests, lint, and Black check pass; 9b: user-confirmed base, members, naming, docstrings, reader/writer coverage, member order, package location, and no deviations; marker written]
-- [ ] `CompuMethod` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.61 · ref target of `SwAxisIndividual.compuMethod` below · after `Compu` (aggr `compuInternalToPhys`/`compuPhysToInternal`) · `unit` Unit stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `CompuMethod` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.61 · ref target of `SwAxisIndividual.compuMethod` below · after `Compu` (aggr `compuInternalToPhys`/`compuPhysToInternal`) · `unit` Unit stamped ✓) — verified R23-11 (pending commit)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.61, p.380; Base closure resolves to AtpBlueprintable; ordered members compuInternalToPhys/compuPhysToInternal (Compu aggr), displayFormat (DisplayFormatString attr), unit (Unit ref); XML offsets 80/90/20/30]
+  - [x] Step 2 — Write model class unit test (Red)  [added spec Note/base assertion, typed member defaults, getter/setter chaining, and None no-op assertions; stale docstring and overwrite behavior failed before implementation]
+  - [x] Step 3 — Implement model class (Green)  [typed Optional members; DisplayFormatString and RefType; guarded setters]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class and all four member Notes copied verbatim from Table 5.61; getter/setter docstrings include the None no-op sentence]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser asserts DISPLAY-FORMAT and internal Compu values; writer asserts all four spec member wrappers/elements]
+  - [x] Step 6 — Update parser & writer (Green)  [readCompuMethod reads DISPLAY-FORMAT, UNIT-REF, and both Compu aggregates; writeCompuMethod writes all four in XSD order]
+  - [x] Step 7 — Update checklist comment  [Table 5.61, p.380; init + 8 accessor rows with six columns and R23-11 release]
+  - [x] Step 8 — Deviations  [none: all four PDF members modeled with PDF types, ref naming uses unitRef, docstrings/order match, and reader/writer coverage exists]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 12 focused CompuMethod tests, lint, Black check, and diff check pass; 9b: user-confirmed base, members, naming, docstrings, reader/writer coverage, member order, package location, and no deviations; marker written]
 - [ ] `CompuScale` (dependency · **added 2026-09-03 restructure — replaces the stale '(auto-queued, exists)' note on the CompuScales row, no dedicated row existed** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.64 · member type of `CompuScales.compuScale` below · after `CompuConst` (aggr `compuInverseValue`) + `CompuScaleContents` (aggr `compuScaleContents`) · `desc` MultiLanguageOverviewParagraph stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

@@ -7,9 +7,19 @@ from inspect import cleandoc, getsource
 
 import pytest
 
+from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARPackage
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import CIdentifier, Identifier, Limit, Numerical, PositiveUnlimitedInteger, RefType, String
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    CIdentifier,
+    DisplayFormatString,
+    Identifier,
+    Limit,
+    Numerical,
+    PositiveUnlimitedInteger,
+    RefType,
+    String,
+)
 from armodel.models.M2.MSR.AsamHdo.ComputationMethod import (
     Compu,
     CompuConst,
@@ -472,6 +482,14 @@ class TestCompuScales:
 class TestCompuMethod:
     """Test class for CompuMethod class."""
 
+    def test_compu_method_has_spec_note_and_base(self):
+        assert cleandoc(CompuMethod.__doc__) == (
+            "This meta-class represents the ability to express the relationship between a physical value and the mathematical representation. "
+            "Note that this is still independent of the technical implementation in data types. It only specifies the formula how the internal value corresponds to its physical pendant. "
+            "Tags: atp.recommendedPackage=CompuMethods"
+        )
+        assert issubclass(CompuMethod, AtpBlueprintable)
+
     def test_compu_method_initialization(self):
         """Test that a CompuMethod object can be initialized with default values."""
         parent_obj = ARPackage(None, "parent_test")  # Using ARPackage as a concrete ARObject subclass
@@ -520,6 +538,28 @@ class TestCompuMethod:
         result = compu_method.setUnitRef(unit_ref)
         assert compu_method.getUnitRef() == unit_ref
         assert result == compu_method
+
+    def test_compu_method_setters_preserve_values_on_none(self):
+        parent_obj = ARPackage(None, "parent_test")
+        compu_method = CompuMethod(parent_obj, "test_name")
+        internal = Compu()
+        physical = Compu()
+        display_format = DisplayFormatString().setValue("%1.2")
+        unit_ref = RefType().setValue("/Units/Unit")
+
+        compu_method.setCompuInternalToPhys(internal)
+        compu_method.setCompuPhysToInternal(physical)
+        compu_method.setDisplayFormat(display_format)
+        compu_method.setUnitRef(unit_ref)
+
+        assert compu_method.setCompuInternalToPhys(None) is compu_method
+        assert compu_method.setCompuPhysToInternal(None) is compu_method
+        assert compu_method.setDisplayFormat(None) is compu_method
+        assert compu_method.setUnitRef(None) is compu_method
+        assert compu_method.getCompuInternalToPhys() is internal
+        assert compu_method.getCompuPhysToInternal() is physical
+        assert compu_method.getDisplayFormat() is display_format
+        assert compu_method.getUnitRef() is unit_ref
 
     def test_compu_method_category_texttable(self):
         """Test that the TEXTTABLE category constant is available."""

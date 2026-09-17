@@ -6,7 +6,16 @@ from abc import ABC
 
 from armodel.models.M2.MSR.Documentation.TextModel.MultilanguageData import MultiLanguageOverviewParagraph
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.AbstractBlueprintStructure import AtpBlueprintable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, CIdentifier, Identifier, Numerical, PositiveUnlimitedInteger, String, VerbatimString
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
+    ARNumerical,
+    CIdentifier,
+    DisplayFormatString,
+    Identifier,
+    Numerical,
+    PositiveUnlimitedInteger,
+    String,
+    VerbatimString,
+)
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Limit
@@ -470,56 +479,75 @@ class CompuScales(CompuContent):
 
 
 class CompuMethod(AtpBlueprintable):
-    """
-    Represents a computation method for converting between internal and physical values.
-    Base: AtpBlueprintable
-    """
+    """This meta-class represents the ability to express the relationship between a physical value and the mathematical representation. Note that this is still independent of the technical implementation in data types. It only specifies the formula how the internal value corresponds to its physical pendant. Tags: atp.recommendedPackage=CompuMethods"""
 
     # CompuMethod method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCompuInternalToPhys       [x] impl  [ ] docstring  [ ] test
-    # [ ] setCompuInternalToPhys       [x] impl  [ ] docstring  [ ] test
-    # [ ] getCompuPhysToInternal       [x] impl  [ ] docstring  [ ] test
-    # [ ] setCompuPhysToInternal       [x] impl  [ ] docstring  [ ] test
-    # [ ] getDisplayFormat             [x] impl  [ ] docstring  [ ] test
-    # [ ] setDisplayFormat             [x] impl  [ ] docstring  [ ] test
-    # [ ] getUnitRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setUnitRef                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.61, p.380
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCompuInternalToPhys       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompuInternalToPhys       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCompuPhysToInternal       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompuPhysToInternal       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDisplayFormat             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDisplayFormat             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUnitRef                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnitRef                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     CATEGORY_TEXTTABLE = "TEXTTABLE"
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
-        self.compuInternalToPhys: Compu = None
-        self.compuPhysToInternal: Compu = None
-        self.displayFormat: str = None
-        self.unitRef: RefType = None
+        # This specifies the computation from internal values to physical values. Stereotypes: atpSplitable Tags: atp.Splitkey=compuInternalToPhys xml.sequenceOffset=80
+        self.compuInternalToPhys: Optional[Compu] = None
 
-    def getCompuInternalToPhys(self) -> Compu:
+        # This represents the computation from physical values to the internal values. Stereotypes: atpSplitable Tags: atp.Splitkey=compuPhysToInternal xml.sequenceOffset=90
+        self.compuPhysToInternal: Optional[Compu] = None
+
+        # This property specifies, how the physical value shall be displayed e.g. in documents or measurement and calibration tools. Tags: xml.sequenceOffset=20
+        self.displayFormat: Optional[DisplayFormatString] = None
+
+        # This is the physical unit of the Physical values for which the CompuMethod applies. Tags: xml.sequenceOffset=30
+        self.unitRef: Optional[RefType] = None
+
+    def getCompuInternalToPhys(self) -> Optional[Compu]:
+        """This specifies the computation from internal values to physical values. Stereotypes: atpSplitable Tags: atp.Splitkey=compuInternalToPhys xml.sequenceOffset=80"""
         return self.compuInternalToPhys
 
-    def setCompuInternalToPhys(self, value: Compu):
-        self.compuInternalToPhys = value
+    def setCompuInternalToPhys(self, value: Optional[Compu]):
+        """This specifies the computation from internal values to physical values. Stereotypes: atpSplitable Tags: atp.Splitkey=compuInternalToPhys xml.sequenceOffset=80. None leaves the current value unchanged."""
+        if value is not None:
+            self.compuInternalToPhys = value
         return self
 
-    def getCompuPhysToInternal(self) -> Compu:
+    def getCompuPhysToInternal(self) -> Optional[Compu]:
+        """This represents the computation from physical values to the internal values. Stereotypes: atpSplitable Tags: atp.Splitkey=compuPhysToInternal xml.sequenceOffset=90"""
         return self.compuPhysToInternal
 
-    def setCompuPhysToInternal(self, value: Compu):
-        self.compuPhysToInternal = value
+    def setCompuPhysToInternal(self, value: Optional[Compu]):
+        """This represents the computation from physical values to the internal values. Stereotypes: atpSplitable Tags: atp.Splitkey=compuPhysToInternal xml.sequenceOffset=90. None leaves the current value unchanged."""
+        if value is not None:
+            self.compuPhysToInternal = value
         return self
 
-    def getDisplayFormat(self) -> str:
+    def getDisplayFormat(self) -> Optional[DisplayFormatString]:
+        """This property specifies, how the physical value shall be displayed e.g. in documents or measurement and calibration tools. Tags: xml.sequenceOffset=20"""
         return self.displayFormat
 
-    def setDisplayFormat(self, value: str):
-        self.displayFormat = value
+    def setDisplayFormat(self, value: Optional[DisplayFormatString]):
+        """This property specifies, how the physical value shall be displayed e.g. in documents or measurement and calibration tools. Tags: xml.sequenceOffset=20. None leaves the current value unchanged."""
+        if value is not None:
+            self.displayFormat = value
         return self
 
-    def getUnitRef(self) -> RefType:
+    def getUnitRef(self) -> Optional[RefType]:
+        """This is the physical unit of the Physical values for which the CompuMethod applies. Tags: xml.sequenceOffset=30"""
         return self.unitRef
 
-    def setUnitRef(self, value: RefType):
-        self.unitRef = value
+    def setUnitRef(self, value: Optional[RefType]):
+        """This is the physical unit of the Physical values for which the CompuMethod applies. Tags: xml.sequenceOffset=30. None leaves the current value unchanged."""
+        if value is not None:
+            self.unitRef = value
         return self

@@ -7114,6 +7114,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readCompuMethod(self, element: ET.Element, compu_method: CompuMethod):
         self.logger.debug("Read CompuMethod <%s>" % compu_method.getShortName())
         self.readIdentifiable(element, compu_method)
+        compu_method.setDisplayFormat(self.getChildElementOptionalLiteral(element, "DISPLAY-FORMAT"))
         compu_method.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
         compu_method.setCompuInternalToPhys(self.getCompu(element, "COMPU-INTERNAL-TO-PHYS"))
         compu_method.setCompuPhysToInternal(self.getCompu(element, "COMPU-PHYS-TO-INTERNAL"))

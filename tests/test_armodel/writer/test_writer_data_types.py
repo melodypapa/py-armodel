@@ -992,6 +992,24 @@ class TestWriteCompuMethodWriter:
         child = parent[0]
         assert child.find("COMPU-INTERNAL-TO-PHYS/COMPU-SCALES/COMPU-SCALE/SHORT-LABEL").text == "Cold"
 
+    def test_write_compu_method_covers_all_spec_members(self, writer):
+        autosar = AUTOSAR.getInstance()
+        pkg = autosar.createARPackage("Compu")
+        cm = pkg.createCompuMethod("Complete")
+        cm.setDisplayFormat(_literal("%1.2"))
+        cm.setUnitRef(_ref("UNIT", "/units/kmh"))
+        cm.setCompuInternalToPhys(Compu())
+        cm.setCompuPhysToInternal(Compu())
+
+        parent = _parent()
+        writer.writeCompuMethod(parent, cm)
+
+        child = parent[0]
+        assert child.find("DISPLAY-FORMAT").text == "%1.2"
+        assert child.find("UNIT-REF").text == "/units/kmh"
+        assert child.find("COMPU-INTERNAL-TO-PHYS") is not None
+        assert child.find("COMPU-PHYS-TO-INTERNAL") is not None
+
 
 class TestApplicationValueSpecificationWriter:
     def test_write_application_value_specification_none(self, writer):

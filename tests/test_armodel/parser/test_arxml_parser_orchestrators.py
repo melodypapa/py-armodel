@@ -1397,6 +1397,7 @@ class TestDataTypeAndCompuHandlers:
         element = _snip(
             "<SHORT-NAME>cm</SHORT-NAME>"
             "<UNIT-REF DEST='UNIT'>/unit</UNIT-REF>"
+            "<DISPLAY-FORMAT>%1.2</DISPLAY-FORMAT>"
             "<COMPU-INTERNAL-TO-PHYS>"
             "<COMPU-SCALES>"
             "<COMPU-SCALE>"
@@ -1411,6 +1412,7 @@ class TestDataTypeAndCompuHandlers:
         )
         parser.readCompuMethod(element, method)
         assert method.getUnitRef().getValue() == "/unit"
+        assert method.getDisplayFormat().getValue() == "%1.2"
         compu = method.getCompuInternalToPhys()
         assert compu.getCompuContent().getCompuScales()[0].getShortLabel().getValue() == "scale1"
         assert compu.getCompuDefaultValue() is None
