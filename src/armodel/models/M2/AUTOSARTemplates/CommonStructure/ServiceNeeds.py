@@ -1985,21 +1985,15 @@ class EcuStateMgrUserNeeds(ServiceNeeds):
 
 class DltUserNeeds(ServiceNeeds):
     """
-    Represents DLT (Diagnostic Log and Trace) user needs in AUTOSAR models.
-    This class defines requirements for components that use the DLT service for logging and tracing.
+    This meta-class specifies the needs on the configuration of the Diagnostic Log and Trace module for one SessionId. This class currently contains no attributes. An instance of this class is used to find out which PortPrototypes of an AtomicSwComponentType belong to this SessionId in order to group the request and response PortPrototypes of the same SessionId. The actual SessionId value is stored in the PortDefinedArgumentValue of the respective PortPrototype specification.
     """
 
     # DltUserNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.16, p.236
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DltUserNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this DLT user needs
-            short_name: The unique short name of this DLT user needs
-        """
         super().__init__(parent, short_name)
 
 

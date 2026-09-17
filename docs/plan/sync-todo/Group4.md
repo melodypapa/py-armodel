@@ -125,16 +125,16 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (concrete Class + ServiceNeeds base + 0 attrs + Note verbatim all match spec; XSD abstract="false" → not abstract; no VARIATION-POINT → not VP-capable; no placeholders; no Step-3 referenced missing classes)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (3 model tests, flake8/ruff/black, parity script, integration round-trip 2/2); 9b DEFERRED to batch stamp
-- [ ] `DltUserNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.16 (multiple tables — resolve in per-class Phase 0))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DltUserNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.16 (multiple tables — resolve in per-class Phase 0) · **Step 1 finding: own table = BSW TPS Table 12.16, p.236 (body rendered before caption, markdown lines 5650-5657, caption line 5659); sibling copy Swc TPS Table 13.66, p.817 — Note verbatim identical (byte diff clean); concrete Class (XSD complexType `DLT-USER-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd line 48381; no Subclasses row in own table), Base most-derived = `ServiceNeeds` (matches src), ZERO own attributes (Attribute section = `-`), not VP-capable (no VARIATION-POINT in XSD block); own XSD group `DLT-USER-NEEDS` = `<xsd:sequence/>` empty (line 48366) → no own XML-bearing attributes → Steps 5/6 N/A; concrete-element dispatch readDltUserNeeds/writeDltUserNeeds already exists with matched name pairs + parser/writer test coverage)**
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — **N/A: no own XML-bearing attributes** (Attribute section = `-`; XSD group `DLT-USER-NEEDS` = `<xsd:sequence/>` empty, AUTOSAR_00052.xsd line 48366); concrete-element reader dispatch already exists + covered (test_arxml_parser_orchestrators.py::test_readDltUserNeeds_minimal)
+  - [x] Step 6 — Update parser & writer (Green) — **N/A: same reason**; concrete dispatch `readDltUserNeeds`/`writeDltUserNeeds` already exist with matched name pairs and writer coverage (test_writer_swc_behavior.py::test_writeDltUserNeeds)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (concrete Class + ServiceNeeds base + 0 attrs + Note verbatim all match spec; XSD abstract="false" → not abstract; no VARIATION-POINT → not VP-capable; no placeholders; no Step-3 referenced missing classes)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (3 model tests + 392 parser/writer dispatch tests, flake8/ruff/black, parity script, integration round-trip 2/2); 9b DEFERRED to batch stamp
 - [ ] `DiagnosticComponentNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.64)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
