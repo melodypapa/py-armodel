@@ -499,23 +499,29 @@ class DataConstrRule(ARObject):
 
 
 class DataConstr(AtpBlueprintable):
-    """
-    Represents data constraints with multiple rules.
-    Base: AtpBlueprintable
-    """
+    """This meta-class represents the ability to specify constraints on data. Tags: atp.recommendedPackage=DataConstrs"""
+
+    # Spec verified: R23-11
 
     # DataConstr method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] addDataConstrRule            [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataConstrRules           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.82, p.405
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addDataConstrRule            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataConstrRules           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # This is one particular rule within the data constraints. Tags: xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false
         self.data_constr_rule: List[DataConstrRule] = []
 
-    def addDataConstrRule(self, rule: DataConstrRule):
-        self.data_constr_rule.append(rule)
+    def addDataConstrRule(self, rule: Optional[DataConstrRule]) -> "DataConstr":
+        """This is one particular rule within the data constraints. Tags: xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false. None leaves the current list unchanged."""
+        if rule is not None:
+            self.data_constr_rule.append(rule)
+        return self
 
     def getDataConstrRules(self) -> List[DataConstrRule]:
+        """This is one particular rule within the data constraints. Tags: xml.roleElement=true xml.roleWrapperElement=true xml.sequenceOffset=30 xml.typeElement=false xml.typeWrapperElement=false."""
         return self.data_constr_rule

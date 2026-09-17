@@ -843,16 +843,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [Table 5.83, p.406; init + 6 accessor rows with six columns and R23-11 release]
   - [x] Step 8 — Deviations  [none: all three PDF members modeled with PDF types, names/order/docs match, and existing parser/writer coverage exists]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused DataConstrRule model/parser/writer tests, lint, and Black check pass; 9b: user-confirmed matched base, members, naming, docstrings, reader/writer coverage, XML order, package location, and no deviations; marker `# Spec verified: R23-11` written; commit fa640a0d]
-- [ ] `DataConstr` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.82 · ref target of `SwAxisIndividual.dataConstr` below · after `DataConstrRule` (aggr `dataConstrRule`))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `DataConstr` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.82 · ref target of `SwAxisIndividual.dataConstr` below · after `DataConstrRule` (aggr `dataConstrRule`)) — verified R23-11
+   - [x] Step 1 — Sync members & description from spec  [Table 5.82, p.405; Base closure resolves to AtpBlueprintable; one ordered dataConstrRule DataConstrRule aggregation; class and member Notes copied verbatim]
+   - [x] Step 2 — Write model class unit test (Red)  [added exact Note assertion, ordered-list defaults, add/get chaining, and None no-op; stale Note and non-chaining add method failed before implementation]
+   - [x] Step 3 — Implement model class (Green)  [typed List[DataConstrRule] aggregation, guarded addDataConstrRule returning self, and typed getter]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note and dataConstrRule Note copied verbatim from Table 5.82; None no-op sentence added to mutator]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [existing parser/writer coverage asserts rule values, nested constraints, empty wrapper omission, and field values]
+   - [x] Step 6 — Update parser & writer (Green)  [existing readDataConstr/writeDataConstrRules coverage uses add/get accessors; XML order matches XSD sequence offsets 20/30/40]
+   - [x] Step 7 — Update checklist comment  [Table 5.82, p.405; init/add/get rows with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: AtpBlueprintable base, one ordered PDF aggregation, typed API, verbatim docs, and reader/writer coverage match]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, Black check, and diff check passed; 9b: user-confirmed base, member order, naming, docstrings, reader/writer coverage, package location, and no deviations; marker written]
 - [ ] `CompositeValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.110 · **moved 2026-09-03 restructure ahead of its Record/Array subtypes** · parent `ValueSpecification` stamped ✓ · member type of `CompositeRuleBasedValueSpecification.argument` below)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

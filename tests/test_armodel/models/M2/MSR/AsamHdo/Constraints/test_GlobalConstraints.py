@@ -236,6 +236,9 @@ class TestDataConstrRule:
 class TestDataConstr:
     """Test class for DataConstr class."""
 
+    def test_data_constr_has_spec_note(self):
+        assert cleandoc(DataConstr.__doc__) == "This meta-class represents the ability to specify constraints on data. Tags: atp.recommendedPackage=DataConstrs"
+
     def test_data_constr_initialization(self):
         """Test that a DataConstr object can be initialized with default values."""
         parent_obj = ARPackage(None, "parent_test")  # Using ARPackage as a concrete ARObject subclass
@@ -249,7 +252,8 @@ class TestDataConstr:
         rule = DataConstrRule()
 
         # Test addDataConstrRule and getDataConstrRules
-        data_constr.addDataConstrRule(rule)
+        assert data_constr.addDataConstrRule(rule) is data_constr
         rules = data_constr.getDataConstrRules()
-        assert rule in rules
-        assert len(rules) == 1
+        assert rules == [rule]
+        assert data_constr.addDataConstrRule(None) is data_constr
+        assert data_constr.getDataConstrRules() == [rule]
