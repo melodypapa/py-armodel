@@ -31,7 +31,7 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 3 — Implement model class (Green)
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
   - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
+  - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
@@ -41,7 +41,7 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 3 — Implement model class (Green)
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
   - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
+  - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
@@ -51,7 +51,7 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 3 — Implement model class (Green)
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
   - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
+  - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
@@ -61,7 +61,7 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 3 — Implement model class (Green)
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
   - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
+  - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
@@ -71,7 +71,7 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 3 — Implement model class (Green)
   - [x] Step 4 — Sync docstrings (wipe + rewrite)
   - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
+  - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
@@ -79,22 +79,22 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red)
   - [x] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
   - [x] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
+  - [x] Step 6 — Update parser & writer (Green)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations
   - [x] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `ServiceNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.6 (multiple tables — resolve in per-class Phase 0))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `ServiceNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.6 (multiple tables — resolve in per-class Phase 0) · **Step 1 finding: own table = BSW TPS Table 12.6, p.228 — pure abstract marker class, Base most-derived = `Identifiable`, ZERO own attributes (empty Attribute section); class Note missing from the BSW render, taken verbatim from sibling copy Swc TPS Table 7.52, p.603 (Package row: M2::AUTOSARTemplates::CommonStructure::ServiceNeeds — matches src location); aggregated by Bsw/SwcServiceDependency.serviceNeeds (aggregation rows belong to the dependency classes); no own XML element (XSD `SERVICE-NEEDS` = abstract choice-group ref, AUTOSAR_00052.xsd line 10996) → Steps 5/6 N/A; src already spec-shaped (ABC + abstract guard + Identifiable base) → sync = test + docstring + checklist only) — verified R23-11
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — **N/A: no own XML-bearing attributes** (empty Attribute section; XSD SERVICE-NEEDS = abstract choice-group ref, line 10996)
+  - [x] Step 6 — Update parser & writer (Green) — **N/A: same reason**; concrete subclasses own their serialization
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (abstract + Identifiable base + 0 attrs + Note verbatim all match spec; no placeholders; no Step-3 referenced missing classes)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (248 model tests, flake8/ruff/black, parity script, integration round-trip 2/2); 9b confirmed 2026-09-18
 - [ ] `DiagEventDebounceAlgorithm` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.32 (multiple tables — resolve in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

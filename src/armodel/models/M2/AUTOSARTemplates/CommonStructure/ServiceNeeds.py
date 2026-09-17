@@ -152,22 +152,16 @@ class RoleBasedDataAssignment(ARObject, VariationPointCapable):
 
 class ServiceNeeds(Identifiable, ABC):
     """
-    Abstract base class for service needs in AUTOSAR models.
-    Service needs define requirements for various services such as NV block management, diagnostic services, etc.
+    This expresses the abstract needs that a Software Component or Basic Software Module has on the configuration of an AUTOSAR Service to which it will be connected. "Abstract needs" means that the model abstracts from the Configuration Parameters of the underlying Basic Software.
     """
 
     # ServiceNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.6, p.228 (class Note: sibling copy AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.52, p.603)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ServiceNeeds with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this service needs
-            short_name: The unique short name of this service needs
-        """
         if type(self) is ServiceNeeds:
             raise TypeError("ServiceNeeds is an abstract class.")
 
