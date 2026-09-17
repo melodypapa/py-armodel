@@ -139,6 +139,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticOperationCycleNeeds,
     DiagnosticRoutineNeeds,
     DiagnosticStorageConditionNeeds,
+    DiagnosticUploadDownloadNeeds,
     DiagnosticValueNeeds,
     DltUserNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
@@ -4769,6 +4770,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticCommunicationManagerNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticComponentNeeds):
             self.writeDiagnosticComponentNeeds(child_element, needs)
+        elif isinstance(needs, DiagnosticUploadDownloadNeeds):
+            self.writeDiagnosticUploadDownloadNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticRoutineNeeds):
             self.writeDiagnosticRoutineNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticValueNeeds):
@@ -4924,6 +4927,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDiagnosticComponentNeeds(self, element: ET.Element, needs: DiagnosticComponentNeeds):
         child_element = ET.SubElement(element, "DIAGNOSTIC-COMPONENT-NEEDS")
         self.logger.debug("write DiagnosticComponentNeeds %s" % needs.getShortName())
+        self.writeDiagnosticCapabilityElement(child_element, needs)
+
+    def writeDiagnosticUploadDownloadNeeds(self, element: ET.Element, needs: DiagnosticUploadDownloadNeeds):
+        child_element = ET.SubElement(element, "DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS")
+        self.logger.debug("write DiagnosticUploadDownloadNeeds %s" % needs.getShortName())
         self.writeDiagnosticCapabilityElement(child_element, needs)
 
     def writeDiagnosticRoutineNeeds(self, element: ET.Element, needs: DiagnosticRoutineNeeds):
@@ -5197,6 +5205,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDiagnosticCommunicationManagerNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticComponentNeeds):
                     self.writeDiagnosticComponentNeeds(child_element, needs)
+                elif isinstance(needs, DiagnosticUploadDownloadNeeds):
+                    self.writeDiagnosticUploadDownloadNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticRoutineNeeds):
                     self.writeDiagnosticRoutineNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticValueNeeds):

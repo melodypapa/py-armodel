@@ -2608,23 +2608,17 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
         return self
 
 
-class DiagnosticUploadDownloadNeeds(ServiceNeeds):
+class DiagnosticUploadDownloadNeeds(DiagnosticCapabilityElement):
     """
-    Represents Diagnostic Upload/Download needs in AUTOSAR models.
-    This class defines requirements for diagnostic upload and download services.
+    This meta-class represents the ability to specify needs regarding upload and download by means of diagnostic services.
     """
 
     # DiagnosticUploadDownloadNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.29, p.252
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticUploadDownloadNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic upload/download needs
-            short_name: The unique short name of this diagnostic upload/download needs
-        """
         super().__init__(parent, short_name)
 
 

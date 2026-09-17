@@ -562,6 +562,19 @@ class TestServiceNeedsHandlers:
         parser.readDiagnosticComponentNeeds(element, needs)
         assert needs.getShortName() == "componentNeeds"
 
+    def test_readDiagnosticUploadDownloadNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticUploadDownloadNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>uploadDownloadNeeds</SHORT-NAME>", root_tag="DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS")
+        needs = dependency.createDiagnosticUploadDownloadNeeds("uploadDownloadNeeds")
+        assert isinstance(needs, DiagnosticUploadDownloadNeeds)
+        parser.readDiagnosticUploadDownloadNeeds(element, needs)
+        assert needs.getShortName() == "uploadDownloadNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 
@@ -2627,6 +2640,7 @@ class TestSwcServiceDependencyServiceNeeds:
         [
             "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS",
             "DIAGNOSTIC-COMPONENT-NEEDS",
+            "DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS",
             "DIAGNOSTIC-ROUTINE-NEEDS",
             "DIAGNOSTIC-VALUE-NEEDS",
             "DIAGNOSTIC-EVENT-NEEDS",

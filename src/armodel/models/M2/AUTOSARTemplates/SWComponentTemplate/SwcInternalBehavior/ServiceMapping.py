@@ -20,6 +20,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticOperationCycleNeeds,
     DiagnosticRoutineNeeds,
     DiagnosticStorageConditionNeeds,
+    DiagnosticUploadDownloadNeeds,
     DiagnosticValueNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
@@ -265,6 +266,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, DiagnosticComponentNeeds)
+
+    def createDiagnosticUploadDownloadNeeds(self, short_name: str) -> DiagnosticUploadDownloadNeeds:
+        """
+        Creates or retrieves a DiagnosticUploadDownloadNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DiagnosticUploadDownloadNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, DiagnosticUploadDownloadNeeds):
+            needs = DiagnosticUploadDownloadNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, DiagnosticUploadDownloadNeeds)
 
     def createDiagnosticRoutineNeeds(self, short_name: str) -> DiagnosticRoutineNeeds:
         """

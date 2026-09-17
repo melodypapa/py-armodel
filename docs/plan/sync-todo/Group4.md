@@ -145,16 +145,16 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (wrong base `ServiceNeeds` → `DiagnosticCapabilityElement` fixed in-pass per Rule 0001.2; missing concrete-element reader/writer dispatch added in-pass per Rule 0001.7 five-place pattern incl. `createDiagnosticComponentNeeds` factory on SwcServiceDependency; Note verbatim from Table 13.64; zero own attrs; no VARIATION-POINT → not VP-capable; no placeholders. Reported per Rule 0001.10: base class `DiagnosticCapabilityElement` exists but is an unstamped stub vs its own Table 13.15 — needs its own sync pass, same precedent as stamped siblings DiagnosticEnableConditionNeeds et al.)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (3 model tests + 398 touched parser/writer tests, flake8/ruff/black, parity script, integration round-trip 2/2); 9b DEFERRED to batch stamp
-- [ ] `DiagnosticUploadDownloadNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.29 (multiple tables — resolve in per-class Phase 0))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DiagnosticUploadDownloadNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.29 (multiple tables — resolve in per-class Phase 0) · **Step 1 finding: own table = BSW TPS Table 12.29, p.252 (body rendered before caption, markdown lines 6286-6312, caption line 6312); sibling copy Swc TPS Table 13.65, p.817 — Note verbatim identical (byte diff clean); concrete Class (XSD complexType `DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd line 46972; no Subclasses row in own table), Base most-derived = `DiagnosticCapabilityElement` (XSD group chain order SERVICE-NEEDS → DIAGNOSTIC-CAPABILITY-ELEMENT → DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS, complexType lines 46985-46987; src wrongly derives from `ServiceNeeds` → Rule 0001.2 fix; matches DiagnosticComponentNeeds), ZERO own attributes (Attribute section = `-`), not VP-capable (no VARIATION-POINT in XSD block); Note verbatim identical in BSW render + Swc copy + XSD group doc (line 46967); own XSD group = `<xsd:sequence/>` empty (line 46969) → no own XML-bearing attributes, BUT concrete-element reader/writer dispatch MISSING in parser/writer (grep zero hits) → Steps 5/6 apply: read/writeDiagnosticUploadDownloadNeeds helpers + dispatch branches in both Bsw/Swc serviceNeeds sites + createDiagnosticUploadDownloadNeeds factory on SwcServiceDependency + dispatch tests (Rule 0001.7 five-place pattern); DiagnosticCapabilityElement exists but is an unstamped stub (reported Step 8, Rule 0001.10)**
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (wrong base `ServiceNeeds` → `DiagnosticCapabilityElement` fixed in-pass per Rule 0001.2; missing concrete-element reader/writer dispatch added in-pass per Rule 0001.7 five-place pattern incl. `createDiagnosticUploadDownloadNeeds` factory on SwcServiceDependency; Note verbatim from Table 12.29; zero own attrs; no VARIATION-POINT → not VP-capable; no placeholders. Reported per Rule 0001.10: base class `DiagnosticCapabilityElement` exists but is an unstamped stub vs its own table — needs its own sync pass, same precedent as DiagnosticComponentNeeds)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (401 touched tests incl. 3 model, flake8/ruff/black, parity script, integration round-trip 2/2); 9b DEFERRED to batch stamp
 - [ ] `DiagnosticsCommunicationSecurityNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.27 (multiple tables — resolve in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

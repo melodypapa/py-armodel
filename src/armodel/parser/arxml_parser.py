@@ -164,6 +164,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticOperationCycleNeeds,
     DiagnosticRoutineNeeds,
     DiagnosticStorageConditionNeeds,
+    DiagnosticUploadDownloadNeeds,
     DiagnosticValueNeeds,
     DltUserNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
@@ -2030,6 +2031,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticComponentNeeds(dependency, short_name)
                 self.readDiagnosticComponentNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticUploadDownloadNeeds(dependency, short_name)
+                self.readDiagnosticUploadDownloadNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-ROUTINE-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticRoutineNeeds(dependency, short_name)
@@ -2263,6 +2268,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readDiagnosticComponentNeeds(self, element: ET.Element, needs: DiagnosticComponentNeeds):
         self.readDiagnosticCapabilityElement(element, needs)
 
+    def readDiagnosticUploadDownloadNeeds(self, element: ET.Element, needs: DiagnosticUploadDownloadNeeds):
+        self.readDiagnosticCapabilityElement(element, needs)
+
     def readDiagnosticRoutineNeeds(self, element: ET.Element, needs: DiagnosticRoutineNeeds):
         # self.logger.debug("Read DiagnosticRoutineNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
@@ -2440,6 +2448,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-COMPONENT-NEEDS":
                 needs = parent.createDiagnosticComponentNeeds(self.getShortName(child_element))
                 self.readDiagnosticComponentNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS":
+                needs = parent.createDiagnosticUploadDownloadNeeds(self.getShortName(child_element))
+                self.readDiagnosticUploadDownloadNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-ROUTINE-NEEDS":
                 needs = parent.createDiagnosticRoutineNeeds(self.getShortName(child_element))
                 self.readDiagnosticRoutineNeeds(child_element, needs)
