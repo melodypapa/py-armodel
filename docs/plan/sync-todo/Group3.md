@@ -813,16 +813,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [Table 5.61, p.380; init + 8 accessor rows with six columns and R23-11 release]
   - [x] Step 8 — Deviations  [none: all four PDF members modeled with PDF types, ref naming uses unitRef, docstrings/order match, and reader/writer coverage exists]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 12 focused CompuMethod tests, lint, Black check, and diff check pass; 9b: user-confirmed base, members, naming, docstrings, reader/writer coverage, member order, package location, and no deviations; marker written]
-- [ ] `CompuScale` (dependency · **added 2026-09-03 restructure — replaces the stale '(auto-queued, exists)' note on the CompuScales row, no dedicated row existed** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.64 · member type of `CompuScales.compuScale` below · after `CompuConst` (aggr `compuInverseValue`) + `CompuScaleContents` (aggr `compuScaleContents`) · `desc` MultiLanguageOverviewParagraph stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+ - [x] `CompuScale` (dependency · **added 2026-09-03 restructure — replaces the stale '(auto-queued, exists)' note on the CompuScales row, no dedicated row existed** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.64 · member type of `CompuScales.compuScale` below · after `CompuConst` (aggr `compuInverseValue`) + `CompuScaleContents` (aggr `compuScaleContents`) · `desc` MultiLanguageOverviewParagraph stamped ✓) — verified R23-11 (pending commit)
+   - [x] Step 1 — Sync members & description from spec  [Table 5.64, p.388; Base ARObject; nine ordered members a2lDisplayText, compuInverseValue, compuScaleContents, desc, lowerLimit, mask, shortLabel, symbol, upperLimit; offsets 60/70/30/40/35/20/25/50 plus attribute-only A2L-DISPLAY-TEXT]
+   - [x] Step 2 — Write model class unit test (Red)  [added spec Note, defaults, nine typed members, getter/setter chaining, and None no-op assertions; stale docstring and overwrite behavior failed before implementation]
+   - [x] Step 3 — Implement model class (Green)  [typed Optional members, guarded setters, and empty-content writer guard]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class and all nine member Notes copied from Table 5.64; getter/setter docstrings include the None no-op sentence]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser asserts A2L display and inverse constant values; writer asserts both previously missing XML members; existing tests cover remaining members]
+   - [x] Step 6 — Update parser & writer (Green)  [readCompuScale/writeCompuScale now cover A2L-DISPLAY-TEXT and COMPU-INVERSE-VALUE plus existing DESC/limits/content fields]
+   - [x] Step 7 — Update checklist comment  [Table 5.64, p.388; init + 18 accessor rows with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: all nine PDF members modeled with PDF types, names/order/docs match, and parser/writer coverage exists]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 30 isolated CompuScale model/parser/writer tests, lint, Black check, and diff check pass; 9b: user-confirmed base, all nine members, naming, docstrings including inline member comments, reader/writer coverage, XML order, package location, and no deviations; marker written]
 - [ ] `CompuScales` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.65 · after `CompuScale` (aggr `compuScale`, row added 2026-09-03) + `CompuContent` (parent))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

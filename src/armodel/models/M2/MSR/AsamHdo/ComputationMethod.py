@@ -351,107 +351,150 @@ class CompuNominatorDenominator(ARObject):
 
 
 class CompuScale(ARObject, VariationPointCapable):
-    """
-    Represents a single scale in a computation method with limits and content.
-    Base: ARObject
-    """
+    """This meta-class represents the ability to specify one segment of a segmented computation method."""
 
     # CompuScale method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getA2lDisplayText            [x] impl  [ ] docstring  [ ] test
-    # [ ] setA2lDisplayText            [x] impl  [ ] docstring  [ ] test
-    # [ ] getCompuInverseValue         [x] impl  [ ] docstring  [ ] test
-    # [ ] setCompuInverseValue         [x] impl  [ ] docstring  [ ] test
-    # [ ] getCompuScaleContents        [x] impl  [ ] docstring  [ ] test
-    # [ ] setCompuScaleContents        [x] impl  [ ] docstring  [ ] test
-    # [ ] getDesc                      [x] impl  [ ] docstring  [ ] test
-    # [ ] setDesc                      [x] impl  [ ] docstring  [ ] test
-    # [ ] getLowerLimit                [x] impl  [ ] docstring  [ ] test
-    # [ ] setLowerLimit                [x] impl  [ ] docstring  [ ] test
-    # [ ] getMask                      [x] impl  [ ] docstring  [ ] test
-    # [ ] setMask                      [x] impl  [ ] docstring  [ ] test
-    # [ ] getShortLabel                [x] impl  [ ] docstring  [ ] test
-    # [ ] setShortLabel                [x] impl  [ ] docstring  [ ] test
-    # [ ] getSymbol                    [x] impl  [ ] docstring  [ ] test
-    # [ ] setSymbol                    [x] impl  [ ] docstring  [ ] test
-    # [ ] getUpperLimit                [x] impl  [ ] docstring  [ ] test
-    # [ ] setUpperLimit                [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.64, p.388
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getA2lDisplayText            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setA2lDisplayText            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCompuInverseValue         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompuInverseValue         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCompuScaleContents        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompuScaleContents        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDesc                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDesc                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getLowerLimit                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setLowerLimit                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getMask                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMask                      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getShortLabel                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setShortLabel                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSymbol                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSymbol                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUpperLimit                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUpperLimit                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.a2lDisplayText: String = None
-        self.compuInverseValue: CompuConst = None
-        self.compuScaleContents: CompuScaleContents = None
-        self.desc: MultiLanguageOverviewParagraph = None
-        self.lowerLimit: Limit = None
-        self.mask: PositiveUnlimitedInteger = None
-        self.shortLabel: Identifier = None
-        self.symbol: CIdentifier = None
-        self.upperLimit: Limit = None
+        # The value of this attribute shall be taken for generating one display text (specifically the OutVal) within the equivalent of the enclosing CompuMethod in A2L.
+        self.a2lDisplayText: Optional[String] = None
+
+        # This is the inverse value of the constraint. This supports the case that the scale is not reversible per se. Tags: xml.sequenceOffset=60
+        self.compuInverseValue: Optional[CompuConst] = None
+
+        # This represents the computation details of the scale. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=70 xml.typeElement=false xml.typeWrapperElement=false
+        self.compuScaleContents: Optional[CompuScaleContents] = None
+
+        # <desc> represents a general but brief description of the object in question. Tags: xml.sequenceOffset=30
+        self.desc: Optional[MultiLanguageOverviewParagraph] = None
+
+        # This specifies the lower limit of the scale. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=40
+        self.lowerLimit: Optional[Limit] = None
+
+        # In difference to all the other computational methods every COMPU-SCALE will be applied including the bit MASK. Therefore it is allowed for this type of COMPU-METHOD, that COMPU-SCALES overlap. To calculate the string reverse to a value, the string has to be split and the according value for each substring has to be summed up. The sum is finally transmitted. The processing has to be done in order of the COMPU-SCALE elements. Tags: xml.sequenceOffset=35
+        self.mask: Optional[PositiveUnlimitedInteger] = None
+
+        # This element specifies a short name for the particular scale. The name can for example be used to derive a programming language identifier. Tags: xml.sequenceOffset=20
+        self.shortLabel: Optional[Identifier] = None
+
+        # The symbol, if provided, is used by code generators to get a C identifier for the CompuScale. The name will be used as is for the code generation, therefore it needs to be unique within the generation context. Tags: xml.sequenceOffset=25
+        self.symbol: Optional[CIdentifier] = None
+
+        # This specifies the upper limit of a of the scale. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=50
+        self.upperLimit: Optional[Limit] = None
 
     def getA2lDisplayText(self) -> String:
+        """The value of this attribute shall be taken for generating one display text (specifically the OutVal) within the equivalent of the enclosing CompuMethod in A2L."""
         return self.a2lDisplayText
 
     def setA2lDisplayText(self, value: String):
-        self.a2lDisplayText = value
+        """The value of this attribute shall be taken for generating one display text (specifically the OutVal) within the equivalent of the enclosing CompuMethod in A2L. None leaves the current value unchanged."""
+        if value is not None:
+            self.a2lDisplayText = value
         return self
 
     def getCompuInverseValue(self) -> CompuConst:
+        """This is the inverse value of the constraint. This supports the case that the scale is not reversible per se. Tags: xml.sequenceOffset=60"""
         return self.compuInverseValue
 
     def setCompuInverseValue(self, value: CompuConst):
-        self.compuInverseValue = value
+        """This is the inverse value of the constraint. This supports the case that the scale is not reversible per se. Tags: xml.sequenceOffset=60. None leaves the current value unchanged."""
+        if value is not None:
+            self.compuInverseValue = value
         return self
 
     def getCompuScaleContents(self) -> CompuScaleContents:
+        """This represents the computation details of the scale. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=70 xml.typeElement=false xml.typeWrapperElement=false"""
         return self.compuScaleContents
 
     def setCompuScaleContents(self, value: CompuScaleContents):
-        self.compuScaleContents = value
+        """This represents the computation details of the scale. Tags: xml.roleElement=false xml.roleWrapperElement=false xml.sequenceOffset=70 xml.typeElement=false xml.typeWrapperElement=false. None leaves the current value unchanged."""
+        if value is not None:
+            self.compuScaleContents = value
         return self
 
     def getDesc(self) -> MultiLanguageOverviewParagraph:
+        """<desc> represents a general but brief description of the object in question. Tags: xml.sequenceOffset=30"""
         return self.desc
 
     def setDesc(self, value: MultiLanguageOverviewParagraph):
-        self.desc = value
+        """<desc> represents a general but brief description of the object in question. Tags: xml.sequenceOffset=30. None leaves the current value unchanged."""
+        if value is not None:
+            self.desc = value
         return self
 
     def getLowerLimit(self) -> Limit:
+        """This specifies the lower limit of the scale. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=40"""
         return self.lowerLimit
 
     def setLowerLimit(self, value: Limit):
-        self.lowerLimit = value
+        """This specifies the lower limit of the scale. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=40. None leaves the current value unchanged."""
+        if value is not None:
+            self.lowerLimit = value
         return self
 
     def getMask(self) -> PositiveUnlimitedInteger:
+        """In difference to all the other computational methods every COMPU-SCALE will be applied including the bit MASK. Therefore it is allowed for this type of COMPU-METHOD, that COMPU-SCALES overlap. To calculate the string reverse to a value, the string has to be split and the according value for each substring has to be summed up. The sum is finally transmitted. The processing has to be done in order of the COMPU-SCALE elements. Tags: xml.sequenceOffset=35"""
         return self.mask
 
     def setMask(self, value: PositiveUnlimitedInteger):
+        """In difference to all the other computational methods every COMPU-SCALE will be applied including the bit MASK. Therefore it is allowed for this type of COMPU-METHOD, that COMPU-SCALES overlap. To calculate the string reverse to a value, the string has to be split and the according value for each substring has to be summed up. The sum is finally transmitted. The processing has to be done in order of the COMPU-SCALE elements. Tags: xml.sequenceOffset=35. None leaves the current value unchanged."""
         if value is not None:
             self.mask = value
         return self
 
     def getShortLabel(self) -> Identifier:
+        """This element specifies a short name for the particular scale. The name can for example be used to derive a programming language identifier. Tags: xml.sequenceOffset=20"""
         return self.shortLabel
 
     def setShortLabel(self, value: Identifier):
-        self.shortLabel = value
+        """This element specifies a short name for the particular scale. The name can for example be used to derive a programming language identifier. Tags: xml.sequenceOffset=20. None leaves the current value unchanged."""
+        if value is not None:
+            self.shortLabel = value
         return self
 
     def getSymbol(self) -> CIdentifier:
+        """The symbol, if provided, is used by code generators to get a C identifier for the CompuScale. The name will be used as is for the code generation, therefore it needs to be unique within the generation context. Tags: xml.sequenceOffset=25"""
         return self.symbol
 
     def setSymbol(self, value: CIdentifier):
-        self.symbol = value
+        """The symbol, if provided, is used by code generators to get a C identifier for the CompuScale. The name will be used as is for the code generation, therefore it needs to be unique within the generation context. Tags: xml.sequenceOffset=25. None leaves the current value unchanged."""
+        if value is not None:
+            self.symbol = value
         return self
 
     def getUpperLimit(self) -> Limit:
+        """This specifies the upper limit of a of the scale. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=50"""
         return self.upperLimit
 
     def setUpperLimit(self, value: Limit):
-        self.upperLimit = value
+        """This specifies the upper limit of a of the scale. Stereotypes: atpVariation Tags: vh.latestBindingTime=preCompileTime xml.sequenceOffset=50. None leaves the current value unchanged."""
+        if value is not None:
+            self.upperLimit = value
         return self
 
 

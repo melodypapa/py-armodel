@@ -7082,6 +7082,8 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readCompuScale(self, element: ET.Element, compu_scale: CompuScale):
         self.readARObject(element, compu_scale)
+        compu_scale.setA2lDisplayText(self.getChildElementOptionalLiteral(element, "A2L-DISPLAY-TEXT"))
+        compu_scale.setCompuInverseValue(self.getCompuConst(element, "COMPU-INVERSE-VALUE"))
         compu_scale.setShortLabel(self.getChildElementOptionalLiteral(element, "SHORT-LABEL"))
         compu_scale.setSymbol(self.getChildElementOptionalLiteral(element, "SYMBOL"))
         compu_scale.setDesc(self.getMultiLanguageOverviewParagraph(element, "DESC"))

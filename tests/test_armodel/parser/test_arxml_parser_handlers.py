@@ -153,6 +153,18 @@ class TestPortInterfaceAndCompuHandlers:
         # compuScaleContents should remain unset (None).
         assert scale.compuScaleContents is None
 
+    def test_readCompuScale_reads_a2l_and_inverse_value(self, parser):
+        from armodel.models import CompuScale
+
+        scale = CompuScale()
+        element = _snip(
+            "<A2L-DISPLAY-TEXT>display</A2L-DISPLAY-TEXT>" "<COMPU-INVERSE-VALUE><VT>inverse</VT></COMPU-INVERSE-VALUE>",
+            root_tag="SCALE",
+        )
+        parser.readCompuScale(element, scale)
+        assert scale.getA2lDisplayText().getValue() == "display"
+        assert scale.getCompuInverseValue().getCompuConstContentType().getVt().getValue() == "inverse"
+
     def test_readCompuNominatorDenominator_adds_V(self, parser):
         from armodel.models import CompuNominatorDenominator
 

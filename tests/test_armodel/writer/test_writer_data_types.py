@@ -860,6 +860,22 @@ class TestWriteCompuScaleWriter:
         assert child.find("UPPER-LIMIT").text == "10"
         assert child.find("COMPU-CONST/VT").text == "Low"
 
+    def test_write_compu_scale_writes_a2l_and_inverse_value(self, writer):
+        scale = CompuScale()
+        scale.setA2lDisplayText(_literal("display"))
+        inverse = CompuConst()
+        content = CompuConstTextContent()
+        content.setVt(_literal("inverse"))
+        inverse.setCompuConstContentType(content)
+        scale.setCompuInverseValue(inverse)
+
+        parent = _parent()
+        writer.writeCompuScale(parent, "COMPU-SCALE", scale)
+
+        child = parent[0]
+        assert child.find("A2L-DISPLAY-TEXT").text == "display"
+        assert child.find("COMPU-INVERSE-VALUE/VT").text == "inverse"
+
 
 class TestSetCompuScalesWriter:
     def test_set_compu_scales_none(self, writer):

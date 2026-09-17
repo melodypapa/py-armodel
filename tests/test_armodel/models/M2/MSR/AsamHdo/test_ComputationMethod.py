@@ -361,6 +361,9 @@ class TestCompuNominatorDenominator:
 class TestCompuScale:
     """Test class for CompuScale class."""
 
+    def test_compu_scale_has_spec_note(self):
+        assert cleandoc(CompuScale.__doc__) == "This meta-class represents the ability to specify one segment of a segmented computation method."
+
     def test_compu_scale_initialization(self):
         """Test that a CompuScale object can be initialized with default values."""
         compu_scale = CompuScale()
@@ -454,6 +457,27 @@ class TestCompuScale:
         result = compu_scale.setUpperLimit(upper_limit)
         assert compu_scale.getUpperLimit() == upper_limit
         assert result == compu_scale
+
+    def test_compu_scale_setters_preserve_values_on_none(self):
+        compu_scale = CompuScale()
+        values = {
+            "a2lDisplayText": String(),
+            "compuInverseValue": CompuConst(),
+            "compuScaleContents": CompuScaleConstantContents(),
+            "desc": MultiLanguageOverviewParagraph(),
+            "lowerLimit": Limit(),
+            "mask": PositiveUnlimitedInteger(),
+            "shortLabel": Identifier(),
+            "symbol": CIdentifier(),
+            "upperLimit": Limit(),
+        }
+        for name, value in values.items():
+            getattr(compu_scale, "set" + name[0].upper() + name[1:])(value)
+        for name, value in values.items():
+            setter = getattr(compu_scale, "set" + name[0].upper() + name[1:])
+            getter = getattr(compu_scale, "get" + name[0].upper() + name[1:])
+            assert setter(None) is compu_scale
+            assert getter() is value
 
 
 class TestCompuScales:

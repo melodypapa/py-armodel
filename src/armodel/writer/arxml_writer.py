@@ -3060,6 +3060,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 self.writeCompuNominatorDenominator(coeffs_tag, "COMPU-DENOMINATOR", contents.compuRationalCoeffs.compuDenominator)
 
     def writeCompuScaleContents(self, element: ET.Element, compu_scale: CompuScale):
+        if compu_scale.compuScaleContents is None:
+            return
         if isinstance(compu_scale.compuScaleContents, CompuScaleConstantContents):
             self.writeCompuScaleConstantContents(element, compu_scale.compuScaleContents)
         elif isinstance(compu_scale.compuScaleContents, CompuScaleRationalFormula):
@@ -3082,6 +3084,8 @@ class ARXMLWriter(AbstractARXMLWriter):
         if compu_scale is not None:
             child_element = ET.SubElement(element, key)
             self.writeARObject(child_element, compu_scale)
+            self.setChildElementOptionalLiteral(child_element, "A2L-DISPLAY-TEXT", compu_scale.getA2lDisplayText())
+            self.setCompuConst(child_element, "COMPU-INVERSE-VALUE", compu_scale.getCompuInverseValue())
             self.setChildElementOptionalLiteral(child_element, "SHORT-LABEL", compu_scale.getShortLabel())
             self.setChildElementOptionalLiteral(child_element, "SYMBOL", compu_scale.getSymbol())
             self.setMultiLanguageOverviewParagraph(child_element, "DESC", compu_scale.getDesc())
