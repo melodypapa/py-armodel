@@ -2003,21 +2003,15 @@ class DltUserNeeds(ServiceNeeds):
 
 class BswMgrNeeds(ServiceNeeds):
     """
-    Represents BSW Manager needs in AUTOSAR models.
-    This class defines requirements for Basic Software Manager services.
+    Specifies the abstract needs on the configuration of the Basic Software Manager for one "user".
     """
 
     # BswMgrNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.8, p.716
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswMgrNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this BSW manager needs
-            short_name: The unique short name of this BSW manager needs
-        """
         super().__init__(parent, short_name)
 
 

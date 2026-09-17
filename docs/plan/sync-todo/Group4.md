@@ -215,16 +215,16 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none**
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (model 3/3 + dispatch green, flake8/ruff/black, parity, integration 2/2); 9b DEFERRED to batch stamp
-- [ ] `BswMgrNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.8)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `BswMgrNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.8 · **Step 1 finding: own table = Swc TPS Table 13.8, p.716 (clean render); concrete Class (XSD complexType `BSW-MGR-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 10976 `<xsd:sequence/>` empty, complexType line 10985); Base most-derived = `ServiceNeeds` (matches src); ZERO own attributes; Note verbatim (identical in XSD doc); Steps 5/6 own-attr N/A; BSW-side concrete dispatch already exists (parser `if` branch + readBswMgrNeeds, writer isinstance + writeBswMgrNeeds) and XSD places BSW-MGR-NEEDS ONLY in the BSW-side SERVICE-NEEDS choice (line 11461) — Swc-side dispatch correctly absent, no changes needed)**
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 2/3 failed pre-implementation
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Note verbatim (Table 13.8 p.716); __init__ docless
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — own-attr N/A; existing BSW dispatch coverage verified (413 parser/writer tests pass)
+  - [x] Step 6 — Update parser & writer (Green) — no changes needed (BSW dispatch exists; Swc-side correctly absent per XSD choice)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none**
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (model 3/3, parser/writer 413, flake8/ruff/black after formatting new test, parity, integration 2/2); 9b DEFERRED to batch stamp
 - [ ] `CryptoKeyManagementNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.11)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
