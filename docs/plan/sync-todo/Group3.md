@@ -852,7 +852,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 6 — Update parser & writer (Green)  [existing readDataConstr/writeDataConstrRules coverage uses add/get accessors; XML order matches XSD sequence offsets 20/30/40]
    - [x] Step 7 — Update checklist comment  [Table 5.82, p.405; init/add/get rows with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none: AtpBlueprintable base, one ordered PDF aggregation, typed API, verbatim docs, and reader/writer coverage match]
-   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, Black check, and diff check passed; 9b: user-confirmed base, member order, naming, docstrings, reader/writer coverage, package location, and no deviations; marker written]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, Black check, and diff check passed; 9b: user-confirmed base, member order, naming, docstrings, reader/writer coverage, package location, and no deviations; marker written; commit 9927cc9e]
 - [ ] `CompositeValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.110 · **moved 2026-09-03 restructure ahead of its Record/Array subtypes** · parent `ValueSpecification` stamped ✓ · member type of `CompositeRuleBasedValueSpecification.argument` below)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
