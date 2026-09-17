@@ -108,7 +108,7 @@ def run_command(cmd: List[str], description: str, verbose: bool = False) -> Tupl
             print()
             # Stream the output live and keep a copy: the caller parses the counts
             # out of it, so verbose mode must not sacrifice capture.
-            process = subprocess.Popen(cmd, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            process = subprocess.Popen(cmd, text=True, encoding="utf-8", stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             captured = []
             for line in process.stdout:
                 print(line, end="")
@@ -117,7 +117,7 @@ def run_command(cmd: List[str], description: str, verbose: bool = False) -> Tupl
             process.wait()
             stdout, stderr, returncode = "".join(captured), "", process.returncode
         else:
-            result = subprocess.run(cmd, capture_output=True, text=True)
+            result = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8")
             stdout, stderr, returncode = result.stdout, result.stderr, result.returncode
 
         # pytest writes its summary line to stdout, so stdout is what the caller
