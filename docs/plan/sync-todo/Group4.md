@@ -175,16 +175,16 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (concrete Class + ServiceNeeds base + 0 attrs + Note verbatim all match spec; XSD abstract="false" → not abstract; no VARIATION-POINT → not VP-capable; no placeholders; no Step-3 referenced missing classes — zero own attrs, base ServiceNeeds already stamped `# Spec verified: R23-11`. Base row does NOT reference DiagnosticCapabilityElement — nothing to report there. Legacy tracker `docs/examples/method_deviation_by_class_v2.md` §FunctionInhibitionNeeds still carries a stale `missing` row + wrong table id 12.20 — untouched, same as all sibling syncs in this batch)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (407 model+parser/writer tests incl. 3 new model + 4 new dispatch tests, flake8/ruff/black, parity script, integration round-trip 2/2); 9b DEFERRED to batch stamp
-- [ ] `GlobalSupervisionNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.4)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `GlobalSupervisionNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.4 · **Step 1 finding: own table = Swc TPS Table 13.4, p.709 (clean render — caption line 19891 followed by body); sibling copy BSW TPS Table D.35 (markdown appendix; no PDF caption match) — Note verbatim identical in both + XSD group/complexType doc (AUTOSAR_00052.xsd group line 64183 `<xsd:sequence/>` empty, complexType line 64192 `abstract="false"`); concrete Class (no "(abstract)" in Class row), Base most-derived = `ServiceNeeds` (matches src — Base row does NOT reference DiagnosticCapabilityElement), ZERO own attributes (Attribute section = `-`), not VP-capable (no VARIATION-POINT in XSD block); own XSD group empty → no own XML-bearing attributes, BUT concrete-element reader/writer dispatch MISSING in parser/writer (grep zero hits) → Steps 5/6 apply: read/writeGlobalSupervisionNeeds helpers calling the ServiceNeeds base helpers + dispatch branches in both Bsw/Swc serviceNeeds sites + createGlobalSupervisionNeeds factory on SwcServiceDependency + dispatch tests (Rule 0001.7 five-place pattern, precedent 5c4c0963/fe8a0a1a/d24a6663/757041c3))**
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red)
+  - [x] Step 6 — Update parser & writer (Green)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (concrete Class + ServiceNeeds base + 0 attrs + Note verbatim all match spec (Table 13.4 p.709; sibling copy BSW TPS Table D.35 verbatim-identical); XSD abstract="false" → not abstract; no VARIATION-POINT → not VP-capable; no placeholders; no Step-3 referenced missing classes — zero own attrs, base ServiceNeeds already stamped `# Spec verified: R23-11`. Concrete-element reader/writer dispatch was MISSING and added in-pass per Rule 0001.7 five-place pattern (read/writeGlobalSupervisionNeeds helpers + both dispatch sites + createGlobalSupervisionNeeds factory on SwcServiceDependency + 4 dispatch tests — precedent 757041c3). Legacy tracker `docs/examples/method_deviation_by_class_v2.md` §GlobalSupervisionNeeds still carries a stale `missing` row + wrong PDF reference — untouched, same as all sibling syncs in this batch)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (410 model+parser/writer tests incl. 3 new model + 4 new dispatch tests, flake8/ruff/black, parity script, integration round-trip 2/2, set-based checklist check); 9b DEFERRED to batch stamp
 - [ ] `HardwareTestNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.40 (multiple tables — resolve in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

@@ -1581,6 +1581,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "fin1"
 
+    def test_writeGlobalSupervisionNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createGlobalSupervisionNeeds("gsn1")
+        parent = _parent()
+        writer.writeGlobalSupervisionNeeds(parent, needs)
+        elem = parent.find("GLOBAL-SUPERVISION-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "gsn1"
+
     def test_writeDltUserNeeds(self, writer):
         behavior = _make_behavior()
         dep = behavior.createSwcServiceDependency("dep1")
@@ -1623,6 +1633,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createComMgrUserNeeds("com")
         dep.createErrorTracerNeeds("etn")
         dep.createFunctionInhibitionNeeds("fin")
+        dep.createGlobalSupervisionNeeds("gsn")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1645,6 +1656,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "COM-MGR-USER-NEEDS" in tags
         assert "ERROR-TRACER-NEEDS" in tags
         assert "FUNCTION-INHIBITION-NEEDS" in tags
+        assert "GLOBAL-SUPERVISION-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()

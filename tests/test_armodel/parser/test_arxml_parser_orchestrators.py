@@ -601,6 +601,19 @@ class TestServiceNeedsHandlers:
         parser.readFunctionInhibitionNeeds(element, needs)
         assert needs.getShortName() == "fidNeeds"
 
+    def test_readGlobalSupervisionNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import GlobalSupervisionNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>gsnNeeds</SHORT-NAME>", root_tag="GLOBAL-SUPERVISION-NEEDS")
+        needs = dependency.createGlobalSupervisionNeeds("gsnNeeds")
+        assert isinstance(needs, GlobalSupervisionNeeds)
+        parser.readGlobalSupervisionNeeds(element, needs)
+        assert needs.getShortName() == "gsnNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 
@@ -2679,6 +2692,7 @@ class TestSwcServiceDependencyServiceNeeds:
             "INDICATOR-STATUS-NEEDS",
             "FUNCTION-INHIBITION-AVAILABILITY-NEEDS",
             "FUNCTION-INHIBITION-NEEDS",
+            "GLOBAL-SUPERVISION-NEEDS",
             "CRYPTO-SERVICE-NEEDS",
             "ECU-STATE-MGR-USER-NEEDS",
             "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS",

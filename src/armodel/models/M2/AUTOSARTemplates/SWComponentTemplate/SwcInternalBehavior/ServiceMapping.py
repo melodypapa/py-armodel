@@ -32,6 +32,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ErrorTracerNeeds,
     FunctionInhibitionAvailabilityNeeds,
     FunctionInhibitionNeeds,
+    GlobalSupervisionNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
@@ -509,6 +510,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, FunctionInhibitionNeeds)
+
+    def createGlobalSupervisionNeeds(self, short_name: str) -> GlobalSupervisionNeeds:
+        """
+        Creates or retrieves a GlobalSupervisionNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            GlobalSupervisionNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, GlobalSupervisionNeeds):
+            needs = GlobalSupervisionNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, GlobalSupervisionNeeds)
 
     def createIndicatorStatusNeeds(self, short_name: str) -> IndicatorStatusNeeds:
         """
