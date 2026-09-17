@@ -7359,7 +7359,7 @@ class ARXMLParser(AbstractARXMLParser):
             constrs.setMaxGradient(self.getChildElementOptionalNumericalValue(child_element, "MAX-GRADIENT"))
             constrs.setMaxDiff(self.getChildElementOptionalNumericalValue(child_element, "MAX-DIFF"))
             constrs.setMonotony(self.getChildElementOptionalLiteral(child_element, "MONOTONY"))
-            parent.internalConstrs = constrs
+            parent.setInternalConstrs(constrs)
 
     def readScaleConstr(self, element: ET.Element) -> ScaleConstr:
         scale_constr = ScaleConstr()
@@ -7386,7 +7386,7 @@ class ARXMLParser(AbstractARXMLParser):
             for sc_element in self.findall(child_element, "SCALE-CONSTRS/SCALE-CONSTR"):
                 constrs.addScaleConstr(self.readScaleConstr(sc_element))
             constrs.setUnitRef(self.getChildElementOptionalRefType(child_element, "UNIT-REF"))
-            parent.physConstrs = constrs
+            parent.setPhysConstrs(constrs)
 
     def readDataConstrRule(self, element: ET.Element, parent: DataConstr):
         for child_element in self.findall(element, "DATA-CONSTR-RULES/DATA-CONSTR-RULE"):

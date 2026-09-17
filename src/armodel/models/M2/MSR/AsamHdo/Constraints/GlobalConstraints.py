@@ -442,6 +442,8 @@ class PhysConstrs(ARObject):
 class DataConstrRule(ARObject):
     """This meta-class represents the ability to express one specific data constraint rule."""
 
+    # Spec verified: R23-11
+
     # DataConstrRule method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.83, p.406
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)

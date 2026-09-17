@@ -3317,8 +3317,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(rules_tag, "DATA-CONSTR-RULE")
                 self.writeARObject(child_element, rule)
                 self.setChildElementOptionalIntegerValue(child_element, "CONSTR-LEVEL", rule.getConstrLevel())
-                self.setPhysConstrs(child_element, rule.physConstrs)
-                self.setInternalConstrs(child_element, rule.internalConstrs)
+                self.setPhysConstrs(child_element, rule.getPhysConstrs())
+                self.setInternalConstrs(child_element, rule.getInternalConstrs())
 
     def writeDataConstr(self, element: ET.Element, constr: DataConstr):
         child_element = ET.SubElement(element, "DATA-CONSTR")
