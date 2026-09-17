@@ -33,6 +33,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     FunctionInhibitionAvailabilityNeeds,
     FunctionInhibitionNeeds,
     GlobalSupervisionNeeds,
+    HardwareTestNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
@@ -526,6 +527,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, GlobalSupervisionNeeds)
+
+    def createHardwareTestNeeds(self, short_name: str) -> HardwareTestNeeds:
+        """
+        Creates or retrieves a HardwareTestNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            HardwareTestNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, HardwareTestNeeds):
+            needs = HardwareTestNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, HardwareTestNeeds)
 
     def createIndicatorStatusNeeds(self, short_name: str) -> IndicatorStatusNeeds:
         """

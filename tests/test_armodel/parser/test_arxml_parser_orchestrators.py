@@ -614,6 +614,19 @@ class TestServiceNeedsHandlers:
         parser.readGlobalSupervisionNeeds(element, needs)
         assert needs.getShortName() == "gsnNeeds"
 
+    def test_readHardwareTestNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import HardwareTestNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>htnNeeds</SHORT-NAME>", root_tag="HARDWARE-TEST-NEEDS")
+        needs = dependency.createHardwareTestNeeds("htnNeeds")
+        assert isinstance(needs, HardwareTestNeeds)
+        parser.readHardwareTestNeeds(element, needs)
+        assert needs.getShortName() == "htnNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 

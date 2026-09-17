@@ -151,6 +151,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     FunctionInhibitionAvailabilityNeeds,
     FunctionInhibitionNeeds,
     GlobalSupervisionNeeds,
+    HardwareTestNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
@@ -4801,6 +4802,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeFunctionInhibitionNeeds(child_element, needs)
         elif isinstance(needs, GlobalSupervisionNeeds):
             self.writeGlobalSupervisionNeeds(child_element, needs)
+        elif isinstance(needs, HardwareTestNeeds):
+            self.writeHardwareTestNeeds(child_element, needs)
         elif isinstance(needs, CryptoServiceNeeds):
             self.writeCryptoServiceNeeds(child_element, needs)
         elif isinstance(needs, EcuStateMgrUserNeeds):
@@ -5131,6 +5134,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write GlobalSupervisionNeeds %s" % needs.getShortName())
         self.writeServiceNeeds(child_element, needs)
 
+    def writeHardwareTestNeeds(self, element: ET.Element, needs: HardwareTestNeeds):
+        child_element = ET.SubElement(element, "HARDWARE-TEST-NEEDS")
+        self.logger.debug("write HardwareTestNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
     def writeCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
         # self.logger.debug("Write CryptoServiceNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "CRYPTO-SERVICE-NEEDS")
@@ -5257,6 +5265,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeFunctionInhibitionNeeds(child_element, needs)
                 elif isinstance(needs, GlobalSupervisionNeeds):
                     self.writeGlobalSupervisionNeeds(child_element, needs)
+                elif isinstance(needs, HardwareTestNeeds):
+                    self.writeHardwareTestNeeds(child_element, needs)
                 elif isinstance(needs, CryptoServiceNeeds):
                     self.writeCryptoServiceNeeds(child_element, needs)
                 elif isinstance(needs, EcuStateMgrUserNeeds):

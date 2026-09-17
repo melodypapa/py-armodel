@@ -1591,6 +1591,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "gsn1"
 
+    def test_writeHardwareTestNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createHardwareTestNeeds("htn1")
+        parent = _parent()
+        writer.writeHardwareTestNeeds(parent, needs)
+        elem = parent.find("HARDWARE-TEST-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "htn1"
+
     def test_writeDltUserNeeds(self, writer):
         behavior = _make_behavior()
         dep = behavior.createSwcServiceDependency("dep1")
@@ -1634,6 +1644,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createErrorTracerNeeds("etn")
         dep.createFunctionInhibitionNeeds("fin")
         dep.createGlobalSupervisionNeeds("gsn")
+        dep.createHardwareTestNeeds("htn")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1657,6 +1668,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "ERROR-TRACER-NEEDS" in tags
         assert "FUNCTION-INHIBITION-NEEDS" in tags
         assert "GLOBAL-SUPERVISION-NEEDS" in tags
+        assert "HARDWARE-TEST-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()

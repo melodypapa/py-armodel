@@ -176,6 +176,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     FunctionInhibitionAvailabilityNeeds,
     FunctionInhibitionNeeds,
     GlobalSupervisionNeeds,
+    HardwareTestNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
@@ -2090,6 +2091,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = GlobalSupervisionNeeds(dependency, short_name)
                 self.readGlobalSupervisionNeeds(child_element, needs)
+            elif tag_name == "HARDWARE-TEST-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = HardwareTestNeeds(dependency, short_name)
+                self.readHardwareTestNeeds(child_element, needs)
             elif tag_name == "CRYPTO-SERVICE-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = CryptoServiceNeeds(dependency, short_name)
@@ -2385,6 +2390,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readGlobalSupervisionNeeds(self, element: ET.Element, needs: GlobalSupervisionNeeds):
         self.readServiceNeeds(element, needs)
 
+    def readHardwareTestNeeds(self, element: ET.Element, needs: HardwareTestNeeds):
+        self.readServiceNeeds(element, needs)
+
     def readCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
         # self.logger.debug("Read CryptoServiceNeeds <%s>" % needs.getShortName())
         self.readServiceNeeds(element, needs)
@@ -2532,6 +2540,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "GLOBAL-SUPERVISION-NEEDS":
                 needs = parent.createGlobalSupervisionNeeds(self.getShortName(child_element))
                 self.readGlobalSupervisionNeeds(child_element, needs)
+            elif tag_name == "HARDWARE-TEST-NEEDS":
+                needs = parent.createHardwareTestNeeds(self.getShortName(child_element))
+                self.readHardwareTestNeeds(child_element, needs)
             elif tag_name == "OBD-INFO-SERVICE-NEEDS":
                 needs = parent.createObdInfoServiceNeeds(self.getShortName(child_element))
                 self.readObdInfoServiceNeeds(child_element, needs)

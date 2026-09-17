@@ -3142,21 +3142,15 @@ class GlobalSupervisionNeeds(ServiceNeeds):
 
 class HardwareTestNeeds(ServiceNeeds):
     """
-    Represents Hardware Test needs in AUTOSAR models.
-    This class defines requirements for hardware test services.
+    This meta-class represents the ability to indicate that a software-component is interested in the results of the hardware test and will establish a PortPrototype to query the hardware test manager.
     """
 
     # HardwareTestNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.40, p.264
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the HardwareTestNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this hardware test needs
-            short_name: The unique short name of this hardware test needs
-        """
         super().__init__(parent, short_name)
 
 
