@@ -1971,21 +1971,15 @@ class CryptoServiceNeeds(ServiceNeeds):
 
 class EcuStateMgrUserNeeds(ServiceNeeds):
     """
-    Represents ECU state manager user needs in AUTOSAR models.
-    This class defines requirements for components that use the ECU state manager service.
+    Specifies the abstract needs on the configuration of the ECU State Manager for one "user". This class currently contains no attributes. Its name can be regarded as a symbol identifying the user from the viewpoint of the component or module which owns this class.
     """
 
     # EcuStateMgrUserNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.14, p.235
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the EcuStateMgrUserNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this ECU state manager user needs
-            short_name: The unique short name of this ECU state manager user needs
-        """
         super().__init__(parent, short_name)
 
 

@@ -115,16 +115,16 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (concrete Class + DiagEventDebounceAlgorithm base + 0 attrs + Note verbatim all match spec; XSD abstract="false" → not abstract; no VARIATION-POINT → not VP-capable; no placeholders; no Step-3 referenced missing classes)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (7 model tests, flake8/ruff/black, parity script, integration round-trip 2/2); 9b DEFERRED to batch stamp
-- [ ] `EcuStateMgrUserNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.14 (multiple tables — resolve in per-class Phase 0))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `EcuStateMgrUserNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.14 (multiple tables — resolve in per-class Phase 0) · **Step 1 finding: own table = BSW TPS Table 12.14, p.235 (clean render — caption line 5623 followed by body); sibling copy Swc TPS Table 13.7, p.714 — Note verbatim identical in both + XSD group/complexType doc (AUTOSAR_00052.xsd group line 50901 `<xsd:sequence/>` empty, complexType line 50910 `abstract="false"`); concrete Class (no Subclasses row in own table), Base most-derived = `ServiceNeeds` (matches src), ZERO own attributes (Attribute section = `-`), not VP-capable (no VARIATION-POINT in XSD block); empty own group → no own XML-bearing attributes → Steps 5/6 N/A; concrete-element dispatch readEcuStateMgrUserNeeds/writeEcuStateMgrUserNeeds already exists (parser line 2353, writer line 5100) with matched name pairs and parser/writer test coverage)**
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — **N/A: no own XML-bearing attributes** (Attribute section = `-`; XSD group `ECU-STATE-MGR-USER-NEEDS` = `<xsd:sequence/>` empty, AUTOSAR_00052.xsd line 50901); concrete-element reader dispatch already exists + covered (test_arxml_parser_orchestrators.py::test_readEcuStateMgrUserNeeds_minimal)
+  - [x] Step 6 — Update parser & writer (Green) — **N/A: same reason**; concrete dispatch `readEcuStateMgrUserNeeds`/`writeEcuStateMgrUserNeeds` already exist with matched name pairs and writer coverage (test_writer_swc_behavior.py::test_writeEcuStateMgrUserNeeds)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (concrete Class + ServiceNeeds base + 0 attrs + Note verbatim all match spec; XSD abstract="false" → not abstract; no VARIATION-POINT → not VP-capable; no placeholders; no Step-3 referenced missing classes)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (3 model tests, flake8/ruff/black, parity script, integration round-trip 2/2); 9b DEFERRED to batch stamp
 - [ ] `DltUserNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.16 (multiple tables — resolve in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
