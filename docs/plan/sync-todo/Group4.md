@@ -205,16 +205,16 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (concrete + ServiceNeeds base + 0 attrs + Note verbatim; base row does NOT reference DiagnosticCapabilityElement)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (159 touched tests, flake8/ruff/black, parity script, integration 2/2); 9b DEFERRED to batch stamp
-- [ ] `SyncTimeBaseMgrUserNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.17 (multiple tables — resolve in per-class Phase 0))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `SyncTimeBaseMgrUserNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 12.17 (multiple tables — resolve in per-class Phase 0) · **Step 1 finding: own table = BSW TPS Table 12.17, p.236 (body rendered BEFORE caption at md 5661-5668, caption 5670 — known artifact); sibling copy Swc TPS Table 13.67, p.818 (caption md 24340); concrete Class (XSD complexType `abstract="false"`, AUTOSAR_00052.xsd complexType line ~118759, group line 118749 `<xsd:sequence/>` empty → no own XML-bearing attrs; Note byte-identical in XSD doc); Base most-derived = `ServiceNeeds` (matches src); ZERO own attributes; not VP-capable; concrete-element dispatch was MISSING → added 5-place pattern (XSD choice order: after SUPERVISED-ENTITY-NEEDS)**
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red)
+  - [x] Step 3 — Implement model class (Green)
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Note verbatim (Table 12.17 p.236); __init__ docless
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 2 dispatch tests failed pre-implementation
+  - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none**
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (model 3/3 + dispatch green, flake8/ruff/black, parity, integration 2/2); 9b DEFERRED to batch stamp
 - [ ] `BswMgrNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.8)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

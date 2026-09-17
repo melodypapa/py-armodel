@@ -640,6 +640,19 @@ class TestServiceNeedsHandlers:
         parser.readSupervisedEntityCheckpointNeeds(element, needs)
         assert needs.getShortName() == "secnNeeds"
 
+    def test_readSyncTimeBaseMgrUserNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SyncTimeBaseMgrUserNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>stbnNeeds</SHORT-NAME>", root_tag="SYNC-TIME-BASE-MGR-USER-NEEDS")
+        needs = dependency.createSyncTimeBaseMgrUserNeeds("stbnNeeds")
+        assert isinstance(needs, SyncTimeBaseMgrUserNeeds)
+        parser.readSyncTimeBaseMgrUserNeeds(element, needs)
+        assert needs.getShortName() == "stbnNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 

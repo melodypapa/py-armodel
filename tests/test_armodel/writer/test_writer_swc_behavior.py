@@ -1631,6 +1631,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "secn1"
 
+    def test_writeSyncTimeBaseMgrUserNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createSyncTimeBaseMgrUserNeeds("stbn1")
+        parent = _parent()
+        writer.writeSyncTimeBaseMgrUserNeeds(parent, needs)
+        elem = parent.find("SYNC-TIME-BASE-MGR-USER-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "stbn1"
+
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
@@ -1656,6 +1666,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createGlobalSupervisionNeeds("gsn")
         dep.createHardwareTestNeeds("htn")
         dep.createSupervisedEntityCheckpointNeeds("secn")
+        dep.createSyncTimeBaseMgrUserNeeds("stbn")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1681,6 +1692,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "GLOBAL-SUPERVISION-NEEDS" in tags
         assert "HARDWARE-TEST-NEEDS" in tags
         assert "SUPERVISED-ENTITY-CHECKPOINT-NEEDS" in tags
+        assert "SYNC-TIME-BASE-MGR-USER-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()

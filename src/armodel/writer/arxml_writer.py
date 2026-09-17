@@ -169,6 +169,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ServiceNeeds,
     SupervisedEntityCheckpointNeeds,
     SupervisedEntityNeeds,
+    SyncTimeBaseMgrUserNeeds,
     TracedFailure,
     TransientFault,
 )
@@ -4819,6 +4820,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSupervisedEntityCheckpointNeeds(child_element, needs)
         elif isinstance(needs, SupervisedEntityNeeds):
             self.writeSupervisedEntityNeeds(child_element, needs)
+        elif isinstance(needs, SyncTimeBaseMgrUserNeeds):
+            self.writeSyncTimeBaseMgrUserNeeds(child_element, needs)
         elif isinstance(needs, ErrorTracerNeeds):
             self.writeErrorTracerNeeds(child_element, needs)
         elif isinstance(needs, ObdInfoServiceNeeds):
@@ -5175,6 +5178,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write SupervisedEntityCheckpointNeeds %s" % needs.getShortName())
         self.writeServiceNeeds(child_element, needs)
 
+    def writeSyncTimeBaseMgrUserNeeds(self, element: ET.Element, needs: SyncTimeBaseMgrUserNeeds):
+        child_element = ET.SubElement(element, "SYNC-TIME-BASE-MGR-USER-NEEDS")
+        self.logger.debug("write SyncTimeBaseMgrUserNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
     def writeSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
         child_element = ET.SubElement(element, "SUPERVISED-ENTITY-NEEDS")
         self.writeServiceNeeds(child_element, needs)
@@ -5277,6 +5285,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeHardwareTestNeeds(child_element, needs)
                 elif isinstance(needs, SupervisedEntityCheckpointNeeds):
                     self.writeSupervisedEntityCheckpointNeeds(child_element, needs)
+                elif isinstance(needs, SyncTimeBaseMgrUserNeeds):
+                    self.writeSyncTimeBaseMgrUserNeeds(child_element, needs)
                 elif isinstance(needs, CryptoServiceNeeds):
                     self.writeCryptoServiceNeeds(child_element, needs)
                 elif isinstance(needs, EcuStateMgrUserNeeds):

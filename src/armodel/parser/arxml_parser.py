@@ -195,6 +195,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     SupervisedEntityCheckpointNeeds,
     SupervisedEntityNeeds,
     SymbolicNameProps,
+    SyncTimeBaseMgrUserNeeds,
     TracedFailure,
     TransientFault,
 )
@@ -2124,6 +2125,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = SupervisedEntityNeeds(dependency, short_name)
                 self.readSupervisedEntityNeeds(child_element, needs)
+            elif tag_name == "SYNC-TIME-BASE-MGR-USER-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = SyncTimeBaseMgrUserNeeds(dependency, short_name)
+                self.readSyncTimeBaseMgrUserNeeds(child_element, needs)
             elif tag_name == "ERROR-TRACER-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = ErrorTracerNeeds(dependency, short_name)
@@ -2424,6 +2429,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readSupervisedEntityCheckpointNeeds(self, element: ET.Element, needs: SupervisedEntityCheckpointNeeds):
         self.readServiceNeeds(element, needs)
 
+    def readSyncTimeBaseMgrUserNeeds(self, element: ET.Element, needs: SyncTimeBaseMgrUserNeeds):
+        self.readServiceNeeds(element, needs)
+
     def readSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
         self.readServiceNeeds(element, needs)
         needs.setActivateAtStart(self.getChildElementOptionalBooleanValue(element, "ACTIVATE-AT-START"))
@@ -2554,6 +2562,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SUPERVISED-ENTITY-CHECKPOINT-NEEDS":
                 needs = parent.createSupervisedEntityCheckpointNeeds(self.getShortName(child_element))
                 self.readSupervisedEntityCheckpointNeeds(child_element, needs)
+            elif tag_name == "SYNC-TIME-BASE-MGR-USER-NEEDS":
+                needs = parent.createSyncTimeBaseMgrUserNeeds(self.getShortName(child_element))
+                self.readSyncTimeBaseMgrUserNeeds(child_element, needs)
             elif tag_name == "OBD-INFO-SERVICE-NEEDS":
                 needs = parent.createObdInfoServiceNeeds(self.getShortName(child_element))
                 self.readObdInfoServiceNeeds(child_element, needs)

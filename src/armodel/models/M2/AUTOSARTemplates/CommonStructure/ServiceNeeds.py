@@ -4264,21 +4264,15 @@ class SymbolicNameProps(ImplementationProps):
 
 class SyncTimeBaseMgrUserNeeds(ServiceNeeds):
     """
-    Represents Synchronized Time Base Manager User needs in AUTOSAR models.
-    This class defines requirements for synchronized time base manager user services.
+    Specifies the needs on the configuration of the Synchronized Time-base Manager for one time-base. This class currently contains no attributes. An instance of this class is used to find out which ports of a software-component belong to this time-base in order to group the request and response ports of the same time-base. The actual time-base value is stored in the PortDefinedArgumentValue of the respective port specification.
     """
 
     # SyncTimeBaseMgrUserNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.17, p.236
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the SyncTimeBaseMgrUserNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this sync time base manager user needs
-            short_name: The unique short name of this sync time base manager user needs
-        """
         super().__init__(parent, short_name)
 
 
