@@ -136,6 +136,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticCommunicationManagerNeeds,
     DiagnosticComponentNeeds,
     DiagnosticEnableConditionNeeds,
+    DiagnosticEventManagerNeeds,
     DiagnosticEventInfoNeeds,
     DiagnosticEventNeeds,
     DiagnosticIoControlNeeds,
@@ -4801,6 +4802,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticIoControlNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticEnableConditionNeeds):
             self.writeDiagnosticEnableConditionNeeds(child_element, needs)
+        elif isinstance(needs, DiagnosticEventManagerNeeds):
+            self.writeDiagnosticEventManagerNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticOperationCycleNeeds):
             self.writeDiagnosticOperationCycleNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticStorageConditionNeeds):
@@ -5130,6 +5133,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeDiagnosticCapabilityElement(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "INITIAL-STATUS", needs.getInitialStatus())
 
+    def writeDiagnosticEventManagerNeeds(self, element: ET.Element, needs: DiagnosticEventManagerNeeds):
+        child_element = ET.SubElement(element, "DIAGNOSTIC-EVENT-MANAGER-NEEDS")
+        self.logger.debug("write DiagnosticEventManagerNeeds %s" % needs.getShortName())
+        self.writeDiagnosticCapabilityElement(child_element, needs)
+
     def writeDiagnosticOperationCycleNeeds(self, element: ET.Element, needs: DiagnosticOperationCycleNeeds):
         # self.logger.debug("Write DiagnosticOperationCycleNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-OPERATION-CYCLE-NEEDS")
@@ -5295,6 +5303,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDiagnosticIoControlNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticEnableConditionNeeds):
                     self.writeDiagnosticEnableConditionNeeds(child_element, needs)
+                elif isinstance(needs, DiagnosticEventManagerNeeds):
+                    self.writeDiagnosticEventManagerNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticOperationCycleNeeds):
                     self.writeDiagnosticOperationCycleNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticStorageConditionNeeds):

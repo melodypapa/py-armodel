@@ -161,6 +161,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticCommunicationManagerNeeds,
     DiagnosticComponentNeeds,
     DiagnosticEnableConditionNeeds,
+    DiagnosticEventManagerNeeds,
     DiagnosticEventInfoNeeds,
     DiagnosticEventNeeds,
     DiagnosticIoControlNeeds,
@@ -2084,6 +2085,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticEnableConditionNeeds(dependency, short_name)
                 self.readDiagnosticEnableConditionNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-EVENT-MANAGER-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticEventManagerNeeds(dependency, short_name)
+                self.readDiagnosticEventManagerNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-OPERATION-CYCLE-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticOperationCycleNeeds(dependency, short_name)
@@ -2398,6 +2403,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readDiagnosticCapabilityElement(element, needs)
         needs.setInitialStatus(self.getChildElementOptionalLiteral(element, "INITIAL-STATUS"))
 
+    def readDiagnosticEventManagerNeeds(self, element: ET.Element, needs: DiagnosticEventManagerNeeds):
+        self.readDiagnosticCapabilityElement(element, needs)
+
     def readDiagnosticOperationCycleNeeds(self, element: ET.Element, needs: DiagnosticOperationCycleNeeds):
         # self.logger.debug("Read DiagnosticOperationCycleNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
@@ -2571,6 +2579,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-ENABLE-CONDITION-NEEDS":
                 needs = parent.createDiagnosticEnableConditionNeeds(self.getShortName(child_element))
                 self.readDiagnosticEnableConditionNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-EVENT-MANAGER-NEEDS":
+                needs = parent.createDiagnosticEventManagerNeeds(self.getShortName(child_element))
+                self.readDiagnosticEventManagerNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-OPERATION-CYCLE-NEEDS":
                 needs = parent.createDiagnosticOperationCycleNeeds(self.getShortName(child_element))
                 self.readDiagnosticOperationCycleNeeds(child_element, needs)

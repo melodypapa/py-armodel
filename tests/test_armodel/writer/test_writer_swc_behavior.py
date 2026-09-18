@@ -1671,6 +1671,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "dcn1"
 
+    def test_writeDiagnosticEventManagerNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDiagnosticEventManagerNeeds("demn1")
+        parent = _parent()
+        writer.writeDiagnosticEventManagerNeeds(parent, needs)
+        elem = parent.find("DIAGNOSTIC-EVENT-MANAGER-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "demn1"
+
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
@@ -1700,6 +1710,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createCryptoKeyManagementNeeds("ckmn")
         dep.createCryptoServiceJobNeeds("csjn")
         dep.createDiagnosticControlNeeds("dcn")
+        dep.createDiagnosticEventManagerNeeds("demn")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1729,6 +1740,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "CRYPTO-KEY-MANAGEMENT-NEEDS" in tags
         assert "CRYPTO-SERVICE-JOB-NEEDS" in tags
         assert "DIAGNOSTIC-CONTROL-NEEDS" in tags
+        assert "DIAGNOSTIC-EVENT-MANAGER-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()

@@ -14,6 +14,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticComponentNeeds,
     DiagnosticControlNeeds,
     DiagnosticEnableConditionNeeds,
+    DiagnosticEventManagerNeeds,
     DiagnosticEventInfoNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticIoControlNeeds
@@ -500,6 +501,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, DiagnosticEnableConditionNeeds)
+
+    def createDiagnosticEventManagerNeeds(self, short_name: str) -> DiagnosticEventManagerNeeds:
+        """
+        Creates or retrieves a DiagnosticEventManagerNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DiagnosticEventManagerNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventManagerNeeds):
+            needs = DiagnosticEventManagerNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, DiagnosticEventManagerNeeds)
 
     def createDiagnosticOperationCycleNeeds(self, short_name: str) -> DiagnosticOperationCycleNeeds:
         """

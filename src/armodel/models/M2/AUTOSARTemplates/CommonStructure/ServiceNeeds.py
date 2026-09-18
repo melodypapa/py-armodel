@@ -2285,23 +2285,17 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
         return self
 
 
-class DiagnosticEventManagerNeeds(ServiceNeeds):
+class DiagnosticEventManagerNeeds(DiagnosticCapabilityElement):
     """
-    Represents Diagnostic Event Manager needs in AUTOSAR models.
-    This class defines requirements for diagnostic event manager services.
+    Specifies the general needs on the configuration of the Diagnostic Event Manager (Dem) which are not related to a particular item.
     """
 
     # DiagnosticEventManagerNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.14, p.753
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticEventManagerNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic event manager needs
-            short_name: The unique short name of this diagnostic event manager needs
-        """
         super().__init__(parent, short_name)
 
 

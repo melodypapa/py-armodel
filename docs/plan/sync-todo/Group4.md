@@ -255,16 +255,16 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base fix was in-pass Rule 0001.2 correction)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (7 touched tests, flake8/ruff/black, parity, integration 2/2); 9b DEFERRED to batch stamp
-- [ ] `DiagnosticEventManagerNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.14)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DiagnosticEventManagerNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.14 · **Step 1 finding: own table = Swc TPS Table 13.14, p.753 (body rendered BEFORE caption at md 21722-21729, caption 21731 — artifact); concrete Class (XSD complexType `DIAGNOSTIC-EVENT-MANAGER-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 36389 `<xsd:sequence/>` empty); Base row includes DiagnosticCapabilityElement → most-derived = `DiagnosticCapabilityElement` — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim from markdown (XSD doc has a stray double-space "the  Diagnostic" — markdown primary per Rule 0015); XSD element in BOTH choice groups (11473 BSW-side, 12592 Swc-side, order ENABLE→EVENT-MANAGER→EVENT-INFO); dispatch was MISSING → added full 5-place pattern delegating to the CapabilityElement base helpers + createDiagnosticEventManagerNeeds factory)**
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — asserts DiagnosticCapabilityElement base + inherited members
+  - [x] Step 3 — Implement model class (Green) — base fixed to DiagnosticCapabilityElement
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Note verbatim (Table 13.14 p.753); __init__ docless
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 2 dispatch tests failed pre-implementation
+  - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch added; an edit initially split readDiagnosticEnableConditionNeeds (its setInitialStatus line landed in the new helper) — caught by the Red test and fixed before commit
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (base fix in-pass Rule 0001.2)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (424 parser/writer+model tests, flake8/ruff/black, parity, integration 2/2); 9b DEFERRED to batch stamp
 - [ ] `DiagnosticRequestFileTransferNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.43)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

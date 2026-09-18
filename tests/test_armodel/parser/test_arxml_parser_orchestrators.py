@@ -692,6 +692,19 @@ class TestServiceNeedsHandlers:
         parser.readDiagnosticControlNeeds(element, needs)
         assert needs.getShortName() == "dcnNeeds"
 
+    def test_readDiagnosticEventManagerNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventManagerNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>demnNeeds</SHORT-NAME>", root_tag="DIAGNOSTIC-EVENT-MANAGER-NEEDS")
+        needs = dependency.createDiagnosticEventManagerNeeds("demnNeeds")
+        assert isinstance(needs, DiagnosticEventManagerNeeds)
+        parser.readDiagnosticEventManagerNeeds(element, needs)
+        assert needs.getShortName() == "demnNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 
