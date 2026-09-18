@@ -68,7 +68,7 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added (factory + parser import/BSW dispatch/helper/SWC dispatch + writer import/2 dispatches/helper), branches after DCM-DM-19 per XSD order
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; leading-quote Note is the markdown/XSD verbatim text)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL suite 9428 passed, flake8/ruff/black, parity); 9b confirmed by user (2026-09-18) → stamped R23-11; sync commit d8872c42
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL suite 9428 passed, flake8/ruff/black, parity); 9b confirmed by user (2026-09-18) → stamped R23-11; sync commit d8872c42, stamp commit 9784766a
 - [ ] `J1939RmOutgoingRequestServiceNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.70)
   - **Step 1 finding:** own table = Swc TPS Table 13.70, p.829; concrete Class (XSD complexType `J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd line 75564, group line 75555 `<xsd:sequence/>` empty); Base row = ...Referrable, ServiceNeeds → most-derived = `ServiceNeeds` (src base ALREADY correct); ZERO own attributes; Note verbatim, clean text **no quote anomaly, no Tags tail** (markdown 24801 = XSD documentation); XSD element in BOTH choice groups (11506 BSW, 12625 Swc-side), immediately after INCOMING (11505/12624); dispatch MISSING → full 5-place pattern + createJ1939RmOutgoingRequestServiceNeeds factory added
   - [x] Step 1 — Sync members & description from spec
