@@ -59,15 +59,16 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; Note carries no Tags tail per markdown/XSD)
   - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL suite 9423 passed, flake8/ruff/black, parity); 9b DEFERRED to batch stamp (user-requested 2026-09-18); sync commit 60f87670
 - [ ] `J1939RmIncomingRequestServiceNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.71)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - **Step 1 finding:** own table = Swc TPS Table 13.71, p.829; concrete Class (XSD complexType `J-1939-RM-INCOMING-REQUEST-SERVICE-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd line 75537, group line 75528 `<xsd:sequence/>` empty); Base row = ...Referrable, ServiceNeeds → most-derived = `ServiceNeeds` (src base ALREADY correct); ZERO own attributes; Note verbatim **incl. stray leading `"` with no closing quote** (markdown 24812 = XSD documentation — quoted-note convention like ParameterProvideComSpec); XSD element in BOTH choice groups (11505 BSW, 12624 Swc-side), order DCM-DM-19 → RM-INCOMING → RM-OUTGOING; dispatch MISSING → full 5-place pattern + createJ1939RmIncomingRequestServiceNeeds factory added
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 2/3 failed pre-implementation (docstring + docless; base already spec-correct)
+  - [x] Step 3 — Implement model class (Green) — spec Note verbatim (incl. leading quote), __init__ docless
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstrings wiped; Note verbatim (Table 13.71 p.829)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 3 dispatch tests failed pre-implementation (missing factory/reader/writer)
+  - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added (factory + parser import/BSW dispatch/helper/SWC dispatch + writer import/2 dispatches/helper), branches after DCM-DM-19 per XSD order
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; leading-quote Note is the markdown/XSD verbatim text)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL suite 9428 passed, flake8/ruff/black, parity); 9b DEFERRED to batch stamp (user-requested 2026-09-18)
 - [ ] `J1939RmOutgoingRequestServiceNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.70)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

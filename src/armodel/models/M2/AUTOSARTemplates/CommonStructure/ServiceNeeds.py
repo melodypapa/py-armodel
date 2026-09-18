@@ -3273,21 +3273,15 @@ class J1939DcmDm19Support(ServiceNeeds):
 
 class J1939RmIncomingRequestServiceNeeds(ServiceNeeds):
     """
-    Represents J1939 RM Incoming Request Service needs in AUTOSAR models.
-    This class defines requirements for J1939 request manager incoming request services.
+    "This meta-class shall be used to specify needs with respect to the configuration of the J1939Rm, in particular for the case where an ApplicationSwComponentType needs to accept a request from another J1939 node.
     """
 
     # J1939RmIncomingRequestServiceNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.71, p.829
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the J1939RmIncomingRequestServiceNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this J1939 RM incoming request service needs
-            short_name: The unique short name of this J1939 RM incoming request service needs
-        """
         super().__init__(parent, short_name)
 
 

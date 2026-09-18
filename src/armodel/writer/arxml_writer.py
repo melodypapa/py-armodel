@@ -166,6 +166,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     IdsMgrNeeds,
     IndicatorStatusNeeds,
     J1939DcmDm19Support,
+    J1939RmIncomingRequestServiceNeeds,
     NvBlockNeeds,
     ObdControlServiceNeeds,
     ObdInfoServiceNeeds,
@@ -4842,6 +4843,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeIndicatorStatusNeeds(child_element, needs)
         elif isinstance(needs, J1939DcmDm19Support):
             self.writeJ1939DcmDm19Support(child_element, needs)
+        elif isinstance(needs, J1939RmIncomingRequestServiceNeeds):
+            self.writeJ1939RmIncomingRequestServiceNeeds(child_element, needs)
         elif isinstance(needs, FunctionInhibitionAvailabilityNeeds):
             self.writeFunctionInhibitionAvailabilityNeeds(child_element, needs)
         elif isinstance(needs, FunctionInhibitionNeeds):
@@ -5235,6 +5238,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write J1939DcmDm19Support %s" % needs.getShortName())
         self.writeServiceNeeds(child_element, needs)
 
+    def writeJ1939RmIncomingRequestServiceNeeds(self, element: ET.Element, needs: J1939RmIncomingRequestServiceNeeds):
+        child_element = ET.SubElement(element, "J-1939-RM-INCOMING-REQUEST-SERVICE-NEEDS")
+        self.logger.debug("write J1939RmIncomingRequestServiceNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
     def writeFunctionInhibitionAvailabilityNeeds(self, element: ET.Element, needs: FunctionInhibitionAvailabilityNeeds):
         # self.logger.debug("Write FunctionInhibitionAvailabilityNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "FUNCTION-INHIBITION-AVAILABILITY-NEEDS")
@@ -5399,6 +5407,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeIndicatorStatusNeeds(child_element, needs)
                 elif isinstance(needs, J1939DcmDm19Support):
                     self.writeJ1939DcmDm19Support(child_element, needs)
+                elif isinstance(needs, J1939RmIncomingRequestServiceNeeds):
+                    self.writeJ1939RmIncomingRequestServiceNeeds(child_element, needs)
                 elif isinstance(needs, FunctionInhibitionAvailabilityNeeds):
                     self.writeFunctionInhibitionAvailabilityNeeds(child_element, needs)
                 elif isinstance(needs, FunctionInhibitionNeeds):
