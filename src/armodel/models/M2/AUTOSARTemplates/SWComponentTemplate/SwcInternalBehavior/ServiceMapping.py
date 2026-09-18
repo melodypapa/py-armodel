@@ -41,6 +41,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ErrorTracerNeeds,
     FunctionInhibitionAvailabilityNeeds,
     FunctionInhibitionNeeds,
+    FurtherActionByteNeeds,
     GlobalSupervisionNeeds,
     HardwareTestNeeds,
     IdsMgrNeeds,
@@ -602,6 +603,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, FunctionInhibitionNeeds)
+
+    def createFurtherActionByteNeeds(self, short_name: str) -> FurtherActionByteNeeds:
+        """
+        Creates or retrieves a FurtherActionByteNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            FurtherActionByteNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, FurtherActionByteNeeds):
+            needs = FurtherActionByteNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, FurtherActionByteNeeds)
 
     def createGlobalSupervisionNeeds(self, short_name: str) -> GlobalSupervisionNeeds:
         """

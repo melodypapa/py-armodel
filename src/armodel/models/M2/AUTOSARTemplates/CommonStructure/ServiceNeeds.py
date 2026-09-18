@@ -3064,23 +3064,18 @@ class FunctionInhibitionNeeds(ServiceNeeds):
         super().__init__(parent, short_name)
 
 
-class FurtherActionByteNeeds(ServiceNeeds):
+class FurtherActionByteNeeds(DoIpServiceNeeds):
     """
-    Represents Further Action Byte needs in AUTOSAR models.
-    This class defines requirements for further action byte services.
+    The FurtherActionByteNeeds indicates that the software-component is able to provide the "further action byte" to the DoIp Service Component.
     """
 
     # FurtherActionByteNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.62, p.812
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the FurtherActionByteNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this further action byte needs
-            short_name: The unique short name of this further action byte needs
-        """
         super().__init__(parent, short_name)
 
 

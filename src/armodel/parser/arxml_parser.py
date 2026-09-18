@@ -184,6 +184,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ErrorTracerNeeds,
     FunctionInhibitionAvailabilityNeeds,
     FunctionInhibitionNeeds,
+    FurtherActionByteNeeds,
     GlobalSupervisionNeeds,
     HardwareTestNeeds,
     IdsMgrNeeds,
@@ -2118,6 +2119,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = FunctionInhibitionNeeds(dependency, short_name)
                 self.readFunctionInhibitionNeeds(child_element, needs)
+            elif tag_name == "FURTHER-ACTION-BYTE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = FurtherActionByteNeeds(dependency, short_name)
+                self.readFurtherActionByteNeeds(child_element, needs)
             elif tag_name == "GLOBAL-SUPERVISION-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = GlobalSupervisionNeeds(dependency, short_name)
@@ -2469,6 +2474,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readFunctionInhibitionNeeds(self, element: ET.Element, needs: FunctionInhibitionNeeds):
         self.readServiceNeeds(element, needs)
 
+    def readFurtherActionByteNeeds(self, element: ET.Element, needs: FurtherActionByteNeeds):
+        self.readServiceNeeds(element, needs)
+
     def readGlobalSupervisionNeeds(self, element: ET.Element, needs: GlobalSupervisionNeeds):
         self.readServiceNeeds(element, needs)
 
@@ -2640,6 +2648,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "FUNCTION-INHIBITION-NEEDS":
                 needs = parent.createFunctionInhibitionNeeds(self.getShortName(child_element))
                 self.readFunctionInhibitionNeeds(child_element, needs)
+            elif tag_name == "FURTHER-ACTION-BYTE-NEEDS":
+                needs = parent.createFurtherActionByteNeeds(self.getShortName(child_element))
+                self.readFurtherActionByteNeeds(child_element, needs)
             elif tag_name == "GLOBAL-SUPERVISION-NEEDS":
                 needs = parent.createGlobalSupervisionNeeds(self.getShortName(child_element))
                 self.readGlobalSupervisionNeeds(child_element, needs)

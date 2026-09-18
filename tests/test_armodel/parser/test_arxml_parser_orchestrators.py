@@ -770,6 +770,19 @@ class TestServiceNeedsHandlers:
         parser.readDoIpPowerModeStatusNeeds(element, needs)
         assert needs.getShortName() == "dpmnNeeds"
 
+    def test_readFurtherActionByteNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import FurtherActionByteNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>fbnNeeds</SHORT-NAME>", root_tag="FURTHER-ACTION-BYTE-NEEDS")
+        needs = dependency.createFurtherActionByteNeeds("fbnNeeds")
+        assert isinstance(needs, FurtherActionByteNeeds)
+        parser.readFurtherActionByteNeeds(element, needs)
+        assert needs.getShortName() == "fbnNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 

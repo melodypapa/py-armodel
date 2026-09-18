@@ -159,6 +159,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ErrorTracerNeeds,
     FunctionInhibitionAvailabilityNeeds,
     FunctionInhibitionNeeds,
+    FurtherActionByteNeeds,
     GlobalSupervisionNeeds,
     HardwareTestNeeds,
     IdsMgrNeeds,
@@ -4841,6 +4842,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeFunctionInhibitionAvailabilityNeeds(child_element, needs)
         elif isinstance(needs, FunctionInhibitionNeeds):
             self.writeFunctionInhibitionNeeds(child_element, needs)
+        elif isinstance(needs, FurtherActionByteNeeds):
+            self.writeFurtherActionByteNeeds(child_element, needs)
         elif isinstance(needs, GlobalSupervisionNeeds):
             self.writeGlobalSupervisionNeeds(child_element, needs)
         elif isinstance(needs, HardwareTestNeeds):
@@ -5227,6 +5230,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write FunctionInhibitionNeeds %s" % needs.getShortName())
         self.writeServiceNeeds(child_element, needs)
 
+    def writeFurtherActionByteNeeds(self, element: ET.Element, needs: FurtherActionByteNeeds):
+        child_element = ET.SubElement(element, "FURTHER-ACTION-BYTE-NEEDS")
+        self.logger.debug("write FurtherActionByteNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
     def writeGlobalSupervisionNeeds(self, element: ET.Element, needs: GlobalSupervisionNeeds):
         child_element = ET.SubElement(element, "GLOBAL-SUPERVISION-NEEDS")
         self.logger.debug("write GlobalSupervisionNeeds %s" % needs.getShortName())
@@ -5377,6 +5385,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeFunctionInhibitionAvailabilityNeeds(child_element, needs)
                 elif isinstance(needs, FunctionInhibitionNeeds):
                     self.writeFunctionInhibitionNeeds(child_element, needs)
+                elif isinstance(needs, FurtherActionByteNeeds):
+                    self.writeFurtherActionByteNeeds(child_element, needs)
                 elif isinstance(needs, GlobalSupervisionNeeds):
                     self.writeGlobalSupervisionNeeds(child_element, needs)
                 elif isinstance(needs, HardwareTestNeeds):
