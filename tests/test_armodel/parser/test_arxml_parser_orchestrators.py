@@ -835,6 +835,19 @@ class TestServiceNeedsHandlers:
         parser.readJ1939RmOutgoingRequestServiceNeeds(element, needs)
         assert needs.getShortName() == "jrmOutNeeds"
 
+    def test_readV2xDataManagerNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import V2xDataManagerNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>v2xdmNeeds</SHORT-NAME>", root_tag="V-2-X-DATA-MANAGER-NEEDS")
+        needs = dependency.createV2xDataManagerNeeds("v2xdmNeeds")
+        assert isinstance(needs, V2xDataManagerNeeds)
+        parser.readV2xDataManagerNeeds(element, needs)
+        assert needs.getShortName() == "v2xdmNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 

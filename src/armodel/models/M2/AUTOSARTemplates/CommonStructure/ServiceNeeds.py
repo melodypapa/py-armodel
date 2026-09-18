@@ -4306,21 +4306,15 @@ class TransientFault(TracedFailure):
 
 class V2xDataManagerNeeds(ServiceNeeds):
     """
-    Represents V2X Data Manager needs in AUTOSAR models.
-    This class defines requirements for Vehicle-to-Everything data manager services.
+    This meta-class represents the ability to define service needs for V2x Data Manager.
     """
 
     # V2xDataManagerNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.79, p.840
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the V2xDataManagerNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this V2X data manager needs
-            short_name: The unique short name of this V2X data manager needs
-        """
         super().__init__(parent, short_name)
 
 

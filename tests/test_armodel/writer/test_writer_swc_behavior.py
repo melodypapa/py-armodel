@@ -1781,6 +1781,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "jrmout1"
 
+    def test_writeV2xDataManagerNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createV2xDataManagerNeeds("v2xdm1")
+        parent = _parent()
+        writer.writeV2xDataManagerNeeds(parent, needs)
+        elem = parent.find("V-2-X-DATA-MANAGER-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "v2xdm1"
+
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
@@ -1821,6 +1831,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createJ1939DcmDm19Support("jdcm19")
         dep.createJ1939RmIncomingRequestServiceNeeds("jrmin")
         dep.createJ1939RmOutgoingRequestServiceNeeds("jrmout")
+        dep.createV2xDataManagerNeeds("v2xdm")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1861,6 +1872,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "J-1939-DCM-DM-19-SUPPORT" in tags
         assert "J-1939-RM-INCOMING-REQUEST-SERVICE-NEEDS" in tags
         assert "J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS" in tags
+        assert "V-2-X-DATA-MANAGER-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()
