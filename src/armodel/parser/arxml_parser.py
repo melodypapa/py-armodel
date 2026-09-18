@@ -6069,10 +6069,13 @@ class ARXMLParser(AbstractARXMLParser):
     def getSwAxisIndividual(self, element: ET.Element) -> SwAxisIndividual:
         props = SwAxisIndividual()
         self.readARObject(element, props)
+        for proxy_element in self.findall(element, "SW-VARIABLE-REFS/SW-VARIABLE-REF-PROXY"):
+            props.addSwVariableRef(self.readSwVariableRefProxy(proxy_element))
         props.setMaxGradient(self.getChildElementOptionalFloatValue(element, "MAX-GRADIENT"))
         props.setMonotony(self.getChildElementOptionalLiteral(element, "MONOTONY"))
         props.setInputVariableTypeRef(self.getChildElementOptionalRefType(element, "INPUT-VARIABLE-TYPE-REF"))
         props.setCompuMethodRef(self.getChildElementOptionalRefType(element, "COMPU-METHOD-REF"))
+        props.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
         props.setSwMaxAxisPoints(self.getChildElementOptionalNumericalValue(element, "SW-MAX-AXIS-POINTS"))
         props.setSwMinAxisPoints(self.getChildElementOptionalNumericalValue(element, "SW-MIN-AXIS-POINTS"))
         props.setDataConstrRef(self.getChildElementOptionalRefType(element, "DATA-CONSTR-REF"))

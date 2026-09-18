@@ -1,7 +1,8 @@
 from typing import List, Optional
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisTypeProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Integer, RefType
+from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwVariableRefProxy
 
 
 class SwGenericAxisParam(ARObject):
@@ -116,95 +117,136 @@ class SwAxisGeneric(ARObject):
 
 class SwAxisIndividual(SwCalprmAxisTypeProps):
     """
-    Individual axis properties extending calibration axis type with compu
-    method, data constraint, and variable references.
+    This meta-class describes an axis integrated into a parameter (field etc.). The integration makes this individual to each parameter. The so-called grouped axis represents the counterpart to this. It is conceived as an independent parameter (see class SwAxisGrouped).
     """
 
     # SwAxisIndividual method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getCompuMethodRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] setCompuMethodRef            [x] impl  [ ] docstring  [ ] test
-    # [ ] getDataConstrRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] setDataConstrRef             [x] impl  [ ] docstring  [ ] test
-    # [ ] getInputVariableTypeRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] setInputVariableTypeRef      [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwAxisGeneric             [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwAxisGeneric             [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwMaxAxisPoints           [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwMaxAxisPoints           [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwMinAxisPoints           [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwMinAxisPoints           [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwVariableRefs            [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwVariableRefs            [x] impl  [ ] docstring  [ ] test
-    # [ ] getUnitRef                   [x] impl  [ ] docstring  [ ] test
-    # [ ] setUnitRef                   [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.50, p.355
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getCompuMethodRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setCompuMethodRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getDataConstrRef        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataConstrRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInputVariableTypeRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInputVariableTypeRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwAxisGeneric        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwAxisGeneric        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwMaxAxisPoints      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwMaxAxisPoints      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwMinAxisPoints      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwMinAxisPoints      [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwVariableRefs       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addSwVariableRef        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getUnitRef              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setUnitRef              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.compuMethodRef = None  # type: RefType
-        self.dataConstrRef = None  # type: RefType
-        self.inputVariableTypeRef = None  # type: RefType
-        self.swAxisGeneric = None  # type: SwAxisGeneric
-        self.swMaxAxisPoints = None  # type: ARNumerical
-        self.swMinAxisPoints = None  # type: ARNumerical
-        self.swVariableRefs = []  # type: List
-        self.unitRef = None  # type: RefType
+        # This is the compuMethod which is expected for the axis. It is used in early stages if the particular input-value is not yet available.
+        self.compuMethodRef: Optional[RefType] = None
 
-    def getCompuMethodRef(self):
+        # Refers to constraints, e.g. for plausibility checks.
+        self.dataConstrRef: Optional[RefType] = None
+
+        # This is the datatype of the input value for the axis. This allows to define e.g. a type of curve, where the input value is finalized at the access point.
+        self.inputVariableTypeRef: Optional[RefType] = None
+
+        # this specifies the properties of a generic axis if applicable.
+        self.swAxisGeneric: Optional[SwAxisGeneric] = None
+
+        # Maximum number of base points contained in the axis of a map or curve.
+        self.swMaxAxisPoints: Optional[Integer] = None
+
+        # Minimum number of base points contained in the axis of a map or curve.
+        self.swMinAxisPoints: Optional[Integer] = None
+
+        # Refers to input variables of the axis. It is possible to specify more than one variable. Here the following is valid: • The variable with the highest priority shall be given first. It is used in the generation of the code and is also displayed first in the application system. • All variables referenced shall be of the same physical nature. This is usually detected in that the conversion formulae affected refer back to the same SI-units. In AUTOSAR this ensured by the constraint, that the referenced input variables shall use a type compatible to "inputVariableType". • This multiple referencing allows a base point distribution for more than one input variable to be used. One example of this are the temperature curves which can depend both on the induction air temperature and the engine temperature. These variables can be displayed simultaneously by MCD systems (adjustment systems), enabling operating points to be shown in the curves.
+        self.swVariableRefs: List[SwVariableRefProxy] = []
+
+        # This represents the physical unit of the input value of the axis. It is provided to support the case that the particular input variable is not yet known.
+        self.unitRef: Optional[RefType] = None
+
+    def getCompuMethodRef(self) -> Optional[RefType]:
+        """This is the compuMethod which is expected for the axis. It is used in early stages if the particular input-value is not yet available."""
         return self.compuMethodRef
 
-    def setCompuMethodRef(self, value):
-        self.compuMethodRef = value
+    def setCompuMethodRef(self, value: Optional[RefType]) -> "SwAxisIndividual":
+        """This is the compuMethod which is expected for the axis. It is used in early stages if the particular input-value is not yet available. A None value is a no-op and does not overwrite an existing compuMethodRef."""
+        if value is not None:
+            self.compuMethodRef = value
         return self
 
-    def getDataConstrRef(self):
+    def getDataConstrRef(self) -> Optional[RefType]:
+        """Refers to constraints, e.g. for plausibility checks."""
         return self.dataConstrRef
 
-    def setDataConstrRef(self, value):
-        self.dataConstrRef = value
+    def setDataConstrRef(self, value: Optional[RefType]) -> "SwAxisIndividual":
+        """Refers to constraints, e.g. for plausibility checks. A None value is a no-op and does not overwrite an existing dataConstrRef."""
+        if value is not None:
+            self.dataConstrRef = value
         return self
 
-    def getInputVariableTypeRef(self):
+    def getInputVariableTypeRef(self) -> Optional[RefType]:
+        """This is the datatype of the input value for the axis. This allows to define e.g. a type of curve, where the input value is finalized at the access point."""
         return self.inputVariableTypeRef
 
-    def setInputVariableTypeRef(self, value):
-        self.inputVariableTypeRef = value
+    def setInputVariableTypeRef(self, value: Optional[RefType]) -> "SwAxisIndividual":
+        """This is the datatype of the input value for the axis. This allows to define e.g. a type of curve, where the input value is finalized at the access point. A None value is a no-op and does not overwrite an existing inputVariableTypeRef."""
+        if value is not None:
+            self.inputVariableTypeRef = value
         return self
 
-    def getSwAxisGeneric(self):
+    def getSwAxisGeneric(self) -> Optional[SwAxisGeneric]:
+        """this specifies the properties of a generic axis if applicable."""
         return self.swAxisGeneric
 
-    def setSwAxisGeneric(self, value):
-        self.swAxisGeneric = value
+    def setSwAxisGeneric(self, value: Optional[SwAxisGeneric]) -> "SwAxisIndividual":
+        """this specifies the properties of a generic axis if applicable. A None value is a no-op and does not overwrite an existing swAxisGeneric."""
+        if value is not None:
+            self.swAxisGeneric = value
         return self
 
-    def getSwMaxAxisPoints(self):
+    def getSwMaxAxisPoints(self) -> Optional[Integer]:
+        """Maximum number of base points contained in the axis of a map or curve."""
         return self.swMaxAxisPoints
 
-    def setSwMaxAxisPoints(self, value):
-        self.swMaxAxisPoints = value
+    def setSwMaxAxisPoints(self, value: Optional[Integer]) -> "SwAxisIndividual":
+        """Maximum number of base points contained in the axis of a map or curve. A None value is a no-op and does not overwrite an existing swMaxAxisPoints."""
+        if value is not None:
+            self.swMaxAxisPoints = value
         return self
 
-    def getSwMinAxisPoints(self):
+    def getSwMinAxisPoints(self) -> Optional[Integer]:
+        """Minimum number of base points contained in the axis of a map or curve."""
         return self.swMinAxisPoints
 
-    def setSwMinAxisPoints(self, value):
-        self.swMinAxisPoints = value
+    def setSwMinAxisPoints(self, value: Optional[Integer]) -> "SwAxisIndividual":
+        """Minimum number of base points contained in the axis of a map or curve. A None value is a no-op and does not overwrite an existing swMinAxisPoints."""
+        if value is not None:
+            self.swMinAxisPoints = value
         return self
 
-    def getSwVariableRefs(self):
+    def getSwVariableRefs(self) -> List[SwVariableRefProxy]:
+        """Refers to input variables of the axis. It is possible to specify more than one variable. Here the following is valid: • The variable with the highest priority shall be given first. It is used in the generation of the code and is also displayed first in the application system. • All variables referenced shall be of the same physical nature. This is usually detected in that the conversion formulae affected refer back to the same SI-units. In AUTOSAR this ensured by the constraint, that the referenced input variables shall use a type compatible to \"inputVariableType\". • This multiple referencing allows a base point distribution for more than one input variable to be used. One example of this are the temperature curves which can depend both on the induction air temperature and the engine temperature. These variables can be displayed simultaneously by MCD systems (adjustment systems), enabling operating points to be shown in the curves."""
         return self.swVariableRefs
 
-    def setSwVariableRefs(self, value):
-        self.swVariableRefs = value
+    def addSwVariableRef(self, value: Optional[SwVariableRefProxy]) -> "SwAxisIndividual":
+        """Refers to input variables of the axis. It is possible to specify more than one variable. A None value is a no-op and is not appended to swVariableRefs."""
+        if value is not None:
+            self.swVariableRefs.append(value)
         return self
 
-    def getUnitRef(self):
+    def getUnitRef(self) -> Optional[RefType]:
+        """This represents the physical unit of the input value of the axis. It is provided to support the case that the particular input variable is not yet known."""
         return self.unitRef
 
-    def setUnitRef(self, value):
-        self.unitRef = value
+    def setUnitRef(self, value: Optional[RefType]) -> "SwAxisIndividual":
+        """This represents the physical unit of the input value of the axis. It is provided to support the case that the particular input variable is not yet known. A None value is a no-op and does not overwrite an existing unitRef."""
+        if value is not None:
+            self.unitRef = value
         return self
 
 

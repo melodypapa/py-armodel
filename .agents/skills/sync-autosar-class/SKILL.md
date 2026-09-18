@@ -231,7 +231,7 @@ as each step finishes (*Rule 0018*).
 - **8** — Record deviations; the `# Spec verified:` marker (added in 9b) is **withheld** while any placeholder/deviation remains; report the Step-3 referenced classes here.
 - **9** — **(9a automated)** `pytest` + `flake8` + `ruff check` + `black-check` + the set-based script + a lossless integration round-trip (`npm run flake8` / `ruff-check` / `black-check` are the cross-platform forms). **Stop on any failure.** **(9b confirm — gate)** then present the **complete pre-stamp** rule-compliance checklist covering every check automation is blind to — element kind + every spec attr modeled (*0001.1*), most-derived base (*0001.2*), no fabrication/flattening + PDF-typed fields (*0001.3*), **Kind-suffix naming** `ref`→Ref/Refs·`tref`→TRef·`iref`→IRef/IRefs + singular `*`→plural (*0001.5*), create/set/add shape (*0001.6*), **reader+writer coverage** for every kept attr (*0001.7*), **member order** — class member/accessor/checklist order matches the markdown/PDF
 displayed row order, and reader/writer XML element order matches XSD `sequenceOffset`,
-checked independently (*0001.11*), docstrings = spec `Note` **verbatim by diff** (*0012* **and** *0001.4* — every attribute's inline `__init__` comment + getter docstring + setter docstring must be the spec `Note` copied verbatim, not a "Gets/Sets the…" paraphrase or a truncated summary that drops the spec's full sentence), deviations resolved/removed (*0014*), stamp decision (*0012.1*) — and get explicit user confirmation; **when all pass, write the `# Spec verified:` marker in this step (9b)** — never in Step 4/7/8. Fix & re-present on any failure (*Rule 0006.1* has the full checklist). **Then finish the class per Rule 0017**: commit to the feature branch, flip the todo row to `[x]` with the commit hash, and stop the session (or, if all rows are `[x]`, report the sync complete).
+checked independently (*0001.11*), docstrings = spec `Note` **verbatim by diff** (*0012* **and** *0001.4* — every attribute's inline `__init__` comment + getter docstring + setter docstring must be the spec `Note` copied verbatim, not a "Gets/Sets the…" paraphrase or a truncated summary that drops the spec's full sentence), **blank line between every `__init__` attribute block** (*0008* — Black/ruff don't enforce a minimum, so glued-together fields pass every 9a check; verify by eye or AST audit), deviations resolved/removed (*0014*), stamp decision (*0012.1*) — and get explicit user confirmation; **when all pass, write the `# Spec verified:` marker in this step (9b)** — never in Step 4/7/8. Fix & re-present on any failure (*Rule 0006.1* has the full checklist). **Then finish the class per Rule 0017**: commit to the feature branch, flip the todo row to `[x]` with the commit hash, and stop the session (or, if all rows are `[x]`, report the sync complete).
 
 **Workflow adaptations** (which steps still apply):
 
@@ -375,6 +375,10 @@ detail: *Rule 0002*.
 - **Recording a `naming`/`missing`/`type` deviation and leaving it** — to-fix: rename/
   retype/cover and **remove** the row (*Rule 0014*).
 - **`T | None` / `list[…]` hints** — Python ≥ 3.8: `Optional[T]` / `List[T]` (*Rule 0003*).
+- **`__init__` attribute blocks glued together with no blank line between them** — Black
+  and ruff's `E303` only cap the *maximum* blank lines, never a *minimum*, so a class
+  passes every 9a check (pytest/flake8/ruff/black-check) with its fields glued together;
+  this is invisible to automation and must be checked by eye during 9b (*Rule 0008*).
 - **Flattened inherited members on a subclass** — the subclass's own spec table (`Attribute`
   column) has fewer rows than the subclass has fields; the "extra" fields live in a *separate
   base-class table* named in `Base`. Model that base class and relocate the members there;
@@ -465,6 +469,7 @@ detail: *Rule 0002*.
 | "The docstrings mostly look right — I'll just patch the ones that changed" | In-place patching leaves stale sentences on members you didn't re-read; wipe all docstrings first, then rewrite from the markdown (*Rule 0012.2.3*). |
 | "Gets/Sets the X is close enough to the spec Note" | A paraphrase or truncation is a *Rule 0001.4* violation the automation can't catch; copy the spec `Note` verbatim per member (inline comment + getter + setter) and diff it. |
 | "A `# type:` comment documents the member type just fine" | Verified classes annotate members directly (PEP 526) under the spec `Note`; trailing `# type:` comments on bare assignments are a *Rule 0003* violation. |
+| "All the fields are typed and documented, spacing is cosmetic" | Black and ruff never enforce a *minimum* blank-line count, so glued-together `__init__` blocks pass every 9a check silently; verify spacing by eye during 9b (*Rule 0008*). |
 | "The markdown table looks alphabetical, so `sequenceOffset` must be the real order — I'll reorder the class members to match" | Class member order follows the markdown/PDF displayed order exactly as rendered, alphabetical-looking or not; `sequenceOffset` only governs reader/writer XML order, never Python member order (*Rule 0001.11*). |
 | "The closure looks right, I'll skip the confirm gate" | Over/under-collection wastes every later step; present the set and let the user confirm (*Rule 0016.2*). |
 | "Tests pass and the round-trip is clean — I can stamp and move on" | Those don't certify a class (Rule 0012.1); run Step 9b on the blind-spot rules before stamping (*Rule 0006.1*). |

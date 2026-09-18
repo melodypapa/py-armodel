@@ -737,6 +737,21 @@ class TestSwDataDefPropsHandlers:
         assert len(params[0].getVfs()) == 2
         assert params[0].getVfs()[0].getValue() == 1.5
 
+    def test_getSwAxisIndividual_parses_variable_refs_and_unit(self, parser):
+        element = _snip(
+            "<SW-VARIABLE-REFS>"
+            "<SW-VARIABLE-REF-PROXY><MC-DATA-INSTANCE-VAR-REF DEST='MC-DATA-INSTANCE'>/v1</MC-DATA-INSTANCE-VAR-REF></SW-VARIABLE-REF-PROXY>"
+            "<SW-VARIABLE-REF-PROXY><MC-DATA-INSTANCE-VAR-REF DEST='MC-DATA-INSTANCE'>/v2</MC-DATA-INSTANCE-VAR-REF></SW-VARIABLE-REF-PROXY>"
+            "</SW-VARIABLE-REFS>"
+            "<UNIT-REF DEST='UNIT'>/units/u</UNIT-REF>",
+            root_tag="SW-AXIS-INDIVIDUAL",
+        )
+
+        props = parser.getSwAxisIndividual(element)
+
+        assert [proxy.getMcDataInstanceVarRef().getValue() for proxy in props.getSwVariableRefs()] == ["/v1", "/v2"]
+        assert props.getUnitRef().getValue() == "/units/u"
+
     def test_getSwCalprmAxis_individual(self, parser):
         element = _snip(
             "<SW-AXIS-INDEX>0</SW-AXIS-INDEX>" "<CATEGORY>FIXED</CATEGORY>" "<SW-AXIS-INDIVIDUAL>" "<SW-MAX-AXIS-POINTS>10</SW-MAX-AXIS-POINTS>" "</SW-AXIS-INDIVIDUAL>",

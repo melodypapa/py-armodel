@@ -703,6 +703,12 @@ end user's explicit confirmation. When every item passes, the `# Spec verified:
   placed directly under its spec-`Note` comment, matching the getter return type —
   **no** trailing `# type:` comments on bare assignments. Grep for `# type:` during
   9b; no automation flags it.
+- **Rule 0008 (attribute spacing)** — each `__init__` attribute's comment+assignment
+  block is separated from the next by exactly one blank line (no glued-together
+  fields, no consecutive blank lines). Black leaves contiguous blocks untouched and
+  ruff's `E303` only caps the *maximum* blank lines, never a *minimum* — a class can
+  pass every 9a check with its fields glued together. Verify by eye or a small AST
+  audit during 9b; no automation flags it.
 - **Rule 0001.4 (attribute `Note` docstrings are verbatim, not paraphrased)** — for
   **every** spec `Attribute` row (and the class-level `Note`), the text in the
   inline `__init__` comment, the getter docstring, and the setter docstring must be

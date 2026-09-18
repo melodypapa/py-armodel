@@ -2,13 +2,14 @@
 This module contains tests for the Axis module in MSR.DataDictionary.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Integer, RefType
 from armodel.models.M2.MSR.DataDictionary.Axis import (
     SwAxisGeneric,
     SwAxisGrouped,
     SwAxisIndividual,
     SwGenericAxisParam,
 )
+from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwVariableRefProxy
 
 
 class TestSwGenericAxisParam:
@@ -149,9 +150,10 @@ class TestSwAxisIndividual:
     def test_sw_axis_individual_variable_refs_methods(self):
         """Test the swVariableRefs getter and setter."""
         sw_axis_individual = SwAxisIndividual()
-        refs = ["ref1", "ref2"]
+        refs = [SwVariableRefProxy(), SwVariableRefProxy()]
 
-        result = sw_axis_individual.setSwVariableRefs(refs)
+        result = sw_axis_individual.addSwVariableRef(refs[0])
+        sw_axis_individual.addSwVariableRef(refs[1])
         assert sw_axis_individual.getSwVariableRefs() == refs
         assert result == sw_axis_individual
 
@@ -163,6 +165,30 @@ class TestSwAxisIndividual:
         result = sw_axis_individual.setUnitRef(ref)
         assert sw_axis_individual.getUnitRef() == ref
         assert result == sw_axis_individual
+
+    def test_sw_axis_individual_variable_refs_are_typed_ordered_and_none_safe(self):
+        sw_axis_individual = SwAxisIndividual()
+        first = SwVariableRefProxy()
+        second = SwVariableRefProxy()
+
+        assert sw_axis_individual.getSwVariableRefs() == []
+        assert sw_axis_individual.addSwVariableRef(first) is sw_axis_individual
+        assert sw_axis_individual.addSwVariableRef(None) is sw_axis_individual
+        assert sw_axis_individual.addSwVariableRef(second) is sw_axis_individual
+        assert sw_axis_individual.getSwVariableRefs() == [first, second]
+
+    def test_sw_axis_individual_setters_do_not_overwrite_with_none(self):
+        sw_axis_individual = SwAxisIndividual()
+        integer = Integer().setValue("4")
+        ref = RefType().setValue("/compu")
+
+        sw_axis_individual.setSwMaxAxisPoints(integer)
+        sw_axis_individual.setCompuMethodRef(ref)
+        sw_axis_individual.setSwMaxAxisPoints(None)
+        sw_axis_individual.setCompuMethodRef(None)
+
+        assert sw_axis_individual.getSwMaxAxisPoints() is integer
+        assert sw_axis_individual.getCompuMethodRef() is ref
 
 
 class TestSwAxisGrouped:

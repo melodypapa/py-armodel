@@ -2834,8 +2834,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObject(child_element, props)
         self.setChildElementOptionalFloatValue(child_element, "MAX-GRADIENT", props.getMaxGradient())
         self.setChildElementOptionalLiteral(child_element, "MONOTONY", props.getMonotony())
+        if props.getSwVariableRefs():
+            variables_element = ET.SubElement(child_element, "SW-VARIABLE-REFS")
+            for variable in props.getSwVariableRefs():
+                self.setSwVariableRefProxy(variables_element, "SW-VARIABLE-REF-PROXY", variable)
         self.setChildElementOptionalRefType(child_element, "INPUT-VARIABLE-TYPE-REF", props.getInputVariableTypeRef())
         self.setChildElementOptionalRefType(child_element, "COMPU-METHOD-REF", props.getCompuMethodRef())
+        self.setChildElementOptionalRefType(child_element, "UNIT-REF", props.getUnitRef())
         self.setChildElementOptionalNumericalValue(child_element, "SW-MAX-AXIS-POINTS", props.getSwMaxAxisPoints())
         self.setChildElementOptionalNumericalValue(child_element, "SW-MIN-AXIS-POINTS", props.getSwMinAxisPoints())
         self.setChildElementOptionalRefType(child_element, "DATA-CONSTR-REF", props.getDataConstrRef())
