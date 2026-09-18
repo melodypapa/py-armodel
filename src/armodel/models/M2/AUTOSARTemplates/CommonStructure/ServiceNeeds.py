@@ -3287,21 +3287,15 @@ class J1939RmIncomingRequestServiceNeeds(ServiceNeeds):
 
 class J1939RmOutgoingRequestServiceNeeds(ServiceNeeds):
     """
-    Represents J1939 RM Outgoing Request Service needs in AUTOSAR models.
-    This class defines requirements for J1939 request manager outgoing request services.
+    This meta-class shall be used to specify needs with respect to the configuration of the J1939Rm, in particular for the case where an ApplicationSwComponentType needs to send a request to another J1939 node.
     """
 
     # J1939RmOutgoingRequestServiceNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.70, p.829
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the J1939RmOutgoingRequestServiceNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this J1939 RM outgoing request service needs
-            short_name: The unique short name of this J1939 RM outgoing request service needs
-        """
         super().__init__(parent, short_name)
 
 

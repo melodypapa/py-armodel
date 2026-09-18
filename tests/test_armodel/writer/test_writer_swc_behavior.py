@@ -1771,6 +1771,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "jrmin1"
 
+    def test_writeJ1939RmOutgoingRequestServiceNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createJ1939RmOutgoingRequestServiceNeeds("jrmout1")
+        parent = _parent()
+        writer.writeJ1939RmOutgoingRequestServiceNeeds(parent, needs)
+        elem = parent.find("J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "jrmout1"
+
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
@@ -1810,6 +1820,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createIdsMgrCustomTimestampNeeds("imctn")
         dep.createJ1939DcmDm19Support("jdcm19")
         dep.createJ1939RmIncomingRequestServiceNeeds("jrmin")
+        dep.createJ1939RmOutgoingRequestServiceNeeds("jrmout")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1849,6 +1860,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "IDS-MGR-CUSTOM-TIMESTAMP-NEEDS" in tags
         assert "J-1939-DCM-DM-19-SUPPORT" in tags
         assert "J-1939-RM-INCOMING-REQUEST-SERVICE-NEEDS" in tags
+        assert "J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()

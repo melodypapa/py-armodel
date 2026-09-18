@@ -192,6 +192,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     IndicatorStatusNeeds,
     J1939DcmDm19Support,
     J1939RmIncomingRequestServiceNeeds,
+    J1939RmOutgoingRequestServiceNeeds,
     NvBlockNeeds,
     ObdControlServiceNeeds,
     ObdInfoServiceNeeds,
@@ -2122,6 +2123,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = J1939RmIncomingRequestServiceNeeds(dependency, short_name)
                 self.readJ1939RmIncomingRequestServiceNeeds(child_element, needs)
+            elif tag_name == "J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = J1939RmOutgoingRequestServiceNeeds(dependency, short_name)
+                self.readJ1939RmOutgoingRequestServiceNeeds(child_element, needs)
             elif tag_name == "FUNCTION-INHIBITION-AVAILABILITY-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = FunctionInhibitionAvailabilityNeeds(dependency, short_name)
@@ -2490,6 +2495,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readJ1939RmIncomingRequestServiceNeeds(self, element: ET.Element, needs: J1939RmIncomingRequestServiceNeeds):
         self.readServiceNeeds(element, needs)
 
+    def readJ1939RmOutgoingRequestServiceNeeds(self, element: ET.Element, needs: J1939RmOutgoingRequestServiceNeeds):
+        self.readServiceNeeds(element, needs)
+
     def readFunctionInhibitionAvailabilityNeeds(self, element: ET.Element, needs: FunctionInhibitionAvailabilityNeeds):
         # self.logger.debug("Read FunctionInhibitionAvailabilityNeeds %s" % needs.getShortName())
         self.readServiceNeeds(element, needs)
@@ -2672,6 +2680,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "J-1939-RM-INCOMING-REQUEST-SERVICE-NEEDS":
                 needs = parent.createJ1939RmIncomingRequestServiceNeeds(self.getShortName(child_element))
                 self.readJ1939RmIncomingRequestServiceNeeds(child_element, needs)
+            elif tag_name == "J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS":
+                needs = parent.createJ1939RmOutgoingRequestServiceNeeds(self.getShortName(child_element))
+                self.readJ1939RmOutgoingRequestServiceNeeds(child_element, needs)
             elif tag_name == "FUNCTION-INHIBITION-AVAILABILITY-NEEDS":
                 needs = parent.createFunctionInhibitionAvailabilityNeeds(self.getShortName(child_element))
                 self.readFunctionInhibitionAvailabilityNeeds(child_element, needs)

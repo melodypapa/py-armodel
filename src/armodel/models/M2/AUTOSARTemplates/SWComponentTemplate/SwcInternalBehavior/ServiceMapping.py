@@ -49,6 +49,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     IndicatorStatusNeeds,
     J1939DcmDm19Support,
     J1939RmIncomingRequestServiceNeeds,
+    J1939RmOutgoingRequestServiceNeeds,
     NvBlockNeeds,
     ObdControlServiceNeeds,
     ObdInfoServiceNeeds,
@@ -718,6 +719,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, J1939RmIncomingRequestServiceNeeds)
+
+    def createJ1939RmOutgoingRequestServiceNeeds(self, short_name: str) -> J1939RmOutgoingRequestServiceNeeds:
+        """
+        Creates or retrieves a J1939RmOutgoingRequestServiceNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            J1939RmOutgoingRequestServiceNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, J1939RmOutgoingRequestServiceNeeds):
+            needs = J1939RmOutgoingRequestServiceNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, J1939RmOutgoingRequestServiceNeeds)
 
     def createDltUserNeeds(self, short_name: str) -> DltUserNeeds:
         """
