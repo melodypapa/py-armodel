@@ -1691,6 +1691,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "drfn1"
 
+    def test_writeDoIpActivationLineNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDoIpActivationLineNeeds("daln1")
+        parent = _parent()
+        writer.writeDoIpActivationLineNeeds(parent, needs)
+        elem = parent.find("DO-IP-ACTIVATION-LINE-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "daln1"
+
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
@@ -1722,6 +1732,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createDiagnosticControlNeeds("dcn")
         dep.createDiagnosticEventManagerNeeds("demn")
         dep.createDiagnosticRequestFileTransferNeeds("drfn")
+        dep.createDoIpActivationLineNeeds("daln")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1753,6 +1764,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "DIAGNOSTIC-CONTROL-NEEDS" in tags
         assert "DIAGNOSTIC-EVENT-MANAGER-NEEDS" in tags
         assert "DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS" in tags
+        assert "DO-IP-ACTIVATION-LINE-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()

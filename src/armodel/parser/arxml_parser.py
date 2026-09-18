@@ -173,6 +173,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticValueNeeds,
     DiagnosticsCommunicationSecurityNeeds,
     DltUserNeeds,
+    DoIpActivationLineNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
     DoIpRoutingActivationConfirmationNeeds,
     DtcStatusChangeNotificationNeeds,
@@ -2182,6 +2183,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = ObdRatioDenominatorNeeds(dependency, short_name)
                 self.readObdRatioDenominatorNeeds(child_element, needs)
+            elif tag_name == "DO-IP-ACTIVATION-LINE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DoIpActivationLineNeeds(dependency, short_name)
+                self.readDoIpActivationLineNeeds(child_element, needs)
             elif tag_name == "DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = DoIpRoutingActivationAuthenticationNeeds(dependency, short_name)
@@ -2296,6 +2301,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readObdRatioDenominatorNeeds(self, element: ET.Element, needs: ObdRatioDenominatorNeeds):
         self.readServiceNeeds(element, needs)
         needs.setDenominatorCondition(self.getChildElementOptionalLiteral(element, "DENOMINATOR-CONDITION"))
+
+    def readDoIpActivationLineNeeds(self, element: ET.Element, needs: DoIpActivationLineNeeds):
+        self.readServiceNeeds(element, needs)
 
     def readDoIpRoutingActivationAuthenticationNeeds(self, element: ET.Element, needs: DoIpRoutingActivationAuthenticationNeeds):
         self.readServiceNeeds(element, needs)
@@ -2638,6 +2646,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "OBD-RATIO-DENOMINATOR-NEEDS":
                 needs = parent.createObdRatioDenominatorNeeds(self.getShortName(child_element))
                 self.readObdRatioDenominatorNeeds(child_element, needs)
+            elif tag_name == "DO-IP-ACTIVATION-LINE-NEEDS":
+                needs = parent.createDoIpActivationLineNeeds(self.getShortName(child_element))
+                self.readDoIpActivationLineNeeds(child_element, needs)
             elif tag_name == "DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS":
                 needs = parent.createDoIpRoutingActivationAuthenticationNeeds(self.getShortName(child_element))
                 self.readDoIpRoutingActivationAuthenticationNeeds(child_element, needs)

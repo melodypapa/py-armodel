@@ -275,16 +275,16 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base fix in-pass Rule 0001.2)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (426 tests, flake8/ruff/black, parity, integration 2/2); 9b DEFERRED to batch stamp
-- [ ] `DoIpActivationLineNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.60)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DoIpActivationLineNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.60 · **Step 1 finding: own table = Swc TPS Table 13.60, p.807 (body at md 23834-23841, after caption 23832); concrete Class (XSD complexType `DO-IP-ACTIVATION-LINE-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 48405 `<xsd:sequence/>` empty); Base row includes DoIpServiceNeeds → most-derived = `DoIpServiceNeeds` (stamped, Table 13.54 p.805) — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim (ISO 13400 reference; XSD doc truncates to "ISO 13400." — markdown primary); XSD element in BOTH choice groups (11487 BSW, 12606 Swc); dispatch was MISSING → added full 5-place pattern (readServiceNeeds base, chains before DO-IP-ROUTING-*, createDoIpActivationLineNeeds factory); NOTE: the three DoIp classes were physically relocated after DoIpServiceNeeds's definition (forward-reference NameError at import)**
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — asserts DoIpServiceNeeds base
+  - [x] Step 3 — Implement model class (Green) — base fixed; class relocated after base definition
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Note verbatim (Table 13.60 p.807); __init__ docless
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 2 dispatch tests failed pre-implementation
+  - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch added
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (base fix in-pass Rule 0001.2)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (428 tests, flake8/ruff/black, parity, integration 2/2); 9b DEFERRED to batch stamp
 - [ ] `DoIpGidNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.55)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

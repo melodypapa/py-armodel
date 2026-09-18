@@ -2605,23 +2605,34 @@ class DiagnosticsCommunicationSecurityNeeds(DiagnosticCapabilityElement):
         super().__init__(parent, short_name)
 
 
-class DoIpActivationLineNeeds(ServiceNeeds):
+class DoIpServiceNeeds(ServiceNeeds, ABC):
     """
-    Represents DoIP Activation Line needs in AUTOSAR models.
-    This class defines requirements for DoIP (Diagnostics over IP) activation line services.
+    This represents an abstract base class for ServiceNeeds related to DoIP.
+    """
+
+    # DoIpServiceNeeds method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.54, p.805
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DoIpServiceNeeds:
+            raise TypeError("DoIpServiceNeeds is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+
+class DoIpActivationLineNeeds(DoIpServiceNeeds):
+    """
+    A DoIP entity needs to be informed when an external tester is attached or activated. The DoIpActivation ServiceNeeds specifies the trigger for such an event. Examples would be a Pdu via a regular communication bus, a PWM signal, or an I/O. For details please refer to the ISO 13400.
     """
 
     # DoIpActivationLineNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.60, p.807
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DoIpActivationLineNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this DoIP activation line needs
-            short_name: The unique short name of this DoIP activation line needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -2682,23 +2693,6 @@ class DoIpPowerModeStatusNeeds(ServiceNeeds):
             parent: The parent ARObject that contains this DoIP power mode status needs
             short_name: The unique short name of this DoIP power mode status needs
         """
-        super().__init__(parent, short_name)
-
-
-class DoIpServiceNeeds(ServiceNeeds, ABC):
-    """
-    This represents an abstract base class for ServiceNeeds related to DoIP.
-    """
-
-    # DoIpServiceNeeds method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.54, p.805
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        if type(self) is DoIpServiceNeeds:
-            raise TypeError("DoIpServiceNeeds is an abstract class.")
-
         super().__init__(parent, short_name)
 
 

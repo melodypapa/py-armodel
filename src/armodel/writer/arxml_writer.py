@@ -148,6 +148,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticValueNeeds,
     DiagnosticsCommunicationSecurityNeeds,
     DltUserNeeds,
+    DoIpActivationLineNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
     DoIpRoutingActivationConfirmationNeeds,
     DtcStatusChangeNotificationNeeds,
@@ -4851,6 +4852,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeObdRatioServiceNeeds(child_element, needs)
         elif isinstance(needs, ObdRatioDenominatorNeeds):
             self.writeObdRatioDenominatorNeeds(child_element, needs)
+        elif isinstance(needs, DoIpActivationLineNeeds):
+            self.writeDoIpActivationLineNeeds(child_element, needs)
         elif isinstance(needs, DoIpRoutingActivationAuthenticationNeeds):
             self.writeDoIpRoutingActivationAuthenticationNeeds(child_element, needs)
         elif isinstance(needs, DoIpRoutingActivationConfirmationNeeds):
@@ -5041,6 +5044,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write ObdRatioDenominatorNeeds %s" % needs.getShortName())
         self.writeServiceNeeds(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "DENOMINATOR-CONDITION", needs.getDenominatorCondition())
+
+    def writeDoIpActivationLineNeeds(self, element: ET.Element, needs: DoIpActivationLineNeeds):
+        child_element = ET.SubElement(element, "DO-IP-ACTIVATION-LINE-NEEDS")
+        self.logger.debug("write DoIpActivationLineNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
 
     def writeDoIpRoutingActivationAuthenticationNeeds(self, element: ET.Element, needs: DoIpRoutingActivationAuthenticationNeeds):
         child_element = ET.SubElement(element, "DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS")
@@ -5361,6 +5369,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeObdRatioServiceNeeds(child_element, needs)
                 elif isinstance(needs, ObdRatioDenominatorNeeds):
                     self.writeObdRatioDenominatorNeeds(child_element, needs)
+                elif isinstance(needs, DoIpActivationLineNeeds):
+                    self.writeDoIpActivationLineNeeds(child_element, needs)
                 elif isinstance(needs, DoIpRoutingActivationAuthenticationNeeds):
                     self.writeDoIpRoutingActivationAuthenticationNeeds(child_element, needs)
                 elif isinstance(needs, DoIpRoutingActivationConfirmationNeeds):

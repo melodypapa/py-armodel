@@ -31,6 +31,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DtcStatusChangeNotificationNeeds,
+    DoIpActivationLineNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
     DoIpRoutingActivationConfirmationNeeds,
     EcuStateMgrUserNeeds,
@@ -790,6 +791,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, ObdRatioDenominatorNeeds)
+
+    def createDoIpActivationLineNeeds(self, short_name: str) -> DoIpActivationLineNeeds:
+        """
+        Creates or retrieves a DoIpActivationLineNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DoIpActivationLineNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, DoIpActivationLineNeeds):
+            needs = DoIpActivationLineNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, DoIpActivationLineNeeds)
 
     def createDoIpRoutingActivationAuthenticationNeeds(self, short_name: str) -> DoIpRoutingActivationAuthenticationNeeds:
         """

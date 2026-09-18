@@ -718,6 +718,19 @@ class TestServiceNeedsHandlers:
         parser.readDiagnosticRequestFileTransferNeeds(element, needs)
         assert needs.getShortName() == "drfnNeeds"
 
+    def test_readDoIpActivationLineNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpActivationLineNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>dalnNeeds</SHORT-NAME>", root_tag="DO-IP-ACTIVATION-LINE-NEEDS")
+        needs = dependency.createDoIpActivationLineNeeds("dalnNeeds")
+        assert isinstance(needs, DoIpActivationLineNeeds)
+        parser.readDoIpActivationLineNeeds(element, needs)
+        assert needs.getShortName() == "dalnNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 
