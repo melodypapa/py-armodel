@@ -942,7 +942,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
- - [x] `SwAxisGrouped` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.55 · deps stamped: `swCalprmRef` SwCalprmRefProxy ✓ / `sharedAxisType` ApplicationPrimitiveDataType queued in Group2 ✓ / parent SwCalprmAxisTypeProps ✓) — verified R23-11 (commit pending)
+ - [x] `SwAxisGrouped` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.55 · deps stamped: `swCalprmRef` SwCalprmRefProxy ✓ / `sharedAxisType` ApplicationPrimitiveDataType queued in Group2 ✓ / parent SwCalprmAxisTypeProps ✓) — verified R23-11 (commit 12a2e017)
    - [x] Step 1 — Sync members & description from spec [3 own attrs; Base ARObject + SwCalprmAxisTypeProps; p.357 via pdf_page.py; XSD order cross-checked]
    - [x] Step 2 — Write model class unit test (Red) [typed defaults, None-safe setters; failed before implementation]
    - [x] Step 3 — Implement model class (Green) [typed PEP 526 members, add docs, None-safe setters]
