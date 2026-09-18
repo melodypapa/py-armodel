@@ -22,6 +22,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DltU
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticEventNeeds,
     DiagnosticOperationCycleNeeds,
+    DiagnosticRequestFileTransferNeeds,
     DiagnosticRoutineNeeds,
     DiagnosticStorageConditionNeeds,
     DiagnosticUploadDownloadNeeds,
@@ -533,6 +534,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, DiagnosticOperationCycleNeeds)
+
+    def createDiagnosticRequestFileTransferNeeds(self, short_name: str) -> DiagnosticRequestFileTransferNeeds:
+        """
+        Creates or retrieves a DiagnosticRequestFileTransferNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DiagnosticRequestFileTransferNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, DiagnosticRequestFileTransferNeeds):
+            needs = DiagnosticRequestFileTransferNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, DiagnosticRequestFileTransferNeeds)
 
     def createDiagnosticStorageConditionNeeds(self, short_name: str) -> DiagnosticStorageConditionNeeds:
         """

@@ -2514,23 +2514,17 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
         return self
 
 
-class DiagnosticRequestFileTransferNeeds(ServiceNeeds):
+class DiagnosticRequestFileTransferNeeds(DiagnosticCapabilityElement):
     """
-    Represents Diagnostic Request File Transfer needs in AUTOSAR models.
-    This class defines requirements for diagnostic file transfer services.
+    This meta-class indicates the existence of a service use case that involves UDS service 0x38, Request File Transfer.
     """
 
     # DiagnosticRequestFileTransferNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.43, p.795
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticRequestFileTransferNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic request file transfer needs
-            short_name: The unique short name of this diagnostic request file transfer needs
-        """
         super().__init__(parent, short_name)
 
 

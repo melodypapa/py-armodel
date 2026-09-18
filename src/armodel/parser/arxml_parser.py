@@ -166,6 +166,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticEventNeeds,
     DiagnosticIoControlNeeds,
     DiagnosticOperationCycleNeeds,
+    DiagnosticRequestFileTransferNeeds,
     DiagnosticRoutineNeeds,
     DiagnosticStorageConditionNeeds,
     DiagnosticUploadDownloadNeeds,
@@ -2093,6 +2094,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticOperationCycleNeeds(dependency, short_name)
                 self.readDiagnosticOperationCycleNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticRequestFileTransferNeeds(dependency, short_name)
+                self.readDiagnosticRequestFileTransferNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-STORAGE-CONDITION-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticStorageConditionNeeds(dependency, short_name)
@@ -2411,6 +2416,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readDiagnosticCapabilityElement(element, needs)
         needs.setOperationCycle(self.getChildElementOptionalLiteral(element, "OPERATION-CYCLE"))
 
+    def readDiagnosticRequestFileTransferNeeds(self, element: ET.Element, needs: DiagnosticRequestFileTransferNeeds):
+        self.readDiagnosticCapabilityElement(element, needs)
+
     def readDiagnosticStorageConditionNeeds(self, element: ET.Element, needs: DiagnosticStorageConditionNeeds):
         # self.logger.debug("Read DiagnosticStorageConditionNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
@@ -2585,6 +2593,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-OPERATION-CYCLE-NEEDS":
                 needs = parent.createDiagnosticOperationCycleNeeds(self.getShortName(child_element))
                 self.readDiagnosticOperationCycleNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS":
+                needs = parent.createDiagnosticRequestFileTransferNeeds(self.getShortName(child_element))
+                self.readDiagnosticRequestFileTransferNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-STORAGE-CONDITION-NEEDS":
                 needs = parent.createDiagnosticStorageConditionNeeds(self.getShortName(child_element))
                 self.readDiagnosticStorageConditionNeeds(child_element, needs)

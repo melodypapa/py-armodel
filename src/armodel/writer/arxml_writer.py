@@ -141,6 +141,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticEventNeeds,
     DiagnosticIoControlNeeds,
     DiagnosticOperationCycleNeeds,
+    DiagnosticRequestFileTransferNeeds,
     DiagnosticRoutineNeeds,
     DiagnosticStorageConditionNeeds,
     DiagnosticUploadDownloadNeeds,
@@ -4806,6 +4807,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticEventManagerNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticOperationCycleNeeds):
             self.writeDiagnosticOperationCycleNeeds(child_element, needs)
+        elif isinstance(needs, DiagnosticRequestFileTransferNeeds):
+            self.writeDiagnosticRequestFileTransferNeeds(child_element, needs)
         elif isinstance(needs, DiagnosticStorageConditionNeeds):
             self.writeDiagnosticStorageConditionNeeds(child_element, needs)
         elif isinstance(needs, IndicatorStatusNeeds):
@@ -5144,6 +5147,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeDiagnosticCapabilityElement(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "OPERATION-CYCLE", needs.getOperationCycle())
 
+    def writeDiagnosticRequestFileTransferNeeds(self, element: ET.Element, needs: DiagnosticRequestFileTransferNeeds):
+        child_element = ET.SubElement(element, "DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS")
+        self.logger.debug("write DiagnosticRequestFileTransferNeeds %s" % needs.getShortName())
+        self.writeDiagnosticCapabilityElement(child_element, needs)
+
     def writeDiagnosticStorageConditionNeeds(self, element: ET.Element, needs: DiagnosticStorageConditionNeeds):
         # self.logger.debug("Write DiagnosticStorageConditionNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "DIAGNOSTIC-STORAGE-CONDITION-NEEDS")
@@ -5307,6 +5315,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDiagnosticEventManagerNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticOperationCycleNeeds):
                     self.writeDiagnosticOperationCycleNeeds(child_element, needs)
+                elif isinstance(needs, DiagnosticRequestFileTransferNeeds):
+                    self.writeDiagnosticRequestFileTransferNeeds(child_element, needs)
                 elif isinstance(needs, DiagnosticStorageConditionNeeds):
                     self.writeDiagnosticStorageConditionNeeds(child_element, needs)
                 elif isinstance(needs, IndicatorStatusNeeds):

@@ -705,6 +705,19 @@ class TestServiceNeedsHandlers:
         parser.readDiagnosticEventManagerNeeds(element, needs)
         assert needs.getShortName() == "demnNeeds"
 
+    def test_readDiagnosticRequestFileTransferNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticRequestFileTransferNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>drfnNeeds</SHORT-NAME>", root_tag="DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS")
+        needs = dependency.createDiagnosticRequestFileTransferNeeds("drfnNeeds")
+        assert isinstance(needs, DiagnosticRequestFileTransferNeeds)
+        parser.readDiagnosticRequestFileTransferNeeds(element, needs)
+        assert needs.getShortName() == "drfnNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 
