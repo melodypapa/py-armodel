@@ -3087,6 +3087,7 @@ class GlobalSupervisionNeeds(ServiceNeeds):
 
     # GlobalSupervisionNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.4, p.709
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -3101,6 +3102,7 @@ class HardwareTestNeeds(ServiceNeeds):
 
     # HardwareTestNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.40, p.264
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -3957,6 +3959,7 @@ class SupervisedEntityCheckpointNeeds(ServiceNeeds):
 
     # SupervisedEntityCheckpointNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.30, p.254
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -4218,6 +4221,7 @@ class SyncTimeBaseMgrUserNeeds(ServiceNeeds):
 
     # SyncTimeBaseMgrUserNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.17, p.236
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
