@@ -1351,6 +1351,47 @@ Input class: <InputClassName> · Generated: <YYYY-MM-DD> · Queue order = row or
 
 The 9-step workflow (Phase 1) consumes this file one row at a time.
 
+### 16.7 Class-row checkbox lines stay short *(added after the Group 4, 2026-09-18 incident)*
+
+The parenthetical after the class name in the row format above is for the short,
+fixed fields only — role · source (release + carrier) · table id · a one-clause
+tag (`enum`, `XSD-only`, `R4.3.1 markdown`, `drift <RELEASE>`, the commit hash).
+It is **not** a place for the Step 1 finding write-up, base-chain reasoning, or
+deviation analysis. That text is long and rich in markup (nested backticks,
+arrows, em/en dashes), and its presence on the same line as the `- [ ]`/`- [x]`
+checkbox has repeatedly made the checkbox unreliable to toggle with exact-line
+text edits — on Group 4 (2026-09-18), six fully-synced and user-confirmed rows
+stayed stuck at `- [ ]` for an entire follow-up session because every attempt to
+flip the checkbox on that line either failed to match or risked corrupting a
+neighboring row.
+
+Put the long write-up on its **own bullet directly under the class row**, never
+appended to the row itself:
+
+```markdown
+- [ ] `DiagnosticControlNeeds` (input · R23-11 markdown · Table 13.63)
+  - Note: own table = Swc TPS Table 13.63, p.812; concrete Class; Base
+    most-derived = `DiagnosticCapabilityElement` — FIXED from src's
+    `ServiceNeeds` (Rule 0001.2); dispatch was MISSING → added full 5-place
+    pattern + `createDiagnosticControlNeeds` factory.
+  - [ ] Step 1 — Sync members & description from spec
+  - [ ] Step 2 — Write model class unit test (Red)
+  ...
+```
+
+- A class-row line longer than roughly 200 characters is a signal this rule is
+  being violated, not a tolerable variance — split it before doing anything else
+  to that row.
+- If a prior session already wrote a row in the long, single-line shape, the
+  **next edit that touches that row** (a step checkbox flip, a 9b confirmation,
+  a `[ ]` → `[x]` finish) must also split it into the short-row + separate-note
+  shape as part of the same edit — do not toggle the checkbox in place and leave
+  the long line intact "for later."
+- **Never work around a failed row edit with an out-of-band note.** If a
+  checkbox edit fails, the fix is to shorten/restructure the row (above), not to
+  record the class's status in a side "Confirmed Status" or "Batch confirmation"
+  section elsewhere in the file — see Rule 0017.4.
+
 ---
 
 ## Rule 0017 — Per-class session loop, commit & completion
@@ -1418,6 +1459,16 @@ row exists.
 - Syncing a second class "because the context still feels fresh" (17.1).
 - Marking `[x]` without a commit hash, or deferring commits to the end (17.2).
 - Re-running Phase 0 when the todo file already exists (17.1).
+- Writing a placeholder like `9b DEFERRED to batch stamp` on the Step 9 line
+  instead of capturing the user's confirmation the moment it is given — a
+  deferred-confirmation note is not the confirmation, and only creates a
+  backlog of rows that need a later cleanup pass to reconcile.
+- Recording a class's confirmed/finished status in a side note ("Confirmed
+  Status", "Batch confirmation") instead of flipping the class row and its
+  Step 9 line in place (Rule 0016.7) — the row **is** the single source of
+  truth for the 17.3 resume/termination check; a side note papers over a
+  failed row edit instead of fixing it, and produces exactly the drift a
+  2026-09-18 cleanup pass on Group 4 had to reconcile by hand.
 
 ### 17.5 Autonomous mode — chaining classes
 

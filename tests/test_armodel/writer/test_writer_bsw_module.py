@@ -6,12 +6,21 @@ import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
+    BswClientPolicy,
+    BswDataSendPolicy,
+    BswExclusiveAreaPolicy,
+    BswInternalTriggeringPointPolicy,
+    BswModeReceiverPolicy,
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
     BswModeSwitchEvent,
+    BswParameterPolicy,
+    BswPerInstanceMemoryPolicy,
     BswQueuedDataReceptionPolicy,
+    BswReleasedTriggerPolicy,
     BswServiceDependency,
     BswServiceDependencyIdent,
+    BswTriggerDirectImplementation,
     BswVariableAccess,
     RoleBasedBswModuleEntryAssignment,
 )
@@ -28,13 +37,21 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARNumerical,
     Boolean,
     CIdentifier,
+    Identifier,
     PositiveInteger,
     RefType,
     TimeValue,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import (
+    ParameterDataPrototype,
+    VariableDataPrototype,
+)
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import (  # noqa E501
     IncludedModeDeclarationGroupSet,
 )
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
 from armodel.parser.arxml_parser import ARXMLParser
 from armodel.writer.arxml_writer import ARXMLWriter
 
@@ -728,6 +745,802 @@ class TestWriterBswReceptionPolicies:
         writer.writeBswDataReceptionPolicy(parent, policy)
         assert parent.find("ENABLE-TAKE-ADDRESS") is not None
         assert parent.find("RECEIVED-DATA-REF") is not None
+
+
+class TestWriterBswPerInstanceMemoryPolicies:
+    def test_per_instance_memory_policy(self, writer):
+        policy = BswPerInstanceMemoryPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setArTypedPerInstanceMemoryRef(_ref("/d", "VARIABLE-DATA-PROTOTYPE"))
+        parent = _parent()
+        writer.writeBswPerInstanceMemoryPolicy(parent, policy)
+        assert parent[0].tag == "BSW-PER-INSTANCE-MEMORY-POLICY"
+        assert parent[0].find("ENABLE-TAKE-ADDRESS") is not None
+        ref_element = parent[0].find("AR-TYPED-PER-INSTANCE-MEMORY-REF")
+        assert ref_element is not None
+        assert ref_element.text == "/d"
+        assert ref_element.attrib["DEST"] == "VARIABLE-DATA-PROTOTYPE"
+
+    def test_per_instance_memory_policy_variation_point(self, writer):
+        policy = BswPerInstanceMemoryPolicy()
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        parent = _parent()
+        writer.writeBswPerInstanceMemoryPolicy(parent, policy)
+        assert parent[0].find("VARIATION-POINT") is not None
+
+    def test_behavior_bsw_per_instance_memory_policies(self, writer):
+        behavior = _make_behavior()
+        policy = BswPerInstanceMemoryPolicy()
+        policy.setArTypedPerInstanceMemoryRef(_ref("/d", "VARIABLE-DATA-PROTOTYPE"))
+        behavior.addBswPerInstanceMemoryPolicy(policy)
+        parent = _parent()
+        writer.writeBswInternalBehaviorBswPerInstanceMemoryPolicies(parent, behavior)
+        assert parent[0].tag == "BSW-PER-INSTANCE-MEMORY-POLICYS"
+        assert parent[0].find("BSW-PER-INSTANCE-MEMORY-POLICY") is not None
+
+    def test_behavior_bsw_per_instance_memory_policies_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeBswInternalBehaviorBswPerInstanceMemoryPolicies(parent, behavior)
+        assert len(parent) == 0
+
+    def test_writeBswInternalBehavior_emits_policies(self, writer):
+        behavior = _make_behavior()
+        behavior.addBswPerInstanceMemoryPolicy(BswPerInstanceMemoryPolicy())
+        parent = _parent()
+        writer.writeBswInternalBehavior(parent, behavior)
+        assert parent[0].find("BSW-PER-INSTANCE-MEMORY-POLICYS") is not None
+
+
+class TestWriterBswPerInstanceMemoryPolicyRoundTrip:
+    def test_round_trip_per_instance_memory_policies(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        policy = BswPerInstanceMemoryPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setArTypedPerInstanceMemoryRef(_ref("/mod/Mem", "VARIABLE-DATA-PROTOTYPE"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        behavior.addBswPerInstanceMemoryPolicy(policy)
+
+        out_file = tmp_path / "pimp_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policies = behavior_2.getBswPerInstanceMemoryPolicies()
+        assert len(policies) == 1
+        assert policies[0].getEnableTakeAddress().value is True
+        assert policies[0].getArTypedPerInstanceMemoryRef().getValue() == "/mod/Mem"
+        assert policies[0].getArTypedPerInstanceMemoryRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+        assert policies[0].getVariationPoint() is not None
+        assert policies[0].getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_round_trip_empty_per_instance_memory_policies(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.addBswPerInstanceMemoryPolicy(BswPerInstanceMemoryPolicy())
+
+        out_file = tmp_path / "pimp_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policies = behavior_2.getBswPerInstanceMemoryPolicies()
+        assert len(policies) == 1
+        assert policies[0].getArTypedPerInstanceMemoryRef() is None
+        assert policies[0].getEnableTakeAddress() is None
+
+
+class TestWriterBswClientPolicies:
+    def test_client_policy(self, writer):
+        policy = BswClientPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setRequiredClientServerEntryRef(_ref("/d", "BSW-MODULE-CLIENT-SERVER-ENTRY"))
+        parent = _parent()
+        writer.writeBswClientPolicy(parent, policy)
+        assert parent[0].tag == "BSW-CLIENT-POLICY"
+        assert parent[0].find("ENABLE-TAKE-ADDRESS") is not None
+        ref_element = parent[0].find("REQUIRED-CLIENT-SERVER-ENTRY-REF")
+        assert ref_element is not None
+        assert ref_element.text == "/d"
+        assert ref_element.attrib["DEST"] == "BSW-MODULE-CLIENT-SERVER-ENTRY"
+
+    def test_client_policy_variation_point(self, writer):
+        policy = BswClientPolicy()
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        parent = _parent()
+        writer.writeBswClientPolicy(parent, policy)
+        assert parent[0].find("VARIATION-POINT") is not None
+
+    def test_behavior_client_policies(self, writer):
+        behavior = _make_behavior()
+        policy = BswClientPolicy()
+        policy.setRequiredClientServerEntryRef(_ref("/d", "BSW-MODULE-CLIENT-SERVER-ENTRY"))
+        behavior.addClientPolicy(policy)
+        parent = _parent()
+        writer.writeBswInternalBehaviorClientPolicies(parent, behavior)
+        assert parent[0].tag == "CLIENT-POLICYS"
+        assert parent[0].find("BSW-CLIENT-POLICY") is not None
+
+    def test_behavior_client_policies_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeBswInternalBehaviorClientPolicies(parent, behavior)
+        assert len(parent) == 0
+
+    def test_writeBswInternalBehavior_emits_client_policies(self, writer):
+        behavior = _make_behavior()
+        behavior.addClientPolicy(BswClientPolicy())
+        parent = _parent()
+        writer.writeBswInternalBehavior(parent, behavior)
+        assert parent[0].find("CLIENT-POLICYS") is not None
+
+
+class TestWriterBswClientPolicyRoundTrip:
+    def test_round_trip_client_policies(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        policy = BswClientPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setRequiredClientServerEntryRef(_ref("/mod/Entry", "BSW-MODULE-CLIENT-SERVER-ENTRY"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        behavior.addClientPolicy(policy)
+
+        out_file = tmp_path / "cp_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policies = behavior_2.getClientPolicies()
+        assert len(policies) == 1
+        assert policies[0].getEnableTakeAddress().value is True
+        assert policies[0].getRequiredClientServerEntryRef().getValue() == "/mod/Entry"
+        assert policies[0].getRequiredClientServerEntryRef().getDest() == "BSW-MODULE-CLIENT-SERVER-ENTRY"
+        assert policies[0].getVariationPoint() is not None
+        assert policies[0].getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_round_trip_empty_client_policies(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.addClientPolicy(BswClientPolicy())
+
+        out_file = tmp_path / "cp_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policies = behavior_2.getClientPolicies()
+        assert len(policies) == 1
+        assert policies[0].getRequiredClientServerEntryRef() is None
+        assert policies[0].getEnableTakeAddress() is None
+
+
+class TestWriterBswInternalTriggeringPointPolicies:
+    def test_internal_triggering_point_policy(self, writer):
+        policy = BswInternalTriggeringPointPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setBswInternalTriggeringPointRef(_ref("/d", "BSW-INTERNAL-TRIGGERING-POINT"))
+        parent = _parent()
+        writer.writeBswInternalTriggeringPointPolicy(parent, policy)
+        assert parent[0].tag == "BSW-INTERNAL-TRIGGERING-POINT-POLICY"
+        assert parent[0].find("ENABLE-TAKE-ADDRESS") is not None
+        ref_element = parent[0].find("BSW-INTERNAL-TRIGGERING-POINT-REF")
+        assert ref_element is not None
+        assert ref_element.text == "/d"
+        assert ref_element.attrib["DEST"] == "BSW-INTERNAL-TRIGGERING-POINT"
+
+    def test_internal_triggering_point_policy_variation_point(self, writer):
+        policy = BswInternalTriggeringPointPolicy()
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        parent = _parent()
+        writer.writeBswInternalTriggeringPointPolicy(parent, policy)
+        assert parent[0].find("VARIATION-POINT") is not None
+
+    def test_behavior_internal_triggering_point_policies(self, writer):
+        behavior = _make_behavior()
+        policy = BswInternalTriggeringPointPolicy()
+        policy.setBswInternalTriggeringPointRef(_ref("/d", "BSW-INTERNAL-TRIGGERING-POINT"))
+        behavior.addInternalTriggeringPointPolicy(policy)
+        parent = _parent()
+        writer.writeBswInternalBehaviorInternalTriggeringPointPolicies(parent, behavior)
+        assert parent[0].tag == "INTERNAL-TRIGGERING-POINT-POLICYS"
+        assert parent[0].find("BSW-INTERNAL-TRIGGERING-POINT-POLICY") is not None
+
+    def test_behavior_internal_triggering_point_policies_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeBswInternalBehaviorInternalTriggeringPointPolicies(parent, behavior)
+        assert len(parent) == 0
+
+    def test_writeBswInternalBehavior_emits_internal_triggering_point_policies(self, writer):
+        behavior = _make_behavior()
+        behavior.addInternalTriggeringPointPolicy(BswInternalTriggeringPointPolicy())
+        parent = _parent()
+        writer.writeBswInternalBehavior(parent, behavior)
+        assert parent[0].find("INTERNAL-TRIGGERING-POINT-POLICYS") is not None
+
+
+class TestWriterBswInternalTriggeringPointPolicyRoundTrip:
+    def test_round_trip_internal_triggering_point_policies(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        policy = BswInternalTriggeringPointPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setBswInternalTriggeringPointRef(_ref("/mod/Itp", "BSW-INTERNAL-TRIGGERING-POINT"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        behavior.addInternalTriggeringPointPolicy(policy)
+
+        out_file = tmp_path / "itpp_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policies = behavior_2.getInternalTriggeringPointPolicies()
+        assert len(policies) == 1
+        assert policies[0].getEnableTakeAddress().value is True
+        assert policies[0].getBswInternalTriggeringPointRef().getValue() == "/mod/Itp"
+        assert policies[0].getBswInternalTriggeringPointRef().getDest() == "BSW-INTERNAL-TRIGGERING-POINT"
+        assert policies[0].getVariationPoint() is not None
+        assert policies[0].getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_round_trip_empty_internal_triggering_point_policies(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.addInternalTriggeringPointPolicy(BswInternalTriggeringPointPolicy())
+
+        out_file = tmp_path / "itpp_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policies = behavior_2.getInternalTriggeringPointPolicies()
+        assert len(policies) == 1
+        assert policies[0].getBswInternalTriggeringPointRef() is None
+        assert policies[0].getEnableTakeAddress() is None
+
+
+class TestWriterBswParameterPolicies:
+    def test_parameter_policy(self, writer):
+        policy = BswParameterPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setPerInstanceParameterRef(_ref("/d", "PARAMETER-DATA-PROTOTYPE"))
+        parent = _parent()
+        writer.writeBswParameterPolicy(parent, policy)
+        assert parent[0].tag == "BSW-PARAMETER-POLICY"
+        assert parent[0].find("ENABLE-TAKE-ADDRESS") is not None
+        ref_element = parent[0].find("PER-INSTANCE-PARAMETER-REF")
+        assert ref_element is not None
+        assert ref_element.text == "/d"
+        assert ref_element.attrib["DEST"] == "PARAMETER-DATA-PROTOTYPE"
+
+    def test_parameter_policy_variation_point(self, writer):
+        policy = BswParameterPolicy()
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        parent = _parent()
+        writer.writeBswParameterPolicy(parent, policy)
+        assert parent[0].find("VARIATION-POINT") is not None
+
+    def test_behavior_parameter_policies(self, writer):
+        behavior = _make_behavior()
+        policy = BswParameterPolicy()
+        policy.setPerInstanceParameterRef(_ref("/d", "PARAMETER-DATA-PROTOTYPE"))
+        behavior.addParameterPolicy(policy)
+        parent = _parent()
+        writer.writeBswInternalBehaviorParameterPolicies(parent, behavior)
+        assert parent[0].tag == "PARAMETER-POLICYS"
+        assert parent[0].find("BSW-PARAMETER-POLICY") is not None
+
+    def test_behavior_parameter_policies_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeBswInternalBehaviorParameterPolicies(parent, behavior)
+        assert len(parent) == 0
+
+    def test_writeBswInternalBehavior_emits_parameter_policies(self, writer):
+        behavior = _make_behavior()
+        behavior.addParameterPolicy(BswParameterPolicy())
+        parent = _parent()
+        writer.writeBswInternalBehavior(parent, behavior)
+        assert parent[0].find("PARAMETER-POLICYS") is not None
+
+
+class TestWriterBswParameterPolicyRoundTrip:
+    def test_round_trip_parameter_policies(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        policy = BswParameterPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setPerInstanceParameterRef(_ref("/mod/Pip", "PARAMETER-DATA-PROTOTYPE"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        behavior.addParameterPolicy(policy)
+
+        out_file = tmp_path / "pp_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policies = behavior_2.getParameterPolicies()
+        assert len(policies) == 1
+        assert policies[0].getEnableTakeAddress().value is True
+        assert policies[0].getPerInstanceParameterRef().getValue() == "/mod/Pip"
+        assert policies[0].getPerInstanceParameterRef().getDest() == "PARAMETER-DATA-PROTOTYPE"
+        assert policies[0].getVariationPoint() is not None
+        assert policies[0].getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_round_trip_empty_parameter_policies(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.addParameterPolicy(BswParameterPolicy())
+
+        out_file = tmp_path / "pp_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policies = behavior_2.getParameterPolicies()
+        assert len(policies) == 1
+        assert policies[0].getPerInstanceParameterRef() is None
+        assert policies[0].getEnableTakeAddress() is None
+
+
+class TestWriterBswReleasedTriggerPolicies:
+    def test_released_trigger_policy(self, writer):
+        policy = BswReleasedTriggerPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setReleasedTriggerRef(_ref("/d", "TRIGGER"))
+        parent = _parent()
+        writer.writeBswReleasedTriggerPolicy(parent, policy)
+        assert parent[0].tag == "BSW-RELEASED-TRIGGER-POLICY"
+        assert parent[0].find("ENABLE-TAKE-ADDRESS") is not None
+        ref_element = parent[0].find("RELEASED-TRIGGER-REF")
+        assert ref_element is not None
+        assert ref_element.text == "/d"
+        assert ref_element.attrib["DEST"] == "TRIGGER"
+
+    def test_released_trigger_policy_variation_point(self, writer):
+        policy = BswReleasedTriggerPolicy()
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        parent = _parent()
+        writer.writeBswReleasedTriggerPolicy(parent, policy)
+        assert parent[0].find("VARIATION-POINT") is not None
+
+    def test_behavior_released_trigger_policies(self, writer):
+        behavior = _make_behavior()
+        policy = BswReleasedTriggerPolicy()
+        policy.setReleasedTriggerRef(_ref("/d", "TRIGGER"))
+        behavior.addReleasedTriggerPolicy(policy)
+        parent = _parent()
+        writer.writeBswInternalBehaviorReleasedTriggerPolicies(parent, behavior)
+        assert parent[0].tag == "RELEASED-TRIGGER-POLICYS"
+        assert parent[0].find("BSW-RELEASED-TRIGGER-POLICY") is not None
+
+    def test_behavior_released_trigger_policies_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeBswInternalBehaviorReleasedTriggerPolicies(parent, behavior)
+        assert len(parent) == 0
+
+    def test_writeBswInternalBehavior_emits_released_trigger_policies(self, writer):
+        behavior = _make_behavior()
+        behavior.addReleasedTriggerPolicy(BswReleasedTriggerPolicy())
+        parent = _parent()
+        writer.writeBswInternalBehavior(parent, behavior)
+        assert parent[0].find("RELEASED-TRIGGER-POLICYS") is not None
+
+
+class TestWriterBswReleasedTriggerPolicyRoundTrip:
+    def test_round_trip_released_trigger_policies(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        policy = BswReleasedTriggerPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setReleasedTriggerRef(_ref("/mod/Trig", "TRIGGER"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        behavior.addReleasedTriggerPolicy(policy)
+
+        out_file = tmp_path / "rtp_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policies = behavior_2.getReleasedTriggerPolicies()
+        assert len(policies) == 1
+        assert policies[0].getEnableTakeAddress().value is True
+        assert policies[0].getReleasedTriggerRef().getValue() == "/mod/Trig"
+        assert policies[0].getReleasedTriggerRef().getDest() == "TRIGGER"
+        assert policies[0].getVariationPoint() is not None
+        assert policies[0].getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_round_trip_empty_released_trigger_policies(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.addReleasedTriggerPolicy(BswReleasedTriggerPolicy())
+
+        out_file = tmp_path / "rtp_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policies = behavior_2.getReleasedTriggerPolicies()
+        assert len(policies) == 1
+        assert policies[0].getReleasedTriggerRef() is None
+        assert policies[0].getEnableTakeAddress() is None
+
+
+class TestWriterBswDataSendPolicies:
+    def test_data_send_policy(self, writer):
+        policy = BswDataSendPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setProvidedDataRef(_ref("/d", "VARIABLE-DATA-PROTOTYPE"))
+        policy.setProviedeDataRef(_ref("/old", "VARIABLE-DATA-PROTOTYPE"))
+        parent = _parent()
+        writer.writeBswDataSendPolicy(parent, policy)
+        assert parent[0].tag == "BSW-DATA-SEND-POLICY"
+        assert parent[0].find("ENABLE-TAKE-ADDRESS") is not None
+        ref_element = parent[0].find("PROVIDED-DATA-REF")
+        assert ref_element is not None
+        assert ref_element.text == "/d"
+        assert ref_element.attrib["DEST"] == "VARIABLE-DATA-PROTOTYPE"
+        obsolete_element = parent[0].find("PROVIEDE-DATA-REF")
+        assert obsolete_element is not None
+        assert obsolete_element.text == "/old"
+
+    def test_data_send_policy_variation_point(self, writer):
+        policy = BswDataSendPolicy()
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        parent = _parent()
+        writer.writeBswDataSendPolicy(parent, policy)
+        assert parent[0].find("VARIATION-POINT") is not None
+
+    def test_behavior_data_send_policies(self, writer):
+        behavior = _make_behavior()
+        policy = BswDataSendPolicy()
+        policy.setProvidedDataRef(_ref("/d", "VARIABLE-DATA-PROTOTYPE"))
+        behavior.addSendPolicy(policy)
+        parent = _parent()
+        writer.writeBswInternalBehaviorDataSendPolicies(parent, behavior)
+        assert parent[0].tag == "SEND-POLICYS"
+        assert parent[0].find("BSW-DATA-SEND-POLICY") is not None
+
+    def test_behavior_data_send_policies_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeBswInternalBehaviorDataSendPolicies(parent, behavior)
+        assert len(parent) == 0
+
+    def test_writeBswInternalBehavior_emits_data_send_policies(self, writer):
+        behavior = _make_behavior()
+        behavior.addSendPolicy(BswDataSendPolicy())
+        parent = _parent()
+        writer.writeBswInternalBehavior(parent, behavior)
+        assert parent[0].find("SEND-POLICYS") is not None
+
+
+class TestWriterBswDataSendPolicyRoundTrip:
+    def test_round_trip_data_send_policies(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        policy = BswDataSendPolicy()
+        policy.setEnableTakeAddress(_bool(True))
+        policy.setProvidedDataRef(_ref("/mod/Data", "VARIABLE-DATA-PROTOTYPE"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(_literal("lbl"))
+        policy.setVariationPoint(variation_point)
+        behavior.addSendPolicy(policy)
+
+        out_file = tmp_path / "dsp_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policies = behavior_2.getSendPolicies()
+        assert len(policies) == 1
+        assert policies[0].getEnableTakeAddress().value is True
+        assert policies[0].getProvidedDataRef().getValue() == "/mod/Data"
+        assert policies[0].getProvidedDataRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+        assert policies[0].getVariationPoint() is not None
+        assert policies[0].getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_round_trip_empty_data_send_policies(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+        behavior.addSendPolicy(BswDataSendPolicy())
+
+        out_file = tmp_path / "dsp_empty_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+        policies = behavior_2.getSendPolicies()
+        assert len(policies) == 1
+        assert policies[0].getProvidedDataRef() is None
+        assert policies[0].getProviedeDataRef() is None
+        assert policies[0].getEnableTakeAddress() is None
+
+
+class TestWriterBswInternalBehaviorFullSync:
+    """Writer + round-trip coverage for the BswInternalBehavior wrappers added in the 2026-09-17 full sync."""
+
+    def test_ar_typed_per_instance_memories(self, writer):
+        behavior = _make_behavior()
+        prototype = VariableDataPrototype(parent=behavior, short_name="mem")
+        behavior.addArTypedPerInstanceMemory(prototype)
+        parent = _parent()
+        writer.writeBswInternalBehaviorArTypedPerInstanceMemories(parent, behavior)
+        assert parent[0].tag == "AR-TYPED-PER-INSTANCE-MEMORYS"
+        assert parent[0].find("VARIABLE-DATA-PROTOTYPE") is not None
+
+    def test_ar_typed_per_instance_memories_empty(self, writer):
+        behavior = _make_behavior()
+        parent = _parent()
+        writer.writeBswInternalBehaviorArTypedPerInstanceMemories(parent, behavior)
+        assert len(parent) == 0
+
+    def test_exclusive_area_policies(self, writer):
+        behavior = _make_behavior()
+        policy = BswExclusiveAreaPolicy()
+        policy.setExclusiveAreaRef(_ref("/ea", "EXCLUSIVE-AREA"))
+        behavior.addExclusiveAreaPolicy(policy)
+        parent = _parent()
+        writer.writeBswInternalBehaviorExclusiveAreaPolicies(parent, behavior)
+        assert parent[0].tag == "EXCLUSIVE-AREA-POLICYS"
+        child = parent[0].find("BSW-EXCLUSIVE-AREA-POLICY")
+        assert child is not None
+        assert child.find("EXCLUSIVE-AREA-REF") is not None
+
+    def test_included_data_type_sets(self, writer):
+        behavior = _make_behavior()
+        type_set = IncludedDataTypeSet()
+        behavior.addIncludedDataTypeSet(type_set)
+        parent = _parent()
+        writer.writeBswInternalBehaviorIncludedDataTypeSets(parent, behavior)
+        assert parent[0].tag == "INCLUDED-DATA-TYPE-SETS"
+        assert parent[0].find("INCLUDED-DATA-TYPE-SET") is not None
+
+    def test_mode_receiver_policies(self, writer):
+        behavior = _make_behavior()
+        policy = BswModeReceiverPolicy()
+        policy.setEnhancedModeApi(_bool(True))
+        policy.setRequiredModeGroupRef(_ref("/mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        behavior.addModeReceiverPolicy(policy)
+        parent = _parent()
+        writer.writeBswInternalBehaviorModeReceiverPolicies(parent, behavior)
+        assert parent[0].tag == "MODE-RECEIVER-POLICYS"
+        child = parent[0].find("BSW-MODE-RECEIVER-POLICY")
+        assert child is not None
+        assert child.find("ENHANCED-MODE-API") is not None
+        assert child.find("REQUIRED-MODE-GROUP-REF") is not None
+
+    def test_per_instance_parameters(self, writer):
+        behavior = _make_behavior()
+        prototype = ParameterDataPrototype(parent=behavior, short_name="pip")
+        behavior.addPerInstanceParameter(prototype)
+        parent = _parent()
+        writer.writeBswInternalBehaviorPerInstanceParameters(parent, behavior)
+        assert parent[0].tag == "PER-INSTANCE-PARAMETERS"
+        assert parent[0].find("PARAMETER-DATA-PROTOTYPE") is not None
+
+    def test_trigger_direct_implementations(self, writer):
+        behavior = _make_behavior()
+        implementation = BswTriggerDirectImplementation()
+        cat2_isr = Identifier()
+        cat2_isr.setValue("isr1")
+        implementation.setCat2Isr(cat2_isr)
+        implementation.setMasteredTriggerRef(_ref("/trig", "TRIGGER"))
+        behavior.addTriggerDirectImplementation(implementation)
+        parent = _parent()
+        writer.writeBswInternalBehaviorTriggerDirectImplementations(parent, behavior)
+        assert parent[0].tag == "TRIGGER-DIRECT-IMPLEMENTATIONS"
+        child = parent[0].find("BSW-TRIGGER-DIRECT-IMPLEMENTATION")
+        assert child is not None
+        assert child.find("CAT-2-ISR") is not None
+        assert child.find("MASTERED-TRIGGER-REF") is not None
+
+    def test_variation_point_proxies(self, writer):
+        behavior = _make_behavior()
+        proxy = VariationPointProxy(behavior, "vpx")
+        behavior.addVariationPointProxy(proxy)
+        parent = _parent()
+        writer.writeBswInternalBehaviorVariationPointProxies(parent, behavior)
+        assert parent[0].tag == "VARIATION-POINT-PROXYS"
+        assert parent[0].find("VARIATION-POINT-PROXY") is not None
+
+    def test_round_trip_full_sync_wrappers(self, tmp_path):
+        document = AUTOSAR.getInstance()
+        document.clear()
+        document.setARRelease("R23-11")
+        pkg = document.createARPackage("Pkg")
+        desc = pkg.createBswModuleDescription("BswMd")
+        behavior = desc.createBswInternalBehavior("Beh")
+
+        behavior.addArTypedPerInstanceMemory(VariableDataPrototype(parent=behavior, short_name="mem"))
+        exclusive_policy = BswExclusiveAreaPolicy()
+        exclusive_policy.setExclusiveAreaRef(_ref("/mod/Ea", "EXCLUSIVE-AREA"))
+        behavior.addExclusiveAreaPolicy(exclusive_policy)
+        behavior.addIncludedDataTypeSet(IncludedDataTypeSet())
+        receiver_policy = BswModeReceiverPolicy()
+        receiver_policy.setEnhancedModeApi(_bool(True))
+        receiver_policy.setRequiredModeGroupRef(_ref("/mod/Mg", "MODE-DECLARATION-GROUP-PROTOTYPE"))
+        behavior.addModeReceiverPolicy(receiver_policy)
+        behavior.addPerInstanceParameter(ParameterDataPrototype(parent=behavior, short_name="pip"))
+        implementation = BswTriggerDirectImplementation()
+        cat2_isr = Identifier()
+        cat2_isr.setValue("isr1")
+        implementation.setCat2Isr(cat2_isr)
+        implementation.setMasteredTriggerRef(_ref("/mod/Trig", "TRIGGER"))
+        behavior.addTriggerDirectImplementation(implementation)
+        behavior.addVariationPointProxy(VariationPointProxy(behavior, "vpx"))
+
+        out_file = tmp_path / "bib_out.arxml"
+        ARXMLWriter().save(str(out_file), document)
+
+        reloaded = AUTOSAR.getInstance()
+        reloaded.clear()
+        reloaded.setARRelease("R23-11")
+        ARXMLParser().load(str(out_file), reloaded)
+
+        desc_2 = reloaded.getARPackages()[0].getBswModuleDescriptions()[0]
+        behavior_2 = desc_2.getInternalBehaviors()[0]
+
+        memories = behavior_2.getArTypedPerInstanceMemories()
+        assert len(memories) == 1
+        assert memories[0].getShortName() == "mem"
+
+        exclusive_policies = behavior_2.getExclusiveAreaPolicies()
+        assert len(exclusive_policies) == 1
+        assert exclusive_policies[0].getExclusiveAreaRef().getValue() == "/mod/Ea"
+        assert exclusive_policies[0].getExclusiveAreaRef().getDest() == "EXCLUSIVE-AREA"
+
+        assert len(behavior_2.getIncludedDataTypeSets()) == 1
+
+        receiver_policies = behavior_2.getModeReceiverPolicies()
+        assert len(receiver_policies) == 1
+        assert receiver_policies[0].getEnhancedModeApi().value is True
+        assert receiver_policies[0].getRequiredModeGroupRef().getValue() == "/mod/Mg"
+
+        parameters = behavior_2.getPerInstanceParameters()
+        assert len(parameters) == 1
+        assert parameters[0].getShortName() == "pip"
+
+        implementations = behavior_2.getTriggerDirectImplementations()
+        assert len(implementations) == 1
+        assert implementations[0].getCat2Isr().getValue() == "isr1"
+        assert implementations[0].getMasteredTriggerRef().getValue() == "/mod/Trig"
+        assert implementations[0].getTask() is None
+
+        proxies = behavior_2.getVariationPointProxies()
+        assert len(proxies) == 1
+        assert proxies[0].getShortName() == "vpx"
 
 
 class TestWriterBswInternalTriggeringPoints:

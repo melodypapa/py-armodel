@@ -28,10 +28,11 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.IncludedDataTypes import IncludedDataTypeSet
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ModeDeclarationGroup import IncludedModeDeclarationGroupSet
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import ModeActivationKind
 
 
@@ -1967,6 +1968,243 @@ class BswExclusiveAreaPolicy(BswApiOptions, VariationPointCapable):
         return self
 
 
+class BswPerInstanceMemoryPolicy(BswApiOptions, VariationPointCapable):
+    """
+    The per-instance memory for which the BSW Scheduler using this policy.
+    """
+
+    # BswPerInstanceMemoryPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate (BSW behavior policies), class BswPerInstanceMemoryPolicy, AUTOSAR_00052.xsd line 12370 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArTypedPerInstanceMemoryRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArTypedPerInstanceMemoryRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The arTypedPerInstanceMemory for which the BSW Scheduler using this policy
+        self.arTypedPerInstanceMemoryRef: Optional[RefType] = None
+
+    def getArTypedPerInstanceMemoryRef(self) -> Optional[RefType]:
+        """
+        The arTypedPerInstanceMemory for which the BSW Scheduler using this policy
+        """
+        return self.arTypedPerInstanceMemoryRef
+
+    def setArTypedPerInstanceMemoryRef(self, value: Optional[RefType]) -> "BswPerInstanceMemoryPolicy":
+        """
+        The arTypedPerInstanceMemory for which the BSW Scheduler using this policy
+
+        A None value is a no-op and does not overwrite an existing arTypedPerInstanceMemoryRef.
+        """
+        if value is not None:
+            self.arTypedPerInstanceMemoryRef = value
+        return self
+
+
+class BswClientPolicy(BswApiOptions, VariationPointCapable):
+    """
+    The requiredClientServerEntry for which the BSW Scheduler using this policy.
+    """
+
+    # BswClientPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate (BSW behavior policies), class BswClientPolicy, AUTOSAR_00052.xsd line 9616 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getRequiredClientServerEntryRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRequiredClientServerEntryRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The requiredClientServerEntry for which the BSW Scheduler using this policy.
+        self.requiredClientServerEntryRef: Optional[RefType] = None
+
+    def getRequiredClientServerEntryRef(self) -> Optional[RefType]:
+        """
+        The requiredClientServerEntry for which the BSW Scheduler using this policy.
+        """
+        return self.requiredClientServerEntryRef
+
+    def setRequiredClientServerEntryRef(self, value: Optional[RefType]) -> "BswClientPolicy":
+        """
+        The requiredClientServerEntry for which the BSW Scheduler using this policy.
+
+        A None value is a no-op and does not overwrite an existing requiredClientServerEntryRef.
+        """
+        if value is not None:
+            self.requiredClientServerEntryRef = value
+        return self
+
+
+class BswInternalTriggeringPointPolicy(BswApiOptions, VariationPointCapable):
+    """
+    The internal triggering point for which the BSW Scheduler using this policy.
+    """
+
+    # BswInternalTriggeringPointPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate (BSW behavior policies), class BswInternalTriggeringPointPolicy, AUTOSAR_00052.xsd line 10850 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBswInternalTriggeringPointRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBswInternalTriggeringPointRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The BswInternalTriggeringPoint for which the BSW Scheduler using this policy.
+        self.bswInternalTriggeringPointRef: Optional[RefType] = None
+
+    def getBswInternalTriggeringPointRef(self) -> Optional[RefType]:
+        """
+        The BswInternalTriggeringPoint for which the BSW Scheduler using this policy.
+        """
+        return self.bswInternalTriggeringPointRef
+
+    def setBswInternalTriggeringPointRef(self, value: Optional[RefType]) -> "BswInternalTriggeringPointPolicy":
+        """
+        The BswInternalTriggeringPoint for which the BSW Scheduler using this policy.
+
+        A None value is a no-op and does not overwrite an existing bswInternalTriggeringPointRef.
+        """
+        if value is not None:
+            self.bswInternalTriggeringPointRef = value
+        return self
+
+
+class BswParameterPolicy(BswApiOptions, VariationPointCapable):
+    """
+    The perInstanceParameter for which the BSW Scheduler using this policy.
+    """
+
+    # BswParameterPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate (BSW behavior policies), class BswParameterPolicy, AUTOSAR_00052.xsd line 12325 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getPerInstanceParameterRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPerInstanceParameterRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The perInstanceParameter for which the BSW Scheduler using this policy.
+        self.perInstanceParameterRef: Optional[RefType] = None
+
+    def getPerInstanceParameterRef(self) -> Optional[RefType]:
+        """
+        The perInstanceParameter for which the BSW Scheduler using this policy.
+        """
+        return self.perInstanceParameterRef
+
+    def setPerInstanceParameterRef(self, value: Optional[RefType]) -> "BswParameterPolicy":
+        """
+        The perInstanceParameter for which the BSW Scheduler using this policy.
+
+        A None value is a no-op and does not overwrite an existing perInstanceParameterRef.
+        """
+        if value is not None:
+            self.perInstanceParameterRef = value
+        return self
+
+
+class BswReleasedTriggerPolicy(BswApiOptions, VariationPointCapable):
+    """
+    The Trigger for which the BSW Scheduler using this policy.
+    """
+
+    # BswReleasedTriggerPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate (BSW behavior policies), class BswReleasedTriggerPolicy, AUTOSAR_00052.xsd line 12446 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getReleasedTriggerRef     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReleasedTriggerRef     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self):
+        super().__init__()
+
+        # The Trigger for which the BSW Scheduler using this policy.
+        self.releasedTriggerRef: Optional[RefType] = None
+
+    def getReleasedTriggerRef(self) -> Optional[RefType]:
+        """
+        The Trigger for which the BSW Scheduler using this policy.
+        """
+        return self.releasedTriggerRef
+
+    def setReleasedTriggerRef(self, value: Optional[RefType]) -> "BswReleasedTriggerPolicy":
+        """
+        The Trigger for which the BSW Scheduler using this policy.
+
+        A None value is a no-op and does not overwrite an existing releasedTriggerRef.
+        """
+        if value is not None:
+            self.releasedTriggerRef = value
+        return self
+
+
+class BswDataSendPolicy(BswApiOptions, VariationPointCapable):
+    """
+    The data sent over the BSW Scheduler using this policy.
+    """
+
+    # BswDataSendPolicy method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate (BSW behavior policies), class BswDataSendPolicy, AUTOSAR_00052.xsd line 9802 (XSD-only; no own table in repo corpus)
+    # XSD verified: AUTOSAR_00052.xsd
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getProvidedDataRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setProvidedDataRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getProviedeDataRef       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11  (obsolete, PROVIEDE-DATA-REF)
+    # [x] setProviedeDataRef       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11  (obsolete, PROVIEDE-DATA-REF)
+
+    def __init__(self):
+        super().__init__()
+
+        # The data sent over the BSW Scheduler using this policy.
+        self.providedDataRef: Optional[RefType] = None
+
+        # The data sent over the BSW Scheduler using this policy. (obsolete, PROVIEDE-DATA-REF)
+        self.proviedeDataRef: Optional[RefType] = None
+
+    def getProvidedDataRef(self) -> Optional[RefType]:
+        """
+        The data sent over the BSW Scheduler using this policy.
+        """
+        return self.providedDataRef
+
+    def setProvidedDataRef(self, value: Optional[RefType]) -> "BswDataSendPolicy":
+        """
+        The data sent over the BSW Scheduler using this policy.
+
+        A None value is a no-op and does not overwrite an existing providedDataRef.
+        """
+        if value is not None:
+            self.providedDataRef = value
+        return self
+
+    def getProviedeDataRef(self) -> Optional[RefType]:
+        """
+        The data sent over the BSW Scheduler using this policy.
+        """
+        return self.proviedeDataRef
+
+    def setProviedeDataRef(self, value: Optional[RefType]) -> "BswDataSendPolicy":
+        """
+        The data sent over the BSW Scheduler using this policy.
+
+        A None value is a no-op and does not overwrite an existing proviedeDataRef.
+        """
+        if value is not None:
+            self.proviedeDataRef = value
+        return self
+
+
 class BswDataReceptionPolicy(BswApiOptions, VariationPointCapable, ABC):
     """
     Abstract base class for BSW data reception policies.
@@ -2358,207 +2596,252 @@ class BswServiceDependency(ServiceDependency, VariationPointCapable):
 
 class BswInternalBehavior(InternalBehavior):
     """
-    Represents the internal behavior of a BSW module.
-    This class contains all the entities, events, policies, and other behavioral elements
-    that define how a BSW module operates internally.
+    Specifies the behavior of a BSW module or a BSW cluster w.r.t. the code entities visible by the BSW Scheduler. It is possible to have several different BswInternalBehaviors referring to the same BswModuleDescription.
     """
 
     # BswInternalBehavior method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.2, p.68
-    # Deferred: full sync (6 member policy classes missing; reader/writer partial)
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-    # [x] getArTypedPerInstanceMemories [x] impl  [x] docstring  [x] test
-    # [x] setArTypedPerInstanceMemories [x] impl  [x] docstring  [x] test
-    # [x] getBswPerInstanceMemoryPolicies [x] impl  [x] docstring  [x] test
-    # [x] setBswPerInstanceMemoryPolicies [x] impl  [x] docstring  [x] test
-    # [x] getClientPolicies            [x] impl  [x] docstring  [x] test
-    # [x] setClientPolicies            [x] impl  [x] docstring  [x] test
-    # [x] getDistinguishedPartitions   [x] impl  [x] docstring  [x] test
-    # [x] setDistinguishedPartitions   [x] impl  [x] docstring  [x] test
-    # [x] getExclusiveAreaPolicies     [x] impl  [x] docstring  [x] test
-    # [x] setExclusiveAreaPolicies     [x] impl  [x] docstring  [x] test
-    # [x] getInternalTriggeringPoints  [x] impl  [x] docstring  [x] test
-    # [x] createBswInternalTriggeringPoint [x] impl  [x] docstring  [x] test
-    # [x] getInternalTriggeringPointPolicies [x] impl  [x] docstring  [x] test
-    # [x] setInternalTriggeringPointPolicies [x] impl  [x] docstring  [x] test
-    # [x] getModeReceiverPolicies      [x] impl  [x] docstring  [x] test
-    # [x] setModeSenderPolicies        [x] impl  [x] docstring  [x] test
-    # [x] getParameterPolicies         [x] impl  [x] docstring  [x] test
-    # [x] setParameterPolicies         [x] impl  [x] docstring  [x] test
-    # [x] getPerInstanceParameters     [x] impl  [x] docstring  [x] test
-    # [x] setPerInstanceParameters     [x] impl  [x] docstring  [x] test
-    # [x] getReceptionPolicies         [x] impl  [x] docstring  [x] test
-    # [x] addReceptionPolicy           [x] impl  [x] docstring  [x] test
-    # [x] getReleasedTriggerPolicies   [x] impl  [x] docstring  [x] test
-    # [x] setReleasedTriggerPolicies   [x] impl  [x] docstring  [x] test
-    # [x] getSchedulerNamePrefixes     [x] impl  [x] docstring  [x] test
-    # [x] setSchedulerNamePrefixes     [x] impl  [x] docstring  [x] test
-    # [x] getSendPolicies              [x] impl  [x] docstring  [x] test
-    # [x] setSendPolicies              [x] impl  [x] docstring  [x] test
-    # [x] getServiceDependencies       [x] impl  [x] docstring  [x] test
-    # [x] setServiceDependencies       [x] impl  [x] docstring  [x] test
-    # [x] addServiceDependency         [x] impl  [x] docstring  [x] test
-    # [x] getTriggerDirectImplementations [x] impl  [x] docstring  [x] test
-    # [x] setTriggerDirectImplementations [x] impl  [x] docstring  [x] test
-    # [x] getVariationPointProxies     [x] impl  [x] docstring  [x] test
-    # [x] setVariationPointProxies     [x] impl  [x] docstring  [x] test
-    # [x] addModeSenderPolicy          [x] impl  [x] docstring  [x] test
-    # [x] getModeSenderPolicies        [x] impl  [x] docstring  [x] test
-    # [x] createBswCalledEntity        [x] impl  [x] docstring  [x] test
-    # [x] getBswCalledEntities         [x] impl  [x] docstring  [x] test
-    # [x] createBswSchedulableEntity   [x] impl  [x] docstring  [x] test
-    # [x] getBswSchedulableEntities    [x] impl  [x] docstring  [x] test
-    # [x] createBswInterruptEntity     [x] impl  [x] docstring  [x] test
-    # [x] getBswInterruptEntities      [x] impl  [x] docstring  [x] test
-    # [x] getBswModuleEntities         [x] impl  [x] docstring  [x] test
-    # [x] createBswModeSwitchEvent     [x] impl  [x] docstring  [x] test
-    # [x] getBswModeSwitchEvents       [x] impl  [x] docstring  [x] test
-    # [x] createBswTimingEvent         [x] impl  [x] docstring  [x] test
-    # [x] getBswTimingEvents           [x] impl  [x] docstring  [x] test
-    # [x] createBswDataReceivedEvent   [x] impl  [x] docstring  [x] test
-    # [x] getBswDataReceivedEvents     [x] impl  [x] docstring  [x] test
-    # [x] createBswInternalTriggerOccurredEvent [x] impl  [x] docstring  [x] test
-    # [x] getBswInternalTriggerOccurredEvents [x] impl  [x] docstring  [x] test
-    # [x] createBswExternalTriggerOccurredEvent [x] impl  [x] docstring  [x] test
-    # [x] getBswOperationInvokedEvents [x] impl  [x] docstring  [x] test
-    # [x] createBswOperationInvokedEvent [x] impl  [x] docstring  [x] test
-    # [x] getBswExternalTriggerOccurredEvents [x] impl  [x] docstring  [x] test
-    # [x] createBswBackgroundEvent     [x] impl  [x] docstring  [x] test
-    # [x] getBswBackgroundEvents       [x] impl  [x] docstring  [x] test
-    # [x] createBswModeManagerErrorEvent [x] impl  [x] docstring  [x] test
-    # [x] getBswModeManagerErrorEvents [x] impl  [x] docstring  [x] test
-    # [x] createBswModeSwitchedAckEvent [x] impl  [x] docstring  [x] test
-    # [x] getBswModeSwitchedAckEvents [x] impl  [x] docstring  [x] test
-    # [x] createBswAsynchronousServerCallReturnsEvent [x] impl  [x] docstring  [x] test
-    # [x] getBswAsynchronousServerCallReturnsEvents [x] impl  [x] docstring  [x] test
-    # [x] getBswEvents                 [x] impl  [x] docstring  [x] test
-    # [x] addIncludedModeDeclarationGroupSet [x] impl  [x] docstring  [x] test
-    # [x] getIncludedModeDeclarationGroupSets [x] impl  [x] docstring  [x] test
-    # [x] addIncludedDataTypeSet       [x] impl  [x] docstring  [x] test
-    # [x] getIncludedDataTypeSets      [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 5.2, p.68 (page-split pp.67-68)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getArTypedPerInstanceMemories          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setArTypedPerInstanceMemories          [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addArTypedPerInstanceMemory            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswPerInstanceMemoryPolicies        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setBswPerInstanceMemoryPolicies        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addBswPerInstanceMemoryPolicy          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addClientPolicy                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getClientPolicies                      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setClientPolicies                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDistinguishedPartitions             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createDistinguishedPartition           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setDistinguishedPartitions             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getExclusiveAreaPolicies               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setExclusiveAreaPolicies               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addExclusiveAreaPolicy                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInternalTriggeringPoints            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createBswInternalTriggeringPoint       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getInternalTriggeringPointPolicies     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setInternalTriggeringPointPolicies     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addInternalTriggeringPointPolicy       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeReceiverPolicies                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setModeReceiverPolicies                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addModeReceiverPolicy                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setModeSenderPolicies                  [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getParameterPolicies                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setParameterPolicies                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addParameterPolicy                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getPerInstanceParameters               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setPerInstanceParameters               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addPerInstanceParameter                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReceptionPolicies                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addReceptionPolicy                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getReleasedTriggerPolicies             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setReleasedTriggerPolicies             [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addReleasedTriggerPolicy               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSchedulerNamePrefixes               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createSchedulerNamePrefix              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] setSchedulerNamePrefixes               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSendPolicies                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSendPolicies                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addSendPolicy                          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getServiceDependencies                 [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setServiceDependencies                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addServiceDependency                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getTriggerDirectImplementations        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setTriggerDirectImplementations        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addTriggerDirectImplementation         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getVariationPointProxies               [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setVariationPointProxies               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addVariationPointProxy                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] addModeSenderPolicy                    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getModeSenderPolicies                  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createBswCalledEntity                  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswCalledEntities                   [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createBswSchedulableEntity             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswSchedulableEntities              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createBswInterruptEntity               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswInterruptEntities                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBswModuleEntities                   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] createBswModeSwitchEvent               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswModeSwitchEvents                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createBswTimingEvent                   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswTimingEvents                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createBswDataReceivedEvent             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswDataReceivedEvents               [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createBswInternalTriggerOccurredEvent  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswInternalTriggerOccurredEvents    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createBswExternalTriggerOccurredEvent  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswOperationInvokedEvents           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createBswOperationInvokedEvent         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswExternalTriggerOccurredEvents    [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createBswBackgroundEvent               [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createBswInterruptEvent                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] createBswOsTaskExecutionEvent          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswBackgroundEvents                 [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createBswModeManagerErrorEvent         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswModeManagerErrorEvents           [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createBswModeSwitchedAckEvent          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswModeSwitchedAckEvents            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] createBswAsynchronousServerCallReturnsEvent [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getBswAsynchronousServerCallReturnsEvents [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getBswEvents                           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addIncludedModeDeclarationGroupSet     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIncludedModeDeclarationGroupSets    [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
+    # [x] addIncludedDataTypeSet                 [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getIncludedDataTypeSets                [x] impl  [x] docstring  [x] test  [x] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswInternalBehavior with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this behavior
-            short_name: The unique short name of this behavior
-        """
         super().__init__(parent, short_name)
 
-        # List of AUTOSAR typed per-instance memories
+        # Defines an AUTOSAR typed memory-block that needs to be available for each instance of the Basic Software Module. The aggregation of arTypedPerInstanceMemory is subject to variability with the purpose to support variability in the Basic Software Module's implementations. Typically different algorithms in the implementation are requiring different number of memory objects.
         self.arTypedPerInstanceMemories: List[VariableDataPrototype] = []
-        # List of BSW per-instance memory policies
-        self.bswPerInstanceMemoryPolicies = []
-        # List of BSW client policies
-        self.clientPolicies = []
-        # List of BSW distinguished partitions
+
+        # Policy for a arTypedPerInstanceMemory The policy selects the options of the Schedule Manager API generation.
+        self.bswPerInstanceMemoryPolicies: List[BswPerInstanceMemoryPolicy] = []
+
+        # Policy for a requiredClientServerEntry. The policy selects the options of the Schedule Manager API generation.
+        self.clientPolicies: List[BswClientPolicy] = []
+
+        # Indicates an abstract partition context in which the enclosing BswModuleEntity can be executed.
         self.distinguishedPartitions: List[BswDistinguishedPartition] = []
-        # List of BSW module entities
-        self.entities = []
-        # List of BSW events
-        self.events = []
-        # List of BSW exclusive area policies
-        self.exclusiveAreaPolicies = []
-        # List of included data type sets
-        self.includedDataTypeSets = []
-        # List of included mode declaration group sets
-        self.includedModeDeclarationGroupSets = []
-        # List of BSW internal triggering points
-        self.internalTriggeringPoints = []
-        # List of BSW internal triggering point policies
-        self.internalTriggeringPointPolicies = []
-        # List of BSW mode receiver policies
-        self.modeReceiverPolicies = []
-        # List of BSW mode sender policies
-        self.modeSenderPolicies = []
-        # List of BSW parameter policies
-        self.parameterPolicies = []
-        # List of per-instance parameters
-        self.perInstanceParameters = []
-        # List of BSW data reception policies
-        self.receptionPolicies = []
-        # List of BSW released trigger policies
-        self.releasedTriggerPolicies = []
-        # List of BSW scheduler name prefixes
-        self.schedulerNamePrefixes = []
-        # List of BSW data send policies
-        self.sendPolicies = []
-        # List of BSW service dependencies
-        self.serviceDependencies = []
-        # List of BSW trigger direct implementations
-        self.triggerDirectImplementations = []
-        # List of variation point proxies
-        self.variationPointProxies = []
+
+        # A code entity for which the behavior is described
+        self.entities: List[BswModuleEntity] = []
+
+        # An event required by this module behavior.
+        self.events: List[BswEvent] = []
+
+        # Policy for an ExclusiveArea in this BswInternalBehavior. The policy selects the options of the Schedule Manager API generation.
+        self.exclusiveAreaPolicies: List[BswExclusiveAreaPolicy] = []
+
+        # The includedDataTypeSet is used by a basic software module for its implementation.
+        self.includedDataTypeSets: List[IncludedDataTypeSet] = []
+
+        # This aggregation represents the included ModeDeclarationGroups
+        self.includedModeDeclarationGroupSets: List[IncludedModeDeclarationGroupSet] = []
+
+        # An internal triggering point.
+        self.internalTriggeringPoints: List[BswInternalTriggeringPoint] = []
+
+        # Policy for an internalTriggeringPoint in this BswInternalBehavior.. The policy selects the options of the Schedule Manager API generation.
+        self.internalTriggeringPointPolicies: List[BswInternalTriggeringPointPolicy] = []
+
+        # Implementation policy for the reception of mode switches.
+        self.modeReceiverPolicies: List[BswModeReceiverPolicy] = []
+
+        # Implementation policy for providing a mode group.
+        self.modeSenderPolicies: List[BswModeSenderPolicy] = []
+
+        # Policy for a perInstanceParameter in this BswInternalBehavior. The policy selects the options of the Schedule Manager API generation.
+        self.parameterPolicies: List[BswParameterPolicy] = []
+
+        # Describes a read only memory object containing characteristic value(s) needed by this BswInternalBehavior. The role name perInstanceParameter is chosen in analogy to the similar role in the context of SwcInternalBehavior. In contrast to constantMemory, this object is not allocated locally by the module's code, but by the BSW Scheduler and it is accessed from the BSW module via the BSW Scheduler API. The main use case is the support of software emulation of calibration data. The aggregation is subject to variability with the purpose to support implementation variants.
+        self.perInstanceParameters: List[ParameterDataPrototype] = []
+
+        # Data reception policy for inter-partition and/or inter-core communication.
+        self.receptionPolicies: List[BswDataReceptionPolicy] = []
+
+        # Policy for a releasedTrigger. The policy selects the options of the Schedule Manager API generation.
+        self.releasedTriggerPolicies: List[BswReleasedTriggerPolicy] = []
+
+        # Optional definition of one or more prefixes to be used for the BswScheduler.
+        self.schedulerNamePrefixes: List[BswSchedulerNamePrefix] = []
+
+        # Policy for a providedData. The policy selects the options of the Schedule Manager API generation.
+        self.sendPolicies: List[BswDataSendPolicy] = []
+
+        # Defines the requirements on AUTOSAR Services for a particular item. The aggregation is subject to variability with the purpose to support the conditional existence of ServiceNeeds. The aggregation is splitable in order to support that ServiceNeeds might be provided in later development steps.
+        self.serviceDependencies: List[BswServiceDependency] = []
+
+        # Specifies a trigger to be directly implemented via OS calls.
+        self.triggerDirectImplementations: List[BswTriggerDirectImplementation] = []
+
+        # Proxy of a variation points in the C/C++ implementation.
+        self.variationPointProxies: List[VariationPointProxy] = []
 
     def getArTypedPerInstanceMemories(self):
         """
-        Gets the list of AUTOSAR typed per-instance memories.
-
-        Returns:
-            List of VariableDataPrototype instances
+        Defines an AUTOSAR typed memory-block that needs to be available for each instance of the Basic Software Module. The aggregation of arTypedPerInstanceMemory is subject to variability with the purpose to support variability in the Basic Software Module's implementations. Typically different algorithms in the implementation are requiring different number of memory objects.
         """
         return self.arTypedPerInstanceMemories
 
     def setArTypedPerInstanceMemories(self, value):
         """
-        Sets the list of AUTOSAR typed per-instance memories.
-        Only sets the value if it is not None.
+        Defines an AUTOSAR typed memory-block that needs to be available for each instance of the Basic Software Module. The aggregation of arTypedPerInstanceMemory is subject to variability with the purpose to support variability in the Basic Software Module's implementations. Typically different algorithms in the implementation are requiring different number of memory objects.
 
-        Args:
-            value: The list of VariableDataPrototype instances to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing arTypedPerInstanceMemories.
         """
         if value is not None:
             self.arTypedPerInstanceMemories = value
         return self
 
-    def getBswPerInstanceMemoryPolicies(self):
+    def addArTypedPerInstanceMemory(self, value: Optional[VariableDataPrototype]) -> "BswInternalBehavior":
         """
-        Gets the list of BSW per-instance memory policies.
+        Defines an AUTOSAR typed memory-block that needs to be available for each instance of the Basic Software Module. The aggregation of arTypedPerInstanceMemory is subject to variability with the purpose to support variability in the Basic Software Module's implementations. Typically different algorithms in the implementation are requiring different number of memory objects.
 
-        Returns:
-            List of BswPerInstanceMemoryPolicy instances
-        """
-        return self.bswPerInstanceMemoryPolicies
-
-    def setBswPerInstanceMemoryPolicies(self, value):
-        """
-        Sets the list of BSW per-instance memory policies.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The list of BswPerInstanceMemoryPolicy instances to set
+        A None value is a no-op and does not append to the existing arTypedPerInstanceMemories.
 
         Returns:
             self for method chaining
         """
         if value is not None:
+            self.arTypedPerInstanceMemories.append(value)
+        return self
+
+    def getBswPerInstanceMemoryPolicies(self):
+        """
+        Policy for a arTypedPerInstanceMemory The policy selects the options of the Schedule Manager API generation.
+        """
+        return self.bswPerInstanceMemoryPolicies
+
+    def setBswPerInstanceMemoryPolicies(self, value):
+        """
+        Policy for a arTypedPerInstanceMemory The policy selects the options of the Schedule Manager API generation.
+
+        A None value is a no-op and does not overwrite an existing bswPerInstanceMemoryPolicies.
+        """
+        if value is not None:
             self.bswPerInstanceMemoryPolicies = value
+        return self
+
+    def addBswPerInstanceMemoryPolicy(self, value: Optional[BswPerInstanceMemoryPolicy]) -> "BswInternalBehavior":
+        """
+        Policy for a arTypedPerInstanceMemory The policy selects the options of the Schedule Manager API generation.
+
+        A None value is a no-op and does not append to the existing bswPerInstanceMemoryPolicies.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.bswPerInstanceMemoryPolicies.append(value)
+        return self
+
+    def addClientPolicy(self, value: Optional[BswClientPolicy]) -> "BswInternalBehavior":
+        """
+        Policy for a requiredClientServerEntry. The policy selects the options of the Schedule Manager API generation.
+
+        A None value is a no-op and does not append to the existing clientPolicies.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.clientPolicies.append(value)
         return self
 
     def getClientPolicies(self):
         """
-        Gets the list of BSW client policies.
-
-        Returns:
-            List of BswClientPolicy instances
+        Policy for a requiredClientServerEntry. The policy selects the options of the Schedule Manager API generation.
         """
         return self.clientPolicies
 
     def setClientPolicies(self, value):
         """
-        Sets the list of BSW client policies.
-        Only sets the value if it is not None.
+        Policy for a requiredClientServerEntry. The policy selects the options of the Schedule Manager API generation.
 
-        Args:
-            value: The list of BswClientPolicy instances to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing clientPolicies.
         """
         if value is not None:
             self.clientPolicies = value
@@ -2566,24 +2849,19 @@ class BswInternalBehavior(InternalBehavior):
 
     def getDistinguishedPartitions(self):
         """
-        Gets the list of BSW distinguished partitions.
-
-        Returns:
-            List of BswDistinguishedPartition instances
+        Indicates an abstract partition context in which the enclosing BswModuleEntity can be executed.
         """
         return self.distinguishedPartitions
 
     def createDistinguishedPartition(self, short_name: str) -> BswDistinguishedPartition:
         """
-        Creates and adds a BswDistinguishedPartition to this behavior's
-        distinguished partitions. Returns the existing partition if the short
-        name is already present.
+        Indicates an abstract partition context in which the enclosing BswModuleEntity can be executed.
 
         Args:
-            short_name: The short name for the new distinguished partition
+            short_name: The short name of the created element
 
         Returns:
-            The created BswDistinguishedPartition instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswDistinguishedPartition):
             partition = BswDistinguishedPartition(self, short_name)
@@ -2593,14 +2871,9 @@ class BswInternalBehavior(InternalBehavior):
 
     def setDistinguishedPartitions(self, value):
         """
-        Sets the list of BSW distinguished partitions.
-        Only sets the value if it is not None.
+        Indicates an abstract partition context in which the enclosing BswModuleEntity can be executed.
 
-        Args:
-            value: The list of BswDistinguishedPartition instances to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing distinguishedPartitions.
         """
         if value is not None:
             self.distinguishedPartitions = value
@@ -2608,46 +2881,48 @@ class BswInternalBehavior(InternalBehavior):
 
     def getExclusiveAreaPolicies(self):
         """
-        Gets the list of BSW exclusive area policies.
-
-        Returns:
-            List of BswExclusiveAreaPolicy instances
+        Policy for an ExclusiveArea in this BswInternalBehavior. The policy selects the options of the Schedule Manager API generation.
         """
         return self.exclusiveAreaPolicies
 
     def setExclusiveAreaPolicies(self, value):
         """
-        Sets the list of BSW exclusive area policies.
-        Only sets the value if it is not None.
+        Policy for an ExclusiveArea in this BswInternalBehavior. The policy selects the options of the Schedule Manager API generation.
 
-        Args:
-            value: The list of BswExclusiveAreaPolicy instances to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing exclusiveAreaPolicies.
         """
         if value is not None:
             self.exclusiveAreaPolicies = value
         return self
 
-    def getInternalTriggeringPoints(self):
+    def addExclusiveAreaPolicy(self, value: Optional[BswExclusiveAreaPolicy]) -> "BswInternalBehavior":
         """
-        Gets the list of BSW internal triggering points.
+        Policy for an ExclusiveArea in this BswInternalBehavior. The policy selects the options of the Schedule Manager API generation.
+
+        A None value is a no-op and does not append to the existing exclusiveAreaPolicies.
 
         Returns:
-            List of BswInternalTriggeringPoint instances
+            self for method chaining
+        """
+        if value is not None:
+            self.exclusiveAreaPolicies.append(value)
+        return self
+
+    def getInternalTriggeringPoints(self):
+        """
+        An internal triggering point.
         """
         return self.internalTriggeringPoints
 
     def createBswInternalTriggeringPoint(self, short_name: str) -> BswInternalTriggeringPoint:
         """
-        Creates and adds a BswInternalTriggeringPoint to this internal behavior.
+        An internal triggering point.
 
         Args:
-            short_name: The short name for the new triggering point
+            short_name: The short name of the created element
 
         Returns:
-            The created BswInternalTriggeringPoint instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswInternalTriggeringPoint):
             entity = BswInternalTriggeringPoint(self, short_name)
@@ -2657,47 +2932,67 @@ class BswInternalBehavior(InternalBehavior):
 
     def getInternalTriggeringPointPolicies(self):
         """
-        Gets the list of BSW internal triggering point policies.
-
-        Returns:
-            List of BswInternalTriggeringPointPolicy instances
+        Policy for an internalTriggeringPoint in this BswInternalBehavior.. The policy selects the options of the Schedule Manager API generation.
         """
         return self.internalTriggeringPointPolicies
 
     def setInternalTriggeringPointPolicies(self, value):
         """
-        Sets the list of BSW internal triggering point policies.
-        Only sets the value if it is not None.
+        Policy for an internalTriggeringPoint in this BswInternalBehavior.. The policy selects the options of the Schedule Manager API generation.
 
-        Args:
-            value: The list of BswInternalTriggeringPointPolicy instances to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing internalTriggeringPointPolicies.
         """
         if value is not None:
             self.internalTriggeringPointPolicies = value
         return self
 
-    def getModeReceiverPolicies(self):
+    def addInternalTriggeringPointPolicy(self, value: Optional[BswInternalTriggeringPointPolicy]) -> "BswInternalBehavior":
         """
-        Gets the list of BSW mode receiver policies.
+        Policy for an internalTriggeringPoint in this BswInternalBehavior.. The policy selects the options of the Schedule Manager API generation.
 
-        Returns:
-            List of BswModeReceiverPolicy instances
-        """
-        return self.modeReceiverPolicies
-
-    def setModeSenderPolicies(self, value):
-        """
-        Sets the list of BSW mode sender policies.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The list of BswModeSenderPolicy instances to set
+        A None value is a no-op and does not append to the existing internalTriggeringPointPolicies.
 
         Returns:
             self for method chaining
+        """
+        if value is not None:
+            self.internalTriggeringPointPolicies.append(value)
+        return self
+
+    def getModeReceiverPolicies(self):
+        """
+        Implementation policy for the reception of mode switches.
+        """
+        return self.modeReceiverPolicies
+
+    def setModeReceiverPolicies(self, value):
+        """
+        Implementation policy for the reception of mode switches.
+
+        A None value is a no-op and does not overwrite an existing modeReceiverPolicies.
+        """
+        if value is not None:
+            self.modeReceiverPolicies = value
+        return self
+
+    def addModeReceiverPolicy(self, value: Optional[BswModeReceiverPolicy]) -> "BswInternalBehavior":
+        """
+        Implementation policy for the reception of mode switches.
+
+        A None value is a no-op and does not append to the existing modeReceiverPolicies.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.modeReceiverPolicies.append(value)
+        return self
+
+    def setModeSenderPolicies(self, value):
+        """
+        Implementation policy for providing a mode group.
+
+        A None value is a no-op and does not overwrite an existing modeSenderPolicies.
         """
         if value is not None:
             self.modeSenderPolicies = value
@@ -2705,68 +3000,73 @@ class BswInternalBehavior(InternalBehavior):
 
     def getParameterPolicies(self):
         """
-        Gets the list of BSW parameter policies.
-
-        Returns:
-            List of BswParameterPolicy instances
+        Policy for a perInstanceParameter in this BswInternalBehavior. The policy selects the options of the Schedule Manager API generation.
         """
         return self.parameterPolicies
 
     def setParameterPolicies(self, value):
         """
-        Sets the list of BSW parameter policies.
-        Only sets the value if it is not None.
+        Policy for a perInstanceParameter in this BswInternalBehavior. The policy selects the options of the Schedule Manager API generation.
 
-        Args:
-            value: The list of BswParameterPolicy instances to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing parameterPolicies.
         """
         if value is not None:
             self.parameterPolicies = value
         return self
 
-    def getPerInstanceParameters(self):
+    def addParameterPolicy(self, value: Optional[BswParameterPolicy]) -> "BswInternalBehavior":
         """
-        Gets the list of per-instance parameters.
+        Policy for a perInstanceParameter in this BswInternalBehavior. The policy selects the options of the Schedule Manager API generation.
 
-        Returns:
-            List of ParameterDataPrototype instances
-        """
-        return self.perInstanceParameters
-
-    def setPerInstanceParameters(self, value):
-        """
-        Sets the list of per-instance parameters.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The list of ParameterDataPrototype instances to set
+        A None value is a no-op and does not append to the existing parameterPolicies.
 
         Returns:
             self for method chaining
         """
         if value is not None:
+            self.parameterPolicies.append(value)
+        return self
+
+    def getPerInstanceParameters(self):
+        """
+        Describes a read only memory object containing characteristic value(s) needed by this BswInternalBehavior. The role name perInstanceParameter is chosen in analogy to the similar role in the context of SwcInternalBehavior. In contrast to constantMemory, this object is not allocated locally by the module's code, but by the BSW Scheduler and it is accessed from the BSW module via the BSW Scheduler API. The main use case is the support of software emulation of calibration data. The aggregation is subject to variability with the purpose to support implementation variants.
+        """
+        return self.perInstanceParameters
+
+    def setPerInstanceParameters(self, value):
+        """
+        Describes a read only memory object containing characteristic value(s) needed by this BswInternalBehavior. The role name perInstanceParameter is chosen in analogy to the similar role in the context of SwcInternalBehavior. In contrast to constantMemory, this object is not allocated locally by the module's code, but by the BSW Scheduler and it is accessed from the BSW module via the BSW Scheduler API. The main use case is the support of software emulation of calibration data. The aggregation is subject to variability with the purpose to support implementation variants.
+
+        A None value is a no-op and does not overwrite an existing perInstanceParameters.
+        """
+        if value is not None:
             self.perInstanceParameters = value
+        return self
+
+    def addPerInstanceParameter(self, value: Optional[ParameterDataPrototype]) -> "BswInternalBehavior":
+        """
+        Describes a read only memory object containing characteristic value(s) needed by this BswInternalBehavior. The role name perInstanceParameter is chosen in analogy to the similar role in the context of SwcInternalBehavior. In contrast to constantMemory, this object is not allocated locally by the module's code, but by the BSW Scheduler and it is accessed from the BSW module via the BSW Scheduler API. The main use case is the support of software emulation of calibration data. The aggregation is subject to variability with the purpose to support implementation variants.
+
+        A None value is a no-op and does not append to the existing perInstanceParameters.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.perInstanceParameters.append(value)
         return self
 
     def getReceptionPolicies(self):
         """
-        Gets the list of BSW data reception policies.
-
-        Returns:
-            List of BswDataReceptionPolicy instances
+        Data reception policy for inter-partition and/or inter-core communication.
         """
         return self.receptionPolicies
 
     def addReceptionPolicy(self, value):
         """
-        Adds a BSW data reception policy to the list.
-        Only adds the value if it is not None.
+        Data reception policy for inter-partition and/or inter-core communication.
 
-        Args:
-            value: The BswDataReceptionPolicy instance to add
+        A None value is a no-op and does not append to the existing receptionPolicies.
 
         Returns:
             self for method chaining
@@ -2777,48 +3077,48 @@ class BswInternalBehavior(InternalBehavior):
 
     def getReleasedTriggerPolicies(self):
         """
-        Gets the list of BSW released trigger policies.
-
-        Returns:
-            List of BswReleasedTriggerPolicy instances
+        Policy for a releasedTrigger. The policy selects the options of the Schedule Manager API generation.
         """
         return self.releasedTriggerPolicies
 
     def setReleasedTriggerPolicies(self, value):
         """
-        Sets the list of BSW released trigger policies.
-        Only sets the value if it is not None.
+        Policy for a releasedTrigger. The policy selects the options of the Schedule Manager API generation.
 
-        Args:
-            value: The list of BswReleasedTriggerPolicy instances to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing releasedTriggerPolicies.
         """
         if value is not None:
             self.releasedTriggerPolicies = value
         return self
 
-    def getSchedulerNamePrefixes(self) -> List[BswSchedulerNamePrefix]:
+    def addReleasedTriggerPolicy(self, value: Optional[BswReleasedTriggerPolicy]) -> "BswInternalBehavior":
         """
-        Gets the list of BSW scheduler name prefixes.
+        Policy for a releasedTrigger. The policy selects the options of the Schedule Manager API generation.
+
+        A None value is a no-op and does not append to the existing releasedTriggerPolicies.
 
         Returns:
-            List of BswSchedulerNamePrefix instances
+            self for method chaining
+        """
+        if value is not None:
+            self.releasedTriggerPolicies.append(value)
+        return self
+
+    def getSchedulerNamePrefixes(self) -> List[BswSchedulerNamePrefix]:
+        """
+        Optional definition of one or more prefixes to be used for the BswScheduler.
         """
         return self.schedulerNamePrefixes
 
     def createSchedulerNamePrefix(self, short_name: str) -> BswSchedulerNamePrefix:
         """
-        Creates and adds a BswSchedulerNamePrefix to this behavior's scheduler
-        name prefixes. Returns the existing prefix if the short name is already
-        present.
+        Optional definition of one or more prefixes to be used for the BswScheduler.
 
         Args:
-            short_name: The short name for the new scheduler name prefix
+            short_name: The short name of the created element
 
         Returns:
-            The created BswSchedulerNamePrefix instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswSchedulerNamePrefix):
             prefix = BswSchedulerNamePrefix(self, short_name)
@@ -2828,14 +3128,9 @@ class BswInternalBehavior(InternalBehavior):
 
     def setSchedulerNamePrefixes(self, value):
         """
-        Sets the list of BSW scheduler name prefixes.
-        Only sets the value if it is not None.
+        Optional definition of one or more prefixes to be used for the BswScheduler.
 
-        Args:
-            value: The list of BswSchedulerNamePrefix instances to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing schedulerNamePrefixes.
         """
         if value is not None:
             self.schedulerNamePrefixes = value
@@ -2843,47 +3138,44 @@ class BswInternalBehavior(InternalBehavior):
 
     def getSendPolicies(self):
         """
-        Gets the list of BSW data send policies.
-
-        Returns:
-            List of BswDataSendPolicy instances
+        Policy for a providedData. The policy selects the options of the Schedule Manager API generation.
         """
         return self.sendPolicies
 
     def setSendPolicies(self, value):
         """
-        Sets the list of BSW data send policies.
-        Only sets the value if it is not None.
+        Policy for a providedData. The policy selects the options of the Schedule Manager API generation.
 
-        Args:
-            value: The list of BswDataSendPolicy instances to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing sendPolicies.
         """
         if value is not None:
             self.sendPolicies = value
         return self
 
-    def getServiceDependencies(self):
+    def addSendPolicy(self, value: Optional[BswDataSendPolicy]) -> "BswInternalBehavior":
         """
-        Gets the list of BSW service dependencies.
+        Policy for a providedData. The policy selects the options of the Schedule Manager API generation.
+
+        A None value is a no-op and does not append to the existing sendPolicies.
 
         Returns:
-            List of BswServiceDependency instances
+            self for method chaining
+        """
+        if value is not None:
+            self.sendPolicies.append(value)
+        return self
+
+    def getServiceDependencies(self):
+        """
+        Defines the requirements on AUTOSAR Services for a particular item. The aggregation is subject to variability with the purpose to support the conditional existence of ServiceNeeds. The aggregation is splitable in order to support that ServiceNeeds might be provided in later development steps.
         """
         return self.serviceDependencies
 
     def setServiceDependencies(self, value):
         """
-        Sets the list of BSW service dependencies.
-        Only sets the value if it is not None.
+        Defines the requirements on AUTOSAR Services for a particular item. The aggregation is subject to variability with the purpose to support the conditional existence of ServiceNeeds. The aggregation is splitable in order to support that ServiceNeeds might be provided in later development steps.
 
-        Args:
-            value: The list of BswServiceDependency instances to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing serviceDependencies.
         """
         if value is not None:
             self.serviceDependencies = value
@@ -2891,10 +3183,9 @@ class BswInternalBehavior(InternalBehavior):
 
     def addServiceDependency(self, dependency: BswServiceDependency):
         """
-        Adds a BSW service dependency to the list.
+        Defines the requirements on AUTOSAR Services for a particular item. The aggregation is subject to variability with the purpose to support the conditional existence of ServiceNeeds. The aggregation is splitable in order to support that ServiceNeeds might be provided in later development steps.
 
-        Args:
-            dependency: The BswServiceDependency instance to add
+        A None value is a no-op and does not append to the existing serviceDependencies.
 
         Returns:
             self for method chaining
@@ -2904,79 +3195,88 @@ class BswInternalBehavior(InternalBehavior):
 
     def getTriggerDirectImplementations(self):
         """
-        Gets the list of BSW trigger direct implementations.
-
-        Returns:
-            List of BswTriggerDirectImplementation instances
+        Specifies a trigger to be directly implemented via OS calls.
         """
         return self.triggerDirectImplementations
 
     def setTriggerDirectImplementations(self, value):
         """
-        Sets the list of BSW trigger direct implementations.
-        Only sets the value if it is not None.
+        Specifies a trigger to be directly implemented via OS calls.
 
-        Args:
-            value: The list of BswTriggerDirectImplementation instances to set
-
-        Returns:
-            self for method chaining
+        A None value is a no-op and does not overwrite an existing triggerDirectImplementations.
         """
         if value is not None:
             self.triggerDirectImplementations = value
         return self
 
-    def getVariationPointProxies(self):
+    def addTriggerDirectImplementation(self, value: Optional[BswTriggerDirectImplementation]) -> "BswInternalBehavior":
         """
-        Gets the list of variation point proxies.
+        Specifies a trigger to be directly implemented via OS calls.
 
-        Returns:
-            List of VariationPointProxy instances
-        """
-        return self.variationPointProxies
-
-    def setVariationPointProxies(self, value):
-        """
-        Sets the list of variation point proxies.
-        Only sets the value if it is not None.
-
-        Args:
-            value: The list of VariationPointProxy instances to set
+        A None value is a no-op and does not append to the existing triggerDirectImplementations.
 
         Returns:
             self for method chaining
         """
         if value is not None:
+            self.triggerDirectImplementations.append(value)
+        return self
+
+    def getVariationPointProxies(self):
+        """
+        Proxy of a variation points in the C/C++ implementation.
+        """
+        return self.variationPointProxies
+
+    def setVariationPointProxies(self, value):
+        """
+        Proxy of a variation points in the C/C++ implementation.
+
+        A None value is a no-op and does not overwrite an existing variationPointProxies.
+        """
+        if value is not None:
             self.variationPointProxies = value
+        return self
+
+    def addVariationPointProxy(self, value: Optional[VariationPointProxy]) -> "BswInternalBehavior":
+        """
+        Proxy of a variation points in the C/C++ implementation.
+
+        A None value is a no-op and does not append to the existing variationPointProxies.
+
+        Returns:
+            self for method chaining
+        """
+        if value is not None:
+            self.variationPointProxies.append(value)
         return self
 
     def addModeSenderPolicy(self, policy: BswModeSenderPolicy):
         """
-        Adds a BSW mode sender policy to the list.
+        Implementation policy for providing a mode group.
 
-        Args:
-            policy: The BswModeSenderPolicy instance to add
+        A None value is a no-op and does not append to the existing modeSenderPolicies.
+
+        Returns:
+            self for method chaining
         """
         self.modeSenderPolicies.append(policy)
 
     def getModeSenderPolicies(self) -> List[BswModeSenderPolicy]:
         """
-        Gets the list of BSW mode sender policies.
-
-        Returns:
-            List of BswModeSenderPolicy instances
+        Implementation policy for providing a mode group.
         """
         return self.modeSenderPolicies
 
     def createBswCalledEntity(self, short_name: str) -> BswCalledEntity:
         """
-        Creates and adds a BswCalledEntity to this internal behavior.
+        A code entity for which the behavior is described
 
         Args:
-            short_name: The short name for the new called entity
+            short_name: The short name of the created element
 
         Returns:
-            The created BswCalledEntity instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswCalledEntity):
             entity = BswCalledEntity(self, short_name)
@@ -2986,22 +3286,19 @@ class BswInternalBehavior(InternalBehavior):
 
     def getBswCalledEntities(self) -> List[BswCalledEntity]:
         """
-        Gets all BswCalledEntity instances from the elements list.
-
-        Returns:
-            List of BswCalledEntity instances
+        A code entity for which the behavior is described
         """
-        return list(filter(lambda a: isinstance(a, BswCalledEntity), self.elements))
+        return list(filter(lambda a: isinstance(a, BswCalledEntity), self.entities))
 
     def createBswSchedulableEntity(self, short_name: str) -> BswSchedulableEntity:
         """
-        Creates and adds a BswSchedulableEntity to this internal behavior.
+        A code entity for which the behavior is described
 
         Args:
-            short_name: The short name for the new schedulable entity
+            short_name: The short name of the created element
 
         Returns:
-            The created BswSchedulableEntity instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswSchedulableEntity):
             entity = BswSchedulableEntity(self, short_name)
@@ -3011,22 +3308,19 @@ class BswInternalBehavior(InternalBehavior):
 
     def getBswSchedulableEntities(self) -> List[BswSchedulableEntity]:
         """
-        Gets all BswSchedulableEntity instances from the elements list.
-
-        Returns:
-            List of BswSchedulableEntity instances
+        A code entity for which the behavior is described
         """
-        return list(filter(lambda a: isinstance(a, BswSchedulableEntity), self.elements))
+        return list(filter(lambda a: isinstance(a, BswSchedulableEntity), self.entities))
 
     def createBswInterruptEntity(self, short_name: str) -> BswInterruptEntity:
         """
-        Creates and adds a BswInterruptEntity to this internal behavior.
+        A code entity for which the behavior is described
 
         Args:
-            short_name: The short name for the new interrupt entity
+            short_name: The short name of the created element
 
         Returns:
-            The created BswInterruptEntity instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswInterruptEntity):
             entity = BswInterruptEntity(self, short_name)
@@ -3036,31 +3330,25 @@ class BswInternalBehavior(InternalBehavior):
 
     def getBswInterruptEntities(self) -> List[BswInterruptEntity]:
         """
-        Gets all BswInterruptEntity instances from the elements list.
-
-        Returns:
-            List of BswInterruptEntity instances
+        A code entity for which the behavior is described
         """
-        return list(filter(lambda a: isinstance(a, BswInterruptEntity), self.elements))
+        return list(filter(lambda a: isinstance(a, BswInterruptEntity), self.entities))
 
     def getBswModuleEntities(self) -> List[BswModuleEntity]:
         """
-        Gets all BswModuleEntity instances from the elements list.
-
-        Returns:
-            List of BswModuleEntity instances
+        A code entity for which the behavior is described
         """
-        return list(filter(lambda a: isinstance(a, BswModuleEntity), self.elements))
+        return list(filter(lambda a: isinstance(a, BswModuleEntity), self.entities))
 
     def createBswModeSwitchEvent(self, short_name: str) -> BswModeSwitchEvent:
         """
-        Creates and adds a BswModeSwitchEvent to this internal behavior.
+        An event required by this module behavior.
 
         Args:
-            short_name: The short name for the new mode switch event
+            short_name: The short name of the created element
 
         Returns:
-            The created BswModeSwitchEvent instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswModeSwitchEvent):
             event = BswModeSwitchEvent(self, short_name)
@@ -3070,22 +3358,19 @@ class BswInternalBehavior(InternalBehavior):
 
     def getBswModeSwitchEvents(self) -> List[BswModeSwitchEvent]:
         """
-        Gets all BswModeSwitchEvent instances from the elements list.
-
-        Returns:
-            List of BswModeSwitchEvent instances
+        An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswModeSwitchEvent), self.elements))
+        return list(filter(lambda a: isinstance(a, BswModeSwitchEvent), self.events))
 
     def createBswTimingEvent(self, short_name: str) -> BswTimingEvent:
         """
-        Creates and adds a BswTimingEvent to this internal behavior.
+        An event required by this module behavior.
 
         Args:
-            short_name: The short name for the new timing event
+            short_name: The short name of the created element
 
         Returns:
-            The created BswTimingEvent instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswTimingEvent):
             event = BswTimingEvent(self, short_name)
@@ -3095,22 +3380,19 @@ class BswInternalBehavior(InternalBehavior):
 
     def getBswTimingEvents(self) -> List[BswTimingEvent]:
         """
-        Gets all BswTimingEvent instances from the elements list.
-
-        Returns:
-            List of BswTimingEvent instances
+        An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswTimingEvent), self.elements))
+        return list(filter(lambda a: isinstance(a, BswTimingEvent), self.events))
 
     def createBswDataReceivedEvent(self, short_name: str) -> BswDataReceivedEvent:
         """
-        Creates and adds a BswDataReceivedEvent to this internal behavior.
+        An event required by this module behavior.
 
         Args:
-            short_name: The short name for the new data received event
+            short_name: The short name of the created element
 
         Returns:
-            The created BswDataReceivedEvent instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswDataReceivedEvent):
             event = BswDataReceivedEvent(self, short_name)
@@ -3120,22 +3402,19 @@ class BswInternalBehavior(InternalBehavior):
 
     def getBswDataReceivedEvents(self) -> List[BswDataReceivedEvent]:
         """
-        Gets all BswDataReceivedEvent instances from the elements list.
-
-        Returns:
-            List of BswDataReceivedEvent instances
+        An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswDataReceivedEvent), self.elements))
+        return list(filter(lambda a: isinstance(a, BswDataReceivedEvent), self.events))
 
     def createBswInternalTriggerOccurredEvent(self, short_name: str) -> BswInternalTriggerOccurredEvent:
         """
-        Creates and adds a BswInternalTriggerOccurredEvent to this internal behavior.
+        An event required by this module behavior.
 
         Args:
-            short_name: The short name for the new internal trigger event
+            short_name: The short name of the created element
 
         Returns:
-            The created BswInternalTriggerOccurredEvent instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswInternalTriggerOccurredEvent):
             event = BswInternalTriggerOccurredEvent(self, short_name)
@@ -3145,22 +3424,19 @@ class BswInternalBehavior(InternalBehavior):
 
     def getBswInternalTriggerOccurredEvents(self) -> List[BswInternalTriggerOccurredEvent]:
         """
-        Gets all BswInternalTriggerOccurredEvent instances from the elements list.
-
-        Returns:
-            List of BswInternalTriggerOccurredEvent instances
+        An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswInternalTriggerOccurredEvent), self.elements))
+        return list(filter(lambda a: isinstance(a, BswInternalTriggerOccurredEvent), self.events))
 
     def createBswExternalTriggerOccurredEvent(self, short_name: str) -> BswExternalTriggerOccurredEvent:
         """
-        Creates and adds a BswExternalTriggerOccurredEvent to this internal behavior.
+        An event required by this module behavior.
 
         Args:
-            short_name: The short name for the new external trigger event
+            short_name: The short name of the created element
 
         Returns:
-            The created BswExternalTriggerOccurredEvent instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswExternalTriggerOccurredEvent):
             event = BswExternalTriggerOccurredEvent(self, short_name)
@@ -3170,22 +3446,19 @@ class BswInternalBehavior(InternalBehavior):
 
     def getBswOperationInvokedEvents(self) -> List[BswOperationInvokedEvent]:
         """
-        Gets all BswOperationInvokedEvent instances from the elements list.
-
-        Returns:
-            List of BswOperationInvokedEvent instances
+        An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswOperationInvokedEvent), self.elements))
+        return list(filter(lambda a: isinstance(a, BswOperationInvokedEvent), self.events))
 
     def createBswOperationInvokedEvent(self, short_name: str) -> BswOperationInvokedEvent:
         """
-        Creates and adds a BswOperationInvokedEvent to this internal behavior.
+        An event required by this module behavior.
 
         Args:
-            short_name: The short name for the new operation invoked event
+            short_name: The short name of the created element
 
         Returns:
-            The created BswOperationInvokedEvent instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswOperationInvokedEvent):
             event = BswOperationInvokedEvent(self, short_name)
@@ -3195,22 +3468,19 @@ class BswInternalBehavior(InternalBehavior):
 
     def getBswExternalTriggerOccurredEvents(self) -> List[BswExternalTriggerOccurredEvent]:
         """
-        Gets all BswExternalTriggerOccurredEvent instances from the elements list.
-
-        Returns:
-            List of BswExternalTriggerOccurredEvent instances
+        An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswExternalTriggerOccurredEvent), self.elements))
+        return list(filter(lambda a: isinstance(a, BswExternalTriggerOccurredEvent), self.events))
 
     def createBswBackgroundEvent(self, short_name: str) -> BswBackgroundEvent:
         """
-        Creates and adds a BswBackgroundEvent to this internal behavior.
+        An event required by this module behavior.
 
         Args:
-            short_name: The short name for the new background event
+            short_name: The short name of the created element
 
         Returns:
-            The created BswBackgroundEvent instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswBackgroundEvent):
             event = BswBackgroundEvent(self, short_name)
@@ -3220,13 +3490,13 @@ class BswInternalBehavior(InternalBehavior):
 
     def createBswInterruptEvent(self, short_name: str) -> BswEvent:
         """
-        Creates and adds a BswInterruptEvent to this internal behavior.
+        An event required by this module behavior.
 
         Args:
-            short_name: The short name for the new interrupt event
+            short_name: The short name of the created element
 
         Returns:
-            The created BswInterruptEvent instance
+            The created element
         """
 
         if not self.IsElementExists(short_name, BswInterruptEvent):
@@ -3237,13 +3507,13 @@ class BswInternalBehavior(InternalBehavior):
 
     def createBswOsTaskExecutionEvent(self, short_name: str) -> BswOsTaskExecutionEvent:
         """
-        Creates and adds a BswOsTaskExecutionEvent to this internal behavior.
+        An event required by this module behavior.
 
         Args:
-            short_name: The short name for the new OS task execution event
+            short_name: The short name of the created element
 
         Returns:
-            The created BswOsTaskExecutionEvent instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswOsTaskExecutionEvent):
             event = BswOsTaskExecutionEvent(self, short_name)
@@ -3253,22 +3523,19 @@ class BswInternalBehavior(InternalBehavior):
 
     def getBswBackgroundEvents(self) -> List[BswBackgroundEvent]:
         """
-        Gets all BswBackgroundEvent instances from the elements list.
-
-        Returns:
-            List of BswBackgroundEvent instances
+        An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswBackgroundEvent), self.elements))
+        return list(filter(lambda a: isinstance(a, BswBackgroundEvent), self.events))
 
     def createBswModeManagerErrorEvent(self, short_name: str) -> BswModeManagerErrorEvent:
         """
-        Creates and adds a BswModeManagerErrorEvent to this internal behavior.
+        An event required by this module behavior.
 
         Args:
-            short_name: The short name for the new mode manager error event
+            short_name: The short name of the created element
 
         Returns:
-            The created BswModeManagerErrorEvent instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswModeManagerErrorEvent):
             event = BswModeManagerErrorEvent(self, short_name)
@@ -3278,22 +3545,19 @@ class BswInternalBehavior(InternalBehavior):
 
     def getBswModeManagerErrorEvents(self) -> List[BswModeManagerErrorEvent]:
         """
-        Gets all BswModeManagerErrorEvent instances from the elements list.
-
-        Returns:
-            List of BswModeManagerErrorEvent instances
+        An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswModeManagerErrorEvent), self.elements))
+        return list(filter(lambda a: isinstance(a, BswModeManagerErrorEvent), self.events))
 
     def createBswModeSwitchedAckEvent(self, short_name: str) -> BswModeSwitchedAckEvent:
         """
-        Creates and adds a BswModeSwitchedAckEvent to this internal behavior.
+        An event required by this module behavior.
 
         Args:
-            short_name: The short name for the new mode switched ack event
+            short_name: The short name of the created element
 
         Returns:
-            The created BswModeSwitchedAckEvent instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswModeSwitchedAckEvent):
             event = BswModeSwitchedAckEvent(self, short_name)
@@ -3303,22 +3567,19 @@ class BswInternalBehavior(InternalBehavior):
 
     def getBswModeSwitchedAckEvents(self) -> List[BswModeSwitchedAckEvent]:
         """
-        Gets all BswModeSwitchedAckEvent instances from the elements list.
-
-        Returns:
-            List of BswModeSwitchedAckEvent instances
+        An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswModeSwitchedAckEvent), self.elements))
+        return list(filter(lambda a: isinstance(a, BswModeSwitchedAckEvent), self.events))
 
     def createBswAsynchronousServerCallReturnsEvent(self, short_name: str) -> BswAsynchronousServerCallReturnsEvent:
         """
-        Creates and adds a BswAsynchronousServerCallReturnsEvent to this internal behavior.
+        An event required by this module behavior.
 
         Args:
-            short_name: The short name for the new asynchronous server call returns event
+            short_name: The short name of the created element
 
         Returns:
-            The created BswAsynchronousServerCallReturnsEvent instance
+            The created element
         """
         if not self.IsElementExists(short_name, BswAsynchronousServerCallReturnsEvent):
             event = BswAsynchronousServerCallReturnsEvent(self, short_name)
@@ -3328,55 +3589,47 @@ class BswInternalBehavior(InternalBehavior):
 
     def getBswAsynchronousServerCallReturnsEvents(self) -> List[BswAsynchronousServerCallReturnsEvent]:
         """
-        Gets all BswAsynchronousServerCallReturnsEvent instances from the elements list.
-
-        Returns:
-            List of BswAsynchronousServerCallReturnsEvent instances
+        An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswAsynchronousServerCallReturnsEvent), self.elements))
+        return list(filter(lambda a: isinstance(a, BswAsynchronousServerCallReturnsEvent), self.events))
 
     def getBswEvents(self) -> List[BswEvent]:
         """
-        Gets all BswEvent instances from the elements list.
-
-        Returns:
-            List of BswEvent instances
+        An event required by this module behavior.
         """
-        return list(filter(lambda a: isinstance(a, BswEvent), self.elements))
+        return list(filter(lambda a: isinstance(a, BswEvent), self.events))
 
     def addIncludedModeDeclarationGroupSet(self, group_set: IncludedModeDeclarationGroupSet):
         """
-        Adds an included mode declaration group set to the list.
+        This aggregation represents the included ModeDeclarationGroups
 
-        Args:
-            group_set: The IncludedModeDeclarationGroupSet instance to add
+        A None value is a no-op and does not append to the existing includedModeDeclarationGroupSets.
+
+        Returns:
+            self for method chaining
         """
         self.includedModeDeclarationGroupSets.append(group_set)
 
     def getIncludedModeDeclarationGroupSets(self) -> List[IncludedModeDeclarationGroupSet]:
         """
-        Gets the list of included mode declaration group sets.
-
-        Returns:
-            List of IncludedModeDeclarationGroupSet instances
+        This aggregation represents the included ModeDeclarationGroups
         """
         return self.includedModeDeclarationGroupSets
 
     def addIncludedDataTypeSet(self, type_set: IncludedDataTypeSet):
         """
-        Adds an included data type set to the list.
+        The includedDataTypeSet is used by a basic software module for its implementation.
 
-        Args:
-            type_set: The IncludedDataTypeSet instance to add
+        A None value is a no-op and does not append to the existing includedDataTypeSets.
+
+        Returns:
+            self for method chaining
         """
         self.includedDataTypeSets.append(type_set)
 
     def getIncludedDataTypeSets(self) -> List[IncludedDataTypeSet]:
         """
-        Gets the list of included data type sets.
-
-        Returns:
-            List of IncludedDataTypeSet instances
+        The includedDataTypeSet is used by a basic software module for its implementation.
         """
         return self.includedDataTypeSets
 

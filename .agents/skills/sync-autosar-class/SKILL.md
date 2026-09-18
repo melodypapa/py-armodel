@@ -106,7 +106,10 @@ risks fabricating fields when a referenced class turns out to be missing mid-syn
    row carrying its 9-step sub-checklist (all `[ ]`, names per Rule 18.1, written
    now at file creation — not deferred to class start)**, plus the Skip/XSD
    resolution decisions. **The queue lives in this file, not in the
-   conversation.** The Phase 0 session ends here.
+   conversation.** Keep each class row's checkbox line short — role · source ·
+   table only; put any Step 1 finding / deviation write-up on a separate note
+   bullet underneath, never appended to the checkbox line (Rule 0016.7). The
+   Phase 0 session ends here.
 
 **Output:** `docs/plan/sync-todo/<InputClassName>.md` — the persistent queue
 (Rule 0016.6). Phase 1 consumes it one row at a time, **one class per fresh
@@ -437,6 +440,20 @@ detail: *Rule 0002*.
   the steps exist only in the ephemeral session and vanish on session death. The
   sub-checklist is written at file creation in Phase 0 and flipped per step
   (*Rules 0016.6, 0018.2*).
+- **Appending the Step 1 finding / deviation write-up to the same line as the
+  class-row checkbox** — the resulting line is long and markup-heavy, which makes
+  exact-line edits unreliable and a failed checkbox toggle tends to get "fixed"
+  with an out-of-band note instead of the row itself. Keep the checkbox line to
+  role · source · table; put the write-up on a separate bullet underneath
+  (*Rule 0016.7*).
+- **Recording a class's confirmed/finished status in a side note ("Confirmed
+  Status", "Batch confirmation") instead of flipping its row's checkbox and
+  Step 9 line** — the row is the single source of truth for the resume/
+  termination check (17.3); a side note is a workaround for a failed edit, not a
+  fix for it (*Rule 0017.4*).
+- **Writing `9b DEFERRED to batch stamp` (or similar) on the Step 9 line** —
+  capture the user's confirmation the moment it is given; deferring it just
+  creates a backlog of rows that need a later cleanup pass (*Rule 0017.2/17.4*).
 
 | Rationalization | Reality |
 |---|---|
@@ -458,6 +475,8 @@ detail: *Rule 0002*.
 | "I'll commit everything at the end of the whole sync" | A session death then loses every finished class's work; commit per class, right after 9b (*Rule 0017.2*). |
 | "One todo for the class is enough — or I'll check them all at the end" | The step todos exist to expose a skipped/half-finished step in real time; batch-checking shows progress the work doesn't have. 9 todos, one check per finished step (*Rule 0018*). |
 | "9b re-verifies everything anyway — I'll check off step todos as 'done' when the class finishes" | 9b verifies the class against the rules; step todos verify the workflow was walked. Step 9's todo completes only on 9b confirmation, the others at their own finish (*Rule 0018*). |
+| "This row is basically one giant line already, I'll just note the confirmation elsewhere" | The side note is a workaround for a failed edit, not a fix; split the row into short-checkbox + separate-note shape and flip it in place (*Rule 0016.7*, *Rule 0017.4*). |
+| "I'll write 'DEFERRED to batch stamp' now and clean it up later" | Capture the confirmation the moment it happens; deferring it creates exactly the cleanup backlog this rule exists to avoid (*Rule 0017.2*). |
 
 ## References
 

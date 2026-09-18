@@ -1541,6 +1541,66 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("DTC-FORMAT-TYPE") is not None
 
+    def test_writeDiagnosticComponentNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDiagnosticComponentNeeds("dcn1")
+        parent = _parent()
+        writer.writeDiagnosticComponentNeeds(parent, needs)
+        elem = parent.find("DIAGNOSTIC-COMPONENT-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "dcn1"
+
+    def test_writeDiagnosticUploadDownloadNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDiagnosticUploadDownloadNeeds("dudn1")
+        parent = _parent()
+        writer.writeDiagnosticUploadDownloadNeeds(parent, needs)
+        elem = parent.find("DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "dudn1"
+
+    def test_writeDiagnosticsCommunicationSecurityNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDiagnosticsCommunicationSecurityNeeds("dcsn1")
+        parent = _parent()
+        writer.writeDiagnosticsCommunicationSecurityNeeds(parent, needs)
+        elem = parent.find("DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "dcsn1"
+
+    def test_writeFunctionInhibitionNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createFunctionInhibitionNeeds("fin1")
+        parent = _parent()
+        writer.writeFunctionInhibitionNeeds(parent, needs)
+        elem = parent.find("FUNCTION-INHIBITION-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "fin1"
+
+    def test_writeGlobalSupervisionNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createGlobalSupervisionNeeds("gsn1")
+        parent = _parent()
+        writer.writeGlobalSupervisionNeeds(parent, needs)
+        elem = parent.find("GLOBAL-SUPERVISION-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "gsn1"
+
+    def test_writeHardwareTestNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createHardwareTestNeeds("htn1")
+        parent = _parent()
+        writer.writeHardwareTestNeeds(parent, needs)
+        elem = parent.find("HARDWARE-TEST-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "htn1"
+
     def test_writeDltUserNeeds(self, writer):
         behavior = _make_behavior()
         dep = behavior.createSwcServiceDependency("dep1")
@@ -1561,6 +1621,106 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("MAX-COMM-MODE").text == "full"
 
+    def test_writeSupervisedEntityCheckpointNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createSupervisedEntityCheckpointNeeds("secn1")
+        parent = _parent()
+        writer.writeSupervisedEntityCheckpointNeeds(parent, needs)
+        elem = parent.find("SUPERVISED-ENTITY-CHECKPOINT-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "secn1"
+
+    def test_writeSyncTimeBaseMgrUserNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createSyncTimeBaseMgrUserNeeds("stbn1")
+        parent = _parent()
+        writer.writeSyncTimeBaseMgrUserNeeds(parent, needs)
+        elem = parent.find("SYNC-TIME-BASE-MGR-USER-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "stbn1"
+
+    def test_writeCryptoKeyManagementNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createCryptoKeyManagementNeeds("ckmn1")
+        parent = _parent()
+        writer.writeCryptoKeyManagementNeeds(parent, needs)
+        elem = parent.find("CRYPTO-KEY-MANAGEMENT-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "ckmn1"
+
+    def test_writeCryptoServiceJobNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createCryptoServiceJobNeeds("csjn1")
+        parent = _parent()
+        writer.writeCryptoServiceJobNeeds(parent, needs)
+        elem = parent.find("CRYPTO-SERVICE-JOB-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "csjn1"
+
+    def test_writeDiagnosticControlNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDiagnosticControlNeeds("dcn1")
+        parent = _parent()
+        writer.writeDiagnosticControlNeeds(parent, needs)
+        elem = parent.find("DIAGNOSTIC-CONTROL-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "dcn1"
+
+    def test_writeDiagnosticEventManagerNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDiagnosticEventManagerNeeds("demn1")
+        parent = _parent()
+        writer.writeDiagnosticEventManagerNeeds(parent, needs)
+        elem = parent.find("DIAGNOSTIC-EVENT-MANAGER-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "demn1"
+
+    def test_writeDiagnosticRequestFileTransferNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDiagnosticRequestFileTransferNeeds("drfn1")
+        parent = _parent()
+        writer.writeDiagnosticRequestFileTransferNeeds(parent, needs)
+        elem = parent.find("DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "drfn1"
+
+    def test_writeDoIpActivationLineNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDoIpActivationLineNeeds("daln1")
+        parent = _parent()
+        writer.writeDoIpActivationLineNeeds(parent, needs)
+        elem = parent.find("DO-IP-ACTIVATION-LINE-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "daln1"
+
+    def test_writeDoIpGidNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDoIpGidNeeds("dgn1")
+        parent = _parent()
+        writer.writeDoIpGidNeeds(parent, needs)
+        elem = parent.find("DO-IP-GID-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "dgn1"
+
+    def test_writeDoIpGidSynchronizationNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDoIpGidSynchronizationNeeds("dgsn1")
+        parent = _parent()
+        writer.writeDoIpGidSynchronizationNeeds(parent, needs)
+        elem = parent.find("DO-IP-GID-SYNCHRONIZATION-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "dgsn1"
+
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
@@ -1568,6 +1728,9 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep = behavior.createSwcServiceDependency("dep1")
         dep.createNvBlockNeeds("nv")
         dep.createDiagnosticCommunicationManagerNeeds("dcm")
+        dep.createDiagnosticComponentNeeds("dcn")
+        dep.createDiagnosticUploadDownloadNeeds("dudn")
+        dep.createDiagnosticsCommunicationSecurityNeeds("dcsn")
         dep.createDiagnosticRoutineNeeds("drn")
         dep.createDiagnosticValueNeeds("dvn")
         dep.createDiagnosticEventNeeds("den")
@@ -1579,6 +1742,19 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createDltUserNeeds("dlt")
         dep.createComMgrUserNeeds("com")
         dep.createErrorTracerNeeds("etn")
+        dep.createFunctionInhibitionNeeds("fin")
+        dep.createGlobalSupervisionNeeds("gsn")
+        dep.createHardwareTestNeeds("htn")
+        dep.createSupervisedEntityCheckpointNeeds("secn")
+        dep.createSyncTimeBaseMgrUserNeeds("stbn")
+        dep.createCryptoKeyManagementNeeds("ckmn")
+        dep.createCryptoServiceJobNeeds("csjn")
+        dep.createDiagnosticControlNeeds("dcn")
+        dep.createDiagnosticEventManagerNeeds("demn")
+        dep.createDiagnosticRequestFileTransferNeeds("drfn")
+        dep.createDoIpActivationLineNeeds("daln")
+        dep.createDoIpGidNeeds("dgn")
+        dep.createDoIpGidSynchronizationNeeds("dgsn")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1586,6 +1762,9 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         tags = {c.tag for c in needs_tag}
         assert "NV-BLOCK-NEEDS" in tags
         assert "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS" in tags
+        assert "DIAGNOSTIC-COMPONENT-NEEDS" in tags
+        assert "DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS" in tags
+        assert "DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS" in tags
         assert "DIAGNOSTIC-ROUTINE-NEEDS" in tags
         assert "DIAGNOSTIC-VALUE-NEEDS" in tags
         assert "DIAGNOSTIC-EVENT-NEEDS" in tags
@@ -1597,6 +1776,19 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "DLT-USER-NEEDS" in tags
         assert "COM-MGR-USER-NEEDS" in tags
         assert "ERROR-TRACER-NEEDS" in tags
+        assert "FUNCTION-INHIBITION-NEEDS" in tags
+        assert "GLOBAL-SUPERVISION-NEEDS" in tags
+        assert "HARDWARE-TEST-NEEDS" in tags
+        assert "SUPERVISED-ENTITY-CHECKPOINT-NEEDS" in tags
+        assert "SYNC-TIME-BASE-MGR-USER-NEEDS" in tags
+        assert "CRYPTO-KEY-MANAGEMENT-NEEDS" in tags
+        assert "CRYPTO-SERVICE-JOB-NEEDS" in tags
+        assert "DIAGNOSTIC-CONTROL-NEEDS" in tags
+        assert "DIAGNOSTIC-EVENT-MANAGER-NEEDS" in tags
+        assert "DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS" in tags
+        assert "DO-IP-ACTIVATION-LINE-NEEDS" in tags
+        assert "DO-IP-GID-NEEDS" in tags
+        assert "DO-IP-GID-SYNCHRONIZATION-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()

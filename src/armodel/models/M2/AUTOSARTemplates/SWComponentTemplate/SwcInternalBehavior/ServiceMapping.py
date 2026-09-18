@@ -7,9 +7,14 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ComMgrUserNeeds,
+    CryptoKeyManagementNeeds,
+    CryptoServiceJobNeeds,
     CryptoServiceNeeds,
     DiagnosticCommunicationManagerNeeds,
+    DiagnosticComponentNeeds,
+    DiagnosticControlNeeds,
     DiagnosticEnableConditionNeeds,
+    DiagnosticEventManagerNeeds,
     DiagnosticEventInfoNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticIoControlNeeds
@@ -17,17 +22,26 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DltU
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DiagnosticEventNeeds,
     DiagnosticOperationCycleNeeds,
+    DiagnosticRequestFileTransferNeeds,
     DiagnosticRoutineNeeds,
     DiagnosticStorageConditionNeeds,
+    DiagnosticUploadDownloadNeeds,
     DiagnosticValueNeeds,
+    DiagnosticsCommunicationSecurityNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DtcStatusChangeNotificationNeeds,
+    DoIpActivationLineNeeds,
+    DoIpGidNeeds,
+    DoIpGidSynchronizationNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
     DoIpRoutingActivationConfirmationNeeds,
     EcuStateMgrUserNeeds,
     ErrorTracerNeeds,
     FunctionInhibitionAvailabilityNeeds,
+    FunctionInhibitionNeeds,
+    GlobalSupervisionNeeds,
+    HardwareTestNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
@@ -38,6 +52,8 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ObdRatioDenominatorNeeds,
     ObdRatioServiceNeeds,
     SecureOnBoardCommunicationNeeds,
+    SupervisedEntityCheckpointNeeds,
+    SyncTimeBaseMgrUserNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceNeeds, ServiceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -249,6 +265,70 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.serviceNeeds = needs
         return self.getElement(short_name, DiagnosticCommunicationManagerNeeds)
 
+    def createDiagnosticComponentNeeds(self, short_name: str) -> DiagnosticComponentNeeds:
+        """
+        Creates or retrieves a DiagnosticComponentNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DiagnosticComponentNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, DiagnosticComponentNeeds):
+            needs = DiagnosticComponentNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, DiagnosticComponentNeeds)
+
+    def createDiagnosticControlNeeds(self, short_name: str) -> DiagnosticControlNeeds:
+        """
+        Creates or retrieves a DiagnosticControlNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DiagnosticControlNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, DiagnosticControlNeeds):
+            needs = DiagnosticControlNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, DiagnosticControlNeeds)
+
+    def createDiagnosticUploadDownloadNeeds(self, short_name: str) -> DiagnosticUploadDownloadNeeds:
+        """
+        Creates or retrieves a DiagnosticUploadDownloadNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DiagnosticUploadDownloadNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, DiagnosticUploadDownloadNeeds):
+            needs = DiagnosticUploadDownloadNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, DiagnosticUploadDownloadNeeds)
+
+    def createDiagnosticsCommunicationSecurityNeeds(self, short_name: str) -> DiagnosticsCommunicationSecurityNeeds:
+        """
+        Creates or retrieves a DiagnosticsCommunicationSecurityNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DiagnosticsCommunicationSecurityNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, DiagnosticsCommunicationSecurityNeeds):
+            needs = DiagnosticsCommunicationSecurityNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, DiagnosticsCommunicationSecurityNeeds)
+
     def createDiagnosticRoutineNeeds(self, short_name: str) -> DiagnosticRoutineNeeds:
         """
         Creates or retrieves a DiagnosticRoutineNeeds element.
@@ -312,6 +392,38 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, DiagnosticEventInfoNeeds)
+
+    def createCryptoKeyManagementNeeds(self, short_name: str) -> CryptoKeyManagementNeeds:
+        """
+        Creates or retrieves a CryptoKeyManagementNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            CryptoKeyManagementNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, CryptoKeyManagementNeeds):
+            needs = CryptoKeyManagementNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, CryptoKeyManagementNeeds)
+
+    def createCryptoServiceJobNeeds(self, short_name: str) -> CryptoServiceJobNeeds:
+        """
+        Creates or retrieves a CryptoServiceJobNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            CryptoServiceJobNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, CryptoServiceJobNeeds):
+            needs = CryptoServiceJobNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, CryptoServiceJobNeeds)
 
     def createCryptoServiceNeeds(self, short_name: str) -> CryptoServiceNeeds:
         """
@@ -394,6 +506,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.serviceNeeds = needs
         return self.getElement(short_name, DiagnosticEnableConditionNeeds)
 
+    def createDiagnosticEventManagerNeeds(self, short_name: str) -> DiagnosticEventManagerNeeds:
+        """
+        Creates or retrieves a DiagnosticEventManagerNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DiagnosticEventManagerNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, DiagnosticEventManagerNeeds):
+            needs = DiagnosticEventManagerNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, DiagnosticEventManagerNeeds)
+
     def createDiagnosticOperationCycleNeeds(self, short_name: str) -> DiagnosticOperationCycleNeeds:
         """
         Creates or retrieves a DiagnosticOperationCycleNeeds element.
@@ -409,6 +537,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, DiagnosticOperationCycleNeeds)
+
+    def createDiagnosticRequestFileTransferNeeds(self, short_name: str) -> DiagnosticRequestFileTransferNeeds:
+        """
+        Creates or retrieves a DiagnosticRequestFileTransferNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DiagnosticRequestFileTransferNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, DiagnosticRequestFileTransferNeeds):
+            needs = DiagnosticRequestFileTransferNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, DiagnosticRequestFileTransferNeeds)
 
     def createDiagnosticStorageConditionNeeds(self, short_name: str) -> DiagnosticStorageConditionNeeds:
         """
@@ -441,6 +585,54 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, FunctionInhibitionAvailabilityNeeds)
+
+    def createFunctionInhibitionNeeds(self, short_name: str) -> FunctionInhibitionNeeds:
+        """
+        Creates or retrieves a FunctionInhibitionNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            FunctionInhibitionNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, FunctionInhibitionNeeds):
+            needs = FunctionInhibitionNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, FunctionInhibitionNeeds)
+
+    def createGlobalSupervisionNeeds(self, short_name: str) -> GlobalSupervisionNeeds:
+        """
+        Creates or retrieves a GlobalSupervisionNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            GlobalSupervisionNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, GlobalSupervisionNeeds):
+            needs = GlobalSupervisionNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, GlobalSupervisionNeeds)
+
+    def createHardwareTestNeeds(self, short_name: str) -> HardwareTestNeeds:
+        """
+        Creates or retrieves a HardwareTestNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            HardwareTestNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, HardwareTestNeeds):
+            needs = HardwareTestNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, HardwareTestNeeds)
 
     def createIndicatorStatusNeeds(self, short_name: str) -> IndicatorStatusNeeds:
         """
@@ -602,6 +794,54 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.serviceNeeds = needs
         return self.getElement(short_name, ObdRatioDenominatorNeeds)
 
+    def createDoIpActivationLineNeeds(self, short_name: str) -> DoIpActivationLineNeeds:
+        """
+        Creates or retrieves a DoIpActivationLineNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DoIpActivationLineNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, DoIpActivationLineNeeds):
+            needs = DoIpActivationLineNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, DoIpActivationLineNeeds)
+
+    def createDoIpGidNeeds(self, short_name: str) -> DoIpGidNeeds:
+        """
+        Creates or retrieves a DoIpGidNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DoIpGidNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, DoIpGidNeeds):
+            needs = DoIpGidNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, DoIpGidNeeds)
+
+    def createDoIpGidSynchronizationNeeds(self, short_name: str) -> DoIpGidSynchronizationNeeds:
+        """
+        Creates or retrieves a DoIpGidSynchronizationNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DoIpGidSynchronizationNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, DoIpGidSynchronizationNeeds):
+            needs = DoIpGidSynchronizationNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, DoIpGidSynchronizationNeeds)
+
     def createDoIpRoutingActivationAuthenticationNeeds(self, short_name: str) -> DoIpRoutingActivationAuthenticationNeeds:
         """
         Creates or retrieves a DoIpRoutingActivationAuthenticationNeeds element.
@@ -649,6 +889,38 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, SecureOnBoardCommunicationNeeds)
+
+    def createSupervisedEntityCheckpointNeeds(self, short_name: str) -> SupervisedEntityCheckpointNeeds:
+        """
+        Creates or retrieves a SupervisedEntityCheckpointNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            SupervisedEntityCheckpointNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, SupervisedEntityCheckpointNeeds):
+            needs = SupervisedEntityCheckpointNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, SupervisedEntityCheckpointNeeds)
+
+    def createSyncTimeBaseMgrUserNeeds(self, short_name: str) -> SyncTimeBaseMgrUserNeeds:
+        """
+        Creates or retrieves a SyncTimeBaseMgrUserNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            SyncTimeBaseMgrUserNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, SyncTimeBaseMgrUserNeeds):
+            needs = SyncTimeBaseMgrUserNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, SyncTimeBaseMgrUserNeeds)
 
     def createIdsMgrNeeds(self, short_name: str) -> IdsMgrNeeds:
         """

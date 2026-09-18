@@ -14,8 +14,10 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswAsynchronousServerCallReturnsEvent,
     BswBackgroundEvent,
     BswCalledEntity,
+    BswClientPolicy,
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
+    BswDataSendPolicy,
     BswDirectCallPoint,
     BswDistinguishedPartition,
     BswEvent,
@@ -23,10 +25,12 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswExternalTriggerOccurredEvent,
     BswInternalBehavior,
     BswInternalTriggeringPoint,
+    BswInternalTriggeringPointPolicy,
     BswInternalTriggerOccurredEvent,
     BswInterruptCategory,
     BswInterruptEntity,
     BswModeManagerErrorEvent,
+    BswModeReceiverPolicy,
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
     BswModeSwitchedAckEvent,
@@ -35,12 +39,16 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswModuleEntity,
     BswOperationInvokedEvent,
     BswOsTaskExecutionEvent,
+    BswParameterPolicy,
+    BswPerInstanceMemoryPolicy,
     BswQueuedDataReceptionPolicy,
+    BswReleasedTriggerPolicy,
     BswSchedulableEntity,
     BswScheduleEvent,
     BswServiceDependency,
     BswSynchronousServerCallPoint,
     BswTimingEvent,
+    BswTriggerDirectImplementation,
     BswVariableAccess,
     RoleBasedBswModuleEntryAssignment,
 )
@@ -50,8 +58,11 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ModeDeclaration import M
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import BswMgrNeeds, RoleBasedDataAssignment, SymbolicNameProps
 from armodel.models.M2.AUTOSARTemplates.DiagnosticExtract.DiagnosticMapping.ServiceMapping import BswServiceDependencyIdent
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Referrable
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Float, Identifier, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Boolean, Float, Identifier, PositiveInteger, RefType, TimeValue
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import ParameterDataPrototype, VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import SwImplPolicyEnum
 
 
@@ -1217,6 +1228,314 @@ class TestBswExclusiveAreaPolicy:
         assert policy.getExclusiveAreaRef() == ref
 
 
+class TestBswPerInstanceMemoryPolicy:
+    """Test cases for BswPerInstanceMemoryPolicy class - BSW per-instance memory policy (XSD-only class)."""
+
+    def test_initialization(self):
+        policy = BswPerInstanceMemoryPolicy()
+        assert policy.getEnableTakeAddress() is None
+        assert policy.getArTypedPerInstanceMemoryRef() is None
+        assert policy.getVariationPoint() is None
+
+    def test_get_set_ar_typed_per_instance_memory_ref(self):
+        policy = BswPerInstanceMemoryPolicy()
+        ref = RefType()
+
+        result = policy.setArTypedPerInstanceMemoryRef(ref)
+        assert result == policy
+        assert policy.getArTypedPerInstanceMemoryRef() == ref
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setArTypedPerInstanceMemoryRef(None)
+        assert result == policy
+        assert policy.getArTypedPerInstanceMemoryRef() == ref
+
+    def test_inherited_enable_take_address(self):
+        policy = BswPerInstanceMemoryPolicy()
+        value = Boolean()
+        value.setValue(True)
+
+        result = policy.setEnableTakeAddress(value)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setEnableTakeAddress(None)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+    def test_inherited_variation_point(self):
+        policy = BswPerInstanceMemoryPolicy()
+        variation_point = VariationPoint()
+
+        result = policy.setVariationPoint(variation_point)
+        assert result == policy
+        assert policy.getVariationPoint() is variation_point
+
+        # Setting None is a no-op: the existing value is preserved
+        policy.setVariationPoint(None)
+        assert policy.getVariationPoint() is variation_point
+
+
+class TestBswClientPolicy:
+    """Test cases for BswClientPolicy class - BSW client policy (XSD-only class)."""
+
+    def test_initialization(self):
+        policy = BswClientPolicy()
+        assert policy.getEnableTakeAddress() is None
+        assert policy.getRequiredClientServerEntryRef() is None
+        assert policy.getVariationPoint() is None
+
+    def test_get_set_required_client_server_entry_ref(self):
+        policy = BswClientPolicy()
+        ref = RefType()
+
+        result = policy.setRequiredClientServerEntryRef(ref)
+        assert result == policy
+        assert policy.getRequiredClientServerEntryRef() == ref
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setRequiredClientServerEntryRef(None)
+        assert result == policy
+        assert policy.getRequiredClientServerEntryRef() == ref
+
+    def test_inherited_enable_take_address(self):
+        policy = BswClientPolicy()
+        value = Boolean()
+        value.setValue(True)
+
+        result = policy.setEnableTakeAddress(value)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setEnableTakeAddress(None)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+    def test_inherited_variation_point(self):
+        policy = BswClientPolicy()
+        variation_point = VariationPoint()
+
+        result = policy.setVariationPoint(variation_point)
+        assert result == policy
+        assert policy.getVariationPoint() is variation_point
+
+        # Setting None is a no-op: the existing value is preserved
+        policy.setVariationPoint(None)
+        assert policy.getVariationPoint() is variation_point
+
+
+class TestBswInternalTriggeringPointPolicy:
+    """Test cases for BswInternalTriggeringPointPolicy class - BSW internal triggering point policy (XSD-only class)."""
+
+    def test_initialization(self):
+        policy = BswInternalTriggeringPointPolicy()
+        assert policy.getEnableTakeAddress() is None
+        assert policy.getBswInternalTriggeringPointRef() is None
+        assert policy.getVariationPoint() is None
+
+    def test_get_set_bsw_internal_triggering_point_ref(self):
+        policy = BswInternalTriggeringPointPolicy()
+        ref = RefType()
+
+        result = policy.setBswInternalTriggeringPointRef(ref)
+        assert result == policy
+        assert policy.getBswInternalTriggeringPointRef() == ref
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setBswInternalTriggeringPointRef(None)
+        assert result == policy
+        assert policy.getBswInternalTriggeringPointRef() == ref
+
+    def test_inherited_enable_take_address(self):
+        policy = BswInternalTriggeringPointPolicy()
+        value = Boolean()
+        value.setValue(True)
+
+        result = policy.setEnableTakeAddress(value)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setEnableTakeAddress(None)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+    def test_inherited_variation_point(self):
+        policy = BswInternalTriggeringPointPolicy()
+        variation_point = VariationPoint()
+
+        result = policy.setVariationPoint(variation_point)
+        assert result == policy
+        assert policy.getVariationPoint() is variation_point
+
+        # Setting None is a no-op: the existing value is preserved
+        policy.setVariationPoint(None)
+        assert policy.getVariationPoint() is variation_point
+
+
+class TestBswParameterPolicy:
+    """Test cases for BswParameterPolicy class - BSW parameter policy (XSD-only class)."""
+
+    def test_initialization(self):
+        policy = BswParameterPolicy()
+        assert policy.getEnableTakeAddress() is None
+        assert policy.getPerInstanceParameterRef() is None
+        assert policy.getVariationPoint() is None
+
+    def test_get_set_per_instance_parameter_ref(self):
+        policy = BswParameterPolicy()
+        ref = RefType()
+
+        result = policy.setPerInstanceParameterRef(ref)
+        assert result == policy
+        assert policy.getPerInstanceParameterRef() == ref
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setPerInstanceParameterRef(None)
+        assert result == policy
+        assert policy.getPerInstanceParameterRef() == ref
+
+    def test_inherited_enable_take_address(self):
+        policy = BswParameterPolicy()
+        value = Boolean()
+        value.setValue(True)
+
+        result = policy.setEnableTakeAddress(value)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setEnableTakeAddress(None)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+    def test_inherited_variation_point(self):
+        policy = BswParameterPolicy()
+        variation_point = VariationPoint()
+
+        result = policy.setVariationPoint(variation_point)
+        assert result == policy
+        assert policy.getVariationPoint() is variation_point
+
+        # Setting None is a no-op: the existing value is preserved
+        policy.setVariationPoint(None)
+        assert policy.getVariationPoint() is variation_point
+
+
+class TestBswReleasedTriggerPolicy:
+    """Test cases for BswReleasedTriggerPolicy class - BSW released trigger policy (XSD-only class)."""
+
+    def test_initialization(self):
+        policy = BswReleasedTriggerPolicy()
+        assert policy.getEnableTakeAddress() is None
+        assert policy.getReleasedTriggerRef() is None
+        assert policy.getVariationPoint() is None
+
+    def test_get_set_released_trigger_ref(self):
+        policy = BswReleasedTriggerPolicy()
+        ref = RefType()
+
+        result = policy.setReleasedTriggerRef(ref)
+        assert result == policy
+        assert policy.getReleasedTriggerRef() == ref
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setReleasedTriggerRef(None)
+        assert result == policy
+        assert policy.getReleasedTriggerRef() == ref
+
+    def test_inherited_enable_take_address(self):
+        policy = BswReleasedTriggerPolicy()
+        value = Boolean()
+        value.setValue(True)
+
+        result = policy.setEnableTakeAddress(value)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setEnableTakeAddress(None)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+    def test_inherited_variation_point(self):
+        policy = BswReleasedTriggerPolicy()
+        variation_point = VariationPoint()
+
+        result = policy.setVariationPoint(variation_point)
+        assert result == policy
+        assert policy.getVariationPoint() is variation_point
+
+        # Setting None is a no-op: the existing value is preserved
+        policy.setVariationPoint(None)
+        assert policy.getVariationPoint() is variation_point
+
+
+class TestBswDataSendPolicy:
+    """Test cases for BswDataSendPolicy class - BSW data send policy (XSD-only class)."""
+
+    def test_initialization(self):
+        policy = BswDataSendPolicy()
+        assert policy.getEnableTakeAddress() is None
+        assert policy.getProvidedDataRef() is None
+        assert policy.getProviedeDataRef() is None
+        assert policy.getVariationPoint() is None
+
+    def test_get_set_provided_data_ref(self):
+        policy = BswDataSendPolicy()
+        ref = RefType()
+
+        result = policy.setProvidedDataRef(ref)
+        assert result == policy
+        assert policy.getProvidedDataRef() == ref
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setProvidedDataRef(None)
+        assert result == policy
+        assert policy.getProvidedDataRef() == ref
+
+    def test_get_set_proviede_data_ref(self):
+        policy = BswDataSendPolicy()
+        ref = RefType()
+
+        result = policy.setProviedeDataRef(ref)
+        assert result == policy
+        assert policy.getProviedeDataRef() == ref
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setProviedeDataRef(None)
+        assert result == policy
+        assert policy.getProviedeDataRef() == ref
+
+    def test_inherited_enable_take_address(self):
+        policy = BswDataSendPolicy()
+        value = Boolean()
+        value.setValue(True)
+
+        result = policy.setEnableTakeAddress(value)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+        # Setting None is a no-op: the existing value is preserved
+        result = policy.setEnableTakeAddress(None)
+        assert result == policy
+        assert policy.getEnableTakeAddress() == value
+
+    def test_inherited_variation_point(self):
+        policy = BswDataSendPolicy()
+        variation_point = VariationPoint()
+
+        result = policy.setVariationPoint(variation_point)
+        assert result == policy
+        assert policy.getVariationPoint() is variation_point
+
+        # Setting None is a no-op: the existing value is preserved
+        policy.setVariationPoint(None)
+        assert policy.getVariationPoint() is variation_point
+
+
 class TestBswDataReceptionPolicy:
     """Test cases for BswDataReceptionPolicy class - abstract base class for BSW data reception policies."""
 
@@ -1324,6 +1643,21 @@ class TestBswInternalBehavior:
         assert result == behavior
         assert behavior.getClientPolicies() == []
 
+    def test_add_client_policy(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "test_internal_behavior")
+        policy = BswClientPolicy()
+
+        result = behavior.addClientPolicy(policy)
+
+        assert result == behavior
+        assert behavior.getClientPolicies() == [policy]
+
+        # Adding None is a no-op: the list is unchanged
+        behavior.addClientPolicy(None)
+        assert behavior.getClientPolicies() == [policy]
+
     def test_get_set_distinguished_partitions(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
@@ -1351,6 +1685,21 @@ class TestBswInternalBehavior:
         assert result == behavior
         assert behavior.getInternalTriggeringPointPolicies() == []
 
+    def test_add_internal_triggering_point_policy(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "test_internal_behavior")
+        policy = BswInternalTriggeringPointPolicy()
+
+        result = behavior.addInternalTriggeringPointPolicy(policy)
+
+        assert result == behavior
+        assert behavior.getInternalTriggeringPointPolicies() == [policy]
+
+        # Adding None is a no-op: the list is unchanged
+        behavior.addInternalTriggeringPointPolicy(None)
+        assert behavior.getInternalTriggeringPointPolicies() == [policy]
+
     def test_get_set_parameter_policies(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
@@ -1360,6 +1709,21 @@ class TestBswInternalBehavior:
         assert result == behavior
         assert behavior.getParameterPolicies() == []
 
+    def test_add_parameter_policy(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "test_internal_behavior")
+        policy = BswParameterPolicy()
+
+        result = behavior.addParameterPolicy(policy)
+
+        assert result == behavior
+        assert behavior.getParameterPolicies() == [policy]
+
+        # Adding None is a no-op: the list is unchanged
+        behavior.addParameterPolicy(None)
+        assert behavior.getParameterPolicies() == [policy]
+
     def test_get_set_released_trigger_policies(self):
         document = AUTOSAR.getInstance()
         ar_root = document.createARPackage("AUTOSAR")
@@ -1368,6 +1732,21 @@ class TestBswInternalBehavior:
         result = behavior.setReleasedTriggerPolicies([])
         assert result == behavior
         assert behavior.getReleasedTriggerPolicies() == []
+
+    def test_add_released_trigger_policy(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "test_internal_behavior")
+        policy = BswReleasedTriggerPolicy()
+
+        result = behavior.addReleasedTriggerPolicy(policy)
+
+        assert result == behavior
+        assert behavior.getReleasedTriggerPolicies() == [policy]
+
+        # Adding None is a no-op: the list is unchanged
+        behavior.addReleasedTriggerPolicy(None)
+        assert behavior.getReleasedTriggerPolicies() == [policy]
 
     def test_get_set_scheduler_name_prefixes(self):
         document = AUTOSAR.getInstance()
@@ -1386,6 +1765,21 @@ class TestBswInternalBehavior:
         result = behavior.setSendPolicies([])
         assert result == behavior
         assert behavior.getSendPolicies() == []
+
+    def test_add_send_policy(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        behavior = BswInternalBehavior(ar_root, "test_internal_behavior")
+        policy = BswDataSendPolicy()
+
+        result = behavior.addSendPolicy(policy)
+
+        assert result == behavior
+        assert behavior.getSendPolicies() == [policy]
+
+        # Adding None is a no-op: the list is unchanged
+        behavior.addSendPolicy(None)
+        assert behavior.getSendPolicies() == [policy]
 
     def test_get_set_service_dependencies(self):
         document = AUTOSAR.getInstance()
@@ -1841,6 +2235,100 @@ class TestBswInternalBehavior:
         # This method adds to modeSenderPolicies
         assert len(behavior.getModeSenderPolicies()) == 1
         assert behavior.getModeSenderPolicies()[0] == policy
+
+
+class TestBswInternalBehaviorFullSync:
+    """Accessor coverage for the remaining Table 5.2 attributes (full sync 2026-09-17)."""
+
+    def _make_behavior(self):
+        document = AUTOSAR.getInstance()
+        ar_root = document.createARPackage("AUTOSAR")
+        return BswInternalBehavior(ar_root, "test_internal_behavior")
+
+    def test_add_ar_typed_per_instance_memory(self):
+        behavior = self._make_behavior()
+        prototype = VariableDataPrototype(parent=behavior, short_name="mem")
+
+        result = behavior.addArTypedPerInstanceMemory(prototype)
+
+        assert result == behavior
+        assert behavior.getArTypedPerInstanceMemories() == [prototype]
+
+        # Adding None is a no-op: the list is unchanged
+        behavior.addArTypedPerInstanceMemory(None)
+        assert behavior.getArTypedPerInstanceMemories() == [prototype]
+
+    def test_add_exclusive_area_policy(self):
+        behavior = self._make_behavior()
+        policy = BswExclusiveAreaPolicy()
+
+        result = behavior.addExclusiveAreaPolicy(policy)
+
+        assert result == behavior
+        assert behavior.getExclusiveAreaPolicies() == [policy]
+
+        behavior.addExclusiveAreaPolicy(None)
+        assert behavior.getExclusiveAreaPolicies() == [policy]
+
+    def test_add_mode_receiver_policy(self):
+        behavior = self._make_behavior()
+        policy = BswModeReceiverPolicy()
+
+        result = behavior.addModeReceiverPolicy(policy)
+
+        assert result == behavior
+        assert behavior.getModeReceiverPolicies() == [policy]
+
+        behavior.addModeReceiverPolicy(None)
+        assert behavior.getModeReceiverPolicies() == [policy]
+
+    def test_set_mode_receiver_policies(self):
+        behavior = self._make_behavior()
+        policy = BswModeReceiverPolicy()
+
+        result = behavior.setModeReceiverPolicies([policy])
+        assert result == behavior
+        assert behavior.getModeReceiverPolicies() == [policy]
+
+        result = behavior.setModeReceiverPolicies([])
+        assert result == behavior
+        assert behavior.getModeReceiverPolicies() == []
+
+    def test_add_per_instance_parameter(self):
+        behavior = self._make_behavior()
+        prototype = ParameterDataPrototype(parent=behavior, short_name="pip")
+
+        result = behavior.addPerInstanceParameter(prototype)
+
+        assert result == behavior
+        assert behavior.getPerInstanceParameters() == [prototype]
+
+        behavior.addPerInstanceParameter(None)
+        assert behavior.getPerInstanceParameters() == [prototype]
+
+    def test_add_trigger_direct_implementation(self):
+        behavior = self._make_behavior()
+        implementation = BswTriggerDirectImplementation()
+
+        result = behavior.addTriggerDirectImplementation(implementation)
+
+        assert result == behavior
+        assert behavior.getTriggerDirectImplementations() == [implementation]
+
+        behavior.addTriggerDirectImplementation(None)
+        assert behavior.getTriggerDirectImplementations() == [implementation]
+
+    def test_add_variation_point_proxy(self):
+        behavior = self._make_behavior()
+        proxy = VariationPointProxy(parent=behavior, short_name="vp")
+
+        result = behavior.addVariationPointProxy(proxy)
+
+        assert result == behavior
+        assert behavior.getVariationPointProxies() == [proxy]
+
+        behavior.addVariationPointProxy(None)
+        assert behavior.getVariationPointProxies() == [proxy]
 
 
 class TestBswDistinguishedPartition:

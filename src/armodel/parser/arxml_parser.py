@@ -37,14 +37,19 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswAsynchronousServerCallReturnsEvent,
     BswBackgroundEvent,
     BswCalledEntity,
+    BswClientPolicy,
     BswDataReceivedEvent,
     BswDataReceptionPolicy,
+    BswDataSendPolicy,
+    BswExclusiveAreaPolicy,
     BswExternalTriggerOccurredEvent,
     BswInternalBehavior,
     BswInternalTriggeringPoint,
+    BswInternalTriggeringPointPolicy,
     BswInternalTriggerOccurredEvent,
     BswInterruptEntity,
     BswModeManagerErrorEvent,
+    BswModeReceiverPolicy,
     BswModeSenderPolicy,
     BswModeSwitchAckRequest,
     BswModeSwitchedAckEvent,
@@ -52,12 +57,16 @@ from armodel.models.M2.AUTOSARTemplates.BswModuleTemplate.BswBehavior import (
     BswModuleCallPoint,
     BswModuleEntity,
     BswOperationInvokedEvent,
+    BswParameterPolicy,
+    BswPerInstanceMemoryPolicy,
     BswQueuedDataReceptionPolicy,
+    BswReleasedTriggerPolicy,
     BswSchedulableEntity,
     BswScheduleEvent,
     BswServiceDependency,
     BswSynchronousServerCallPoint,
     BswTimingEvent,
+    BswTriggerDirectImplementation,
     BswVariableAccess,
     RoleBasedBswModuleEntryAssignment,
 )
@@ -140,28 +149,42 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ResourceConsumption.Stac
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     BswMgrNeeds,
     ComMgrUserNeeds,
+    CryptoKeyManagementNeeds,
+    CryptoServiceJobNeeds,
     CryptoServiceNeeds,
     DevelopmentError,
+    DiagnosticControlNeeds,
     DiagEventDebounceCounterBased,
     DiagEventDebounceMonitorInternal,
     DiagEventDebounceTimeBased,
     DiagnosticCapabilityElement,
     DiagnosticCommunicationManagerNeeds,
+    DiagnosticComponentNeeds,
     DiagnosticEnableConditionNeeds,
+    DiagnosticEventManagerNeeds,
     DiagnosticEventInfoNeeds,
     DiagnosticEventNeeds,
     DiagnosticIoControlNeeds,
     DiagnosticOperationCycleNeeds,
+    DiagnosticRequestFileTransferNeeds,
     DiagnosticRoutineNeeds,
     DiagnosticStorageConditionNeeds,
+    DiagnosticUploadDownloadNeeds,
     DiagnosticValueNeeds,
+    DiagnosticsCommunicationSecurityNeeds,
     DltUserNeeds,
+    DoIpActivationLineNeeds,
+    DoIpGidNeeds,
+    DoIpGidSynchronizationNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
     DoIpRoutingActivationConfirmationNeeds,
     DtcStatusChangeNotificationNeeds,
     EcuStateMgrUserNeeds,
     ErrorTracerNeeds,
     FunctionInhibitionAvailabilityNeeds,
+    FunctionInhibitionNeeds,
+    GlobalSupervisionNeeds,
+    HardwareTestNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
@@ -177,8 +200,10 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     SecureOnBoardCommunicationNeeds,
     ServiceDependency,
     ServiceNeeds,
+    SupervisedEntityCheckpointNeeds,
     SupervisedEntityNeeds,
     SymbolicNameProps,
+    SyncTimeBaseMgrUserNeeds,
     TracedFailure,
     TransientFault,
 )
@@ -2008,6 +2033,14 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = BswMgrNeeds(dependency, short_name)
                 self.readBswMgrNeeds(child_element, needs)
+            elif tag_name == "CRYPTO-KEY-MANAGEMENT-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = CryptoKeyManagementNeeds(dependency, short_name)
+                self.readCryptoKeyManagementNeeds(child_element, needs)
+            elif tag_name == "CRYPTO-SERVICE-JOB-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = CryptoServiceJobNeeds(dependency, short_name)
+                self.readCryptoServiceJobNeeds(child_element, needs)
             elif tag_name == "NV-BLOCK-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = NvBlockNeeds(dependency, short_name)
@@ -2016,6 +2049,22 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticCommunicationManagerNeeds(dependency, short_name)
                 self.readDiagnosticCommunicationManagerNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-COMPONENT-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticComponentNeeds(dependency, short_name)
+                self.readDiagnosticComponentNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-CONTROL-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticControlNeeds(dependency, short_name)
+                self.readDiagnosticControlNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticUploadDownloadNeeds(dependency, short_name)
+                self.readDiagnosticUploadDownloadNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticsCommunicationSecurityNeeds(dependency, short_name)
+                self.readDiagnosticsCommunicationSecurityNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-ROUTINE-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticRoutineNeeds(dependency, short_name)
@@ -2040,10 +2089,18 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticEnableConditionNeeds(dependency, short_name)
                 self.readDiagnosticEnableConditionNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-EVENT-MANAGER-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticEventManagerNeeds(dependency, short_name)
+                self.readDiagnosticEventManagerNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-OPERATION-CYCLE-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticOperationCycleNeeds(dependency, short_name)
                 self.readDiagnosticOperationCycleNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DiagnosticRequestFileTransferNeeds(dependency, short_name)
+                self.readDiagnosticRequestFileTransferNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-STORAGE-CONDITION-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = DiagnosticStorageConditionNeeds(dependency, short_name)
@@ -2056,6 +2113,18 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = FunctionInhibitionAvailabilityNeeds(dependency, short_name)
                 self.readFunctionInhibitionAvailabilityNeeds(child_element, needs)
+            elif tag_name == "FUNCTION-INHIBITION-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = FunctionInhibitionNeeds(dependency, short_name)
+                self.readFunctionInhibitionNeeds(child_element, needs)
+            elif tag_name == "GLOBAL-SUPERVISION-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = GlobalSupervisionNeeds(dependency, short_name)
+                self.readGlobalSupervisionNeeds(child_element, needs)
+            elif tag_name == "HARDWARE-TEST-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = HardwareTestNeeds(dependency, short_name)
+                self.readHardwareTestNeeds(child_element, needs)
             elif tag_name == "CRYPTO-SERVICE-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = CryptoServiceNeeds(dependency, short_name)
@@ -2076,10 +2145,18 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = ComMgrUserNeeds(dependency, short_name)
                 self.readComMgrUserNeeds(child_element, needs)
+            elif tag_name == "SUPERVISED-ENTITY-CHECKPOINT-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = SupervisedEntityCheckpointNeeds(dependency, short_name)
+                self.readSupervisedEntityCheckpointNeeds(child_element, needs)
             elif tag_name == "SUPERVISED-ENTITY-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = SupervisedEntityNeeds(dependency, short_name)
                 self.readSupervisedEntityNeeds(child_element, needs)
+            elif tag_name == "SYNC-TIME-BASE-MGR-USER-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = SyncTimeBaseMgrUserNeeds(dependency, short_name)
+                self.readSyncTimeBaseMgrUserNeeds(child_element, needs)
             elif tag_name == "ERROR-TRACER-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = ErrorTracerNeeds(dependency, short_name)
@@ -2108,6 +2185,18 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = ObdRatioDenominatorNeeds(dependency, short_name)
                 self.readObdRatioDenominatorNeeds(child_element, needs)
+            elif tag_name == "DO-IP-ACTIVATION-LINE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DoIpActivationLineNeeds(dependency, short_name)
+                self.readDoIpActivationLineNeeds(child_element, needs)
+            elif tag_name == "DO-IP-GID-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DoIpGidNeeds(dependency, short_name)
+                self.readDoIpGidNeeds(child_element, needs)
+            elif tag_name == "DO-IP-GID-SYNCHRONIZATION-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DoIpGidSynchronizationNeeds(dependency, short_name)
+                self.readDoIpGidSynchronizationNeeds(child_element, needs)
             elif tag_name == "DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = DoIpRoutingActivationAuthenticationNeeds(dependency, short_name)
@@ -2165,6 +2254,12 @@ class ARXMLParser(AbstractARXMLParser):
     def readBswMgrNeeds(self, element: ET.Element, needs: BswMgrNeeds):
         self.readServiceNeeds(element, needs)
 
+    def readCryptoKeyManagementNeeds(self, element: ET.Element, needs: CryptoKeyManagementNeeds):
+        self.readServiceNeeds(element, needs)
+
+    def readCryptoServiceJobNeeds(self, element: ET.Element, needs: CryptoServiceJobNeeds):
+        self.readServiceNeeds(element, needs)
+
     def readNvBlockNeeds(self, element: ET.Element, needs: NvBlockNeeds):
         # self.logger.debug("Read NvBlockNeeds <%s>" % needs.getShortName())
         self.readServiceNeeds(element, needs)
@@ -2217,6 +2312,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readServiceNeeds(element, needs)
         needs.setDenominatorCondition(self.getChildElementOptionalLiteral(element, "DENOMINATOR-CONDITION"))
 
+    def readDoIpActivationLineNeeds(self, element: ET.Element, needs: DoIpActivationLineNeeds):
+        self.readServiceNeeds(element, needs)
+
+    def readDoIpGidNeeds(self, element: ET.Element, needs: DoIpGidNeeds):
+        self.readServiceNeeds(element, needs)
+
+    def readDoIpGidSynchronizationNeeds(self, element: ET.Element, needs: DoIpGidSynchronizationNeeds):
+        self.readServiceNeeds(element, needs)
+
     def readDoIpRoutingActivationAuthenticationNeeds(self, element: ET.Element, needs: DoIpRoutingActivationAuthenticationNeeds):
         self.readServiceNeeds(element, needs)
         needs.setDataLengthRequest(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH-REQUEST"))
@@ -2245,6 +2349,18 @@ class ARXMLParser(AbstractARXMLParser):
         # self.logger.debug("Read DiagnosticCommunicationManagerNeeds <%s>" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
         needs.setServiceRequestCallbackType(self.getChildElementOptionalLiteral(element, "SERVICE-REQUEST-CALLBACK-TYPE"))
+
+    def readDiagnosticComponentNeeds(self, element: ET.Element, needs: DiagnosticComponentNeeds):
+        self.readDiagnosticCapabilityElement(element, needs)
+
+    def readDiagnosticControlNeeds(self, element: ET.Element, needs: DiagnosticControlNeeds):
+        self.readDiagnosticCapabilityElement(element, needs)
+
+    def readDiagnosticUploadDownloadNeeds(self, element: ET.Element, needs: DiagnosticUploadDownloadNeeds):
+        self.readDiagnosticCapabilityElement(element, needs)
+
+    def readDiagnosticsCommunicationSecurityNeeds(self, element: ET.Element, needs: DiagnosticsCommunicationSecurityNeeds):
+        self.readDiagnosticCapabilityElement(element, needs)
 
     def readDiagnosticRoutineNeeds(self, element: ET.Element, needs: DiagnosticRoutineNeeds):
         # self.logger.debug("Read DiagnosticRoutineNeeds %s" % needs.getShortName())
@@ -2316,10 +2432,16 @@ class ARXMLParser(AbstractARXMLParser):
         self.readDiagnosticCapabilityElement(element, needs)
         needs.setInitialStatus(self.getChildElementOptionalLiteral(element, "INITIAL-STATUS"))
 
+    def readDiagnosticEventManagerNeeds(self, element: ET.Element, needs: DiagnosticEventManagerNeeds):
+        self.readDiagnosticCapabilityElement(element, needs)
+
     def readDiagnosticOperationCycleNeeds(self, element: ET.Element, needs: DiagnosticOperationCycleNeeds):
         # self.logger.debug("Read DiagnosticOperationCycleNeeds %s" % needs.getShortName())
         self.readDiagnosticCapabilityElement(element, needs)
         needs.setOperationCycle(self.getChildElementOptionalLiteral(element, "OPERATION-CYCLE"))
+
+    def readDiagnosticRequestFileTransferNeeds(self, element: ET.Element, needs: DiagnosticRequestFileTransferNeeds):
+        self.readDiagnosticCapabilityElement(element, needs)
 
     def readDiagnosticStorageConditionNeeds(self, element: ET.Element, needs: DiagnosticStorageConditionNeeds):
         # self.logger.debug("Read DiagnosticStorageConditionNeeds %s" % needs.getShortName())
@@ -2335,6 +2457,15 @@ class ARXMLParser(AbstractARXMLParser):
         # self.logger.debug("Read FunctionInhibitionAvailabilityNeeds %s" % needs.getShortName())
         self.readServiceNeeds(element, needs)
         needs.setControlledFidRef(self.getChildElementOptionalRefType(element, "CONTROLLED-FID-REF"))
+
+    def readFunctionInhibitionNeeds(self, element: ET.Element, needs: FunctionInhibitionNeeds):
+        self.readServiceNeeds(element, needs)
+
+    def readGlobalSupervisionNeeds(self, element: ET.Element, needs: GlobalSupervisionNeeds):
+        self.readServiceNeeds(element, needs)
+
+    def readHardwareTestNeeds(self, element: ET.Element, needs: HardwareTestNeeds):
+        self.readServiceNeeds(element, needs)
 
     def readCryptoServiceNeeds(self, element: ET.Element, needs: CryptoServiceNeeds):
         # self.logger.debug("Read CryptoServiceNeeds <%s>" % needs.getShortName())
@@ -2358,6 +2489,12 @@ class ARXMLParser(AbstractARXMLParser):
         # self.logger.debug("Read ComMgrUserNeeds %s" % needs.getShortName())
         self.readServiceNeeds(element, needs)
         needs.setMaxCommMode(self.getChildElementOptionalLiteral(element, "MAX-COMM-MODE"))
+
+    def readSupervisedEntityCheckpointNeeds(self, element: ET.Element, needs: SupervisedEntityCheckpointNeeds):
+        self.readServiceNeeds(element, needs)
+
+    def readSyncTimeBaseMgrUserNeeds(self, element: ET.Element, needs: SyncTimeBaseMgrUserNeeds):
+        self.readServiceNeeds(element, needs)
 
     def readSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
         self.readServiceNeeds(element, needs)
@@ -2420,6 +2557,18 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS":
                 needs = parent.createDiagnosticCommunicationManagerNeeds(self.getShortName(child_element))
                 self.readDiagnosticCommunicationManagerNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-COMPONENT-NEEDS":
+                needs = parent.createDiagnosticComponentNeeds(self.getShortName(child_element))
+                self.readDiagnosticComponentNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-CONTROL-NEEDS":
+                needs = parent.createDiagnosticControlNeeds(self.getShortName(child_element))
+                self.readDiagnosticControlNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS":
+                needs = parent.createDiagnosticUploadDownloadNeeds(self.getShortName(child_element))
+                self.readDiagnosticUploadDownloadNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS":
+                needs = parent.createDiagnosticsCommunicationSecurityNeeds(self.getShortName(child_element))
+                self.readDiagnosticsCommunicationSecurityNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-ROUTINE-NEEDS":
                 needs = parent.createDiagnosticRoutineNeeds(self.getShortName(child_element))
                 self.readDiagnosticRoutineNeeds(child_element, needs)
@@ -2435,6 +2584,12 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-IO-CONTROL-NEEDS":
                 needs = parent.createDiagnosticIoControlNeeds(self.getShortName(child_element))
                 self.readDiagnosticIoControlNeeds(child_element, needs)
+            elif tag_name == "CRYPTO-KEY-MANAGEMENT-NEEDS":
+                needs = parent.createCryptoKeyManagementNeeds(self.getShortName(child_element))
+                self.readCryptoKeyManagementNeeds(child_element, needs)
+            elif tag_name == "CRYPTO-SERVICE-JOB-NEEDS":
+                needs = parent.createCryptoServiceJobNeeds(self.getShortName(child_element))
+                self.readCryptoServiceJobNeeds(child_element, needs)
             elif tag_name == "CRYPTO-SERVICE-NEEDS":
                 needs = parent.createCryptoServiceNeeds(self.getShortName(child_element))
                 self.readCryptoServiceNeeds(child_element, needs)
@@ -2456,9 +2611,15 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DIAGNOSTIC-ENABLE-CONDITION-NEEDS":
                 needs = parent.createDiagnosticEnableConditionNeeds(self.getShortName(child_element))
                 self.readDiagnosticEnableConditionNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-EVENT-MANAGER-NEEDS":
+                needs = parent.createDiagnosticEventManagerNeeds(self.getShortName(child_element))
+                self.readDiagnosticEventManagerNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-OPERATION-CYCLE-NEEDS":
                 needs = parent.createDiagnosticOperationCycleNeeds(self.getShortName(child_element))
                 self.readDiagnosticOperationCycleNeeds(child_element, needs)
+            elif tag_name == "DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS":
+                needs = parent.createDiagnosticRequestFileTransferNeeds(self.getShortName(child_element))
+                self.readDiagnosticRequestFileTransferNeeds(child_element, needs)
             elif tag_name == "DIAGNOSTIC-STORAGE-CONDITION-NEEDS":
                 needs = parent.createDiagnosticStorageConditionNeeds(self.getShortName(child_element))
                 self.readDiagnosticStorageConditionNeeds(child_element, needs)
@@ -2468,6 +2629,21 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "FUNCTION-INHIBITION-AVAILABILITY-NEEDS":
                 needs = parent.createFunctionInhibitionAvailabilityNeeds(self.getShortName(child_element))
                 self.readFunctionInhibitionAvailabilityNeeds(child_element, needs)
+            elif tag_name == "FUNCTION-INHIBITION-NEEDS":
+                needs = parent.createFunctionInhibitionNeeds(self.getShortName(child_element))
+                self.readFunctionInhibitionNeeds(child_element, needs)
+            elif tag_name == "GLOBAL-SUPERVISION-NEEDS":
+                needs = parent.createGlobalSupervisionNeeds(self.getShortName(child_element))
+                self.readGlobalSupervisionNeeds(child_element, needs)
+            elif tag_name == "HARDWARE-TEST-NEEDS":
+                needs = parent.createHardwareTestNeeds(self.getShortName(child_element))
+                self.readHardwareTestNeeds(child_element, needs)
+            elif tag_name == "SUPERVISED-ENTITY-CHECKPOINT-NEEDS":
+                needs = parent.createSupervisedEntityCheckpointNeeds(self.getShortName(child_element))
+                self.readSupervisedEntityCheckpointNeeds(child_element, needs)
+            elif tag_name == "SYNC-TIME-BASE-MGR-USER-NEEDS":
+                needs = parent.createSyncTimeBaseMgrUserNeeds(self.getShortName(child_element))
+                self.readSyncTimeBaseMgrUserNeeds(child_element, needs)
             elif tag_name == "OBD-INFO-SERVICE-NEEDS":
                 needs = parent.createObdInfoServiceNeeds(self.getShortName(child_element))
                 self.readObdInfoServiceNeeds(child_element, needs)
@@ -2486,6 +2662,15 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "OBD-RATIO-DENOMINATOR-NEEDS":
                 needs = parent.createObdRatioDenominatorNeeds(self.getShortName(child_element))
                 self.readObdRatioDenominatorNeeds(child_element, needs)
+            elif tag_name == "DO-IP-ACTIVATION-LINE-NEEDS":
+                needs = parent.createDoIpActivationLineNeeds(self.getShortName(child_element))
+                self.readDoIpActivationLineNeeds(child_element, needs)
+            elif tag_name == "DO-IP-GID-NEEDS":
+                needs = parent.createDoIpGidNeeds(self.getShortName(child_element))
+                self.readDoIpGidNeeds(child_element, needs)
+            elif tag_name == "DO-IP-GID-SYNCHRONIZATION-NEEDS":
+                needs = parent.createDoIpGidSynchronizationNeeds(self.getShortName(child_element))
+                self.readDoIpGidSynchronizationNeeds(child_element, needs)
             elif tag_name == "DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS":
                 needs = parent.createDoIpRoutingActivationAuthenticationNeeds(self.getShortName(child_element))
                 self.readDoIpRoutingActivationAuthenticationNeeds(child_element, needs)
@@ -3555,6 +3740,205 @@ class ARXMLParser(AbstractARXMLParser):
             else:
                 self.notImplemented("Unsupported Reception Policies <%s>" % tag_name)
 
+    def readBswPerInstanceMemoryPolicy(self, element: ET.Element, policy: BswPerInstanceMemoryPolicy):
+        self.readBswApiOptions(element, policy)
+        policy.setArTypedPerInstanceMemoryRef(self.getChildElementOptionalRefType(element, "AR-TYPED-PER-INSTANCE-MEMORY-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(policy, VariationPointCapable):
+                policy.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readBswInternalBehaviorBswPerInstanceMemoryPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "BSW-PER-INSTANCE-MEMORY-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-PER-INSTANCE-MEMORY-POLICY":
+                policy = BswPerInstanceMemoryPolicy()
+                self.readBswPerInstanceMemoryPolicy(child_element, policy)
+                behavior.addBswPerInstanceMemoryPolicy(policy)
+            else:
+                self.notImplemented("Unsupported Per Instance Memory Policies <%s>" % tag_name)
+
+    def readBswClientPolicy(self, element: ET.Element, policy: BswClientPolicy):
+        self.readBswApiOptions(element, policy)
+        policy.setRequiredClientServerEntryRef(self.getChildElementOptionalRefType(element, "REQUIRED-CLIENT-SERVER-ENTRY-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(policy, VariationPointCapable):
+                policy.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readBswInternalBehaviorClientPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "CLIENT-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-CLIENT-POLICY":
+                policy = BswClientPolicy()
+                self.readBswClientPolicy(child_element, policy)
+                behavior.addClientPolicy(policy)
+            else:
+                self.notImplemented("Unsupported Client Policies <%s>" % tag_name)
+
+    def readBswInternalTriggeringPointPolicy(self, element: ET.Element, policy: BswInternalTriggeringPointPolicy):
+        self.readBswApiOptions(element, policy)
+        policy.setBswInternalTriggeringPointRef(self.getChildElementOptionalRefType(element, "BSW-INTERNAL-TRIGGERING-POINT-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(policy, VariationPointCapable):
+                policy.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readBswInternalBehaviorInternalTriggeringPointPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "INTERNAL-TRIGGERING-POINT-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-INTERNAL-TRIGGERING-POINT-POLICY":
+                policy = BswInternalTriggeringPointPolicy()
+                self.readBswInternalTriggeringPointPolicy(child_element, policy)
+                behavior.addInternalTriggeringPointPolicy(policy)
+            else:
+                self.notImplemented("Unsupported Internal Triggering Point Policies <%s>" % tag_name)
+
+    def readBswParameterPolicy(self, element: ET.Element, policy: BswParameterPolicy):
+        self.readBswApiOptions(element, policy)
+        policy.setPerInstanceParameterRef(self.getChildElementOptionalRefType(element, "PER-INSTANCE-PARAMETER-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(policy, VariationPointCapable):
+                policy.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readBswInternalBehaviorParameterPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "PARAMETER-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-PARAMETER-POLICY":
+                policy = BswParameterPolicy()
+                self.readBswParameterPolicy(child_element, policy)
+                behavior.addParameterPolicy(policy)
+            else:
+                self.notImplemented("Unsupported Parameter Policies <%s>" % tag_name)
+
+    def readBswReleasedTriggerPolicy(self, element: ET.Element, policy: BswReleasedTriggerPolicy):
+        self.readBswApiOptions(element, policy)
+        policy.setReleasedTriggerRef(self.getChildElementOptionalRefType(element, "RELEASED-TRIGGER-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(policy, VariationPointCapable):
+                policy.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readBswInternalBehaviorReleasedTriggerPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "RELEASED-TRIGGER-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-RELEASED-TRIGGER-POLICY":
+                policy = BswReleasedTriggerPolicy()
+                self.readBswReleasedTriggerPolicy(child_element, policy)
+                behavior.addReleasedTriggerPolicy(policy)
+            else:
+                self.notImplemented("Unsupported Released Trigger Policies <%s>" % tag_name)
+
+    def readBswDataSendPolicy(self, element: ET.Element, policy: BswDataSendPolicy):
+        self.readBswApiOptions(element, policy)
+        policy.setProvidedDataRef(self.getChildElementOptionalRefType(element, "PROVIDED-DATA-REF"))
+        policy.setProviedeDataRef(self.getChildElementOptionalRefType(element, "PROVIEDE-DATA-REF"))
+        variation_point_element = self.find(element, "VARIATION-POINT")
+        if variation_point_element is not None:
+            if isinstance(policy, VariationPointCapable):
+                policy.setVariationPoint(self.readVariationPoint(variation_point_element, VariationPoint()))
+            else:
+                self.logger.warning("VARIATION-POINT on non-variant element <%s> ignored" % self.getPureTagName(element.tag))
+
+    def readBswInternalBehaviorDataSendPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "SEND-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-DATA-SEND-POLICY":
+                policy = BswDataSendPolicy()
+                self.readBswDataSendPolicy(child_element, policy)
+                behavior.addSendPolicy(policy)
+            else:
+                self.notImplemented("Unsupported Data Send Policies <%s>" % tag_name)
+
+    def readBswInternalBehaviorArTypedPerInstanceMemories(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "AR-TYPED-PER-INSTANCE-MEMORYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "VARIABLE-DATA-PROTOTYPE":
+                memory = VariableDataPrototype(self, self.getShortName(child_element))
+                self.readVariableDataPrototype(child_element, memory)
+                behavior.addArTypedPerInstanceMemory(memory)
+            else:
+                self.notImplemented("Unsupported ArTypedPerInstanceMemory <%s>" % tag_name)
+
+    def getBswExclusiveAreaPolicy(self, element: ET.Element) -> BswExclusiveAreaPolicy:
+        policy = BswExclusiveAreaPolicy()
+        policy.setApiPrinciple(self.getChildElementOptionalLiteral(element, "API-PRINCIPLE"))
+        policy.setExclusiveAreaRef(self.getChildElementOptionalRefType(element, "EXCLUSIVE-AREA-REF"))
+        return policy
+
+    def readBswInternalBehaviorExclusiveAreaPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "EXCLUSIVE-AREA-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-EXCLUSIVE-AREA-POLICY":
+                behavior.addExclusiveAreaPolicy(self.getBswExclusiveAreaPolicy(child_element))
+            else:
+                self.notImplemented("Unsupported ExclusiveAreaPolicy <%s>" % tag_name)
+
+    def readBswInternalBehaviorIncludedDataTypeSets(self, element: ET.Element, behavior: BswInternalBehavior):
+        for data_type_set in self.getIncludedDataTypeSets(element):
+            behavior.addIncludedDataTypeSet(data_type_set)
+
+    def getBswModeReceiverPolicy(self, element: ET.Element) -> BswModeReceiverPolicy:
+        policy = BswModeReceiverPolicy()
+        policy.setEnhancedModeApi(self.getChildElementOptionalBooleanValue(element, "ENHANCED-MODE-API"))
+        policy.setRequiredModeGroupRef(self.getChildElementOptionalRefType(element, "REQUIRED-MODE-GROUP-REF"))
+        policy.setSupportsAsynchronousModeSwitch(self.getChildElementOptionalBooleanValue(element, "SUPPORTS-ASYNCHRONOUS-MODE-SWITCH"))
+        return policy
+
+    def readBswInternalBehaviorModeReceiverPolicies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "MODE-RECEIVER-POLICYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-MODE-RECEIVER-POLICY":
+                behavior.addModeReceiverPolicy(self.getBswModeReceiverPolicy(child_element))
+            else:
+                self.notImplemented("Unsupported ModeReceiverPolicy <%s>" % tag_name)
+
+    def readBswInternalBehaviorPerInstanceParameters(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "PER-INSTANCE-PARAMETERS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "PARAMETER-DATA-PROTOTYPE":
+                parameter = ParameterDataPrototype(self, self.getShortName(child_element))
+                self.readParameterDataPrototype(child_element, parameter)
+                behavior.addPerInstanceParameter(parameter)
+            else:
+                self.notImplemented("Unsupported PerInstanceParameter <%s>" % tag_name)
+
+    def getBswTriggerDirectImplementation(self, element: ET.Element) -> BswTriggerDirectImplementation:
+        implementation = BswTriggerDirectImplementation()
+        implementation.setCat2Isr(self.getChildElementOptionalIdentifier(element, "CAT-2-ISR"))
+        implementation.setMasteredTriggerRef(self.getChildElementOptionalRefType(element, "MASTERED-TRIGGER-REF"))
+        implementation.setTask(self.getChildElementOptionalIdentifier(element, "TASK"))
+        return implementation
+
+    def readBswInternalBehaviorTriggerDirectImplementations(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "TRIGGER-DIRECT-IMPLEMENTATIONS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "BSW-TRIGGER-DIRECT-IMPLEMENTATION":
+                behavior.addTriggerDirectImplementation(self.getBswTriggerDirectImplementation(child_element))
+            else:
+                self.notImplemented("Unsupported TriggerDirectImplementation <%s>" % tag_name)
+
+    def readBswInternalBehaviorVariationPointProxies(self, element: ET.Element, behavior: BswInternalBehavior):
+        for child_element in self.findall(element, "VARIATION-POINT-PROXYS/*"):
+            tag_name = self.getTagName(child_element)
+            if tag_name == "VARIATION-POINT-PROXY":
+                proxy = VariationPointProxy(behavior, self.getShortName(child_element))
+                self.readVariationPointProxy(child_element, proxy)
+                behavior.addVariationPointProxy(proxy)
+            else:
+                self.notImplemented("Unsupported VariationPointProxy <%s>" % tag_name)
+
     def readBswInternalTriggeringPoint(self, element: ET.Element, point: BswInternalTriggeringPoint):
         self.readIdentifiable(element, point)
 
@@ -3582,16 +3966,29 @@ class ARXMLParser(AbstractARXMLParser):
 
         # read the internal behavior
         self.readInternalBehavior(element, behavior)
+        self.readBswInternalBehaviorArTypedPerInstanceMemories(element, behavior)
+        self.readBswInternalBehaviorBswPerInstanceMemoryPolicies(element, behavior)
+        self.readBswInternalBehaviorClientPolicies(element, behavior)
+        self.readBswInternalBehaviorExclusiveAreaPolicies(element, behavior)
+        self.readBswInternalBehaviorIncludedDataTypeSets(element, behavior)
         self.readBswInternalBehaviorInternalTriggeringPoints(element, behavior)
         self.readBswInternalBehaviorEntities(element, behavior)
         self.readBswInternalBehaviorEvents(element, behavior)
+        self.readBswInternalBehaviorModeReceiverPolicies(element, behavior)
         self.readBswInternalBehaviorModeSenderPolicy(element, behavior)
+        self.readBswInternalBehaviorPerInstanceParameters(element, behavior)
         for group_set in self.getIncludedModeDeclarationGroupSets(element):
             behavior.addIncludedModeDeclarationGroupSet(group_set)
+        self.readBswInternalBehaviorInternalTriggeringPointPolicies(element, behavior)
+        self.readBswInternalBehaviorParameterPolicies(element, behavior)
+        self.readBswInternalBehaviorReleasedTriggerPolicies(element, behavior)
+        self.readBswInternalBehaviorDataSendPolicies(element, behavior)
+        self.readBswInternalBehaviorVariationPointProxies(element, behavior)
         self.readBswInternalBehaviorReceptionPolicies(element, behavior)
         self.readBswInternalBehaviorSchedulerNamePrefixes(element, behavior)
         self.readBswInternalBehaviorDistinguishedPartitions(element, behavior)
         self.readBswInternalBehaviorServiceDependencies(element, behavior)
+        self.readBswInternalBehaviorTriggerDirectImplementations(element, behavior)
 
     def readBswInternalBehaviorSchedulerNamePrefixes(self, element: ET.Element, behavior: BswInternalBehavior):
         for child_element in self.findall(element, "SCHEDULER-NAME-PREFIXS/BSW-SCHEDULER-NAME-PREFIX"):

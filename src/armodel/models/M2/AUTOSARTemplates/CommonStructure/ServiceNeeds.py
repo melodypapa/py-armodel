@@ -152,22 +152,16 @@ class RoleBasedDataAssignment(ARObject, VariationPointCapable):
 
 class ServiceNeeds(Identifiable, ABC):
     """
-    Abstract base class for service needs in AUTOSAR models.
-    Service needs define requirements for various services such as NV block management, diagnostic services, etc.
+    This expresses the abstract needs that a Software Component or Basic Software Module has on the configuration of an AUTOSAR Service to which it will be connected. "Abstract needs" means that the model abstracts from the Configuration Parameters of the underlying Basic Software.
     """
 
     # ServiceNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.6, p.228 (class Note: sibling copy AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 7.52, p.603)
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the ServiceNeeds with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this service needs
-            short_name: The unique short name of this service needs
-        """
         if type(self) is ServiceNeeds:
             raise TypeError("ServiceNeeds is an abstract class.")
 
@@ -1182,22 +1176,16 @@ class DiagnosticValueNeeds(DiagnosticCapabilityElement):
 
 class DiagEventDebounceAlgorithm(Identifiable, ABC):
     """
-    Abstract base class for diagnostic event debounce algorithms in AUTOSAR models.
-    This class defines the base structure for algorithms that debounce diagnostic events to prevent false triggers.
+    This class represents the ability to specify the pre-debounce algorithm which is selected and/or required by the particular monitor. This class inherits from Identifiable in order to allow further documentation of the expected or implemented debouncing and to use the category for the identification of the expected / implemented debouncing.
     """
 
     # DiagEventDebounceAlgorithm method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.32, p.259
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagEventDebounceAlgorithm with a parent and short name.
-        Raises TypeError if this abstract class is instantiated directly.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic event debounce algorithm
-            short_name: The unique short name of this diagnostic event debounce algorithm
-        """
         if type(self) is DiagEventDebounceAlgorithm:
             raise TypeError("DiagEventDebounceAlgorithm is an abstract class.")
 
@@ -1326,21 +1314,16 @@ class DiagEventDebounceCounterBased(DiagEventDebounceAlgorithm):
 
 class DiagEventDebounceMonitorInternal(DiagEventDebounceAlgorithm):
     """
-    Represents an internal monitor-based diagnostic event debounce algorithm in AUTOSAR models.
-    This class defines debounce algorithms based on internal monitoring mechanisms rather than counters or time thresholds.
+    This meta-class represents the ability to indicate that no Dem pre-debounce algorithm shall be used for this diagnostic monitor. The SWC might implement an internal debouncing algorithm and report qualified (debounced) results to the Dem/DM.
     """
 
     # DiagEventDebounceMonitorInternal method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.35, p.260
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagEventDebounceMonitorInternal with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this internal monitor debounce algorithm
-            short_name: The unique short name of this internal monitor debounce algorithm
-        """
         super().__init__(parent, short_name)
 
 
@@ -1990,61 +1973,46 @@ class CryptoServiceNeeds(ServiceNeeds):
 
 class EcuStateMgrUserNeeds(ServiceNeeds):
     """
-    Represents ECU state manager user needs in AUTOSAR models.
-    This class defines requirements for components that use the ECU state manager service.
+    Specifies the abstract needs on the configuration of the ECU State Manager for one "user". This class currently contains no attributes. Its name can be regarded as a symbol identifying the user from the viewpoint of the component or module which owns this class.
     """
 
     # EcuStateMgrUserNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.14, p.235
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the EcuStateMgrUserNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this ECU state manager user needs
-            short_name: The unique short name of this ECU state manager user needs
-        """
         super().__init__(parent, short_name)
 
 
 class DltUserNeeds(ServiceNeeds):
     """
-    Represents DLT (Diagnostic Log and Trace) user needs in AUTOSAR models.
-    This class defines requirements for components that use the DLT service for logging and tracing.
+    This meta-class specifies the needs on the configuration of the Diagnostic Log and Trace module for one SessionId. This class currently contains no attributes. An instance of this class is used to find out which PortPrototypes of an AtomicSwComponentType belong to this SessionId in order to group the request and response PortPrototypes of the same SessionId. The actual SessionId value is stored in the PortDefinedArgumentValue of the respective PortPrototype specification.
     """
 
     # DltUserNeeds method parity checklist:
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.16, p.236
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DltUserNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this DLT user needs
-            short_name: The unique short name of this DLT user needs
-        """
         super().__init__(parent, short_name)
 
 
 class BswMgrNeeds(ServiceNeeds):
     """
-    Represents BSW Manager needs in AUTOSAR models.
-    This class defines requirements for Basic Software Manager services.
+    Specifies the abstract needs on the configuration of the Basic Software Manager for one "user".
     """
 
     # BswMgrNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.8, p.716
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the BswMgrNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this BSW manager needs
-            short_name: The unique short name of this BSW manager needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -2100,41 +2068,31 @@ class ComMgrUserNeeds(ServiceNeeds):
 
 class CryptoKeyManagementNeeds(ServiceNeeds):
     """
-    Represents Cryptographic Key Management needs in AUTOSAR models.
-    This class defines requirements for cryptographic key management services.
+    This meta-class can be used to indicate a service use case for key management.
     """
 
     # CryptoKeyManagementNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.11, p.745
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the CryptoKeyManagementNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this crypto key management needs
-            short_name: The unique short name of this crypto key management needs
-        """
         super().__init__(parent, short_name)
 
 
 class CryptoServiceJobNeeds(ServiceNeeds):
     """
-    Represents Cryptographic Service Job needs in AUTOSAR models.
-    This class defines requirements for cryptographic service job operations.
+    This meta-class shall be taken to indicate that the service use case modeled with this kind of Service Needs assumes the usage of the crypto job API.
     """
 
     # CryptoServiceJobNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.10, p.733
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the CryptoServiceJobNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this crypto service job needs
-            short_name: The unique short name of this crypto service job needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -2213,43 +2171,33 @@ class DevelopmentError(TracedFailure):
         super().__init__(parent, short_name)
 
 
-class DiagnosticComponentNeeds(ServiceNeeds):
+class DiagnosticComponentNeeds(DiagnosticCapabilityElement):
     """
-    Represents Diagnostic Component needs in AUTOSAR models.
-    This class defines requirements for diagnostic component services.
+    This meta-class represents the ability to specify the service needs for the configuration of component events.
     """
 
     # DiagnosticComponentNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.64, p.816
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticComponentNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic component needs
-            short_name: The unique short name of this diagnostic component needs
-        """
         super().__init__(parent, short_name)
 
 
-class DiagnosticControlNeeds(ServiceNeeds):
+class DiagnosticControlNeeds(DiagnosticCapabilityElement):
     """
-    Represents Diagnostic Control needs in AUTOSAR models.
-    This class defines requirements for diagnostic control services.
+    This meta-class indicates a service use-case for reporting the controlled status by diagnostic services.
     """
 
     # DiagnosticControlNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.63, p.812
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticControlNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic control needs
-            short_name: The unique short name of this diagnostic control needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -2341,23 +2289,18 @@ class DiagnosticEnableConditionNeeds(DiagnosticCapabilityElement):
         return self
 
 
-class DiagnosticEventManagerNeeds(ServiceNeeds):
+class DiagnosticEventManagerNeeds(DiagnosticCapabilityElement):
     """
-    Represents Diagnostic Event Manager needs in AUTOSAR models.
-    This class defines requirements for diagnostic event manager services.
+    Specifies the general needs on the configuration of the Diagnostic Event Manager (Dem) which are not related to a particular item.
     """
 
     # DiagnosticEventManagerNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.14, p.753
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticEventManagerNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic event manager needs
-            short_name: The unique short name of this diagnostic event manager needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -2576,23 +2519,18 @@ class DiagnosticOperationCycleNeeds(DiagnosticCapabilityElement):
         return self
 
 
-class DiagnosticRequestFileTransferNeeds(ServiceNeeds):
+class DiagnosticRequestFileTransferNeeds(DiagnosticCapabilityElement):
     """
-    Represents Diagnostic Request File Transfer needs in AUTOSAR models.
-    This class defines requirements for diagnostic file transfer services.
+    This meta-class indicates the existence of a service use case that involves UDS service 0x38, Request File Transfer.
     """
 
     # DiagnosticRequestFileTransferNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.43, p.795
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticRequestFileTransferNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic request file transfer needs
-            short_name: The unique short name of this diagnostic request file transfer needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -2645,103 +2583,95 @@ class DiagnosticStorageConditionNeeds(DiagnosticCapabilityElement):
         return self
 
 
-class DiagnosticUploadDownloadNeeds(ServiceNeeds):
+class DiagnosticUploadDownloadNeeds(DiagnosticCapabilityElement):
     """
-    Represents Diagnostic Upload/Download needs in AUTOSAR models.
-    This class defines requirements for diagnostic upload and download services.
+    This meta-class represents the ability to specify needs regarding upload and download by means of diagnostic services.
     """
 
     # DiagnosticUploadDownloadNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.29, p.252
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticUploadDownloadNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostic upload/download needs
-            short_name: The unique short name of this diagnostic upload/download needs
-        """
         super().__init__(parent, short_name)
 
 
-class DiagnosticsCommunicationSecurityNeeds(ServiceNeeds):
+class DiagnosticsCommunicationSecurityNeeds(DiagnosticCapabilityElement):
     """
-    Represents Diagnostics Communication Security needs in AUTOSAR models.
-    This class defines requirements for secure diagnostic communication services.
+    This meta-class represents the needs of a software-component to verify the access to security level via diagnostic services.
     """
 
     # DiagnosticsCommunicationSecurityNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.27, p.248
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DiagnosticsCommunicationSecurityNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this diagnostics communication security needs
-            short_name: The unique short name of this diagnostics communication security needs
-        """
         super().__init__(parent, short_name)
 
 
-class DoIpActivationLineNeeds(ServiceNeeds):
+class DoIpServiceNeeds(ServiceNeeds, ABC):
     """
-    Represents DoIP Activation Line needs in AUTOSAR models.
-    This class defines requirements for DoIP (Diagnostics over IP) activation line services.
+    This represents an abstract base class for ServiceNeeds related to DoIP.
+    """
+
+    # DoIpServiceNeeds method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.54, p.805
+    # Spec verified: R23-11
+    # [x] __init__                     [x] impl  [x] docstring  [x] test
+
+    def __init__(self, parent: ARObject, short_name: str):
+        if type(self) is DoIpServiceNeeds:
+            raise TypeError("DoIpServiceNeeds is an abstract class.")
+
+        super().__init__(parent, short_name)
+
+
+class DoIpActivationLineNeeds(DoIpServiceNeeds):
+    """
+    A DoIP entity needs to be informed when an external tester is attached or activated. The DoIpActivation ServiceNeeds specifies the trigger for such an event. Examples would be a Pdu via a regular communication bus, a PWM signal, or an I/O. For details please refer to the ISO 13400.
     """
 
     # DoIpActivationLineNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.60, p.807
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DoIpActivationLineNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this DoIP activation line needs
-            short_name: The unique short name of this DoIP activation line needs
-        """
         super().__init__(parent, short_name)
 
 
-class DoIpGidNeeds(ServiceNeeds):
+class DoIpGidNeeds(DoIpServiceNeeds):
     """
-    Represents DoIP GID needs in AUTOSAR models.
-    This class defines requirements for DoIP (Diagnostics over IP) GID services.
+    The DoIpGidNeeds indicates that the software-component owning this ServiceNeeds is providing the GID number either after a GID Synchronisation or by other means like e.g. flashed EEPROM parameter. This need can be used independent from DoIpGidSynchronizationNeeds and is necessary if the GID can not be provided out of the DoIP configuration options.
     """
 
     # DoIpGidNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.55, p.805
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DoIpGidNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this DoIP GID needs
-            short_name: The unique short name of this DoIP GID needs
-        """
         super().__init__(parent, short_name)
 
 
-class DoIpGidSynchronizationNeeds(ServiceNeeds):
+class DoIpGidSynchronizationNeeds(DoIpServiceNeeds):
     """
-    Represents DoIP GID Synchronization needs in AUTOSAR models.
-    This class defines requirements for DoIP (Diagnostics over IP) GID synchronization services.
+    The DoIpGidSynchronizationNeeds indicates that the software-component owning this ServiceNeeds is triggered by the DoIP entity to start a synchronization of the GID (Group Identification) on the DoIP service 0x0001, 0x0002, 0x0003 or before announcement via service 0x0004 according to ISO 13400-2:2012 if necessary. Note that this need is only relevant for DoIP synchronization masters.
     """
 
     # DoIpGidSynchronizationNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.56, p.806
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DoIpGidSynchronizationNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this DoIP GID synchronization needs
-            short_name: The unique short name of this DoIP GID synchronization needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -2762,23 +2692,6 @@ class DoIpPowerModeStatusNeeds(ServiceNeeds):
             parent: The parent ARObject that contains this DoIP power mode status needs
             short_name: The unique short name of this DoIP power mode status needs
         """
-        super().__init__(parent, short_name)
-
-
-class DoIpServiceNeeds(ServiceNeeds, ABC):
-    """
-    This represents an abstract base class for ServiceNeeds related to DoIP.
-    """
-
-    # DoIpServiceNeeds method parity checklist:
-    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.54, p.805
-    # Spec verified: R23-11
-    # [x] __init__                     [x] impl  [x] docstring  [x] test
-
-    def __init__(self, parent: ARObject, short_name: str):
-        if type(self) is DoIpServiceNeeds:
-            raise TypeError("DoIpServiceNeeds is an abstract class.")
-
         super().__init__(parent, short_name)
 
 
@@ -3143,21 +3056,16 @@ class FunctionInhibitionAvailabilityNeeds(ServiceNeeds):
 
 class FunctionInhibitionNeeds(ServiceNeeds):
     """
-    Represents Function Inhibition needs in AUTOSAR models.
-    This class defines requirements for function inhibition services.
+    Specifies the abstract needs on the configuration of the Function Inhibition Manager for one Function Identifier (FID). This class currently contains no attributes. Its name can be regarded as a symbol identifying the FID from the viewpoint of the component or module which owns this class.
     """
 
     # FunctionInhibitionNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.19, p.237
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the FunctionInhibitionNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this function inhibition needs
-            short_name: The unique short name of this function inhibition needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -3183,41 +3091,31 @@ class FurtherActionByteNeeds(ServiceNeeds):
 
 class GlobalSupervisionNeeds(ServiceNeeds):
     """
-    Represents Global Supervision needs in AUTOSAR models.
-    This class defines requirements for global supervision services.
+    Specifies the abstract needs on the configuration of the Watchdog Manager to get access on the Global Supervision control and status interface.
     """
 
     # GlobalSupervisionNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.4, p.709
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the GlobalSupervisionNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this global supervision needs
-            short_name: The unique short name of this global supervision needs
-        """
         super().__init__(parent, short_name)
 
 
 class HardwareTestNeeds(ServiceNeeds):
     """
-    Represents Hardware Test needs in AUTOSAR models.
-    This class defines requirements for hardware test services.
+    This meta-class represents the ability to indicate that a software-component is interested in the results of the hardware test and will establish a PortPrototype to query the hardware test manager.
     """
 
     # HardwareTestNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.40, p.264
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the HardwareTestNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this hardware test needs
-            short_name: The unique short name of this hardware test needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -4065,21 +3963,16 @@ class StorageConditionStatusEnum(AREnum):
 
 class SupervisedEntityCheckpointNeeds(ServiceNeeds):
     """
-    Represents Supervised Entity Checkpoint needs in AUTOSAR models.
-    This class defines requirements for supervised entity checkpoint services.
+    Specifies the abstract needs on the configuration of the Watchdog Manager to support a Checkpoint for a Supervised Entity.
     """
 
     # SupervisedEntityCheckpointNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.30, p.254
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the SupervisedEntityCheckpointNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this supervised entity checkpoint needs
-            short_name: The unique short name of this supervised entity checkpoint needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -4332,21 +4225,16 @@ class SymbolicNameProps(ImplementationProps):
 
 class SyncTimeBaseMgrUserNeeds(ServiceNeeds):
     """
-    Represents Synchronized Time Base Manager User needs in AUTOSAR models.
-    This class defines requirements for synchronized time base manager user services.
+    Specifies the needs on the configuration of the Synchronized Time-base Manager for one time-base. This class currently contains no attributes. An instance of this class is used to find out which ports of a software-component belong to this time-base in order to group the request and response ports of the same time-base. The actual time-base value is stored in the PortDefinedArgumentValue of the respective port specification.
     """
 
     # SyncTimeBaseMgrUserNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf, Table 12.17, p.236
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the SyncTimeBaseMgrUserNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this sync time base manager user needs
-            short_name: The unique short name of this sync time base manager user needs
-        """
         super().__init__(parent, short_name)
 
 

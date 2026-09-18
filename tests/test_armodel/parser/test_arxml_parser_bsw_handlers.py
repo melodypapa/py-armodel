@@ -1370,6 +1370,509 @@ class TestBswReceptionAndApiOptions:
         assert any("Unsupported Reception Policies" in r.getMessage() for r in caplog.records)
 
 
+class TestBswPerInstanceMemoryPolicyHandlers:
+    """Exercise readBswPerInstanceMemoryPolicy and the BswInternalBehavior
+    BSW-PER-INSTANCE-MEMORY-POLICYS wrapper."""
+
+    def test_readBswPerInstanceMemoryPolicy_sets_ref(self, parser):
+        from armodel.models import BswPerInstanceMemoryPolicy
+
+        policy = BswPerInstanceMemoryPolicy()
+        element = _snip(
+            "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>" "<AR-TYPED-PER-INSTANCE-MEMORY-REF DEST='VARIABLE-DATA-PROTOTYPE'>/d</AR-TYPED-PER-INSTANCE-MEMORY-REF>",
+            root_tag="P",
+        )
+        parser.readBswPerInstanceMemoryPolicy(element, policy)
+        assert policy.getEnableTakeAddress().value is True
+        assert policy.getArTypedPerInstanceMemoryRef().getValue() == "/d"
+        assert policy.getArTypedPerInstanceMemoryRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+
+    def test_readBswInternalBehaviorBswPerInstanceMemoryPolicies_adds(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<BSW-PER-INSTANCE-MEMORY-POLICYS>"
+            "<BSW-PER-INSTANCE-MEMORY-POLICY>"
+            "<AR-TYPED-PER-INSTANCE-MEMORY-REF DEST='VARIABLE-DATA-PROTOTYPE'>/mem</AR-TYPED-PER-INSTANCE-MEMORY-REF>"
+            "</BSW-PER-INSTANCE-MEMORY-POLICY>"
+            "</BSW-PER-INSTANCE-MEMORY-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorBswPerInstanceMemoryPolicies(element, behavior)
+        policies = behavior.getBswPerInstanceMemoryPolicies()
+        assert len(policies) == 1
+        assert policies[0].getArTypedPerInstanceMemoryRef().getValue() == "/mem"
+
+    def test_readBswInternalBehaviorBswPerInstanceMemoryPolicies_reads_variation_point(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<BSW-PER-INSTANCE-MEMORY-POLICYS>"
+            "<BSW-PER-INSTANCE-MEMORY-POLICY>"
+            "<AR-TYPED-PER-INSTANCE-MEMORY-REF DEST='VARIABLE-DATA-PROTOTYPE'>/mem</AR-TYPED-PER-INSTANCE-MEMORY-REF>"
+            "<VARIATION-POINT><SHORT-LABEL>lbl</SHORT-LABEL></VARIATION-POINT>"
+            "</BSW-PER-INSTANCE-MEMORY-POLICY>"
+            "</BSW-PER-INSTANCE-MEMORY-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorBswPerInstanceMemoryPolicies(element, behavior)
+        policy = behavior.getBswPerInstanceMemoryPolicies()[0]
+        assert policy.getVariationPoint() is not None
+        assert policy.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_readBswInternalBehaviorBswPerInstanceMemoryPolicies_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<BSW-PER-INSTANCE-MEMORY-POLICYS><BAD/></BSW-PER-INSTANCE-MEMORY-POLICYS>",
+            root_tag="BH",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readBswInternalBehaviorBswPerInstanceMemoryPolicies(element, behavior)
+        assert any("Unsupported Per Instance Memory Policies" in r.getMessage() for r in caplog.records)
+
+
+class TestBswClientPolicyHandlers:
+    """Exercise readBswClientPolicy and the BswInternalBehavior CLIENT-POLICYS wrapper."""
+
+    def test_readBswClientPolicy_sets_ref(self, parser):
+        from armodel.models import BswClientPolicy
+
+        policy = BswClientPolicy()
+        element = _snip(
+            "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>" "<REQUIRED-CLIENT-SERVER-ENTRY-REF DEST='BSW-MODULE-CLIENT-SERVER-ENTRY'>/d</REQUIRED-CLIENT-SERVER-ENTRY-REF>",
+            root_tag="P",
+        )
+        parser.readBswClientPolicy(element, policy)
+        assert policy.getEnableTakeAddress().value is True
+        assert policy.getRequiredClientServerEntryRef().getValue() == "/d"
+        assert policy.getRequiredClientServerEntryRef().getDest() == "BSW-MODULE-CLIENT-SERVER-ENTRY"
+
+    def test_readBswInternalBehaviorClientPolicies_adds(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<CLIENT-POLICYS>"
+            "<BSW-CLIENT-POLICY>"
+            "<REQUIRED-CLIENT-SERVER-ENTRY-REF DEST='BSW-MODULE-CLIENT-SERVER-ENTRY'>/cs</REQUIRED-CLIENT-SERVER-ENTRY-REF>"
+            "</BSW-CLIENT-POLICY>"
+            "</CLIENT-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorClientPolicies(element, behavior)
+        policies = behavior.getClientPolicies()
+        assert len(policies) == 1
+        assert policies[0].getRequiredClientServerEntryRef().getValue() == "/cs"
+
+    def test_readBswInternalBehaviorClientPolicies_reads_variation_point(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<CLIENT-POLICYS>"
+            "<BSW-CLIENT-POLICY>"
+            "<REQUIRED-CLIENT-SERVER-ENTRY-REF DEST='BSW-MODULE-CLIENT-SERVER-ENTRY'>/cs</REQUIRED-CLIENT-SERVER-ENTRY-REF>"
+            "<VARIATION-POINT><SHORT-LABEL>lbl</SHORT-LABEL></VARIATION-POINT>"
+            "</BSW-CLIENT-POLICY>"
+            "</CLIENT-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorClientPolicies(element, behavior)
+        policy = behavior.getClientPolicies()[0]
+        assert policy.getVariationPoint() is not None
+        assert policy.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_readBswInternalBehaviorClientPolicies_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<CLIENT-POLICYS><BAD/></CLIENT-POLICYS>",
+            root_tag="BH",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readBswInternalBehaviorClientPolicies(element, behavior)
+        assert any("Unsupported Client Policies" in r.getMessage() for r in caplog.records)
+
+
+class TestBswInternalTriggeringPointPolicyHandlers:
+    """Exercise readBswInternalTriggeringPointPolicy and the BswInternalBehavior
+    INTERNAL-TRIGGERING-POINT-POLICYS wrapper."""
+
+    def test_readBswInternalTriggeringPointPolicy_sets_ref(self, parser):
+        from armodel.models import BswInternalTriggeringPointPolicy
+
+        policy = BswInternalTriggeringPointPolicy()
+        element = _snip(
+            "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>" "<BSW-INTERNAL-TRIGGERING-POINT-REF DEST='BSW-INTERNAL-TRIGGERING-POINT'>/d</BSW-INTERNAL-TRIGGERING-POINT-REF>",
+            root_tag="P",
+        )
+        parser.readBswInternalTriggeringPointPolicy(element, policy)
+        assert policy.getEnableTakeAddress().value is True
+        assert policy.getBswInternalTriggeringPointRef().getValue() == "/d"
+        assert policy.getBswInternalTriggeringPointRef().getDest() == "BSW-INTERNAL-TRIGGERING-POINT"
+
+    def test_readBswInternalBehaviorInternalTriggeringPointPolicies_adds(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<INTERNAL-TRIGGERING-POINT-POLICYS>"
+            "<BSW-INTERNAL-TRIGGERING-POINT-POLICY>"
+            "<BSW-INTERNAL-TRIGGERING-POINT-REF DEST='BSW-INTERNAL-TRIGGERING-POINT'>/itp</BSW-INTERNAL-TRIGGERING-POINT-REF>"
+            "</BSW-INTERNAL-TRIGGERING-POINT-POLICY>"
+            "</INTERNAL-TRIGGERING-POINT-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorInternalTriggeringPointPolicies(element, behavior)
+        policies = behavior.getInternalTriggeringPointPolicies()
+        assert len(policies) == 1
+        assert policies[0].getBswInternalTriggeringPointRef().getValue() == "/itp"
+
+    def test_readBswInternalBehaviorInternalTriggeringPointPolicies_reads_variation_point(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<INTERNAL-TRIGGERING-POINT-POLICYS>"
+            "<BSW-INTERNAL-TRIGGERING-POINT-POLICY>"
+            "<BSW-INTERNAL-TRIGGERING-POINT-REF DEST='BSW-INTERNAL-TRIGGERING-POINT'>/itp</BSW-INTERNAL-TRIGGERING-POINT-REF>"
+            "<VARIATION-POINT><SHORT-LABEL>lbl</SHORT-LABEL></VARIATION-POINT>"
+            "</BSW-INTERNAL-TRIGGERING-POINT-POLICY>"
+            "</INTERNAL-TRIGGERING-POINT-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorInternalTriggeringPointPolicies(element, behavior)
+        policy = behavior.getInternalTriggeringPointPolicies()[0]
+        assert policy.getVariationPoint() is not None
+        assert policy.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_readBswInternalBehaviorInternalTriggeringPointPolicies_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<INTERNAL-TRIGGERING-POINT-POLICYS><BAD/></INTERNAL-TRIGGERING-POINT-POLICYS>",
+            root_tag="BH",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readBswInternalBehaviorInternalTriggeringPointPolicies(element, behavior)
+        assert any("Unsupported Internal Triggering Point Policies" in r.getMessage() for r in caplog.records)
+
+
+class TestBswParameterPolicyHandlers:
+    """Exercise readBswParameterPolicy and the BswInternalBehavior PARAMETER-POLICYS wrapper."""
+
+    def test_readBswParameterPolicy_sets_ref(self, parser):
+        from armodel.models import BswParameterPolicy
+
+        policy = BswParameterPolicy()
+        element = _snip(
+            "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>" "<PER-INSTANCE-PARAMETER-REF DEST='PARAMETER-DATA-PROTOTYPE'>/d</PER-INSTANCE-PARAMETER-REF>",
+            root_tag="P",
+        )
+        parser.readBswParameterPolicy(element, policy)
+        assert policy.getEnableTakeAddress().value is True
+        assert policy.getPerInstanceParameterRef().getValue() == "/d"
+        assert policy.getPerInstanceParameterRef().getDest() == "PARAMETER-DATA-PROTOTYPE"
+
+    def test_readBswInternalBehaviorParameterPolicies_adds(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<PARAMETER-POLICYS>"
+            "<BSW-PARAMETER-POLICY>"
+            "<PER-INSTANCE-PARAMETER-REF DEST='PARAMETER-DATA-PROTOTYPE'>/pip</PER-INSTANCE-PARAMETER-REF>"
+            "</BSW-PARAMETER-POLICY>"
+            "</PARAMETER-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorParameterPolicies(element, behavior)
+        policies = behavior.getParameterPolicies()
+        assert len(policies) == 1
+        assert policies[0].getPerInstanceParameterRef().getValue() == "/pip"
+
+    def test_readBswInternalBehaviorParameterPolicies_reads_variation_point(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<PARAMETER-POLICYS>"
+            "<BSW-PARAMETER-POLICY>"
+            "<PER-INSTANCE-PARAMETER-REF DEST='PARAMETER-DATA-PROTOTYPE'>/pip</PER-INSTANCE-PARAMETER-REF>"
+            "<VARIATION-POINT><SHORT-LABEL>lbl</SHORT-LABEL></VARIATION-POINT>"
+            "</BSW-PARAMETER-POLICY>"
+            "</PARAMETER-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorParameterPolicies(element, behavior)
+        policy = behavior.getParameterPolicies()[0]
+        assert policy.getVariationPoint() is not None
+        assert policy.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_readBswInternalBehaviorParameterPolicies_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<PARAMETER-POLICYS><BAD/></PARAMETER-POLICYS>",
+            root_tag="BH",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readBswInternalBehaviorParameterPolicies(element, behavior)
+        assert any("Unsupported Parameter Policies" in r.getMessage() for r in caplog.records)
+
+
+class TestBswReleasedTriggerPolicyHandlers:
+    """Exercise readBswReleasedTriggerPolicy and the BswInternalBehavior
+    RELEASED-TRIGGER-POLICYS wrapper."""
+
+    def test_readBswReleasedTriggerPolicy_sets_ref(self, parser):
+        from armodel.models import BswReleasedTriggerPolicy
+
+        policy = BswReleasedTriggerPolicy()
+        element = _snip(
+            "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>" "<RELEASED-TRIGGER-REF DEST='TRIGGER'>/d</RELEASED-TRIGGER-REF>",
+            root_tag="P",
+        )
+        parser.readBswReleasedTriggerPolicy(element, policy)
+        assert policy.getEnableTakeAddress().value is True
+        assert policy.getReleasedTriggerRef().getValue() == "/d"
+        assert policy.getReleasedTriggerRef().getDest() == "TRIGGER"
+
+    def test_readBswInternalBehaviorReleasedTriggerPolicies_adds(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<RELEASED-TRIGGER-POLICYS>"
+            "<BSW-RELEASED-TRIGGER-POLICY>"
+            "<RELEASED-TRIGGER-REF DEST='TRIGGER'>/trig</RELEASED-TRIGGER-REF>"
+            "</BSW-RELEASED-TRIGGER-POLICY>"
+            "</RELEASED-TRIGGER-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorReleasedTriggerPolicies(element, behavior)
+        policies = behavior.getReleasedTriggerPolicies()
+        assert len(policies) == 1
+        assert policies[0].getReleasedTriggerRef().getValue() == "/trig"
+
+    def test_readBswInternalBehaviorReleasedTriggerPolicies_reads_variation_point(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<RELEASED-TRIGGER-POLICYS>"
+            "<BSW-RELEASED-TRIGGER-POLICY>"
+            "<RELEASED-TRIGGER-REF DEST='TRIGGER'>/trig</RELEASED-TRIGGER-REF>"
+            "<VARIATION-POINT><SHORT-LABEL>lbl</SHORT-LABEL></VARIATION-POINT>"
+            "</BSW-RELEASED-TRIGGER-POLICY>"
+            "</RELEASED-TRIGGER-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorReleasedTriggerPolicies(element, behavior)
+        policy = behavior.getReleasedTriggerPolicies()[0]
+        assert policy.getVariationPoint() is not None
+        assert policy.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_readBswInternalBehaviorReleasedTriggerPolicies_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<RELEASED-TRIGGER-POLICYS><BAD/></RELEASED-TRIGGER-POLICYS>",
+            root_tag="BH",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readBswInternalBehaviorReleasedTriggerPolicies(element, behavior)
+        assert any("Unsupported Released Trigger Policies" in r.getMessage() for r in caplog.records)
+
+
+class TestBswDataSendPolicyHandlers:
+    """Exercise readBswDataSendPolicy and the BswInternalBehavior SEND-POLICYS wrapper."""
+
+    def test_readBswDataSendPolicy_sets_refs(self, parser):
+        from armodel.models import BswDataSendPolicy
+
+        policy = BswDataSendPolicy()
+        element = _snip(
+            "<ENABLE-TAKE-ADDRESS>true</ENABLE-TAKE-ADDRESS>"
+            "<PROVIDED-DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/d</PROVIDED-DATA-REF>"
+            "<PROVIEDE-DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/old</PROVIEDE-DATA-REF>",
+            root_tag="P",
+        )
+        parser.readBswDataSendPolicy(element, policy)
+        assert policy.getEnableTakeAddress().value is True
+        assert policy.getProvidedDataRef().getValue() == "/d"
+        assert policy.getProvidedDataRef().getDest() == "VARIABLE-DATA-PROTOTYPE"
+        assert policy.getProviedeDataRef().getValue() == "/old"
+
+    def test_readBswInternalBehaviorDataSendPolicies_adds(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<SEND-POLICYS>" "<BSW-DATA-SEND-POLICY>" "<PROVIDED-DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/data</PROVIDED-DATA-REF>" "</BSW-DATA-SEND-POLICY>" "</SEND-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorDataSendPolicies(element, behavior)
+        policies = behavior.getSendPolicies()
+        assert len(policies) == 1
+        assert policies[0].getProvidedDataRef().getValue() == "/data"
+
+    def test_readBswInternalBehaviorDataSendPolicies_reads_variation_point(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<SEND-POLICYS>"
+            "<BSW-DATA-SEND-POLICY>"
+            "<PROVIDED-DATA-REF DEST='VARIABLE-DATA-PROTOTYPE'>/data</PROVIDED-DATA-REF>"
+            "<VARIATION-POINT><SHORT-LABEL>lbl</SHORT-LABEL></VARIATION-POINT>"
+            "</BSW-DATA-SEND-POLICY>"
+            "</SEND-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorDataSendPolicies(element, behavior)
+        policy = behavior.getSendPolicies()[0]
+        assert policy.getVariationPoint() is not None
+        assert policy.getVariationPoint().getShortLabel().getValue() == "lbl"
+
+    def test_readBswInternalBehaviorDataSendPolicies_unsupported_warns(self, warning_parser, caplog):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<SEND-POLICYS><BAD/></SEND-POLICYS>",
+            root_tag="BH",
+        )
+        with caplog.at_level(logging.ERROR):
+            warning_parser.readBswInternalBehaviorDataSendPolicies(element, behavior)
+        assert any("Unsupported Data Send Policies" in r.getMessage() for r in caplog.records)
+
+
+class TestBswInternalBehaviorFullSyncHandlers:
+    """Reader coverage for the BswInternalBehavior wrappers added in the 2026-09-17 full sync."""
+
+    def test_readBswInternalBehaviorArTypedPerInstanceMemories(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<AR-TYPED-PER-INSTANCE-MEMORYS>" "<VARIABLE-DATA-PROTOTYPE><SHORT-NAME>mem</SHORT-NAME></VARIABLE-DATA-PROTOTYPE>" "</AR-TYPED-PER-INSTANCE-MEMORYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorArTypedPerInstanceMemories(element, behavior)
+        memories = behavior.getArTypedPerInstanceMemories()
+        assert len(memories) == 1
+        assert memories[0].getShortName() == "mem"
+
+    def test_readBswInternalBehaviorExclusiveAreaPolicies(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<EXCLUSIVE-AREA-POLICYS>"
+            "<BSW-EXCLUSIVE-AREA-POLICY>"
+            "<API-PRINCIPLE>perEntity</API-PRINCIPLE>"
+            "<EXCLUSIVE-AREA-REF DEST='EXCLUSIVE-AREA'>/ea</EXCLUSIVE-AREA-REF>"
+            "</BSW-EXCLUSIVE-AREA-POLICY>"
+            "</EXCLUSIVE-AREA-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorExclusiveAreaPolicies(element, behavior)
+        policies = behavior.getExclusiveAreaPolicies()
+        assert len(policies) == 1
+        assert policies[0].getApiPrinciple() is not None
+        assert policies[0].getExclusiveAreaRef().getValue() == "/ea"
+
+    def test_readBswInternalBehaviorIncludedDataTypeSets(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<INCLUDED-DATA-TYPE-SETS>" "<INCLUDED-DATA-TYPE-SET><LITERAL-PREFIX>pfx</LITERAL-PREFIX></INCLUDED-DATA-TYPE-SET>" "</INCLUDED-DATA-TYPE-SETS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorIncludedDataTypeSets(element, behavior)
+        sets = behavior.getIncludedDataTypeSets()
+        assert len(sets) == 1
+        assert sets[0].getLiteralPrefix() is not None
+
+    def test_readBswInternalBehaviorModeReceiverPolicies(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<MODE-RECEIVER-POLICYS>"
+            "<BSW-MODE-RECEIVER-POLICY>"
+            "<ENHANCED-MODE-API>true</ENHANCED-MODE-API>"
+            "<REQUIRED-MODE-GROUP-REF DEST='MODE-DECLARATION-GROUP-PROTOTYPE'>/mg</REQUIRED-MODE-GROUP-REF>"
+            "<SUPPORTS-ASYNCHRONOUS-MODE-SWITCH>false</SUPPORTS-ASYNCHRONOUS-MODE-SWITCH>"
+            "</BSW-MODE-RECEIVER-POLICY>"
+            "</MODE-RECEIVER-POLICYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorModeReceiverPolicies(element, behavior)
+        policies = behavior.getModeReceiverPolicies()
+        assert len(policies) == 1
+        assert policies[0].getEnhancedModeApi().value is True
+        assert policies[0].getRequiredModeGroupRef().getValue() == "/mg"
+        assert policies[0].getSupportsAsynchronousModeSwitch().value is False
+
+    def test_readBswInternalBehaviorPerInstanceParameters(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<PER-INSTANCE-PARAMETERS>" "<PARAMETER-DATA-PROTOTYPE><SHORT-NAME>pip</SHORT-NAME></PARAMETER-DATA-PROTOTYPE>" "</PER-INSTANCE-PARAMETERS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorPerInstanceParameters(element, behavior)
+        parameters = behavior.getPerInstanceParameters()
+        assert len(parameters) == 1
+        assert parameters[0].getShortName() == "pip"
+
+    def test_readBswInternalBehaviorTriggerDirectImplementations(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<TRIGGER-DIRECT-IMPLEMENTATIONS>"
+            "<BSW-TRIGGER-DIRECT-IMPLEMENTATION>"
+            "<CAT-2-ISR>isr1</CAT-2-ISR>"
+            "<MASTERED-TRIGGER-REF DEST='TRIGGER'>/trig</MASTERED-TRIGGER-REF>"
+            "<TASK>task1</TASK>"
+            "</BSW-TRIGGER-DIRECT-IMPLEMENTATION>"
+            "</TRIGGER-DIRECT-IMPLEMENTATIONS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorTriggerDirectImplementations(element, behavior)
+        implementations = behavior.getTriggerDirectImplementations()
+        assert len(implementations) == 1
+        assert implementations[0].getCat2Isr().getValue() == "isr1"
+        assert implementations[0].getMasteredTriggerRef().getValue() == "/trig"
+        assert implementations[0].getTask().getValue() == "task1"
+
+    def test_readBswInternalBehaviorVariationPointProxies(self, parser):
+        from armodel.models import BswInternalBehavior
+
+        behavior = BswInternalBehavior(parent=_autosar_root(), short_name="bh")
+        element = _snip(
+            "<VARIATION-POINT-PROXYS>" "<VARIATION-POINT-PROXY><SHORT-NAME>vpx</SHORT-NAME></VARIATION-POINT-PROXY>" "</VARIATION-POINT-PROXYS>",
+            root_tag="BH",
+        )
+        parser.readBswInternalBehaviorVariationPointProxies(element, behavior)
+        proxies = behavior.getVariationPointProxies()
+        assert len(proxies) == 1
+        assert proxies[0].getShortName() == "vpx"
+
+
 # ==================== BswInternalTriggeringPoint & BswInternalBehavior orchestrator ====================
 
 

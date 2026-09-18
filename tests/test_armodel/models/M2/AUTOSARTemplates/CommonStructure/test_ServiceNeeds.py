@@ -152,6 +152,15 @@ class TestServiceNeeds:
         with pytest.raises(TypeError):
             ServiceNeeds(ar_root, "TestServiceNeeds")
 
+    def test_concrete_subclass_initialization(self):
+        """Test that a concrete ServiceNeeds subclass is an Identifiable wired with parent and short name"""
+        parent = AUTOSAR.getInstance()
+        ar_root = parent.createARPackage("AUTOSAR")
+        needs = ErrorTracerNeeds(ar_root, "TestServiceNeeds")
+
+        assert isinstance(needs, ServiceNeeds)
+        assert needs.getShortName() == "TestServiceNeeds"
+
 
 class TestRamBlockStatusControlEnum:
     def test_initialization(self):

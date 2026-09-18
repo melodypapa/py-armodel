@@ -549,6 +549,214 @@ class TestServiceNeedsHandlers:
         parser.readDtcStatusChangeNotificationNeeds(element, needs)
         assert needs.getDtcFormatType().getValue() == "format"
 
+    def test_readDiagnosticComponentNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticComponentNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>componentNeeds</SHORT-NAME>", root_tag="DIAGNOSTIC-COMPONENT-NEEDS")
+        needs = dependency.createDiagnosticComponentNeeds("componentNeeds")
+        assert isinstance(needs, DiagnosticComponentNeeds)
+        parser.readDiagnosticComponentNeeds(element, needs)
+        assert needs.getShortName() == "componentNeeds"
+
+    def test_readDiagnosticUploadDownloadNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticUploadDownloadNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>uploadDownloadNeeds</SHORT-NAME>", root_tag="DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS")
+        needs = dependency.createDiagnosticUploadDownloadNeeds("uploadDownloadNeeds")
+        assert isinstance(needs, DiagnosticUploadDownloadNeeds)
+        parser.readDiagnosticUploadDownloadNeeds(element, needs)
+        assert needs.getShortName() == "uploadDownloadNeeds"
+
+    def test_readDiagnosticsCommunicationSecurityNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticsCommunicationSecurityNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>commSecNeeds</SHORT-NAME>", root_tag="DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS")
+        needs = dependency.createDiagnosticsCommunicationSecurityNeeds("commSecNeeds")
+        assert isinstance(needs, DiagnosticsCommunicationSecurityNeeds)
+        parser.readDiagnosticsCommunicationSecurityNeeds(element, needs)
+        assert needs.getShortName() == "commSecNeeds"
+
+    def test_readFunctionInhibitionNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import FunctionInhibitionNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>fidNeeds</SHORT-NAME>", root_tag="FUNCTION-INHIBITION-NEEDS")
+        needs = dependency.createFunctionInhibitionNeeds("fidNeeds")
+        assert isinstance(needs, FunctionInhibitionNeeds)
+        parser.readFunctionInhibitionNeeds(element, needs)
+        assert needs.getShortName() == "fidNeeds"
+
+    def test_readGlobalSupervisionNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import GlobalSupervisionNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>gsnNeeds</SHORT-NAME>", root_tag="GLOBAL-SUPERVISION-NEEDS")
+        needs = dependency.createGlobalSupervisionNeeds("gsnNeeds")
+        assert isinstance(needs, GlobalSupervisionNeeds)
+        parser.readGlobalSupervisionNeeds(element, needs)
+        assert needs.getShortName() == "gsnNeeds"
+
+    def test_readHardwareTestNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import HardwareTestNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>htnNeeds</SHORT-NAME>", root_tag="HARDWARE-TEST-NEEDS")
+        needs = dependency.createHardwareTestNeeds("htnNeeds")
+        assert isinstance(needs, HardwareTestNeeds)
+        parser.readHardwareTestNeeds(element, needs)
+        assert needs.getShortName() == "htnNeeds"
+
+    def test_readSupervisedEntityCheckpointNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SupervisedEntityCheckpointNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>secnNeeds</SHORT-NAME>", root_tag="SUPERVISED-ENTITY-CHECKPOINT-NEEDS")
+        needs = dependency.createSupervisedEntityCheckpointNeeds("secnNeeds")
+        assert isinstance(needs, SupervisedEntityCheckpointNeeds)
+        parser.readSupervisedEntityCheckpointNeeds(element, needs)
+        assert needs.getShortName() == "secnNeeds"
+
+    def test_readSyncTimeBaseMgrUserNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import SyncTimeBaseMgrUserNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>stbnNeeds</SHORT-NAME>", root_tag="SYNC-TIME-BASE-MGR-USER-NEEDS")
+        needs = dependency.createSyncTimeBaseMgrUserNeeds("stbnNeeds")
+        assert isinstance(needs, SyncTimeBaseMgrUserNeeds)
+        parser.readSyncTimeBaseMgrUserNeeds(element, needs)
+        assert needs.getShortName() == "stbnNeeds"
+
+    def test_readCryptoKeyManagementNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoKeyManagementNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>ckmnNeeds</SHORT-NAME>", root_tag="CRYPTO-KEY-MANAGEMENT-NEEDS")
+        needs = dependency.createCryptoKeyManagementNeeds("ckmnNeeds")
+        assert isinstance(needs, CryptoKeyManagementNeeds)
+        parser.readCryptoKeyManagementNeeds(element, needs)
+        assert needs.getShortName() == "ckmnNeeds"
+
+    def test_readCryptoServiceJobNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceJobNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>csjnNeeds</SHORT-NAME>", root_tag="CRYPTO-SERVICE-JOB-NEEDS")
+        needs = dependency.createCryptoServiceJobNeeds("csjnNeeds")
+        assert isinstance(needs, CryptoServiceJobNeeds)
+        parser.readCryptoServiceJobNeeds(element, needs)
+        assert needs.getShortName() == "csjnNeeds"
+
+    def test_readDiagnosticControlNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticControlNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>dcnNeeds</SHORT-NAME>", root_tag="DIAGNOSTIC-CONTROL-NEEDS")
+        needs = dependency.createDiagnosticControlNeeds("dcnNeeds")
+        assert isinstance(needs, DiagnosticControlNeeds)
+        parser.readDiagnosticControlNeeds(element, needs)
+        assert needs.getShortName() == "dcnNeeds"
+
+    def test_readDiagnosticEventManagerNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticEventManagerNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>demnNeeds</SHORT-NAME>", root_tag="DIAGNOSTIC-EVENT-MANAGER-NEEDS")
+        needs = dependency.createDiagnosticEventManagerNeeds("demnNeeds")
+        assert isinstance(needs, DiagnosticEventManagerNeeds)
+        parser.readDiagnosticEventManagerNeeds(element, needs)
+        assert needs.getShortName() == "demnNeeds"
+
+    def test_readDiagnosticRequestFileTransferNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DiagnosticRequestFileTransferNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>drfnNeeds</SHORT-NAME>", root_tag="DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS")
+        needs = dependency.createDiagnosticRequestFileTransferNeeds("drfnNeeds")
+        assert isinstance(needs, DiagnosticRequestFileTransferNeeds)
+        parser.readDiagnosticRequestFileTransferNeeds(element, needs)
+        assert needs.getShortName() == "drfnNeeds"
+
+    def test_readDoIpActivationLineNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpActivationLineNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>dalnNeeds</SHORT-NAME>", root_tag="DO-IP-ACTIVATION-LINE-NEEDS")
+        needs = dependency.createDoIpActivationLineNeeds("dalnNeeds")
+        assert isinstance(needs, DoIpActivationLineNeeds)
+        parser.readDoIpActivationLineNeeds(element, needs)
+        assert needs.getShortName() == "dalnNeeds"
+
+    def test_readDoIpGidNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpGidNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>dgnNeeds</SHORT-NAME>", root_tag="DO-IP-GID-NEEDS")
+        needs = dependency.createDoIpGidNeeds("dgnNeeds")
+        assert isinstance(needs, DoIpGidNeeds)
+        parser.readDoIpGidNeeds(element, needs)
+        assert needs.getShortName() == "dgnNeeds"
+
+    def test_readDoIpGidSynchronizationNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpGidSynchronizationNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>dgsnNeeds</SHORT-NAME>", root_tag="DO-IP-GID-SYNCHRONIZATION-NEEDS")
+        needs = dependency.createDoIpGidSynchronizationNeeds("dgsnNeeds")
+        assert isinstance(needs, DoIpGidSynchronizationNeeds)
+        parser.readDoIpGidSynchronizationNeeds(element, needs)
+        assert needs.getShortName() == "dgsnNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 
@@ -2632,6 +2840,9 @@ class TestSwcServiceDependencyServiceNeeds:
         "tag",
         [
             "DIAGNOSTIC-COMMUNICATION-MANAGER-NEEDS",
+            "DIAGNOSTIC-COMPONENT-NEEDS",
+            "DIAGNOSTIC-UPLOAD-DOWNLOAD-NEEDS",
+            "DIAGNOSTICS-COMMUNICATION-SECURITY-NEEDS",
             "DIAGNOSTIC-ROUTINE-NEEDS",
             "DIAGNOSTIC-VALUE-NEEDS",
             "DIAGNOSTIC-EVENT-NEEDS",
@@ -2642,6 +2853,8 @@ class TestSwcServiceDependencyServiceNeeds:
             "DIAGNOSTIC-STORAGE-CONDITION-NEEDS",
             "INDICATOR-STATUS-NEEDS",
             "FUNCTION-INHIBITION-AVAILABILITY-NEEDS",
+            "FUNCTION-INHIBITION-NEEDS",
+            "GLOBAL-SUPERVISION-NEEDS",
             "CRYPTO-SERVICE-NEEDS",
             "ECU-STATE-MGR-USER-NEEDS",
             "DTC-STATUS-CHANGE-NOTIFICATION-NEEDS",
