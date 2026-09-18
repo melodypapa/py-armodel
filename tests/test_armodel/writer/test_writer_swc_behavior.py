@@ -1821,6 +1821,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "vendor1"
 
+    def test_writeWarningIndicatorRequestedBitNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createWarningIndicatorRequestedBitNeeds("warn1")
+        parent = _parent()
+        writer.writeWarningIndicatorRequestedBitNeeds(parent, needs)
+        elem = parent.find("WARNING-INDICATOR-REQUESTED-BIT-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "warn1"
+
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
@@ -1865,6 +1875,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createV2xFacUserNeeds("v2xfac")
         dep.createV2xMUserNeeds("v2xm")
         dep.createVendorSpecificServiceNeeds("vsn")
+        dep.createWarningIndicatorRequestedBitNeeds("wirbn")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1909,6 +1920,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "V-2-X-FAC-USER-NEEDS" in tags
         assert "V-2-X-M-USER-NEEDS" in tags
         assert "VENDOR-SPECIFIC-SERVICE-NEEDS" in tags
+        assert "WARNING-INDICATOR-REQUESTED-BIT-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()

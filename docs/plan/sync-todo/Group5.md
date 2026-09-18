@@ -125,15 +125,16 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; clean Note)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (455 touched tests + integration 130-file round-trip, lint/ruff/black, parity, set-based check); 9b DEFERRED to batch stamp
 - [ ] `WarningIndicatorRequestedBitNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.61)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - **Step 1 finding:** own table = Swc TPS Table 13.61, p.811 (markdown 24004; body after caption, clean render); concrete Class (XSD complexType `WARNING-INDICATOR-REQUESTED-BIT-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd line 130845, group line 130836 `<xsd:sequence/>` empty); Base row = ...Referrable, ServiceNeeds → most-derived = `ServiceNeeds` (src base ALREADY correct); ZERO own attributes; Note verbatim via XSD doc ("This meta-class represents the ability to explicitly request the existence of the WarningIndicatorRequestedBit." — markdown 24010 renders a wrap-space artifact "WarningIndicator RequestedBit", PDF p.811 line-wrap identical to Base row's "Service Needs"; XSD documentation is the clean one-word copy; XSD appinfo carries no atp.Status → no Tags tail); XSD element in BOTH choice groups (11522 BSW, 12641 Swc), right after VENDOR-SPECIFIC-SERVICE-NEEDS (11521/12640), last in both choices; dispatch MISSING → full 5-place pattern + createWarningIndicatorRequestedBitNeeds factory needed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 2/3 failed pre-implementation (docstring + docless; base already spec-correct)
+  - [x] Step 3 — Implement model class (Green) — spec Note verbatim, __init__ docless
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstrings wiped (class + __init__ were the only ones); Note verbatim via XSD doc (Table 13.61 p.811)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 3 dispatch tests failed pre-implementation (missing factory/reader/writer)
+  - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added (factory + parser import/BSW dispatch/helper/SWC dispatch + writer import/2 dispatches/helper), branches after VENDOR-SPECIFIC-SERVICE-NEEDS per XSD order
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; Note wrap-space artifact resolved via XSD doc)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (457 touched tests + integration 130-file round-trip, lint/ruff/black, parity, set-based check); 9b DEFERRED to batch stamp
 - [ ] `System` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 2.1 (multiple tables — resolve in per-class Phase 0))
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

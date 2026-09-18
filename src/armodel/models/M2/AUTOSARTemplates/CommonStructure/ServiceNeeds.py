@@ -4392,19 +4392,13 @@ class VerificationStatusIndicationModeEnum(AREnum):
 
 class WarningIndicatorRequestedBitNeeds(ServiceNeeds):
     """
-    Represents Warning Indicator Requested Bit needs in AUTOSAR models.
-    This class defines requirements for warning indicator requested bit services.
+    This meta-class represents the ability to explicitly request the existence of the WarningIndicatorRequestedBit.
     """
 
     # WarningIndicatorRequestedBitNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.61, p.811
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the WarningIndicatorRequestedBitNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this warning indicator requested bit needs
-            short_name: The unique short name of this warning indicator requested bit needs
-        """
         super().__init__(parent, short_name)
