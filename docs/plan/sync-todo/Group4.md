@@ -1,7 +1,7 @@
 # Sync todo: Group 4 — BSW behavior policies & ServiceNeeds A
 
 Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sync_class_groups.md` · Generated: 2026-08-30 · Queue order = row order
-(resume = first class row still `[ ]`; all class rows `[x]` = sync finished — Rule 0017.3)
+(resume = first class row still `[ ]`; all class rows `[x]` = sync finished — Rule 0017.3; the canonical confirmed-status list below resolves legacy generated-row checkbox drift)
 > **Rule — already-verified short-circuit (added 2026-09-04):** before running the 9-step
 > sync for a row, check whether the class already carries `# Spec verified: <RELEASE>` or
 > `# XSD verified: <xsd-file>` in its own class body (verify the marker in the source — a
@@ -14,6 +14,17 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
 > proof).
 
 ## Queue (dependency-first)
+
+### Confirmed Status
+
+The following rows are complete. Their source classes carry `# Spec verified: R23-11`, and Step 9b was confirmed by the user:
+
+- [x] `DiagnosticControlNeeds`
+- [x] `DiagnosticEventManagerNeeds`
+- [x] `DiagnosticRequestFileTransferNeeds`
+- [x] `DoIpActivationLineNeeds`
+- [x] `DoIpGidNeeds`
+- [x] `DoIpGidSynchronizationNeeds`
 
 - [x] `BswPerInstanceMemoryPolicy` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate · Table 5.2 · aggregated by `BswInternalBehavior` · **NOT in src** — class must be created when this row is synced · **Step 1 finding: XSD-only — no table in any markdown corpus (R23-11/R4.3.1/R4.4.0 grep → XSD hits only); syncs from `AUTOSAR_00052.xsd` complexType `BSW-PER-INSTANCE-MEMORY-POLICY` line 12370 → `# XSD verified:` marker. Base chain ARObject→BswApiOptions→own; own attr `arTypedPerInstanceMemory` (ref, 0..1, DEST VARIABLE-DATA-PROTOTYPE) → `arTypedPerInstanceMemoryRef: Optional[RefType]`; VARIATION-POINT present → VariationPointCapable mixin) — verified R23-11 XSD `AUTOSAR_00052.xsd` (commit b89ad783)
   - [x] Step 1 — Sync members & description from spec
@@ -245,7 +256,7 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (Note text follows markdown per Rule 0015)
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (7 touched tests, flake8/ruff/black, parity, integration 2/2); 9b confirmed by user 2026-09-18
-- [ ] `DiagnosticControlNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.63 · **Step 1 finding: own table = Swc TPS Table 13.63, p.812 (clean render); concrete Class (XSD complexType `DIAGNOSTIC-CONTROL-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 33948 `<xsd:sequence/>` empty); Base row includes DiagnosticCapabilityElement → most-derived base = `DiagnosticCapabilityElement` — FIXED from src's `ServiceNeeds` (Rule 0001.2, same as DiagnosticComponentNeeds precedent 5c4c0963); ZERO own attributes (audiences/diagRequirement/securityAccessLevel are inherited from the base's own table); Note verbatim (identical in XSD doc); XSD element in BOTH choice groups (11470 BSW-side, 12589 Swc-side, order COMPONENT→CONTROL→ENABLE); dispatch was MISSING → added full 5-place pattern delegating to the read/writeDiagnosticCapabilityElement base helpers + createDiagnosticControlNeeds factory**
+- [x] `DiagnosticControlNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.63 · **Step 1 finding: own table = Swc TPS Table 13.63, p.812 (clean render); concrete Class (XSD complexType `DIAGNOSTIC-CONTROL-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 33948 `<xsd:sequence/>` empty); Base row includes DiagnosticCapabilityElement → most-derived base = `DiagnosticCapabilityElement` — FIXED from src's `ServiceNeeds` (Rule 0001.2, same as DiagnosticComponentNeeds precedent 5c4c0963); ZERO own attributes (audiences/diagRequirement/securityAccessLevel are inherited from the base's own table); Note verbatim (identical in XSD doc); XSD element in BOTH choice groups (11470 BSW-side, 12589 Swc-side, order COMPONENT→CONTROL→ENABLE); dispatch was MISSING → added full 5-place pattern delegating to the read/writeDiagnosticCapabilityElement base helpers + createDiagnosticControlNeeds factory**
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — asserts DiagnosticCapabilityElement base + inherited members
   - [x] Step 3 — Implement model class (Green) — base fixed to DiagnosticCapabilityElement
@@ -255,7 +266,7 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base fix was in-pass Rule 0001.2 correction)
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (7 touched tests, flake8/ruff/black, parity, integration 2/2); 9b confirmed by user 2026-09-18
-- [ ] `DiagnosticEventManagerNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.14 · **Step 1 finding: own table = Swc TPS Table 13.14, p.753 (body rendered BEFORE caption at md 21722-21729, caption 21731 — artifact); concrete Class (XSD complexType `DIAGNOSTIC-EVENT-MANAGER-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 36389 `<xsd:sequence/>` empty); Base row includes DiagnosticCapabilityElement → most-derived = `DiagnosticCapabilityElement` — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim from markdown (XSD doc has a stray double-space "the  Diagnostic" — markdown primary per Rule 0015); XSD element in BOTH choice groups (11473 BSW-side, 12592 Swc-side, order ENABLE→EVENT-MANAGER→EVENT-INFO); dispatch was MISSING → added full 5-place pattern delegating to the CapabilityElement base helpers + createDiagnosticEventManagerNeeds factory)**
+- [x] `DiagnosticEventManagerNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.14 · **Step 1 finding: own table = Swc TPS Table 13.14, p.753 (body rendered BEFORE caption at md 21722-21729, caption 21731 — artifact); concrete Class (XSD complexType `DIAGNOSTIC-EVENT-MANAGER-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 36389 `<xsd:sequence/>` empty); Base row includes DiagnosticCapabilityElement → most-derived = `DiagnosticCapabilityElement` — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim from markdown (XSD doc has a stray double-space "the  Diagnostic" — markdown primary per Rule 0015); XSD element in BOTH choice groups (11473 BSW-side, 12592 Swc-side, order ENABLE→EVENT-MANAGER→EVENT-INFO); dispatch was MISSING → added full 5-place pattern delegating to the CapabilityElement base helpers + createDiagnosticEventManagerNeeds factory)**
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — asserts DiagnosticCapabilityElement base + inherited members
   - [x] Step 3 — Implement model class (Green) — base fixed to DiagnosticCapabilityElement
@@ -265,7 +276,7 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base fix in-pass Rule 0001.2)
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (424 parser/writer+model tests, flake8/ruff/black, parity, integration 2/2); 9b confirmed by user 2026-09-18
-- [ ] `DiagnosticRequestFileTransferNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.43 · **Step 1 finding: own table = Swc TPS Table 13.43, p.795 (clean render, body after caption); concrete Class (XSD complexType `DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 42163 `<xsd:sequence/>` empty); Base row includes DiagnosticCapabilityElement → most-derived = `DiagnosticCapabilityElement` — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim (identical in XSD doc); XSD element in BOTH choice groups, order OPERATION-CYCLE→REQUEST-FILE-TRANSFER→RESPONSE-ON-EVENT; dispatch was MISSING → added full 5-place pattern delegating to the CapabilityElement base helpers + createDiagnosticRequestFileTransferNeeds factory**
+- [x] `DiagnosticRequestFileTransferNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.43 · **Step 1 finding: own table = Swc TPS Table 13.43, p.795 (clean render, body after caption); concrete Class (XSD complexType `DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 42163 `<xsd:sequence/>` empty); Base row includes DiagnosticCapabilityElement → most-derived = `DiagnosticCapabilityElement` — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim (identical in XSD doc); XSD element in BOTH choice groups, order OPERATION-CYCLE→REQUEST-FILE-TRANSFER→RESPONSE-ON-EVENT; dispatch was MISSING → added full 5-place pattern delegating to the CapabilityElement base helpers + createDiagnosticRequestFileTransferNeeds factory**
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — asserts DiagnosticCapabilityElement base + inherited members
   - [x] Step 3 — Implement model class (Green) — base fixed to DiagnosticCapabilityElement
@@ -275,7 +286,7 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base fix in-pass Rule 0001.2)
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (426 tests, flake8/ruff/black, parity, integration 2/2); 9b confirmed by user 2026-09-18
-- [ ] `DoIpActivationLineNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.60 · **Step 1 finding: own table = Swc TPS Table 13.60, p.807 (body at md 23834-23841, after caption 23832); concrete Class (XSD complexType `DO-IP-ACTIVATION-LINE-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 48405 `<xsd:sequence/>` empty); Base row includes DoIpServiceNeeds → most-derived = `DoIpServiceNeeds` (stamped, Table 13.54 p.805) — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim (ISO 13400 reference; XSD doc truncates to "ISO 13400." — markdown primary); XSD element in BOTH choice groups (11487 BSW, 12606 Swc); dispatch was MISSING → added full 5-place pattern (readServiceNeeds base, chains before DO-IP-ROUTING-*, createDoIpActivationLineNeeds factory); NOTE: the three DoIp classes were physically relocated after DoIpServiceNeeds's definition (forward-reference NameError at import)**
+- [x] `DoIpActivationLineNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.60 · **Step 1 finding: own table = Swc TPS Table 13.60, p.807 (body at md 23834-23841, after caption 23832); concrete Class (XSD complexType `DO-IP-ACTIVATION-LINE-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 48405 `<xsd:sequence/>` empty); Base row includes DoIpServiceNeeds → most-derived = `DoIpServiceNeeds` (stamped, Table 13.54 p.805) — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim (ISO 13400 reference; XSD doc truncates to "ISO 13400." — markdown primary); XSD element in BOTH choice groups (11487 BSW, 12606 Swc); dispatch was MISSING → added full 5-place pattern (readServiceNeeds base, chains before DO-IP-ROUTING-*, createDoIpActivationLineNeeds factory); NOTE: the three DoIp classes were physically relocated after DoIpServiceNeeds's definition (forward-reference NameError at import)**
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — asserts DoIpServiceNeeds base
   - [x] Step 3 — Implement model class (Green) — base fixed; class relocated after base definition
@@ -285,7 +296,7 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base fix in-pass Rule 0001.2)
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (428 tests, flake8/ruff/black, parity, integration 2/2); 9b confirmed by user 2026-09-18
-- [ ] `DoIpGidNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.55 · **Step 1 finding: own table = Swc TPS Table 13.55, p.805 (body at md 23760-23767, before caption 23769 — artifact); concrete Class (XSD complexType `DO-IP-GID-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 48502 `<xsd:sequence/>` empty); Base row includes DoIpServiceNeeds → most-derived = `DoIpServiceNeeds` — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim; XSD element in BOTH choice groups (11488 BSW, 12607 Swc, order ACTIVATION-LINE→GID→GID-SYNCHRONIZATION); dispatch was MISSING → added full 5-place pattern + createDoIpGidNeeds factory**
+- [x] `DoIpGidNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.55 · **Step 1 finding: own table = Swc TPS Table 13.55, p.805 (body at md 23760-23767, before caption 23769 — artifact); concrete Class (XSD complexType `DO-IP-GID-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 48502 `<xsd:sequence/>` empty); Base row includes DoIpServiceNeeds → most-derived = `DoIpServiceNeeds` — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim; XSD element in BOTH choice groups (11488 BSW, 12607 Swc, order ACTIVATION-LINE→GID→GID-SYNCHRONIZATION); dispatch was MISSING → added full 5-place pattern + createDoIpGidNeeds factory**
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — asserts DoIpServiceNeeds base
   - [x] Step 3 — Implement model class (Green) — base fixed to DoIpServiceNeeds
@@ -295,7 +306,7 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base fix in-pass Rule 0001.2)
    - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (430 tests, flake8/ruff/black, parity, integration 2/2); 9b confirmed by user 2026-09-18
-- [ ] `DoIpGidSynchronizationNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.56 · **Step 1 finding: own table = Swc TPS Table 13.56, p.806 (body at md 23771-23775, after caption 23791 — caption-body interleaving artifact); concrete Class (XSD complexType `DO-IP-GID-SYNCHRONIZATION-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 48530 `<xsd:sequence/>` empty); Base row includes DoIpServiceNeeds → most-derived = `DoIpServiceNeeds` — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim; XSD element in BOTH choice groups (11489 BSW, 12608 Swc); dispatch was MISSING → added full 5-place pattern + createDoIpGidSynchronizationNeeds factory**
+- [x] `DoIpGidSynchronizationNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.56 · **Step 1 finding: own table = Swc TPS Table 13.56, p.806 (body at md 23771-23775, after caption 23791 — caption-body interleaving artifact); concrete Class (XSD complexType `DO-IP-GID-SYNCHRONIZATION-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 48530 `<xsd:sequence/>` empty); Base row includes DoIpServiceNeeds → most-derived = `DoIpServiceNeeds` — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim; XSD element in BOTH choice groups (11489 BSW, 12608 Swc); dispatch was MISSING → added full 5-place pattern + createDoIpGidSynchronizationNeeds factory**
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — asserts DoIpServiceNeeds base
   - [x] Step 3 — Implement model class (Green) — base fixed to DoIpServiceNeeds
@@ -308,11 +319,7 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
 
 ## Pending 16.4 resolution (NEW — not in src)
 
-Batch confirmation: `DiagnosticRequestFileTransferNeeds`, `DoIpActivationLineNeeds`, `DoIpGidNeeds`, and `DoIpGidSynchronizationNeeds` confirmed by user on 2026-09-18; source markers are present in `ServiceNeeds.py`.
-
-Batch confirmation: `BswMgrNeeds`, `CryptoKeyManagementNeeds`, `CryptoServiceJobNeeds`, `DiagnosticControlNeeds`, and `DiagnosticEventManagerNeeds` confirmed by user on 2026-09-18; source markers are present in `ServiceNeeds.py`.
-
-Confirmed and source-stamped on 2026-09-18: `BswMgrNeeds`, `CryptoKeyManagementNeeds`, `CryptoServiceJobNeeds`, `DiagnosticControlNeeds`, `DiagnosticEventManagerNeeds`.
+_All confirmed classes are recorded in the queue above; no separate confirmation records are maintained here._
 
 - `BswPerInstanceMemoryPolicy` — not in `src` (NEW) · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist) → **QUEUED 2026-09-11** as a 9-step row before `BswInternalBehavior`
 - `BswClientPolicy` — not in `src` (NEW) · **(NEW)**; 16.4 decision required: **Skip** (deviation row) or **Derive-from-XSD** (then move into the queue with a 9-step sub-checklist) → **QUEUED 2026-09-11** as a 9-step row before `BswInternalBehavior`
