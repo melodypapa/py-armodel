@@ -29,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Limit,
     MonotonyEnum,
     Numerical,
+    PositiveInteger,
     RefType,
     VerbatimString,
 )
@@ -1145,7 +1146,7 @@ class TestCompositeRuleBasedValueSpecificationWriter:
         compound.setCategory(_literal("ARRAY"))
         spec.addCompoundPrimitiveArgument(compound)
 
-        max_size = Integer()
+        max_size = PositiveInteger()
         max_size.setValue("16")
         spec.setMaxSizeToFill(max_size)
 

@@ -3223,7 +3223,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                         self.setConstantReference(compound_tag, argument)
                     else:
                         self.notImplemented("Unsupported compound primitive argument type of <%s> of CompositeRuleBasedValueSpecification" % type(argument))
-            self.setChildElementOptionalIntegerValue(child_element, "MAX-SIZE-TO-FILL", value_spec.getMaxSizeToFill())
+            self.setChildElementOptionalPositiveInteger(child_element, "MAX-SIZE-TO-FILL", value_spec.getMaxSizeToFill())
 
     def writeRecordValueSpecification(self, element: ET.Element, spec: RecordValueSpecification):
         child_element = ET.SubElement(element, "RECORD-VALUE-SPECIFICATION")

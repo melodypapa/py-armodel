@@ -471,7 +471,7 @@ class ConstantReference(ValueSpecification):
         return self
 
 
-class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
+class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument, ValueSpecification):
     """
     This meta-class represents rule based values for DataPrototypes typed by
     ApplicationDataTypes (ApplicationArrayDataType or a compound
@@ -596,22 +596,21 @@ class ApplicationRuleBasedValueSpecification(CompositeRuleBasedValueArgument):
 
 
 class CompositeRuleBasedValueSpecification(AbstractRuleBasedValueSpecification):
-    """
-    This meta-class represents rule-based values for DataPrototypes typed by composite AutosarDataTypes.
-    """
+    """This meta-class represents rule-based values for DataPrototypes typed by composite AutosarDataTypes."""
 
     # CompositeRuleBasedValueSpecification method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.135, p.471
-    # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
-    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] addArgument                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getArguments                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] addCompoundPrimitiveArgument    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getCompoundPrimitiveArguments   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] getMaxSizeToFill                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setMaxSizeToFill                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getRule                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRule                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addArgument                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getArguments                    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] addCompoundPrimitiveArgument    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getCompoundPrimitiveArguments   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] getMaxSizeToFill                [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setMaxSizeToFill                [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getRule                         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setRule                         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # Spec verified: R23-11
 
     def __init__(self):
         super().__init__()

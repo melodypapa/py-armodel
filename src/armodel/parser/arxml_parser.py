@@ -7204,7 +7204,7 @@ class ARXMLParser(AbstractARXMLParser):
         value_spec.setRule(self.getChildElementOptionalIdentifier(element, "RULE"))
         for child_element in self.findall(element, "ARGUMENTSS/RULE-ARGUMENTS"):
             value_spec.addArgument(self.getRuleArguments(child_element))
-        value_spec.setMaxSizeToFill(self.getChildElementOptionalIntegerValue(element, "MAX-SIZE-TO-FILL"))
+        value_spec.setMaxSizeToFill(self.getChildElementOptionalPositiveInteger(element, "MAX-SIZE-TO-FILL"))
         return value_spec
 
     def getRuleBasedAxisCont(self, element: ET.Element) -> RuleBasedAxisCont:
@@ -7245,7 +7245,7 @@ class ARXMLParser(AbstractARXMLParser):
             value_spec.addArgument(self.getValueSpecification(child_element, self.getTagName(child_element)))
         for child_element in self.findall(element, "COMPOUND-PRIMITIVE-ARGUMENTS/*"):
             value_spec.addCompoundPrimitiveArgument(self.getValueSpecification(child_element, self.getTagName(child_element)))
-        value_spec.setMaxSizeToFill(self.getChildElementOptionalIntegerValue(element, "MAX-SIZE-TO-FILL"))
+        value_spec.setMaxSizeToFill(self.getChildElementOptionalPositiveInteger(element, "MAX-SIZE-TO-FILL"))
         return value_spec
 
     def getNumericalValueSpecification(self, element: ET.Element) -> NumericalValueSpecification:

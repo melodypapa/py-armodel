@@ -938,7 +938,8 @@ class TestRuleBasedValueSpecHandlers:
         assert len(value_spec.getArguments()[0].getElements()) == 1
         assert len(value_spec.getCompoundPrimitiveArguments()) == 1
         assert isinstance(value_spec.getCompoundPrimitiveArguments()[0], ApplicationRuleBasedValueSpecification)
-        assert float(value_spec.getMaxSizeToFill().getValue()) == 16.0
+        assert value_spec.getMaxSizeToFill().__class__.__name__ == "PositiveInteger"
+        assert value_spec.getMaxSizeToFill().getValue() == 16
 
     def test_getCompositeRuleBasedValueSpecification_empty_lists(self, parser):
         element = _snip("<RULE>FILL_UNTIL_END</RULE>", root_tag="COMPOSITE-RULE-BASED-VALUE-SPECIFICATION")

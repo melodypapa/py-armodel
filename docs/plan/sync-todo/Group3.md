@@ -893,16 +893,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [Table 5.136, p.473; abstract __init__ row with six columns and R23-11 release]
   - [x] Step 8 — Deviations  [none: abstract ARObject base and empty Attribute table match the spec; concrete consumer coverage retained]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 24 focused tests, lint, and Black check passed; 9b: user-confirmed abstract kind, ARObject base, empty Attribute table, exact Note, N/A XML coverage, package location, and no deviations; marker `# Spec verified: R23-11` written]
-- [ ] `CompositeRuleBasedValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.135 · after `CompositeValueSpecification` (aggr `argument`) + `CompositeRuleBasedValueArgument` (aggr `compoundPrimitiveArgument`) · parent `AbstractRuleBasedValueSpecification` stamped ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `CompositeRuleBasedValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.135 · after `CompositeValueSpecification` (aggr `argument`) + `CompositeRuleBasedValueArgument` (aggr `compoundPrimitiveArgument`) · parent `AbstractRuleBasedValueSpecification` stamped ✓) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.135, p.471; Base ARObject + AbstractRuleBasedValueSpecification + ValueSpecification; ordered members argument CompositeValueSpecification *, compoundPrimitiveArgument CompositeRuleBasedValueArgument *, maxSizeToFill PositiveInteger 0..1, rule Identifier 0..1; Note copied verbatim]
+  - [x] Step 2 — Write model class unit test (Red)  [existing model tests extended with exact Note/checklist assertions, typed member/list behavior, chaining, and None no-op coverage; checklist assertion failed before sync]
+  - [x] Step 3 — Implement model class (Green)  [existing four typed members/accessors retained; ApplicationRuleBasedValueSpecification explicitly adds ValueSpecification to preserve inherited shortLabel XML behavior after its argument base was corrected to ARObject]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note and four member/accessor Notes match Table 5.135; stale class prose replaced]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [existing parser/writer coverage strengthened with PositiveInteger type/value assertions and polymorphic argument/compound-argument field assertions]
+  - [x] Step 6 — Update parser & writer (Green)  [MAX-SIZE-TO-FILL now uses matched PositiveInteger parser/writer helpers; concrete ValueSpecification inheritance restores SHORT-LABEL dispatch]
+  - [x] Step 7 — Update checklist comment  [Table 5.135, p.471; init + four member getter/setter pairs with six columns and R23-11 release]
+  - [x] Step 8 — Deviations  [resolved: concrete ApplicationRuleBasedValueSpecification retained explicit ValueSpecification inheritance for inherited SHORT-LABEL XML coverage; MAX-SIZE-TO-FILL corrected from Integer to PositiveInteger; no remaining deviations]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 21 focused tests, lint, Black check, and diff check passed; 9b: user-confirmed element kind, base chain, member types/order, typed XML coverage, concrete inherited SHORT-LABEL coverage, verbatim docs, and no deviations; marker `# Spec verified: R23-11` written]
 - [ ] `SwValueCont` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.121 · deps stamped: `swArraysize` ValueList ✓ / `swValuesPhys` SwValues ✓ / `unit` Unit ✓ / `unitDisplayName` SingleLanguageUnitNames ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
