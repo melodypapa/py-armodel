@@ -980,7 +980,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [x] `SwGenericAxisParamType` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · ref target of `SwRecordLayoutGroup.swGenericAxisParamType` + `SwRecordLayoutV.swGenericAxisParamType` · **NOT in src** — class must be created when this row is synced) — verified R23-11 (commit pending)
+- [x] `SwGenericAxisParamType` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · ref target of `SwRecordLayoutGroup.swGenericAxisParamType` + `SwRecordLayoutV.swGenericAxisParamType` · **NOT in src** — class must be created when this row is synced) — verified R23-11 (commit 1eacd1a7)
   - [x] Step 1 — Sync members & description from spec [concrete Identifiable class; one dataConstr ref; p.356 via pdf_page.py; XSD inheritance/order cross-checked]
   - [x] Step 2 — Write model class unit test (Red) [missing class/import before implementation]
   - [x] Step 3 — Implement model class (Green) [created typed Identifiable class with None-safe dataConstr accessor; fixed class boundary after initial insertion-point regression]
