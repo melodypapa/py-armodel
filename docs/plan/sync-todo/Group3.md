@@ -922,7 +922,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 6 — Update parser & writer (Green)  [existing getSwCalprmAxisSet/setSwCalprmAxisSet XML dispatch already covers the aggregation; no production XML change required]
   - [x] Step 7 — Update checklist comment  [Table 5.46, p.352; init/add/get rows with six columns and R23-11 release]
   - [x] Step 8 — Deviations  [none: one PDF aggregation modeled with dedicated typed plural list, XML order and concrete helpers preserved]
-  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused model/parser/writer tests, lint, Black check, and diff check passed; 9b: user-confirmed cross-page class Note, blank line, base, typed aggregation, member order, complete XML coverage, and no deviations; marker `# Spec verified: R23-11` written]
+  - [ ] Step 9 — Verify (9a) + confirm (9b)  [9a rerun after correcting the cross-page class Note; awaiting 9b confirmation]
 - [ ] `SwAxisIndividual` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.50 · after `CompuMethod` (ref `compuMethod`) + `DataConstr` (ref `dataConstr`) · `inputVariableType` ApplicationPrimitiveDataType queued in Group2 ✓ · deps stamped: `swAxisGeneric` SwAxisGeneric ✓ / `swVariableRef` SwVariableRefProxy ✓ / `unit` Unit ✓ / parent SwCalprmAxisTypeProps ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
