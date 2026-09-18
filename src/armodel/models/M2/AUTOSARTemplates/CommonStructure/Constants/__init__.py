@@ -65,20 +65,16 @@ class ValueSpecification(ARObject, VariationPointCapable, ABC):
 
 
 class CompositeValueSpecification(ValueSpecification, ABC):
-    """
-    Abstract base class for value specifications that have a composite form.
-    This class serves as a base for value specifications that contain multiple elements or components.
-    Subclasses include ArrayValueSpecification and RecordValueSpecification.
-    """
+    """This abstract meta-class acts a base for ValueSpecifications that have a composite form."""
+
+    # Spec verified: R23-11
 
     # CompositeValueSpecification method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.110, p.434
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self):
-        """
-        Initializes the CompositeValueSpecification base class.
-        Raises TypeError if this abstract class is instantiated directly.
-        """
         if type(self) is CompositeValueSpecification:
             raise TypeError("CompositeValueSpecification is an abstract class.")
 

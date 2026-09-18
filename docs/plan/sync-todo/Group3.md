@@ -853,16 +853,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 7 — Update checklist comment  [Table 5.82, p.405; init/add/get rows with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none: AtpBlueprintable base, one ordered PDF aggregation, typed API, verbatim docs, and reader/writer coverage match]
    - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, Black check, and diff check passed; 9b: user-confirmed base, member order, naming, docstrings, reader/writer coverage, package location, and no deviations; marker written; commit 9927cc9e]
-- [ ] `CompositeValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.110 · **moved 2026-09-03 restructure ahead of its Record/Array subtypes** · parent `ValueSpecification` stamped ✓ · member type of `CompositeRuleBasedValueSpecification.argument` below)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `CompositeValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.110 · **moved 2026-09-03 restructure ahead of its Record/Array subtypes** · parent `ValueSpecification` stamped ✓ · member type of `CompositeRuleBasedValueSpecification.argument` below) — verified R23-11
+   - [x] Step 1 — Sync members & description from spec  [Table 5.110, p.434; abstract Base closure resolves to ValueSpecification; no own Attribute rows; exact Note copied verbatim]
+   - [x] Step 2 — Write model class unit test (Red)  [added exact Note assertion and inherited ValueSpecification accessors through a concrete local subclass; stale Note failed before implementation]
+   - [x] Step 3 — Implement model class (Green)  [abstract guard retained; no fabricated members; inherits ValueSpecification behavior]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class docstring replaced with Table 5.110 Note; obsolete implementation docstring removed]
+   - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: abstract class has no own XML element; concrete ArrayValueSpecification and RecordValueSpecification own composite serialization]
+   - [x] Step 6 — Update parser & writer (Green)  [N/A: existing concrete getArrayValueSpecification/getRecordValueSpecification and writer helpers cover inherited composite value serialization]
+   - [x] Step 7 — Update checklist comment  [Table 5.110, p.434; abstract __init__ row with six columns and R23-11 release]
+   - [x] Step 8 — Deviations  [none: abstract ValueSpecification base, no own attributes, no fabricated accessors, exact Note, and concrete reader/writer coverage match]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, Black check, and diff check passed; 9b: user-confirmed abstract kind, empty member table, inherited base behavior, concrete XML coverage, package location, and no deviations; marker written]
 - [ ] `ArrayValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.111 · after `CompositeValueSpecification` (parent, Table 5.110) · `element` ValueSpecification stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

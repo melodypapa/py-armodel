@@ -4,6 +4,8 @@ in the AUTOSAR model. The file contains several value specification classes that
 to be thoroughly tested for complete coverage.
 """
 
+from inspect import cleandoc
+
 import pytest
 
 from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
@@ -87,6 +89,9 @@ class TestValueSpecification:
 
 
 class TestCompositeValueSpecification:
+    def test_has_spec_note(self):
+        assert cleandoc(CompositeValueSpecification.__doc__) == "This abstract meta-class acts a base for ValueSpecifications that have a composite form."
+
     def test_abstract_class_cannot_be_instantiated(self):
         """Test that CompositeValueSpecification abstract class cannot be instantiated directly"""
         with pytest.raises(TypeError, match="CompositeValueSpecification is an abstract class."):
@@ -101,6 +106,8 @@ class TestCompositeValueSpecification:
 
         spec = ConcreteCompositeValueSpecification()
         assert spec is not None
+        assert spec.getShortLabel() is None
+        assert spec.setShortLabel(None) is spec
 
 
 class TestCompositeRuleBasedValueArgument:
