@@ -295,16 +295,16 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base fix in-pass Rule 0001.2)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (430 tests, flake8/ruff/black, parity, integration 2/2); 9b DEFERRED to batch stamp
-- [ ] `DoIpGidSynchronizationNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.56)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `DoIpGidSynchronizationNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.56 · **Step 1 finding: own table = Swc TPS Table 13.56, p.806 (body at md 23771-23775, after caption 23791 — caption-body interleaving artifact); concrete Class (XSD complexType `DO-IP-GID-SYNCHRONIZATION-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 48530 `<xsd:sequence/>` empty); Base row includes DoIpServiceNeeds → most-derived = `DoIpServiceNeeds` — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim; XSD element in BOTH choice groups (11489 BSW, 12608 Swc); dispatch was MISSING → added full 5-place pattern + createDoIpGidSynchronizationNeeds factory**
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — asserts DoIpServiceNeeds base
+  - [x] Step 3 — Implement model class (Green) — base fixed to DoIpServiceNeeds
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — Note verbatim (Table 13.56 p.806); __init__ docless
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 2 dispatch tests failed pre-implementation
+  - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch added
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (base fix in-pass Rule 0001.2)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (432 tests, flake8/ruff/black, parity, integration 2/2); 9b DEFERRED to batch stamp
 
 ## Pending 16.4 resolution (NEW — not in src)
 

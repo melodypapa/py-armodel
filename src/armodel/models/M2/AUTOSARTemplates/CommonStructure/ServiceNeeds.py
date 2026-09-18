@@ -2650,23 +2650,17 @@ class DoIpGidNeeds(DoIpServiceNeeds):
         super().__init__(parent, short_name)
 
 
-class DoIpGidSynchronizationNeeds(ServiceNeeds):
+class DoIpGidSynchronizationNeeds(DoIpServiceNeeds):
     """
-    Represents DoIP GID Synchronization needs in AUTOSAR models.
-    This class defines requirements for DoIP (Diagnostics over IP) GID synchronization services.
+    The DoIpGidSynchronizationNeeds indicates that the software-component owning this ServiceNeeds is triggered by the DoIP entity to start a synchronization of the GID (Group Identification) on the DoIP service 0x0001, 0x0002, 0x0003 or before announcement via service 0x0004 according to ISO 13400-2:2012 if necessary. Note that this need is only relevant for DoIP synchronization masters.
     """
 
     # DoIpGidSynchronizationNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.56, p.806
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DoIpGidSynchronizationNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this DoIP GID synchronization needs
-            short_name: The unique short name of this DoIP GID synchronization needs
-        """
         super().__init__(parent, short_name)
 
 

@@ -1711,6 +1711,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "dgn1"
 
+    def test_writeDoIpGidSynchronizationNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDoIpGidSynchronizationNeeds("dgsn1")
+        parent = _parent()
+        writer.writeDoIpGidSynchronizationNeeds(parent, needs)
+        elem = parent.find("DO-IP-GID-SYNCHRONIZATION-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "dgsn1"
+
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
@@ -1744,6 +1754,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createDiagnosticRequestFileTransferNeeds("drfn")
         dep.createDoIpActivationLineNeeds("daln")
         dep.createDoIpGidNeeds("dgn")
+        dep.createDoIpGidSynchronizationNeeds("dgsn")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1777,6 +1788,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "DIAGNOSTIC-REQUEST-FILE-TRANSFER-NEEDS" in tags
         assert "DO-IP-ACTIVATION-LINE-NEEDS" in tags
         assert "DO-IP-GID-NEEDS" in tags
+        assert "DO-IP-GID-SYNCHRONIZATION-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()

@@ -175,6 +175,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DltUserNeeds,
     DoIpActivationLineNeeds,
     DoIpGidNeeds,
+    DoIpGidSynchronizationNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
     DoIpRoutingActivationConfirmationNeeds,
     DtcStatusChangeNotificationNeeds,
@@ -2192,6 +2193,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = DoIpGidNeeds(dependency, short_name)
                 self.readDoIpGidNeeds(child_element, needs)
+            elif tag_name == "DO-IP-GID-SYNCHRONIZATION-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DoIpGidSynchronizationNeeds(dependency, short_name)
+                self.readDoIpGidSynchronizationNeeds(child_element, needs)
             elif tag_name == "DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = DoIpRoutingActivationAuthenticationNeeds(dependency, short_name)
@@ -2311,6 +2316,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readServiceNeeds(element, needs)
 
     def readDoIpGidNeeds(self, element: ET.Element, needs: DoIpGidNeeds):
+        self.readServiceNeeds(element, needs)
+
+    def readDoIpGidSynchronizationNeeds(self, element: ET.Element, needs: DoIpGidSynchronizationNeeds):
         self.readServiceNeeds(element, needs)
 
     def readDoIpRoutingActivationAuthenticationNeeds(self, element: ET.Element, needs: DoIpRoutingActivationAuthenticationNeeds):
@@ -2660,6 +2668,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DO-IP-GID-NEEDS":
                 needs = parent.createDoIpGidNeeds(self.getShortName(child_element))
                 self.readDoIpGidNeeds(child_element, needs)
+            elif tag_name == "DO-IP-GID-SYNCHRONIZATION-NEEDS":
+                needs = parent.createDoIpGidSynchronizationNeeds(self.getShortName(child_element))
+                self.readDoIpGidSynchronizationNeeds(child_element, needs)
             elif tag_name == "DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS":
                 needs = parent.createDoIpRoutingActivationAuthenticationNeeds(self.getShortName(child_element))
                 self.readDoIpRoutingActivationAuthenticationNeeds(child_element, needs)

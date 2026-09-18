@@ -744,6 +744,19 @@ class TestServiceNeedsHandlers:
         parser.readDoIpGidNeeds(element, needs)
         assert needs.getShortName() == "dgnNeeds"
 
+    def test_readDoIpGidSynchronizationNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpGidSynchronizationNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>dgsnNeeds</SHORT-NAME>", root_tag="DO-IP-GID-SYNCHRONIZATION-NEEDS")
+        needs = dependency.createDoIpGidSynchronizationNeeds("dgsnNeeds")
+        assert isinstance(needs, DoIpGidSynchronizationNeeds)
+        parser.readDoIpGidSynchronizationNeeds(element, needs)
+        assert needs.getShortName() == "dgsnNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 
