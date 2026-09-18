@@ -600,7 +600,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServerCall import ServerCallPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.ServiceMapping import RoleBasedDataTypeAssignment, RoleBasedPortAssignment, SwcServiceDependency
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SwcInternalBehavior.VariantHandling import VariationPointProxy
-from armodel.models.M2.AUTOSARTemplates.SystemTemplate import SwcToEcuMapping, System, SystemMapping
+from armodel.models.M2.AUTOSARTemplates.SystemTemplate import J1939SharedAddressCluster, SwcToEcuMapping, System, SystemMapping
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.DataMapping import (
     SenderRecCompositeTypeMapping,
     SenderReceiverToSignalGroupMapping,
@@ -10894,13 +10894,22 @@ class ARXMLWriter(AbstractARXMLWriter):
             for ref in refs:
                 self.setChildElementOptionalRefType(refs_tag, "INTERPOLATION-ROUTINE-MAPPING-SET-REF", ref)
 
+    def writeJ1939SharedAddressCluster(self, element: ET.Element, cluster: J1939SharedAddressCluster):
+        self.writeIdentifiable(element, cluster, write_variation_point=False)
+        refs = cluster.getParticipatingJ1939ClusterRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "PARTICIPATING-J-1939-CLUSTER-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "PARTICIPATING-J-1939-CLUSTER-REF", ref)
+        self.writeVariationPoint(element, cluster.getVariationPoint())
+
     def writeSystemJ1939SharedAddressClusters(self, element: ET.Element, system: System):
         clusters = system.getJ1939SharedAddressClusters()
         if len(clusters) > 0:
             clusters_tag = ET.SubElement(element, "J-1939-SHARED-ADDRESS-CLUSTERS")
             for cluster in clusters:
                 cluster_element = ET.SubElement(clusters_tag, "J-1939-SHARED-ADDRESS-CLUSTER")
-                self.writeIdentifiable(cluster_element, cluster)
+                self.writeJ1939SharedAddressCluster(cluster_element, cluster)
 
     def writeSystemSwClusterRefs(self, element: ET.Element, system: System):
         refs = system.getSwClusterRefs()

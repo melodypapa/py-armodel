@@ -473,28 +473,37 @@ class RootSwCompositionPrototype(AtpPrototype, VariationPointCapable):
 
 class J1939SharedAddressCluster(Identifiable, VariationPointCapable):
     """
-    Represents a J1939 shared address cluster in the system,
-    defining references to participating J1939 clusters for
-    shared address management in J1939 communication.
+    This meta-class represents the ability to identify several J1939Clusters that share a common address space for the routing of messages
     """
 
     # J1939SharedAddressCluster method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getParticipatingJ1939ClusterRefs [x] impl  [ ] docstring  [ ] test
-    # [ ] addParticipatingJ1939ClusterRef [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SystemTemplate.pdf, Table 6.324, p.694
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] addParticipatingJ1939ClusterRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getParticipatingJ1939ClusterRefs        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
         super().__init__(parent, short_name)
 
+        # This identifies the J1939Clusters that share a common address space
         self.participatingJ1939ClusterRefs: List[RefType] = []
 
-    def getParticipatingJ1939ClusterRefs(self):
-        return self.participatingJ1939ClusterRefs
+    def addParticipatingJ1939ClusterRef(self, value: Optional[RefType]) -> "J1939SharedAddressCluster":
+        """
+        This identifies the J1939Clusters that share a common address space
 
-    def addParticipatingJ1939ClusterRef(self, value):
+        A None value is a no-op and does not add to participatingJ1939ClusterRefs.
+        """
         if value is not None:
             self.participatingJ1939ClusterRefs.append(value)
         return self
+
+    def getParticipatingJ1939ClusterRefs(self) -> List[RefType]:
+        """
+        This identifies the J1939Clusters that share a common address space
+        """
+        return self.participatingJ1939ClusterRefs
 
 
 class System(AtpStructureElement):

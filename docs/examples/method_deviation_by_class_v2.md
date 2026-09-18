@@ -63,7 +63,7 @@ reader/writer gate on `isinstance(obj, VariationPointCapable)`.
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/__init__.py`
 
-No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-11): all 13 attributes have typed fields, accessor pairs, and reader/writer coverage; the former `fibexelementrefs`/`j1939SharedAddressCluster`/`mapping` rows are resolved (list field, `createJ1939SharedAddressCluster`, `createSystemMapping` + dedicated `mappings` field). Interim note (not a deviation): aggregated `J1939SharedAddressCluster` children are read/written at Identifiable level until that class's own sync (Group5 Table 6.324) lands.
+No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-11): all 13 attributes have typed fields, accessor pairs, and reader/writer coverage; the former `fibexelementrefs`/`j1939SharedAddressCluster`/`mapping` rows are resolved (list field, `createJ1939SharedAddressCluster`, `createSystemMapping` + dedicated `mappings` field). Interim note resolved: `J1939SharedAddressCluster` own-content sync (Group5 Table 6.324) has landed — children are now read/written via `readJ1939SharedAddressCluster`/`writeJ1939SharedAddressCluster`, not at Identifiable level.
 
 ## `SenderReceiverInterface`
 - **PDF:** `AUTOSAR_CP_TPS_BSWModuleDescriptionTemplate.pdf`  | **page:** —
@@ -1367,13 +1367,11 @@ No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 2.1 (p.42, R23-1
 | — *(missing)* | `—` | `doIpLogicAddress` | ``DoIpLogicAddress`` | aggr | missing |
 
 ## `J1939SharedAddressCluster`
-- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —
+- **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** 694  | **table:** Table 6.324
 - **Package:** `M2::AUTOSARTemplates::SystemTemplate`
 - **Source:** `src/armodel/models/M2/AUTOSARTemplates/SystemTemplate/__init__.py`
 
-| Name in source code | Type (source) | Member name (spec) | Type (PDF) | Kind | Deviation |
-|---|---|---|---|---|---|
-| `participatingj1939clusterrefs` | `—` | `participatingJ1939Cluster` | ``J1939Cluster`` | ref | type (spec many vs py single) |
+No deviations — synced to AUTOSAR_CP_TPS_SystemTemplate Table 6.324 (p.694, R23-11): the single attribute `participatingJ1939Cluster` (`*`, ref) has the dedicated typed list field `participatingJ1939ClusterRefs: List[RefType]` with accessor pair and full reader/writer coverage (`PARTICIPATING-J-1939-CLUSTER-REFS` wrapper + VARIATION-POINT per XSD group order); the former `participatingj1939clusterrefs` `type (spec many vs py single)` row is stale and removed — the field is a list.
 
 ## `PduMappingDefaultValue`
 - **PDF:** `AUTOSAR_CP_TPS_SystemTemplate.pdf`  | **page:** —  | **table:** Table 8.6

@@ -63,6 +63,33 @@ FULL_SYSTEM_ARXML = """<?xml version="1.0" encoding="UTF-8"?>
 </AUTOSAR>
 """
 
+J1939_SHARED_ADDRESS_CLUSTER_ARXML = """<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 AUTOSAR_4-0-3.xsd">
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>Systems</SHORT-NAME>
+      <ELEMENTS>
+        <SYSTEM>
+          <SHORT-NAME>J1939System</SHORT-NAME>
+          <J-1939-SHARED-ADDRESS-CLUSTERS>
+            <J-1939-SHARED-ADDRESS-CLUSTER>
+              <SHORT-NAME>Cluster1</SHORT-NAME>
+              <PARTICIPATING-J-1939-CLUSTER-REFS>
+                <PARTICIPATING-J-1939-CLUSTER-REF DEST="J-1939-CLUSTER">/Systems/J1939ClusterA</PARTICIPATING-J-1939-CLUSTER-REF>
+                <PARTICIPATING-J-1939-CLUSTER-REF DEST="J-1939-CLUSTER">/Systems/J1939ClusterB</PARTICIPATING-J-1939-CLUSTER-REF>
+              </PARTICIPATING-J-1939-CLUSTER-REFS>
+              <VARIATION-POINT>
+                <SHORT-LABEL>VP_CLUSTER</SHORT-LABEL>
+              </VARIATION-POINT>
+            </J-1939-SHARED-ADDRESS-CLUSTER>
+          </J-1939-SHARED-ADDRESS-CLUSTERS>
+        </SYSTEM>
+      </ELEMENTS>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>
+"""
+
 
 class TestSystemTemplate:
     def setup_method(self):
@@ -169,3 +196,31 @@ class TestSystemTemplate:
         assert system_2.getRootSoftwareComposition().getShortName() == "RootComp"
         assert system_2.getSwClusterRefs()[0].getValue() == "/Systems/Cluster"
         assert system_2.getSystemVersion().getValue() == "2.0.0"
+
+    def test_j1939_shared_address_cluster_content(self, tmp_path):
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        arxml_file = tmp_path / "j1939_shared_address_cluster.arxml"
+        arxml_file.write_text(J1939_SHARED_ADDRESS_CLUSTER_ARXML, encoding="utf-8")
+        ARXMLParser().load(str(arxml_file), document)
+
+        system = document.getARPackages()[0].getElement("J1939System")
+        assert isinstance(system, System)
+
+        clusters = system.getJ1939SharedAddressClusters()
+        assert len(clusters) == 1
+        cluster = clusters[0]
+        assert isinstance(cluster, J1939SharedAddressCluster)
+        assert cluster.getShortName() == "Cluster1"
+
+        refs = cluster.getParticipatingJ1939ClusterRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/Systems/J1939ClusterA"
+        assert refs[0].getDest() == "J-1939-CLUSTER"
+        assert refs[1].getValue() == "/Systems/J1939ClusterB"
+        assert refs[1].getDest() == "J-1939-CLUSTER"
+
+        variation_point = cluster.getVariationPoint()
+        assert variation_point is not None
+        assert variation_point.getShortLabel().getValue() == "VP_CLUSTER"

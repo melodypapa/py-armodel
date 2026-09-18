@@ -24,6 +24,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     RefType,
     RevisionLabelString,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.VariantHandling import VariationPoint
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import (
     ClientServerOperationMapping,
     DataPrototypeMapping,
@@ -1259,3 +1260,68 @@ class TestWriterISignal:
         s = parent[0]
         assert s.tag == "I-SIGNAL"
         assert s.find("I-SIGNAL-PROPS") is None
+
+
+class TestWriterJ1939SharedAddressCluster:
+    def _make_cluster(self):
+        system = _make_system()
+        cluster = system.createJ1939SharedAddressCluster("Cluster1")
+        cluster.addParticipatingJ1939ClusterRef(_ref("/Systems/J1939ClusterA", "J-1939-CLUSTER"))
+        cluster.addParticipatingJ1939ClusterRef(_ref("/Systems/J1939ClusterB", "J-1939-CLUSTER"))
+        variation_point = VariationPoint()
+        variation_point.setShortLabel(Identifier().setValue("VP_CLUSTER"))
+        cluster.setVariationPoint(variation_point)
+        return system, cluster
+
+    def test_refs_wrapper_and_variation_point_in_xsd_order(self, writer):
+        system, _cluster = self._make_cluster()
+        parent = _parent()
+        writer.writeSystem(parent, system)
+        s = parent[0]
+        assert s.tag == "SYSTEM"
+        cluster_element = s.find("J-1939-SHARED-ADDRESS-CLUSTERS/J-1939-SHARED-ADDRESS-CLUSTER")
+        assert cluster_element is not None
+        tags = [c.tag for c in cluster_element]
+        assert tags.index("PARTICIPATING-J-1939-CLUSTER-REFS") < tags.index("VARIATION-POINT")
+        refs = cluster_element.findall("PARTICIPATING-J-1939-CLUSTER-REFS/PARTICIPATING-J-1939-CLUSTER-REF")
+        assert [r.text for r in refs] == ["/Systems/J1939ClusterA", "/Systems/J1939ClusterB"]
+        assert all(r.attrib["DEST"] == "J-1939-CLUSTER" for r in refs)
+        assert cluster_element.find("VARIATION-POINT/SHORT-LABEL").text == "VP_CLUSTER"
+
+    def test_empty_refs_wrapper_not_emitted(self, writer):
+        system = _make_system()
+        system.createJ1939SharedAddressCluster("Cluster1")
+        parent = _parent()
+        writer.writeSystem(parent, system)
+        cluster_element = parent[0].find("J-1939-SHARED-ADDRESS-CLUSTERS/J-1939-SHARED-ADDRESS-CLUSTER")
+        assert cluster_element is not None
+        assert cluster_element.find("PARTICIPATING-J-1939-CLUSTER-REFS") is None
+
+    def test_round_trip_refs_and_variation_point(self, tmp_path):
+        from armodel.parser.arxml_parser import ARXMLParser
+
+        AUTOSAR.getInstance().setARRelease("R23-11")
+        document = AUTOSAR.getInstance()
+        document.clear()
+        system, _cluster = self._make_cluster()
+
+        file_path = str(tmp_path / "j1939_cluster_round_trip.arxml")
+        ARXMLWriter().save(file_path, document)
+
+        document_2 = AUTOSAR.getInstance()
+        document_2.clear()
+        ARXMLParser().load(file_path, document_2)
+
+        system_2 = document_2.getARPackages()[0].getElement("Sys")
+        assert system_2 is not None
+        clusters = system_2.getJ1939SharedAddressClusters()
+        assert len(clusters) == 1
+        cluster_2 = clusters[0]
+        assert cluster_2.getShortName() == "Cluster1"
+        refs = cluster_2.getParticipatingJ1939ClusterRefs()
+        assert len(refs) == 2
+        assert refs[0].getValue() == "/Systems/J1939ClusterA"
+        assert refs[0].getDest() == "J-1939-CLUSTER"
+        assert refs[1].getValue() == "/Systems/J1939ClusterB"
+        assert refs[1].getDest() == "J-1939-CLUSTER"
+        assert cluster_2.getVariationPoint().getShortLabel().getValue() == "VP_CLUSTER"

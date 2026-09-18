@@ -147,15 +147,15 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 8 — Deviations — **none** (all findings fixed in-pass: adder renames, j1939 set→create, registry-filter getters → dedicated fields, typing, None-guards, 8 reader/writer gaps, ECU-EXTRACT-VERSION type upgrade); stale tracker rows for System removed in docs/examples/method_deviation_by_class_v2.md; interim note: J1939SharedAddressCluster children read/written at Identifiable level until its own sync (Table 6.324, next row)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (370 touched tests + integration 130/130 round-trip, lint/ruff/black, parity script, set-based check 27 methods, chained-mutator grep clean, verbatim docstring diff vs markdown); 9b DEFERRED to batch stamp
 - [ ] `J1939SharedAddressCluster` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.324)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - **Step 1 finding:** own table = SystemTemplate TPS Table 6.324, p.694 (markdown 18065, clean render body after caption; R4.3.1 sibling Table 6.245 p.435 Note-identical); concrete Class (XSD complexType `J-1939-SHARED-ADDRESS-CLUSTER` `abstract="false"`, AUTOSAR_00052.xsd line 75619, group line 75582); Base row ARObject/Identifiable/MultilanguageReferrable/Referrable → most-derived = `Identifiable` (src base ALREADY correct) + `VariationPointCapable` mixin (XSD VARIATION-POINT anchor line 75608, "Applicable for: System.j1939SharedAddressCluster" — Rule 0020); ONE own attribute in displayed order: `participatingJ1939Cluster` (J1939Cluster, *, ref → `participatingJ1939ClusterRefs: List[RefType]`, naming already Rule-0001.5-correct); model gaps: getter/setter missing type annotations, fabricated class docstring; reader/writer gaps: no `readJ1939SharedAddressCluster`/`writeJ1939SharedAddressCluster` helper — own group content (PARTICIPATING-J-1939-CLUSTER-REFS wrapper + VARIATION-POINT) dropped at Identifiable level (System sync interim note); XSD element order: PARTICIPATING-J-1939-CLUSTER-REFS then VARIATION-POINT (sequenceOffset 10000, last)
+  - [x] Step 2 — Write model class unit test (Red) — 2/4 failed pre-implementation (docstring + annotations; init/docless already spec-correct)
+  - [x] Step 3 — Implement model class (Green) — getter `-> List[RefType]`, adder `value: Optional[RefType] -> "J1939SharedAddressCluster"`; field/base/naming already spec-correct
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated class docstring wiped; Note verbatim (Table 6.324 p.694); per-attribute comment + getter/setter docstrings verbatim (adder + None-no-op sentence); __init__ docless
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 3 failed pre-implementation (parser content, writer XSD-order, writer round-trip; refs dropped at Identifiable level); empty-wrapper case green
+  - [x] Step 6 — Update parser & writer (Green) — readJ1939SharedAddressCluster/writeJ1939SharedAddressCluster helpers added (readIdentifiable/writeIdentifiable at base level; refs wrapper via getChildElementRefTypeList/setChildElementOptionalRefType; VARIATION-POINT last per sequenceOffset 10000, StructuredReq write_variation_point=False precedent); System aggregators call them
+  - [x] Step 7 — Update checklist comment — 6-column format with per-row release R23-11; 3 methods, source order; no marker (deferred to batch stamp)
+  - [x] Step 8 — Deviations — **none** (base/VP-capability already spec-correct; annotations fixed in-pass; stale tracker row `type (spec many vs py single)` removed as resolved — field is a list; System interim note marked resolved)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (99 touched tests, flake8/ruff/black clean, parity script OK, set-based check 3 methods in source order, chained-mutator grep clean, verbatim docstring diff vs markdown, integration 130-file round-trip 0 failed); 9b DEFERRED to batch stamp
 - [ ] `ComManagementMapping` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 5.46)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
