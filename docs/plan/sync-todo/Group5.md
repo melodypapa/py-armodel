@@ -15,7 +15,7 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
 
 ## Queue (dependency-first)
 
-- [ ] `DoIpPowerModeStatusNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.57 · **Step 1 finding: own table = Swc TPS Table 13.57, p.806 (clean render, body after caption); concrete Class (XSD complexType `DO-IP-POWER-MODE-STATUS-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 49049 `<xsd:sequence/>` empty); Base row includes DoIpServiceNeeds → most-derived = `DoIpServiceNeeds` (stamped, Table 13.54 p.805) — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim (identical in XSD doc); XSD element in BOTH choice groups (11490 BSW, Swc-side present), order GID-SYNCHRONIZATION→POWER-MODE-STATUS→ROUTING-ACTIVATION-AUTH; dispatch was MISSING → added full 5-place pattern + createDoIpPowerModeStatusNeeds factory; class relocated after DoIpServiceNeeds's definition (was a forward reference)**
+- [x] `DoIpPowerModeStatusNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.57 · **Step 1 finding: own table = Swc TPS Table 13.57, p.806 (clean render, body after caption); concrete Class (XSD complexType `DO-IP-POWER-MODE-STATUS-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 49049 `<xsd:sequence/>` empty); Base row includes DoIpServiceNeeds → most-derived = `DoIpServiceNeeds` (stamped, Table 13.54 p.805) — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim (identical in XSD doc); XSD element in BOTH choice groups (11490 BSW, Swc-side present), order GID-SYNCHRONIZATION→POWER-MODE-STATUS→ROUTING-ACTIVATION-AUTH; dispatch was MISSING → added full 5-place pattern + createDoIpPowerModeStatusNeeds factory; class relocated after DoIpServiceNeeds's definition (was a forward reference)**
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — 3/3 failed pre-implementation (base + docstring + docless)
   - [x] Step 3 — Implement model class (Green) — base fixed to DoIpServiceNeeds; relocated after base
@@ -24,7 +24,7 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base fix in-pass Rule 0001.2)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (435 touched tests + FULL unit+integration suite, flake8/ruff/black, parity); 9b pending
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (435 touched tests + FULL unit+integration suite, flake8/ruff/black, parity); 9b confirmed 2026-09-18 → stamped R23-11; sync commit 4350642e (note: landed on main after PR #735 merge — local checkout had been switched)
 - [ ] `FurtherActionByteNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.62)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
