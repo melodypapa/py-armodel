@@ -961,7 +961,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [x] `SwRecordLayoutGroupContent` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.100 · member type of `SwRecordLayoutGroup.swRecordLayoutGroupContentType` below) — verified R23-11 (commit pending)
+- [x] `SwRecordLayoutGroupContent` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.100 · member type of `SwRecordLayoutGroup.swRecordLayoutGroupContentType` below) — verified R23-11 (commit 0f19d490)
   - [x] Step 1 — Sync members & description from spec [<<atpMixed>> class; Base ARObject; 3 own attrs; p.424 via pdf_page.py; XSD order cross-checked]
   - [x] Step 2 — Write model class unit test (Red) [typed defaults and None-safe setters; failed before implementation]
   - [x] Step 3 — Implement model class (Green) [typed PEP 526 members and None-safe setters]
