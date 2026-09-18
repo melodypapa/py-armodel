@@ -936,8 +936,8 @@ class TestReadEcucParameterValue:
             root_tag="ECUC-TEXTUAL-PARAM-VALUE",
         )
         parser.readEcucParameterValue(element, param_value)
-        assert param_value.getDefinition() is not None
-        assert param_value.getDefinition().getValue() == "/EcucDefs/Rte/Param"
+        assert param_value.getDefinitionRef() is not None
+        assert param_value.getDefinitionRef().getValue() == "/EcucDefs/Rte/Param"
         assert param_value.getIndex().getValue() == 2
         annotations = param_value.getAnnotations()
         assert len(annotations) == 1
@@ -956,7 +956,7 @@ class TestReadEcucParameterValue:
         param_value = EcucTextualParamValue()
         element = _snip("", root_tag="ECUC-TEXTUAL-PARAM-VALUE")
         parser.readEcucParameterValue(element, param_value)
-        assert param_value.getDefinition() is None
+        assert param_value.getDefinitionRef() is None
         assert param_value.getAnnotations() == []
         assert param_value.getIsAutoValue() is None
 
@@ -980,8 +980,8 @@ class TestGetEcucTextualParamValue:
         )
         param_value = parser.getEcucTextualParamValue(element)
         assert isinstance(param_value, EcucTextualParamValue)
-        assert param_value.getDefinition() is not None
-        assert param_value.getDefinition().getValue() == "/EcucDefs/Rte/Param"
+        assert param_value.getDefinitionRef() is not None
+        assert param_value.getDefinitionRef().getValue() == "/EcucDefs/Rte/Param"
         assert isinstance(param_value.getValue(), VerbatimString)
         assert param_value.getValue().getValue() == "NVM_BLOCK_NATIVE"
 
@@ -1011,8 +1011,8 @@ class TestGetEcucNumericalParamValue:
         )
         param_value = parser.getEcucNumericalParamValue(element)
         assert isinstance(param_value, EcucNumericalParamValue)
-        assert param_value.getDefinition() is not None
-        assert param_value.getDefinition().getValue() == "/EcucDefs/Rte/SchedulingPeriod"
+        assert param_value.getDefinitionRef() is not None
+        assert param_value.getDefinitionRef().getValue() == "/EcucDefs/Rte/SchedulingPeriod"
         assert isinstance(param_value.getValue(), Numerical)
         assert param_value.getValue().getValue() == "74.8"
 
@@ -1046,8 +1046,8 @@ class TestGetEcucAddInfoParamValue:
         )
         param_value = parser.getEcucAddInfoParamValue(element)
         assert isinstance(param_value, EcucAddInfoParamValue)
-        assert param_value.getDefinition() is not None
-        assert param_value.getDefinition().getValue() == "/EcucDefs/Dcm/Dtc"
+        assert param_value.getDefinitionRef() is not None
+        assert param_value.getDefinitionRef().getValue() == "/EcucDefs/Dcm/Dtc"
         assert isinstance(param_value.getValue(), DocumentationBlock)
         ps = param_value.getValue().getPs()
         assert len(ps) == 1
@@ -1092,7 +1092,7 @@ class TestReadEcucContainerValueParameterValues:
         params = container.getParameterValues()
         assert len(params) == 1
         assert isinstance(params[0], EcucAddInfoParamValue)
-        assert params[0].getDefinition().getValue() == "/Path/ToAddInfoDef"
+        assert params[0].getDefinitionRef().getValue() == "/Path/ToAddInfoDef"
         assert isinstance(params[0].getValue(), DocumentationBlock)
         ps = params[0].getValue().getPs()
         assert len(ps) == 1
@@ -1443,11 +1443,11 @@ class TestReadEcucModuleConfigurationValues:
             root_tag="ECUC-MODULE-CONFIGURATION-VALUES",
         )
         parser.readEcucModuleConfigurationValues(element, values)
-        assert values.getDefinition() is not None
-        assert values.getDefinition().getValue() == "/Path/To/ModuleDef"
+        assert values.getDefinitionRef() is not None
+        assert values.getDefinitionRef().getValue() == "/Path/To/ModuleDef"
         assert values.getImplementationConfigVariant().getValue() == "VARIANT-PRE-COMPILE"
-        assert values.getModuleDescription() is not None
-        assert values.getModuleDescription().getValue() == "/Path/To/ModuleDesc"
+        assert values.getModuleDescriptionRef() is not None
+        assert values.getModuleDescriptionRef().getValue() == "/Path/To/ModuleDesc"
         assert len(values.getContainers()) == 1
 
     def test_minimal_handler_only_short_name(self, parser):
@@ -1460,9 +1460,9 @@ class TestReadEcucModuleConfigurationValues:
             root_tag="ECUC-MODULE-CONFIGURATION-VALUES",
         )
         parser.readEcucModuleConfigurationValues(element, values)
-        assert values.getDefinition() is None
+        assert values.getDefinitionRef() is None
         assert values.getImplementationConfigVariant() is None
-        assert values.getModuleDescription() is None
+        assert values.getModuleDescriptionRef() is None
         assert values.getEcucDefEdition() is None
         assert values.getPostBuildVariantUsed() is None
         assert len(values.getContainers()) == 0
@@ -1652,7 +1652,7 @@ class TestEcucParameterValue:
         param_value = EcucTextualParamValue()
         element = _snip('<DEFINITION-REF DEST="ECUC-STRING-PARAM-DEF">/d</DEFINITION-REF>' "<ANNOTATIONS>" "<ANNOTATION>" "<SHORT-NAME>a</SHORT-NAME>" "</ANNOTATION>" "</ANNOTATIONS>")
         parser.readEcucParameterValue(element, param_value)
-        assert param_value.getDefinition() is not None
+        assert param_value.getDefinitionRef() is not None
         assert len(param_value.getAnnotations()) == 1
 
     def test_readEcucParameterValue_reads_index(self, parser):

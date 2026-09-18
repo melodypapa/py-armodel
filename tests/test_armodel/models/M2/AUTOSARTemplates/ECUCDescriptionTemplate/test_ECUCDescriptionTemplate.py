@@ -124,7 +124,7 @@ def test_ecuc_parameter_value_methods():
 
     # Test initial values
     assert param_value.annotations == []
-    assert param_value.definition is None
+    assert param_value.definitionRef is None
     assert param_value.isAutoValue is None
 
     # Test annotation methods
@@ -135,9 +135,9 @@ def test_ecuc_parameter_value_methods():
 
     # Test definition methods
     definition_ref = RefType().setValue("/EcucDefs/Rte/Param")
-    result = param_value.setDefinition(definition_ref)
+    result = param_value.setDefinitionRef(definition_ref)
     assert result is param_value  # Method chaining
-    assert param_value.getDefinition() == definition_ref
+    assert param_value.getDefinitionRef() == definition_ref
 
     # Test isAutoValue methods
     auto_value = Boolean().setValue(True)
@@ -160,7 +160,7 @@ def test_ecuc_add_info_param_value():
 
     # Test initial values (inherited from EcucParameterValue + own attribute)
     assert param_value.annotations == []
-    assert param_value.definition is None
+    assert param_value.definitionRef is None
     assert param_value.isAutoValue is None
     assert param_value.value is None
 
@@ -233,7 +233,7 @@ def test_ecuc_textual_param_value():
 
     # Test initial values (inherited from EcucParameterValue + own attribute)
     assert param_value.annotations == []
-    assert param_value.definition is None
+    assert param_value.definitionRef is None
     assert param_value.isAutoValue is None
     assert param_value.value is None
 
@@ -300,7 +300,7 @@ def test_ecuc_numerical_param_value():
 
     # Test initial values (inherited from EcucParameterValue + own attribute)
     assert param_value.annotations == []
-    assert param_value.definition is None
+    assert param_value.definitionRef is None
     assert param_value.isAutoValue is None
     assert param_value.value is None
 
@@ -730,10 +730,10 @@ def test_ecuc_module_configuration_values():
     assert module_config.parent == parent
     assert module_config.short_name == "test_module_config"
     assert module_config.containers == []
-    assert module_config.definition is None or module_config.definitionRef is None, "Member should be named 'definition' per spec (attribute name)"
+    assert module_config.definitionRef is None, "Member should be named 'definitionRef' per spec (attribute name)"
     assert module_config.ecucDefEdition is None
     assert module_config.implementationConfigVariant is None
-    assert module_config.moduleDescription is None or module_config.moduleDescriptionRef is None, "Member should be named 'moduleDescription' per spec (attribute name)"
+    assert module_config.moduleDescriptionRef is None, "Member should be named 'moduleDescriptionRef' per spec (attribute name)"
     assert module_config.postBuildVariantUsed is None
 
     # Test containers methods
@@ -745,8 +745,8 @@ def test_ecuc_module_configuration_values():
     assert containers[0] == container
 
     # Test definition methods (spec: "Reference to the definition of this EcucModule ConfigurationValues element...")
-    module_config.setDefinition("def_ref")
-    assert module_config.getDefinition() == "def_ref"
+    module_config.setDefinitionRef("def_ref")
+    assert module_config.getDefinitionRef() == "def_ref"
 
     # Test ecucDefEdition methods (spec type: RevisionLabelString)
     edition = RevisionLabelString().setValue("1.0.0")
@@ -759,8 +759,8 @@ def test_ecuc_module_configuration_values():
     assert module_config.getImplementationConfigVariant() == variant
 
     # Test moduleDescription methods (spec: "Referencing the BSW module description...")
-    module_config.setModuleDescription("module_ref")
-    assert module_config.getModuleDescription() == "module_ref"
+    module_config.setModuleDescriptionRef("module_ref")
+    assert module_config.getModuleDescriptionRef() == "module_ref"
 
     # Test postBuildVariantUsed methods (spec type: Boolean)
     post_build = Boolean().setValue(True)
@@ -790,22 +790,22 @@ def test_ecuc_module_configuration_values_none_no_op():
     description = RefType().setValue("/BswImplementation")
     post_build = Boolean().setValue(True)
 
-    assert module_config.setDefinition(definition) is module_config
+    assert module_config.setDefinitionRef(definition) is module_config
     assert module_config.setEcucDefEdition(edition) is module_config
     assert module_config.setImplementationConfigVariant(variant) is module_config
-    assert module_config.setModuleDescription(description) is module_config
+    assert module_config.setModuleDescriptionRef(description) is module_config
     assert module_config.setPostBuildVariantUsed(post_build) is module_config
 
-    module_config.setDefinition(None)
+    module_config.setDefinitionRef(None)
     module_config.setEcucDefEdition(None)
     module_config.setImplementationConfigVariant(None)
-    module_config.setModuleDescription(None)
+    module_config.setModuleDescriptionRef(None)
     module_config.setPostBuildVariantUsed(None)
 
-    assert module_config.getDefinition() == definition
+    assert module_config.getDefinitionRef() == definition
     assert module_config.getEcucDefEdition() == edition
     assert module_config.getImplementationConfigVariant() == variant
-    assert module_config.getModuleDescription() == description
+    assert module_config.getModuleDescriptionRef() == description
     assert module_config.getPostBuildVariantUsed() == post_build
 
 
@@ -818,14 +818,14 @@ def test_ecuc_module_configuration_values_member_docstrings_verbatim():
        that paraphrases are known to drop.
     """
     notes = {
-        "getDefinition": "Typically, this is a vendor specific module configuration.",
-        "setDefinition": "Typically, this is a vendor specific module configuration.",
+        "getDefinitionRef": "Typically, this is a vendor specific module configuration.",
+        "setDefinitionRef": "Typically, this is a vendor specific module configuration.",
         "getEcucDefEdition": "The compatibility rules between the definition and value revision labels is up to the module's vendor.",
         "setEcucDefEdition": "The compatibility rules between the definition and value revision labels is up to the module's vendor.",
         "getImplementationConfigVariant": "If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild.",
         "setImplementationConfigVariant": "If this element is not used in a particular role (e.g. preconfiguredConfiguration or recommendedConfiguration) then the value shall be one of VariantPreCompile, VariantLinkTime, VariantPostBuild.",
-        "getModuleDescription": 'However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information.',
-        "setModuleDescription": 'However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information.',
+        "getModuleDescriptionRef": 'However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information.',
+        "setModuleDescriptionRef": 'However in case the EcucModuleConfigurationValues are used to configure the module, the reference is mandatory in order to fetch module specific "common" published information.',
         "getPostBuildVariantUsed": "TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed.",
         "setPostBuildVariantUsed": "TRUE means yes, FALSE means no. If the attribute is not defined, FALSE semantics shall be assumed.",
         "createContainer": "Aggregates all containers that belong to this module configuration.",
@@ -902,44 +902,6 @@ def test_ecuc_module_def():
     config_variant = EcucConfigurationVariantEnum()
     module_def.addSupportedConfigVariant(config_variant)
     assert module_def.getSupportedConfigVariants() == [config_variant]
-
-
-def test_ecuc_module_configuration_values_backward_compatibility():
-    """
-    Test backward compatibility with deprecated methods and properties.
-
-    Test Steps:
-    1. Create an EcucModuleConfigurationValues instance
-    2. Test deprecated setDefinitionRef/getDefinitionRef methods
-    3. Test deprecated definitionRef property
-    4. Test deprecated setModuleDescriptionRef/getModuleDescriptionRef methods
-    5. Test deprecated moduleDescriptionRef property
-    6. Verify that new and old accessors refer to the same underlying attributes
-    """
-    parent = Limit()
-    module_config = EcucModuleConfigurationValues(parent, "test_module")
-
-    # Test deprecated definitionRef methods
-    module_config.setDefinitionRef("def_ref_old")
-    assert module_config.getDefinitionRef() == "def_ref_old"
-    # Verify it's the same as the new method
-    assert module_config.getDefinition() == "def_ref_old"
-
-    # Test deprecated definitionRef property
-    module_config.definitionRef = "def_ref_prop"
-    assert module_config.definitionRef == "def_ref_prop"
-    assert module_config.definition == "def_ref_prop"
-
-    # Test deprecated moduleDescriptionRef methods
-    module_config.setModuleDescriptionRef("module_ref_old")
-    assert module_config.getModuleDescriptionRef() == "module_ref_old"
-    # Verify it's the same as the new method
-    assert module_config.getModuleDescription() == "module_ref_old"
-
-    # Test deprecated moduleDescriptionRef property
-    module_config.moduleDescriptionRef = "module_ref_prop"
-    assert module_config.moduleDescriptionRef == "module_ref_prop"
-    assert module_config.moduleDescription == "module_ref_prop"
 
 
 if __name__ == "__main__":

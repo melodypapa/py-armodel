@@ -168,14 +168,14 @@ class TestWriterEcucContainerValueSubContainers:
 class TestWriterEcucParameterValue:
     def test_with_textual_param_value(self, writer):
         param = EcucTextualParamValue()
-        param.setDefinition(_ref("/d", "ECUC-PARAMETER-DEF"))
+        param.setDefinitionRef(_ref("/d", "ECUC-PARAMETER-DEF"))
         parent = _parent()
         writer.writeEcucParameterValue(parent, param)
         assert parent.find("DEFINITION-REF") is not None
 
     def test_with_numerical_param_value(self, writer):
         param = EcucNumericalParamValue()
-        param.setDefinition(_ref("/d", "ECUC-PARAMETER-DEF"))
+        param.setDefinitionRef(_ref("/d", "ECUC-PARAMETER-DEF"))
         parent = _parent()
         writer.writeEcucParameterValue(parent, param)
         assert parent.find("DEFINITION-REF") is not None
@@ -208,7 +208,7 @@ class TestWriterEcucParameterValue:
         from armodel.models.M2.MSR.Documentation.Annotation import Annotation
 
         param = EcucTextualParamValue()
-        param.setDefinition(_ref("/d", "ECUC-PARAMETER-DEF"))
+        param.setDefinitionRef(_ref("/d", "ECUC-PARAMETER-DEF"))
         param.setIndex(_numerical(1))
         param.addAnnotation(Annotation())
         param.setIsAutoValue(Boolean().setValue(False))
@@ -239,7 +239,7 @@ class TestWriterSetEcucTextualParamValue:
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import VerbatimString
 
         param = EcucTextualParamValue()
-        param.setDefinition(_ref("/d", "ECUC-STRING-PARAM-DEF"))
+        param.setDefinitionRef(_ref("/d", "ECUC-STRING-PARAM-DEF"))
         param.setValue(VerbatimString().setValue("NVM_BLOCK_NATIVE"))
         parent = _parent()
         writer.setEcucTextualParamValue(parent, param)
@@ -262,7 +262,7 @@ class TestWriterSetEcucNumericalParamValue:
         from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import Numerical
 
         param = EcucNumericalParamValue()
-        param.setDefinition(_ref("/d", "ECUC-FLOAT-PARAM-DEF"))
+        param.setDefinitionRef(_ref("/d", "ECUC-FLOAT-PARAM-DEF"))
         param.setValue(Numerical().setValue("74.8"))
         parent = _parent()
         writer.setEcucNumericalParamValue(parent, param)
@@ -294,7 +294,7 @@ class TestWriterSetEcucAddInfoParamValue:
         para.addL1(l1)
         block.addP(para)
         param = EcucAddInfoParamValue()
-        param.setDefinition(_ref("/d", "ECUC-ADD-INFO-PARAM-DEF"))
+        param.setDefinitionRef(_ref("/d", "ECUC-ADD-INFO-PARAM-DEF"))
         param.setValue(block)
         parent = _parent()
         writer.setEcucAddInfoParamValue(parent, param)
@@ -322,11 +322,11 @@ class TestWriterEcucContainerValueParameterValues:
         container = _make_container()
         textual = EcucTextualParamValue()
         textual.setValue(_literal("txt"))
-        textual.setDefinition(_ref("/d1", "ECUC-PARAMETER-DEF"))
+        textual.setDefinitionRef(_ref("/d1", "ECUC-PARAMETER-DEF"))
         container.addParameterValue(textual)
         numerical = EcucNumericalParamValue()
         numerical.setValue(_numerical(42))
-        numerical.setDefinition(_ref("/d2", "ECUC-PARAMETER-DEF"))
+        numerical.setDefinitionRef(_ref("/d2", "ECUC-PARAMETER-DEF"))
         container.addParameterValue(numerical)
         parent = _parent()
         writer.writeEcucContainerValueParameterValues(parent, container)
@@ -341,7 +341,7 @@ class TestWriterEcucContainerValueParameterValues:
         container = _make_container()
         add_info = EcucAddInfoParamValue()
         add_info.setValue(DocumentationBlock())
-        add_info.setDefinition(_ref("/d3", "ECUC-PARAMETER-DEF"))
+        add_info.setDefinitionRef(_ref("/d3", "ECUC-PARAMETER-DEF"))
         container.addParameterValue(add_info)
         parent = _parent()
         writer.writeEcucContainerValueParameterValues(parent, container)
@@ -602,9 +602,9 @@ class TestWriterEcucModuleConfigurationValuesContainers:
 class TestWriterEcucModuleConfigurationValues:
     def test_full(self, writer):
         mcv = _make_module_config()
-        mcv.setDefinition(_ref("/d", "ECUC-MODULE-DEF"))
+        mcv.setDefinitionRef(_ref("/d", "ECUC-MODULE-DEF"))
         mcv.setImplementationConfigVariant(_literal("VARIANT-PRE-COMPILE"))
-        mcv.setModuleDescription(_ref("/md", "BSW-IMPLEMENTATION"))
+        mcv.setModuleDescriptionRef(_ref("/md", "BSW-IMPLEMENTATION"))
         mcv.createContainer("c1")
         parent = _parent()
         writer.writeEcucModuleConfigurationValues(parent, mcv)

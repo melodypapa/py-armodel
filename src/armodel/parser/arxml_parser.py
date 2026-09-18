@@ -11733,7 +11733,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEcucValueCollectionEcucValues(element, collection)
 
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
-        param_value.setDefinition(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
         param_value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
         for annotation in self.getAnnotations(element):
             param_value.addAnnotation(annotation)
@@ -11852,10 +11852,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readEcucModuleConfigurationValues(self, element: ET.Element, values: EcucModuleConfigurationValues):
         self.logger.debug("Read EcucModuleConfigurationValues %s" % values.getShortName())
         self.readIdentifiable(element, values)
-        values.setDefinition(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        values.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
         values.setEcucDefEdition(self.getChildElementOptionalRevisionLabelString(element, "ECUC-DEF-EDITION"))
         values.setImplementationConfigVariant(self.getChildElementOptionalLiteral(element, "IMPLEMENTATION-CONFIG-VARIANT"))
-        values.setModuleDescription(self.getChildElementOptionalRefType(element, "MODULE-DESCRIPTION-REF"))
+        values.setModuleDescriptionRef(self.getChildElementOptionalRefType(element, "MODULE-DESCRIPTION-REF"))
         values.setPostBuildVariantUsed(self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-USED"))
         self.readEcucModuleConfigurationValuesContainers(element, values)
 
