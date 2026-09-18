@@ -818,6 +818,14 @@ class TestSwDataDefPropsHandlers:
         set_obj = parser.getSwCalprmAxisSet(element, "SW-CALPRM-AXIS-SET")
         assert set_obj is not None
         assert len(set_obj.getSwCalprmAxises()) == 2
+        assert set_obj.getSwCalprmAxises()[0].getSwAxisIndex().getValue() == "0"
+        assert set_obj.getSwCalprmAxises()[1].getCategory().getValue() == "FIXED"
+
+    def test_getSwCalprmAxisSet_empty(self, parser):
+        element = _snip("<SW-CALPRM-AXIS-SET/>")
+        set_obj = parser.getSwCalprmAxisSet(element, "SW-CALPRM-AXIS-SET")
+        assert set_obj is not None
+        assert set_obj.getSwCalprmAxises() == []
 
     def test_getCompositeNetworkRepresentation(self, parser):
         element = _snip(

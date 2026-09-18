@@ -913,16 +913,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [Table 5.121, p.450; init + four getter/setter pairs with six columns and R23-11 release]
   - [x] Step 8 — Deviations  [none: all four PDF members modeled with PDF types, Kind=ref represented as unitRef, member order and XML sequence offsets preserved, reader/writer coverage complete]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused model/parser/writer tests, lint, Black check, and diff check passed; 9b: user-confirmed cross-page class Note, blank lines between members, base, member types/order, complete XML coverage, and no deviations; marker `# Spec verified: R23-11` written]
-- [ ] `SwCalprmAxisSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.46 · deps stamped: `swCalprmAxis` SwCalprmAxis ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `SwCalprmAxisSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.46 · deps stamped: `swCalprmAxis` SwCalprmAxis ✓) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.46, p.352; Base ARObject; ordered member swCalprmAxis SwCalprmAxis aggr *; member Note and Tags copied from the SwCalprmAxisSet table block preceding the cross-page Table 5.46 title]
+  - [x] Step 2 — Write model class unit test (Red)  [existing tests extended with exact ARObject base/class Note, typed aggregation defaults, chaining, and None no-op assertions; stale Note and non-chaining mutator failed before implementation]
+  - [x] Step 3 — Implement model class (Green)  [typed `swCalprmAxis: List[SwCalprmAxis]` replaces private type-comment field; guarded `addSwCalprmAxis` returns self]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [cross-page class Note copied verbatim: "This element specifies the input parameter axes (abscissas) of parameters (and variables, if these used adaptively)."; sole aggregation member docs copied from the SwCalprmAxisSet table block; blank line retained between member declaration and checklist]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser/writer tests assert axis category/index field values and empty optional set behavior]
+  - [x] Step 6 — Update parser & writer (Green)  [existing getSwCalprmAxisSet/setSwCalprmAxisSet XML dispatch already covers the aggregation; no production XML change required]
+  - [x] Step 7 — Update checklist comment  [Table 5.46, p.352; init/add/get rows with six columns and R23-11 release]
+  - [x] Step 8 — Deviations  [none: one PDF aggregation modeled with dedicated typed plural list, XML order and concrete helpers preserved]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused model/parser/writer tests, lint, Black check, and diff check passed; 9b: user-confirmed cross-page class Note, blank line, base, typed aggregation, member order, complete XML coverage, and no deviations; marker `# Spec verified: R23-11` written]
 - [ ] `SwAxisIndividual` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.50 · after `CompuMethod` (ref `compuMethod`) + `DataConstr` (ref `dataConstr`) · `inputVariableType` ApplicationPrimitiveDataType queued in Group2 ✓ · deps stamped: `swAxisGeneric` SwAxisGeneric ✓ / `swVariableRef` SwVariableRefProxy ✓ / `unit` Unit ✓ / parent SwCalprmAxisTypeProps ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

@@ -265,6 +265,8 @@ class TestSwCalprmAxisSetWriter:
         assert outer.tag == "SW-CALPRM-AXIS-SET"
         axes = outer.findall("SW-CALPRM-AXIS")
         assert len(axes) == 2
+        assert axes[0].find("CATEGORY").text == "FIXED"
+        assert axes[1].find("CATEGORY").text == "STD"
 
 
 class TestSwPointerTargetPropsWriter:
