@@ -862,7 +862,7 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
    - [x] Step 6 — Update parser & writer (Green)  [N/A: existing concrete getArrayValueSpecification/getRecordValueSpecification and writer helpers cover inherited composite value serialization]
    - [x] Step 7 — Update checklist comment  [Table 5.110, p.434; abstract __init__ row with six columns and R23-11 release]
    - [x] Step 8 — Deviations  [none: abstract ValueSpecification base, no own attributes, no fabricated accessors, exact Note, and concrete reader/writer coverage match]
-   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, Black check, and diff check passed; 9b: user-confirmed abstract kind, empty member table, inherited base behavior, concrete XML coverage, package location, and no deviations; marker written]
+   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, Black check, and diff check passed; 9b: user-confirmed abstract kind, empty member table, inherited base behavior, concrete XML coverage, package location, and no deviations; marker written; commit cc842d74]
 - [ ] `ArrayValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.111 · after `CompositeValueSpecification` (parent, Table 5.110) · `element` ValueSpecification stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
