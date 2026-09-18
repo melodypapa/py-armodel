@@ -2636,23 +2636,17 @@ class DoIpActivationLineNeeds(DoIpServiceNeeds):
         super().__init__(parent, short_name)
 
 
-class DoIpGidNeeds(ServiceNeeds):
+class DoIpGidNeeds(DoIpServiceNeeds):
     """
-    Represents DoIP GID needs in AUTOSAR models.
-    This class defines requirements for DoIP (Diagnostics over IP) GID services.
+    The DoIpGidNeeds indicates that the software-component owning this ServiceNeeds is providing the GID number either after a GID Synchronisation or by other means like e.g. flashed EEPROM parameter. This need can be used independent from DoIpGidSynchronizationNeeds and is necessary if the GID can not be provided out of the DoIP configuration options.
     """
 
     # DoIpGidNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.55, p.805
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DoIpGidNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this DoIP GID needs
-            short_name: The unique short name of this DoIP GID needs
-        """
         super().__init__(parent, short_name)
 
 
