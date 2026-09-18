@@ -165,6 +165,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     IdsMgrCustomTimestampNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
+    J1939DcmDm19Support,
     NvBlockNeeds,
     ObdControlServiceNeeds,
     ObdInfoServiceNeeds,
@@ -4839,6 +4840,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticStorageConditionNeeds(child_element, needs)
         elif isinstance(needs, IndicatorStatusNeeds):
             self.writeIndicatorStatusNeeds(child_element, needs)
+        elif isinstance(needs, J1939DcmDm19Support):
+            self.writeJ1939DcmDm19Support(child_element, needs)
         elif isinstance(needs, FunctionInhibitionAvailabilityNeeds):
             self.writeFunctionInhibitionAvailabilityNeeds(child_element, needs)
         elif isinstance(needs, FunctionInhibitionNeeds):
@@ -5227,6 +5230,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeServiceNeeds(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "TYPE", needs.getType())
 
+    def writeJ1939DcmDm19Support(self, element: ET.Element, needs: J1939DcmDm19Support):
+        child_element = ET.SubElement(element, "J-1939-DCM-DM-19-SUPPORT")
+        self.logger.debug("write J1939DcmDm19Support %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
     def writeFunctionInhibitionAvailabilityNeeds(self, element: ET.Element, needs: FunctionInhibitionAvailabilityNeeds):
         # self.logger.debug("Write FunctionInhibitionAvailabilityNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "FUNCTION-INHIBITION-AVAILABILITY-NEEDS")
@@ -5389,6 +5397,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDiagnosticStorageConditionNeeds(child_element, needs)
                 elif isinstance(needs, IndicatorStatusNeeds):
                     self.writeIndicatorStatusNeeds(child_element, needs)
+                elif isinstance(needs, J1939DcmDm19Support):
+                    self.writeJ1939DcmDm19Support(child_element, needs)
                 elif isinstance(needs, FunctionInhibitionAvailabilityNeeds):
                     self.writeFunctionInhibitionAvailabilityNeeds(child_element, needs)
                 elif isinstance(needs, FunctionInhibitionNeeds):

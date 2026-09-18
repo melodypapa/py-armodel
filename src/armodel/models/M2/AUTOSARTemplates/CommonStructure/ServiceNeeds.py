@@ -3259,21 +3259,15 @@ class IndicatorStatusNeeds(ServiceNeeds):
 
 class J1939DcmDm19Support(ServiceNeeds):
     """
-    Represents J1939 DCM DM19 Support needs in AUTOSAR models.
-    This class defines requirements for J1939 diagnostic communication manager DM19 support.
+    The software-component provides information about calibration verification numbers for inclusion in DM19
     """
 
     # J1939DcmDm19Support method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.72, p.831
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the J1939DcmDm19Support with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this J1939 DCM DM19 support
-            short_name: The unique short name of this J1939 DCM DM19 support
-        """
         super().__init__(parent, short_name)
 
 

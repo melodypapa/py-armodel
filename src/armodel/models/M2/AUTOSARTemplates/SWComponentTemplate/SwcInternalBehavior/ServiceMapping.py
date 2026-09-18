@@ -47,6 +47,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     IdsMgrCustomTimestampNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
+    J1939DcmDm19Support,
     NvBlockNeeds,
     ObdControlServiceNeeds,
     ObdInfoServiceNeeds,
@@ -684,6 +685,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, IndicatorStatusNeeds)
+
+    def createJ1939DcmDm19Support(self, short_name: str) -> J1939DcmDm19Support:
+        """
+        Creates or retrieves a J1939DcmDm19Support element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            J1939DcmDm19Support: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, J1939DcmDm19Support):
+            needs = J1939DcmDm19Support(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, J1939DcmDm19Support)
 
     def createDltUserNeeds(self, short_name: str) -> DltUserNeeds:
         """

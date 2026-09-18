@@ -48,15 +48,16 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 8 — Deviations — **none** (base already spec-correct; Note incl. Tags tail per stamped sibling IdsMgrNeeds convention)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL unit+integration suite 9418 passed, flake8/ruff/black, parity); 9b confirmed 2026-09-18 → stamped R23-11; sync commit b65fe942
 - [ ] `J1939DcmDm19Support` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.72)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - **Step 1 finding:** own table = Swc TPS Table 13.72, p.831; concrete Class (XSD complexType `J-1939-DCM-DM-19-SUPPORT` `abstract="false"`, AUTOSAR_00052.xsd line 75281, group line 75272 `<xsd:sequence/>` empty); Base row = ...Referrable, ServiceNeeds → most-derived = `ServiceNeeds` (src base ALREADY correct — no DoIp in chain); ZERO own attributes; Note verbatim **without Tags tail** (markdown 24899; XSD appinfo carries no atp.Status tag — unlike sibling IdsMgrNeeds); XSD element in BOTH choice groups (11504 BSW, 12623 Swc-side); dispatch MISSING → full 5-place pattern + createJ1939DcmDm19Support factory needed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 2/3 failed pre-implementation (docstring + docless; base already spec-correct)
+  - [x] Step 3 — Implement model class (Green) — spec Note verbatim (no Tags tail), __init__ docless
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstrings wiped; Note verbatim (Table 13.72 p.831)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 3 dispatch tests failed pre-implementation (missing factory/reader/writer)
+  - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added (factory + parser import/BSW dispatch/helper/SWC dispatch + writer import/2 dispatches/helper)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; Note carries no Tags tail per markdown/XSD)
+  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL suite 9423 passed, flake8/ruff/black, parity); 9b DEFERRED to batch stamp (user-requested 2026-09-18)
 - [ ] `J1939RmIncomingRequestServiceNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.71)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

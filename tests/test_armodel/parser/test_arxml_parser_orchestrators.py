@@ -796,6 +796,19 @@ class TestServiceNeedsHandlers:
         parser.readIdsMgrCustomTimestampNeeds(element, needs)
         assert needs.getShortName() == "imctnNeeds"
 
+    def test_readJ1939DcmDm19Support_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import J1939DcmDm19Support
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>jdcm19Needs</SHORT-NAME>", root_tag="J-1939-DCM-DM-19-SUPPORT")
+        needs = dependency.createJ1939DcmDm19Support("jdcm19Needs")
+        assert isinstance(needs, J1939DcmDm19Support)
+        parser.readJ1939DcmDm19Support(element, needs)
+        assert needs.getShortName() == "jdcm19Needs"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 

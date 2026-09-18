@@ -190,6 +190,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     IdsMgrCustomTimestampNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
+    J1939DcmDm19Support,
     NvBlockNeeds,
     ObdControlServiceNeeds,
     ObdInfoServiceNeeds,
@@ -2112,6 +2113,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = IndicatorStatusNeeds(dependency, short_name)
                 self.readIndicatorStatusNeeds(child_element, needs)
+            elif tag_name == "J-1939-DCM-DM-19-SUPPORT":
+                short_name = self.getShortName(child_element)
+                needs = J1939DcmDm19Support(dependency, short_name)
+                self.readJ1939DcmDm19Support(child_element, needs)
             elif tag_name == "FUNCTION-INHIBITION-AVAILABILITY-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = FunctionInhibitionAvailabilityNeeds(dependency, short_name)
@@ -2474,6 +2479,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readServiceNeeds(element, needs)
         needs.setType(self.getChildElementOptionalLiteral(element, "TYPE"))
 
+    def readJ1939DcmDm19Support(self, element: ET.Element, needs: J1939DcmDm19Support):
+        self.readServiceNeeds(element, needs)
+
     def readFunctionInhibitionAvailabilityNeeds(self, element: ET.Element, needs: FunctionInhibitionAvailabilityNeeds):
         # self.logger.debug("Read FunctionInhibitionAvailabilityNeeds %s" % needs.getShortName())
         self.readServiceNeeds(element, needs)
@@ -2650,6 +2658,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "INDICATOR-STATUS-NEEDS":
                 needs = parent.createIndicatorStatusNeeds(self.getShortName(child_element))
                 self.readIndicatorStatusNeeds(child_element, needs)
+            elif tag_name == "J-1939-DCM-DM-19-SUPPORT":
+                needs = parent.createJ1939DcmDm19Support(self.getShortName(child_element))
+                self.readJ1939DcmDm19Support(child_element, needs)
             elif tag_name == "FUNCTION-INHIBITION-AVAILABILITY-NEEDS":
                 needs = parent.createFunctionInhibitionAvailabilityNeeds(self.getShortName(child_element))
                 self.readFunctionInhibitionAvailabilityNeeds(child_element, needs)
