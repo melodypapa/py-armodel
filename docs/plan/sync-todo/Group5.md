@@ -79,7 +79,7 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added (factory + parser import/BSW dispatch/helper/SWC dispatch + writer import/2 dispatches/helper), branches after RM-INCOMING per XSD order
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; clean Note)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL suite 9433 passed, flake8/ruff/black, parity); 9b confirmed by user (2026-09-18) → stamped R23-11; sync commit 20f2f630
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL suite 9433 passed, flake8/ruff/black, parity); 9b confirmed by user (2026-09-18) → stamped R23-11; sync commit 20f2f630, stamp commit 2b39e929
 - [ ] `V2xDataManagerNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.79)
   - **Step 1 finding:** own table = Swc TPS Table 13.79, p.840; concrete Class (XSD complexType `V-2-X-DATA-MANAGER-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd line 129232, group line 129223 `<xsd:sequence/>` empty); Base row = ...Referrable, ServiceNeeds → most-derived = `ServiceNeeds` (src base ALREADY correct); ZERO own attributes; Note verbatim, clean text no Tags tail (markdown 25266 = XSD documentation); **XSD tag spelled `V-2-X-DATA-MANAGER-NEEDS`** (NOT V2X-) in BOTH choice groups (11518 BSW, 12637 Swc-side), between SYNC-TIME-BASE-MGR-USER-NEEDS and V-2-X-FAC-USER-NEEDS; dispatch MISSING → full 5-place pattern + createV2xDataManagerNeeds factory added
   - [x] Step 1 — Sync members & description from spec
