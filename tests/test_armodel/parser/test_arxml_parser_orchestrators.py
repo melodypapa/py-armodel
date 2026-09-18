@@ -1835,6 +1835,19 @@ class TestDataTypeAndCompuHandlers:
         parser.readSwRecordLayout(element, layout)
         assert layout.getSwRecordLayoutGroup() is not None
 
+    def test_readSwRecordLayoutGroupContentType_reads_record_layout_ref(self, parser):
+        from armodel.models import SwRecordLayoutGroup
+
+        group = SwRecordLayoutGroup()
+        element = _snip(
+            "<SW-RECORD-LAYOUT-REF DEST='SW-RECORD-LAYOUT'>/layouts/base</SW-RECORD-LAYOUT-REF>",
+            root_tag="SW-RECORD-LAYOUT-GROUP",
+        )
+
+        parser.readSwRecordLayoutGroupSwRecordLayoutGroupContentType(element, group)
+
+        assert group.getSwRecordLayoutGroupContentType().getSwRecordLayoutRef().getValue() == "/layouts/base"
+
     def test_readSwAddrMethod_full(self, parser):
         from armodel.models import SwAddrMethod
 

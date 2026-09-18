@@ -961,7 +961,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SwRecordLayoutGroupContent` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.100 · member type of `SwRecordLayoutGroup.swRecordLayoutGroupContentType` below)
+- [x] `SwRecordLayoutGroupContent` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.100 · member type of `SwRecordLayoutGroup.swRecordLayoutGroupContentType` below) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec [<<atpMixed>> class; Base ARObject; 3 own attrs; p.424 via pdf_page.py; XSD order cross-checked]
+  - [x] Step 2 — Write model class unit test (Red) [typed defaults and None-safe setters; failed before implementation]
+  - [x] Step 3 — Implement model class (Green) [typed PEP 526 members and None-safe setters]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) [class/member notes copied from Table 5.100]
+  - [x] Step 5 — Write reader/writer round-trip test (Red) [SW-RECORD-LAYOUT-REF parser/writer assertions; failed before implementation]
+  - [x] Step 6 — Update parser & writer (Green) [all three own XML members covered in XSD order]
+  - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
+  - [x] Step 8 — Deviations [none outstanding]
+  - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 407 focused tests, lint, Black check, diff check pass; 9b: user-confirmed member spacing, types, naming, order, docstrings, reader/writer coverage, and no deviations; marker # Spec verified: R23-11 written]
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

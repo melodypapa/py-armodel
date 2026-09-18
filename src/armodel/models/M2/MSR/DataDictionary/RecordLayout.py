@@ -1,7 +1,7 @@
 from typing import Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ARPackage import ARElement
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARLiteral, RefType
 
 
 class AxisIndexType(ARLiteral):
@@ -117,45 +117,61 @@ class SwRecordLayoutV(ARObject):
 
 class SwRecordLayoutGroupContent(ARObject):
     """
-    Content of a record layout group referencing a sub-layout, sub-group, or
-    variable.
+    This is the contents of a RecordLayout which is inserted for every iteration. Note that since this is atp Mixed, multiple properties can be inserted for each iteration.
     """
 
     # SwRecordLayoutGroupContent method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwRecordLayoutRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwRecordLayoutRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwRecordLayoutGroup       [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwRecordLayoutGroup       [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwRecordLayoutV           [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwRecordLayoutV           [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.100, p.424
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__              [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSwRecordLayoutRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwRecordLayoutRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwRecordLayoutGroup [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwRecordLayoutGroup [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwRecordLayoutV    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwRecordLayoutV    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.swRecordLayoutRef = None  # type: RefType
-        self.swRecordLayoutGroup = None  # type: SwRecordLayoutGroup
-        self.swRecordLayoutV = None  # type: SwRecordLayoutV
+        # This association allows to support reusable "sub"-record layouts. In particular, the contents of the referenced record layout shall be used as if the record layout group in the referenced record layout was aggregated in the current record layout group. So, semantically it would be equivalent to replace the particular association with an aggregation of the sw RecordLayoutGroup of the referenced SwRecordLayout.
+        self.swRecordLayoutRef: Optional[RefType] = None
 
-    def getSwRecordLayoutRef(self):
+        # This aggregation provides support for nested iterations. For example, if a map is to be handled, then we might have two nested SwRecordLayoutGroups, one for the x-axis and one for the y-axis. The inner iteration runs faster.
+        self.swRecordLayoutGroup: Optional[SwRecordLayoutGroup] = None
+
+        # Particular Value specification for this record layout group.
+        self.swRecordLayoutV: Optional[SwRecordLayoutV] = None
+
+    def getSwRecordLayoutRef(self) -> Optional[RefType]:
+        """This association allows to support reusable \"sub\"-record layouts. In particular, the contents of the referenced record layout shall be used as if the record layout group in the referenced record layout was aggregated in the current record layout group. So, semantically it would be equivalent to replace the particular association with an aggregation of the sw RecordLayoutGroup of the referenced SwRecordLayout."""
         return self.swRecordLayoutRef
 
-    def setSwRecordLayoutRef(self, value):
-        self.swRecordLayoutRef = value
+    def setSwRecordLayoutRef(self, value: Optional[RefType]) -> "SwRecordLayoutGroupContent":
+        """This association allows to support reusable \"sub\"-record layouts. In particular, the contents of the referenced record layout shall be used as if the record layout group in the referenced record layout was aggregated in the current record layout group. So, semantically it would be equivalent to replace the particular association with an aggregation of the sw RecordLayoutGroup of the referenced SwRecordLayout. A None value is a no-op and does not overwrite an existing swRecordLayoutRef."""
+        if value is not None:
+            self.swRecordLayoutRef = value
         return self
 
-    def getSwRecordLayoutGroup(self):
+    def getSwRecordLayoutGroup(self) -> Optional["SwRecordLayoutGroup"]:
+        """This aggregation provides support for nested iterations. For example, if a map is to be handled, then we might have two nested SwRecordLayoutGroups, one for the x-axis and one for the y-axis. The inner iteration runs faster."""
         return self.swRecordLayoutGroup
 
-    def setSwRecordLayoutGroup(self, value):
-        self.swRecordLayoutGroup = value
+    def setSwRecordLayoutGroup(self, value: Optional["SwRecordLayoutGroup"]) -> "SwRecordLayoutGroupContent":
+        """This aggregation provides support for nested iterations. For example, if a map is to be handled, then we might have two nested SwRecordLayoutGroups, one for the x-axis and one for the y-axis. The inner iteration runs faster. A None value is a no-op and does not overwrite an existing swRecordLayoutGroup."""
+        if value is not None:
+            self.swRecordLayoutGroup = value
         return self
 
-    def getSwRecordLayoutV(self):
+    def getSwRecordLayoutV(self) -> Optional[SwRecordLayoutV]:
+        """Particular Value specification for this record layout group."""
         return self.swRecordLayoutV
 
-    def setSwRecordLayoutV(self, value):
-        self.swRecordLayoutV = value
+    def setSwRecordLayoutV(self, value: Optional[SwRecordLayoutV]) -> "SwRecordLayoutGroupContent":
+        """Particular Value specification for this record layout group. A None value is a no-op and does not overwrite an existing swRecordLayoutV."""
+        if value is not None:
+            self.swRecordLayoutV = value
         return self
 
 

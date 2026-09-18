@@ -162,6 +162,19 @@ class TestSwRecordLayoutGroupContent:
         assert sw_record_layout_group_content.getSwRecordLayoutV() == layout_v
         assert result == sw_record_layout_group_content
 
+    def test_sw_record_layout_group_content_setters_are_none_safe(self):
+        content = SwRecordLayoutGroupContent()
+        ref = RefType().setValue("/layouts/base")
+        group = SwRecordLayoutGroup()
+
+        content.setSwRecordLayoutRef(ref)
+        content.setSwRecordLayoutGroup(group)
+        content.setSwRecordLayoutRef(None)
+        content.setSwRecordLayoutGroup(None)
+
+        assert content.getSwRecordLayoutRef() is ref
+        assert content.getSwRecordLayoutGroup() is group
+
 
 class TestSwRecordLayoutGroup:
     """Test class for SwRecordLayoutGroup class."""

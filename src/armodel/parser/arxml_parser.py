@@ -7964,6 +7964,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSwRecordLayoutGroupSwRecordLayoutGroupContentType(self, element: ET.Element, group: SwRecordLayoutGroup):
         content = SwRecordLayoutGroupContent()
+        content.setSwRecordLayoutRef(self.getChildElementOptionalRefType(element, "SW-RECORD-LAYOUT-REF"))
         content.setSwRecordLayoutGroup(self.getSwRecordLayoutGroup(element, "SW-RECORD-LAYOUT-GROUP"))
         content.setSwRecordLayoutV(self.getSwRecordLayoutV(element, "SW-RECORD-LAYOUT-V"))
         group.setSwRecordLayoutGroupContentType(content)

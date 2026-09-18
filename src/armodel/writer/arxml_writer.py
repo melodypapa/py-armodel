@@ -7495,6 +7495,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeSwRecordLayoutGroupSwRecordLayoutGroupContentType(self, element: ET.Element, group: SwRecordLayoutGroup):
         content = group.getSwRecordLayoutGroupContentType()
+        self.setChildElementOptionalRefType(element, "SW-RECORD-LAYOUT-REF", content.getSwRecordLayoutRef())
         self.setSwRecordLayoutGroup(element, "SW-RECORD-LAYOUT-GROUP", content.getSwRecordLayoutGroup())
         self.setSwRecordLayoutV(element, "SW-RECORD-LAYOUT-V", content.getSwRecordLayoutV())
 
