@@ -2,12 +2,14 @@
 This module contains tests for the Axis module in MSR.DataDictionary.
 """
 
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Integer, RefType
 from armodel.models.M2.MSR.DataDictionary.Axis import (
     SwAxisGeneric,
     SwAxisGrouped,
     SwAxisIndividual,
     SwGenericAxisParam,
+    SwGenericAxisParamType,
 )
 from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
@@ -245,3 +247,18 @@ class TestSwAxisGrouped:
         assert sw_axis_grouped.getSharedAxisTypeRef() is shared_ref
         assert sw_axis_grouped.getSwAxisIndex() is axis_index
         assert sw_axis_grouped.getSwCalprmRef() is calprm_ref
+
+
+class TestSwGenericAxisParamType:
+    def test_sw_generic_axis_param_type_initialization(self):
+        param_type = SwGenericAxisParamType(parent=AUTOSAR.getInstance(), short_name="param")
+
+        assert param_type.getDataConstrRef() is None
+
+    def test_sw_generic_axis_param_type_data_constr_ref_is_none_safe(self):
+        param_type = SwGenericAxisParamType(parent=AUTOSAR.getInstance(), short_name="param")
+        ref = RefType().setValue("/constraints/axis")
+
+        assert param_type.setDataConstrRef(ref) is param_type
+        assert param_type.setDataConstrRef(None) is param_type
+        assert param_type.getDataConstrRef() is ref

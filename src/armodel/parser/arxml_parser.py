@@ -970,7 +970,7 @@ from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdf, Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import MemoryAllocationKeywordPolicyType, MemorySectionType, SwAddrMethod
-from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam
+from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     CompuGenericMath,
@@ -6101,6 +6101,12 @@ class ARXMLParser(AbstractARXMLParser):
         for vf in self.getChildElementNumericalValueList(element, "VF"):
             param.addVf(vf)
         return param
+
+    def getSwGenericAxisParamType(self, element: ET.Element, parent: ET.Element, short_name: str) -> SwGenericAxisParamType:
+        param_type = SwGenericAxisParamType(parent, short_name)
+        self.readIdentifiable(element, param_type)
+        param_type.setDataConstrRef(self.getChildElementOptionalRefType(element, "DATA-CONSTR-REF"))
+        return param_type
 
     def getSwAxisGrouped(self, element: ET.Element) -> SwAxisGrouped:
         props = SwAxisGrouped()

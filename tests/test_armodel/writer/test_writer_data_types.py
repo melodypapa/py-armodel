@@ -54,7 +54,7 @@ from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
     ScaleConstr,
     ScaleConstrValidityEnum,
 )
-from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
+from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual, SwGenericAxisParamType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
     SwCalprmAxis,
     SwCalprmAxisSet,
@@ -198,6 +198,18 @@ class TestSwAxisGroupedWriter:
         assert ref_el.attrib.get("DEST") == "APPLICATION-PRIMITIVE-DATA-TYPE"
         assert child.find("SW-AXIS-INDEX").text == "1"
         assert child.find("SW-CALPRM-REF-PROXY/MC-DATA-INSTANCE-REF").text == "/calprm"
+
+    def test_set_sw_generic_axis_param_type_writes_data_constraint(self, writer):
+        param_type = SwGenericAxisParamType(parent=AUTOSAR.getInstance(), short_name="param")
+        param_type.setDataConstrRef(_ref("DATA-CONSTR", "/constraints/axis"))
+
+        parent = _parent()
+        writer.setSwGenericAxisParamType(parent, param_type)
+
+        child = parent[0]
+        assert child.tag == "SW-GENERIC-AXIS-PARAM-TYPE"
+        assert child.find("SHORT-NAME").text == "param"
+        assert child.find("DATA-CONSTR-REF").text == "/constraints/axis"
 
 
 class TestSwCalprmAxisWriter:

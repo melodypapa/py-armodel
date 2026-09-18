@@ -2,6 +2,7 @@ from typing import List, Optional
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisTypeProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Integer, RefType
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
 from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
 from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 
@@ -248,6 +249,36 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
         """This represents the physical unit of the input value of the axis. It is provided to support the case that the particular input variable is not yet known. A None value is a no-op and does not overwrite an existing unitRef."""
         if value is not None:
             self.unitRef = value
+        return self
+
+
+class SwGenericAxisParamType(Identifiable):
+    """
+    This meta-class describes a generic axis parameter type, namely: • Plausibility checks can be specified via dataConstr. • Textual description (desc), as a formal description is not of any use, due to the large variety of possibilities. • If this parameter contains structures, these can be simulated through the recursive use of SwGeneric AxisParamTypes.
+    """
+
+    # SwGenericAxisParamType method parity checklist:
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.54, p.356
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__        [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getDataConstrRef [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setDataConstrRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+
+    def __init__(self, parent, short_name: str):
+        super().__init__(parent, short_name)
+
+        # This reference denoted data constraints applicable to the generic axis parameter.
+        self.dataConstrRef: Optional[RefType] = None
+
+    def getDataConstrRef(self) -> Optional[RefType]:
+        """This reference denoted data constraints applicable to the generic axis parameter."""
+        return self.dataConstrRef
+
+    def setDataConstrRef(self, value: Optional[RefType]) -> "SwGenericAxisParamType":
+        """This reference denoted data constraints applicable to the generic axis parameter. A None value is a no-op and does not overwrite an existing dataConstrRef."""
+        if value is not None:
+            self.dataConstrRef = value
         return self
 
 

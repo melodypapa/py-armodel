@@ -980,7 +980,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SwGenericAxisParamType` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · ref target of `SwRecordLayoutGroup.swGenericAxisParamType` + `SwRecordLayoutV.swGenericAxisParamType` · **NOT in src** — class must be created when this row is synced)
+- [x] `SwGenericAxisParamType` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · ref target of `SwRecordLayoutGroup.swGenericAxisParamType` + `SwRecordLayoutV.swGenericAxisParamType` · **NOT in src** — class must be created when this row is synced) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec [concrete Identifiable class; one dataConstr ref; p.356 via pdf_page.py; XSD inheritance/order cross-checked]
+  - [x] Step 2 — Write model class unit test (Red) [missing class/import before implementation]
+  - [x] Step 3 — Implement model class (Green) [created typed Identifiable class with None-safe dataConstr accessor; fixed class boundary after initial insertion-point regression]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) [class/member notes copied from Table 5.54]
+  - [x] Step 5 — Write reader/writer round-trip test (Red) [direct parser/writer helper tests for DATA-CONSTR-REF]
+  - [x] Step 6 — Update parser & writer (Green) [get/set helpers cover Identifiable fields and DATA-CONSTR-REF]
+  - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
+  - [x] Step 8 — Deviations [none outstanding]
+  - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 392 focused tests, lint, Black check, diff check pass; 9b: user-confirmed inheritance, member spacing, type, naming, order, docstrings, reader/writer coverage, and no deviations; marker # Spec verified: R23-11 written]
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

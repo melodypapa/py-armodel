@@ -1848,6 +1848,17 @@ class TestDataTypeAndCompuHandlers:
 
         assert group.getSwRecordLayoutGroupContentType().getSwRecordLayoutRef().getValue() == "/layouts/base"
 
+    def test_getSwGenericAxisParamType_reads_data_constraint(self, parser):
+        element = _snip(
+            "<DATA-CONSTR-REF DEST='DATA-CONSTR'>/constraints/axis</DATA-CONSTR-REF>",
+            root_tag="SW-GENERIC-AXIS-PARAM-TYPE",
+        )
+
+        param_type = parser.getSwGenericAxisParamType(element, _autosar_root(), "param")
+
+        assert param_type.getShortName() == "param"
+        assert param_type.getDataConstrRef().getValue() == "/constraints/axis"
+
     def test_readSwAddrMethod_full(self, parser):
         from armodel.models import SwAddrMethod
 

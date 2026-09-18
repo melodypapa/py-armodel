@@ -868,7 +868,7 @@ from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
-from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam
+from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
@@ -2862,6 +2862,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.setChildElementOptionalRefType(param_element, "SW-GENERIC-AXIS-PARAM-TYPE-REF", param.getSwGenericAxisParamTypeRef())
         for vf in param.getVfs():
             self.setChildElementOptionalNumericalValue(param_element, "VF", vf)
+
+    def setSwGenericAxisParamType(self, element: ET.Element, param_type: SwGenericAxisParamType):
+        child_element = ET.SubElement(element, "SW-GENERIC-AXIS-PARAM-TYPE")
+        self.writeIdentifiable(child_element, param_type)
+        self.setChildElementOptionalRefType(child_element, "DATA-CONSTR-REF", param_type.getDataConstrRef())
 
     def setSwAxisGrouped(self, element: ET.Element, props: SwAxisGrouped):
         child_element = ET.SubElement(element, "SW-AXIS-GROUPED")
