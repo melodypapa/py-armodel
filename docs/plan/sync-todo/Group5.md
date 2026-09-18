@@ -47,7 +47,7 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base already spec-correct; Note incl. Tags tail per stamped sibling IdsMgrNeeds convention)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL unit+integration suite 9418 passed, flake8/ruff/black, parity); 9b confirmed 2026-09-18 → stamped R23-11; sync commit b65fe942
-- [ ] `J1939DcmDm19Support` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.72)
+- [x] `J1939DcmDm19Support` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.72)
   - **Step 1 finding:** own table = Swc TPS Table 13.72, p.831; concrete Class (XSD complexType `J-1939-DCM-DM-19-SUPPORT` `abstract="false"`, AUTOSAR_00052.xsd line 75281, group line 75272 `<xsd:sequence/>` empty); Base row = ...Referrable, ServiceNeeds → most-derived = `ServiceNeeds` (src base ALREADY correct — no DoIp in chain); ZERO own attributes; Note verbatim **without Tags tail** (markdown 24899; XSD appinfo carries no atp.Status tag — unlike sibling IdsMgrNeeds); XSD element in BOTH choice groups (11504 BSW, 12623 Swc-side); dispatch MISSING → full 5-place pattern + createJ1939DcmDm19Support factory needed
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — 2/3 failed pre-implementation (docstring + docless; base already spec-correct)
@@ -57,7 +57,7 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added (factory + parser import/BSW dispatch/helper/SWC dispatch + writer import/2 dispatches/helper)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; Note carries no Tags tail per markdown/XSD)
-  - [ ] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL suite 9423 passed, flake8/ruff/black, parity); 9b DEFERRED to batch stamp (user-requested 2026-09-18); sync commit 60f87670
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL suite 9423 passed, flake8/ruff/black, parity); 9b confirmed by user (2026-09-18) → stamped R23-11; sync commit 60f87670
 - [ ] `J1939RmIncomingRequestServiceNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.71)
   - **Step 1 finding:** own table = Swc TPS Table 13.71, p.829; concrete Class (XSD complexType `J-1939-RM-INCOMING-REQUEST-SERVICE-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd line 75537, group line 75528 `<xsd:sequence/>` empty); Base row = ...Referrable, ServiceNeeds → most-derived = `ServiceNeeds` (src base ALREADY correct); ZERO own attributes; Note verbatim **incl. stray leading `"` with no closing quote** (markdown 24812 = XSD documentation — quoted-note convention like ParameterProvideComSpec); XSD element in BOTH choice groups (11505 BSW, 12624 Swc-side), order DCM-DM-19 → RM-INCOMING → RM-OUTGOING; dispatch MISSING → full 5-place pattern + createJ1939RmIncomingRequestServiceNeeds factory added
   - [x] Step 1 — Sync members & description from spec
