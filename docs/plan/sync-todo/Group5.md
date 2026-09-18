@@ -46,7 +46,7 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added (factory + parser import/BSW dispatch/helper/SWC dispatch + writer import/2 dispatches/helper)
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base already spec-correct; Note incl. Tags tail per stamped sibling IdsMgrNeeds convention)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL unit+integration suite 9418 passed, flake8/ruff/black, parity); 9b confirmed 2026-09-18 → stamped R23-11
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL unit+integration suite 9418 passed, flake8/ruff/black, parity); 9b confirmed 2026-09-18 → stamped R23-11; sync commit b65fe942
 - [ ] `J1939DcmDm19Support` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.72)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
