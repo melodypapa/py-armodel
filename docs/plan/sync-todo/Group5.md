@@ -114,15 +114,16 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; clean Note)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL suite 9448 passed, flake8/ruff/black, parity); 9b confirmed by user (2026-09-18) → stamped R23-11; sync commit ad1c83e1, stamp commit d45912e1
 - [ ] `VendorSpecificServiceNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 7.53)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+  - **Step 1 finding:** own table = Swc TPS Table 7.53, p.604 (markdown 17126; body rows 17115-17120 render before the caption — render artifact, rows verified as this class's); concrete Class (XSD complexType `VENDOR-SPECIFIC-SERVICE-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd line 130448, group line 130439 `<xsd:sequence/>` empty); Base row = ...Referrable, ServiceNeeds → most-derived = `ServiceNeeds` (src base ALREADY correct); ZERO own attributes; Note verbatim, clean text no Tags tail ("This represents the ability to define vendor-specific service needs." — markdown 17118 = XSD documentation; XSD appinfo carries no atp.Status); XSD element in BOTH choice groups (11521 BSW, 12640 Swc), right after V-2-X-M-USER-NEEDS (11520/12639), before WARNING-INDICATOR-REQUESTED-BIT-NEEDS; dispatch MISSING → full 5-place pattern + createVendorSpecificServiceNeeds factory needed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 2/3 failed pre-implementation (docstring + docless; base already spec-correct)
+  - [x] Step 3 — Implement model class (Green) — spec Note verbatim, __init__ docless
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstrings wiped (class + __init__ were the only ones); Note verbatim (Table 7.53 p.604)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 3 dispatch tests failed pre-implementation (missing factory/reader/writer)
+  - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added (factory + parser import/BSW dispatch/helper/SWC dispatch + writer import/2 dispatches/helper), branches after V-2-X-M-USER-NEEDS per XSD order
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; clean Note)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (455 touched tests + integration 130-file round-trip, lint/ruff/black, parity, set-based check); 9b DEFERRED to batch stamp
 - [ ] `WarningIndicatorRequestedBitNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.61)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

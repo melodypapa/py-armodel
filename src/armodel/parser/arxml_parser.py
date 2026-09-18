@@ -215,6 +215,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     V2xDataManagerNeeds,
     V2xFacUserNeeds,
     V2xMUserNeeds,
+    VendorSpecificServiceNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import (
     SignalServiceTranslationElementProps,
@@ -2194,6 +2195,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = V2xMUserNeeds(dependency, short_name)
                 self.readV2xMUserNeeds(child_element, needs)
+            elif tag_name == "VENDOR-SPECIFIC-SERVICE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = VendorSpecificServiceNeeds(dependency, short_name)
+                self.readVendorSpecificServiceNeeds(child_element, needs)
             elif tag_name == "ERROR-TRACER-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = ErrorTracerNeeds(dependency, short_name)
@@ -2568,6 +2573,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readV2xMUserNeeds(self, element: ET.Element, needs: V2xMUserNeeds):
         self.readServiceNeeds(element, needs)
 
+    def readVendorSpecificServiceNeeds(self, element: ET.Element, needs: VendorSpecificServiceNeeds):
+        self.readServiceNeeds(element, needs)
+
     def readSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
         self.readServiceNeeds(element, needs)
         needs.setActivateAtStart(self.getChildElementOptionalBooleanValue(element, "ACTIVATE-AT-START"))
@@ -2737,6 +2745,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "V-2-X-M-USER-NEEDS":
                 needs = parent.createV2xMUserNeeds(self.getShortName(child_element))
                 self.readV2xMUserNeeds(child_element, needs)
+            elif tag_name == "VENDOR-SPECIFIC-SERVICE-NEEDS":
+                needs = parent.createVendorSpecificServiceNeeds(self.getShortName(child_element))
+                self.readVendorSpecificServiceNeeds(child_element, needs)
             elif tag_name == "OBD-INFO-SERVICE-NEEDS":
                 needs = parent.createObdInfoServiceNeeds(self.getShortName(child_element))
                 self.readObdInfoServiceNeeds(child_element, needs)
