@@ -25,7 +25,7 @@ class TestDataPrototypeTransformationProps:
         assert isinstance(props, ARObject)
         assert props.getDataPrototypeInPortInterfaceRef() is None
         assert props.getNetworkRepresentationProps() is None
-        assert props.getTransformationProps() is None
+        assert props.getTransformationPropsRef() is None
 
     def test_get_set_data_prototype_in_port_interface_ref(self):
         props = DataPrototypeTransformationProps()
@@ -61,14 +61,14 @@ class TestDataPrototypeTransformationProps:
         tp = RefType()
         tp.setValue("/TransformationProps")
 
-        assert props == props.setTransformationProps(None)
-        assert props.getTransformationProps() is None
+        assert props == props.setTransformationPropsRef(None)
+        assert props.getTransformationPropsRef() is None
 
-        assert props == props.setTransformationProps(tp)
-        assert props.getTransformationProps() == tp
+        assert props == props.setTransformationPropsRef(tp)
+        assert props.getTransformationPropsRef() == tp
 
-        assert props == props.setTransformationProps(None)  # None no-op
-        assert props.getTransformationProps() == tp
+        assert props == props.setTransformationPropsRef(None)  # None no-op
+        assert props.getTransformationPropsRef() == tp
 
     def test_no_fabricated_members(self):
         props = DataPrototypeTransformationProps()

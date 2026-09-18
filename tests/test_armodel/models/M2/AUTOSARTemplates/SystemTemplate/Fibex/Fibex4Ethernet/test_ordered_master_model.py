@@ -19,7 +19,7 @@ class TestOrderedMaster:
     def test_initialization_defaults(self):
         master = OrderedMaster()
         assert master.getIndex() is None
-        assert master.getTimeSyncServer() is None
+        assert master.getTimeSyncServerRef() is None
 
     def test_get_set_index(self):
         master = OrderedMaster()
@@ -37,14 +37,14 @@ class TestOrderedMaster:
         ref = RefType()
         ref.setDest("TIME-SYNC-SERVER-CONFIGURATION")
         ref.setValue("/Server/Master1")
-        assert master.setTimeSyncServer(ref) is master
-        assert master.getTimeSyncServer().getValue() == "/Server/Master1"
-        assert master.getTimeSyncServer().getDest() == "TIME-SYNC-SERVER-CONFIGURATION"
+        assert master.setTimeSyncServerRef(ref) is master
+        assert master.getTimeSyncServerRef().getValue() == "/Server/Master1"
+        assert master.getTimeSyncServerRef().getDest() == "TIME-SYNC-SERVER-CONFIGURATION"
 
     def test_set_time_sync_server_none_no_op(self):
         master = OrderedMaster()
         ref = RefType()
         ref.setValue("/Server/Master1")
-        master.setTimeSyncServer(ref)
-        master.setTimeSyncServer(None)
-        assert master.getTimeSyncServer().getValue() == "/Server/Master1"
+        master.setTimeSyncServerRef(ref)
+        master.setTimeSyncServerRef(None)
+        assert master.getTimeSyncServerRef().getValue() == "/Server/Master1"

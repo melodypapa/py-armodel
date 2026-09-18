@@ -216,8 +216,8 @@ class BuildActionIoElement(ARObject):
     # [x] __init__            [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
     # [x] getCategory         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setCategory         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
-    # [x] getEcucDefinition   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
-    # [x] setEcucDefinition   [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getEcucDefinitionRef  [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setEcucDefinitionRef  [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getEngineeringObject [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
     # [x] setEngineeringObject [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
     # [x] getRole             [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
@@ -232,7 +232,7 @@ class BuildActionIoElement(ARObject):
         self.category: Optional[NameToken] = None
 
         # This association denotes an ECUC parameter definition. The such referenced parameters are subject of the build action input/output. Note that the reference to the definition denotes the right for a build action to read and/or write values for the given definition and all contained definitions.
-        self.ecucDefinition: Optional[RefType] = None
+        self.ecucDefinitionRef: Optional[RefType] = None
 
         # This represents an artifact applicable to the build action.
         self.engineeringObject: Optional[BuildEngineeringObject] = None
@@ -255,14 +255,14 @@ class BuildActionIoElement(ARObject):
             self.category = value
         return self
 
-    def getEcucDefinition(self) -> Optional[RefType]:
+    def getEcucDefinitionRef(self) -> Optional[RefType]:
         """This association denotes an ECUC parameter definition. The such referenced parameters are subject of the build action input/output. Note that the reference to the definition denotes the right for a build action to read and/or write values for the given definition and all contained definitions."""
-        return self.ecucDefinition
+        return self.ecucDefinitionRef
 
-    def setEcucDefinition(self, value: Optional[RefType]) -> "BuildActionIoElement":
-        """This association denotes an ECUC parameter definition. The such referenced parameters are subject of the build action input/output. Note that the reference to the definition denotes the right for a build action to read and/or write values for the given definition and all contained definitions. A None value is a no-op and does not overwrite an existing ecucDefinition."""
+    def setEcucDefinitionRef(self, value: Optional[RefType]) -> "BuildActionIoElement":
+        """This association denotes an ECUC parameter definition. The such referenced parameters are subject of the build action input/output. Note that the reference to the definition denotes the right for a build action to read and/or write values for the given definition and all contained definitions. A None value is a no-op and does not overwrite an existing ecucDefinitionRef."""
         if value is not None:
-            self.ecucDefinition = value
+            self.ecucDefinitionRef = value
         return self
 
     def getEngineeringObject(self) -> Optional[BuildEngineeringObject]:

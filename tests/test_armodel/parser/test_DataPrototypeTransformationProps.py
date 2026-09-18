@@ -61,7 +61,7 @@ def test_read_data_prototype_transformation_props_all_fields(parser):
             </SW-DATA-DEF-PROPS-CONDITIONAL>
           </SW-DATA-DEF-PROPS-VARIANTS>
         </NETWORK-REPRESENTATION-PROPS>
-        <TRANSFORMATION-PROPS DEST="TRANSFORMATION-PROPS">/Tp/MyProps</TRANSFORMATION-PROPS>
+        <TRANSFORMATION-PROPS-REF DEST="TRANSFORMATION-PROPS">/Tp/MyProps</TRANSFORMATION-PROPS-REF>
       </DATA-PROTOTYPE-TRANSFORMATION-PROPS>
     """
     root = _snip(xml)
@@ -90,7 +90,7 @@ def test_read_data_prototype_transformation_props_all_fields(parser):
     assert net.getSwAlignment().getValue() == "4"
 
     # transformationProps (ref)
-    tp = props.getTransformationProps()
+    tp = props.getTransformationPropsRef()
     assert tp is not None
     assert tp.getValue() == "/Tp/MyProps"
 
@@ -103,7 +103,7 @@ def test_read_data_prototype_transformation_props_empty(parser):
 
     assert props.getDataPrototypeInPortInterfaceRef() is None
     assert props.getNetworkRepresentationProps() is None
-    assert props.getTransformationProps() is None
+    assert props.getTransformationPropsRef() is None
 
 
 def test_read_data_prototype_reference_tag_id_only(parser):

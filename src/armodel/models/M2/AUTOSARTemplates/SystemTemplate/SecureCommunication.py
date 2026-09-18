@@ -465,12 +465,12 @@ class MacSecLocalKayProps(ARObject):
     # [x] __init__                       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] getDestinationMacAddress       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setDestinationMacAddress       [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getGlobalKayProps              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setGlobalKayProps              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getGlobalKayPropsRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setGlobalKayPropsRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getKeyServerPriority          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setKeyServerPriority          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] addMkaParticipant              [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getMkaParticipant              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] addMkaParticipantRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getMkaParticipantRefs         [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] getRole                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setRole                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getSourceMacAddress            [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
@@ -483,13 +483,13 @@ class MacSecLocalKayProps(ARObject):
         self.destinationMacAddress: Optional[MacAddressString] = None
 
         # Reference to properties that are shared between MAC Security Key Agreement Entities.
-        self.globalKayProps: Optional[RefType] = None
+        self.globalKayPropsRef: Optional[RefType] = None
 
         # This attribute defines the key-server priority.
         self.keyServerPriority: Optional[PositiveInteger] = None
 
         # Reference to MKA participant settings supported on the CouplingPort.
-        self.mkaParticipant: List[RefType] = []
+        self.mkaParticipantRefs: List[RefType] = []
 
         # Role of the MAC Security Key Agreement Entity
         self.role: Optional[MacSecRoleEnum] = None
@@ -510,17 +510,17 @@ class MacSecLocalKayProps(ARObject):
             self.destinationMacAddress = value
         return self
 
-    def getGlobalKayProps(self) -> Optional[RefType]:
+    def getGlobalKayPropsRef(self) -> Optional[RefType]:
         """Reference to properties that are shared between MAC Security Key Agreement Entities."""
-        return self.globalKayProps
+        return self.globalKayPropsRef
 
-    def setGlobalKayProps(self, value: Optional[RefType]) -> "MacSecLocalKayProps":
+    def setGlobalKayPropsRef(self, value: Optional[RefType]) -> "MacSecLocalKayProps":
         """
         Reference to properties that are shared between MAC Security Key Agreement Entities.
-        A None value is a no-op and does not overwrite an existing globalKayProps.
+        A None value is a no-op and does not overwrite an existing globalKayPropsRef.
         """
         if value is not None:
-            self.globalKayProps = value
+            self.globalKayPropsRef = value
         return self
 
     def getKeyServerPriority(self) -> Optional[PositiveInteger]:
@@ -536,18 +536,18 @@ class MacSecLocalKayProps(ARObject):
             self.keyServerPriority = value
         return self
 
-    def addMkaParticipant(self, ref: Optional[RefType]) -> "MacSecLocalKayProps":
+    def addMkaParticipantRef(self, ref: Optional[RefType]) -> "MacSecLocalKayProps":
         """
         Reference to MKA participant settings supported on the CouplingPort.
-        A None value is a no-op and does not append to mkaParticipant.
+        A None value is a no-op and does not append to mkaParticipantRefs.
         """
         if ref is not None:
-            self.mkaParticipant.append(ref)
+            self.mkaParticipantRefs.append(ref)
         return self
 
-    def getMkaParticipant(self) -> List[RefType]:
+    def getMkaParticipantRefs(self) -> List[RefType]:
         """Reference to MKA participant settings supported on the CouplingPort."""
-        return self.mkaParticipant
+        return self.mkaParticipantRefs
 
     def getRole(self) -> Optional[MacSecRoleEnum]:
         """Role of the MAC Security Key Agreement Entity"""
@@ -586,36 +586,36 @@ class MacSecKayParticipant(Identifiable):
     # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer   ([—] = no XML element)
     # [x] __init__                      [x] impl  [x] docstring  [x] test  [—] reader  [—] writer
-    # [x] getCkn                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setCkn                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getCknRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setCknRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getCryptoAlgoConfig           [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] setCryptoAlgoConfig           [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getSak                        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setSak                        [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getSakRef                     [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setSakRef                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self, parent, short_name):
         super().__init__(parent, short_name)
 
         # Reference to the key where the ckn (Connectivity Association key) is stored.
-        self.ckn: Optional[RefType] = None
+        self.cknRef: Optional[RefType] = None
 
         # Cryptography that is used by the MKA Participant.
         self.cryptoAlgoConfig: Optional[MacSecCryptoAlgoConfig] = None
 
         # Reference to the key where SAK shall be stored.
-        self.sak: Optional[RefType] = None
+        self.sakRef: Optional[RefType] = None
 
-    def getCkn(self) -> Optional[RefType]:
+    def getCknRef(self) -> Optional[RefType]:
         """Reference to the key where the ckn (Connectivity Association key) is stored."""
-        return self.ckn
+        return self.cknRef
 
-    def setCkn(self, value: Optional[RefType]) -> "MacSecKayParticipant":
+    def setCknRef(self, value: Optional[RefType]) -> "MacSecKayParticipant":
         """
         Reference to the key where the ckn (Connectivity Association key) is stored.
-        A None value is a no-op and does not overwrite an existing ckn.
+        A None value is a no-op and does not overwrite an existing cknRef.
         """
         if value is not None:
-            self.ckn = value
+            self.cknRef = value
         return self
 
     def getCryptoAlgoConfig(self) -> Optional[MacSecCryptoAlgoConfig]:
@@ -631,17 +631,17 @@ class MacSecKayParticipant(Identifiable):
             self.cryptoAlgoConfig = value
         return self
 
-    def getSak(self) -> Optional[RefType]:
+    def getSakRef(self) -> Optional[RefType]:
         """Reference to the key where SAK shall be stored."""
-        return self.sak
+        return self.sakRef
 
-    def setSak(self, value: Optional[RefType]) -> "MacSecKayParticipant":
+    def setSakRef(self, value: Optional[RefType]) -> "MacSecKayParticipant":
         """
         Reference to the key where SAK shall be stored.
-        A None value is a no-op and does not overwrite an existing sak.
+        A None value is a no-op and does not overwrite an existing sakRef.
         """
         if value is not None:
-            self.sak = value
+            self.sakRef = value
         return self
 
 

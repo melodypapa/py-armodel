@@ -61,7 +61,7 @@ def _new_sync():
     ref = RefType()
     ref.setDest("TIME-SYNC-SERVER-CONFIGURATION")
     ref.setValue("/Server/Master1")
-    first.setTimeSyncServer(ref)
+    first.setTimeSyncServerRef(ref)
     client.addOrderedMaster(first)
     second = OrderedMaster()
     second.setIndex(_pos_int("1"))
@@ -85,10 +85,10 @@ class TestOrderedMasterRoundTrip:
         assert len(masters) == 2
         assert isinstance(masters[0], OrderedMaster)
         assert masters[0].getIndex().getValue() == 0
-        assert masters[0].getTimeSyncServer().getValue() == "/Server/Master1"
-        assert masters[0].getTimeSyncServer().getDest() == "TIME-SYNC-SERVER-CONFIGURATION"
+        assert masters[0].getTimeSyncServerRef().getValue() == "/Server/Master1"
+        assert masters[0].getTimeSyncServerRef().getDest() == "TIME-SYNC-SERVER-CONFIGURATION"
         assert masters[1].getIndex().getValue() == 1
-        assert masters[1].getTimeSyncServer() is None
+        assert masters[1].getTimeSyncServerRef() is None
 
     def test_empty_ordered_masters(self, writer, parser):
         sync = TimeSynchronization()

@@ -77,10 +77,10 @@ def _role(value):
 def _new_mac_sec_local_kay_props():
     props = MacSecLocalKayProps()
     props.setDestinationMacAddress(_mac("00-11-22-33-44-55"))
-    props.setGlobalKayProps(_ref("/Sec/MacSecGlobalKay"))
+    props.setGlobalKayPropsRef(_ref("/Sec/MacSecGlobalKay"))
     props.setKeyServerPriority(_pos_int("16"))
-    props.addMkaParticipant(_ref("/Sec/MkaParticipant1"))
-    props.addMkaParticipant(_ref("/Sec/MkaParticipant2"))
+    props.addMkaParticipantRef(_ref("/Sec/MkaParticipant1"))
+    props.addMkaParticipantRef(_ref("/Sec/MkaParticipant2"))
     props.setRole(_role("keyServer"))
     props.setSourceMacAddress(_mac("AA-BB-CC-DD-EE-FF"))
     return props
@@ -95,7 +95,7 @@ class TestWriteMacSecLocalKayProps:
         node = parent.find("MAC-SEC-KAY-CONFIG")
         assert node is not None
         assert node.find("DESTINATION-MAC-ADDRESS").text == "00-11-22-33-44-55"
-        assert node.find("GLOBAL-KAY-PROPS").text == "/Sec/MacSecGlobalKay"
+        assert node.find("GLOBAL-KAY-PROPS-REF").text == "/Sec/MacSecGlobalKay"
         assert node.find("KEY-SERVER-PRIORITY").text == "16"
         mka_refs = node.findall("MKA-PARTICIPANT-REFS/MKA-PARTICIPANT-REF")
         assert [r.text for r in mka_refs] == ["/Sec/MkaParticipant1", "/Sec/MkaParticipant2"]
@@ -110,7 +110,7 @@ class TestWriteMacSecLocalKayProps:
         node = parent.find("MAC-SEC-KAY-CONFIG")
         assert node is not None
         assert node.find("DESTINATION-MAC-ADDRESS") is None
-        assert node.find("GLOBAL-KAY-PROPS") is None
+        assert node.find("GLOBAL-KAY-PROPS-REF") is None
         assert node.find("KEY-SERVER-PRIORITY") is None
         assert node.find("MKA-PARTICIPANT-REFS") is None
         assert node.find("ROLE") is None
@@ -132,9 +132,9 @@ class TestMacSecLocalKayPropsRoundTrip:
         recovered = parser.getMacSecLocalKayProps(tree.getroot()[0][0])
 
         assert recovered.getDestinationMacAddress().getValue() == "00-11-22-33-44-55"
-        assert recovered.getGlobalKayProps().getValue() == "/Sec/MacSecGlobalKay"
+        assert recovered.getGlobalKayPropsRef().getValue() == "/Sec/MacSecGlobalKay"
         assert recovered.getKeyServerPriority().getValue() == 16
-        assert [r.getValue() for r in recovered.getMkaParticipant()] == ["/Sec/MkaParticipant1", "/Sec/MkaParticipant2"]
+        assert [r.getValue() for r in recovered.getMkaParticipantRefs()] == ["/Sec/MkaParticipant1", "/Sec/MkaParticipant2"]
         assert recovered.getRole().getValue() == "keyServer"
         assert recovered.getSourceMacAddress().getValue() == "AA-BB-CC-DD-EE-FF"
 
@@ -144,9 +144,9 @@ class TestMacSecLocalKayPropsRoundTrip:
         recovered = parser.getMacSecLocalKayProps(root[0][0])
 
         assert recovered.getDestinationMacAddress() is None
-        assert recovered.getGlobalKayProps() is None
+        assert recovered.getGlobalKayPropsRef() is None
         assert recovered.getKeyServerPriority() is None
-        assert recovered.getMkaParticipant() == []
+        assert recovered.getMkaParticipantRefs() == []
         assert recovered.getRole() is None
         assert recovered.getSourceMacAddress() is None
 
@@ -155,4 +155,4 @@ class TestMacSecLocalKayPropsRoundTrip:
         root = ET.fromstring(xml)
         recovered = parser.getMacSecLocalKayProps(root[0][0])
 
-        assert recovered.getMkaParticipant() == []
+        assert recovered.getMkaParticipantRefs() == []

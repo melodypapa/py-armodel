@@ -2,8 +2,8 @@ from typing import List
 
 from armodel.models.M2.AUTOSARTemplates.AdaptivePlatform.ApplicationDesign.PortInterface import Field
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import RefType
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.Datatypes import ApplicationDataType
+from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.Datatype.DataPrototypes import VariableDataPrototype
 from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.PortInterface import ClientServerOperation, PortInterface
 
 
@@ -56,7 +56,7 @@ class ApplicationInterface(PortInterface):
         self.commands: List[ClientServerOperation] = []
         # This represents the collection of indication or events (with argument)
         # defined in the context of an atpVariation.
-        self.indications: List[RefType] = []
+        self.indications: List[VariableDataPrototype] = []
 
     def getAttributes(self) -> List[Field]:
         return self.attributes
@@ -82,14 +82,14 @@ class ApplicationInterface(PortInterface):
         self.commands.append(value)
         return self
 
-    def getIndications(self) -> List[RefType]:
+    def getIndications(self) -> List[VariableDataPrototype]:
         return self.indications
 
-    def setIndications(self, value: List[RefType]) -> "ApplicationInterface":
+    def setIndications(self, value: List[VariableDataPrototype]) -> "ApplicationInterface":
         self.indications = value
         return self
 
-    def addIndication(self, value: RefType) -> "ApplicationInterface":
+    def addIndication(self, value: VariableDataPrototype) -> "ApplicationInterface":
         """Adds a value to the indications list."""
         self.indications.append(value)
         return self

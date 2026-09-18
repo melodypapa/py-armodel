@@ -64,7 +64,7 @@ class Test_Fibex4Multiplatform:
 
         # Test default values
         assert ref.getDefaultValue() is None
-        assert ref.getTargetIPdu() is None
+        assert ref.getTargetIPduRef() is None
 
     def test_IPduMapping(self):
         """Test IPduMapping class functionality."""

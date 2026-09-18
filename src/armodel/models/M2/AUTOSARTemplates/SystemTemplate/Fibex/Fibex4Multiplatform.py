@@ -165,14 +165,14 @@ class TargetIPduRef(ARObject):
     # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
     # [ ] getDefaultValue              [x] impl  [ ] docstring  [ ] test
     # [ ] setDefaultValue              [x] impl  [ ] docstring  [ ] test
-    # [ ] getTargetIPdu                [x] impl  [ ] docstring  [ ] test
-    # [ ] setTargetIPdu                [x] impl  [ ] docstring  [ ] test
+    # [ ] getTargetIPduRef             [x] impl  [ ] docstring  [ ] test
+    # [ ] setTargetIPduRef             [x] impl  [ ] docstring  [ ] test
 
     def __init__(self):
         super().__init__()
 
         self.defaultValue: PduMappingDefaultValue = None
-        self.targetIPdu: RefType = None
+        self.targetIPduRef: RefType = None
 
     def getDefaultValue(self):
         return self.defaultValue
@@ -182,12 +182,12 @@ class TargetIPduRef(ARObject):
             self.defaultValue = value
         return self
 
-    def getTargetIPdu(self):
-        return self.targetIPdu
+    def getTargetIPduRef(self):
+        return self.targetIPduRef
 
-    def setTargetIPdu(self, value):
+    def setTargetIPduRef(self, value):
         if value is not None:
-            self.targetIPdu = value
+            self.targetIPduRef = value
         return self
 
 
