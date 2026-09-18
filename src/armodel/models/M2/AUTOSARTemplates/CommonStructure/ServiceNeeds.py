@@ -4314,6 +4314,7 @@ class V2xDataManagerNeeds(ServiceNeeds):
 
     # V2xDataManagerNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.79, p.840
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
