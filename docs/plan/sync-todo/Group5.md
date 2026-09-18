@@ -101,7 +101,7 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added (factory + parser import/BSW dispatch/helper/SWC dispatch + writer import/2 dispatches/helper), branches after V-2-X-DATA-MANAGER-NEEDS per XSD order
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; clean Note)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL suite 9443 passed, flake8/ruff/black, parity); 9b confirmed by user (2026-09-18) → stamped R23-11; sync commit 2798e0fb
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL suite 9443 passed, flake8/ruff/black, parity); 9b confirmed by user (2026-09-18) → stamped R23-11; sync commit 2798e0fb, stamp commit 029aa701
 - [ ] `V2xMUserNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.78)
   - **Step 1 finding:** own table = Swc TPS Table 13.78, p.836; concrete Class (XSD complexType `V-2-X-M-USER-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd, group `<xsd:sequence/>` empty); Base row = ...Referrable, ServiceNeeds → most-derived = `ServiceNeeds` (src base ALREADY correct); ZERO own attributes; Note verbatim, clean text no Tags tail ("...ability to express service needs for the V2x management." — markdown 25095 = XSD documentation); XSD tag `V-2-X-M-USER-NEEDS` in BOTH choice groups (11520 BSW, 12639 Swc-side), right after V-2-X-FAC-USER-NEEDS (11519/12638); dispatch MISSING → full 5-place pattern + createV2xMUserNeeds factory added
   - [x] Step 1 — Sync members & description from spec
