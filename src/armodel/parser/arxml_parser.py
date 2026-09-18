@@ -176,6 +176,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DoIpActivationLineNeeds,
     DoIpGidNeeds,
     DoIpGidSynchronizationNeeds,
+    DoIpPowerModeStatusNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
     DoIpRoutingActivationConfirmationNeeds,
     DtcStatusChangeNotificationNeeds,
@@ -183,10 +184,15 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ErrorTracerNeeds,
     FunctionInhibitionAvailabilityNeeds,
     FunctionInhibitionNeeds,
+    FurtherActionByteNeeds,
     GlobalSupervisionNeeds,
     HardwareTestNeeds,
+    IdsMgrCustomTimestampNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
+    J1939DcmDm19Support,
+    J1939RmIncomingRequestServiceNeeds,
+    J1939RmOutgoingRequestServiceNeeds,
     NvBlockNeeds,
     ObdControlServiceNeeds,
     ObdInfoServiceNeeds,
@@ -206,6 +212,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     SyncTimeBaseMgrUserNeeds,
     TracedFailure,
     TransientFault,
+    V2xDataManagerNeeds,
+    V2xFacUserNeeds,
+    V2xMUserNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import (
     SignalServiceTranslationElementProps,
@@ -2109,6 +2118,18 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = IndicatorStatusNeeds(dependency, short_name)
                 self.readIndicatorStatusNeeds(child_element, needs)
+            elif tag_name == "J-1939-DCM-DM-19-SUPPORT":
+                short_name = self.getShortName(child_element)
+                needs = J1939DcmDm19Support(dependency, short_name)
+                self.readJ1939DcmDm19Support(child_element, needs)
+            elif tag_name == "J-1939-RM-INCOMING-REQUEST-SERVICE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = J1939RmIncomingRequestServiceNeeds(dependency, short_name)
+                self.readJ1939RmIncomingRequestServiceNeeds(child_element, needs)
+            elif tag_name == "J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = J1939RmOutgoingRequestServiceNeeds(dependency, short_name)
+                self.readJ1939RmOutgoingRequestServiceNeeds(child_element, needs)
             elif tag_name == "FUNCTION-INHIBITION-AVAILABILITY-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = FunctionInhibitionAvailabilityNeeds(dependency, short_name)
@@ -2117,6 +2138,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = FunctionInhibitionNeeds(dependency, short_name)
                 self.readFunctionInhibitionNeeds(child_element, needs)
+            elif tag_name == "FURTHER-ACTION-BYTE-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = FurtherActionByteNeeds(dependency, short_name)
+                self.readFurtherActionByteNeeds(child_element, needs)
             elif tag_name == "GLOBAL-SUPERVISION-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = GlobalSupervisionNeeds(dependency, short_name)
@@ -2157,6 +2182,18 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = SyncTimeBaseMgrUserNeeds(dependency, short_name)
                 self.readSyncTimeBaseMgrUserNeeds(child_element, needs)
+            elif tag_name == "V-2-X-DATA-MANAGER-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = V2xDataManagerNeeds(dependency, short_name)
+                self.readV2xDataManagerNeeds(child_element, needs)
+            elif tag_name == "V-2-X-FAC-USER-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = V2xFacUserNeeds(dependency, short_name)
+                self.readV2xFacUserNeeds(child_element, needs)
+            elif tag_name == "V-2-X-M-USER-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = V2xMUserNeeds(dependency, short_name)
+                self.readV2xMUserNeeds(child_element, needs)
             elif tag_name == "ERROR-TRACER-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = ErrorTracerNeeds(dependency, short_name)
@@ -2197,6 +2234,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = DoIpGidSynchronizationNeeds(dependency, short_name)
                 self.readDoIpGidSynchronizationNeeds(child_element, needs)
+            elif tag_name == "DO-IP-POWER-MODE-STATUS-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = DoIpPowerModeStatusNeeds(dependency, short_name)
+                self.readDoIpPowerModeStatusNeeds(child_element, needs)
             elif tag_name == "DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = DoIpRoutingActivationAuthenticationNeeds(dependency, short_name)
@@ -2209,6 +2250,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = SecureOnBoardCommunicationNeeds(dependency, short_name)
                 self.readSecureOnBoardCommunicationNeeds(child_element, needs)
+            elif tag_name == "IDS-MGR-CUSTOM-TIMESTAMP-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = IdsMgrCustomTimestampNeeds(dependency, short_name)
+                self.readIdsMgrCustomTimestampNeeds(child_element, needs)
             elif tag_name == "IDS-MGR-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = IdsMgrNeeds(dependency, short_name)
@@ -2321,6 +2366,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readDoIpGidSynchronizationNeeds(self, element: ET.Element, needs: DoIpGidSynchronizationNeeds):
         self.readServiceNeeds(element, needs)
 
+    def readDoIpPowerModeStatusNeeds(self, element: ET.Element, needs: DoIpPowerModeStatusNeeds):
+        self.readServiceNeeds(element, needs)
+
     def readDoIpRoutingActivationAuthenticationNeeds(self, element: ET.Element, needs: DoIpRoutingActivationAuthenticationNeeds):
         self.readServiceNeeds(element, needs)
         needs.setDataLengthRequest(self.getChildElementOptionalPositiveInteger(element, "DATA-LENGTH-REQUEST"))
@@ -2340,6 +2388,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readSecureOnBoardCommunicationNeeds(self, element: ET.Element, needs: SecureOnBoardCommunicationNeeds):
         self.readServiceNeeds(element, needs)
         needs.setVerificationStatusIndicationMode(self.getChildElementOptionalLiteral(element, "VERIFICATION-STATUS-INDICATION-MODE"))
+
+    def readIdsMgrCustomTimestampNeeds(self, element: ET.Element, needs: IdsMgrCustomTimestampNeeds):
+        self.readServiceNeeds(element, needs)
 
     def readIdsMgrNeeds(self, element: ET.Element, needs: IdsMgrNeeds):
         self.readServiceNeeds(element, needs)
@@ -2453,12 +2504,24 @@ class ARXMLParser(AbstractARXMLParser):
         self.readServiceNeeds(element, needs)
         needs.setType(self.getChildElementOptionalLiteral(element, "TYPE"))
 
+    def readJ1939DcmDm19Support(self, element: ET.Element, needs: J1939DcmDm19Support):
+        self.readServiceNeeds(element, needs)
+
+    def readJ1939RmIncomingRequestServiceNeeds(self, element: ET.Element, needs: J1939RmIncomingRequestServiceNeeds):
+        self.readServiceNeeds(element, needs)
+
+    def readJ1939RmOutgoingRequestServiceNeeds(self, element: ET.Element, needs: J1939RmOutgoingRequestServiceNeeds):
+        self.readServiceNeeds(element, needs)
+
     def readFunctionInhibitionAvailabilityNeeds(self, element: ET.Element, needs: FunctionInhibitionAvailabilityNeeds):
         # self.logger.debug("Read FunctionInhibitionAvailabilityNeeds %s" % needs.getShortName())
         self.readServiceNeeds(element, needs)
         needs.setControlledFidRef(self.getChildElementOptionalRefType(element, "CONTROLLED-FID-REF"))
 
     def readFunctionInhibitionNeeds(self, element: ET.Element, needs: FunctionInhibitionNeeds):
+        self.readServiceNeeds(element, needs)
+
+    def readFurtherActionByteNeeds(self, element: ET.Element, needs: FurtherActionByteNeeds):
         self.readServiceNeeds(element, needs)
 
     def readGlobalSupervisionNeeds(self, element: ET.Element, needs: GlobalSupervisionNeeds):
@@ -2494,6 +2557,15 @@ class ARXMLParser(AbstractARXMLParser):
         self.readServiceNeeds(element, needs)
 
     def readSyncTimeBaseMgrUserNeeds(self, element: ET.Element, needs: SyncTimeBaseMgrUserNeeds):
+        self.readServiceNeeds(element, needs)
+
+    def readV2xDataManagerNeeds(self, element: ET.Element, needs: V2xDataManagerNeeds):
+        self.readServiceNeeds(element, needs)
+
+    def readV2xFacUserNeeds(self, element: ET.Element, needs: V2xFacUserNeeds):
+        self.readServiceNeeds(element, needs)
+
+    def readV2xMUserNeeds(self, element: ET.Element, needs: V2xMUserNeeds):
         self.readServiceNeeds(element, needs)
 
     def readSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
@@ -2626,12 +2698,24 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "INDICATOR-STATUS-NEEDS":
                 needs = parent.createIndicatorStatusNeeds(self.getShortName(child_element))
                 self.readIndicatorStatusNeeds(child_element, needs)
+            elif tag_name == "J-1939-DCM-DM-19-SUPPORT":
+                needs = parent.createJ1939DcmDm19Support(self.getShortName(child_element))
+                self.readJ1939DcmDm19Support(child_element, needs)
+            elif tag_name == "J-1939-RM-INCOMING-REQUEST-SERVICE-NEEDS":
+                needs = parent.createJ1939RmIncomingRequestServiceNeeds(self.getShortName(child_element))
+                self.readJ1939RmIncomingRequestServiceNeeds(child_element, needs)
+            elif tag_name == "J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS":
+                needs = parent.createJ1939RmOutgoingRequestServiceNeeds(self.getShortName(child_element))
+                self.readJ1939RmOutgoingRequestServiceNeeds(child_element, needs)
             elif tag_name == "FUNCTION-INHIBITION-AVAILABILITY-NEEDS":
                 needs = parent.createFunctionInhibitionAvailabilityNeeds(self.getShortName(child_element))
                 self.readFunctionInhibitionAvailabilityNeeds(child_element, needs)
             elif tag_name == "FUNCTION-INHIBITION-NEEDS":
                 needs = parent.createFunctionInhibitionNeeds(self.getShortName(child_element))
                 self.readFunctionInhibitionNeeds(child_element, needs)
+            elif tag_name == "FURTHER-ACTION-BYTE-NEEDS":
+                needs = parent.createFurtherActionByteNeeds(self.getShortName(child_element))
+                self.readFurtherActionByteNeeds(child_element, needs)
             elif tag_name == "GLOBAL-SUPERVISION-NEEDS":
                 needs = parent.createGlobalSupervisionNeeds(self.getShortName(child_element))
                 self.readGlobalSupervisionNeeds(child_element, needs)
@@ -2644,6 +2728,15 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SYNC-TIME-BASE-MGR-USER-NEEDS":
                 needs = parent.createSyncTimeBaseMgrUserNeeds(self.getShortName(child_element))
                 self.readSyncTimeBaseMgrUserNeeds(child_element, needs)
+            elif tag_name == "V-2-X-DATA-MANAGER-NEEDS":
+                needs = parent.createV2xDataManagerNeeds(self.getShortName(child_element))
+                self.readV2xDataManagerNeeds(child_element, needs)
+            elif tag_name == "V-2-X-FAC-USER-NEEDS":
+                needs = parent.createV2xFacUserNeeds(self.getShortName(child_element))
+                self.readV2xFacUserNeeds(child_element, needs)
+            elif tag_name == "V-2-X-M-USER-NEEDS":
+                needs = parent.createV2xMUserNeeds(self.getShortName(child_element))
+                self.readV2xMUserNeeds(child_element, needs)
             elif tag_name == "OBD-INFO-SERVICE-NEEDS":
                 needs = parent.createObdInfoServiceNeeds(self.getShortName(child_element))
                 self.readObdInfoServiceNeeds(child_element, needs)
@@ -2671,6 +2764,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "DO-IP-GID-SYNCHRONIZATION-NEEDS":
                 needs = parent.createDoIpGidSynchronizationNeeds(self.getShortName(child_element))
                 self.readDoIpGidSynchronizationNeeds(child_element, needs)
+            elif tag_name == "DO-IP-POWER-MODE-STATUS-NEEDS":
+                needs = parent.createDoIpPowerModeStatusNeeds(self.getShortName(child_element))
+                self.readDoIpPowerModeStatusNeeds(child_element, needs)
             elif tag_name == "DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS":
                 needs = parent.createDoIpRoutingActivationAuthenticationNeeds(self.getShortName(child_element))
                 self.readDoIpRoutingActivationAuthenticationNeeds(child_element, needs)
@@ -2680,6 +2776,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SECURE-ON-BOARD-COMMUNICATION-NEEDS":
                 needs = parent.createSecureOnBoardCommunicationNeeds(self.getShortName(child_element))
                 self.readSecureOnBoardCommunicationNeeds(child_element, needs)
+            elif tag_name == "IDS-MGR-CUSTOM-TIMESTAMP-NEEDS":
+                needs = parent.createIdsMgrCustomTimestampNeeds(self.getShortName(child_element))
+                self.readIdsMgrCustomTimestampNeeds(child_element, needs)
             elif tag_name == "IDS-MGR-NEEDS":
                 needs = parent.createIdsMgrNeeds(self.getShortName(child_element))
                 self.readIdsMgrNeeds(child_element, needs)
@@ -11648,7 +11747,7 @@ class ARXMLParser(AbstractARXMLParser):
         self.readEcucValueCollectionEcucValues(element, collection)
 
     def readEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
-        param_value.setDefinition(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        param_value.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
         param_value.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
         for annotation in self.getAnnotations(element):
             param_value.addAnnotation(annotation)
@@ -11767,10 +11866,10 @@ class ARXMLParser(AbstractARXMLParser):
     def readEcucModuleConfigurationValues(self, element: ET.Element, values: EcucModuleConfigurationValues):
         self.logger.debug("Read EcucModuleConfigurationValues %s" % values.getShortName())
         self.readIdentifiable(element, values)
-        values.setDefinition(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
+        values.setDefinitionRef(self.getChildElementOptionalRefType(element, "DEFINITION-REF"))
         values.setEcucDefEdition(self.getChildElementOptionalRevisionLabelString(element, "ECUC-DEF-EDITION"))
         values.setImplementationConfigVariant(self.getChildElementOptionalLiteral(element, "IMPLEMENTATION-CONFIG-VARIANT"))
-        values.setModuleDescription(self.getChildElementOptionalRefType(element, "MODULE-DESCRIPTION-REF"))
+        values.setModuleDescriptionRef(self.getChildElementOptionalRefType(element, "MODULE-DESCRIPTION-REF"))
         values.setPostBuildVariantUsed(self.getChildElementOptionalBooleanValue(element, "POST-BUILD-VARIANT-USED"))
         self.readEcucModuleConfigurationValuesContainers(element, values)
 

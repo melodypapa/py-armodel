@@ -1721,6 +1721,96 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "dgsn1"
 
+    def test_writeDoIpPowerModeStatusNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDoIpPowerModeStatusNeeds("dpmn1")
+        parent = _parent()
+        writer.writeDoIpPowerModeStatusNeeds(parent, needs)
+        elem = parent.find("DO-IP-POWER-MODE-STATUS-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "dpmn1"
+
+    def test_writeFurtherActionByteNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createFurtherActionByteNeeds("fbn1")
+        parent = _parent()
+        writer.writeFurtherActionByteNeeds(parent, needs)
+        elem = parent.find("FURTHER-ACTION-BYTE-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "fbn1"
+
+    def test_writeIdsMgrCustomTimestampNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createIdsMgrCustomTimestampNeeds("imctn1")
+        parent = _parent()
+        writer.writeIdsMgrCustomTimestampNeeds(parent, needs)
+        elem = parent.find("IDS-MGR-CUSTOM-TIMESTAMP-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "imctn1"
+
+    def test_writeJ1939DcmDm19Support(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createJ1939DcmDm19Support("jdcm191")
+        parent = _parent()
+        writer.writeJ1939DcmDm19Support(parent, needs)
+        elem = parent.find("J-1939-DCM-DM-19-SUPPORT")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "jdcm191"
+
+    def test_writeJ1939RmIncomingRequestServiceNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createJ1939RmIncomingRequestServiceNeeds("jrmin1")
+        parent = _parent()
+        writer.writeJ1939RmIncomingRequestServiceNeeds(parent, needs)
+        elem = parent.find("J-1939-RM-INCOMING-REQUEST-SERVICE-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "jrmin1"
+
+    def test_writeJ1939RmOutgoingRequestServiceNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createJ1939RmOutgoingRequestServiceNeeds("jrmout1")
+        parent = _parent()
+        writer.writeJ1939RmOutgoingRequestServiceNeeds(parent, needs)
+        elem = parent.find("J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "jrmout1"
+
+    def test_writeV2xDataManagerNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createV2xDataManagerNeeds("v2xdm1")
+        parent = _parent()
+        writer.writeV2xDataManagerNeeds(parent, needs)
+        elem = parent.find("V-2-X-DATA-MANAGER-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "v2xdm1"
+
+    def test_writeV2xFacUserNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createV2xFacUserNeeds("v2xfac1")
+        parent = _parent()
+        writer.writeV2xFacUserNeeds(parent, needs)
+        elem = parent.find("V-2-X-FAC-USER-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "v2xfac1"
+
+    def test_writeV2xMUserNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createV2xMUserNeeds("v2xm1")
+        parent = _parent()
+        writer.writeV2xMUserNeeds(parent, needs)
+        elem = parent.find("V-2-X-M-USER-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "v2xm1"
+
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
@@ -1755,6 +1845,15 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createDoIpActivationLineNeeds("daln")
         dep.createDoIpGidNeeds("dgn")
         dep.createDoIpGidSynchronizationNeeds("dgsn")
+        dep.createDoIpPowerModeStatusNeeds("dpmn")
+        dep.createFurtherActionByteNeeds("fbn")
+        dep.createIdsMgrCustomTimestampNeeds("imctn")
+        dep.createJ1939DcmDm19Support("jdcm19")
+        dep.createJ1939RmIncomingRequestServiceNeeds("jrmin")
+        dep.createJ1939RmOutgoingRequestServiceNeeds("jrmout")
+        dep.createV2xDataManagerNeeds("v2xdm")
+        dep.createV2xFacUserNeeds("v2xfac")
+        dep.createV2xMUserNeeds("v2xm")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1789,6 +1888,15 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "DO-IP-ACTIVATION-LINE-NEEDS" in tags
         assert "DO-IP-GID-NEEDS" in tags
         assert "DO-IP-GID-SYNCHRONIZATION-NEEDS" in tags
+        assert "DO-IP-POWER-MODE-STATUS-NEEDS" in tags
+        assert "FURTHER-ACTION-BYTE-NEEDS" in tags
+        assert "IDS-MGR-CUSTOM-TIMESTAMP-NEEDS" in tags
+        assert "J-1939-DCM-DM-19-SUPPORT" in tags
+        assert "J-1939-RM-INCOMING-REQUEST-SERVICE-NEEDS" in tags
+        assert "J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS" in tags
+        assert "V-2-X-DATA-MANAGER-NEEDS" in tags
+        assert "V-2-X-FAC-USER-NEEDS" in tags
+        assert "V-2-X-M-USER-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()

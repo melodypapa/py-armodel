@@ -151,6 +151,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DoIpActivationLineNeeds,
     DoIpGidNeeds,
     DoIpGidSynchronizationNeeds,
+    DoIpPowerModeStatusNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
     DoIpRoutingActivationConfirmationNeeds,
     DtcStatusChangeNotificationNeeds,
@@ -158,10 +159,15 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ErrorTracerNeeds,
     FunctionInhibitionAvailabilityNeeds,
     FunctionInhibitionNeeds,
+    FurtherActionByteNeeds,
     GlobalSupervisionNeeds,
     HardwareTestNeeds,
+    IdsMgrCustomTimestampNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
+    J1939DcmDm19Support,
+    J1939RmIncomingRequestServiceNeeds,
+    J1939RmOutgoingRequestServiceNeeds,
     NvBlockNeeds,
     ObdControlServiceNeeds,
     ObdInfoServiceNeeds,
@@ -180,6 +186,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     SyncTimeBaseMgrUserNeeds,
     TracedFailure,
     TransientFault,
+    V2xDataManagerNeeds,
+    V2xFacUserNeeds,
+    V2xMUserNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import (
     SignalServiceTranslationElementProps,
@@ -4849,10 +4858,18 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDiagnosticStorageConditionNeeds(child_element, needs)
         elif isinstance(needs, IndicatorStatusNeeds):
             self.writeIndicatorStatusNeeds(child_element, needs)
+        elif isinstance(needs, J1939DcmDm19Support):
+            self.writeJ1939DcmDm19Support(child_element, needs)
+        elif isinstance(needs, J1939RmIncomingRequestServiceNeeds):
+            self.writeJ1939RmIncomingRequestServiceNeeds(child_element, needs)
+        elif isinstance(needs, J1939RmOutgoingRequestServiceNeeds):
+            self.writeJ1939RmOutgoingRequestServiceNeeds(child_element, needs)
         elif isinstance(needs, FunctionInhibitionAvailabilityNeeds):
             self.writeFunctionInhibitionAvailabilityNeeds(child_element, needs)
         elif isinstance(needs, FunctionInhibitionNeeds):
             self.writeFunctionInhibitionNeeds(child_element, needs)
+        elif isinstance(needs, FurtherActionByteNeeds):
+            self.writeFurtherActionByteNeeds(child_element, needs)
         elif isinstance(needs, GlobalSupervisionNeeds):
             self.writeGlobalSupervisionNeeds(child_element, needs)
         elif isinstance(needs, HardwareTestNeeds):
@@ -4873,6 +4890,12 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeSupervisedEntityNeeds(child_element, needs)
         elif isinstance(needs, SyncTimeBaseMgrUserNeeds):
             self.writeSyncTimeBaseMgrUserNeeds(child_element, needs)
+        elif isinstance(needs, V2xDataManagerNeeds):
+            self.writeV2xDataManagerNeeds(child_element, needs)
+        elif isinstance(needs, V2xFacUserNeeds):
+            self.writeV2xFacUserNeeds(child_element, needs)
+        elif isinstance(needs, V2xMUserNeeds):
+            self.writeV2xMUserNeeds(child_element, needs)
         elif isinstance(needs, ErrorTracerNeeds):
             self.writeErrorTracerNeeds(child_element, needs)
         elif isinstance(needs, ObdInfoServiceNeeds):
@@ -4893,12 +4916,16 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDoIpGidNeeds(child_element, needs)
         elif isinstance(needs, DoIpGidSynchronizationNeeds):
             self.writeDoIpGidSynchronizationNeeds(child_element, needs)
+        elif isinstance(needs, DoIpPowerModeStatusNeeds):
+            self.writeDoIpPowerModeStatusNeeds(child_element, needs)
         elif isinstance(needs, DoIpRoutingActivationAuthenticationNeeds):
             self.writeDoIpRoutingActivationAuthenticationNeeds(child_element, needs)
         elif isinstance(needs, DoIpRoutingActivationConfirmationNeeds):
             self.writeDoIpRoutingActivationConfirmationNeeds(child_element, needs)
         elif isinstance(needs, SecureOnBoardCommunicationNeeds):
             self.writeSecureOnBoardCommunicationNeeds(child_element, needs)
+        elif isinstance(needs, IdsMgrCustomTimestampNeeds):
+            self.writeIdsMgrCustomTimestampNeeds(child_element, needs)
         elif isinstance(needs, IdsMgrNeeds):
             self.writeIdsMgrNeeds(child_element, needs)
         else:
@@ -5099,6 +5126,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write DoIpGidSynchronizationNeeds %s" % needs.getShortName())
         self.writeServiceNeeds(child_element, needs)
 
+    def writeDoIpPowerModeStatusNeeds(self, element: ET.Element, needs: DoIpPowerModeStatusNeeds):
+        child_element = ET.SubElement(element, "DO-IP-POWER-MODE-STATUS-NEEDS")
+        self.logger.debug("write DoIpPowerModeStatusNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
     def writeDoIpRoutingActivationAuthenticationNeeds(self, element: ET.Element, needs: DoIpRoutingActivationAuthenticationNeeds):
         child_element = ET.SubElement(element, "DO-IP-ROUTING-ACTIVATION-AUTHENTICATION-NEEDS")
         self.logger.debug("write DoIpRoutingActivationAuthenticationNeeds %s" % needs.getShortName())
@@ -5120,6 +5152,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write SecureOnBoardCommunicationNeeds %s" % needs.getShortName())
         self.writeServiceNeeds(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "VERIFICATION-STATUS-INDICATION-MODE", needs.getVerificationStatusIndicationMode())
+
+    def writeIdsMgrCustomTimestampNeeds(self, element: ET.Element, needs: IdsMgrCustomTimestampNeeds):
+        child_element = ET.SubElement(element, "IDS-MGR-CUSTOM-TIMESTAMP-NEEDS")
+        self.logger.debug("write IdsMgrCustomTimestampNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
 
     def writeIdsMgrNeeds(self, element: ET.Element, needs: IdsMgrNeeds):
         child_element = ET.SubElement(element, "IDS-MGR-NEEDS")
@@ -5221,6 +5258,21 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeServiceNeeds(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "TYPE", needs.getType())
 
+    def writeJ1939DcmDm19Support(self, element: ET.Element, needs: J1939DcmDm19Support):
+        child_element = ET.SubElement(element, "J-1939-DCM-DM-19-SUPPORT")
+        self.logger.debug("write J1939DcmDm19Support %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
+    def writeJ1939RmIncomingRequestServiceNeeds(self, element: ET.Element, needs: J1939RmIncomingRequestServiceNeeds):
+        child_element = ET.SubElement(element, "J-1939-RM-INCOMING-REQUEST-SERVICE-NEEDS")
+        self.logger.debug("write J1939RmIncomingRequestServiceNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
+    def writeJ1939RmOutgoingRequestServiceNeeds(self, element: ET.Element, needs: J1939RmOutgoingRequestServiceNeeds):
+        child_element = ET.SubElement(element, "J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS")
+        self.logger.debug("write J1939RmOutgoingRequestServiceNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
     def writeFunctionInhibitionAvailabilityNeeds(self, element: ET.Element, needs: FunctionInhibitionAvailabilityNeeds):
         # self.logger.debug("Write FunctionInhibitionAvailabilityNeeds %s" % needs.getShortName())
         child_element = ET.SubElement(element, "FUNCTION-INHIBITION-AVAILABILITY-NEEDS")
@@ -5230,6 +5282,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeFunctionInhibitionNeeds(self, element: ET.Element, needs: FunctionInhibitionNeeds):
         child_element = ET.SubElement(element, "FUNCTION-INHIBITION-NEEDS")
         self.logger.debug("write FunctionInhibitionNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
+    def writeFurtherActionByteNeeds(self, element: ET.Element, needs: FurtherActionByteNeeds):
+        child_element = ET.SubElement(element, "FURTHER-ACTION-BYTE-NEEDS")
+        self.logger.debug("write FurtherActionByteNeeds %s" % needs.getShortName())
         self.writeServiceNeeds(child_element, needs)
 
     def writeGlobalSupervisionNeeds(self, element: ET.Element, needs: GlobalSupervisionNeeds):
@@ -5278,6 +5335,21 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeSyncTimeBaseMgrUserNeeds(self, element: ET.Element, needs: SyncTimeBaseMgrUserNeeds):
         child_element = ET.SubElement(element, "SYNC-TIME-BASE-MGR-USER-NEEDS")
         self.logger.debug("write SyncTimeBaseMgrUserNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
+    def writeV2xDataManagerNeeds(self, element: ET.Element, needs: V2xDataManagerNeeds):
+        child_element = ET.SubElement(element, "V-2-X-DATA-MANAGER-NEEDS")
+        self.logger.debug("write V2xDataManagerNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
+    def writeV2xFacUserNeeds(self, element: ET.Element, needs: V2xFacUserNeeds):
+        child_element = ET.SubElement(element, "V-2-X-FAC-USER-NEEDS")
+        self.logger.debug("write V2xFacUserNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
+    def writeV2xMUserNeeds(self, element: ET.Element, needs: V2xMUserNeeds):
+        child_element = ET.SubElement(element, "V-2-X-M-USER-NEEDS")
+        self.logger.debug("write V2xMUserNeeds %s" % needs.getShortName())
         self.writeServiceNeeds(child_element, needs)
 
     def writeSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
@@ -5378,10 +5450,18 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDiagnosticStorageConditionNeeds(child_element, needs)
                 elif isinstance(needs, IndicatorStatusNeeds):
                     self.writeIndicatorStatusNeeds(child_element, needs)
+                elif isinstance(needs, J1939DcmDm19Support):
+                    self.writeJ1939DcmDm19Support(child_element, needs)
+                elif isinstance(needs, J1939RmIncomingRequestServiceNeeds):
+                    self.writeJ1939RmIncomingRequestServiceNeeds(child_element, needs)
+                elif isinstance(needs, J1939RmOutgoingRequestServiceNeeds):
+                    self.writeJ1939RmOutgoingRequestServiceNeeds(child_element, needs)
                 elif isinstance(needs, FunctionInhibitionAvailabilityNeeds):
                     self.writeFunctionInhibitionAvailabilityNeeds(child_element, needs)
                 elif isinstance(needs, FunctionInhibitionNeeds):
                     self.writeFunctionInhibitionNeeds(child_element, needs)
+                elif isinstance(needs, FurtherActionByteNeeds):
+                    self.writeFurtherActionByteNeeds(child_element, needs)
                 elif isinstance(needs, GlobalSupervisionNeeds):
                     self.writeGlobalSupervisionNeeds(child_element, needs)
                 elif isinstance(needs, HardwareTestNeeds):
@@ -5390,6 +5470,12 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeSupervisedEntityCheckpointNeeds(child_element, needs)
                 elif isinstance(needs, SyncTimeBaseMgrUserNeeds):
                     self.writeSyncTimeBaseMgrUserNeeds(child_element, needs)
+                elif isinstance(needs, V2xDataManagerNeeds):
+                    self.writeV2xDataManagerNeeds(child_element, needs)
+                elif isinstance(needs, V2xFacUserNeeds):
+                    self.writeV2xFacUserNeeds(child_element, needs)
+                elif isinstance(needs, V2xMUserNeeds):
+                    self.writeV2xMUserNeeds(child_element, needs)
                 elif isinstance(needs, CryptoKeyManagementNeeds):
                     self.writeCryptoKeyManagementNeeds(child_element, needs)
                 elif isinstance(needs, CryptoServiceJobNeeds):
@@ -5424,12 +5510,16 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDoIpGidNeeds(child_element, needs)
                 elif isinstance(needs, DoIpGidSynchronizationNeeds):
                     self.writeDoIpGidSynchronizationNeeds(child_element, needs)
+                elif isinstance(needs, DoIpPowerModeStatusNeeds):
+                    self.writeDoIpPowerModeStatusNeeds(child_element, needs)
                 elif isinstance(needs, DoIpRoutingActivationAuthenticationNeeds):
                     self.writeDoIpRoutingActivationAuthenticationNeeds(child_element, needs)
                 elif isinstance(needs, DoIpRoutingActivationConfirmationNeeds):
                     self.writeDoIpRoutingActivationConfirmationNeeds(child_element, needs)
                 elif isinstance(needs, SecureOnBoardCommunicationNeeds):
                     self.writeSecureOnBoardCommunicationNeeds(child_element, needs)
+                elif isinstance(needs, IdsMgrCustomTimestampNeeds):
+                    self.writeIdsMgrCustomTimestampNeeds(child_element, needs)
                 elif isinstance(needs, IdsMgrNeeds):
                     self.writeIdsMgrNeeds(child_element, needs)
                 else:
@@ -11062,7 +11152,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported Sub Container %s" % type(container))
 
     def writeEcucParameterValue(self, element: ET.Element, param_value: EcucParameterValue):
-        self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinition())
+        self.setChildElementOptionalRefType(element, "DEFINITION-REF", param_value.getDefinitionRef())
         self.setChildElementOptionalPositiveInteger(element, "INDEX", param_value.getIndex())
         self.setAnnotations(element, param_value.getAnnotations())
         self.setChildElementOptionalBooleanValue(element, "IS-AUTO-VALUE", param_value.getIsAutoValue())
@@ -11162,10 +11252,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("EcucModuleConfigurationValues %s" % values.getShortName())
         child_element = ET.SubElement(element, "ECUC-MODULE-CONFIGURATION-VALUES")
         self.writeIdentifiable(child_element, values)
-        self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", values.getDefinition())
+        self.setChildElementOptionalRefType(child_element, "DEFINITION-REF", values.getDefinitionRef())
         self.setChildElementOptionalLiteral(child_element, "ECUC-DEF-EDITION", values.getEcucDefEdition())
         self.setChildElementOptionalLiteral(child_element, "IMPLEMENTATION-CONFIG-VARIANT", values.getImplementationConfigVariant())
-        self.setChildElementOptionalRefType(child_element, "MODULE-DESCRIPTION-REF", values.getModuleDescription())
+        self.setChildElementOptionalRefType(child_element, "MODULE-DESCRIPTION-REF", values.getModuleDescriptionRef())
         self.setChildElementOptionalBooleanValue(child_element, "POST-BUILD-VARIANT-USED", values.getPostBuildVariantUsed())
         self.writeEcucModuleConfigurationValuesContainers(child_element, values)
 

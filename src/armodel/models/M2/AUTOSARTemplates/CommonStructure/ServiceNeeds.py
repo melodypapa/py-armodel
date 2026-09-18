@@ -2675,23 +2675,18 @@ class DoIpGidSynchronizationNeeds(DoIpServiceNeeds):
         super().__init__(parent, short_name)
 
 
-class DoIpPowerModeStatusNeeds(ServiceNeeds):
+class DoIpPowerModeStatusNeeds(DoIpServiceNeeds):
     """
-    Represents DoIP Power Mode Status needs in AUTOSAR models.
-    This class defines requirements for DoIP (Diagnostics over IP) power mode status services.
+    The DoIpPowerModeStatusNeeds indicates that the software-component owning this ServiceNeeds is providing the PowerModeStatus for the DoIP service 0x4003 according to ISO 13400-2:2012.
     """
 
     # DoIpPowerModeStatusNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.57, p.806
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DoIpPowerModeStatusNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this DoIP power mode status needs
-            short_name: The unique short name of this DoIP power mode status needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -3069,23 +3064,18 @@ class FunctionInhibitionNeeds(ServiceNeeds):
         super().__init__(parent, short_name)
 
 
-class FurtherActionByteNeeds(ServiceNeeds):
+class FurtherActionByteNeeds(DoIpServiceNeeds):
     """
-    Represents Further Action Byte needs in AUTOSAR models.
-    This class defines requirements for further action byte services.
+    The FurtherActionByteNeeds indicates that the software-component is able to provide the "further action byte" to the DoIp Service Component.
     """
 
     # FurtherActionByteNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.62, p.812
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the FurtherActionByteNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this further action byte needs
-            short_name: The unique short name of this further action byte needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -3121,21 +3111,16 @@ class HardwareTestNeeds(ServiceNeeds):
 
 class IdsMgrCustomTimestampNeeds(ServiceNeeds):
     """
-    Represents IDS Manager Custom Timestamp needs in AUTOSAR models.
-    This class defines requirements for IDS (Intrusion Detection System) manager custom timestamp services.
+    This meta-class is used to indicate that the enclosing SwcServiceDependency represents a service use case for the retrieval of a custom timestamp by the Intrusion Detection System Manager. Tags: atp.Status=draft
     """
 
     # IdsMgrCustomTimestampNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.82, p.842
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the IdsMgrCustomTimestampNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this IDS manager custom timestamp needs
-            short_name: The unique short name of this IDS manager custom timestamp needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -3274,61 +3259,46 @@ class IndicatorStatusNeeds(ServiceNeeds):
 
 class J1939DcmDm19Support(ServiceNeeds):
     """
-    Represents J1939 DCM DM19 Support needs in AUTOSAR models.
-    This class defines requirements for J1939 diagnostic communication manager DM19 support.
+    The software-component provides information about calibration verification numbers for inclusion in DM19
     """
 
     # J1939DcmDm19Support method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.72, p.831
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the J1939DcmDm19Support with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this J1939 DCM DM19 support
-            short_name: The unique short name of this J1939 DCM DM19 support
-        """
         super().__init__(parent, short_name)
 
 
 class J1939RmIncomingRequestServiceNeeds(ServiceNeeds):
     """
-    Represents J1939 RM Incoming Request Service needs in AUTOSAR models.
-    This class defines requirements for J1939 request manager incoming request services.
+    "This meta-class shall be used to specify needs with respect to the configuration of the J1939Rm, in particular for the case where an ApplicationSwComponentType needs to accept a request from another J1939 node.
     """
 
     # J1939RmIncomingRequestServiceNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.71, p.829
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the J1939RmIncomingRequestServiceNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this J1939 RM incoming request service needs
-            short_name: The unique short name of this J1939 RM incoming request service needs
-        """
         super().__init__(parent, short_name)
 
 
 class J1939RmOutgoingRequestServiceNeeds(ServiceNeeds):
     """
-    Represents J1939 RM Outgoing Request Service needs in AUTOSAR models.
-    This class defines requirements for J1939 request manager outgoing request services.
+    This meta-class shall be used to specify needs with respect to the configuration of the J1939Rm, in particular for the case where an ApplicationSwComponentType needs to send a request to another J1939 node.
     """
 
     # J1939RmOutgoingRequestServiceNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.70, p.829
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the J1939RmOutgoingRequestServiceNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this J1939 RM outgoing request service needs
-            short_name: The unique short name of this J1939 RM outgoing request service needs
-        """
         super().__init__(parent, short_name)
 
 
@@ -4339,61 +4309,46 @@ class TransientFault(TracedFailure):
 
 class V2xDataManagerNeeds(ServiceNeeds):
     """
-    Represents V2X Data Manager needs in AUTOSAR models.
-    This class defines requirements for Vehicle-to-Everything data manager services.
+    This meta-class represents the ability to define service needs for V2x Data Manager.
     """
 
     # V2xDataManagerNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.79, p.840
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the V2xDataManagerNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this V2X data manager needs
-            short_name: The unique short name of this V2X data manager needs
-        """
         super().__init__(parent, short_name)
 
 
 class V2xFacUserNeeds(ServiceNeeds):
     """
-    Represents V2X Functional Application Cluster User needs in AUTOSAR models.
-    This class defines requirements for V2X functional application cluster user services.
+    This meta-class represents the ability to define service needs for V2x facilities.
     """
 
     # V2xFacUserNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.77, p.834
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the V2xFacUserNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this V2X FAC user needs
-            short_name: The unique short name of this V2X FAC user needs
-        """
         super().__init__(parent, short_name)
 
 
 class V2xMUserNeeds(ServiceNeeds):
     """
-    Represents V2X Manager User needs in AUTOSAR models.
-    This class defines requirements for V2X manager user services.
+    This meta-class represents the ability to express service needs for the V2x management.
     """
 
     # V2xMUserNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.78, p.836
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the V2xMUserNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this V2X manager user needs
-            short_name: The unique short name of this V2X manager user needs
-        """
         super().__init__(parent, short_name)
 
 

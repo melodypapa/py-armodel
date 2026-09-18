@@ -195,17 +195,17 @@ class TestEcucParameterValue:
     def test_initialization_defaults(self):
         obj = EcucTextualParamValue()
         assert obj.getAnnotations() == []
-        assert obj.getDefinition() is None
+        assert obj.getDefinitionRef() is None
         assert obj.getIsAutoValue() is None
 
-    def test_get_set_definition(self):
+    def test_get_set_definition_ref(self):
         obj = EcucTextualParamValue()
         ref = RefType().setValue("/EcucDefs/Rte/Param")
-        result = obj.setDefinition(ref)
+        result = obj.setDefinitionRef(ref)
         assert result is obj
-        assert obj.getDefinition() == ref
-        obj.setDefinition(None)
-        assert obj.getDefinition() == ref
+        assert obj.getDefinitionRef() == ref
+        obj.setDefinitionRef(None)
+        assert obj.getDefinitionRef() == ref
 
     def test_get_set_is_auto_value(self):
         obj = EcucTextualParamValue()

@@ -34,16 +34,22 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DoIpActivationLineNeeds,
     DoIpGidNeeds,
     DoIpGidSynchronizationNeeds,
+    DoIpPowerModeStatusNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
     DoIpRoutingActivationConfirmationNeeds,
     EcuStateMgrUserNeeds,
     ErrorTracerNeeds,
     FunctionInhibitionAvailabilityNeeds,
     FunctionInhibitionNeeds,
+    FurtherActionByteNeeds,
     GlobalSupervisionNeeds,
     HardwareTestNeeds,
+    IdsMgrCustomTimestampNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
+    J1939DcmDm19Support,
+    J1939RmIncomingRequestServiceNeeds,
+    J1939RmOutgoingRequestServiceNeeds,
     NvBlockNeeds,
     ObdControlServiceNeeds,
     ObdInfoServiceNeeds,
@@ -54,6 +60,9 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     SecureOnBoardCommunicationNeeds,
     SupervisedEntityCheckpointNeeds,
     SyncTimeBaseMgrUserNeeds,
+    V2xDataManagerNeeds,
+    V2xFacUserNeeds,
+    V2xMUserNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import RoleBasedDataAssignment, ServiceNeeds, ServiceDependency
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
@@ -602,6 +611,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.serviceNeeds = needs
         return self.getElement(short_name, FunctionInhibitionNeeds)
 
+    def createFurtherActionByteNeeds(self, short_name: str) -> FurtherActionByteNeeds:
+        """
+        Creates or retrieves a FurtherActionByteNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            FurtherActionByteNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, FurtherActionByteNeeds):
+            needs = FurtherActionByteNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, FurtherActionByteNeeds)
+
     def createGlobalSupervisionNeeds(self, short_name: str) -> GlobalSupervisionNeeds:
         """
         Creates or retrieves a GlobalSupervisionNeeds element.
@@ -634,6 +659,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.serviceNeeds = needs
         return self.getElement(short_name, HardwareTestNeeds)
 
+    def createIdsMgrCustomTimestampNeeds(self, short_name: str) -> IdsMgrCustomTimestampNeeds:
+        """
+        Creates or retrieves a IdsMgrCustomTimestampNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            IdsMgrCustomTimestampNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, IdsMgrCustomTimestampNeeds):
+            needs = IdsMgrCustomTimestampNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, IdsMgrCustomTimestampNeeds)
+
     def createIndicatorStatusNeeds(self, short_name: str) -> IndicatorStatusNeeds:
         """
         Creates or retrieves an IndicatorStatusNeeds element.
@@ -649,6 +690,54 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, IndicatorStatusNeeds)
+
+    def createJ1939DcmDm19Support(self, short_name: str) -> J1939DcmDm19Support:
+        """
+        Creates or retrieves a J1939DcmDm19Support element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            J1939DcmDm19Support: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, J1939DcmDm19Support):
+            needs = J1939DcmDm19Support(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, J1939DcmDm19Support)
+
+    def createJ1939RmIncomingRequestServiceNeeds(self, short_name: str) -> J1939RmIncomingRequestServiceNeeds:
+        """
+        Creates or retrieves a J1939RmIncomingRequestServiceNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            J1939RmIncomingRequestServiceNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, J1939RmIncomingRequestServiceNeeds):
+            needs = J1939RmIncomingRequestServiceNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, J1939RmIncomingRequestServiceNeeds)
+
+    def createJ1939RmOutgoingRequestServiceNeeds(self, short_name: str) -> J1939RmOutgoingRequestServiceNeeds:
+        """
+        Creates or retrieves a J1939RmOutgoingRequestServiceNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            J1939RmOutgoingRequestServiceNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, J1939RmOutgoingRequestServiceNeeds):
+            needs = J1939RmOutgoingRequestServiceNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, J1939RmOutgoingRequestServiceNeeds)
 
     def createDltUserNeeds(self, short_name: str) -> DltUserNeeds:
         """
@@ -842,6 +931,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.serviceNeeds = needs
         return self.getElement(short_name, DoIpGidSynchronizationNeeds)
 
+    def createDoIpPowerModeStatusNeeds(self, short_name: str) -> DoIpPowerModeStatusNeeds:
+        """
+        Creates or retrieves a DoIpPowerModeStatusNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            DoIpPowerModeStatusNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, DoIpPowerModeStatusNeeds):
+            needs = DoIpPowerModeStatusNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, DoIpPowerModeStatusNeeds)
+
     def createDoIpRoutingActivationAuthenticationNeeds(self, short_name: str) -> DoIpRoutingActivationAuthenticationNeeds:
         """
         Creates or retrieves a DoIpRoutingActivationAuthenticationNeeds element.
@@ -921,6 +1026,54 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, SyncTimeBaseMgrUserNeeds)
+
+    def createV2xDataManagerNeeds(self, short_name: str) -> V2xDataManagerNeeds:
+        """
+        Creates or retrieves a V2xDataManagerNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            V2xDataManagerNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, V2xDataManagerNeeds):
+            needs = V2xDataManagerNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, V2xDataManagerNeeds)
+
+    def createV2xFacUserNeeds(self, short_name: str) -> V2xFacUserNeeds:
+        """
+        Creates or retrieves a V2xFacUserNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            V2xFacUserNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, V2xFacUserNeeds):
+            needs = V2xFacUserNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, V2xFacUserNeeds)
+
+    def createV2xMUserNeeds(self, short_name: str) -> V2xMUserNeeds:
+        """
+        Creates or retrieves a V2xMUserNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            V2xMUserNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, V2xMUserNeeds):
+            needs = V2xMUserNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, V2xMUserNeeds)
 
     def createIdsMgrNeeds(self, short_name: str) -> IdsMgrNeeds:
         """

@@ -757,6 +757,123 @@ class TestServiceNeedsHandlers:
         parser.readDoIpGidSynchronizationNeeds(element, needs)
         assert needs.getShortName() == "dgsnNeeds"
 
+    def test_readDoIpPowerModeStatusNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpPowerModeStatusNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>dpmnNeeds</SHORT-NAME>", root_tag="DO-IP-POWER-MODE-STATUS-NEEDS")
+        needs = dependency.createDoIpPowerModeStatusNeeds("dpmnNeeds")
+        assert isinstance(needs, DoIpPowerModeStatusNeeds)
+        parser.readDoIpPowerModeStatusNeeds(element, needs)
+        assert needs.getShortName() == "dpmnNeeds"
+
+    def test_readFurtherActionByteNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import FurtherActionByteNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>fbnNeeds</SHORT-NAME>", root_tag="FURTHER-ACTION-BYTE-NEEDS")
+        needs = dependency.createFurtherActionByteNeeds("fbnNeeds")
+        assert isinstance(needs, FurtherActionByteNeeds)
+        parser.readFurtherActionByteNeeds(element, needs)
+        assert needs.getShortName() == "fbnNeeds"
+
+    def test_readIdsMgrCustomTimestampNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import IdsMgrCustomTimestampNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>imctnNeeds</SHORT-NAME>", root_tag="IDS-MGR-CUSTOM-TIMESTAMP-NEEDS")
+        needs = dependency.createIdsMgrCustomTimestampNeeds("imctnNeeds")
+        assert isinstance(needs, IdsMgrCustomTimestampNeeds)
+        parser.readIdsMgrCustomTimestampNeeds(element, needs)
+        assert needs.getShortName() == "imctnNeeds"
+
+    def test_readJ1939DcmDm19Support_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import J1939DcmDm19Support
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>jdcm19Needs</SHORT-NAME>", root_tag="J-1939-DCM-DM-19-SUPPORT")
+        needs = dependency.createJ1939DcmDm19Support("jdcm19Needs")
+        assert isinstance(needs, J1939DcmDm19Support)
+        parser.readJ1939DcmDm19Support(element, needs)
+        assert needs.getShortName() == "jdcm19Needs"
+
+    def test_readJ1939RmIncomingRequestServiceNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import J1939RmIncomingRequestServiceNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>jrmInNeeds</SHORT-NAME>", root_tag="J-1939-RM-INCOMING-REQUEST-SERVICE-NEEDS")
+        needs = dependency.createJ1939RmIncomingRequestServiceNeeds("jrmInNeeds")
+        assert isinstance(needs, J1939RmIncomingRequestServiceNeeds)
+        parser.readJ1939RmIncomingRequestServiceNeeds(element, needs)
+        assert needs.getShortName() == "jrmInNeeds"
+
+    def test_readJ1939RmOutgoingRequestServiceNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import J1939RmOutgoingRequestServiceNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>jrmOutNeeds</SHORT-NAME>", root_tag="J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS")
+        needs = dependency.createJ1939RmOutgoingRequestServiceNeeds("jrmOutNeeds")
+        assert isinstance(needs, J1939RmOutgoingRequestServiceNeeds)
+        parser.readJ1939RmOutgoingRequestServiceNeeds(element, needs)
+        assert needs.getShortName() == "jrmOutNeeds"
+
+    def test_readV2xDataManagerNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import V2xDataManagerNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>v2xdmNeeds</SHORT-NAME>", root_tag="V-2-X-DATA-MANAGER-NEEDS")
+        needs = dependency.createV2xDataManagerNeeds("v2xdmNeeds")
+        assert isinstance(needs, V2xDataManagerNeeds)
+        parser.readV2xDataManagerNeeds(element, needs)
+        assert needs.getShortName() == "v2xdmNeeds"
+
+    def test_readV2xFacUserNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import V2xFacUserNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>v2xfacNeeds</SHORT-NAME>", root_tag="V-2-X-FAC-USER-NEEDS")
+        needs = dependency.createV2xFacUserNeeds("v2xfacNeeds")
+        assert isinstance(needs, V2xFacUserNeeds)
+        parser.readV2xFacUserNeeds(element, needs)
+        assert needs.getShortName() == "v2xfacNeeds"
+
+    def test_readV2xMUserNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import V2xMUserNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>v2xmNeeds</SHORT-NAME>", root_tag="V-2-X-M-USER-NEEDS")
+        needs = dependency.createV2xMUserNeeds("v2xmNeeds")
+        assert isinstance(needs, V2xMUserNeeds)
+        parser.readV2xMUserNeeds(element, needs)
+        assert needs.getShortName() == "v2xmNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 
