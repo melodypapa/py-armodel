@@ -1177,8 +1177,8 @@ class DataPrototypeTransformationProps(ARObject):
     # [x] setDataPrototypeInPortInterfaceRef [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] getNetworkRepresentationProps     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
     # [x] setNetworkRepresentationProps     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTransformationProps             [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] setTransformationProps             [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTransformationPropsRef         [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] setTransformationPropsRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
@@ -1190,7 +1190,7 @@ class DataPrototypeTransformationProps(ARObject):
         self.networkRepresentationProps: Optional[SwDataDefProps] = None
 
         # Collection of AutosarDataPrototype related configuration settings for a transformer.
-        self.transformationProps: Optional[RefType] = None
+        self.transformationPropsRef: Optional[RefType] = None
 
     def getDataPrototypeInPortInterfaceRef(self) -> Optional[DataPrototypeInPortInterfaceRef]:
         """
@@ -1222,19 +1222,19 @@ class DataPrototypeTransformationProps(ARObject):
             self.networkRepresentationProps = value
         return self
 
-    def getTransformationProps(self) -> Optional[RefType]:
+    def getTransformationPropsRef(self) -> Optional[RefType]:
         """
         Collection of AutosarDataPrototype related configuration settings for a transformer.
         """
-        return self.transformationProps
+        return self.transformationPropsRef
 
-    def setTransformationProps(self, value: Optional[RefType]) -> "DataPrototypeTransformationProps":
+    def setTransformationPropsRef(self, value: Optional[RefType]) -> "DataPrototypeTransformationProps":
         """
         Collection of AutosarDataPrototype related configuration settings for a transformer.
-        A None value is a no-op and does not overwrite an existing transformationProps.
+        A None value is a no-op and does not overwrite an existing transformationPropsRef.
         """
         if value is not None:
-            self.transformationProps = value
+            self.transformationPropsRef = value
         return self
 
 

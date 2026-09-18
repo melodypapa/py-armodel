@@ -114,7 +114,7 @@ class TestBuildActionIoElement:
         obj = BuildActionIoElement()
         assert obj.getCategory() is None
         assert obj.getSdgs() == []
-        assert obj.getEcucDefinition() is None
+        assert obj.getEcucDefinitionRef() is None
         assert obj.getEngineeringObject() is None
         assert obj.getRole() is None
 
@@ -129,12 +129,12 @@ class TestBuildActionIoElement:
 
         assert obj.setCategory(category) is obj
         assert obj.addSdg(sdg) is obj
-        assert obj.setEcucDefinition(ecuc_definition) is obj
+        assert obj.setEcucDefinitionRef(ecuc_definition) is obj
         assert obj.setEngineeringObject(engineering_object) is obj
         assert obj.setRole(role) is obj
         assert obj.getCategory() is category
         assert obj.getSdgs() == [sdg]
-        assert obj.getEcucDefinition() is ecuc_definition
+        assert obj.getEcucDefinitionRef() is ecuc_definition
         assert obj.getEngineeringObject() is engineering_object
         assert obj.getRole() is role
 

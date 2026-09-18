@@ -66,13 +66,13 @@ def _ref(value):
 
 def _new_kay_participant():
     participant = MacSecKayParticipant(MockParent(), "participant_1")
-    participant.setCkn(_ref("/Sec/CryptoKeyCkn"))
+    participant.setCknRef(_ref("/Sec/CryptoKeyCkn"))
     config = MacSecCryptoAlgoConfig()
     capability = MacSecCapabilityEnum()
     capability.setValue("intergrityAndConfidentiality")
     config.setCapability(capability)
     participant.setCryptoAlgoConfig(config)
-    participant.setSak(_ref("/Sec/CryptoKeySak"))
+    participant.setSakRef(_ref("/Sec/CryptoKeySak"))
     return participant
 
 
@@ -118,11 +118,11 @@ class TestMacSecKayParticipantRoundTrip:
         recovered = MacSecKayParticipant(MockParent(), "participant_1")
         parser.readMacSecKayParticipant(tree.getroot()[0][0], recovered)
 
-        assert recovered.getCkn().getValue() == "/Sec/CryptoKeyCkn"
+        assert recovered.getCknRef().getValue() == "/Sec/CryptoKeyCkn"
         algo = recovered.getCryptoAlgoConfig()
         assert algo is not None
         assert algo.getCapability().getValue() == "intergrityAndConfidentiality"
-        assert recovered.getSak().getValue() == "/Sec/CryptoKeySak"
+        assert recovered.getSakRef().getValue() == "/Sec/CryptoKeySak"
 
     def test_reader_empty_fields(self, parser):
         xml = "<AUTOSAR xmlns='%s'>" "<CONFIGS><MAC-SEC-KAY-PARTICIPANT/></CONFIGS>" "</AUTOSAR>" % NS
@@ -130,6 +130,6 @@ class TestMacSecKayParticipantRoundTrip:
         recovered = MacSecKayParticipant(MockParent(), "participant_1")
         parser.readMacSecKayParticipant(root[0][0], recovered)
 
-        assert recovered.getCkn() is None
+        assert recovered.getCknRef() is None
         assert recovered.getCryptoAlgoConfig() is None
-        assert recovered.getSak() is None
+        assert recovered.getSakRef() is None

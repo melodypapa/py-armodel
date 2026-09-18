@@ -1912,7 +1912,7 @@ class TestWriterSwcServiceDependencyRepresentedPortGroup:
         dep = behavior.createSwcServiceDependency("dep1")
         ref = RefType()
         ref.setValue("/PortGroup/Ref")
-        dep.setRepresentedPortGroup(ref)
+        dep.setRepresentedPortGroupRef(ref)
         parent = _parent()
         writer.writeSwcServiceDependencyRepresentedPortGroup(parent, dep)
         ref_tag = parent.find("REPRESENTED-PORT-GROUP-REF")

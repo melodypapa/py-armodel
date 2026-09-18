@@ -278,7 +278,7 @@ class TestWriteBuildActionIoElement:
         file_type = NameToken()
         file_type.setValue("c")
         engineering_object.setFileType(file_type)
-        obj.setCategory(category).setRole(role).setEcucDefinition(ref).setEngineeringObject(engineering_object)
+        obj.setCategory(category).setRole(role).setEcucDefinitionRef(ref).setEngineeringObject(engineering_object)
         obj.addSdg(Sdg())
 
         element = ET.Element("BUILD-ACTION-IO-ELEMENT")

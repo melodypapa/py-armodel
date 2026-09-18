@@ -2195,8 +2195,8 @@ class OrderedMaster(ARObject):
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
     # [x] getIndex                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
     # [x] setIndex                     [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] getTimeSyncServer            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
-    # [x] setTimeSyncServer            [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] getTimeSyncServerRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
+    # [x] setTimeSyncServerRef         [x] impl  [x] docstring  [x] test  [x] reader  [—] writer
 
     def __init__(self):
         super().__init__()
@@ -2205,7 +2205,7 @@ class OrderedMaster(ARObject):
         self.index: Optional[PositiveInteger] = None
 
         # Reference to a master (Time Sync Server).
-        self.timeSyncServer: Optional[RefType] = None
+        self.timeSyncServerRef: Optional[RefType] = None
 
     def getIndex(self) -> Optional[PositiveInteger]:
         """Defines the order of the network endpoint list (e.g. 0, 1, 2, ...)."""
@@ -2220,17 +2220,17 @@ class OrderedMaster(ARObject):
             self.index = value
         return self
 
-    def getTimeSyncServer(self) -> Optional[RefType]:
+    def getTimeSyncServerRef(self) -> Optional[RefType]:
         """Reference to a master (Time Sync Server)."""
-        return self.timeSyncServer
+        return self.timeSyncServerRef
 
-    def setTimeSyncServer(self, value: Optional[RefType]) -> "OrderedMaster":
+    def setTimeSyncServerRef(self, value: Optional[RefType]) -> "OrderedMaster":
         """
         Reference to a master (Time Sync Server).
-        A None value is a no-op and does not overwrite an existing timeSyncServer.
+        A None value is a no-op and does not overwrite an existing timeSyncServerRef.
         """
         if value is not None:
-            self.timeSyncServer = value
+            self.timeSyncServerRef = value
         return self
 
 

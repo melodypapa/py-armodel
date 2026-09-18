@@ -185,8 +185,8 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
     # [x] getObdInfoServiceNeeds       [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] getObdMonitorServiceNeeds    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] getObdPidServiceNeeds        [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
-    # [x] setRepresentedPortGroup      [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
-    # [x] getRepresentedPortGroup      [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
+    # [x] setRepresentedPortGroupRef   [x] impl  [x] docstring  [x] test  [x] reader  [x] writer
+    # [x] getRepresentedPortGroupRef   [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
     # [x] getServiceNeeds              [x] impl  [x] docstring  [x] test  [—] reader  [x] writer
 
     def __init__(self, parent: ARObject, short_name: str):
@@ -200,7 +200,7 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         self.assignedPort: List[RoleBasedPortAssignment] = []
 
         # This reference specifies an association between the ServiceNeeeds and a PortGroup, for example to request a communication mode which applies for communication via these ports. The referred PortGroup shall be local to this atomic SWC, but via the links between the Port Groups, a tool can evaluate this information such that all the ports linked via this port group on the same ECU can be found.
-        self.representedPortGroup: Optional[RefType] = None
+        self.representedPortGroupRef: Optional[RefType] = None
 
         # The associated ServiceNeeds.
         self.serviceNeeds: Optional[ServiceNeeds] = None
@@ -1258,10 +1258,10 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
         """
         return sorted(filter(lambda c: isinstance(c, ServiceNeeds), self.elements), key=lambda e: e.short_name)
 
-    def setRepresentedPortGroup(self, value: Optional[RefType]) -> "SwcServiceDependency":
+    def setRepresentedPortGroupRef(self, value: Optional[RefType]) -> "SwcServiceDependency":
         """
         This reference specifies an association between the ServiceNeeeds and a PortGroup, for example to request a communication mode which applies for communication via these ports. The referred PortGroup shall be local to this atomic SWC, but via the links between the Port Groups, a tool can evaluate this information such that all the ports linked via this port group on the same ECU can be found.
-        A None value is a no-op and does not overwrite an existing representedPortGroup.
+        A None value is a no-op and does not overwrite an existing representedPortGroupRef.
 
         Args:
             value: The represented port group reference to set
@@ -1270,17 +1270,17 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self for method chaining
         """
         if value is not None:
-            self.representedPortGroup = value
+            self.representedPortGroupRef = value
         return self
 
-    def getRepresentedPortGroup(self) -> Optional[RefType]:
+    def getRepresentedPortGroupRef(self) -> Optional[RefType]:
         """
         This reference specifies an association between the ServiceNeeeds and a PortGroup, for example to request a communication mode which applies for communication via these ports. The referred PortGroup shall be local to this atomic SWC, but via the links between the Port Groups, a tool can evaluate this information such that all the ports linked via this port group on the same ECU can be found.
 
         Returns:
             RefType: The represented port group reference
         """
-        return self.representedPortGroup
+        return self.representedPortGroupRef
 
 
 class RoleBasedDataTypeAssignment(ARObject, VariationPointCapable):

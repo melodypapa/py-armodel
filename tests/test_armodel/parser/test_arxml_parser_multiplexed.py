@@ -553,7 +553,7 @@ class TestTargetIPduRef:
         element = _snip("<TARGET-I-PDU-REF>" '<TARGET-I-PDU-REF DEST="I-PDU">/ipdu</TARGET-I-PDU-REF>' "</TARGET-I-PDU-REF>")
         result = parser.getTargetIPduRef(element, "TARGET-I-PDU-REF")
         assert result is not None
-        assert result.getTargetIPdu().getValue() == "/ipdu"
+        assert result.getTargetIPduRef().getValue() == "/ipdu"
 
 
 # ==================== EcucParameterValue (L5081, L5103) ====================

@@ -61,7 +61,7 @@ def _build_props():
     tp = RefType()
     tp.setValue("/Tp/MyProps")
     tp.setDest("TRANSFORMATION-PROPS")
-    props.setTransformationProps(tp)
+    props.setTransformationPropsRef(tp)
     return props
 
 
@@ -90,7 +90,7 @@ def test_write_data_prototype_transformation_props_all_fields(writer):
     assert net.find("SW-ALIGNMENT").text == "4"
 
     # transformationProps ref
-    tp = dp_tp.find("TRANSFORMATION-PROPS")
+    tp = dp_tp.find("TRANSFORMATION-PROPS-REF")
     assert tp is not None
     assert tp.text == "/Tp/MyProps"
 
@@ -106,7 +106,7 @@ def test_write_data_prototype_transformation_props_empty(writer):
     assert dp_tp is not None
     assert dp_tp.find("DATA-PROTOTYPE-IN-PORT-INTERFACE-REF") is None
     assert dp_tp.find("NETWORK-REPRESENTATION-PROPS") is None
-    assert dp_tp.find("TRANSFORMATION-PROPS") is None
+    assert dp_tp.find("TRANSFORMATION-PROPS-REF") is None
 
 
 def test_write_data_prototype_in_port_interface_ref_tag_id(writer):

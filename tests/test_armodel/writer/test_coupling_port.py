@@ -120,9 +120,9 @@ def _new_mac_sec_props():
     props.setAutoStart(_bool("true"))
     kay = MacSecLocalKayProps()
     kay.setDestinationMacAddress(_mac("00-11-22-33-44-55"))
-    kay.setGlobalKayProps(_ref("/Sec/MacSecGlobalKay"))
+    kay.setGlobalKayPropsRef(_ref("/Sec/MacSecGlobalKay"))
     kay.setKeyServerPriority(_pos_int("16"))
-    kay.addMkaParticipant(_ref("/Sec/MkaParticipant1"))
+    kay.addMkaParticipantRef(_ref("/Sec/MkaParticipant1"))
     role = MacSecRoleEnum()
     role.setValue("KEY-SERVER")
     kay.setRole(role)
@@ -171,7 +171,7 @@ class TestWriteCouplingPort:
         kay = mac_sec.find("MAC-SEC-KAY-CONFIG")
         assert kay is not None
         assert kay.find("DESTINATION-MAC-ADDRESS").text == "00-11-22-33-44-55"
-        assert kay.find("GLOBAL-KAY-PROPS").text == "/Sec/MacSecGlobalKay"
+        assert kay.find("GLOBAL-KAY-PROPS-REF").text == "/Sec/MacSecGlobalKay"
         assert kay.find("KEY-SERVER-PRIORITY").text == "16"
         mka_refs = kay.findall("MKA-PARTICIPANT-REFS/MKA-PARTICIPANT-REF")
         assert len(mka_refs) == 1
@@ -272,9 +272,9 @@ class TestCouplingPortRoundTrip:
         kay = props.getMacSecKayConfig()
         assert isinstance(kay, MacSecLocalKayProps)
         assert kay.getDestinationMacAddress().getValue() == "00-11-22-33-44-55"
-        assert kay.getGlobalKayProps().getValue() == "/Sec/MacSecGlobalKay"
+        assert kay.getGlobalKayPropsRef().getValue() == "/Sec/MacSecGlobalKay"
         assert kay.getKeyServerPriority().getValue() == 16
-        assert kay.getMkaParticipant()[0].getValue() == "/Sec/MkaParticipant1"
+        assert kay.getMkaParticipantRefs()[0].getValue() == "/Sec/MkaParticipant1"
         assert kay.getRole().getValue() == "KEY-SERVER"
         assert kay.getSourceMacAddress().getValue() == "AA-BB-CC-DD-EE-FF"
         assert props.getOnFailPermissiveMode().getValue() == "TIMEOUT"

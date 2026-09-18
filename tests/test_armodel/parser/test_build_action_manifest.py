@@ -189,7 +189,7 @@ class TestReadBuildActionIoElement:
 
         assert str(obj.getCategory()) == "ARTIFACT"
         assert len(obj.getSdgs()) == 1
-        assert obj.getEcucDefinition().getValue() == "/Ecuc/Definition"
+        assert obj.getEcucDefinitionRef().getValue() == "/Ecuc/Definition"
         assert isinstance(obj.getEngineeringObject(), BuildEngineeringObject)
         assert str(obj.getRole()) == "input"
         assert not hasattr(obj, "foreignModelReference")

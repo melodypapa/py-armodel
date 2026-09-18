@@ -539,7 +539,7 @@ class System(AtpStructureElement):
         self.clientIdDefinitionSetRefs: List[RefType] = []
         self.containerIPduHeaderByteOrder = None
         self.ecuExtractVersion: RevisionLabelString = None
-        self.fibexElements: List[RefType] = []
+        self.fibexElementRefs: List[RefType] = []
         self.interpolationRoutineMappingSetRefs: List[RefType] = []
         self.j1939SharedAddressClusters: List[J1939SharedAddressCluster] = []
         self.mappings: List[SystemMapping] = []
@@ -572,12 +572,12 @@ class System(AtpStructureElement):
         return self
 
     def getFibexElementRefs(self):
-        # return sorted(self.fibexElements, key= lambda i: i.getShortValue())
-        return self.fibexElements
+        # return sorted(self.fibexElementRefs, key= lambda i: i.getShortValue())
+        return self.fibexElementRefs
 
     def addFibexElementRef(self, value):
         if value is not None:
-            self.fibexElements.append(value)
+            self.fibexElementRefs.append(value)
         return self
 
     def getInterpolationRoutineMappingSetRefs(self):

@@ -1045,7 +1045,7 @@ class TestWriterSetTargetIPduRef:
 
     def test_with_ref(self, writer):
         ref = TargetIPduRef()
-        ref.setTargetIPdu(_ref("/p", "I-SIGNAL-I-PDU"))
+        ref.setTargetIPduRef(_ref("/p", "I-SIGNAL-I-PDU"))
         parent = _parent()
         writer.setTargetIPduRef(parent, "TARGET-I-PDU", ref)
         assert parent[0].tag == "TARGET-I-PDU"
@@ -1062,7 +1062,7 @@ class TestWriterSetIPduMappings:
         m1 = IPduMapping()
         m1.setSourceIpduRef(_ref("/s1", "I-SIGNAL-I-PDU"))
         target1 = TargetIPduRef()
-        target1.setTargetIPdu(_ref("/t1", "I-SIGNAL-I-PDU"))
+        target1.setTargetIPduRef(_ref("/t1", "I-SIGNAL-I-PDU"))
         m1.setTargetIPdu(target1)
         m2 = IPduMapping()
         m2.setSourceIpduRef(_ref("/s2", "I-SIGNAL-I-PDU"))

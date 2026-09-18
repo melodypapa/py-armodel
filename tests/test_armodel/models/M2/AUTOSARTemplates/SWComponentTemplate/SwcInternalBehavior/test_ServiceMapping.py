@@ -225,16 +225,16 @@ class TestSwcServiceDependency:
         ar_root = document.createARPackage("AUTOSAR")
         service_dep = SwcServiceDependency(ar_root, "TestSwcServiceDependency")
 
-        assert service_dep.getRepresentedPortGroup() is None
+        assert service_dep.getRepresentedPortGroupRef() is None
 
         port_group_ref = RefType()
         port_group_ref.setValue("/PortGroup/Ref")
-        service_dep.setRepresentedPortGroup(port_group_ref)
-        assert service_dep.getRepresentedPortGroup().getValue() == "/PortGroup/Ref"
+        service_dep.setRepresentedPortGroupRef(port_group_ref)
+        assert service_dep.getRepresentedPortGroupRef().getValue() == "/PortGroup/Ref"
 
         # None is a no-op and must not overwrite an existing value
-        service_dep.setRepresentedPortGroup(None)
-        assert service_dep.getRepresentedPortGroup().getValue() == "/PortGroup/Ref"
+        service_dep.setRepresentedPortGroupRef(None)
+        assert service_dep.getRepresentedPortGroupRef().getValue() == "/PortGroup/Ref"
 
 
 class TestSwcServiceDependencyRoundTrip:
@@ -300,7 +300,7 @@ class TestSwcServiceDependencyRoundTrip:
 
         port_group_ref = RefType()
         port_group_ref.setValue("/PortGroup/Ref")
-        dependency.setRepresentedPortGroup(port_group_ref)
+        dependency.setRepresentedPortGroupRef(port_group_ref)
 
         file_path = tempfile.mktemp(suffix=".arxml")
         try:
@@ -312,7 +312,7 @@ class TestSwcServiceDependencyRoundTrip:
             swc_2 = document_2.getARPackages()[0].getSwComponentTypes()[0]
             behavior_2 = swc_2.getInternalBehavior()
             dependency_2 = behavior_2.getSwcServiceDependencies()[0]
-            assert dependency_2.getRepresentedPortGroup().getValue() == "/PortGroup/Ref"
+            assert dependency_2.getRepresentedPortGroupRef().getValue() == "/PortGroup/Ref"
         finally:
             if os.path.exists(file_path):
                 os.remove(file_path)

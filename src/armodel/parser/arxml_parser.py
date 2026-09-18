@@ -2788,7 +2788,7 @@ class ARXMLParser(AbstractARXMLParser):
     def readSwcServiceDependencyRepresentedPortGroup(self, element: ET.Element, dependency: SwcServiceDependency):
         ref = self.getChildElementOptionalRefType(element, "REPRESENTED-PORT-GROUP-REF")
         if ref is not None:
-            dependency.setRepresentedPortGroup(ref)
+            dependency.setRepresentedPortGroupRef(ref)
 
     def readSwcServiceDependency(self, element: ET.Element, parent: SwcInternalBehavior):
         short_name = self.getShortName(element)
@@ -4839,7 +4839,7 @@ class ARXMLParser(AbstractARXMLParser):
         if sdgs_element is not None:
             for child in self.findall(sdgs_element, "SDG"):
                 io_element.addSdg(self.getSdg(child))
-        io_element.setEcucDefinition(self.getChildElementOptionalRefType(element, "ECUC-DEFINITION-REF"))
+        io_element.setEcucDefinitionRef(self.getChildElementOptionalRefType(element, "ECUC-DEFINITION-REF"))
         engineering_object_element = self.find(element, "ENGINEERING-OBJECT")
         if engineering_object_element is not None:
             io_element.setEngineeringObject(self.readBuildEngineeringObject(engineering_object_element, BuildEngineeringObject()))
@@ -8720,7 +8720,7 @@ class ARXMLParser(AbstractARXMLParser):
         master.setIndex(self.getChildElementOptionalPositiveInteger(element, "INDEX"))
         ref = self.getChildElementOptionalRefType(element, "TIME-SYNC-SERVER-REF")
         if ref is not None:
-            master.setTimeSyncServer(ref)
+            master.setTimeSyncServerRef(ref)
 
     def getInfrastructureServices(self, element: ET.Element, key: str) -> InfrastructureServices:
         services = None
@@ -11205,13 +11205,13 @@ class ARXMLParser(AbstractARXMLParser):
     def readMacSecKayParticipant(self, element: ET.Element, participant: MacSecKayParticipant):
         self.logger.debug("Read MacSecKayParticipant <%s>" % participant.getShortName())
         self.readIdentifiable(element, participant)
-        participant.setCkn(self.getChildElementOptionalRefType(element, "CKN-REF"))
+        participant.setCknRef(self.getChildElementOptionalRefType(element, "CKN-REF"))
         algo_element = self.find(element, "CRYPTO-ALGO-CONFIG")
         if algo_element is not None:
             config = MacSecCryptoAlgoConfig()
             self.readMacSecCryptoAlgoConfig(algo_element, config)
             participant.setCryptoAlgoConfig(config)
-        participant.setSak(self.getChildElementOptionalRefType(element, "SAK-REF"))
+        participant.setSakRef(self.getChildElementOptionalRefType(element, "SAK-REF"))
 
     def getMacSecLocalKayProps(self, element: ET.Element) -> Optional[MacSecLocalKayProps]:
         props = None
@@ -11222,10 +11222,10 @@ class ARXMLParser(AbstractARXMLParser):
                 mac_address = MacAddressString()
                 mac_address.setValue(destination_mac.getValue())
                 props.setDestinationMacAddress(mac_address)
-            props.setGlobalKayProps(self.getChildElementOptionalRefType(element, "GLOBAL-KAY-PROPS"))
+            props.setGlobalKayPropsRef(self.getChildElementOptionalRefType(element, "GLOBAL-KAY-PROPS-REF"))
             props.setKeyServerPriority(self.getChildElementOptionalPositiveInteger(element, "KEY-SERVER-PRIORITY"))
             for ref in self.getChildElementRefTypeList(element, "MKA-PARTICIPANT-REFS/MKA-PARTICIPANT-REF"):
-                props.addMkaParticipant(ref)
+                props.addMkaParticipantRef(ref)
             role = self.getChildElementOptionalLiteral(element, "ROLE")
             if role is not None:
                 e = MacSecRoleEnum()
@@ -11681,7 +11681,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_element = self.find(element, key)
         if child_element is not None:
             i_pdu_ref = TargetIPduRef()
-            i_pdu_ref.setTargetIPdu(self.getChildElementOptionalRefType(child_element, "TARGET-I-PDU-REF"))
+            i_pdu_ref.setTargetIPduRef(self.getChildElementOptionalRefType(child_element, "TARGET-I-PDU-REF"))
         return i_pdu_ref
 
     def getIPduMappings(self, element: ET.Element) -> List[IPduMapping]:
@@ -11936,7 +11936,7 @@ class ARXMLParser(AbstractARXMLParser):
             self.readDataPrototypeInPortInterfaceRef(child_element, ref)
             props.setDataPrototypeInPortInterfaceRef(ref)
         props.setNetworkRepresentationProps(self.getSwDataDefProps(element, "NETWORK-REPRESENTATION-PROPS"))
-        props.setTransformationProps(self.getChildElementOptionalRefType(element, "TRANSFORMATION-PROPS"))
+        props.setTransformationPropsRef(self.getChildElementOptionalRefType(element, "TRANSFORMATION-PROPS-REF"))
 
     def readEndToEndTransformationISignalPropsDataIds(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         child_element = self.find(element, "DATA-IDS")

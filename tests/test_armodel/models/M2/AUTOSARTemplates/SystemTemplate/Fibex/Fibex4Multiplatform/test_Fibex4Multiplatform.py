@@ -179,14 +179,14 @@ class TestFibex4Multiplatform:
 
         # Test default values
         assert target_ipdu.getDefaultValue() is None
-        assert target_ipdu.getTargetIPdu() is None
+        assert target_ipdu.getTargetIPduRef() is None
 
         # Test setter/getter methods with method chaining - with None values
         assert target_ipdu == target_ipdu.setDefaultValue(None)
         assert target_ipdu.getDefaultValue() is None
 
-        assert target_ipdu == target_ipdu.setTargetIPdu(None)
-        assert target_ipdu.getTargetIPdu() is None
+        assert target_ipdu == target_ipdu.setTargetIPduRef(None)
+        assert target_ipdu.getTargetIPduRef() is None
 
         # Test setter/getter methods with method chaining - with actual values
         default_val = PduMappingDefaultValue()
@@ -194,9 +194,9 @@ class TestFibex4Multiplatform:
         assert target_ipdu.getDefaultValue() == default_val
         assert target_ipdu == target_ipdu.setDefaultValue(default_val)
 
-        target_ipdu.setTargetIPdu("target_ipdu_ref")
-        assert target_ipdu.getTargetIPdu() == "target_ipdu_ref"
-        assert target_ipdu == target_ipdu.setTargetIPdu("target_ipdu_ref")
+        target_ipdu.setTargetIPduRef("target_ipdu_ref")
+        assert target_ipdu.getTargetIPduRef() == "target_ipdu_ref"
+        assert target_ipdu == target_ipdu.setTargetIPduRef("target_ipdu_ref")
 
     def test_target_ipdu_ref_none_handling(self):
         """

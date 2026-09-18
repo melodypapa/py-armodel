@@ -5526,7 +5526,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.notImplemented("Unsupported service needs <%s>" % type(needs))
 
     def writeSwcServiceDependencyRepresentedPortGroup(self, element: ET.Element, dependency: SwcServiceDependency):
-        self.setChildElementOptionalRefType(element, "REPRESENTED-PORT-GROUP-REF", dependency.getRepresentedPortGroup())
+        self.setChildElementOptionalRefType(element, "REPRESENTED-PORT-GROUP-REF", dependency.getRepresentedPortGroupRef())
 
     def writeSwcServiceDependency(self, element: ET.Element, dependency: SwcServiceDependency):
         child_element = ET.SubElement(element, "SWC-SERVICE-DEPENDENCY")
@@ -6164,7 +6164,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             sdgs_element = ET.SubElement(element, "SDGS")
             for sdg in sdgs:
                 self.setSdg(sdgs_element, sdg)
-        self.setChildElementOptionalRefType(element, "ECUC-DEFINITION-REF", io_element.getEcucDefinition())
+        self.setChildElementOptionalRefType(element, "ECUC-DEFINITION-REF", io_element.getEcucDefinitionRef())
         engineering_object = io_element.getEngineeringObject()
         if engineering_object is not None:
             engineering_object_element = ET.SubElement(element, "ENGINEERING-OBJECT")
@@ -8821,7 +8821,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     master_element = ET.SubElement(list_element, "ORDERED-MASTER")
                     self.writeARObject(master_element, master)
                     self.setChildElementOptionalPositiveInteger(master_element, "INDEX", master.getIndex())
-                    self.setChildElementOptionalRefType(master_element, "TIME-SYNC-SERVER-REF", master.getTimeSyncServer())
+                    self.setChildElementOptionalRefType(master_element, "TIME-SYNC-SERVER-REF", master.getTimeSyncServerRef())
 
     def setInfrastructureServices(self, element: ET.Element, key: str, services: InfrastructureServices):
         if services is not None:
@@ -10360,7 +10360,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeMacSecKayParticipant(self, element: ET.Element, participant: MacSecKayParticipant):
         child_element = ET.SubElement(element, "MAC-SEC-KAY-PARTICIPANT")
         self.writeIdentifiable(child_element, participant)
-        self.setChildElementOptionalRefType(child_element, "CKN-REF", participant.getCkn())
+        self.setChildElementOptionalRefType(child_element, "CKN-REF", participant.getCknRef())
         config = participant.getCryptoAlgoConfig()
         if config is not None:
             algo_element = ET.SubElement(child_element, "CRYPTO-ALGO-CONFIG")
@@ -10373,15 +10373,15 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalLiteral(algo_element, "CONFIDENTIALITY-OFFSET", config.getConfidentialityOffset())
             self.setChildElementOptionalBooleanValue(algo_element, "REPLAY-PROTECTION", config.getReplayProtection())
             self.setChildElementOptionalPositiveInteger(algo_element, "REPLAY-PROTECTION-WINDOW", config.getReplayProtectionWindow())
-        self.setChildElementOptionalRefType(child_element, "SAK-REF", participant.getSak())
+        self.setChildElementOptionalRefType(child_element, "SAK-REF", participant.getSakRef())
 
     def setMacSecLocalKayProps(self, element: ET.Element, key: str, props: MacSecLocalKayProps):
         if props is not None:
             child_element = ET.SubElement(element, key)
             self.setChildElementOptionalLiteral(child_element, "DESTINATION-MAC-ADDRESS", props.getDestinationMacAddress())
-            self.setChildElementOptionalRefType(child_element, "GLOBAL-KAY-PROPS", props.getGlobalKayProps())
+            self.setChildElementOptionalRefType(child_element, "GLOBAL-KAY-PROPS-REF", props.getGlobalKayPropsRef())
             self.setChildElementOptionalPositiveInteger(child_element, "KEY-SERVER-PRIORITY", props.getKeyServerPriority())
-            refs = props.getMkaParticipant()
+            refs = props.getMkaParticipantRefs()
             if len(refs) > 0:
                 refs_element = ET.SubElement(child_element, "MKA-PARTICIPANT-REFS")
                 for ref in refs:
@@ -11070,7 +11070,7 @@ class ARXMLWriter(AbstractARXMLWriter):
     def setTargetIPduRef(self, element: ET.Element, key: str, i_pdu_ref: TargetIPduRef):
         if i_pdu_ref is not None:
             child_element = ET.SubElement(element, key)
-            self.setChildElementOptionalRefType(child_element, "TARGET-I-PDU-REF", i_pdu_ref.getTargetIPdu())
+            self.setChildElementOptionalRefType(child_element, "TARGET-I-PDU-REF", i_pdu_ref.getTargetIPduRef())
 
     def setIPduMappings(self, element: ET.Element, mappings: List[IPduMapping]):
         if len(mappings) > 0:
@@ -11399,7 +11399,7 @@ class ARXMLWriter(AbstractARXMLWriter):
         if dp_ref is not None:
             self.writeDataPrototypeInPortInterfaceRef(child_element, dp_ref)
         self.setSwDataDefProps(child_element, "NETWORK-REPRESENTATION-PROPS", props.getNetworkRepresentationProps())
-        self.setChildElementOptionalRefType(child_element, "TRANSFORMATION-PROPS", props.getTransformationProps())
+        self.setChildElementOptionalRefType(child_element, "TRANSFORMATION-PROPS-REF", props.getTransformationPropsRef())
 
     def writeEndToEndTransformationISignalPropsDataIds(self, element: ET.Element, props: EndToEndTransformationISignalProps):
         ids = props.getDataIds()

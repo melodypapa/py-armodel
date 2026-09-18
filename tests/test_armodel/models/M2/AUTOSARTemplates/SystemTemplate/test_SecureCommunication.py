@@ -177,28 +177,28 @@ class Test_MacSecLocalKayProps:
     def test_defaults(self):
         props = MacSecLocalKayProps()
         assert props.getDestinationMacAddress() is None
-        assert props.getGlobalKayProps() is None
+        assert props.getGlobalKayPropsRef() is None
         assert props.getKeyServerPriority() is None
-        assert props.getMkaParticipant() == []
+        assert props.getMkaParticipantRefs() == []
         assert props.getRole() is None
         assert props.getSourceMacAddress() is None
 
     def test_setters_and_getters(self):
         props = MacSecLocalKayProps()
         props.setDestinationMacAddress(_mac("00-11-22-33-44-55"))
-        props.setGlobalKayProps(_ref("/Sec/MacSecGlobalKay"))
+        props.setGlobalKayPropsRef(_ref("/Sec/MacSecGlobalKay"))
         props.setKeyServerPriority(_pos_int("16"))
-        props.addMkaParticipant(_ref("/Sec/MkaParticipant1"))
-        props.addMkaParticipant(_ref("/Sec/MkaParticipant2"))
+        props.addMkaParticipantRef(_ref("/Sec/MkaParticipant1"))
+        props.addMkaParticipantRef(_ref("/Sec/MkaParticipant2"))
         role = MacSecRoleEnum()
         role.setValue("keyServer")
         props.setRole(role)
         props.setSourceMacAddress(_mac("AA-BB-CC-DD-EE-FF"))
 
         assert props.getDestinationMacAddress().getValue() == "00-11-22-33-44-55"
-        assert props.getGlobalKayProps().getValue() == "/Sec/MacSecGlobalKay"
+        assert props.getGlobalKayPropsRef().getValue() == "/Sec/MacSecGlobalKay"
         assert props.getKeyServerPriority().getValue() == 16
-        assert [r.getValue() for r in props.getMkaParticipant()] == ["/Sec/MkaParticipant1", "/Sec/MkaParticipant2"]
+        assert [r.getValue() for r in props.getMkaParticipantRefs()] == ["/Sec/MkaParticipant1", "/Sec/MkaParticipant2"]
         assert props.getRole().getValue() == "keyServer"
         assert props.getSourceMacAddress().getValue() == "AA-BB-CC-DD-EE-FF"
 
@@ -360,16 +360,16 @@ class Test_MacSecKayParticipant:
         parent = MockParent()
         participant = MacSecKayParticipant(parent, "test_kay_participant")
         assert isinstance(participant, Identifiable)
-        assert participant.getCkn() is None
+        assert participant.getCknRef() is None
         assert participant.getCryptoAlgoConfig() is None
-        assert participant.getSak() is None
+        assert participant.getSakRef() is None
 
     def test_get_set_ckn(self):
         parent = MockParent()
         participant = MacSecKayParticipant(parent, "test_kay_participant")
         ckn = _ref("/Sec/CryptoKeyCkn")
-        assert participant.setCkn(ckn) is participant
-        assert participant.getCkn() is ckn
+        assert participant.setCknRef(ckn) is participant
+        assert participant.getCknRef() is ckn
 
     def test_get_set_crypto_algo_config(self):
         parent = MockParent()
@@ -382,15 +382,15 @@ class Test_MacSecKayParticipant:
         parent = MockParent()
         participant = MacSecKayParticipant(parent, "test_kay_participant")
         sak = _ref("/Sec/CryptoKeySak")
-        assert participant.setSak(sak) is participant
-        assert participant.getSak() is sak
+        assert participant.setSakRef(sak) is participant
+        assert participant.getSakRef() is sak
 
     def test_none_is_noop(self):
         parent = MockParent()
         participant = MacSecKayParticipant(parent, "test_kay_participant")
-        assert participant.setCkn(None) is participant
+        assert participant.setCknRef(None) is participant
         assert participant.setCryptoAlgoConfig(None) is participant
-        assert participant.setSak(None) is participant
-        assert participant.getCkn() is None
+        assert participant.setSakRef(None) is participant
+        assert participant.getCknRef() is None
         assert participant.getCryptoAlgoConfig() is None
-        assert participant.getSak() is None
+        assert participant.getSakRef() is None

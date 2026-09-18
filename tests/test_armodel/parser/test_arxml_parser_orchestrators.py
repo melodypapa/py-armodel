@@ -3872,7 +3872,7 @@ class TestSwcServiceDependencyRepresentedPortGroup:
         dep = _make_service_dependency()
         element = _snip('<REPRESENTED-PORT-GROUP-REF DEST="PORT-GROUP">/PortGroup/Ref</REPRESENTED-PORT-GROUP-REF>')
         parser.readSwcServiceDependencyRepresentedPortGroup(element, dep)
-        ref = dep.getRepresentedPortGroup()
+        ref = dep.getRepresentedPortGroupRef()
         assert ref is not None
         assert ref.getValue() == "/PortGroup/Ref"
 
@@ -3881,7 +3881,7 @@ class TestSwcServiceDependencyRepresentedPortGroup:
         dep = _make_service_dependency()
         element = _snip("<SWC-SERVICE-DEPENDENCY/>")
         parser.readSwcServiceDependencyRepresentedPortGroup(element, dep)
-        assert dep.getRepresentedPortGroup() is None
+        assert dep.getRepresentedPortGroupRef() is None
 
 
 # ==================== SwcInternalBehavior IncludedModeDeclarationGroupSet (L813, L840, L845-848) ====================
