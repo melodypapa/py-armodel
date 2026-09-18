@@ -4334,21 +4334,15 @@ class V2xFacUserNeeds(ServiceNeeds):
 
 class V2xMUserNeeds(ServiceNeeds):
     """
-    Represents V2X Manager User needs in AUTOSAR models.
-    This class defines requirements for V2X manager user services.
+    This meta-class represents the ability to express service needs for the V2x management.
     """
 
     # V2xMUserNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.78, p.836
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the V2xMUserNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this V2X manager user needs
-            short_name: The unique short name of this V2X manager user needs
-        """
         super().__init__(parent, short_name)
 
 

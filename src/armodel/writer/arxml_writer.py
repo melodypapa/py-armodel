@@ -188,6 +188,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     TransientFault,
     V2xDataManagerNeeds,
     V2xFacUserNeeds,
+    V2xMUserNeeds,
 )
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.SignalServiceTranslation import (
     SignalServiceTranslationElementProps,
@@ -4880,6 +4881,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeV2xDataManagerNeeds(child_element, needs)
         elif isinstance(needs, V2xFacUserNeeds):
             self.writeV2xFacUserNeeds(child_element, needs)
+        elif isinstance(needs, V2xMUserNeeds):
+            self.writeV2xMUserNeeds(child_element, needs)
         elif isinstance(needs, ErrorTracerNeeds):
             self.writeErrorTracerNeeds(child_element, needs)
         elif isinstance(needs, ObdInfoServiceNeeds):
@@ -5331,6 +5334,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write V2xFacUserNeeds %s" % needs.getShortName())
         self.writeServiceNeeds(child_element, needs)
 
+    def writeV2xMUserNeeds(self, element: ET.Element, needs: V2xMUserNeeds):
+        child_element = ET.SubElement(element, "V-2-X-M-USER-NEEDS")
+        self.logger.debug("write V2xMUserNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
     def writeSupervisedEntityNeeds(self, element: ET.Element, needs: SupervisedEntityNeeds):
         child_element = ET.SubElement(element, "SUPERVISED-ENTITY-NEEDS")
         self.writeServiceNeeds(child_element, needs)
@@ -5453,6 +5461,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeV2xDataManagerNeeds(child_element, needs)
                 elif isinstance(needs, V2xFacUserNeeds):
                     self.writeV2xFacUserNeeds(child_element, needs)
+                elif isinstance(needs, V2xMUserNeeds):
+                    self.writeV2xMUserNeeds(child_element, needs)
                 elif isinstance(needs, CryptoKeyManagementNeeds):
                     self.writeCryptoKeyManagementNeeds(child_element, needs)
                 elif isinstance(needs, CryptoServiceJobNeeds):

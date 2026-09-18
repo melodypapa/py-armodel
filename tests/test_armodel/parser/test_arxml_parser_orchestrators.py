@@ -861,6 +861,19 @@ class TestServiceNeedsHandlers:
         parser.readV2xFacUserNeeds(element, needs)
         assert needs.getShortName() == "v2xfacNeeds"
 
+    def test_readV2xMUserNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import V2xMUserNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>v2xmNeeds</SHORT-NAME>", root_tag="V-2-X-M-USER-NEEDS")
+        needs = dependency.createV2xMUserNeeds("v2xmNeeds")
+        assert isinstance(needs, V2xMUserNeeds)
+        parser.readV2xMUserNeeds(element, needs)
+        assert needs.getShortName() == "v2xmNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 

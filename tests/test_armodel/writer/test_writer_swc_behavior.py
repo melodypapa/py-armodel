@@ -1801,6 +1801,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "v2xfac1"
 
+    def test_writeV2xMUserNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createV2xMUserNeeds("v2xm1")
+        parent = _parent()
+        writer.writeV2xMUserNeeds(parent, needs)
+        elem = parent.find("V-2-X-M-USER-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "v2xm1"
+
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
@@ -1843,6 +1853,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createJ1939RmOutgoingRequestServiceNeeds("jrmout")
         dep.createV2xDataManagerNeeds("v2xdm")
         dep.createV2xFacUserNeeds("v2xfac")
+        dep.createV2xMUserNeeds("v2xm")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1885,6 +1896,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "J-1939-RM-OUTGOING-REQUEST-SERVICE-NEEDS" in tags
         assert "V-2-X-DATA-MANAGER-NEEDS" in tags
         assert "V-2-X-FAC-USER-NEEDS" in tags
+        assert "V-2-X-M-USER-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()
