@@ -150,6 +150,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     BswMgrNeeds,
     ComMgrUserNeeds,
     CryptoKeyManagementNeeds,
+    CryptoServiceJobNeeds,
     CryptoServiceNeeds,
     DevelopmentError,
     DiagEventDebounceCounterBased,
@@ -2030,6 +2031,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = CryptoKeyManagementNeeds(dependency, short_name)
                 self.readCryptoKeyManagementNeeds(child_element, needs)
+            elif tag_name == "CRYPTO-SERVICE-JOB-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = CryptoServiceJobNeeds(dependency, short_name)
+                self.readCryptoServiceJobNeeds(child_element, needs)
             elif tag_name == "NV-BLOCK-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = NvBlockNeeds(dependency, short_name)
@@ -2220,6 +2225,9 @@ class ARXMLParser(AbstractARXMLParser):
         self.readServiceNeeds(element, needs)
 
     def readCryptoKeyManagementNeeds(self, element: ET.Element, needs: CryptoKeyManagementNeeds):
+        self.readServiceNeeds(element, needs)
+
+    def readCryptoServiceJobNeeds(self, element: ET.Element, needs: CryptoServiceJobNeeds):
         self.readServiceNeeds(element, needs)
 
     def readNvBlockNeeds(self, element: ET.Element, needs: NvBlockNeeds):
@@ -2528,6 +2536,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "CRYPTO-KEY-MANAGEMENT-NEEDS":
                 needs = parent.createCryptoKeyManagementNeeds(self.getShortName(child_element))
                 self.readCryptoKeyManagementNeeds(child_element, needs)
+            elif tag_name == "CRYPTO-SERVICE-JOB-NEEDS":
+                needs = parent.createCryptoServiceJobNeeds(self.getShortName(child_element))
+                self.readCryptoServiceJobNeeds(child_element, needs)
             elif tag_name == "CRYPTO-SERVICE-NEEDS":
                 needs = parent.createCryptoServiceNeeds(self.getShortName(child_element))
                 self.readCryptoServiceNeeds(child_element, needs)

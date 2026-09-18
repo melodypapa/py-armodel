@@ -666,6 +666,19 @@ class TestServiceNeedsHandlers:
         parser.readCryptoKeyManagementNeeds(element, needs)
         assert needs.getShortName() == "ckmnNeeds"
 
+    def test_readCryptoServiceJobNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoServiceJobNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>csjnNeeds</SHORT-NAME>", root_tag="CRYPTO-SERVICE-JOB-NEEDS")
+        needs = dependency.createCryptoServiceJobNeeds("csjnNeeds")
+        assert isinstance(needs, CryptoServiceJobNeeds)
+        parser.readCryptoServiceJobNeeds(element, needs)
+        assert needs.getShortName() == "csjnNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 

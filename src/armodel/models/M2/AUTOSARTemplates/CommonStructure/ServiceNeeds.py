@@ -2081,21 +2081,15 @@ class CryptoKeyManagementNeeds(ServiceNeeds):
 
 class CryptoServiceJobNeeds(ServiceNeeds):
     """
-    Represents Cryptographic Service Job needs in AUTOSAR models.
-    This class defines requirements for cryptographic service job operations.
+    This meta-class shall be taken to indicate that the service use case modeled with this kind of Service Needs assumes the usage of the crypto job API.
     """
 
     # CryptoServiceJobNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.10, p.733
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the CryptoServiceJobNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this crypto service job needs
-            short_name: The unique short name of this crypto service job needs
-        """
         super().__init__(parent, short_name)
 
 

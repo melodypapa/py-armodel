@@ -8,6 +8,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ComMgrUserNeeds,
     CryptoKeyManagementNeeds,
+    CryptoServiceJobNeeds,
     CryptoServiceNeeds,
     DiagnosticCommunicationManagerNeeds,
     DiagnosticComponentNeeds,
@@ -385,6 +386,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, CryptoKeyManagementNeeds)
+
+    def createCryptoServiceJobNeeds(self, short_name: str) -> CryptoServiceJobNeeds:
+        """
+        Creates or retrieves a CryptoServiceJobNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            CryptoServiceJobNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, CryptoServiceJobNeeds):
+            needs = CryptoServiceJobNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, CryptoServiceJobNeeds)
 
     def createCryptoServiceNeeds(self, short_name: str) -> CryptoServiceNeeds:
         """
