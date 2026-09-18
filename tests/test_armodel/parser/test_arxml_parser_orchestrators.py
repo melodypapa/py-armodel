@@ -1688,11 +1688,13 @@ class TestValueSpecificationHandlers:
             "<ELEMENTS>"
             "<NUMERICAL-VALUE-SPECIFICATION><VALUE>1</VALUE></NUMERICAL-VALUE-SPECIFICATION>"
             "<NUMERICAL-VALUE-SPECIFICATION><VALUE>2</VALUE></NUMERICAL-VALUE-SPECIFICATION>"
-            "</ELEMENTS>",
+            "</ELEMENTS>"
+            "<INTENDED-PARTIAL-INITIALIZATION-COUNT>3</INTENDED-PARTIAL-INITIALIZATION-COUNT>",
             root_tag="ARRAY-VALUE-SPECIFICATION",
         )
         spec = parser.getArrayValueSpecification(element)
         assert len(spec.getElements()) == 2
+        assert spec.getIntendedPartialInitializationCount().getValue() == 3
 
     def test_getConstantReference_full(self, parser):
         element = _snip(
@@ -1716,7 +1718,16 @@ class TestValueSpecificationHandlers:
             root_tag="RECORD-VALUE-SPECIFICATION",
         )
         spec = parser.getRecordValueSpecification(element)
+        assert spec.getShortLabel().getValue() == "rvs"
         assert len(spec.getFields()) == 1
+        assert spec.getFields()[0].getShortLabel().getValue() == "f1"
+        assert spec.getFields()[0].getValue().getValue() == 1
+
+    def test_getRecordValueSpecification_empty_fields(self, parser):
+        element = _snip("<SHORT-LABEL>empty</SHORT-LABEL>", root_tag="RECORD-VALUE-SPECIFICATION")
+        spec = parser.getRecordValueSpecification(element)
+        assert spec.getShortLabel().getValue() == "empty"
+        assert spec.getFields() == []
 
     def test_getNumericalRuleBasedValueSpecification_full(self, parser):
         element = _snip(

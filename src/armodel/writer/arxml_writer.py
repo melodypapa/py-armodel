@@ -1673,6 +1673,7 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeNotAvailableValueSpecification(elements_tag, sub_element)
                 else:
                     self.notImplemented("Unsupported element type of <%s> of ArrayValueSpecification" % type(sub_element))
+        self.setChildElementOptionalPositiveInteger(value_spec_tag, "INTENDED-PARTIAL-INITIALIZATION-COUNT", value_spec.getIntendedPartialInitializationCount())
 
     def setConstantReference(self, element: ET.Element, value_spec: ConstantReference):
         value_spec_tag = ET.SubElement(element, "CONSTANT-REFERENCE")

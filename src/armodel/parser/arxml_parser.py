@@ -7270,6 +7270,7 @@ class ARXMLParser(AbstractARXMLParser):
         child_elements = element.findall("./xmlns:ELEMENTS/*", self.nsmap)
         for child_element in child_elements:
             value_spec.addElement(self.getValueSpecification(child_element, self.getTagName(child_element)))
+        value_spec.setIntendedPartialInitializationCount(self.getChildElementOptionalPositiveInteger(element, "INTENDED-PARTIAL-INITIALIZATION-COUNT"))
         return value_spec
 
     def getConstantReference(self, element: ET.Element) -> ConstantReference:

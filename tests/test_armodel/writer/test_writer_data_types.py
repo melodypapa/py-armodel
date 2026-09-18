@@ -1346,6 +1346,22 @@ class TestRecordValueSpecificationWriter:
         assert child.tag == "RECORD-VALUE-SPECIFICATION"
         assert child.find("FIELDS") is None
 
+    def test_write_record_value_specification_preserves_field_values(self, writer):
+        rec = RecordValueSpecification()
+        rec.setShortLabel(_literal("Record"))
+        field = TextValueSpecification()
+        field.setShortLabel(_literal("Field"))
+        field.setValue(_literal("value"))
+        assert rec.addField(field) is rec
+
+        parent = _parent()
+        writer.writeRecordValueSpecification(parent, rec)
+
+        child = parent[0]
+        assert child.find("SHORT-LABEL").text == "Record"
+        assert child.find("FIELDS/TEXT-VALUE-SPECIFICATION/SHORT-LABEL").text == "Field"
+        assert child.find("FIELDS/TEXT-VALUE-SPECIFICATION/VALUE").text == "value"
+
 
 class TestConstantSpecificationWriter:
     def test_write_constant_specification_no_value(self, writer):

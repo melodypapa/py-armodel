@@ -31,6 +31,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     ARLiteral,
     ARNumerical,
     Identifier,
+    PositiveInteger,
     RefType,
     VerbatimString,
 )
@@ -108,6 +109,27 @@ class TestCompositeValueSpecification:
         assert spec is not None
         assert spec.getShortLabel() is None
         assert spec.setShortLabel(None) is spec
+
+
+class TestArrayValueSpecificationSync:
+    def test_has_spec_note_and_base(self):
+        assert cleandoc(ArrayValueSpecification.__doc__) == "Specifies the values for an array."
+        assert issubclass(ArrayValueSpecification, CompositeValueSpecification)
+
+    def test_initialization_and_mutators(self):
+        spec = ArrayValueSpecification()
+        assert spec.getElements() == []
+        assert spec.getIntendedPartialInitializationCount() is None
+        element = TextValueSpecification()
+        count = PositiveInteger()
+        assert spec.addElement(element) is spec
+        assert spec.getElements() == [element]
+        assert spec.addElement(None) is spec
+        assert spec.getElements() == [element]
+        assert spec.setIntendedPartialInitializationCount(count) is spec
+        assert spec.getIntendedPartialInitializationCount() is count
+        assert spec.setIntendedPartialInitializationCount(None) is spec
+        assert spec.getIntendedPartialInitializationCount() is count
 
 
 class TestCompositeRuleBasedValueArgument:
@@ -618,6 +640,8 @@ class TestRecordValueSpecification:
 
         assert spec is not None
         assert spec.fields == []
+        assert isinstance(spec, CompositeValueSpecification)
+        assert spec.__class__.__doc__.strip() == "Specifies the values for a record."
 
     def test_add_field(self):
         """Test addField method"""
@@ -629,11 +653,18 @@ class TestRecordValueSpecification:
                 super().__init__()
 
         mock_field = MockValueSpecification()
-        spec.addField(mock_field)
+        assert spec.addField(mock_field) is spec
 
         fields = spec.getFields()
         assert len(fields) == 1
         assert fields[0] == mock_field
+
+    def test_add_field_none_is_noop(self):
+        spec = RecordValueSpecification()
+        field = ValueSpecification.__new__(ValueSpecification)
+        spec.addField(field)
+        assert spec.addField(None) is spec
+        assert spec.getFields() == [field]
 
     def test_get_fields(self):
         """Test getFields method"""

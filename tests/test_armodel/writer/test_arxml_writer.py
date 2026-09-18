@@ -29,6 +29,7 @@ from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.
     Limit,
     MonotonyEnum,
     NameToken,
+    PositiveInteger,
     RefType,
     RevisionLabelString,
     String,
@@ -1001,6 +1002,16 @@ class TestARXMLWriterValueSpecMethods:
         spec_element = child_element.find("NUMERICAL-RULE-BASED-VALUE-SPECIFICATION")
         assert spec_element is not None
         assert spec_element.find("RULE-BASED-VALUES/RULE").text == "FILL_UNTIL_END"
+
+    def test_write_array_value_specification_writes_partial_initialization_count(self):
+        writer = ARXMLWriter()
+        parent = ET.Element("parent")
+        array_spec = ArrayValueSpecification()
+        array_spec.setIntendedPartialInitializationCount(PositiveInteger().setValue(3))
+
+        writer.writeArrayValueSpecification(parent, array_spec)
+
+        assert parent.find("ARRAY-VALUE-SPECIFICATION/INTENDED-PARTIAL-INITIALIZATION-COUNT").text == "3"
 
     def test_write_array_value_specification_numerical_rule_based_dispatch(self):
         """Test writeArrayValueSpecification dispatches NumericalRuleBasedValueSpecification elements"""
