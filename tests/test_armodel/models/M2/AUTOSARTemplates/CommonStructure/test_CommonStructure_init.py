@@ -27,6 +27,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure import (
     TextValueSpecification,
     ValueSpecification,
 )
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import (
     ARLiteral,
     ARNumerical,
@@ -137,6 +138,12 @@ class TestCompositeRuleBasedValueArgument:
         """Test that CompositeRuleBasedValueArgument abstract class cannot be instantiated directly"""
         with pytest.raises(TypeError, match="CompositeRuleBasedValueArgument is an abstract class."):
             CompositeRuleBasedValueArgument()
+
+    def test_has_spec_note_and_base(self):
+        assert CompositeRuleBasedValueArgument.__doc__.strip() == (
+            "This meta-class has the ability to serve as the abstract base class for ValueSpecifications that can be used for compound primitive data types."
+        )
+        assert CompositeRuleBasedValueArgument.__bases__[0] is ARObject
 
     def test_concrete_subclass_initialization(self):
         """Test that a concrete subclass of CompositeRuleBasedValueArgument can be instantiated"""

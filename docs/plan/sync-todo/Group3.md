@@ -883,16 +883,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [Table 5.112, p.435; init/add/get rows with six columns and R23-11 release]
   - [x] Step 8 — Deviations  [none: field aggregation uses dedicated typed plural list `fields`; all spec members have reader/writer coverage]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused tests, lint, Black check, and diff check passed; 9b: user-confirmed matched base, member type/order, verbatim Note, reader/writer coverage, and no deviations; marker `# Spec verified: R23-11` written]
-- [ ] `CompositeRuleBasedValueArgument` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.136 · member type of `CompositeRuleBasedValueSpecification.compoundPrimitiveArgument` below · base ARObject, no complex members)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `CompositeRuleBasedValueArgument` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.136 · member type of `CompositeRuleBasedValueSpecification.compoundPrimitiveArgument` below · base ARObject, no complex members) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.136, p.473; abstract Class; Base ARObject; no own Attribute rows; Note copied verbatim: "This meta-class has the ability to serve as the abstract base class for ValueSpecifications that can be used for compound primitive data types."]
+  - [x] Step 2 — Write model class unit test (Red)  [abstract guard, exact Note/base assertions, and concrete-subclass initialization; stale Note failed before implementation]
+  - [x] Step 3 — Implement model class (Green)  [most-derived base changed to ARObject; retained ABC abstract guard and concrete subclass compatibility]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [class Note copied verbatim from Table 5.136; fabricated class and __init__ prose removed]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [N/A: abstract base has no own XML element or attributes; concrete ApplicationValueSpecification/ApplicationRuleBasedValueSpecification consumers own coverage]
+  - [x] Step 6 — Update parser & writer (Green)  [N/A: no own parser/writer helper; concrete consumers retain the inherited XML behavior]
+  - [x] Step 7 — Update checklist comment  [Table 5.136, p.473; abstract __init__ row with six columns and R23-11 release]
+  - [x] Step 8 — Deviations  [none: abstract ARObject base and empty Attribute table match the spec; concrete consumer coverage retained]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 24 focused tests, lint, and Black check passed; 9b: user-confirmed abstract kind, ARObject base, empty Attribute table, exact Note, N/A XML coverage, package location, and no deviations; marker `# Spec verified: R23-11` written]
 - [ ] `CompositeRuleBasedValueSpecification` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.135 · after `CompositeValueSpecification` (aggr `argument`) + `CompositeRuleBasedValueArgument` (aggr `compoundPrimitiveArgument`) · parent `AbstractRuleBasedValueSpecification` stamped ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

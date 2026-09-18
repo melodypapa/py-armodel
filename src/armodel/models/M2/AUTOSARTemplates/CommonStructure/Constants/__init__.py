@@ -98,21 +98,16 @@ class AbstractRuleBasedValueSpecification(ValueSpecification, ABC):
         super().__init__()
 
 
-class CompositeRuleBasedValueArgument(AbstractRuleBasedValueSpecification):
-    """
-    Abstract base class for value specifications that can be used for compound primitive data types.
-    This class serves as the base for specialized value specifications that handle complex data types.
-    Subclasses include ApplicationRuleBasedValueSpecification and ApplicationValueSpecification.
-    """
+class CompositeRuleBasedValueArgument(ARObject, ABC):
+    """This meta-class has the ability to serve as the abstract base class for ValueSpecifications that can be used for compound primitive data types."""
 
     # CompositeRuleBasedValueArgument method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.136, p.473
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # Spec verified: R23-11
 
     def __init__(self):
-        """
-        Initializes the CompositeRuleBasedValueArgument base class.
-        Raises TypeError if this abstract class is instantiated directly.
-        """
         if type(self) is CompositeRuleBasedValueArgument:
             raise TypeError("CompositeRuleBasedValueArgument is an abstract class.")
 
