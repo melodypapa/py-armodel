@@ -2526,6 +2526,7 @@ class DiagnosticRequestFileTransferNeeds(DiagnosticCapabilityElement):
 
     # DiagnosticRequestFileTransferNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.43, p.795
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -2636,6 +2637,7 @@ class DoIpActivationLineNeeds(DoIpServiceNeeds):
 
     # DoIpActivationLineNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.60, p.807
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -2650,6 +2652,7 @@ class DoIpGidNeeds(DoIpServiceNeeds):
 
     # DoIpGidNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.55, p.805
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
@@ -2664,6 +2667,7 @@ class DoIpGidSynchronizationNeeds(DoIpServiceNeeds):
 
     # DoIpGidSynchronizationNeeds method parity checklist:
     # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.56, p.806
+    # Spec verified: R23-11
     # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
     # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 

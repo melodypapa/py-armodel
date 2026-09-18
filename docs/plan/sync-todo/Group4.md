@@ -274,7 +274,7 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch added
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base fix in-pass Rule 0001.2)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (426 tests, flake8/ruff/black, parity, integration 2/2); 9b DEFERRED to batch stamp
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (426 tests, flake8/ruff/black, parity, integration 2/2); 9b confirmed by user 2026-09-18
 - [ ] `DoIpActivationLineNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.60 · **Step 1 finding: own table = Swc TPS Table 13.60, p.807 (body at md 23834-23841, after caption 23832); concrete Class (XSD complexType `DO-IP-ACTIVATION-LINE-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 48405 `<xsd:sequence/>` empty); Base row includes DoIpServiceNeeds → most-derived = `DoIpServiceNeeds` (stamped, Table 13.54 p.805) — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim (ISO 13400 reference; XSD doc truncates to "ISO 13400." — markdown primary); XSD element in BOTH choice groups (11487 BSW, 12606 Swc); dispatch was MISSING → added full 5-place pattern (readServiceNeeds base, chains before DO-IP-ROUTING-*, createDoIpActivationLineNeeds factory); NOTE: the three DoIp classes were physically relocated after DoIpServiceNeeds's definition (forward-reference NameError at import)**
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — asserts DoIpServiceNeeds base
@@ -284,7 +284,7 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch added
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base fix in-pass Rule 0001.2)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (428 tests, flake8/ruff/black, parity, integration 2/2); 9b DEFERRED to batch stamp
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (428 tests, flake8/ruff/black, parity, integration 2/2); 9b confirmed by user 2026-09-18
 - [ ] `DoIpGidNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.55 · **Step 1 finding: own table = Swc TPS Table 13.55, p.805 (body at md 23760-23767, before caption 23769 — artifact); concrete Class (XSD complexType `DO-IP-GID-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 48502 `<xsd:sequence/>` empty); Base row includes DoIpServiceNeeds → most-derived = `DoIpServiceNeeds` — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim; XSD element in BOTH choice groups (11488 BSW, 12607 Swc, order ACTIVATION-LINE→GID→GID-SYNCHRONIZATION); dispatch was MISSING → added full 5-place pattern + createDoIpGidNeeds factory**
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — asserts DoIpServiceNeeds base
@@ -294,7 +294,7 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch added
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base fix in-pass Rule 0001.2)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (430 tests, flake8/ruff/black, parity, integration 2/2); 9b DEFERRED to batch stamp
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (430 tests, flake8/ruff/black, parity, integration 2/2); 9b confirmed by user 2026-09-18
 - [ ] `DoIpGidSynchronizationNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.56 · **Step 1 finding: own table = Swc TPS Table 13.56, p.806 (body at md 23771-23775, after caption 23791 — caption-body interleaving artifact); concrete Class (XSD complexType `DO-IP-GID-SYNCHRONIZATION-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd group line 48530 `<xsd:sequence/>` empty); Base row includes DoIpServiceNeeds → most-derived = `DoIpServiceNeeds` — FIXED from src's `ServiceNeeds` (Rule 0001.2); ZERO own attributes; Note verbatim; XSD element in BOTH choice groups (11489 BSW, 12608 Swc); dispatch was MISSING → added full 5-place pattern + createDoIpGidSynchronizationNeeds factory**
   - [x] Step 1 — Sync members & description from spec
   - [x] Step 2 — Write model class unit test (Red) — asserts DoIpServiceNeeds base
@@ -304,9 +304,11 @@ Input: `Group 4 — BSW behavior policies & ServiceNeeds A` of `docs/examples/sy
   - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch added
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base fix in-pass Rule 0001.2)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (432 tests, flake8/ruff/black, parity, integration 2/2); 9b DEFERRED to batch stamp
+   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (432 tests, flake8/ruff/black, parity, integration 2/2); 9b confirmed by user 2026-09-18
 
 ## Pending 16.4 resolution (NEW — not in src)
+
+Batch confirmation: `DiagnosticRequestFileTransferNeeds`, `DoIpActivationLineNeeds`, `DoIpGidNeeds`, and `DoIpGidSynchronizationNeeds` confirmed by user on 2026-09-18; source markers are present in `ServiceNeeds.py`.
 
 Batch confirmation: `BswMgrNeeds`, `CryptoKeyManagementNeeds`, `CryptoServiceJobNeeds`, `DiagnosticControlNeeds`, and `DiagnosticEventManagerNeeds` confirmed by user on 2026-09-18; source markers are present in `ServiceNeeds.py`.
 
