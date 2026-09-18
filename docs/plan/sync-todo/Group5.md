@@ -36,16 +36,17 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base fix in-pass Rule 0001.2)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (437 touched tests + FULL unit+integration suite 9413 passed, flake8/ruff/black, parity); 9b confirmed 2026-09-18 → stamped R23-11; sync commit 30e266fd
-- [ ] `IdsMgrCustomTimestampNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.82)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `IdsMgrCustomTimestampNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.82)
+  - **Step 1 finding:** own table = Swc TPS Table 13.82, p.842; concrete Class (XSD complexType `IDS-MGR-CUSTOM-TIMESTAMP-NEEDS` `abstract="false"`, AUTOSAR_00052.xsd line 69499, group line 69490 `<xsd:sequence/>` empty); Base row = ...Referrable, ServiceNeeds → most-derived = `ServiceNeeds` (src base ALREADY correct — no DoIp in chain); ZERO own attributes; Note verbatim **incl. "Tags: atp.Status=draft" tail** (markdown 25373; same convention as stamped sibling IdsMgrNeeds Table 13.81); XSD element in BOTH choice groups (11501 BSW, 12620 Swc-side); dispatch MISSING → full 5-place pattern + createIdsMgrCustomTimestampNeeds factory needed
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 2/3 failed pre-implementation (docstring + docless; base already spec-correct)
+  - [x] Step 3 — Implement model class (Green) — spec Note verbatim (incl. Tags tail), __init__ docless
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — fabricated docstrings wiped; Note verbatim (Table 13.82 p.842)
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 2 dispatch tests failed pre-implementation (missing factory/reader/writer)
+  - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added (factory + parser import/BSW dispatch/helper/SWC dispatch + writer import/2 dispatches/helper)
+  - [x] Step 7 — Update checklist comment
+  - [x] Step 8 — Deviations — **none** (base already spec-correct; Note incl. Tags tail per stamped sibling IdsMgrNeeds convention)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (FULL unit+integration suite 9418 passed, flake8/ruff/black, parity); 9b confirmed 2026-09-18 → stamped R23-11
 - [ ] `J1939DcmDm19Support` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.72)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

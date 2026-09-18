@@ -187,6 +187,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     FurtherActionByteNeeds,
     GlobalSupervisionNeeds,
     HardwareTestNeeds,
+    IdsMgrCustomTimestampNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
@@ -2219,6 +2220,10 @@ class ARXMLParser(AbstractARXMLParser):
                 short_name = self.getShortName(child_element)
                 needs = SecureOnBoardCommunicationNeeds(dependency, short_name)
                 self.readSecureOnBoardCommunicationNeeds(child_element, needs)
+            elif tag_name == "IDS-MGR-CUSTOM-TIMESTAMP-NEEDS":
+                short_name = self.getShortName(child_element)
+                needs = IdsMgrCustomTimestampNeeds(dependency, short_name)
+                self.readIdsMgrCustomTimestampNeeds(child_element, needs)
             elif tag_name == "IDS-MGR-NEEDS":
                 short_name = self.getShortName(child_element)
                 needs = IdsMgrNeeds(dependency, short_name)
@@ -2353,6 +2358,9 @@ class ARXMLParser(AbstractARXMLParser):
     def readSecureOnBoardCommunicationNeeds(self, element: ET.Element, needs: SecureOnBoardCommunicationNeeds):
         self.readServiceNeeds(element, needs)
         needs.setVerificationStatusIndicationMode(self.getChildElementOptionalLiteral(element, "VERIFICATION-STATUS-INDICATION-MODE"))
+
+    def readIdsMgrCustomTimestampNeeds(self, element: ET.Element, needs: IdsMgrCustomTimestampNeeds):
+        self.readServiceNeeds(element, needs)
 
     def readIdsMgrNeeds(self, element: ET.Element, needs: IdsMgrNeeds):
         self.readServiceNeeds(element, needs)
@@ -2702,6 +2710,9 @@ class ARXMLParser(AbstractARXMLParser):
             elif tag_name == "SECURE-ON-BOARD-COMMUNICATION-NEEDS":
                 needs = parent.createSecureOnBoardCommunicationNeeds(self.getShortName(child_element))
                 self.readSecureOnBoardCommunicationNeeds(child_element, needs)
+            elif tag_name == "IDS-MGR-CUSTOM-TIMESTAMP-NEEDS":
+                needs = parent.createIdsMgrCustomTimestampNeeds(self.getShortName(child_element))
+                self.readIdsMgrCustomTimestampNeeds(child_element, needs)
             elif tag_name == "IDS-MGR-NEEDS":
                 needs = parent.createIdsMgrNeeds(self.getShortName(child_element))
                 self.readIdsMgrNeeds(child_element, needs)

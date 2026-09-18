@@ -44,6 +44,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     FurtherActionByteNeeds,
     GlobalSupervisionNeeds,
     HardwareTestNeeds,
+    IdsMgrCustomTimestampNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
@@ -651,6 +652,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, HardwareTestNeeds)
+
+    def createIdsMgrCustomTimestampNeeds(self, short_name: str) -> IdsMgrCustomTimestampNeeds:
+        """
+        Creates or retrieves a IdsMgrCustomTimestampNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            IdsMgrCustomTimestampNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, IdsMgrCustomTimestampNeeds):
+            needs = IdsMgrCustomTimestampNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, IdsMgrCustomTimestampNeeds)
 
     def createIndicatorStatusNeeds(self, short_name: str) -> IndicatorStatusNeeds:
         """

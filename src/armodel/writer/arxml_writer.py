@@ -162,6 +162,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     FurtherActionByteNeeds,
     GlobalSupervisionNeeds,
     HardwareTestNeeds,
+    IdsMgrCustomTimestampNeeds,
     IdsMgrNeeds,
     IndicatorStatusNeeds,
     NvBlockNeeds,
@@ -4892,6 +4893,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDoIpRoutingActivationConfirmationNeeds(child_element, needs)
         elif isinstance(needs, SecureOnBoardCommunicationNeeds):
             self.writeSecureOnBoardCommunicationNeeds(child_element, needs)
+        elif isinstance(needs, IdsMgrCustomTimestampNeeds):
+            self.writeIdsMgrCustomTimestampNeeds(child_element, needs)
         elif isinstance(needs, IdsMgrNeeds):
             self.writeIdsMgrNeeds(child_element, needs)
         else:
@@ -5118,6 +5121,11 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.logger.debug("write SecureOnBoardCommunicationNeeds %s" % needs.getShortName())
         self.writeServiceNeeds(child_element, needs)
         self.setChildElementOptionalLiteral(child_element, "VERIFICATION-STATUS-INDICATION-MODE", needs.getVerificationStatusIndicationMode())
+
+    def writeIdsMgrCustomTimestampNeeds(self, element: ET.Element, needs: IdsMgrCustomTimestampNeeds):
+        child_element = ET.SubElement(element, "IDS-MGR-CUSTOM-TIMESTAMP-NEEDS")
+        self.logger.debug("write IdsMgrCustomTimestampNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
 
     def writeIdsMgrNeeds(self, element: ET.Element, needs: IdsMgrNeeds):
         child_element = ET.SubElement(element, "IDS-MGR-NEEDS")
@@ -5437,6 +5445,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDoIpRoutingActivationConfirmationNeeds(child_element, needs)
                 elif isinstance(needs, SecureOnBoardCommunicationNeeds):
                     self.writeSecureOnBoardCommunicationNeeds(child_element, needs)
+                elif isinstance(needs, IdsMgrCustomTimestampNeeds):
+                    self.writeIdsMgrCustomTimestampNeeds(child_element, needs)
                 elif isinstance(needs, IdsMgrNeeds):
                     self.writeIdsMgrNeeds(child_element, needs)
                 else:

@@ -783,6 +783,19 @@ class TestServiceNeedsHandlers:
         parser.readFurtherActionByteNeeds(element, needs)
         assert needs.getShortName() == "fbnNeeds"
 
+    def test_readIdsMgrCustomTimestampNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import IdsMgrCustomTimestampNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>imctnNeeds</SHORT-NAME>", root_tag="IDS-MGR-CUSTOM-TIMESTAMP-NEEDS")
+        needs = dependency.createIdsMgrCustomTimestampNeeds("imctnNeeds")
+        assert isinstance(needs, IdsMgrCustomTimestampNeeds)
+        parser.readIdsMgrCustomTimestampNeeds(element, needs)
+        assert needs.getShortName() == "imctnNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 

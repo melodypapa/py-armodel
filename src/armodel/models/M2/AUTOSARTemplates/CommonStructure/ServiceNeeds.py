@@ -3111,21 +3111,16 @@ class HardwareTestNeeds(ServiceNeeds):
 
 class IdsMgrCustomTimestampNeeds(ServiceNeeds):
     """
-    Represents IDS Manager Custom Timestamp needs in AUTOSAR models.
-    This class defines requirements for IDS (Intrusion Detection System) manager custom timestamp services.
+    This meta-class is used to indicate that the enclosing SwcServiceDependency represents a service use case for the retrieval of a custom timestamp by the Intrusion Detection System Manager. Tags: atp.Status=draft
     """
 
     # IdsMgrCustomTimestampNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.82, p.842
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the IdsMgrCustomTimestampNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this IDS manager custom timestamp needs
-            short_name: The unique short name of this IDS manager custom timestamp needs
-        """
         super().__init__(parent, short_name)
 
 

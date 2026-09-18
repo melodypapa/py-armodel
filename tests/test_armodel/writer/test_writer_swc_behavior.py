@@ -1741,6 +1741,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "fbn1"
 
+    def test_writeIdsMgrCustomTimestampNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createIdsMgrCustomTimestampNeeds("imctn1")
+        parent = _parent()
+        writer.writeIdsMgrCustomTimestampNeeds(parent, needs)
+        elem = parent.find("IDS-MGR-CUSTOM-TIMESTAMP-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "imctn1"
+
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
@@ -1777,6 +1787,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createDoIpGidSynchronizationNeeds("dgsn")
         dep.createDoIpPowerModeStatusNeeds("dpmn")
         dep.createFurtherActionByteNeeds("fbn")
+        dep.createIdsMgrCustomTimestampNeeds("imctn")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1813,6 +1824,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "DO-IP-GID-SYNCHRONIZATION-NEEDS" in tags
         assert "DO-IP-POWER-MODE-STATUS-NEEDS" in tags
         assert "FURTHER-ACTION-BYTE-NEEDS" in tags
+        assert "IDS-MGR-CUSTOM-TIMESTAMP-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()
