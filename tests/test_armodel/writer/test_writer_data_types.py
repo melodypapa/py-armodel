@@ -64,7 +64,7 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwPointerTargetProps,
     ValueList,
 )
-from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwVariableRefProxy
+from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -182,7 +182,9 @@ class TestSwAxisIndividualWriter:
 class TestSwAxisGroupedWriter:
     def test_set_sw_axis_grouped(self, writer):
         props = SwAxisGrouped()
-        props.setSharedAxisTypeRef(_ref("SW-CALPRM-AXIS", "/shared"))
+        props.setSharedAxisTypeRef(_ref("APPLICATION-PRIMITIVE-DATA-TYPE", "/shared"))
+        props.setSwAxisIndex(_literal("1"))
+        props.setSwCalprmRef(SwCalprmRefProxy().setMcDataInstanceRef(_ref("MC-DATA-INSTANCE", "/calprm")))
 
         parent = _parent()
         writer.setSwAxisGrouped(parent, props)
@@ -193,7 +195,9 @@ class TestSwAxisGroupedWriter:
         ref_el = child.find("SHARED-AXIS-TYPE-REF")
         assert ref_el is not None
         assert ref_el.text == "/shared"
-        assert ref_el.attrib.get("DEST") == "SW-CALPRM-AXIS"
+        assert ref_el.attrib.get("DEST") == "APPLICATION-PRIMITIVE-DATA-TYPE"
+        assert child.find("SW-AXIS-INDEX").text == "1"
+        assert child.find("SW-CALPRM-REF-PROXY/MC-DATA-INSTANCE-REF").text == "/calprm"
 
 
 class TestSwCalprmAxisWriter:

@@ -9,7 +9,8 @@ from armodel.models.M2.MSR.DataDictionary.Axis import (
     SwAxisIndividual,
     SwGenericAxisParam,
 )
-from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwVariableRefProxy
+from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
+from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 
 
 class TestSwGenericAxisParam:
@@ -213,7 +214,7 @@ class TestSwAxisGrouped:
     def test_sw_axis_grouped_sw_axis_index_methods(self):
         """Test the swAxisIndex getter and setter."""
         sw_axis_grouped = SwAxisGrouped()
-        index = ARNumerical()
+        index = AxisIndexType()
 
         result = sw_axis_grouped.setSwAxisIndex(index)
         assert sw_axis_grouped.getSwAxisIndex() == index
@@ -222,9 +223,25 @@ class TestSwAxisGrouped:
     def test_sw_axis_grouped_sw_calprm_ref_methods(self):
         """Test the swCalprmRef getter and setter."""
         sw_axis_grouped = SwAxisGrouped()
-        # Note: SwCalprmRefProxy is not defined in the source, so using a placeholder
-        ref = object()
+        ref = SwCalprmRefProxy()
 
         result = sw_axis_grouped.setSwCalprmRef(ref)
         assert sw_axis_grouped.getSwCalprmRef() == ref
         assert result == sw_axis_grouped
+
+    def test_sw_axis_grouped_setters_are_typed_and_none_safe(self):
+        sw_axis_grouped = SwAxisGrouped()
+        shared_ref = RefType().setValue("/types/shared")
+        axis_index = AxisIndexType().setValue("1")
+        calprm_ref = SwCalprmRefProxy()
+
+        sw_axis_grouped.setSharedAxisTypeRef(shared_ref)
+        sw_axis_grouped.setSwAxisIndex(axis_index)
+        sw_axis_grouped.setSwCalprmRef(calprm_ref)
+        sw_axis_grouped.setSharedAxisTypeRef(None)
+        sw_axis_grouped.setSwAxisIndex(None)
+        sw_axis_grouped.setSwCalprmRef(None)
+
+        assert sw_axis_grouped.getSharedAxisTypeRef() is shared_ref
+        assert sw_axis_grouped.getSwAxisIndex() is axis_index
+        assert sw_axis_grouped.getSwCalprmRef() is calprm_ref

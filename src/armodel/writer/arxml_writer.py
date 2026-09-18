@@ -2868,7 +2868,10 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObject(child_element, props)
         self.setChildElementOptionalFloatValue(child_element, "MAX-GRADIENT", props.getMaxGradient())
         self.setChildElementOptionalLiteral(child_element, "MONOTONY", props.getMonotony())
-        self.setChildElementOptionalRefType(child_element, "SHARED-AXIS-TYPE-REF", props.sharedAxisTypeRef)
+        self.setChildElementOptionalRefType(child_element, "SHARED-AXIS-TYPE-REF", props.getSharedAxisTypeRef())
+        self.setChildElementOptionalLiteral(child_element, "SW-AXIS-INDEX", props.getSwAxisIndex())
+        if props.getSwCalprmRef() is not None:
+            self.setSwCalprmRefProxy(child_element, "SW-CALPRM-REF-PROXY", props.getSwCalprmRef())
 
     def setSwCalprmAxis(self, element: ET.Element, axis: SwCalprmAxis):
         if axis is not None:

@@ -2,7 +2,8 @@ from typing import List, Optional
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxisTypeProps
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Integer, RefType
-from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwVariableRefProxy
+from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
+from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 
 
 class SwGenericAxisParam(ARObject):
@@ -252,43 +253,59 @@ class SwAxisIndividual(SwCalprmAxisTypeProps):
 
 class SwAxisGrouped(SwCalprmAxisTypeProps):
     """
-    Grouped axis properties referencing a shared axis type with index and
-    calibration reference.
+    An SwAxisGrouped is an axis which is shared between multiple calibration parameters.
     """
 
     # SwAxisGrouped method parity checklist:
-    # [ ] __init__                     [x] impl  [ ] docstring  [ ] test
-    # [ ] getSharedAxisTypeRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] setSharedAxisTypeRef         [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwAxisIndex               [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwAxisIndex               [x] impl  [ ] docstring  [ ] test
-    # [ ] getSwCalprmRef               [x] impl  [ ] docstring  [ ] test
-    # [ ] setSwCalprmRef               [x] impl  [ ] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 5.55, p.357
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
+    # [x] getSharedAxisTypeRef    [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSharedAxisTypeRef    [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwAxisIndex          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwAxisIndex          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
+    # [x] getSwCalprmRef          [x] impl  [x] docstring  [x] test  [—] reader  [x] writer  R23-11
+    # [x] setSwCalprmRef          [x] impl  [x] docstring  [x] test  [x] reader  [—] writer  R23-11
 
     def __init__(self):
         super().__init__()
 
-        self.sharedAxisTypeRef = None  # type: RefType
-        self.swAxisIndex = None  # type: ARNumerical
-        self.swCalprmRef = None  # type: RefType
+        # This is the datatype of the calibration parameter providing the shared axis.
+        self.sharedAxisTypeRef: Optional[RefType] = None
 
-    def getSharedAxisTypeRef(self):
+        # Describes which axis of the referenced calibration parameter provides the values for the group axis. The index satisfies the following convention: • 0 = value axis. in this case, the interpolation result of the referenced parameter is used as a base point index. • The index should only be specified if the parameter under swCalprm contains more than one axis. It is standard practice for the axis index of parameters with more than one axis, to be set to 1, if data has not been assigned to swAxisIndex.
+        self.swAxisIndex: Optional[AxisIndexType] = None
+
+        # This property specifies the calibration parameter which serves as the input axis. In AUTOSAR, the type of the referenced Calibration parameter shall be compatible to the type specified by sharedAxisType. Please note that the multiplicity of this aggregation cannot be set to 0..1 based on the non-mainstream schema generation instructions defined at the aggregation. However, the multiplicity has to be factually considered 0..1 (i.e. a SwAxisGrouped that does not aggregate the role swCalprmRef is still valid according to the XML schema, depending on the use case documented in [constr_1015]).
+        self.swCalprmRef: Optional[SwCalprmRefProxy] = None
+
+    def getSharedAxisTypeRef(self) -> Optional[RefType]:
+        """This is the datatype of the calibration parameter providing the shared axis."""
         return self.sharedAxisTypeRef
 
-    def setSharedAxisTypeRef(self, value):
-        self.sharedAxisTypeRef = value
+    def setSharedAxisTypeRef(self, value: Optional[RefType]) -> "SwAxisGrouped":
+        """This is the datatype of the calibration parameter providing the shared axis. A None value is a no-op and does not overwrite an existing sharedAxisTypeRef."""
+        if value is not None:
+            self.sharedAxisTypeRef = value
         return self
 
-    def getSwAxisIndex(self):
+    def getSwAxisIndex(self) -> Optional[AxisIndexType]:
+        """Describes which axis of the referenced calibration parameter provides the values for the group axis. The index satisfies the following convention: • 0 = value axis. in this case, the interpolation result of the referenced parameter is used as a base point index. • The index should only be specified if the parameter under swCalprm contains more than one axis. It is standard practice for the axis index of parameters with more than one axis, to be set to 1, if data has not been assigned to swAxisIndex."""
         return self.swAxisIndex
 
-    def setSwAxisIndex(self, value):
-        self.swAxisIndex = value
+    def setSwAxisIndex(self, value: Optional[AxisIndexType]) -> "SwAxisGrouped":
+        """Describes which axis of the referenced calibration parameter provides the values for the group axis. The index satisfies the following convention: • 0 = value axis. in this case, the interpolation result of the referenced parameter is used as a base point index. • The index should only be specified if the parameter under swCalprm contains more than one axis. It is standard practice for the axis index of parameters with more than one axis, to be set to 1, if data has not been assigned to swAxisIndex. A None value is a no-op and does not overwrite an existing swAxisIndex."""
+        if value is not None:
+            self.swAxisIndex = value
         return self
 
-    def getSwCalprmRef(self):
+    def getSwCalprmRef(self) -> Optional[SwCalprmRefProxy]:
+        """This property specifies the calibration parameter which serves as the input axis. In AUTOSAR, the type of the referenced Calibration parameter shall be compatible to the type specified by sharedAxisType. Please note that the multiplicity of this aggregation cannot be set to 0..1 based on the non-mainstream schema generation instructions defined at the aggregation. However, the multiplicity has to be factually considered 0..1 (i.e. a SwAxisGrouped that does not aggregate the role swCalprmRef is still valid according to the XML schema, depending on the use case documented in [constr_1015])."""
         return self.swCalprmRef
 
-    def setSwCalprmRef(self, value):
-        self.swCalprmRef = value
+    def setSwCalprmRef(self, value: Optional[SwCalprmRefProxy]) -> "SwAxisGrouped":
+        """This property specifies the calibration parameter which serves as the input axis. In AUTOSAR, the type of the referenced Calibration parameter shall be compatible to the type specified by sharedAxisType. Please note that the multiplicity of this aggregation cannot be set to 0..1 based on the non-mainstream schema generation instructions defined at the aggregation. However, the multiplicity has to be factually considered 0..1 (i.e. a SwAxisGrouped that does not aggregate the role swCalprmRef is still valid according to the XML schema, depending on the use case documented in [constr_1015]). A None value is a no-op and does not overwrite an existing swCalprmRef."""
+        if value is not None:
+            self.swCalprmRef = value
         return self

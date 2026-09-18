@@ -700,12 +700,16 @@ class TestSwDataDefPropsHandlers:
 
     def test_getSwAxisGrouped(self, parser):
         element = _snip(
-            "<SHARED-AXIS-TYPE-REF DEST='SW-AXIS-TYPE'>/axis/type</SHARED-AXIS-TYPE-REF>",
+            "<SHARED-AXIS-TYPE-REF DEST='APPLICATION-PRIMITIVE-DATA-TYPE'>/axis/type</SHARED-AXIS-TYPE-REF>"
+            "<SW-AXIS-INDEX>1</SW-AXIS-INDEX>"
+            "<SW-CALPRM-REF-PROXY><MC-DATA-INSTANCE-REF DEST='MC-DATA-INSTANCE'>/axis/calprm</MC-DATA-INSTANCE-REF></SW-CALPRM-REF-PROXY>",
             root_tag="SW-AXIS-GROUPED",
         )
         props = parser.getSwAxisGrouped(element)
         assert props is not None
         assert props.getSharedAxisTypeRef() is not None
+        assert props.getSwAxisIndex().getValue() == "1"
+        assert props.getSwCalprmRef().getMcDataInstanceRef().getValue() == "/axis/calprm"
 
     def test_getSwAxisIndividual_with_generic_axis(self, parser):
         element = _snip(

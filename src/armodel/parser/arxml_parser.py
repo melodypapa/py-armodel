@@ -6107,6 +6107,10 @@ class ARXMLParser(AbstractARXMLParser):
         props.setMaxGradient(self.getChildElementOptionalFloatValue(element, "MAX-GRADIENT"))
         props.setMonotony(self.getChildElementOptionalLiteral(element, "MONOTONY"))
         props.setSharedAxisTypeRef(self.getChildElementOptionalRefType(element, "SHARED-AXIS-TYPE-REF"))
+        props.setSwAxisIndex(self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX"))
+        child_element = self.find(element, "SW-CALPRM-REF-PROXY")
+        if child_element is not None:
+            props.setSwCalprmRef(self.readSwCalprmRefProxy(child_element))
         return props
 
     def getSwCalprmAxis(self, element: ET.Element) -> SwCalprmAxis:
