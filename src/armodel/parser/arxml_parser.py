@@ -12296,13 +12296,43 @@ class ARXMLParser(AbstractARXMLParser):
         for ref in self.getChildElementRefTypeList(element, "FIBEX-ELEMENTS/FIBEX-ELEMENT-REF-CONDITIONAL/FIBEX-ELEMENT-REF"):
             system.addFibexElementRef(ref)
 
+    def readSystemDocumentations(self, element: ET.Element, system: System):
+        for chapter_element in self.findall(element, "SYSTEM-DOCUMENTATIONS/CHAPTER"):
+            chapter = system.createSystemDocumentation(self.getShortName(chapter_element))
+            self.readChapterBody(chapter_element, chapter)
+
+    def readSystemClientIdDefinitionSetRefs(self, element: ET.Element, system: System):
+        for ref in self.getChildElementRefTypeList(element, "CLIENT-ID-DEFINITION-SET-REFS/CLIENT-ID-DEFINITION-SET-REF"):
+            system.addClientIdDefinitionSetRef(ref)
+
+    def readSystemInterpolationRoutineMappingSetRefs(self, element: ET.Element, system: System):
+        for ref in self.getChildElementRefTypeList(element, "INTERPOLATION-ROUTINE-MAPPING-SET-REFS/INTERPOLATION-ROUTINE-MAPPING-SET-REF"):
+            system.addInterpolationRoutineMappingSetRef(ref)
+
+    def readSystemJ1939SharedAddressClusters(self, element: ET.Element, system: System):
+        for child_element in self.findall(element, "J-1939-SHARED-ADDRESS-CLUSTERS/J-1939-SHARED-ADDRESS-CLUSTER"):
+            cluster = system.createJ1939SharedAddressCluster(self.getShortName(child_element))
+            self.readIdentifiable(child_element, cluster)
+
+    def readSystemSwClusterRefs(self, element: ET.Element, system: System):
+        for ref in self.getChildElementRefTypeList(element, "SW-CLUSTERS/CP-SOFTWARE-CLUSTER-REF-CONDITIONAL/CP-SOFTWARE-CLUSTER-REF"):
+            system.addSwClusterRef(ref)
+
     def readSystem(self, element: ET.Element, system: System):
         self.logger.debug("Read System <%s>" % system.getShortName())
         self.readIdentifiable(element, system)
-        system.setEcuExtractVersion(self.getChildElementOptionalLiteral(element, "ECU-EXTRACT-VERSION"))
+        self.readSystemDocumentations(element, system)
+        self.readSystemClientIdDefinitionSetRefs(element, system)
+        system.setContainerIPduHeaderByteOrder(self.getChildElementOptionalLiteral(element, "CONTAINER-I-PDU-HEADER-BYTE-ORDER"))
+        system.setEcuExtractVersion(self.getChildElementOptionalRevisionLabelString(element, "ECU-EXTRACT-VERSION"))
         self.readSystemFibexElementRefs(element, system)
+        self.readSystemInterpolationRoutineMappingSetRefs(element, system)
+        self.readSystemJ1939SharedAddressClusters(element, system)
         self.readSystemMappings(element, system)
+        system.setPncVectorLength(self.getChildElementOptionalPositiveInteger(element, "PNC-VECTOR-LENGTH"))
+        system.setPncVectorOffset(self.getChildElementOptionalPositiveInteger(element, "PNC-VECTOR-OFFSET"))
         self.readRootSwCompositionPrototype(element, system)
+        self.readSystemSwClusterRefs(element, system)
         system.setSystemVersion(self.getChildElementOptionalRevisionLabelString(element, "SYSTEM-VERSION"))
         document = AUTOSAR.getInstance()
         document.addSystem(system)

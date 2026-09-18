@@ -135,16 +135,17 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base already spec-correct; zero attrs; Note wrap-space artifact resolved via XSD doc)
   - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (457 touched tests + integration 130-file round-trip, lint/ruff/black, parity, set-based check); 9b DEFERRED to batch stamp
-- [ ] `System` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 2.1 (multiple tables — resolve in per-class Phase 0))
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [ ] `System` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 2.1)
+  - **Step 1 finding:** own table = SystemTemplate TPS Table 2.1, p.42 (page-split into two rendered bodies: clientIdDefinitionSet…pncVectorOffset before the caption, rootSoftwareComposition…systemVersion after — render artifact, all rows verified as this class's); concrete Class (XSD complexType `SYSTEM` `abstract="false"`, AUTOSAR_00052.xsd group line 119210, complexType line 119390); Base row includes ARElement…AtpStructureElement → most-derived = `AtpStructureElement` (src base ALREADY correct); 13 attributes in displayed order (clientIdDefinitionSet, containerIPduHeaderByteOrder, ecuExtractVersion, fibexElement, interpolationRoutineMappingSet, j1939SharedAddressCluster, mapping, pncVectorLength, pncVectorOffset, rootSoftwareComposition, swCluster, systemDocumentation, systemVersion); NOT VP-capable (no VARIATION-POINT in SYSTEM group; aggr rows' atpVariation land on child types); model gaps: missing typing (containerIPduHeaderByteOrder/ecuExtractVersion/pnc*/systemVersion), adder naming (…SetRefs→…SetRef ×2), j1939 set→create shape, mappings/systemDocumentation registry-filter getters → dedicated fields, missing None-guards; reader/writer gaps: 8 attrs uncovered (clientIdDefinitionSet, containerIPduHeaderByteOrder, interpolationRoutineMappingSet, j1939SharedAddressCluster, pncVectorLength, pncVectorOffset, swCluster, systemDocumentation); XSD order: SYSTEM-DOCUMENTATIONS first (sequenceOffset=-10); all referenced classes exist (Chapter, ByteOrderEnum, RevisionLabelString, PositiveInteger, J1939SharedAddressCluster, SystemMapping, RootSwCompositionPrototype)
+  - [x] Step 1 — Sync members & description from spec
+  - [x] Step 2 — Write model class unit test (Red) — 4/4 failed pre-implementation (missing getSystemDocumentations/addClientIdDefinitionSetRef/createJ1939SharedAddressCluster/createSystemDocumentation + None no-ops)
+  - [x] Step 3 — Implement model class (Green) — typed fields (Optional/List per Mult.), adder renames …SetRefs→…SetRef, j1939 set→create shape, mappings/systemDocumentations dedicated fields, None-guards; getSystemMappings removed
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) — class Note verbatim (Table 2.1 p.42, incl. Tags tail) + constr_3028/constr_3027; per-attribute comments + getter/setter docstrings verbatim (Stereotypes/Tags tails dropped; "InterpolationRoutineMappingSets"/"SystemMapping" wrap artifacts resolved via XSD doc); __init__ docless
+  - [x] Step 5 — Write reader/writer round-trip test (Red) — 3 new tests failed pre-implementation (parser full-attribute test, writer XSD-order test, writer full round-trip); empty-wrapper + pre-existing CanSystem tests green
+  - [x] Step 6 — Update parser & writer (Green) — readSystem/writeSystem rebuilt in XSD group order (SYSTEM-DOCUMENTATIONS first); 6 new read/write helpers; ECU-EXTRACT-VERSION upgraded to spec-typed RevisionLabelString helper (Rule 0001.3); orchestrator test data "1.0" → "1.0.0" (invalid RevisionLabelString)
+  - [x] Step 7 — Update checklist comment — 6-column format with per-row release R23-11; 27 methods, source order; no marker (deferred to batch stamp)
+  - [x] Step 8 — Deviations — **none** (all findings fixed in-pass: adder renames, j1939 set→create, registry-filter getters → dedicated fields, typing, None-guards, 8 reader/writer gaps, ECU-EXTRACT-VERSION type upgrade); stale tracker rows for System removed in docs/examples/method_deviation_by_class_v2.md; interim note: J1939SharedAddressCluster children read/written at Identifiable level until its own sync (Table 6.324, next row)
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (370 touched tests + integration 130/130 round-trip, lint/ruff/black, parity script, set-based check 27 methods, chained-mutator grep clean, verbatim docstring diff vs markdown); 9b DEFERRED to batch stamp
 - [ ] `J1939SharedAddressCluster` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SystemTemplate · Table 6.324)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)

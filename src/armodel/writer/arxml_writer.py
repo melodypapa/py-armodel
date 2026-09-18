@@ -10873,14 +10873,59 @@ class ARXMLWriter(AbstractARXMLWriter):
                 child_element = ET.SubElement(fibex_elements_tag, "FIBEX-ELEMENT-REF-CONDITIONAL")
                 self.setChildElementOptionalRefType(child_element, "FIBEX-ELEMENT-REF", ref)
 
+    def writeSystemDocumentations(self, element: ET.Element, system: System):
+        chapters = system.getSystemDocumentations()
+        if len(chapters) > 0:
+            documentations_tag = ET.SubElement(element, "SYSTEM-DOCUMENTATIONS")
+            for chapter in chapters:
+                self.writeChapter(documentations_tag, chapter, "CHAPTER")
+
+    def writeSystemClientIdDefinitionSetRefs(self, element: ET.Element, system: System):
+        refs = system.getClientIdDefinitionSetRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "CLIENT-ID-DEFINITION-SET-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "CLIENT-ID-DEFINITION-SET-REF", ref)
+
+    def writeSystemInterpolationRoutineMappingSetRefs(self, element: ET.Element, system: System):
+        refs = system.getInterpolationRoutineMappingSetRefs()
+        if len(refs) > 0:
+            refs_tag = ET.SubElement(element, "INTERPOLATION-ROUTINE-MAPPING-SET-REFS")
+            for ref in refs:
+                self.setChildElementOptionalRefType(refs_tag, "INTERPOLATION-ROUTINE-MAPPING-SET-REF", ref)
+
+    def writeSystemJ1939SharedAddressClusters(self, element: ET.Element, system: System):
+        clusters = system.getJ1939SharedAddressClusters()
+        if len(clusters) > 0:
+            clusters_tag = ET.SubElement(element, "J-1939-SHARED-ADDRESS-CLUSTERS")
+            for cluster in clusters:
+                cluster_element = ET.SubElement(clusters_tag, "J-1939-SHARED-ADDRESS-CLUSTER")
+                self.writeIdentifiable(cluster_element, cluster)
+
+    def writeSystemSwClusterRefs(self, element: ET.Element, system: System):
+        refs = system.getSwClusterRefs()
+        if len(refs) > 0:
+            sw_clusters_tag = ET.SubElement(element, "SW-CLUSTERS")
+            for ref in refs:
+                child_element = ET.SubElement(sw_clusters_tag, "CP-SOFTWARE-CLUSTER-REF-CONDITIONAL")
+                self.setChildElementOptionalRefType(child_element, "CP-SOFTWARE-CLUSTER-REF", ref)
+
     def writeSystem(self, element: ET.Element, system: System):
         self.logger.debug("Write System %s" % system.getShortName())
         child_element = ET.SubElement(element, "SYSTEM")
         self.writeARElement(child_element, system)
-        self.setChildElementOptionalLiteral(child_element, "ECU-EXTRACT-VERSION", system.getEcuExtractVersion())
+        self.writeSystemDocumentations(child_element, system)
+        self.writeSystemClientIdDefinitionSetRefs(child_element, system)
+        self.setChildElementOptionalLiteral(child_element, "CONTAINER-I-PDU-HEADER-BYTE-ORDER", system.getContainerIPduHeaderByteOrder())
+        self.setChildElementOptionalRevisionLabelString(child_element, "ECU-EXTRACT-VERSION", system.getEcuExtractVersion())
         self.writeSystemFibexElementRefs(child_element, system)
+        self.writeSystemInterpolationRoutineMappingSetRefs(child_element, system)
+        self.writeSystemJ1939SharedAddressClusters(child_element, system)
         self.writeSystemMappings(child_element, system)
+        self.setChildElementOptionalPositiveInteger(child_element, "PNC-VECTOR-LENGTH", system.getPncVectorLength())
+        self.setChildElementOptionalPositiveInteger(child_element, "PNC-VECTOR-OFFSET", system.getPncVectorOffset())
         self.writeRootSwCompositionPrototype(child_element, system)
+        self.writeSystemSwClusterRefs(child_element, system)
         self.setChildElementOptionalRevisionLabelString(child_element, "SYSTEM-VERSION", system.getSystemVersion())
 
     def writePhysicalDimension(self, element: ET.Element, dimension: PhysicalDimension):

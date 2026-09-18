@@ -2,6 +2,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.StandardizationTemplate.
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.AbstractStructure import AtpPrototype
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.ArObject import ARObject
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.Identifiable import Identifiable
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ByteOrderEnum, PositiveInteger, RefType, RevisionLabelString
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate import ComManagementMapping, J1939SharedAddressCluster, RootSwCompositionPrototype, SwcToEcuMapping, System, SystemMapping
 
 
@@ -293,17 +294,15 @@ class TestSystemTemplate:
         assert "j1939_cluster_ref" in cluster.getParticipatingJ1939ClusterRefs()
         assert cluster == cluster.addParticipatingJ1939ClusterRef("j1939_cluster_ref2")
 
-    def test_system(self):
+    def test_system_initialization(self):
         """
-        Test System class functionality with method chaining and None handling.
+        Test System class default values after initialization.
         """
         parent = MockParent()
         system = System(parent, "test_system")
 
-        # Test constructor
         assert system is not None
 
-        # Test default values
         assert system.getClientIdDefinitionSetRefs() == []
         assert system.getContainerIPduHeaderByteOrder() is None
         assert system.getEcuExtractVersion() is None
@@ -315,67 +314,100 @@ class TestSystemTemplate:
         assert system.getPncVectorOffset() is None
         assert system.getRootSoftwareComposition() is None
         assert system.getSwClusterRefs() == []
-        assert system.getSystemDocumentation() == []
+        assert system.getSystemDocumentations() == []
         assert system.getSystemVersion() is None
 
-        # Test setter/getter methods with method chaining
-        system.setContainerIPduHeaderByteOrder("big_endian")
-        assert system.getContainerIPduHeaderByteOrder() == "big_endian"
-        assert system == system.setContainerIPduHeaderByteOrder("big_endian")
+    def test_system_get_set_attributes(self):
+        """
+        Test System scalar attribute getter/setter pairs with method chaining and None no-op.
+        """
+        parent = MockParent()
+        system = System(parent, "test_system")
 
-        system.setEcuExtractVersion("1.0.0")
-        assert system.getEcuExtractVersion() == "1.0.0"
-        assert system == system.setEcuExtractVersion("1.0.0")
+        byte_order = ByteOrderEnum().setValue(ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST)
+        assert system == system.setContainerIPduHeaderByteOrder(byte_order)
+        assert system.getContainerIPduHeaderByteOrder() is byte_order
+        system.setContainerIPduHeaderByteOrder(None)
+        assert system.getContainerIPduHeaderByteOrder() is byte_order
 
-        system.setPncVectorLength(8)
-        assert system.getPncVectorLength() == 8
-        assert system == system.setPncVectorLength(8)
+        ecu_extract_version = RevisionLabelString().setValue("1.0.0")
+        assert system == system.setEcuExtractVersion(ecu_extract_version)
+        assert system.getEcuExtractVersion() is ecu_extract_version
+        system.setEcuExtractVersion(None)
+        assert system.getEcuExtractVersion() is ecu_extract_version
 
-        system.setPncVectorOffset(4)
-        assert system.getPncVectorOffset() == 4
-        assert system == system.setPncVectorOffset(4)
+        pnc_vector_length = PositiveInteger().setValue("8")
+        assert system == system.setPncVectorLength(pnc_vector_length)
+        assert system.getPncVectorLength().getValue() == 8
+        system.setPncVectorLength(None)
+        assert system.getPncVectorLength().getValue() == 8
 
-        system.setSystemVersion("2.0.0")
-        assert system.getSystemVersion() == "2.0.0"
-        assert system == system.setSystemVersion("2.0.0")
+        pnc_vector_offset = PositiveInteger().setValue("4")
+        assert system == system.setPncVectorOffset(pnc_vector_offset)
+        assert system.getPncVectorOffset().getValue() == 4
+        system.setPncVectorOffset(None)
+        assert system.getPncVectorOffset().getValue() == 4
 
-        system.setSystemDocumentation(["doc1", "doc2"])
-        assert system.getSystemDocumentation() == ["doc1", "doc2"]
-        assert system == system.setSystemDocumentation(["doc1", "doc2"])
+        system_version = RevisionLabelString().setValue("2.0.0")
+        assert system == system.setSystemVersion(system_version)
+        assert system.getSystemVersion() is system_version
+        system.setSystemVersion(None)
+        assert system.getSystemVersion() is system_version
 
-        # Test add methods
-        system.addClientIdDefinitionSetRefs("client_def_ref")
-        assert "client_def_ref" in system.getClientIdDefinitionSetRefs()
-        assert system == system.addClientIdDefinitionSetRefs("client_def_ref2")
+    def test_system_add_refs(self):
+        """
+        Test System reference list adders with appending, chaining and None no-op.
+        """
+        parent = MockParent()
+        system = System(parent, "test_system")
 
-        system.addFibexElementRef("fibex_ref")
-        assert "fibex_ref" in system.getFibexElementRefs()
-        assert system == system.addFibexElementRef("fibex_ref2")
+        client_id_definition_set_ref = RefType().setValue("/Systems/ClientIdDefinitionSet")
+        assert system == system.addClientIdDefinitionSetRef(client_id_definition_set_ref)
+        assert system.getClientIdDefinitionSetRefs() == [client_id_definition_set_ref]
+        assert system == system.addClientIdDefinitionSetRef(None)
+        assert len(system.getClientIdDefinitionSetRefs()) == 1
 
-        system.addInterpolationRoutineMappingSetRefs("interp_mapping_ref")
-        assert "interp_mapping_ref" in system.getInterpolationRoutineMappingSetRefs()
-        assert system == system.addInterpolationRoutineMappingSetRefs("interp_mapping_ref2")
+        fibex_element_ref = RefType().setValue("/CanSystem/CLUSTERS/CanNetwork")
+        assert system == system.addFibexElementRef(fibex_element_ref)
+        assert system.getFibexElementRefs() == [fibex_element_ref]
+        assert system == system.addFibexElementRef(None)
+        assert len(system.getFibexElementRefs()) == 1
 
-        system.addSwClusterRef("sw_cluster_ref")
-        assert "sw_cluster_ref" in system.getSwClusterRefs()
-        assert system == system.addSwClusterRef("sw_cluster_ref2")
+        interpolation_routine_mapping_set_ref = RefType().setValue("/Systems/InterpolationRoutineMappingSet")
+        assert system == system.addInterpolationRoutineMappingSetRef(interpolation_routine_mapping_set_ref)
+        assert system.getInterpolationRoutineMappingSetRefs() == [interpolation_routine_mapping_set_ref]
+        assert system == system.addInterpolationRoutineMappingSetRef(None)
+        assert len(system.getInterpolationRoutineMappingSetRefs()) == 1
 
-        # Test create methods
+        sw_cluster_ref = RefType().setValue("/Systems/CpSoftwareCluster")
+        assert system == system.addSwClusterRef(sw_cluster_ref)
+        assert system.getSwClusterRefs() == [sw_cluster_ref]
+        assert system == system.addSwClusterRef(None)
+        assert len(system.getSwClusterRefs()) == 1
+
+    def test_system_create_aggregates(self):
+        """
+        Test System aggregate factories: appending, duplicate returns existing, dedicated list fields.
+        """
+        parent = MockParent()
+        system = System(parent, "test_system")
+
         mapping = system.createSystemMapping("mapping_name")
         assert mapping is not None
-        assert mapping in system.getMappings()
-
-        # Test getSystemMappings to cover line 441
-        system_mappings = system.getSystemMappings()
-        assert mapping in system_mappings
-        assert isinstance(system_mappings, list)
+        assert system.getMappings() == [mapping]
+        assert system.createSystemMapping("mapping_name") is mapping
 
         prototype = system.createRootSoftwareComposition("prototype_name")
         assert prototype is not None
-        assert system.getRootSoftwareComposition() == prototype
+        assert system.getRootSoftwareComposition() is prototype
+        assert system.createRootSoftwareComposition("prototype_name") is prototype
 
-        # Test setJ1939SharedAddressClusters
-        cluster = J1939SharedAddressCluster(parent, "cluster_name")
-        system.setJ1939SharedAddressClusters(cluster)
-        assert cluster in system.getJ1939SharedAddressClusters()
-        assert system == system.setJ1939SharedAddressClusters(cluster)
+        cluster = system.createJ1939SharedAddressCluster("cluster_name")
+        assert cluster is not None
+        assert system.getJ1939SharedAddressClusters() == [cluster]
+        assert system.createJ1939SharedAddressCluster("cluster_name") is cluster
+
+        chapter = system.createSystemDocumentation("chapter_name")
+        assert chapter is not None
+        assert system.getSystemDocumentations() == [chapter]
+        assert system.createSystemDocumentation("chapter_name") is chapter
