@@ -70,6 +70,7 @@ from armodel.models.M2.AUTOSARTemplates.SWComponentTemplate.SoftwareComponentDoc
     SwComponentDocumentation,
 )
 from armodel.models.M2.AUTOSARTemplates.SystemTemplate.Transformer import EndToEndTransformationComSpecProps
+from armodel.models.M2.MSR.AsamHdo.Units import SingleLanguageUnitNames
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import (
     SwValueCont,
     SwValues,
@@ -1498,12 +1499,15 @@ class TestSetValueSpecifications:
         sw_values = SwValues()
         sw_values.addV(_numerical(5))
         cont.setSwValuesPhys(sw_values)
+        display_name = SingleLanguageUnitNames().setValue("display")
+        cont.setUnitDisplayName(display_name)
         parent = _parent()
         writer.writeSwValueCont(parent, cont)
         assert parent[0].tag == "SW-VALUE-CONT"
-        assert parent[0].find("UNIT-REF") is not None
-        assert parent[0].find("SW-ARRAYSIZE") is not None
-        assert parent[0].find("SW-VALUES-PHYS") is not None
+        assert parent[0].find("UNIT-REF").attrib["DEST"] == "UNIT"
+        assert parent[0].find("SW-ARRAYSIZE/V").text == "3.0"
+        assert parent[0].find("SW-VALUES-PHYS/V").text == "5"
+        assert parent[0].find("UNIT-DISPLAY-NAME").text == "display"
 
     def test_write_array_value_specification_empty(self, writer):
         spec = ArrayValueSpecification()

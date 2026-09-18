@@ -1626,6 +1626,7 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.setChildElementOptionalRefType(child_element, "UNIT-REF", cont.unitRef)
             self.setValueList(child_element, "SW-ARRAYSIZE", cont.swArraysize)
             self.setSwValues(child_element, "SW-VALUES-PHYS", cont.swValuesPhys)
+            self.setChildElementOptionalLiteral(child_element, "UNIT-DISPLAY-NAME", cont.unitDisplayName)
 
     def writeValueSpecification(self, element: ET.Element, value_spec: ValueSpecification):
         if value_spec is not None:

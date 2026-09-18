@@ -648,15 +648,23 @@ class TestDataTypeAndValueSpecHandlers:
 
     def test_getSwValueCont_full(self, parser):
         element = _snip(
-            "<SW-VALUE-CONT>" "<UNIT-REF DEST='UNIT'>/u</UNIT-REF>" "<SW-ARRAYSIZE><V>2</V></SW-ARRAYSIZE>" "<SW-VALUES-PHYS><V>1.0</V></SW-VALUES-PHYS>" "</SW-VALUE-CONT>",
+            "<SW-VALUE-CONT>"
+            "<UNIT-REF DEST='UNIT'>/u</UNIT-REF>"
+            "<SW-ARRAYSIZE><V>2</V></SW-ARRAYSIZE>"
+            "<SW-VALUES-PHYS><V>1.0</V></SW-VALUES-PHYS>"
+            "<UNIT-DISPLAY-NAME>display</UNIT-DISPLAY-NAME>"
+            "</SW-VALUE-CONT>",
             root_tag="PARENT",
         )
         cont = parser.getSwValueCont(element)
         assert cont is not None
         assert cont.getUnitRef().getValue() == "/u"
         assert cont.getSwArraysize() is not None
+        assert cont.getSwArraysize().getV().getValue() == "2"
         assert cont.getSwValuesPhys() is not None
         assert len(cont.getSwValuesPhys().getVs()) == 1
+        assert cont.getSwValuesPhys().getVs()[0].getValue() == "1.0"
+        assert cont.getUnitDisplayName().getValue() == "display"
 
     def test_getSwValueCont_missing_returns_None(self, parser):
         element = _snip("<X/>")

@@ -6053,6 +6053,7 @@ class ARXMLParser(AbstractARXMLParser):
             cont.setUnitRef(self.getChildElementOptionalRefType(child_element, "UNIT-REF"))
             cont.setSwArraysize(self.getValueList(child_element, "SW-ARRAYSIZE"))
             cont.setSwValuesPhys(self.getSwValues(child_element, "SW-VALUES-PHYS"))
+            cont.setUnitDisplayName(self.getChildElementOptionalLiteral(child_element, "UNIT-DISPLAY-NAME"))
         return cont
 
     def readApplicationValueSpecification(self, element: ET.Element, value_spec: ApplicationValueSpecification):

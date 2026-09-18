@@ -903,16 +903,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [Table 5.135, p.471; init + four member getter/setter pairs with six columns and R23-11 release]
   - [x] Step 8 — Deviations  [resolved: concrete ApplicationRuleBasedValueSpecification retained explicit ValueSpecification inheritance for inherited SHORT-LABEL XML coverage; MAX-SIZE-TO-FILL corrected from Integer to PositiveInteger; no remaining deviations]
   - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: 21 focused tests, lint, Black check, and diff check passed; 9b: user-confirmed element kind, base chain, member types/order, typed XML coverage, concrete inherited SHORT-LABEL coverage, verbatim docs, and no deviations; marker `# Spec verified: R23-11` written]
-- [ ] `SwValueCont` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.121 · deps stamped: `swArraysize` ValueList ✓ / `swValuesPhys` SwValues ✓ / `unit` Unit ✓ / `unitDisplayName` SingleLanguageUnitNames ✓)
-  - [ ] Step 1 — Sync members & description from spec
-  - [ ] Step 2 — Write model class unit test (Red)
-  - [ ] Step 3 — Implement model class (Green)
-  - [ ] Step 4 — Sync docstrings (wipe + rewrite)
-  - [ ] Step 5 — Write reader/writer round-trip test (Red)
-  - [ ] Step 6 — Update parser & writer (Green)
-  - [ ] Step 7 — Update checklist comment
-  - [ ] Step 8 — Deviations
-  - [ ] Step 9 — Verify (9a) + confirm (9b)
+- [x] `SwValueCont` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.121 · deps stamped: `swArraysize` ValueList ✓ / `swValuesPhys` SwValues ✓ / `unit` Unit ✓ / `unitDisplayName` SingleLanguageUnitNames ✓) — verified R23-11 (commit pending)
+  - [x] Step 1 — Sync members & description from spec  [Table 5.121, p.450; Base ARObject; ordered members swArraysize ValueList aggr 0..1, swValuesPhys SwValues aggr 0..1, unit Unit ref 0..1, unitDisplayName SingleLanguageUnitNames aggr 0..1; member Notes and Tags copied from markdown]
+  - [x] Step 2 — Write model class unit test (Red)  [existing model tests extended with exact ARObject base, four member defaults, typed setter chaining, and None no-op assertions; stale docs and unconditional setters failed before implementation]
+  - [x] Step 3 — Implement model class (Green)  [four members converted to PEP 526 Optional annotations; typed accessors and guarded setters implemented]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite)  [cross-page continuation of Table 5.121 supplies class Note "This metaclass represents the content of one particular SwInstance."; member comments/getter/setter docs copied from each Attribute Note and Tags; blank lines retained between member declarations and before checklist]
+  - [x] Step 5 — Write reader/writer round-trip test (Red)  [parser/writer tests strengthened to assert all four field values, UNIT-REF destination, SW-ARRAYSIZE/SW-VALUES-PHYS values, UNIT-DISPLAY-NAME, and empty optional wrapper behavior]
+  - [x] Step 6 — Update parser & writer (Green)  [getSwValueCont/writeSwValueCont now read/write UNIT-DISPLAY-NAME symmetrically; existing three members retained]
+  - [x] Step 7 — Update checklist comment  [Table 5.121, p.450; init + four getter/setter pairs with six columns and R23-11 release]
+  - [x] Step 8 — Deviations  [none: all four PDF members modeled with PDF types, Kind=ref represented as unitRef, member order and XML sequence offsets preserved, reader/writer coverage complete]
+  - [x] Step 9 — Verify (9a) + confirm (9b)  [9a: focused model/parser/writer tests, lint, Black check, and diff check passed; 9b: user-confirmed cross-page class Note, blank lines between members, base, member types/order, complete XML coverage, and no deviations; marker `# Spec verified: R23-11` written]
 - [ ] `SwCalprmAxisSet` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.46 · deps stamped: `swCalprmAxis` SwCalprmAxis ✓)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
