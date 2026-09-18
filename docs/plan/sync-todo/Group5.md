@@ -35,7 +35,7 @@ Input: `Group 5 — ServiceNeeds B, SystemTemplate, Fibex core, SWC Communicatio
   - [x] Step 6 — Update parser & writer (Green) — 5-place dispatch pattern added
   - [x] Step 7 — Update checklist comment
   - [x] Step 8 — Deviations — **none** (base fix in-pass Rule 0001.2)
-  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (437 touched tests + FULL unit+integration suite 9413 passed, flake8/ruff/black, parity); 9b confirmed 2026-09-18 → stamped R23-11
+  - [x] Step 9 — Verify (9a) + confirm (9b) — 9a green (437 touched tests + FULL unit+integration suite 9413 passed, flake8/ruff/black, parity); 9b confirmed 2026-09-18 → stamped R23-11; sync commit 30e266fd
 - [ ] `IdsMgrCustomTimestampNeeds` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 13.82)
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
