@@ -653,6 +653,19 @@ class TestServiceNeedsHandlers:
         parser.readSyncTimeBaseMgrUserNeeds(element, needs)
         assert needs.getShortName() == "stbnNeeds"
 
+    def test_readCryptoKeyManagementNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import CryptoKeyManagementNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>ckmnNeeds</SHORT-NAME>", root_tag="CRYPTO-KEY-MANAGEMENT-NEEDS")
+        needs = dependency.createCryptoKeyManagementNeeds("ckmnNeeds")
+        assert isinstance(needs, CryptoKeyManagementNeeds)
+        parser.readCryptoKeyManagementNeeds(element, needs)
+        assert needs.getShortName() == "ckmnNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 

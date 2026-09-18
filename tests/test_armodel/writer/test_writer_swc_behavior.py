@@ -1641,6 +1641,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "stbn1"
 
+    def test_writeCryptoKeyManagementNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createCryptoKeyManagementNeeds("ckmn1")
+        parent = _parent()
+        writer.writeCryptoKeyManagementNeeds(parent, needs)
+        elem = parent.find("CRYPTO-KEY-MANAGEMENT-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "ckmn1"
+
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
@@ -1667,6 +1677,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createHardwareTestNeeds("htn")
         dep.createSupervisedEntityCheckpointNeeds("secn")
         dep.createSyncTimeBaseMgrUserNeeds("stbn")
+        dep.createCryptoKeyManagementNeeds("ckmn")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1693,6 +1704,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "HARDWARE-TEST-NEEDS" in tags
         assert "SUPERVISED-ENTITY-CHECKPOINT-NEEDS" in tags
         assert "SYNC-TIME-BASE-MGR-USER-NEEDS" in tags
+        assert "CRYPTO-KEY-MANAGEMENT-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()

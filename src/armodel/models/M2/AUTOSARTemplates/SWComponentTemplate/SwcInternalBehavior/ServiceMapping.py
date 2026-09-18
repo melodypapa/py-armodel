@@ -7,6 +7,7 @@ from typing import List, Optional
 from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.VariationPointCapable import VariationPointCapable
 from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     ComMgrUserNeeds,
+    CryptoKeyManagementNeeds,
     CryptoServiceNeeds,
     DiagnosticCommunicationManagerNeeds,
     DiagnosticComponentNeeds,
@@ -368,6 +369,22 @@ class SwcServiceDependency(Identifiable, ServiceDependency, VariationPointCapabl
             self.addElement(needs)
             self.serviceNeeds = needs
         return self.getElement(short_name, DiagnosticEventInfoNeeds)
+
+    def createCryptoKeyManagementNeeds(self, short_name: str) -> CryptoKeyManagementNeeds:
+        """
+        Creates or retrieves a CryptoKeyManagementNeeds element.
+
+        Args:
+            short_name: The short name for the needs element
+
+        Returns:
+            CryptoKeyManagementNeeds: The created or existing needs element
+        """
+        if not self.IsElementExists(short_name, CryptoKeyManagementNeeds):
+            needs = CryptoKeyManagementNeeds(self, short_name)
+            self.addElement(needs)
+            self.serviceNeeds = needs
+        return self.getElement(short_name, CryptoKeyManagementNeeds)
 
     def createCryptoServiceNeeds(self, short_name: str) -> CryptoServiceNeeds:
         """

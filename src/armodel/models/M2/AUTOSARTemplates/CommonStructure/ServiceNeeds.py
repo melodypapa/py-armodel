@@ -2067,21 +2067,15 @@ class ComMgrUserNeeds(ServiceNeeds):
 
 class CryptoKeyManagementNeeds(ServiceNeeds):
     """
-    Represents Cryptographic Key Management needs in AUTOSAR models.
-    This class defines requirements for cryptographic key management services.
+    This meta-class can be used to indicate a service use case for key management.
     """
 
     # CryptoKeyManagementNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.11, p.745
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the CryptoKeyManagementNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this crypto key management needs
-            short_name: The unique short name of this crypto key management needs
-        """
         super().__init__(parent, short_name)
 
 
