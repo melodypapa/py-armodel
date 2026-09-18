@@ -970,7 +970,7 @@ from armodel.models.M2.MSR.AsamHdo.SpecialData import Sd, Sdf, Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import MemoryAllocationKeywordPolicyType, MemorySectionType, SwAddrMethod
-from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam
+from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     CompuGenericMath,
@@ -6069,10 +6069,13 @@ class ARXMLParser(AbstractARXMLParser):
     def getSwAxisIndividual(self, element: ET.Element) -> SwAxisIndividual:
         props = SwAxisIndividual()
         self.readARObject(element, props)
+        for proxy_element in self.findall(element, "SW-VARIABLE-REFS/SW-VARIABLE-REF-PROXY"):
+            props.addSwVariableRef(self.readSwVariableRefProxy(proxy_element))
         props.setMaxGradient(self.getChildElementOptionalFloatValue(element, "MAX-GRADIENT"))
         props.setMonotony(self.getChildElementOptionalLiteral(element, "MONOTONY"))
         props.setInputVariableTypeRef(self.getChildElementOptionalRefType(element, "INPUT-VARIABLE-TYPE-REF"))
         props.setCompuMethodRef(self.getChildElementOptionalRefType(element, "COMPU-METHOD-REF"))
+        props.setUnitRef(self.getChildElementOptionalRefType(element, "UNIT-REF"))
         props.setSwMaxAxisPoints(self.getChildElementOptionalNumericalValue(element, "SW-MAX-AXIS-POINTS"))
         props.setSwMinAxisPoints(self.getChildElementOptionalNumericalValue(element, "SW-MIN-AXIS-POINTS"))
         props.setDataConstrRef(self.getChildElementOptionalRefType(element, "DATA-CONSTR-REF"))
@@ -6099,11 +6102,21 @@ class ARXMLParser(AbstractARXMLParser):
             param.addVf(vf)
         return param
 
+    def getSwGenericAxisParamType(self, element: ET.Element, parent: ET.Element, short_name: str) -> SwGenericAxisParamType:
+        param_type = SwGenericAxisParamType(parent, short_name)
+        self.readIdentifiable(element, param_type)
+        param_type.setDataConstrRef(self.getChildElementOptionalRefType(element, "DATA-CONSTR-REF"))
+        return param_type
+
     def getSwAxisGrouped(self, element: ET.Element) -> SwAxisGrouped:
         props = SwAxisGrouped()
         props.setMaxGradient(self.getChildElementOptionalFloatValue(element, "MAX-GRADIENT"))
         props.setMonotony(self.getChildElementOptionalLiteral(element, "MONOTONY"))
         props.setSharedAxisTypeRef(self.getChildElementOptionalRefType(element, "SHARED-AXIS-TYPE-REF"))
+        props.setSwAxisIndex(self.getChildElementOptionalLiteral(element, "SW-AXIS-INDEX"))
+        child_element = self.find(element, "SW-CALPRM-REF-PROXY")
+        if child_element is not None:
+            props.setSwCalprmRef(self.readSwCalprmRefProxy(child_element))
         return props
 
     def getSwCalprmAxis(self, element: ET.Element) -> SwCalprmAxis:
@@ -7957,6 +7970,7 @@ class ARXMLParser(AbstractARXMLParser):
 
     def readSwRecordLayoutGroupSwRecordLayoutGroupContentType(self, element: ET.Element, group: SwRecordLayoutGroup):
         content = SwRecordLayoutGroupContent()
+        content.setSwRecordLayoutRef(self.getChildElementOptionalRefType(element, "SW-RECORD-LAYOUT-REF"))
         content.setSwRecordLayoutGroup(self.getSwRecordLayoutGroup(element, "SW-RECORD-LAYOUT-GROUP"))
         content.setSwRecordLayoutV(self.getSwRecordLayoutV(element, "SW-RECORD-LAYOUT-V"))
         group.setSwRecordLayoutGroupContentType(content)

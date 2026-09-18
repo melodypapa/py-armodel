@@ -1127,6 +1127,7 @@ class TestSwRecordLayoutWriter:
     def test_write_sw_record_layout_group_content_type(self, writer):
         group = SwRecordLayoutGroup()
         content = SwRecordLayoutGroupContent()
+        content.setSwRecordLayoutRef(_make_ref("/layouts/base", "SW-RECORD-LAYOUT"))
         sub_group = SwRecordLayoutGroup()
         sub_group.setShortLabel(_make_literal("sub"))
         sub_group.swRecordLayoutGroupContentType = SwRecordLayoutGroupContent()
@@ -1141,6 +1142,7 @@ class TestSwRecordLayoutWriter:
 
         assert parent.find("SW-RECORD-LAYOUT-GROUP") is not None
         assert parent.find("SW-RECORD-LAYOUT-V") is not None
+        assert parent.find("SW-RECORD-LAYOUT-REF").text == "/layouts/base"
 
     def test_write_sw_record_layout(self, writer):
         autosar = AUTOSAR.getInstance()

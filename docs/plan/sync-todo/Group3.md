@@ -923,7 +923,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [x] Step 7 — Update checklist comment  [Table 5.46, p.352; init/add/get rows with six columns and R23-11 release]
   - [x] Step 8 — Deviations  [none: one PDF aggregation modeled with dedicated typed plural list, XML order and concrete helpers preserved]
   - [ ] Step 9 — Verify (9a) + confirm (9b)  [9a rerun after correcting the cross-page class Note; awaiting 9b confirmation]
-- [ ] `SwAxisIndividual` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.50 · after `CompuMethod` (ref `compuMethod`) + `DataConstr` (ref `dataConstr`) · `inputVariableType` ApplicationPrimitiveDataType queued in Group2 ✓ · deps stamped: `swAxisGeneric` SwAxisGeneric ✓ / `swVariableRef` SwVariableRefProxy ✓ / `unit` Unit ✓ / parent SwCalprmAxisTypeProps ✓)
+ - [x] `SwAxisIndividual` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.50 · after `CompuMethod` (ref `compuMethod`) + `DataConstr` (ref `dataConstr`) · `inputVariableType` ApplicationPrimitiveDataType queued in Group2 ✓ · deps stamped: `swAxisGeneric` SwAxisGeneric ✓ / `swVariableRef` SwVariableRefProxy ✓ / `unit` Unit ✓ / parent SwCalprmAxisTypeProps ✓) — verified R23-11 (commit 842e1e42)
+   - [x] Step 1 — Sync members & description from spec [8 own attrs; Base ARObject + SwCalprmAxisTypeProps; p.355 via pdf_page.py; XSD order cross-checked]
+   - [x] Step 2 — Write model class unit test (Red) [typed defaults, None-safe setters, ordered variable proxy aggregation; failed before implementation]
+   - [x] Step 3 — Implement model class (Green) [typed PEP 526 members, verbatim member docs, addSwVariableRef replaces setSwVariableRefs]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) [class/member notes copied from Table 5.50]
+   - [x] Step 5 — Write reader/writer round-trip test (Red) [variable proxy wrapper and UNIT-REF field assertions; failed before implementation]
+   - [x] Step 6 — Update parser & writer (Green) [SW-VARIABLE-REFS and UNIT-REF read/write coverage; XSD sequence order]
+   - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
+   - [x] Step 8 — Deviations [none outstanding]
+   - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 208 focused tests, lint, Black check, diff check pass; 9b: user-confirmed member spacing, types, naming, order, docstrings, reader/writer coverage, and no deviations; marker # Spec verified: R23-11 written]
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -933,7 +942,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SwAxisGrouped` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.55 · deps stamped: `swCalprmRef` SwCalprmRefProxy ✓ / `sharedAxisType` ApplicationPrimitiveDataType queued in Group2 ✓ / parent SwCalprmAxisTypeProps ✓)
+ - [x] `SwAxisGrouped` (tracker input · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.55 · deps stamped: `swCalprmRef` SwCalprmRefProxy ✓ / `sharedAxisType` ApplicationPrimitiveDataType queued in Group2 ✓ / parent SwCalprmAxisTypeProps ✓) — verified R23-11 (commit 12a2e017)
+   - [x] Step 1 — Sync members & description from spec [3 own attrs; Base ARObject + SwCalprmAxisTypeProps; p.357 via pdf_page.py; XSD order cross-checked]
+   - [x] Step 2 — Write model class unit test (Red) [typed defaults, None-safe setters; failed before implementation]
+   - [x] Step 3 — Implement model class (Green) [typed PEP 526 members, add docs, None-safe setters]
+   - [x] Step 4 — Sync docstrings (wipe + rewrite) [class/member notes copied from Table 5.55]
+   - [x] Step 5 — Write reader/writer round-trip test (Red) [SW-AXIS-INDEX and SW-CALPRM-REF-PROXY assertions; failed before implementation]
+   - [x] Step 6 — Update parser & writer (Green) [all three own XML members covered in XSD order]
+   - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
+   - [x] Step 8 — Deviations [none outstanding]
+   - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 209 focused tests, lint, Black check, diff check pass; 9b: user-confirmed member spacing, types, naming, order, docstrings, reader/writer coverage, and no deviations; marker # Spec verified: R23-11 written]
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -943,7 +961,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SwRecordLayoutGroupContent` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.100 · member type of `SwRecordLayoutGroup.swRecordLayoutGroupContentType` below)
+- [x] `SwRecordLayoutGroupContent` (dependency · **added 2026-09-03 restructure** · R23-11 markdown · AUTOSAR_CP_TPS_SoftwareComponentTemplate · Table 5.100 · member type of `SwRecordLayoutGroup.swRecordLayoutGroupContentType` below) — verified R23-11 (commit 0f19d490)
+  - [x] Step 1 — Sync members & description from spec [<<atpMixed>> class; Base ARObject; 3 own attrs; p.424 via pdf_page.py; XSD order cross-checked]
+  - [x] Step 2 — Write model class unit test (Red) [typed defaults and None-safe setters; failed before implementation]
+  - [x] Step 3 — Implement model class (Green) [typed PEP 526 members and None-safe setters]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) [class/member notes copied from Table 5.100]
+  - [x] Step 5 — Write reader/writer round-trip test (Red) [SW-RECORD-LAYOUT-REF parser/writer assertions; failed before implementation]
+  - [x] Step 6 — Update parser & writer (Green) [all three own XML members covered in XSD order]
+  - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
+  - [x] Step 8 — Deviations [none outstanding]
+  - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 407 focused tests, lint, Black check, diff check pass; 9b: user-confirmed member spacing, types, naming, order, docstrings, reader/writer coverage, and no deviations; marker # Spec verified: R23-11 written]
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)
@@ -953,7 +980,16 @@ Input: `Group 3 — Constants, CompuMethod, DataDictionary, Documentation` of `d
   - [ ] Step 7 — Update checklist comment
   - [ ] Step 8 — Deviations
   - [ ] Step 9 — Verify (9a) + confirm (9b)
-- [ ] `SwGenericAxisParamType` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · ref target of `SwRecordLayoutGroup.swGenericAxisParamType` + `SwRecordLayoutV.swGenericAxisParamType` · **NOT in src** — class must be created when this row is synced)
+- [x] `SwGenericAxisParamType` (dependency · **added 2026-09-11 missing-class audit** · R23-11 markdown · ref target of `SwRecordLayoutGroup.swGenericAxisParamType` + `SwRecordLayoutV.swGenericAxisParamType` · **NOT in src** — class must be created when this row is synced) — verified R23-11 (commit 1eacd1a7)
+  - [x] Step 1 — Sync members & description from spec [concrete Identifiable class; one dataConstr ref; p.356 via pdf_page.py; XSD inheritance/order cross-checked]
+  - [x] Step 2 — Write model class unit test (Red) [missing class/import before implementation]
+  - [x] Step 3 — Implement model class (Green) [created typed Identifiable class with None-safe dataConstr accessor; fixed class boundary after initial insertion-point regression]
+  - [x] Step 4 — Sync docstrings (wipe + rewrite) [class/member notes copied from Table 5.54]
+  - [x] Step 5 — Write reader/writer round-trip test (Red) [direct parser/writer helper tests for DATA-CONSTR-REF]
+  - [x] Step 6 — Update parser & writer (Green) [get/set helpers cover Identifiable fields and DATA-CONSTR-REF]
+  - [x] Step 7 — Update checklist comment [6-column R23-11 checklist, all own methods covered]
+  - [x] Step 8 — Deviations [none outstanding]
+  - [x] Step 9 — Verify (9a) + confirm (9b) [9a: 392 focused tests, lint, Black check, diff check pass; 9b: user-confirmed inheritance, member spacing, type, naming, order, docstrings, reader/writer coverage, and no deviations; marker # Spec verified: R23-11 written]
   - [ ] Step 1 — Sync members & description from spec
   - [ ] Step 2 — Write model class unit test (Red)
   - [ ] Step 3 — Implement model class (Green)

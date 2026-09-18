@@ -700,12 +700,16 @@ class TestSwDataDefPropsHandlers:
 
     def test_getSwAxisGrouped(self, parser):
         element = _snip(
-            "<SHARED-AXIS-TYPE-REF DEST='SW-AXIS-TYPE'>/axis/type</SHARED-AXIS-TYPE-REF>",
+            "<SHARED-AXIS-TYPE-REF DEST='APPLICATION-PRIMITIVE-DATA-TYPE'>/axis/type</SHARED-AXIS-TYPE-REF>"
+            "<SW-AXIS-INDEX>1</SW-AXIS-INDEX>"
+            "<SW-CALPRM-REF-PROXY><MC-DATA-INSTANCE-REF DEST='MC-DATA-INSTANCE'>/axis/calprm</MC-DATA-INSTANCE-REF></SW-CALPRM-REF-PROXY>",
             root_tag="SW-AXIS-GROUPED",
         )
         props = parser.getSwAxisGrouped(element)
         assert props is not None
         assert props.getSharedAxisTypeRef() is not None
+        assert props.getSwAxisIndex().getValue() == "1"
+        assert props.getSwCalprmRef().getMcDataInstanceRef().getValue() == "/axis/calprm"
 
     def test_getSwAxisIndividual_with_generic_axis(self, parser):
         element = _snip(
@@ -736,6 +740,21 @@ class TestSwDataDefPropsHandlers:
         assert params[0].getSwGenericAxisParamTypeRef().getValue() == "/axis/types/fixed/shift"
         assert len(params[0].getVfs()) == 2
         assert params[0].getVfs()[0].getValue() == 1.5
+
+    def test_getSwAxisIndividual_parses_variable_refs_and_unit(self, parser):
+        element = _snip(
+            "<SW-VARIABLE-REFS>"
+            "<SW-VARIABLE-REF-PROXY><MC-DATA-INSTANCE-VAR-REF DEST='MC-DATA-INSTANCE'>/v1</MC-DATA-INSTANCE-VAR-REF></SW-VARIABLE-REF-PROXY>"
+            "<SW-VARIABLE-REF-PROXY><MC-DATA-INSTANCE-VAR-REF DEST='MC-DATA-INSTANCE'>/v2</MC-DATA-INSTANCE-VAR-REF></SW-VARIABLE-REF-PROXY>"
+            "</SW-VARIABLE-REFS>"
+            "<UNIT-REF DEST='UNIT'>/units/u</UNIT-REF>",
+            root_tag="SW-AXIS-INDIVIDUAL",
+        )
+
+        props = parser.getSwAxisIndividual(element)
+
+        assert [proxy.getMcDataInstanceVarRef().getValue() for proxy in props.getSwVariableRefs()] == ["/v1", "/v2"]
+        assert props.getUnitRef().getValue() == "/units/u"
 
     def test_getSwCalprmAxis_individual(self, parser):
         element = _snip(

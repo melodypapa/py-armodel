@@ -868,7 +868,7 @@ from armodel.models.M2.MSR.AsamHdo.SpecialData import Sdg, SdgContents
 from armodel.models.M2.MSR.AsamHdo.Units import PhysicalDimension, Unit
 from armodel.models.M2.MSR.CalibrationData.CalibrationValue import SwValueCont, SwValues, ValueGroup
 from armodel.models.M2.MSR.DataDictionary.AuxillaryObjects import SwAddrMethod
-from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam
+from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGeneric, SwAxisGrouped, SwAxisIndividual, SwGenericAxisParam, SwGenericAxisParamType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import SwCalprmAxis, SwCalprmAxisSet
 from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
 from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
@@ -2834,8 +2834,13 @@ class ARXMLWriter(AbstractARXMLWriter):
         self.writeARObject(child_element, props)
         self.setChildElementOptionalFloatValue(child_element, "MAX-GRADIENT", props.getMaxGradient())
         self.setChildElementOptionalLiteral(child_element, "MONOTONY", props.getMonotony())
+        if props.getSwVariableRefs():
+            variables_element = ET.SubElement(child_element, "SW-VARIABLE-REFS")
+            for variable in props.getSwVariableRefs():
+                self.setSwVariableRefProxy(variables_element, "SW-VARIABLE-REF-PROXY", variable)
         self.setChildElementOptionalRefType(child_element, "INPUT-VARIABLE-TYPE-REF", props.getInputVariableTypeRef())
         self.setChildElementOptionalRefType(child_element, "COMPU-METHOD-REF", props.getCompuMethodRef())
+        self.setChildElementOptionalRefType(child_element, "UNIT-REF", props.getUnitRef())
         self.setChildElementOptionalNumericalValue(child_element, "SW-MAX-AXIS-POINTS", props.getSwMaxAxisPoints())
         self.setChildElementOptionalNumericalValue(child_element, "SW-MIN-AXIS-POINTS", props.getSwMinAxisPoints())
         self.setChildElementOptionalRefType(child_element, "DATA-CONSTR-REF", props.getDataConstrRef())
@@ -2858,12 +2863,20 @@ class ARXMLWriter(AbstractARXMLWriter):
         for vf in param.getVfs():
             self.setChildElementOptionalNumericalValue(param_element, "VF", vf)
 
+    def setSwGenericAxisParamType(self, element: ET.Element, param_type: SwGenericAxisParamType):
+        child_element = ET.SubElement(element, "SW-GENERIC-AXIS-PARAM-TYPE")
+        self.writeIdentifiable(child_element, param_type)
+        self.setChildElementOptionalRefType(child_element, "DATA-CONSTR-REF", param_type.getDataConstrRef())
+
     def setSwAxisGrouped(self, element: ET.Element, props: SwAxisGrouped):
         child_element = ET.SubElement(element, "SW-AXIS-GROUPED")
         self.writeARObject(child_element, props)
         self.setChildElementOptionalFloatValue(child_element, "MAX-GRADIENT", props.getMaxGradient())
         self.setChildElementOptionalLiteral(child_element, "MONOTONY", props.getMonotony())
-        self.setChildElementOptionalRefType(child_element, "SHARED-AXIS-TYPE-REF", props.sharedAxisTypeRef)
+        self.setChildElementOptionalRefType(child_element, "SHARED-AXIS-TYPE-REF", props.getSharedAxisTypeRef())
+        self.setChildElementOptionalLiteral(child_element, "SW-AXIS-INDEX", props.getSwAxisIndex())
+        if props.getSwCalprmRef() is not None:
+            self.setSwCalprmRefProxy(child_element, "SW-CALPRM-REF-PROXY", props.getSwCalprmRef())
 
     def setSwCalprmAxis(self, element: ET.Element, axis: SwCalprmAxis):
         if axis is not None:
@@ -7487,6 +7500,7 @@ class ARXMLWriter(AbstractARXMLWriter):
 
     def writeSwRecordLayoutGroupSwRecordLayoutGroupContentType(self, element: ET.Element, group: SwRecordLayoutGroup):
         content = group.getSwRecordLayoutGroupContentType()
+        self.setChildElementOptionalRefType(element, "SW-RECORD-LAYOUT-REF", content.getSwRecordLayoutRef())
         self.setSwRecordLayoutGroup(element, "SW-RECORD-LAYOUT-GROUP", content.getSwRecordLayoutGroup())
         self.setSwRecordLayoutV(element, "SW-RECORD-LAYOUT-V", content.getSwRecordLayoutV())
 

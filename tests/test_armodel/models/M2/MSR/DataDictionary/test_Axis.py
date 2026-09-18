@@ -2,13 +2,17 @@
 This module contains tests for the Axis module in MSR.DataDictionary.
 """
 
-from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, RefType
+from armodel.models.M2.AUTOSARTemplates.AutosarTopLevelStructure import AUTOSAR
+from armodel.models.M2.AUTOSARTemplates.GenericStructure.GeneralTemplateClasses.PrimitiveTypes import ARNumerical, Integer, RefType
 from armodel.models.M2.MSR.DataDictionary.Axis import (
     SwAxisGeneric,
     SwAxisGrouped,
     SwAxisIndividual,
     SwGenericAxisParam,
+    SwGenericAxisParamType,
 )
+from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
+from armodel.models.M2.MSR.DataDictionary.RecordLayout import AxisIndexType
 
 
 class TestSwGenericAxisParam:
@@ -149,9 +153,10 @@ class TestSwAxisIndividual:
     def test_sw_axis_individual_variable_refs_methods(self):
         """Test the swVariableRefs getter and setter."""
         sw_axis_individual = SwAxisIndividual()
-        refs = ["ref1", "ref2"]
+        refs = [SwVariableRefProxy(), SwVariableRefProxy()]
 
-        result = sw_axis_individual.setSwVariableRefs(refs)
+        result = sw_axis_individual.addSwVariableRef(refs[0])
+        sw_axis_individual.addSwVariableRef(refs[1])
         assert sw_axis_individual.getSwVariableRefs() == refs
         assert result == sw_axis_individual
 
@@ -163,6 +168,30 @@ class TestSwAxisIndividual:
         result = sw_axis_individual.setUnitRef(ref)
         assert sw_axis_individual.getUnitRef() == ref
         assert result == sw_axis_individual
+
+    def test_sw_axis_individual_variable_refs_are_typed_ordered_and_none_safe(self):
+        sw_axis_individual = SwAxisIndividual()
+        first = SwVariableRefProxy()
+        second = SwVariableRefProxy()
+
+        assert sw_axis_individual.getSwVariableRefs() == []
+        assert sw_axis_individual.addSwVariableRef(first) is sw_axis_individual
+        assert sw_axis_individual.addSwVariableRef(None) is sw_axis_individual
+        assert sw_axis_individual.addSwVariableRef(second) is sw_axis_individual
+        assert sw_axis_individual.getSwVariableRefs() == [first, second]
+
+    def test_sw_axis_individual_setters_do_not_overwrite_with_none(self):
+        sw_axis_individual = SwAxisIndividual()
+        integer = Integer().setValue("4")
+        ref = RefType().setValue("/compu")
+
+        sw_axis_individual.setSwMaxAxisPoints(integer)
+        sw_axis_individual.setCompuMethodRef(ref)
+        sw_axis_individual.setSwMaxAxisPoints(None)
+        sw_axis_individual.setCompuMethodRef(None)
+
+        assert sw_axis_individual.getSwMaxAxisPoints() is integer
+        assert sw_axis_individual.getCompuMethodRef() is ref
 
 
 class TestSwAxisGrouped:
@@ -187,7 +216,7 @@ class TestSwAxisGrouped:
     def test_sw_axis_grouped_sw_axis_index_methods(self):
         """Test the swAxisIndex getter and setter."""
         sw_axis_grouped = SwAxisGrouped()
-        index = ARNumerical()
+        index = AxisIndexType()
 
         result = sw_axis_grouped.setSwAxisIndex(index)
         assert sw_axis_grouped.getSwAxisIndex() == index
@@ -196,9 +225,40 @@ class TestSwAxisGrouped:
     def test_sw_axis_grouped_sw_calprm_ref_methods(self):
         """Test the swCalprmRef getter and setter."""
         sw_axis_grouped = SwAxisGrouped()
-        # Note: SwCalprmRefProxy is not defined in the source, so using a placeholder
-        ref = object()
+        ref = SwCalprmRefProxy()
 
         result = sw_axis_grouped.setSwCalprmRef(ref)
         assert sw_axis_grouped.getSwCalprmRef() == ref
         assert result == sw_axis_grouped
+
+    def test_sw_axis_grouped_setters_are_typed_and_none_safe(self):
+        sw_axis_grouped = SwAxisGrouped()
+        shared_ref = RefType().setValue("/types/shared")
+        axis_index = AxisIndexType().setValue("1")
+        calprm_ref = SwCalprmRefProxy()
+
+        sw_axis_grouped.setSharedAxisTypeRef(shared_ref)
+        sw_axis_grouped.setSwAxisIndex(axis_index)
+        sw_axis_grouped.setSwCalprmRef(calprm_ref)
+        sw_axis_grouped.setSharedAxisTypeRef(None)
+        sw_axis_grouped.setSwAxisIndex(None)
+        sw_axis_grouped.setSwCalprmRef(None)
+
+        assert sw_axis_grouped.getSharedAxisTypeRef() is shared_ref
+        assert sw_axis_grouped.getSwAxisIndex() is axis_index
+        assert sw_axis_grouped.getSwCalprmRef() is calprm_ref
+
+
+class TestSwGenericAxisParamType:
+    def test_sw_generic_axis_param_type_initialization(self):
+        param_type = SwGenericAxisParamType(parent=AUTOSAR.getInstance(), short_name="param")
+
+        assert param_type.getDataConstrRef() is None
+
+    def test_sw_generic_axis_param_type_data_constr_ref_is_none_safe(self):
+        param_type = SwGenericAxisParamType(parent=AUTOSAR.getInstance(), short_name="param")
+        ref = RefType().setValue("/constraints/axis")
+
+        assert param_type.setDataConstrRef(ref) is param_type
+        assert param_type.setDataConstrRef(None) is param_type
+        assert param_type.getDataConstrRef() is ref

@@ -54,7 +54,7 @@ from armodel.models.M2.MSR.AsamHdo.Constraints.GlobalConstraints import (
     ScaleConstr,
     ScaleConstrValidityEnum,
 )
-from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual
+from armodel.models.M2.MSR.DataDictionary.Axis import SwAxisGrouped, SwAxisIndividual, SwGenericAxisParamType
 from armodel.models.M2.MSR.DataDictionary.CalibrationParameter import (
     SwCalprmAxis,
     SwCalprmAxisSet,
@@ -64,6 +64,7 @@ from armodel.models.M2.MSR.DataDictionary.DataDefProperties import (
     SwPointerTargetProps,
     ValueList,
 )
+from armodel.models.M2.MSR.DataDictionary.DatadictionaryProxies import SwCalprmRefProxy, SwVariableRefProxy
 from armodel.writer.arxml_writer import ARXMLWriter
 
 
@@ -163,11 +164,27 @@ class TestSwAxisIndividualWriter:
         assert child.find("INPUT-VARIABLE-TYPE-REF") is None
         assert child.find("SW-MAX-AXIS-POINTS") is None
 
+    def test_set_sw_axis_individual_writes_variable_refs_and_unit(self, writer):
+        props = SwAxisIndividual()
+        first = SwVariableRefProxy().setMcDataInstanceVarRef(_ref("MC-DATA-INSTANCE", "/v1"))
+        second = SwVariableRefProxy().setMcDataInstanceVarRef(_ref("MC-DATA-INSTANCE", "/v2"))
+        props.addSwVariableRef(first).addSwVariableRef(second)
+        props.setUnitRef(_ref("UNIT", "/units/u"))
+
+        parent = _parent()
+        writer.setSwAxisIndividual(parent, props)
+
+        child = parent[0]
+        assert [proxy.text for proxy in child.findall("SW-VARIABLE-REFS/SW-VARIABLE-REF-PROXY/MC-DATA-INSTANCE-VAR-REF")] == ["/v1", "/v2"]
+        assert child.find("UNIT-REF").text == "/units/u"
+
 
 class TestSwAxisGroupedWriter:
     def test_set_sw_axis_grouped(self, writer):
         props = SwAxisGrouped()
-        props.setSharedAxisTypeRef(_ref("SW-CALPRM-AXIS", "/shared"))
+        props.setSharedAxisTypeRef(_ref("APPLICATION-PRIMITIVE-DATA-TYPE", "/shared"))
+        props.setSwAxisIndex(_literal("1"))
+        props.setSwCalprmRef(SwCalprmRefProxy().setMcDataInstanceRef(_ref("MC-DATA-INSTANCE", "/calprm")))
 
         parent = _parent()
         writer.setSwAxisGrouped(parent, props)
@@ -178,7 +195,21 @@ class TestSwAxisGroupedWriter:
         ref_el = child.find("SHARED-AXIS-TYPE-REF")
         assert ref_el is not None
         assert ref_el.text == "/shared"
-        assert ref_el.attrib.get("DEST") == "SW-CALPRM-AXIS"
+        assert ref_el.attrib.get("DEST") == "APPLICATION-PRIMITIVE-DATA-TYPE"
+        assert child.find("SW-AXIS-INDEX").text == "1"
+        assert child.find("SW-CALPRM-REF-PROXY/MC-DATA-INSTANCE-REF").text == "/calprm"
+
+    def test_set_sw_generic_axis_param_type_writes_data_constraint(self, writer):
+        param_type = SwGenericAxisParamType(parent=AUTOSAR.getInstance(), short_name="param")
+        param_type.setDataConstrRef(_ref("DATA-CONSTR", "/constraints/axis"))
+
+        parent = _parent()
+        writer.setSwGenericAxisParamType(parent, param_type)
+
+        child = parent[0]
+        assert child.tag == "SW-GENERIC-AXIS-PARAM-TYPE"
+        assert child.find("SHORT-NAME").text == "param"
+        assert child.find("DATA-CONSTR-REF").text == "/constraints/axis"
 
 
 class TestSwCalprmAxisWriter:
