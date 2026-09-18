@@ -1721,6 +1721,16 @@ class TestWriterServiceNeeds:
         assert elem is not None
         assert elem.find("SHORT-NAME").text == "dgsn1"
 
+    def test_writeDoIpPowerModeStatusNeeds(self, writer):
+        behavior = _make_behavior()
+        dep = behavior.createSwcServiceDependency("dep1")
+        needs = dep.createDoIpPowerModeStatusNeeds("dpmn1")
+        parent = _parent()
+        writer.writeDoIpPowerModeStatusNeeds(parent, needs)
+        elem = parent.find("DO-IP-POWER-MODE-STATUS-NEEDS")
+        assert elem is not None
+        assert elem.find("SHORT-NAME").text == "dpmn1"
+
 
 class TestWriterSwcServiceDependencyServiceNeeds:
     def test_dispatch_all_needs_types(self, writer):
@@ -1755,6 +1765,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         dep.createDoIpActivationLineNeeds("daln")
         dep.createDoIpGidNeeds("dgn")
         dep.createDoIpGidSynchronizationNeeds("dgsn")
+        dep.createDoIpPowerModeStatusNeeds("dpmn")
         parent = _parent()
         writer.writeSwcServiceDependencyServiceNeeds(parent, dep)
         needs_tag = parent.find("SERVICE-NEEDS")
@@ -1789,6 +1800,7 @@ class TestWriterSwcServiceDependencyServiceNeeds:
         assert "DO-IP-ACTIVATION-LINE-NEEDS" in tags
         assert "DO-IP-GID-NEEDS" in tags
         assert "DO-IP-GID-SYNCHRONIZATION-NEEDS" in tags
+        assert "DO-IP-POWER-MODE-STATUS-NEEDS" in tags
 
     def test_no_needs_no_tag(self, writer):
         behavior = _make_behavior()

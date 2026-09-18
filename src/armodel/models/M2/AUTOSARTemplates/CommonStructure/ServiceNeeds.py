@@ -2675,23 +2675,18 @@ class DoIpGidSynchronizationNeeds(DoIpServiceNeeds):
         super().__init__(parent, short_name)
 
 
-class DoIpPowerModeStatusNeeds(ServiceNeeds):
+class DoIpPowerModeStatusNeeds(DoIpServiceNeeds):
     """
-    Represents DoIP Power Mode Status needs in AUTOSAR models.
-    This class defines requirements for DoIP (Diagnostics over IP) power mode status services.
+    The DoIpPowerModeStatusNeeds indicates that the software-component owning this ServiceNeeds is providing the PowerModeStatus for the DoIP service 0x4003 according to ISO 13400-2:2012.
     """
 
     # DoIpPowerModeStatusNeeds method parity checklist:
-    # [ ] __init__                     [x] impl  [x] docstring  [ ] test
+    # Spec: AUTOSAR_CP_TPS_SoftwareComponentTemplate.pdf, Table 13.57, p.806
+    # Spec verified: R23-11
+    # Columns: impl / docstring / test / reader / writer / release   ([—] = no XML element)
+    # [x] __init__                     [x] impl  [x] docstring  [x] test  [—] reader  [—] writer  R23-11
 
     def __init__(self, parent: ARObject, short_name: str):
-        """
-        Initializes the DoIpPowerModeStatusNeeds with a parent and short name.
-
-        Args:
-            parent: The parent ARObject that contains this DoIP power mode status needs
-            short_name: The unique short name of this DoIP power mode status needs
-        """
         super().__init__(parent, short_name)
 
 

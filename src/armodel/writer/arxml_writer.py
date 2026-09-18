@@ -151,6 +151,7 @@ from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import (
     DoIpActivationLineNeeds,
     DoIpGidNeeds,
     DoIpGidSynchronizationNeeds,
+    DoIpPowerModeStatusNeeds,
     DoIpRoutingActivationAuthenticationNeeds,
     DoIpRoutingActivationConfirmationNeeds,
     DtcStatusChangeNotificationNeeds,
@@ -4880,6 +4881,8 @@ class ARXMLWriter(AbstractARXMLWriter):
             self.writeDoIpGidNeeds(child_element, needs)
         elif isinstance(needs, DoIpGidSynchronizationNeeds):
             self.writeDoIpGidSynchronizationNeeds(child_element, needs)
+        elif isinstance(needs, DoIpPowerModeStatusNeeds):
+            self.writeDoIpPowerModeStatusNeeds(child_element, needs)
         elif isinstance(needs, DoIpRoutingActivationAuthenticationNeeds):
             self.writeDoIpRoutingActivationAuthenticationNeeds(child_element, needs)
         elif isinstance(needs, DoIpRoutingActivationConfirmationNeeds):
@@ -5084,6 +5087,11 @@ class ARXMLWriter(AbstractARXMLWriter):
     def writeDoIpGidSynchronizationNeeds(self, element: ET.Element, needs: DoIpGidSynchronizationNeeds):
         child_element = ET.SubElement(element, "DO-IP-GID-SYNCHRONIZATION-NEEDS")
         self.logger.debug("write DoIpGidSynchronizationNeeds %s" % needs.getShortName())
+        self.writeServiceNeeds(child_element, needs)
+
+    def writeDoIpPowerModeStatusNeeds(self, element: ET.Element, needs: DoIpPowerModeStatusNeeds):
+        child_element = ET.SubElement(element, "DO-IP-POWER-MODE-STATUS-NEEDS")
+        self.logger.debug("write DoIpPowerModeStatusNeeds %s" % needs.getShortName())
         self.writeServiceNeeds(child_element, needs)
 
     def writeDoIpRoutingActivationAuthenticationNeeds(self, element: ET.Element, needs: DoIpRoutingActivationAuthenticationNeeds):
@@ -5411,6 +5419,8 @@ class ARXMLWriter(AbstractARXMLWriter):
                     self.writeDoIpGidNeeds(child_element, needs)
                 elif isinstance(needs, DoIpGidSynchronizationNeeds):
                     self.writeDoIpGidSynchronizationNeeds(child_element, needs)
+                elif isinstance(needs, DoIpPowerModeStatusNeeds):
+                    self.writeDoIpPowerModeStatusNeeds(child_element, needs)
                 elif isinstance(needs, DoIpRoutingActivationAuthenticationNeeds):
                     self.writeDoIpRoutingActivationAuthenticationNeeds(child_element, needs)
                 elif isinstance(needs, DoIpRoutingActivationConfirmationNeeds):

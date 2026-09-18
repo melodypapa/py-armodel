@@ -757,6 +757,19 @@ class TestServiceNeedsHandlers:
         parser.readDoIpGidSynchronizationNeeds(element, needs)
         assert needs.getShortName() == "dgsnNeeds"
 
+    def test_readDoIpPowerModeStatusNeeds_minimal(self, parser):
+        from armodel.models import ApplicationSwComponentType
+        from armodel.models.M2.AUTOSARTemplates.CommonStructure.ServiceNeeds import DoIpPowerModeStatusNeeds
+
+        swc = ApplicationSwComponentType(parent=_autosar_root(), short_name="swc")
+        behavior = swc.createSwcInternalBehavior("bh")
+        dependency = behavior.createSwcServiceDependency("dep")
+        element = _snip("<SHORT-NAME>dpmnNeeds</SHORT-NAME>", root_tag="DO-IP-POWER-MODE-STATUS-NEEDS")
+        needs = dependency.createDoIpPowerModeStatusNeeds("dpmnNeeds")
+        assert isinstance(needs, DoIpPowerModeStatusNeeds)
+        parser.readDoIpPowerModeStatusNeeds(element, needs)
+        assert needs.getShortName() == "dpmnNeeds"
+
     def test_readDltUserNeeds_minimal(self, parser):
         from armodel.models import ApplicationSwComponentType
 
